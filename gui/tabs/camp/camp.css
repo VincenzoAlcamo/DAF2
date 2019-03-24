@@ -1,0 +1,248 @@
+.camp-tables {
+  border: 0;
+}
+
+.camp-tables>tbody>tr {
+  background-color: transparent;
+}
+
+.camp-tables>tbody>tr>td {
+  border: 0;
+  vertical-align: top;
+  padding: 0 6px 12px;
+}
+
+.camp-tables table tbody {
+  border: 2px solid var(--tb-brcol);
+}
+
+.camp-data td {
+  text-align: right !important;
+}
+
+.camp-data td:first-child,
+.camp-data tr.material td:nth-child(2) {
+  text-align: left !important;
+}
+
+.camp-data td[colspan="2"] {
+  text-align: center !important;
+}
+
+.camp-data tr.material td:first-child {
+  padding: 0;
+  text-align: center !important;
+}
+
+.camp-data tr.energy_capacity th {
+  padding: 0 4px;
+}
+
+.camp-data tr.energy_capacity img {
+  height: 26px;
+  width: auto;
+}
+
+.camp-caption,
+.camp {
+  --size: 22px;
+}
+
+.camp-caption {
+  margin-bottom: -2px;
+  width: calc(var(--size) * 49 + 20px);
+}
+
+.camp-caption th {
+  padding: 0px;
+}
+
+.camp {
+  --lsize: 14px;
+  width: calc(var(--size) * 49);
+  height: calc(var(--size) * 8 + 36px);
+  margin: auto;
+  background-color: #F5F5F5;
+  border: 2px solid var(--tb-brcol);
+  padding: 8px;
+  margin-bottom: 8px;
+  box-sizing: content-box;
+  user-select: none;
+}
+
+.camp.public {
+  height: calc(var(--size) * 8 + var(--lsize) * 3 + 36px);
+}
+
+.camp div {
+  box-sizing: border-box;
+}
+
+.camp .line {
+  width: calc(var(--lw) * var(--size));
+  height: calc(var(--lh) * var(--size));
+  background-color: #ccc;
+  margin-bottom: 8px;
+  float: left;
+}
+
+.camp.public .line {
+  margin-bottom: calc(8px + var(--lsize));
+}
+
+.camp .line:nth-child(odd) {
+  margin-right: var(--size);
+}
+
+.camp .line:nth-child(even) {}
+
+.camp .item {
+  width: calc(var(--w) * var(--size));
+  height: calc(var(--h) * var(--size));
+  margin-top: calc((var(--lh) - var(--h)) * var(--size));
+  cursor: help;
+  float: left;
+}
+
+.camp .item.empty {
+  border: 1px solid #F00;
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.camp .item.block {
+  border: 1px solid #310;
+  background-color: rgba(48, 16, 0, 0.6);
+}
+
+.camp .item.building {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.camp .item.capacity {
+  background-color: #5BA4FF;
+  background-color: rgba(91, 164, 255, var(--v));
+}
+
+.camp .item.capacity.img {
+  background-color: rgba(91, 164, 255, 0.2);
+}
+
+.camp .item.regen {
+  background-color: #C0F644;
+  background-color: rgba(192, 246, 68, var(--v));
+}
+
+.camp .item.regen.img {
+  background-color: rgba(192, 246, 68, 0.3);
+}
+
+.camp .item.reg1 {
+  background-image: url(/img/regions/1.png);
+}
+
+.camp .item.reg2 {
+  background-image: url(/img/regions/2.png);
+}
+
+.camp .item.reg3 {
+  background-image: url(/img/regions/3.png);
+}
+
+.camp .item.reg4 {
+  background-image: url(/img/regions/4.png);
+}
+
+.camp .item.reg5 {
+  background-image: url(/img/regions/5.png);
+}
+
+.camp .item.reg1,
+.camp .item.reg2,
+.camp .item.reg3,
+.camp .item.reg4,
+.camp .item.reg5 {
+  background-size: var(--size), auto;
+  background-repeat: no-repeat, repeat;
+  background-position: bottom right, top left;
+}
+
+.camp .value {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 8pt;
+  font-weight: bold;
+  text-align: center;
+  color: #FFF;
+  float: left;
+  width: calc(var(--size) - 1px);
+  margin-right: 1px;
+  margin-top: calc(var(--h) * var(--size) - 1px);
+  background-color: rgba(0, 0, 0, 0.3);
+  height: var(--lsize);
+  display: none;
+}
+
+.camp .item.img .value {
+  margin-top: calc(var(--h) * var(--size));
+}
+
+.camp.public .value {
+  display: block;
+}
+
+.camp .regen .value {
+  background-color: #177516;
+  color: #FFF;
+}
+
+.camp .capacity .value {
+  background-color: #0167CD;
+  color: #FFF;
+}
+
+.camp .item .value:first-child {
+  margin-left: -1px;
+}
+
+.camp .item.img .value:first-child {
+  margin-left: 0px;
+}
+
+.camp .item .value:last-child {
+  margin-right: 0px;
+}
+
+.camp .item.building.img {
+  background-repeat: no-repeat;
+  background-size: calc(var(--w) * var(--size)) calc(var(--h) * var(--size));
+  border: none;
+}
+
+.camp .item.capacity.selected {
+  --hicolor: #0167CD;
+  background-color: #00FFFF;
+}
+
+.camp .item.regen.selected {
+  --hicolor: #177516;
+  background-color: #FFFF00;
+}
+
+.camp .item.capacity.selected,
+.camp .item.regen.selected {
+  box-shadow: 0px -4px 0px var(--hicolor), 0px 18px 0px var(--hicolor);
+}
+
+.camp .item.capacity.selected-first,
+.camp .item.regen.selected-first {
+  box-shadow: 0px -4px 0px var(--hicolor), 0px 18px 0px var(--hicolor), -4px -4px 0px var(--hicolor), -4px 18px 0px var(--hicolor);
+}
+
+.camp .item.capacity.selected-last,
+.camp .item.regen.selected-last {
+  box-shadow: 0px -4px 0px var(--hicolor), 0px 18px 0px var(--hicolor), 4px -4px 0px var(--hicolor), 4px 18px 0px var(--hicolor);
+}
+
+.camp .item.capacity.selected-first.selected-last,
+.camp .item.regen.selected-first.selected-last {
+  box-shadow: -4px -4px 0px var(--hicolor), -4px 18px 0px var(--hicolor), 4px -4px 0px var(--hicolor), 4px 18px 0px var(--hicolor);
+}

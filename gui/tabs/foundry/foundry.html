@@ -1,0 +1,39 @@
+<div class="toolbar">
+    <label>
+        <span data-i18n-text="gui_show"></span>
+        <select name="show">
+            <option value="" data-i18n-text="foundry_all"></option>
+            <option value="possible" data-i18n-text="foundry_only_possible"></option>
+        </select>
+        <select name="from">
+            <option value="" data-i18n-text="gui_from_any"></option>
+            <option value="region" data-i18n-text="gui_from_regions"></option>
+            <option value="event" data-i18n-text="gui_from_events"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_search"></span>
+        <input name="search" type="text" maxlength="40">
+    </label>
+</div>
+<div class="scrollable-content">
+    <table class="foundry data">
+        <thead>
+            <tr>
+                <th class=""><img class="wiki" data-wiki-page="Foundry" data-i18n-title="tab_foundry+gui_clickwiki" src="/img/gui/foundry.png"/></th>
+                <th class="sortable" sort-name="name" data-i18n-text="gui_name"></th>
+                <th class="sortable" sort-name="region"><img data-i18n-title="gui_region_required" src="/img/gui/map.png" /></th>
+                <th class="sortable" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png" /></th>
+                <th class="sortable" sort-name="time"><img data-i18n-title="foundry_time_to_craft" src="/img/gui/time.png" /></th>
+                <th class="sortable" sort-name="qty"><img data-i18n-title="foundry_qty" src="/img/gui/anvil.png" /></th>
+                <th class="sortable sort-sub" sort-name="required"><img data-i18n-title="gui_qty_required" src="/img/gui/loot.png" /></th>
+                <th class="sortable sort-sub" sort-name="ingredient"><img data-i18n-title="gui_ingredients" src="/img/gui/materials.png" /></th>
+                <th class="sortable sort-sub" sort-name="available"><img data-i18n-title="gui_backpack" src="/img/gui/backpack.png" /></th>
+                <th class="sortable" sort-name="dishes" data-i18n-text="foundry_possible_alloys"></th>
+                <th class="sortable" sort-name="total_time" data-i18n-text="foundry_total_time"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tbody style="display:none"></tbody>
+    </table>
+</div>

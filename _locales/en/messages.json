@@ -1,0 +1,420 @@
+﻿{
+    "ext_name": {
+        "message": "DA Friends"
+    },
+    "ext_title": {
+        "message": "Helper Tool for Diggy's Adventure"
+    },
+
+    "menu_fullwindow": {
+        "message": "Game in full window"
+    },
+    "menu_fullwindowheader": {
+        "message": "Header"
+    },
+    "menu_fullwindowside": {
+        "message": "Side bar"
+    },
+    "menu_gctable": {
+        "message": "Display GC table"
+    },
+    "menu_gctablecounter": {
+        "message": "Counter"
+    },
+    "menu_gctableregion": {
+        "message": "Region"
+    },
+    "menu_gccollected": {
+        "message": "All GC have been collected"
+    },
+    "menu_autoclick": {
+        "message": "Auto click Facebook's popup"
+    },
+    "menu_reloadgame": {
+        "message": "Reloads the game and forces a fresh data collection"
+    },
+    "menu_switchportal": {
+        "message": "Switch to Portal"
+    },
+    "menu_switchfacebook": {
+        "message": "Switch to Facebook"
+    },
+    "menu_on": {
+        "message": "ON"
+    },
+    "menu_off": {
+        "message": "OFF"
+    },
+
+    "gui_card_clicker": {
+        "message": "Click to collapse/expand this section"
+    },
+    "gui_show": {
+        "message": "Show"
+    },
+    "gui_search": {
+        "message": "Search"
+    },
+    "gui_name": {
+        "message": "Name"
+    },
+    "gui_region_required": {
+        "message": "Region\nRequired"
+    },
+    "gui_level_required": {
+        "message": "Level\nRequired"
+    },
+    "gui_qty_required": {
+        "message": "Quantity\nRequired"
+    },
+    "gui_energy": {
+        "message": "Energy"
+    },
+    "gui_backpack": {
+        "message": "Backpack"
+    },
+    "gui_clickwiki": {
+        "message": "Click to open the Wiki Page."
+    },
+    "gui_from_any": {
+        "message": "from regions or events"
+    },
+    "gui_from_regions": {
+        "message": "from regions"
+    },
+    "gui_from_events": {
+        "message": "from events"
+    },
+    "gui_ingredients": {
+        "message": "Ingredients"
+    },
+    "gui_event": {
+        "message": "Event"
+    },
+    "gui_event_tooltip": {
+        "message": "Event: $EVENT$",
+        "placeholders": {
+            "event": {
+                "content": "$1"
+            }
+        }
+    },
+    "gui_region": {
+        "message": "Region"
+    },
+    "gui_theme": {
+        "message": "Theme"
+    },
+    "gui_level": {
+        "message": "Level"
+    },
+    "gui_xp": {
+        "message": "XP"
+    },
+    "gui_sell_price": {
+        "message": "Sell price"
+    },
+
+    "tab_about": {
+        "message": "About"
+    },
+    "tab_progress": {
+        "message": "Progress"
+    },
+    "tab_camp": {
+        "message": "Camp"
+    },
+    "tab_kitchen": {
+        "message": "Kitchen"
+    },
+    "tab_foundry": {
+        "message": "Foundry"
+    },
+    "tab_pillars": {
+        "message": "Pillars"
+    },
+    "tab_neighbors": {
+        "message": "Neighbors"
+    },
+    "tab_friendship": {
+        "message": "Friendship"
+    },
+    "tab_rewardlinks": {
+        "message": "Reward Links"
+    },
+    "tab_options": {
+        "message": "Options"
+    },
+    "tab_help": {
+        "message": "Help"
+    },
+
+    "about_version": {
+        "message": "Version: $VERSION$",
+        "placeholders": {
+            "version": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_data": {
+        "message": "Last Data Snapshot: $TIME$\nGame Site: $SITE$ ($PLATFORM$)\nUser Id: #$USERID$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            },
+            "userid": {
+                "content": "$2"
+            },
+            "site": {
+                "content": "$3"
+            },
+            "platform": {
+                "content": "$4"
+            }
+        }
+    },
+    "about_nodata": {
+        "message": "No Game Data has been loaded yet, please load or refresh the game window"
+    },
+    "about_disclaimer": {
+        "message": "DA Friends is 'Fan Code' and is neither endorsed or supported by Pixel Federation, the authors of the game, Diggy's Adventure. You use DA Friends at your own risk, it comes with no warranty or guarantee, neither explicit or implicit towards functionality or usability. The author shall not be held liable for any damage or loss caused by its use. By using this extension, you agree to these terms."
+    },
+
+    "kitchen_all": {
+        "message": "All recipes"
+    },
+    "kitchen_only_possible": {
+        "message": "Only possible recipes"
+    },
+    "kitchen_time_to_cook": {
+        "message": "Time to Cook"
+    },
+    "kitchen_energy_hour": {
+        "message": "Energy\nPer Hour"
+    },
+    "kitchen_possible_dishes": {
+        "message": "Possible\nDishes"
+    },
+    "kitchen_possible_energy": {
+        "message": "Possible\nEnergy"
+    },
+    "kitchen_total_time": {
+        "message": "Cooking Time\n($POTS$ Pots)",
+        "placeholders": {
+            "pots": {
+                "content": "$1"
+            }
+        }
+    },
+
+    "foundry_all": {
+        "message": "All alloys"
+    },
+    "foundry_only_possible": {
+        "message": "Only possible alloys"
+    },
+    "foundry_time_to_craft": {
+        "message": "Time to Craft"
+    },
+    "foundry_qty": {
+        "message": "Crafted per Anvil"
+    },
+    "foundry_possible_alloys": {
+        "message": "Possible Alloys"
+    },
+    "foundry_total_time": {
+        "message": "Crafting Time\n($ANVILS$ Anvils)",
+        "placeholders": {
+            "anvils": {
+                "content": "$1"
+            }
+        }
+    },
+
+    "camp_your_camp": {
+        "message": "Your camp"
+    },
+    "camp_player_name": {
+        "message": "$PLAYER$'s camp",
+        "placeholders": {
+            "player": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_no_player": {
+        "message": "No camp was visited yet"
+    },
+    "camp_player": {
+        "message": "Player"
+    },
+    "camp_total": {
+        "message": "Total"
+    },
+    "camp_fill_time": {
+        "message": "Fill time\n(from 0 to max capacity)"
+    },
+    "camp_windmill_regen": {
+        "message": "Single windmill regeneration"
+    },
+    "camp_windmill_regen_total": {
+        "message": "Total windmill regeneration"
+    },
+    "camp_windmill_num": {
+        "message": "Current number of windmills"
+    },
+    "camp_windmill_expiry": {
+        "message": "Windmills will expire on\n$TIME$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_empty": {
+        "message": "Empty slot"
+    },
+    "camp_slot_blocked": {
+        "message": "Blocked space"
+    },
+    "camp_slot_capacity": {
+        "message": "Capacity: $VALUE$",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_regen": {
+        "message": "Regeneration: $VALUE$",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_region": {
+        "message": "Region: $VALUE$",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_regen": {
+        "message": "Regeneration"
+    },
+    "camp_capacity": {
+        "message": "Capacity"
+    },
+    "camp_windmills": {
+        "message": "Windmills"
+    },
+    "camp_avg_value": {
+        "message": "Slot average"
+    },
+    "camp_min_value": {
+        "message": "Slot minimum"
+    },
+    "camp_max_value": {
+        "message": "Slot maximum"
+    },
+    "camp_unlock_materials": {
+        "message": "Materials required to unlock camp"
+    },
+    "camp_unlock_one": {
+        "message": "Unlocking one slot will net $VALUE$ XP",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_unlock_cost": {
+        "message": "One slot can be unlocked with $VALUE$ gems\nor with these materials:",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_start_date": {
+        "message": "You started playing:\n$STARTED$",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_day_mode": {
+        "message": "Day mode"
+    },
+    "camp_night_mode": {
+        "message": "Night mode"
+    },
+
+    "pillars_all": {
+        "message": "All pillars"
+    },
+    "pillars_only_possible": {
+        "message": "Only possible pillars"
+    },
+    "pillars_perc_next": {
+        "message": "%\nNext"
+    },
+    "pillars_possible": {
+        "message": "Possible"
+    },
+    "pillars_qty": {
+        "message": "Predicted\nQty"
+    },
+    "pillars_xp": {
+        "message": "Predicted\nXP Gain"
+    },
+    "pillars_coins": {
+        "message": "Predicted\nCoins"
+    },
+    "pillars_totals": {
+        "message": "Totals"
+    },
+    "pillars_current_level": {
+        "message": "Your Current Level"
+    },
+    "pillars_predicted_level": {
+        "message": "Predicted Level"
+    },
+    "pillars_predicted_energy": {
+        "message": "Predicted Energy Gain from Level Up's"
+    },
+    "pillars_ignore": {
+        "message": "Click to ignore/consider"
+    },
+    "pillars_stats": {
+        "message": "Max Possible: $QTY$, XP Gain: $XP$, Coins: $COINS$, Energy Boost: $BOOST$",
+        "placeholders": {
+            "qty": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "coins": {
+                "content": "$3"
+            },
+            "boost": {
+                "content": "$4"
+            }
+        }
+    },
+    "pillars_grid": {
+        "message": "Show as grid"
+    },
+    "pillars_cap": {
+        "message": "Cap to Possible"
+    },
+
+    "ext_placeholder": {
+        "message": "Last message. DO NOT USE"
+    }
+}

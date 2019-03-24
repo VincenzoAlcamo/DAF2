@@ -1,0 +1,17 @@
+.options input[type=checkbox] {
+  zoom: 1.8;
+  margin: 0;
+  cursor: pointer;
+}
+
+.options h3 {
+  font-size: inherit;
+}
+
+.options p {
+  font-size: small;
+}
+
+.suboption {
+  padding-left: 32px;
+}

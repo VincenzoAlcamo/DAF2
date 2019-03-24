@@ -1,0 +1,105 @@
+.pillars tr td:nth-child(1),
+.pillars tr td:nth-child(3) {
+  text-align: center;
+}
+
+.pillars tr td:nth-child(2) {
+  text-align: left;
+}
+
+.pillars tr td:nth-child(4),
+.pillars tr td:nth-child(5),
+.pillars tr td:nth-child(6),
+.pillars tr td:nth-child(7),
+.pillars tr td:nth-child(8),
+.pillars tr td:nth-child(9),
+.pillars tr td:nth-child(10),
+.pillars tr td:nth-child(11),
+.pillars tr td:nth-child(12),
+.pillars tfoot tr th:first-child,
+.pillars tfoot tr td:first-child {
+  text-align: right;
+}
+
+.pillars tr td.image {
+  padding: 1px 5px;
+}
+
+.pillars tr td.image img {
+  min-height: 50px;
+  max-height: 50px;
+  max-width: 30px;
+}
+
+.pillars tr td.grid img {
+  margin: 1px auto 2px;
+  display: block;
+}
+
+.pillars td.grid {
+  min-width: 80px;
+}
+
+.pillars input[type=number] {
+  width: 42px;
+  border: 1px solid var(--vm-brcol);
+  text-align: right;
+  padding: 2px 0px;
+  float: left;
+}
+
+.pillars input[type=checkbox] {
+  zoom: 1.8;
+  margin: 0;
+  cursor: pointer;
+  float: left;
+}
+
+.pillars tr.excluded,
+.pillars td.excluded {
+  background-image: -webkit-linear-gradient(top left, rgba(96, 32, 32, 0.3), rgba(128, 96, 96, 0.2));
+  color: #707070;
+}
+
+.pillars tr.excluded input[type=number],
+.pillars td.excluded input[type=number] {
+  color: #707070;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.pillars-totals th {
+  text-align: right;
+}
+
+.pillars-progress {
+  vertical-align: top;
+}
+
+.pillars-progress div:nth-child(2) {
+  float: left;
+  text-align: left;
+}
+
+.pillars-progress div:nth-child(3) {
+  float: right;
+  text-align: right;
+}
+
+.pillars-progress div:nth-child(4) {
+  text-align: center;
+}
+
+.pillars-next progress::-webkit-progress-value {
+  background-color: var(--pb-bgcol2);
+}
+
+.pillars tfoot td {
+  padding: 2px 6px;
+}
+
+.pillars-stats {
+  padding-top: 4px;
+  margin-bottom: -6px;
+  font-weight: bold;
+}

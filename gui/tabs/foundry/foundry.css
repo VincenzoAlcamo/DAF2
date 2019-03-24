@@ -1,0 +1,26 @@
+.foundry tr td:nth-child(1),
+.foundry tr td:nth-child(3),
+.foundry tr td:nth-child(4),
+.foundry tr td:nth-child(5),
+.foundry tr td:nth-child(6),
+.foundry tr td:nth-child(7),
+.foundry tr.ingredient td:nth-child(1) {
+  text-align: center;
+}
+
+.foundry tr td:nth-child(2),
+.foundry tr td:nth-child(8),
+.foundry tr.ingredient td:nth-child(2) {
+  text-align: left;
+}
+
+.foundry tr td:nth-child(9),
+.foundry tr td:nth-child(10),
+.foundry tr td:nth-child(11),
+.foundry tr.ingredient td:nth-child(3) {
+  text-align: right;
+}
+
+/* .foundry td.scarcity {
+  background-color: rgba(255, 0, 0, var(--scarcity));
+} */

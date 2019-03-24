@@ -1,0 +1,41 @@
+{
+    "manifest_version": 2,
+    "name": "__MSG_ext_name__",
+    "version": "0.1.0.0",
+    "default_locale": "en",
+    "description": "__MSG_ext_title__",
+    "minimum_chrome_version": "71",
+
+    "icons": {
+        "128": "img/logo/iconYellow.png"
+    },
+
+    "browser_action": {
+        "default_icon": "img/logo/iconGrey.png"
+    },
+
+    "permissions": [
+        "contentSettings",
+        "debugger",
+        "storage",
+        "tabs",
+        "webNavigation",
+        "webRequest",
+        "*://apps.facebook.com/*",
+        "*://cdn.diggysadventure.com/*",
+        "*://static.diggysadventure.com/*",
+        "*://diggysadventure.com/*",
+        "*://portal.pixelfederation.com/*",
+        "*://www.facebook.com/*"
+    ],
+
+    "web_accessible_resources": [
+        "inject/*.css",
+        "img/*"
+    ],
+
+    "background": {
+        "page": "bgp/background.html",
+        "persistent": true
+    }
+}

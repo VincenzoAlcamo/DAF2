@@ -1,0 +1,28 @@
+.kitchen tr td:nth-child(1),
+.kitchen tr td:nth-child(3),
+.kitchen tr td:nth-child(4),
+.kitchen tr td:nth-child(5),
+.kitchen tr td:nth-child(6),
+.kitchen tr td:nth-child(7),
+.kitchen tr td:nth-child(8),
+.kitchen tr td:nth-child(9),
+.kitchen tr.ingredient td:nth-child(1) {
+  text-align: center;
+}
+
+.kitchen tr td:nth-child(2),
+.kitchen tr.ingredient td:nth-child(2) {
+  text-align: left;
+}
+
+.kitchen tr td:nth-child(11),
+.kitchen tr td:nth-child(12),
+.kitchen tr td:nth-child(13),
+.kitchen tr td:nth-child(14),
+.kitchen tr.ingredient td:nth-child(3) {
+  text-align: right;
+}
+
+/* .kitchen td.scarcity {
+  background-color: rgba(255, 0, 0, var(--scarcity));
+} */
