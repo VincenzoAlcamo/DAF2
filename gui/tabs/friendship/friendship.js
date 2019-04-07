@@ -105,20 +105,24 @@ function getNeighboursAsNotMatched() {
 function showCollectDialog() {
     var ghost = getRemoveGhosts();
 
-    function addAlternateSettings(method) {
-        var extra = '';
-        if (method == 'alternate') {
-            extra += HtmlBr `<br>${gui.getMessage('friendship_collectghostdelete')} <select name="ghost">`;
-            for (var i = 0; i <= 2; i++)
-                extra += HtmlBr `<option value="${i}"${i == ghost ? ' selected' : ''}>${gui.getMessage('friendship_collectghost' + i)}</option>`;
-            extra += HtmlBr `</select>`;
-        }
+    function addAlternateSettings() {
+        var extra = HtmlBr `<br>${gui.getMessage('friendship_collectghostdelete')} <select name="ghost">`;
+        for (var i = 0; i <= 2; i++)
+            extra += HtmlBr `<option value="${i}"${i == ghost ? ' selected' : ''}>${gui.getMessage('friendship_collectghost' + i)}</option>`;
+        extra += HtmlBr `</select>`;
         return HtmlRaw(extra);
     }
 
     function button(method) {
         var msgId = 'friendship_collect' + method;
-        return HtmlBr `<tr><td><button value="${method}">${gui.getMessage(msgId)}</button></td><td>${gui.getMessage(msgId + 'info')}${addAlternateSettings(method)}</td></tr>`;
+        var htm = HtmlBr `<tr>
+<td style="text-align:right"><button value="${method}">${gui.getMessage(msgId)}</button></td>
+<td>${gui.getMessage(msgId + 'info')}
+${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
+${method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
+${method == 'alternate' ? addAlternateSettings() : ''}
+</td></tr>`;
+        return htm;
     }
 
     function setNewGhost(params) {
@@ -135,20 +139,26 @@ function showCollectDialog() {
 <table style="margin-top:16px">
 ${button('standard')}
 ${button('alternate')}
+${button('both')}
 ${numFriends > 0 ? button('match') : ''}
 </table>`,
-        style: ['standard', 'alternate', 'match', Dialog.CANCEL]
+        style: ['standard', 'alternate', 'both', 'match', Dialog.CANCEL]
     }, function(method, params) {
         setNewGhost(params);
-        if (method == 'standard' || method == 'alternate' || method == 'match') {
+        if (method == 'standard' || method == 'alternate' || method == 'both' || method == 'match') {
             gui.dialog.show({
                 title: gui.getMessage('friendship_collect'),
-                html: HtmlBr `${gui.getMessage('friendship_collect' + method + 'info')}${addAlternateSettings(method)}<br><br>${gui.getMessage('friendship_confirmwarning')}`,
+                html: HtmlBr `<p style="text-align:left">${gui.getMessage('friendship_collect' + method + 'info')}
+${method == 'both' || method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
+${method == 'both' || method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
+</p>
+${method == 'both' || method == 'alternate' ? addAlternateSettings() : ''}
+<br><br>${gui.getMessage('friendship_confirmwarning')}`,
                 style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
             }, function(confirmation, params) {
-                if (method == 'alternate') setNewGhost(params);
+                if (method == 'alternate' || method == 'both') setNewGhost(params);
                 if (confirmation != Dialog.CONFIRM) return;
-                if (method == 'standard' || method == 'alternate') collectFriends(method);
+                if (method == 'standard' || method == 'alternate' || method == 'both') collectFriends(method);
                 else if (method == 'match') matchStoreAndUpdate();
             });
         }
@@ -204,7 +214,7 @@ function tableClick(event) {
         if (matchingId == pal.id) {
             cancelMatch();
         } else {
-            divMatch.style.backgroundImage = 'url(' + gui.getFBFriendAvatarUrl(pal.pic_fb_id) + ')';
+            divMatch.style.backgroundImage = 'url(' + gui.getFBFriendAvatarUrl(pal.fb_id) + ')';
             divMatch.firstElementChild.innerText = pal.level;
             divMatch.lastElementChild.innerText = gui.getPlayerNameFull(pal);
             divMatch.style.display = 'block';
@@ -241,7 +251,7 @@ function collectFriends(method) {
         var tabId = w.tabs[0].id;
         bgp.Tab.excludeFromInjection(tabId);
         var details = {
-            file: '/js/dialog.js',
+            file: '/js/Dialog.js',
             runAt: 'document_end',
             allFrames: false,
             frameId: 0
@@ -316,8 +326,8 @@ function updateRow(row) {
         htm += HtmlBr `<td></td><td></td><td></td><td></td><td>${buttonManual}</td>`;
     }
     if (pal) {
-        let anchor = gui.getFBFriendAnchor(pal.pic_fb_id);
-        htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.pic_fb_id)}"/></a></td>`;
+        let anchor = gui.getFBFriendAnchor(pal.fb_id);
+        htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
         htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
         htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;
         htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
@@ -500,7 +510,7 @@ function matchStoreAndUpdate() {
     }
     var numFriendsToAnalyze = images.length;
     for (let pal of Object.values(notmatched)) {
-        addImage('n' + pal.id, gui.getFBFriendAvatarUrl(pal.pic_fb_id));
+        addImage('n' + pal.id, gui.getFBFriendAvatarUrl(pal.fb_id));
     }
     var numNeighboursToAnalyze = images.length - numFriendsToAnalyze;
     // If there is at least one person in each group
@@ -539,7 +549,7 @@ function matchStoreAndUpdate() {
 
     function matchFriend(friend, pal, score) {
         if (matchFriendBase(friend, pal, score)) {
-            delete hashById[pal.pic_fb_id];
+            delete hashById[pal.fb_id];
             delete hashByName[gui.getPlayerNameFull(pal)];
             delete notmatched[pal.id];
         }
@@ -553,7 +563,7 @@ function matchStoreAndUpdate() {
         for (var pal of Object.values(notmatched)) {
             // if the same key is already used, we set it to null to force an image comparison
             // store by fb_id
-            var key = pal.pic_fb_id;
+            var key = pal.fb_id;
             hashById[key] = key in hashById ? null : pal;
             // store by full name
             key = gui.getPlayerNameFull(pal);

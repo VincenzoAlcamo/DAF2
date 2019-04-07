@@ -87,10 +87,11 @@ var Parser = {
             // Detect the correct Facebook ID to use
             var match = pal.pic_square.match(reFBId);
             if (match) {
-                //delete pal.pic_square;
-                //if (match[1] != pal.fb_id) console.log("mismatch", pal.fb_id, match[1]);
-                //pal.fb_id = match[1];
-                pal.pic_fb_id = match[1];
+                var fb_id = match[1];
+                delete pal.pic_square;
+                if(pal.escaped_fb_id && pal.escaped_fb_id != '#' + fb_id) console.log('mismatch', pal.escaped_fb_id, fb_id);
+                delete pal.escaped_fb_id;
+                pal.fb_id = fb_id;
             }
             // Retrieve extra info for neighbor
             var old = oldNeighbours[id];

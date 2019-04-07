@@ -645,13 +645,25 @@
         "message": "Standard"
     },
     "friendship_collectstandardinfo": {
-        "message": "This method is reliable, but very slow (it may take several minutes).\nIt can detect disabled accounts."
+        "message": "This method is reliable, but very slow (it may take several minutes)."
     },
     "friendship_collectalternate": {
         "message": "Alternate"
     },
     "friendship_collectalternateinfo": {
-        "message": "This method is super fast, but cannot detect disabled accounts.\nIt can detect \"ghost\" friends and will offer the option to delete them."
+        "message": "This method is super fast, but cannot detect disabled accounts."
+    },
+    "friendship_collectboth": {
+        "message": "Both"
+    },
+    "friendship_collectbothinfo": {
+        "message": "This method combines the Alternate and Standard methods (Alternate first, then Standard)."
+    },
+    "friendship_disabledinfo": {
+        "message": "It can detect disabled accounts."
+    },
+    "friendship_ghostinfo": {
+        "message": "It can detect \"ghost\" friends and will offer the option to delete them."
     },
     "friendship_collectghostdelete": {
         "message": "Delete \"ghost\" friends?"
@@ -689,10 +701,13 @@
         }
     },
     "friendship_collectstat": {
-        "message": "Friends collected: $NUM$",
+        "message": "Friends collected: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
+            },
+            "total": {
+                "content": "$2"
             }
         }
     },

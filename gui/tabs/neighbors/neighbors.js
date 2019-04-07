@@ -93,9 +93,9 @@ function update() {
 function updateRow(row) {
     var id = row.getAttribute('data-pal-id');
     var pal = bgp.Data.getNeighbour(id);
-    var anchor = gui.getFBFriendAnchor(pal.pic_fb_id);
+    var anchor = gui.getFBFriendAnchor(pal.fb_id);
     var htm = '';
-    htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.pic_fb_id)}"/></a></td>`;
+    htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
     htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
     htm += HtmlBr `<td>${gui.getRegionImage(pal.region)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;

@@ -4,13 +4,29 @@ var removeGhosts = 0;
 var wait = Dialog(Dialog.WAIT);
 var dialog = Dialog();
 var retries = 5;
+var hashById = {};
+var friends = [];
+var ulInactiveParent = null;
+var ulInactive = null;
+var liInactive = [];
+
+function addFriend(friend) {
+    var old = hashById[friend.id];
+    if(old) {
+        if(friend.uri) old.uri = friend.uri;
+        if(friend.disabled) old.disabled = true;
+    } else {
+        hashById[friend.id] = friend;
+        friends.push(friend);
+    }
+}
 
 // eslint-disable-next-line no-unused-vars
 function collect() {
     var container = document.getElementById('pagelet_timeline_medley_friends');
     if (container) {
         if (collectMethod == 'standard') collectStandard();
-        if (collectMethod == 'alternate') collectAlternate();
+        if (collectMethod == 'alternate' || collectMethod == 'both') collectAlternate();
     } else if (retries > 0) {
         retries--;
         setTimeout(collect, 2000);
@@ -20,21 +36,30 @@ function collect() {
 }
 
 function sendFriends(friends) {
-    document.title = chrome.i18n.getMessage('friendship_collectstat', [friends.length]);
+    document.title = chrome.i18n.getMessage('friendship_collectstat', [friends.length, friends.length]);
     wait.setText(document.title);
     chrome.runtime.sendMessage({
         action: 'friendsCaptured',
         data: friends
     });
+    if (ulInactive) {
+        ulInactive.innerHTML = '';
+        liInactive.forEach(li => ulInactive.appendChild(li));
+        ulInactiveParent.appendChild(ulInactive);
+        ulInactive.scrollIntoView();
+        wait.hide();
+        return dialog.show({
+            text: chrome.i18n.getMessage('friendship_disabledaccountsdetected'),
+            style: [Dialog.OK]
+        });
+    }
+    return window.close();
 }
 
 function collectStandard() {
     var handler = null;
-    var friends = [];
     var countStop = 0;
-    var ulInactiveParent = null;
-    var ulInactive = null;
-    var liInactive = [];
+    var count = 0;
 
     handler = setInterval(capture, 500);
 
@@ -58,13 +83,15 @@ function collectStandard() {
                     if ((d = item.getAttribute('data-hovercard')) && d.indexOf('user.php?id=') >= 0 && (id = getId(d))) {
                         uri = item.href;
                         if ((i = uri.indexOf('?'))) uri = uri.substr(0, i);
-                        friends.push({
+                        count++;
+                        addFriend({
                             id: id,
                             name: item.innerText,
                             uri: uri
                         });
                     } else if ((d = item.getAttribute('ajaxify')) && d.indexOf('/inactive/') >= 0 && (id = getId(d))) {
-                        friends.push({
+                        count++;
+                        addFriend({
                             id: id,
                             name: item.innerText,
                             disabled: true
@@ -78,7 +105,7 @@ function collectStandard() {
                 });
             });
             ul.parentNode.removeChild(ul);
-            document.title = chrome.i18n.getMessage('friendship_collectstat', [friends.length]);
+            document.title = chrome.i18n.getMessage('friendship_collectstat', [count, friends.length]);
             wait.setText(document.title);
         } else {
             countStop++;
@@ -86,18 +113,6 @@ function collectStandard() {
             if (countStop > 20) {
                 clearInterval(handler);
                 sendFriends(friends);
-                if (ulInactive) {
-                    ulInactive.innerHTML = '';
-                    liInactive.forEach(li => ulInactive.appendChild(li));
-                    ulInactiveParent.appendChild(ulInactive);
-                    ulInactive.scrollIntoView();
-                    wait.hide();
-                    return dialog.show({
-                        text: chrome.i18n.getMessage('friendship_disabledaccountsdetected'),
-                        style: [Dialog.OK]
-                    });
-                }
-                return window.close();
             }
         }
         document.body.scrollIntoView(true);
@@ -140,24 +155,21 @@ function collectAlternate() {
             var data = JSON.parse(json);
             var payload = data.payload;
             var keys = Object.keys(payload);
-            var friends = [];
             ghosts = [];
             keys.forEach(key => {
                 var item = payload[key];
                 if (typeof item.id == 'string') {
                     if (item.is_friend === true) {
-                        var friend = {
+                        addFriend({
                             id: item.id,
                             name: item.name,
                             uri: item.uri
-                        };
-                        friends.push(friend);
+                        });
                     }
                 } else if (item.id === 0) {
                     ghosts.push([key, null]);
                 }
             });
-            sendFriends(friends);
             continueOperation();
         } catch (e) {
             transferError(e.message);
@@ -180,7 +192,8 @@ function collectAlternate() {
             });
             return;
         }
-        window.close();
+        if(collectMethod == 'both') collectStandard(friends);
+        else sendFriends();
     }
 
     function startRemoving(array, msgRemoving, msgRemoved) {

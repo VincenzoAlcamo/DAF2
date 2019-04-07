@@ -37,7 +37,7 @@ function update() {
         var div = gcTable.appendChild(document.createElement('div'));
         div.setAttribute('data-pal-id', pal.id);
         div.className = 'DAF-gc-pal DAF-gc-reg' + pal.region;
-        div.style.backgroundImage = 'url(' + (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.pic_fb_id)) + ')';
+        div.style.backgroundImage = 'url(' + (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) + ')';
         div.title = gui.getPlayerNameFull(pal) + '\n' + gui.getMessage('camp_slot_region', bgp.Data.getRegionName(pal.region));
         var d = div.appendChild(document.createElement('div'));
         d.textContent = pal.level;

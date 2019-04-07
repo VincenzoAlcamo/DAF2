@@ -3,6 +3,7 @@ var prefs, handlers, msgHandlers, isFacebook, miner, isWebGL, originalHeight, he
 var autoClickAttached, autoClickStyle;
 var gcTable, gcTableStyle;
 var menu, textOn, textOff;
+var loadCompleted;
 
 function sendMinerPosition() {
     // Send some values to the top window
@@ -63,23 +64,28 @@ function getMessage(id, ...args) {
     return chrome.i18n.getMessage(id, args);
 }
 
+function getFullWindow() {
+    return  prefs.fullWindow && loadCompleted;
+}
+
 function onResize() {
+    var fullWindow = getFullWindow();
     var headerHeight = header ? header.getBoundingClientRect().height : 0;
     var gcTableHeight = gcTable ? gcTable.offsetHeight : 0;
     var iframe = isFacebook ? document.getElementById('iframe_canvas') : document.getElementsByClassName('game-iframe game-iframe--da')[0];
     if (miner) {
         if (gcTable) {
             gcTable.style.overflowX = 'auto';
-            gcTable.style.width = prefs.fullWindow ? window.innerWidth : '100%';
+            gcTable.style.width = fullWindow ? window.innerWidth : '100%';
         }
         // if (menu) {
         //     menu.style.top = Math.floor(miner.getBoundingClientRect().top + 30) + 'px';
         // }
         if (!isWebGL) {
-            miner.style.height = prefs.fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight;
+            miner.style.height = fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight;
             // Please note: we must set the width for zoomed out view (for example, at 50%)
             // otherwise the element will be clipped horizontally
-            miner.width = prefs.fullWindow || prefs.fullWindowSide ? window.innerWidth : '100%';
+            miner.width = fullWindow || prefs.fullWindowSide ? window.innerWidth : '100%';
         }
         sendMinerPosition();
     } else if (isFacebook) {
@@ -88,36 +94,37 @@ function onResize() {
         //     forceResize(timeout);
         // } else {
         originalHeight = originalHeight || iframe.offsetHeight;
-        iframe.style.height = prefs.fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : (prefs['@bodyHeight'] || originalHeight) + 'px';
+        iframe.style.height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : (prefs['@bodyHeight'] || originalHeight) + 'px';
         // }
     } else {
-        iframe.style.height = prefs.fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
+        iframe.style.height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
     }
 }
 
 function onFullWindow() {
-    var flagHide = prefs.fullWindow;
+    var fullWindow = getFullWindow();
+    var flagHide = fullWindow;
     var fn = el => el && (el.style.display = flagHide ? 'none' : '');
     if (miner) {
         if (isWebGL) {
             var script = document.createElement('script');
-            script.innerText = 'document.mozFullScreenElement=' + prefs.fullWindow;
+            script.innerText = 'document.mozFullScreenElement=' + fullWindow;
             document.head.appendChild(script);
             setTimeout(() => script.parentNode.removeChild(script), 500);
-            document.body.style.backgroundColor = prefs.fullWindow ? '#000' : '';
-            document.body.style.overflow = prefs.fullWindow ? 'hidden' : '';
+            document.body.style.backgroundColor = fullWindow ? '#000' : '';
+            document.body.style.overflow = fullWindow ? 'hidden' : '';
         } else {
-            document.body.style.overflowY = prefs.fullWindow ? 'hidden' : '';
+            document.body.style.overflowY = fullWindow ? 'hidden' : '';
         }
         Array.from(document.querySelectorAll('.header-menu,#gems_banner,.cp_banner .bottom_banner,#bottom_news,#footer,.client-type-switch,.news')).forEach(fn);
         forceResize(1000);
     } else {
         Array.from(document.querySelectorAll('#pagelet_dock,#footer')).forEach(fn);
-        flagHide = prefs.fullWindow && !prefs.fullWindowHeader;
+        flagHide = fullWindow && !prefs.fullWindowHeader;
         fn(header);
-        flagHide = prefs.fullWindow || prefs.fullWindowSide;
+        flagHide = fullWindow || prefs.fullWindowSide;
         fn(document.querySelector('#rightCol'));
-        document.body.style.overflowY = prefs.fullWindow ? 'hidden' : '';
+        document.body.style.overflowY = fullWindow ? 'hidden' : '';
         onResize();
     }
 }
@@ -154,13 +161,14 @@ function gcTable_isEmpty() {
 
 function gcTable_remove(div) {
     if (!gcTable) return;
+    var fullWindow = getFullWindow();
     var heightBefore = gcTable.offsetHeight;
     if (div) {
         div.parentNode.removeChild(div);
         gcTable.firstChild.firstChild.textContent = gcTable.childNodes.length - 1;
         var heightAfter = gcTable.offsetHeight;
         // scrollbar was hidden and we are in full window?
-        if (heightBefore > heightAfter && prefs.fullWindow) {
+        if (heightBefore > heightAfter && fullWindow) {
             // Force Resize is currently disabled because it causes the game's neighbour list to reset position
             // instead, we keep the space for the scrollbar
             gcTable.style.overflowX = 'scroll';
@@ -171,7 +179,7 @@ function gcTable_remove(div) {
         sendValue('@gcTableStatus', 'collected');
         if (gcTable.style.display != 'none') {
             gcTable.style.display = 'none';
-            if (prefs.fullWindow) forceResize();
+            if (fullWindow) forceResize();
         }
     }
 }
@@ -184,7 +192,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
         gcTable_remove(null);
     } else if (gcTable && !forceRefresh) {
         gcTable.style.display = show ? 'block' : 'none';
-        if (prefs.fullWindow) forceResize();
+        if (getFullWindow()) forceResize();
         // If table is not present and we need to show it, we must retrieve the neighbours first
     } else if (show) {
         sendValue('@gcTableStatus', 'default');
@@ -228,7 +236,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
             sendValue('@gcTableStatus', 'default');
             setTimeout(function() {
                 gcTable.style.display = '';
-                if (prefs.fullWindow) forceResize(0);
+                if (getFullWindow()) forceResize(0);
             }, gcTableStyle ? 500 : 2000);
         });
     }
@@ -401,12 +409,16 @@ function init() {
         if (!miner) handlers['fullWindowHeader'] = onFullWindow;
         if (!miner && isFacebook) handlers['fullWindowSide'] = onFullWindow;
         if (miner) {
-            msgHandlers['generator'] = () => ongcTable(true);
             msgHandlers['friend_child_charge'] = (request) => gcTable_remove(document.getElementById('DAF-gc_' + request.data));
             handlers['gcTable'] = ongcTable;
             handlers['gcTableCounter'] = handlers['gcTableRegion'] = setgcTableOptions;
             ongcTable();
         }
+        msgHandlers['generator'] = () => {
+            loadCompleted = true;
+            onFullWindow();
+            if (miner) ongcTable(true);
+        };
         handlers['@gcTableStatus'] = setgcTableStatus;
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();

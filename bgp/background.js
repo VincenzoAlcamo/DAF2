@@ -1063,7 +1063,7 @@ async function init() {
                             surname: n.surname,
                             level: n.level,
                             region: n.region,
-                            fb_id: n.pic_fb_id
+                            fb_id: n.fb_id
                         };
                         if (n.id == 1) result.pic = n.pic_square;
                         return result;

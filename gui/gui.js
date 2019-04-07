@@ -139,15 +139,17 @@ function onLoad() {
     }, true);
 
     chrome.runtime.onMessage.addListener(function onMessage(request, _sender, _sendResponse) {
-        var action = request.action,
-            data = request.data;
-        Object.values(tabs).forEach(tab => {
-            if (tab.isLoaded && tab.actions && action in tab.actions) {
+        var action = request.action;
+        var data = request.data;
+        for (var tab of Object.values(tabs)) {
+            if (action == 'generator') tab.mustBeUpdated = true;
+            else if (tab.isLoaded && tab.actions && action in tab.actions) {
                 try {
                     tab.actions[action](data);
                 } catch (e) {}
             }
-        });
+        }
+        if (action == 'generator') updateCurrentTab();
     });
 
     function getTab(tabId) {
@@ -234,12 +236,15 @@ async function clickMenu(e) {
     localStorage.setItem('tab', currentTab.id);
     gui.updateTabState(currentTab);
     Object.values(tabs).forEach(t => t.container && (t.container.style.display = t == currentTab ? '' : 'none'));
+    updateCurrentTab();
+}
+
+function updateCurrentTab() {
     if (currentTab.isLoaded && currentTab.mustBeUpdated) {
         currentTab.mustBeUpdated = false;
         translate(currentTab.container);
         if (typeof currentTab.update == 'function') currentTab.update();
     }
-    // resizeTab(currentTab);
 }
 
 //#region TEXT INFO
