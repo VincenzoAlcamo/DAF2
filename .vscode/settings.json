@@ -1,0 +1,8 @@
+{
+    "eslint.enable": true,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#591508",
+        "titleBar.activeBackground": "#7D1D0B",
+        "titleBar.activeForeground": "#FFFCFB"
+    }
+}

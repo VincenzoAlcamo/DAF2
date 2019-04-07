@@ -1,3 +1,4 @@
+/*global bgp gui*/
 export default {
     hasCSS: true,
     init: init,
@@ -18,7 +19,7 @@ function init() {
     for (let input of container.querySelectorAll('input[data-pref]')) {
         if (input.type == 'checkbox') {
             input.addEventListener('click', function() {
-                sendPreference(input.getAttribute('data-pref'), input.checked);
+                gui.sendPreference(input.getAttribute('data-pref'), input.checked);
             });
         }
     }
@@ -27,7 +28,7 @@ function init() {
 function getState() {
     return {
         search: searchInput.value
-    }
+    };
 }
 
 function setState(state) {
@@ -35,15 +36,8 @@ function setState(state) {
     refresh();
 }
 
-function sendPreference(name, value) {
-    if (bgp.Preferences.getValue(name) !== undefined)
-        chrome.storage.local.set({
-            [name]: value
-        });
-}
-
 function refresh() {
-    updateTabState(tab);
+    gui.updateTabState(tab);
 
     var search = searchInput.value.toUpperCase();
     for (var table of container.querySelectorAll('.options table')) {

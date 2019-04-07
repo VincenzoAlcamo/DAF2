@@ -1,6 +1,6 @@
 ﻿{
     "ext_name": {
-        "message": "DA Friends"
+        "message": "DA Friends 2"
     },
     "ext_title": {
         "message": "Helper Tool for Diggy's Adventure"
@@ -114,6 +114,34 @@
     "gui_sell_price": {
         "message": "Sell price"
     },
+    "gui_neighbour": {
+        "message": "Neighbour"
+    },
+    "gui_friend": {
+        "message": "Friend"
+    },
+    "gui_firstrecorded": {
+        "message": "First\nRecorded"
+    },
+
+    "dialog_ok": {
+        "message": "Ok"
+    },
+    "dialog_yes": {
+        "message": "Yes"
+    },
+    "dialog_no": {
+        "message": "No"
+    },
+    "dialog_confirm": {
+        "message": "Confirm"
+    },
+    "dialog_cancel": {
+        "message": "Cancel"
+    },
+    "dialog_pleasewait": {
+        "message": "Please Wait"
+    },
 
     "tab_about": {
         "message": "About"
@@ -138,6 +166,18 @@
     },
     "tab_friendship": {
         "message": "Friendship"
+    },
+    "tab_godchild": {
+        "message": "Gods Children"
+    },
+    "tab_locations": {
+        "message": "Locations"
+    },
+    "tab_greenrings": {
+        "message": "Green Rings"
+    },
+    "tab_redrings": {
+        "message": "Red Rings"
     },
     "tab_rewardlinks": {
         "message": "Reward Links"
@@ -178,7 +218,7 @@
         "message": "No Game Data has been loaded yet, please load or refresh the game window"
     },
     "about_disclaimer": {
-        "message": "DA Friends is 'Fan Code' and is neither endorsed or supported by Pixel Federation, the authors of the game, Diggy's Adventure. You use DA Friends at your own risk, it comes with no warranty or guarantee, neither explicit or implicit towards functionality or usability. The author shall not be held liable for any damage or loss caused by its use. By using this extension, you agree to these terms."
+        "message": "DA Friends is 'Fan Code' and is neither endorsed or supported by Pixel Federation, the authors of the game, Diggy's Adventure.\nYou use DA Friends at your own risk, it comes with no warranty or guarantee, neither explicit or implicit towards functionality or usability.\nThe author shall not be held liable for any damage or loss caused by its use.\nBy using this extension, you agree to these terms."
     },
 
     "kitchen_all": {
@@ -412,6 +452,319 @@
     },
     "pillars_cap": {
         "message": "Cap to Possible"
+    },
+
+    "neighbors_lastlevelup": {
+        "message": "Last\nLevel Up"
+    },
+    "neighbors_lastgiftreceived": {
+        "message": "Last Gift\nReceived"
+    },
+    "neighbors_all": {
+        "message": "All"
+    },
+    "neighbors_nogift": {
+        "message": "No gifts in $NUM$ days",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "neighbors_listed": {
+        "message": "Custom\nlist"
+    },
+    "neighbors_inlist": {
+        "message": "In custom list"
+    },
+    "neighbors_notinlist": {
+        "message": "Not in custom list"
+    },
+    "neighbors_found": {
+        "message": "Neighbours found: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+
+    "friendship_collect": {
+        "message": "Collect and match"
+    },
+    "friendship_score": {
+        "message": "Score"
+    },
+    "friendship_action": {
+        "message": "Action"
+    },
+    "friendship_actionignore": {
+        "message": "This friend is regarded for the match\nClick to ignore this friend during the match"
+    },
+    "friendship_actionregard": {
+        "message": "This friend is ignored for the match\nClick to regard this friend"
+    },
+    "friendship_actionunlink": {
+        "message": "Click to remove the match"
+    },
+    "friendship_actionmanual": {
+        "message": "Click to manually match this neighbour"
+    },
+    "friendship_actiondelete": {
+        "message": "Click to permanently delete this friend"
+    },
+    "friendship_matchplayertitle": {
+        "message": "Click here to cancel this match"
+    },
+    "friendship_accountdisabled": {
+        "message": "Account is disabled"
+    },
+    "friendship_disabledaccountsdetected": {
+        "message": "Disabled accounts were detected.\nYou can unfriend them from this page.\n\nPlease be aware that Facebook accounts may be temporary disabled and may be enabled at a later moment."
+    },
+    "friendship_ghostfriendsdetected": {
+        "message": "$NUM$ \"ghost\" friends were detected.\nWould you like to remove them now?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectalternatewait": {
+        "message": "Retrieving friend list ..."
+    },
+    "friendship_ghostfriendremoving": {
+        "message": "Removing \"ghost\" friend ($NUM$ / $TOTAL$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_ghostfriendremoved": {
+        "message": "$NUM$ \"ghost\" friends were removed.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_a": {
+        "message": "Friends: $FRIENDS$, Neighbours: $NEIGHBOURS$",
+        "placeholders": {
+            "friends": {
+                "content": "$1"
+            },
+            "neighbours": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_filter_d": {
+        "message": "Disabled Facebook accounts: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_m": {
+        "message": "Friends and neighbours matched: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_g": {
+        "message": "Friends and neighbours matched by image: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_h": {
+        "message": "Friends and neighbours matched manually: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_i": {
+        "message": "Friends ignored: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_f": {
+        "message": "Friends not matched: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_u": {
+        "message": "Friends ignored and/or not matched: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_n": {
+        "message": "Neighbours not matched: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_s": {
+        "message": "Friends and neighbours not matched: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectpreamble": {
+        "message": "Here you can collect your Facebook friends and match it against your neighbours."
+    },
+    "friendship_collectstandard": {
+        "message": "Standard"
+    },
+    "friendship_collectstandardinfo": {
+        "message": "This method is reliable, but very slow (it may take several minutes).\nIt can detect disabled accounts."
+    },
+    "friendship_collectalternate": {
+        "message": "Alternate"
+    },
+    "friendship_collectalternateinfo": {
+        "message": "This method is super fast, but cannot detect disabled accounts.\nIt can detect \"ghost\" friends and will offer the option to delete them."
+    },
+    "friendship_collectghostdelete": {
+        "message": "Delete \"ghost\" friends?"
+    },
+    "friendship_collectghost0": {
+        "message": "Don't bother"
+    },
+    "friendship_collectghost1": {
+        "message": "Ask first"
+    },
+    "friendship_collectghost2": {
+        "message": "Automatically"
+    },
+    "friendship_collectmatch": {
+        "message": "Match"
+    },
+    "friendship_collectmatchinfo": {
+        "message": "This will perform the automatic match between your friends and neighbours.\nYour friend list will not be refreshed.\nIgnored friends and friends with a score greater than 90 are not automatically matched.\nMatching will still be performed at the end of your friends collection."
+    },
+    "friendship_confirmwarning": {
+        "message": "This operation may take several minutes.\n\nPlease confirm that you want to proceed."
+    },
+    "friendship_analyzingmatches": {
+        "message": "Analyzing data, $PERCENT$ % ($NUM$ / $TOTAL$)",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            },
+            "num": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_collectstat": {
+        "message": "Friends collected: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_manualmatchhelp": {
+        "message": "To match this neighbour you have to find a non matched friend and click on the cell where the symbol \u2b50 is."
+    },
+    "friendship_friendupdateinfo": {
+        "message": "The Facebook Friends List was updated on $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_totalfriends": {
+        "message": "Friends: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_totalneighbours": {
+        "message": "Neighbours: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+
+    "godchild_info": {
+        "message": "$NUM$ Neighbours = $GC$ Gods children",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "gc": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_stat": {
+        "message": "Gods children: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_next": {
+        "message": "To get an additional GC, you have to add $NUM$ more neighbours",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "godchild_next0": {
+        "message": "You have reached the maximum possible number of GC"
+    },
+    "godchild_next1": {
+        "message": "To get an additional GC, you have to add just one more neighbour"
     },
 
     "ext_placeholder": {

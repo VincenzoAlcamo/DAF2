@@ -41,33 +41,33 @@
         </thead>
         <tbody></tbody>
         <tfoot>
-            <tr class="pillars-totals">
-                <th colspan="8" data-i18n-text="pillars_totals"></th>
+            <tr data-row="1" class="pillars-totals">
+                <th colspan="9" data-i18n-text="pillars_totals"></th>
                 <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
             </tr>
-            <tr>
-                <td colspan="8" data-i18n-text="pillars_current_level+gui_level+gui_xp"></td>
-                <td colspan="4" class="pillars-progress pillars-current">
-                    <progress></progress>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </td>
+            <tr data-row="2">
+                <th colspan="13">
+                    <div class="pillars-progress pillars-current">
+                        <div data-i18n-text="pillars_current_level"></div>
+                        <progress></progress>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="pillars-progress pillars-next">
+                        <div data-i18n-text="pillars_predicted_level"></div>
+                        <progress></progress>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </th>
             </tr>
-            <tr>
-                <td colspan="8" data-i18n-text="pillars_predicted_level+gui_level+gui_xp"></td>
-                <td colspan="4" class="pillars-progress pillars-next">
-                    <progress></progress>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="8" data-i18n-text="pillars_predicted_energy"></td>
+            <tr data-row="3">
+                <th colspan="9" data-i18n-text="pillars_predicted_energy"></th>
                 <td colspan="4" class="pillars-boost"></td>
             </tr>
         </tfoot>

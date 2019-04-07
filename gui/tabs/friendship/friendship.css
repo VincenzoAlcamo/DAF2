@@ -1,0 +1,104 @@
+.friendhsip tr td:nth-child(1),
+.friendship tr td:nth-child(3),
+.friendship tr td:nth-child(4),
+.friendship tr td:nth-child(5),
+.friendship tr td:nth-child(6),
+.friendship tr td:nth-child(7),
+.friendship tr td:nth-child(8),
+.friendship tr td:nth-child(9) {
+  text-align: center;
+}
+
+.friendship tr td:nth-child(7),
+.friendship tr td:nth-child(2) {
+  text-align: left;
+}
+
+.friendship tr[lazy-render] td:nth-child(1),
+.friendship tr[lazy-render] td:nth-child(6) {
+  background: no-repeat url(/img/gui/anon.gif) 5px 5px;
+}
+
+.friendship tr td:nth-child(1) {
+  min-height: 61px;
+}
+
+.friendship tr th:nth-child(1),
+.friendship tr th:nth-child(6) {
+  min-width: 61px;
+}
+
+.friendship tr th:nth-child(2),
+.friendship tr th:nth-child(7) {
+  min-width: 180px;
+  max-width: 300px;
+}
+
+.friendship button[data-action] {
+  margin: 0;
+  width: 36px;
+  height: 36px;
+  background-position: 4px 4px;
+}
+
+.friendship button[data-action],
+table.f-matching tr.f-notmatched td:nth-child(4):after {
+  border: 1px solid var(--tb-brcol);
+  border-radius: 20px;
+  background-color: var(--th-bgcol);
+  background-size: 24px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+
+table.f-matching tr.f-notmatched td:nth-child(4):after {
+  content: " ";
+  padding: 0;
+  display: inline-block;
+  background-image: url(/img/gui/friendship_star.png);
+  background-position: 5px 5px;
+  width: 34px;
+  height: 34px;
+}
+
+.friendship button[data-action]:hover,
+.friendship.f-matching tr.f-notmatched td:nth-child(4):hover:after {
+  background-color: #ff0;
+}
+
+.friendship button[data-action="unlink"] {
+  background-image: url(/img/gui/friendship_linked.png);
+}
+
+.friendship button[data-action="ignore"] {
+  background-image: url(/img/gui/friendship_regarded.png);
+}
+
+.friendship button[data-action="regard"] {
+  background-image: url(/img/gui/friendship_ignored.png);
+}
+
+.friendship button[data-action="delete"] {
+  background-image: url(/img/gui/friendship_delete.png);
+}
+
+.friendship button[data-action="manual"] {
+  background-image: url(/img/gui/friendship_match.png);
+}
+
+.tab_friendship .DAF-gc-pal {
+  display: none;
+  width: 80px;
+  height: 101px;
+  background-size: 80px 80px;
+  position: absolute;
+  margin-top: -2px;
+  z-index: 2000;
+  margin-left: -84px;
+}
+
+.tab_friendship .DAF-gc-pal div:first-child {
+  width: 28px;
+  height: 18px;
+}

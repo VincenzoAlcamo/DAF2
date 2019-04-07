@@ -1,3 +1,4 @@
+/*global bgp gui Locale SmartTable HtmlBr Html*/
 export default kitchenFoundry;
 
 function kitchenFoundry(type) {
@@ -7,7 +8,7 @@ function kitchenFoundry(type) {
         tab = this;
         container = tab.container;
 
-        selectShow = container.querySelector('[name=show]')
+        selectShow = container.querySelector('[name=show]');
         selectShow.addEventListener('change', refresh);
         selectFrom = container.querySelector('[name=from]');
         selectFrom.addEventListener('change', refresh);
@@ -28,7 +29,7 @@ function kitchenFoundry(type) {
             search: searchInput.value,
             sort: getSort(smartTable.sort, 'name'),
             sort2: getSort(smartTable.sortSub, 'ingredient')
-        }
+        };
     }
 
     function setState(state) {
@@ -42,11 +43,11 @@ function kitchenFoundry(type) {
                 sortInfo.ascending = true;
             }
             smartTable.setSortInfo(sortInfo, isSub);
-        })
+        });
     }
 
     function update() {
-        Array.from(container.querySelectorAll('[sort-name="total_time"]')).forEach(el => el.innerHTML = htmlBr(getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
+        Array.from(container.querySelectorAll('[sort-name="total_time"]')).forEach(el => el.innerHTML = HtmlBr(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
         oldState = {};
@@ -71,7 +72,6 @@ function kitchenFoundry(type) {
         var tokens = bgp.Data.files.tokens;
         var productions = bgp.Data.files.productions;
         var events = bgp.Data.files.events;
-        var region = +bgp.Data.generator.region;
         var slots = getNumSlots();
         var unlocked = type == 'recipe' ? bgp.Data.generator.pot_recipes :
             type == 'alloy' ? bgp.Data.generator.alloys : null;
@@ -130,6 +130,15 @@ function kitchenFoundry(type) {
             p.total_time = p.time * Math.floor((numProd + slots - 1) / slots);
             result.push(p);
         }
+
+        // For each production, register the maximum region associated with that production's name
+        var hash = {};
+        for(let item of result) {
+            hash[item.name] = Math.max(hash[item.name] || 0, item.region);
+        }
+        // Get only the max region for each distinct name
+        result = result.filter(item => item.region == hash[item.name]);
+
         return result;
     }
 
@@ -140,40 +149,40 @@ function kitchenFoundry(type) {
         var hasEvent = type == 'recipe';
 
         function getIngredient(ingredient) {
-            return htmlBr `<td class="scarcity">${formatNumber(ingredient.required)}</td><td class="scarcity">${ingredient.name}</td><td class="scarcity right">${formatNumber(ingredient.available)}</td>`;
+            return HtmlBr `<td class="scarcity">${Locale.formatNumber(ingredient.required)}</td><td class="scarcity">${ingredient.name}</td><td class="scarcity right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
         productions.forEach(p => {
-            var rspan = p.ingredients.length
+            var rspan = p.ingredients.length;
             var title = p.cname;
-            htm += htmlBr `<tr id="prod-${p.id}" style="--scarcity:${p.ingredients[0].scarcity.toFixed(3)}">`;
-            htm += htmlBr `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${html(title)}"/></td>`;
-            htm += htmlBr `<td rowspan="${rspan}">${p.name}</td>`;
-            htm += htmlBr `<td rowspan="${rspan}">${getRegionImage(p.region)}</td>`;
+            htm += HtmlBr `<tr id="prod-${p.id}" style="--scarcity:${p.ingredients[0].scarcity.toFixed(3)}">`;
+            htm += HtmlBr `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
+            htm += HtmlBr `<td rowspan="${rspan}">${p.name}</td>`;
+            htm += HtmlBr `<td rowspan="${rspan}">${gui.getRegionImage(p.region)}</td>`;
             if (hasEvent) {
                 var eimage = '';
                 if (p.eid != 0) {
                     var wikiPage = ''; // wikiEvents[p.eid]
-                    eimage = htmlBr `<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${html(p.ename)}"/>`;
+                    eimage = HtmlBr `<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
                 }
-                htm += htmlBr `<td rowspan="${rspan}">${eimage}</td>`;
+                htm += HtmlBr `<td rowspan="${rspan}">${eimage}</td>`;
             }
-            htm += htmlBr `<td rowspan="${rspan}">${formatNumber(p.level)}</td>`;
-            htm += htmlBr `<td rowspan="${rspan}">${getDuration(p.time)}</td>`;
+            htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.level)}</td>`;
+            htm += HtmlBr `<td rowspan="${rspan}">${gui.getDuration(p.time)}</td>`;
             if (hasQty) {
-                htm += htmlBr `<td rowspan="${rspan}">${formatNumber(p.qty)}</td>`;
+                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.qty)}</td>`;
             }
             if (hasEnergy) {
-                htm += htmlBr `<td rowspan="${rspan}">${formatNumber(p.energy)}</td>`;
-                htm += htmlBr `<td rowspan="${rspan}">${formatNumber(p.energy_per_hour)}</td>`;
+                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.energy)}</td>`;
+                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.energy_per_hour)}</td>`;
             }
             htm += getIngredient(p.ingredients[0]);
-            htm += htmlBr `<td rowspan="${rspan}">${formatNumber(p.output)}</td>`;
+            htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.output)}</td>`;
             if (hasEnergy) {
-                htm += htmlBr `<td rowspan="${rspan}">${formatNumber(p.total_energy)}</td>`;
+                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
             }
-            htm += htmlBr `<td rowspan="${rspan}">${getDuration(p.total_time)}</td>`;
-            htm += htmlBr `</tr>`;
-            htm += p.ingredients.map((ingredient, index) => index > 0 ? htmlBr `<tr class="ingredient" style="--scarcity:${ingredient.scarcity.toFixed(3)}">${getIngredient(ingredient)}</tr>` : '').join('');
+            htm += HtmlBr `<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
+            htm += HtmlBr `</tr>`;
+            htm += p.ingredients.map((ingredient, index) => index > 0 ? HtmlBr `<tr class="ingredient" style="--scarcity:${ingredient.scarcity.toFixed(3)}">${getIngredient(ingredient)}</tr>` : '').join('');
         });
         return htm;
     }
@@ -183,7 +192,7 @@ function kitchenFoundry(type) {
         var sort;
 
         triggerSearchHandler(false);
-        updateTabState(tab);
+        gui.updateTabState(tab);
         let state = getState();
         state.search = (state.search || '').toUpperCase();
 
@@ -241,7 +250,7 @@ function kitchenFoundry(type) {
             }
         });
 
-        collectLazyImages(tab);
+        gui.collectLazyImages(smartTable.container);
         smartTable.syncLater();
     }
 

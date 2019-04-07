@@ -1,0 +1,30 @@
+.neighbors tr td:nth-child(1),
+.neighbors tr td:nth-child(3),
+.neighbors tr td:nth-child(4),
+.neighbors tr td:nth-child(5),
+.neighbors tr td:nth-child(6),
+.neighbors tr td:nth-child(7),
+.neighbors tr td:nth-child(8) {
+  text-align: center;
+}
+
+.neighbors tr td:nth-child(2) {
+  text-align: left;
+}
+
+.neighbors tr[lazy-render] td:nth-child(1) {
+  background: no-repeat url(/img/gui/anon.gif) 5px 5px;
+}
+
+.neighbors tr td:nth-child(1) {
+  min-height: 61px;
+}
+
+.neighbors tr th:nth-child(1) {
+  min-width: 61px;
+}
+
+.neighbors tr th:nth-child(2) {
+  min-width: 180px;
+  max-width: 300px;
+}

@@ -6,6 +6,7 @@
   font-size: 12pt !important;
   font-family: Sans-Serif !important;
   line-height: 1.34;
+  user-select: none;
 }
 
 .DAF-menu,
@@ -24,9 +25,9 @@
   z-index: 2000;
   position: absolute;
   left: -8px;
-  top: 30px;
+  top: 32px;
   background-color: #FFF;
-  padding: 2px 2px 0px 4px;
+  padding: 0;
   border-left: 0;
   border-radius: calc(1em + 2px);
   border-top-left-radius: 0;
@@ -37,15 +38,20 @@
   transition: 0.6s;
   background-position: 8px 4px;
   background-repeat: no-repeat;
-  background-image: url(/img/gui/ico_daf.png);
+  background-image: url(/img/gui/about.png);
+  background-size: 16px 16px;
 }
 
 .DAF-menu:hover {
   height: auto;
   left: 0px;
+  top: 8px;
   border-color: transparent;
   background-color: transparent;
   background-image: none;
+  padding: 24px 0px 24px 8px;
+  width: 54px;
+  background-position: -14px 24px;
 }
 
 .DAF-menu li {
@@ -63,13 +69,15 @@
 }
 
 .DAF-menu b {
-  min-width: calc(1em + 6px);
+  width: 24px;
+  height: 24px;
   text-align: center;
-  margin-right: 3px;
+  margin: 0 6px 0 4px;
   transition: 0.2s;
   cursor: pointer;
   background-repeat: no-repeat;
-  background-position: 2px 3px;
+  background-size: 18px 18px;
+  background-position: 2px 2px;
 }
 
 .DAF-menu div {
@@ -90,6 +98,15 @@
   display: inline-block;
 }
 
+.DAF-menu span[data-value="status"] {
+  display: none;
+  background-color: #0FF;
+}
+
+.DAF-menu.DAF-gc-collected li:hover span[data-value="status"] {
+  display: inline-block;
+}
+
 .DAF-menu li:hover b {
   background-color: #FF0;
   color: #00F;
@@ -98,7 +115,8 @@
 
 .DAF-menu li div {
   position: absolute;
-  padding: 2px;
+  padding: 32px 32px 32px 4px;
+  margin-top: -30px;
 }
 
 .DAF-menu i {
@@ -119,23 +137,25 @@
 }
 
 .DAF-menu li[data-action="about"] b {
-  background-image: url("/img/gui/ico_about.png");
+  background-image: url("/img/gui/about.png");
+  background-size: 16px 16px;
+  background-position: 4px 3px;
 }
 
 .DAF-menu li[data-action="fullWindow"] b {
-  background-image: url("/img/gui/ico_zoom.png");
+  background-image: url("/img/gui/zoom.png");
 }
 
 .DAF-menu li[data-action="gcTable"] b {
-  background-image: url("/img/gui/ico_gc.png");
+  background-image: url("/img/gui/godchild.png");
 }
 
 .DAF-menu li[data-action="autoClick"] b {
-  background-image: url("/img/gui/ico_facebook.png");
+  background-image: url("/img/gui/facebook.png");
 }
 
 .DAF-menu li[data-action="reloadGame"] b {
-  background-image: url("/img/gui/ico_reload.png");
+  background-image: url("/img/gui/game.png");
 }
 
 .DAF-menu:not(.DAF-facebook) i[data-pref="fullWindowSide"] {

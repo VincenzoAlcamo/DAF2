@@ -1,5 +1,6 @@
 .pillars tr td:nth-child(1),
-.pillars tr td:nth-child(3) {
+.pillars tr td:nth-child(3),
+.pillars tr td:nth-child(4) {
   text-align: center;
 }
 
@@ -7,7 +8,6 @@
   text-align: left;
 }
 
-.pillars tr td:nth-child(4),
 .pillars tr td:nth-child(5),
 .pillars tr td:nth-child(6),
 .pillars tr td:nth-child(7),
@@ -16,8 +16,8 @@
 .pillars tr td:nth-child(10),
 .pillars tr td:nth-child(11),
 .pillars tr td:nth-child(12),
-.pillars tfoot tr th:first-child,
-.pillars tfoot tr td:first-child {
+.pillars tr td:nth-child(13),
+.pillars tfoot tr th:first-child {
   text-align: right;
 }
 
@@ -76,17 +76,21 @@
   vertical-align: top;
 }
 
-.pillars-progress div:nth-child(2) {
+.pillars-progress div:nth-child(1) {
+  text-align: center;
+}
+
+.pillars-progress div:nth-child(3) {
   float: left;
   text-align: left;
 }
 
-.pillars-progress div:nth-child(3) {
+.pillars-progress div:nth-child(4) {
   float: right;
   text-align: right;
 }
 
-.pillars-progress div:nth-child(4) {
+.pillars-progress div:nth-child(5) {
   text-align: center;
 }
 
@@ -94,7 +98,20 @@
   background-color: var(--pb-bgcol2);
 }
 
-.pillars tfoot td {
+.pillars tr[data-row="2"] th {
+  padding: 0;
+}
+
+.pillars-current {
+  width: calc(50% - 1px);
+  float: left;
+  padding: 2px 6px;
+}
+
+.pillars-next {
+  border-left: 1px solid var(--td-brcol);
+  width: calc(50% + 1px);
+  float: right;
   padding: 2px 6px;
 }
 

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+
 html {
   /* VERTICAL MENU */
   --vm-brcol: #000;
@@ -19,23 +20,31 @@ html {
   --tb-brcol: #36648b;
   --tb-fgcol: #000;
   --th-fgcol: #FFF;
-  --th-bgcol: #4682B4;
-  --th-bgcol2: #3498db;
+  --th-bgcol: #3498db;
   --td-brcol: #b3b3b3;
   --tr-bgcol: #F5F5F5;
   --tr-bgcol2: #E7E7E7;
   /* CARDS */
   --crd-fgcol: #FFF;
+  --crd-brcol: #777;
   --crd-bgcol: #A6A6A6;
   --crd-bgcol2: #CCCCCC;
   --crd-bgcol3: #E7E7E7;
   /* TOOLBAR */
   --tt-fgcol: #FFF;
-  --tt-bgcol: #A69682;
-  --tt-bgcol2: #8C7A64;
+  --tt-bgcol: #36648b;
+  --tt-button-bgcol: #afcd88;
+  --tt-button-fgcol: #000;
+  --tt-outline: #000;
+  --tt-outlined-fgcol: #f1fb9d;
+  --tt-input-bgcol: #FFF;
+  --tt-input-fgcol: #000;
+  --tt-input-brcol: #000;
   /* PROGRESS BAR */
   --pb-bgcol: #A8E78D;
   --pb-bgcol2: #E7E78D;
+  /* DEFAULT OUTLINE COLOR */
+  --outline-color: #000;
 }
 
 /*#region GENERAL*/
@@ -74,6 +83,10 @@ input[type=number] {
 
 .wiki {
   cursor: help;
+}
+
+a {
+  cursor: pointer;
 }
 
 /*#endregion*/
@@ -235,6 +248,7 @@ progress::-webkit-progress-value {
   background-position: 2px 1px;
   background-size: 32px 32px;
   flex-shrink: 0;
+  z-index: 3000;
 }
 
 .vertical-menu li:hover {
@@ -293,18 +307,12 @@ table {
 
 thead {
   color: var(--th-fgcol);
-  background: var(--th-bgcol2);
-  /*
-  background-image: -webkit-linear-gradient(var(--th-bgcol), var(--th-bgcol2));
-  */
+  background: var(--th-bgcol);
 }
 
 tfoot {
   color: var(--th-fgcol);
-  background: var(--th-bgcol2);
-  /*
-  background-image: -webkit-linear-gradient(var(--th-bgcol2), var(--th-bgcol));
-  */
+  background: var(--th-bgcol);
 }
 
 /* this will apply the background gradient to each row instead of the whole thead/tfoot */
@@ -393,9 +401,6 @@ th.sort-sub.sort-ascending {
 .toolbar {
   color: var(--tt-fgcol);
   background: var(--tt-bgcol);
-  /*
-  background-image: -webkit-linear-gradient(var(--tt-bgcol), var(--tt-bgcol2));
-  */
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
@@ -403,20 +408,38 @@ th.sort-sub.sort-ascending {
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   position: sticky;
   top: 0px;
-  /*
-  box-shadow: -10px 8px 28px 0px rgba(0, 0, 0, 0.3);
-  */
+  --outline-color: var(tt-outline);
 }
 
 .toolbar label {
   white-space: nowrap;
 }
 
+.toolbar .outlined {
+  color: var(--tt-outlined-fgcol);
+}
+
+.toolbar .stats {
+  font-size: larger;
+  font-weight: bold;
+}
+
 .toolbar select,
 .toolbar input[type=number],
-.toolbar input[type=text] {
-  border: 1px solid var(--vm-brcol);
+.toolbar input[type=text],
+.toolbar button {
+  border: 1px solid var(--tt-input-brcol);
   padding: 2px;
+  font-size: 16px;
+  color: var(--tt-input-fgcol);
+  background-color: var(--tt-input-bgcol);
+}
+
+.toolbar button {
+  padding: 2px 6px;
+  color: var(--tt-button-fgcol);
+  background-color: var(--tt-button-bgcol);
+  border-radius: 8px;
 }
 
 .toolbar input[type=number][name=level] {
@@ -441,21 +464,20 @@ th.sort-sub.sort-ascending {
 
 /*#region CARD*/
 
-/*
 .card {
+  border: 2px solid var(--crd-brcol);
+  /*
   display: table;
   margin: auto;
   min-width: 200px;
-}
 */
+}
 
 .card+* {
   margin-top: 12px;
 }
 
 .card>label {
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
   display: block;
   margin: 0;
   text-align: left;
@@ -469,28 +491,26 @@ th.sort-sub.sort-ascending {
   cursor: default;
   min-height: 1em;
   background-color: var(--crd-bgcol);
-  /*
-  background-image: -webkit-linear-gradient(top, var(--crd-bgcol), var(--crd-bgcol2));
-  */
 }
 
 .card>label>img:first-child {
   vertical-align: middle;
-  float: left;
-  top: -8px;
+  top: -14px;
   left: -4px;
+  margin-bottom: -20px;
   position: relative;
 }
 
 .card>div {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
   vertical-align: middle;
   margin: 0px;
   padding: 10px 10px 4px 10px;
   color: var(--crd-fgcol);
   background-color: var(--crd-bgcol);
   background-image: -webkit-linear-gradient(top, var(--crd-bgcol), var(--crd-bgcol3));
+
+  flex-grow: 1;
+  overflow: auto;
 }
 
 /* CARD CLICKER */
@@ -510,19 +530,16 @@ th.sort-sub.sort-ascending {
   height: 16px;
   background-color: var(--crd-fgcol);
   -webkit-mask-image: url(/img/gui/card-hide.png);
+  mask-image: url(/img/gui/card-hide.png);
 }
 
 .card>input[type=checkbox]~label {
   cursor: ns-resize;
 }
 
-.card>input[type=checkbox]:checked~label {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-
 .card>input[type=checkbox]:checked~label::after {
   -webkit-mask-image: url(/img/gui/card-show.png);
+  mask-image: url(/img/gui/card-show.png);
 }
 
 /*#endregion*/

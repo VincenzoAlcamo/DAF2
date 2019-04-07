@@ -1,3 +1,4 @@
+/*global bgp gui SmartTable Locale Html HtmlBr*/
 export default {
     hasCSS: true,
     init: init,
@@ -13,7 +14,7 @@ function init() {
     tab = this;
     container = tab.container;
 
-    selectShow = container.querySelector('[name=show]')
+    selectShow = container.querySelector('[name=show]');
     selectShow.addEventListener('change', refresh);
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
@@ -79,7 +80,7 @@ function getState() {
         uncapped: !checkCap.checked,
         grid: checkGrid.checked,
         sort: getSort(smartTable.sort, 'name')
-    }
+    };
 }
 
 function setState(state) {
@@ -96,14 +97,14 @@ function setState(state) {
 }
 
 function toggleCap() {
-    updateTabState(tab);
+    gui.updateTabState(tab);
     var state = getState();
     pillars.forEach(pillar => updateQty(pillar, state));
     refreshTotals();
 }
 
 function getPillarsExcluded() {
-    return asArrayOfInt(bgp.Preferences.getValue('pillarsExcluded'));
+    return gui.getArrayOfInt(bgp.Preferences.getValue('pillarsExcluded'));
 }
 
 function updatePillar(e) {
@@ -137,8 +138,8 @@ function updateQty(pillar, state) {
         input.value = pillar.qty;
         input.max = max;
         if (!td.classList.contains('grid')) {
-            td.nextElementSibling.innerText = formatNumber(pillar.predicted_xp);
-            td.nextElementSibling.nextElementSibling.innerText = formatNumber(pillar.predicted_coins);
+            td.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_xp);
+            td.nextElementSibling.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_coins);
         }
     }
 }
@@ -148,15 +149,17 @@ function refreshTotals() {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
             var levelup = bgp.Data.files.levelups[level];
             var div = parent.querySelectorAll('div');
-            div[0].innerHTML = html `${formatNumber(level)}<br/>${formatNumber(xp)}`;
-            div[1].innerHTML = html `${formatNumber(level+1)}<br/>${formatNumber(levelup.xp)}`;
-            div[2].innerHTML = html `${formatNumber(xp / levelup.xp * 100, 2)}%`;
-            var div = parent.querySelector('progress');
+            div[1].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`;
+            div[2].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level+1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`;
+            div[3].innerHTML = Html `${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`;
+            div = parent.querySelector('progress');
             div.setAttribute('value', xp);
             div.setAttribute('max', levelup.xp);
         });
     }
-    var tot, qty, xp, coins, maxXp, maxCoins, maxBoost, maxLevel, level, exp, nextLevel, nextExp, boost, totalExp;
+    var tot, qty, xp, coins, maxXp, maxCoins, maxBoost, level, exp, nextLevel, nextExp, boost, totalExp;
+    // eslint-disable-next-line no-unused-vars
+    var maxLevel;
     tot = qty = xp = coins = boost = maxXp = maxCoins = maxBoost = 0;
     pillars.forEach(pillar => {
         tot += pillar.possible;
@@ -182,33 +185,33 @@ function refreshTotals() {
             maxBoost += levelup.boost;
             totalExp -= levelup.xp;
             // maxCoins += levelup.coins;
-            maxLevel++;
+            // maxLevel++;
         }
     }
     Array.from(container.querySelectorAll('.pillars-totals')).forEach(row => {
-        row.cells[1].innerText = formatNumber(tot);
-        row.cells[2].innerText = formatNumber(qty);
-        row.cells[3].innerText = formatNumber(xp);
-        row.cells[4].innerText = formatNumber(coins);
+        row.cells[1].innerText = Locale.formatNumber(tot);
+        row.cells[2].innerText = Locale.formatNumber(qty);
+        row.cells[3].innerText = Locale.formatNumber(xp);
+        row.cells[4].innerText = Locale.formatNumber(coins);
     });
     setProgress('.pillars-current', level, exp);
     setProgress('.pillars-next', nextLevel, nextExp);
     Array.from(container.querySelectorAll('.pillars-boost')).forEach(el => {
-        el.innerText = formatNumber(boost);
+        el.innerText = Locale.formatNumber(boost);
     });
-    container.querySelector('.pillars-stats').innerText = getMessage('pillars_stats', formatNumber(tot), formatNumber(maxXp), formatNumber(maxCoins), formatNumber(maxBoost));
+    container.querySelector('.pillars-stats').innerText = gui.getMessage('pillars_stats', Locale.formatNumber(tot), Locale.formatNumber(maxXp), Locale.formatNumber(maxCoins), Locale.formatNumber(maxBoost));
 }
 
 function refresh() {
     triggerSearchHandler(false);
-    updateTabState(tab);
+    gui.updateTabState(tab);
 
     smartTable.showFixed(false);
     smartTable.tbody[0].innerHTML = '';
 
     let state = getState();
     var level = bgp.Data.generator.level;
-    var skins = asArrayOfInt(bgp.Data.generator.skins || '1');
+    var skins = gui.getArrayOfInt(bgp.Data.generator.skins || '1');
     state.search = (state.search || '').toUpperCase();
 
     function isVisible(p) {
@@ -227,40 +230,49 @@ function refresh() {
         th.style.display = state.grid && th.previousElementSibling ? 'none' : '';
     });
     Array.from(container.querySelectorAll('.pillars tfoot tr')).forEach(tr => {
-        tr.cells[0].colSpan = state.grid ? 4 : 9;
+        switch (tr.getAttribute('data-row')) {
+            case '1':
+                tr.style.display = state.grid ? 'none' : '';
+                break;
+            case '2':
+                tr.cells[0].colSpan = state.grid ? 8 : 13;
+                break;
+            case '3':
+                tr.cells[0].colSpan = state.grid ? 4 : 9;
+                break;
+        }
     });
-    Array.from(container.querySelectorAll('.pillars-totals')).forEach(row => row.style.display = state.grid ? 'none' : '');
 
     var htm = '',
         isOdd = false,
-        titleIgnore = getMessage('pillars_ignore'),
+        titleIgnore = gui.getMessage('pillars_ignore'),
         index = 0;
     pillars.filter(isVisible).forEach(pillar => {
-        var htmInputs = htmlBr `<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
+        var htmInputs = HtmlBr `<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
         if (state.grid) {
             index++;
             if (index == 9) {
                 htm += `</tr><tr>`;
                 index = 1;
             }
-            htm += htmlBr `<td class="image grid${pillar.excluded ? ' excluded' : ''}" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${html(pillar.name)}"/>${htmInputs}</td>`;
+            htm += HtmlBr `<td class="image grid${pillar.excluded ? ' excluded' : ''}" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}"/>${htmInputs}</td>`;
         } else {
             isOdd = !isOdd;
-            htm += htmlBr `<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
-            htm += htmlBr `<td class="image"><img height="50" lazy-src="${pillar.img}" title="${html(pillar.name)}"/></td>`;
-            htm += htmlBr `<td>${pillar.name}</td>`;
-            htm += htmlBr `<td>${getSkinImage(pillar.skin)}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.level)}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.xp)}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.coins)}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.required)}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.available)}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.perc_next, 2)}%</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.possible)}</td>`;
-            htm += htmlBr `<td did="${pillar.did}">${htmInputs}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.predicted_xp)}</td>`;
-            htm += htmlBr `<td>${formatNumber(pillar.predicted_coins)}</td>`;
-            htm += htmlBr `</tr>`;
+            htm += HtmlBr `<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
+            htm += HtmlBr `<td class="image"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}"/></td>`;
+            htm += HtmlBr `<td>${pillar.name}</td>`;
+            htm += HtmlBr `<td>${gui.getSkinImage(pillar.skin)}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.level)}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.xp)}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.coins)}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.required)}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.available)}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.perc_next, 2)}%</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.possible)}</td>`;
+            htm += HtmlBr `<td did="${pillar.did}">${htmInputs}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.predicted_xp)}</td>`;
+            htm += HtmlBr `<td>${Locale.formatNumber(pillar.predicted_coins)}</td>`;
+            htm += HtmlBr `</tr>`;
         }
     });
     if (state.grid && index > 0) {
@@ -270,11 +282,11 @@ function refresh() {
     smartTable.tbody[0].innerHTML = htm;
     Array.from(smartTable.tbody[0].querySelectorAll('input[type=checkbox]')).forEach(input => {
         input.addEventListener('click', updatePillar);
-    })
+    });
     Array.from(smartTable.tbody[0].querySelectorAll('input[type=number]')).forEach(input => {
         input.addEventListener('input', updatePillar);
-    })
+    });
     refreshTotals();
-    collectLazyImages(tab);
+    gui.collectLazyImages(smartTable.container);
     smartTable.syncLater();
 }

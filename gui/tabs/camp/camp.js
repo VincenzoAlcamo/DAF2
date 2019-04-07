@@ -1,3 +1,4 @@
+/*global bgp gui Locale Html HtmlBr HtmlRaw*/
 export default {
     hasCSS: true,
     init: init,
@@ -20,7 +21,7 @@ function init() {
     neighborEnabled = bgp.Data.isDeveloper();
     ['camp-player', 'camp-neighbor'].forEach(className => {
         var div = tab.container.querySelector('.' + className);
-        div.addEventListener('render', function(event) {
+        div.addEventListener('render', function(_event) {
             updateCamp(this);
         });
 
@@ -29,13 +30,13 @@ function init() {
         if (className == 'camp-neighbor' && !neighborEnabled) div.style.display = 'none';
 
         var input = div.querySelector('input');
-        input.addEventListener('click', () => updateTabState(tab));
+        input.addEventListener('click', () => gui.updateTabState(tab));
 
         div = div.querySelector('div');
         div.addEventListener('mouseover', onmousemove);
         div.addEventListener('mouseout', onmousemove);
         div.addEventListener('mouseleave', onmousemove);
-    })
+    });
 }
 
 function update() {
@@ -51,7 +52,7 @@ function markToBeRendered(div) {
     updateCamp(div, true);
     div = div.querySelector('div');
     div.setAttribute('lazy-render', '');
-    lazyObserver.observe(div);
+    gui.collectLazyImages(container);
 }
 
 function getState() {
@@ -62,16 +63,15 @@ function getState() {
 }
 
 function setState(state) {
-    var h = String(state.h || '').toLowerCase(),
-        setCheck = (id, c) => document.getElementById(id).checked = h.indexOf(c) >= 0;
+    var h = String(state.h || '').toLowerCase();
+    var setCheck = (id, c) => document.getElementById(id).checked = h.indexOf(c) >= 0;
     setCheck('camp_player', 'p');
     setCheck('camp_neighbor', 'n');
 }
 
 function onmousemove(event) {
-    var el = event.target,
-        isOut = event.type == 'mouseout' || event.type == 'mouseleave',
-        bid = 0;
+    var el = event.target;
+    var bid = 0;
     while (!el.classList.contains('card')) {
         if (el.hasAttribute('bid')) bid = el.getAttribute('bid');
         el = el.parentNode;
@@ -81,7 +81,7 @@ function onmousemove(event) {
         el.classList.toggle('selected', flag);
         el.classList.toggle('selected-first', flag && (!el.previousElementSibling || el.previousElementSibling.getAttribute('bid') !== bid));
         el.classList.toggle('selected-last', flag && (!el.nextElementSibling || el.nextElementSibling.getAttribute('bid') !== bid));
-    })
+    });
 }
 
 function updateCamp(div, flagHeaderOnly = false) {
@@ -98,13 +98,13 @@ function updateCamp(div, flagHeaderOnly = false) {
         camp = generator.camp;
         level = +generator.level;
         ['region', 'windmill_limit', 'windmill_reg'].forEach(key => camp[key] = +generator[key]);
-        campName = getMessage('camp_your_camp');
+        campName = gui.getMessage('camp_your_camp');
         started = new Date(+generator.registered_on * 1000);
     } else {
         camp = bgp.Data.lastVisitedCamp;
         let neighbourId = camp && camp.neigh_id;
         let pal = neighbourId ? bgp.Data.getNeighbour(neighbourId) : null;
-        campName = (neighbourId ? getMessage('camp_player_name', pal ? pal.name : '#' + neighbourId) : getMessage('camp_no_player'));
+        campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? pal.name : '#' + neighbourId) : gui.getMessage('camp_no_player'));
         level = pal && pal.level;
         isPublic = true; //neighbourId == 1 || bgp.Data.isDev;
     }
@@ -114,10 +114,10 @@ function updateCamp(div, flagHeaderOnly = false) {
     div.querySelector('div').innerHTML = '';
     if (flagHeaderOnly || !camp) return;
 
-    var windmillExpiryTime = bgp.Data.getConfigValue('windmill_lifespan', 7 * 86400),
-        campResult = calculateCamp(camp, true),
-        camps = [campResult],
-        htm = '';
+    var windmillExpiryTime = bgp.Data.getConfigValue('windmill_lifespan', 7 * 86400);
+    var campResult = calculateCamp(camp, true);
+    var camps = [campResult];
+    var htm = '';
 
     if (isPlayer) {
         var campResult2 = calculateCamp(camp, false);
@@ -127,29 +127,29 @@ function updateCamp(div, flagHeaderOnly = false) {
         }
     }
 
-    htm += htmlBr `<table class="camp-tables"><tr>`;
+    htm += HtmlBr `<table class="camp-tables"><tr>`;
 
     // table Player
-    htm += htmlBr `<td><table class="camp-data row-coloring">`;
-    htm += htmlBr `<thead><tr><th colspan="2">${getMessage('camp_player')}</th></tr></thead>`;
-    htm += htmlBr `<tbody>`;
-    htm += htmlBr `<tr><td>${getMessage('gui_region')}</td><td>${bgp.Data.getRegionName(camp.region)}</td></tr>`;
-    htm += htmlBr `<tr><td>${getMessage('gui_level')}</td><td>${formatNumber(level)}</td></tr>`;
-    htm += htmlBr `<tr><td>${getMessage('gui_theme')}</td><td>${bgp.Data.getSkinName(camp.skin)}</td></tr>`;
-    htm += htmlBr `</tbody>`;
+    htm += HtmlBr `<td><table class="camp-data row-coloring">`;
+    htm += HtmlBr `<thead><tr><th colspan="2">${gui.getMessage('camp_player')}</th></tr></thead>`;
+    htm += HtmlBr `<tbody>`;
+    htm += HtmlBr `<tr><td>${gui.getMessage('gui_region')}</td><td>${bgp.Data.getRegionName(camp.region)}</td></tr>`;
+    htm += HtmlBr `<tr><td>${gui.getMessage('gui_level')}</td><td>${Locale.formatNumber(level)}</td></tr>`;
+    htm += HtmlBr `<tr><td>${gui.getMessage('gui_theme')}</td><td>${bgp.Data.getSkinName(camp.skin)}</td></tr>`;
+    htm += HtmlBr `</tbody>`;
     if (started && !isNaN(started.getFullYear())) {
-        htm += htmlBr `<tbody>`;
-        htm += htmlBr `<tr><td colspan="2">${getMessage('camp_start_date', formatDateTime(started))}</td></tr>`;
-        htm += htmlBr `</tbody>`;
+        htm += HtmlBr `<tbody>`;
+        htm += HtmlBr `<tr><td colspan="2">${gui.getMessage('camp_start_date', Locale.formatDateTime(started))}</td></tr>`;
+        htm += HtmlBr `</tbody>`;
     }
-    htm += htmlBr `</table></td>`;
+    htm += HtmlBr `</table></td>`;
 
     if (isPublic) {
         camps.forEach(function(campResult, index) {
-            var cap_total = campResult.cap_tot,
-                reg_total = campResult.reg_tot,
-                fillTime = Math.ceil(cap_total / reg_total * 3600),
-                time;
+            var cap_total = campResult.cap_tot;
+            var reg_total = campResult.reg_tot;
+            var fillTime = Math.ceil(cap_total / reg_total * 3600);
+            var time;
             if (fillTime) {
                 time = [];
                 time.unshift(String(fillTime % 60).padStart(2, '0'));
@@ -159,52 +159,50 @@ function updateCamp(div, flagHeaderOnly = false) {
             }
 
             // table Regeneration
-            htm += htmlBr `<td><table class="camp-data row-coloring">`;
-            var caption = camps.length == 1 ? '' : getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode');
-            htm += htmlBr `<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/camp/energy.png" title="${getMessage('camp_regen')}"></th><th><img src="/img/camp/capacity.png" title="${getMessage('camp_capacity')}"></th></tr></thead>`;
-            htm += htmlBr `<tbody>`;
-            htm += htmlBr `<tr><td>${getMessage('camp_total')}</td><td>${formatNumber(reg_total)}</td><td>${formatNumber(cap_total)}</td></tr>`;
-            htm += htmlBr `<tr><td>${getMessage('camp_avg_value')}</td><td>${formatNumber(campResult.reg_avg)}</td><td>${formatNumber(campResult.cap_avg)}</td></tr>`;
-            htm += htmlBr `<tr><td>${getMessage('camp_min_value')}</td><td>${formatNumber(campResult.reg_min)}</td><td>${formatNumber(campResult.cap_min)}</td></tr>`;
-            htm += htmlBr `<tr><td>${getMessage('camp_max_value')}</td><td>${formatNumber(campResult.reg_max)}</td><td>${formatNumber(campResult.cap_max)}</td></tr>`;
-            htm += htmlBr `</tbody>`;
+            htm += HtmlBr `<td><table class="camp-data row-coloring">`;
+            var caption = camps.length == 1 ? '' : gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode');
+            htm += HtmlBr `<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/camp/energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/camp/capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
+            htm += HtmlBr `<tbody>`;
+            htm += HtmlBr `<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
+            htm += HtmlBr `<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
+            htm += HtmlBr `<tr><td>${gui.getMessage('camp_min_value')}</td><td>${Locale.formatNumber(campResult.reg_min)}</td><td>${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
+            htm += HtmlBr `<tr><td>${gui.getMessage('camp_max_value')}</td><td>${Locale.formatNumber(campResult.reg_max)}</td><td>${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
+            htm += HtmlBr `</tbody>`;
             if (time) {
-                htm += htmlBr `<tbody>`;
-                htm += htmlBr `<tr><td>${getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
-                htm += htmlBr `</tbody>`;
+                htm += HtmlBr `<tbody>`;
+                htm += HtmlBr `<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
+                htm += HtmlBr `</tbody>`;
             }
-            htm += htmlBr `</table></td>`;
+            htm += HtmlBr `</table></td>`;
         });
     }
 
-    if (true) {
-        var wind_count = 0,
-            wind_expiry = Infinity;
-        if (camp.windmills) {
-            (Array.isArray(camp.windmills) ? camp.windmills : [camp.windmills]).forEach(windmill => {
-                var st = parseInt(windmill.activated),
-                    et = st + windmillExpiryTime;
-                wind_count++;
-                wind_expiry = Math.min(et, wind_expiry);
-            });
-        }
-        // table Windmills
-        htm += htmlBr `<td><table class="camp-data row-coloring">`;
-        htm += htmlBr `<thead><tr><th colspan="2">${getMessage('camp_windmills')}</th></tr></thead>`;
-        htm += htmlBr `<tbody>`;
-        htm += htmlBr `<tr><td>${getMessage('camp_windmill_num')}</td><td>${formatNumber(wind_count) + ' / ' + formatNumber(camp.windmill_limit)}</td></tr>`;
-        if (isPublic && camp.windmill_reg) {
-            htm += htmlBr `<tr><td>${getMessage('camp_windmill_regen')}</td><td>${formatNumber(camp.windmill_reg)}</td></tr>`;
-            htm += htmlBr `<tr><td>${getMessage('camp_windmill_regen_total')}</td><td>${formatNumber(camp.windmill_reg * Math.min(wind_count, camp.windmill_limit))}</td></tr>`;
-        }
-        htm += htmlBr `</tbody>`;
-        if (wind_count) {
-            htm += htmlBr `<tbody>`;
-            htm += htmlBr `<tr><td colspan="2">${getMessage('camp_windmill_expiry', formatDateTime(wind_expiry))}</td></tr>`;
-            htm += htmlBr `</tbody>`;
-        }
-        htm += htmlBr `</table></td>`;
+    var wind_count = 0;
+    var wind_expiry = Infinity;
+    if (camp.windmills) {
+        (Array.isArray(camp.windmills) ? camp.windmills : [camp.windmills]).forEach(windmill => {
+            var st = parseInt(windmill.activated);
+            var et = st + windmillExpiryTime;
+            wind_count++;
+            wind_expiry = Math.min(et, wind_expiry);
+        });
     }
+    // table Windmills
+    htm += HtmlBr `<td><table class="camp-data row-coloring">`;
+    htm += HtmlBr `<thead><tr><th colspan="2">${gui.getMessage('camp_windmills')}</th></tr></thead>`;
+    htm += HtmlBr `<tbody>`;
+    htm += HtmlBr `<tr><td>${gui.getMessage('camp_windmill_num')}</td><td>${Locale.formatNumber(wind_count) + ' / ' + Locale.formatNumber(camp.windmill_limit)}</td></tr>`;
+    if (isPublic && camp.windmill_reg) {
+        htm += HtmlBr `<tr><td>${gui.getMessage('camp_windmill_regen')}</td><td>${Locale.formatNumber(camp.windmill_reg)}</td></tr>`;
+        htm += HtmlBr `<tr><td>${gui.getMessage('camp_windmill_regen_total')}</td><td>${Locale.formatNumber(camp.windmill_reg * Math.min(wind_count, camp.windmill_limit))}</td></tr>`;
+    }
+    htm += HtmlBr `</tbody>`;
+    if (wind_count) {
+        htm += HtmlBr `<tbody>`;
+        htm += HtmlBr `<tr><td colspan="2">${gui.getMessage('camp_windmill_expiry', Locale.formatDateTime(wind_expiry))}</td></tr>`;
+        htm += HtmlBr `</tbody>`;
+    }
+    htm += HtmlBr `</table></td>`;
 
     if (campResult.blocks[2].blocked || campResult.blocks[3].blocked || campResult.blocks[4].blocked) {
         var mat = {};
@@ -215,28 +213,26 @@ function updateCamp(div, flagHeaderOnly = false) {
                 }
             }
         });
-        htm += htmlBr `<td><table class="camp-data">`;
-        htm += htmlBr `<thead><tr><th colspan="3">${getMessage('camp_unlock_materials')}</th></tr></thead>`;
+        htm += HtmlBr `<td><table class="camp-data">`;
+        htm += HtmlBr `<thead><tr><th colspan="3">${gui.getMessage('camp_unlock_materials')}</th></tr></thead>`;
 
         var materials = bgp.Data.files.materials;
-        var cdn = bgp.Data.generator.cdn_root;
-        if (cdn) cdn += 'mobile/graphics/all/';
 
         // Show materials
         for (var matId of [1, 7, 22, 32, 8]) {
             var material = materials[matId];
-            var img = material && material.mobile_asset ? htmlBr `<img width="24" height="24" src="${cdn + material.mobile_asset + '_small.png'}">` : '';
-            if (matId in mat) htm += htmlBr `<tr class="material"><td>${img}</td><td>${bgp.Data.getMaterialName(matId)}</td><td>${formatNumber(mat[matId])}</td></tr>`;
+            var img = material && material.mobile_asset ? HtmlBr `<img width="24" height="24" src="${cdn + material.mobile_asset + '_small.png'}">` : '';
+            if (matId in mat) htm += HtmlBr `<tr class="material"><td>${img}</td><td>${bgp.Data.getMaterialName(matId)}</td><td>${Locale.formatNumber(mat[matId])}</td></tr>`;
         }
-        htm += htmlBr `<tbody>`;
-        htm += htmlBr `</table></td>`;
+        htm += HtmlBr `<tbody>`;
+        htm += HtmlBr `</table></td>`;
     }
 
-    htm += htmlBr `</tr></table>`;
+    htm += HtmlBr `</tr></table>`;
 
     camps.forEach(function(campResult, index) {
         if (camps.length > 1)
-            htm += htmlBr `<table class="camp-caption"><thead><tr><th>${getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode')}</th></tr></thead></table>`;
+            htm += HtmlBr `<table class="camp-caption"><thead><tr><th>${gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode')}</th></tr></thead></table>`;
         htm += renderCamp(campResult, isPublic, cdn);
     });
 
@@ -244,12 +240,12 @@ function updateCamp(div, flagHeaderOnly = false) {
 }
 
 function calculateCamp(camp, current = true) {
-    var lines_ids = camp.lines_ids.split(','),
-        lines_blocked = camp.lines_blocked.split(','),
-        buildings = bgp.Data.files.buildings,
-        lines = {},
-        blocks = {},
-        reg_min, reg_max, reg_cnt, reg_avg, cap_min, cap_max, cap_cnt, cap_avg, reg_tot, cap_tot, reg_base, cap_base;
+    var lines_ids = gui.getArrayOfInt(camp.lines_ids);
+    var lines_blocked = gui.getArrayOfInt(camp.lines_blocked);
+    var buildings = bgp.Data.files.buildings;
+    var lines = {};
+    var blocks = {};
+    var reg_min, reg_max, reg_cnt, reg_avg, cap_min, cap_max, cap_cnt, cap_avg, reg_tot, cap_tot, reg_base, cap_base;
 
     // setup blocks
     [2, 3, 4].forEach(height => {
@@ -259,29 +255,29 @@ function calculateCamp(camp, current = true) {
         };
     });
     Object.values(bgp.Data.files.lines).forEach(line => {
-        var height = +line.height,
-            order = +line.order + (height == 2 ? 3 : 0);
+        var height = +line.height;
+        var order = +line.order + (height == 2 ? 3 : 0);
         if (height >= 2 && height <= 4 && order >= 1 && order <= NUM_SLOTS * 2)
             blocks[height].slots[order - 1] = line;
     });
 
     // setup lines
     [1, 2, 3, 5, 7, 9].forEach((lid, index) => {
-        var height = Math.floor(index / 2) + 2,
-            slots = [],
-            emptySlot = {
-                kind: 'empty',
-                title: getMessage('camp_slot_empty'),
-                width: 1,
-                height: height
-            },
-            blocked, i;
-        i = lines_ids.indexOf(String(lid));
+        var height = Math.floor(index / 2) + 2;
+        var slots = [];
+        var emptySlot = {
+            kind: 'empty',
+            title: gui.getMessage('camp_slot_empty'),
+            width: 1,
+            height: height
+        };
+        var blocked, i;
+        i = lines_ids.indexOf(lid);
         blocked = i >= 0 ? parseInt(lines_blocked[i]) || 0 : NUM_SLOTS;
         for (i = 0; i < NUM_SLOTS; i++) slots[i] = emptySlot;
         if (blocked > 0) slots[index % 2 ? NUM_SLOTS - blocked : 0] = {
             kind: 'block',
-            title: getMessage('camp_slot_blocked'),
+            title: gui.getMessage('camp_slot_blocked'),
             width: blocked,
             height: height
         };
@@ -303,17 +299,17 @@ function calculateCamp(camp, current = true) {
     var blds = current ? camp.buildings : camp.inactive_b;
     blds = blds ? (Array.isArray(blds) ? blds : [blds]) : [];
     blds.forEach(building => {
-        var lid = building.line_id,
-            line = lines[lid];
+        var lid = building.line_id;
+        var line = lines[lid];
         if (line) {
-            var bid = +building.def_id,
-                slot = +building.slot,
-                building = buildings[bid];
+            var bid = +building.def_id;
+            var slot = +building.slot;
+            building = buildings[bid];
             if (building) {
-                var regen = +building.stamina_reg,
-                    capacity = +building.max_stamina,
-                    width = +building.columns,
-                    value = Math.floor((regen || capacity) / width);
+                var regen = +building.stamina_reg;
+                var capacity = +building.max_stamina;
+                var width = +building.columns;
+                var value = Math.floor((regen || capacity) / width);
                 if (capacity > 0) {
                     if (cap_min == 0 || value < cap_min) cap_min = value;
                     if (cap_max == 0 || value > cap_max) cap_max = value;
@@ -336,7 +332,7 @@ function calculateCamp(camp, current = true) {
                     height: +building.rows,
                     region_id: building.region_id || 0,
                     title: bgp.Data.getString(building.name_loc)
-                }
+                };
             }
         }
     });
@@ -373,40 +369,40 @@ function renderCamp(campResult, isPublic, cdn) {
     } = campResult;
 
     // render the camp and calculate some values
-    var reg_range = reg_max - reg_min,
-        cap_range = cap_max - cap_min,
-        opacity_min = 0.4,
-        opacity_range = 1 - opacity_min,
-        buildings = bgp.Data.files.buildings,
-        htm = '';
+    var reg_range = reg_max - reg_min;
+    var cap_range = cap_max - cap_min;
+    var opacity_min = 0.4;
+    var opacity_range = 1 - opacity_min;
+    var buildings = bgp.Data.files.buildings;
+    var htm = '';
 
-    htm += htmlBr `<div class="camp${isPublic ? ' public' : ''}">`;
+    htm += HtmlBr `<div class="camp${isPublic ? ' public' : ''}">`;
 
     function getStrength(value, min, range) {
         return range ? (value - min) / range * opacity_range + opacity_min : 1;
     }
     [1, 2, 3, 5, 7, 9].forEach((lid) => {
-        var line = lines[lid],
-            slots = line.slots;
-        htm += htmlBr `<div class="line" style="--lw:24;--lh:${line.height}">`;
+        var line = lines[lid];
+        var slots = line.slots;
+        htm += HtmlBr `<div class="line" style="--lw:24;--lh:${line.height}">`;
         for (var i = 0; i < NUM_SLOTS;) {
-            var slot = slots[i],
-                title = slot.title,
-                width = slot.width,
-                kind = slot.kind,
-                colValues = '',
-                strength = 0,
-                bid = 0,
-                exStyle = '';
+            var slot = slots[i];
+            var title = slot.title;
+            var width = slot.width;
+            var kind = slot.kind;
+            var colValues = '';
+            var strength = 0;
+            var bid = 0;
+            var exStyle = '';
             while (kind == 'empty' && i + width < NUM_SLOTS && slots[i + width].kind == kind) width++;
             if (width > 1 && (kind == 'empty' || kind == 'block')) title += ' x ' + width;
             if (kind == 'block') {
                 var block = blocks[line.height].slots[NUM_SLOTS * 2 - blocks[line.height].blocked];
                 if (block) {
-                    title += '\n' + getMessage('camp_unlock_one', formatNumber(+block.exp));
-                    title += '\n' + getMessage('camp_unlock_cost', formatNumber(+block.gems));
+                    title += '\n' + gui.getMessage('camp_unlock_one', Locale.formatNumber(+block.exp));
+                    title += '\n' + gui.getMessage('camp_unlock_cost', Locale.formatNumber(+block.gems));
                     for (var req of block.requirements) {
-                        title += '\n    ' + bgp.Data.getMaterialName(req.material_id) + ' \xd7 ' + formatNumber(+req.amount);
+                        title += '\n    ' + bgp.Data.getMaterialName(req.material_id) + ' \xd7 ' + Locale.formatNumber(+req.amount);
                     }
                 }
             }
@@ -419,28 +415,28 @@ function renderCamp(campResult, isPublic, cdn) {
                 }
                 if (slot.capacity > 0) {
                     kind += ' capacity';
-                    if (isPublic) title += '\n' + getMessage('camp_slot_capacity', slot.capacity);
+                    if (isPublic) title += '\n' + gui.getMessage('camp_slot_capacity', slot.capacity);
                     strength = getStrength(slot.value, cap_min, cap_range);
                 }
                 if (slot.regen > 0) {
                     kind += ' regen';
-                    if (isPublic) title += '\n' + getMessage('camp_slot_regen', slot.regen);
+                    if (isPublic) title += '\n' + gui.getMessage('camp_slot_regen', slot.regen);
                     strength = getStrength(slot.value, reg_min, reg_range);
                 }
                 if (slot.region_id > 0) {
                     kind += ' reg' + slot.region_id;
-                    title += '\n' + getMessage('camp_slot_region', bgp.Data.getRegionName(slot.region_id));
+                    title += '\n' + gui.getMessage('camp_slot_region', bgp.Data.getRegionName(slot.region_id));
                 }
-                colValues = Raw(isPublic ? String(htmlBr `<div class="value">${slot.value}</div>`).repeat(width) : '');
+                colValues = HtmlRaw(isPublic ? String(HtmlBr `<div class="value">${slot.value}</div>`).repeat(width) : '');
                 strength = Math.round(strength * 1000) / 1000;
             }
-            htm += htmlBr `<div class="item ${kind}" style="--w:${width};--h:${slot.height};--v:${strength}${exStyle}" title="${html(title)}"`;
-            if (bid) htm += htmlBr ` bid="${bid}"`;
-            htm += htmlBr `>${colValues}</div>`;
+            htm += HtmlBr `<div class="item ${kind}" style="--w:${width};--h:${slot.height};--v:${strength}${exStyle}" title="${Html(title)}"`;
+            if (bid) htm += HtmlBr ` bid="${bid}"`;
+            htm += HtmlBr `>${colValues}</div>`;
             i += width;
         }
-        htm += htmlBr `</div>`;
+        htm += HtmlBr `</div>`;
     });
-    htm += htmlBr `</div>`;
+    htm += HtmlBr `</div>`;
     return htm;
 }

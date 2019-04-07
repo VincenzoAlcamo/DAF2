@@ -21,6 +21,7 @@ Version : 2.1.1
 Source  : https://github.com/jakearchibald/idb
 Notes   : Retrieved on 2018-04-15 and later modified by Vincenzo Alcamo
 */
+// eslint-disable-next-line no-unused-vars
 let idb = (function() {
     'use strict';
 
@@ -65,7 +66,8 @@ let idb = (function() {
         });
         if (options.cursorRequestMethods) options.cursorRequestMethods.forEach(function(name) {
             if (name in prototype) ProxyClass.prototype[name] = function() {
-                return promisifyRequest(this._native, name, arguments).then(function(value) {
+                var p = promisifyRequest(this._native, name, arguments);
+                return p.then(function(value) {
                     return value && new Cursor(value, p.request);
                 });
             };
@@ -147,7 +149,7 @@ let idb = (function() {
                     request.onerror = error;
                 }
             });
-        }
+        };
     });
 
     proxify(ObjectStore, IDBObjectStore, {
@@ -169,7 +171,7 @@ let idb = (function() {
         });
     }
 
-    Transaction.prototype.objectStore = function(name) {
+    Transaction.prototype.objectStore = function(_name) {
         return new ObjectStore(this._native.objectStore.apply(this._native, arguments));
     };
 

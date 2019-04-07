@@ -1,3 +1,4 @@
+/*global bgp gui Locale HtmlBr*/
 export default {
     hasCSS: true,
     init: init,
@@ -7,19 +8,19 @@ export default {
 function init() {}
 
 function update() {
-    this.container.querySelector('.about_version').innerHTML = htmlBr(getMessage('about_version', bgp.Data.version));
+    this.container.querySelector('.about_version').innerHTML = HtmlBr(gui.getMessage('about_version', bgp.Data.version));
 
     var generator = bgp.Data.generator;
     var data;
     if (generator && generator.player_id) {
-        data = getMessage('about_data',
-            formatDateTimeFull(generator.time),
+        data = gui.getMessage('about_data',
+            Locale.formatDateTimeFull(generator.time),
             generator.player_id,
             generator.game_site,
             generator.game_platform
         );
     } else {
-        data = getMessage('about_nodata');
+        data = gui.getMessage('about_nodata');
     }
-    this.container.querySelector('.about_data').innerHTML = htmlBr(data);
+    this.container.querySelector('.about_data').innerHTML = HtmlBr(data);
 }

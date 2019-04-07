@@ -1,16 +1,22 @@
-var prefs, handlers, msgHandlers, isFacebook, miner, isWebGL, originalHeight, gcTable, header, autoClickAttached, styleInjected, timeout;
-var menu, textOn, textOff
+/*global chrome*/
+var prefs, handlers, msgHandlers, isFacebook, miner, isWebGL, originalHeight, header;
+var autoClickAttached, autoClickStyle;
+var gcTable, gcTableStyle;
+var menu, textOn, textOff;
 
 function sendMinerPosition() {
     // Send some values to the top window
     var name = '@bodyHeight';
     var value = Math.floor(document.getElementById('footer').getBoundingClientRect().bottom);
-    if (prefs[name] !== value && value > 0)
-        chrome.runtime.sendMessage({
-            action: 'sendValue',
-            name: name,
-            value: prefs[name] = value
-        });
+    if (prefs[name] !== value && value > 0) sendValue(name, value);
+}
+
+function sendValue(name, value) {
+    chrome.runtime.sendMessage({
+        action: 'sendValue',
+        name: name,
+        value: prefs[name] = value
+    });
 }
 
 function sendPreference(name, value) {
@@ -25,11 +31,12 @@ function forceResize(delay = 0) {
     setTimeout(() => window.dispatchEvent(new Event('resize')), delay);
 }
 
-function addStylesheet(href) {
+function addStylesheet(href, onLoad) {
     var link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = href;
+    if (onLoad) link.addEventListener('load', onLoad);
     document.head.appendChild(link);
 }
 
@@ -38,7 +45,7 @@ var htmlEncodeBr = (function() {
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
-        "'": '&#39;',
+        '\'': '&#39;',
         '"': '&quot;',
         '\n': '<br>'
     };
@@ -115,7 +122,7 @@ function onFullWindow() {
     }
 }
 
-function autoClickHandler(e) {
+function autoClickHandler() {
     if (event.animationName !== 'DAF_anim' || !prefs.autoClick) return;
     var element = event.target;
     var parent = element;
@@ -131,11 +138,11 @@ function autoClickHandler(e) {
 function onAutoClick() {
     var autoClick = prefs.autoClick;
     if (autoClick == autoClickAttached) return;
-    if (autoClick && !styleInjected) {
-        styleInjected = document.createElement('style');
-        styleInjected.innerHTML = `@keyframes DAF_anim { from { outline: 1px solid transparent } to { outline: 0px solid transparent } }
+    if (autoClick && !autoClickStyle) {
+        autoClickStyle = document.createElement('style');
+        autoClickStyle.innerHTML = `@keyframes DAF_anim { from { outline: 1px solid transparent } to { outline: 0px solid transparent } }
 button.layerConfirm[name=__CONFIRM__] { animation-duration: 0.001s; animation-name: DAF_anim; }`;
-        document.head.appendChild(styleInjected);
+        document.head.appendChild(autoClickStyle);
     }
     autoClickAttached = autoClick;
     document[autoClick ? 'addEventListener' : 'removeEventListener']('animationstart', autoClickHandler, false);
@@ -160,13 +167,16 @@ function gcTable_remove(div) {
         }
     }
     // handle case where the table is empty
-    if (gcTable_isEmpty() && gcTable.style.display != 'none') {
-        gcTable.style.display = 'none';
-        if (prefs.fullWindow) forceResize();
+    if (gcTable_isEmpty()) {
+        sendValue('@gcTableStatus', 'collected');
+        if (gcTable.style.display != 'none') {
+            gcTable.style.display = 'none';
+            if (prefs.fullWindow) forceResize();
+        }
     }
 }
 
-function onShowGC(forceRefresh = false, simulate = 0) {
+function ongcTable(forceRefresh = false, simulate = 0) {
     var show = prefs.gcTable;
     // If table is present, we just show/hide it
     if (gcTable && gcTable_isEmpty() && !forceRefresh) {
@@ -177,6 +187,7 @@ function onShowGC(forceRefresh = false, simulate = 0) {
         if (prefs.fullWindow) forceResize();
         // If table is not present and we need to show it, we must retrieve the neighbours first
     } else if (show) {
+        sendValue('@gcTableStatus', 'default');
         chrome.runtime.sendMessage({
             action: 'getGCList',
             simulate: simulate
@@ -187,10 +198,10 @@ function onShowGC(forceRefresh = false, simulate = 0) {
             var regions = (result && result.regions) || {};
             if (!gcTable) {
                 gcTable = miner.parentNode.insertBefore(document.createElement('div'), miner.nextSibling);
-                gcTable.className = 'DAF-gc-bar';
+                gcTable.className = 'DAF-gc-bar DAF-gc-flipped';
                 gcTable.style.display = 'none';
                 gcTable.addEventListener('click', function(e) {
-                    for (var div = e.srcElement; div && div !== gcTable; div = div.parentNode)
+                    for (var div = e.ctrlKey && e.srcElement; div && div !== gcTable; div = div.parentNode)
                         if (div.id && div.id.startsWith('DAF-gc_')) return gcTable_remove(div);
                 });
             }
@@ -210,12 +221,15 @@ function onShowGC(forceRefresh = false, simulate = 0) {
                 div.title = fullName + '\n' + getMessage('camp_slot_region', regions[item.region]);
                 var d = div.appendChild(document.createElement('div'));
                 d.textContent = item.level;
-                if (item.id == 0 || item.id == 1) d.style.visibility = 'hidden';
+                if (item.id == 1) d.style.visibility = 'hidden';
                 div.appendChild(document.createElement('div')).textContent = item.name;
             });
             if (gcTable_isEmpty()) return gcTable_remove(null);
-            gcTable.style.display = '';
-            if (prefs.fullWindow) forceResize(1000);
+            sendValue('@gcTableStatus', 'default');
+            setTimeout(function() {
+                gcTable.style.display = '';
+                if (prefs.fullWindow) forceResize(0);
+            }, gcTableStyle ? 500 : 2000);
         });
     }
 }
@@ -224,6 +238,11 @@ function setgcTableOptions() {
     if (!gcTable) return;
     gcTable.classList.toggle('DAF-gc-show-counter', !!prefs.gcTableCounter);
     gcTable.classList.toggle('DAF-gc-show-region', !!prefs.gcTableRegion);
+}
+
+function setgcTableStatus() {
+    var status = prefs['@gcTableStatus'];
+    if (menu) menu.classList.toggle('DAF-gc-collected', status == 'collected');
 }
 
 function createMenu() {
@@ -244,7 +263,7 @@ function createMenu() {
     </div>
 </li>
 <li data-action="gcTable"><b>&nbsp;</b>
-    <div><span>${gm('menu_gctable')}</span><span>${gm('menu_gccollected')}</span><br>
+    <div><span>${gm('menu_gctable')}</span><span data-value="status">${gm('menu_gccollected')}</span><br>
     <i data-pref="gcTable"></i>
     <i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
     <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
@@ -265,10 +284,12 @@ function createMenu() {
     // remove spaces
     html = html.replace(/>\s+/g, '>');
 
-    addStylesheet(chrome.extension.getURL('inject/game_menu.css'));
+    addStylesheet(chrome.extension.getURL('inject/game_menu.css'), function() {
+        menu.style.display = '';
+    });
     menu = document.createElement('ul');
     menu.className = 'DAF-menu';
-    menu.classList.toggle('DAF-facebook', isFacebook)
+    menu.classList.toggle('DAF-facebook', isFacebook);
     menu.style.display = 'none';
     menu.innerHTML = html;
     document.body.appendChild(menu);
@@ -295,7 +316,7 @@ function onMenuClick(e) {
     switch (action) {
         case 'about':
             chrome.runtime.sendMessage({
-                action: "showGUI"
+                action: 'showGUI'
             });
             break;
         case 'fullWindow':
@@ -311,11 +332,6 @@ function onMenuClick(e) {
             var url = (facebook ? 'https://apps.facebook.com/diggysadventure/' : 'https://portal.pixelfederation.com/diggysadventure/');
             url += (webgl ? '?webgl' : '?flash');
             window.location = url;
-            // chrome.runtime.sendMessage({
-            //     action: "reloadGame",
-            //     webgl: webgl,
-            //     site: facebook ? 'facebook' : 'portal'
-            // });
             break;
     }
 }
@@ -330,7 +346,9 @@ function init() {
         // Set body height to 100% so we can use height:100% in miner
         document.body.style.height = '100%';
         // insert link for condensed font
-        addStylesheet(chrome.extension.getURL('inject/game_gctable.css'));
+        addStylesheet(chrome.extension.getURL('inject/game_gctable.css'), function() {
+            gcTableStyle = true;
+        });
     } else {
         for (var item of String(location.search).substr(1).split('&'))
             if (item.split('=')[0] == 'flash') isWebGL = false;
@@ -346,7 +364,7 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    'fullWindow,fullWindowHeader,fullWindowSide,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight'.split(',').forEach(name => prefs[name] = undefined);
+    'fullWindow,fullWindowHeader,fullWindowSide,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
@@ -364,6 +382,7 @@ function init() {
 
         // track preference changes
         chrome.storage.onChanged.addListener(function(changes, area) {
+            if (area != 'local') return;
             for (var name in changes) setPref(name, changes[name].newValue);
         });
 
@@ -376,18 +395,19 @@ function init() {
                 console.error('onMessage', e, request, sender);
             }
         });
-        msgHandlers['sendValue'] = (request, sender) => setPref(request.name, request.value);
+        msgHandlers['sendValue'] = (request) => setPref(request.name, request.value);
 
         handlers['fullWindow'] = onFullWindow;
         if (!miner) handlers['fullWindowHeader'] = onFullWindow;
         if (!miner && isFacebook) handlers['fullWindowSide'] = onFullWindow;
         if (miner) {
-            msgHandlers['generator'] = (request, sender) => onShowGC(true);
-            msgHandlers['friend_child_charge'] = (request, sender) => gcTable_remove(document.getElementById('DAF-gc_' + request.data));
-            handlers['gcTable'] = onShowGC;
+            msgHandlers['generator'] = () => ongcTable(true);
+            msgHandlers['friend_child_charge'] = (request) => gcTable_remove(document.getElementById('DAF-gc_' + request.data));
+            handlers['gcTable'] = ongcTable;
             handlers['gcTableCounter'] = handlers['gcTableRegion'] = setgcTableOptions;
-            onShowGC();
+            ongcTable();
         }
+        handlers['@gcTableStatus'] = setgcTableStatus;
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();
         onFullWindow();

@@ -1,3 +1,4 @@
+/*global Data*/
 const FORMATS = {
     JSON: 'JSON',
     XML: 'XML',
@@ -121,7 +122,7 @@ var Parser = {
             if (ext == 'json' || ext == 'erik' || ext == 'csv' || ext == 'xml') {
                 file_changes[path] = item.file_modified.replace(reNonDigits, '');
             }
-        })
+        });
         data.file_changes = file_changes;
 
         // materials
@@ -205,7 +206,7 @@ var Parser = {
         var keys = arr.length > 0 ? arr.shift().split(/\|/) : [];
         var id = keys.indexOf('def_id') >= 0 ? 'def_id' : null;
         var result = id ? {} : [];
-        arr.forEach((s, index) => {
+        arr.forEach(s => {
             if (s == '') return;
             var t = s.split(/\|/);
             var o = {};

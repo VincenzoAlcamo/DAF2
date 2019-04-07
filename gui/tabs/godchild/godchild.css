@@ -1,0 +1,17 @@
+.tab_godchild .DAF-gc-bar {
+    overflow: hidden;
+    background-color: unset;
+    padding: 8px 12px 12px 8px;
+    text-align: center;
+    white-space: unset;
+}
+
+.tab_godchild .DAF-gc-pal {
+    margin-top: 4px;
+    margin-left: 4px;
+}
+
+.tab_godchild .DAF-gc-pal div:last-child {
+    margin-top: 47px;
+    position: unset;
+}

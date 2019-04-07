@@ -1,6 +1,13 @@
+/*global chrome Parser UrlInfo idb*/
 'use strict';
 
 //#region MISCELLANEOUS
+function hasRuntimeError() {
+    var hasError = !!chrome.runtime.lastError;
+    if (hasError) console.error('Runtime error', chrome.runtime.lastError);
+    return hasError;
+}
+
 var Badge = {
     setIcon: function(color) {
         chrome.browserAction.setIcon({
@@ -19,7 +26,7 @@ var Badge = {
             color: color
         });
     }
-}
+};
 //#endregion
 
 //#region PREFERENCES
@@ -29,7 +36,7 @@ var Preferences = {
         return {
             fullWindow: true,
             fullWindowHeader: false,
-            fullWindowSide: false,
+            fullWindowSide: true,
             autoClick: true,
             autoLogin: true,
             gcTable: true,
@@ -37,12 +44,14 @@ var Preferences = {
             gcTableRegion: true,
             keepDebugging: true,
             pillarsExcluded: '',
-            enableFlash: true
+            enableFlash: true,
+            removeGhosts: 0,
+            friendsCollectDate: 0
         };
     },
     init: async function() {
         Preferences.values = Preferences.getDefaults();
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve, _reject) {
             var keysToRemove = [];
             var valuesToSet = Object.assign({}, Preferences.values);
             chrome.storage.local.get(null, function(values) {
@@ -68,6 +77,7 @@ var Preferences = {
         Preferences.handlers[action] = callback;
     },
     onChanged: function(changes, area) {
+        if (area != 'local') return;
         for (var name in changes)
             if (name in Preferences.values) {
                 Preferences.values[name] = changes[name].newValue;
@@ -89,10 +99,11 @@ var Preferences = {
     },
     getValues: function(names) {
         var result = {};
-        if (names) asArrayOfKeys(names).forEach(name => {
-            if (name in Preferences.values) result[name] = Preferences.values[name];
-        });
-        else result = Object.assign({}, Preferences.values);
+        if (names) {
+            for (var name of [].concat(names)) {
+                if (name in Preferences.values) result[name] = Preferences.values[name];
+            }
+        } else result = Object.assign({}, Preferences.values);
         return result;
     },
 };
@@ -125,9 +136,11 @@ var Tab = {
     gameTabId: null,
     guiTabId: null,
     GUI_URL: chrome.extension.getURL('gui/gui.html'),
+    tabSettings: {},
     init: function() {
         chrome.tabs.onUpdated.addListener(Tab.onUpdated);
         chrome.tabs.onRemoved.addListener(Tab.onRemoved);
+        chrome.tabs.onReplaced.addListener(Tab.onReplaced);
 
         // Portal auto login
         const autoLoginFilters = {
@@ -152,7 +165,7 @@ var Tab = {
         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
     },
     onDialogCompleted: function(details) {
-        console.log('onDialogCompleted', details)
+        console.log('onDialogCompleted', details);
         if (!Preferences.getValue('autoClick')) return;
         Tab.focus(Tab.gameTabId, true);
         Tab.injectAutoClick(details.tabId, 2);
@@ -211,12 +224,25 @@ if (loginButton) {
             frameId: 0
         });
     },
-    onRemoved: function(tabId, removeInfo) {
+    onRemoved: function(tabId, _removeInfo) {
+        delete Tab.tabSettings[tabId];
         if (tabId == Tab.guiTabId) Tab.guiTabId = null;
         if (tabId == Tab.gameTabId) Tab.gameTabId = null;
     },
     onUpdated: function(tabId, changeInfo, tab) {
+        Tab.tabSettings[tabId] = Object.assign(Tab.tabSettings[tabId] || {}, tab);
         if ('url' in changeInfo) Tab.detectTab(tab);
+    },
+    onReplaced: function(addedTabId, removedTabId) {
+        Tab.tabSettings[addedTabId] = Tab.tabSettings[removedTabId];
+        delete Tab.tabSettings[removedTabId];
+    },
+    excludeFromInjection: function(tabId, flag = true) {
+        if (!Tab.tabSettings[tabId]) Tab.tabSettings[tabId] = {};
+        Tab.tabSettings[tabId].excludeFromInjection = flag;
+    },
+    canBeInjected: function(tabId) {
+        return tabId in Tab.tabSettings ? !Tab.tabSettings[tabId].excludeFromInjection : true;
     },
     detectTab: function(tab) {
         Tab.onRemoved(tab.id);
@@ -226,7 +252,7 @@ if (loginButton) {
     },
     detectAll: function() {
         Tab.guiTabId = Tab.gameTabId = null;
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve, _reject) {
             chrome.tabs.query({}, function(tabs) {
                 tabs.forEach(Tab.detectTab);
                 resolve();
@@ -277,7 +303,7 @@ if (loginButton) {
         if (tabId) chrome.tabs.get(tabId, function(tab) {
             if (tab.windowId) chrome.windows.update(tab.windowId, {
                 focused: flag
-            })
+            });
         });
     },
     injectGame: function(tabId) {
@@ -298,7 +324,7 @@ if (loginButton) {
         });
     },
     enableFlashPlayer: function() {
-        const ADOBE_FLASH_PLAYER_ID = "adobe-flash-player";
+        const ADOBE_FLASH_PLAYER_ID = 'adobe-flash-player';
         chrome.contentSettings.plugins.getResourceIdentifiers(function(resourceIdentifiers) {
             var flashResourceIdentifier = resourceIdentifiers.find(obj => obj.id == ADOBE_FLASH_PLAYER_ID);
 
@@ -350,7 +376,7 @@ var Debugger = {
             Tab.detectAll().then(function() {
                 if (Tab.gameTabId) Debugger.attach(Tab.gameTabId);
                 else Debugger.detach();
-            })
+            });
             return;
         }
         if (Debugger.attached && tabId == Debugger.tabId) return;
@@ -377,7 +403,7 @@ var Debugger = {
                 chrome.debugger.sendCommand(Debugger.target, 'Network.enable', {
                     maxResourceBufferSize: 15 * MEGA,
                     maxTotalBufferSize: 30 * MEGA,
-                }, function(result) {
+                }, function(_result) {
                     console.log('debugger.sendCommand: Network.enable');
                     if (hasRuntimeError()) {
                         Debugger.detach();
@@ -388,20 +414,21 @@ var Debugger = {
         });
     },
     onEvent: function(source, method, params) {
+        var info;
         if (method == 'Network.requestWillBeSent') {
             //console.log(method, source, params);
-            var info = WebRequest.captures[params.request.url];
-            if (info && info.id) {
+            info = WebRequest.captures[params.request.url];
+            if (info && info.id && !info.skip) {
                 info.debuggerRequestId = params.requestId;
                 Debugger.captures[info.debuggerRequestId] = info;
-                info.promise = new Promise(function(resolve, reject) {
+                info.promise = new Promise(function(resolve, _reject) {
                     info.resolve = resolve;
                 });
                 console.log('DEBUGGER', info);
             }
         } else if (method == 'Network.loadingFinished') {
             if (params.requestId in Debugger.captures) {
-                var info = Debugger.captures[params.requestId];
+                info = Debugger.captures[params.requestId];
                 delete Debugger.captures[params.requestId];
                 chrome.debugger.sendCommand(Debugger.target,
                     'Network.getResponseBody', {
@@ -421,14 +448,13 @@ var Debugger = {
         Debugger.attached = false;
         Badge.setBackgroundColor('darkorange');
     }
-}
+};
 //#endregion
 
 //#region WEB REQUEST
 var WebRequest = {
     tabId: null,
     captures: {},
-    staleFiles: null,
     canDetachDebugger: true,
     init: function() {
         // Game data files interceptor
@@ -466,17 +492,11 @@ var WebRequest = {
         if (urlInfo.pathname == '/miner/webgltracking.php') {
             // Set icon as soon as possible (like old DAF)
             Badge.setIcon('grey');
+            Badge.setText('');
         } else if (urlInfo.pathname == '/miner/login.php') {
             Badge.setIcon('grey');
             Tab.injectGame(details.tabId);
             Debugger.attach(details.tabId);
-            WebRequest.staleFiles = [{
-                    id: 'generator'
-                },
-                {
-                    id: 'localization'
-                }
-            ];
             WebRequest.canDetachDebugger = false;
         } else if (urlInfo.pathname == '/miner/generator.php') {
             Badge.setIcon('blue');
@@ -492,7 +512,7 @@ var WebRequest = {
             Badge.setText('SYNC');
         } else if (urlInfo.pathname.endsWith('/localization.csv') || urlInfo.pathname.endsWith('/localization.xml')) {
             info.id = 'localization';
-            info.version = urlInfo.parameters.ver;
+            info.skip = true;
             console.log('LANGUAGE FILE', 'URL', urlInfo.url);
         }
         if (info.id) {
@@ -508,55 +528,69 @@ var WebRequest = {
         delete WebRequest.captures[details.requestId];
         if (!info) return;
         console.log('onCompleted', info.filename, info);
+        WebRequest.deleteRequest(info.id);
         var file = {
             id: info.id,
             url: info.url,
             time: Date.now()
         };
-        if (info.version) file.version = info.version;
         if (!info.promise) info.promise = Promise.resolve(null);
         info.promise.then(function(text) {
-            if (text || info.isPost || info.id == 'generator') return text;
-            console.log('Performing an http request for', info.url);
-            return fetch(info.url).then(response => response.text());
-        }).then(function(text) {
-            if (info.id == 'synchronize') {
+            if (info.id == 'localization') {
+                let languageId = Data.localization.languageId || Data.getLanguageIdFromUrl(info.url);
+                let find = function(suffix) {
+                    for (let key of Object.keys(Data.generator && Data.generator.file_changes)) {
+                        if (key.endsWith(suffix) && Data.getLanguageIdFromUrl(key) == languageId) {
+                            file.url = Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key];
+                            return true;
+                        }
+                    }
+                };
+                if (!find('localization.csv')) find('localization.xml');
+                languageId = Data.getLanguageIdFromUrl(file.url);
+                let urlInfo = new UrlInfo(file.url);
+                file.version = urlInfo.parameters.ver;
+                if (languageId != Data.localization.languageId || file.version != Data.localization.version) {
+                    WebRequest.captures[file.url] = file;
+                    return fetch(file.url).then(function(response) {
+                        return response.text();
+                    }).then(function(text) {
+                        file.data = Parser.parse(file.id, text);
+                        Data.store(file);
+                    }).finally(function() {
+                        delete WebRequest.captures[file.url];
+                    });
+                }
+            } else if (info.id == 'synchronize') {
                 Synchronize.process(info.postedXml, text);
                 Badge.setText('');
-            } else {
-                file.data = Parser.parse(info.kind || info.id, text);
-                if (info.id == 'generator' && file.data) {
+            } else if (info.id == 'generator') {
+                file.data = Parser.parse(info.id, text);
+                if (file.data) {
                     file.data.player_id = info.player_id;
                     file.data.game_site = info.game_site;
                     file.data.game_platform = info.game_platform;
+                    Data.store(file);
                     Badge.setIcon('green');
+                } else {
+                    Badge.setIcon('red');
                 }
-                Data.store(file);
             }
         }).finally(function() {
             delete WebRequest.captures[info.url];
-            WebRequest.removeFromStale(info.id);
         });
     },
     onErrorOccurred: function(details) {
         Badge.setIcon('red');
         var info = WebRequest.captures[details.requestId];
         delete WebRequest.captures[details.requestId];
-        if (info) {
-            delete WebRequest.captures[info.url];
-            WebRequest.removeFromStale(info.id);
-        }
+        if (info) WebRequest.deleteRequest(info.id);
     },
-    removeFromStale: function(id) {
-        if (WebRequest.staleFiles) {
-            console.log('Removing from stale', id, WebRequest.staleFiles);
-            WebRequest.staleFiles = WebRequest.staleFiles.filter(file => file.id != id);
-            if (!WebRequest.staleFiles.length) {
-                WebRequest.staleFiles = null;
-                WebRequest.canDetachDebugger = true;
-                console.log('Debugger can be detached now');
-                if (Debugger.attached && !Preferences.getValue('keepDebugging')) Debugger.detach();
-            }
+    deleteRequest: function(id) {
+        if(id == 'generator') {
+            WebRequest.canDetachDebugger = true;
+            console.log('Debugger can be detached now');
+            if (Debugger.attached && !Preferences.getValue('keepDebugging')) Debugger.detach();
         }
     }
 };
@@ -578,6 +612,9 @@ var Data = {
                     db.createObjectStore('Friends', {
                         keyPath: 'id'
                     });
+                    db.createObjectStore('RewardLinks', {
+                        keyPath: 'id'
+                    });
             }
         });
         var tx = Data.db.transaction(['Files', 'Neighbours', 'Friends'], 'readonly');
@@ -593,6 +630,7 @@ var Data = {
         Data.neighbours = {};
         Data.friends = {};
         Data.localization = {};
+        Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
         tx.objectStore('Files').get('generator').then(file => {
             Data.generator = (file && file.data) || {};
         });
@@ -606,7 +644,7 @@ var Data = {
             values.forEach(friend => Data.friends[friend.id] = friend);
         });
         await tx.complete;
-        await new Promise(function(resolve, reject) {
+        await new Promise(function(resolve, _reject) {
             chrome.management.getSelf(function(self) {
                 Data.isDevelopment = self.installType == 'development';
                 Data.version = self.version;
@@ -624,10 +662,10 @@ var Data = {
             delete file.data.neighbours;
             // Process un_gifts
             var un_gifts = file.data.un_gifts;
-            Synchronize.processUnGift(un_gifts && un_gifts.item, file.data.time, neighbours)
+            Synchronize.processUnGift(un_gifts && un_gifts.item, file.data.time, neighbours);
             delete file.data.un_gifts;
             // Remove the player itself from the neighbors
-            delete neighbours[file.player_id];
+            delete neighbours[file.data.player_id];
             Data.neighbours = neighbours;
             Data.generator = file.data;
             let store = tx.objectStore('Neighbours');
@@ -658,20 +696,12 @@ var Data = {
             };
         }
     },
-    // storeGame: function(file) {
-    //     Data.fileVersions[file.id] = Data.computeFileVersion(file.version, file.tag);
-    //     if (file.id == 'localization') {
-    //         Data.localizationCache = {};
-    //         Data.gameLanguage = file.url.match(/\/([A-Z][A-Z])\/localization\.xml/)[1];
-    //     }
-    //     if (file.id == 'generator') {
-    //         Player = file.data;
-    //         Data.isDev = [3951243, 11530133, 8700592, 583351, 11715879, 1798336].indexOf(Player.player_id) >= 0;
-    //     } else Game[file.id] = file.data;
-    // },
     //#region Neighbors
     getNeighbour: function(id) {
         return Data.neighbours[id];
+    },
+    getNeighbours: function() {
+        return Data.neighbours;
     },
     saveNeighbourHandler: 0,
     saveNeighbourList: {},
@@ -688,6 +718,78 @@ var Data = {
         if (Data.saveNeighbourHandler) clearTimeout(Data.saveNeighbourHandler);
         Data.saveNeighbourHandler = setTimeout(Data.saveNeighbourDelayed, 500);
         neighbours.forEach(neighbour => Data.saveNeighbourList[neighbour.id] = neighbour);
+    },
+    //#endregion
+    //#region Friends
+    getFriend: function(id) {
+        return Data.friends[id];
+    },
+    getFriends: function() {
+        return Data.friends;
+    },
+    saveFriendHandler: 0,
+    saveFriendList: {},
+    removeFriendList: {},
+    saveFriendDelayed: function() {
+        Data.saveNeighbourHandler = 0;
+        let tx = Data.db.transaction('Friends', 'readwrite');
+        var store = tx.objectStore('Friends');
+        var items = Object.values(Data.saveFriendList);
+        if (items.length) store.bulkPut(items);
+        Data.saveNeighbourList = {};
+        for (var item of Object.values(Data.removeFriendList)) store.delete(item.id);
+        Data.removeNeighbourList = {};
+    },
+    saveFriend: function(friend, remove = false) {
+        if (!friend) return;
+        var friends = [].concat(friend);
+        if (!friends.length) return;
+        if (Data.saveFriendHandler) clearTimeout(Data.saveFriendHandler);
+        Data.saveFriendHandler = setTimeout(Data.saveFriendDelayed, 500);
+        for (var f of friends) {
+            if (remove) {
+                Data.removeFriendList[f.id] = f;
+                delete Data.saveFriendList[f.id];
+                delete Data.friends[f.id];
+            } else {
+                Data.saveFriendList[f.id] = f;
+                delete Data.removeFriendList[f.id];
+                Data.friends[f.id] = f;
+            }
+        }
+    },
+    removeFriend: function(friend) {
+        Data.saveFriend(friend, true);
+    },
+    friendsCaptured: function(data) {
+        if (!data) return;
+        var newFriends = [].concat(data);
+        if (newFriends.length == 0) return;
+        var oldFriends = Object.assign({}, Data.getFriends());
+        var friends = {};
+        var now = Math.floor(Date.now() / 1000);
+        // We retain the old association (score and uid)
+        for (var friend of newFriends) {
+            friend.timeCreated = now;
+            var oldFriend = oldFriends[friend.id];
+            if (oldFriend) {
+                friend.score = oldFriend.score;
+                friend.uid = oldFriend.uid;
+                if (oldFriend.timeCreated) friend.timeCreated = oldFriend.timeCreated;
+                if (oldFriend.note) friend.note = oldFriend.note;
+            }
+            delete oldFriends[friend.id];
+            friends[friend.id] = friend;
+        }
+        // We remove all old friends
+        Data.removeFriend(Object.values(oldFriends));
+        Data.saveFriend(Object.values(friends));
+        Data.friends = friends;
+        Data.friendsCollectDate = now;
+        Preferences.setValue('friendsCollectDate', now);
+        chrome.runtime.sendMessage({
+            action: 'friends_analyze'
+        });
     },
     //#endregion
     //#region Game Messages
@@ -772,18 +874,18 @@ var Data = {
             // Otherwise, purge file from cache
             delete Data.files[file];
         }
-        if (!Data.generator || !Data.generator.cdn_root) return Promise.reject("Data has not been loaded yet");
+        if (!Data.generator || !Data.generator.cdn_root) return Promise.reject('Data has not been loaded yet');
         var url = Data.generator.cdn_root + fileName + '?ver=' + version;
-        var file = {
+        file = {
             name: name,
             fileName: fileName,
             version: version,
             url: url
-        }
+        };
         var response = await fetch(url);
         var text = await response.text();
         var data = Parser.parse('erik', text);
-        if (!data) reject("File cannot be parsed: \"" + file + "\"");
+        if (!data) throw `File cannot be parsed: "${file}"`;
         var keys = data.__keys.filter(key => key.startsWith('@'));
         delete data.__keys;
         if (keys.length) {
@@ -827,12 +929,14 @@ var Data = {
 //#region SYNCHRONIZE
 var Synchronize = {
     init: async function() {
-        // 
+        //
     },
     process: function(postedXml, responseText) {
         var posted = Parser.parse('any', postedXml);
         var taskIndex = 0;
-        var didSomething, action, fn, response, taskName;
+        var action, fn, taskName;
+        // eslint-disable-next-line no-unused-vars
+        var didSomething;
         if (!posted) return;
 
         var response = responseText && Parser.parse('any', responseText);
@@ -855,7 +959,7 @@ var Synchronize = {
                 taskIndex++;
                 try {
                     Synchronize.lastAction = action;
-                    if (fn(task, response[taskName], response)) didSomething = true;
+                    if (fn(task, response && response[taskName], response)) didSomething = true;
                 } catch (e) {
                     console.error(action + '() ' + e.message);
                 }
@@ -872,14 +976,14 @@ var Synchronize = {
     lastAction: '',
     signal: data => Synchronize.signalAction(Synchronize.lastAction, data),
     handlers: {
-        visit_camp: function(task, taskResponse, response) {
+        visit_camp: function(_task, taskResponse, _response) {
             console.log(...arguments);
             if (!taskResponse || !taskResponse.camp) return;
             Data.lastVisitedCamp = taskResponse.camp;
             Data.lastVisitedCamp.neigh_id = taskResponse.neigh_id;
             Synchronize.signal();
         },
-        friend_child_charge: function(task, taskResponse, response) {
+        friend_child_charge: function(task, _taskResponse, _response) {
             console.log(...arguments);
             var neighbourId = task.neigh_id;
             var neighbour = Data.getNeighbour(neighbourId);
@@ -944,11 +1048,6 @@ async function init() {
         showGUI: function() {
             Tab.showGUI();
         },
-        reloadGame: function(request, sender) {
-            var url = request.site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/';
-            url += (request.webgl ? '?webgl' : '?flash');
-            chrome.tabs.reload(sender.tab.id, );
-        },
         getGCList: function(request) {
             var neighbours = Object.values(Data.neighbours);
             var realNeighbours = neighbours.length - 1;
@@ -970,12 +1069,15 @@ async function init() {
                         return result;
                     })
             };
+        },
+        friendsCaptured: function(request) {
+            Data.friendsCaptured(request.data);
         }
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));
 
     if (Preferences.getValue('enableFlash')) Tab.enableFlashPlayer();
 
-    chrome.browserAction.onClicked.addListener(function(activeTab) {
+    chrome.browserAction.onClicked.addListener(function(_activeTab) {
         Tab.showGUI();
     });
 
