@@ -1,4 +1,4 @@
-/*global bgp gui*/
+/*global bgp gui Locale*/
 export default {
     hasCSS: true,
     init: init,
@@ -50,10 +50,10 @@ function update() {
 function updateStatus() {
     var num = gcTable.childNodes.length;
     gcTable.style.display = num ? '' : 'none';
-    container.querySelector('.toolbar .stats').innerText = num ? gui.getMessage('godchild_stat', num, maxGC) : gui.getMessage('menu_gccollected');
+    container.querySelector('.toolbar .stats').innerText = num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected');
     var next = gui.getChildrenNext(numNeighbours);
-    var nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', next);
-    container.querySelector('.toolbar .info').innerText = gui.getMessage('godchild_info', numNeighbours, maxGC) + ' - ' + nextInfo;
+    var nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', Locale.formatNumber(next));
+    container.querySelector('.toolbar .info').innerText = gui.getMessage('godchild_info', Locale.formatNumber(numNeighbours), Locale.formatNumber(maxGC)) + ' - ' + nextInfo;
 }
 
 function actionFriendChildCharge(data) {
