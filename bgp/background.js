@@ -92,10 +92,12 @@ var Preferences = {
         return Preferences.values[name];
     },
     setValue: function(name, value) {
-        Preferences.values[name] = value;
-        var data = {};
-        data[name] = value;
-        chrome.storage.local.set(data);
+        if (name in Preferences.values) {
+            Preferences.values[name] = value;
+            var data = {};
+            data[name] = value;
+            chrome.storage.local.set(data);
+        }
     },
     getValues: function(names) {
         var result = {};
@@ -163,6 +165,8 @@ var Tab = {
             }]
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
+
+        return Tab.detectAll();
     },
     onDialogCompleted: function(details) {
         console.log('onDialogCompleted', details);
@@ -227,7 +231,10 @@ if (loginButton) {
     onRemoved: function(tabId, _removeInfo) {
         delete Tab.tabSettings[tabId];
         if (tabId == Tab.guiTabId) Tab.guiTabId = null;
-        if (tabId == Tab.gameTabId) Tab.gameTabId = null;
+        if (tabId == Tab.gameTabId) {
+            Tab.gameTabId = null;
+            Debugger.detach();
+        }
     },
     onUpdated: function(tabId, changeInfo, tab) {
         Tab.tabSettings[tabId] = Object.assign(Tab.tabSettings[tabId] || {}, tab);
@@ -364,7 +371,7 @@ var Debugger = {
             Debugger.attached = false;
             chrome.debugger.detach(Debugger.target, function() {
                 console.log('Debugger.detach');
-                if (hasRuntimeError()) return;
+                // if (hasRuntimeError()) return;
             });
             chrome.debugger.onDetach.removeListener(Debugger.onDetach);
             chrome.debugger.onEvent.removeListener(Debugger.onEvent);
@@ -455,13 +462,10 @@ var Debugger = {
 var WebRequest = {
     tabId: null,
     captures: {},
-    canDetachDebugger: true,
     init: function() {
         // Game data files interceptor
         const dataFilters = {
             urls: [
-                // '*://cdn.diggysadventure.com/*.xml*',
-                // '*://cdn.diggysadventure.com/*.erik*',
                 '*://cdn.diggysadventure.com/*/localization*',
                 '*://static.diggysadventure.com/*/localization*',
                 '*://diggysadventure.com/miner/*.php*',
@@ -497,7 +501,6 @@ var WebRequest = {
             Badge.setIcon('grey');
             Tab.injectGame(details.tabId);
             Debugger.attach(details.tabId);
-            WebRequest.canDetachDebugger = false;
         } else if (urlInfo.pathname == '/miner/generator.php') {
             Badge.setIcon('blue');
             console.log('GENERATOR FILE', 'URL', urlInfo.url);
@@ -587,8 +590,7 @@ var WebRequest = {
         if (info) WebRequest.deleteRequest(info.id);
     },
     deleteRequest: function(id) {
-        if(id == 'generator') {
-            WebRequest.canDetachDebugger = true;
+        if (id == 'generator') {
             console.log('Debugger can be detached now');
             if (Debugger.attached && !Preferences.getValue('keepDebugging')) Debugger.detach();
         }
@@ -665,6 +667,7 @@ var Data = {
             Synchronize.processUnGift(un_gifts && un_gifts.item, file.data.time, neighbours);
             delete file.data.un_gifts;
             // Remove the player itself from the neighbors
+            file.data.player = neighbours[file.data.player_id];
             delete neighbours[file.data.player_id];
             Data.neighbours = neighbours;
             Data.generator = file.data;
@@ -1038,6 +1041,10 @@ async function init() {
     await WebRequest.init();
     await Tab.init();
 
+    function autoAttachDebugger() {
+        Data.generator && Data.generator.player_id && Debugger.attach();
+    }
+
     Object.entries({
         sendValue: function(request, sender) {
             chrome.tabs.sendMessage(sender.tab.id, request);
@@ -1048,6 +1055,7 @@ async function init() {
         showGUI: function() {
             Tab.showGUI();
         },
+        debug: () => Debugger.attached ? Debugger.detach() : autoAttachDebugger(),
         getGCList: function(request) {
             var neighbours = Object.values(Data.neighbours);
             var realNeighbours = neighbours.length - 1;
@@ -1075,22 +1083,17 @@ async function init() {
         }
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));
 
+    Object.entries({
+        enableFlash: value => value ? Tab.enableFlashPlayer() : Tab.disableFlashPlayer(),
+        keepDebugging: value => value ? autoAttachDebugger() : Debugger.detach()
+    }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
+
     if (Preferences.getValue('enableFlash')) Tab.enableFlashPlayer();
+
+    autoAttachDebugger();
 
     chrome.browserAction.onClicked.addListener(function(_activeTab) {
         Tab.showGUI();
-    });
-
-    // Call Tab Update handler for all existing tabs
-    chrome.tabs.query({}, function(tabs) {
-        tabs.forEach(tab => {
-            if (tab.url) Tab.onUpdated(tab.id, {
-                url: tab.url
-            }, tab);
-        });
-        if (Data.generator && Data.generator.player_id && Tab.gameTabId && Preferences.getValue('keepDebugging')) {
-            Debugger.attach();
-        }
     });
 }
 //#endregion

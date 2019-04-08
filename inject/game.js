@@ -324,7 +324,7 @@ function onMenuClick(e) {
     switch (action) {
         case 'about':
             chrome.runtime.sendMessage({
-                action: 'showGUI'
+                action: e.ctrlKey ? 'debug' : 'showGUI'
             });
             break;
         case 'fullWindow':

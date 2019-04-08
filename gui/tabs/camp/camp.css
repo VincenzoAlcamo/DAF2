@@ -25,6 +25,7 @@
   text-align: left !important;
 }
 
+.camp-player tr td:nth-child(2),
 .camp-data td[colspan="2"] {
   text-align: center !important;
 }
@@ -245,4 +246,14 @@
 .camp .item.capacity.selected-first.selected-last,
 .camp .item.regen.selected-first.selected-last {
   box-shadow: -4px -4px 0px var(--hicolor), -4px 18px 0px var(--hicolor), 4px -4px 0px var(--hicolor), 4px 18px 0px var(--hicolor);
+}
+
+.tab_camp .card>label>img:first-child {
+  box-sizing: content-box;
+  border: 2px solid var(--crd-brcol);
+  background-color: var(--crd-bgcol);
+  width: 32px;
+  height: 32px;
+  border-radius: 24px;
+  top: -12px;
 }

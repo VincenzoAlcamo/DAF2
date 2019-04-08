@@ -6,10 +6,7 @@ var gui = {
     wait: Dialog(Dialog.WAIT),
     toast: Dialog(Dialog.TOAST),
     sendPreference: function(name, value) {
-        if (bgp.Preferences.getValue(name) !== undefined)
-            chrome.storage.local.set({
-                [name]: value
-            });
+        bgp.Preferences.setValue(name, value);
     },
     getMessage: function(id, ...args) {
         return chrome.i18n.getMessage(id, args);

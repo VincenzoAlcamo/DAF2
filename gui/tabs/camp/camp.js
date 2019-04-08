@@ -85,7 +85,7 @@ function onmousemove(event) {
 }
 
 function updateCamp(div, flagHeaderOnly = false) {
-    var generator, camp, campName, isPlayer, isPublic, level, started, cdn;
+    var generator, camp, campName, isPlayer, isPublic, pal, level, started, cdn;
 
     generator = bgp.Data.generator;
 
@@ -96,20 +96,20 @@ function updateCamp(div, flagHeaderOnly = false) {
     if (isPlayer) {
         isPublic = true;
         camp = generator.camp;
-        level = +generator.level;
+        pal = generator.player;
         ['region', 'windmill_limit', 'windmill_reg'].forEach(key => camp[key] = +generator[key]);
-        campName = gui.getMessage('camp_your_camp');
+        campName = pal ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal)) : gui.getMessage('camp_your_camp');
         started = new Date(+generator.registered_on * 1000);
     } else {
         camp = bgp.Data.lastVisitedCamp;
         let neighbourId = camp && camp.neigh_id;
-        let pal = neighbourId ? bgp.Data.getNeighbour(neighbourId) : null;
-        campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? pal.name : '#' + neighbourId) : gui.getMessage('camp_no_player'));
-        level = pal && pal.level;
+        pal = neighbourId ? bgp.Data.getNeighbour(neighbourId) : null;
+        campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? gui.getPlayerNameFull(pal) : '#' + neighbourId) : gui.getMessage('camp_no_player'));
         isPublic = true; //neighbourId == 1 || bgp.Data.isDev;
     }
+    level = pal ? +pal.level : 1;
 
-    div.querySelector('img').setAttribute('src', (camp ? '/img/regions/' + camp.region : '/img/gui/camp') + '.png');
+    div.querySelector('img').setAttribute('src', pal ? (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) : '/img/gui/anon.png');
     div.querySelector('span').textContent = campName;
     div.querySelector('div').innerHTML = '';
     if (flagHeaderOnly || !camp) return;
@@ -130,11 +130,11 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += HtmlBr `<table class="camp-tables"><tr>`;
 
     // table Player
-    htm += HtmlBr `<td><table class="camp-data row-coloring">`;
+    htm += HtmlBr `<td><table class="camp-data camp-player row-coloring">`;
     htm += HtmlBr `<thead><tr><th colspan="2">${gui.getMessage('camp_player')}</th></tr></thead>`;
     htm += HtmlBr `<tbody>`;
-    htm += HtmlBr `<tr><td>${gui.getMessage('gui_region')}</td><td>${bgp.Data.getRegionName(camp.region)}</td></tr>`;
     htm += HtmlBr `<tr><td>${gui.getMessage('gui_level')}</td><td>${Locale.formatNumber(level)}</td></tr>`;
+    htm += HtmlBr `<tr><td>${gui.getMessage('gui_region')}</td><td>${bgp.Data.getRegionName(camp.region)}</td></tr>`;
     htm += HtmlBr `<tr><td>${gui.getMessage('gui_theme')}</td><td>${bgp.Data.getSkinName(camp.skin)}</td></tr>`;
     htm += HtmlBr `</tbody>`;
     if (started && !isNaN(started.getFullYear())) {
