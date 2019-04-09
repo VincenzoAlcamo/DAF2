@@ -97,6 +97,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         isPublic = true;
         camp = generator.camp;
         pal = generator.player;
+        level = +generator.level;
         ['region', 'windmill_limit', 'windmill_reg'].forEach(key => camp[key] = +generator[key]);
         campName = pal ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal)) : gui.getMessage('camp_your_camp');
         started = new Date(+generator.registered_on * 1000);
@@ -104,10 +105,10 @@ function updateCamp(div, flagHeaderOnly = false) {
         camp = bgp.Data.lastVisitedCamp;
         let neighbourId = camp && camp.neigh_id;
         pal = neighbourId ? bgp.Data.getNeighbour(neighbourId) : null;
+        level = pal ? +pal.level : 1;
         campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? gui.getPlayerNameFull(pal) : '#' + neighbourId) : gui.getMessage('camp_no_player'));
         isPublic = true; //neighbourId == 1 || bgp.Data.isDev;
     }
-    level = pal ? +pal.level : 1;
 
     div.querySelector('img').setAttribute('src', pal ? (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) : '/img/gui/anon.png');
     div.querySelector('span').textContent = campName;
@@ -322,7 +323,7 @@ function calculateCamp(camp, current = true) {
                     reg_tot += regen;
                     reg_cnt += width;
                 }
-                line.slots[slot] = {
+                var data = {
                     kind: 'building',
                     bid: bid,
                     capacity: capacity,
@@ -333,6 +334,7 @@ function calculateCamp(camp, current = true) {
                     region_id: building.region_id || 0,
                     title: bgp.Data.getString(building.name_loc)
                 };
+                for(let i = 0; i < data.width; i++) line.slots[slot + i] = data;
             }
         }
     });
@@ -381,12 +383,13 @@ function renderCamp(campResult, isPublic, cdn) {
     function getStrength(value, min, range) {
         return range ? (value - min) / range * opacity_range + opacity_min : 1;
     }
-    [1, 2, 3, 5, 7, 9].forEach((lid) => {
+    [1, 2, 3, 5, 7, 9].forEach((lid, index) => {
         var line = lines[lid];
         var slots = line.slots;
         htm += HtmlBr `<div class="line" style="--lw:24;--lh:${line.height}">`;
+        var isReversed = (index % 2) == 0;
         for (var i = 0; i < NUM_SLOTS;) {
-            var slot = slots[i];
+            var slot = slots[isReversed ? NUM_SLOTS - 1 - i : i];
             var title = slot.title;
             var width = slot.width;
             var kind = slot.kind;
