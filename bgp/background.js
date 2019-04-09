@@ -867,15 +867,16 @@ var Data = {
         if (name in Data.unusedFiles) return {};
         var fileName = 'erik/' + name + '.erik';
         if (version === undefined) {
-            version = 1;
-            if (Data.generator && Data.generator.file_changes && fileName in Data.generator.file_changes) version = Data.generator.file_changes[fileName];
+            version = '1';
+            if (Data.generator && Data.generator.file_changes && fileName in Data.generator.file_changes) version = String(Data.generator.file_changes[fileName]);
         }
-        var file = Data.files[file];
+        var file = Data.files[fileName];
         if (file) {
             // If file in cache has the same version, return it
-            if (file.version != version) return Promise.resolve(file.data);
+            if (file.version == version) return Promise.resolve(Data.files[name]);
             // Otherwise, purge file from cache
-            delete Data.files[file];
+            delete Data.files[name];
+            delete Data.files[fileName];
         }
         if (!Data.generator || !Data.generator.cdn_root) return Promise.reject('Data has not been loaded yet');
         var url = Data.generator.cdn_root + fileName + '?ver=' + version;
@@ -911,7 +912,6 @@ var Data = {
         var fixFn = Parser['fix_' + name];
         if (typeof fixFn == 'function') data = fixFn(data) || data;
         Data.files[name] = data;
-        file.data = data;
         Data.files[file.fileName] = file;
         return data;
     },
