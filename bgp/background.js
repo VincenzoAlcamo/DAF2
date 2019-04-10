@@ -182,6 +182,19 @@ let element = null, timeout = 0, count = 10;
 function autoClick() {
     timeout += 200;
     if ((element = document.querySelector('.layerConfirm[name=__CONFIRM__]'))) {
+        var parent = element;
+        var form = null;
+        // find root node for dialog, so we can send it in background
+        while (parent.parentNode.tagName != 'BODY') {
+            if (parent.tagName == 'FORM') form = parent;
+            parent = parent.parentNode;
+        }
+        if (!form) return;
+        // this is the Invite dialog
+        if (parent.querySelector('.profileBrowserDialog')) return;
+        // guard against payments
+        if (element.getAttribute('data-testid') == 'pay_button') return;
+        if (form.action.indexOf('pay') >= 0) return;
         element.click();
         // just in case the popup has not been closed
         setTimeout(autoClick, 2000);

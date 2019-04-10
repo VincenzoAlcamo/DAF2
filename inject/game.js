@@ -65,7 +65,7 @@ function getMessage(id, ...args) {
 }
 
 function getFullWindow() {
-    return  prefs.fullWindow && loadCompleted;
+    return prefs.fullWindow && loadCompleted;
 }
 
 function onResize() {
@@ -133,10 +133,18 @@ function autoClickHandler() {
     if (event.animationName !== 'DAF_anim' || !prefs.autoClick) return;
     var element = event.target;
     var parent = element;
+    var form = null;
     // find root node for dialog, so we can send it in background
-    while (parent.parentNode.tagName != 'BODY') parent = parent.parentNode;
+    while (parent.parentNode.tagName != 'BODY') {
+        if (parent.tagName == 'FORM') form = parent;
+        parent = parent.parentNode;
+    }
+    if (!form) return;
     // this is the Invite dialog
     if (parent.querySelector('.profileBrowserDialog')) return;
+    // guard against payments
+    if (element.getAttribute('data-testid') == 'pay_button') return;
+    if (form.action.indexOf('pay') >= 0) return;
     parent.style.zIndex = -1;
     // click the confirm button
     element.click();
