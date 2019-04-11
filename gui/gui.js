@@ -76,7 +76,7 @@ var gui = {
     // Lazy load images using an IntersectionObserver
     lazyObserver: new IntersectionObserver(function(entries) {
         for (let entry of entries) {
-            if (entry.intersectionRatio <= 0) return;
+            if (entry.intersectionRatio <= 0) continue;
             var element = entry.target;
             gui.lazyObserver.unobserve(element);
             if (element.hasAttribute('lazy-src')) {
