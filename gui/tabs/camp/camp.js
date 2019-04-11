@@ -288,12 +288,15 @@ function calculateCamp(camp, current = true) {
         i = lines_ids.indexOf(lid);
         blocked = i >= 0 ? parseInt(lines_blocked[i]) || 0 : NUM_SLOTS;
         for (i = 0; i < NUM_SLOTS; i++) slots[i] = emptySlot;
-        if (blocked > 0) slots[index % 2 ? NUM_SLOTS - blocked : 0] = {
-            kind: 'block',
-            title: gui.getMessage('camp_slot_blocked'),
-            width: blocked,
-            height: height
-        };
+        if (blocked > 0) {
+            var slot = {
+                kind: 'block',
+                title: gui.getMessage('camp_slot_blocked'),
+                width: blocked,
+                height: height
+            };
+            for (i = 0; i < blocked; i++) slots[index % 2 ? NUM_SLOTS - 1 - i : i] = slot;
+        }
         lines[lid] = {
             lid: lid,
             height: height,
@@ -346,7 +349,7 @@ function calculateCamp(camp, current = true) {
                     region_id: building.region_id || 0,
                     title: gui.getObjectName('building', bid)
                 };
-                for(let i = 0; i < data.width; i++) line.slots[slot + i] = data;
+                for (let i = 0; i < data.width; i++) line.slots[slot + i] = data;
             }
         }
     });
@@ -400,8 +403,11 @@ function renderCamp(campResult, isPublic) {
         var slots = line.slots;
         htm += HtmlBr `<div class="line" style="--lw:24;--lh:${line.height}">`;
         var isReversed = (index % 2) == 0 && state.webgl;
+        var getSlot = function(index) {
+            return slots[isReversed ? NUM_SLOTS - 1 - index : index];
+        };
         for (var i = 0; i < NUM_SLOTS;) {
-            var slot = slots[isReversed ? NUM_SLOTS - 1 - i : i];
+            var slot = getSlot(i);
             var title = slot.title;
             var width = slot.width;
             var kind = slot.kind;
@@ -409,7 +415,7 @@ function renderCamp(campResult, isPublic) {
             var strength = 0;
             var bid = 0;
             var exStyle = '';
-            while (kind == 'empty' && i + width < NUM_SLOTS && slots[i + width].kind == kind) width++;
+            while (kind == 'empty' && i + width < NUM_SLOTS && getSlot(i + width).kind == kind) width++;
             if (width > 1 && (kind == 'empty' || kind == 'block')) title += ' x ' + width;
             if (kind == 'block') {
                 var block = blocks[line.height].slots[NUM_SLOTS * 2 - blocks[line.height].blocked];
