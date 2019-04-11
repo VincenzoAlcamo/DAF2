@@ -4,7 +4,8 @@
 .neighbors tr td:nth-child(5),
 .neighbors tr td:nth-child(6),
 .neighbors tr td:nth-child(7),
-.neighbors tr td:nth-child(8) {
+.neighbors tr td:nth-child(8),
+.neighbors tr td:nth-child(9) {
   text-align: center;
 }
 
@@ -27,4 +28,43 @@
 .neighbors tr th:nth-child(2) {
   min-width: 180px;
   max-width: 300px;
+}
+
+.neighbors tr td:nth-child(9) {
+  cursor: help;
+}
+.neighbors tr td:nth-child(9):hover {
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+}
+
+.neighbors .giftrow td {
+  padding: 0;
+}
+
+.neighbors .giftlist {
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.neighbors .giftlist div {
+  display: inline-block;
+  width: 58px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.neighbors .giftlist b {
+  display: block;
+  text-align: right;
+  height: 16px;
+  margin-top: -16px;
+  padding-right: 8px;
+}
+
+.neighbors .giftlist div {
+  font-size: 11px;
 }

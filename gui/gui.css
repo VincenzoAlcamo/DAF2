@@ -121,6 +121,7 @@ a {
 .sticky-header {
   position: sticky;
   top: -12px;
+  z-index: 1;
 }
 
 .sticky-footer {

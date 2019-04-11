@@ -674,12 +674,13 @@ var Data = {
     },
     initCollections: function() {
         var col;
+
         function setItem(def_id, name_loc, mobile_asset) {
-            if(!name_loc) return;
+            if (!name_loc) return;
             var item = {};
             item.def_id = def_id;
             item.name_loc = name_loc;
-            if(mobile_asset) item.mobile_asset = mobile_asset;
+            if (mobile_asset) item.mobile_asset = mobile_asset;
             col[item.def_id] = item;
         }
 
@@ -721,7 +722,7 @@ var Data = {
             delete file.data.neighbours;
             // Process un_gifts
             var un_gifts = file.data.un_gifts;
-            Synchronize.processUnGift(un_gifts && un_gifts.item, file.data.time, neighbours);
+            Synchronize.processUnGift(un_gifts && un_gifts.item, +file.data.time, neighbours);
             delete file.data.un_gifts;
             // Remove the player itself from the neighbors, but store their fb_id
             file.data.fb_id = neighbours[file.data.player_id].fb_id;
@@ -876,10 +877,13 @@ var Data = {
     getObjectImage: function(type, id, small) {
         var col = Data.getObjectCollection(type);
         var item = col && col[id];
-        var asset = item && (type == 'event' ? item.shop_icon_graphics : item.mobile_asset);
-        if(!asset) return '';
-        if(asset[0] == '/') return asset;
-        return Data.generator.cdn_root + 'mobile/graphics/' + (type == 'decoration' ? type + 's' : 'all') + '/' + asset + (small ? '_small' : '') + '.png';
+        if(!item) return '';
+        if(type == 'windmill') return Data.generator.cdn_root + 'mobile/graphics/windmills/greece_windmill.png';
+        var asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
+        if (!asset) return '';
+        if (asset[0] == '/') return asset;
+        if(type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
+        return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
     },
     getObjectName: function(type, id) {
         var col = Data.getObjectCollection(type);
@@ -974,7 +978,7 @@ var Synchronize = {
         if (!posted) return;
 
         var response = responseText && Parser.parse('any', responseText);
-        var time = response && response.time;
+        var time = response && +response.time;
 
         // un_gift
         var changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, time);
@@ -1036,6 +1040,7 @@ var Synchronize = {
     processUnGift: function(ungift, time, neighbours) {
         if (!Array.isArray(ungift)) return [];
         if (!neighbours) neighbours = Data.neighbours;
+        time = +time;
         var changed = {};
         ungift.forEach(item => {
             // {gift_id: "10039147443", sender_id: "2930323", def_id: "89"}

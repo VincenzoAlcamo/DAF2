@@ -494,6 +494,9 @@
             }
         }
     },
+    "neighbors_giftcount": {
+        "message": "Gift\nCount"
+    },
 
     "friendship_collect": {
         "message": "Collect and match"
