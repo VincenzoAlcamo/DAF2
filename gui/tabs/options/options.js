@@ -19,7 +19,7 @@ function init() {
     for (let input of container.querySelectorAll('input[data-pref]')) {
         if (input.type == 'checkbox') {
             input.addEventListener('click', function() {
-                gui.sendPreference(input.getAttribute('data-pref'), input.checked);
+                gui.setPreference(input.getAttribute('data-pref'), input.checked);
             });
         }
     }
