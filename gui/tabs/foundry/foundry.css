@@ -21,6 +21,10 @@
   text-align: right;
 }
 
-/* .foundry td.scarcity {
-  background-color: rgba(255, 0, 0, var(--scarcity));
-} */
+.foundry td.material {
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+  padding-left: 30px;
+  background-position: 4px center;
+  cursor: help;
+}

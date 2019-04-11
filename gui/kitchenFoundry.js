@@ -71,13 +71,18 @@ function kitchenFoundry(type) {
         var materials = bgp.Data.files.materials;
         var tokens = bgp.Data.files.tokens;
         var productions = bgp.Data.files.productions;
+        var player_events = bgp.Data.generator.events || {};
         var events = bgp.Data.files.events;
         var slots = getNumSlots();
         var unlocked = type == 'recipe' ? bgp.Data.generator.pot_recipes :
             type == 'alloy' ? bgp.Data.generator.alloys : null;
 
         unlocked = [].concat(unlocked || []).map(id => +id);
-        productions = Object.values(productions).filter(item => +item.hide == 0 && item.type == type && (+item.unlocked == 1 || unlocked.includes(+item.def_id)));
+        productions = Object.values(productions).filter(item => {
+            if (item.type != type || +item.hide != 0) return false;
+            if (+item.event_id > 0 && item.event_id in player_events) return true;
+            return +item.unlocked == 1 || unlocked.includes(+item.def_id);
+        });
 
         var cdn = bgp.Data.generator.cdn_root;
         if (cdn) cdn += 'mobile/graphics/all/';
@@ -100,6 +105,7 @@ function kitchenFoundry(type) {
             else if (cargo.type == 'material') c = materials[cargo.object_id];
             else if (cargo.type == 'token') c = tokens[cargo.object_id];
             p.cname = (c && c.name_loc && bgp.Data.getString(c.name_loc)) || '';
+            p.cdsc = (c && c.desc && bgp.Data.getString(c.desc)) || '';
             if (c && c.mobile_asset) p.cimg = cdn + c.mobile_asset + '_small.png';
             p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || 0;
             p.eid = +item.event_id;
@@ -113,8 +119,11 @@ function kitchenFoundry(type) {
                 maxProd = 0;
             for (var req of item.requirements) {
                 var matId = req.material_id;
+                var mat = materials[matId];
                 var ingredient = {
                     id: matId,
+                    img: mat && mat.mobile_asset && cdn + mat.mobile_asset + '_small.png',
+                    dsc: (mat && mat.desc && bgp.Data.getString(mat.desc)) || '',
                     required: +req.amount,
                     available: bgp.Data.generator.materials[matId] || 0,
                     name: bgp.Data.getMaterialName(matId)
@@ -124,7 +133,6 @@ function kitchenFoundry(type) {
                 numProd = p.ingredients.length == 0 ? ingredient.qty : Math.min(numProd, ingredient.qty);
                 p.ingredients.push(ingredient);
             }
-            p.ingredients.forEach(ingredient => ingredient.scarcity = (maxProd ? (maxProd - ingredient.qty) / maxProd : 1) / 8);
             p.output = numProd * p.qty;
             p.total_energy = p.energy * p.output;
             p.total_time = p.time * Math.floor((numProd + slots - 1) / slots);
@@ -133,7 +141,7 @@ function kitchenFoundry(type) {
 
         // For each production, register the maximum region associated with that production's name
         var hash = {};
-        for(let item of result) {
+        for (let item of result) {
             hash[item.name] = Math.max(hash[item.name] || 0, item.region);
         }
         // Get only the max region for each distinct name
@@ -149,12 +157,13 @@ function kitchenFoundry(type) {
         var hasEvent = type == 'recipe';
 
         function getIngredient(ingredient) {
-            return HtmlBr `<td class="scarcity">${Locale.formatNumber(ingredient.required)}</td><td class="scarcity">${ingredient.name}</td><td class="scarcity right">${Locale.formatNumber(ingredient.available)}</td>`;
+            return HtmlBr `<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${ingredient.dsc}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
         productions.forEach(p => {
             var rspan = p.ingredients.length;
             var title = p.cname;
-            htm += HtmlBr `<tr id="prod-${p.id}" style="--scarcity:${p.ingredients[0].scarcity.toFixed(3)}">`;
+            if (p.cdsc) title += '\n' + p.cdsc;
+            htm += HtmlBr `<tr id="prod-${p.id}">`;
             htm += HtmlBr `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
             htm += HtmlBr `<td rowspan="${rspan}">${p.name}</td>`;
             htm += HtmlBr `<td rowspan="${rspan}">${gui.getRegionImage(p.region)}</td>`;
@@ -182,7 +191,7 @@ function kitchenFoundry(type) {
             }
             htm += HtmlBr `<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
             htm += HtmlBr `</tr>`;
-            htm += p.ingredients.map((ingredient, index) => index > 0 ? HtmlBr `<tr class="ingredient" style="--scarcity:${ingredient.scarcity.toFixed(3)}">${getIngredient(ingredient)}</tr>` : '').join('');
+            htm += p.ingredients.map((ingredient, index) => index > 0 ? HtmlBr `<tr class="ingredient">${getIngredient(ingredient)}</tr>` : '').join('');
         });
         return htm;
     }

@@ -127,7 +127,7 @@ var Parser = {
         data.file_changes = file_changes;
 
         // materials
-        for (var key of ['materials', 'tokens', 'usables', 'events_region', 'stored_buildings', 'stored_decorations', 'stored_windmills']) {
+        for (let key of ['materials', 'tokens', 'usables', 'events_region', 'stored_buildings', 'stored_decorations', 'stored_windmills']) {
             let arr = data[key] && data[key].item;
             let result = {};
             if (Array.isArray(arr)) {
@@ -138,27 +138,43 @@ var Parser = {
             data[key] = result;
         }
 
+        // events
+        for (let key of ['events']) {
+            let arr = data[key];
+            let result = {};
+            if (Array.isArray(arr)) {
+                for (let item of arr) {
+                    item = item.event;
+                    result[item.def_id] = item;
+                }
+            }
+            data[key] = result;
+        }
+
         return data;
     },
     parse_localization: function(text, format) {
         var wanted = {
             //'ABNA': '',
-            'ACNA': 'Achievements',
-            'BUNA': 'Buildings',
+            'ACNA': 'Achievement',
+            'BUNA': 'Building',
             //'CAOV': 'Caravan',
-            'COL': 'Treasures',
-            'DENA': 'Decorations',
-            'EVN': 'Events',
+            'COL': 'Treasure',
+            'DENA': 'Decoration',
+            'EVN': 'Event',
             //'JOST': 'Journals',
-            'LONA': 'Locations',
-            'MANA': 'Materials',
-            'MAP': 'Maps',
-            'NPCN': 'NPCs',
-            'QINA': 'QuestItems',
+            'LONA': 'Location',
+            'MANA': 'Material',
+            'MAP': 'Map',
+            'NPCN': 'NPC',
+            'QINA': 'Quest Item',
             //'TRNA': 'Pieces',
-            'USNA': 'Usables',
-            'WINA': 'Windmills',
-            'CT': 'Themes',
+            'USNA': 'Usable',
+            'WINA': 'Windmill',
+            'CT': 'Theme',
+            'MADE': 'Material description',
+            'QIDE': 'Quest Item description',
+            'USDE': 'Usable description'
             //'GIP': 'GiftInterface'
             //'MOB': 'Mobile'
         };
@@ -181,7 +197,7 @@ var Parser = {
                 if (key in wanted) {
                     var name = s.substr(0, i);
                     var value = s.substr(i + 3);
-                    value = value.replace(reNewline, ' ');
+                    value = value.replace(reNewline, '\n');
                     data[name] = value;
                 }
             });
@@ -195,7 +211,7 @@ var Parser = {
                 if (!(key in wanted)) continue;
                 for (; child; child = child.nextElementSibling) {
                     var name = child.getAttribute('index');
-                    if (name) data[name] = child.textContent.replace(reNewline, ' ');
+                    if (name) data[name] = child.textContent.replace(reNewline, '\n');
                 }
             }
             return data;
