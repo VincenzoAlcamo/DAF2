@@ -61,6 +61,7 @@ const Locale = (function() {
             return chrome.i18n.getMessage(id, args);
         },
         formatNumber: formatNumber,
+        getDate: getDate,
         formatDate: getFormatter(Date.prototype.toLocaleDateString),
         formatDateTime: getFormatter(Date.prototype.toLocaleString, {
             year: 'numeric',
@@ -70,6 +71,11 @@ const Locale = (function() {
             minute: 'numeric'
         }),
         formatDateTimeFull: getFormatter(Date.prototype.toLocaleString),
+        formatTime: getFormatter(Date.prototype.toLocaleTimeString, {
+            hour: 'numeric',
+            minute: 'numeric'
+        }),
+        formatTimeFull: getFormatter(Date.prototype.toLocaleTimeString),
         getNumDays: getNumDays,
         formatDays: (d1, d2) => {
             var num = getNumDays(d1, d2);
