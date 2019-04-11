@@ -645,6 +645,7 @@ var Data = {
         Data.neighbours = {};
         Data.friends = {};
         Data.localization = {};
+        Data.localization.cache = {};
         Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
         tx.objectStore('Files').get('generator').then(file => {
             Data.generator = (file && file.data) || {};
@@ -679,8 +680,8 @@ var Data = {
             var un_gifts = file.data.un_gifts;
             Synchronize.processUnGift(un_gifts && un_gifts.item, file.data.time, neighbours);
             delete file.data.un_gifts;
-            // Remove the player itself from the neighbors
-            file.data.player = neighbours[file.data.player_id];
+            // Remove the player itself from the neighbors, but store their fb_id
+            file.data.fb_id = neighbours[file.data.player_id].fb_id;
             delete neighbours[file.data.player_id];
             Data.neighbours = neighbours;
             Data.generator = file.data;

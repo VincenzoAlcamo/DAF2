@@ -96,7 +96,12 @@ function updateCamp(div, flagHeaderOnly = false) {
     if (isPlayer) {
         isPublic = true;
         camp = generator.camp;
-        pal = generator.player;
+        pal = {
+            name: generator.name,
+            surname: generator.surname,
+            id: generator.player_name,
+            fb_id: generator.fb_id
+        };
         level = +generator.level;
         ['region', 'windmill_limit', 'windmill_reg'].forEach(key => camp[key] = +generator[key]);
         campName = pal ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal)) : gui.getMessage('camp_your_camp');
