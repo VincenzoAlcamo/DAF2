@@ -70,12 +70,6 @@ function update() {
         row.setAttribute('data-pal-id', pal.id);
         row.setAttribute('height', 61);
         row.setAttribute('lazy-render', '');
-        //for (var i = 1; i <= 8; i++) 
-        // var cell = document.createElement('td');
-        // row.appendChild(cell);
-        // var cell = document.createElement('td');
-        // cell.colSpan = 7;
-        // row.appendChild(cell);
         return Object.assign({}, pal, {
             fullname: name.toUpperCase(),
             region: +pal.region,
