@@ -1,4 +1,4 @@
-/*global bgp gui Locale SmartTable HtmlBr Html*/
+/*global gui Locale SmartTable HtmlBr Html*/
 export default kitchenFoundry;
 
 function kitchenFoundry(type) {
@@ -60,22 +60,23 @@ function kitchenFoundry(type) {
     }
 
     function getNumSlots() {
-        var generator = bgp.Data.generator;
+        var generator = gui.getGenerator();
         if (type == 'recipe') return (generator.pots && generator.pots.length) || 4;
         if (type == 'alloy') return (generator.anvils && generator.anvils.length) || 4;
         return 4;
     }
 
     function getProductions() {
-        var usables = bgp.Data.files.usables;
-        var materials = bgp.Data.files.materials;
-        var tokens = bgp.Data.files.tokens;
-        var productions = bgp.Data.files.productions;
-        var player_events = bgp.Data.generator.events || {};
-        var events = bgp.Data.files.events;
+        var generator = gui.getGenerator();
+        var usables = gui.getFile('usables');
+        var materials = gui.getFile('materials');
+        var tokens = gui.getFile('tokens');
+        var productions = gui.getFile('productions');
+        var player_events = generator.events || {};
+        var events = gui.getFile('events');
         var slots = getNumSlots();
-        var unlocked = type == 'recipe' ? bgp.Data.generator.pot_recipes :
-            type == 'alloy' ? bgp.Data.generator.alloys : null;
+        var unlocked = type == 'recipe' ? generator.pot_recipes :
+            type == 'alloy' ? generator.alloys : null;
 
         unlocked = [].concat(unlocked || []).map(id => +id);
         productions = Object.values(productions).filter(item => {
@@ -83,9 +84,6 @@ function kitchenFoundry(type) {
             if (+item.event_id > 0 && item.event_id in player_events) return true;
             return +item.unlocked == 1 || unlocked.includes(+item.def_id);
         });
-
-        var cdn = bgp.Data.generator.cdn_root;
-        if (cdn) cdn += 'mobile/graphics/all/';
 
         var result = [];
         for (var item of productions) {
@@ -96,7 +94,7 @@ function kitchenFoundry(type) {
             p.level = Math.max(+item.req_level, 1);
             p.region = Math.max(+item.region_id, 1);
             p.cargo = cargo;
-            p.name = bgp.Data.getString(item.name_loc);
+            p.name = gui.getString(item.name_loc);
             // qty is not specified for usables, and it has equal min/max for other types
             // we just get the max, assuming that either it is equal to min or it is undefined
             p.qty = +cargo.max || 1;
@@ -104,14 +102,14 @@ function kitchenFoundry(type) {
             if (cargo.type == 'usable') c = usables[cargo.object_id];
             else if (cargo.type == 'material') c = materials[cargo.object_id];
             else if (cargo.type == 'token') c = tokens[cargo.object_id];
-            p.cname = (c && c.name_loc && bgp.Data.getString(c.name_loc)) || '';
-            p.cdsc = (c && c.desc && bgp.Data.getString(c.desc)) || '';
-            if (c && c.mobile_asset) p.cimg = cdn + c.mobile_asset + '_small.png';
+            p.cname = (c && c.name_loc && gui.getString(c.name_loc)) || '';
+            p.cdsc = (c && c.desc && gui.getString(c.desc)) || '';
+            p.cimg = gui.getObjectImage(cargo.type, cargo.object_id, true);
             p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || 0;
             p.eid = +item.event_id;
             var event = p.eid ? events && events[p.eid] : null;
-            p.ename = (event && bgp.Data.getString(event.name_loc)) || '';
-            p.eimg = event && cdn + event.shop_icon_graphics + '.png';
+            p.ename = (event && gui.getString(event.name_loc)) || '';
+            p.eimg = event && gui.getObjectImage('event', p.eid);
             p.time = +item.duration;
             p.energy_per_hour = p.time ? Math.round(p.energy / p.time * 3600) : 0;
             p.ingredients = [];
@@ -122,11 +120,11 @@ function kitchenFoundry(type) {
                 var mat = materials[matId];
                 var ingredient = {
                     id: matId,
-                    img: mat && mat.mobile_asset && cdn + mat.mobile_asset + '_small.png',
-                    dsc: (mat && mat.desc && bgp.Data.getString(mat.desc)) || '',
+                    img: mat && gui.getObjectImage('material', matId, true),
+                    dsc: (mat && mat.desc && gui.getString(mat.desc)) || '',
                     required: +req.amount,
-                    available: bgp.Data.generator.materials[matId] || 0,
-                    name: bgp.Data.getMaterialName(matId)
+                    available: generator.materials[matId] || 0,
+                    name: gui.getObjectName('material', matId)
                 };
                 ingredient.qty = Math.floor(ingredient.available / ingredient.required);
                 maxProd = Math.max(maxProd, ingredient.qty);
@@ -166,7 +164,7 @@ function kitchenFoundry(type) {
             htm += HtmlBr `<tr id="prod-${p.id}">`;
             htm += HtmlBr `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
             htm += HtmlBr `<td rowspan="${rspan}">${p.name}</td>`;
-            htm += HtmlBr `<td rowspan="${rspan}">${gui.getRegionImage(p.region)}</td>`;
+            htm += HtmlBr `<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
             if (hasEvent) {
                 var eimage = '';
                 if (p.eid != 0) {
@@ -237,8 +235,9 @@ function kitchenFoundry(type) {
             });
         }
 
-        var level = +bgp.Data.generator.level;
-        var region = +bgp.Data.generator.region;
+        var generator = gui.getGenerator();
+        var level = +generator.level;
+        var region = +generator.region;
 
         function isVisible(p) {
             if (state.show == 'possible' && (p.output == 0 || level < p.level || region < p.region)) return false;

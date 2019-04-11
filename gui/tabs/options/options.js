@@ -1,4 +1,4 @@
-/*global bgp gui*/
+/*global gui*/
 export default {
     hasCSS: true,
     init: init,
@@ -55,7 +55,7 @@ function refresh() {
     }
     for (var input of container.querySelectorAll('input[data-pref]')) {
         var name = input.getAttribute('data-pref');
-        var value = bgp.Preferences.getValue(name);
+        var value = gui.getPreference(name);
         if (value !== undefined) {
             if (input.type == 'checkbox') input.checked = value === true;
         }

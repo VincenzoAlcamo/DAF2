@@ -393,6 +393,9 @@
     "camp_night_mode": {
         "message": "Night mode"
     },
+    "camp_webgl": {
+        "message": "Show camp in WebGL order"
+    },
 
     "pillars_all": {
         "message": "All pillars"

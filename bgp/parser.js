@@ -153,6 +153,7 @@ var Parser = {
 
         return data;
     },
+    parse_localization_revision: 1,
     parse_localization: function(text, format) {
         var wanted = {
             //'ABNA': '',
@@ -174,7 +175,8 @@ var Parser = {
             'CT': 'Theme',
             'MADE': 'Material description',
             'QIDE': 'Quest Item description',
-            'USDE': 'Usable description'
+            'USDE': 'Usable description',
+            'GUI': 'GUI'
             //'GIP': 'GiftInterface'
             //'MOB': 'Mobile'
         };

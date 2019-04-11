@@ -97,7 +97,7 @@ function updateRow(row) {
     var htm = '';
     htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
     htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
-    htm += HtmlBr `<td>${gui.getRegionImage(pal.region)}</td>`;
+    htm += HtmlBr `<td>${gui.getRegionImg(pal.region)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;
     if (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) {
         htm += HtmlBr `<td title="${Locale.formatDate(pal.extra.timeLevel)} (${Locale.formatNumber(pal.extra.lastLevel)})">${Locale.formatDays(pal.extra.timeLevel)}</td>`;

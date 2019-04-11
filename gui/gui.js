@@ -5,8 +5,20 @@ var gui = {
     dialog: Dialog(),
     wait: Dialog(Dialog.WAIT),
     toast: Dialog(Dialog.TOAST),
-    sendPreference: function(name, value) {
+    setPreference: function(name, value) {
         bgp.Preferences.setValue(name, value);
+    },
+    getPreference: function(name) {
+        return bgp.Preferences.getValue(name);
+    },
+    getGenerator: function() {
+        return bgp.Data.generator;
+    },
+    getFile: function(name) {
+        return bgp.Data.files[name];
+    },
+    getString: function(id) {
+        return bgp.Data.getString(id);
     },
     getMessage: function(id, ...args) {
         return chrome.i18n.getMessage(id, args);
@@ -22,14 +34,24 @@ var gui = {
         uri = uri || ('https://www.facebook.com/' + fb_id);
         return Html `<a target="_blank" href="${uri}">`;
     },
-    getRegionImage: function(rid, forceEgypt = false, size = 32) {
+    getObjectName: function(type, id) {
+        return bgp.Data.getObjectName(type, id);
+    },
+    getObjectImage: function(type, id, small = false) {
+        return bgp.Data.getObjectImage(type, id, small);
+    },
+    getObjectImg: function(type, id, size = 32, small = false) {
+        var url = bgp.Data.getObjectImage(type, id, small);
+        return url ? HtmlBr `<img width="${size}" height="${size}" src="${url}">` : '';
+    },
+    getRegionImg: function(rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
         if (rid < 0 || rid > 6) rid = 0;
-        return HtmlBr `<img src="/img/regions/${rid}.png" width="${size}" height="${size}" title="${rid > 0 ? bgp.Data.getRegionName(rid) : ''}"/>`;
+        return HtmlBr `<img src="${bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
     },
-    getSkinImage: function(skin, size = 32) {
+    getSkinImg: function(skin, size = 32) {
         var rid = bgp.Data.getRegionFromSkin(skin);
-        return rid > 0 ? this.getRegionImage(rid, false, size) : HtmlBr `<img src="/img/map.png" width="${size}" height="${size}" title="${bgp.Data.getSkinName(skin)}"/>`;
+        return rid > 0 ? this.getRegionImg(rid, false, size) : HtmlBr `<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
     },
     getDuration: function(drn) {
         let mm = Math.floor((drn / 60) % 60);

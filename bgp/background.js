@@ -566,12 +566,15 @@ var WebRequest = {
                 languageId = Data.getLanguageIdFromUrl(file.url);
                 let urlInfo = new UrlInfo(file.url);
                 file.version = urlInfo.parameters.ver;
-                if (languageId != Data.localization.languageId || file.version != Data.localization.version) {
+                var id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
+                var id2 = [languageId, file.version, Parser.parse_localization_revision].join(',');
+                if (id1 != id2) {
                     WebRequest.captures[file.url] = file;
                     return fetch(file.url).then(function(response) {
                         return response.text();
                     }).then(function(text) {
                         file.data = Parser.parse(file.id, text);
+                        file.revision = Parser.parse_localization_revision;
                         Data.store(file);
                     }).finally(function() {
                         delete WebRequest.captures[file.url];
@@ -640,6 +643,7 @@ var Data = {
             cursor.continue();
         });
         */
+        Data.initCollections();
         Data.generator = {};
         Data.files = {};
         Data.neighbours = {};
@@ -667,6 +671,45 @@ var Data = {
                 resolve();
             });
         });
+    },
+    initCollections: function() {
+        var col;
+        function setItem(def_id, name_loc, mobile_asset) {
+            if(!name_loc) return;
+            var item = {};
+            item.def_id = def_id;
+            item.name_loc = name_loc;
+            if(mobile_asset) item.mobile_asset = mobile_asset;
+            col[item.def_id] = item;
+        }
+
+        // Regions
+        col = {};
+        'MAP005,MAP006,MAP018,MAP021,MAP038,MAP039'.split(',').forEach(function(name_loc, index) {
+            setItem(index + 1, name_loc, '/img/regions/' + (index + 1) + '.png');
+        });
+        Data.colRegions = col;
+
+        // Skins
+        col = {};
+        'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,,CT016,MAP039'.split(',').forEach(function(name_loc, index) {
+            setItem(index + 1, name_loc);
+        });
+        Data.colSkins = col;
+
+        // Addon Buildings
+        col = {};
+        ',,ABNA001,ABNA002,,ABNA004,ABNA005,,,,ABNA009'.split(',').forEach(function(name_loc, index) {
+            setItem(index + 1, name_loc);
+        });
+        Data.colAddonBuildings = col;
+
+        // Systems
+        col = {};
+        'GUI0064,GUI0065'.split(',').forEach(function(name_loc, index) {
+            setItem(index + 1, name_loc, index == 0 ? 'loot_exp_webgl' : 'loot_energy');
+        });
+        Data.colSystems = col;
     },
     store: function(file) {
         console.log('Would store', file);
@@ -709,7 +752,8 @@ var Data = {
                 data: file.data,
                 cache: {},
                 languageId: Data.getLanguageIdFromUrl(file.url),
-                version: file.version
+                version: file.version,
+                revision: file.revision
             };
         }
     },
@@ -813,64 +857,37 @@ var Data = {
     getString: function(id) {
         return id in Data.localization.data ? Data.localization.data[id] : '#' + id;
     },
-    getRegionNames: function() {
-        var hash = Data.localization.cache.regionNames;
-        if (!hash) {
-            hash = Data.localization.cache.regionNames = {};
-            ['MAP005', 'MAP006', 'MAP018', 'MAP021', 'MAP038', 'MAP039'].forEach((nid, index) => hash[index + 1] = Data.getString(nid));
-        }
-        return hash;
+    getObjectCollection: function(type) {
+        if (type == 'region') return Data.colRegions;
+        else if (type == 'skin') return Data.colSkins;
+        else if (type == 'system') return Data.colSystems;
+        else if (type == 'addon_building') return Data.colAddonBuildings;
+        else if (type == 'material') return Data.files.materials;
+        else if (type == 'usable') return Data.files.usables;
+        else if (type == 'token') return Data.files.tokens;
+        else if (type == 'building') return Data.files.buildings;
+        else if (type == 'decoration') return Data.files.decorations;
+        else if (type == 'event') return Data.files.events;
+        else if (type == 'production') return Data.files.productions;
+        else if (type == 'tablet') return Data.files.tablets;
+        else if (type == 'windmill') return Data.files.windmills;
+        return null;
     },
-    getRegionName: function(id) {
-        var hash = Data.getRegionNames();
-        return id in hash ? hash[id] : '#REGION' + id;
+    getObjectImage: function(type, id, small) {
+        var col = Data.getObjectCollection(type);
+        var item = col && col[id];
+        var asset = item && (type == 'event' ? item.shop_icon_graphics : item.mobile_asset);
+        if(!asset) return '';
+        if(asset[0] == '/') return asset;
+        return Data.generator.cdn_root + 'mobile/graphics/' + (type == 'decoration' ? type + 's' : 'all') + '/' + asset + (small ? '_small' : '') + '.png';
     },
-    getMaterialName: (id) => Data.getObjectName('material', id),
     getObjectName: function(type, id) {
-        var col, obj, nid;
-        if (type == 'region') return Data.getRegionName(id);
-        else if (type == 'skin') return this.getSkinName(id);
-        else if (type == 'material') col = Data.files.materials;
-        else if (type == 'usable') col = Data.files.usables;
-        else if (type == 'token') col = Data.files.tokens;
-        else if (type == 'building') col = Data.files.buildings;
-        else if (type == 'decoration') col = Data.files.decorations;
-        else if (type == 'event') col = Data.files.events;
-        else if (type == 'production') col = Data.files.productions;
-        else if (type == 'tablet') col = Data.files.tablets;
-        /*
-        case 'system':
-            if (oid == 1)
-                text = 'bonusXP';
-            if (oid == 2)
-                text = 'bonusEnergy';
-            break;
-        */
-        nid = col && (obj = col[id]) && obj.name_loc;
-        return nid ? Data.getString(nid) : '#' + type + id;
+        var col = Data.getObjectCollection(type);
+        var name_loc = col && col[id] && col[id].name_loc;
+        return name_loc ? Data.getString(name_loc) : '#' + type + id;
     },
     getRegionFromSkin: function(id) {
         return [1, 2, 5, 8, 9, 13].indexOf(id) + 1;
-    },
-    getSkinName: function(id) {
-        var hash = Data.localization.cache.skinNames;
-        if (!hash) {
-            hash = Data.localization.cache.skinNames = {
-                1: Data.getRegionName(1),
-                2: Data.getRegionName(2),
-                3: Data.getString('CT002'),
-                4: Data.getString('CT011'),
-                5: Data.getRegionName(3),
-                6: Data.getString('CT012'),
-                7: Data.getString('CT013'),
-                8: Data.getRegionName(4),
-                9: Data.getRegionName(5),
-                10: Data.getString('CT014'),
-                12: Data.getString('CT016'),
-                13: Data.getRegionName(6)
-            };
-        }
-        return id in hash ? hash[id] : '#skin' + id;
     },
     //#endregion
     //#region FILES
@@ -1074,8 +1091,10 @@ async function init() {
             var neighbours = Object.values(Data.neighbours);
             var realNeighbours = neighbours.length - 1;
             var list = request.simulate ? neighbours.slice(0, request.simulate) : neighbours.filter(n => n.spawned);
+            var regionNames = {};
+            Object.keys(Data.colRegions).forEach(key => regionNames[key] = Data.getObjectName('region', key));
             return {
-                regions: Data.getRegionNames(),
+                regions: regionNames,
                 max: Math.min(realNeighbours, Math.floor(Math.sqrt(realNeighbours)) + 3) + 1,
                 list: list.sort((a, b) => a.index - b.index)
                     .map(function(n) {

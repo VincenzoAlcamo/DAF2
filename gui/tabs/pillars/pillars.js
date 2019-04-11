@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Html HtmlBr*/
+/*global gui SmartTable Locale Html HtmlBr*/
 export default {
     hasCSS: true,
     init: init,
@@ -33,12 +33,11 @@ function update() {
     var ids = {};
     for (var i = 865; i <= 904; i++) ids[i] = true;
 
-    var decorations = bgp.Data.files.decorations;
+    var decorations = gui.getFile('decorations');
+    var materialInventory = gui.getGenerator().materials;
     pillars = [];
     var pillarsExcluded = getPillarsExcluded();
-    var cdn = bgp.Data.generator.cdn_root;
-    if (cdn) cdn += 'mobile/graphics/decorations/';
-    Object.values(bgp.Data.files.sales)
+    Object.values(gui.getFile('sales'))
         .filter(sale => sale.type == 'decoration' && sale.object_id in ids && sale.hide != 1)
         .forEach(sale => {
             var decoration = decorations[sale.object_id];
@@ -46,14 +45,14 @@ function update() {
             if (decoration && req) {
                 var pillar = {};
                 pillar.did = +decoration.def_id;
-                pillar.img = cdn + decoration.mobile_asset + '.png';
+                pillar.img = gui.getObjectImage('decoration', pillar.did);
                 pillar.excluded = pillarsExcluded.includes(pillar.did);
-                pillar.name = bgp.Data.getString(decoration.name_loc);
+                pillar.name = gui.getObjectName('decoration', pillar.did);
                 pillar.xp = sale.exp;
                 pillar.coins = +decoration.sell_price;
-                pillar.mname = bgp.Data.getMaterialName(req.material_id);
+                pillar.mname = gui.getObjectName('material', req.material_id);
                 pillar.required = +req.amount;
-                pillar.available = bgp.Data.generator.materials[req.material_id] || 0;
+                pillar.available = materialInventory[req.material_id] || 0;
                 pillar.possible = Math.floor(pillar.available / pillar.required);
                 pillar.perc_next = (pillar.available - (pillar.possible * pillar.required)) / pillar.required * 100;
                 pillar.qty = pillar.excluded ? 0 : pillar.possible;
@@ -86,8 +85,8 @@ function getState() {
 function setState(state) {
     searchInput.value = state.search || '';
     selectShow.value = state.show == 'possible' ? state.show : '';
-    checkCap.checked = state.uncapped != 1;
-    checkGrid.checked = state.grid == 1;
+    checkCap.checked = !!state.uncapped;
+    checkGrid.checked = !!state.grid;
     var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
     if (!sortInfo.name) {
         sortInfo.name = 'name';
@@ -104,7 +103,7 @@ function toggleCap() {
 }
 
 function getPillarsExcluded() {
-    return gui.getArrayOfInt(bgp.Preferences.getValue('pillarsExcluded'));
+    return gui.getArrayOfInt(gui.getPreference('pillarsExcluded'));
 }
 
 function updatePillar(e) {
@@ -116,7 +115,7 @@ function updatePillar(e) {
         pillar.excluded = !el.checked;
         var pillarsExcluded = getPillarsExcluded().filter(id => id != pillar.did);
         if (pillar.excluded) pillarsExcluded.push(pillar.did);
-        bgp.Preferences.setValue('pillarsExcluded', pillarsExcluded.join(','));
+        gui.setPreference('pillarsExcluded', pillarsExcluded.join(','));
         (td.classList.contains('grid') ? td : td.parentNode).classList.toggle('excluded', pillar.excluded);
         pillar.qty = pillar.excluded ? 0 : pillar.possible;
     } else {
@@ -145,9 +144,10 @@ function updateQty(pillar, state) {
 }
 
 function refreshTotals() {
+    var levelups = gui.getFile('levelups');
     function setProgress(className, level, xp) {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
-            var levelup = bgp.Data.files.levelups[level];
+            var levelup = levelups[level];
             var div = parent.querySelectorAll('div');
             div[1].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`;
             div[2].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level+1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`;
@@ -169,11 +169,12 @@ function refreshTotals() {
         maxXp += pillar.possible * pillar.xp;
         maxCoins += pillar.possible * pillar.coins;
     });
-    level = nextLevel = maxLevel = +bgp.Data.generator.level;
-    exp = +bgp.Data.generator.exp;
+    var generator = gui.getGenerator();
+    level = nextLevel = maxLevel = +generator.level;
+    exp = +generator.exp;
     nextExp = exp + xp;
     totalExp = exp + maxXp;
-    for (var levelup of bgp.Data.files.levelups) {
+    for (var levelup of levelups) {
         if (levelup.def_id < level) continue;
         if (nextExp >= levelup.xp) {
             boost += levelup.boost;
@@ -210,8 +211,9 @@ function refresh() {
     smartTable.tbody[0].innerHTML = '';
 
     let state = getState();
-    var level = bgp.Data.generator.level;
-    var skins = gui.getArrayOfInt(bgp.Data.generator.skins || '1');
+    var generator = gui.getGenerator();
+    var level = +generator.level;
+    var skins = gui.getArrayOfInt(generator.skins || '1');
     state.search = (state.search || '').toUpperCase();
 
     function isVisible(p) {
@@ -261,7 +263,7 @@ function refresh() {
             htm += HtmlBr `<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
             htm += HtmlBr `<td class="image"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}"/></td>`;
             htm += HtmlBr `<td>${pillar.name}</td>`;
-            htm += HtmlBr `<td>${gui.getSkinImage(pillar.skin)}</td>`;
+            htm += HtmlBr `<td>${gui.getSkinImg(pillar.skin)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.level)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.xp)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.coins)}</td>`;

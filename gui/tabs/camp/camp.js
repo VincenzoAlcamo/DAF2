@@ -13,12 +13,15 @@ export default {
 
 const NUM_SLOTS = 24;
 
-var tab, container, neighborEnabled;
+var tab, container, neighborEnabled, checkWebGL;
 
 function init() {
     tab = this;
     container = tab.container;
-    neighborEnabled = bgp.Data.isDeveloper();
+    neighborEnabled = true; //bgp.Data.isDeveloper();
+    checkWebGL = container.querySelector('[name=webgl]');
+    checkWebGL.addEventListener('click', toggleWebGL);
+
     ['camp-player', 'camp-neighbor'].forEach(className => {
         var div = tab.container.querySelector('.' + className);
         div.addEventListener('render', function(_event) {
@@ -58,6 +61,7 @@ function markToBeRendered(div) {
 function getState() {
     var getCheck = (id, c) => document.getElementById(id).checked ? c : '';
     return {
+        webgl: checkWebGL.checked,
         h: [neighborEnabled ? getCheck('camp_neighbor', 'n') : '', getCheck('camp_player', 'p')].join('')
     };
 }
@@ -67,6 +71,12 @@ function setState(state) {
     var setCheck = (id, c) => document.getElementById(id).checked = h.indexOf(c) >= 0;
     setCheck('camp_player', 'p');
     setCheck('camp_neighbor', 'n');
+    checkWebGL.checked = !!state.webgl;
+}
+
+function toggleWebGL() {
+    gui.updateTabState(tab);
+    update();
 }
 
 function onmousemove(event) {
@@ -87,10 +97,7 @@ function onmousemove(event) {
 function updateCamp(div, flagHeaderOnly = false) {
     var generator, camp, campName, isPlayer, isPublic, pal, level, started, cdn;
 
-    generator = bgp.Data.generator;
-
-    cdn = generator.cdn_root;
-    if (cdn) cdn += 'mobile/graphics/all/';
+    generator = gui.getGenerator();
 
     isPlayer = div.classList.contains('camp-player');
     if (isPlayer) {
@@ -140,8 +147,8 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += HtmlBr `<thead><tr><th colspan="2">${gui.getMessage('camp_player')}</th></tr></thead>`;
     htm += HtmlBr `<tbody>`;
     htm += HtmlBr `<tr><td>${gui.getMessage('gui_level')}</td><td>${Locale.formatNumber(level)}</td></tr>`;
-    htm += HtmlBr `<tr><td>${gui.getMessage('gui_region')}</td><td>${bgp.Data.getRegionName(camp.region)}</td></tr>`;
-    htm += HtmlBr `<tr><td>${gui.getMessage('gui_theme')}</td><td>${bgp.Data.getSkinName(camp.skin)}</td></tr>`;
+    htm += HtmlBr `<tr><td>${gui.getMessage('gui_region')}</td><td>${gui.getObjectName('region', camp.region)}</td></tr>`;
+    htm += HtmlBr `<tr><td>${gui.getMessage('gui_theme')}</td><td>${gui.getObjectName('skin', camp.skin)}</td></tr>`;
     htm += HtmlBr `</tbody>`;
     if (started && !isNaN(started.getFullYear())) {
         htm += HtmlBr `<tbody>`;
@@ -222,13 +229,13 @@ function updateCamp(div, flagHeaderOnly = false) {
         htm += HtmlBr `<td><table class="camp-data">`;
         htm += HtmlBr `<thead><tr><th colspan="3">${gui.getMessage('camp_unlock_materials')}</th></tr></thead>`;
 
-        var materials = bgp.Data.files.materials;
+        var materials = gui.getFile('materials');
 
         // Show materials
         for (var matId of [1, 7, 22, 32, 8]) {
             var material = materials[matId];
-            var img = material && material.mobile_asset ? HtmlBr `<img width="24" height="24" src="${cdn + material.mobile_asset + '_small.png'}">` : '';
-            if (matId in mat) htm += HtmlBr `<tr class="material"><td>${img}</td><td>${bgp.Data.getMaterialName(matId)}</td><td>${Locale.formatNumber(mat[matId])}</td></tr>`;
+            var img = material ? gui.getObjectImg('material', matId, 24, true) : '';
+            if (matId in mat) htm += HtmlBr `<tr class="material"><td>${img}</td><td>${gui.getObjectName('material', matId)}</td><td>${Locale.formatNumber(mat[matId])}</td></tr>`;
         }
         htm += HtmlBr `<tbody>`;
         htm += HtmlBr `</table></td>`;
@@ -248,7 +255,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 function calculateCamp(camp, current = true) {
     var lines_ids = gui.getArrayOfInt(camp.lines_ids);
     var lines_blocked = gui.getArrayOfInt(camp.lines_blocked);
-    var buildings = bgp.Data.files.buildings;
+    var buildings = gui.getFile('buildings');
     var lines = {};
     var blocks = {};
     var reg_min, reg_max, reg_cnt, reg_avg, cap_min, cap_max, cap_cnt, cap_avg, reg_tot, cap_tot, reg_base, cap_base;
@@ -260,7 +267,7 @@ function calculateCamp(camp, current = true) {
             slots: []
         };
     });
-    Object.values(bgp.Data.files.lines).forEach(line => {
+    Object.values(gui.getFile('lines')).forEach(line => {
         var height = +line.height;
         var order = +line.order + (height == 2 ? 3 : 0);
         if (height >= 2 && height <= 4 && order >= 1 && order <= NUM_SLOTS * 2)
@@ -337,7 +344,7 @@ function calculateCamp(camp, current = true) {
                     width: +building.columns,
                     height: +building.rows,
                     region_id: building.region_id || 0,
-                    title: bgp.Data.getString(building.name_loc)
+                    title: gui.getObjectName('building', bid)
                 };
                 for(let i = 0; i < data.width; i++) line.slots[slot + i] = data;
             }
@@ -365,7 +372,7 @@ function calculateCamp(camp, current = true) {
     };
 }
 
-function renderCamp(campResult, isPublic, cdn) {
+function renderCamp(campResult, isPublic) {
     var {
         lines,
         blocks,
@@ -380,8 +387,8 @@ function renderCamp(campResult, isPublic, cdn) {
     var cap_range = cap_max - cap_min;
     var opacity_min = 0.4;
     var opacity_range = 1 - opacity_min;
-    var buildings = bgp.Data.files.buildings;
     var htm = '';
+    var state = getState();
 
     htm += HtmlBr `<div class="camp${isPublic ? ' public' : ''}">`;
 
@@ -392,7 +399,7 @@ function renderCamp(campResult, isPublic, cdn) {
         var line = lines[lid];
         var slots = line.slots;
         htm += HtmlBr `<div class="line" style="--lw:24;--lh:${line.height}">`;
-        var isReversed = (index % 2) == 0;
+        var isReversed = (index % 2) == 0 && state.webgl;
         for (var i = 0; i < NUM_SLOTS;) {
             var slot = slots[isReversed ? NUM_SLOTS - 1 - i : i];
             var title = slot.title;
@@ -410,16 +417,17 @@ function renderCamp(campResult, isPublic, cdn) {
                     title += '\n' + gui.getMessage('camp_unlock_one', Locale.formatNumber(+block.exp));
                     title += '\n' + gui.getMessage('camp_unlock_cost', Locale.formatNumber(+block.gems));
                     for (var req of block.requirements) {
-                        title += '\n    ' + bgp.Data.getMaterialName(req.material_id) + ' \xd7 ' + Locale.formatNumber(+req.amount);
+                        title += '\n    ' + gui.getObjectName('material', req.material_id) + ' \xd7 ' + Locale.formatNumber(+req.amount);
                     }
                 }
             }
             if (kind == 'building') {
                 title += ' (' + width + '\xd7' + slot.height + ')';
                 bid = slot.bid;
-                if (cdn && buildings[bid].mobile_asset) {
+                var url = gui.getObjectImage('building', bid);
+                if (url) {
                     kind += ' img';
-                    exStyle = ';background-image:url(' + cdn + buildings[bid].mobile_asset + '.png)';
+                    exStyle = ';background-image:url(' + url + ')';
                 }
                 if (slot.capacity > 0) {
                     kind += ' capacity';
@@ -433,7 +441,7 @@ function renderCamp(campResult, isPublic, cdn) {
                 }
                 if (slot.region_id > 0) {
                     kind += ' reg' + slot.region_id;
-                    title += '\n' + gui.getMessage('camp_slot_region', bgp.Data.getRegionName(slot.region_id));
+                    title += '\n' + gui.getMessage('camp_slot_region', gui.getObjectName('region', slot.region_id));
                 }
                 colValues = HtmlRaw(isPublic ? String(HtmlBr `<div class="value">${slot.value}</div>`).repeat(width) : '');
                 strength = Math.round(strength * 1000) / 1000;

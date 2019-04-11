@@ -90,7 +90,7 @@ function update() {
 }
 
 function getRemoveGhosts() {
-    var result = parseInt(bgp.Preferences.getValue('removeGhosts'));
+    var result = parseInt(gui.getPreference('removeGhosts'));
     return result >= 0 && result <= 2 ? result : 0;
 }
 
@@ -128,7 +128,7 @@ ${method == 'alternate' ? addAlternateSettings() : ''}
     function setNewGhost(params) {
         var newGhost = parseInt(params.ghost) || 0;
         if (ghost != newGhost) {
-            bgp.Preferences.setValue('removeGhosts', newGhost);
+            gui.setPreference('removeGhosts', newGhost);
             ghost = newGhost;
         }
     }
@@ -315,7 +315,7 @@ function updateRow(row) {
         let anchor = gui.getFBFriendAnchor(friend.id, friend.uri);
         htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}"/></a></td>`;
         htm += HtmlBr `<td>${anchor}${friend.name}</a></td>`;
-        htm += HtmlBr `<td>${Locale.formatDate(friend.recorded)}<br>${Locale.formatDays(friend.recorded)}</td>`;
+        htm += HtmlBr `<td>${Locale.formatDate(friend.timeCreated)}<br>${Locale.formatDays(friend.timeCreated)}</td>`;
         if (pal) {
             htm += HtmlBr `<td>${Locale.formatNumber(friend.score)}</td>`;
             htm += HtmlBr `<td>${buttonUnlink}</td>`;

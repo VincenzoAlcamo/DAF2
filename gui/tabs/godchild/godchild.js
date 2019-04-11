@@ -22,7 +22,7 @@ function prefChange(changes) {
 }
 
 function setTableRegion() {
-    gcTable.classList.toggle('DAF-gc-show-region', bgp.Preferences.getValue('gcTableRegion'));
+    gcTable.classList.toggle('DAF-gc-show-region', gui.getPreference('gcTableRegion'));
 }
 
 function update() {
@@ -38,7 +38,7 @@ function update() {
         div.setAttribute('data-pal-id', pal.id);
         div.className = 'DAF-gc-pal DAF-gc-reg' + pal.region;
         div.style.backgroundImage = 'url(' + (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) + ')';
-        div.title = gui.getPlayerNameFull(pal) + '\n' + gui.getMessage('camp_slot_region', bgp.Data.getRegionName(pal.region));
+        div.title = gui.getPlayerNameFull(pal) + '\n' + gui.getMessage('camp_slot_region', gui.getObjectName('region', pal.region));
         var d = div.appendChild(document.createElement('div'));
         d.textContent = pal.level;
         if (pal.id == 1) d.style.visibility = 'hidden';
