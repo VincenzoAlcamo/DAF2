@@ -207,7 +207,8 @@ progress::-webkit-progress-value {
 }
 
 .outlined {
-  text-shadow: -1px -1px var(--outline-color), -1px 0px var(--outline-color), -1px 1px var(--outline-color), 0px -1px var(--outline-color), 0px 1px var(--outline-color), 1px -1px var(--outline-color), 1px 0 var(--outline-color), 1px 1px var(--outline-color);
+  /* text-shadow: -1px -1px var(--outline-color), -1px 0px var(--outline-color), -1px 1px var(--outline-color), 0px -1px var(--outline-color), 0px 1px var(--outline-color), 1px -1px var(--outline-color), 1px 0 var(--outline-color), 1px 1px var(--outline-color); */
+  filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color)) drop-shadow(1px  0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
 }
 
 /*#endregion*/
@@ -314,15 +315,6 @@ tfoot {
   color: var(--th-fgcol);
   background: var(--th-bgcol);
 }
-
-/* this will apply the background gradient to each row instead of the whole thead/tfoot */
-
-/*
-thead tr,
-tfoot tr {
-  background: inherit !important;
-}
-*/
 
 thead,
 tfoot {
