@@ -35,7 +35,7 @@ function collect() {
     }
 }
 
-function sendFriends(friends) {
+function sendFriends() {
     document.title = chrome.i18n.getMessage('friendship_collectstat', [friends.length, friends.length]);
     wait.setText(document.title);
     chrome.runtime.sendMessage({
@@ -112,7 +112,7 @@ function collectStandard() {
             // if the connection is slow, we may want to try a bit more
             if (countStop > 20) {
                 clearInterval(handler);
-                sendFriends(friends);
+                sendFriends();
             }
         }
         document.body.scrollIntoView(true);
@@ -192,7 +192,7 @@ function collectAlternate() {
             });
             return;
         }
-        if(collectMethod == 'both') collectStandard(friends);
+        if(collectMethod == 'both') collectStandard();
         else sendFriends();
     }
 
