@@ -271,21 +271,21 @@ function createMenu() {
 <li data-action="about"><b>&nbsp;</b>
     <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
 </li>
-<li data-action="fullWindow"><b>&nbsp;</b>
+<li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
     <div><span>${gm('menu_fullwindow')}</span><br>
     <i data-pref="fullWindow"></i>
     <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
     <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
     </div>
 </li>
-<li data-action="gcTable"><b>&nbsp;</b>
+<li data-action="gcTable"><b data-pref="gcTable">&nbsp;</b>
     <div><span>${gm('menu_gctable')}</span><span data-value="status">${gm('menu_gccollected')}</span><br>
     <i data-pref="gcTable"></i>
     <i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
     <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
     </div>
 </li>
-<li data-action="autoClick"><b>&nbsp;</b>
+<li data-action="autoClick"><b data-pref="autoClick">&nbsp;</b>
     <div><span>${gm('menu_autoclick')}</span><br>
     <i data-pref="autoClick"></i>
     </div>
@@ -318,7 +318,7 @@ function updateMenu(prefName) {
         prefName = el.getAttribute('data-pref');
         var isOn = !!prefs[prefName];
         el.classList.toggle('DAF-on', isOn);
-        if (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick') el.textContent = isOn ? textOn : textOff;
+        if (el.tagName == 'I' && (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick')) el.textContent = isOn ? textOn : textOff;
     }
 }
 

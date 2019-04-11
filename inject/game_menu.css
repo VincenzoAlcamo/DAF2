@@ -69,14 +69,14 @@
 }
 
 .DAF-menu b {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   margin: 0 6px 0 4px;
   transition: 0.2s;
   cursor: pointer;
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 24px 24px;
   background-position: 2px 2px;
 }
 
@@ -124,7 +124,7 @@
   color: #DDD;
 }
 
-.DAF-menu i.DAF-on {
+.DAF-menu .DAF-on {
   background-color: #0F0;
   color: #060;
 }
@@ -138,7 +138,7 @@
 
 .DAF-menu li[data-action="about"] b {
   background-image: url("/img/gui/about.png");
-  background-size: 16px 16px;
+  background-size: 22px 22px;
   background-position: 4px 3px;
 }
 
