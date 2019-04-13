@@ -31,7 +31,7 @@
 }
 
 .neighbors tr td:nth-child(9) {
-  cursor: help;
+  cursor: zoom-in;
 }
 .neighbors tr td:nth-child(9):hover {
   background-color: var(--th-bgcol);
