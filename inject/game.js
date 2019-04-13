@@ -132,19 +132,19 @@ function onFullWindow() {
 function autoClickHandler() {
     if (event.animationName !== 'DAF_anim' || !prefs.autoClick) return;
     var element = event.target;
-    var parent = element;
-    var form = null;
-    // find root node for dialog, so we can send it in background
-    while (parent.parentNode.tagName != 'BODY') {
-        if (parent.tagName == 'FORM') form = parent;
-        parent = parent.parentNode;
-    }
+    var form = element.form;
     if (!form) return;
-    // this is the Invite dialog
-    if (parent.querySelector('.profileBrowserDialog')) return;
     // guard against payments
     if (element.getAttribute('data-testid') == 'pay_button') return;
     if (form.action.indexOf('pay') >= 0) return;
+    if (form.action.indexOf('/app_requests/') < 0) return;
+    // find root node for dialog, so we can send it in background
+    var parent = element;
+    while (parent.parentNode.tagName != 'BODY') {
+        parent = parent.parentNode;
+    }
+    // this is the Invite dialog
+    if (parent.querySelector('.profileBrowserDialog')) return;
     parent.style.zIndex = -1;
     // click the confirm button
     element.click();
