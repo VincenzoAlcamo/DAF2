@@ -187,7 +187,7 @@ function autoClick() {
         // guard against payments
         if (element.getAttribute('data-testid') == 'pay_button') return;
         if (form.action.indexOf('pay') >= 0) return;
-        if (form.action.indexOf('/app_requests/') < 0) return;
+        if (form.action.indexOf('/app_requests/') < 0 && form.action.indexOf('/share/') < 0) return;
         // find root node for dialog, so we can send it in background
         var parent = element;
         while (parent.parentNode.tagName != 'BODY') {
