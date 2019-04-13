@@ -504,6 +504,9 @@
     "friendship_score": {
         "message": "Score"
     },
+    "friendship_scoretooltip": {
+        "message": "Match confidence, as follows:\n100 = Same Facebook id\n99 = Manual match\n95 = Same profile picture\n90 = Same full name\n80 = Same first name and last name\n70 = Same first name and last name (reversed)\n60 = Chinese characters match"
+    },
     "friendship_action": {
         "message": "Action"
     },
