@@ -27,6 +27,10 @@ function init() {
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
+    trGifts = document.createElement('tr');
+    trGifts.className = 'giftrow';
+    trGifts.innerHTML = HtmlBr `<td colspan="9"><div>${Locale.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('neighbors');
@@ -72,32 +76,28 @@ function setState(state) {
 
 function onClick(e) {
     var cell;
-    for(var el = e.target; !cell && el.tagName != 'TABLE'; el = el.parentNode) if(el.tagName == 'TD') cell = el;
-    if(!cell || cell.cellIndex != 8) return;
+    for (var el = e.target; !cell && el.tagName != 'TABLE'; el = el.parentNode)
+        if (el.tagName == 'TD') cell = el;
+    if (!cell || !cell.classList.contains('has-gifts')) return;
     var row = cell.parentNode;
-    if(!trGifts) {
-        trGifts = document.createElement('tr');
-        trGifts.className = 'giftrow';
-        trGifts.innerHTML = '<td colspan="9"><div class="giftlist slick-scrollbar"></div></td>';
-    }
-    if(row.nextSibling == trGifts) {
+    if (row.nextSibling == trGifts) {
         trGifts.parentNode.removeChild(trGifts);
         return;
     }
-    var giftContainer = trGifts.firstChild.firstChild;
+    var giftContainer = trGifts.querySelector('.giftlist');
     giftContainer.innerHTML = '';
     giftContainer.style.width = row.offsetWidth + 'px';
     row.parentNode.insertBefore(trGifts, row.nextSibling);
     var id = row.getAttribute('data-pal-id');
     var pal = bgp.Data.getNeighbour(id);
     var palGifts = pal.extra.gifts;
-    if(!Array.isArray(palGifts)) palGifts = [];
+    if (!Array.isArray(palGifts)) palGifts = [];
     var gifts = gui.getFile('gifts');
     console.log('Gifts for ', gui.getPlayerNameFull(pal));
     var htm = '';
-    for(let palGift of palGifts) {
+    for (let palGift of palGifts) {
         let gift = gifts[palGift.gid];
-        if(!gift) continue;
+        if (!gift) continue;
         htm += HtmlBr `<div><img class="outlined" width="50" height="50" src="${gui.getObjectImage(gift.type, gift.object_id)}" title="${gui.getObjectName(gift.type, gift.object_id)}">`;
         htm += HtmlBr `<b class="outlined">${Locale.formatNumber(+gift.amount)}</b>`;
         htm += HtmlBr `<span>${Locale.formatDate(palGift.time)}<br>${Locale.formatTime(palGift.time)}</span></div>`;
@@ -119,12 +119,12 @@ function update() {
         row.setAttribute('lazy-render', '');
         var gifts = pal.extra.gifts;
         var count = 0;
-        if(Array.isArray(gifts)) {
+        if (Array.isArray(gifts)) {
             count = gifts.length;
-            for(var gift of gifts) gift.time = +gift.time;
-            gifts.sort((a,b) => a.time - b.time);
+            for (var gift of gifts) gift.time = +gift.time;
+            gifts.sort((a, b) => a.time - b.time);
             var time = gifts[0].time;
-            if(time < minTime) minTime = time;
+            if (time < minTime) minTime = time;
         }
         return Object.assign({}, pal, {
             fullname: name.toUpperCase(),
@@ -169,7 +169,7 @@ function updateRow(row) {
     htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
     var gifts = pal.extra.gifts;
     var count = Array.isArray(gifts) ? gifts.length : 0;
-    htm += HtmlBr `<td>${Locale.formatNumber(count)}</td>`;
+    htm += HtmlBr `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(count)}</td>`;
     row.innerHTML = htm;
 }
 

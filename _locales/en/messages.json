@@ -497,6 +497,9 @@
     "neighbors_giftcount": {
         "message": "Gift\nCount"
     },
+    "neighbors_giftinfo": {
+        "message": "The gifts below were recorded while DAF was active. The time indicated is the time of registration."
+    },
 
     "friendship_collect": {
         "message": "Collect and match"

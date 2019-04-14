@@ -30,21 +30,22 @@
   max-width: 300px;
 }
 
-.neighbors tr td:nth-child(9) {
+.neighbors td.has-gifts {
   cursor: zoom-in;
 }
-.neighbors tr td:nth-child(9):hover {
+
+.neighbors td.has-gifts:hover {
   background-color: var(--th-bgcol);
   color: var(--th-fgcol);
 }
 
 .neighbors .giftrow td {
   padding: 0;
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
 }
 
 .neighbors .giftlist {
-  background-color: var(--th-bgcol);
-  color: var(--th-fgcol);
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
@@ -65,6 +66,6 @@
   padding-right: 8px;
 }
 
-.neighbors .giftlist div {
+.neighbors .giftRow div {
   font-size: 11px;
 }
