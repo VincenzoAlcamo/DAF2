@@ -545,45 +545,18 @@ var WebRequest = {
         if (!info) return;
         console.log('onCompleted', info.filename, info);
         WebRequest.deleteRequest(info.id);
-        var file = {
-            id: info.id,
-            url: info.url,
-            time: Date.now()
-        };
         if (!info.promise) info.promise = Promise.resolve(null);
         info.promise.then(function(text) {
             if (info.id == 'localization') {
-                let languageId = Data.localization.languageId || Data.getLanguageIdFromUrl(info.url);
-                let find = function(suffix) {
-                    for (let key of Object.keys(Data.generator && Data.generator.file_changes)) {
-                        if (key.endsWith(suffix) && Data.getLanguageIdFromUrl(key) == languageId) {
-                            file.url = Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key];
-                            return true;
-                        }
-                    }
-                };
-                if (!find('localization.csv')) find('localization.xml');
-                languageId = Data.getLanguageIdFromUrl(file.url);
-                let urlInfo = new UrlInfo(file.url);
-                file.version = urlInfo.parameters.ver;
-                var id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
-                var id2 = [languageId, file.version, Parser.parse_localization_revision].join(',');
-                if (id1 != id2) {
-                    WebRequest.captures[file.url] = file;
-                    return fetch(file.url).then(function(response) {
-                        return response.text();
-                    }).then(function(text) {
-                        file.data = Parser.parse(file.id, text);
-                        file.revision = Parser.parse_localization_revision;
-                        Data.store(file);
-                    }).finally(function() {
-                        delete WebRequest.captures[file.url];
-                    });
-                }
+                return Data.checkLocalization(info.url);
             } else if (info.id == 'synchronize') {
                 Synchronize.process(info.postedXml, text);
                 Badge.setText('');
             } else if (info.id == 'generator') {
+                var file = {};
+                file.id = info.id;
+                file.url = info.url;
+                file.time = Date.now();
                 file.data = Parser.parse(info.id, text);
                 if (file.data) {
                     file.data.player_id = info.player_id;
@@ -747,6 +720,40 @@ var Data = {
     getLanguageIdFromUrl: function(url) {
         return url.match(/\/([A-Z][A-Z])\/localization\./)[1];
     },
+    checkLocalization: function(url) {
+        var file = {
+            id: 'localization',
+            url: url,
+            time: Date.now()
+        };
+        let languageId = Data.localization.languageId || Data.getLanguageIdFromUrl(url) || 'EN';
+        let find = function(suffix) {
+            for (let key of Object.keys(Data.generator && Data.generator.file_changes)) {
+                if (key.endsWith(suffix) && Data.getLanguageIdFromUrl(key) == languageId) {
+                    file.url = Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key];
+                    return true;
+                }
+            }
+        };
+        if (!find('localization.csv')) find('localization.xml');
+        languageId = Data.getLanguageIdFromUrl(file.url);
+        let urlInfo = new UrlInfo(file.url);
+        file.version = urlInfo.parameters.ver;
+        var id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
+        var id2 = [languageId, file.version, Parser.parse_localization_revision].join(',');
+        if (id1 != id2) {
+            WebRequest.captures[file.url] = file;
+            return fetch(file.url).then(function(response) {
+                return response.text();
+            }).then(function(text) {
+                file.data = Parser.parse(file.id, text);
+                file.revision = Parser.parse_localization_revision;
+                Data.store(file);
+            }).finally(function() {
+                delete WebRequest.captures[file.url];
+            });
+        }
+    },
     storeLocalization: function(file) {
         if (file && file.data) {
             Data.localization = {
@@ -877,12 +884,12 @@ var Data = {
     getObjectImage: function(type, id, small) {
         var col = Data.getObjectCollection(type);
         var item = col && col[id];
-        if(!item) return '';
-        if(type == 'windmill') return Data.generator.cdn_root + 'mobile/graphics/windmills/greece_windmill.png';
+        if (!item) return '';
+        if (type == 'windmill') return Data.generator.cdn_root + 'mobile/graphics/windmills/greece_windmill.png';
         var asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
         if (!asset) return '';
         if (asset[0] == '/') return asset;
-        if(type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
+        if (type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
         return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
     },
     getObjectName: function(type, id) {
@@ -900,7 +907,16 @@ var Data = {
     },
     getFile: async function(name, version) {
         if (name in Data.unusedFiles) return {};
-        var fileName = 'erik/' + name + '.erik';
+        var fileName, kind;
+        if(name.startsWith('floors_')) {
+            fileName = 'json/floors/' + name + '.json';
+            kind = 'json';
+        } else {
+            fileName = 'erik/';
+            if (name.startsWith('locations_')) fileName += 'locations/';
+            fileName += name + '.erik';
+            kind = 'erik';
+        }
         if (version === undefined) {
             version = '1';
             if (Data.generator && Data.generator.file_changes && fileName in Data.generator.file_changes) version = String(Data.generator.file_changes[fileName]);
@@ -923,12 +939,12 @@ var Data = {
         };
         var response = await fetch(url);
         var text = await response.text();
-        var data = Parser.parse('erik', text);
+        var data = Parser.parse(kind, text);
         if (!data) throw `File cannot be parsed: "${file}"`;
-        var keys = data.__keys.filter(key => key.startsWith('@'));
-        delete data.__keys;
-        if (keys.length) {
-            var items = Array.isArray(data) ? data : Object.values(data);
+        if (kind == 'erik') {
+            var keys = data.__keys.filter(key => key.startsWith('@'));
+            delete data.__keys;
+            var items = keys.length ? (Array.isArray(data) ? data : Object.values(data)) : null;
             for (var key of keys) {
                 var key2 = key.substr(1);
                 var detail = await Data.getFile(name + '_' + key2);
@@ -1071,7 +1087,6 @@ async function init() {
     Badge.setIcon('grey');
     await Preferences.init();
     await Data.init();
-    if (Data.generator && Data.generator.player_id) Badge.setIcon('yellow');
     await Message.init();
     await Synchronize.init();
     await WebRequest.init();
@@ -1127,6 +1142,11 @@ async function init() {
     }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
 
     if (Preferences.getValue('enableFlash')) Tab.enableFlashPlayer();
+
+    if (Data.generator && Data.generator.player_id) {
+        Data.checkLocalization('');
+        Badge.setIcon('yellow');
+    }
 
     autoAttachDebugger();
 

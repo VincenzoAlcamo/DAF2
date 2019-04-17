@@ -219,6 +219,11 @@ var Parser = {
             return data;
         }
     },
+    parse_json: function(text, format) {
+        if (format != FORMATS.JSON) return;
+        var result = JSON.parse(text);
+        return result;
+    },
     parse_erik: function(text, format) {
         if (format != FORMATS.TEXT) return;
         var arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
