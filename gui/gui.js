@@ -14,6 +14,10 @@ var gui = {
     getGenerator: function() {
         return bgp.Data.generator;
     },
+    hasValidGenerator: function() {
+        var generator = gui.getGenerator();
+        return generator && generator.player_id;
+    },
     getFile: function(name) {
         return bgp.Data.files[name];
     },
@@ -108,6 +112,9 @@ var gui = {
             else location += '&' + encodeURIComponent(key) + '=' + String(value).split(',').map(t => encodeURIComponent(t)).join(',');
         });
         history.replaceState(null, null, location);
+    },
+    getTabMenuItem: function(tabId) {
+        return tabId && document.querySelector('.vertical-menu li[data-tabid="' + tabId + '"]');
     }
 };
 
@@ -121,11 +128,12 @@ var tabs = (function() {
         tabs[id] = {
             id: id,
             icon: '/img/gui/' + id + '.png',
+            generator: id != 'about' && id != 'options',
             enabled: enabled
         };
     }
     addTab('about');
-    addTab('progress');
+    addTab('progress', false);
     addTab('camp');
     addTab('neighbors');
     addTab('friendship');
@@ -133,20 +141,22 @@ var tabs = (function() {
     addTab('kitchen');
     addTab('foundry');
     addTab('pillars');
-    addTab('locations');
-    addTab('greenrings');
-    addTab('redrings');
-    addTab('rewardlinks');
+    addTab('locations', false);
+    addTab('greenrings', false);
+    addTab('redrings', false);
+    addTab('rewardlinks', false);
     addTab('options');
-    addTab('help');
+    addTab('help', false);
     return tabs;
 })();
 
 function onLoad() {
     var htm = '';
-    Object.values(tabs).filter(tab => tab.enabled).forEach(tab => {
+    var hasValidGenerator = gui.hasValidGenerator();
+    Object.values(tabs).forEach(tab => {
         var text = gui.getMessage('tab_' + tab.id) || tab.id;
-        htm += Html `<li title="${text}" style="background-image:url(${tab.icon})" data-tabid="${tab.id}"><span>${text}</span></li>`;
+        var disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
+        htm += Html `<li title="${text}" style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
     });
     htm += Html `<li class="last"></li>`;
     var div = document.querySelector('.vertical-menu');
@@ -160,20 +170,24 @@ function onLoad() {
     chrome.runtime.onMessage.addListener(function onMessage(request, _sender, _sendResponse) {
         var action = request.action;
         var data = request.data;
-        for (var tab of Object.values(tabs)) {
-            if (action == 'generator') tab.mustBeUpdated = true;
-            else if (tab.isLoaded && tab.actions && action in tab.actions) {
-                try {
-                    tab.actions[action](data);
-                } catch (e) {}
+        if (action == 'generator') {
+            for (let tab of Object.values(tabs)) {
+                tab.mustBeUpdated = true;
+                var div = gui.getTabMenuItem(tab.id);
+                var disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
+                div.classList.toggle('disabled', disabled);
+            }
+            updateCurrentTab();
+        } else {
+            for (let tab of Object.values(tabs)) {
+                if (tab.isLoaded && tab.actions && action in tab.actions) {
+                    try {
+                        tab.actions[action](data);
+                    } catch (e) {}
+                }
             }
         }
-        if (action == 'generator') updateCurrentTab();
     });
-
-    function getTab(tabId) {
-        return tabId && document.querySelector('.vertical-menu li[data-tabid="' + tabId + '"]');
-    }
 
     chrome.storage.onChanged.addListener(function onStorageChanged(changes, area) {
         if (area != 'local') return;
@@ -188,14 +202,15 @@ function onLoad() {
 
     var urlInfo = new UrlInfo(location.href);
     var tabId = urlInfo.parameters.tab;
-    div = getTab(tabId);
-    if (div) {
+    div = gui.getTabMenuItem(tabId);
+    if (div && !div.classList.contains('disabled')) {
         var state = Object.assign({}, urlInfo.parameters);
         delete state.tab;
         localStorage.setItem('state_' + tabId, JSON.stringify(state));
     } else {
-        div = getTab(localStorage.getItem('tab')) || getTab('about');
+        div = gui.getTabMenuItem(localStorage.getItem('tab'));
     }
+    if (!div || div.classList.contains('disabled')) div = gui.getTabMenuItem('about');
     if (div) div.dispatchEvent(new Event('click'));
 }
 
@@ -240,7 +255,7 @@ async function clickMenu(e) {
         el, tabId, tab;
     for (el = e.target; el.tagName != 'UL'; el = el.parentNode)
         if (el.tagName == 'LI') li = el;
-    if (!li || li.classList.contains('selected')) return;
+    if (!li || li.classList.contains('selected') || li.classList.contains('disabled') || li.classList.contains('last')) return;
     tabId = li.getAttribute('data-tabid');
     Array.from(el.querySelectorAll('li')).forEach(item => {
         item.classList.toggle('selected', item == li);

@@ -209,7 +209,7 @@ progress::-webkit-progress-value {
 
 .outlined {
   /* text-shadow: -1px -1px var(--outline-color), -1px 0px var(--outline-color), -1px 1px var(--outline-color), 0px -1px var(--outline-color), 0px 1px var(--outline-color), 1px -1px var(--outline-color), 1px 0 var(--outline-color), 1px 1px var(--outline-color); */
-  filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color)) drop-shadow(1px  0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
+  filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color)) drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
 }
 
 /*#endregion*/
@@ -258,6 +258,17 @@ progress::-webkit-progress-value {
   background-color: var(--vm-item-hov-bgcol);
 }
 
+.vertical-menu li.disabled {
+  color: var(--vm-item-fgcol);
+  background-color: var(--vm-item-bgcol);
+  filter: saturate(10%);
+  cursor: not-allowed;
+}
+
+.vertical-menu li.disabled span {
+  filter: blur(1px);
+}
+
 .vertical-menu li.selected {
   color: var(--vm-item-sel-fgcol);
   background-color: var(--vm-item-sel-bgcol);
@@ -281,8 +292,13 @@ progress::-webkit-progress-value {
 .vertical-menu li.last {
   flex-grow: 1;
   flex-shrink: 1;
-  background-color: var(--vm-bgcol);
+  background-color: var(--vm-bgcol) !important;
   border-bottom: none;
+  cursor: default;
+}
+
+.vertical-menu li.first {
+  background-color: var(--vm-bgcol) !important;
   cursor: default;
 }
 
@@ -401,7 +417,7 @@ th.sort-sub.sort-ascending {
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   position: sticky;
   top: 0px;
-  --outline-color: var(tt-outline);
+  --outline-color: var(--tt-outline);
 }
 
 .toolbar label {
