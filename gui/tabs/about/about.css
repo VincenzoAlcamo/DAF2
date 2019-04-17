@@ -29,6 +29,17 @@
   font-size: 12pt;
 }
 
+.about_data.nodata {
+  animation: about_blinker 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+  font-size: 20pt;
+}
+
+@keyframes about_blinker {
+  to {
+    opacity: 0;
+  }
+}
+
 .about_disclaimer {
   font-size: 14pt;
   margin-top: 64px;

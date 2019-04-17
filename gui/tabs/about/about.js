@@ -10,9 +10,9 @@ function init() {}
 function update() {
     this.container.querySelector('.about_version').innerHTML = HtmlBr(gui.getMessage('about_version', bgp.Data.version));
 
-    var generator = bgp.Data.generator;
+    var generator = gui.getGenerator();
     var data;
-    if (generator && generator.player_id) {
+    if (gui.hasValidGenerator()) {
         data = gui.getMessage('about_data',
             Locale.formatDateTimeFull(generator.time),
             generator.player_id,
@@ -22,5 +22,7 @@ function update() {
     } else {
         data = gui.getMessage('about_nodata');
     }
-    this.container.querySelector('.about_data').innerHTML = HtmlBr(data);
+    var div = this.container.querySelector('.about_data');
+    div.innerHTML = HtmlBr(data);
+    div.classList.toggle('nodata', !gui.hasValidGenerator());
 }
