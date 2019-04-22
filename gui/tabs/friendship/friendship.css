@@ -64,7 +64,7 @@ table.f-matching tr.f-notmatched td:nth-child(4):after {
 
 .friendship button[data-action]:hover,
 .friendship.f-matching tr.f-notmatched td:nth-child(4):hover:after {
-  background-color: #ff0;
+  background-color: var(--tb-hlcol);
 }
 
 .friendship button[data-action="unlink"] {

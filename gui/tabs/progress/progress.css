@@ -1,0 +1,91 @@
+.tab_progress tfoot td {
+  text-align: right;
+}
+
+.tab_progress tfoot progress::-webkit-progress-value {
+  background-color: var(--pb-fgcol2);
+}
+
+.tab_progress.no-dates td.date,
+.tab_progress.no-dates th.date {
+  display: none;
+}
+
+.progress_table td {
+  text-align: right;
+}
+
+.progress_table td:nth-child(8),
+.progress_table td:nth-child(9),
+.progress_table td:nth-child(10) {
+  text-align: center;
+}
+
+.progress_table td:nth-child(3) img {
+  /* This forces the image to be centered horizontally */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.progress_table td:nth-child(1) {
+  text-align: right;
+  border-right: none;
+  padding-right: 0px;
+}
+
+.progress_table td:nth-child(2) {
+  text-align: left;
+  border-left: none;
+}
+
+.progress_table tr.inspect {
+  cursor: zoom-in;
+}
+
+.progress_table tr.header {
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+}
+
+.progress_table tr.subtotal {
+  background-color: var(--tb-brcol);
+  color: var(--th-fgcol);
+}
+
+.progress_table tr.subtotal td:nth-child(2) {
+  text-align: right;
+}
+
+.progress_table tr.subtotal progress::-webkit-progress-value {
+  background-color: var(--pb-fgcol3);
+}
+
+.progress_table tr.inspected {
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+  cursor: zoom-out;
+}
+
+.progress_table tr.not-inspected[data-level="0"] {
+  background-color: var(--th-bgcol);
+  opacity: 0.5;
+}
+
+.progress_table tr.not-inspected[data-level="1"] {
+  background-color: var(--tb-brcol);
+  opacity: 0.5;
+}
+
+.progress_table tr.inspect:hover {
+  background-color: var(--tb-hlcol);
+  color: var(--tb-fgcol);
+}
+
+.progress_table td div {
+  font-size: 10pt;
+}
+
+.tab_progress tr[data-level="1"] progress::-webkit-progress-value {
+  background-color: var(--pb-fgcol2);
+}

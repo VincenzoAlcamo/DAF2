@@ -95,8 +95,6 @@
   margin-right: var(--size);
 }
 
-.camp .line:nth-child(even) {}
-
 .camp .item {
   width: calc(var(--w) * var(--size));
   height: calc(var(--h) * var(--size));
@@ -157,11 +155,16 @@
   background-image: url(/img/regions/5.png);
 }
 
+.camp .item.reg6 {
+  background-image: url(/img/regions/6.png);
+}
+
 .camp .item.reg1,
 .camp .item.reg2,
 .camp .item.reg3,
 .camp .item.reg4,
-.camp .item.reg5 {
+.camp .item.reg5,
+.camp .item.reg6 {
   background-size: var(--size), auto;
   background-repeat: no-repeat, repeat;
   background-position: bottom right, top left;
@@ -256,4 +259,8 @@
   height: 32px;
   border-radius: 24px;
   top: -12px;
+}
+
+.camp_separator {
+  height: 4px;
 }

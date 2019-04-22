@@ -174,7 +174,7 @@ function updateCamp(div, flagHeaderOnly = false) {
             // table Regeneration
             htm += HtmlBr `<td><table class="camp-data row-coloring">`;
             var caption = camps.length == 1 ? '' : gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode');
-            htm += HtmlBr `<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/camp/energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/camp/capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
+            htm += HtmlBr `<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
             htm += HtmlBr `<tbody>`;
             htm += HtmlBr `<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
             htm += HtmlBr `<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;

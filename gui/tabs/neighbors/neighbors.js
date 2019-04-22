@@ -93,7 +93,6 @@ function onClick(e) {
     var palGifts = pal.extra.gifts;
     if (!Array.isArray(palGifts)) palGifts = [];
     var gifts = gui.getFile('gifts');
-    console.log('Gifts for ', gui.getPlayerNameFull(pal));
     var htm = '';
     for (let palGift of palGifts) {
         let gift = gifts[palGift.gid];
@@ -101,7 +100,6 @@ function onClick(e) {
         htm += HtmlBr `<div><img class="outlined" width="50" height="50" src="${gui.getObjectImage(gift.type, gift.object_id)}" title="${gui.getObjectName(gift.type, gift.object_id)}">`;
         htm += HtmlBr `<b class="outlined">${Locale.formatNumber(+gift.amount)}</b>`;
         htm += HtmlBr `<span>${Locale.formatDate(palGift.time)}<br>${Locale.formatTime(palGift.time)}</span></div>`;
-        console.log(Locale.formatDateTimeFull(palGift.time), gui.getObjectName(gift.type, gift.object_id), Locale.formatNumber(+gift.amount));
     }
     giftContainer.innerHTML = htm;
 }

@@ -14,36 +14,48 @@ function SmartTable(table) {
     this.container.className = 'sticky-container';
     this.sort = {};
     this.sortSub = {};
-    this.header = table.querySelector('thead');
-    if (this.header) {
-        //        let tableHeader = table.parentNode.insertBefore(document.createElement('table'), table);
-        let tableHeader = this.container.appendChild(document.createElement('table'));
-        tableHeader.className = 'sticky-header';
-        tableHeader.appendChild(this.fixedHeader = this.header.cloneNode(true));
-        this.header.style.visibility = 'hidden';
-        this.fixedHeader.addEventListener('click', e => this.headerClick(e));
-    }
     this.container.appendChild(this.table);
-    this.footer = table.querySelector('tfoot');
-    if (this.footer) {
-        //let tableFooter = table.parentNode.insertBefore(document.createElement('table'), table.nextSibling);
-        let tableFooter = this.container.appendChild(document.createElement('table'));
-        tableFooter.className = 'sticky-footer';
-        tableFooter.appendChild(this.fixedFooter = this.footer.cloneNode(true));
-        this.footer.style.visibility = 'hidden';
-    }
+    this.recreateHeader();
+    this.recreateFooter();
     this.tbody = Array.from(table.querySelectorAll('tbody'));
-    table.addEventListener('resized', () => this.sync());
+    this.table.addEventListener('resized', () => this.sync());
     resizeObserver.observe(table);
     return this;
 }
 Object.assign(SmartTable.prototype, {
+    recreateHeader: function() {
+        let tableHeader = this.container.querySelector('table.sticky-header');
+        if(tableHeader) tableHeader.parentNode.removeChild(tableHeader);
+        this.fixedHeader = null;
+        this.header = this.table.querySelector('thead');
+        if (this.header) {
+            tableHeader = this.container.insertBefore(document.createElement('table'), this.container.firstChild);
+            tableHeader.className = 'sticky-header';
+            this.header.style.visibility = '';
+            tableHeader.appendChild(this.fixedHeader = this.header.cloneNode(true));
+            this.header.style.visibility = 'hidden';
+            this.fixedHeader.addEventListener('click', e => this.headerClick(e));
+        }
+    },
+    recreateFooter: function() {
+        let tableFooter = this.container.querySelector('table.sticky-footer');
+        if(tableFooter) tableFooter.parentNode.removeChild(tableFooter);
+        this.fixedFooter = null;
+        this.footer = this.table.querySelector('tfoot');
+        if (this.footer) {
+            tableFooter = this.container.appendChild(document.createElement('table'));
+            tableFooter.className = 'sticky-footer';
+            this.footer.style.visibility = '';
+            tableFooter.appendChild(this.fixedFooter = this.footer.cloneNode(true));
+            this.footer.style.visibility = 'hidden';
+        }
+    },
     syncLater: function() {
         setTimeout(() => this.sync(), 100);
     },
     sync: function() {
         this.container.style.maxWidth = (this.container.parentNode.clientWidth - 12) + 'px';
-        this.container.style.maxHeight = (this.container.parentNode.clientHeight - 24) + 'px';
+        this.container.style.maxHeight = (this.container.parentNode.clientHeight - 28) + 'px';
 
         function process(thead1, thead2) {
             if (!thead1) return;

@@ -57,10 +57,11 @@ var gui = {
         var rid = bgp.Data.getRegionFromSkin(skin);
         return rid > 0 ? this.getRegionImg(rid, false, size) : HtmlBr `<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
     },
-    getDuration: function(drn) {
+    getDuration: function(drn, flagReduced) {
         let mm = Math.floor((drn / 60) % 60);
         let hh = Math.floor((drn / (60 * 60)) % 24);
         let dd = Math.floor(drn / (60 * 60 * 24));
+        if(flagReduced && dd > 0) return Locale.formatNumber(dd) + 'd';
         return `${dd ? Locale.formatNumber(dd) + 'd:' : ''}${(hh < 10 ? '0' : '')+hh}h:${(mm < 10 ? '0' : '')+mm}m`;
     },
     getArrayOfInt: function(value) {
@@ -76,6 +77,9 @@ var gui = {
         var goal = next * next;
         // Facebook hard limit of 5000 friends
         return goal > 5000 ? 0 : goal - realNeighbours;
+    },
+    getMaxRegion: function() {
+        return 6;
     },
     // Lazy load images using an IntersectionObserver
     lazyObserver: new IntersectionObserver(function(entries) {
@@ -133,7 +137,7 @@ var tabs = (function() {
         };
     }
     addTab('about');
-    addTab('progress', false);
+    addTab('progress');
     addTab('camp');
     addTab('neighbors');
     addTab('friendship');

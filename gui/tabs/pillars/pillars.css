@@ -95,7 +95,7 @@
 }
 
 .pillars-next progress::-webkit-progress-value {
-  background-color: var(--pb-bgcol2);
+  background-color: var(--pb-fgcol2);
 }
 
 .pillars tr[data-row="2"] th {
@@ -117,6 +117,6 @@
 
 .pillars-stats {
   padding-top: 4px;
-  margin-bottom: -6px;
+  margin-bottom: -2px;
   font-weight: bold;
 }

@@ -89,7 +89,7 @@ var Parser = {
             if (match) {
                 var fb_id = match[1];
                 delete pal.pic_square;
-                if(pal.escaped_fb_id && pal.escaped_fb_id != '#' + fb_id) console.log('mismatch', pal.escaped_fb_id, fb_id);
+                if (pal.escaped_fb_id && pal.escaped_fb_id != '#' + fb_id) console.log('mismatch', pal.escaped_fb_id, fb_id);
                 delete pal.escaped_fb_id;
                 pal.fb_id = fb_id;
             }
@@ -126,34 +126,23 @@ var Parser = {
         });
         data.file_changes = file_changes;
 
-        // materials
-        for (let key of ['materials', 'tokens', 'usables', 'events_region', 'stored_buildings', 'stored_decorations', 'stored_windmills']) {
-            let arr = data[key] && data[key].item;
-            let result = {};
-            if (Array.isArray(arr)) {
-                for (let item of arr) {
-                    result[item.def_id] = +item.amount;
-                }
-            }
-            data[key] = result;
+        let accumulator = {};
+        let accumulate = (array, fn) => {
+            accumulator = {};
+            Array.isArray(array) && array.forEach(fn);
+            return accumulator;
+        };
+        for (let key of ['materials', 'tokens', 'usables', 'stored_buildings', 'stored_decorations', 'stored_windmills']) {
+            data[key] = accumulate(data[key] && data[key].item, item => accumulator[item.def_id] = +item.amount);
         }
-
-        // events
-        for (let key of ['events']) {
-            let arr = data[key];
-            let result = {};
-            if (Array.isArray(arr)) {
-                for (let item of arr) {
-                    item = item.event;
-                    result[item.def_id] = item;
-                }
-            }
-            data[key] = result;
-        }
+        data.events_region = accumulate(data.events_region && data.events_region.item, item => accumulator[item.event_id] = +item.region_id);
+        data.loc_prog = accumulate(data.loc_prog, item => accumulator[item.id] = item);
+        data.achievs = accumulate(data.achievs, item => accumulator[item.def_id] = item);
+        data.events = accumulate(data.achievs, item => accumulator[item.event.def_id] = item.event);
 
         return data;
     },
-    parse_localization_revision: 1,
+    parse_localization_revision: 2,
     parse_localization: function(text, format) {
         var wanted = {
             //'ABNA': '',
@@ -173,6 +162,7 @@ var Parser = {
             'USNA': 'Usable',
             'WINA': 'Windmill',
             'CT': 'Theme',
+            'ACDE': 'Achievement description',
             'MADE': 'Material description',
             'QIDE': 'Quest Item description',
             'USDE': 'Usable description',
