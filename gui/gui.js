@@ -38,6 +38,9 @@ var gui = {
         uri = uri || ('https://www.facebook.com/' + fb_id);
         return Html `<a target="_blank" href="${uri}">`;
     },
+    getFriendAnchor: function(friend) {
+        return Html `<a target="_blank" href="${friend.uri}" title="${friend.name}">`;
+    },
     getObjectName: function(type, id) {
         return bgp.Data.getObjectName(type, id);
     },

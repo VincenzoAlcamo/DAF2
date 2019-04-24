@@ -68,3 +68,10 @@
 .neighbors .giftRow div {
   font-size: 11px;
 }
+
+.neighbors .friend {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  vertical-align: middle;
+}

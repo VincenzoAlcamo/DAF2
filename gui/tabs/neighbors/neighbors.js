@@ -9,7 +9,7 @@ export default {
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills']
 };
 
-var tab, container, selectShow, searchInput, smartTable, searchHandler, neighbors, trGifts;
+var tab, container, selectShow, searchInput, smartTable, searchHandler, palRows, trGifts;
 
 function init() {
     tab = this;
@@ -105,38 +105,16 @@ function onClick(e) {
 }
 
 function update() {
-    // Remove Mr.Bill
-    var t = Object.assign({}, bgp.Data.getNeighbours());
-    delete t[1];
-    var minTime = +Infinity;
-    neighbors = Object.values(t).map(pal => {
-        var name = gui.getPlayerNameFull(pal);
-        var row = document.createElement('tr');
+    palRows = {};
+    for(let pal of Object.values(bgp.Data.getNeighbours())) {
+        let row = document.createElement('tr');
         row.setAttribute('data-pal-id', pal.id);
         row.setAttribute('height', 61);
         row.setAttribute('lazy-render', '');
-        var gifts = pal.extra.gifts;
-        var count = 0;
-        if (Array.isArray(gifts)) {
-            count = gifts.length;
-            for (var gift of gifts) gift.time = +gift.time;
-            gifts.sort((a, b) => a.time - b.time);
-            var time = gifts[0].time;
-            if (time < minTime) minTime = time;
-        }
-        return Object.assign({}, pal, {
-            fullname: name.toUpperCase(),
-            region: +pal.region,
-            level: +pal.level,
-            levelup: (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? -pal.extra.timeLevel : 0,
-            lastgift: pal.extra.lastGift || 0,
-            list: +pal.c_list ? 0 : 1,
-            recorded: pal.extra.timeCreated || 0,
-            gifts: count,
-            row: row
-        });
-    });
-    // giftDays = isFinite(minTime) ? daysBetween(Locale.getDate(minTime), new Date()) : 0;
+        palRows[pal.id] = row;
+    }
+    // Remove Mr.Bill
+    delete palRows[1];
     refresh();
 }
 
@@ -146,7 +124,12 @@ function updateRow(row) {
     var anchor = gui.getFBFriendAnchor(pal.fb_id);
     var htm = '';
     htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
-    htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
+    var friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
+    if(friend) {
+        htm += HtmlBr `<td>${gui.getFriendAnchor(friend)}<img class="friend" src="/img/gui/isaFriend.png"/></a>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
+    } else {
+        htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
+    }
     htm += HtmlBr `<td>${gui.getRegionImg(pal.region)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;
     if (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) {
@@ -204,30 +187,41 @@ function refreshDelayed() {
         }
     }
 
-    var pals = neighbors.filter(function(pal) {
-        if (search != '' && pal.fullname.indexOf(search) < 0) return false;
-        if (show == 'list') return pal.list == list;
-        if (show == 'days') return (pal.lastgift || pal.extra.timeCreated) < days;
-        return true;
-    });
+    var neighbors = Object.assign({}, bgp.Data.getNeighbours());
+    delete neighbors[1];
+    neighbors = Object.values(neighbors);
+    var rows = [];
+    var getSortValueFunctions = {
+        region: pal => +pal.region,
+        level: pal => +pal.level,
+        levelup: pal => (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? -pal.extra.timeLevel : 0,
+        lastgift: pal => pal.extra.lastGift || 0,
+        list: pal => +pal.c_list ? 0 : 1,
+        recorded: pal => pal.extra.timeCreated || 0,
+        gifts: pal => Array.isArray(pal.extra.gifts) ? pal.extra.gifts.length : 0
+    };
+    var sortName = smartTable.sort.name;
+    var getSortValue = getSortValueFunctions[sortName];
+    for(let pal of neighbors) {
+        if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
+        else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
+        let fullname = gui.getPlayerNameFull(pal).toUpperCase();
+        if (search != '' && fullname.indexOf(search) < 0) continue;
+        rows.push([palRows[pal.id], fullname, sortName == 'name' ? 0 : getSortValue(pal)]);
+    }
 
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
-        cell.innerText = Locale.getMessage('neighbors_found', pals.length, neighbors.length);
+        cell.innerText = Locale.getMessage('neighbors_found', rows.length, neighbors.length);
     });
 
     scheduledRefresh = setTimeout(function() {
-        let name = smartTable.sort.name;
-        if (name != 'name') {
-            pals.sort((a, b) => a[name] - b[name] || a.fullname.localeCompare(b.fullname));
-        } else {
-            pals.sort((a, b) => a.fullname.localeCompare(b.fullname));
-        }
-        if (!smartTable.sort.ascending) pals.reverse();
+        rows.sort((a, b) => a[2] - b[2] || a[1].localeCompare(b[1]));
+        if (!smartTable.sort.ascending) rows.reverse();
 
         var tbody = smartTable.tbody[0];
         tbody.innerHTML = '';
-        for (var pal of pals) {
-            tbody.appendChild(pal.row);
+        for (let row of rows) {
+            tbody.appendChild(row[0]);
         }
 
         gui.collectLazyImages(tbody);

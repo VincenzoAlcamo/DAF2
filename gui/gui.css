@@ -17,12 +17,12 @@ html {
   --ssb-thumb-brcol: var(--vm-brcol);
   --ssb-thumb-hov-bgcol: #FF0;
   /* TABLES */
-  --tb-brcol: #36648b;
+  --tb-brcol: #36648B;
   --tb-fgcol: #000;
   --tb-hlcol: rgba(255, 255, 0, 0.8);
   --th-fgcol: #FFF;
-  --th-bgcol: #3498db;
-  --td-brcol: #b3b3b3;
+  --th-bgcol: #3498DB;
+  --td-brcol: #B3B3B3;
   --tr-bgcol: #F5F5F5;
   --tr-bgcol2: #E7E7E7;
   /* CARDS */
@@ -33,11 +33,11 @@ html {
   --crd-bgcol3: #E7E7E7;
   /* TOOLBAR */
   --tt-fgcol: #FFF;
-  --tt-bgcol: #36648b;
-  --tt-button-bgcol: #9ce;
+  --tt-bgcol: #36648B;
+  --tt-button-bgcol: #9CE;
   --tt-button-fgcol: #000;
   --tt-outline: #000;
-  --tt-outlined-fgcol: #f1fb9d;
+  --tt-outlined-fgcol: #FFA;
   --tt-input-bgcol: #FFF;
   --tt-input-fgcol: #000;
   --tt-input-brcol: #000;
@@ -602,7 +602,7 @@ th.sort-sub.sort-ascending {
 .screenshot {
   display: inline-block;
   padding: 2px;
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 .screenshot:hover {
@@ -632,10 +632,6 @@ th.sort-sub.sort-ascending {
   display: inline;
   outline: 2px solid var(--tb-brcol);
   cursor: pointer;
-}
-
-.screenshot .target.ready:hover {
-  outline: 2px solid var(--tb-hlcol);
 }
 
 /*#endregion*/
