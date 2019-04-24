@@ -597,3 +597,45 @@ th.sort-sub.sort-ascending {
 }
 
 /*#endregion*/
+
+/*#region SCREENSHOT*/
+.screenshot {
+  display: inline-block;
+  padding: 2px;
+  opacity: 0.2;
+}
+
+.screenshot:hover {
+  opacity: 1;
+}
+
+.screenshot img {
+  opacity: 0.5;
+}
+
+.screenshot img:hover {
+  opacity: 1;
+}
+
+.screenshot .shot {
+  height: 32px;
+  cursor: pointer;
+}
+
+.screenshot .target {
+  height: 30px;
+  display: none;
+  margin-left: 8px;
+}
+
+.screenshot .target.ready {
+  display: inline;
+  outline: 2px solid var(--tb-brcol);
+  cursor: pointer;
+}
+
+.screenshot .target.ready:hover {
+  outline: 2px solid var(--tb-hlcol);
+}
+
+/*#endregion*/

@@ -121,6 +121,12 @@ var Message = {
         Message.handlers[action] = callback;
     },
     onMessage: function(request, sender, sendResponse) {
+        if(request && request.action == 'capture') {
+            chrome.tabs.captureVisibleTab(function(dataUrl) {
+                sendResponse(dataUrl);
+            });
+            return true;
+        }
         if (request && request.action && request.action in Message.handlers) {
             try {
                 var response = Message.handlers[request.action](request, sender);

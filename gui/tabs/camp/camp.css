@@ -258,9 +258,17 @@
   width: 32px;
   height: 32px;
   border-radius: 24px;
+  top: -9px;
+}
+
+.tab_camp .card>input[type=checkbox]:checked+label>img:first-child {
   top: -12px;
 }
 
 .camp_separator {
   height: 4px;
+}
+
+.tab_camp .screenshot {
+  margin-bottom: -9px;
 }

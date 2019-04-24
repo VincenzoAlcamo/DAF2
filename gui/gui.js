@@ -119,6 +119,98 @@ var gui = {
     },
     getTabMenuItem: function(tabId) {
         return tabId && document.querySelector('.vertical-menu li[data-tabid="' + tabId + '"]');
+    },
+    setupScreenshot: function(element, fileName = 'screenshot.png') {
+        let container = element.querySelector('.screenshot');
+        if (!container) return;
+        let shot = document.createElement('img');
+        shot.src = '/img/gui/screenshot.png';
+        shot.className = 'shot';
+        shot.title = gui.getMessage('gui_screenshot_shot');
+        container.appendChild(shot);
+        let target = document.createElement('img');
+        target.className = 'target';
+        target.title = gui.getMessage('gui_screenshot_target');
+        container.appendChild(target);
+        shot.addEventListener('click', function() {
+            container.style.display = 'none';
+            target.classList.remove('ready');
+            setTimeout(function() {
+                gui.captureElement(element).then(function(data) {
+                    target.src = data;
+                    target.classList.add('ready');
+                }).finally(function() {
+                    container.style.display = '';
+                });
+            }, 100);
+        });
+        target.addEventListener('click', function() {
+            if (!target.classList.contains('ready')) return;
+            let canvas = document.createElement('canvas');
+            canvas.width = target.naturalWidth;
+            canvas.height = target.naturalHeight;
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(target, 0, 0);
+            canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
+        });
+    },
+    copyToClipboard: function(str, mimeType = 'text/plain') {
+        function oncopy(event) {
+            event.clipboardData.setData(mimeType, str);
+            event.preventDefault();
+        }
+        document.addEventListener('copy', oncopy);
+        document.execCommand('copy', false, null);
+        document.removeEventListener('copy', oncopy);
+    },
+    downloadData: function(data, fileName) {
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        const blob = data instanceof Blob ? data : new Blob([typeof data == 'string' ? data : JSON.stringify(data)], {
+            type: 'text/plain; charset=utf-8'
+        });
+        const url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        setTimeout(function() {
+            window.URL.revokeObjectURL(url);
+            a.parentNode.removeChild(a);
+        }, 2000);
+    },
+    captureElement: function(element) {
+        return new Promise(function(resolve, reject) {
+            let rect = element.getBoundingClientRect();
+            chrome.runtime.sendMessage({
+                action: 'capture'
+            }, function(dataUrl) {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                    return;
+                }
+                let image = new Image();
+                image.setAttribute('crossOrigin', 'anonymous');
+                image.src = dataUrl;
+                image.onload = function() {
+                    let sx = Math.round(rect.left);
+                    let sy = Math.round(rect.top);
+                    let sw = Math.round(rect.width);
+                    let sh = Math.round(rect.height);
+                    let canvas = document.createElement('canvas');
+                    canvas.width = sw;
+                    canvas.height = sh;
+                    let ctx = canvas.getContext('2d');
+                    ctx.drawImage(image, sx, sy, sw, sh, 0, 0, sw, sh);
+                    dataUrl = canvas.toDataURL('image/png');
+                    // canvas.toBlob(function(blob) {
+                    //     copyToClipboard(blob, 'image/png');
+                    //     downloadData(blob, 'about.png');
+                    // });
+                    resolve(dataUrl);
+                };
+            });
+        });
     }
 };
 

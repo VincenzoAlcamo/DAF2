@@ -134,6 +134,12 @@
             }
         }
     },
+    "gui_screenshot_shot": {
+        "message": "Click to make a screenshot of this section.\nPlease note: only the visible area is captured!"
+    },
+    "gui_screenshot_target": {
+        "message": "Click to download the image.\nYou can right-click this image and select \"Copy image\" to copy it on the clipboard."
+    },
 
     "dialog_ok": {
         "message": "Ok"

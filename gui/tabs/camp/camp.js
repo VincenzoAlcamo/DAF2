@@ -155,7 +155,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         htm += HtmlBr `<tr><td colspan="2">${gui.getMessage('camp_start_date', Locale.formatDateTime(started))}</td></tr>`;
         htm += HtmlBr `</tbody>`;
     }
-    htm += HtmlBr `</table></td>`;
+    htm += HtmlBr `</table><div class="screenshot"></div></td>`;
 
     if (isPublic) {
         camps.forEach(function(campResult, index) {
@@ -250,6 +250,8 @@ function updateCamp(div, flagHeaderOnly = false) {
     });
 
     div.querySelector('div').innerHTML = htm;
+
+    gui.setupScreenshot(div, campName + '.png');
 }
 
 function calculateCamp(camp, current = true) {
