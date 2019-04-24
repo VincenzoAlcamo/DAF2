@@ -121,7 +121,7 @@ var Message = {
         Message.handlers[action] = callback;
     },
     onMessage: function(request, sender, sendResponse) {
-        if(request && request.action == 'capture') {
+        if (request && request.action == 'capture') {
             chrome.tabs.captureVisibleTab(function(dataUrl) {
                 sendResponse(dataUrl);
             });
@@ -390,7 +390,7 @@ var Debugger = {
             Debugger.attached = false;
             chrome.debugger.detach(Debugger.target, function() {
                 console.log('Debugger.detach');
-                // if (hasRuntimeError()) return;
+                if (hasRuntimeError()) return;
             });
             chrome.debugger.onDetach.removeListener(Debugger.onDetach);
             chrome.debugger.onEvent.removeListener(Debugger.onEvent);
@@ -472,6 +472,7 @@ var Debugger = {
     onDetach: function(source, reason) {
         console.log('Debugger.onDetach', source, reason);
         Debugger.attached = false;
+        Badge.setIcon(reason == 'canceled_by_user' ? (Data.generator ? 'yellow' : 'gray') : 'red');
         Badge.setBackgroundColor('darkorange');
     }
 };
@@ -734,6 +735,7 @@ var Data = {
         };
         let languageId = Data.localization.languageId || Data.getLanguageIdFromUrl(url) || 'EN';
         let find = function(suffix) {
+            if (!Data.generator || !Data.generator.file_changes) return;
             for (let key of Object.keys(Data.generator && Data.generator.file_changes)) {
                 if (key.endsWith(suffix) && Data.getLanguageIdFromUrl(key) == languageId) {
                     file.url = Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key];
@@ -742,6 +744,7 @@ var Data = {
             }
         };
         if (!find('localization.csv')) find('localization.xml');
+        if (!file.url) return;
         languageId = Data.getLanguageIdFromUrl(file.url);
         let urlInfo = new UrlInfo(file.url);
         file.version = urlInfo.parameters.ver;
@@ -914,7 +917,7 @@ var Data = {
     getFile: async function(name, version) {
         if (name in Data.unusedFiles) return {};
         var fileName, kind;
-        if(name.startsWith('floors_')) {
+        if (name.startsWith('floors_')) {
             fileName = 'json/floors/' + name + '.json';
             kind = 'json';
         } else {
@@ -1118,7 +1121,7 @@ async function init() {
             var realNeighbours = neighbours.length - 1;
             var list = request.simulate ? neighbours.slice(0, request.simulate) : neighbours.filter(n => n.spawned);
             var regionNames = {};
-            Object.keys(Data.colRegions).forEach(key => regionNames[key] = Data.getObjectName('region', key));
+            if (Data.localization.data) Object.keys(Data.colRegions).forEach(key => regionNames[key] = Data.getObjectName('region', key));
             return {
                 regions: regionNames,
                 max: Math.min(realNeighbours, Math.floor(Math.sqrt(realNeighbours)) + 3) + 1,
