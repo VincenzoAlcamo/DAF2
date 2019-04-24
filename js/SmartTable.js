@@ -1,3 +1,4 @@
+/*global ResizeObserver*/
 var resizeObserver = new ResizeObserver(function(entries) {
     for (let entry of entries) {
         var element = entry.target;
@@ -10,7 +11,8 @@ var resizeObserver = new ResizeObserver(function(entries) {
 
 function SmartTable(table) {
     this.table = table;
-    this.container = this.table.parentNode.insertBefore(document.createElement('div'), this.table);
+    let parent = this.table.parentNode;
+    this.container = parent.insertBefore(document.createElement('div'), this.table);
     this.container.className = 'sticky-container';
     this.sort = {};
     this.sortSub = {};
@@ -18,8 +20,10 @@ function SmartTable(table) {
     this.recreateHeader();
     this.recreateFooter();
     this.tbody = Array.from(table.querySelectorAll('tbody'));
-    this.table.addEventListener('resized', () => this.sync());
-    resizeObserver.observe(table);
+    this.table.addEventListener('resized', () => this.syncLater());
+    resizeObserver.observe(this.table);
+    parent.addEventListener('resized', () => this.syncLater());
+    resizeObserver.observe(parent);
     return this;
 }
 Object.assign(SmartTable.prototype, {
