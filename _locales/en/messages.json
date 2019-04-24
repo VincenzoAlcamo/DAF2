@@ -123,6 +123,17 @@
     "gui_firstrecorded": {
         "message": "First\nRecorded"
     },
+    "gui_loadingresources": {
+        "message": "Loading resources ($NUM$/$TOTAL$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
 
     "dialog_ok": {
         "message": "Ok"

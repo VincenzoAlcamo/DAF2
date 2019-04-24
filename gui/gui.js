@@ -61,7 +61,7 @@ var gui = {
         let mm = Math.floor((drn / 60) % 60);
         let hh = Math.floor((drn / (60 * 60)) % 24);
         let dd = Math.floor(drn / (60 * 60 * 24));
-        if(flagReduced && dd > 0) return Locale.formatNumber(dd) + 'd';
+        if (flagReduced && dd > 0) return Locale.formatNumber(dd) + 'd';
         return `${dd ? Locale.formatNumber(dd) + 'd:' : ''}${(hh < 10 ? '0' : '')+hh}h:${(mm < 10 ? '0' : '')+mm}m`;
     },
     getArrayOfInt: function(value) {
@@ -225,7 +225,14 @@ async function loadTab(tab) {
     } catch (e) {
         tab.state = null;
     }
+    let resource_count = 1;
+    let resource_value = 0;
+    let advanceProgress = () => gui.wait.show({
+        text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count)
+    });
     try {
+        advanceProgress();
+        container.style.display = 'none';
         var tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
         var module = await dynamicImport(tabBasePath + '.js');
         Object.assign(tab, module.default);
@@ -236,11 +243,14 @@ async function loadTab(tab) {
             link.setAttribute('href', tabBasePath + '.css');
             document.head.appendChild(link);
         }
+        resource_count += (tab.requires ? tab.requires.length : 0);
+        advanceProgress();
         var response = await fetch(tabBasePath + '.html');
         var text = await response.text();
         container.innerHTML = text;
         if (tab.requires) {
             for (var name of tab.requires) {
+                advanceProgress();
                 await bgp.Data.getFile(name);
             }
         }
@@ -250,6 +260,9 @@ async function loadTab(tab) {
     } catch (e) {
         container.innerHTML = HtmlBr `Error: ${e}`;
         console.error(e);
+    } finally {
+        container.style.display = '';
+        gui.wait.hide();
     }
     if (tab.isLoaded && typeof tab.setState == 'function' && tab.state && typeof tab.state == 'object') tab.setState(tab.state);
 }
