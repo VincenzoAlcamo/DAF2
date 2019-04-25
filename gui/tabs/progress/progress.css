@@ -15,6 +15,10 @@
   text-align: right;
 }
 
+.tab_progress .warning {
+  text-align: center;
+}
+
 .progress_table td:nth-child(8),
 .progress_table td:nth-child(9),
 .progress_table td:nth-child(10) {

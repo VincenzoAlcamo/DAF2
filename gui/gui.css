@@ -49,6 +49,9 @@ html {
   --pb-fgcol3: #8DE7E7;
   /* DEFAULT OUTLINE COLOR */
   --outline-color: #000;
+  /* WARNING TEXT */
+  --warn-bgcol: #F40;
+  --warn-fgcol: #FFF;
 }
 
 /*#region GENERAL*/
@@ -91,6 +94,11 @@ input[type=number] {
 
 a {
   cursor: pointer;
+}
+
+.warning {
+  background-color: var(--warn-bgcol);
+  color: var(--warn-fgcol);
 }
 
 /*#endregion*/

@@ -140,6 +140,14 @@
     "gui_screenshot_target": {
         "message": "Click to download the image.\nYou can right-click this image and select \"Copy image\" to copy it on the clipboard."
     },
+    "gui_infodated": {
+        "message": "The information shown here was current and only valid as at '$VALID$'",
+        "placeholders": {
+            "valid": {
+                "content": "$1"
+            }
+        }
+    },
 
     "dialog_ok": {
         "message": "Ok"

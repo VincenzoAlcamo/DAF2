@@ -94,6 +94,9 @@ function update() {
         item.isCompleted = item.value == item.max;
         item.isLocked = +item.rid > 0 && +item.rid > rid;
     }
+    for (let element of container.querySelectorAll('.warning')) {
+        element.innerText = gui.getMessage('gui_infodated', Locale.formatDateTime(gui.getGenerator().time));
+    }
     refresh();
 }
 
