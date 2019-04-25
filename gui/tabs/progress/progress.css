@@ -53,12 +53,19 @@
   color: var(--th-fgcol);
 }
 
-.progress_table tr.subtotal td:nth-child(2) {
-  text-align: right;
-}
-
 .progress_table tr.subtotal progress::-webkit-progress-value {
   background-color: var(--pb-fgcol3);
+}
+
+.progress_table tr.grandtotal {
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+  font-weight: bold;
+}
+
+.progress_table tr.subtotal td:nth-child(2),
+.progress_table tr.grandtotal td:nth-child(2) {
+  text-align: right;
 }
 
 .progress_table tr.inspected {

@@ -869,6 +869,14 @@
             }
         }
     },
+    "progress_grandtotal": {
+        "message": "Grand-Total ($NUM$ Locations)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
     "progress_playtime": {
         "message": "You started playing: $STARTED$ and have been playing for: ~$DURATION$ (as at: $NOW$)",
         "placeholders": {

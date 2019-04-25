@@ -239,6 +239,7 @@ function showDetail(show) {
     let hideCompleted = state.hidecompleted;
     let isOdd = false;
     let group = {};
+    initGroupTotals(group.grandtotal = {});
     for (let sub of item.rows) {
         if (level == 1 && sub.seq != showInfo.subId) continue;
         let isCompleted = sub.value == sub.max;
@@ -264,6 +265,7 @@ function showDetail(show) {
             addGroupTotal(group.total, sub);
             if (!visible || (level == 0 && state.groups)) continue;
             addGroupTotal(group.subtotal, sub);
+            addGroupTotal(group.grandtotal, sub);
         }
 
         if (!visible) continue;
@@ -282,6 +284,7 @@ function showDetail(show) {
         parent.insertBefore(sub.row, nextRow);
     }
     updateGroup(group);
+    if (group.row && !state.groups) updateGroupSubTotal(group, true);
 
     function initGroupTotals(total) {
         total.qty = total.value = total.max = total.bt = total.et = 0;
@@ -306,18 +309,21 @@ function showDetail(show) {
             group.row.classList.toggle('inspect', (!state.hidecompleted || !isCompleted) && state.groups);
         }
         // Sub total
-        if((group.row && !state.groups) || (group.name && level == 1)) {
-            let row = document.createElement('tr');
-            row.setAttribute('data-level', '2');
-            row.classList.add('subtotal');
-            let total = group.subtotal;
-            let isCompleted = total.value == total.max;
-            let htm = '';
-            htm += Html `<td></td><td>${gui.getMessage('progress_subtotal', total.qty)}</td>` + getProgress(total.value, total.max);
-            htm += getTimes(isCompleted, total.bt, total.et);
-            row.innerHTML = htm;
-            parent.insertBefore(row, nextRow);
-        }
+        if ((group.row && !state.groups) || (group.name && level == 1)) updateGroupSubTotal(group);
+    }
+
+    function updateGroupSubTotal(group, isGrandTotal) {
+        let total = isGrandTotal ? group.grandtotal : group.subtotal;
+        if (total.qty <= 0) return;
+        let row = document.createElement('tr');
+        row.setAttribute('data-level', '2');
+        row.classList.add(isGrandTotal ? 'grandtotal' : 'subtotal');
+        let isCompleted = total.value == total.max;
+        let htm = '';
+        htm += Html `<td></td><td>${gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal', total.qty)}</td>` + getProgress(total.value, total.max);
+        htm += getTimes(isCompleted, total.bt, total.et);
+        row.innerHTML = htm;
+        parent.insertBefore(row, nextRow);
     }
 }
 
