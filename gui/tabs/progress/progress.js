@@ -60,6 +60,7 @@ function init() {
         });
 
     smartTable = new SmartTable(container.querySelector('.progress_table'));
+    gui.setupScreenshot(smartTable.container, 'Progress', container.querySelector('.screenshot'));
 }
 
 function getState() {

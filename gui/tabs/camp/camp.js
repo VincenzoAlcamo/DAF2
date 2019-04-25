@@ -251,7 +251,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     div.querySelector('div').innerHTML = htm;
 
-    gui.setupScreenshot(div, campName + '.png');
+    gui.setupScreenshot(div, campName);
 }
 
 function calculateCamp(camp, current = true) {

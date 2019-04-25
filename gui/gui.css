@@ -602,36 +602,33 @@ th.sort-sub.sort-ascending {
 .screenshot {
   display: inline-block;
   padding: 2px;
-  opacity: 0.3;
+  margin-bottom: -15px;
+  margin-top: -15px;
+  vertical-align: middle;
 }
 
-.screenshot:hover {
+.screenshot:hover,
+.screenshot img:hover {
   opacity: 1;
 }
 
 .screenshot img {
   opacity: 0.5;
-}
-
-.screenshot img:hover {
-  opacity: 1;
-}
-
-.screenshot .shot {
-  height: 32px;
   cursor: pointer;
+  height: 26px;
 }
 
 .screenshot .target {
-  height: 30px;
-  display: none;
-  margin-left: 8px;
+  margin-left: 5px;
+  border: 1px solid var(--outline-color);
 }
 
-.screenshot .target.ready {
-  display: inline;
-  outline: 2px solid var(--tb-brcol);
-  cursor: pointer;
+.screenshot .target:not(.ready) {
+  display: none;
+}
+
+.toolbar .screenshot {
+  margin-left: 12px;
 }
 
 /*#endregion*/

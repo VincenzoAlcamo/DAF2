@@ -270,5 +270,6 @@
 }
 
 .tab_camp .screenshot {
-  margin-bottom: -9px;
+  --outline-color: var(--crd-brcol);
+  margin-top: 2px;
 }

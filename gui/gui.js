@@ -123,27 +123,28 @@ var gui = {
     getTabMenuItem: function(tabId) {
         return tabId && document.querySelector('.vertical-menu li[data-tabid="' + tabId + '"]');
     },
-    setupScreenshot: function(element, fileName = 'screenshot.png') {
-        let container = element.querySelector('.screenshot');
-        if (!container) return;
+    setupScreenshot: function(element, fileName = 'screenshot.png', screenshot) {
+        screenshot = screenshot || element.querySelector('.screenshot');
+        if (!screenshot) return;
+        if (!fileName.endsWith('.png')) fileName += '.png';
         let shot = document.createElement('img');
         shot.src = '/img/gui/screenshot.png';
         shot.className = 'shot';
         shot.title = gui.getMessage('gui_screenshot_shot');
-        container.appendChild(shot);
+        screenshot.appendChild(shot);
         let target = document.createElement('img');
         target.className = 'target';
         target.title = gui.getMessage('gui_screenshot_target');
-        container.appendChild(target);
+        screenshot.appendChild(target);
         shot.addEventListener('click', function() {
-            container.style.display = 'none';
+            screenshot.style.display = 'none';
             target.classList.remove('ready');
             setTimeout(function() {
                 gui.captureElement(element).then(function(data) {
                     target.src = data;
                     target.classList.add('ready');
                 }).finally(function() {
-                    container.style.display = '';
+                    screenshot.style.display = '';
                 });
             }, 100);
         });
