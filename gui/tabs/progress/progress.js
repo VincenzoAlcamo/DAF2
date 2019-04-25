@@ -15,7 +15,7 @@ export default {
 
 const REGION_SEPARATOR = '_';
 
-var tab, container, progress, checkCompleted, checkGroups, checkDates, smartTable, show;
+var tab, container, progress, checkCompleted, checkGroups, checkDates, smartTable, show, levelSums, sliderLevel;
 var imgCompleted = HtmlBr `<img width="24" src="/img/gui/tick.png"/>`;
 
 function init() {
@@ -148,7 +148,15 @@ function refresh() {
     Array.from(smartTable.container.querySelectorAll('tfoot td progress')).forEach(progress => progress.value = percent);
 
     showDetail(show);
+
     smartTable.syncLater();
+}
+
+function refreshPlayTime() {
+    let now = new Date();
+    let started = new Date(+gui.getGenerator().registered_on * 1000);
+    let playing = Math.floor((now - started) / 1000);
+    container.querySelector('.progress_playtime').innerText = gui.getMessage('progress_playTime', Locale.formatDateTime(started), gui.getDuration(playing), Locale.formatDateTime(now));
 }
 
 function setInspected(row, inspected) {
@@ -219,6 +227,7 @@ function onClickMain(event) {
 }
 
 function showDetail(show) {
+    refreshPlayTime();
     let showInfo = getShowInfo(show);
     if (!showInfo.show) return;
 
@@ -231,13 +240,15 @@ function showDetail(show) {
     if (!row || !row.classList.contains('inspect')) return;
 
     let level = +row.getAttribute('data-level');
-    let nextRow = row.nextSibling;
-    let parent = row.parentNode;
 
     smartTable.syncLater();
+    if (item.id == 'level') return infoLevel(row);
     if (!item.rows) return;
 
     setInspected(row, true);
+
+    let nextRow = row.nextSibling;
+    let parent = row.parentNode;
     let state = getState();
     let hideCompleted = state.hidecompleted;
     let isOdd = false;
@@ -333,6 +344,61 @@ function showDetail(show) {
 function calcLevel(item) {
     item.max = gui.getFile('levelups').length;
     item.value = +gui.getGenerator().level;
+}
+
+function infoLevel(row) {
+    setInspected(row, true);
+
+    if (!levelSums) {
+        levelSums = [0];
+        for (let levelup of gui.getFile('levelups')) {
+            levelSums[levelup.def_id] = +levelup.xp;
+        }
+        for (let i = 1; i < levelSums.length; i++) levelSums[i] += levelSums[i - 1];
+    }
+
+    let nextRow = row.nextSibling;
+    let parent = row.parentNode;
+
+    let level = +gui.getGenerator().level;
+    let xp = +gui.getGenerator().exp;
+    sliderLevel = sliderLevel || (level + 1);
+
+    setRowLevel(addRow(), 1, levelSums.length);
+
+    let rowLevel = addRow();
+    setRowLevel(rowLevel, level, sliderLevel);
+
+    let rowSlider = addRow();
+    rowSlider.classList.add('slider');
+    let htm = '';
+    htm += HtmlBr `<td colspan="7">`;
+    htm += HtmlBr `<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
+    htm += HtmlBr `<span>${Locale.formatNumber(level + 1)}</span>`;
+    htm += HtmlBr `<span>${Locale.formatNumber(levelSums.length)}</span>`;
+    htm += HtmlBr `</td>`;
+    htm += getTimes(false, 0, 0);
+    rowSlider.innerHTML = htm;
+    rowSlider.querySelector('input').addEventListener('input', function() {
+        sliderLevel = this.value;
+        setRowLevel(rowLevel, level, sliderLevel);
+    });
+
+    function addRow() {
+        let row = document.createElement('tr');
+        row.setAttribute('data-level', '1');
+        parent.insertBefore(row, nextRow);
+        return row;
+    }
+
+    function setRowLevel(row, levelFrom, levelTo) {
+        let value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
+        let max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
+        let htm = '';
+        htm += Html `<td><img src="/img/gui/xp.png" width="24" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max);
+        htm += getTimes(false, 0, 0);
+        row.innerHTML = htm;
+    }
 }
 
 function isValidItem(item) {

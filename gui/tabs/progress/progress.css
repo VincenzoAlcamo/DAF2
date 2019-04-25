@@ -34,13 +34,13 @@
 
 .progress_table td:nth-child(1) {
   text-align: right;
-  border-right: none;
+  border-right-width: 0px;
   padding-right: 0px;
 }
 
 .progress_table td:nth-child(2) {
   text-align: left;
-  border-left: none;
+  border-left-width: 0px;
 }
 
 .progress_table tr.inspect {
@@ -99,4 +99,32 @@
 
 .tab_progress tr[data-level="1"] progress::-webkit-progress-value {
   background-color: var(--pb-fgcol2);
+}
+
+.tab_progress .slider td:nth-child(1) {
+  border-right-width: 1px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background: var(--tr-bgcol2);
+}
+
+.tab_progress .slider input {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.tab_progress .slider span {
+  font-weight: bold;
+  font-size: smaller;
+}
+
+.tab_progress .slider span:nth-child(2) {
+  float: left;
+}
+
+.progress_playtime {
+  padding-top: 4px;
+  margin-bottom: -2px;
+  font-weight: bold;
 }

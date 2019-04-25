@@ -889,7 +889,7 @@
         }
     },
     "progress_playtime": {
-        "message": "You started playing: $STARTED$ and have been playing for: ~$DURATION$ (as at: $NOW$)",
+        "message": "You started playing $STARTED$ and have been playing for $DURATION$ (as at $NOW$)",
         "placeholders": {
             "started": {
                 "content": "$1"
@@ -899,6 +899,17 @@
             },
             "now": {
                 "content": "$3"
+            }
+        }
+    },
+    "progress_levelrange": {
+        "message": "From $FROM$ to $TO$",
+        "placeholders": {
+            "from": {
+                "content": "$1"
+            },
+            "to": {
+                "content": "$2"
             }
         }
     },
