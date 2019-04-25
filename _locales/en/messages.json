@@ -278,7 +278,7 @@
         "message": "Crafted per Anvil"
     },
     "foundry_possible_alloys": {
-        "message": "Possible Alloys"
+        "message": "Possible\nAlloys"
     },
     "foundry_total_time": {
         "message": "Crafting Time\n($ANVILS$ Anvils)",
