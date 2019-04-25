@@ -321,7 +321,7 @@ async function loadTab(tab) {
     } catch (e) {
         tab.state = null;
     }
-    let resource_count = 1;
+    let resource_count = 2;
     let resource_value = 0;
     let advanceProgress = () => gui.wait.show({
         text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count)
