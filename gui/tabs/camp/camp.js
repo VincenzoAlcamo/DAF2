@@ -111,14 +111,14 @@ function updateCamp(div, flagHeaderOnly = false) {
         };
         level = +generator.level;
         ['region', 'windmill_limit', 'windmill_reg'].forEach(key => camp[key] = +generator[key]);
-        campName = pal ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal)) : gui.getMessage('camp_your_camp');
+        campName = pal ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal), Locale.formatDateTime(+generator.time)) : gui.getMessage('camp_your_camp');
         started = new Date(+generator.registered_on * 1000);
     } else {
         camp = bgp.Data.lastVisitedCamp;
         let neighbourId = camp && camp.neigh_id;
         pal = neighbourId ? bgp.Data.getNeighbour(neighbourId) : null;
         level = pal ? +pal.level : 1;
-        campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? gui.getPlayerNameFull(pal) : '#' + neighbourId) : gui.getMessage('camp_no_player'));
+        campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? gui.getPlayerNameFull(pal) : '#' + neighbourId, Locale.formatDateTime(+camp.time)) : gui.getMessage('camp_no_player'));
         isPublic = true; //neighbourId == 1 || bgp.Data.isDev;
     }
 

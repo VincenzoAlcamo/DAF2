@@ -301,10 +301,13 @@
         "message": "Your camp"
     },
     "camp_player_name": {
-        "message": "$PLAYER$'s camp",
+        "message": "$PLAYER$'s camp on $DATE$",
         "placeholders": {
             "player": {
                 "content": "$1"
+            },
+            "date": {
+                "content": "$2"
             }
         }
     },

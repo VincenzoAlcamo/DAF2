@@ -1039,11 +1039,12 @@ var Synchronize = {
     lastAction: '',
     signal: data => Synchronize.signalAction(Synchronize.lastAction, data),
     handlers: {
-        visit_camp: function(_task, taskResponse, _response) {
+        visit_camp: function(_task, taskResponse, response) {
             console.log(...arguments);
             if (!taskResponse || !taskResponse.camp) return;
             Data.lastVisitedCamp = taskResponse.camp;
             Data.lastVisitedCamp.neigh_id = taskResponse.neigh_id;
+            Data.lastVisitedCamp.time = +response.time;
             Synchronize.signal();
         },
         friend_child_charge: function(task, _taskResponse, _response) {
