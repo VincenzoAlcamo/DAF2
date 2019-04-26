@@ -15,6 +15,8 @@ function init() {
     tab = this;
     container = tab.container;
     gcTable = container.querySelector('.DAF-gc-bar');
+
+    gui.setupScreenshot(gcTable, gui.getMessage('tab_godchild'), container.querySelector('.screenshot'));
 }
 
 function prefChange(changes) {
@@ -29,7 +31,7 @@ function update() {
     gcTable.innerHTML = '';
     var neighbours = Object.values(bgp.Data.getNeighbours());
     numNeighbours = neighbours.length - 1;
-    maxGC = gui.getChildrenMax(numNeighbours) + 1; 
+    maxGC = gui.getChildrenMax(numNeighbours) + 1;
     var list = neighbours.filter(pal => pal.spawned);
     list.sort((a, b) => a.index - b.index);
     setTableRegion();
@@ -59,7 +61,7 @@ function updateStatus() {
 function actionFriendChildCharge(data) {
     var id = data;
     var div = gcTable.querySelector('[data-pal-id="' + id + '"]');
-    if(div) {
+    if (div) {
         div.parentNode.removeChild(div);
         updateStatus();
     }
