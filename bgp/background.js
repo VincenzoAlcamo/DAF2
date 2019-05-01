@@ -39,6 +39,7 @@ var Preferences = {
     handlers: {},
     getDefaults: function() {
         return {
+            injectGame: true,
             fullWindow: true,
             fullWindowHeader: false,
             fullWindowSide: true,
@@ -353,6 +354,7 @@ if (loginButton) {
         });
     },
     injectGame: function(tabId) {
+        if (!Preferences.getValue('injectGame')) return;
         chrome.webNavigation.getAllFrames({
             tabId: tabId
         }, function(frames) {
