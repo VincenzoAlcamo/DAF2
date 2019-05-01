@@ -213,6 +213,9 @@
     "tab_help": {
         "message": "Help"
     },
+    "tab_export": {
+        "message": "Import/Export"
+    },
 
     "about_version": {
         "message": "Version: $VERSION$",
@@ -912,6 +915,22 @@
                 "content": "$2"
             }
         }
+    },
+
+    "export_exportdata": {
+        "message": "Export data"
+    },
+    "export_exportinventory": {
+        "message": "Export inventory"
+    },
+    "export_importdata": {
+        "message": "Import data"
+    },
+    "export_invalidexportdata": {
+        "message": "File is not a valid DAF export data for the current player!"
+    },
+    "export_importsuccess": {
+        "message": "Data has been imported succesfully!"
     },
 
     "ext_placeholder": {

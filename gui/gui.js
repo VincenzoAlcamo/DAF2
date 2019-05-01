@@ -28,6 +28,7 @@ let tabs = (function() {
     addTab('rewardlinks', false);
     addTab('options');
     addTab('help', false);
+    addTab('export');
     return tabs;
 })();
 
@@ -159,6 +160,10 @@ let gui = {
     getTabMenuItem: function(tabId) {
         return tabId && document.querySelector('.vertical-menu li[data-tabid="' + tabId + '"]');
     },
+    markNeighborsTab: function() {
+        tabs.friendship.mustBeUpdated = true;
+        tabs.neighbors.mustBeUpdated = true;
+    },
     setupScreenshot: function(element, fileName = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
@@ -243,10 +248,6 @@ let gui = {
                     let ctx = canvas.getContext('2d');
                     ctx.drawImage(image, sx, sy, sw, sh, 0, 0, sw, sh);
                     dataUrl = canvas.toDataURL('image/png');
-                    // canvas.toBlob(function(blob) {
-                    //     copyToClipboard(blob, 'image/png');
-                    //     downloadData(blob, 'about.png');
-                    // });
                     resolve(dataUrl);
                 };
             });
