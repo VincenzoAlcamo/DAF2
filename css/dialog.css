@@ -3,21 +3,10 @@
   font-size: 12pt;
 }
 
-.DAF-dialog table.hack,
-.DAF-dialog tr.hack,
-.DAF-dialog td.hack {
-  width: 100%;
-}
-
-.DAF-modal table.hack,
-.DAF-modal tr.hack,
-.DAF-modal td.hack {
-  height: 100%;
-}
-
-.DAF-dialog td.hack {
-  vertical-align: middle;
-  text-align: center;
+.DAF-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .DAF-md-wait .DAF-md-content>div {
@@ -53,19 +42,13 @@
 }
 
 .DAF-md-box {
-  /* position: fixed; */
-  /* left: 50%; */
   height: auto;
-  /* transform: translateX(-50%); */
   max-width: 640px;
   min-width: 200px;
-  /* box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3); */
   display: inline-block;
 }
 
 .DAF-modal .DAF-md-box {
-  /* top: 50%; */
-  /* transform: translate(-50%, -50%); */
   min-width: 500px;
   margin: auto;
 }

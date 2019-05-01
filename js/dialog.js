@@ -77,9 +77,8 @@ Object.assign(Dialog.prototype, {
             this.remove();
             this.element = document.createElement('div');
             this.element.className = 'DAF-dialog DAF-md-superscale ' + (this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal') + (this.mode === Dialog.WAIT ? ' DAF-md-wait' : '');
-            // The table hack will center the dialog without using a CSS transform (that blurs the text)
+            // We stopped using a CSS transform (that blurs the text)
             var htm = [
-                '<table class="hack"><tr class="hack"><td class="hack">',
                 '<div class="DAF-md-box"><div class="DAF-md-content"><div class="DAF-md-title"></div><form action="#" method="get"><div class="DAF-md-body"></div><div class="DAF-md-footer">',
                 '<button value="ok">', Dialog.getMessage('dialog_ok') + '</button>',
                 '<button value="confirm">', Dialog.getMessage('dialog_confirm') + '</button>',
@@ -87,7 +86,6 @@ Object.assign(Dialog.prototype, {
                 '<button value="no">', Dialog.getMessage('dialog_no') + '</button>',
                 '<button value="cancel">', Dialog.getMessage('dialog_cancel') + '</button>',
                 '</div></form></div></div></div>',
-                '</td></tr></table>'
             ].join('');
             this.element.innerHTML = htm;
             this.form = this.element.getElementsByTagName('form')[0];
@@ -218,6 +216,3 @@ Object.assign(Dialog.prototype, {
         return params;
     }
 });
-/*
- ** END
- *******************************************************************************/
