@@ -1,0 +1,92 @@
+.rewardlinks_data tbody tr {
+  height: 33px;
+  transition: all 1s;
+}
+
+.rewardlinks_data input[type=checkbox] {
+  margin: 0px;
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.rewardlinks_data img {
+  display: inline;
+  vertical-align: middle;
+}
+
+.rewardlinks_data td {
+  text-align: center;
+}
+
+.rewardlinks_data tr td:nth-child(5),
+.rewardlinks_data tr td:nth-child(6) {
+  text-align: left;
+  padding: 0px 4px;
+}
+
+.rewardlinks_data tr td:nth-child(5) img {
+  width: 32px;
+  height: 32px;
+  margin: 0px 4px 0px 0px;
+}
+
+.rewardlinks_data tr td:nth-child(6) img {
+  width: 28px;
+  height: 28px;
+  margin: 1px 4px 1px 0px;
+}
+
+.rewardlinks_data tr td:nth-child(6) a,
+.rewardlinks_data tr td:nth-child(6) a:visited {
+  color: #00e;
+}
+
+.rewardlinks_data span.alert {
+  color: #f00;
+  font-weight: bold;
+}
+
+.rewardlinks_data tr[data-status="1"] {
+  background-color: #DAA;
+}
+
+.rewardlinks_data tr[data-status="2"] {
+  background-color: #0F0;
+}
+
+.rewardlinks_data tr[data-status="3"] {
+  background-color: #FD0;
+}
+
+.rewardlinks_data td:nth-child(5):empty {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+
+.rewardlinks_data a.reward {
+  padding: 4px 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #383;
+  border: 1px solid #000;
+}
+
+.rewardlinks_data a.reward:visited {
+  background-color: #555;
+}
+
+.rewardlinks_data tr[data-status="1"] a.reward {
+  background-color: #C33;
+}
+
+.rewardlinks_data tr.collected a.reward {
+  background-color: #338;
+}
+
+.rewardlinks_data a.reward:hover {
+  background-color: #F0F;
+}
+
+.rewardlinks_data tr.selected {
+  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.4), rgba(255, 255, 128, 0.4));
+}

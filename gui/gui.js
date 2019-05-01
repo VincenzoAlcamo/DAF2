@@ -25,7 +25,7 @@ let tabs = (function() {
     addTab('locations', false);
     addTab('greenrings', false);
     addTab('redrings', false);
-    addTab('rewardlinks', false);
+    addTab('rewardlinks');
     addTab('options');
     addTab('help', false);
     addTab('export');

@@ -52,6 +52,10 @@ var Preferences = {
             pillarsExcluded: '',
             enableFlash: true,
             removeGhosts: 0,
+            rewardsRemoveDays: 7,
+            rewardsClose: false,
+            rewardsCloseExceptGems: true,
+            rewardsCloseExceptErrors: true,
             friendsCollectDate: 0
         };
     },
@@ -70,9 +74,6 @@ var Preferences = {
                         keysToRemove.push(key);
                     }
                 }
-                // Adjust pillarsExcluded
-                var pillarsExcluded = String(Preferences.pillarsExcluded).split(',').map(s => parseInt(s) || 0).filter(n => n > 0).join(',');
-                if (pillarsExcluded != Preferences.pillarsExcluded) Preferences.pillarsExcluded = valuesToSet.pillarsExcluded = pillarsExcluded;
                 if (keysToRemove.length) chrome.storage.local.remove(keysToRemove);
                 if (Object.keys(valuesToSet).length) chrome.storage.local.set(valuesToSet, function() {
                     hasRuntimeError();
@@ -193,6 +194,19 @@ var Tab = {
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
 
+        // Add Reward Link script to Reward pages
+        // Note: the same listener can be added only once, so we have to combine the two rules.
+        const rewardLinkFilters = {
+            url: [{
+                hostEquals: 'diggysadventure.com',
+                pathEquals: '/miner/wallpost.php'
+            }, {
+                hostEquals: 'portal.pixelfederation.com',
+                pathEquals: '/_da/miner/wallpost.php'
+            }]
+        };
+        chrome.webNavigation.onDOMContentLoaded.addListener(Tab.onRewardNavigation, rewardLinkFilters);
+
         return Tab.detectAll();
     },
     onDialogCompleted: function(details) {
@@ -266,6 +280,14 @@ if (loginButton) {
             `,
             allFrames: false,
             frameId: 0
+        });
+    },
+    onRewardNavigation: function(details) {
+        chrome.tabs.executeScript(details.tabId, {
+            file: '/inject/rewardlink.js',
+            runAt: 'document_end',
+            allFrames: false,
+            frameId: details.frameId
         });
     },
     onRemoved: function(tabId, _removeInfo) {
@@ -619,6 +641,11 @@ var WebRequest = {
 //#region DATA / GAME / PLAYER / LOCALIZATION
 var Data = {
     db: null,
+    REWARDLINKS_DAILY_LIMIT: 100,
+    REWARDLINKS_VALIDITY_DAYS: 7,
+    REWARDLINKS_REFRESH_HOURS: 22,
+    REWARDLINKS_REMOVE_DAYS: 10,
+    REWARDLINKS_HISTORY_MAXITEMS: 10000,
     init: async function() {
         Data.db = await idb.open('DAF', 1, function(db) {
             switch (db.oldVersion) {
@@ -637,7 +664,7 @@ var Data = {
                     });
             }
         });
-        var tx = Data.db.transaction(['Files', 'Neighbours', 'Friends'], 'readonly');
+        var tx = Data.db.transaction(['Files', 'Neighbours', 'Friends', 'RewardLinks'], 'readonly');
         /*
         tx.objectStore('Files').iterateCursor(cursor => {
             if (!cursor) return;
@@ -650,6 +677,16 @@ var Data = {
         Data.files = {};
         Data.neighbours = {};
         Data.friends = {};
+        Data.rewardLinks = {};
+        Data.rewardLinksData = {
+            id: 'data',
+            first: 0,
+            next: 0,
+            count: 0,
+            expired: 0
+        };
+        Data.rewardLinksHistory = [];
+        Data.rewardLinksRecent = {}; // stored in-memory only
         Data.localization = {};
         Data.localization.cache = {};
         Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
@@ -665,10 +702,19 @@ var Data = {
         tx.objectStore('Friends').getAll().then(values => {
             values.forEach(friend => Data.friends[friend.id] = friend);
         });
+        tx.objectStore('RewardLinks').getAll().then(values => {
+            for (let rewardLink of values) {
+                if (rewardLink.id == 'data') Data.rewardLinksData = rewardLink;
+                else if (rewardLink.id == 'history') Data.rewardLinksHistory = rewardLink.history;
+                else Data.rewardLinks[rewardLink.id] = rewardLink;
+            }
+        });
         await tx.complete;
+        Data.removeExpiredRewardLinks();
         await new Promise(function(resolve, _reject) {
             chrome.management.getSelf(function(self) {
                 Data.isDevelopment = self.installType == 'development';
+                Data.version = self.version;
                 Data.versionName = self.versionName;
                 resolve();
             });
@@ -890,6 +936,171 @@ var Data = {
         chrome.runtime.sendMessage({
             action: 'friends_analyze'
         });
+    },
+    //#endregion
+    //#region RewardLinks
+    getRewardLink: function(id) {
+        return Data.rewardLinks[id];
+    },
+    getRewardLinks: function() {
+        return Data.rewardLinks;
+    },
+    saveRewardLinkHandler: 0,
+    saveRewardLinkList: {},
+    removeRewardLinkList: {},
+    saveRewardLinksHistory: false,
+    saveRewardLinkDelayed: function() {
+        Data.saveRewardLinkHandler = 0;
+        let tx = Data.db.transaction('RewardLinks', 'readwrite');
+        let store = tx.objectStore('RewardLinks');
+        if (Data.saveRewardLinksHistory) {
+            Data.saveRewardLinksHistory = false;
+            if (Data.rewardLinksHistory.length > Data.REWARDLINKS_HISTORY_MAXITEMS) Data.rewardLinksHistory = Data.rewardLinksHistory.slice(-Data.REWARDLINKS_HISTORY_MAXITEMS);
+            let item = {
+                id: 'history',
+                history: Data.rewardLinksHistory
+            };
+            Data.saveRewardLinkList[item.id] = item;
+        }
+        let items = Object.values(Data.saveRewardLinkList);
+        if (items.length) store.bulkPut(items);
+        Data.saveRewardLinkList = {};
+        for (let item of Object.values(Data.removeRewardLinkList)) store.delete(item.id);
+        Data.removeRewardLinkList = {};
+    },
+    saveRewardLink: function(rewardLink, remove = false) {
+        if (!rewardLink) return;
+        let rewardLinks = [].concat(rewardLink);
+        if (!rewardLink.length) return;
+        if (Data.saveRewardLinkHandler) clearTimeout(Data.saveRewardLinkHandler);
+        Data.saveRewardLinkHandler = setTimeout(Data.saveRewardLinkDelayed, 500);
+        for (let rl of rewardLinks) {
+            if (remove) {
+                let id = +rl.id;
+                Data.removeRewardLinkList[rl.id] = rl;
+                delete Data.saveRewardLinkList[id];
+                delete Data.rewardLinks[id];
+                if (!Data.rewardLinksHistory.includes(id)) {
+                    Data.rewardLinksHistory.push(id);
+                    Data.saveRewardLinksHistory = true;
+                }
+            } else {
+                Data.saveRewardLinkList[rl.id] = rl;
+                delete Data.removeRewardLinkList[rl.id];
+                if (isFinite(+rl.id)) Data.rewardLinks[rl.id] = rl;
+            }
+        }
+    },
+    removeRewardLink: function(rewardLink) {
+        Data.saveRewardLink(rewardLink, true);
+    },
+    removeExpiredRewardLinks: function() {
+        const SECONDS_IN_A_DAY = 86400;
+        let rewards = Object.values(Data.rewardLinks);
+        // check expired
+        let maxExpired = 0;
+        let threshold = getUnixTime() - Data.REWARDLINKS_VALIDITY_DAYS * SECONDS_IN_A_DAY;
+        for (let reward of rewards) {
+            if (reward.adt <= threshold || reward.cmt == -1) maxExpired = Math.max(maxExpired, +reward.id);
+        }
+        if (maxExpired > Data.rewardLinksData.expired) {
+            // this reward is expired and its id is greater than the last recorded one -> store it
+            Data.rewardLinksData.expired = maxExpired;
+            Data.saveRewardLink(Data.rewardLinksData);
+        }
+        // remove old links
+        threshold = getUnixTime() - Data.REWARDLINKS_REMOVE_DAYS * SECONDS_IN_A_DAY;
+        let rewardsToRemove = rewards.filter(reward => reward.adt <= threshold);
+        Data.removeRewardLink(rewardsToRemove);
+    },
+    addRewardLinks: function(rewardsOrArray) {
+        let arr = [].concat(rewardsOrArray);
+        let now = getUnixTime();
+        let rewardLinksData = Data.rewardLinksData;
+        let rewardLinksHistory = Data.rewardLinksHistory;
+        let rewardLinksRecent = Data.rewardLinksRecent;
+        let removeThreshold = now - 3600;
+        let data = {};
+        let flagStoreData = false;
+        let flagRefresh = false;
+        // remove old "Recent" rewards older than one hour
+        for (let id in Object.keys(rewardLinksRecent)) {
+            if (rewardLinksRecent[id] < removeThreshold) delete rewardLinksRecent[id];
+        }
+        for (let reward of arr) {
+            if (!reward || !reward.id) return;
+            // do not process old links, except when collection was successful
+            if (!rewardLinksHistory.includes(+reward.id) || reward.cmt > 0) {
+                rewardLinksRecent[reward.id] = now;
+                flagRefresh = true;
+                let existingReward = Data.getRewardLink(reward.id);
+                // store initial time of collection
+                if (reward.cdt && reward.cmt > 0 && !rewardLinksData.first) {
+                    rewardLinksData.first = reward.cdt;
+                    flagStoreData = true;
+                }
+                // We will add the reward if any one of these conditions is true:
+                // - reward has a material, meaning it has been correctly collected
+                // - existing reward does not exist
+                // - reward has some info that is missing in then existing reward (collect date, user id)
+                if (!existingReward || reward.cmt > 0 ||
+                    (reward.cmt && !existingReward.cmt) ||
+                    (reward.cdt && !existingReward.cdt) ||
+                    (reward.cid && !existingReward.cid)) {
+                    existingReward = existingReward || {
+                        id: +reward.id,
+                        typ: reward.typ,
+                        sig: reward.sig,
+                        adt: reward.cdt || now
+                    };
+                    if (reward.cdt) existingReward.cdt = reward.cdt;
+                    if (reward.cmt) existingReward.cmt = reward.cmt;
+                    if (reward.cid) {
+                        // overwrite existing if owner id is different or existing has no owner name
+                        if (reward.cnm && (existingReward.cid != reward.cid || !existingReward.cnm)) existingReward.cnm = reward.cnm;
+                        existingReward.cid = reward.cid;
+                    } else if (reward.cnm && !existingReward.cnm) existingReward.cnm = reward.cnm;
+                    data[existingReward.id] = Data.rewardLinks[existingReward.id] = existingReward;
+                }
+            }
+            // Daily max reached?
+            let next = 0;
+            if (reward.cmt == -3) {
+                next = reward.next;
+            } else if (reward.cmt > 0) {
+                rewardLinksData.count = rewardLinksData.count + 1;
+                flagStoreData = true;
+                if (rewardLinksData.count == Data.REWARDLINKS_DAILY_LIMIT)
+                    next = rewardLinksData.first + Data.REWARDLINKS_REFRESH_HOURS * 3600;
+            } else if (reward.cmt == -1 && +reward.id > +rewardLinksData.expired) {
+                // this reward is expired and its id is greater than the last recorded one -> store it
+                rewardLinksData.expired = +reward.id;
+                flagStoreData = true;
+            }
+            if (next) {
+                // round to the next minute
+                next = next + (next % 60 ? 60 - next % 60 : 0);
+                rewardLinksData.count = 0;
+                rewardLinksData.next = next;
+                rewardLinksData.first = 0;
+                flagStoreData = true;
+            }
+        }
+
+        let save = Object.values(data);
+        let count = save.length;
+        if (flagStoreData || count > 0) {
+            if (flagStoreData) {
+                save.push(rewardLinksData);
+            }
+            Data.saveRewardLink(save);
+        }
+        if (flagRefresh) {
+            chrome.runtime.sendMessage({
+                action: 'rewards_update'
+            });
+        }
+        return count;
     },
     //#endregion
     //#region Game Messages
@@ -1173,6 +1384,19 @@ async function init() {
                         return result;
                     })
             };
+        },
+        collectRewardLink: function(request, sender) {
+            let flagClose = Preferences.getValue('rewardsClose');
+            let reward = request.reward;
+            if (reward.cmt == 2 && Preferences.getValue('rewardsCloseExceptGems')) flagClose = false;
+            if (reward.cmt < 0 && Preferences.getValue('rewardsCloseExceptErrors')) flagClose = false;
+            // let existingReward = Data.getReward(reward.id);
+            Data.addRewardLinks(reward);
+            if (flagClose) {
+                setTimeout(function() {
+                    chrome.tabs.remove(sender.tab.id);
+                }, 1000);
+            }
         },
         friendsCaptured: function(request) {
             Data.friendsCaptured(request.data);
