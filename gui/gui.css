@@ -21,7 +21,7 @@ html {
   --tb-fgcol: #000;
   --tb-hlcol: rgba(255, 255, 0, 0.8);
   --th-fgcol: #FFF;
-  --th-bgcol: #3498DB;
+  --th-bgcol: #2281C0;
   --td-brcol: #B3B3B3;
   --tr-bgcol: #F5F5F5;
   --tr-bgcol2: #E7E7E7;
@@ -33,7 +33,7 @@ html {
   --crd-bgcol3: #E7E7E7;
   /* TOOLBAR */
   --tt-fgcol: #FFF;
-  --tt-bgcol: #36648B;
+  --tt-bgcol: #387b89;
   --tt-button-bgcol: #9CE;
   --tt-button-fgcol: #000;
   --tt-outline: #000;
@@ -476,7 +476,8 @@ th.sort-sub.sort-ascending {
   color: var(--tt-outlined-fgcol);
 }
 
-.toolbar .stats {
+.toolbar .stats,
+thead .stats {
   font-size: larger;
   font-weight: bold;
 }
