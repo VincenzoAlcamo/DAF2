@@ -910,9 +910,12 @@ var Data = {
         else if (type == 'windmill') return Data.files.windmills;
         return null;
     },
-    getObjectImage: function(type, id, small) {
+    getObject: function(type, id) {
         var col = Data.getObjectCollection(type);
-        var item = col && col[id];
+        return col && col[id];
+    },
+    getObjectImage: function(type, id, small) {
+        var item = Data.getObject(type, id);
         if (!item) return '';
         if (type == 'windmill') return Data.generator.cdn_root + 'mobile/graphics/windmills/greece_windmill.png';
         var asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
@@ -922,8 +925,8 @@ var Data = {
         return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
     },
     getObjectName: function(type, id) {
-        var col = Data.getObjectCollection(type);
-        var name_loc = col && col[id] && col[id].name_loc;
+        var item = Data.getObject(type, id);
+        var name_loc = item && item.name_loc;
         return name_loc ? Data.getString(name_loc) : '#' + type + id;
     },
     getRegionFromSkin: function(id) {
