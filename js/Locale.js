@@ -36,10 +36,23 @@ const Locale = (function() {
         return value;
     }
 
-    function getFormatter(fn, options) {
+    function getFormatter(format) {
+        let options = {};
+        for(let c of format.split('')) {
+            var name = {
+                y: 'year',
+                m: 'month',
+                d: 'day',
+                H: 'hour',
+                M: 'minute',
+                S: 'second'
+            }[c];
+            if(name) options[name] = name == 'month' ? 'short' : 'numeric';
+            if(c == 'H' || c == 'M' || c == 'S') options.hour12 = false;
+        }
         return function(value) {
             value = getDate(value);
-            return value instanceof Date ? fn.call(value, localeId, options) : '';
+            return value instanceof Date ? value.toLocaleString(localeId, options) : '';
         };
     }
 
@@ -62,20 +75,12 @@ const Locale = (function() {
         },
         formatNumber: formatNumber,
         getDate: getDate,
-        formatDate: getFormatter(Date.prototype.toLocaleDateString),
-        formatDateTime: getFormatter(Date.prototype.toLocaleString, {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric'
-        }),
-        formatDateTimeFull: getFormatter(Date.prototype.toLocaleString),
-        formatTime: getFormatter(Date.prototype.toLocaleTimeString, {
-            hour: 'numeric',
-            minute: 'numeric'
-        }),
-        formatTimeFull: getFormatter(Date.prototype.toLocaleTimeString),
+        formatDayMonth: getFormatter('md'),
+        formatDate: getFormatter('ymd'),
+        formatDateTime: getFormatter('ymdHM'),
+        formatDateTimeFull: getFormatter('ymdHMS'),
+        formatTime: getFormatter('HM'),
+        formatTimeFull: getFormatter('HMS'),
         getNumDays: getNumDays,
         formatDays: (d1, d2) => {
             var num = getNumDays(d1, d2);
