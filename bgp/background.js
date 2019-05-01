@@ -1091,25 +1091,33 @@ var Synchronize = {
         if (!neighbours) neighbours = Data.neighbours;
         time = +time;
         var changed = {};
-        ungift.forEach(item => {
-            // {gift_id: "10039147443", sender_id: "2930323", def_id: "89"}
-            var giftId = +item.gift_id;
-            var neighborId = item.sender_id;
-            var gift = {
+        for (let item of ungift) {
+            let giftId = +item.gift_id;
+            let pal = neighbours[item.sender_id];
+            if (!pal) continue;
+            let gifts = pal.extra.gifts;
+            if (gifts && gifts.find(item => item.id == giftId)) continue;
+            let gift = {
                 id: giftId,
                 gid: +item.def_id,
                 time: time
             };
-            if (neighborId in neighbours) {
-                var pal = neighbours[neighborId];
-                var gifts = pal.extra.gifts;
-                if (!gifts) pal.extra.gifts = gifts = [];
-                else if (gifts.find(item => item.id == giftId)) return;
-                gifts.push(gift);
-                console.log('Received gift #' + giftId + ' (' + gift.gid + ') from #' + pal.id + ' (' + pal.name + ' ' + pal.surname + ')');
-                changed[pal.id] = pal;
+            if (!gifts) gifts = pal.extra.gifts = [];
+            gifts.push(gift);
+            // Sort gifts by id (id is a sequence)
+            gifts.sort((a, b) => a.id - b.id);
+            // Store only the last 100 gifts
+            if (gifts.length > 100) gifts = pal.extra.gifts = gifts.slice(-100);
+            // Adjust the time (lower id must have a lower time)
+            let lastTime = gifts[gifts.length - 1].time;
+            for (let i = gifts.length - 2; i >= 0; i--) {
+                let thisTime = gifts[i].time;
+                if (thisTime >= lastTime) thisTime = gifts[i].time = lastTime - 1;
+                lastTime = thisTime;
             }
-        });
+            // console.log('Received gift #' + giftId + ' (' + gift.gid + ') from #' + pal.id + ' (' + pal.name + ' ' + pal.surname + ')');
+            changed[pal.id] = pal;
+        }
         return Object.values(changed);
     }
 };
