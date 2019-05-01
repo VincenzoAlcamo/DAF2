@@ -2,12 +2,13 @@
 export default {
     hasCSS: true,
     init: init,
+    update: refresh,
     getState: getState,
     setState: setState,
     onPrefChange: refresh
 };
 
-var tab, container, searchInput;
+let tab, container, searchInput;
 
 function init() {
     tab = this;
@@ -39,23 +40,25 @@ function setState(state) {
 function refresh() {
     gui.updateTabState(tab);
 
-    var search = searchInput.value.toUpperCase();
-    for (var table of container.querySelectorAll('.options table')) {
-        var count = 0;
-        for (var row of table.tBodies[0].rows) {
-            var visible = true;
+    let search = searchInput.value.toUpperCase();
+    for (let table of container.querySelectorAll('.options table')) {
+        let count = 0;
+        let parent = null;
+        for (let row of table.tBodies[0].rows) {
+            if (row.classList.contains('hassuboptions')) parent = row;
+            let visible = true;
             if (search) visible = row.textContent.toUpperCase().indexOf(search) > 0;
             row.style.display = visible ? '' : 'none';
             if (visible) {
                 count++;
-                row.classList.toggle('odd', count % 2);
+                if (row.classList.contains('suboption')) parent.style.display = '';
             }
         }
         table.style.display = count > 0 ? '' : 'none';
     }
-    for (var input of container.querySelectorAll('input[data-pref]')) {
-        var name = input.getAttribute('data-pref');
-        var value = gui.getPreference(name);
+    for (let input of container.querySelectorAll('input[data-pref]')) {
+        let name = input.getAttribute('data-pref');
+        let value = gui.getPreference(name);
         if (value !== undefined) {
             if (input.type == 'checkbox') input.checked = value === true;
         }

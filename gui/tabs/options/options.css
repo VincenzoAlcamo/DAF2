@@ -1,3 +1,13 @@
+.options {
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 4px;
+}
+
+.options table {
+  width: 400px;
+}
+
 .options input[type=checkbox] {
   zoom: 1.8;
   margin: 0;
@@ -12,6 +22,20 @@
   font-size: small;
 }
 
-.options .suboption {
+.options tr td:nth-child(2) {
+  vertical-align: top;
+  padding-top: 7px;
+}
+
+.options .critical td:first-child {
+  background-image: -webkit-linear-gradient(top left, rgba(255, 255, 0, 0.2), rgba(255, 255, 255, 0));
+}
+
+.options .suboption td:first-child {
   padding-left: 32px;
+  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.1), rgba(255, 255, 255, 0));
+}
+
+.options .hassuboptions td:first-child {
+  background-image: -webkit-linear-gradient(top left, rgba(0, 255, 255, 0.1), rgba(255, 255, 255, 0));
 }
