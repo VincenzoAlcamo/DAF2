@@ -102,12 +102,22 @@ var Preferences = {
         return Preferences.values[name];
     },
     setValue: function(name, value) {
-        if (name in Preferences.values) {
-            Preferences.values[name] = value;
-            var data = {};
-            data[name] = value;
-            chrome.storage.local.set(data);
+        Preferences.setValues({
+            [name]: value
+        });
+    },
+    setValues: function(values) {
+        if (!values) return;
+        let data = {};
+        let flag = false;
+        for (let name of Object.keys(values)) {
+            if (name in Preferences.values) {
+                Preferences.values[name] = values[name];
+                flag = true;
+                data[name] = values[name];
+            }
         }
+        if (flag) chrome.storage.local.set(data);
     },
     getValues: function(names) {
         var result = {};
