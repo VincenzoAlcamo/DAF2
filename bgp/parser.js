@@ -138,7 +138,7 @@ var Parser = {
         data.events_region = accumulate(data.events_region && data.events_region.item, item => accumulator[item.event_id] = +item.region_id);
         data.loc_prog = accumulate(data.loc_prog, item => accumulator[item.id] = item);
         data.achievs = accumulate(data.achievs, item => accumulator[item.def_id] = item);
-        data.events = accumulate(data.achievs, item => accumulator[item.event.def_id] = item.event);
+        data.events = accumulate(data.events, item => accumulator[item.event.def_id] = item.event);
 
         return data;
     },
