@@ -3,8 +3,9 @@
 
 //#region MISCELLANEOUS
 function hasRuntimeError() {
+    // This is necessary to avoid unchecked runtime errors from Chrome
     var hasError = !!chrome.runtime.lastError;
-    if (hasError) console.error('Runtime error', chrome.runtime.lastError);
+    if (hasError) console.log('RUNTIME error: "' + chrome.runtime.lastError.message + '"');
     return hasError;
 }
 
@@ -55,6 +56,7 @@ var Preferences = {
             var keysToRemove = [];
             var valuesToSet = Object.assign({}, Preferences.values);
             chrome.storage.local.get(null, function(values) {
+                hasRuntimeError();
                 for (var key of Object.keys(values)) {
                     if (key in valuesToSet) {
                         delete valuesToSet[key];
@@ -67,10 +69,14 @@ var Preferences = {
                 var pillarsExcluded = String(Preferences.pillarsExcluded).split(',').map(s => parseInt(s) || 0).filter(n => n > 0).join(',');
                 if (pillarsExcluded != Preferences.pillarsExcluded) Preferences.pillarsExcluded = valuesToSet.pillarsExcluded = pillarsExcluded;
                 if (keysToRemove.length) chrome.storage.local.remove(keysToRemove);
-                if (Object.keys(valuesToSet).length) chrome.storage.local.set(valuesToSet);
-                chrome.storage.onChanged.addListener(Preferences.onChanged);
-                resolve();
+                if (Object.keys(valuesToSet).length) chrome.storage.local.set(valuesToSet, function() {
+                    hasRuntimeError();
+                    resolve();
+                });
+                else resolve();
             });
+        }).then(function() {
+            chrome.storage.onChanged.addListener(Preferences.onChanged);
         });
     },
     setHandler: function(action, callback) {
