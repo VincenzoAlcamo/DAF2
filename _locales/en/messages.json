@@ -505,6 +505,22 @@
             }
         }
     },
+    "neighbors_gifts": {
+        "message": "Count gifts in",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "neighbors_days": {
+        "message": "last $NUM$ days",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
     "neighbors_listed": {
         "message": "Custom\nlist"
     },
@@ -527,6 +543,9 @@
     },
     "neighbors_giftcount": {
         "message": "Gift\nCount"
+    },
+    "neighbors_giftvalue": {
+        "message": "Gift\nValue"
     },
     "neighbors_giftinfo": {
         "message": "The gifts below were recorded while DAF was active. The time indicated is the time of registration."
