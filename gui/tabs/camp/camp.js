@@ -8,7 +8,7 @@ export default {
     actions: {
         'visit_camp': actionVisitCamp
     },
-    requires: ['configs', 'materials', 'buildings', 'lines']
+    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks']
 };
 
 const NUM_SLOTS = 24;
@@ -218,16 +218,22 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += HtmlBr `</table></td>`;
 
     if (campResult.blocks[2].blocked || campResult.blocks[3].blocked || campResult.blocks[4].blocked) {
-        var mat = {};
+        let swDiscount = gui.getActiveSpecialWeeks().debrisDiscount;
+        let mat = {};
+        let matDiscount = {};
         Object.values(campResult.blocks).forEach(block => {
             for (var i = NUM_SLOTS * 2 - block.blocked; i < NUM_SLOTS * 2; i++) {
                 for (var req of (block.slots[i] && block.slots[i].requirements)) {
-                    mat[req.material_id] = (mat[req.material_id] || 0) + +req.amount;
+                    let matId = req.material_id;
+                    mat[matId] = (mat[matId] || 0) + +req.amount;
+                    if (swDiscount) matDiscount[matId] = (matDiscount[matId] || 0) + Math.round(+req.amount * swDiscount.coeficient + 0.5);
                 }
             }
         });
         htm += HtmlBr `<td><table class="camp-data">`;
-        htm += HtmlBr `<thead><tr><th colspan="3">${gui.getMessage('camp_unlock_materials')}</th></tr></thead>`;
+        htm += HtmlBr `<thead><tr><th colspan="3">${gui.getMessage('camp_unlock_materials')}</th>`;
+        if (swDiscount) htm += HtmlBr `<th>${gui.getMessage('camp_discounted')}</th>`;
+        htm += HtmlBr `</tr></thead>`;
 
         var materials = gui.getFile('materials');
 
@@ -235,9 +241,17 @@ function updateCamp(div, flagHeaderOnly = false) {
         for (var matId of [1, 7, 22, 32, 8]) {
             var material = materials[matId];
             var img = material ? gui.getObjectImg('material', matId, 24, true) : '';
-            if (matId in mat) htm += HtmlBr `<tr class="material"><td>${img}</td><td>${gui.getObjectName('material', matId)}</td><td>${Locale.formatNumber(mat[matId])}</td></tr>`;
+            if (matId in mat) {
+                htm += HtmlBr `<tr class="material"><td>${img}</td><td>${gui.getObjectName('material', matId)}</td><td>${Locale.formatNumber(mat[matId])}</td>`;
+                if (swDiscount) htm += HtmlBr `<td>${Locale.formatNumber(matDiscount[matId])}</td>`;
+                htm += HtmlBr `</tr>`;
+            }
         }
         htm += HtmlBr `<tbody>`;
+        if (swDiscount) {
+            let percent = 100 - Math.round(swDiscount.coeficient * 100);
+            htm += HtmlBr `<tfoot><tr><th colspan="4" class="warning">${gui.getMessage('specialweek_debrisdiscount', percent)}<br>${gui.getMessage('specialweek_dates', Locale.formatDateTime(swDiscount.start), Locale.formatDateTime(swDiscount.finish))}</th></tfoot>`;
+        }
         htm += HtmlBr `</table></td>`;
     }
 

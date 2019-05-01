@@ -1,8 +1,9 @@
 {
     "manifest_version": 2,
     "name": "__MSG_ext_name__",
+    "short_name": "__MSG_ext_name__",
     "version": "2.0.0.0",
-    "version_name": "2.0.0.0 PREVIEW 2019-04-30T01:22",
+    "version_name": "2.0.0.0 PREVIEW 2019-05-01T18:00",
     "default_locale": "en",
     "description": "__MSG_ext_title__",
     "minimum_chrome_version": "71",

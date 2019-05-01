@@ -3,6 +3,7 @@ export default kitchenFoundry;
 
 function kitchenFoundry(type) {
     var tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom;
+    var swDoubleProduction, swHalfTimeProduction;
 
     function init() {
         tab = this;
@@ -46,7 +47,22 @@ function kitchenFoundry(type) {
         });
     }
 
+    function getInfoSpecialWeek(specialWeek, messageId) {
+        return HtmlBr `${gui.getMessage(messageId)}: ${gui.getMessage('specialweek_fromto', Locale.formatDateTime(specialWeek.start), Locale.formatDateTime(specialWeek.finish))}`;
+    }
+
     function update() {
+        let specialWeeks = gui.getActiveSpecialWeeks();
+        swDoubleProduction = specialWeeks.doubleProduction;
+        swHalfTimeProduction = specialWeeks.halfTimeProduction;
+        let htm = [];
+        if (swDoubleProduction) htm.push(getInfoSpecialWeek(swDoubleProduction, 'specialweek_doubleproduction'));
+        if (swHalfTimeProduction) htm.push(getInfoSpecialWeek(swHalfTimeProduction, 'specialweek_halftimeproduction'));
+        htm = htm.join('<br>');
+        for (let td of smartTable.container.querySelectorAll('tfoot td')) {
+            td.parentNode.style.display = htm.length ? '' : 'none';
+            td.innerHTML = htm;
+        }
         Array.from(container.querySelectorAll('[sort-name="total_time"]')).forEach(el => el.innerHTML = HtmlBr(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
@@ -98,6 +114,8 @@ function kitchenFoundry(type) {
             // qty is not specified for usables, and it has equal min/max for other types
             // we just get the max, assuming that either it is equal to min or it is undefined
             p.qty = +cargo.max || 1;
+            // Tokens are not doubles (Jade/Obsidian key)
+            if (swDoubleProduction && cargo.type != 'token') p.qty *= 2;
             var c = null;
             if (cargo.type == 'usable') c = usables[cargo.object_id];
             else if (cargo.type == 'material') c = materials[cargo.object_id];
@@ -111,6 +129,7 @@ function kitchenFoundry(type) {
             p.ename = (event && gui.getString(event.name_loc)) || '';
             p.eimg = event && gui.getObjectImage('event', p.eid);
             p.time = +item.duration;
+            if (swHalfTimeProduction) p.time /= 2;
             p.energy_per_hour = p.time ? Math.round(p.energy / p.time * 3600) : 0;
             p.ingredients = [];
             var numProd = 0,
@@ -140,7 +159,8 @@ function kitchenFoundry(type) {
         // For each production, register the maximum region associated with that production's name
         var hash = {};
         for (let item of result) {
-            hash[item.name] = Math.max(hash[item.name] || 0, item.region);
+            if (item.eid > 0 && item.region > generator.events_region[item.eid]) continue;
+            hash[item.name] = Math.max(hash[item.name] || 1, item.region);
         }
         // Get only the max region for each distinct name
         result = result.filter(item => item.region == hash[item.name]);
@@ -148,8 +168,7 @@ function kitchenFoundry(type) {
         return result;
     }
 
-    function getHtml() {
-        var htm = '';
+    function recreateRows() {
         var hasQty = type == 'alloy';
         var hasEnergy = type == 'recipe';
         var hasEvent = type == 'recipe';
@@ -157,11 +176,11 @@ function kitchenFoundry(type) {
         function getIngredient(ingredient) {
             return HtmlBr `<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${ingredient.dsc}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
-        productions.forEach(p => {
+        for (let p of productions) {
             var rspan = p.ingredients.length;
             var title = p.cname;
             if (p.cdsc) title += '\n' + p.cdsc;
-            htm += HtmlBr `<tr id="prod-${p.id}">`;
+            let htm = '';
             htm += HtmlBr `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
             htm += HtmlBr `<td rowspan="${rspan}">${p.name}</td>`;
             htm += HtmlBr `<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
@@ -188,10 +207,16 @@ function kitchenFoundry(type) {
                 htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
             }
             htm += HtmlBr `<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
-            htm += HtmlBr `</tr>`;
-            htm += p.ingredients.map((ingredient, index) => index > 0 ? HtmlBr `<tr class="ingredient">${getIngredient(ingredient)}</tr>` : '').join('');
-        });
-        return htm;
+            let row = document.createElement('tr');
+            row.innerHTML = htm;
+            p.rows = [row];
+            for (let i = 1; i < p.ingredients.length; i++) {
+                let row = document.createElement('tr');
+                row.classList.add('ingredient');
+                row.innerHTML = getIngredient(p.ingredients[i]);
+                p.rows.push(row);
+            }
+        }
     }
 
     function refresh() {
@@ -224,16 +249,7 @@ function kitchenFoundry(type) {
             flagRecreate = true;
         }
 
-        if (flagRecreate) {
-            smartTable.tbody[0].innerHTML = '';
-            smartTable.tbody[1].innerHTML = getHtml(productions);
-            productions.forEach(p => {
-                var row = document.getElementById('prod-' + p.id);
-                p.rows = [row];
-                p.visible = false;
-                while ((row = row.nextElementSibling) && !row.hasAttribute('id')) p.rows.push(row);
-            });
-        }
+        if (flagRecreate) recreateRows();
 
         var generator = gui.getGenerator();
         var level = +generator.level;
@@ -248,15 +264,16 @@ function kitchenFoundry(type) {
         }
 
         var isOdd = false;
-        productions.forEach(p => {
-            var oldVisible = p.visible;
-            p.visible = isVisible(p);
-            if (p.visible && (isOdd = !isOdd) != p.rows[0].classList.contains('odd')) p.rows.forEach(row => row.classList.toggle('odd', isOdd));
-            if (p.visible || oldVisible != p.visible) {
-                var tbody = smartTable.tbody[p.visible ? 0 : 1];
-                p.rows.forEach(row => tbody.appendChild(row));
+        var tbody = smartTable.tbody[0];
+        tbody.innerHTML = '';
+        for (let p of productions.filter(isVisible)) {
+            isOdd = !isOdd;
+            let toggleOdd = isOdd != p.rows[0].classList.contains('odd');
+            for (let row of p.rows) {
+                if (toggleOdd) row.classList.toggle('odd', isOdd);
+                tbody.appendChild(row);
             }
-        });
+        }
 
         gui.collectLazyImages(smartTable.container);
         smartTable.syncLater();
@@ -268,6 +285,6 @@ function kitchenFoundry(type) {
         update: update,
         getState: getState,
         setState: setState,
-        requires: ['materials', 'usables', 'tokens', 'productions', 'events']
+        requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks']
     };
 }

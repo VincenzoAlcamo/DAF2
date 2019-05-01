@@ -164,6 +164,33 @@ let gui = {
         tabs.friendship.mustBeUpdated = true;
         tabs.neighbors.mustBeUpdated = true;
     },
+    getActiveSpecialWeeks: function() {
+        // requires special_weeks
+        let result = {};
+        result.items = [];
+        result.types = {};
+        let now = gui.getUnixTime();
+        for(let sw of Object.values(gui.getFile('special_weeks'))) {
+            let start = +sw.start, finish = +sw.finish;
+            if(start <= now && now <= finish) {
+                let item = {
+                    id: sw.def_id,
+                    type: sw.type,
+                    coeficient: +sw.coeficient,
+                    start: start,
+                    finish: finish
+                };
+                result.items.push(item);
+                result.types[item.type] = item;
+            }
+        }
+        result.debrisDiscount = result.types['debris_discount'];
+        result.doubleProduction = result.types['production'];
+        result.halfTimeProduction = result.types['half_prod_time'];
+        result.doubleDrop = result.types['double_drop'];
+        result.postcards = result.types['postcards'];
+        return result;
+    },
     setupScreenshot: function(element, fileName = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;

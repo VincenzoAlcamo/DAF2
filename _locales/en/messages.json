@@ -427,6 +427,9 @@
     "camp_webgl": {
         "message": "Show camp in WebGL order"
     },
+    "camp_discounted": {
+        "message": "Discounted"
+    },
 
     "pillars_all": {
         "message": "All pillars"
@@ -1115,6 +1118,43 @@
     },
     "export_importsuccess": {
         "message": "Data has been imported succesfully!"
+    },
+
+    "specialweek_dates": {
+        "message": "$START$ - $FINISH$",
+        "placeholders": {
+            "start": {
+                "content": "$1"
+            },
+            "finish": {
+                "content": "$2"
+            }
+        }
+    },
+    "specialweek_fromto": {
+        "message": "from $START$ to $FINISH$",
+        "placeholders": {
+            "start": {
+                "content": "$1"
+            },
+            "finish": {
+                "content": "$2"
+            }
+        }
+    },
+    "specialweek_debrisdiscount": {
+        "message": "Debris discount week $PERCENT$%",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_doubleproduction": {
+        "message": "Double production"
+    },
+    "specialweek_halftimeproduction": {
+        "message": "Half time production"
     },
 
     "ext_placeholder": {
