@@ -819,14 +819,14 @@ var Data = {
     saveFriendList: {},
     removeFriendList: {},
     saveFriendDelayed: function() {
-        Data.saveNeighbourHandler = 0;
+        Data.saveFriendHandler = 0;
         let tx = Data.db.transaction('Friends', 'readwrite');
         var store = tx.objectStore('Friends');
         var items = Object.values(Data.saveFriendList);
         if (items.length) store.bulkPut(items);
-        Data.saveNeighbourList = {};
+        Data.saveFriendList = {};
         for (var item of Object.values(Data.removeFriendList)) store.delete(item.id);
-        Data.removeNeighbourList = {};
+        Data.removeFriendList = {};
     },
     saveFriend: function(friend, remove = false) {
         if (!friend) return;
