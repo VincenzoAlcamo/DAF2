@@ -9,6 +9,10 @@ function hasRuntimeError() {
     return hasError;
 }
 
+function getUnixTime() {
+    return Math.floor(Date.now() / 1000);
+}
+
 var Badge = {
     setIcon: function(color) {
         chrome.browserAction.setIcon({
@@ -569,7 +573,7 @@ var WebRequest = {
                 var file = {};
                 file.id = info.id;
                 file.url = info.url;
-                file.time = Date.now();
+                file.time = getUnixTime();
                 file.data = Parser.parse(info.id, text);
                 if (file.data) {
                     file.data.player_id = info.player_id;
@@ -737,7 +741,7 @@ var Data = {
         var file = {
             id: 'localization',
             url: url,
-            time: Date.now()
+            time: getUnixTime()
         };
         let languageId = Data.localization.languageId || Data.getLanguageIdFromUrl(url) || 'EN';
         let find = function(suffix) {
@@ -851,7 +855,7 @@ var Data = {
         if (newFriends.length == 0) return;
         var oldFriends = Object.assign({}, Data.getFriends());
         var friends = {};
-        var now = Math.floor(Date.now() / 1000);
+        var now = getUnixTime();
         // We retain the old association (score and uid)
         for (var friend of newFriends) {
             friend.timeCreated = now;

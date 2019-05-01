@@ -27,6 +27,9 @@ var gui = {
     getMessage: function(id, ...args) {
         return chrome.i18n.getMessage(id, args);
     },
+    getUnixTime: function() {
+        return Math.floor(Date.now() / 1000);
+    },
     getPlayerNameFull: function(pal) {
         var name = pal.name || 'Player ' + pal.id;
         return pal.surname ? name + ' ' + pal.surname : name;
