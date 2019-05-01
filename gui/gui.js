@@ -1,7 +1,37 @@
 /*global chrome Locale Dialog UrlInfo HtmlRaw Html HtmlBr dynamicImport*/
-var bgp = chrome.extension.getBackgroundPage();
+let bgp = chrome.extension.getBackgroundPage();
 
-var gui = {
+let currentTab = null;
+let tabs = (function() {
+    let tabs = {};
+
+    function addTab(id, enabled = true) {
+        tabs[id] = {
+            id: id,
+            icon: '/img/gui/' + id + '.png',
+            generator: id != 'about' && id != 'options',
+            enabled: enabled
+        };
+    }
+    addTab('about');
+    addTab('progress');
+    addTab('camp');
+    addTab('neighbors');
+    addTab('friendship');
+    addTab('godchild');
+    addTab('kitchen');
+    addTab('foundry');
+    addTab('pillars');
+    addTab('locations', false);
+    addTab('greenrings', false);
+    addTab('redrings', false);
+    addTab('rewardlinks', false);
+    addTab('options');
+    addTab('help', false);
+    return tabs;
+})();
+
+let gui = {
     dialog: Dialog(),
     wait: Dialog(Dialog.WAIT),
     toast: Dialog(Dialog.TOAST),
@@ -43,6 +73,9 @@ var gui = {
     },
     getFriendAnchor: function(friend) {
         return Html `<a target="_blank" href="${friend.uri}" title="${friend.name}">`;
+    },
+    getObject: function(type, id) {
+        return bgp.Data.getObject(type, id);
     },
     getObjectName: function(type, id) {
         return bgp.Data.getObjectName(type, id);
@@ -223,44 +256,14 @@ var gui = {
 
 window.addEventListener('load', onLoad);
 
-var currentTab = null;
-var tabs = (function() {
-    var tabs = {};
-
-    function addTab(id, enabled = true) {
-        tabs[id] = {
-            id: id,
-            icon: '/img/gui/' + id + '.png',
-            generator: id != 'about' && id != 'options',
-            enabled: enabled
-        };
-    }
-    addTab('about');
-    addTab('progress');
-    addTab('camp');
-    addTab('neighbors');
-    addTab('friendship');
-    addTab('godchild');
-    addTab('kitchen');
-    addTab('foundry');
-    addTab('pillars');
-    addTab('locations', false);
-    addTab('greenrings', false);
-    addTab('redrings', false);
-    addTab('rewardlinks', false);
-    addTab('options');
-    addTab('help', false);
-    return tabs;
-})();
-
 function onLoad() {
-    var htm = '';
-    var hasValidGenerator = gui.hasValidGenerator();
-    Object.values(tabs).forEach(tab => {
+    let htm = '';
+    let hasValidGenerator = gui.hasValidGenerator();
+    for (let tab of Object.values(tabs)) {
         var text = gui.getMessage('tab_' + tab.id) || tab.id;
         var disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
         htm += Html `<li title="${text}" style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
-    });
+    }
     htm += Html `<li class="last"></li>`;
     var div = document.querySelector('.vertical-menu');
     div.innerHTML = htm;
@@ -274,6 +277,7 @@ function onLoad() {
         var action = request.action;
         var data = request.data;
         if (action == 'generator') {
+            let hasValidGenerator = gui.hasValidGenerator();
             for (let tab of Object.values(tabs)) {
                 tab.mustBeUpdated = true;
                 var div = gui.getTabMenuItem(tab.id);
