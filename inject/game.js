@@ -344,10 +344,11 @@ function onMenuClick(e) {
         case 'reloadGame':
             var value = target.getAttribute('data-value');
             var facebook = (isFacebook ^ (value === 'switch'));
-            var webgl = value == 'flash' ? false : isWebGL || value == 'webgl';
-            var url = (facebook ? 'https://apps.facebook.com/diggysadventure/' : 'https://portal.pixelfederation.com/diggysadventure/');
-            url += (webgl ? '?webgl' : '?flash');
-            window.location = url;
+            value += ' ' + (facebook ? 'facebook' : 'portal');
+            chrome.runtime.sendMessage({
+                action: 'reloadGame',
+                value: value
+            });
             break;
     }
 }

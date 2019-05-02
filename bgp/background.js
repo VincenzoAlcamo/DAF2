@@ -345,10 +345,10 @@ if (loginButton) {
         }
         return result;
     },
-    showGUI: function(refreshExisting = false) {
+    showTab: function(kind, url, urlIfExist) {
         chrome.tabs.query({}, function(tabs) {
             var tab = tabs.find(tab => {
-                return Tab.detect(tab.url).isGUI;
+                return Tab.detect(tab.url)[kind];
             });
             if (tab) {
                 chrome.windows.update(tab.windowId, {
@@ -357,16 +357,28 @@ if (loginButton) {
                     var updateProperties = {
                         active: true
                     };
-                    if (refreshExisting) updateProperties.url = tab.url;
+                    if (urlIfExist) updateProperties.url = urlIfExist;
                     chrome.tabs.update(tab.id, updateProperties);
                 });
-            } else if (!refreshExisting) {
+            } else {
                 chrome.tabs.create({
-                    url: Tab.GUI_URL,
+                    url: url,
                     selected: true
                 });
             }
         });
+    },
+    showGUI: function() {
+        Tab.showTab('isGUI', Tab.GUI_URL, null);
+    },
+    showGame: function(options) {
+        let values = (options || '') + ' ' + (Data.generator ? Data.generator.game_site + ' ' + Data.generator.game_platform : '');
+        values = values.toLowerCase().split(' ');
+        let site = values.find(item => item == 'facebook' || item == 'portal');
+        let platform = values.find(item => item == 'webgl' || item == 'flash');
+        let url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/');
+        url += (platform == 'flash' ? '?flash' : '?webgl');
+        Tab.showTab('isGame', url, url);
     },
     focus: function(tabId, flag) {
         if (tabId) chrome.tabs.get(tabId, function(tab) {
@@ -1384,6 +1396,9 @@ async function init() {
                         return result;
                     })
             };
+        },
+        reloadGame: function(request, _sender) {
+            Tab.showGame(request.value);
         },
         collectRewardLink: function(request, sender) {
             let flagClose = Preferences.getValue('rewardsClose');

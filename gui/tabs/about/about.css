@@ -32,10 +32,12 @@
 .about_data.nodata {
   animation: about_blinker 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
   font-size: 20pt;
-  background-color: var(--tb-hlcol);
+  background-color: var(--warn-bgcol);
+  color: var(--warn-fgcol);
   display: inline-block;
   padding: 6px;
   border-radius: 8px;
+  margin-top: 64px;
 }
 
 @keyframes about_blinker {
@@ -46,6 +48,55 @@
 
 .about_disclaimer {
   font-size: 14pt;
-  margin-top: 64px;
+  margin-top: 32px;
   padding: 0px 40px;
+}
+
+.about_launcher {
+  height: 64px;
+  vertical-align: top;
+  margin-top: 48px;
+  text-align: center;
+}
+
+.about_launcher button {
+  padding: 2px 4px;
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+  border: 1px solid var(--tb-brcol);
+  border-radius: 8px;
+  width: 114px;
+  margin: 1px;
+  opacity: 0.5;
+}
+
+.about_launcher>div>div>div>div>button {
+  width: 56px;
+}
+
+.about_launcher>div>button {
+  opacity: 1;
+}
+
+.about_launcher button:hover {
+  background-color: var(--tb-hlcol);
+  color: var(--td-fgcol);
+  opacity: 1;
+}
+
+.about_launcher div {
+  display: block;
+  vertical-align: top;
+}
+
+.about_launcher div>div {
+  display: none;
+}
+
+.about_launcher div:hover>div {
+  display: block;
+}
+
+.about_launcher div:hover>button {
+  opacity: 1;
 }

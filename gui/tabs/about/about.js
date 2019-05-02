@@ -1,4 +1,4 @@
-/*global bgp gui Locale HtmlBr*/
+/*global chrome bgp gui Locale HtmlBr*/
 export default {
     hasCSS: true,
     init: init,
@@ -10,19 +10,29 @@ function init() {}
 function update() {
     this.container.querySelector('.about_version').innerHTML = HtmlBr(gui.getMessage('about_version', bgp.Data.versionName));
 
-    var generator = gui.getGenerator();
-    var data;
+    let generator = gui.getGenerator();
+    let div = this.container.querySelector('.about_data');
     if (gui.hasValidGenerator()) {
-        data = gui.getMessage('about_data',
+        div.innerHTML = HtmlBr(gui.getMessage('about_data',
             Locale.formatDateTimeFull(generator.time),
             generator.player_id,
             generator.game_site,
             generator.game_platform
-        );
+        ));
+        div.classList.remove('nodata');
     } else {
-        data = gui.getMessage('about_nodata');
+        div.innerHTML = HtmlBr(gui.getMessage('about_nodata'));
+        div.classList.add('nodata');
     }
-    var div = this.container.querySelector('.about_data');
-    div.innerHTML = HtmlBr(data);
-    div.classList.toggle('nodata', !gui.hasValidGenerator());
+
+    for(let button of this.container.querySelectorAll('.about_launcher button'))
+        button.addEventListener('click', onClick);
+}
+
+function onClick() {
+    let button = this;
+    chrome.runtime.sendMessage({
+        action: 'reloadGame',
+        value: button.getAttribute('data-value')
+    });
 }
