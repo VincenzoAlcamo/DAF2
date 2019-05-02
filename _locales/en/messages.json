@@ -1120,25 +1120,11 @@
         "message": "Data has been imported succesfully!"
     },
 
-    "specialweek_dates": {
-        "message": "$START$ - $FINISH$",
+    "specialweek_end": {
+        "message": "ends on $FINISH$",
         "placeholders": {
-            "start": {
-                "content": "$1"
-            },
             "finish": {
-                "content": "$2"
-            }
-        }
-    },
-    "specialweek_fromto": {
-        "message": "from $START$ to $FINISH$",
-        "placeholders": {
-            "start": {
                 "content": "$1"
-            },
-            "finish": {
-                "content": "$2"
             }
         }
     },

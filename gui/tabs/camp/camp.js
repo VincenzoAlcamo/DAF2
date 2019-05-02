@@ -250,7 +250,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         htm += HtmlBr `<tbody>`;
         if (swDiscount) {
             let percent = 100 - Math.round(swDiscount.coeficient * 100);
-            htm += HtmlBr `<tfoot><tr><th colspan="4" class="warning">${gui.getMessage('specialweek_debrisdiscount', percent)}<br>${gui.getMessage('specialweek_dates', Locale.formatDateTime(swDiscount.start), Locale.formatDateTime(swDiscount.finish))}</th></tfoot>`;
+            htm += HtmlBr `<tfoot><tr><th colspan="4" class="warning">${gui.getMessage('specialweek_debrisdiscount', percent)}<br>${gui.getMessage('specialweek_end', Locale.formatDateTime(swDiscount.finish))}</th></tfoot>`;
         }
         htm += HtmlBr `</table></td>`;
     }

@@ -48,7 +48,7 @@ function kitchenFoundry(type) {
     }
 
     function getInfoSpecialWeek(specialWeek, messageId) {
-        return HtmlBr `${gui.getMessage(messageId)}: ${gui.getMessage('specialweek_fromto', Locale.formatDateTime(specialWeek.start), Locale.formatDateTime(specialWeek.finish))}`;
+        return HtmlBr `${gui.getMessage(messageId)}: ${gui.getMessage('specialweek_end', Locale.formatDateTime(specialWeek.finish))}`;
     }
 
     function update() {
