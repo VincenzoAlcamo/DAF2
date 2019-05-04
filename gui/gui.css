@@ -19,7 +19,7 @@ html {
   /* TABLES */
   --tb-brcol: #36648B;
   --tb-fgcol: #000;
-  --tb-hlcol: rgba(255, 255, 0, 0.8);
+  --tb-hlcol: #FF0;
   --th-fgcol: #FFF;
   --th-bgcol: #2281C0;
   --td-brcol: #B3B3B3;
