@@ -71,10 +71,10 @@ function setState(state) {
         selectShow.selectedIndex = 0;
         state.show = selectShow.value;
     }
-    selectDays.value = state.days || '';
+    selectDays.value = state.gifts || '';
     if (selectDays.selectedIndex < 0) {
         selectDays.selectedIndex = 21;
-        state.days = selectDays.value;
+        state.gifts = selectDays.value;
     }
     searchInput.value = state.search || '';
     var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
@@ -249,7 +249,7 @@ function refreshDelayed() {
     delete neighbors[1];
     neighbors = Object.values(neighbors);
 
-    let giftDays = Math.min(7, +state.gifts || 0);
+    let giftDays = Math.max(7, +state.gifts || 0);
     let giftThreshold = getDateAgo(giftDays - 1);
     if (giftDays != lastGiftDays) {
         lastGiftDays = giftDays;
@@ -265,6 +265,7 @@ function refreshDelayed() {
             });
             gifts._value = value;
             palGifts[pal.id] = gifts;
+            palRows[pal.id].setAttribute('lazy-render', '');
         }
     }
 
@@ -294,7 +295,7 @@ function refreshDelayed() {
     });
 
     scheduledRefresh = setTimeout(function() {
-        rows.sort((a, b) => a[2] - b[2] || a[1].localeCompare(b[1]));
+        rows.sort((a, b) => (a[2] - b[2]) || a[1].localeCompare(b[1]));
         if (!smartTable.sort.ascending) rows.reverse();
 
         var tbody = smartTable.tbody[0];
