@@ -145,7 +145,7 @@ var Message = {
     onMessage: function(request, sender, sendResponse) {
         if (request && request.action == 'capture') {
             chrome.tabs.captureVisibleTab(function(dataUrl) {
-                sendResponse(dataUrl);
+                sendResponse(hasRuntimeError() ? '' : dataUrl);
             });
             return true;
         }

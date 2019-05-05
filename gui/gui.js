@@ -177,9 +177,10 @@ let gui = {
         result.items = [];
         result.types = {};
         let now = gui.getUnixTime();
-        for(let sw of Object.values(gui.getFile('special_weeks'))) {
-            let start = +sw.start, finish = +sw.finish;
-            if(start <= now && now <= finish) {
+        for (let sw of Object.values(gui.getFile('special_weeks'))) {
+            let start = +sw.start;
+            let finish = +sw.finish;
+            if (start <= now && now <= finish) {
                 let item = {
                     id: sw.def_id,
                     type: sw.type,
@@ -217,7 +218,16 @@ let gui = {
             setTimeout(function() {
                 gui.captureElement(element).then(function(data) {
                     target.src = data;
-                    target.classList.add('ready');
+                    target.classList.toggle('ready', !!data);
+                    if (!data) {
+                        let htm = HtmlBr `${gui.getMessage('gui_screenshot_errorinfo')}`;
+                        htm = String(htm).replace(/#DAF2#/g, '<img src="/img/logo/iconYellow.png" width="24" align="center">');
+                        gui.dialog.show({
+                            title: gui.getMessage('gui_screenshot_error'),
+                            html: htm,
+                            style: [Dialog.OK, Dialog.CRITICAL]
+                        });
+                    }
                 }).finally(function() {
                     screenshot.style.display = '';
                 });
@@ -268,6 +278,7 @@ let gui = {
                     reject(chrome.runtime.lastError);
                     return;
                 }
+                if (!dataUrl) return resolve(dataUrl);
                 let image = new Image();
                 image.setAttribute('crossOrigin', 'anonymous');
                 image.src = dataUrl;

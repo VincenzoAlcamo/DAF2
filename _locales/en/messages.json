@@ -135,10 +135,16 @@
         }
     },
     "gui_screenshot_shot": {
-        "message": "Click to make a screenshot of this section.\nThe screenshot will appear on the right.\nPlease note: only the visible area is captured!"
+        "message": "Click to make a screenshot of this section.\nThe screenshot will appear on the right.\nPlease note: only the visible area is captured!\nYou have to click the DAF2 icon in the Chrome menu, to enable this feature."
     },
     "gui_screenshot_target": {
         "message": "Click to download the image.\nYou can right-click this image and select \"Copy image\" to copy it on the clipboard."
+    },
+    "gui_screenshot_error": {
+        "message": "Cannot make screenshot"
+    },
+    "gui_screenshot_errorinfo": {
+        "message": "First, you have to click the #DAF2# icon in the Chrome menu.\nThis will enable the screenshot function until the page is closed.\n\nPlease, click the #DAF2# icon then retry the screenshot."
     },
     "gui_infodated": {
         "message": "The information shown here was current and only valid as at '$VALID$'",
