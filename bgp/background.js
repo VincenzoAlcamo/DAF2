@@ -15,6 +15,7 @@ function getUnixTime() {
 
 var Badge = {
     setIcon: function(color) {
+        color = color[0].toUpperCase() + color.substr(1).toLowerCase();
         chrome.browserAction.setIcon({
             path: '/img/logo/icon' + color + '.png'
         });
@@ -607,7 +608,6 @@ var WebRequest = {
         delete WebRequest.captures[details.requestId];
         if (!info) return;
         console.log('onCompleted', info.filename, info);
-        WebRequest.deleteRequest(info.id);
         if (!info.promise) info.promise = Promise.resolve(null);
         info.promise.then(function(text) {
             if (info.id == 'localization') {
@@ -632,6 +632,7 @@ var WebRequest = {
                 }
             }
         }).finally(function() {
+            WebRequest.deleteRequest(info.id);
             delete WebRequest.captures[info.url];
         });
     },
@@ -1430,7 +1431,7 @@ async function init() {
         Badge.setIcon('yellow');
     }
 
-    autoAttachDebugger();
+    if (Preferences.getValue('keepDebugging')) autoAttachDebugger();
 
     chrome.browserAction.onClicked.addListener(function(_activeTab) {
         Tab.showGUI();
