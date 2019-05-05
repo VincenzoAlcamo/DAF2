@@ -138,8 +138,6 @@ ${method == 'alternate' ? addAlternateSettings() : ''}
         html: HtmlBr `${gui.getMessage('friendship_collectpreamble')}
 <table style="margin-top:16px">
 ${button('standard')}
-${button('alternate')}
-${button('both')}
 ${numFriends > 0 ? button('match') : ''}
 </table>`,
         style: ['standard', 'alternate', 'both', 'match', Dialog.CANCEL]
