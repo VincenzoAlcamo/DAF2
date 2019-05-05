@@ -297,7 +297,7 @@ function onLoad() {
     for (let tab of Object.values(tabs)) {
         var text = gui.getMessage('tab_' + tab.id) || tab.id;
         var disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
-        htm += Html `<li title="${text}" style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
+        htm += Html `<li title="${text + (tab.enabled ? '' : '\nNOT YET IMPLEMENTED!')}" style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
     }
     htm += Html `<li class="last"></li>`;
     var div = document.querySelector('.vertical-menu');
