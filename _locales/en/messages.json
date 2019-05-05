@@ -772,13 +772,10 @@
         }
     },
     "friendship_collectstat": {
-        "message": "Friends collected: $NUM$ / $TOTAL$",
+        "message": "Friends collected: $COUNT$",
         "placeholders": {
-            "num": {
+            "count": {
                 "content": "$1"
-            },
-            "total": {
-                "content": "$2"
             }
         }
     },

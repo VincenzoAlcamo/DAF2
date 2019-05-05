@@ -35,8 +35,13 @@ function collect() {
     }
 }
 
+function getStatInfo(num, total) {
+    var count = num == total ? total : (num + ' / ' + total);
+    return chrome.i18n.getMessage('friendship_collectstat', [count]);
+}
+
 function sendFriends() {
-    document.title = chrome.i18n.getMessage('friendship_collectstat', [friends.length, friends.length]);
+    document.title = getStatInfo(friends.length, friends.length);
     wait.setText(document.title);
     chrome.runtime.sendMessage({
         action: 'friendsCaptured',
@@ -105,7 +110,7 @@ function collectStandard() {
                 });
             });
             ul.parentNode.removeChild(ul);
-            document.title = chrome.i18n.getMessage('friendship_collectstat', [count, friends.length]);
+            document.title = getStatInfo(count, friends.length);
             wait.setText(document.title);
         } else {
             countStop++;
