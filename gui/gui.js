@@ -121,6 +121,13 @@ let gui = {
     getMaxRegion: function() {
         return 6;
     },
+    setSelectState: function(select, value, defaultIndex) {
+        select.value = value || '';
+        if (select.selectedIndex < 0) {
+            select.selectedIndex = defaultIndex || 0;
+        }
+        return select.value;
+    },
     // Lazy load images using an IntersectionObserver
     lazyObserver: new IntersectionObserver(function(entries) {
         for (let entry of entries) {

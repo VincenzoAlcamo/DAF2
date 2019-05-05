@@ -9,7 +9,7 @@ export default {
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills']
 };
 
-let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts, trGifts, giftValues, lastGiftDays, giftCache;
+let tab, container, selectShow, selectGifts, searchInput, smartTable, searchHandler, palRows, palGifts, trGifts, giftValues, lastGiftDays, giftCache;
 
 function init() {
     tab = this;
@@ -24,13 +24,13 @@ function init() {
         selectShow.appendChild(option);
     }
 
-    selectDays = container.querySelector('[name=days]');
-    selectDays.addEventListener('change', refresh);
+    selectGifts = container.querySelector('[name=gifts]');
+    selectGifts.addEventListener('change', refresh);
     for (let days = 7; days <= 50; days++) {
         let option = document.createElement('option');
         option.value = days;
         option.innerText = Locale.getMessage('neighbors_days', days);
-        selectDays.appendChild(option);
+        selectGifts.appendChild(option);
     }
 
     searchInput = container.querySelector('[name=search]');
@@ -59,23 +59,15 @@ function getState() {
     var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
     return {
         show: selectShow.value,
-        gifts: selectDays.value,
+        gifts: selectGifts.value,
         search: searchInput.value,
         sort: getSort(smartTable.sort, 'name')
     };
 }
 
 function setState(state) {
-    selectShow.value = state.show || '';
-    if (selectShow.selectedIndex < 0) {
-        selectShow.selectedIndex = 0;
-        state.show = selectShow.value;
-    }
-    selectDays.value = state.gifts || '';
-    if (selectDays.selectedIndex < 0) {
-        selectDays.selectedIndex = 21;
-        state.gifts = selectDays.value;
-    }
+    state.show = gui.setSelectState(selectShow, state.show);
+    state.gifts = gui.setSelectState(selectGifts, state.gifts, 21);
     searchInput.value = state.search || '';
     var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
     if (!sortInfo.name) {
