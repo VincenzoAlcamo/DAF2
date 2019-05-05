@@ -89,6 +89,7 @@ function exportInventory() {
 function exportData() {
     let data = {};
     let generator = gui.getGenerator();
+    data.schema = 1;
     data.player_id = generator.player_id;
     let extras = data.extras = {};
     for (let pal of Object.values(bgp.Data.neighbours)) {
