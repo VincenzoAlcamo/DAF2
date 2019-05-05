@@ -78,7 +78,7 @@ function kitchenFoundry(type) {
     function getNumSlots() {
         var generator = gui.getGenerator();
         if (type == 'recipe') return (generator.pots && generator.pots.length) || 4;
-        if (type == 'alloy') return (generator.anvils && generator.anvils.length) || 4;
+        if (type == 'alloy') return (generator.anvils && generator.anvils.length) || 1;
         return 4;
     }
 

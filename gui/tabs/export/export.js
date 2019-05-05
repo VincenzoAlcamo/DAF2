@@ -51,7 +51,7 @@ function exportInventory() {
     data.push('XP\t' + generator.exp);
     data.push('CARAVANS\t' + generator.caravans.length);
     data.push('POTS\t' + generator.pots.length);
-    data.push('ANVILS\t' + generator.anvils.length);
+    data.push('ANVILS\t' + (generator.anvils ? generator.anvils.length : 1));
     data.push('');
     data.push('MAT_ID\tMAT_NAME\tQTY');
     Object.keys(materials).forEach(key => {
