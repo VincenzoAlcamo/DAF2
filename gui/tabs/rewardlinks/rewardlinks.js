@@ -13,7 +13,7 @@ export default {
 
 const SECONDS_IN_A_DAY = 86400;
 
-let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect;
+let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert;
 let materialImageCache = {};
 let clicked = {};
 let firstTime = true;
@@ -66,7 +66,6 @@ const LinkData = (function() {
     }
 
     function getLink(data, convert = 0) {
-        const SAFE_FB_LINK = true;
         if ((data.typ == 'portal' && convert == 0) || convert == 2) {
             var json = JSON.stringify({
                 action: 'wallpost',
@@ -76,9 +75,8 @@ const LinkData = (function() {
             });
             return 'https://portal.pixelfederation.com/wallpost/diggysadventure?params=' + encodeURIComponent(btoa(json));
         }
-        //return 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
         let url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
-        return SAFE_FB_LINK ? 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url) : url;
+        return convert == 3 ? 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url) : url;
     }
 
     return {
@@ -96,6 +94,9 @@ function init() {
     smartTable.onSort = update;
     smartTable.table.addEventListener('click', onClickTable, true);
 
+    selectConvert = container.querySelector('[name=convert]');
+    selectConvert.addEventListener('input', update);
+
     for (let button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClickButton);
     }
@@ -104,11 +105,13 @@ function init() {
 function getState() {
     var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
     return {
+        convert: selectConvert.value,
         sort: getSort(smartTable.sort, 'id')
     };
 }
 
 function setState(state) {
+    state.convert = gui.setSelectState(selectConvert, state.convert);
     var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
     if (!sortInfo.name) {
         sortInfo.name = 'id';
@@ -312,7 +315,8 @@ function update() {
 
     let tbody = smartTable.tbody[0];
     let now = gui.getUnixTime();
-    let conversion = 2;
+    let state = getState();
+    let conversion = state.convert == 'facebook' ? 1 : (state.convert == 'portal' ? 2 : 0);
     let numInserted = 0;
     let numUpdated = 0;
     let rewardLinksRecent = bgp.Data.rewardLinksRecent;
@@ -332,6 +336,10 @@ function update() {
         if (item) {
             let flagUpdated = false;
             delete oldItems[item.id];
+            if (item.conversion != conversion) {
+                item.conversion = conversion;
+                item.row.cells[1].firstChild.href = LinkData.getLink(rewardLink, conversion);
+            }
             if (item.cdt != rewardLink.cdt) {
                 flagUpdated = true;
                 item.cdt = rewardLink.cdt;

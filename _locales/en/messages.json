@@ -1103,6 +1103,12 @@
     "rewardlinks_resetexpired": {
         "message": "You can reset the \"Probably expired\" information and proceed with this link anyway."
     },
+    "rewardlinks_convert": {
+        "message": "Convert link"
+    },
+    "rewardlinks_noconversion": {
+        "message": "No conversion"
+    },
 
     "export_exportdata": {
         "message": "Export data"
