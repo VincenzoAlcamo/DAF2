@@ -1,4 +1,4 @@
-/*global gui*/
+/*global chrome gui*/
 export default {
     hasCSS: true,
     init: init,
@@ -13,6 +13,15 @@ let tab, container, searchInput;
 function init() {
     tab = this;
     container = tab.container;
+
+    for (let item of container.querySelectorAll('.open_href')) {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+            chrome.tabs.create({
+                url: item.href
+            });
+        });
+    }
 
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => refresh());
