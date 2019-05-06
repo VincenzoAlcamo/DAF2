@@ -6,6 +6,9 @@
         "message": "Helper Tool for Diggy's Adventure"
     },
 
+    "menu_autofullwindow": {
+        "message": "Automatic"
+    },
     "menu_fullwindow": {
         "message": "Game in full window"
     },

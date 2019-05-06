@@ -41,6 +41,7 @@ var Preferences = {
     getDefaults: function() {
         return {
             injectGame: true,
+            autoFullWindow: false,
             fullWindow: false,
             fullWindowHeader: false,
             fullWindowSide: true,
@@ -390,6 +391,13 @@ if (loginButton) {
     },
     injectGame: function(tabId) {
         if (!Preferences.getValue('injectGame')) return;
+        if (!Preferences.getValue('autoFullWindow')) {
+            console.log('Set fullwindow off');
+            Preferences.setValues({
+                fullWindow: false,
+                fullWindowSide: false
+            });
+        }
         chrome.webNavigation.getAllFrames({
             tabId: tabId
         }, function(frames) {

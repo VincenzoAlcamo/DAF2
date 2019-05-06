@@ -4,6 +4,7 @@ var autoClickAttached, autoClickStyle;
 var gcTable, gcTableStyle;
 var menu, textOn, textOff;
 var loadCompleted;
+var lastFullWindow = false;
 
 function sendMinerPosition() {
     // Send some values to the top window
@@ -78,14 +79,13 @@ function onResize() {
             gcTable.style.overflowX = 'auto';
             gcTable.style.width = fullWindow ? window.innerWidth : '100%';
         }
-        // if (menu) {
-        //     menu.style.top = Math.floor(miner.getBoundingClientRect().top + 30) + 'px';
-        // }
         if (!isWebGL) {
-            miner.style.height = fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight;
+            let height = fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight;
+            let width = (fullWindow || prefs.fullWindowSide) ? window.innerWidth : '100%';
+            if (height != miner.style.height) miner.style.height = height;
             // Please note: we must set the width for zoomed out view (for example, at 50%)
             // otherwise the element will be clipped horizontally
-            miner.width = fullWindow || prefs.fullWindowSide ? window.innerWidth : '100%';
+            if (width != miner.width) miner.width = width;
         }
         sendMinerPosition();
     } else if (isFacebook) {
@@ -94,10 +94,12 @@ function onResize() {
         //     forceResize(timeout);
         // } else {
         originalHeight = originalHeight || iframe.offsetHeight;
-        iframe.style.height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : (prefs['@bodyHeight'] || originalHeight) + 'px';
+        let height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : (prefs['@bodyHeight'] || originalHeight) + 'px';
+        if (height != iframe.style.height) iframe.style.height = height;
         // }
     } else {
-        iframe.style.height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
+        let height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
+        if (iframe.style.height != height) iframe.style.height = height;
     }
 }
 
@@ -106,18 +108,21 @@ function onFullWindow() {
     var flagHide = fullWindow;
     var fn = el => el && (el.style.display = flagHide ? 'none' : '');
     if (miner) {
-        if (isWebGL) {
-            var script = document.createElement('script');
-            script.innerText = 'document.mozFullScreenElement=' + fullWindow;
-            document.head.appendChild(script);
-            setTimeout(() => script.parentNode.removeChild(script), 500);
-            document.body.style.backgroundColor = fullWindow ? '#000' : '';
-            document.body.style.overflow = fullWindow ? 'hidden' : '';
-        } else {
-            document.body.style.overflowY = fullWindow ? 'hidden' : '';
+        if (fullWindow != lastFullWindow) {
+            lastFullWindow = fullWindow;
+            if (isWebGL) {
+                var script = document.createElement('script');
+                script.innerText = 'document.mozFullScreenElement=' + (fullWindow ? '{}' : 'null');
+                document.head.appendChild(script);
+                setTimeout(() => script.parentNode.removeChild(script), 500);
+                document.body.style.backgroundColor = fullWindow ? '#000' : '';
+                document.body.style.overflow = fullWindow ? 'hidden' : '';
+            } else {
+                document.body.style.overflowY = fullWindow ? 'hidden' : '';
+            }
+            Array.from(document.querySelectorAll('.header-menu,#gems_banner,.cp_banner .bottom_banner,#bottom_news,#footer,.client-type-switch,.news')).forEach(fn);
+            forceResize(1000);
         }
-        Array.from(document.querySelectorAll('.header-menu,#gems_banner,.cp_banner .bottom_banner,#bottom_news,#footer,.client-type-switch,.news')).forEach(fn);
-        forceResize(1000);
     } else {
         Array.from(document.querySelectorAll('#pagelet_dock,#footer')).forEach(fn);
         flagHide = fullWindow && !prefs.fullWindowHeader;
@@ -125,7 +130,10 @@ function onFullWindow() {
         flagHide = fullWindow || prefs.fullWindowSide;
         fn(document.querySelector('#rightCol'));
         document.body.style.overflowY = fullWindow ? 'hidden' : '';
-        onResize();
+        if (fullWindow != lastFullWindow) {
+            lastFullWindow = fullWindow;
+            onResize();
+        }
     }
 }
 
@@ -272,7 +280,7 @@ function createMenu() {
     <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
 </li>
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
-    <div><span>${gm('menu_fullwindow')}</span><br>
+    <div><span>${gm('menu_fullwindow')}</span><i data-pref="autoFullWindow">${gm('menu_autofullwindow')}</i><br>
     <i data-pref="fullWindow"></i>
     <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
     <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
@@ -381,7 +389,7 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    'fullWindow,fullWindowHeader,fullWindowSide,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
+    'autoFullWindow,fullWindow,fullWindowHeader,fullWindowSide,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
