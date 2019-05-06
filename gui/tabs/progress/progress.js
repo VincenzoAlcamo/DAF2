@@ -15,7 +15,7 @@ export default {
 
 const REGION_SEPARATOR = '_';
 
-var tab, container, progress, checkCompleted, checkGroups, checkDates, smartTable, show, levelSums, sliderLevel;
+var tab, container, progress, checkCompleted, checkGroups, checkDates, checkEnergy, smartTable, show, levelSums, sliderLevel;
 var imgCompleted = HtmlBr `<img width="24" src="/img/gui/tick.png"/>`;
 
 function init() {
@@ -28,6 +28,8 @@ function init() {
     checkGroups.addEventListener('click', toggles);
     checkDates = container.querySelector('[name="showdates"]');
     checkDates.addEventListener('click', toggles);
+    checkEnergy = container.querySelector('[name="showenergy"]');
+    checkEnergy.addEventListener('click', toggles);
 
     container.querySelector('.progress_table tbody').addEventListener('click', onClickMain);
 
@@ -68,6 +70,7 @@ function getState() {
         hidecompleted: checkCompleted.checked,
         groups: checkGroups.checked,
         dates: checkDates.checked,
+        energy: checkEnergy.checked,
         show: show
     };
 }
@@ -76,6 +79,7 @@ function setState(state) {
     checkCompleted.checked = !!state.hidecompleted;
     checkGroups.checked = !!state.groups;
     checkDates.checked = !!state.dates;
+    checkEnergy.checked = !!state.energy;
     show = state.show;
     let showInfo = getShowInfo(show);
     if (!progress.find(item => item.id == showInfo.id)) show = '';
@@ -100,18 +104,19 @@ function update() {
     refresh();
 }
 
-function getProgress(value, max, tag = 'td') {
+function getProgress(value, max, energy) {
     if (max == 0) {
-        return HtmlBr `<${tag}></${tag}><${tag}></${tag}><${tag}></${tag}><${tag}></${tag}><${tag}></${tag}>`;
+        return HtmlBr `<td></td><td></td><td></td><td></td><td></td>`;
     }
     let htm = '';
     let percent = max > 0 ? (value / max * 100) : 0;
-    let isCompleted = value == max && tag == 'td';
-    htm += HtmlBr `<${tag}>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) +'%'}</${tag}>`;
-    htm += HtmlBr `<${tag}>${Locale.formatNumber(value)}</${tag}>`;
-    htm += HtmlBr `<${tag}>${Locale.formatNumber(max)}</${tag}>`;
-    htm += HtmlBr `<${tag}>${Locale.formatNumber(max - value)}</${tag}>`;
-    htm += HtmlBr `<${tag}><progress value="${value}" max="${max}"></progress></${tag}>`;
+    let isCompleted = value == max;
+    htm += HtmlBr `<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) +'%'}</td>`;
+    htm += HtmlBr `<td>${Locale.formatNumber(value)}</td>`;
+    htm += HtmlBr `<td>${Locale.formatNumber(max)}</td>`;
+    htm += HtmlBr `<td>${Locale.formatNumber(max - value)}</td>`;
+    htm += HtmlBr `<td class="energy">${energy ? Locale.formatNumber(energy) : ''}</td>`;
+    htm += HtmlBr `<td><progress value="${value}" max="${max}"></progress></td>`;
     return htm;
 }
 
@@ -136,12 +141,13 @@ function refresh() {
         htm += HtmlBr `<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
         htm += HtmlBr `<td><img src="${item.isLocked ? '/img/gui/locked.png' : item.icon}"/></td>`;
         htm += HtmlBr `<td>${item.label.toUpperCase()}</td>`;
-        htm += getProgress(item.value, item.max);
+        htm += getProgress(item.value, item.max, item.energy);
         htm += getTimes(item.isCompleted, item.bt, item.et);
         htm += HtmlBr `</tr>`;
     }
     smartTable.table.querySelector('tbody').innerHTML = htm;
     container.classList.toggle('no-dates', !state.dates);
+    container.classList.toggle('no-energy', !state.energy);
 
     var percent = total / progress.length;
     Array.from(smartTable.container.querySelectorAll('tfoot td:nth-child(2)')).forEach(cell => cell.innerText = Locale.formatNumber(percent, 2) + '%');
@@ -287,7 +293,7 @@ function showDetail(show) {
             let info = sub.info ? Html `<div>${sub.info}</div>` : '';
             let htm = '';
             if (!sub.name) sub.name = gui.getString(sub.name_loc);
-            htm += Html `<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max);
+            htm += Html `<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max, sub.energy);
             htm += getTimes(isCompleted, sub.bt, sub.et);
             sub.row = document.createElement('tr');
             sub.row.setAttribute('data-level', level + 1);
@@ -301,13 +307,14 @@ function showDetail(show) {
     if (group.row && !state.groups) updateGroupSubTotal(group, true);
 
     function initGroupTotals(total) {
-        total.qty = total.value = total.max = total.bt = total.et = 0;
+        total.qty = total.value = total.max = total.bt = total.et = total.energy = 0;
     }
 
     function addGroupTotal(total, sub) {
         total.qty++;
         total.value += sub.value;
         total.max += sub.max;
+        if (sub.energy) total.energy = (total.energy || 0) + sub.energy;
         if (sub.bt && (sub.bt < total.bt || total.bt == 0)) total.bt = sub.bt;
         if (sub.et && sub.et > total.et) total.et = sub.et;
     }
@@ -317,7 +324,7 @@ function showDetail(show) {
             let total = group.total;
             let isCompleted = total.value == total.max;
             let htm = '';
-            htm += Html `<td><img src="/img/gui/map.png" width="24" height="24"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max);
+            htm += Html `<td><img src="/img/gui/map.png" width="24" height="24"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
             htm += getTimes(isCompleted, total.bt, total.et);
             group.row.innerHTML = htm;
             group.row.classList.toggle('inspect', (!state.hidecompleted || !isCompleted) && state.groups);
@@ -334,7 +341,7 @@ function showDetail(show) {
         row.classList.add(isGrandTotal ? 'grandtotal' : 'subtotal');
         let isCompleted = total.value == total.max;
         let htm = '';
-        htm += Html `<td></td><td>${gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal', total.qty)}</td>` + getProgress(total.value, total.max);
+        htm += Html `<td></td><td>${gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal', total.qty)}</td>` + getProgress(total.value, total.max, total.energy);
         htm += getTimes(isCompleted, total.bt, total.et);
         row.innerHTML = htm;
         parent.insertBefore(row, nextRow);
@@ -395,7 +402,7 @@ function infoLevel(row) {
         let value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
         let max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
         let htm = '';
-        htm += Html `<td><img src="/img/gui/xp.png" width="24" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max);
+        htm += Html `<td><img src="/img/gui/xp.png" width="24" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
         htm += getTimes(false, 0, 0);
         row.innerHTML = htm;
     }
@@ -503,7 +510,7 @@ function calcCollection(item) {
 }
 
 function calcRegion(item) {
-    item.max = item.value = item.crtd = item.cmpl = 0;
+    item.max = item.value = item.crtd = item.cmpl = item.energy = 0;
     var locations = gui.getFile('locations_' + item.rid);
     var loc_prog = gui.getGenerator().loc_prog;
     var filters = {};
@@ -540,8 +547,10 @@ function calcRegion(item) {
                 }
             }
             uPrg = Math.min(mPrg, uPrg);
+            let energy = Math.floor(mPrg > 0 ? (+mine.reward_exp * 10 / mPrg) * (mPrg - uPrg) : 0);
             item.max += mPrg;
             item.value += uPrg;
+            item.energy += energy;
 
             let imgUrl;
             if (mine.tutorial > 0) {
@@ -563,6 +572,7 @@ function calcRegion(item) {
                 seq: filter.order_id,
                 group_id: mine.group_id,
                 order_id: mine.order_id,
+                energy: energy,
                 bt: bt,
                 et: et
             });

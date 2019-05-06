@@ -11,6 +11,10 @@
         <span data-i18n-text="progress_showdates"></span>
         <input name="showdates" type="checkbox">
     </label>
+    <label>
+        <span data-i18n-text="progress_showenergy"></span>
+        <input name="showenergy" type="checkbox">
+    </label>
     <div class="screenshot"></div>
     <div class="progress_playtime"></div>
 </div>
@@ -22,6 +26,7 @@
                 <th colspan="2" data-i18n-text="progress_attained"></th>
                 <th data-i18n-text="progress_goal"></th>
                 <th data-i18n-text="progress_remaining"></th>
+                <th class="energy" data-i18n-text="progress_energy" data-i18n-title="progress_energyinfo"></th>
                 <th data-i18n-text="progress_progress"></th>
                 <th class="date" data-i18n-text="progress_start"></th>
                 <th class="date" data-i18n-text="progress_end"></th>
@@ -33,13 +38,12 @@
             <tr>
                 <td colspan="2" data-i18n-text="progress_overall"></td>
                 <td colspan="2"></td>
-                <td colspan="3">
+                <td colspan="7">
                     <progress value="0" max="100"></progress>
                 </td>
-                <td class="date" colspan="3"></td>
             </tr>
             <tr>
-                <td colspan="10" class="warning"></td>
+                <td colspan="11" class="warning"></td>
             </tr>
         </tfoot>
     </table>

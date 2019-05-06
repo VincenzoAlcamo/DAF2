@@ -6,8 +6,14 @@
   background-color: var(--pb-fgcol2);
 }
 
+.tab_progress th.energy {
+  cursor: help;
+}
+
 .tab_progress.no-dates td.date,
-.tab_progress.no-dates th.date {
+.tab_progress.no-dates th.date,
+.tab_progress.no-energy td.energy,
+.tab_progress.no-energy th.energy {
   display: none;
 }
 
@@ -19,9 +25,9 @@
   text-align: center;
 }
 
-.progress_table td:nth-child(8),
-.progress_table td:nth-child(9),
-.progress_table td:nth-child(10) {
+.progress_table td.date,
+.progress_table td.date,
+.progress_table td.date {
   text-align: center;
 }
 

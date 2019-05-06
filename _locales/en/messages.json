@@ -883,6 +883,15 @@
     "progress_showdates": {
         "message": "Show location dates"
     },
+    "progress_showenergy": {
+        "message": "Show estimated energy"
+    },
+    "progress_energy": {
+        "message": "Energy"
+    },
+    "progress_energyinfo": {
+        "message": "The energy shown here is estimated by multiplying the number of remaining tiles by the average tile cost.\nThe average tile cost is: completion bonus x 10 / total number of tiles"
+    },
     "progress_achievementnextstep": {
         "message": "To next step = $NEXT$",
         "placeholders": {
