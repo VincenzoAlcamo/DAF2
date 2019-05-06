@@ -14,10 +14,12 @@ function getUnixTime() {
 }
 
 var Badge = {
+    currentIcon: '',
     setIcon: function(color) {
         color = color[0].toUpperCase() + color.substr(1).toLowerCase();
+        Badge.currentIcon = '/img/logo/icon' + color + '.png';
         chrome.browserAction.setIcon({
-            path: '/img/logo/icon' + color + '.png'
+            path: Badge.currentIcon
         });
         return this;
     },
