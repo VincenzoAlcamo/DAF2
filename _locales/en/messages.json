@@ -518,20 +518,7 @@
         }
     },
     "neighbors_gifts": {
-        "message": "Count gifts in",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "neighbors_days": {
-        "message": "last $NUM$ days",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
+        "message": "Count gifts in last #NUM# days"
     },
     "neighbors_listed": {
         "message": "Custom\nlist"

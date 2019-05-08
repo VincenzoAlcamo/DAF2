@@ -24,12 +24,15 @@ function init() {
         selectShow.appendChild(option);
     }
 
+    let htm = HtmlBr(gui.getMessage('neighbors_gifts'));
+    htm = String(htm).replace('#NUM#', '<select name="gifts"></select>');
+    container.querySelector('.toolbar .gifts').innerHTML = htm;
     selectGifts = container.querySelector('[name=gifts]');
     selectGifts.addEventListener('change', refresh);
     for (let days = 7; days <= 50; days++) {
         let option = document.createElement('option');
         option.value = days;
-        option.innerText = Locale.getMessage('neighbors_days', days);
+        option.innerText = Locale.formatNumber(days);
         selectGifts.appendChild(option);
     }
 
