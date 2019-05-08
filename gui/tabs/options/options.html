@@ -22,15 +22,6 @@
                         <input data-pref="injectGame" type="checkbox">
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <h3>Reset Full window</h3>
-                        <p>Every time you load the game, "Full window" and "Full window - Side" are reset.<div class="warning">This option should be enable if you experience problems in loading the game.</div></p>
-                    </td>
-                    <td>
-                        <input data-pref="resetFullWindow" type="checkbox">
-                    </td>
-                </tr>
                 <tr class="hassuboptions">
                     <td>
                         <h3>Full window</h3>
@@ -56,6 +47,15 @@
                     </td>
                     <td>
                         <input data-pref="fullWindowSide" type="checkbox">
+                    </td>
+                </tr>
+                <tr class="suboption">
+                    <td>
+                        <h3>Reset on load</h3>
+                        <p>Every time you load the game, "Full window" and "Full window - Side" are reset.<div class="warning">This option should be enabled if you experience problems loading the game.</div></p>
+                    </td>
+                    <td>
+                        <input data-pref="resetFullWindow" type="checkbox">
                     </td>
                 </tr>
                 <tr class="hassuboptions">
@@ -128,7 +128,8 @@
                         <h3>Keep debugging</h3>
                         <p>Use the debugger even after the game has loaded.
                             <div class="warning">This is necessary to register incoming gifts while playing and to inspect a neighbor's camp.</div>
-                            <div class="info">You may enable <a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a> to get rid of the "DAF2 is debugging" message</div></p>
+                            <div class="info">You may enable <a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a> to get rid of the "DAF2 is debugging" message</div>
+                        </p>
                     </td>
                     <td>
                         <input data-pref="keepDebugging" type="checkbox">

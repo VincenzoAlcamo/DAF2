@@ -44,3 +44,13 @@
   border-radius: 4px;
   padding: 1px 2px;
 }
+
+.options div.info a {
+  text-decoration: underline;
+  color: unset;
+  font-weight: bold;
+}
+
+.options div.info a:hover {
+  background-color: var(--tb-hlcol);
+}
