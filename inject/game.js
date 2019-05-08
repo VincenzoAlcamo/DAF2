@@ -89,17 +89,11 @@ function onResize() {
         }
         sendMinerPosition();
     } else if (isFacebook) {
-        // if (originalHeight === undefined && iframe.style.height == '') {
-        //     timeout = (timeout || 500) * 2;
-        //     forceResize(timeout);
-        // } else {
         originalHeight = originalHeight || iframe.offsetHeight;
-        if (originalHeight < 1100) originalHeight = 1100;
-        let height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : (prefs['@bodyHeight'] || originalHeight) + 'px';
+        let height = Math.max(1100, fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) : (prefs['@bodyHeight'] || originalHeight)) + 'px';
         if (height != iframe.style.height) iframe.style.height = height;
-        // }
     } else {
-        let height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
+        let height = fullWindow ? Math.max(1100, window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
         if (iframe.style.height != height) iframe.style.height = height;
     }
 }
