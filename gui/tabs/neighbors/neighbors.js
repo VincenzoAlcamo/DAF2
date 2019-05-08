@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale HtmlBr*/
+/*global bgp gui SmartTable Locale HtmlBr Html*/
 
 export default {
     hasCSS: true,
@@ -9,7 +9,7 @@ export default {
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills']
 };
 
-let tab, container, selectShow, selectGifts, searchInput, smartTable, searchHandler, palRows, palGifts, trGifts, giftValues, lastGiftDays, giftCache;
+let tab, container, selectShow, selectGifts, searchInput, smartTable, searchHandler, palRows, palGifts, trGifts, giftValues, lastGiftDays, giftCache, weekdayNames;
 
 function init() {
     tab = this;
@@ -104,8 +104,14 @@ function onClick(e) {
             let gift = gifts[palGift.gid];
             piece = '';
             if (gift) {
-                piece += HtmlBr `<div><img src="${gui.getObjectImage(gift.type, gift.object_id)}" title="${gui.getObjectName(gift.type, gift.object_id)}">`;
-                piece += HtmlBr `<i>${Locale.formatNumber(giftValues[gift.def_id])}</i><b>${Locale.formatNumber(+gift.amount)}</b>`;
+                let amount = +gift.amount;
+                let xp = giftValues[gift.def_id];
+                let t_xp = Locale.formatNumber(xp);
+                let t_amount = Locale.formatNumber(amount);
+                let name = gui.getObjectName(gift.type, gift.object_id);
+                if (amount > 1) name += ' x ' + t_amount;
+                piece += HtmlBr `<div title="${Html(gui.getMessage('neighbors_gifttip', name, t_xp, weekdayNames[gift.day]))}"><img src="${gui.getObjectImage(gift.type, gift.object_id)}">`;
+                piece += HtmlBr `<i>${xp}</i><b>${Locale.formatNumber(amount)}</b>`;
             }
             giftCache[palGift.gid] = piece;
         }
@@ -127,6 +133,14 @@ function update() {
     }
     // Remove Mr.Bill
     delete palRows[1];
+    weekdayNames = {};
+    for (let day = 1; day <= 7; day++) {
+        // The 1st January 2018 was a Monday (1 = Monday)
+        let name = (new Date(2018, 0, day)).toLocaleDateString(Locale.getLocale(), {
+            weekday: 'long'
+        });
+        weekdayNames[day] = name;
+    }
     // Determine gift value
     giftCache = {};
     giftValues = {

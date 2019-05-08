@@ -547,7 +547,21 @@
         "message": "Gift\nValue"
     },
     "neighbors_giftinfo": {
-        "message": "The gifts below were recorded while DAF was active. The time indicated is the time of registration."
+        "message": "The date of the gift refers to the time when DAF first registered that gift, not the date it was sent."
+    },
+    "neighbors_gifttip": {
+        "message": "$VALUE$\nXP: $XP$\nDay: $DAY$",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
     },
 
     "friendship_collect": {
