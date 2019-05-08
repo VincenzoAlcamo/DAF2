@@ -226,7 +226,7 @@ function updateCamp(div, flagHeaderOnly = false) {
                 for (var req of (block.slots[i] && block.slots[i].requirements)) {
                     let matId = req.material_id;
                     mat[matId] = (mat[matId] || 0) + +req.amount;
-                    if (swDiscount) matDiscount[matId] = (matDiscount[matId] || 0) + Math.round(+req.amount * swDiscount.coeficient + 0.5);
+                    if (swDiscount) matDiscount[matId] = (matDiscount[matId] || 0) + Math.ceil(+req.amount * swDiscount.coeficient);
                 }
             }
         });
