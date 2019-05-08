@@ -295,7 +295,7 @@ function materialHTML(materialId) {
     if (!(materialId in materialImageCache)) {
         if (materialId > 0) {
             let url = gui.getObjectImage('material', materialId, true);
-            return materialImageCache[materialId] = HtmlBr `<img src="${url}" class="outlined">${gui.getObjectName('material', materialId)}`;
+            return materialImageCache[materialId] = HtmlBr `<img src="${url}" width="32" height="32" class="outlined">${gui.getObjectName('material', materialId)}`;
         }
         let text;
         if (materialId == -1) text = gui.getMessage('rewardlinks_expired');
