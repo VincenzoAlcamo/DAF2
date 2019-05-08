@@ -6,8 +6,8 @@
         "message": "Helper Tool for Diggy's Adventure"
     },
 
-    "menu_autofullwindow": {
-        "message": "Automatic"
+    "menu_resetfullwindow": {
+        "message": "Reset on load"
     },
     "menu_fullwindow": {
         "message": "Game in full window"

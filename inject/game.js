@@ -80,7 +80,7 @@ function onResize() {
             gcTable.style.width = fullWindow ? window.innerWidth : '100%';
         }
         if (!isWebGL) {
-            let height = fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight;
+            let height = fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight + 'px';
             let width = (fullWindow || prefs.fullWindowSide) ? window.innerWidth : '100%';
             if (height != miner.style.height) miner.style.height = height;
             // Please note: we must set the width for zoomed out view (for example, at 50%)
@@ -94,6 +94,7 @@ function onResize() {
         //     forceResize(timeout);
         // } else {
         originalHeight = originalHeight || iframe.offsetHeight;
+        if (originalHeight < 1100) originalHeight = 1100;
         let height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : (prefs['@bodyHeight'] || originalHeight) + 'px';
         if (height != iframe.style.height) iframe.style.height = height;
         // }
@@ -280,7 +281,7 @@ function createMenu() {
     <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
 </li>
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
-    <div><span>${gm('menu_fullwindow')}</span><i data-pref="autoFullWindow">${gm('menu_autofullwindow')}</i><br>
+    <div><span>${gm('menu_fullwindow')}</span><i data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i><br>
     <i data-pref="fullWindow"></i>
     <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
     <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
@@ -367,7 +368,7 @@ function init() {
     if (miner) {
         isWebGL = miner.id == 'canvas';
         isFacebook = window.location.href.indexOf('apps.facebook.com') >= 0;
-        originalHeight = miner.height + 'px';
+        originalHeight = miner.height;
         // Set body height to 100% so we can use height:100% in miner
         document.body.style.height = '100%';
         // insert link for condensed font
@@ -389,7 +390,7 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    'autoFullWindow,fullWindow,fullWindowHeader,fullWindowSide,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
+    'resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
