@@ -283,10 +283,11 @@ let gui = {
                 image.setAttribute('crossOrigin', 'anonymous');
                 image.src = dataUrl;
                 image.onload = function() {
-                    let sx = Math.round(rect.left);
-                    let sy = Math.round(rect.top);
-                    let sw = Math.round(rect.width);
-                    let sh = Math.round(rect.height);
+                    let ratio = window.devicePixelRatio;
+                    let sx = Math.floor(rect.left * ratio);
+                    let sy = Math.floor(rect.top * ratio);
+                    let sw = Math.ceil(rect.width * ratio);
+                    let sh = Math.ceil(rect.height * ratio);
                     let canvas = document.createElement('canvas');
                     canvas.width = sw;
                     canvas.height = sh;
