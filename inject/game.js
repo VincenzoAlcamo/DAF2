@@ -69,11 +69,12 @@ function getFullWindow() {
     return prefs.fullWindow && loadCompleted;
 }
 
+let resizeCount = 2;
+
 function onResize() {
     var fullWindow = getFullWindow();
     var headerHeight = header ? header.getBoundingClientRect().height : 0;
     var gcTableHeight = gcTable ? gcTable.offsetHeight : 0;
-    var iframe = isFacebook ? document.getElementById('iframe_canvas') : document.getElementsByClassName('game-iframe game-iframe--da')[0];
     if (miner) {
         if (gcTable) {
             gcTable.style.overflowX = 'auto';
@@ -88,13 +89,24 @@ function onResize() {
             if (width != miner.width) miner.width = width;
         }
         sendMinerPosition();
-    } else if (isFacebook) {
-        originalHeight = originalHeight || iframe.offsetHeight;
-        let height = Math.max(1100, fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) : (prefs['@bodyHeight'] || originalHeight)) + 'px';
-        if (height != iframe.style.height) iframe.style.height = height;
     } else {
-        let height = fullWindow ? Math.max(1100, window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
-        if (iframe.style.height != height) iframe.style.height = height;
+        let iframe, height;
+        if (isFacebook) {
+            iframe = document.getElementById('iframe_canvas');
+            originalHeight = originalHeight || iframe.offsetHeight;
+            height = (fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) : Math.max(1100, prefs['@bodyHeight'] || originalHeight)) + 'px';
+        } else {
+            iframe = document.getElementsByClassName('game-iframe game-iframe--da')[0];
+            height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
+        }
+        if (height != iframe.style.height) {
+            iframe.style.height = height;
+            resizeCount = 2;
+        }
+        if (resizeCount > 0) {
+            resizeCount--;
+            setTimeout(onResize, 5000);
+        }
     }
 }
 
