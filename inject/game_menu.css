@@ -23,7 +23,7 @@
 
 .DAF-menu {
   z-index: 2000;
-  position: absolute;
+  position: fixed;
   left: -8px;
   top: 32px;
   background-color: #FFF;
