@@ -812,7 +812,7 @@ var Data = {
         return tx.complete;
     },
     isDeveloper: function() {
-        return [3951243, 11530133, 8700592, 583351, 11715879, 1798336].indexOf(Data.generator.player_id) >= 0;
+        return [3951243, 11530133, 8700592, 583351, 11715879, 1798336, 5491844].indexOf(Data.generator.player_id) >= 0;
     },
     getLanguageIdFromUrl: function(url) {
         return url.match(/\/([A-Z][A-Z])\/localization\./)[1];
