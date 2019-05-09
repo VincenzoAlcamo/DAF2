@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale HtmlBr Html*/
+/*global bgp gui SmartTable Locale Dialog HtmlBr Html*/
 
 export default {
     hasCSS: true,
@@ -9,7 +9,9 @@ export default {
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills']
 };
 
-let tab, container, selectShow, selectGifts, searchInput, smartTable, searchHandler, palRows, palGifts, trGifts, giftValues, lastGiftDays, giftCache, weekdayNames;
+let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
+let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts;
+let filterGifts = '';
 
 function init() {
     tab = this;
@@ -25,15 +27,15 @@ function init() {
     }
 
     let htm = HtmlBr(gui.getMessage('neighbors_gifts'));
-    htm = String(htm).replace('#NUM#', '<select name="gifts"></select>');
-    container.querySelector('.toolbar .gifts').innerHTML = htm;
-    selectGifts = container.querySelector('[name=gifts]');
-    selectGifts.addEventListener('change', refresh);
+    htm = String(htm).replace('#NUM#', '<select name="days"></select>');
+    container.querySelector('.toolbar .days').innerHTML = htm;
+    selectDays = container.querySelector('[name=days]');
+    selectDays.addEventListener('change', refresh);
     for (let days = 7; days <= 50; days++) {
         let option = document.createElement('option');
         option.value = days;
         option.innerText = Locale.formatNumber(days);
-        selectGifts.appendChild(option);
+        selectDays.appendChild(option);
     }
 
     searchInput = container.querySelector('[name=search]');
@@ -42,6 +44,10 @@ function init() {
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
     trGifts.innerHTML = HtmlBr `<td colspan="10"><div>${Locale.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+
+    let button = container.querySelector('.toolbar button.advanced');
+    button.addEventListener('click', onClickAdvanced);
+    button.style.display = bgp.Data.isDeveloper() ? '' : 'none';
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -62,22 +68,54 @@ function getState() {
     var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
     return {
         show: selectShow.value,
-        gifts: selectGifts.value,
+        days: selectDays.value,
         search: searchInput.value,
+        gift: filterGifts,
         sort: getSort(smartTable.sort, 'name')
     };
 }
 
 function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
-    state.gifts = gui.setSelectState(selectGifts, state.gifts, 21);
+    state.days = gui.setSelectState(selectDays, state.days, 21);
     searchInput.value = state.search || '';
+    filterGifts = state.gift;
     var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
     if (!sortInfo.name) {
         sortInfo.name = 'name';
         sortInfo.ascending = true;
     }
     smartTable.setSortInfo(sortInfo, false);
+}
+
+function onClickAdvanced() {
+    let state = getState();
+    let gifts = gui.getFile('gifts');
+    let items = [];
+    for (let gid of Object.keys(uniqueGifts)) {
+        let gift = gifts[gid];
+        let amount = +gift.amount;
+        let name = gui.getObjectName(gift.type, gift.object_id);
+        if (amount > 1) name += ' x ' + Locale.formatNumber(amount);
+        items.push([+gid, gui.getMessage('neighbors_gift', name, Locale.formatNumber(giftValues[gift.def_id]), weekdayNames[gift.day])]);
+    }
+    items.sort((a, b) => a[1].localeCompare(b[1]));
+    let htm = '';
+    htm += HtmlBr `<p style="text-align:left">${gui.getMessage('neighbors_advancedfilterinfo', state.days)}</p><br><select name="gifts" multiple size="${Math.min(15, items.length)}">`;
+    let list = gui.getArrayOfInt(state.gift);
+    for (let item of items) {
+        htm += Html `<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
+    }
+    htm += HtmlBr `</select>`;
+    gui.dialog.show({
+        title: gui.getMessage('neighbors_advancedfilter'),
+        html: htm,
+        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.NO]
+    }, function(method, params) {
+        if (method == Dialog.CANCEL) return;
+        filterGifts = (method == Dialog.CONFIRM ? gui.getArrayOfInt(params.gifts) : []).sort().join(',');
+        refresh();
+    });
 }
 
 function onClick(e) {
@@ -241,10 +279,10 @@ function getDateAgo(days) {
 
 function refreshDelayed() {
     scheduledRefresh = 0;
-    var state = getState();
-    var search = (state.search || '').toUpperCase();
-    var show = state.show;
-    var list, days;
+    let state = getState();
+    let search = (state.search || '').toUpperCase();
+    let show = state.show;
+    let list, days;
     if (show == 'inlist' || show == 'notinlist') {
         list = show == 'inlist' ? 0 : 1;
         show = 'list';
@@ -254,27 +292,38 @@ function refreshDelayed() {
         if (days) days = getDateAgo(days);
     }
 
-    var neighbors = Object.assign({}, bgp.Data.getNeighbours());
+    let neighbors = Object.assign({}, bgp.Data.getNeighbours());
     delete neighbors[1];
     neighbors = Object.values(neighbors);
 
-    let giftDays = Math.max(7, +state.gifts || 0);
+    let giftDays = Math.max(7, +state.days || 0);
     let giftThreshold = getDateAgo(giftDays - 1);
     if (giftDays != lastGiftDays) {
         lastGiftDays = giftDays;
         palGifts = {};
+        uniqueGifts = {};
         for (let pal of neighbors) {
             let gifts = Array.isArray(pal.extra.gifts) ? pal.extra.gifts : [];
             let value = 0;
             gifts = gifts.filter(gift => {
                 if (gift.time >= giftThreshold) {
                     value += (giftValues[gift.gid] || 0);
+                    uniqueGifts[gift.gid] = true;
                     return true;
                 }
             });
             gifts._value = value;
             palGifts[pal.id] = gifts;
             palRows[pal.id].setAttribute('lazy-render', '');
+        }
+    }
+
+    let giftFilter = {};
+    let applyGiftFilter = false;
+    for (let gid of gui.getArrayOfInt(state.gift)) {
+        if (gid in uniqueGifts) {
+            giftFilter[gid] = true;
+            applyGiftFilter = true;
         }
     }
 
@@ -296,6 +345,16 @@ function refreshDelayed() {
         else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         let fullname = gui.getPlayerNameFull(pal).toUpperCase();
         if (search != '' && fullname.indexOf(search) < 0) continue;
+        if (applyGiftFilter) {
+            let flag = false;
+            for (let palGift of (palGifts[pal.id] || [])) {
+                if (palGift.gid in giftFilter) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) continue;
+        }
         rows.push([palRows[pal.id], fullname, sortName == 'name' ? 0 : getSortValue(pal)]);
     }
 
