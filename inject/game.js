@@ -70,11 +70,14 @@ function getFullWindow() {
 }
 
 let resizeCount = 2;
+let resizeHandler = 0;
 
 function onResize() {
     var fullWindow = getFullWindow();
     var headerHeight = header ? header.getBoundingClientRect().height : 0;
     var gcTableHeight = gcTable ? gcTable.offsetHeight : 0;
+    if (resizeHandler) clearTimeout(resizeHandler);
+    resizeHandler = 0;
     if (miner) {
         if (gcTable) {
             gcTable.style.overflowX = 'auto';
@@ -105,7 +108,7 @@ function onResize() {
         }
         if (resizeCount > 0) {
             resizeCount--;
-            setTimeout(onResize, 5000);
+            resizeHandler = setTimeout(onResize, 5000);
         }
     }
 }
