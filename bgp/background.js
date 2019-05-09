@@ -46,7 +46,7 @@ var Preferences = {
             resetFullWindow: true,
             fullWindow: false,
             fullWindowHeader: false,
-            fullWindowSide: true,
+            fullWindowSide: false,
             autoClick: false,
             autoLogin: false,
             gcTable: false,
