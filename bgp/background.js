@@ -155,6 +155,10 @@ var Message = {
         if (request && request.action && request.action in Message.handlers) {
             try {
                 var response = Message.handlers[request.action](request, sender);
+                if (response instanceof Promise) {
+                    response.then(sendResponse);
+                    return true;
+                }
                 if (response !== undefined) sendResponse(response);
             } catch (e) {
                 console.error('Message.onMessage', e, request, sender);
