@@ -9,6 +9,7 @@ export default {
 };
 
 var tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
+let pillarsExcluded = [];
 
 function init() {
     tab = this;
@@ -30,39 +31,54 @@ function init() {
 }
 
 function update() {
-    var ids = {};
-    for (var i = 865; i <= 904; i++) ids[i] = true;
+    let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'decoration' && sale.hide != 1);
+
+    /* Old logic with specified values */
+    // var ids = {};
+    // for (var i = 865; i <= 904; i++) ids[i] = true;
+    // sales = sales.filter(sale => sale.object_id in ids);
+
+    /* New logic using heuristic */
+    var salesByMaterial = {};
+    sales = sales.filter(sale => +sale.event_id == 0 && sale.requirements.length == 1);
+    sales.sort((a, b) => +b.def_id - +a.def_id);
+    for (let sale of sales) {
+        let materialId = sale.requirements[0].material_id;
+        // Gem requirement is skipped
+        if (materialId == 2) continue;
+        // If a sale was already detected, check that it has a bigger XP return
+        if (materialId in salesByMaterial && +salesByMaterial[materialId].exp >= +sale.exp) continue;
+        salesByMaterial[materialId] = sale;
+    }
+    sales = Object.values(salesByMaterial);
 
     var decorations = gui.getFile('decorations');
     var materialInventory = gui.getGenerator().materials;
     pillars = [];
-    var pillarsExcluded = getPillarsExcluded();
-    Object.values(gui.getFile('sales'))
-        .filter(sale => sale.type == 'decoration' && sale.object_id in ids && sale.hide != 1)
-        .forEach(sale => {
-            var decoration = decorations[sale.object_id];
-            var req = sale.requirements[0];
-            if (decoration && req) {
-                var pillar = {};
-                pillar.did = +decoration.def_id;
-                pillar.img = gui.getObjectImage('decoration', pillar.did);
-                pillar.excluded = pillarsExcluded.includes(pillar.did);
-                pillar.name = gui.getObjectName('decoration', pillar.did);
-                pillar.xp = sale.exp;
-                pillar.coins = +decoration.sell_price;
-                pillar.mname = gui.getObjectName('material', req.material_id);
-                pillar.required = +req.amount;
-                pillar.available = materialInventory[req.material_id] || 0;
-                pillar.possible = Math.floor(pillar.available / pillar.required);
-                pillar.perc_next = (pillar.available - (pillar.possible * pillar.required)) / pillar.required * 100;
-                pillar.qty = pillar.excluded ? 0 : pillar.possible;
-                pillar.predicted_xp = pillar.qty * pillar.xp;
-                pillar.predicted_coins = pillar.qty * pillar.coins;
-                pillar.level = +sale.level;
-                pillar.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 1;
-                pillars.push(pillar);
-            }
-        });
+    for (let sale of sales) {
+        var decoration = decorations[sale.object_id];
+        var req = sale.requirements[0];
+        if (decoration && req) {
+            var pillar = {};
+            pillar.did = +decoration.def_id;
+            pillar.img = gui.getObjectImage('decoration', pillar.did);
+            pillar.excluded = pillarsExcluded.includes(pillar.did);
+            pillar.name = gui.getObjectName('decoration', pillar.did);
+            pillar.xp = sale.exp;
+            pillar.coins = +decoration.sell_price;
+            pillar.mname = gui.getObjectName('material', req.material_id);
+            pillar.required = +req.amount;
+            pillar.available = materialInventory[req.material_id] || 0;
+            pillar.possible = Math.floor(pillar.available / pillar.required);
+            pillar.perc_next = (pillar.available - (pillar.possible * pillar.required)) / pillar.required * 100;
+            pillar.qty = pillar.excluded ? 0 : pillar.possible;
+            pillar.predicted_xp = pillar.qty * pillar.xp;
+            pillar.predicted_coins = pillar.qty * pillar.coins;
+            pillar.level = +sale.level;
+            pillar.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 1;
+            pillars.push(pillar);
+        }
+    }
     refresh();
 }
 
@@ -77,6 +93,7 @@ function getState() {
         show: selectShow.value,
         search: searchInput.value,
         uncapped: !checkCap.checked,
+        excluded: pillarsExcluded.join(','),
         grid: checkGrid.checked,
         sort: getSort(smartTable.sort, 'name')
     };
@@ -87,6 +104,7 @@ function setState(state) {
     selectShow.value = state.show == 'possible' ? state.show : '';
     checkCap.checked = !!state.uncapped;
     checkGrid.checked = !!state.grid;
+    pillarsExcluded = gui.getArrayOfInt(state.excluded);
     var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
     if (!sortInfo.name) {
         sortInfo.name = 'name';
@@ -102,10 +120,6 @@ function toggleCap() {
     refreshTotals();
 }
 
-function getPillarsExcluded() {
-    return gui.getArrayOfInt(gui.getPreference('pillarsExcluded'));
-}
-
 function updatePillar(e) {
     var el = e.target;
     var td = el.parentNode;
@@ -113,9 +127,9 @@ function updatePillar(e) {
     var pillar = pillars.find(pillar => pillar.did == did);
     if (el.type == 'checkbox') {
         pillar.excluded = !el.checked;
-        var pillarsExcluded = getPillarsExcluded().filter(id => id != pillar.did);
+        pillarsExcluded = pillarsExcluded.filter(id => id != pillar.did);
         if (pillar.excluded) pillarsExcluded.push(pillar.did);
-        gui.setPreference('pillarsExcluded', pillarsExcluded.join(','));
+        gui.updateTabState(tab);
         (td.classList.contains('grid') ? td : td.parentNode).classList.toggle('excluded', pillar.excluded);
         pillar.qty = pillar.excluded ? 0 : pillar.possible;
     } else {
@@ -145,6 +159,7 @@ function updateQty(pillar, state) {
 
 function refreshTotals() {
     var levelups = gui.getFile('levelups');
+
     function setProgress(className, level, xp) {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
             var levelup = levelups[level - 1];

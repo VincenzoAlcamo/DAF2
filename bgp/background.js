@@ -53,7 +53,6 @@ var Preferences = {
             gcTableCounter: true,
             gcTableRegion: true,
             keepDebugging: false,
-            pillarsExcluded: '',
             removeGhosts: 0,
             rewardsRemoveDays: 7,
             rewardsClose: false,
