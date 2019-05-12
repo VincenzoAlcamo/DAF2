@@ -54,7 +54,6 @@ var Preferences = {
             gcTableRegion: true,
             keepDebugging: false,
             pillarsExcluded: '',
-            enableFlash: true,
             removeGhosts: 0,
             rewardsRemoveDays: 7,
             rewardsClose: false,
@@ -414,33 +413,6 @@ if (loginButton) {
                 chrome.tabs.executeScript(tabId, details);
             });
         });
-    },
-    enableFlashPlayer: function() {
-        const ADOBE_FLASH_PLAYER_ID = 'adobe-flash-player';
-        chrome.contentSettings.plugins.getResourceIdentifiers(function(resourceIdentifiers) {
-            var flashResourceIdentifier = resourceIdentifiers.find(obj => obj.id == ADOBE_FLASH_PLAYER_ID);
-
-            function enable(pattern) {
-                console.log('Enabling Flash Player for %s', pattern);
-                chrome.contentSettings.plugins.set({
-                    'primaryPattern': pattern,
-                    'setting': 'allow',
-                    'scope': 'regular',
-                    'resourceIdentifier': flashResourceIdentifier
-                }, function() {
-                    if (chrome.runtime.lastError) console.log('Error enabling flash (%s): %s', pattern, chrome.runtime.lastError);
-                });
-            }
-            if (flashResourceIdentifier) {
-                enable('https://apps.facebook.com/*');
-                enable('https://portal.pixelfederation.com/*');
-            } else {
-                console.error('Adobe Flash Player not found!');
-            }
-        });
-    },
-    disableFlashPlayer: function() {
-        chrome.contentSettings.plugins.clear({});
     }
 };
 //#endregion
@@ -1429,11 +1401,8 @@ async function init() {
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));
 
     Object.entries({
-        enableFlash: value => value ? Tab.enableFlashPlayer() : Tab.disableFlashPlayer(),
         keepDebugging: value => value ? autoAttachDebugger() : Debugger.detach()
     }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
-
-    if (Preferences.getValue('enableFlash')) Tab.enableFlashPlayer();
 
     if (Data.generator && Data.generator.player_id) {
         Data.checkLocalization('');

@@ -19,7 +19,6 @@
 
     "permissions": [
         "activeTab",
-        "contentSettings",
         "debugger",
         "storage",
         "tabs",
