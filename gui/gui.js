@@ -105,7 +105,7 @@ let gui = {
         return `${dd ? Locale.formatNumber(dd) + 'd:' : ''}${(hh < 10 ? '0' : '')+hh}h:${(mm < 10 ? '0' : '')+mm}m`;
     },
     getArrayOfInt: function(value) {
-        return String(value || '').split(',').map(o => parseInt(o));
+        return String(value || '').split(',').map(o => parseInt(o)).filter(n => isFinite(n));
     },
     getChildrenMax: function(realNeighbours) {
         var max = Math.floor(Math.sqrt(realNeighbours)) + 3;
