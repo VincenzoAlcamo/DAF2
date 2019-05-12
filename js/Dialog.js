@@ -176,7 +176,8 @@ Object.assign(Dialog.prototype, {
                 button.addEventListener('click', function(event) {
                     event.stopPropagation();
                     event.preventDefault();
-                    dialog.hide().runCallback(method);
+                    if (!button.classList.contains('DAF-dialog-no-hide')) dialog.hide();
+                    dialog.runCallback(method);
                 });
             }
         });
