@@ -57,6 +57,8 @@ function init() {
         updateRow(event.target);
     });
     smartTable.tbody[0].addEventListener('click', onClick);
+
+    smartTable.table.addEventListener('input', onInput);
 }
 
 function triggerSearchHandler(flag) {
@@ -86,6 +88,19 @@ function setState(state) {
         sortInfo.ascending = true;
     }
     smartTable.setSortInfo(sortInfo, false);
+}
+
+function onInput(event) {
+    let input = event.target;
+    if (!input || input.tagName != 'INPUT' || !input.classList.contains('n-note')) return;
+    let row = input.parentNode.parentNode;
+    let note = input.value.trim();
+    let pal_id = row.getAttribute('data-pal-id');
+    let pal = pal_id && bgp.Data.getNeighbour(pal_id);
+    if (pal) {
+        pal.extra.note = note;
+        bgp.Data.saveNeighbour(pal);
+    }
 }
 
 function onClickAdvanced() {
@@ -226,12 +241,9 @@ function updateRow(row) {
     var anchor = gui.getFBFriendAnchor(pal.fb_id);
     var htm = '';
     htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
-    var friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
-    if (friend) {
-        htm += HtmlBr `<td>${gui.getFriendAnchor(friend)}<img class="friend" src="/img/gui/isaFriend.png"/></a>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
-    } else {
-        htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
-    }
+    let friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
+    let friendImg = friend ? HtmlBr `${gui.getFriendAnchor(friend)}<img class="friend" src="/img/gui/isaFriend.png"/></a>` : '';
+    htm += HtmlBr `<td>${friendImg}${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
     htm += HtmlBr `<td>${gui.getRegionImg(pal.region)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;
     if (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) {
@@ -344,7 +356,10 @@ function refreshDelayed() {
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
         else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         let fullname = gui.getPlayerNameFull(pal).toUpperCase();
-        if (search != '' && fullname.indexOf(search) < 0) continue;
+        if (search != '') {
+            let text = fullname + '\t' + (pal.extra.note || '').toUpperCase();
+            if (text.indexOf(search) < 0) continue;
+        }
         if (applyGiftFilter) {
             let flag = false;
             for (let palGift of (palGifts[pal.id] || [])) {

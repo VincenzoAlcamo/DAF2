@@ -58,6 +58,8 @@ function init() {
     divMatch = container.querySelector('.DAF-gc-pal');
     divMatch.addEventListener('click', cancelMatch);
     smartTable.container.insertBefore(divMatch, smartTable.container.firstChild);
+
+    smartTable.table.addEventListener('input', onInput);
 }
 
 function triggerSearchHandler(flag) {
@@ -235,6 +237,29 @@ function tableClick(event) {
     }
 }
 
+function onInput(event) {
+    let input = event.target;
+    if (!input || input.tagName != 'INPUT' || !input.classList.contains('note')) return;
+    let row = input.parentNode.parentNode;
+    let note = input.value.trim();
+
+    if (input.classList.contains('f-note')) {
+        let fb_id = row.getAttribute('data-friend-id');
+        let friend = fb_id && bgp.Data.getFriend(fb_id);
+        if (friend) {
+            friend.note = note;
+            bgp.Data.saveFriend(friend);
+        }
+    } else if (input.classList.contains('n-note')) {
+        let pal_id = row.getAttribute('data-pal-id');
+        let pal = pal_id && bgp.Data.getNeighbour(pal_id);
+        if (pal) {
+            pal.extra.note = note;
+            bgp.Data.saveNeighbour(pal);
+        }
+    }
+}
+
 function collectFriends(method) {
     var width = 1000,
         height = 500;
@@ -312,7 +337,7 @@ function updateRow(row) {
     if (friend) {
         let anchor = gui.getFBFriendAnchor(friend.id, friend.uri);
         htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}"/></a></td>`;
-        htm += HtmlBr `<td>${anchor}${friend.name}</a></td>`;
+        htm += HtmlBr `<td>${anchor}${friend.name}</a><br><input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}"></td>`;
         htm += HtmlBr `<td>${Locale.formatDate(friend.timeCreated)}<br>${Locale.formatDays(friend.timeCreated)}</td>`;
         if (pal) {
             htm += HtmlBr `<td>${Locale.formatNumber(friend.score)}</td>`;
@@ -326,7 +351,7 @@ function updateRow(row) {
     if (pal) {
         let anchor = gui.getFBFriendAnchor(pal.fb_id);
         htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
-        htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a></td>`;
+        htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
         htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;
         htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
     } else {
@@ -372,8 +397,10 @@ function getRowVisibilityChecker() {
     } [show] || (() => false);
     return function isRowVisible(friend, pal) {
         if (search) {
-            var term = (friend ? friend.name : '') + '\t' + (pal ? gui.getPlayerNameFull(pal) : '');
-            if (term.toUpperCase().indexOf(search) < 0) return false;
+            let text = '';
+            if (friend) text += '\t' + friend.name + '\t' + (friend.note || '');
+            if (pal) text += '\t' + gui.getPlayerNameFull(pal) + +'\t' + (pal.extra.note || '');
+            if (text.toUpperCase().indexOf(search) < 0) return false;
         }
         return fn(friend, pal);
     };

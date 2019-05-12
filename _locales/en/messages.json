@@ -157,6 +157,9 @@
             }
         }
     },
+    "gui_nonote": {
+        "message": "No note"
+    },
 
     "dialog_ok": {
         "message": "Ok"
