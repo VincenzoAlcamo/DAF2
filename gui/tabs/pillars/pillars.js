@@ -40,16 +40,20 @@ function update() {
 
     /* New logic using heuristic */
     var salesByMaterial = {};
-    sales = sales.filter(sale => +sale.event_id == 0 && sale.requirements.length == 1);
-    sales.sort((a, b) => +b.def_id - +a.def_id);
-    for (let sale of sales) {
+
+    function setSale(sale) {
+        if (!sale) return;
         let materialId = sale.requirements[0].material_id;
         // Gem requirement is skipped
-        if (materialId == 2) continue;
+        if (materialId == 2) return;
         // If a sale was already detected, check that it has a bigger XP return
-        if (materialId in salesByMaterial && +salesByMaterial[materialId].exp >= +sale.exp) continue;
+        if (materialId in salesByMaterial && +salesByMaterial[materialId].exp >= +sale.exp) return;
         salesByMaterial[materialId] = sale;
     }
+    // Force the COIN PILLARS (decoration id = 867) in case other decoration (like ABU SIMBEL) are added in the future
+    setSale(sales.find(sale => sale.object_id == 867));
+    // Get all sales: non-even with only one requirements, sort descending by id (newer first), then check and set
+    sales.filter(sale => +sale.event_id == 0 && sale.requirements.length == 1).sort((a, b) => +b.def_id - +a.def_id).forEach(setSale);
     sales = Object.values(salesByMaterial);
 
     var decorations = gui.getFile('decorations');
