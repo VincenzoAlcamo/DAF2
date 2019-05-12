@@ -1166,6 +1166,9 @@
     "export_importsuccess": {
         "message": "Data has been imported succesfully!"
     },
+    "export_debugdata": {
+        "message": "Export diagnostics data"
+    },
 
     "specialweek_end": {
         "message": "ends on $FINISH$",

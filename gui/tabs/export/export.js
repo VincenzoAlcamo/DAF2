@@ -40,6 +40,7 @@ function onClick(_event) {
     if (action == 'exportinventory') exportInventory();
     if (action == 'exportdata') exportData();
     if (action == 'importdata') importData();
+    if (action == 'exportdebug') exportDebug();
 }
 
 function exportInventory() {
@@ -84,6 +85,11 @@ function exportInventory() {
 
     data = data.join('\n');
     gui.downloadData(data, 'DAF_inventory.csv');
+}
+
+function exportDebug() {
+    let data = gui.getGenerator();
+    gui.downloadData(data, 'DAF_diagnostics.json');
 }
 
 function exportData() {
