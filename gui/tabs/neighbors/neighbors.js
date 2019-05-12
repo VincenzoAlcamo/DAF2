@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Dialog HtmlBr Html*/
+/*global bgp gui SmartTable Locale Dialog HtmlBr Html HtmlRaw*/
 
 export default {
     hasCSS: true,
@@ -27,16 +27,10 @@ function init() {
     }
 
     let htm = HtmlBr(gui.getMessage('neighbors_gifts'));
-    htm = String(htm).replace('#NUM#', '<select name="days"></select>');
+    htm = String(htm).replace('#DAYS#', getSelectDays(0));
     container.querySelector('.toolbar .days').innerHTML = htm;
     selectDays = container.querySelector('[name=days]');
     selectDays.addEventListener('change', refresh);
-    for (let days = 7; days <= 50; days++) {
-        let option = document.createElement('option');
-        option.value = days;
-        option.innerText = Locale.formatNumber(days);
-        selectDays.appendChild(option);
-    }
 
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
@@ -47,7 +41,6 @@ function init() {
 
     let button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
-    button.style.display = bgp.Data.isDeveloper() ? '' : 'none';
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -59,6 +52,15 @@ function init() {
     smartTable.tbody[0].addEventListener('click', onClick);
 
     smartTable.table.addEventListener('input', onInput);
+}
+
+function getSelectDays(selectedValue) {
+    let htm = '<select name="days">';
+    for (let days = 7; days <= 50; days++) {
+        htm += Html `<option value="${days}"${days == selectedValue ? ' selected' : ''}>${Locale.formatNumber(days)}</option>`;
+    }
+    htm += '</select>';
+    return htm;
 }
 
 function triggerSearchHandler(flag) {
@@ -116,19 +118,27 @@ function onClickAdvanced() {
     }
     items.sort((a, b) => a[1].localeCompare(b[1]));
     let htm = '';
-    htm += HtmlBr `<p style="text-align:left">${gui.getMessage('neighbors_advancedfilterinfo', state.days)}</p><br><select name="gifts" multiple size="${Math.min(15, items.length)}">`;
+    let info = HtmlRaw(String(HtmlBr(gui.getMessage('neighbors_advancedfilterinfo'))).replace('#DAYS#', getSelectDays(state.days)));
+    htm += HtmlBr `<p style="text-align:left">${info}</p>`;
+    htm += HtmlBr `<br><select name="gifts" multiple size="${Math.min(15, items.length)}">`;
     let list = gui.getArrayOfInt(state.gift);
     for (let item of items) {
         htm += Html `<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
     }
-    htm += HtmlBr `</select>`;
+    htm += HtmlBr `</select><button value="clear" class="DAF-dialog-no-hide">${gui.getMessage('neighbors_clearfilter')}</button>`;
     gui.dialog.show({
         title: gui.getMessage('neighbors_advancedfilter'),
         html: htm,
-        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.NO]
+        style: [Dialog.CONFIRM, Dialog.CANCEL, 'clear']
     }, function(method, params) {
+        if (method == 'clear') {
+            for (let option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
+            gui.dialog.visible = true;
+            return;
+        }
         if (method == Dialog.CANCEL) return;
-        filterGifts = (method == Dialog.CONFIRM ? gui.getArrayOfInt(params.gifts) : []).sort().join(',');
+        filterGifts = gui.getArrayOfInt(params.gifts).sort().join(',');
+        selectDays.value = params.days;
         refresh();
     });
 }

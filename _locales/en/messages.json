@@ -521,7 +521,7 @@
         }
     },
     "neighbors_gifts": {
-        "message": "Consider gifts in last #NUM# days"
+        "message": "Consider gifts in last #DAYS# days"
     },
     "neighbors_listed": {
         "message": "Custom\nlist"
@@ -584,12 +584,10 @@
         "message": "Advanced filter"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "You can further filter your neighbours by the gifts they have sent in the last $NUM$ days by selecting one or more gifts from the following list.\nYou can press \"NO\" to clear the filter.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
+        "message": "You can further filter your neighbours by the gifts they have sent in the last #DAYS# days by selecting one or more gifts from the following list."
+    },
+    "neighbors_clearfilter": {
+        "message": "Clear filter"
     },
 
     "friendship_collect": {
