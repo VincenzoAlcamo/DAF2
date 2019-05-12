@@ -147,7 +147,7 @@ function refreshTotals() {
     var levelups = gui.getFile('levelups');
     function setProgress(className, level, xp) {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
-            var levelup = levelups[level];
+            var levelup = levelups[level - 1];
             var div = parent.querySelectorAll('div');
             div[1].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`;
             div[2].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level+1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`;
