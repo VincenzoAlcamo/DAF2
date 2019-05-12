@@ -119,8 +119,7 @@ function onClickAdvanced() {
     items.sort((a, b) => a[1].localeCompare(b[1]));
     let htm = '';
     let info = HtmlRaw(String(HtmlBr(gui.getMessage('neighbors_advancedfilterinfo'))).replace('#DAYS#', getSelectDays(state.days)));
-    htm += HtmlBr `<p style="text-align:left">${info}</p>`;
-    htm += HtmlBr `<br><select name="gifts" multiple size="${Math.min(15, items.length)}">`;
+    htm += HtmlBr `${info}<br><select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
     let list = gui.getArrayOfInt(state.gift);
     for (let item of items) {
         htm += Html `<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
