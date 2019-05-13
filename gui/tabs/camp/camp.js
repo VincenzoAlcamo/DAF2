@@ -13,12 +13,11 @@ export default {
 
 const NUM_SLOTS = 24;
 
-var tab, container, neighborEnabled, checkWebGL;
+var tab, container, checkWebGL;
 
 function init() {
     tab = this;
     container = tab.container;
-    neighborEnabled = true; //bgp.Data.isDeveloper();
     checkWebGL = container.querySelector('[name=webgl]');
     checkWebGL.addEventListener('click', toggleWebGL);
 
@@ -27,10 +26,6 @@ function init() {
         div.addEventListener('render', function(_event) {
             updateCamp(this);
         });
-
-        // For now hide the neighbour card, as feature is not live
-        // Need to consider implications of this feature a bit more
-        if (className == 'camp-neighbor' && !neighborEnabled) div.style.display = 'none';
 
         var input = div.querySelector('input');
         input.addEventListener('click', () => gui.updateTabState(tab));
@@ -62,7 +57,7 @@ function getState() {
     var getCheck = (id, c) => document.getElementById(id).checked ? c : '';
     return {
         webgl: checkWebGL.checked,
-        h: [neighborEnabled ? getCheck('camp_neighbor', 'n') : '', getCheck('camp_player', 'p')].join('')
+        h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('')
     };
 }
 
