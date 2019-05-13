@@ -160,6 +160,18 @@
     "gui_nonote": {
         "message": "No note"
     },
+    "gui_minimum": {
+        "message": "Minimum"
+    },
+    "gui_maximum": {
+        "message": "Maximum"
+    },
+    "gui_average": {
+        "message": "Average"
+    },
+    "gui_loot": {
+        "message": "Loot"
+    },
 
     "dialog_ok": {
         "message": "Ok"

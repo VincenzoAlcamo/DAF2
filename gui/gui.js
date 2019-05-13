@@ -23,8 +23,8 @@ let tabs = (function() {
     addTab('foundry');
     addTab('pillars');
     addTab('locations', false);
-    addTab('greenrings', false);
-    addTab('redrings', false);
+    addTab('greenrings');
+    addTab('redrings');
     addTab('rewardlinks');
     addTab('options');
     addTab('help', false);
@@ -91,7 +91,7 @@ let gui = {
     getRegionImg: function(rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
         if (rid < 0 || rid > 6) rid = 0;
-        return HtmlBr `<img src="${bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
+        return HtmlBr `<img src="${rid == 0 ? '/img/gui/events.png' : bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
     },
     getSkinImg: function(skin, size = 32) {
         var rid = bgp.Data.getRegionFromSkin(skin);

@@ -701,3 +701,27 @@ input.note:focus::-webkit-input-placeholder {
 }
 
 /*#endregion*/
+
+/*#region GREEN/RED RINGS*/
+.rings.card {
+  vertical-align: top;
+  margin: 0px 2px 6px 2px;
+}
+
+.rings.card table {
+  margin: 6px;
+}
+
+.rings.card table td {
+  text-align: right;
+}
+
+.rings.card table td:nth-child(1) {
+  text-align: center;
+}
+
+.rings.card table td:nth-child(2) {
+  text-align: left;
+}
+
+/*#endregion*/

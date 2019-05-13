@@ -1,5 +1,3 @@
-export default {
-    init: init
-};
+import ringLoot from '../../ringLoot.js';
 
-function init() {}
+export default ringLoot([185, 1535, 1932, 2193]);
