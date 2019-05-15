@@ -490,6 +490,12 @@ th.sort-sub.sort-ascending {
 
 .toolbar label {
   white-space: nowrap;
+  opacity: 0.8;
+}
+
+.toolbar label:hover,
+.toolbar label:focus-within {
+  opacity: 1;
 }
 
 .toolbar .outlined {
