@@ -1183,6 +1183,27 @@
         "message": "Export diagnostics data"
     },
 
+    "rings_showminmax": {
+        "message": "Show minimum and maximum values"
+    },
+    "rings_playerlevel": {
+        "message": "Specify player's level"
+    },
+    "rings_resetlevel": {
+        "message": "Reset"
+    },
+    "rings_stats": {
+        "message": "You have $NUM$ $NAME$ in your backpack.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+
     "specialweek_end": {
         "message": "ends on $FINISH$",
         "placeholders": {
