@@ -377,17 +377,18 @@ function infoLevel(row) {
     setRowLevel(rowLevel, level, sliderLevel);
 
     let rowSlider = addRow();
-    rowSlider.classList.add('slider');
     let htm = '';
-    htm += HtmlBr `<td colspan="7">`;
+    htm += HtmlBr `<td colspan="7" class="slider">`;
     htm += HtmlBr `<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
-    htm += HtmlBr `<span>${Locale.formatNumber(level + 1)}</span>`;
-    htm += HtmlBr `<span>${Locale.formatNumber(levelSums.length)}</span>`;
+    htm += HtmlBr `<span class="slider-step slider-min">${Locale.formatNumber(level + 1)}</span>`;
+    htm += HtmlBr `<span class="slider-step slider-val">${Locale.formatNumber(sliderLevel)}</span>`;
+    htm += HtmlBr `<span class="slider-step slider-max">${Locale.formatNumber(levelSums.length)}</span>`;
     htm += HtmlBr `</td>`;
     htm += getTimes(false, 0, 0);
     rowSlider.innerHTML = htm;
     rowSlider.querySelector('input').addEventListener('input', function() {
         sliderLevel = this.value;
+        rowSlider.querySelector('.slider-val').textContent = Locale.formatNumber(sliderLevel);
         setRowLevel(rowLevel, level, sliderLevel);
     });
 
@@ -582,12 +583,12 @@ function calcRegion(item) {
 }
 
 function regionMineValid(mine) {
-    // Emerald Nest (1345) was a re-diggable location until December of 2015. 
+    // Emerald Nest (1345) was a re-diggable location until December of 2015.
     // PF changed the format. It will NOT count towards the Hero of Egypt Achievement,
-    // so we ignore it. In case the Mine ID changes, we will use the Name ID as the 
+    // so we ignore it. In case the Mine ID changes, we will use the Name ID as the
     // identifier
     //
-    // Anpu's Arena (1642) and Anpu's Racetrack (1643) are not part of the 
+    // Anpu's Arena (1642) and Anpu's Racetrack (1643) are not part of the
     // main game so skip as well (seem to have been a later addition?)
     //
     // The following mines, have old and new versions, so we need to check

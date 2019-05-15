@@ -107,26 +107,16 @@
   background-color: var(--pb-fgcol2);
 }
 
-.tab_progress .slider td:nth-child(1) {
+.tab_progress td.slider {
   border-right-width: 1px;
   padding-left: 16px;
   padding-right: 16px;
   background: var(--tr-bgcol2);
+  text-align: center;
 }
 
 .tab_progress .slider input {
-  display: block;
-  width: 100%;
-  cursor: pointer;
-}
-
-.tab_progress .slider span {
-  font-weight: bold;
-  font-size: smaller;
-}
-
-.tab_progress .slider span:nth-child(2) {
-  float: left;
+  margin-bottom: 10px;
 }
 
 .progress_playtime {

@@ -332,7 +332,7 @@ input[type=range] {
   outline: none;
   opacity: 0.7;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 input[type=range]:focus,
@@ -353,6 +353,26 @@ input[type=range]::-webkit-slider-thumb {
 
 input[type=range]:hover::-webkit-slider-thumb {
   background-color: var(--vm-item-hov-bgcol);
+}
+
+.slider input {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.slider span.slider-step {
+  font-weight: bold;
+  font-size: smaller;
+}
+
+.slider span.slider-title,
+.slider span.slider-step.slider-min {
+  float: left;
+}
+
+.slider span.slider-step.slider-max {
+  float: right;
 }
 
 /*#endregion*/
