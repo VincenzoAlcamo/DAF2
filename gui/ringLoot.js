@@ -215,7 +215,7 @@ function ringLoot(kind) {
             max = max + (coef != 0.0 ? Math.floor((level * coef) * max) : 0);
             let avg = Math.floor((min + max) / 2);
             if (lootArea.chest != lastChest) odd = !odd;
-            htm += HtmlBr `<tr class="${odd ? 'odd' : ''}">`;
+            htm += HtmlBr `<tr class="${(odd ? 'odd' : '') + (notRandom ? ' not-random' : '')}">`;
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
                 htm += HtmlBr `<td class="chest" rowspan="${lootArea.numRows}">${Locale.formatNumber(lootArea.chest)}</td>`;

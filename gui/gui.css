@@ -783,4 +783,14 @@ input.note:focus::-webkit-input-placeholder {
   background-position: 3px 4px;
 }
 
+.rings tr.not-random td.max,
+.rings tr.not-random td.avg {
+  border-left: 0;
+}
+
+.rings tr.not-random td.min,
+.rings tr.not-random td.avg {
+  border-right: 0;
+}
+
 /*#endregion*/
