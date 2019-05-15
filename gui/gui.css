@@ -738,25 +738,43 @@ input.note:focus::-webkit-input-placeholder {
 /*#endregion*/
 
 /*#region GREEN/RED RINGS*/
+.tab_greenrings .stats img,
+.tab_redrings .stats img {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
 .rings.card {
   vertical-align: top;
-  margin: 0px 2px 6px 2px;
+  margin: 0px 3px 6px 3px;
 }
 
 .rings.card table {
-  margin: 6px;
+  margin: 6px auto;
 }
 
-.rings.card table td {
+.rings.card table td.min,
+.rings.card table td.avg,
+.rings.card table td.max {
   text-align: right;
 }
 
-.rings.card table td:nth-child(1) {
+.rings.card table td.chest {
   text-align: center;
+  font-weight: bold;
 }
 
-.rings.card table td:nth-child(2) {
+.rings.card table td.material {
   text-align: left;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+  padding-left: 30px;
+  background-position: 4px center;
+}
+
+.rings-no-minmax .rings.card .min,
+.rings-no-minmax .rings.card .max {
+  display: none;
 }
 
 /*#endregion*/
