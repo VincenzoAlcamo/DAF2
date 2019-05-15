@@ -1147,43 +1147,45 @@ var Data = {
     unusedFiles: {
         'buildings_actions': true
     },
-    getFile: async function(name, version) {
-        if (name in Data.unusedFiles) return {};
-        var fileName, kind;
+    checkFile: function(name, version) {
+        let result = {};
+        result.name = name;
+        result.version = version;
         if (name.startsWith('floors_')) {
-            fileName = 'json/floors/' + name + '.json';
-            kind = 'json';
+            result.fileName = 'json/floors/' + name + '.json';
+            result.kind = 'json';
         } else {
-            fileName = 'erik/';
-            if (name.startsWith('locations_')) fileName += 'locations/';
-            fileName += name + '.erik';
-            kind = 'erik';
+            result.fileName = 'erik/';
+            if (name.startsWith('locations_')) result.fileName += 'locations/';
+            result.fileName += name + '.erik';
+            result.kind = 'erik';
+        }
+        if (name in Data.unusedFiles) {
+            result.data = {};
+            return result;
         }
         if (version === undefined) {
             version = '1';
-            if (Data.generator && Data.generator.file_changes && fileName in Data.generator.file_changes) version = String(Data.generator.file_changes[fileName]);
+            if (Data.generator && Data.generator.file_changes && result.fileName in Data.generator.file_changes) version = String(Data.generator.file_changes[result.fileName]);
+            result.version = version;
         }
-        var file = Data.files[fileName];
-        if (file) {
-            // If file in cache has the same version, return it
-            if (file.version == version) return Promise.resolve(Data.files[name]);
-            // Otherwise, purge file from cache
-            delete Data.files[name];
-            delete Data.files[fileName];
-        }
+        var file = Data.files[result.fileName];
+        // If file in cache has the same version, return it
+        result.data = file && file.version == version ? Data.files[name] : null;
+        return result;
+    },
+    getFile: async function(name, version) {
+        let file = Data.checkFile(name, version);
+        if (file.data) return file.data;
+        delete Data.files[file.name];
+        delete Data.files[file.fileName];
         if (!Data.generator || !Data.generator.cdn_root) return Promise.reject('Data has not been loaded yet');
-        var url = Data.generator.cdn_root + fileName + '?ver=' + version;
-        file = {
-            name: name,
-            fileName: fileName,
-            version: version,
-            url: url
-        };
-        var response = await fetch(url);
+        file.url = Data.generator.cdn_root + file.fileName + '?ver=' + file.version;
+        var response = await fetch(file.url);
         var text = await response.text();
-        var data = Parser.parse(kind, text);
+        var data = Parser.parse(file.kind, text);
         if (!data) throw `File cannot be parsed: "${file}"`;
-        if (kind == 'erik') {
+        if (file.kind == 'erik') {
             var keys = data.__keys.filter(key => key.startsWith('@'));
             delete data.__keys;
             var items = keys.length ? (Array.isArray(data) ? data : Object.values(data)) : null;

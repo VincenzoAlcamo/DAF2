@@ -393,16 +393,18 @@ async function loadTab(tab) {
             link.setAttribute('href', tabBasePath + '.css');
             document.head.appendChild(link);
         }
-        resource_count += (tab.requires ? tab.requires.length : 0);
+        let requires = (tab.requires || []).filter(name => {
+            let file = bgp.Data.checkFile(name);
+            return !file.data;
+        });
+        resource_count += requires.length;
         advanceProgress();
         var response = await fetch(tabBasePath + '.html');
         var text = await response.text();
         container.innerHTML = text;
-        if (tab.requires) {
-            for (var name of tab.requires) {
-                advanceProgress();
-                await bgp.Data.getFile(name);
-            }
+        for (var name of requires) {
+            advanceProgress();
+            await bgp.Data.getFile(name);
         }
         tab.init();
         tab.isLoaded = true;
