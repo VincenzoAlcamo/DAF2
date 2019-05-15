@@ -1,4 +1,4 @@
-/*global gui HtmlBr Locale*/
+/*global gui HtmlBr Html Locale*/
 
 export default ringLoot;
 
@@ -204,10 +204,13 @@ function ringLoot(kind) {
         let lastChest = 0;
         let odd = false;
         let multiplier = swDoubleDrop ? 2 : 1;
+        let tdAvg = Html `<td class="avg">`;
+        let tdNotDependent = Html `<td class="avg not-dependent" title="${gui.getMessage('rings_notdependent')}">`;
         for (let lootArea of floorData[lid].loots) {
             let coef = lootArea.coef;
             let min = lootArea.min;
             let max = lootArea.max;
+            let notRandom = min == max;
             min = min + (coef != 0.0 ? Math.floor((level * coef) * min) : 0);
             max = max + (coef != 0.0 ? Math.floor((level * coef) * max) : 0);
             let avg = Math.floor((min + max) / 2);
@@ -220,9 +223,9 @@ function ringLoot(kind) {
             let type = lootArea.type;
             let oid = lootArea.object_id;
             htm += HtmlBr `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
-            htm += HtmlBr `<td class="min">${Locale.formatNumber(multiplier * Math.max(0, min))}</td>`;
-            htm += HtmlBr `<td class="avg">${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
-            htm += HtmlBr `<td class="max">${Locale.formatNumber(multiplier * Math.max(0, max))}</td>`;
+            htm += HtmlBr `<td class="min">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, min))}</td>`;
+            htm += HtmlBr `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
+            htm += HtmlBr `<td class="max">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, max))}</td>`;
             htm += HtmlBr `</tr>`;
         }
         htm += HtmlBr `</tbody>`;

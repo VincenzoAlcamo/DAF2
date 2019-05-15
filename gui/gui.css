@@ -777,4 +777,10 @@ input.note:focus::-webkit-input-placeholder {
   display: none;
 }
 
+.rings td.avg.not-dependent {
+  background-image: url(/img/gui/red_dot.gif);
+  background-repeat: no-repeat;
+  background-position: 3px 4px;
+}
+
 /*#endregion*/

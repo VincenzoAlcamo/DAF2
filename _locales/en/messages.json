@@ -1203,6 +1203,9 @@
             }
         }
     },
+    "rings_notdependent": {
+        "message": "Not dependent on player's level"
+    },
 
     "specialweek_end": {
         "message": "ends on $FINISH$",
