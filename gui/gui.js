@@ -190,6 +190,10 @@ let gui = {
                 };
                 result.items.push(item);
                 result.types[item.type] = item;
+                let percent = 0;
+                if (item.type == 'debris_discount') percent = 100 - Math.round(item.coeficient * 100);
+                item.name = gui.getMessage('specialweek_' + item.type, percent);
+                item.ends = gui.getMessage('specialweek_end', Locale.formatDateTime(item.finish));
             }
         }
         result.debrisDiscount = result.types['debris_discount'];
@@ -197,6 +201,7 @@ let gui = {
         result.halfTimeProduction = result.types['half_prod_time'];
         result.doubleDrop = result.types['double_drop'];
         result.postcards = result.types['postcards'];
+        result.gifts = result.types['gifts'];
         return result;
     },
     setupScreenshot: function(element, fileName = 'screenshot.png', screenshot) {

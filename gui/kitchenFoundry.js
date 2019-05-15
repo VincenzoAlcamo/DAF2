@@ -47,17 +47,13 @@ function kitchenFoundry(type) {
         });
     }
 
-    function getInfoSpecialWeek(specialWeek, messageId) {
-        return HtmlBr `${gui.getMessage(messageId)}: ${gui.getMessage('specialweek_end', Locale.formatDateTime(specialWeek.finish))}`;
-    }
-
     function update() {
         let specialWeeks = gui.getActiveSpecialWeeks();
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
         let htm = [];
-        if (swDoubleProduction) htm.push(getInfoSpecialWeek(swDoubleProduction, 'specialweek_doubleproduction'));
-        if (swHalfTimeProduction) htm.push(getInfoSpecialWeek(swHalfTimeProduction, 'specialweek_halftimeproduction'));
+        if (swDoubleProduction) htm.push(HtmlBr `${swDoubleProduction.name}: ${swDoubleProduction.ends}`);
+        if (swHalfTimeProduction) htm.push(HtmlBr `${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}`);
         htm = htm.join('<br>');
         for (let td of smartTable.container.querySelectorAll('tfoot td')) {
             td.parentNode.style.display = htm.length ? '' : 'none';

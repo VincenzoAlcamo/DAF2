@@ -40,6 +40,14 @@ function init() {
 function update() {
     markToBeRendered(container.querySelector('.camp-player'));
     markToBeRendered(container.querySelector('.camp-neighbor'));
+    let specialWeeks = gui.getActiveSpecialWeeks();
+    let htm = [];
+    for (let sw of specialWeeks.items) {
+        if (sw.name) htm.push(HtmlBr `${sw.name}: ${sw.ends}`);
+    }
+    let divWarning = container.querySelector('.toolbar .warning');
+    divWarning.innerHTML = htm.join('<br>');
+    divWarning.style.display = htm.length ? '' : 'none';
 }
 
 function actionVisitCamp() {
@@ -244,8 +252,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         }
         htm += HtmlBr `<tbody>`;
         if (swDiscount) {
-            let percent = 100 - Math.round(swDiscount.coeficient * 100);
-            htm += HtmlBr `<tfoot><tr><th colspan="4" class="warning">${gui.getMessage('specialweek_debrisdiscount', percent)}<br>${gui.getMessage('specialweek_end', Locale.formatDateTime(swDiscount.finish))}</th></tfoot>`;
+            htm += HtmlBr `<tfoot><tr><th colspan="4" class="warning">${swDiscount.name}<br>${swDiscount.ends}</th></tfoot>`;
         }
         htm += HtmlBr `</table></td>`;
     }

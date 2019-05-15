@@ -1191,19 +1191,28 @@
             }
         }
     },
-    "specialweek_debrisdiscount": {
-        "message": "Debris discount week $PERCENT$%",
+    "specialweek_debris_discount": {
+        "message": "Grid Unlock discount week $PERCENT$%",
         "placeholders": {
             "percent": {
                 "content": "$1"
             }
         }
     },
-    "specialweek_doubleproduction": {
-        "message": "Double production"
+    "specialweek_production": {
+        "message": "Double production week"
     },
-    "specialweek_halftimeproduction": {
-        "message": "Half time production"
+    "specialweek_half_prod_time": {
+        "message": "Half time production week"
+    },
+    "specialweek_double_drop": {
+        "message": "Double material week"
+    },
+    "specialweek_gifts": {
+        "message": "Double gifting week"
+    },
+    "specialweek_postcards": {
+        "message": "Postcard week"
     },
 
     "ext_placeholder": {

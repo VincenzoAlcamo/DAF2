@@ -539,6 +539,15 @@ thead .stats {
   margin-left: 12px;
 }
 
+.toolbar .warning {
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: larger;
+  font-weight: bold;
+  display: table;
+  margin: 2px auto -2px;
+}
+
 .content {
   padding: 12px;
   text-align: center;
