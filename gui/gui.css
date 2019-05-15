@@ -606,7 +606,6 @@ thead .stats {
   color: var(--crd-fgcol);
   background-color: var(--crd-bgcol);
   background-image: -webkit-linear-gradient(top, var(--crd-bgcol), var(--crd-bgcol3));
-
   flex-grow: 1;
   overflow: auto;
 }
@@ -747,6 +746,7 @@ input.note:focus::-webkit-input-placeholder {
 .rings.card {
   vertical-align: top;
   margin: 0px 3px 6px 3px;
+  transition: 0.2s all ease-in-out;
 }
 
 .rings.card table {
