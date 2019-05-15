@@ -369,7 +369,7 @@ function update() {
             htm += HtmlBr `<td><input type="checkbox"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
             htm += HtmlBr `<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
             htm += HtmlBr `<td>${materialHTML(item.cmt)}</td>`;
-            if (item.cid) htm += HtmlBr `<td>${gui.getFBFriendAnchor(item.cid)}<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a></td>`;
+            if (item.cid) htm += HtmlBr `<td>${gui.getFBFriendAnchor(item.cid)}<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a></td>`;
             else htm += `<td></td>`;
             item.row.innerHTML = htm;
             if (item.cmt) item.row.classList.add('collected');
@@ -407,6 +407,7 @@ function update() {
     }
 
     showStats();
+    gui.collectLazyImages(smartTable.container);
     smartTable.syncLater();
     firstTime = false;
 
