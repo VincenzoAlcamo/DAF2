@@ -51,12 +51,15 @@ function update() {
 
 function updateStatus() {
     var num = gcTable.childNodes.length;
-    gcTable.style.display = num ? '' : 'none';
-    container.querySelector('.tab_godchild .stats').innerText = num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected');
+    container.querySelector('.godchild_table').style.display = num ? '' : 'none';
+    container.querySelector('.toolbar').style.display = !num ? '' : 'none';
+    for (let div of container.querySelectorAll('.tab_godchild .stats'))
+        div.innerText = num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected');
     container.querySelector('.tab_godchild .screenshot .shot').style.display = num > 0 ? '' : 'none';
     var next = gui.getChildrenNext(numNeighbours);
     var nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', Locale.formatNumber(next));
-    container.querySelector('.tab_godchild .info').innerText = gui.getMessage('godchild_info', Locale.formatNumber(numNeighbours), Locale.formatNumber(maxGC)) + ' - ' + nextInfo;
+    for (let div of container.querySelectorAll('.tab_godchild .info'))
+        div.innerText = gui.getMessage('godchild_info', Locale.formatNumber(numNeighbours), Locale.formatNumber(maxGC)) + ' - ' + nextInfo;
 }
 
 function actionFriendChildCharge(data) {
