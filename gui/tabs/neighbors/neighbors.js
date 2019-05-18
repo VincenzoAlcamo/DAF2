@@ -124,13 +124,13 @@ function onClickAdvanced() {
     for (let item of items) {
         htm += Html `<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
     }
-    htm += HtmlBr `</select><button value="clear" class="DAF-dialog-no-hide">${gui.getMessage('neighbors_clearfilter')}</button>`;
+    htm += HtmlBr `</select><br/><input data-method="input" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/>`;
     gui.dialog.show({
         title: gui.getMessage('neighbors_advancedfilter'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, 'clear']
     }, function(method, params) {
-        if (method == 'clear') {
+        if (method == 'input') {
             for (let option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
             gui.dialog.visible = true;
             return;

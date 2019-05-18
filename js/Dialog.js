@@ -18,6 +18,7 @@ Object.assign(Dialog, {
     WAIT: Symbol(),
     TOAST: Symbol(),
     CRITICAL: 'critical',
+    WIDEST: 'widest',
     OK: 'ok',
     CONFIRM: 'confirm',
     YES: 'yes',
@@ -45,7 +46,7 @@ Object.assign(Dialog, {
     },
     onkeydown: function(event) {
         if (event.keyCode == 27 && this.cancelable) {
-            this.hide().runCallback(Dialog.CANCEL);
+            this.runCallback(Dialog.CANCEL);
         }
     }
 });
@@ -131,9 +132,12 @@ Object.assign(Dialog.prototype, {
         }
         return this;
     },
-    runCallback: function(method) {
-        var dialog = this;
-        if (dialog.callback) setTimeout(() => dialog.callback(method, dialog.getParams(method)), 100);
+    runCallback: function(method, input, flagNoHide) {
+        let dialog = this;
+        let params = dialog.getParams(method);
+        if (input) params.input = input;
+        if (!flagNoHide) dialog.hide();
+        if (dialog.callback) setTimeout(() => dialog.callback(method, dialog.getParams(method)), flagNoHide ? 0 : 100);
     },
     hide: function() {
         this.visible = false;
@@ -166,21 +170,22 @@ Object.assign(Dialog.prototype, {
         if (style === null || style === undefined) style = this.lastStyle;
         style = this.lastStyle = style instanceof Array ? style : String(style).split(/,|\s/);
         style = style.map(method => method.toLowerCase());
-        this.getElement().classList.toggle('DAF-md-critical', style.indexOf(Dialog.CRITICAL) >= 0);
-        Array.from(this.element.getElementsByTagName('button')).forEach(button => {
-            var dialog = this,
-                method = button.value.toLowerCase();
-            button.style.display = style.indexOf(method) >= 0 ? '' : 'none';
-            if (!button.getAttribute('hasListener')) {
-                button.setAttribute('hasListener', '1');
-                button.addEventListener('click', function(event) {
+        for (let tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.indexOf(tag) >= 0);
+        let dialog = this;
+        for (let input of this.element.querySelectorAll('button,[data-method=input]')) {
+            let isInput = input.getAttribute('data-method') == 'input';
+            let method = isInput ? 'input' : input.value.toLowerCase();
+            input.style.display = isInput || style.indexOf(method) >= 0 ? '' : 'none';
+            if (!input.getAttribute('hasListener')) {
+                input.setAttribute('hasListener', '1');
+                let eventName = input.tagName == 'BUTTON' || input.getAttribute('type') == 'button' ? 'click' : 'input';
+                input.addEventListener(eventName, function(event) {
                     event.stopPropagation();
                     event.preventDefault();
-                    if (!button.classList.contains('DAF-dialog-no-hide')) dialog.hide();
-                    dialog.runCallback(method);
+                    dialog.runCallback(method, input, isInput);
                 });
             }
-        });
+        }
         return this;
     },
     getParams: function(method) {
