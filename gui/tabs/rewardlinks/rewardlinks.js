@@ -139,6 +139,27 @@ function onClickButton() {
                     });
             }
         });
+    } else if (action == 'shorten') {
+        gui.dialog.show({
+            title: gui.getMessage('rewardlinks_shortenlinks'),
+            html: HtmlBr `
+${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="convert">
+<option value="3">Facebook</option>
+<option value="2">Portal</option>
+</select>
+<br/>${gui.getMessage('rewardlinks_shortenlinks_info1')}<br/>
+<textarea data-method="input" cols="60" rows="5" name="links"></textarea>
+<br/>${gui.getMessage('rewardlinks_shortenlinks_info2')}<br/>
+<textarea readonly cols="60" rows="6" name="result"></textarea>`,
+            defaultButton: 'links',
+            style: [Dialog.OK, Dialog.WIDEST]
+        }, function(method, params) {
+            if (method == 'input') {
+                let arr = LinkData.getLinkData(params.links);
+                let text = arr.map(item => LinkData.getLink(item, params.convert)).join('\n');
+                gui.dialog.element.querySelector('[name=result]').value = text;
+            }
+        });
     } else if (action == 'remove') {
         let rewards = Object.values(items).filter(item => item.row.classList.contains('selected'));
         removeLinks(gui.getMessage('rewardlinks_removeselected'), rewards);

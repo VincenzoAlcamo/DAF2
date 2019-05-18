@@ -1163,6 +1163,15 @@
     "rewardlinks_noconversion": {
         "message": "No conversion"
     },
+    "rewardlinks_shortenlinks": {
+        "message": "Shorten/Convert links"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Paste here the links to shorten/convert."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Shortened links are shown below (duplicates are removed)."
+    },
 
     "export_exportdata": {
         "message": "Export data"
