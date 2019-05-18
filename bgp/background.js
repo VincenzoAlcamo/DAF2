@@ -2,6 +2,8 @@
 'use strict';
 
 //#region MISCELLANEOUS
+const SECONDS_IN_A_DAY = 86400;
+
 function hasRuntimeError() {
     // This is necessary to avoid unchecked runtime errors from Chrome
     var hasError = !!chrome.runtime.lastError;
@@ -992,7 +994,6 @@ var Data = {
         Data.saveRewardLink(rewardLink, true);
     },
     removeExpiredRewardLinks: function() {
-        const SECONDS_IN_A_DAY = 86400;
         let rewards = Object.values(Data.rewardLinks);
         // check expired
         let maxExpired = 0;
@@ -1277,10 +1278,34 @@ var Synchronize = {
         visit_camp: function(_task, taskResponse, response) {
             console.log(...arguments);
             if (!taskResponse || !taskResponse.camp) return;
-            Data.lastVisitedCamp = taskResponse.camp;
-            Data.lastVisitedCamp.neigh_id = taskResponse.neigh_id;
-            Data.lastVisitedCamp.time = +response.time;
-            Synchronize.signal();
+            let neighbourId = taskResponse.neigh_id;
+            let camp = Data.lastVisitedCamp = taskResponse.camp;
+            camp.neigh_id = neighbourId;
+            camp.time = +response.time;
+            let pal = Data.getNeighbour(neighbourId);
+            if (pal) {
+                let changed = false;
+                let blocks = 144;
+                for (let n of String(camp.lines_blocked || '').split(',')) {
+                    n = parseInt(n);
+                    if (isFinite(n)) blocks += n - 24;
+                }
+                if (blocks !== pal.extra.blocks) {
+                    pal.extra.blocks = blocks;
+                    changed = true;
+                }
+                let wmtime = 0;
+                let wmduration = 7 * SECONDS_IN_A_DAY;
+                if (Array.isArray(camp.windmills) && camp.windmills.length == +camp.windmill_limit) {
+                    wmtime = camp.windmills.map(wm => (wmduration + wm.activated) || 0).sort()[0];
+                }
+                if (wmtime !== pal.extra.wmtime) {
+                    pal.extra.wmtime = wmtime;
+                    changed = true;
+                }
+                if (changed) Data.saveNeighbour(pal);
+            }
+            Synchronize.signal(neighbourId);
         },
         friend_child_charge: function(task, _taskResponse, _response) {
             console.log(...arguments);

@@ -97,3 +97,16 @@
   margin-right: 4px;
   vertical-align: middle;
 }
+
+.neighbors .camp_blocks {
+  display: inline-block;
+  width: 30;
+  height: 30;
+  text-align: center;
+  background-color: red;
+  border-radius: 16px;
+  padding-top: 7px;
+  color: white;
+  font-size: 12pt;
+  font-weight: bold;
+}

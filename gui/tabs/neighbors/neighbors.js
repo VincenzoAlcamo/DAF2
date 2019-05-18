@@ -6,6 +6,9 @@ export default {
     update: update,
     getState: getState,
     setState: setState,
+    actions: {
+        'visit_camp': actionVisitCamp
+    },
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills']
 };
 
@@ -37,7 +40,7 @@ function init() {
 
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
-    trGifts.innerHTML = HtmlBr `<td colspan="10"><div>${Locale.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+    trGifts.innerHTML = HtmlBr `<td colspan="12"><div>${Locale.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
 
     let button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
@@ -142,6 +145,10 @@ function onClickAdvanced() {
     });
 }
 
+function formatDayMonthTime(time) {
+    return Locale.formatDayMonth(time) + '\n' + Locale.formatTime(time);
+}
+
 function onClick(e) {
     var cell;
     for (var el = e.target; !cell && el.tagName != 'TABLE'; el = el.parentNode)
@@ -178,7 +185,7 @@ function onClick(e) {
             giftCache[palGift.gid] = piece;
         }
         if (piece == '') continue;
-        htm += piece + HtmlBr `<span>${Locale.formatDayMonth(palGift.time)}<br>${Locale.formatTime(palGift.time)}</span></div>`;
+        htm += piece + HtmlBr `<span>${formatDayMonthTime(palGift.time)}</span></div>`;
     }
     giftContainer.innerHTML = htm;
 }
@@ -244,6 +251,11 @@ function update() {
     refresh();
 }
 
+function actionVisitCamp(data) {
+    var row = container.querySelector('tr[data-pal-id="' + data + '"]');
+    if (row) updateRow(row);
+}
+
 function updateRow(row) {
     var id = row.getAttribute('data-pal-id');
     var pal = bgp.Data.getNeighbour(id);
@@ -269,6 +281,18 @@ function updateRow(row) {
         htm += HtmlBr `<td><img src="/img/gui/clist.png"></td>`;
     } else {
         htm += HtmlBr `<td></td>`;
+    }
+    let blocks = pal.extra.blocks;
+    if (blocks === undefined) {
+        htm += HtmlBr `<td><img src="/img/gui/check_na.png"></td>`;
+    } else {
+        htm += blocks === 0 ? HtmlBr `<td><img src="/img/gui/check_yes.png"></td>` : HtmlBr `<td><span class="camp_blocks">${blocks}</span></td>`;
+    }
+    let wmtime = pal.extra.wmtime;
+    if (wmtime === undefined) {
+        htm += HtmlBr `<td></td>`;
+    } else {
+        htm += wmtime < gui.getUnixTime() ? HtmlBr `<td><img src="/img/gui/check_no.png"></td>` : HtmlBr `<td>${formatDayMonthTime(wmtime)}</td>`;
     }
     htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
     var gifts = palGifts[pal.id];
@@ -349,20 +373,28 @@ function refreshDelayed() {
     }
 
     var rows = [];
+    let blocksUnknown = smartTable.sort.ascending ? 144 : -1;
+    let wmUnknown = smartTable.sort.ascending ? 1e15 : -1;
     var getSortValueFunctions = {
         region: pal => +pal.region,
         level: pal => +pal.level,
         levelup: pal => (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? -pal.extra.timeLevel : 0,
         lastgift: pal => pal.extra.lastGift || 0,
         list: pal => +pal.c_list ? 0 : 1,
+        blocks: pal => pal.extra.blocks === undefined ? blocksUnknown : +pal.extra.blocks,
+        wmtime: pal => pal.extra.wmtime === undefined ? wmUnknown : +pal.extra.wmtime,
         recorded: pal => pal.extra.timeCreated || 0,
         gifts: pal => palGifts[pal.id].length,
         value: pal => palGifts[pal.id]._value
     };
     var sortName = smartTable.sort.name;
     var getSortValue = getSortValueFunctions[sortName] || (_pal => 0);
+    let now = gui.getUnixTime();
     for (let pal of neighbors) {
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
+        if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
+        if (show == 'unknownblocks' && pal.extra.blocks !== undefined) continue;
+        if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
         else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         let fullname = gui.getPlayerNameFull(pal).toUpperCase();
         if (search != '') {
