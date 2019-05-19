@@ -13,6 +13,7 @@ let tabs = (function() {
             enabled: enabled
         };
     }
+    addTab('game');
     addTab('about');
     addTab('progress');
     addTab('camp');
@@ -361,6 +362,7 @@ function onLoad() {
 
     var urlInfo = new UrlInfo(location.href);
     var tabId = urlInfo.parameters.tab;
+    if (tabId == 'game') tabId = 'about';
     div = gui.getTabMenuItem(tabId);
     if (div && !div.classList.contains('disabled')) {
         var state = Object.assign({}, urlInfo.parameters);
@@ -425,12 +427,19 @@ async function loadTab(tab) {
 }
 
 async function clickMenu(e) {
-    var li = null,
-        el, tabId, tab;
+    var li = null;
+    var el, tabId, tab;
     for (el = e.target; el.tagName != 'UL'; el = el.parentNode)
         if (el.tagName == 'LI') li = el;
     if (!li || li.classList.contains('selected') || li.classList.contains('disabled') || li.classList.contains('last')) return;
     tabId = li.getAttribute('data-tabid');
+    if (tabId == 'game') {
+        chrome.runtime.sendMessage({
+            action: 'reloadGame',
+            value: 'keep'
+        });
+        return;
+    }
     Array.from(el.querySelectorAll('li')).forEach(item => {
         item.classList.toggle('selected', item == li);
     });

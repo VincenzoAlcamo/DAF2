@@ -192,6 +192,9 @@
         "message": "Please Wait"
     },
 
+    "tab_game": {
+        "message": "Switch to game"
+    },
     "tab_about": {
         "message": "About"
     },

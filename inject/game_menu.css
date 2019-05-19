@@ -156,6 +156,8 @@
 
 .DAF-menu li[data-action="reloadGame"] b {
   background-image: url("/img/gui/game.png");
+  background-size: 28px 28px;
+  background-position: 0px 0px;
 }
 
 .DAF-menu:not(.DAF-facebook) i[data-pref="fullWindowSide"] {

@@ -386,7 +386,7 @@ if (loginButton) {
         let platform = values.find(item => item == 'webgl' || item == 'flash');
         let url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/');
         url += (platform == 'flash' ? '?flash' : '?webgl');
-        Tab.showTab('isGame', url, url);
+        Tab.showTab('isGame', url, values.includes('keep') ? null : url);
     },
     focus: function(tabId, flag) {
         if (tabId) chrome.tabs.get(tabId, function(tab) {
