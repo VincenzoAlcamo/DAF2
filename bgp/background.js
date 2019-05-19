@@ -772,7 +772,8 @@ var Data = {
             Synchronize.processUnGift(un_gifts && un_gifts.item, +file.data.time, neighbours);
             delete file.data.un_gifts;
             // Remove the player itself from the neighbors, but store their fb_id
-            file.data.fb_id = neighbours[file.data.player_id].fb_id;
+            let pal = neighbours[file.data.player_id];
+            file.data.fb_id = pal ? pal.fb_id : Data.generator && Data.generator.fb_id;
             delete neighbours[file.data.player_id];
             Data.neighbours = neighbours;
             Data.generator = file.data;
