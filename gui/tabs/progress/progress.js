@@ -377,13 +377,15 @@ function infoLevel(row) {
     setRowLevel(rowLevel, level, sliderLevel);
 
     let rowSlider = addRow();
+    rowSlider.className = 'slider';
     let htm = '';
-    htm += HtmlBr `<td colspan="7" class="slider">`;
+    htm += HtmlBr `<td colspan="6">`;
     htm += HtmlBr `<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
     htm += HtmlBr `<span class="slider-step slider-min">${Locale.formatNumber(level + 1)}</span>`;
     htm += HtmlBr `<span class="slider-step slider-val">${Locale.formatNumber(sliderLevel)}</span>`;
     htm += HtmlBr `<span class="slider-step slider-max">${Locale.formatNumber(levelSums.length)}</span>`;
     htm += HtmlBr `</td>`;
+    htm += HtmlBr `<td class="energy"></td><td></td>`;
     htm += getTimes(false, 0, 0);
     rowSlider.innerHTML = htm;
     rowSlider.querySelector('input').addEventListener('input', function() {

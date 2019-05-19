@@ -107,13 +107,25 @@
   background-color: var(--pb-fgcol2);
 }
 
-.tab_progress td.slider {
-  border-right-width: 1px;
-  padding-left: 16px;
-  padding-right: 16px;
+.tab_progress tr.slider {
   background: var(--tr-bgcol2);
+}
+
+.tab_progress .slider td:nth-child(1) {
+  padding-left: 16px;
+  padding-right: 2px;
   text-align: center;
 }
+
+.tab_progress .slider td.energy,
+.tab_progress .slider td:nth-child(3) {
+  border-right-width: 0;
+}
+
+.tab_progress .slider td:nth-child(3) {
+  border-left-width: 0;
+}
+
 
 .tab_progress .slider input {
   margin-bottom: 10px;
