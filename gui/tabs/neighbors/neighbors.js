@@ -279,11 +279,7 @@ function updateRow(row) {
     } else {
         htm += HtmlBr `<td></td>`;
     }
-    if (pal.extra.lastGift) {
-        htm += HtmlBr `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
-    } else {
-        htm += HtmlBr `<td></td>`;
-    }
+    htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
     if (pal.c_list > 0) {
         htm += HtmlBr `<td><img src="/img/gui/clist.png"></td>`;
     } else {
@@ -301,7 +297,11 @@ function updateRow(row) {
     } else {
         htm += wmtime < gui.getUnixTime() ? HtmlBr `<td><img src="/img/gui/check_no.png"></td>` : HtmlBr `<td>${formatDayMonthTime(wmtime)}</td>`;
     }
-    htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
+    if (pal.extra.lastGift) {
+        htm += HtmlBr `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
+    } else {
+        htm += HtmlBr `<td></td>`;
+    }
     var gifts = palGifts[pal.id];
     var count = gifts.length;
     htm += HtmlBr `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(count)}</td>`;
