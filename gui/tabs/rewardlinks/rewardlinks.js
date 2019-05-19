@@ -428,7 +428,7 @@ function update() {
     }
 
     showStats();
-    gui.collectLazyImages(smartTable.container);
+    gui.collectLazyElements(smartTable.container);
     smartTable.syncLater();
     firstTime = false;
 

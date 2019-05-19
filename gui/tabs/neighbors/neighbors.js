@@ -259,8 +259,7 @@ function update() {
 }
 
 function actionVisitCamp(data) {
-    var row = container.querySelector('tr[data-pal-id="' + data + '"]');
-    if (row) updateRow(row);
+    gui.setLazyRender(container.querySelector('tr[data-pal-id="' + data + '"]'));
 }
 
 function updateRow(row) {
@@ -436,7 +435,7 @@ function refreshDelayed() {
             tbody.appendChild(row[0]);
         }
 
-        gui.collectLazyImages(tbody);
+        gui.collectLazyElements(tbody);
         smartTable.syncLater();
     }, 50);
 }

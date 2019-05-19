@@ -271,7 +271,7 @@ function kitchenFoundry(type) {
             }
         }
 
-        gui.collectLazyImages(smartTable.container);
+        gui.collectLazyElements(smartTable.container);
         smartTable.syncLater();
     }
 

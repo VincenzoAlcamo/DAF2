@@ -130,11 +130,13 @@ let gui = {
         return select.value;
     },
     // Lazy load images using an IntersectionObserver
-    lazyObserver: new IntersectionObserver(function(entries) {
-        for (let entry of entries) {
-            if (entry.intersectionRatio <= 0) continue;
-            var element = entry.target;
-            gui.lazyObserver.unobserve(element);
+    lazyElements: [],
+    lazyElementsTimeout: 0,
+    lazyElementsHandler: function() {
+        gui.lazyElementsTimeout = 0;
+        let maxItemsAtOnce = 20;
+        while(maxItemsAtOnce-- && gui.lazyElements.length) {
+            let element = gui.lazyElements.pop();
             if (element.hasAttribute('lazy-src')) {
                 element.setAttribute('src', element.getAttribute('lazy-src'));
                 element.removeAttribute('lazy-src');
@@ -147,9 +149,25 @@ let gui = {
                 element.removeAttribute('lazy-render');
             }
         }
+        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = setTimeout(gui.lazyElementsHandler, 10);
+    },
+    lazyObserver: new IntersectionObserver(function(entries) {
+        for (let entry of entries) {
+            if (entry.intersectionRatio <= 0) continue;
+            let element = entry.target;
+            gui.lazyElements.push(element);
+            gui.lazyObserver.unobserve(element);
+        }
+        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = setTimeout(gui.lazyElementsHandler, 10);
     }),
-    collectLazyImages: function(container) {
+    collectLazyElements: function(container) {
         if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.observe(item));
+    },
+    setLazyRender: function(element) {
+        if (element) {
+            element.setAttribute('lazy-render', '');
+            gui.lazyObserver.observe(element);
+        }
     },
     updateTabState: function(tab) {
         if (tab.isLoaded && typeof tab.getState == 'function') tab.state = tab.getState();

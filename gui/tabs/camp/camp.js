@@ -56,9 +56,7 @@ function actionVisitCamp() {
 
 function markToBeRendered(div) {
     updateCamp(div, true);
-    div = div.querySelector('div');
-    div.setAttribute('lazy-render', '');
-    gui.collectLazyImages(container);
+    gui.setLazyRender(div.querySelector('div'));
 }
 
 function getState() {

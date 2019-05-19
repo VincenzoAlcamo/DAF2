@@ -466,7 +466,7 @@ function refreshDelayed() {
     showStats();
 
     scheduledRefresh = setTimeout(function() {
-        gui.collectLazyImages(smartTable.container);
+        gui.collectLazyElements(smartTable.container);
         smartTable.syncLater();
     }, 50);
 }

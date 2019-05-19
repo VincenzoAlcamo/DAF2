@@ -312,6 +312,6 @@ function refresh() {
         input.addEventListener('input', updatePillar);
     });
     refreshTotals();
-    gui.collectLazyImages(smartTable.container);
+    gui.collectLazyElements(smartTable.container);
     smartTable.syncLater();
 }
