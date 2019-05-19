@@ -93,6 +93,13 @@ function setState(state) {
         sortInfo.ascending = true;
     }
     smartTable.setSortInfo(sortInfo, false);
+    updateButton();
+}
+
+function updateButton() {
+    let button = container.querySelector('.toolbar button.advanced');
+    button.textContent = gui.getMessage('neighbors_advancedfilter', gui.getMessage(filterGifts ? 'menu_on' : 'menu_off'));
+    button.classList.toggle('activated', !!filterGifts);
 }
 
 function onInput(event) {
@@ -307,6 +314,7 @@ var scheduledRefresh;
 function refresh() {
     triggerSearchHandler(false);
     gui.updateTabState(tab);
+    updateButton();
 
     //smartTable.showFixed(false);
     smartTable.tbody[0].innerHTML = '';

@@ -611,7 +611,12 @@
         }
     },
     "neighbors_advancedfilter": {
-        "message": "Advanced filter"
+        "message": "Advanced filter is $STATE$",
+        "placeholders": {
+            "state": {
+                "content": "$1"
+            }
+        }
     },
     "neighbors_advancedfilterinfo": {
         "message": "You can further filter your neighbours by the gifts they have sent in the last #DAYS# days by selecting one or more gifts from the following list."

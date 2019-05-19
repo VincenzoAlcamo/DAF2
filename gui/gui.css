@@ -36,6 +36,7 @@ html {
   --tt-bgcol: #387b89;
   --tt-button-bgcol: #9CE;
   --tt-button-fgcol: #000;
+  --tt-button-hlcol: #4F4;
   --tt-outline: #000;
   --tt-outlined-fgcol: #FFA;
   --tt-input-bgcol: #FFF;
@@ -524,6 +525,10 @@ thead .stats {
   color: var(--tt-button-fgcol);
   background-color: var(--tt-button-bgcol);
   border-radius: 8px;
+}
+
+.toolbar button.activated {
+  background-color: var(--tt-button-hlcol);
 }
 
 .toolbar input[type=number][name=level] {
