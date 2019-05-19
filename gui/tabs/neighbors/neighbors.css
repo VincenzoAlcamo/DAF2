@@ -1,12 +1,4 @@
-.neighbors tr td:nth-child(1),
-.neighbors tr td:nth-child(3),
-.neighbors tr td:nth-child(4),
-.neighbors tr td:nth-child(5),
-.neighbors tr td:nth-child(6),
-.neighbors tr td:nth-child(7),
-.neighbors tr td:nth-child(8),
-.neighbors tr td:nth-child(9),
-.neighbors tr td:nth-child(10) {
+.neighbors tr td {
   text-align: center;
 }
 
