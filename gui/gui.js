@@ -71,7 +71,7 @@ let gui = {
     },
     getFBFriendAnchor: function(fb_id, uri) {
         uri = uri || ('https://www.facebook.com/' + fb_id);
-        return Html `<a target="_blank" href="${uri}">`;
+        return Html `<a target="_blank" href="${uri}" class="limit-width">`;
     },
     getFriendAnchor: function(friend) {
         return Html `<a target="_blank" href="${friend.uri}" title="${friend.name}">`;

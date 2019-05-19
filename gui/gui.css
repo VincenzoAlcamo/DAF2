@@ -225,6 +225,14 @@ progress::-webkit-progress-value {
   filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color)) drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
 }
 
+.limit-width {
+  display: inline-block;
+  max-width: 300px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 /*#endregion*/
 
 /*#region VERTICAL MENU*/
