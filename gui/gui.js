@@ -149,16 +149,19 @@ let gui = {
                 element.removeAttribute('lazy-render');
             }
         }
-        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = setTimeout(gui.lazyElementsHandler, 10);
+        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     },
     lazyObserver: new IntersectionObserver(function(entries) {
         for (let entry of entries) {
-            if (entry.intersectionRatio <= 0) continue;
+            if (entry.intersectionRatio <= 0 && !entry.isIntersecting) {
+                entry.target.setAttribute('data-intersect', entry.isIntersecting);
+                continue;
+            }
             let element = entry.target;
             gui.lazyElements.push(element);
             gui.lazyObserver.unobserve(element);
         }
-        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = setTimeout(gui.lazyElementsHandler, 10);
+        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     }),
     collectLazyElements: function(container) {
         if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.observe(item));
