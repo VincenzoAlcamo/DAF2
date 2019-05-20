@@ -781,7 +781,7 @@ var Data = {
             // We don't need to wait for the operation to be completed
             store.clear().then(() => store.bulkPut(Object.values(neighbours)));
             tx.objectStore('Files').put(file);
-            Synchronize.signalAction('generator');
+            Synchronize.signal('generator');
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
             tx = Data.db.transaction('Files', 'readwrite');
@@ -841,6 +841,17 @@ var Data = {
                 revision: file.revision
             };
         }
+    },
+    getCampWindmillTime: function(camp) {
+        let wmtime = 0;
+        let wmduration = 7 * SECONDS_IN_A_DAY;
+        if (camp && Array.isArray(camp.windmills) && camp.windmills.length >= +camp.windmill_limit) {
+            // Take for each windmill the expiry date, then sort ascending
+            let windmills = camp.windmills.map(wm => (wmduration + wm.activated) || 0).sort();
+            // If there are windmills in excess, considers only the first of the last "mindmill_limit" windmills
+            wmtime = windmills[windmills.length - camp.windmill_limit];
+        }
+        return wmtime;
     },
     //#region Neighbors
     getNeighbour: function(id) {
@@ -1231,58 +1242,66 @@ var Synchronize = {
     init: async function() {
         //
     },
+    delayedSignals: [],
+    signal: function(action, data, delayed) {
+        let message = action;
+        if(typeof action == 'string') {
+            message = {};
+            message.action = action;
+            if (data) message.data = data;
+        }
+        if (delayed) return Synchronize.delayedSignals.push(message);
+        chrome.extension.sendMessage(message);
+        chrome.tabs.sendMessage(Tab.gameTabId, message);
+    },
     process: function(postedXml, responseText) {
-        var posted = Parser.parse('any', postedXml);
-        var taskIndex = 0;
-        var action, fn, taskName;
+        let posted = Parser.parse('any', postedXml);
         // eslint-disable-next-line no-unused-vars
-        var didSomething;
         if (!posted) return;
 
-        var response = responseText && Parser.parse('any', responseText);
-        var time = response && +response.time;
+        let response = responseText && Parser.parse('any', responseText);
+        let time = response && Math.floor(+response.time);
+
+        Synchronize.delayedSignals = [];
 
         // un_gift
-        var changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, time);
+        let changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, time);
         Data.saveNeighbour(changed);
 
         // tasks
-        var tasks = posted.task;
-        if (!tasks) return;
-        if (!Array.isArray(tasks)) tasks = [tasks];
-        tasks.forEach(task => {
-            action = task.action;
+        let tasks = posted.task;
+        tasks = tasks ? (Array.isArray(tasks) ? tasks : [tasks]) : [];
+        let taskIndex = 0;
+        for (let task of tasks) {
+            let action = task.action;
             console.log('Action "' + action + '"');
-            fn = Synchronize.handlers[action];
+            let fn = Synchronize.handlers[action];
             if (fn instanceof Function) {
-                taskName = 'task_' + taskIndex;
+                let taskName = 'task_' + taskIndex;
                 taskIndex++;
                 try {
-                    Synchronize.lastAction = action;
-                    if (fn(task, response && response[taskName], response)) didSomething = true;
+                    fn(action, task, response && response[taskName], response);
                 } catch (e) {
                     console.error(action + '() ' + e.message);
                 }
             }
-        });
+        }
+        let sent = {};
+        for (let message of Synchronize.delayedSignals) {
+            let json = JSON.stringify(message);
+            if (!(json in sent)) {
+                sent[json] = true;
+                Synchronize.signal(message);
+            }
+        }
     },
-    signalAction: function(action, data) {
-        var message = {};
-        message.action = action;
-        if (data) message.data = data;
-        chrome.extension.sendMessage(message);
-        chrome.tabs.sendMessage(Tab.gameTabId, message);
-    },
-    lastAction: '',
-    signal: data => Synchronize.signalAction(Synchronize.lastAction, data),
     handlers: {
-        visit_camp: function(_task, taskResponse, response) {
-            console.log(...arguments);
+        visit_camp: function(action, _task, taskResponse, response) {
             if (!taskResponse || !taskResponse.camp) return;
             let neighbourId = taskResponse.neigh_id;
             let camp = Data.lastVisitedCamp = taskResponse.camp;
             camp.neigh_id = neighbourId;
-            camp.time = +response.time;
+            camp.time = Math.floor(+response.time);
             let pal = Data.getNeighbour(neighbourId);
             if (pal) {
                 let changed = false;
@@ -1295,23 +1314,36 @@ var Synchronize = {
                     pal.extra.blocks = blocks;
                     changed = true;
                 }
-                let wmtime = 0;
-                let wmduration = 7 * SECONDS_IN_A_DAY;
-                if (Array.isArray(camp.windmills) && camp.windmills.length >= +camp.windmill_limit) {
-                    // Take for each windmill the expiry date, then sort ascending
-                    let windmills = camp.windmills.map(wm => (wmduration + wm.activated) || 0).sort();
-                    // If there are windmills in excess, considers only the first of the last "mindmill_limit" windmills
-                    wmtime = windmills[windmills.length - camp.windmill_limit];
-                }
+                let wmtime = Data.getCampWindmillTime(camp);
                 if (wmtime !== pal.extra.wmtime) {
                     pal.extra.wmtime = wmtime;
                     changed = true;
                 }
                 if (changed) Data.saveNeighbour(pal);
             }
-            Synchronize.signal(neighbourId);
+            Synchronize.signal(action, neighbourId);
         },
-        friend_child_charge: function(task, _taskResponse, _response) {
+        place_windmill: function(action, task, taskResponse, response) {
+            let neighbourId = task.neigh_id;
+            let time = Math.floor(+response.time);
+            let pal = Data.getNeighbour(neighbourId);
+            if (Data.lastVisitedCamp && Data.lastVisitedCamp.neigh_id == neighbourId && pal) {
+                let windmills = Data.lastVisitedCamp.windmills;
+                windmills = Array.isArray(windmills) ? windmills : [];
+                windmills.push({
+                    activated: time,
+                    provider: Data.generator.player_id
+                });
+                Data.lastVisitedCamp.windmills = windmills;
+                let wmtime = Data.getCampWindmillTime(Data.lastVisitedCamp);
+                if (wmtime !== pal.extra.wmtime) {
+                    pal.extra.wmtime = wmtime;
+                    Data.saveNeighbour(pal);
+                    Synchronize.signal(action, neighbourId, true);
+                }
+            }
+        },
+        friend_child_charge: function(action, task, _taskResponse, _response) {
             console.log(...arguments);
             var neighbourId = task.neigh_id;
             var neighbour = Data.getNeighbour(neighbourId);
@@ -1321,7 +1353,7 @@ var Synchronize = {
                     // Collected all of them!
                     neighbour.spawned = 0;
                     delete neighbour.extra.gcCount;
-                    Synchronize.signal(neighbourId);
+                    Synchronize.signal(action, neighbourId);
                 }
                 Data.saveNeighbour(neighbour);
             }

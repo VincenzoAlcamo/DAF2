@@ -7,7 +7,8 @@ export default {
     getState: getState,
     setState: setState,
     actions: {
-        'visit_camp': actionVisitCamp
+        'visit_camp': markNeighbor,
+        'place_windmill': markNeighbor
     },
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills']
 };
@@ -258,8 +259,8 @@ function update() {
     refresh();
 }
 
-function actionVisitCamp(data) {
-    gui.setLazyRender(container.querySelector('tr[data-pal-id="' + data + '"]'));
+function markNeighbor(neighborId) {
+    gui.setLazyRender(container.querySelector('tr[data-pal-id="' + neighborId + '"]'));
 }
 
 function updateRow(row) {
@@ -293,8 +294,10 @@ function updateRow(row) {
     let wmtime = pal.extra.wmtime;
     if (wmtime === undefined) {
         htm += HtmlBr `<td></td>`;
+    } else if (wmtime === 0) {
+        htm += HtmlBr `<td><img src="/img/gui/check_no.png"></td>`;
     } else {
-        htm += wmtime < gui.getUnixTime() ? HtmlBr `<td><img src="/img/gui/check_no.png"></td>` : HtmlBr `<td>${formatDayMonthTime(wmtime)}</td>`;
+        htm += HtmlBr `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${formatDayMonthTime(wmtime)}</td>`;
     }
     if (pal.extra.lastGift) {
         htm += HtmlBr `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;

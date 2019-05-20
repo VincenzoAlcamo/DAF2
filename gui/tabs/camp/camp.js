@@ -128,7 +128,6 @@ function updateCamp(div, flagHeaderOnly = false) {
     div.querySelector('div').innerHTML = '';
     if (flagHeaderOnly || !camp) return;
 
-    var windmillExpiryTime = bgp.Data.getConfigValue('windmill_lifespan', 7 * 86400);
     var campResult = calculateCamp(camp, true);
     var camps = [campResult];
     var htm = '';
@@ -191,16 +190,8 @@ function updateCamp(div, flagHeaderOnly = false) {
         });
     }
 
-    var wind_count = 0;
-    var wind_expiry = Infinity;
-    if (camp.windmills) {
-        (Array.isArray(camp.windmills) ? camp.windmills : [camp.windmills]).forEach(windmill => {
-            var st = parseInt(windmill.activated);
-            var et = st + windmillExpiryTime;
-            wind_count++;
-            wind_expiry = Math.min(et, wind_expiry);
-        });
-    }
+    var wind_count = (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0;
+    var wind_expiry = bgp.Data.getCampWindmillTime(camp);
     // table Windmills
     htm += HtmlBr `<td><table class="camp-data row-coloring">`;
     htm += HtmlBr `<thead><tr><th colspan="2">${gui.getMessage('camp_windmills')}</th></tr></thead>`;
