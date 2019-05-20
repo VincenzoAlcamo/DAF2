@@ -294,10 +294,8 @@ function updateRow(row) {
     let wmtime = pal.extra.wmtime;
     if (wmtime === undefined) {
         htm += HtmlBr `<td></td>`;
-    } else if (wmtime === 0) {
-        htm += HtmlBr `<td><img src="/img/gui/check_no.png"></td>`;
     } else {
-        htm += HtmlBr `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${formatDayMonthTime(wmtime)}</td>`;
+        htm += HtmlBr `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
     }
     if (pal.extra.lastGift) {
         htm += HtmlBr `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
