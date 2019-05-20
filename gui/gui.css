@@ -89,8 +89,9 @@ input[type=number] {
   text-align: right;
 }
 
+.help,
 .wiki {
-  cursor: help;
+  cursor: help !important;
 }
 
 a {
