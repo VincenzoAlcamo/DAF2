@@ -153,10 +153,7 @@ let gui = {
     },
     lazyObserver: new IntersectionObserver(function(entries) {
         for (let entry of entries) {
-            if (entry.intersectionRatio <= 0 && !entry.isIntersecting) {
-                entry.target.setAttribute('data-intersect', entry.isIntersecting);
-                continue;
-            }
+            if (entry.intersectionRatio <= 0 && !entry.isIntersecting) continue;
             let element = entry.target;
             gui.lazyElements.push(element);
             gui.lazyObserver.unobserve(element);
