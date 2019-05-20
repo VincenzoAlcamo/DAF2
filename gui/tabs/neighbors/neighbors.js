@@ -99,7 +99,7 @@ function setState(state) {
 
 function updateButton() {
     let button = container.querySelector('.toolbar button.advanced');
-    button.textContent = gui.getMessage('neighbors_advancedfilter', gui.getMessage(filterGifts ? 'menu_on' : 'menu_off'));
+    button.textContent = gui.getMessage('neighbors_advancedfilter') + ': ' + gui.getMessage(filterGifts ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', !!filterGifts);
 }
 
