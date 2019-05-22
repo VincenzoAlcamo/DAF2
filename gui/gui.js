@@ -9,7 +9,7 @@ let tabs = (function() {
         tabs[id] = {
             id: id,
             icon: '/img/gui/' + id + '.png',
-            generator: id != 'about' && id != 'options',
+            generator: id != 'about' && id != 'options' && id != 'game',
             enabled: enabled
         };
     }
