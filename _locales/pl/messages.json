@@ -1,0 +1,1257 @@
+{
+    "ext_name": {
+        "message": "DA Friends 2"
+    },
+    "ext_title": {
+        "message": "Narzędzie pomocnicze Diggy`s Adventure"
+    },
+    "menu_resetfullwindow": {
+        "message": "Zresetuj po załadowaniu"
+    },
+    "menu_fullwindow": {
+        "message": "Gra w pełnym ekranie"
+    },
+    "menu_fullwindowheader": {
+        "message": "Nagłówek"
+    },
+    "menu_fullwindowside": {
+        "message": "Pasek boczny"
+    },
+    "menu_gctable": {
+        "message": "Wyświetl pasek z BD"
+    },
+    "menu_gctablecounter": {
+        "message": "Licznik"
+    },
+    "menu_gctableregion": {
+        "message": "Region"
+    },
+    "menu_gccollected": {
+        "message": "Wszystkie BD zostały zebrane"
+    },
+    "menu_autoclick": {
+        "message": "Auto-klik "
+    },
+    "menu_reloadgame": {
+        "message": "Przeładuj grę i odśwież dane gry"
+    },
+    "menu_switchportal": {
+        "message": "Przełącz na portal"
+    },
+    "menu_switchfacebook": {
+        "message": "Przełącz na Facebook"
+    },
+    "menu_on": {
+        "message": "WŁĄCZ"
+    },
+    "menu_off": {
+        "message": "WYŁĄCZ"
+    },
+    "gui_card_clicker": {
+        "message": "Kliknij aby zmniejszyć/rozszerzyć tą sekcję"
+    },
+    "gui_show": {
+        "message": "Pokaż"
+    },
+    "gui_search": {
+        "message": "Szukaj"
+    },
+    "gui_name": {
+        "message": "Nazwa"
+    },
+    "gui_region_required": {
+        "message": "Region\nWymagany"
+    },
+    "gui_level_required": {
+        "message": "Poziom\nWymagany"
+    },
+    "gui_qty_required": {
+        "message": "Ilość\nWymagana"
+    },
+    "gui_energy": {
+        "message": "Energia"
+    },
+    "gui_backpack": {
+        "message": "Plecak"
+    },
+    "gui_clickwiki": {
+        "message": "Kliknij aby otworzyć Diggywiki"
+    },
+    "gui_from_any": {
+        "message": "z regionów i wydarzeń"
+    },
+    "gui_from_regions": {
+        "message": "z regionów  "
+    },
+    "gui_from_events": {
+        "message": "z wydarzeń"
+    },
+    "gui_ingredients": {
+        "message": "Składniki"
+    },
+    "gui_event": {
+        "message": "Wydarzenie"
+    },
+    "gui_event_tooltip": {
+        "message": "Wydarzenie: $EVENT$",
+        "placeholders": {
+            "event": {
+                "content": "$1"
+            }
+        }
+    },
+    "gui_region": {
+        "message": "Region"
+    },
+    "gui_theme": {
+        "message": "Temat"
+    },
+    "gui_level": {
+        "message": "Poziom"
+    },
+    "gui_xp": {
+        "message": "XP"
+    },
+    "gui_sell_price": {
+        "message": "Cena sprzedaży"
+    },
+    "gui_neighbour": {
+        "message": "Sąsiad"
+    },
+    "gui_friend": {
+        "message": "Znajomy   "
+    },
+    "gui_firstrecorded": {
+        "message": "Pierwszy zapis"
+    },
+    "gui_loadingresources": {
+        "message": "Załaduj zasoby ($NUM$/$TOTAL$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "gui_screenshot_shot": {
+        "message": "Kliknij aby zrobić zrzut ekranu.\nZrzut ekranu pojawi się po prawej stronie.\nUwaga: tylko widoczny obszar jest przechwytywany!\nMusisz kliknąć ikonę DAF2 w menu Chrome aby włączyć tą funkcję.\n"
+    },
+    "gui_screenshot_target": {
+        "message": "Kliknij aby pobrać obraz.\nKliknij prawym przyciskiem i wybierz \"Kopiuj obraz\" aby skopiować do schowka."
+    },
+    "gui_screenshot_error": {
+        "message": "Nie można zrobić zrzutu ekranu."
+    },
+    "gui_screenshot_errorinfo": {
+        "message": "Najpierw musisz kliknąć ikonę #DAF2# w menu Chrome.\nSpowoduje to włącznenie funkcji zrzutu ekranu do momentu zamknięcia strony.\nKliknij ikonę #DAF2# a następnie spróbuj ponownie zrobić zrzut ekranu."
+    },
+    "gui_infodated": {
+        "message": "Informacje pokazan tutaj były aktualne i były ważne tylko jako $VALID$",
+        "placeholders": {
+            "valid": {
+                "content": "$1"
+            }
+        }
+    },
+    "gui_nonote": {
+        "message": "Brak notatki"
+    },
+    "gui_minimum": {
+        "message": "Minimalnie"
+    },
+    "gui_maximum": {
+        "message": "Maksymalnie"
+    },
+    "gui_average": {
+        "message": "Średnio"
+    },
+    "gui_loot": {
+        "message": "Materiał"
+    },
+    "gui_datafrompf": {
+        "message": "Dane uzyskane z plików gry Pixel Federation"
+    },
+    "dialog_ok": {
+        "message": "Ok"
+    },
+    "dialog_yes": {
+        "message": "Tak"
+    },
+    "dialog_no": {
+        "message": "Nie"
+    },
+    "dialog_confirm": {
+        "message": "Potwierdź"
+    },
+    "dialog_cancel": {
+        "message": "Anuluj"
+    },
+    "dialog_pleasewait": {
+        "message": "Proszę czekaj"
+    },
+    "tab_game": {
+        "message": "Przełącz na grę"
+    },
+    "tab_about": {
+        "message": "O..."
+    },
+    "tab_progress": {
+        "message": "Postęp"
+    },
+    "tab_camp": {
+        "message": "Obóz"
+    },
+    "tab_kitchen": {
+        "message": "Kuchnia"
+    },
+    "tab_foundry": {
+        "message": "Odlewnia"
+    },
+    "tab_pillars": {
+        "message": "Kolumny"
+    },
+    "tab_neighbors": {
+        "message": "Sąsiedzi"
+    },
+    "tab_friendship": {
+        "message": "Przyjaciele"
+    },
+    "tab_godchild": {
+        "message": "Boże Dzieci"
+    },
+    "tab_locations": {
+        "message": "Lokacje"
+    },
+    "tab_greenrings": {
+        "message": "Zielone pierścienie"
+    },
+    "tab_redrings": {
+        "message": "Czerwone pierścienie"
+    },
+    "tab_rewardlinks": {
+        "message": "Linki z nagrodami"
+    },
+    "tab_options": {
+        "message": "Opcje"
+    },
+    "tab_help": {
+        "message": "Pomoc"
+    },
+    "tab_export": {
+        "message": "Importuj/Eksportuj"
+    },
+    "about_version": {
+        "message": "Wersja: $VERSION$",
+        "placeholders": {
+            "version": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_data": {
+        "message": "Ostatnia synchronizacja: $TIME$\nStrona gry: $SITE$ ($PLATFORM$)\nIdentyfikator użytkownika: #$USERID$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            },
+            "userid": {
+                "content": "$2"
+            },
+            "site": {
+                "content": "$3"
+            },
+            "platform": {
+                "content": "$4"
+            }
+        }
+    },
+    "about_nodata": {
+        "message": "Nie załadowano jeszcze danych gry, proszę załaduj lub odśwież grę"
+    },
+    "about_disclaimer": {
+        "message": "DA Friends jest \"Kodem fanowskim\" i nie jest zatwierdzony ani wspierany \nprzez Pixel Federation, autorów gry \"Diggy`s Adventure\".\nUżywasz DA Friends na własne ryzyko. Nie jest objęty żadną rękojmią czy \ngwarancją, również w odniesieniu do funkcjonalności i użyteczności.\nAutor nie ponosi odpowiedzialności za jakiekolwiek szkody lub straty \nspowodowane jego użytkowaniem.\nKorzystając z tego rozszerzenia zgadzasz się na te warunki."
+    },
+    "kitchen_all": {
+        "message": "Wszystkie przepisy"
+    },
+    "kitchen_only_possible": {
+        "message": "Tylko możliwe przepisy"
+    },
+    "kitchen_time_to_cook": {
+        "message": "Czas gotowania"
+    },
+    "kitchen_energy_hour": {
+        "message": "Energia na godzinę"
+    },
+    "kitchen_possible_dishes": {
+        "message": "Możliwe dania"
+    },
+    "kitchen_possible_energy": {
+        "message": "Możliwa energia"
+    },
+    "kitchen_total_time": {
+        "message": "Czas gotowania\n($POTS$ Możliwe)",
+        "placeholders": {
+            "pots": {
+                "content": "$1"
+            }
+        }
+    },
+    "foundry_all": {
+        "message": "Wszystkie stopy"
+    },
+    "foundry_only_possible": {
+        "message": "Tylko możliwe stopy"
+    },
+    "foundry_time_to_craft": {
+        "message": "Czas na wykonanie"
+    },
+    "foundry_qty": {
+        "message": "Wykonane na kowadle"
+    },
+    "foundry_possible_alloys": {
+        "message": "Możliwe stopy"
+    },
+    "foundry_total_time": {
+        "message": "Czas na wykonanie\n($ANVILS$ kowadła)",
+        "placeholders": {
+            "anvils": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_your_camp": {
+        "message": "Twój obóz"
+    },
+    "camp_player_name": {
+        "message": "$PLAYER$`s obóz $DATE$",
+        "placeholders": {
+            "player": {
+                "content": "$1"
+            },
+            "date": {
+                "content": "$2"
+            }
+        }
+    },
+    "camp_no_player": {
+        "message": "Żaden obóz nie został jeszcze odwiedzony"
+    },
+    "camp_player": {
+        "message": "Gracz"
+    },
+    "camp_total": {
+        "message": "Razem"
+    },
+    "camp_fill_time": {
+        "message": "Czas napełnienia\n(od 0 do max pojemności)"
+    },
+    "camp_windmill_regen": {
+        "message": "Regeneracja jednego wiatraka"
+    },
+    "camp_windmill_regen_total": {
+        "message": "Łączna regeneracja wiatraków"
+    },
+    "camp_windmill_num": {
+        "message": "Obecna liczba wiatraków"
+    },
+    "camp_windmill_expiry": {
+        "message": "Wiatraki znikną za $TIME$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_empty": {
+        "message": "Puste miejsce"
+    },
+    "camp_slot_blocked": {
+        "message": "Zablokowana przestrzeń"
+    },
+    "camp_slot_capacity": {
+        "message": "Pojemność: $VALUE$",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_regen": {
+        "message": "Regeneracja: $VALUE$",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_region": {
+        "message": "Region: $VALUE$",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_regen": {
+        "message": "Regeneracja"
+    },
+    "camp_capacity": {
+        "message": "Pojemność"
+    },
+    "camp_windmills": {
+        "message": "Wiatraki   "
+    },
+    "camp_avg_value": {
+        "message": "Średnio"
+    },
+    "camp_min_value": {
+        "message": "Minimalnie"
+    },
+    "camp_max_value": {
+        "message": "Maksymalnie"
+    },
+    "camp_unlock_materials": {
+        "message": "Materiały wymagane do odblokowania"
+    },
+    "camp_unlock_one": {
+        "message": "Oblokowanie jednego miejsca wymaga $VALUE$ XP",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_unlock_cost": {
+        "message": "Oblokowanie jednego miejsca wymaga $VALUE$ gemów lub tych \nmateriałów:",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_start_date": {
+        "message": "Zacząłeś grać:\n$STARTED$",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_day_mode": {
+        "message": "Tryb dzienny"
+    },
+    "camp_night_mode": {
+        "message": "Tryb nocny"
+    },
+    "camp_webgl": {
+        "message": "Pokaż obóz w układzie WebGL"
+    },
+    "camp_discounted": {
+        "message": "Zniżka"
+    },
+    "pillars_all": {
+        "message": "Wszystkie kolumny"
+    },
+    "pillars_only_possible": {
+        "message": "Tylko możliwe kolumny"
+    },
+    "pillars_perc_next": {
+        "message": "%\nNastępny"
+    },
+    "pillars_possible": {
+        "message": "Możliwe"
+    },
+    "pillars_qty": {
+        "message": "Przewidywana\nIlość"
+    },
+    "pillars_xp": {
+        "message": "Przewidywana\nIlość XP"
+    },
+    "pillars_coins": {
+        "message": "Przewidywana\nMonety"
+    },
+    "pillars_totals": {
+        "message": "Razem"
+    },
+    "pillars_current_level": {
+        "message": "Twój obecny poziom"
+    },
+    "pillars_predicted_level": {
+        "message": "Przewidywany poziom"
+    },
+    "pillars_predicted_energy": {
+        "message": "Przewidywana ilość energii za poziomy"
+    },
+    "pillars_ignore": {
+        "message": "Kliknij aby zigniorować/pomyśleć"
+    },
+    "pillars_stats": {
+        "message": "Maksymalnie możliwe: $QTY$, XP: $XP$, Monety: $COINS$, Energia: \n$BOOST$",
+        "placeholders": {
+            "qty": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "coins": {
+                "content": "$3"
+            },
+            "boost": {
+                "content": "$4"
+            }
+        }
+    },
+    "pillars_grid": {
+        "message": "Pokaż jako siatkę"
+    },
+    "pillars_cap": {
+        "message": "Ogranicz do możliwych"
+    },
+    "neighbors_lastlevelup": {
+        "message": "Ostatni poziom w górę"
+    },
+    "neighbors_lastgiftreceived": {
+        "message": "Ostatni otrzymany prezent"
+    },
+    "neighbors_all": {
+        "message": "Wszystko"
+    },
+    "neighbors_nogift": {
+        "message": "Brak prezentu od $NUM$ dni",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "neighbors_gifts": {
+        "message": "Pokaż prezenty z ostatnich #DAYS# dni"
+    },
+    "neighbors_listed": {
+        "message": "Lista niestandardowa"
+    },
+    "neighbors_blocks": {
+        "message": "Ilość bloków do wyczyszczenia w obozie"
+    },
+    "neighbors_inlist": {
+        "message": "Na liście niestandardowej"
+    },
+    "neighbors_notinlist": {
+        "message": "Nie na liście niestandardowej"
+    },
+    "neighbors_withblocks": {
+        "message": "Z blokami do wyczyszczenia"
+    },
+    "neighbors_unknownblocks": {
+        "message": "Stan bloków nieznany"
+    },
+    "neighbors_withexpiredwindmills": {
+        "message": "Z wygasłymi wiatrakami"
+    },
+    "neighbors_found": {
+        "message": "Znalezionych sąsiadów: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_giftcount": {
+        "message": "Licznik prezentów"
+    },
+    "neighbors_giftvalue": {
+        "message": "Wartość prezentu (w XP)"
+    },
+    "neighbors_wmtime": {
+        "message": "Czas wygaśnięcia wiatraków"
+    },
+    "neighbors_giftinfo": {
+        "message": "Data prezentu odnosi się do czasu, kiedy DAF po raz pierwszy zarejestrował\nten prezent, a nie datę jego wysłania."
+    },
+    "neighbors_gifttip": {
+        "message": "$NAME$\nXP: $XP$\nDzień: $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_gift": {
+        "message": "$NAME$ ($XP$ XP) na $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_advancedfilter": {
+        "message": "Zaawansowany filtr"
+    },
+    "neighbors_advancedfilterinfo": {
+        "message": "Możesz dodatkowo filtrować sąsiadów poprzez prezenty, którzy wysłali w \nw ciągu ostatnich #DAYS# dni wybierając jeden lub więcej prezentów z \nponiższej listy."
+    },
+    "neighbors_clearfilter": {
+        "message": "Wyczyść filtr"
+    },
+    "neighbors_gift_tooltip": {
+        "message": "Zapis otrzymanych prezentów, gdy DAF2 jest aktywny i nagrywa."
+    },
+    "friendship_collect": {
+        "message": "Zbierz i dopasuj"
+    },
+    "friendship_score": {
+        "message": "Wynik"
+    },
+    "friendship_scoretooltip": {
+        "message": "Dopasowanie w następujący sposób:\n100 = Ten sam identyfikator Facebooka\n99 = Dopasowanie ręczne\n95 = To samo zdjęcie profilowe\n90 = Ta sama pełna nazwa\n80 = To samo imię i nazwisko\n70 = To samo imię i nazwisko (odwrócone)\n60 = Dopasowanie chińskich znaków"
+    },
+    "friendship_action": {
+        "message": "Akcja"
+    },
+    "friendship_actionignore": {
+        "message": "Ten znajomy jest uwzględniony w dopasowaniu\nKliknij, aby go zignorować podczas dopasowania"
+    },
+    "friendship_actionregard": {
+        "message": "Ten znajomy jest ignorowany podczas dopasowania\nKliknij aby uwzględnić tego znajomego"
+    },
+    "friendship_actionunlink": {
+        "message": "Kliknij aby usunąć dopasowanie"
+    },
+    "friendship_actionmanual": {
+        "message": "Kliknij, aby automatycznie dopasować sąsiada"
+    },
+    "friendship_actiondelete": {
+        "message": "Kliknij, aby stale usunąć tego znajomego"
+    },
+    "friendship_matchplayertitle": {
+        "message": "Kliknij tutaj, aby anulować to dopasowanie"
+    },
+    "friendship_accountdisabled": {
+        "message": "Konto jest nieaktywne"
+    },
+    "friendship_disabledaccountsdetected": {
+        "message": "Nieaktywne konta zostały wykryte.\nMożesz je usunąć z tej strony.\n\nPamiętaj, że konto Facebook może być tymczasowo wyłączone i mogą \nzostać włączone w późniejszym czasie."
+    },
+    "friendship_ghostfriendsdetected": {
+        "message": "$NUM$ \"znajomych-duchów\" zostało wykrytych.\nCzy chcesz ich teraz usunąć?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectalternatewait": {
+        "message": "Pobieranie listy znajomych..."
+    },
+    "friendship_ghostfriendremoving": {
+        "message": "Usuwanie znajomych \"duchów\" ($NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_ghostfriendremoved": {
+        "message": "$NUM$ znajomych \"duchów\" zostało usuniętych.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_a": {
+        "message": "Znajomych: $FRIENDS$, Sąsiadów: $NEIGHBOURS$",
+        "placeholders": {
+            "friends": {
+                "content": "$1"
+            },
+            "neighbours": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_filter_d": {
+        "message": "Nieaktywne konta Facebook: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_m": {
+        "message": "Znajomi i sąsiedzi dopasowani: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_g": {
+        "message": "Znajomi i sąsiedzi dopasowani przez obraz: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_h": {
+        "message": "Znajomi i sąsiedzi dopasowani ręcznie: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_i": {
+        "message": "Znajomi ignorowani: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_f": {
+        "message": "Znajomi nie dopasowani: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_u": {
+        "message": "Znajomi ignorowani i/lub nie dopasowani: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_n": {
+        "message": "Sąsiedzi nie dopasowani: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_s": {
+        "message": "Znajomi i sąsiedzi nie dopasowani: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectpreamble": {
+        "message": "Tutaj możesz zebrać znajomych z Facebooka i dopasować ich jako swoich\nsąsiadów."
+    },
+    "friendship_collectstandard": {
+        "message": "Standardowa"
+    },
+    "friendship_collectstandardinfo": {
+        "message": "Ta metoda jest niezawodna, ale bardzo wolna (może potrwać kilka minut)."
+    },
+    "friendship_collectalternate": {
+        "message": "Alternatywna"
+    },
+    "friendship_collectalternateinfo": {
+        "message": "Ta metoda jest bardzo szybka, ale nie wykrywa nieaktywnych kont."
+    },
+    "friendship_collectboth": {
+        "message": "Obie"
+    },
+    "friendship_collectbothinfo": {
+        "message": "Ta metoda łączy metodę Alternatywną i Standardową (Alternatywna pierwsza,\npóźniej Standardowa)"
+    },
+    "friendship_disabledinfo": {
+        "message": "Wykrywa nieaktywne konta."
+    },
+    "friendship_ghostinfo": {
+        "message": "Wykrywa znajomych \"duchów\" i proponuje opcję usunięcia ich."
+    },
+    "friendship_collectghostdelete": {
+        "message": "Usuąć znajomych \"duchów\"?"
+    },
+    "friendship_collectghost0": {
+        "message": "Nie przejmuj się"
+    },
+    "friendship_collectghost1": {
+        "message": "Najpierw zapytaj"
+    },
+    "friendship_collectghost2": {
+        "message": "Automatycznie"
+    },
+    "friendship_collectmatch": {
+        "message": "Dopasuj"
+    },
+    "friendship_collectmatchinfo": {
+        "message": "Spowoduje to automatyczne dopasowanie między znajomymi i sąsiadami.\nTwoja lista znajomych nie zostanie odświeżona.\nIgnorowani znajomi i znajomi z wynikiem większym niż 90 nie są\ndopasowani automatycznie.\nDopasowanie będzie nadal kontynuowane po zakończeniu zbierania znajomych."
+    },
+    "friendship_confirmwarning": {
+        "message": "To może potrwać kilka minut.\n\nPotwierdź, że chcesz kontynuować."
+    },
+    "friendship_analyzingmatches": {
+        "message": "Analizowanie danych, $PERCENT# % ($NUM$ / $TOTAL$)",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            },
+            "num": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_collectstat": {
+        "message": "Znajomi zebrani: $COUNT$",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_manualmatchhelp": {
+        "message": "Aby dopasować tego sąsiada musisz znaleźć niedopasowanego znajomego\ni kliknąć w komórkę, w której znajduje się symbol ⭐."
+    },
+    "friendship_friendupdateinfo": {
+        "message": "Lista znajomych Facebook została zaktualizowana $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_totalfriends": {
+        "message": "Znajomi: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_totalneighbours": {
+        "message": "Sąsiedzi: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_info": {
+        "message": "$NUM$ Sąsiadów = $GC$ Bożych dzieci",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "gc": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_stat": {
+        "message": "Boże dzieci: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_next": {
+        "message": "Aby zdobyć więcej BD, musisz dodać $NUM$ sąsiadów",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "godchild_next0": {
+        "message": "Osiągnąłeś maksymalną ilość BD"
+    },
+    "godchild_next1": {
+        "message": "Aby  zdobyć dodatkowe BD musisz dodać jeszcze jednego sąsiada."
+    },
+    "progress_measure": {
+        "message": "Aspekt gry"
+    },
+    "progress_attained": {
+        "message": "Osiągnięty"
+    },
+    "progress_goal": {
+        "message": "Cel"
+    },
+    "progress_remaining": {
+        "message": "Pozostało"
+    },
+    "progress_progress": {
+        "message": "Postęp"
+    },
+    "progress_achievements": {
+        "message": "Osiągnięcia"
+    },
+    "progress_treasures": {
+        "message": "Skarby"
+    },
+    "progress_overall": {
+        "message": "Ogólnie"
+    },
+    "progress_hidecompleted": {
+        "message": "Ukryj skompletowane"
+    },
+    "progress_grouplocations": {
+        "message": "Pogrupuj lokacje"
+    },
+    "progress_showdates": {
+        "message": "Pokaż datę lokacji"
+    },
+    "progress_showenergy": {
+        "message": "Pokaż szacowaną energię"
+    },
+    "progress_energy": {
+        "message": "Energia  "
+    },
+    "progress_energyinfo": {
+        "message": "Przedstawiona energia jest szacowana przez pomnożenie liczby pozostałych\nkostek przez średni koszt kostek.\nŚredni koszt kostek tp: premia za ukończenie x10 / całkowita liczba płytek"
+    },
+    "progress_achievementnextstep": {
+        "message": "Do następnego kroku = $NEXT$",
+        "placeholders": {
+            "next": {
+                "content": "$1"
+            }
+        }
+    },
+    "progress_start": {
+        "message": "Zaczęte"
+    },
+    "progress_end": {
+        "message": "Zakończone"
+    },
+    "progress_duration": {
+        "message": "Czas trwania"
+    },
+    "progress_subtotal": {
+        "message": "Suma częściowa ($NUM$ lokacje)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "progress_grandtotal": {
+        "message": "Łączna suma ($NUM$ lokacje)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "progress_playtime": {
+        "message": "Zacząłeś grać $STARTED$ i grasz od $DURATION$ (na dzień $NOW$)",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            },
+            "duration": {
+                "content": "$2"
+            },
+            "now": {
+                "content": "$3"
+            }
+        }
+    },
+    "progress_levelrange": {
+        "message": "Od $FROM$ do $TO$",
+        "placeholders": {
+            "from": {
+                "content": "$1"
+            },
+            "to": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_id": {
+        "message": "Identyfikator nagrody"
+    },
+    "rewardlinks_insertdate": {
+        "message": "Data wprowadzenia"
+    },
+    "rewardlinks_collectdate": {
+        "message": "Data zebrania"
+    },
+    "rewardlinks_collectmaterial": {
+        "message": "Otrzymany prezent"
+    },
+    "rewardlinks_owner": {
+        "message": "Właściciel"
+    },
+    "rewardlinks_expired": {
+        "message": "WYGASŁY LINK"
+    },
+    "rewardlinks_collected": {
+        "message": "JUŻ ZEBRANE"
+    },
+    "rewardlinks_maxreached": {
+        "message": "LIMIT DZIENNY OSIĄGNIĘTY"
+    },
+    "rewardlinks_noself": {
+        "message": "BRAK NAGRODY WŁASNEJ"
+    },
+    "rewardlinks_broken": {
+        "message": "LINK USZKODZONY"
+    },
+    "rewardlinks_probablyexpired": {
+        "message": "PRAWDOPODOBNIE LINK WYGASŁ"
+    },
+    "rewardlinks_addlinks": {
+        "message": "Dodaj linki"
+    },
+    "rewardlinks_pasteAdd": {
+        "message": "Wklej tutaj linki aby dodać, następnie naciśnij przycisk \"$CONFIRM$\"",
+        "placeholders": {
+            "confirm": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_linksadded": {
+        "message": "Dodane linki z nagrodami: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_nolinksadded": {
+        "message": "Nie dodano linków z nagrodami."
+    },
+    "rewardlinks_linksupdated": {
+        "message": "Linki z nagrodami zaktualizowane: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_stats": {
+        "message": "Linki z nagrodami: $TOTAL$, Do zebrania: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_allcollected": {
+        "message": "Wszystkie linki z nagrodami zostały zebrane."
+    },
+    "rewardlinks_nexttime": {
+        "message": "Następne zbieranie startuje $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_countremaining": {
+        "message": "Pozostałe linki do zebrania: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_collectanyway": {
+        "message": "Czy chcesz mimo wszystko otworzyć ten link?"
+    },
+    "rewardlinks_infocollected": {
+        "message": "Ten link został już zebrany."
+    },
+    "rewardlinks_infoexpired": {
+        "message": "Ten ling wygasł.\nLinki są ważne przez $NUM$ dni.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_infonoself": {
+        "message": "Ten link jest twój: nagrody własne nie są ważne."
+    },
+    "rewardlinks_infobroken": {
+        "message": "Ten link jest uszkodzony lub nie działa."
+    },
+    "rewardlinks_infomaxreached": {
+        "message": "Ten link został zebrany, gdy osiągnięto maksymalny dzienny limit.\nLinki zebrane w ten sposób przepadają."
+    },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Są inne nagrody, których zbieranie jest w toku.\nMoże to przekroczyć twój dzienny limit."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Ten link prawdopodobnie wygasł.\nIdentyfikatory linków generowane są sekwencyjnie, a ten identyfikator \nnagrody jest niższy niż identyfikator wygasłej nagrody."
+    },
+    "rewardlinks_removelinks": {
+        "message": "Usuń stare linki"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Usuń zaznaczone"
+    },
+    "rewardlinks_removelinksdays": {
+        "message": "Usuń linki nie nadające się do zebrania starsze niż #DAYS# dni.\nObejmuje to wygasłe linki i linki już zebrane.\nLinki starsze niż $NUM$ dni są usuwane okresowo.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_removenone": {
+        "message": "Brak linków do usunięcia!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Linki, które zostały usunięte: $NUM$\nUsuniętych linków nie można już dodawać.\n\nKontynuować usuwanie?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Ta nagroda została dodana $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Resetuj"
+    },
+    "rewardlinks_resetcount": {
+        "message": "Możesz zresetować informację \"Następne zbieranie\" i mimo to przejść do tego linku."
+    },
+    "rewardlinks_resetexpired": {
+        "message": "Możesz zresetować informację \"Prawdopodobnie wygasłe\" i mimo to przejść do tego linku."
+    },
+    "rewardlinks_convert": {
+        "message": "Konwertuj link"
+    },
+    "rewardlinks_noconversion": {
+        "message": "Bez konwersji"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Skróć/skonweruj link"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Wklaj tutaj link aby skrócić/skonwertować."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Skrócone linki są pokazane poniżej (duplikaty są usuwane)."
+    },
+    "export_exportdata": {
+        "message": "Eksportuj dane"
+    },
+    "export_exportinventory": {
+        "message": "Eksportuj inwentarz"
+    },
+    "export_importdata": {
+        "message": "Importuj dane"
+    },
+    "export_invalidexportdata": {
+        "message": "Plik nie jest prawidłowymi danymi eksportowymi DAF dla bieżącego gracza."
+    },
+    "export_importsuccess": {
+        "message": "Dane zostały pomyślnie zaimportowane!"
+    },
+    "export_debugdata": {
+        "message": "Eksport danych diagnostycznycch."
+    },
+    "rings_showminmax": {
+        "message": "Pokaż minimalne i maksymalne wartości."
+    },
+    "rings_playerlevel": {
+        "message": "Określ poziom gracza"
+    },
+    "rings_resetlevel": {
+        "message": "Zresetuj"
+    },
+    "rings_stats": {
+        "message": "Masz $NUM$ $NAME$ w swoim plecaku.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+    "rings_notdependent": {
+        "message": "Nie zależy od poziomu gracza"
+    },
+    "specialweek_end": {
+        "message": "Kończy się $FINISH$",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_debris_discount": {
+        "message": "Tydzień tańszego burzenia obozu $PERCENT$%",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_production": {
+        "message": "Tydzień podwójnej produkcji"
+    },
+    "specialweek_half_prod_time": {
+        "message": "Tydzień skróconej produkcji"
+    },
+    "specialweek_double_drop": {
+        "message": "Tydzień podwójnych materiałów"
+    },
+    "specialweek_gifts": {
+        "message": "Tydzień podwójnych prezentów"
+    },
+    "specialweek_postcards": {
+        "message": "Tydzień pocztówek"
+    }
+}
