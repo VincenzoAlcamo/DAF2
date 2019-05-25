@@ -245,7 +245,7 @@ let gui = {
                     target.classList.toggle('ready', !!data);
                     if (!data) {
                         let htm = HtmlBr `${gui.getMessage('gui_screenshot_errorinfo')}`;
-                        htm = String(htm).replace(/#DAF2#/g, '<img src="' + bgp.Badge.currentIcon + '" width="16" align="center">');
+                        htm = String(htm).replace(/@DAF2@/g, '<img src="' + bgp.Badge.currentIcon + '" width="16" align="center">');
                         gui.dialog.show({
                             title: gui.getMessage('gui_screenshot_error'),
                             html: htm,
