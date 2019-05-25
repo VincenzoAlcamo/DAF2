@@ -52,7 +52,7 @@ function init() {
         if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
         if (features.indexOf(WARNING) >= 0) warning = gui.getMessage(messageId + '_warning');
         if(info.indexOf('@SILENT@') >= 0) {
-            info = HtmlRaw(HtmlBr(info).toString().replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
+            info = HtmlRaw(String(HtmlBr(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
         }
         htm += HtmlBr `
 <tr${className ? Html ` class="${className}"` : ''}>

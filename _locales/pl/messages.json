@@ -145,7 +145,7 @@
         "message": "Nie można zrobić zrzutu ekranu."
     },
     "gui_screenshot_errorinfo": {
-        "message": "Najpierw musisz kliknąć ikonę #DAF2# w menu Chrome.\nSpowoduje to włącznenie funkcji zrzutu ekranu do momentu zamknięcia strony.\n\nKliknij ikonę #DAF2# a następnie spróbuj ponownie zrobić zrzut ekranu."
+        "message": "Najpierw musisz kliknąć ikonę @DAF2@ w menu Chrome.\nSpowoduje to włącznenie funkcji zrzutu ekranu do momentu zamknięcia strony.\n\nKliknij ikonę @DAF2@ a następnie spróbuj ponownie zrobić zrzut ekranu."
     },
     "gui_infodated": {
         "message": "Informacje pokazane tutaj były aktualne i były ważne tylko jako $VALID$",
@@ -240,7 +240,7 @@
         "message": "Pomoc"
     },
     "tab_export": {
-        "message": "Importuj/Eksportuj"
+        "message": "Importuj / Eksportuj"
     },
     "about_version": {
         "message": "Wersja: $VERSION$",
@@ -529,7 +529,7 @@
         }
     },
     "neighbors_gifts": {
-        "message": "Pokaż prezenty z ostatnich #DAYS# dni"
+        "message": "Pokaż prezenty z ostatnich @DAYS@ dni"
     },
     "neighbors_listed": {
         "message": "Lista niestandardowa"
@@ -607,7 +607,7 @@
         "message": "Filtr zaawansowany"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "Możesz dodatkowo filtrować sąsiadów poprzez prezenty, które wysłali w\nw ciągu ostatnich #DAYS# dni wybierając jeden lub więcej prezentów z\nponiższej listy."
+        "message": "Możesz dodatkowo filtrować sąsiadów poprzez prezenty, które wysłali w\nw ciągu ostatnich @DAYS@ dni wybierając jeden lub więcej prezentów z\nponiższej listy."
     },
     "neighbors_clearfilter": {
         "message": "Wyczyść filtr"
@@ -1132,7 +1132,7 @@
         "message": "Usuń zaznaczone"
     },
     "rewardlinks_removelinksdays": {
-        "message": "Usuń linki nie nadające się do zebrania starsze niż #DAYS# dni.\nObejmuje to wygasłe linki i linki już zebrane.\nLinki starsze niż $NUM$ dni są usuwane okresowo.",
+        "message": "Usuń linki nie nadające się do zebrania starsze niż @DAYS@ dni.\nObejmuje to wygasłe linki i linki już zebrane.\nLinki starsze niż $NUM$ dni są usuwane okresowo.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1253,5 +1253,8 @@
     },
     "specialweek_postcards": {
         "message": "Tydzień pocztówek"
+    },
+    "options_section_rewardlinks": {
+        "message": "Linki z nagrodami"
     }
 }

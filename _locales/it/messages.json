@@ -145,7 +145,7 @@
         "message": "Impossibile catturare l'immagine"
     },
     "gui_screenshot_errorinfo": {
-        "message": "Prima devi cliccare l'icona #DAF2# nel menù di Chrome.\nQuesto abiliterà la funzionalità di cattura fino a quando la pagina sarà chiusa.\n\nPer favore, clicca l'icona #DAF2# e riprova a catturare la schermata."
+        "message": "Prima devi cliccare l'icona @DAF2@ nel menù di Chrome.\nQuesto abiliterà la funzionalità di cattura fino a quando la pagina sarà chiusa.\n\nPer favore, clicca l'icona @DAF2@ e riprova a catturare la schermata."
     },
     "gui_infodated": {
         "message": "Le informazioni mostrate qui sono correnti alla data '$VALID$'",
@@ -529,7 +529,7 @@
         }
     },
     "neighbors_gifts": {
-        "message": "Considera i regali negli ultimi #DAYS# giorni"
+        "message": "Considera i regali negli ultimi @DAYS@ giorni"
     },
     "neighbors_listed": {
         "message": "Lista personalizzata"
@@ -607,7 +607,7 @@
         "message": "Filtro avanzato"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "Puoi ulteriormente filtrare i vicini in base al regalo che hanno inviato negli utlimi #DAYS# giorni, selezionando uno o più regali dalla seguente lista."
+        "message": "Puoi ulteriormente filtrare i vicini in base al regalo che hanno inviato negli utlimi @DAYS@ giorni, selezionando uno o più regali dalla seguente lista."
     },
     "neighbors_clearfilter": {
         "message": "Azzera il filtro"
@@ -1132,7 +1132,7 @@
         "message": "Rimuovi selezionati"
     },
     "rewardlinks_removelinksdays": {
-        "message": "Rimuovi i link ricompensa non raccoglibili più vecchi di #DAYS# giorni.\nQuesto include i link scaduti e i link già raccolti.\nI link più vecchi di $NUM$ giorni vengono rimossi periodicamente.",
+        "message": "Rimuovi i link ricompensa non raccoglibili più vecchi di @DAYS@ giorni.\nQuesto include i link scaduti e i link già raccolti.\nI link più vecchi di $NUM$ giorni vengono rimossi periodicamente.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1267,7 +1267,7 @@
         "message": "Testata\nMostra la testata di pagina quando a finestra intera"
     },
     "options_fullwindowside": {
-        "message": "Laterale\nNasconde la barra laterale di Facebook quano non si è in finestra intera"
+        "message": "Laterale\nNasconde la barra laterale di Facebook quano non si è a finestra intera"
     },
     "options_resetfullwindow": {
         "message": "Azzera al caricamento\nOgni volta che il gioco viene caricato, le opzioni \"Finestra intera\" e \"Finestra intera - Laterale\" vengono azzerate"

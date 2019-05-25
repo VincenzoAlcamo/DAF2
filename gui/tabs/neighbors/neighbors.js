@@ -31,7 +31,7 @@ function init() {
     }
 
     let htm = HtmlBr(gui.getMessage('neighbors_gifts'));
-    htm = String(htm).replace('#DAYS#', getSelectDays(0));
+    htm = String(htm).replace('@DAYS@', getSelectDays(0));
     container.querySelector('.toolbar .days').innerHTML = htm;
     selectDays = container.querySelector('[name=days]');
     selectDays.addEventListener('change', refresh);
@@ -129,7 +129,7 @@ function onClickAdvanced() {
     }
     items.sort((a, b) => a[1].localeCompare(b[1]));
     let htm = '';
-    let info = HtmlRaw(String(HtmlBr(gui.getMessage('neighbors_advancedfilterinfo'))).replace('#DAYS#', getSelectDays(state.days)));
+    let info = HtmlRaw(String(HtmlBr(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
     htm += HtmlBr `${info}<br><select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
     let list = gui.getArrayOfInt(state.gift);
     for (let item of items) {

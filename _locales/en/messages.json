@@ -147,7 +147,7 @@
         "message": "Cannot make screenshot"
     },
     "gui_screenshot_errorinfo": {
-        "message": "First, you have to click the #DAF2# icon in the Chrome menu.\nThis will enable the screenshot function until the page is closed.\n\nPlease, click the #DAF2# icon then retry the screenshot."
+        "message": "First, you have to click the @DAF2@ icon in the Chrome menu.\nThis will enable the screenshot function until the page is closed.\n\nPlease, click the @DAF2@ icon then retry the screenshot."
     },
     "gui_infodated": {
         "message": "The information shown here was current and only valid as at '$VALID$'",
@@ -539,7 +539,7 @@
         }
     },
     "neighbors_gifts": {
-        "message": "Consider gifts in last #DAYS# days"
+        "message": "Consider gifts in last @DAYS@ days"
     },
     "neighbors_listed": {
         "message": "Custom list"
@@ -617,7 +617,7 @@
         "message": "Advanced filter"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "You can further filter your neighbours by the gifts they have sent in the last #DAYS# days by selecting one or more gifts from the following list."
+        "message": "You can further filter your neighbours by the gifts they have sent in the last @DAYS@ days by selecting one or more gifts from the following list."
     },
     "neighbors_clearfilter": {
         "message": "Clear filter"
@@ -1146,7 +1146,7 @@
         "message": "Remove selected"
     },
     "rewardlinks_removelinksdays": {
-        "message": "Remove non-collectable reward links older than #DAYS# days.\nThis includes expired links and links already collected.\nLinks older than $NUM$ days are removed periodically.",
+        "message": "Remove non-collectable reward links older than @DAYS@ days.\nThis includes expired links and links already collected.\nLinks older than $NUM$ days are removed periodically.",
         "placeholders": {
             "num": {
                 "content": "$1"

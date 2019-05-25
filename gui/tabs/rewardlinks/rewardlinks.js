@@ -173,7 +173,7 @@ ${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="conve
             htm += HtmlBr `<option value="${i}" ${i == days ? ' selected' : ''}>${Locale.formatNumber(i)}</option>`;
         }
         htm += HtmlBr `</select>`;
-        htm = String(HtmlBr `${gui.getMessage('rewardlinks_removelinksdays', bgp.Data.REWARDLINKS_REMOVE_DAYS)}`).replace('#DAYS#', htm);
+        htm = String(HtmlBr `${gui.getMessage('rewardlinks_removelinksdays', bgp.Data.REWARDLINKS_REMOVE_DAYS)}`).replace('@DAYS@', htm);
         gui.dialog.show({
             title: title,
             html: htm,
