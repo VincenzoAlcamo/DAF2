@@ -30,7 +30,7 @@
         "message": "Wszystkie BD zostały zebrane"
     },
     "menu_autoclick": {
-        "message": "Auto-klik "
+        "message": "Auto-klik powiadomień Facebooka"
     },
     "menu_reloadgame": {
         "message": "Przeładuj grę i odśwież dane gry"
@@ -81,7 +81,7 @@
         "message": "z regionów i wydarzeń"
     },
     "gui_from_regions": {
-        "message": "z regionów  "
+        "message": "z regionów"
     },
     "gui_from_events": {
         "message": "z wydarzeń"
@@ -119,7 +119,7 @@
         "message": "Sąsiad"
     },
     "gui_friend": {
-        "message": "Znajomy   "
+        "message": "Znajomy"
     },
     "gui_firstrecorded": {
         "message": "Pierwszy zapis"
@@ -145,10 +145,10 @@
         "message": "Nie można zrobić zrzutu ekranu."
     },
     "gui_screenshot_errorinfo": {
-        "message": "Najpierw musisz kliknąć ikonę #DAF2# w menu Chrome.\nSpowoduje to włącznenie funkcji zrzutu ekranu do momentu zamknięcia strony.\nKliknij ikonę #DAF2# a następnie spróbuj ponownie zrobić zrzut ekranu."
+        "message": "Najpierw musisz kliknąć ikonę #DAF2# w menu Chrome.\nSpowoduje to włącznenie funkcji zrzutu ekranu do momentu zamknięcia strony.\n\nKliknij ikonę #DAF2# a następnie spróbuj ponownie zrobić zrzut ekranu."
     },
     "gui_infodated": {
-        "message": "Informacje pokazan tutaj były aktualne i były ważne tylko jako $VALID$",
+        "message": "Informacje pokazane tutaj były aktualne i były ważne tylko jako $VALID$",
         "placeholders": {
             "valid": {
                 "content": "$1"
@@ -271,7 +271,7 @@
         "message": "Nie załadowano jeszcze danych gry, proszę załaduj lub odśwież grę"
     },
     "about_disclaimer": {
-        "message": "DA Friends jest \"Kodem fanowskim\" i nie jest zatwierdzony ani wspierany \nprzez Pixel Federation, autorów gry \"Diggy`s Adventure\".\nUżywasz DA Friends na własne ryzyko. Nie jest objęty żadną rękojmią czy \ngwarancją, również w odniesieniu do funkcjonalności i użyteczności.\nAutor nie ponosi odpowiedzialności za jakiekolwiek szkody lub straty \nspowodowane jego użytkowaniem.\nKorzystając z tego rozszerzenia zgadzasz się na te warunki."
+        "message": "DA Friends jest \"Kodem fanowskim\" i nie jest zatwierdzony ani wspierany\nprzez Pixel Federation, autorów gry \"Diggy`s Adventure\".\nUżywasz DA Friends na własne ryzyko. Nie jest objęty żadną rękojmią czy\ngwarancją, również w odniesieniu do funkcjonalności i użyteczności.\nAutor nie ponosi odpowiedzialności za jakiekolwiek szkody lub straty\nspowodowane jego użytkowaniem.\nKorzystając z tego rozszerzenia zgadzasz się na te warunki."
     },
     "kitchen_all": {
         "message": "Wszystkie przepisy"
@@ -283,13 +283,13 @@
         "message": "Czas gotowania"
     },
     "kitchen_energy_hour": {
-        "message": "Energia na godzinę"
+        "message": "Energia\nna godzinę"
     },
     "kitchen_possible_dishes": {
-        "message": "Możliwe dania"
+        "message": "Możliwe\ndania"
     },
     "kitchen_possible_energy": {
-        "message": "Możliwa energia"
+        "message": "Możliwa\nenergia"
     },
     "kitchen_total_time": {
         "message": "Czas gotowania\n($POTS$ Możliwe)",
@@ -402,7 +402,7 @@
         "message": "Pojemność"
     },
     "camp_windmills": {
-        "message": "Wiatraki   "
+        "message": "Wiatraki"
     },
     "camp_avg_value": {
         "message": "Średnio"
@@ -425,7 +425,7 @@
         }
     },
     "camp_unlock_cost": {
-        "message": "Oblokowanie jednego miejsca wymaga $VALUE$ gemów lub tych \nmateriałów:",
+        "message": "Oblokowanie jednego miejsca wymaga $VALUE$ gemów\nlub tych materiałów:",
         "placeholders": {
             "value": {
                 "content": "$1"
@@ -489,7 +489,7 @@
         "message": "Kliknij aby zigniorować/pomyśleć"
     },
     "pillars_stats": {
-        "message": "Maksymalnie możliwe: $QTY$, XP: $XP$, Monety: $COINS$, Energia: \n$BOOST$",
+        "message": "Maksymalnie możliwe: $QTY$, XP: $XP$, Monety: $COINS$, Energia: $BOOST$",
         "placeholders": {
             "qty": {
                 "content": "$1"
@@ -512,10 +512,10 @@
         "message": "Ogranicz do możliwych"
     },
     "neighbors_lastlevelup": {
-        "message": "Ostatni poziom w górę"
+        "message": "Ostatni\npoziom w górę"
     },
     "neighbors_lastgiftreceived": {
-        "message": "Ostatni otrzymany prezent"
+        "message": "Ostatni\notrzymany prezent"
     },
     "neighbors_all": {
         "message": "Wszystko"
@@ -573,7 +573,7 @@
         "message": "Czas wygaśnięcia wiatraków"
     },
     "neighbors_giftinfo": {
-        "message": "Data prezentu odnosi się do czasu, kiedy DAF po raz pierwszy zarejestrował\nten prezent, a nie datę jego wysłania."
+        "message": "Data prezentu odnosi się do czasu, kiedy DAF po raz pierwszy zarejestrował ten prezent, a nie datę jego wysłania."
     },
     "neighbors_gifttip": {
         "message": "$NAME$\nXP: $XP$\nDzień: $DAY$",
@@ -604,16 +604,16 @@
         }
     },
     "neighbors_advancedfilter": {
-        "message": "Zaawansowany filtr"
+        "message": "Filtr zaawansowany"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "Możesz dodatkowo filtrować sąsiadów poprzez prezenty, którzy wysłali w \nw ciągu ostatnich #DAYS# dni wybierając jeden lub więcej prezentów z \nponiższej listy."
+        "message": "Możesz dodatkowo filtrować sąsiadów poprzez prezenty, które wysłali w\nw ciągu ostatnich #DAYS# dni wybierając jeden lub więcej prezentów z\nponiższej listy."
     },
     "neighbors_clearfilter": {
         "message": "Wyczyść filtr"
     },
     "neighbors_gift_tooltip": {
-        "message": "Zapis otrzymanych prezentów, gdy DAF2 jest aktywny i nagrywa."
+        "message": "Zapis otrzymanych prezentów, gdy DAF2 jest aktywny."
     },
     "friendship_collect": {
         "message": "Zbierz i dopasuj"
@@ -649,7 +649,7 @@
         "message": "Konto jest nieaktywne"
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Nieaktywne konta zostały wykryte.\nMożesz je usunąć z tej strony.\n\nPamiętaj, że konto Facebook może być tymczasowo wyłączone i mogą \nzostać włączone w późniejszym czasie."
+        "message": "Nieaktywne konta zostały wykryte.\nMożesz je usunąć z tej strony.\n\nPamiętaj, że konto Facebook może być tymczasowo wyłączone i mogą\nzostać włączone w późniejszym czasie."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ \"znajomych-duchów\" zostało wykrytych.\nCzy chcesz ich teraz usunąć?",
@@ -768,7 +768,7 @@
         "message": "Tutaj możesz zebrać znajomych z Facebooka i dopasować ich jako swoich\nsąsiadów."
     },
     "friendship_collectstandard": {
-        "message": "Standardowa"
+        "message": "Standard"
     },
     "friendship_collectstandardinfo": {
         "message": "Ta metoda jest niezawodna, ale bardzo wolna (może potrwać kilka minut)."
@@ -940,10 +940,10 @@
         "message": "Pokaż szacowaną energię"
     },
     "progress_energy": {
-        "message": "Energia  "
+        "message": "Energia"
     },
     "progress_energyinfo": {
-        "message": "Przedstawiona energia jest szacowana przez pomnożenie liczby pozostałych\nkostek przez średni koszt kostek.\nŚredni koszt kostek tp: premia za ukończenie x10 / całkowita liczba płytek"
+        "message": "Przedstawiona energia jest szacowana przez pomnożenie liczby pozostałych\nkostek przez średni koszt kostek.\nŚredni koszt kostek to: premia za ukończenie x10 / całkowita liczba płytek"
     },
     "progress_achievementnextstep": {
         "message": "Do następnego kroku = $NEXT$",
@@ -1103,7 +1103,7 @@
         "message": "Ten link został już zebrany."
     },
     "rewardlinks_infoexpired": {
-        "message": "Ten ling wygasł.\nLinki są ważne przez $NUM$ dni.",
+        "message": "Ten link wygasł.\nLinki są ważne przez $NUM$ dni.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1123,7 +1123,7 @@
         "message": "Są inne nagrody, których zbieranie jest w toku.\nMoże to przekroczyć twój dzienny limit."
     },
     "rewardlinks_infoprobablyexpired": {
-        "message": "Ten link prawdopodobnie wygasł.\nIdentyfikatory linków generowane są sekwencyjnie, a ten identyfikator \nnagrody jest niższy niż identyfikator wygasłej nagrody."
+        "message": "Ten link prawdopodobnie wygasł.\nIdentyfikatory linków generowane są sekwencyjnie, a ten identyfikator\nnagrody jest niższy niż identyfikator wygasłej nagrody."
     },
     "rewardlinks_removelinks": {
         "message": "Usuń stare linki"
@@ -1198,7 +1198,7 @@
         "message": "Dane zostały pomyślnie zaimportowane!"
     },
     "export_debugdata": {
-        "message": "Eksport danych diagnostycznycch."
+        "message": "Eksport danych diagnostycznych."
     },
     "rings_showminmax": {
         "message": "Pokaż minimalne i maksymalne wartości."

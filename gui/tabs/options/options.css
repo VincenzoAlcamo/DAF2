@@ -45,12 +45,12 @@
   padding: 1px 2px;
 }
 
-.options div.info a {
+.options a {
   text-decoration: underline;
   color: unset;
   font-weight: bold;
 }
 
-.options div.info a:hover {
+.options a:hover {
   background-color: var(--tb-hlcol);
 }

@@ -240,7 +240,7 @@
         "message": "Manuale"
     },
     "tab_export": {
-        "message": "Importa/Esporta"
+        "message": "Importa / Esporta"
     },
     "about_version": {
         "message": "Versione: $VERSION$",
@@ -1253,5 +1253,62 @@
     },
     "specialweek_postcards": {
         "message": "Settimana cartoline"
+    },
+    "options_section_ingame": {
+        "message": "Opzioni nel gioco"
+    },
+    "options_injectgame": {
+        "message": "Abilita DAF\nAblita DAF nel gioco.\nSe non è abilitato, le seguenti opzioni non hanno effetto."
+    },
+    "options_fullwindow": {
+        "message": "Finestra intera\nMostra il gioco a finestra intera"
+    },
+    "options_fullwindowheader": {
+        "message": "Testata\nMostra la testata di pagina quando a finestra intera"
+    },
+    "options_fullwindowside": {
+        "message": "Laterale\nNasconde la barra laterale di Facebook quano non si è in finestra intera"
+    },
+    "options_resetfullwindow": {
+        "message": "Azzera al caricamento\nOgni volta che il gioco viene caricato, le opzioni \"Finestra intera\" e \"Finestra intera - Laterale\" vengono azzerate"
+    },
+    "options_resetfullwindow_warning": {
+        "message": "Provate ad abilitare questa opzione se riscontrate problemi nel caricamento del gioco."
+    },
+    "options_gctable": {
+        "message": "Tabella bimbi\nMostra tutti i vicini che hanno bimbi in una barra sotto al gioco"
+    },
+    "options_gctablecounter": {
+        "message": "Contatore\nMostra il contatore"
+    },
+    "options_gctableregion": {
+        "message": "Regione\nUsa i colori per identificare la regione del vicino"
+    },
+    "options_autoclick": {
+        "message": "Click automatico\nConferma automaticamente i popup di Facebook"
+    },
+    "options_section_general": {
+        "message": "Opzioni generali"
+    },
+    "options_autologin": {
+        "message": "Login automatico su Portale\nEsegue automaticamente il login nel Portale"
+    },
+    "options_keepdebugging": {
+        "message": "Continua il debug\nIl debugger rimane attivo anche dopo che il gioco è stato caricato.\nPuoi abilitare l'opzione @SILENT@ per rimuovere la barra \"DAF2 sta eseguendo il debug\""
+    },
+    "options_keepdebugging_warning": {
+        "message": "Questa opzione è necessaria per registrare i regali mentre si gioca e per ispezionare il campo dei vicini."
+    },
+    "options_section_rewardlinks": {
+        "message": "Link ricompensa"
+    },
+    "options_rewardsclose": {
+        "message": "Chiudi automaticamente\nChiude automaticamente la pagina dopo che la ricompensa è stata raccolta."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Eccetto gemme\nQuando si trova una gemma, la pagina non viene chiusa automaticamente."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Eccetto errori\nIn caso di errore, la pagina non viene chiusa automaticamente."
     }
 }

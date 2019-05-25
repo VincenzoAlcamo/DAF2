@@ -244,7 +244,7 @@
         "message": "Help"
     },
     "tab_export": {
-        "message": "Import/Export"
+        "message": "Import / Export"
     },
 
     "about_version": {
@@ -1272,7 +1272,65 @@
         "message": "Postcard week"
     },
 
+    "options_section_ingame": {
+        "message": "In-Game options"
+    },
+    "options_injectgame": {
+        "message": "Enable DAF\nEnable DAF in-game.\nIf not enabled, the following options have no effect"
+    },
+    "options_fullwindow": {
+        "message": "Full window\nDisplay game in full window"
+    },
+    "options_fullwindowheader": {
+        "message": "Header\nDisplay the page header when in full window"
+    },
+    "options_fullwindowside": {
+        "message": "Side\nHide the sidebar (Facebook) when not in full window"
+    },
+    "options_resetfullwindow": {
+        "message": "Reset on load\nEvery time you load the game, \"Full window\" and \"Full window - Side\" are reset"
+    },
+    "options_resetfullwindow_warning": {
+        "message": "This option should be enabled if you experience problems loading the game."
+    },
+    "options_gctable": {
+        "message": "GC table\nShow all neighbors with GC beneath the game"
+    },
+    "options_gctablecounter": {
+        "message": "Counter\nShow a counter"
+    },
+    "options_gctableregion": {
+        "message": "Region\nUse colors to mark a neighbor's region"
+    },
+    "options_autoclick": {
+        "message": "Autoclick\nAutomatically confirm Facebook's popups"
+    },
+    "options_section_general": {
+        "message": "General options"
+    },
+    "options_autologin": {
+        "message": "Portal auto-login\nAutomatically logins in Portal"
+    },
+    "options_keepdebugging": {
+        "message": "Keep debugging\nUse the debugger even after the game has loaded.\nYou may enable @SILENT@ to get rid of the \"DAF2 is debugging\" message"
+    },
+    "options_keepdebugging_warning": {
+        "message": "This is necessary to register incoming gifts while playing and to inspect a neighbor's camp."
+    },
+    "options_section_rewardlinks": {
+        "message": "Reward Links"
+    },
+    "options_rewardsclose": {
+        "message": "Auto-close\nAuto-close the page after the reward has been collected."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Except gems\nDo not auto-close when gem found."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Except errors\nDo not auto-close when error found."
+    },
+
     "ext_placeholder": {
-        "message": "Last message. DO NOT USE"
+        "message": "Last message. DO NOT TRANSLATE"
     }
 }
