@@ -813,7 +813,7 @@
         "message": "To może potrwać kilka minut.\n\nPotwierdź, że chcesz kontynuować."
     },
     "friendship_analyzingmatches": {
-        "message": "Analizowanie danych, $PERCENT# % ($NUM$ / $TOTAL$)",
+        "message": "Analizowanie danych, $PERCENT$ % ($NUM$ / $TOTAL$)",
         "placeholders": {
             "percent": {
                 "content": "$1"
@@ -1254,7 +1254,61 @@
     "specialweek_postcards": {
         "message": "Tydzień pocztówek"
     },
+    "options_section_ingame": {
+        "message": "Opcje w grze"
+    },
+    "options_injectgame": {
+        "message": "Włącz DAF\nWłącz DAF w grze\nJeżeli nie jest włączona, opcja nie ma żadnego efektu"
+    },
+    "options_fullwindow": {
+        "message": "Pełny ekran\nWyświetl grę w pełnym ekranie"
+    },
+    "options_fullwindowheader": {
+        "message": "Nagłówek\nWyświetl nagłówek gdy jest pełny ekran"
+    },
+    "options_fullwindowside": {
+        "message": "Pasek boczny\nUkryj pasek boczny (Facebook) gdy nie jest włączony pełny ekran"
+    },
+    "options_resetfullwindow": {
+        "message": "Zesetuj i załaduj\nZa każdym razem kiedy załadujesz grę \"Pełny ekran\" i \"Pełny ekran - pasek boczny\" zostaną zresetowane"
+    },
+    "options_resetfullwindow_warning": {
+        "message": "Ta opcja powinna być włączona, jeśli występują problemy z ładowaniem gry."
+    },
+    "options_gctable": {
+        "message": "Tabela BD\nPokaż wszystkicj sąsiadów z BD poniżej gry"
+    },
+    "options_gctablecounter": {
+        "message": "Liznik\nPokaż licznik"
+    },
+    "options_gctableregion": {
+        "message": "Region\nUżyj kolorów aby oznaczyć region sąsiada"
+    },
+    "options_autoclick": {
+        "message": "Auto-klik\nAutomatycznie potwierdza okienka Facebooka"
+    },
+    "options_section_general": {
+        "message": "Opcje ogólne"
+    },
+    "options_autologin": {
+        "message": "Autologowanie do portalu\nAutomatycznie loguje w portalu"
+    },
+    "options_keepdebugging": {
+        "message": "Debugowanie\nUżyj debugera nawet po załadowaniu gry.\nMożesz włączyć @SILENT@ aby pozbyć się komunikatu \"DAF2 debuguje tę przeglądrkę\""
+    },
+    "options_keepdebugging_warning": {
+        "message": "Jest to konieczne, aby zarejestrować przychodzące prezenty podczas gry i mieć podgląd na\nobóz sąsiada"
+    },
     "options_section_rewardlinks": {
         "message": "Linki z nagrodami"
+    },
+    "options_rewardsclose": {
+        "message": "Auto-zamknięcie\nAutomatycznie zamyka stronę po zebraniu nagrody."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Z wyjątkiem gemów\nNie ma auto-zamknięcia jeśli wystąpił gem."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Z wyjątkiem błędów\nNie ma auto-zamknięcia jeśli wystąpił błąd."
     }
 }
