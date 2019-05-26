@@ -176,9 +176,10 @@ function onClick(e) {
     var gifts = gui.getFile('gifts');
     var htm = '';
     for (let palGift of palGifts[pal.id]) {
-        let piece = giftCache[palGift.gid];
+        let gid = palGift[1];
+        let piece = giftCache[gid];
         if (piece === undefined) {
-            let gift = gifts[palGift.gid];
+            let gift = gifts[gid];
             piece = '';
             if (gift) {
                 let amount = +gift.amount;
@@ -190,10 +191,10 @@ function onClick(e) {
                 piece += HtmlBr `<div title="${Html(gui.getMessage('neighbors_gifttip', name, t_xp, weekdayNames[gift.day]))}"><img src="${gui.getObjectImage(gift.type, gift.object_id)}">`;
                 piece += HtmlBr `<i>${xp}</i><b>${Locale.formatNumber(amount)}</b>`;
             }
-            giftCache[palGift.gid] = piece;
+            giftCache[gid] = piece;
         }
         if (piece == '') continue;
-        htm += piece + HtmlBr `<span>${formatDayMonthTime(palGift.time)}</span></div>`;
+        htm += piece + HtmlBr `<span>${formatDayMonthTime(palGift[2])}</span></div>`;
     }
     giftContainer.innerHTML = htm;
 }
@@ -356,12 +357,13 @@ function refreshDelayed() {
         palGifts = {};
         uniqueGifts = {};
         for (let pal of neighbors) {
-            let gifts = Array.isArray(pal.extra.gifts) ? pal.extra.gifts : [];
+            let gifts = Array.isArray(pal.extra.g) ? pal.extra.g : [];
             let value = 0;
             gifts = gifts.filter(gift => {
-                if (gift.time >= giftThreshold) {
-                    value += (giftValues[gift.gid] || 0);
-                    uniqueGifts[gift.gid] = true;
+                if (gift[2] >= giftThreshold) {
+                    let gid = gift[1];
+                    value += (giftValues[gid] || 0);
+                    uniqueGifts[gid] = true;
                     return true;
                 }
             });
@@ -412,7 +414,7 @@ function refreshDelayed() {
         if (applyGiftFilter) {
             let flag = false;
             for (let palGift of (palGifts[pal.id] || [])) {
-                if (palGift.gid in giftFilter) {
+                if (palGift[1] in giftFilter) {
                     flag = true;
                     break;
                 }

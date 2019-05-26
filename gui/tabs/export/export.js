@@ -125,6 +125,7 @@ function importData() {
                 let pal = neighbours[palId];
                 if (pal) {
                     pal.extra = extras[palId];
+                    bgp.Data.convertNeighbourExtra(pal.extra);
                     toSave.push(pal);
                 }
             }

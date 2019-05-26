@@ -696,10 +696,19 @@ var Data = {
             Data.storeLocalization(file);
         });
         tx.objectStore('Neighbours').getAll().then(values => {
-            values.forEach(pal => Data.neighbours[pal.id] = pal);
+            values.forEach(pal => {
+                Data.convertNeighbourExtra(pal.extra);
+                Data.neighbours[pal.id] = pal;
+            });
         });
         tx.objectStore('Friends').getAll().then(values => {
-            values.forEach(friend => Data.friends[friend.id] = friend);
+            for (let friend of values) {
+                // Convert object to smaller format
+                delete friend.processed;
+                friend.tc = friend.tc || friend.timeCreated;
+                delete friend.timeCreated;
+                Data.friends[friend.id] = friend;
+            }
         });
         tx.objectStore('RewardLinks').getAll().then(values => {
             for (let rewardLink of values) {
@@ -758,6 +767,69 @@ var Data = {
             setItem(index + 1, name_loc, index == 0 ? 'loot_exp_webgl' : 'loot_energy');
         });
         Data.colSystems = col;
+    },
+    showDBSize: function() {
+        var db;
+        var storesizes = [];
+
+        function openDatabase() {
+            return new Promise(function(resolve, _reject) {
+                var dbname = 'DAF';
+                var request = window.indexedDB.open(dbname);
+                request.onsuccess = function(event) {
+                    db = event.target.result;
+                    resolve(db.objectStoreNames);
+                };
+            });
+        }
+
+        function getObjectStoreData(storename) {
+            return new Promise(function(resolve, reject) {
+                var trans = db.transaction(storename, IDBTransaction.READ_ONLY);
+                var store = trans.objectStore(storename);
+                var items = [];
+                trans.oncomplete = function(_evt) {
+                    var szBytes = toSize(items);
+                    var szMBytes = (szBytes / 1024 / 1024).toFixed(2);
+                    storesizes.push({
+                        'Store Name': storename,
+                        'Items': items.length,
+                        'Size': szMBytes + 'MB (' + szBytes + ' bytes)'
+                    });
+                    resolve();
+                };
+                var cursorRequest = store.openCursor();
+                cursorRequest.onerror = function(error) {
+                    reject(error);
+                };
+                cursorRequest.onsuccess = function(evt) {
+                    var cursor = evt.target.result;
+                    if (cursor) {
+                        items.push(cursor.value);
+                        cursor.continue();
+                    }
+                };
+            });
+        }
+
+        function toSize(items) {
+            var size = 0;
+            for (var i = 0; i < items.length; i++) {
+                var objectSize = JSON.stringify(items[i]).length;
+                size += objectSize * 2;
+            }
+            return size;
+        }
+
+        openDatabase().then(function(stores) {
+            var PromiseArray = [];
+            for (var i = 0; i < stores.length; i++) {
+                PromiseArray.push(getObjectStoreData(stores[i]));
+            }
+            Promise.all(PromiseArray).then(function() {
+                console.table(storesizes);
+            });
+        });
     },
     store: function(file) {
         console.log('Would store', file);
@@ -876,6 +948,14 @@ var Data = {
         Data.saveNeighbourHandler = setTimeout(Data.saveNeighbourDelayed, 500);
         neighbours.forEach(neighbour => Data.saveNeighbourList[neighbour.id] = neighbour);
     },
+    convertNeighbourExtra: function(extra) {
+        if (!extra) return;
+        // Convert gifts to new compact format
+        if (extra.gifts) {
+            extra.g = extra.gifts.map(g => [g.id, g.gid, g.time]);
+            delete extra.gifts;
+        }
+    },
     //#endregion
     //#region Friends
     getFriend: function(id) {
@@ -927,12 +1007,12 @@ var Data = {
         var now = getUnixTime();
         // We retain the old association (score and uid)
         for (var friend of newFriends) {
-            friend.timeCreated = now;
+            friend.tc = now;
             var oldFriend = oldFriends[friend.id];
             if (oldFriend) {
                 friend.score = oldFriend.score;
                 friend.uid = oldFriend.uid;
-                if (oldFriend.timeCreated) friend.timeCreated = oldFriend.timeCreated;
+                if (oldFriend.tc) friend.tc = oldFriend.tc;
                 if (oldFriend.note) friend.note = oldFriend.note;
             }
             delete oldFriends[friend.id];
@@ -1245,7 +1325,7 @@ var Synchronize = {
     delayedSignals: [],
     signal: function(action, data, delayed) {
         let message = action;
-        if(typeof action == 'string') {
+        if (typeof action == 'string') {
             message = {};
             message.action = action;
             if (data) message.data = data;
@@ -1368,27 +1448,22 @@ var Synchronize = {
             let giftId = +item.gift_id;
             let pal = neighbours[item.sender_id];
             if (!pal) continue;
-            let gifts = pal.extra.gifts;
-            if (gifts && gifts.find(item => item.id == giftId)) continue;
-            let gift = {
-                id: giftId,
-                gid: +item.def_id,
-                time: time
-            };
-            if (!gifts) gifts = pal.extra.gifts = [];
+            let gifts = pal.extra.g;
+            if (gifts && gifts.find(item => item[0] == giftId)) continue;
+            let gift = [giftId, +item.def_id, time];
+            if (!gifts) gifts = pal.extra.g = [];
             gifts.push(gift);
             // Sort gifts by id (id is a sequence)
-            gifts.sort((a, b) => a.id - b.id);
-            // Store only the last 100 gifts
-            if (gifts.length > 100) gifts = pal.extra.gifts = gifts.slice(-100);
+            gifts.sort((a, b) => a[0] - b[0]);
+            // Store only the last 50 gifts
+            if (gifts.length > 50) gifts = pal.extra.g = gifts.slice(-50);
             // Adjust the time (lower id must have a lower time)
-            let lastTime = gifts[gifts.length - 1].time;
+            let lastTime = gifts[gifts.length - 1][2];
             for (let i = gifts.length - 2; i >= 0; i--) {
-                let thisTime = gifts[i].time;
-                if (thisTime >= lastTime) thisTime = gifts[i].time = lastTime - 1;
+                let thisTime = gifts[i][2];
+                if (thisTime >= lastTime) thisTime = gifts[i][2] = lastTime - 1;
                 lastTime = thisTime;
             }
-            // console.log('Received gift #' + giftId + ' (' + gift.gid + ') from #' + pal.id + ' (' + pal.name + ' ' + pal.surname + ')');
             changed[pal.id] = pal;
         }
         return Object.values(changed);

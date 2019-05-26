@@ -27,6 +27,16 @@ var numToAnalyze = 0;
 var numFriendsShown = 0;
 var numNeighboursShown = 0;
 
+let processed = {};
+
+function setProcessed(friend, value) {
+    processed[friend.id] = value;
+}
+
+function getProcessed(friend) {
+    return processed[friend.id];
+}
+
 function init() {
     tab = this;
     container = tab.container;
@@ -338,7 +348,7 @@ function updateRow(row) {
         let anchor = gui.getFBFriendAnchor(friend.id, friend.uri);
         htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}"/></a></td>`;
         htm += HtmlBr `<td>${anchor}${friend.name}</a><br><input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}"></td>`;
-        htm += HtmlBr `<td>${Locale.formatDate(friend.timeCreated)}<br>${Locale.formatDays(friend.timeCreated)}</td>`;
+        htm += HtmlBr `<td>${Locale.formatDate(friend.tc)}<br>${Locale.formatDays(friend.tc)}</td>`;
         if (pal) {
             htm += HtmlBr `<td>${Locale.formatNumber(friend.score)}</td>`;
             htm += HtmlBr `<td>${buttonUnlink}</td>`;
@@ -422,7 +432,7 @@ function refreshDelayed() {
     var lastDate = isAscending ? 9e9 : 0;
     var getSortValueFunctions = {
         fname: (friend, pal) => (friend ? firstAlpha + friend.name : lastAlpha) + '\t' + (pal ? firstAlpha + gui.getPlayerNameFull(pal) : lastAlpha),
-        frecorded: (friend, _pal) => (friend ? friend.timeCreated || lastDate : lastDate),
+        frecorded: (friend, _pal) => (friend ? friend.tc || lastDate : lastDate),
         score: (friend, _pal) => (friend ? (friend.score > 0 || !isAscending ? friend.score : 101 - friend.score) : (isAscending ? 103 : -2)),
         name: (friend, pal) => (pal ? firstAlpha + gui.getPlayerNameFull(pal) : lastAlpha) + '\t' + (friend ? firstAlpha + friend.name : lastAlpha),
         level: (_friend, pal) => (pal ? pal.level : (isAscending ? 9999 : -1)),
@@ -479,11 +489,11 @@ function cancelMatch() {
 
 function matchFriendBase(friend, pal, score) {
     if (!friend || !pal) return false;
-    friend.processed = 1;
+    setProcessed(friend, 1);
     if (friend.uid != pal.id || friend.score != score) {
         friend.uid = pal.id;
         friend.score = score;
-        friend.processed = 2;
+        setProcessed(friend, 2);
     }
     numMatched++;
     if (score == 95) numMatchedImage++;
@@ -510,18 +520,18 @@ function matchStoreAndUpdate() {
 
     // we reset the association on friends
     for (var friend of friends) {
-        friend.processed = 0;
+        setProcessed(friend,  0);
         // we keep those who match by id or image, and clear the others
         if (friend.uid && friend.uid in notmatched && friend.score >= 95) {
             matchFriend(friend, notmatched[friend.uid], friend.score);
         } else if (friend.score == -1) {
-            friend.processed = 1;
+            setProcessed(friend, 1);
             numIgnored++;
         }
     }
 
     rest = friends;
-    rest = rest.filter(friend => !friend.processed);
+    rest = rest.filter(friend => !getProcessed(friend));
 
     // sort friends, disabled last
     rest.sort((a, b) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0));
@@ -555,13 +565,12 @@ function matchStoreAndUpdate() {
         numToAnalyze = numAnalyzed = 0;
         var friendsToSave = [];
         for (var friend of friends) {
-            if (friend.processed == 0) {
-                if (friend.score) friend.processed = 2;
+            if (getProcessed(friend) == 0) {
+                if (friend.score) setProcessed(friend, 2);
                 delete friend.score;
                 delete friend.uid;
             }
-            if (friend.processed == 2) friendsToSave.push(friend);
-            delete friend.processed;
+            if (getProcessed(friend) == 2) friendsToSave.push(friend);
         }
         bgp.Data.saveFriend(friendsToSave);
         // store neighbours
@@ -599,7 +608,7 @@ function matchStoreAndUpdate() {
         for (var friend of rest) {
             matchFriend(friend, hashById[friend.id], 100);
         }
-        rest = rest.filter(friend => !friend.processed);
+        rest = rest.filter(friend => !getProcessed(friend));
 
         // prepare friends
         var hash = {};
@@ -661,7 +670,7 @@ function matchStoreAndUpdate() {
             var fn = matchFunction[1];
             var score = matchFunction[0];
             for (let friend of rest) matchFriend(friend, fn(friend), score);
-            rest = rest.filter(friend => !friend.processed);
+            rest = rest.filter(friend => !getProcessed(friend));
         }
 
         rest = rest.concat(skipped);
@@ -742,6 +751,6 @@ function matchStoreAndUpdate() {
                 matchFriend(friend, pal, 95);
             }
         }
-        rest = rest.filter(friend => !friend.processed);
+        rest = rest.filter(friend => !getProcessed(friend));
     }
 }

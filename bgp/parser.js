@@ -76,22 +76,25 @@ var Parser = {
         let time = data.time;
         let oldNeighbours = Data.neighbours || {};
         let reFBId = /\/(\d+)\/picture/;
-        arr.forEach((pal, index) => {
-            var id = pal.uid;
+        arr = arr.map((o, index) => {
+            var id = o.uid;
+            // Keep only the needed data
+            var pal = {};
             pal.id = id;
             pal.index = index;
-            pal.spawned = +pal.spawned || 0;
-            // Remove useless data
-            delete pal.uid;
-            delete pal.pic_square_108;
+            pal.spawned = +o.spawned || 0;
+            pal.region = +o.region;
+            pal.level = +o.level;
+            pal.name = o.name;
+            pal.surname = o.surname;
             // Detect the correct Facebook ID to use
-            var match = pal.pic_square.match(reFBId);
+            var match = o.pic_square.match(reFBId);
             if (match) {
                 var fb_id = match[1];
-                delete pal.pic_square;
-                if (pal.escaped_fb_id && pal.escaped_fb_id != '#' + fb_id) console.log('mismatch', pal.escaped_fb_id, fb_id);
-                delete pal.escaped_fb_id;
+                if (o.escaped_fb_id && o.escaped_fb_id != '#' + fb_id) console.log('mismatch', o.escaped_fb_id, fb_id);
                 pal.fb_id = fb_id;
+            } else {
+                pal.pic_square = o.pic_square;
             }
             // Retrieve extra info for neighbor
             var old = oldNeighbours[id];
@@ -102,7 +105,7 @@ var Parser = {
                 pal.extra.lastLevel = old.level;
                 pal.extra.timeLevel = time;
             }
-            pal.extra.lastGift = Math.max(pal.extra.lastGift || 0, pal.rec_gift || 0);
+            pal.extra.lastGift = Math.max(pal.extra.lastGift || 0, o.rec_gift || 0);
             neighbours[id] = pal;
         });
         data.neighbours = neighbours;
