@@ -1310,5 +1310,95 @@
     },
     "options_rewardscloseexcepterrors": {
         "message": "Eccetto errori\nIn caso di errore, la pagina non viene chiusa automaticamente."
+    },
+    "options_linkgrabenabled": {
+        "message": "Link Grabber\nAbilita il Link Grabber nelle pagine di Facebook.\nSe non è abilitato, le seguenti opzioni non hanno effetto."
+    },
+    "options_linkgrabbutton": {
+        "message": "Pulsante del mouse\nCambia il pulsante che avvia il Link Grabber"
+    },
+    "options_linkgrabkey": {
+        "message": "Tasto opzionale\nScegli un tasto opzionale da premere in aggiunta al bottone del mouse"
+    },
+    "options_linkgrabsort": {
+        "message": "Ordina i link"
+    },
+    "options_linkgrabconvert": {
+        "message": "Converti i link"
+    },
+    "options_modifier_none": {
+        "message": "Nessuno"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Sinistro"
+    },
+    "options_button_middle": {
+        "message": "Centrale"
+    },
+    "options_button_right": {
+        "message": "Destro"
+    },
+    "options_sort_none": {
+        "message": "Nessuno"
+    },
+    "options_sort_ascending": {
+        "message": "Ascendente"
+    },
+    "options_sort_descending": {
+        "message": "Discendente"
+    },
+    "linkgrabber_selected": {
+        "message": "Link: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Copia negli appunti"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Invia a DAF"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Annulla"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Rinfresca i link"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Mostra/Nasconde l'Id ricompensa"
+    },
+    "linkgrabber_added": {
+        "message": "Link ricompensa aggiungi: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Link copiati negli appunti: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     }
 }

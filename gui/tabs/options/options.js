@@ -38,7 +38,7 @@ function init() {
         htm += HtmlBr `</tbody></table></div>`;
     }
 
-    function option(prefName, features) {
+    function option(prefName, features, options) {
         let messageId = 'options_' + prefName.toLowerCase();
         let text = gui.getMessage(messageId);
         let i = text.indexOf('\n');
@@ -51,22 +51,22 @@ function init() {
         if (features.indexOf(WITHSUBOPTIONS) >= 0) className += ' hassuboptions';
         if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
         if (features.indexOf(WARNING) >= 0) warning = gui.getMessage(messageId + '_warning');
-        if(info.indexOf('@SILENT@') >= 0) {
+        if (info.indexOf('@SILENT@') >= 0) {
             info = HtmlRaw(String(HtmlBr(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
         }
-        htm += HtmlBr `
-<tr${className ? Html ` class="${className}"` : ''}>
-    <td>
-        <h3>${title}</h3>
-        <p>${info}</p>${warning ? HtmlBr `<div class="warning">${warning}</div>` : ''}
-    </td>
-    <td>
-       <input data-pref="${prefName}" type="checkbox">
-    </td>
-</tr>
-`;
-    }
 
+        htm += HtmlBr `<tr${className ? Html ` class="${className}"` : ''}>`;
+        htm += HtmlBr `<td${options ? HtmlRaw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? HtmlBr `<div class="warning">${warning}</div>` : ''}`;
+        if (options) {
+            htm += HtmlBr `<select data-pref="${prefName}">`;
+            for (let option of options) {
+                htm += HtmlBr `<option value="${option[0]}">${option[1]}</option>`;
+            }
+            htm += HtmlBr `</select></td></tr>`;
+        } else {
+            htm += HtmlBr `</td><td><input data-pref="${prefName}" type="checkbox"></td></tr>`;
+        }
+    }
 
     beginSection('ingame');
     option('injectGame', CRITICAL);
@@ -79,14 +79,40 @@ function init() {
     option('gcTableRegion', SUBOPTION);
     option('autoClick');
     endSection();
-    beginSection('general');
-    option('autoLogin');
-    option('keepDebugging', WARNING);
-    endSection();
     beginSection('rewardlinks');
     option('rewardsClose', WITHSUBOPTIONS);
     option('rewardsCloseExceptGems', SUBOPTION);
     option('rewardsCloseExceptErrors', SUBOPTION);
+    option('linkGrabEnabled', CRITICAL);
+    option('linkGrabButton', SUBOPTION, [
+        [0, gui.getMessage('options_button_left')],
+        [1, gui.getMessage('options_button_middle')],
+        [2, gui.getMessage('options_button_right')]
+    ]);
+    let optionsKey = [
+        [0, gui.getMessage('options_modifier_none')],
+        [16, gui.getMessage('options_modifier_shift')],
+        [17, gui.getMessage('options_modifier_ctrl')],
+        [18, gui.getMessage('options_modifier_alt')]
+    ];
+    for (let i = 65; i <= 90; i++) {
+        optionsKey.push([i, String.fromCharCode(i)]);
+    }
+    option('linkGrabKey', SUBOPTION, optionsKey);
+    option('linkGrabSort', SUBOPTION, [
+        [0, gui.getMessage('options_sort_none')],
+        [1, gui.getMessage('options_sort_ascending')],
+        [2, gui.getMessage('options_sort_descending')]
+    ]);
+    option('linkGrabConvert', SUBOPTION, [
+        [0, gui.getMessage('rewardlinks_noconversion')],
+        [3, 'Facebook'],
+        [2, 'Portal']
+    ]);
+    endSection();
+    beginSection('general');
+    option('autoLogin');
+    option('keepDebugging', WARNING);
     endSection();
 
     container.querySelector('.scrollable-content').innerHTML = htm;
@@ -103,8 +129,12 @@ function init() {
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => refresh());
 
-    for (let input of container.querySelectorAll('input[data-pref]')) {
-        if (input.type == 'checkbox') {
+    for (let input of container.querySelectorAll('[data-pref]')) {
+        if (input.tagName == 'SELECT') {
+            input.addEventListener('input', function() {
+                gui.setPreference(input.getAttribute('data-pref'), input.value);
+            });
+        } else if (input.type == 'checkbox') {
             input.addEventListener('click', function() {
                 gui.setPreference(input.getAttribute('data-pref'), input.checked);
             });
@@ -142,10 +172,11 @@ function refresh() {
         }
         table.style.display = count > 0 ? '' : 'none';
     }
-    for (let input of container.querySelectorAll('input[data-pref]')) {
+    for (let input of container.querySelectorAll('[data-pref]')) {
         let name = input.getAttribute('data-pref');
         let value = gui.getPreference(name);
         if (value !== undefined) {
+            if (input.tagName == 'SELECT') input.value = value;
             if (input.type == 'checkbox') input.checked = value === true;
         }
     }

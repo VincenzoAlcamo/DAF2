@@ -1310,5 +1310,77 @@
     },
     "options_rewardscloseexcepterrors": {
         "message": "Εκτός σφαλμάτων\nΝα μην κλείνει αυτόματα όταν βρίσκονται σφάλματα,"
+    },
+    "options_linkgrabsort": {
+        "message": "Ταξινόμηση Συνδέσμων"
+    },
+    "options_linkgrabconvert": {
+        "message": "Μετατροπή Συνδέσμων"
+    },
+    "options_modifier_none": {
+        "message": "Κανένα"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Αριστερό"
+    },
+    "options_button_middle": {
+        "message": "Μεσαίο"
+    },
+    "options_button_right": {
+        "message": "Δεξή"
+    },
+    "linkgrabber_selected": {
+        "message": "Σύνδεσμοι: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Αντιγραφή"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Αποστολή στο DAF"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Ακύρωση"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Επαναφόρτωση Συνδέσμων"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Εμφάνιση/Απόκρυψη Id Δώρου"
+    },
+    "linkgrabber_added": {
+        "message": "Σύνδεσμοι που προστέθηκαν: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Οι σύνδεσμοι αντιγράφονται στο πρόχειρο: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     }
 }

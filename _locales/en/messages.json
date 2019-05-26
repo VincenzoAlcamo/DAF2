@@ -1329,6 +1329,97 @@
     "options_rewardscloseexcepterrors": {
         "message": "Except errors\nDo not auto-close when error found."
     },
+    "options_linkgrabenabled": {
+        "message": "Link Grabber\nEnable the Link Grabber inside Facebook.\nIf not enabled, the following options have no effect."
+    },
+    "options_linkgrabbutton": {
+        "message": "Mouse button\nChoose the mouse button that triggers the Link Grabber"
+    },
+    "options_linkgrabkey": {
+        "message": "Optional key\nChoose an optional key to press in addition to the mouse button"
+    },
+    "options_linkgrabsort": {
+        "message": "Sort links"
+    },
+    "options_linkgrabconvert": {
+        "message": "Convert links"
+    },
+    "options_modifier_none": {
+        "message": "None"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Left"
+    },
+    "options_button_middle": {
+        "message": "Middle"
+    },
+    "options_button_right": {
+        "message": "Right"
+    },
+    "options_sort_none": {
+        "message": "None"
+    },
+    "options_sort_ascending": {
+        "message": "Ascending"
+    },
+    "options_sort_descending": {
+        "message": "Descending"
+    },
+
+    "linkgrabber_selected": {
+        "message": "Links: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Copy to clipboard"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Send to DAF"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Cancel"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Refresh links"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Show/Hide Reward Id"
+    },
+    "linkgrabber_added": {
+        "message": "Rewards links added: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Links copied to clipboard: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
 
     "ext_placeholder": {
         "message": "Last message. DO NOT TRANSLATE"

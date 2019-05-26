@@ -56,6 +56,11 @@ var Preferences = {
             gcTableRegion: true,
             keepDebugging: false,
             removeGhosts: 0,
+            linkGrabEnabled: false,
+            linkGrabButton: 2,
+            linkGrabKey: 0,
+            linkGrabSort: 0,
+            linkGrabConvert: 0,
             rewardsRemoveDays: 7,
             rewardsClose: false,
             rewardsCloseExceptGems: true,
@@ -202,6 +207,14 @@ var Tab = {
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
 
+        // Add Link Grabber script to Facebook pages
+        const fbFilters = {
+            url: [{
+                hostEquals: 'www.facebook.com'
+            }]
+        };
+        chrome.webNavigation.onDOMContentLoaded.addListener(Tab.onFBNavigation, fbFilters);
+
         // Add Reward Link script to Reward pages
         // Note: the same listener can be added only once, so we have to combine the two rules.
         const rewardLinkFilters = {
@@ -297,6 +310,30 @@ if (loginButton) {
             allFrames: false,
             frameId: details.frameId
         });
+    },
+    onFBNavigation: function(details) {
+        let tabId = details.tabId;
+        if (details.frameId == 0 && Preferences.getValue('linkGrabEnabled') && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
+            console.log('Injecting LinkGrabber');
+            let details = {
+                file: '/js/Dialog.js',
+                runAt: 'document_end',
+                allFrames: false,
+                frameId: 0
+            };
+            chrome.tabs.executeScript(tabId, details, function() {
+                details.file = '/inject/linkgrabber.js';
+                chrome.tabs.executeScript(tabId, details, function() {
+                    delete details.file;
+                    details.code = '';
+                    for (let key of ['linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
+                        details.code += key + '=' + Preferences.get(key) + ';';
+                    details.code += 'initialize();';
+                    chrome.tabs.executeScript(tabId, details, function() {});
+                });
+            });
+
+        }
     },
     onRemoved: function(tabId, _removeInfo) {
         delete Tab.tabSettings[tabId];
@@ -1535,6 +1572,9 @@ async function init() {
                     chrome.tabs.remove(sender.tab.id);
                 }, 1000);
             }
+        },
+        addRewardLinks: function(request, _sender) {
+            return Data.addRewardLinks(request.values);
         },
         friendsCaptured: function(request) {
             Data.friendsCaptured(request.data);
