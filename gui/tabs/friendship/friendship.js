@@ -11,7 +11,7 @@ export default {
 };
 
 var tab, container, selectShow, searchInput, smartTable, searchHandler;
-var buttonUnlink, buttonIgnore, buttonRegard, buttonManual;
+var buttonUnlink, buttonIgnore, buttonRegard, buttonManual, friendDisabled;
 var divMatch, matchingId;
 
 var firstTimeManualHelp = true;
@@ -45,6 +45,7 @@ function init() {
     buttonIgnore = Html `<button data-action="ignore" title="${gui.getMessage('friendship_actionignore')}"></button>`;
     buttonRegard = Html `<button data-action="regard" title="${gui.getMessage('friendship_actionregard')}"></button>`;
     buttonManual = Html `<button data-action="manual" title="${gui.getMessage('friendship_actionmanual')}"></button>`;
+    friendDisabled = Html `<div class="f-disabled">${gui.getMessage('friendship_accountdisabled')}</div>`;
 
     selectShow = container.querySelector('[name=show]');
     for (var char of 'admghifuns'.split('')) {
@@ -347,7 +348,8 @@ function updateRow(row) {
     if (friend) {
         let anchor = gui.getFBFriendAnchor(friend.id, friend.uri);
         htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}"/></a></td>`;
-        htm += HtmlBr `<td>${anchor}${friend.name}</a><br><input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}"></td>`;
+        htm += HtmlBr `<td>${anchor}${friend.name}</a><br>`;
+        htm += HtmlBr `<input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}">${friend.disabled ? friendDisabled : ''}</td>`;
         htm += HtmlBr `<td>${Locale.formatDate(friend.tc)}<br>${Locale.formatDays(friend.tc)}</td>`;
         if (pal) {
             htm += HtmlBr `<td>${Locale.formatNumber(friend.score)}</td>`;
@@ -369,9 +371,7 @@ function updateRow(row) {
     }
     row.innerHTML = htm;
     var isIgnored = friend ? friend.score == -1 : false;
-    var isDisabled = friend ? !!friend.disabled : false;
     var isNotMatched = friend && !pal ? !isIgnored : false;
-    row.classList.toggle('f-disabled', isDisabled);
     row.classList.toggle('f-ignored', isIgnored);
     row.classList.toggle('f-notmatched', isNotMatched);
 }
@@ -520,7 +520,7 @@ function matchStoreAndUpdate() {
 
     // we reset the association on friends
     for (var friend of friends) {
-        setProcessed(friend,  0);
+        setProcessed(friend, 0);
         // we keep those who match by id or image, and clear the others
         if (friend.uid && friend.uid in notmatched && friend.score >= 95) {
             matchFriend(friend, notmatched[friend.uid], friend.score);

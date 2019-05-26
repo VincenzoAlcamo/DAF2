@@ -62,14 +62,12 @@ table.f-matching tr.f-notmatched td:nth-child(4):after {
   height: 34px;
 }
 
-.friendship tr.f-disabled td:nth-child(2):after {
-  content: "__MSG_friendship_accountdisabled__";
+.friendship div.f-disabled {
   background-color: var(--warn-bgcol);
   color: var(--warn-fgcol);
   font-weight: bold;
   padding: 0px 4px;
   border-radius: 4px;
-  display: table-cell;
   white-space: pre;
 }
 
