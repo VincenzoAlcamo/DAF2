@@ -110,7 +110,7 @@
         "message": "Nivel"
     },
     "gui_xp": {
-        "message": "Experiencia"
+        "message": "XP"
     },
     "gui_sell_price": {
         "message": "Precio de venta"
@@ -240,7 +240,7 @@
         "message": "Ayuda"
     },
     "tab_export": {
-        "message": "Importar /Exportar"
+        "message": "Importar / Exportar"
     },
     "about_version": {
         "message": "Version: $VERSION$",
@@ -283,13 +283,13 @@
         "message": "Todas las recetas"
     },
     "kitchen_energy_hour": {
-        "message": "Energia por hora"
+        "message": "Energia\npor hora"
     },
     "kitchen_possible_dishes": {
-        "message": "Platos posibles"
+        "message": "Platos\nposibles"
     },
     "kitchen_possible_energy": {
-        "message": "Energía posible"
+        "message": "Energía\nposible"
     },
     "kitchen_total_time": {
         "message": "Tiempo de coccion",
@@ -315,7 +315,7 @@
         "message": "Aleaciones"
     },
     "foundry_total_time": {
-        "message": "Tiempo de elaboracion ($ANVILS$ Anvils)",
+        "message": "Tiempo de elaboracion\n($ANVILS$ Anvils)",
         "placeholders": {
             "anvils": {
                 "content": "$1"
@@ -346,7 +346,7 @@
         "message": "Total"
     },
     "camp_fill_time": {
-        "message": "Regeneracion de energia ( desde 0 a capacidad maxima )"
+        "message": "Regeneracion de energia\n( desde 0 a capacidad maxima )"
     },
     "camp_windmill_regen": {
         "message": "Regenaracion por molino"
@@ -358,7 +358,7 @@
         "message": "Cantidad actual de molinos."
     },
     "camp_windmill_expiry": {
-        "message": "Molinos expiran en $TIME$",
+        "message": "Molinos expiran en\n$TIME$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -425,7 +425,7 @@
         }
     },
     "camp_unlock_cost": {
-        "message": "Una ranura puede ser desbloqueada con $VALUE$ gemas o con estos materiales",
+        "message": "Una ranura puede ser desbloqueada con $VALUE$ gemas\no con estos materiales:",
         "placeholders": {
             "value": {
                 "content": "$1"
@@ -433,7 +433,7 @@
         }
     },
     "camp_start_date": {
-        "message": "Comenzaste a jugar $STARTED$",
+        "message": "Comenzaste a jugar:\n$STARTED$",
         "placeholders": {
             "started": {
                 "content": "$1"
@@ -453,25 +453,25 @@
         "message": "Con descuentos"
     },
     "pillars_all": {
-        "message": "Todos los pilares ."
+        "message": "Todos los pilares"
     },
     "pillars_only_possible": {
         "message": "Solo pilares posibles"
     },
     "pillars_perc_next": {
-        "message": "% Siguiente"
+        "message": "%\nSiguiente"
     },
     "pillars_possible": {
         "message": "Posible"
     },
     "pillars_qty": {
-        "message": "Estimado Qty"
+        "message": "Estimado\nQty"
     },
     "pillars_xp": {
-        "message": "Estimado XP ganada"
+        "message": "Estimado\nXP ganada"
     },
     "pillars_coins": {
-        "message": "Estimado monedas"
+        "message": "Estimado\nmonedas"
     },
     "pillars_totals": {
         "message": "Totales"
@@ -512,16 +512,16 @@
         "message": "Cap to possible"
     },
     "neighbors_lastlevelup": {
-        "message": "Ultimo\n Subir de nivel"
+        "message": "Ultimo\nSubir de nivel"
     },
     "neighbors_lastgiftreceived": {
-        "message": "Ultimo regalo recibido."
+        "message": "Ultimo regalo\nrecibido"
     },
     "neighbors_all": {
         "message": "Todos"
     },
     "neighbors_nogift": {
-        "message": "Ningun regalo en los ultimos #DAYS# dias .",
+        "message": "Ningun regalo en los ultimos $NUM$ dias .",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -529,7 +529,7 @@
         }
     },
     "neighbors_gifts": {
-        "message": "Regalos en los ultimos #DAYS# dias"
+        "message": "Regalos en los ultimos @DAYS@ dias"
     },
     "neighbors_listed": {
         "message": "Lista personalizada"
@@ -576,7 +576,7 @@
         "message": "La fecha del regalo se refiere  al momento en que  DAF registro el regalo ,no a la fecha en se envio ."
     },
     "neighbors_gifttip": {
-        "message": "$NAME$\n XP: $XP$\n Day: $DAY$",
+        "message": "$NAME$\nXP: $XP$\nDay: $DAY$",
         "placeholders": {
             "name": {
                 "content": "$1"
@@ -607,7 +607,7 @@
         "message": "Filtro avanzado"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "Puede filtrar aún más a sus vecinos por los regalos que hayan enviado en los últimos # DÍAS # días seleccionando uno o más regalos de la siguiente lista.\n"
+        "message": "Puede filtrar aún más a sus vecinos por los regalos que hayan enviado en los últimos @DAYS@ días seleccionando uno o más regalos de la siguiente lista.\n"
     },
     "neighbors_clearfilter": {
         "message": "Limpiar filtro"
@@ -649,7 +649,7 @@
         "message": "Cuenta desactivada"
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Cuenta desactivada detectada\nPuedes eliminar amigo desde esta pagina\nTenga en cuenta que las cuentas de Facebook pueden estar deshabilitadas temporalmente y pueden habilitarse en un momento posterior."
+        "message": "Cuenta desactivada detectada\nPuedes eliminar amigo desde esta pagina\n\nTenga en cuenta que las cuentas de Facebook pueden estar deshabilitadas temporalmente y pueden habilitarse en un momento posterior."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ amigos \"fantasmas\" fueron detectados.\n¿Te gustaría eliminarlos ahora?",
@@ -813,7 +813,7 @@
         "message": "Esta operación puede tardar varios minutos.\n\nPor favor, confirme que desea continuar."
     },
     "friendship_analyzingmatches": {
-        "message": "Analizando datos, $ PERCENT $% ($ NUM $ / $ TOTAL $)",
+        "message": "Analizando datos, $PERCENT$% ($NUM$ / $TOTAL$)",
         "placeholders": {
             "percent": {
                 "content": "$1"
@@ -827,7 +827,7 @@
         }
     },
     "friendship_collectstat": {
-        "message": "Amigos recogidos: $ COUNT $",
+        "message": "Amigos recogidos: $COUNT$",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -838,7 +838,7 @@
         "message": "Para hacer coincidir a este vecino, debes encontrar un amigo que no coincida y hacer clic en la celda donde está el símbolo ⭐."
     },
     "friendship_friendupdateinfo": {
-        "message": "La lista de amigos de Facebook se actualizó en $ DATE $",
+        "message": "La lista de amigos de Facebook se actualizó en $DATE$",
         "placeholders": {
             "date": {
                 "content": "$1"
@@ -846,7 +846,7 @@
         }
     },
     "friendship_totalfriends": {
-        "message": "\nAmigos: $ NUM $ / $ TOTAL $",
+        "message": "\nAmigos: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -857,7 +857,7 @@
         }
     },
     "friendship_totalneighbours": {
-        "message": "Vecinos: $ NUM $ / $ TOTAL $",
+        "message": "Vecinos: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -868,7 +868,7 @@
         }
     },
     "godchild_info": {
-        "message": "$ NUM $ Vecinos = $ GC $ Ahijados",
+        "message": "$NUM$ Vecinos = $GC$ Ahijados",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -890,7 +890,7 @@
         }
     },
     "godchild_next": {
-        "message": "Para obtener un ahijado  adicional, debe agregar $ NUM $ más vecinos",
+        "message": "Para obtener un ahijado  adicional, debe agregar $NUM$ más vecinos",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1056,7 +1056,7 @@
         }
     },
     "rewardlinks_nolinksadded": {
-        "message": "No se agregaron enlaces de recompensa"
+        "message": "No se agregaron enlaces de recompensa."
     },
     "rewardlinks_linksupdated": {
         "message": "Recompensas en enlaces actualizados: $NUM$",
@@ -1067,7 +1067,7 @@
         }
     },
     "rewardlinks_stats": {
-        "message": "\nEnlaces de recompensa: $TOTAL$, Para recopilar: $NUM$\n",
+        "message": "Enlaces de recompensa: $TOTAL$, Para recopilar: $NUM$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1078,7 +1078,7 @@
         }
     },
     "rewardlinks_allcollected": {
-        "message": ".Todos los enlaces de recompensa recogidos."
+        "message": "Todos los enlaces de recompensa recogidos."
     },
     "rewardlinks_nexttime": {
         "message": "La próxima recolección comienza en $DATE$",

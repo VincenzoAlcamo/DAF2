@@ -846,7 +846,7 @@
         }
     },
     "friendship_totalfriends": {
-        "message": "Amici: $NUM / $TOTAL$",
+        "message": "Amici: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
