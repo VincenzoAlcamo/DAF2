@@ -137,10 +137,10 @@ function mousemove(event) {
 }
 
 function updateBox() {
-    var x = mouseX + window.scrollX,
-        y = mouseY + window.scrollY,
-        width = Math.max(document.documentElement['clientWidth'], document.body['scrollWidth'], document.documentElement['scrollWidth'], document.body['offsetWidth'], document.documentElement['offsetWidth']),
-        height = Math.max(document.documentElement['clientHeight'], document.body['scrollHeight'], document.documentElement['scrollHeight'], document.body['offsetHeight'], document.documentElement['offsetHeight']);
+    var x = mouseX + window.scrollX;
+    var y = mouseY + window.scrollY;
+    var width = Math.max(document.documentElement['clientWidth'], document.body['scrollWidth'], document.documentElement['scrollWidth'], document.body['offsetWidth'], document.documentElement['offsetWidth']);
+    var height = Math.max(document.documentElement['clientHeight'], document.body['scrollHeight'], document.documentElement['scrollHeight'], document.body['offsetHeight'], document.documentElement['offsetHeight']);
     x = Math.min(x, width - 7);
     y = Math.min(y, height - 7);
 
@@ -189,22 +189,22 @@ function start() {
 
     links = document.links;
     linkCount = links.length;
-    var offsetLeft = window.scrollX,
-        offsetTop = window.scrollY;
+    var offsetLeft = window.scrollX;
+    var offsetTop = window.scrollY;
     links = Array.from(links).filter(a => {
         if (a.href.indexOf('diggysadventure') < 0) return false;
 
         var rect = a.getBoundingClientRect();
         if (rect.height > 0) {
-            var left = offsetLeft + rect.left,
-                top = offsetTop + rect.top,
-                daf = {
-                    x1: Math.floor(left),
-                    y1: Math.floor(top),
-                    x2: Math.floor(left + rect.width),
-                    y2: Math.floor(top + rect.height),
-                    box: a.daf && a.daf.box
-                };
+            var left = offsetLeft + rect.left;
+            var top = offsetTop + rect.top;
+            var daf = {
+                x1: Math.floor(left),
+                y1: Math.floor(top),
+                x2: Math.floor(left + rect.width),
+                y2: Math.floor(top + rect.height),
+                box: a.daf && a.daf.box
+            };
             a.daf = daf;
             if (daf.box) setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
             return true;
@@ -243,8 +243,8 @@ function stop() {
 }
 
 function scroll() {
-    var y = mouseY,
-        win_height = window.innerHeight;
+    var y = mouseY;
+    var win_height = window.innerHeight;
 
     function scrollPage(speed, direction) {
         var value = (speed < 2 ? 60 : (speed < 10 ? 30 : 10)) * direction;
@@ -271,12 +271,12 @@ function detect() {
 
     if (!scrollHandle) scrollHandle = setInterval(scroll, 100);
 
-    var count = 0,
-        total = 0,
-        hash = {};
-    links.forEach(a => {
+    var count = 0;
+    var total = 0;
+    var hash = {};
+    for (let a of links) {
         var daf = a.daf;
-        daf.selected = false;
+        let selected = false;
         if (daf.y1 <= box.y2 && daf.y2 >= box.y1 && daf.x1 <= box.x2 && daf.x2 >= box.x1) {
             if (!('data' in daf)) {
                 var href = a.href;
@@ -285,14 +285,13 @@ function detect() {
                 daf.data = result.length ? result[0] : null;
             }
             if (daf.data) {
-                daf.selected = true;
+                selected = true;
                 if (daf.box == null) {
                     daf.box = document.body.appendChild(document.createElement('span'));
                     daf.box.textContent = daf.data.id;
                     daf.box.className = 'DAF-box';
                     setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
                 }
-                daf.box.style.visibility = 'visible';
                 total++;
                 if (!(daf.data.id in hash)) {
                     hash[daf.data.id] = true;
@@ -300,8 +299,11 @@ function detect() {
                 }
             }
         }
-        if (daf.box) daf.box.style.visibility = daf.selected ? 'visible' : 'hidden';
-    });
+        if (daf.selected !== selected) {
+            daf.selected = selected;
+            if (daf.box) daf.box.style.visibility = daf.selected ? 'visible' : 'hidden';
+        }
+    }
 
     function addFn(key, messageId) {
         return '\n' + key + ' = ' + getMessage(messageId);
@@ -440,9 +442,9 @@ const LinkData = (function() {
 //#endregion
 
 function collectData(flagGetUserData) {
-    var values = [],
-        hash = {},
-        reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
+    var values = [];
+    var hash = {};
+    var reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
 
     function getActor(actor, data) {
         var hovercard = actor.getAttribute('data-hovercard');

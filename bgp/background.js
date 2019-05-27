@@ -327,7 +327,7 @@ if (loginButton) {
                     delete details.file;
                     details.code = '';
                     for (let key of ['linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
-                        details.code += key + '=' + Preferences.get(key) + ';';
+                        details.code += key + '=' + Preferences.getValue(key) + ';';
                     details.code += 'initialize();';
                     chrome.tabs.executeScript(tabId, details, function() {});
                 });
