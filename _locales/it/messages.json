@@ -1311,6 +1311,9 @@
     "options_rewardscloseexcepterrors": {
         "message": "Eccetto errori\nIn caso di errore, la pagina non viene chiusa automaticamente."
     },
+    "options_rewardssummary": {
+        "message": "Aggiungi riepilogo\nSe la pagina non è chiusa automaticamente, viene inserito un riepilogo in fondo alla pagina."
+    },
     "options_linkgrabenabled": {
         "message": "Link Grabber\nAbilita il Link Grabber nelle pagine di Facebook.\nSe non è abilitato, le seguenti opzioni non hanno effetto."
     },

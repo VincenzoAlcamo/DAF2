@@ -1329,6 +1329,9 @@
     "options_rewardscloseexcepterrors": {
         "message": "Except errors\nDo not auto-close when error found."
     },
+    "options_rewardssummary": {
+        "message": "Add summary table\nIf the page is not auto-closed, add a summary table at the bottom."
+    },
     "options_linkgrabenabled": {
         "message": "Link Grabber\nEnable the Link Grabber inside Facebook.\nIf not enabled, the following options have no effect."
     },

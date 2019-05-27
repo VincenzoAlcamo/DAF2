@@ -1,4 +1,4 @@
-/*global chrome Parser UrlInfo idb*/
+/*global chrome Parser UrlInfo idb HtmlBr Locale*/
 'use strict';
 
 //#region MISCELLANEOUS
@@ -13,6 +13,10 @@ function hasRuntimeError() {
 
 function getUnixTime() {
     return Math.floor(Date.now() / 1000);
+}
+
+function getMessage(id, ...args) {
+    return chrome.i18n.getMessage(id, args);
 }
 
 var Badge = {
@@ -63,6 +67,7 @@ var Preferences = {
             linkGrabConvert: 0,
             rewardsRemoveDays: 7,
             rewardsClose: false,
+            rewardsSummary: true,
             rewardsCloseExceptGems: true,
             rewardsCloseExceptErrors: true,
             friendsCollectDate: 0
@@ -1169,11 +1174,12 @@ var Data = {
                 // We will add the reward if any one of these conditions is true:
                 // - reward has a material, meaning it has been correctly collected
                 // - existing reward does not exist
-                // - reward has some info that is missing in then existing reward (collect date, user id)
+                // - reward has some info that is missing in then existing reward (collect date, user id, user name)
                 if (!existingReward || reward.cmt > 0 ||
                     (reward.cmt && !existingReward.cmt) ||
                     (reward.cdt && !existingReward.cdt) ||
-                    (reward.cid && !existingReward.cid)) {
+                    (reward.cid && !existingReward.cid) ||
+                    (reward.cnm && !existingReward.cnm)) {
                     existingReward = existingReward || {
                         id: +reward.id,
                         typ: reward.typ,
@@ -1565,12 +1571,29 @@ async function init() {
             let reward = request.reward;
             if (reward.cmt == 2 && Preferences.getValue('rewardsCloseExceptGems')) flagClose = false;
             if (reward.cmt < 0 && Preferences.getValue('rewardsCloseExceptErrors')) flagClose = false;
-            // let existingReward = Data.getReward(reward.id);
             Data.addRewardLinks(reward);
             if (flagClose) {
                 setTimeout(function() {
                     chrome.tabs.remove(sender.tab.id);
                 }, 1000);
+            } else if (Preferences.getValue('rewardsSummary')) {
+                reward = Data.getRewardLink(reward.id);
+                let htm = '';
+                htm += HtmlBr `<center style="font-family:sans-serif;font-size:12pt;margin:4px 0px;">`;
+                htm += HtmlBr `<table border="0" cellpadding="4" style="border:2px solid #36648b;"><tbody>`;
+                htm += HtmlBr `<tr bgcolor="#3e8cc6" style="color:white">`;
+                htm += HtmlBr `<th>${getMessage('rewardlinks_id')}</th>`;
+                htm += HtmlBr `<th>${getMessage('rewardlinks_insertdate')}</th>`;
+                htm += HtmlBr `<th>${getMessage('rewardlinks_collectdate')}</th>`;
+                if (reward.cid) htm += HtmlBr `<th>${getMessage('rewardlinks_owner')}</th>`;
+                htm += HtmlBr `</tr><tr style="background-color:#e7e7e7;color:black;">`;
+                htm += HtmlBr `<td>${reward.id}</td>`;
+                htm += HtmlBr `<td>${Locale.formatDateTime(reward.adt)}</td>`;
+                htm += HtmlBr `<td>${Locale.formatDateTime(reward.cdt)}</td>`;
+                if (reward.cid) htm += HtmlBr `<td><a target="_blank" href="https://www.facebook.com/${reward.cid}"><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</a></td>`;
+                htm += HtmlBr `</tr></tbody><table>`;
+                htm = String(htm);
+                return htm;
             }
         },
         addRewardLinks: function(request, _sender) {

@@ -83,6 +83,7 @@ function init() {
     option('rewardsClose', WITHSUBOPTIONS);
     option('rewardsCloseExceptGems', SUBOPTION);
     option('rewardsCloseExceptErrors', SUBOPTION);
+    option('rewardsSummary', SUBOPTION);
     option('linkGrabEnabled', CRITICAL);
     option('linkGrabButton', SUBOPTION, [
         [0, gui.getMessage('options_button_left')],
