@@ -1310,5 +1310,95 @@
     },
     "options_rewardscloseexcepterrors": {
         "message": "Z wyjątkiem błędów\nNie ma auto-zamknięcia jeśli wystąpił błąd."
+    },
+    "options_linkgrabenabled": {
+        "message": "Link Grabber\nWłącz Link Grabber wewnątrz Facebooka.\nJeśli nie jest włączony, opcja nie da efektu."
+    },
+    "options_linkgrabbutton": {
+        "message": "Przycisk myszy.\nWybierz przycisk myszy, który uruchamia Link Grabber."
+    },
+    "options_linkgrabkey": {
+        "message": "Klawisz opcjonalny.\nWybierz opcjonalny klawisz do naciśnięcia oprucz przycisku myszy."
+    },
+    "options_linkgrabsort": {
+        "message": "Sortuj linki"
+    },
+    "options_linkgrabconvert": {
+        "message": "Konwertuj linki"
+    },
+    "options_modifier_none": {
+        "message": "Żaden"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Lewy"
+    },
+    "options_button_middle": {
+        "message": "Środkowy"
+    },
+    "options_button_right": {
+        "message": "Prawy"
+    },
+    "options_sort_none": {
+        "message": "Żaden"
+    },
+    "options_sort_ascending": {
+        "message": "Rosnąco"
+    },
+    "options_sort_descending": {
+        "message": "Malejąco"
+    },
+    "linkgrabber_selected": {
+        "message": "Linki: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Skopiuj do schowka"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Wyślij do DAF"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Anuluj"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Odśwież linki"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Pokaż/Ukryj identyfikator nagród"
+    },
+    "linkgrabber_added": {
+        "message": "Dodane linki z nagrodami: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Linki skopiowane do schowka: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     }
 }

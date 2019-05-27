@@ -1311,6 +1311,15 @@
     "options_rewardscloseexcepterrors": {
         "message": "Εκτός σφαλμάτων\nΝα μην κλείνει αυτόματα όταν βρίσκονται σφάλματα,"
     },
+    "options_linkgrabenabled": {
+        "message": "Συλλέκτης Συνδέσμων\nΕνεργοποιήστε τον Συλλέκτη Συνδέσμων στο Facebook.\nΑν δεν είναι ενεργός, οι ακόλουθες επιλογές δεν έχουν επίδραση."
+    },
+    "options_linkgrabbutton": {
+        "message": "Κουμπί ποντικιού\nΔιαλέξτε το κουμπί του ποντικιού που ενεργοποιεί το Συλλέκτη Συνδέσμων"
+    },
+    "options_linkgrabkey": {
+        "message": "Προαιρετικό κουμπί\nΔιαλέξτε ένα προαιρετικό κουμπί για να πατάτε, επιπρόσθετα του ποντικιού"
+    },
     "options_linkgrabsort": {
         "message": "Ταξινόμηση Συνδέσμων"
     },
@@ -1336,7 +1345,16 @@
         "message": "Μεσαίο"
     },
     "options_button_right": {
-        "message": "Δεξή"
+        "message": "Δεξιό"
+    },
+    "options_sort_none": {
+        "message": "Καμμία"
+    },
+    "options_sort_ascending": {
+        "message": "Αύξουσα"
+    },
+    "options_sort_descending": {
+        "message": "Φθίνουσα"
     },
     "linkgrabber_selected": {
         "message": "Σύνδεσμοι: $UNIQUE$ / $TOTAL$",
