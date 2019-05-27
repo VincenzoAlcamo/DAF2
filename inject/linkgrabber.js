@@ -229,12 +229,12 @@ function stop() {
     flagBox = false;
 
     // remove the link boxes
-    Array.from(document.links).forEach(a => {
+    for (let a of Array.from(document.links)) {
         if (a && a.daf) {
             if (a.daf.box) a.daf.box.parentNode.removeChild(a.daf.box);
             delete a.daf;
         }
-    });
+    }
     links = [];
 
     flagLinks = false;
@@ -446,35 +446,40 @@ function collectData(flagGetUserData) {
     var hash = {};
     var reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
 
-    function getActor(actor, data) {
-        var hovercard = actor.getAttribute('data-hovercard');
-        if (!hovercard) return false;
-        var match = hovercard.match(reCid);
-        if (!match) return false;
-        data.cid = match[2];
-        for (var node = actor.firstChild; node; node = node.nextSibling) {
-            if (node.nodeType == Node.TEXT_NODE && node.textContent.trim() != '') {
-                data.cnm = node.textContent;
-                break;
+    function getActor(actors, data) {
+        var result = false;
+        for (let actor of actors) {
+            var hovercard = actor.getAttribute('data-hovercard');
+            if (!hovercard) continue;
+            var match = hovercard.match(reCid);
+            if (!match) continue;
+            data.cid = match[2];
+            for (var node = actor.firstChild; node; node = node.nextSibling) {
+                if (node.nodeType == Node.TEXT_NODE && node.textContent.trim() != '') {
+                    data.cnm = node.textContent;
+                    break;
+                }
             }
+            result = true;
+            if (data.cnm) break;
         }
-        return true;
+        return result;
     }
-    links.forEach(a => {
+    for (let a of links) {
         var data = a.daf && a.daf.selected && a.daf.data;
         if (data && !(data.id in hash)) {
             if (flagGetUserData) {
                 var parent = a.parentNode;
                 for (var depth = 12; parent && depth > 0; depth--) {
-                    var actor = parent.querySelector('[data-hovercard]');
-                    if (actor && getActor(actor, data)) break;
+                    var actors = parent.querySelectorAll('[data-hovercard]');
+                    if (actors.length && getActor(actors, data)) break;
                     parent = parent.parentNode;
                 }
             }
             hash[data.id] = true;
             values.push(data);
         }
-    });
+    }
     return values;
 }
 
