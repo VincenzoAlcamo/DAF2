@@ -113,6 +113,13 @@ function onResize() {
     }
 }
 
+function appendScript(code) {
+    var script = document.createElement('script');
+    script.innerHTML = code;
+    document.head.appendChild(script);
+    return script;
+}
+
 function onFullWindow() {
     var fullWindow = getFullWindow();
     var flagHide = fullWindow;
@@ -121,9 +128,7 @@ function onFullWindow() {
         if (fullWindow != lastFullWindow) {
             lastFullWindow = fullWindow;
             if (isWebGL) {
-                var script = document.createElement('script');
-                script.innerText = 'document.mozFullScreenElement=' + (fullWindow ? '{}' : 'null');
-                document.head.appendChild(script);
+                var script = appendScript('document.mozFullScreenElement=' + (fullWindow ? '{}' : 'null'));
                 setTimeout(() => script.parentNode.removeChild(script), 500);
                 document.body.style.backgroundColor = fullWindow ? '#000' : '';
                 document.body.style.overflow = fullWindow ? 'hidden' : '';
@@ -454,7 +459,24 @@ function init() {
             handlers['autoClick'] = onAutoClick;
             onAutoClick();
         }
-        if (!miner) {
+        if (miner) {
+            let secret = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
+            window.addEventListener('message', function(event) {
+                if (event.source != window || !event.data || event.data.secret != secret) return;
+                if (event.data.action == 'exitFullWindow') sendPreference('fullWindow', false);
+            });
+            if (isWebGL) {
+                appendScript(`
+(function() {
+    var original_exitFullscreen = window.exitFullscreen;
+    window.exitFullscreen = function() {
+        if (!document.mozFullScreenElement) original_exitFullscreen();
+        else window.postMessage({ secret: "${secret}", action: "exitFullWindow" }, "*");
+    }
+})();
+`);
+            }
+        } else {
             createMenu();
             updateMenu();
             // Show it later (after the stylesheet has been loaded)
