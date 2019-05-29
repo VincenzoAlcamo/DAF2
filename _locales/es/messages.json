@@ -273,6 +273,9 @@
     "about_disclaimer": {
         "message": "DA Friends es un  'Fan Code'y no es avalado ni respaldado por  Pixel Federation, o los autores de  \"Diggy's Adventure\".\nSi  usas DA Friends lo haces bajo tu propio riesgo. Viene sin garantia ni garantias, ni explícita ni implícita hacia la funcionalidad o la usabilidad.\nEl autor no será responsable por cualquier daño o pérdida causada por su uso.Al utilizar esta extensión, usted acepta estos términos"
     },
+    "about_translators": {
+        "message": "Traductores"
+    },
     "kitchen_all": {
         "message": "Todas las recetas"
     },
@@ -1403,8 +1406,5 @@
                 "content": "$1"
             }
         }
-    },
-    "ext_placeholder": {
-        "message": "Ultimo mensaje. NO TRADUCIR"
     }
 }

@@ -273,6 +273,9 @@
     "about_disclaimer": {
         "message": "DA Friends è realizzato da fan del gioco e non è né approvato né supportato dalla Pixel Federation, gli autori di \"Diggy's Adventure\".\nL'uso di DA Friends è a vostro rischio e non è garantita né esplicitamente né implicitamente la funzionalità o l'usabilità.\nL'autore non si assume alcuna responsabilità per eventuali danni o perdite causati dal suo uso.\nUtilizzando questa estensione, accetti questi termini."
     },
+    "about_translators": {
+        "message": "Traduttori"
+    },
     "kitchen_all": {
         "message": "Tutte le ricette"
     },

@@ -29,6 +29,15 @@
   font-size: 12pt;
 }
 
+.about_translators {
+  margin-top: 42px;
+  font-size: 13pt;
+}
+
+.about_translators span::after {
+  content: ":";
+}
+
 .about_data.nodata {
   animation: about_blinker 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
   font-size: 20pt;
