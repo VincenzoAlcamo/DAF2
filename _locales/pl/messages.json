@@ -271,7 +271,7 @@
         "message": "Nie załadowano jeszcze danych gry, proszę załaduj lub odśwież grę"
     },
     "about_disclaimer": {
-        "message": "DA Friends jest \"Kodem fanowskim\" i nie jest zatwierdzony ani wspierany\nprzez Pixel Federation, autorów gry \"Diggy`s Adventure\".\nUżywasz DA Friends na własne ryzyko. Nie jest objęty żadną rękojmią czy\ngwarancją, również w odniesieniu do funkcjonalności i użyteczności.\nAutor nie ponosi odpowiedzialności za jakiekolwiek szkody lub straty\nspowodowane jego użytkowaniem.\nKorzystając z tego rozszerzenia zgadzasz się na te warunki."
+        "message": "DA Friends jest \"Kodem fanowskim\" i nie jest zatwierdzony ani wspierany przez Pixel Federation, autorów gry \"Diggy`s Adventure\".\nUżywasz DA Friends na własne ryzyko. Nie jest objęty żadną rękojmią czy gwarancją, również w odniesieniu do funkcjonalności i użyteczności.\nAutor nie ponosi odpowiedzialności za jakiekolwiek szkody lub straty spowodowane jego użytkowaniem.\nKorzystając z tego rozszerzenia zgadzasz się na te warunki."
     },
     "about_translators": {
         "message": "Tłumacze"
@@ -315,7 +315,7 @@
         "message": "Wykonane na kowadle"
     },
     "foundry_possible_alloys": {
-        "message": "Możliwe stopy"
+        "message": "Możliwe\nstopy"
     },
     "foundry_total_time": {
         "message": "Czas na wykonanie\n($ANVILS$ kowadła)",
@@ -1007,13 +1007,13 @@
         }
     },
     "rewardlinks_id": {
-        "message": "Identyfikator nagrody"
+        "message": "Identyfikator\nnagrody"
     },
     "rewardlinks_insertdate": {
-        "message": "Data wprowadzenia"
+        "message": "Data\nwprowadzenia"
     },
     "rewardlinks_collectdate": {
-        "message": "Data zebrania"
+        "message": "Data\nzebrania"
     },
     "rewardlinks_collectmaterial": {
         "message": "Otrzymany prezent"

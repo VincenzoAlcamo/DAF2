@@ -295,7 +295,7 @@
         "message": "Energía\nposible"
     },
     "kitchen_total_time": {
-        "message": "Tiempo de coccion",
+        "message": "Tiempo de coccion\n($POTS$ Ollas)",
         "placeholders": {
             "pots": {
                 "content": "$1"
@@ -318,7 +318,7 @@
         "message": "Aleaciones"
     },
     "foundry_total_time": {
-        "message": "Tiempo de elaboracion\n($ANVILS$ Anvils)",
+        "message": "Tiempo de elaboracion\n($ANVILS$ Yunques)",
         "placeholders": {
             "anvils": {
                 "content": "$1"
@@ -349,7 +349,7 @@
         "message": "Total"
     },
     "camp_fill_time": {
-        "message": "Regeneracion de energia\n( desde 0 a capacidad maxima )"
+        "message": "Regeneracion de energia\n(desde 0 a capacidad maxima)"
     },
     "camp_windmill_regen": {
         "message": "Regenaracion por molino"
@@ -1007,7 +1007,7 @@
         }
     },
     "rewardlinks_id": {
-        "message": "Identificación de la recompensa"
+        "message": "Identificación de\nla recompensa"
     },
     "rewardlinks_insertdate": {
         "message": "Insertar la fecha"
