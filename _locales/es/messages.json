@@ -30,7 +30,7 @@
         "message": "Todos los ahijados han sido recolectados"
     },
     "menu_autoclick": {
-        "message": "Click automatico de ventana emergente de Facebook"
+        "message": "Click automatico para ventana emergente de Facebook"
     },
     "menu_reloadgame": {
         "message": "Recarga el juego y obliga a nueva recopilacion de datos"
@@ -136,10 +136,10 @@
         }
     },
     "gui_screenshot_shot": {
-        "message": "Haga click para hacer una captura de pantalla.\nLa captura aparecerá a la derecha\nTenga en cuentaque la captura es solo del aera visible\nDebe clickear el icono de DAF2 en el Menu de Chrome para habilitar esta funcion ."
+        "message": "Haga click para hacer una captura de pantalla.\nLa captura aparecerá a la derecha\nTenga en cuenta que la captura es solo del area visible\nDebe clickear el icono de DAF2 en el Menu de Chrome para habilitar esta funcion ."
     },
     "gui_screenshot_target": {
-        "message": "Click para descargar la imaden.\nPuede utilizar boton derecho del mouse y seleccionar \"Copiar Imagen \"y guardar en el porta papeles"
+        "message": "Click para descargar la imagen.\nPuede utilizar boton derecho del mouse y seleccionar \"Copiar Imagen \"y guardar en el porta papeles"
     },
     "gui_screenshot_error": {
         "message": "No se puede hacer captura de pantalla"
@@ -928,7 +928,7 @@
         "message": "Totalidad"
     },
     "progress_hidecompleted": {
-        "message": "Ocualta completado"
+        "message": "Oculta completado"
     },
     "progress_grouplocations": {
         "message": "Ubicaciones de grupos"
@@ -943,7 +943,7 @@
         "message": "Energia"
     },
     "progress_energyinfo": {
-        "message": "La energía que se muestra aquí se calcula multiplicando el número de fichas restantes por el costo promedio de las baldosas.\nEl costo promedio de las fichas es: bono de finalización x 10 / número total de fichas"
+        "message": "La energía que se muestra aquí se calcula multiplicando el número de baldosas restantes por el costo promedio de las baldosas.\nEl costo promedio de las baldosas es: bono de finalización x 10 / número total de baldosas."
     },
     "progress_achievementnextstep": {
         "message": "Al siguiente paso = $NEXT$",
@@ -960,7 +960,7 @@
         "message": "Final"
     },
     "progress_duration": {
-        "message": "Duraccion"
+        "message": "Duracion"
     },
     "progress_subtotal": {
         "message": "Subtotal ($NUM$ Ubicaciones)",
@@ -1022,7 +1022,7 @@
         "message": "ENLACE EXPIRADO"
     },
     "rewardlinks_collected": {
-        "message": "YA COLECCIONADO"
+        "message": "YA RECOLECTADO"
     },
     "rewardlinks_maxreached": {
         "message": "Maximo diario alcanzado"
@@ -1098,5 +1098,313 @@
     },
     "rewardlinks_collectanyway": {
         "message": "¿Te gustaría abrir este enlace de todos modos?"
+    },
+    "rewardlinks_infocollected": {
+        "message": "Este enclace ya ha sido recolectado"
+    },
+    "rewardlinks_infoexpired": {
+        "message": "Enlace expirado",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_infonoself": {
+        "message": "Este enlace es tuyo: las recompensas personales no son válidas."
+    },
+    "rewardlinks_infobroken": {
+        "message": "Este enlace está roto o no funciona."
+    },
+    "rewardlinks_infomaxreached": {
+        "message": "Este enlace se ha recopilado mientras se alcanzó el límite máximo diario.\nLos enlaces recogidos de esta manera se pierden para siempre.."
+    },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Hay otras recompensas cuya recolección está pendiente.Esto puede exceder su límite diario."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Este enlace probablemente ha caducado.\nLos identificadores de los enlaces se generan secuencialmente y este identificador de recompensa es más bajo que el identificador de una recompensa vencida.\n"
+    },
+    "rewardlinks_removelinks": {
+        "message": "Eliminar enlaces antiguos"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Remover seleccion"
+    },
+    "rewardlinks_removelinksdays": {
+        "message": "Elimine los enlaces de recompensa no recolectados más antiguos que @DAYS@ days.\nEsto incluye enlaces caducados y ya recolectados.\nLos enlaces con más de $NUM$ días se eliminan periódicamente.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_removenone": {
+        "message": "No hay enlaces para eliminar!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Enlaces que serán eliminados: $NUM$\nLos enlaces eliminados ya no se pueden agregar.\n\nContinuar con la eliminación?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Esta recompensa se agregó en $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Reiniciar"
+    },
+    "rewardlinks_resetcount": {
+        "message": "Puede reiniciar la información de \"Siguiente colección\" y continuar con este enlace de todos modos."
+    },
+    "rewardlinks_resetexpired": {
+        "message": "Puede reiniciar la información \"Probablemente caducada\" y continuar con este enlace de todos modos."
+    },
+    "rewardlinks_convert": {
+        "message": "Convertir enlace"
+    },
+    "rewardlinks_noconversion": {
+        "message": "No convertir"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Acortar / Convertir enlaces"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Pega aquí los enlaces para acortar / convertir."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Los enlaces abreviados se muestran a continuación (se eliminan los duplicados)."
+    },
+    "export_exportdata": {
+        "message": "Exportar datos"
+    },
+    "export_exportinventory": {
+        "message": "Exportar inventario"
+    },
+    "export_importdata": {
+        "message": "Importar datos"
+    },
+    "export_invalidexportdata": {
+        "message": "El archivo no es un dato de exportación de DAF válido para el jugador actual!"
+    },
+    "export_importsuccess": {
+        "message": "Los datos se han importado con éxito!"
+    },
+    "export_debugdata": {
+        "message": "Exportar datos de diagnóstico."
+    },
+    "rings_showminmax": {
+        "message": "Mostrar valores mínimos y máximos."
+    },
+    "rings_playerlevel": {
+        "message": "Especificar el nivel del jugador."
+    },
+    "rings_resetlevel": {
+        "message": "Reiniciar"
+    },
+    "rings_stats": {
+        "message": "Tienes $NUM$ $NAME$ en tu mochila",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+    "rings_notdependent": {
+        "message": "No depende del nivel del jugador."
+    },
+    "specialweek_end": {
+        "message": "tremina en  $FINISH$",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_debris_discount": {
+        "message": "Grilla desbloqueada  semana de descuento $PERCENT$%",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_production": {
+        "message": "Semana de doble producción"
+    },
+    "specialweek_half_prod_time": {
+        "message": "Semana de producción de medio tiempo."
+    },
+    "specialweek_double_drop": {
+        "message": "Semana de doble material"
+    },
+    "specialweek_gifts": {
+        "message": "Semana de regalos doble"
+    },
+    "specialweek_postcards": {
+        "message": "Semana de postales."
+    },
+    "options_section_ingame": {
+        "message": "Opciones en el juego"
+    },
+    "options_injectgame": {
+        "message": "Habilitar DAF\nHabilitar DAF en el juego.\nSi no está habilitado, las siguientes opciones no tienen efecto"
+    },
+    "options_fullwindow": {
+        "message": "\"Ventana completa\nMostrar juego en pantalla  completa \""
+    },
+    "options_fullwindowheader": {
+        "message": "Encabezado\nMostrar el encabezado de la página en la ventana completa"
+    },
+    "options_fullwindowside": {
+        "message": "Lado\nOcultar la barra lateral (Facebook) cuando no esté en la ventana completa"
+    },
+    "options_resetfullwindow": {
+        "message": "Reiniciar en carga\nCada vez que cargue el juego, se restablecerán \"Ventana completa\" y \"Ventana completa - Lateral\""
+    },
+    "options_resetfullwindow_warning": {
+        "message": "Esta opción debería estar habilitada si experimenta problemas al cargar el juego."
+    },
+    "options_gctable": {
+        "message": "Tabla con ahijados\nMostrar a todos los vecinos con ahijados  debajo del juego."
+    },
+    "options_gctablecounter": {
+        "message": "Contador\nMostrar contador"
+    },
+    "options_gctableregion": {
+        "message": "Región\nUsar colores para marcar la región de un vecino"
+    },
+    "options_autoclick": {
+        "message": "Clic automático\nConfirmar automáticamente las ventanas emergentes de Facebook"
+    },
+    "options_section_general": {
+        "message": "Opciones generales."
+    },
+    "options_autologin": {
+        "message": "Portal de inicio de sesión automático\nInicia sesión automáticamente en el portal"
+    },
+    "options_keepdebugging": {
+        "message": "Mantener la depuración\nUsa el depurador incluso después de que el juego se haya cargado.\nPuede habilitar @SILENT@ para deshacerse del mensaje \"DAF2 está depurando\""
+    },
+    "options_keepdebugging_warning": {
+        "message": "Esto es necesario para registrar regalos entrantes mientras se juega e inspeccionar el campamento de un vecino."
+    },
+    "options_section_rewardlinks": {
+        "message": "Enlaces de recompensa"
+    },
+    "options_rewardsclose": {
+        "message": "Auto cerrado\nCerrar automáticamente la página después de que se haya recogido la recompensa."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Excepto gemas\nNo al  cierre automático cuando se encuentren gemas."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Excepto errores\nNo al  cierre automático cuando se encuentre un error."
+    },
+    "options_rewardssummary": {
+        "message": "Añadir tabla de resumen\nSi la página no se cierra automáticamente, agregue una tabla de resumen en la parte inferior."
+    },
+    "options_linkgrabenabled": {
+        "message": "Recolectar enlace .\nHabilita el recolector de enlaces  dentro de Facebook.\nSi no está habilitado, las siguientes opciones no tienen efecto."
+    },
+    "options_linkgrabbutton": {
+        "message": "Botón del ratón\n\nElige el botón del ratón que activa el recolector de enlaces."
+    },
+    "options_linkgrabkey": {
+        "message": "Tecla opcional\nElija una tecla opcional para presionar además del botón del mouse"
+    },
+    "options_linkgrabsort": {
+        "message": "Ordenar enlaces"
+    },
+    "options_linkgrabconvert": {
+        "message": "Convertir enlaces"
+    },
+    "options_modifier_none": {
+        "message": "Ninguno"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Izquierdo"
+    },
+    "options_button_middle": {
+        "message": "Medio"
+    },
+    "options_button_right": {
+        "message": "Derecho"
+    },
+    "options_sort_none": {
+        "message": "Ninguno"
+    },
+    "options_sort_ascending": {
+        "message": "Ascendente"
+    },
+    "options_sort_descending": {
+        "message": "Descendente"
+    },
+    "linkgrabber_selected": {
+        "message": "Links: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Copiar al portapapeles"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Encair a DAF"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Cancelar"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Refrescar enlaces"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Mostrar / Ocultar ID de Recompensa"
+    },
+    "linkgrabber_added": {
+        "message": "Recompensas con enlaces agregados: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Enlaces copiados al portapapeles: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "ext_placeholder": {
+        "message": "Ultimo mensaje. NO TRADUCIR"
     }
 }

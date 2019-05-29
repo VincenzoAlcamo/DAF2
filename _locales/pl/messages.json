@@ -1311,6 +1311,9 @@
     "options_rewardscloseexcepterrors": {
         "message": "Z wyjątkiem błędów\nNie ma auto-zamknięcia jeśli wystąpił błąd."
     },
+    "options_rewardssummary": {
+        "message": "Dodaj tabelę podsumowań\nJeżeli strona nie jest automatycznie zamykana, dodaj tabelę podsumować na dole."
+    },
     "options_linkgrabenabled": {
         "message": "Link Grabber\nWłącz Link Grabber wewnątrz Facebooka.\nJeśli nie jest włączony, opcja nie da efektu."
     },
