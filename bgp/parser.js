@@ -87,6 +87,7 @@ var Parser = {
             pal.level = +o.level;
             pal.name = o.name;
             pal.surname = o.surname;
+            pal.c_list = +o.c_list || 0;
             // Detect the correct Facebook ID to use
             var match = o.pic_square.match(reFBId);
             if (match) {
