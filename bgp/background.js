@@ -1573,9 +1573,7 @@ async function init() {
             if (reward.cmt < 0 && Preferences.getValue('rewardsCloseExceptErrors')) flagClose = false;
             Data.addRewardLinks(reward);
             if (flagClose) {
-                setTimeout(function() {
-                    chrome.tabs.remove(sender.tab.id);
-                }, 1000);
+                chrome.tabs.remove(sender.tab.id);
             } else if (Preferences.getValue('rewardsSummary')) {
                 reward = Data.getRewardLink(reward.id);
                 let htm = '';
