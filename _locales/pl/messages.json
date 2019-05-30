@@ -148,7 +148,7 @@
         "message": "Najpierw musisz kliknąć ikonę @DAF2@ w menu Chrome.\nSpowoduje to włącznenie funkcji zrzutu ekranu do momentu zamknięcia strony.\n\nKliknij ikonę @DAF2@ a następnie spróbuj ponownie zrobić zrzut ekranu."
     },
     "gui_infodated": {
-        "message": "Informacje pokazane tutaj były aktualne i były ważne tylko jako $VALID$",
+        "message": "Informacje pokazane tutaj są aktualnena dzień $VALID$",
         "placeholders": {
             "valid": {
                 "content": "$1"
@@ -361,7 +361,7 @@
         "message": "Obecna liczba wiatraków"
     },
     "camp_windmill_expiry": {
-        "message": "Wiatraki znikną za $TIME$",
+        "message": "Wiatraki znikną $TIME$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -1279,7 +1279,7 @@
         "message": "Ta opcja powinna być włączona, jeśli występują problemy z ładowaniem gry."
     },
     "options_gctable": {
-        "message": "Tabela BD\nPokaż wszystkicj sąsiadów z BD poniżej gry"
+        "message": "Tabela BD\nPokaż wszystkich sąsiadów z BD poniżej gry"
     },
     "options_gctablecounter": {
         "message": "Liznik\nPokaż licznik"
@@ -1324,7 +1324,7 @@
         "message": "Przycisk myszy.\nWybierz przycisk myszy, który uruchamia Link Grabber."
     },
     "options_linkgrabkey": {
-        "message": "Klawisz opcjonalny.\nWybierz opcjonalny klawisz do naciśnięcia oprucz przycisku myszy."
+        "message": "Klawisz opcjonalny.\nWybierz opcjonalny klawisz do naciśnięcia oprócz przycisku myszy."
     },
     "options_linkgrabsort": {
         "message": "Sortuj linki"
