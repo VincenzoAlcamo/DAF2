@@ -602,15 +602,16 @@ thead .stats {
 }
 
 .card>label>img:first-child {
-  vertical-align: middle;
-  top: -14px;
-  left: -4px;
+  vertical-align: top;
+  top: -12px;
+  left: -6px;
   margin-bottom: -20px;
   position: relative;
 }
 
 .card>label>span {
   padding-right: 16px;
+  display: inline-block;
 }
 
 .card>div {
