@@ -460,9 +460,9 @@ function init() {
             onAutoClick();
         }
         if (miner) {
-            let secret = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
+            let key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
             window.addEventListener('message', function(event) {
-                if (event.source != window || !event.data || event.data.secret != secret) return;
+                if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow') sendPreference('fullWindow', false);
             });
             if (isWebGL) {
@@ -471,7 +471,7 @@ function init() {
     var original_exitFullscreen = window.exitFullscreen;
     window.exitFullscreen = function() {
         if (!document.mozFullScreenElement) original_exitFullscreen();
-        else window.postMessage({ secret: "${secret}", action: "exitFullWindow" }, "*");
+        else window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
     }
 })();
 `);
