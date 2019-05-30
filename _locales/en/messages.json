@@ -18,6 +18,9 @@
     "menu_fullwindowside": {
         "message": "Side bar"
     },
+    "menu_fullwindowlock": {
+        "message": "Lock"
+    },
     "menu_gctable": {
         "message": "Display GC table"
     },
@@ -1289,6 +1292,9 @@
     },
     "options_fullwindowside": {
         "message": "Side\nHide the sidebar (Facebook) when not in full window"
+    },
+    "options_fullwindowlock": {
+        "message": "Lock full window\nPrevents the game from exiting full window."
     },
     "options_resetfullwindow": {
         "message": "Reset on load\nEvery time you load the game, \"Full window\" and \"Full window - Side\" are reset"

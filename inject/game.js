@@ -299,6 +299,7 @@ function createMenu() {
     <i data-pref="fullWindow"></i>
     <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
     <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
+    <i data-pref="fullWindowLock">${gm('menu_fullwindowlock')}</i>
     </div>
 </li>
 <li data-action="gcTable"><b data-pref="gcTable">&nbsp;</b>
@@ -404,7 +405,7 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    'resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
+    'resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
@@ -463,15 +464,15 @@ function init() {
             let key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
             window.addEventListener('message', function(event) {
                 if (event.source != window || !event.data || event.data.key != key) return;
-                if (event.data.action == 'exitFullWindow') sendPreference('fullWindow', false);
+                if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
             if (isWebGL) {
                 appendScript(`
 (function() {
     var original_exitFullscreen = window.exitFullscreen;
     window.exitFullscreen = function() {
-        if (!document.mozFullScreenElement) original_exitFullscreen();
-        else window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
+        if (!document.mozFullScreenElement) return original_exitFullscreen();
+        window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
     }
 })();
 `);

@@ -73,6 +73,7 @@ function init() {
     option('fullWindow', WITHSUBOPTIONS);
     option('fullWindowHeader', SUBOPTION);
     option('fullWindowSide', SUBOPTION);
+    option('fullWindowLock', SUBOPTION);
     option('resetFullWindow', SUBOPTION + WARNING);
     option('gcTable', WITHSUBOPTIONS);
     option('gcTableCounter', SUBOPTION);
