@@ -12,9 +12,9 @@ var liInactive = [];
 
 function addFriend(friend) {
     var old = hashById[friend.id];
-    if(old) {
-        if(friend.uri) old.uri = friend.uri;
-        if(friend.disabled) old.disabled = true;
+    if (old) {
+        if (friend.uri) old.uri = friend.uri;
+        if (friend.disabled) old.disabled = true;
     } else {
         hashById[friend.id] = friend;
         friends.push(friend);
@@ -85,9 +85,12 @@ function collectStandard() {
                 Array.from(li.getElementsByTagName('a')).forEach(item => {
                     if (item.innerText == '') return;
                     var id, d, uri, i;
+                    var flag = false;
                     if ((d = item.getAttribute('data-hovercard')) && d.indexOf('user.php?id=') >= 0 && (id = getId(d))) {
                         uri = item.href;
-                        if ((i = uri.indexOf('?'))) uri = uri.substr(0, i);
+                        if ((i = uri.indexOf('profile.php?id='))) {
+                            if ((i = uri.indexOf('&', i))) uri = uri.substr(0, i);
+                        } else if ((i = uri.indexOf('?'))) uri = uri.substr(0, i);
                         count++;
                         addFriend({
                             id: id,
@@ -101,6 +104,9 @@ function collectStandard() {
                             name: item.innerText,
                             disabled: true
                         });
+                        flag = true;
+                    }
+                    if (flag) {
                         if (!ulInactive) {
                             ulInactiveParent = ul.parentNode;
                             ulInactive = ul;
@@ -197,7 +203,7 @@ function collectAlternate() {
             });
             return;
         }
-        if(collectMethod == 'both') collectStandard();
+        if (collectMethod == 'both') collectStandard();
         else sendFriends();
     }
 
