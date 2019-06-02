@@ -94,6 +94,9 @@ let gui = {
         if (rid < 0 || rid > 6) rid = 0;
         return HtmlBr `<img src="${rid == 0 ? '/img/gui/events.png' : bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
     },
+    getRegionFromSkin: function(skin) {
+        return bgp.Data.getRegionFromSkin(skin);
+    },
     getSkinImg: function(skin, size = 32) {
         var rid = bgp.Data.getRegionFromSkin(skin);
         return rid > 0 ? this.getRegionImg(rid, false, size) : HtmlBr `<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
@@ -135,7 +138,7 @@ let gui = {
     lazyElementsHandler: function() {
         gui.lazyElementsTimeout = 0;
         let maxItemsAtOnce = 20;
-        while(maxItemsAtOnce-- && gui.lazyElements.length) {
+        while (maxItemsAtOnce-- && gui.lazyElements.length) {
             let element = gui.lazyElements.pop();
             if (element.hasAttribute('lazy-src')) {
                 element.setAttribute('src', element.getAttribute('lazy-src'));
@@ -149,7 +152,7 @@ let gui = {
                 element.removeAttribute('lazy-render');
             }
         }
-        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
+        if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     },
     lazyObserver: new IntersectionObserver(function(entries) {
         for (let entry of entries) {
@@ -158,7 +161,7 @@ let gui = {
             gui.lazyElements.push(element);
             gui.lazyObserver.unobserve(element);
         }
-        if(gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
+        if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     }),
     collectLazyElements: function(container) {
         if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.observe(item));
@@ -182,6 +185,99 @@ let gui = {
             else location += '&' + encodeURIComponent(key) + '=' + String(value).split(',').map(t => encodeURIComponent(t)).join(',');
         });
         history.replaceState(null, null, location);
+    },
+    getSortInfoText: function(sortInfo) {
+        return sortInfo ? sortInfo.name + (sortInfo.ascending ? '(asc)' : '(desc)') : '';
+    },
+    getSortState: function(smartTable, defaultSort, defaultSortSub) {
+        let result = '';
+        if (smartTable) {
+            let sortInfo = smartTable.sort;
+            if (sortInfo && sortInfo.name && (sortInfo.name != defaultSort || !sortInfo.ascending)) result += gui.getSortInfoText(sortInfo);
+            sortInfo = smartTable.sortSub;
+            if (sortInfo && sortInfo.name && (sortInfo.name != defaultSortSub || !sortInfo.ascending)) result += ',' + gui.getSortInfoText(sortInfo);
+        }
+        return result;
+    },
+    setSortState: function(value, smartTable, defaultSort, defaultSortSub) {
+        if (!smartTable) return;
+        let arr = String(value || '').split(',');
+        smartTable.sort = smartTable.sort || {};
+        smartTable.sortSub = smartTable.sortSub || {};
+        for (let i = 0; i < 2; i++) {
+            let sortInfo = i == 0 ? smartTable.sort : smartTable.sortSub;
+            sortInfo.name = i == 0 ? defaultSort : defaultSortSub;
+            sortInfo.ascending = true;
+            let name = i < arr.length ? arr[i] : '';
+            let ascending = true;
+            let j = name.lastIndexOf('(');
+            if (j >= 0) {
+                ascending = name.substr(j) != '(desc)';
+                name = name.substr(0, j);
+            }
+            if (smartTable.isValidSortName(name, i == 1)) {
+                sortInfo.name = name;
+                sortInfo.ascending = ascending;
+            }
+        }
+        smartTable.setSortInfo();
+    },
+    getSortFunction: function(getSortValueFunctions, smartTable, defaultSortName) {
+        let arr = [];
+
+        function addSortBy(sortInfo) {
+            if (!sortInfo || !sortInfo.name) return;
+            let name = sortInfo.name;
+            let fn = getSortValueFunctions ? getSortValueFunctions[name] : (item => item[name]);
+            if (!fn) return;
+            arr.push({
+                fn: fn,
+                ascending: sortInfo.ascending
+            });
+        }
+        addSortBy(smartTable.sort);
+        addSortBy(smartTable.sortSub);
+        addSortBy({
+            name: defaultSortName,
+            ascending: true
+        });
+        if (arr.length > 2) arr.length = 2;
+        let fn1 = arr[0] && arr[0].fn;
+        let fn2 = (arr[1] && arr[1].fn) || (() => 0);
+
+        function sortTextAscending(a, b) {
+            if (a === null) return b === null ? 0 : 1;
+            return b === null ? -1 : a.localeCompare(b);
+        }
+
+        function sortTextDescending(a, b) {
+            if (a === null) return b === null ? 0 : 1;
+            return b === null ? -1 : -a.localeCompare(b);
+        }
+
+        function sortNumberAscending(a, b) {
+            if (isNaN(a)) return isNaN(b) ? 0 : 1;
+            return isNaN(b) ? -1 : a - b;
+        }
+
+        function sortNumberDescending(a, b) {
+            if (isNaN(a)) return isNaN(b) ? 0 : 1;
+            return isNaN(b) ? -1 : b - a;
+        }
+
+        return function(items) {
+            function getSortFn(index) {
+                let sample = items[0][index];
+                let isAscending = arr[index - 1] && arr[index - 1].ascending;
+                if (sample === null || typeof sample == 'string') return isAscending ? sortTextAscending : sortTextDescending;
+                return isAscending ? sortNumberAscending : sortNumberDescending;
+            }
+            items = items.map(item => [item, fn1(item), fn2(item)]);
+            let sort1 = getSortFn(1);
+            let sort2 = getSortFn(2) || (() => 0);
+            let sort = (a, b) => sort1(a[1], b[1]) || sort2(a[2], b[2]);
+            return items.sort(sort).map(item => item[0]);
+        };
     },
     getTabMenuItem: function(tabId) {
         return tabId && document.querySelector('.vertical-menu li[data-tabid="' + tabId + '"]');

@@ -452,7 +452,8 @@ tbody.hidden {
 
 /*#region SORTABLE*/
 
-th.sortable {
+th.sortable,
+th.sortable-sub {
   background-image: url(data:image/gif;base64,R0lGODlhCwAMAIAAAP///////yH5BAEAAAEALAAAAAALAAwAAAIWjA2nCLnR4or00PuytlcyrIBTszlHAQA7);
   cursor: pointer;
   background-repeat: no-repeat;
@@ -468,7 +469,7 @@ th.sort-ascending {
   background-image: url(data:image/gif;base64,R0lGODlhCwAMAIAAAP///////yH5BAEAAAEALAAAAAALAAwAAAIRjI+pywYN4oo00Xuubrz7UwAAOw==);
 }
 
-th.sort-sub {
+th.sortable-sub {
   background-image: url(data:image/gif;base64,R0lGODlhCwAMAIAAAAAAgP///yH5BAEAAAEALAAAAAALAAwAAAIWjA2nCLnR4or00PuytlcyrIBTszlHAQA7);
 }
 

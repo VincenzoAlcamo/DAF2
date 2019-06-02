@@ -73,13 +73,12 @@ function triggerSearchHandler(flag) {
 }
 
 function getState() {
-    var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
     return {
         show: selectShow.value,
         days: selectDays.value,
         search: searchInput.value,
         gift: filterGifts,
-        sort: getSort(smartTable.sort, 'name')
+        sort: gui.getSortState(smartTable)
     };
 }
 
@@ -88,12 +87,7 @@ function setState(state) {
     state.days = gui.setSelectState(selectDays, state.days, 21);
     searchInput.value = state.search || '';
     filterGifts = state.gift;
-    var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
-    if (!sortInfo.name) {
-        sortInfo.name = 'name';
-        sortInfo.ascending = true;
-    }
-    smartTable.setSortInfo(sortInfo, false);
+    gui.setSortState(state.sort, smartTable);
     updateButton();
 }
 
@@ -382,24 +376,23 @@ function refreshDelayed() {
         }
     }
 
-    var rows = [];
-    let blocksUnknown = smartTable.sort.ascending ? 144 : -1;
-    let wmUnknown = smartTable.sort.ascending ? 1e15 : -1;
-    var getSortValueFunctions = {
+    let palNames = {};
+    let getSortValueFunctions = {
+        name: pal => palNames[pal.id] || '',
         region: pal => +pal.region,
         level: pal => +pal.level,
         levelup: pal => (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? -pal.extra.timeLevel : 0,
         lastgift: pal => pal.extra.lastGift || 0,
         list: pal => +pal.c_list ? 0 : 1,
-        blocks: pal => pal.extra.blocks === undefined ? blocksUnknown : +pal.extra.blocks,
-        wmtime: pal => pal.extra.wmtime === undefined ? wmUnknown : +pal.extra.wmtime,
+        blocks: pal => pal.extra.blocks === undefined ? NaN : +pal.extra.blocks,
+        wmtime: pal => pal.extra.wmtime === undefined ? NaN : +pal.extra.wmtime,
         recorded: pal => pal.extra.timeCreated || 0,
         gifts: pal => palGifts[pal.id].length,
         value: pal => palGifts[pal.id]._value
     };
-    var sortName = smartTable.sort.name;
-    var getSortValue = getSortValueFunctions[sortName] || (_pal => 0);
+    let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'name');
     let now = gui.getUnixTime();
+    let items = [];
     for (let pal of neighbors) {
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
         if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
@@ -421,23 +414,21 @@ function refreshDelayed() {
             }
             if (!flag) continue;
         }
-        rows.push([palRows[pal.id], fullname, sortName == 'name' ? 0 : getSortValue(pal)]);
+        palNames[pal.id] = fullname;
+        items.push(pal);
     }
 
+    smartTable.tbody[0].innerHTML = '';
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
-        cell.innerText = Locale.getMessage('neighbors_found', rows.length, neighbors.length);
+        cell.innerText = Locale.getMessage('neighbors_found', items.length, neighbors.length);
     });
 
     scheduledRefresh = setTimeout(function() {
-        rows.sort((a, b) => (a[2] - b[2]) || a[1].localeCompare(b[1]));
-        if (!smartTable.sort.ascending) rows.reverse();
-
+        items = sort(items);
         var tbody = smartTable.tbody[0];
-        tbody.innerHTML = '';
-        for (let row of rows) {
-            tbody.appendChild(row[0]);
+        for (let item of items) {
+            tbody.appendChild(palRows[item.id]);
         }
-
         gui.collectLazyElements(tbody);
         smartTable.syncLater();
     }, 50);

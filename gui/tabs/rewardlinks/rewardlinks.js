@@ -103,21 +103,16 @@ function init() {
 }
 
 function getState() {
-    var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
     return {
         convert: selectConvert.value,
-        sort: getSort(smartTable.sort, 'id')
+        sort: gui.getSortState(smartTable, 'id')
     };
 }
 
 function setState(state) {
     state.convert = gui.setSelectState(selectConvert, state.convert);
-    var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
-    if (!sortInfo.name) {
-        sortInfo.name = 'id';
-        sortInfo.ascending = true;
-    }
-    smartTable.setSortInfo(sortInfo, false);
+    gui.setSortState(state.sort, smartTable, 'id');
+    smartTable.setSortInfo();
 }
 
 function onClickButton() {
@@ -410,19 +405,16 @@ function update() {
     }
     for (let item of Object.values(oldItems)) item.row.parentNode.removeChild(item.row);
 
-    let values = Object.values(items);
-    var sortKey = smartTable.sort.name;
-    var isAscending = smartTable.sort.ascending;
-    var sortFunction = {
-        'owner': (a, b) => a.cnm.localeCompare(b.cnm),
-        'insert': (a, b) => a.adt - b.adt,
-        'collect': (a, b) => (a.cdt || 0) - (b.cdt || 0),
-        'reward': (a, b) => a.mtx.localeCompare(b.mtx),
-        'select': (a, b) => a.row.classList.contains('selected') - b.row.classList.contains('selected'),
-        'id': (a, b) => a.id - b.id
-    } [sortKey];
-    values.sort((a, b) => sortFunction(a, b) || (a.id - b.id));
-    if (!isAscending) values.reverse();
+    let getSortValueFunctions = {
+        'owner': a => a.cnm || '',
+        'insert': a => a.adt,
+        'collect': a => a.cdt || 0,
+        'reward': a => a.mtx || '',
+        'select': a => +a.row.classList.contains('selected'),
+        'id': a => a.id
+    };
+    let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'id');
+    let values = sort(Object.values(items));
     for (let item of values) {
         tbody.appendChild(item.row);
     }

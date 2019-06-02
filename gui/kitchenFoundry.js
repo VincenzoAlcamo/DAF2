@@ -23,13 +23,11 @@ function kitchenFoundry(type) {
     }
 
     function getState() {
-        var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
         return {
             show: selectShow.value,
             from: selectFrom.style.display == 'none' ? '' : selectFrom.value,
             search: searchInput.value,
-            sort: getSort(smartTable.sort, 'name'),
-            sort2: getSort(smartTable.sortSub, 'ingredient')
+            sort: gui.getSortState(smartTable, 'name', 'ingredient')
         };
     }
 
@@ -37,14 +35,7 @@ function kitchenFoundry(type) {
         searchInput.value = state.search || '';
         selectShow.value = state.show == 'possible' ? state.show : '';
         selectFrom.value = state.from == 'region' || state.from == 'event' ? state.from : '';
-        [false, true].forEach(isSub => {
-            var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(isSub ? state.sort2 : state.sort), isSub);
-            if (!sortInfo.name) {
-                sortInfo.name = isSub ? 'ingredient' : 'name';
-                sortInfo.ascending = true;
-            }
-            smartTable.setSortInfo(sortInfo, isSub);
-        });
+        gui.setSortState(state.sort, smartTable, 'name', 'ingredient');
     }
 
     function update() {
@@ -226,7 +217,7 @@ function kitchenFoundry(type) {
 
         smartTable.showFixed(false);
 
-        sort = smartTable.sortInfo2string(smartTable.sort);
+        sort = gui.getSortInfoText(smartTable.sort);
         if (sort != oldState.sort) {
             oldState.sort = sort;
             let name = smartTable.sort.name;
@@ -234,7 +225,7 @@ function kitchenFoundry(type) {
             if (!smartTable.sort.ascending) productions.reverse();
         }
 
-        sort = smartTable.sortInfo2string(smartTable.sortSub);
+        sort = gui.getSortInfoText(smartTable.sortSub);
         if (sort && sort != oldState.sortSub) {
             oldState.sortSub = sort;
             let name = smartTable.sortSub.name;
@@ -245,6 +236,7 @@ function kitchenFoundry(type) {
             flagRecreate = true;
         }
 
+        if (productions[0] && !productions[0].rows) flagRecreate = true;
         if (flagRecreate) recreateRows();
 
         var generator = gui.getGenerator();

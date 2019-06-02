@@ -79,23 +79,17 @@ function triggerSearchHandler(flag) {
 }
 
 function getState() {
-    var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
     return {
         show: selectShow.value,
         search: searchInput.value,
-        sort: getSort(smartTable.sort, 'fname')
+        sort: gui.getSortState(smartTable, 'fname')
     };
 }
 
 function setState(state) {
     selectShow.value = state.show || '';
     searchInput.value = state.search || '';
-    var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
-    if (!sortInfo.name) {
-        sortInfo.name = 'fname';
-        sortInfo.ascending = true;
-    }
-    smartTable.setSortInfo(sortInfo, false);
+    gui.setSortState(state.sort, smartTable, 'fname');
 }
 
 function update() {
@@ -425,20 +419,15 @@ function refreshDelayed() {
     if (numFriends == 0) setTimeout(showCollectDialog, 500);
     numNeighbours = Object.keys(notmatched).length;
     numMatched = numMatchedImage = numMatchedManually = numDisabled = numIgnored = numFriendsShown = numNeighboursShown = 0;
-    var sortKey = smartTable.sort.name;
-    var isAscending = smartTable.sort.ascending;
-    var firstAlpha = isAscending ? '0' : '1';
-    var lastAlpha = isAscending ? '1' : '0';
-    var lastDate = isAscending ? 9e9 : 0;
-    var getSortValueFunctions = {
-        fname: (friend, pal) => (friend ? firstAlpha + friend.name : lastAlpha) + '\t' + (pal ? firstAlpha + gui.getPlayerNameFull(pal) : lastAlpha),
-        frecorded: (friend, _pal) => (friend ? friend.tc || lastDate : lastDate),
-        score: (friend, _pal) => (friend ? (friend.score > 0 || !isAscending ? friend.score : 101 - friend.score) : (isAscending ? 103 : -2)),
-        name: (friend, pal) => (pal ? firstAlpha + gui.getPlayerNameFull(pal) : lastAlpha) + '\t' + (friend ? firstAlpha + friend.name : lastAlpha),
-        level: (_friend, pal) => (pal ? pal.level : (isAscending ? 9999 : -1)),
-        recorded: (_friend, pal) => (pal ? pal.extra.timeCreated || 0 : lastDate)
+    let getSortValueFunctions = {
+        fname: (pair) => pair[0] ? pair[0].name : null,
+        frecorded: (pair) => pair[0] ? pair[0].tc : NaN,
+        score: (pair) => pair[0] ? pair[0].score : NaN,
+        name: (pair) => pair[1] ? gui.getPlayerNameFull(pair[1]) : null,
+        level: (pair) => pair[1] ? pair[1].level : NaN,
+        recorded: (pair) => pair[1] ? pair[1].extra.timeCreated || 0 : NaN
     };
-    var getSortValue = getSortValueFunctions[sortKey] || ((_friend, _pal) => '');
+    let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'fname');
     var arr = [];
     var isRowVisible = getRowVisibilityChecker();
     for (var friend of friends) {
@@ -456,23 +445,17 @@ function refreshDelayed() {
         if (isRowVisible(friend, pal)) {
             numFriendsShown++;
             if (pal) numNeighboursShown++;
-            arr.push([getSortValue(friend, pal), '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" lazy-render height="61"></tr>']);
+            arr.push([friend, pal, '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" lazy-render height="61"></tr>']);
         }
     }
     for (let pal of Object.values(notmatched)) {
         if (isRowVisible(null, pal)) {
             numNeighboursShown++;
-            arr.push([getSortValue(null, pal), '<tr data-pal-id="' + pal.id + '" lazy-render height="61"></tr>']);
+            arr.push([null, pal, '<tr data-pal-id="' + pal.id + '" lazy-render height="61"></tr>']);
         }
     }
-
-    if (sortKey != 'name' && sortKey != 'fname') {
-        arr.sort((a, b) => a[0] - b[0]);
-    } else {
-        arr.sort((a, b) => a[0].localeCompare(b[0]));
-    }
-    if (!isAscending) arr.reverse();
-    smartTable.tbody[0].innerHTML = arr.map(item => item[1]).join('');
+    arr = sort(arr);
+    smartTable.tbody[0].innerHTML = arr.map(item => item[2]).join('');
     showStats();
 
     scheduledRefresh = setTimeout(function() {

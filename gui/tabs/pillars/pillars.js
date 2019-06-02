@@ -83,7 +83,7 @@ function update() {
             pillar.predicted_xp = pillar.qty * pillar.xp;
             pillar.predicted_coins = pillar.qty * pillar.coins;
             pillar.level = +sale.level;
-            pillar.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 1;
+            pillar.region = (sale.req_type == 'camp_skin' ? gui.getRegionFromSkin(+sale.req_object) : 0) || 1;
             pillars.push(pillar);
         }
     }
@@ -96,14 +96,13 @@ function triggerSearchHandler(flag) {
 }
 
 function getState() {
-    var getSort = (sortInfo, defaultValue) => sortInfo && (sortInfo.name != defaultValue || !sortInfo.ascending) ? smartTable.sortInfo2string(sortInfo) : '';
     return {
         show: selectShow.value,
         search: searchInput.value,
         uncapped: !checkCap.checked,
         excluded: pillarsExcluded.join(','),
         grid: checkGrid.checked,
-        sort: getSort(smartTable.sort, 'name')
+        sort: gui.getSortState(smartTable, 'name')
     };
 }
 
@@ -113,12 +112,7 @@ function setState(state) {
     checkCap.checked = !!state.uncapped;
     checkGrid.checked = !!state.grid;
     pillarsExcluded = gui.getArrayOfInt(state.excluded);
-    var sortInfo = smartTable.checkSortInfo(smartTable.string2sortInfo(state.sort), false);
-    if (!sortInfo.name) {
-        sortInfo.name = 'name';
-        sortInfo.ascending = true;
-    }
-    smartTable.setSortInfo(sortInfo, false);
+    gui.setSortState(state.sort, smartTable, 'name');
 }
 
 function toggleCap() {
@@ -245,10 +239,8 @@ function refresh() {
         return true;
     }
 
-    let name = smartTable.sort.name;
-    if (name == 'region') name = 'skin';
-    pillars.sort((a, b) => (name != 'name' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
-    if (!smartTable.sort.ascending) pillars.reverse();
+    let sort = gui.getSortFunction(null, smartTable, 'name');
+    pillars = sort(pillars);
 
     Array.from(container.querySelectorAll('.pillars thead th')).forEach(th => {
         th.colSpan = state.grid && !th.previousElementSibling ? 8 : 1;
@@ -286,7 +278,7 @@ function refresh() {
             htm += HtmlBr `<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
             htm += HtmlBr `<td class="image"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}"/></td>`;
             htm += HtmlBr `<td>${pillar.name}</td>`;
-            htm += HtmlBr `<td>${gui.getSkinImg(pillar.skin)}</td>`;
+            htm += HtmlBr `<td>${gui.getRegionImg(pillar.region)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.level)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.xp)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.coins)}</td>`;
