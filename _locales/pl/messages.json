@@ -17,6 +17,9 @@
     "menu_fullwindowside": {
         "message": "Pasek boczny"
     },
+    "menu_fullwindowlock": {
+        "message": "Zablokowane"
+    },
     "menu_gctable": {
         "message": "Wyświetl pasek z BD"
     },
@@ -148,7 +151,7 @@
         "message": "Najpierw musisz kliknąć ikonę @DAF2@ w menu Chrome.\nSpowoduje to włącznenie funkcji zrzutu ekranu do momentu zamknięcia strony.\n\nKliknij ikonę @DAF2@ a następnie spróbuj ponownie zrobić zrzut ekranu."
     },
     "gui_infodated": {
-        "message": "Informacje pokazane tutaj są aktualnena dzień $VALID$",
+        "message": "Informacje pokazane tutaj są aktualne na dzień $VALID$",
         "placeholders": {
             "valid": {
                 "content": "$1"
@@ -1272,6 +1275,9 @@
     "options_fullwindowside": {
         "message": "Pasek boczny\nUkryj pasek boczny (Facebook) gdy nie jest włączony pełny ekran"
     },
+    "options_fullwindowlock": {
+        "message": "Zablokuj pełny ekran\nZapobiega wychodzeniu gry z pełnego ekranu."
+    },
     "options_resetfullwindow": {
         "message": "Zesetuj i załaduj\nZa każdym razem kiedy załadujesz grę \"Pełny ekran\" i \"Pełny ekran - pasek boczny\" zostaną zresetowane"
     },
@@ -1282,7 +1288,7 @@
         "message": "Tabela BD\nPokaż wszystkich sąsiadów z BD poniżej gry"
     },
     "options_gctablecounter": {
-        "message": "Liznik\nPokaż licznik"
+        "message": "Licznik\nPokaż licznik"
     },
     "options_gctableregion": {
         "message": "Region\nUżyj kolorów aby oznaczyć region sąsiada"

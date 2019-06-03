@@ -17,6 +17,9 @@
     "menu_fullwindowside": {
         "message": "Barra laterale"
     },
+    "menu_fullwindowlock": {
+        "message": "Blocca"
+    },
     "menu_gctable": {
         "message": "Mostra l'elenco dei Bimbi da raccogliere"
     },
@@ -1271,6 +1274,9 @@
     },
     "options_fullwindowside": {
         "message": "Laterale\nNasconde la barra laterale di Facebook quano non si è a finestra intera"
+    },
+    "options_fullwindowlock": {
+        "message": "Blocca finestra intera\nImpedisce al gioco di uscire da finestra intera."
     },
     "options_resetfullwindow": {
         "message": "Azzera al caricamento\nOgni volta che il gioco viene caricato, le opzioni \"Finestra intera\" e \"Finestra intera - Laterale\" vengono azzerate"
