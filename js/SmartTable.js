@@ -122,7 +122,9 @@ Object.assign(SmartTable.prototype, {
         this.sort = this.sort || {};
         this.sort.ascending = this.sort.ascending !== false;
         if (!this.isValidSortName(this.sort.name, false)) delete this.sort.name;
-        if (!this.sort.name && !this.hasSortableSub && this.sortSub.name) {
+        if(this.sort.name == this.sortSub.name) {
+            delete this.sortSub.name;
+        } else if (!this.sort.name && !this.hasSortableSub && this.sortSub.name) {
             this.sort = this.sortSub;
             delete this.sortSub.name;
         }
