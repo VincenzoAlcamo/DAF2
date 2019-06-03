@@ -67,6 +67,7 @@ function update() {
         var decoration = decorations[sale.object_id];
         var req = sale.requirements[0];
         if (decoration && req) {
+            var matId = req.material_id;
             var pillar = {};
             pillar.did = +decoration.def_id;
             pillar.img = gui.getObjectImage('decoration', pillar.did);
@@ -74,9 +75,10 @@ function update() {
             pillar.name = gui.getObjectName('decoration', pillar.did);
             pillar.xp = sale.exp;
             pillar.coins = +decoration.sell_price;
-            pillar.mname = gui.getObjectName('material', req.material_id);
+            pillar.mname = gui.getObjectName('material', matId);
             pillar.required = +req.amount;
-            pillar.available = materialInventory[req.material_id] || 0;
+            pillar.available = materialInventory[matId] || 0;
+            pillar.matimg = gui.getObjectImage('material', matId, true),
             pillar.possible = Math.floor(pillar.available / pillar.required);
             pillar.perc_next = (pillar.available - (pillar.possible * pillar.required)) / pillar.required * 100;
             pillar.qty = pillar.excluded ? 0 : pillar.possible;
@@ -283,7 +285,7 @@ function refresh() {
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.xp)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.coins)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.required)}</td>`;
-            htm += HtmlBr `<td>${Locale.formatNumber(pillar.available)}</td>`;
+            htm += HtmlBr `<td class="material" style="background-image:url(${pillar.matimg})" title="${pillar.mname}">${Locale.formatNumber(pillar.available)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.perc_next, 2)}%</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.possible)}</td>`;
             htm += HtmlBr `<td did="${pillar.did}">${htmInputs}</td>`;
