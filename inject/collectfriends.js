@@ -88,9 +88,9 @@ function collectStandard() {
                     var flag = false;
                     if ((d = item.getAttribute('data-hovercard')) && d.indexOf('user.php?id=') >= 0 && (id = getId(d))) {
                         uri = item.href;
-                        if ((i = uri.indexOf('profile.php?id='))) {
-                            if ((i = uri.indexOf('&', i))) uri = uri.substr(0, i);
-                        } else if ((i = uri.indexOf('?'))) uri = uri.substr(0, i);
+                        if ((i = uri.indexOf('profile.php?id=')) >= 0) {
+                            if ((i = uri.indexOf('&', i)) >= 0) uri = uri.substr(0, i);
+                        } else if ((i = uri.indexOf('?')) >= 0) uri = uri.substr(0, i);
                         count++;
                         addFriend({
                             id: id,
