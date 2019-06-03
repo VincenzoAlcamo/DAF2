@@ -87,7 +87,7 @@ function setState(state) {
     state.days = gui.setSelectState(selectDays, state.days, 21);
     searchInput.value = state.search || '';
     filterGifts = state.gift;
-    gui.setSortState(state.sort, smartTable);
+    gui.setSortState(state.sort, smartTable, 'name');
     updateButton();
 }
 
