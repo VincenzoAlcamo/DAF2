@@ -333,14 +333,18 @@ function createMenu() {
     menu.style.display = 'none';
     menu.innerHTML = html;
     document.body.appendChild(menu);
+    for (let el of Array.from(menu.querySelectorAll('[data-pref]'))) {
+        let prefName = el.getAttribute('data-pref');
+        el.title = getMessage('options_' + prefName.toLowerCase());
+    }
     menu.addEventListener('click', onMenuClick);
 }
 
 function updateMenu(prefName) {
     if (!menu) return;
-    for (var el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
+    for (let el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
         prefName = el.getAttribute('data-pref');
-        var isOn = !!prefs[prefName];
+        let isOn = !!prefs[prefName];
         el.classList.toggle('DAF-on', isOn);
         if (el.tagName == 'I' && (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick')) el.textContent = isOn ? textOn : textOff;
     }
