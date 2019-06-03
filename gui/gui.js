@@ -189,13 +189,13 @@ let gui = {
     getSortInfoText: function(sortInfo) {
         return sortInfo ? sortInfo.name + (sortInfo.ascending ? '(asc)' : '(desc)') : '';
     },
-    getSortState: function(smartTable, defaultSort, defaultSortSub) {
+    getSortState: function(smartTable, _defaultSort, _defaultSortSub) {
         let result = '';
         if (smartTable) {
             let sortInfo = smartTable.sort;
-            if (sortInfo && sortInfo.name && (sortInfo.name != defaultSort || !sortInfo.ascending)) result += gui.getSortInfoText(sortInfo);
+            if (sortInfo && sortInfo.name) result += gui.getSortInfoText(sortInfo);
             sortInfo = smartTable.sortSub;
-            if (sortInfo && sortInfo.name && (sortInfo.name != defaultSortSub || !sortInfo.ascending)) result += ',' + gui.getSortInfoText(sortInfo);
+            if (sortInfo && sortInfo.name) result += ',' + gui.getSortInfoText(sortInfo);
         }
         return result;
     },
