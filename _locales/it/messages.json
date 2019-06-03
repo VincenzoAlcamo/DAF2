@@ -1230,7 +1230,7 @@
         "message": "Non dipende dal livello del giocatore"
     },
     "specialweek_end": {
-        "message": "termila il $FINISH$",
+        "message": "termina il $FINISH$",
         "placeholders": {
             "finish": {
                 "content": "$1"
