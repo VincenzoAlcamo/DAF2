@@ -21,7 +21,7 @@
         "message": "Sperre"
     },
     "menu_gctable": {
-        "message": "Display GC table"
+        "message": "Götter-Kinder-Tabelle anzeigen"
     },
     "menu_gctablecounter": {
         "message": "Anzahl"
@@ -30,7 +30,7 @@
         "message": "Region"
     },
     "menu_gccollected": {
-        "message": "Alle GC wurden gesammelt."
+        "message": "Alle Götter-Kinder wurden gesammelt."
     },
     "menu_autoclick": {
         "message": "Automatisches Klicken auf das Popup von Facebook"
@@ -298,7 +298,7 @@
         "message": "Mögliche\nEnergie"
     },
     "kitchen_total_time": {
-        "message": "Zubereitungszeit\n($POTS$ Pots)",
+        "message": "Zubereitungszeit\n($POTS$ Töpfe)",
         "placeholders": {
             "pots": {
                 "content": "$1"
@@ -669,7 +669,7 @@
         "message": "Freundschaftsliste abrufen...."
     },
     "friendship_ghostfriendremoving": {
-        "message": "Entfernen von \"Geist\" Freund ($NUM$ / $TOTAL$)",
+        "message": "Entfernen von \"Geisterfreunden\" ($NUM$ / $TOTAL$)",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -896,7 +896,7 @@
         }
     },
     "godchild_next": {
-        "message": "Um ein zusätzliches GC zu erhalten, musst du $NUM$ weitere Nachbarn hinzufügen.",
+        "message": "Um ein zusätzliches Götter-Kind zu erhalten, musst du $NUM$ weitere Nachbarn hinzufügen.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -904,10 +904,10 @@
         }
     },
     "godchild_next0": {
-        "message": "Die maximal mögliche Anzahl von GCs wurde erreicht."
+        "message": "Die maximal mögliche Anzahl von Götter-Kindern wurde erreicht."
     },
     "godchild_next1": {
-        "message": "Um einen zusätzlichen GC zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
+        "message": "Um einen zusätzlichen Götter-Kind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
     },
     "progress_measure": {
         "message": "Messung"
@@ -1053,6 +1053,198 @@
             }
         }
     },
+    "rewardlinks_linksadded": {
+        "message": "Belohnungslinks hinzugefügt: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_nolinksadded": {
+        "message": "Es wurden keine Belohnungslinks hinzugefügt."
+    },
+    "rewardlinks_linksupdated": {
+        "message": "Belohnungslinks aktualisiert: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_stats": {
+        "message": "Belohnungslinks: $TOTAL$, Zu Sammeln: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_allcollected": {
+        "message": "Alle Belohnungslinks wurden gesammelt."
+    },
+    "rewardlinks_nexttime": {
+        "message": "Die nächste Sammlung beginnt am $DATE$.",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_countremaining": {
+        "message": "Verbleibende Links zum Sammeln: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_collectanyway": {
+        "message": "Möchten Sie diesen Link trotzdem öffnen?"
+    },
+    "rewardlinks_infocollected": {
+        "message": "Dieser Link wurde bereits erfasst."
+    },
+    "rewardlinks_infoexpired": {
+        "message": "Dieser Link ist abgelaufen.\nLinks sind nur für $NUM$ Tage gültig.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_infonoself": {
+        "message": "Dieser Link gehört dir: Selbstbelohnungen sind nicht gültig."
+    },
+    "rewardlinks_infobroken": {
+        "message": "Dieser Link ist defekt oder funktioniert nicht."
+    },
+    "rewardlinks_infomaxreached": {
+        "message": "Dieser Link wurde gesammelt, während das maximale Tageslimit erreicht wurde.\nAuf diese Weise gesammelte Links gehen für immer verloren."
+    },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Es gibt noch andere Belohnungen, deren Sammlung noch aussteht.\nDies kann dein Tageslimit überschreiten."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Dieser Link ist wahrscheinlich abgelaufen.\nLinks-IDs werden sequentiell generiert und diese Belohnungs-ID ist niedriger als die ID einer abgelaufenen Belohnung."
+    },
+    "rewardlinks_removelinks": {
+        "message": "Alte Links entfernen"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Ausgewählte Links entfernen"
+    },
+    "rewardlinks_removelinksdays": {
+        "message": "Entfernen von nicht sammelbaren Belohnungslinks, die älter als @DAYS@ Tage sind.\nDies gilt auch für abgelaufene und bereits gesammelte Links.\nLinks, die älter als $NUM$ Tage sind, werden regelmäßig entfernt.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_removenone": {
+        "message": "Keine Links zu entfernen!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Links, die gelöscht werden: $NUM$\nEntfernte Links können nicht mehr hinzugefügt werden.\n\nMit der Löschung fortfahren?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Diese Belohnung wurde am $DATE$ hinzugefügt.",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Zurücksetzen"
+    },
+    "rewardlinks_resetcount": {
+        "message": "Sie können die Informationen zur \"Nächsten Sammlung\" zurücksetzen und trotzdem mit diesem Link fortfahren."
+    },
+    "rewardlinks_resetexpired": {
+        "message": "Sie können die Information \"Wahrscheinlich abgelaufen\" zurücksetzen und mit diesem Link trotzdem fortfahren."
+    },
+    "rewardlinks_convert": {
+        "message": "Link umwandeln"
+    },
+    "rewardlinks_noconversion": {
+        "message": "Keine Umwandlung"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Links verkürzen/umwandeln"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Fügen Sie hier die Links zum Kürzen/Konvertieren ein."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Verkürzte Links sind unten dargestellt (Duplikate werden entfernt)."
+    },
+    "export_exportdata": {
+        "message": "Exportieren von Daten"
+    },
+    "export_exportinventory": {
+        "message": "Exportbestand"
+    },
+    "export_importdata": {
+        "message": "Importieren von Daten"
+    },
+    "export_invalidexportdata": {
+        "message": "Die Datei ist keine gültige DAF-Exportdatei für den aktuellen Spieler!"
+    },
+    "export_importsuccess": {
+        "message": "Die Daten wurden erfolgreich importiert!"
+    },
+    "export_debugdata": {
+        "message": "Exportieren von Diagnosedaten"
+    },
+    "rings_showminmax": {
+        "message": "Minimal- und Maximalwerte anzeigen"
+    },
+    "rings_playerlevel": {
+        "message": "Stufe des Spielers auswählen"
+    },
+    "rings_resetlevel": {
+        "message": "Zurücksetzen"
+    },
+    "rings_stats": {
+        "message": "Du hast $NUM$ $NAME$ im Rucksack.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+    "rings_notdependent": {
+        "message": "Unabhängig vom Level des Spielers"
+    },
+    "specialweek_end": {
+        "message": "endet am $FINISH$",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_debris_discount": {
+        "message": "Geröll entfernen Rabattwoche $PERCENT$%",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_production": {
         "message": "Doppelte Produktionswoche"
     },
@@ -1071,8 +1263,74 @@
     "options_section_ingame": {
         "message": "Optionen im Spiel"
     },
+    "options_injectgame": {
+        "message": "DAF aktivieren\nDAF im Spiel aktivieren.\nWenn nicht aktiviert, haben die folgenden Optionen keine Wirkung."
+    },
+    "options_fullwindow": {
+        "message": "Vollbildmodus\nSpiel im Vollbildmodus anzeigen"
+    },
+    "options_fullwindowheader": {
+        "message": "Kopfzeile\nKopfzeile der Seite im Vollbildmodus anzeigen."
+    },
+    "options_fullwindowside": {
+        "message": "Seite\nDie Seitenleiste (Facebook) ausblenden, wenn sie nicht im Vollbildmodus ist."
+    },
+    "options_fullwindowlock": {
+        "message": "Vollbild sperren\nVerhindert, dass das Spiel das Vollbild verlässt."
+    },
+    "options_resetfullwindow": {
+        "message": "Zurücksetzen beim Starten\nJedes Mal, wenn Sie das Spiel laden, werden \"Vollbild\" und \"Vollbild - Seite\" zurückgesetzt."
+    },
+    "options_resetfullwindow_warning": {
+        "message": "Diese Option sollte aktiviert werden, wenn es Probleme beim Laden des Spiels gibt."
+    },
+    "options_gctable": {
+        "message": "Götter-Kinder Tabelle\nZeige alle Nachbarn mit Götter-Kindern unter dem Spiel."
+    },
+    "options_gctablecounter": {
+        "message": "Zähler / Anzahl\nDen Zähler / Anzahl anzeigen"
+    },
+    "options_gctableregion": {
+        "message": "Region\nVerwende Farben, um die Region eines Nachbarn zu markieren."
+    },
+    "options_autoclick": {
+        "message": "Autoklick\nPopups von Facebook automatisch bestätigen."
+    },
     "options_section_general": {
         "message": "Allgemeine Einstellungen"
+    },
+    "options_autologin": {
+        "message": "Automatische Anmeldung im Portal\nLoggt sich automatisch in das Portal ein."
+    },
+    "options_keepdebugging": {
+        "message": "Debugging fortsetzen\nVerwenden Sie den Debugger auch nach dem Laden des Spiels.\nDu kannst @SILENT@ aktivieren, um die Meldung \"DAF2 is debugging\" zu beseitigen."
+    },
+    "options_keepdebugging_warning": {
+        "message": "Dies ist erforderlich, um eingehende Geschenke während des Spiels zu registrieren und das Camp eines Nachbarn zu besuchen."
+    },
+    "options_section_rewardlinks": {
+        "message": "Belohnungslinks"
+    },
+    "options_rewardsclose": {
+        "message": "Automatisches Schließen\nSchließt die Seite automatisch, nachdem die Belohnung gesammelt wurde."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Außer Gems\nNicht automatisch schließen, wenn ein Gem gefunden wurde."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Außer Fehler\nNicht automatisch schließen, wenn ein Fehler gefunden wurde."
+    },
+    "options_rewardssummary": {
+        "message": "Summentabelle anzeigen\nWenn die Seite nicht automatisch geschlossen wird, wird eine Zusammenfassungstabelle am unteren Rand hinzugefügt."
+    },
+    "options_linkgrabenabled": {
+        "message": "Link Grabber\nAktiviere den Link Grabber in Facebook.\nWenn diese Option nicht aktiviert ist, haben die folgenden Optionen keine Auswirkung."
+    },
+    "options_linkgrabbutton": {
+        "message": "Maustaste\nWähle die Maustaste, die den Link Grabber auslöst."
+    },
+    "options_linkgrabkey": {
+        "message": "Optionaler Schalter\nWähle zusätzlich zur Maustaste eine optionale Taste, die gedrückt werden soll."
     },
     "options_linkgrabsort": {
         "message": "Links sortieren"

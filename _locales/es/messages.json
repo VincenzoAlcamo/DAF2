@@ -17,6 +17,9 @@
     "menu_fullwindowside": {
         "message": "Barra lateral"
     },
+    "menu_fullwindowlock": {
+        "message": "Bloquear"
+    },
     "menu_gctable": {
         "message": "Muestra ahijados para recolectar"
     },
@@ -1271,6 +1274,9 @@
     },
     "options_fullwindowside": {
         "message": "Lado\nOcultar la barra lateral (Facebook) cuando no esté en la ventana completa"
+    },
+    "options_fullwindowlock": {
+        "message": "Seguro de la ventana completa\nEvita que el juego salga ventana completa."
     },
     "options_resetfullwindow": {
         "message": "Reiniciar en carga\nCada vez que cargue el juego, se restablecerán \"Ventana completa\" y \"Ventana completa - Lateral\""
