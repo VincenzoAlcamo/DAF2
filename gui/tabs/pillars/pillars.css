@@ -26,7 +26,6 @@
 }
 
 .pillars tr td.image img {
-  min-height: 50px;
   max-height: 50px;
   max-width: 30px;
 }
@@ -125,5 +124,5 @@
   background-size: 22px 22px;
   background-repeat: no-repeat;
   background-position: calc(100% - 2px);
-  padding-right: 30px;
+  padding-right: 26px;
 }
