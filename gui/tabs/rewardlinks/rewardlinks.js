@@ -342,6 +342,7 @@ function update() {
     if (!items) items = {};
     let oldItems = items;
     items = {};
+    let expiredId = bgp.Data.rewardLinksData.expired;
     for (let rewardLink of Object.values(bgp.Data.getRewardLinks())) {
         if (rewardLink.id in rewardLinksRecent) {
             delete clicked[rewardLink.id];
@@ -361,12 +362,13 @@ function update() {
                 item.cdt = rewardLink.cdt;
                 item.row.cells[3].innerText = item.cdt ? Locale.formatDateTime(item.cdt) : '';
             }
+            if (!item.cmt && item.id <= expiredId) item.cmt = -6;
             if (item.cmt != rewardLink.cmt) {
                 flagUpdated = true;
                 item.cmt = rewardLink.cmt;
                 item.row.cells[4].innerHTML = materialHTML(item.cmt);
                 item.mtx = item.row.cells[4].textContent;
-                if (item.cmt) item.row.classList.add('collected');
+                if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             }
             if (item.cid != rewardLink.cid || item.cnm != (rewardLink.cnm || '')) {
                 flagUpdated = true;
@@ -377,6 +379,7 @@ function update() {
             if (flagUpdated) status = 3;
         } else {
             item = Object.assign({}, rewardLink);
+            if (!item.cmt && item.id <= expiredId) item.cmt = -6;
             item.cnm = item.cnm || '';
             item.conversion = conversion;
             item.row = document.createElement('tr');
@@ -388,7 +391,7 @@ function update() {
             if (item.cid) htm += HtmlBr `<td>${gui.getFBFriendAnchor(item.cid)}<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a></td>`;
             else htm += `<td></td>`;
             item.row.innerHTML = htm;
-            if (item.cmt) item.row.classList.add('collected');
+            if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             item.mtx = item.row.cells[4].textContent;
             if (!firstTime) status = 2;
         }
