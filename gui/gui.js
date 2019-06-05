@@ -1,4 +1,4 @@
-/*global chrome Locale Dialog UrlInfo HtmlRaw Html HtmlBr dynamicImport*/
+/*global chrome Locale Dialog UrlInfo HtmlRaw Html HtmlBr dynamicImport Tooltip*/
 let bgp = chrome.extension.getBackgroundPage();
 
 let currentTab = null;
@@ -462,6 +462,8 @@ function onLoad() {
             }
         }
     });
+
+    Tooltip.init();
 
     chrome.storage.onChanged.addListener(function onStorageChanged(changes, area) {
         if (area != 'local') return;

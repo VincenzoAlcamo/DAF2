@@ -1,4 +1,4 @@
-/*global bgp gui Locale Html HtmlBr HtmlRaw*/
+/*global bgp gui Locale Html HtmlBr HtmlRaw Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -35,6 +35,8 @@ function init() {
         div.addEventListener('mouseout', onmousemove);
         div.addEventListener('mouseleave', onmousemove);
     });
+
+    container.addEventListener('tooltip', onTooltip);
 }
 
 function update() {
@@ -439,7 +441,7 @@ function renderCamp(campResult, isPublic) {
                 bid = slot.bid;
                 var url = gui.getObjectImage('building', bid);
                 if (url) {
-                    kind += ' img';
+                    kind += ' img tooltip-event';
                     exStyle = ';background-image:url(' + url + ')';
                 }
                 if (slot.capacity > 0) {
@@ -468,4 +470,11 @@ function renderCamp(campResult, isPublic) {
     });
     htm += HtmlBr `</div>`;
     return htm;
+}
+
+function onTooltip(event) {
+    let element = event.target;
+    let bid = parseInt(element.getAttribute('bid'));
+    let htm = HtmlBr `<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/><span></span></div>`;
+    Tooltip.show(element, htm, 'w bb');
 }

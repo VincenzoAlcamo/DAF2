@@ -752,6 +752,28 @@ input.note:focus::-webkit-input-placeholder {
 
 /*#endregion*/
 
+/*#region Tooltip*/
+.Tooltip {
+  background: var(--tt-bgcol);
+  color: var(--tt-fgcol);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  --outline-color: var(--tt-outline);
+  padding: 4px 4px;
+  border-radius: 8px;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s;
+  z-index: 1000;
+}
+
+.Tooltip-On {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*#endregion*/
+
 /*#region GREEN/RED RINGS*/
 .tab_greenrings .stats img,
 .tab_redrings .stats img {

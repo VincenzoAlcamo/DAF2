@@ -1,4 +1,4 @@
-/*global gui SmartTable Locale Html HtmlBr*/
+/*global gui SmartTable Locale Html HtmlBr Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -28,6 +28,8 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('pillars');
     smartTable.fixedFooter.parentNode.classList.add('pillars');
+
+    container.addEventListener('tooltip', onTooltip);
 }
 
 function update() {
@@ -78,7 +80,7 @@ function update() {
             pillar.mname = gui.getObjectName('material', matId);
             pillar.required = +req.amount;
             pillar.available = materialInventory[matId] || 0;
-            pillar.matimg = gui.getObjectImage('material', matId, true),
+            pillar.matimg = gui.getObjectImage('material', matId, true);
             pillar.possible = Math.floor(pillar.available / pillar.required);
             pillar.perc_next = (pillar.available - (pillar.possible * pillar.required)) / pillar.required * 100;
             pillar.qty = pillar.excluded ? 0 : pillar.possible;
@@ -262,23 +264,23 @@ function refresh() {
         }
     });
 
-    var htm = '',
-        isOdd = false,
-        titleIgnore = gui.getMessage('pillars_ignore'),
-        index = 0;
-    pillars.filter(isVisible).forEach(pillar => {
-        var htmInputs = HtmlBr `<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
+    let htm = '';
+    let isOdd = false;
+    let titleIgnore = gui.getMessage('pillars_ignore');
+    let index = 0;
+    for (let pillar of pillars.filter(isVisible)) {
+        let htmInputs = HtmlBr `<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
         if (state.grid) {
             index++;
             if (index == 9) {
                 htm += `</tr><tr>`;
                 index = 1;
             }
-            htm += HtmlBr `<td class="image grid${pillar.excluded ? ' excluded' : ''}" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}"/>${htmInputs}</td>`;
+            htm += HtmlBr `<td class="image grid${pillar.excluded ? ' excluded' : ''}" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"/>${htmInputs}</td>`;
         } else {
             isOdd = !isOdd;
             htm += HtmlBr `<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
-            htm += HtmlBr `<td class="image"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}"/></td>`;
+            htm += HtmlBr `<td class="image" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"></td>`;
             htm += HtmlBr `<td>${pillar.name}</td>`;
             htm += HtmlBr `<td>${gui.getRegionImg(pillar.region)}</td>`;
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.level)}</td>`;
@@ -293,7 +295,7 @@ function refresh() {
             htm += HtmlBr `<td>${Locale.formatNumber(pillar.predicted_coins)}</td>`;
             htm += HtmlBr `</tr>`;
         }
-    });
+    }
     if (state.grid && index > 0) {
         while (index++ < 8) htm += `<td class="grid"></td>`;
         htm = `<tr>` + htm + `</tr>`;
@@ -308,4 +310,13 @@ function refresh() {
     refreshTotals();
     gui.collectLazyElements(smartTable.container);
     smartTable.syncLater();
+}
+
+function onTooltip(event) {
+    let element = event.target;
+    element.removeAttribute('title');
+    let did = parseInt(element.parentNode.getAttribute('did'));
+    let pillar = pillars.find(pillar => pillar.did == did);
+    let htm = HtmlBr `<div class="pillars-tooltip"><img src="${pillar.img}"}" class="outlined"/><span>${pillar.name}</span></div>`;
+    Tooltip.show(element, htm);
 }
