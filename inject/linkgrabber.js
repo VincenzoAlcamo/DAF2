@@ -442,28 +442,37 @@ const LinkData = (function() {
 //#endregion
 
 function collectData(flagGetUserData) {
-    var values = [];
-    var hash = {};
-    var reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
+    let values = [];
+    let hash = {};
+    let reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
+    let cid, cnm;
 
-    function getActor(actors, data) {
-        var result = false;
+    function getActor(actors) {
+        cid = cnm = undefined;
+        let invalid = false;
         for (let actor of actors) {
-            var hovercard = actor.getAttribute('data-hovercard');
+            let hovercard = actor.getAttribute('data-hovercard');
             if (!hovercard) continue;
-            var match = hovercard.match(reCid);
+            let match = hovercard.match(reCid);
             if (!match) continue;
-            data.cid = match[2];
+            cid = match[2];
             for (var node = actor.firstChild; node; node = node.nextSibling) {
-                if (node.nodeType == Node.TEXT_NODE && node.textContent.trim() != '') {
-                    data.cnm = node.textContent;
-                    break;
+                let text = node.nodeType == Node.TEXT_NODE ? node.textContent.trim() : '';
+                if (text != '') {
+                    if (text.indexOf('://') >= 0) invalid = true;
+                    else {
+                        cnm = text;
+                        invalid = false;
+                        break;
+                    }
                 }
             }
-            result = true;
-            if (data.cnm) break;
+            if (invalid) {
+                cid = undefined;
+                actor.classList.add('DAF-invalid');
+            }
+            if (cnm) break;
         }
-        return result;
     }
     for (let a of links) {
         var data = a.daf && a.daf.selected && a.daf.data;
@@ -471,8 +480,12 @@ function collectData(flagGetUserData) {
             if (flagGetUserData) {
                 var parent = a.parentNode;
                 for (var depth = 12; parent && depth > 0; depth--) {
-                    var actors = parent.querySelectorAll('[data-hovercard]');
-                    if (actors.length && getActor(actors, data)) break;
+                    getActor(parent.querySelectorAll('[data-hovercard]:not(.DAF-invalid)'));
+                    if (cid && (!data.cid || data.cid == cid)) {
+                        data.cid = cid;
+                        if (cnm) data.cnm = cnm;
+                    }
+                    if (data.cnm) break;
                     parent = parent.parentNode;
                 }
             }
