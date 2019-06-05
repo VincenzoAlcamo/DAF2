@@ -1160,6 +1160,7 @@ var Data = {
         for (let id in Object.keys(rewardLinksRecent)) {
             if (rewardLinksRecent[id] < removeThreshold) delete rewardLinksRecent[id];
         }
+        let expiredId = Data.rewardLinksData.expired || 0;
         for (let reward of arr) {
             if (!reward || !reward.id) return;
             // do not process old links, except when collection was successful
@@ -1189,6 +1190,7 @@ var Data = {
                     };
                     if (reward.cdt) existingReward.cdt = reward.cdt;
                     if (reward.cmt) existingReward.cmt = reward.cmt;
+                    if (existingReward.id <= expiredId && !existingReward.cmt) existingReward.cmt = -6;
                     if (reward.cid) {
                         // overwrite existing if owner id is different or existing has no owner name
                         if (reward.cnm && (existingReward.cid != reward.cid || !existingReward.cnm)) existingReward.cnm = reward.cnm;

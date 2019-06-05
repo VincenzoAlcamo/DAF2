@@ -342,7 +342,6 @@ function update() {
     if (!items) items = {};
     let oldItems = items;
     items = {};
-    let expiredId = bgp.Data.rewardLinksData.expired;
     for (let rewardLink of Object.values(bgp.Data.getRewardLinks())) {
         if (rewardLink.id in rewardLinksRecent) {
             delete clicked[rewardLink.id];
@@ -362,7 +361,6 @@ function update() {
                 item.cdt = rewardLink.cdt;
                 item.row.cells[3].innerText = item.cdt ? Locale.formatDateTime(item.cdt) : '';
             }
-            if (!item.cmt && item.id <= expiredId) item.cmt = -6;
             if (item.cmt != rewardLink.cmt) {
                 flagUpdated = true;
                 item.cmt = rewardLink.cmt;
@@ -379,7 +377,6 @@ function update() {
             if (flagUpdated) status = 3;
         } else {
             item = Object.assign({}, rewardLink);
-            if (!item.cmt && item.id <= expiredId) item.cmt = -6;
             item.cnm = item.cnm || '';
             item.conversion = conversion;
             item.row = document.createElement('tr');
