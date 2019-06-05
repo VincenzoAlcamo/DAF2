@@ -234,11 +234,11 @@ function refresh() {
     let state = getState();
     var generator = gui.getGenerator();
     var level = +generator.level;
-    var skins = gui.getArrayOfInt(generator.skins || '1');
+    var region = +generator.region;
     state.search = (state.search || '').toUpperCase();
 
     function isVisible(p) {
-        if (state.show == 'possible' && (p.possible == 0 || level < p.level || !skins.includes(p.skin))) return false;
+        if (state.show == 'possible' && (p.possible == 0 || level < p.level || region < p.region)) return false;
         if (state.search && p.name.toUpperCase().indexOf(state.search) < 0) return false;
         return true;
     }
