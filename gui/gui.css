@@ -755,7 +755,7 @@ input.note:focus::-webkit-input-placeholder {
 /*#region Tooltip*/
 .Tooltip {
   color: var(--th-fgcol);
-  border: 1px solid var(--tb-brcol);
+  border: 2px solid var(--tb-brcol);
   --outline-color: #000;
   padding: 4px 4px;
   border-radius: 8px;
@@ -769,7 +769,7 @@ input.note:focus::-webkit-input-placeholder {
 .Tooltip::after {
   content: "";
   background-color: var(--th-bgcol);
-  border-radius: 8px;
+  border-radius: 4px;
   opacity: 0.9;
   top: 0;
   left: 0;
