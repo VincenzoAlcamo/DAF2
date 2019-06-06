@@ -85,6 +85,7 @@
 
 .about_launcher>div>button {
   opacity: 1;
+  width: 230px;
 }
 
 .about_launcher button:hover {
