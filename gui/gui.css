@@ -754,10 +754,9 @@ input.note:focus::-webkit-input-placeholder {
 
 /*#region Tooltip*/
 .Tooltip {
-  background: var(--tt-bgcol);
-  color: var(--tt-fgcol);
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  --outline-color: var(--tt-outline);
+  color: var(--th-fgcol);
+  border: 1px solid var(--tb-brcol);
+  --outline-color: #000;
   padding: 4px 4px;
   border-radius: 8px;
   position: absolute;
@@ -765,6 +764,19 @@ input.note:focus::-webkit-input-placeholder {
   visibility: hidden;
   transition: opacity 0.4s;
   z-index: 1000;
+}
+
+.Tooltip::after {
+  content: "";
+  background-color: var(--th-bgcol);
+  border-radius: 8px;
+  opacity: 0.9;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 .Tooltip-On {
