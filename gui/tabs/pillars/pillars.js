@@ -75,7 +75,7 @@ function update() {
             pillar.img = gui.getObjectImage('decoration', pillar.did);
             pillar.excluded = pillarsExcluded.includes(pillar.did);
             pillar.name = gui.getObjectName('decoration', pillar.did);
-            pillar.xp = sale.exp;
+            pillar.xp = +sale.exp;
             pillar.coins = +decoration.sell_price;
             pillar.mname = gui.getObjectName('material', matId);
             pillar.required = +req.amount;
