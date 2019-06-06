@@ -237,7 +237,7 @@
         "message": "Belohnungs-Links"
     },
     "tab_options": {
-        "message": "Optionen"
+        "message": "Einstellungen"
     },
     "tab_help": {
         "message": "Hilfe"
@@ -414,16 +414,16 @@
         "message": "Stellplatz Durchschnitt"
     },
     "camp_min_value": {
-        "message": "Steckplatz minimal"
+        "message": "Stellplatz minimal"
     },
     "camp_max_value": {
-        "message": "Steckplatz maximal"
+        "message": "Stellplatz maximal"
     },
     "camp_unlock_materials": {
         "message": "Benötigtes Material zum Freischalten des Lagers"
     },
     "camp_unlock_one": {
-        "message": "Die Freischaltung eines Steckplatzes bringt $VALUE$ XP netto.",
+        "message": "Die Freischaltung eines Stellplatzes bringt $VALUE$ XP netto.",
         "placeholders": {
             "value": {
                 "content": "$1"
@@ -447,7 +447,7 @@
         }
     },
     "camp_day_mode": {
-        "message": "Tagesmodus"
+        "message": "Tagmodus"
     },
     "camp_night_mode": {
         "message": "Nachtmodus"
@@ -1261,10 +1261,10 @@
         "message": "Postkartenwoche"
     },
     "options_section_ingame": {
-        "message": "Optionen im Spiel"
+        "message": "Einstellungen im Spiel"
     },
     "options_injectgame": {
-        "message": "DAF aktivieren\nDAF im Spiel aktivieren.\nWenn nicht aktiviert, haben die folgenden Optionen keine Wirkung."
+        "message": "DAF aktivieren\nDAF im Spiel aktivieren.\nWenn nicht aktiviert, haben die folgenden Einstellungen keine Wirkung."
     },
     "options_fullwindow": {
         "message": "Vollbildmodus\nSpiel im Vollbildmodus anzeigen"
@@ -1276,13 +1276,13 @@
         "message": "Seite\nDie Seitenleiste (Facebook) ausblenden, wenn sie nicht im Vollbildmodus ist."
     },
     "options_fullwindowlock": {
-        "message": "Vollbild sperren\nVerhindert, dass das Spiel das Vollbild verlässt."
+        "message": "Vollbildmodus sperren\nVerhindert, dass das Spiel den Vollbildmodus verlässt."
     },
     "options_resetfullwindow": {
-        "message": "Zurücksetzen beim Starten\nJedes Mal, wenn Sie das Spiel laden, werden \"Vollbild\" und \"Vollbild - Seite\" zurückgesetzt."
+        "message": "Zurücksetzen beim Starten\nJedes Mal, wenn Sie das Spiel laden, werden \"Vollbildmodus\" und \"Vollbild - Seite\" zurückgesetzt."
     },
     "options_resetfullwindow_warning": {
-        "message": "Diese Option sollte aktiviert werden, wenn es Probleme beim Laden des Spiels gibt."
+        "message": "Diese Einstellung sollte aktiviert werden, wenn es Probleme beim Laden des Spiels gibt."
     },
     "options_gctable": {
         "message": "Götter-Kinder Tabelle\nZeige alle Nachbarn mit Götter-Kindern unter dem Spiel."
@@ -1324,7 +1324,7 @@
         "message": "Summentabelle anzeigen\nWenn die Seite nicht automatisch geschlossen wird, wird eine Zusammenfassungstabelle am unteren Rand hinzugefügt."
     },
     "options_linkgrabenabled": {
-        "message": "Link Grabber\nAktiviere den Link Grabber in Facebook.\nWenn diese Option nicht aktiviert ist, haben die folgenden Optionen keine Auswirkung."
+        "message": "Link Grabber\nAktiviere den Link Grabber in Facebook.\nWenn nicht aktiviert, haben die folgenden Einstellungen keine Wirkung."
     },
     "options_linkgrabbutton": {
         "message": "Maustaste\nWähle die Maustaste, die den Link Grabber auslöst."
