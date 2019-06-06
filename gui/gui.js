@@ -66,8 +66,8 @@ let gui = {
         var name = pal.name || 'Player ' + pal.id;
         return pal.surname ? name + ' ' + pal.surname : name;
     },
-    getFBFriendAvatarUrl: function(fb_id) {
-        return HtmlRaw('https://graph.facebook.com/v2.8/' + fb_id + '/picture');
+    getFBFriendAvatarUrl: function(fb_id, size) {
+        return HtmlRaw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
     },
     getFBFriendAnchor: function(fb_id, uri) {
         uri = uri || ('https://www.facebook.com/' + fb_id);

@@ -1,4 +1,4 @@
-/*global chrome bgp gui Locale Dialog SmartTable Html HtmlBr HtmlRaw*/
+/*global chrome bgp gui Locale Dialog SmartTable Html HtmlBr HtmlRaw Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -71,6 +71,8 @@ function init() {
     smartTable.container.insertBefore(divMatch, smartTable.container.firstChild);
 
     smartTable.table.addEventListener('input', onInput);
+
+    container.addEventListener('tooltip', onTooltip);
 }
 
 function triggerSearchHandler(flag) {
@@ -341,7 +343,7 @@ function updateRow(row) {
     var htm = '';
     if (friend) {
         let anchor = gui.getFBFriendAnchor(friend.id, friend.uri);
-        htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}"/></a></td>`;
+        htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}" class="tooltip-event"/></a></td>`;
         htm += HtmlBr `<td>${anchor}${friend.name}</a><br>`;
         htm += HtmlBr `<input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}">${friend.disabled ? friendDisabled : ''}</td>`;
         htm += HtmlBr `<td>${Locale.formatDate(friend.tc)}<br>${Locale.formatDays(friend.tc)}</td>`;
@@ -356,7 +358,7 @@ function updateRow(row) {
     }
     if (pal) {
         let anchor = gui.getFBFriendAnchor(pal.fb_id);
-        htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
+        htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
         htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
         htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;
         htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
@@ -735,5 +737,23 @@ function matchStoreAndUpdate() {
             }
         }
         rest = rest.filter(friend => !getProcessed(friend));
+    }
+}
+
+function onTooltip(event) {
+    let element = event.target;
+    let td = element.parentNode.parentNode;
+    let row = td.parentNode;
+    let fb_id;
+    if (td.cellIndex == 0) {
+        fb_id = row.getAttribute('data-friend-id');
+    } else {
+        let pal_id = row.getAttribute('data-pal-id');
+        let pal = pal_id && bgp.Data.getNeighbour(pal_id);
+        fb_id = pal && pal.fb_id;
+    }
+    if (fb_id) {
+        let htm = HtmlBr `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
+        Tooltip.show(element, htm, 'w');
     }
 }

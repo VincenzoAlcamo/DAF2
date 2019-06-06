@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Dialog HtmlBr Html HtmlRaw*/
+/*global bgp gui SmartTable Locale Dialog HtmlBr Html HtmlRaw Tooltip*/
 
 export default {
     hasCSS: true,
@@ -56,6 +56,8 @@ function init() {
     smartTable.tbody[0].addEventListener('click', onClick);
 
     smartTable.table.addEventListener('input', onInput);
+
+    container.addEventListener('tooltip', onTooltip);
 }
 
 function getSelectDays(selectedValue) {
@@ -263,7 +265,7 @@ function updateRow(row) {
     var pal = bgp.Data.getNeighbour(id);
     var anchor = gui.getFBFriendAnchor(pal.fb_id);
     var htm = '';
-    htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}"/></a></td>`;
+    htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
     let friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
     let friendImg = friend ? HtmlBr `${gui.getFriendAnchor(friend)}<img class="friend" src="/img/gui/isaFriend.png"/></a>` : '';
     htm += HtmlBr `<td>${friendImg}${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
@@ -432,4 +434,15 @@ function refreshDelayed() {
         gui.collectLazyElements(tbody);
         smartTable.syncLater();
     }, 50);
+}
+
+function onTooltip(event) {
+    let element = event.target;
+    let pal_id = element.parentNode.parentNode.parentNode.getAttribute('data-pal-id');
+    let pal = pal_id && bgp.Data.getNeighbour(pal_id);
+    let fb_id = pal && pal.fb_id;
+    if (fb_id) {
+        let htm = HtmlBr `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
+        Tooltip.show(element, htm, 'w');
+    }
 }
