@@ -342,7 +342,9 @@ function update() {
     if (!items) items = {};
     let oldItems = items;
     items = {};
+    let expiredId = bgp.Data.rewardLinksData.expired || 0;
     for (let rewardLink of Object.values(bgp.Data.getRewardLinks())) {
+        if (!rewardLink.cmt && rewardLink.id <= expiredId) rewardLink.cmt = -6;
         if (rewardLink.id in rewardLinksRecent) {
             delete clicked[rewardLink.id];
             delete rewardLinksRecent[rewardLink.id];
