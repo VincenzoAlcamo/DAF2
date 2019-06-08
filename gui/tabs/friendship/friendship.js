@@ -405,7 +405,7 @@ function getRowVisibilityChecker() {
         if (search) {
             let text = '';
             if (friend) text += '\t' + friend.name + '\t' + (friend.note || '');
-            if (pal) text += '\t' + gui.getPlayerNameFull(pal) + +'\t' + (pal.extra.note || '');
+            if (pal) text += '\t' + gui.getPlayerNameFull(pal) + '\t' + (pal.extra.note || '');
             if (text.toUpperCase().indexOf(search) < 0) return false;
         }
         return fn(friend, pal);
