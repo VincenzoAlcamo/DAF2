@@ -272,11 +272,14 @@ let gui = {
                 if (sample === null || typeof sample == 'string') return isAscending ? sortTextAscending : sortTextDescending;
                 return isAscending ? sortNumberAscending : sortNumberDescending;
             }
-            items = items.map(item => [item, fn1(item), fn2(item)]);
-            let sort1 = getSortFn(1);
-            let sort2 = getSortFn(2) || (() => 0);
-            let sort = (a, b) => sort1(a[1], b[1]) || sort2(a[2], b[2]);
-            return items.sort(sort).map(item => item[0]);
+            if (items.length) {
+                items = items.map(item => [item, fn1(item), fn2(item)]);
+                let sort1 = getSortFn(1);
+                let sort2 = getSortFn(2) || (() => 0);
+                let sort = (a, b) => sort1(a[1], b[1]) || sort2(a[2], b[2]);
+                items = items.sort(sort).map(item => item[0]);
+            }
+            return items;
         };
     },
     getTabMenuItem: function(tabId) {
