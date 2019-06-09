@@ -197,7 +197,7 @@ function ringLoot(kind) {
         htm += HtmlBr `<table><thead><tr>`;
         htm += HtmlBr `<th><img src="/img/gui/chest.png"/></th>`;
         htm += HtmlBr `<th>${gui.getMessage('gui_loot')}</th>`;
-        let text = gui.getMessage('gui_level') + ': ' + Locale.formatNumber(level) + '\n(';
+        let text = gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level) + '\n(';
         htm += HtmlBr `<th class="min"><img src="/img/gui/min.png" title="${Html(text + gui.getMessage('gui_minimum') + ')')}"/></th>`;
         htm += HtmlBr `<th class="avg"><img src="/img/gui/avg.png" title="${Html(text + gui.getMessage('gui_average') + ')')}"/></th>`;
         htm += HtmlBr `<th class="max"><img src="/img/gui/max.png" title="${Html(text + gui.getMessage('gui_maximum') + ')')}"/></th>`;
