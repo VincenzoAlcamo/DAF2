@@ -803,6 +803,7 @@ input.note:focus::-webkit-input-placeholder {
   margin: 6px auto;
 }
 
+.rings.card table td.level,
 .rings.card table td.min,
 .rings.card table td.avg,
 .rings.card table td.max {
@@ -822,6 +823,7 @@ input.note:focus::-webkit-input-placeholder {
   background-position: 4px center;
 }
 
+.rings-no-level .rings.card .level,
 .rings-no-minmax .rings.card .min,
 .rings-no-minmax .rings.card .max {
   display: none;

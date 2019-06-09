@@ -14,7 +14,7 @@ function ringLoot(kind) {
         tokenId = 32;
     } else throw 'Invalid kind "' + kind + '"';
 
-    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop;
+    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel;
     let checkState = {};
 
     function init() {
@@ -28,10 +28,8 @@ function ringLoot(kind) {
         inputLevel.addEventListener('input', onInput);
         inputLevel.addEventListener('blur', onBlur);
 
-        container.querySelector('[name=resetlevel]').addEventListener('click', function() {
-            inputLevel.value = +gui.getGenerator().level;
-            onInput();
-        });
+        checkLevel = container.querySelector('[name=showlevel]');
+        checkLevel.addEventListener('click', onInput);
 
         let parent = container.querySelector('.scrollable-content');
         for (let lid of floors) {
@@ -57,7 +55,7 @@ function ringLoot(kind) {
         let level = parseInt(inputLevel.value) || 0;
         return {
             minmax: checkMinMax.checked,
-            level: level >= 1 && level <= 999 && level != +gui.getGenerator().level ? level : null,
+            [checkLevel.checked ? 'level' : 'no-level']: (level >= 1 && level <= 999 ? level : +gui.getGenerator().level),
             h: floors.map((lid, index) => getCheck('loot_' + lid, index + 1)).filter(v => v).join(',')
         };
     }
@@ -72,7 +70,8 @@ function ringLoot(kind) {
                 setRotate(input);
             }
         };
-        let level = parseInt(state.level) || 0;
+        checkLevel.checked = 'level' in state;
+        let level = parseInt(state.level || state['no-level']) || 0;
         inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
         floors.forEach((lid, index) => setCheck('loot_' + lid, index + 1));
         checkMinMax.checked = !!state.minmax;
@@ -177,6 +176,7 @@ function ringLoot(kind) {
     function refresh() {
         let state = getState();
         container.classList.toggle('rings-no-minmax', !state.minmax);
+        container.classList.toggle('rings-no-level', !checkLevel.checked);
         let level = inputLevel.value;
         if (level < 1 || level > 999) level = +gui.getGenerator().level;
         for (let lid of floors) showLoot(level, lid);
@@ -191,14 +191,18 @@ function ringLoot(kind) {
         return null;
     }
 
-    function showLoot(level, lid) {
+    function showLoot(otherLevel, lid) {
+        let level = +gui.getGenerator().level;
         let htm = '';
         htm += HtmlBr `<table><thead><tr>`;
         htm += HtmlBr `<th><img src="/img/gui/chest.png"/></th>`;
         htm += HtmlBr `<th>${gui.getMessage('gui_loot')}</th>`;
-        htm += HtmlBr `<th class="min"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
-        htm += HtmlBr `<th class="avg"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
-        htm += HtmlBr `<th class="max"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
+        let text = gui.getMessage('gui_level') + ': ' + Locale.formatNumber(level) + '\n(';
+        htm += HtmlBr `<th class="min"><img src="/img/gui/min.png" title="${Html(text + gui.getMessage('gui_minimum') + ')')}"/></th>`;
+        htm += HtmlBr `<th class="avg"><img src="/img/gui/avg.png" title="${Html(text + gui.getMessage('gui_average') + ')')}"/></th>`;
+        htm += HtmlBr `<th class="max"><img src="/img/gui/max.png" title="${Html(text + gui.getMessage('gui_maximum') + ')')}"/></th>`;
+        text = gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(';
+        htm += HtmlBr `<th class="level">${text + gui.getMessage('gui_average') + ')'}</th>`;
         htm += HtmlBr `</tr></thead>`;
         htm += HtmlBr `<tbody>`;
         let lastChest = 0;
@@ -208,12 +212,11 @@ function ringLoot(kind) {
         let tdNotDependent = Html `<td class="avg not-dependent" title="${gui.getMessage('rings_notdependent')}">`;
         for (let lootArea of floorData[lid].loots) {
             let coef = lootArea.coef;
-            let min = lootArea.min;
-            let max = lootArea.max;
-            let notRandom = min == max;
-            min = min + (coef != 0.0 ? Math.floor((level * coef) * min) : 0);
-            max = max + (coef != 0.0 ? Math.floor((level * coef) * max) : 0);
-            let avg = Math.floor((min + max) / 2);
+            let notRandom = lootArea.min == lootArea.max;
+            let min, max, avg;
+            min = lootArea.min + (coef != 0.0 ? Math.floor((level * coef) * lootArea.min) : 0);
+            max = lootArea.max + (coef != 0.0 ? Math.floor((level * coef) * lootArea.max) : 0);
+            avg = Math.floor((min + max) / 2);
             if (lootArea.chest != lastChest) odd = !odd;
             htm += HtmlBr `<tr class="${(odd ? 'odd' : '') + (notRandom ? ' not-random' : '')}">`;
             if (lootArea.chest != lastChest) {
@@ -226,6 +229,10 @@ function ringLoot(kind) {
             htm += HtmlBr `<td class="min">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, min))}</td>`;
             htm += HtmlBr `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
             htm += HtmlBr `<td class="max">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, max))}</td>`;
+            min = lootArea.min + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.min) : 0);
+            max = lootArea.max + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.max) : 0);
+            avg = Math.floor((min + max) / 2);
+            htm += HtmlBr `<td class="level">${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
             htm += HtmlBr `</tr>`;
         }
         htm += HtmlBr `</tbody>`;
