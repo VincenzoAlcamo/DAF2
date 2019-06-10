@@ -21,7 +21,7 @@
         "message": "Sperre"
     },
     "menu_gctable": {
-        "message": "Götter-Kinder-Tabelle anzeigen"
+        "message": "Götterkinder-Tabelle anzeigen"
     },
     "menu_gctablecounter": {
         "message": "Anzahl"
@@ -30,7 +30,7 @@
         "message": "Region"
     },
     "menu_gccollected": {
-        "message": "Alle Götter-Kinder wurden gesammelt."
+        "message": "Alle Götterkinder wurden gesammelt."
     },
     "menu_autoclick": {
         "message": "Automatisches Klicken auf das Popup von Facebook"
@@ -222,7 +222,7 @@
         "message": "Freundschaften"
     },
     "tab_godchild": {
-        "message": "Götter-Kinder"
+        "message": "Götterkinder"
     },
     "tab_locations": {
         "message": "Standorte"
@@ -874,7 +874,7 @@
         }
     },
     "godchild_info": {
-        "message": "$NUM$ Nachbarn = $GC$ Götter-Kinder",
+        "message": "$NUM$ Nachbarn = $GC$ Götterkinder",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -885,7 +885,7 @@
         }
     },
     "godchild_stat": {
-        "message": "Götter-Kinder: $NUM$ / $TOTAL$",
+        "message": "Götterkinder: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -896,7 +896,7 @@
         }
     },
     "godchild_next": {
-        "message": "Um ein zusätzliches Götter-Kind zu erhalten, musst du $NUM$ weitere Nachbarn hinzufügen.",
+        "message": "Um ein zusätzliches Götterkind zu erhalten, musst du $NUM$ weitere Nachbarn hinzufügen.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -904,10 +904,10 @@
         }
     },
     "godchild_next0": {
-        "message": "Die maximal mögliche Anzahl von Götter-Kindern wurde erreicht."
+        "message": "Die maximal mögliche Anzahl von Götterkindern wurde erreicht."
     },
     "godchild_next1": {
-        "message": "Um einen zusätzlichen Götter-Kind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
+        "message": "Um einen zusätzlichen Götterkind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
     },
     "progress_measure": {
         "message": "Messung"
@@ -1285,7 +1285,7 @@
         "message": "Diese Einstellung sollte aktiviert werden, wenn es Probleme beim Laden des Spiels gibt."
     },
     "options_gctable": {
-        "message": "Götter-Kinder Tabelle\nZeige alle Nachbarn mit Götter-Kindern unter dem Spiel."
+        "message": "Götterkinder-Tabelle\nZeige alle Nachbarn mit Götterkindern unter dem Spiel."
     },
     "options_gctablecounter": {
         "message": "Zähler / Anzahl\nDen Zähler / Anzahl anzeigen"

@@ -90,7 +90,7 @@
         "message": "fra begivenheder"
     },
     "gui_ingredients": {
-        "message": "Ingridienser"
+        "message": "Ingredienser"
     },
     "gui_event": {
         "message": "Begivenhed"
@@ -189,7 +189,7 @@
         "message": "Bekræft"
     },
     "dialog_cancel": {
-        "message": "Slet"
+        "message": "Afbryd"
     },
     "dialog_pleasewait": {
         "message": "Vent venligst"
@@ -352,7 +352,7 @@
         "message": "Total"
     },
     "camp_fill_time": {
-        "message": "Opfyldnings tid"
+        "message": "Opfyldnings tid\n(fra 0 til maks kapacitet)"
     },
     "camp_windmill_regen": {
         "message": "Enkelt vindmølle regenerering"
@@ -486,7 +486,7 @@
         "message": "Dit nuværende level"
     },
     "pillars_predicted_level": {
-        "message": "Forventet levet"
+        "message": "Forventet level"
     },
     "pillars_predicted_energy": {
         "message": "Forventet Energi fra Level stigning"
@@ -616,7 +616,7 @@
         "message": "Du kan sortere dine naboer på de gaver de har sendt i de sidste @DAYS@ dage ved at vælge en eller flere gaver fra den følgende liste."
     },
     "neighbors_clearfilter": {
-        "message": "Slet filter"
+        "message": "Ryd filter"
     },
     "neighbors_gift_tooltip": {
         "message": "Antal modtagne gaver mens DAF2 har været aktiv og registrerende."
@@ -649,7 +649,7 @@
         "message": "Klik for at slette denne ven permanent"
     },
     "friendship_matchplayertitle": {
-        "message": "Klik her for at slette denne udvælgelse"
+        "message": "Klik her for at afbryde denne udvælgelse"
     },
     "friendship_accountdisabled": {
         "message": "Kontoen er deaktiveret"
@@ -774,7 +774,7 @@
         "message": "Her kan du samle dine Facebook venner og sammenligne dem med dine naboer."
     },
     "friendship_collectstandard": {
-        "message": "Sandard"
+        "message": "Standard"
     },
     "friendship_collectstandardinfo": {
         "message": "Denne metode er troværdig, men meget langsom (det kan tage adskillige minutter)."
@@ -1165,7 +1165,7 @@
         }
     },
     "rewardlinks_reset": {
-        "message": "Reset"
+        "message": "Nulstil"
     },
     "rewardlinks_resetcount": {
         "message": "Du kan resette \"Næste kollektion\" informationen og fortsætte med dette link alligevel."
@@ -1279,7 +1279,7 @@
         "message": "Lås fuld skærm\nDette forhindrer spillet i at lukke fuld skærm vinduet."
     },
     "options_resetfullwindow": {
-        "message": "Reset ved opstart\nHvergang du starter spillet, bliver \"Fuld skærm\" og \"Fuld skærm - side\" resat."
+        "message": "Nulstil ved opstart\nHvergang du starter spillet, bliver \"Fuld skærm\" og \"Fuld skærm - side\" sat tilbage til grundindstillingen."
     },
     "options_resetfullwindow_warning": {
         "message": "Denne mulighed skal være aktiveret, hvis du oplever problemer med at loade spillet."
@@ -1306,7 +1306,7 @@
         "message": "Fortsæt debug\nBrug debug selv efter spillet er startet.\nDu kan aktivere @SILENT@ for at slippe for \"DAF2 is debugging\" beskeden"
     },
     "options_keepdebugging_warning": {
-        "message": "Det er nødvendigt for at modtage gaver og besøge naboers lejre, mens du spiller."
+        "message": "Dette er nødvendigt for at modtage gaver og besøge naboers lejre, mens du spiller."
     },
     "options_section_rewardlinks": {
         "message": "Præmie links"
@@ -1392,7 +1392,7 @@
         "message": "Opdater links"
     },
     "linkgrabber_fn_showid": {
-        "message": "Vis/Sjul Præmie Id"
+        "message": "Vis/Skjul Præmie Id"
     },
     "linkgrabber_added": {
         "message": "Præmie links tilføjet: $NUM$ / $TOTAL$",
