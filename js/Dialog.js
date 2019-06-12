@@ -172,9 +172,9 @@ Object.assign(Dialog.prototype, {
         style = style.map(method => method.toLowerCase());
         for (let tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.indexOf(tag) >= 0);
         let dialog = this;
-        for (let input of this.element.querySelectorAll('button,[data-method=input]')) {
-            let isInput = input.getAttribute('data-method') == 'input';
-            let method = isInput ? 'input' : input.value.toLowerCase();
+        for (let input of this.element.querySelectorAll('button,[data-method]')) {
+            let isInput = input.getAttribute('data-method');
+            let method = isInput ? input.getAttribute('data-method') : input.value.toLowerCase();
             input.style.display = isInput || style.indexOf(method) >= 0 ? '' : 'none';
             if (!input.getAttribute('hasListener')) {
                 input.setAttribute('hasListener', '1');

@@ -176,6 +176,12 @@
     "gui_datafrompf": {
         "message": "Dati ottenuti dai file di gioco di Pixel Federation"
     },
+    "gui_gift": {
+        "message": "Regalo"
+    },
+    "gui_day": {
+        "message": "Giorno"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -613,13 +619,16 @@
         "message": "Filtro avanzato"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "Puoi ulteriormente filtrare i vicini in base al regalo che hanno inviato negli utlimi @DAYS@ giorni, selezionando uno o più regali dalla seguente lista."
+        "message": "Puoi ulteriormente filtrare i vicini in base al regalo che hanno inviato negli ultimi @DAYS@ giorni, selezionando uno o più regali dalla seguente lista."
     },
     "neighbors_clearfilter": {
         "message": "Azzera il filtro"
     },
     "neighbors_gift_tooltip": {
         "message": "Registro dei regali ricevuti mentre DAF2 era attivo e in registrazione."
+    },
+    "neighbors_sortby": {
+        "message": "Ordina per"
     },
     "friendship_collect": {
         "message": "Colleziona e abbina"

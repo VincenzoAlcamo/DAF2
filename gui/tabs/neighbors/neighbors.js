@@ -121,29 +121,45 @@ function onClickAdvanced() {
         let amount = +gift.amount;
         let name = gui.getObjectName(gift.type, gift.object_id);
         if (amount > 1) name += ' x ' + Locale.formatNumber(amount);
-        items.push([+gid, gui.getMessage('neighbors_gift', name, Locale.formatNumber(giftValues[gift.def_id]), weekdayNames[gift.day])]);
+        items.push([+gid, gui.getMessage('neighbors_gift', name, Locale.formatNumber(giftValues[gift.def_id]), weekdayNames[gift.day]), giftValues[gift.def_id], gift.day]);
     }
-    items.sort((a, b) => a[1].localeCompare(b[1]));
+
+    function getGiftListHtml(list, sortBy) {
+        let fn = [(a, b) => a[1].localeCompare(b[1]), (a, b) => a[2] - b[2], (a, b) => a[3] - b[3]][sortBy || 0];
+        items.sort(fn);
+        let htm = '';
+        for (let item of items) {
+            htm += Html `<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
+        }
+        return htm;
+    }
     let htm = '';
     let info = HtmlRaw(String(HtmlBr(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
-    htm += HtmlBr `${info}<br><select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
-    let list = gui.getArrayOfInt(state.gift);
-    for (let item of items) {
-        htm += Html `<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
-    }
-    htm += HtmlBr `</select><br/><input data-method="input" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/>`;
+    htm += HtmlBr `${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
+    htm += HtmlBr `<option value="0">${gui.getMessage('gui_gift')}</option>`;
+    htm += HtmlBr `<option value="1">${gui.getMessage('gui_xp')}</option>`;
+    htm += HtmlBr `<option value="2">${gui.getMessage('gui_day')}</option>`;
+    htm += HtmlBr `</select>`;
+    htm += HtmlBr ` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
+    htm += HtmlBr `<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
+    htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
+    htm += HtmlBr `</select>`;
     gui.dialog.show({
         title: gui.getMessage('neighbors_advancedfilter'),
         html: htm,
-        style: [Dialog.CONFIRM, Dialog.CANCEL, 'clear']
+        style: [Dialog.CONFIRM, Dialog.CANCEL]
     }, function(method, params) {
-        if (method == 'input') {
+        let list = gui.getArrayOfInt(params.gifts).sort().join(',');
+        if (method == 'clear') {
             for (let option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
-            gui.dialog.visible = true;
+            return;
+        }
+        if (method == 'sort') {
+            gui.dialog.element.querySelector('[name=gifts]').innerHTML = getGiftListHtml(list, params.sort);
             return;
         }
         if (method == Dialog.CANCEL) return;
-        filterGifts = gui.getArrayOfInt(params.gifts).sort().join(',');
+        filterGifts = list;
         selectDays.value = params.days;
         refresh();
     });

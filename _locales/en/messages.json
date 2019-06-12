@@ -178,6 +178,12 @@
     "gui_datafrompf": {
         "message": "Data obtained from Pixel Federation's game files"
     },
+    "gui_gift": {
+        "message": "Gift"
+    },
+    "gui_day": {
+        "message": "Day"
+    },
 
     "dialog_ok": {
         "message": "Ok"
@@ -630,6 +636,9 @@
     },
     "neighbors_gift_tooltip": {
         "message": "Record of gifts received whilst DAF2 is active and recording."
+    },
+    "neighbors_sortby": {
+        "message": "Sort by"
     },
 
     "friendship_collect": {
@@ -1431,9 +1440,5 @@
                 "content": "$1"
             }
         }
-    },
-
-    "ext_placeholder": {
-        "message": "Last message. DO NOT TRANSLATE"
     }
 }
