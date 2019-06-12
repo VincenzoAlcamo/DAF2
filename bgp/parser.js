@@ -76,6 +76,7 @@ var Parser = {
         let time = data.time;
         let oldNeighbours = Data.neighbours || {};
         let reFBId = /\/(\d+)\/picture/;
+        let spawned = false;
         arr = arr.map((o, index) => {
             var id = o.uid;
             // Keep only the needed data
@@ -106,10 +107,17 @@ var Parser = {
                 pal.extra.lastLevel = old.level;
                 pal.extra.timeLevel = time;
             }
+            if (pal.spawned && !spawned && (!old || !old.spawned)) spawned = true;
             pal.extra.lastGift = Math.max(pal.extra.lastGift || 0, o.rec_gift || 0);
             neighbours[id] = pal;
         });
         data.neighbours = neighbours;
+        let pal = neighbours[1];
+        if (pal) {
+            // Store spawn time on Mr.Bill
+            let old = oldNeighbours[pal.id];
+            pal.spawn_time = spawned ? time : old && old.spawn_time;
+        }
 
         // File changes
         try {

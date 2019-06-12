@@ -688,6 +688,7 @@ var Data = {
     REWARDLINKS_REFRESH_HOURS: 22,
     REWARDLINKS_REMOVE_DAYS: 10,
     REWARDLINKS_HISTORY_MAXITEMS: 10000,
+    GC_REFRESH_HOURS: 22,
     init: async function() {
         Data.db = await idb.open('DAF', 1, function(db) {
             switch (db.oldVersion) {
@@ -997,6 +998,13 @@ var Data = {
         if (extra.gifts) {
             extra.g = extra.gifts.map(g => [g.id, g.gid, g.time]);
             delete extra.gifts;
+        }
+    },
+    getNextGCCollectionTime: function() {
+        let pal = Data.neighbours[1];
+        if (pal && pal.spawn_time) {
+            let time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
+            if (time > getUnixTime()) return time;
         }
     },
     //#endregion
