@@ -534,7 +534,7 @@ thead .stats {
   padding: 2px 6px;
   color: var(--tt-button-fgcol);
   background-color: var(--tt-button-bgcol);
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .toolbar button.activated {
@@ -786,6 +786,12 @@ input.note:focus::-webkit-input-placeholder {
 
 /*#endregion*/
 
+td.dot {
+  background-image: url(/img/gui/red_dot.gif);
+  background-repeat: no-repeat;
+  background-position: 3px 4px;
+}
+
 /*#region GREEN/RED RINGS*/
 .tab_greenrings .stats img,
 .tab_redrings .stats img {
@@ -827,12 +833,6 @@ input.note:focus::-webkit-input-placeholder {
 .rings-no-minmax .rings.card .min,
 .rings-no-minmax .rings.card .max {
   display: none;
-}
-
-.rings td.avg.not-dependent {
-  background-image: url(/img/gui/red_dot.gif);
-  background-repeat: no-repeat;
-  background-position: 3px 4px;
 }
 
 .rings tr.not-random td.max,

@@ -1,0 +1,53 @@
+<div class="toolbar">
+    <label>
+        <span data-i18n-text="gui_show"></span>
+        <select name="show">
+            <option value="" data-i18n-text="equipment_show_all"></option>
+            <option value="owned" data-i18n-text="equipment_show_owned"></option>
+            <option value="sale" data-i18n-text="equipment_show_sale"></option>
+            <option value="affordable" data-i18n-text="equipment_show_affordable"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_type"></span>
+        <select name="type">
+            <option value=""></option>
+            <option value="regen" data-i18n-text="camp_regen"></option>
+            <option value="capacity" data-i18n-text="camp_capacity"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_search"></span>
+        <input name="search" type="text" maxlength="40">
+    </label>
+    <div class="equipment-stats"></div>
+</div>
+<div class="scrollable-content">
+    <table class="equipment data">
+        <thead>
+            <tr>
+                <th></th>
+                <th class="sortable" sort-name="name" data-i18n-text="tab_equipment"></th>
+                <th class="sortable" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png"></th>
+                <th class="sortable" sort-name="region"><img data-i18n-title="gui_theme_required" src="/img/gui/map.png"></th>
+                <th class="sortable" sort-name="event"><img data-i18n-title="gui_event" src="/img/gui/events.png" /></th>
+                <th class="sortable" sort-name="sell"><img data-i18n-title="gui_sell_price" src="/img/gui/coin.png"></th>
+                <th class="sortable" sort-name="placed"><img data-i18n-title="gui_placed" src="/img/gui/camp.png"></th>
+                <th class="sortable" sort-name="owned"><img data-i18n-title="gui_owned" src="/img/gui/backpack.png"></th>
+                <th class="sortable" sort-name="limit"><img data-i18n-title="gui_limit" src="/img/gui/limit.png"></th>
+                <th class="sortable" sort-name="type" data-i18n-text="gui_type"></th>
+                <th class="sortable" sort-name="value" data-i18n-text="gui_value"></th>
+                <th class="sortable" sort-name="width"><img data-i18n-title="gui_width" src="/img/gui/width.png"></th>
+                <th class="sortable" sort-name="height"><img data-i18n-title="gui_height" src="/img/gui/height.png"></th>
+                <th class="sortable" sort-name="slotvalue" data-i18n-text="gui_slot_value"></th>
+                <th><img data-i18n-title="gui_cost" src="/img/gui/shop.png"></th>
+            </tr>
+        </thead>
+        <tbody class="row-coloring"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="13"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

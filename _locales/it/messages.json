@@ -65,6 +65,9 @@
     "gui_region_required": {
         "message": "Regione\nrichiesta"
     },
+    "gui_theme_required": {
+        "message": "Regione/Tema\nrichiesto"
+    },
     "gui_level_required": {
         "message": "Livello\nrichiesto"
     },
@@ -182,6 +185,36 @@
     "gui_day": {
         "message": "Giorno"
     },
+    "gui_placed": {
+        "message": "Piazzato nel campo"
+    },
+    "gui_owned": {
+        "message": "Posseduto"
+    },
+    "gui_limit": {
+        "message": "Limite"
+    },
+    "gui_type": {
+        "message": "Tipo"
+    },
+    "gui_width": {
+        "message": "Larghezza"
+    },
+    "gui_height": {
+        "message": "Altezza"
+    },
+    "gui_value": {
+        "message": "Potenza"
+    },
+    "gui_slot_value": {
+        "message": "Potenza\nper slot"
+    },
+    "gui_cost": {
+        "message": "Costo"
+    },
+    "gui_items_found": {
+        "message": "Elementi trovati"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -250,6 +283,9 @@
     },
     "tab_export": {
         "message": "Importa / Esporta"
+    },
+    "tab_equipment": {
+        "message": "Equipaggiamento"
     },
     "about_version": {
         "message": "Versione: $VERSION$",
@@ -1237,6 +1273,26 @@
     },
     "rings_notdependent": {
         "message": "Non dipende dal livello del giocatore"
+    },
+    "equipment_sellout": {
+        "message": "Vendere tutti gli equipaggiamenti inutilizzati ti farà guadagnare $COINS$ monete.",
+        "placeholders": {
+            "coins": {
+                "content": "$1"
+            }
+        }
+    },
+    "equipment_show_all": {
+        "message": "Tutti"
+    },
+    "equipment_show_owned": {
+        "message": "Solo quelli posseduti"
+    },
+    "equipment_show_sale": {
+        "message": "Solo quelli in vendita"
+    },
+    "equipment_show_affordable": {
+        "message": "Solo quelli aquistabili"
     },
     "specialweek_end": {
         "message": "termina il $FINISH$",

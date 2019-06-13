@@ -209,7 +209,7 @@ function ringLoot(kind) {
         let odd = false;
         let multiplier = swDoubleDrop ? 2 : 1;
         let tdAvg = Html `<td class="avg">`;
-        let tdNotDependent = Html `<td class="avg not-dependent" title="${gui.getMessage('rings_notdependent')}">`;
+        let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
         for (let lootArea of floorData[lid].loots) {
             let coef = lootArea.coef;
             let notRandom = lootArea.min == lootArea.max;

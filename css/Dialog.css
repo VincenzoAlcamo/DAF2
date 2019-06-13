@@ -120,21 +120,21 @@
 .DAF-dialog input[type=button],
 .DAF-dialog button {
   border: none;
-  padding: 0.4em 0.8em;
+  padding: 2px 8px;
   font-size: 1em;
   letter-spacing: 1px;
   cursor: pointer;
   display: inline-block;
   margin: 0;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 2px solid rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .DAF-dialog input[type=button]:hover,
 .DAF-dialog button:hover {
   background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .DAF-md-footer button {

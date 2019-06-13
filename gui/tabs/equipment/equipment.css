@@ -1,0 +1,34 @@
+.equipment img.building {
+  max-width: 48px;
+  max-height: 48px;
+}
+
+.equipment tr td {
+  text-align: center;
+}
+
+.equipment tr td:nth-child(2) {
+  text-align: left;
+}
+
+.equipment img.material {
+  height: 18px;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.equipment td.locked {
+  background-color: rgba(255, 0, 0, 0.3);
+}
+
+.equipment-stats {
+  padding-top: 4px;
+  margin-bottom: -2px;
+  font-weight: bold;
+}
+
+/* .equipment-tooltip img {
+  background-image: linear-gradient(45deg, #3338 25%, transparent 25%), linear-gradient(-45deg, #3338 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #3338 75%), linear-gradient(-45deg, transparent 75%, #3338 75%);
+  background-size: 124px 124px;
+  background-position: 0 0, 0 62px, 62px -62px, -62px 0px;
+} */

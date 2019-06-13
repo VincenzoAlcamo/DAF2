@@ -67,6 +67,9 @@
     "gui_region_required": {
         "message": "Region\nRequired"
     },
+    "gui_theme_required": {
+        "message": "Region/Theme\nRequired"
+    },
     "gui_level_required": {
         "message": "Level\nRequired"
     },
@@ -184,6 +187,36 @@
     "gui_day": {
         "message": "Day"
     },
+    "gui_placed": {
+        "message": "Placed in camp"
+    },
+    "gui_owned": {
+        "message": "Owned"
+    },
+    "gui_limit": {
+        "message": "Limit"
+    },
+    "gui_type": {
+        "message": "Type"
+    },
+    "gui_width": {
+        "message": "Width"
+    },
+    "gui_height": {
+        "message": "Height"
+    },
+    "gui_value": {
+        "message": "Value"
+    },
+    "gui_slot_value": {
+        "message": "Slot\nValue"
+    },
+    "gui_cost": {
+        "message": "Cost"
+    },
+    "gui_items_found": {
+        "message": "Items found"
+    },
 
     "dialog_ok": {
         "message": "Ok"
@@ -254,6 +287,9 @@
     },
     "tab_export": {
         "message": "Import / Export"
+    },
+    "tab_equipment": {
+        "message": "Equipment"
     },
 
     "about_version": {
@@ -1253,6 +1289,27 @@
     },
     "rings_notdependent": {
         "message": "Not dependent on player's level"
+    },
+
+    "equipment_sellout": {
+        "message": "Selling all unused equipments will net you $COINS$ coins.",
+        "placeholders": {
+            "coins": {
+                "content": "$1"
+            }
+        }
+    },
+    "equipment_show_all": {
+        "message": "All"
+    },
+    "equipment_show_owned": {
+        "message": "Owned only"
+    },
+    "equipment_show_sale": {
+        "message": "On sale only"
+    },
+    "equipment_show_affordable": {
+        "message": "Affordable only"
     },
 
     "specialweek_end": {

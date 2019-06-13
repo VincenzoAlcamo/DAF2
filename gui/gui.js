@@ -20,6 +20,7 @@ let tabs = (function() {
     addTab('neighbors');
     addTab('friendship');
     addTab('godchild');
+    addTab('equipment');
     addTab('kitchen');
     addTab('foundry');
     addTab('pillars');
@@ -59,6 +60,12 @@ let gui = {
     getMessage: function(id, ...args) {
         return chrome.i18n.getMessage(id, args);
     },
+    getMessageAndValue: function(id, value) {
+        return gui.getMessage(id) + ': ' + value;
+    },
+    getMessageAndFraction: function(id, numerator, denominator) {
+        return gui.getMessage(id) + ': ' + numerator + ' / ' + denominator;
+    },
     getUnixTime: function() {
         return Math.floor(Date.now() / 1000);
     },
@@ -85,9 +92,10 @@ let gui = {
     getObjectImage: function(type, id, small = false) {
         return bgp.Data.getObjectImage(type, id, small);
     },
-    getObjectImg: function(type, id, size = 32, small = false) {
-        var url = bgp.Data.getObjectImage(type, id, small);
-        return url ? HtmlBr `<img width="${size}" height="${size}" src="${url}">` : '';
+    getObjectImg: function(type, id, size = 32, small = false, title = false) {
+        let url = bgp.Data.getObjectImage(type, id, small);
+        title = title ? Html ` title="${bgp.Data.getObjectName(type, id)}"` : '';
+        return url ? HtmlBr `<img width="${size}" height="${size}" src="${url}"${title}>` : '';
     },
     getRegionImg: function(rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
@@ -96,6 +104,9 @@ let gui = {
     },
     getRegionFromSkin: function(skin) {
         return bgp.Data.getRegionFromSkin(skin);
+    },
+    getSkinFromRegion: function(region) {
+        return bgp.Data.getSkinFromRegion(region);
     },
     getSkinImg: function(skin, size = 32) {
         var rid = bgp.Data.getRegionFromSkin(skin);
@@ -123,7 +134,7 @@ let gui = {
         return goal > 5000 ? 0 : goal - realNeighbours;
     },
     getMaxRegion: function() {
-        return 6;
+        return bgp.Data.getMaxRegion();
     },
     setSelectState: function(select, value, defaultIndex) {
         select.value = value || '';

@@ -650,7 +650,7 @@ var WebRequest = {
                 file.url = info.url;
                 file.time = getUnixTime();
                 file.data = Parser.parse(info.id, text);
-                if (file.data) {
+                if (file.data && file.data.neighbours) {
                     file.data.player_id = info.player_id;
                     file.data.game_site = info.game_site;
                     file.data.game_platform = info.game_platform;
@@ -784,19 +784,17 @@ var Data = {
             col[item.def_id] = item;
         }
 
-        // Regions
-        col = {};
-        'MAP005,MAP006,MAP018,MAP021,MAP038,MAP039'.split(',').forEach(function(name_loc, index) {
-            setItem(index + 1, name_loc, '/img/regions/' + (index + 1) + '.png');
-        });
-        Data.colRegions = col;
-
         // Skins
         col = {};
         'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,,CT016,MAP039'.split(',').forEach(function(name_loc, index) {
-            setItem(index + 1, name_loc);
+            setItem(index + 1, name_loc, '/img/skins/' + (index + 1) + '.png');
         });
         Data.colSkins = col;
+
+        // Regions
+        col = {};
+        for(let region = Data.getMaxRegion(); region >= 1; region--) col[region] = Data.colSkins[Data.getSkinFromRegion(region)];
+        Data.colRegions = col;
 
         // Addon Buildings
         col = {};
@@ -1288,6 +1286,12 @@ var Data = {
     },
     getRegionFromSkin: function(id) {
         return [1, 2, 5, 8, 9, 13].indexOf(id) + 1;
+    },
+    getSkinFromRegion: function(id) {
+        return [1, 2, 5, 8, 9, 13][id - 1] || 0;
+    },
+    getMaxRegion: function() {
+        return 6;
     },
     //#endregion
     //#region FILES
