@@ -65,6 +65,9 @@
     "gui_region_required": {
         "message": "Region\nWymagany"
     },
+    "gui_theme_required": {
+        "message": "Region/Temat\nWymagany"
+    },
     "gui_level_required": {
         "message": "Poziom\nWymagany"
     },
@@ -176,6 +179,42 @@
     "gui_datafrompf": {
         "message": "Dane uzyskane z plików gry Pixel Federation"
     },
+    "gui_gift": {
+        "message": "Prezent"
+    },
+    "gui_day": {
+        "message": "Dzień"
+    },
+    "gui_placed": {
+        "message": "Umieszczony w obozie"
+    },
+    "gui_owned": {
+        "message": "Posiadany"
+    },
+    "gui_limit": {
+        "message": "Limit"
+    },
+    "gui_type": {
+        "message": "Typ"
+    },
+    "gui_width": {
+        "message": "Szerokość"
+    },
+    "gui_height": {
+        "message": "Wysokość"
+    },
+    "gui_value": {
+        "message": "Wartość"
+    },
+    "gui_slot_value": {
+        "message": "Miejsce\nWartość"
+    },
+    "gui_cost": {
+        "message": "Cena"
+    },
+    "gui_items_found": {
+        "message": "Znalezione itemy"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -244,6 +283,9 @@
     },
     "tab_export": {
         "message": "Importuj / Eksportuj"
+    },
+    "tab_equipment": {
+        "message": "Inwentarz"
     },
     "about_version": {
         "message": "Wersja: $VERSION$",
@@ -620,6 +662,9 @@
     },
     "neighbors_gift_tooltip": {
         "message": "Zapis otrzymanych prezentów, gdy DAF2 jest aktywny."
+    },
+    "neighbors_sortby": {
+        "message": "Sortuj wegług"
     },
     "friendship_collect": {
         "message": "Zbierz i dopasuj"
@@ -1228,6 +1273,29 @@
     },
     "rings_notdependent": {
         "message": "Nie zależy od poziomu gracza"
+    },
+    "equipment_sellout": {
+        "message": "Sprzedając wszystkie nieużywane wyposażenie otrzymasz $COINS$ monet.",
+        "placeholders": {
+            "coins": {
+                "content": "$1"
+            }
+        }
+    },
+    "equipment_show_all": {
+        "message": "Wszystko"
+    },
+    "equipment_show_owned": {
+        "message": "Tylko posiadane"
+    },
+    "equipment_show_sale": {
+        "message": "Tylko na sprzedaż"
+    },
+    "equipment_show_affordable": {
+        "message": "Tylko tanie"
+    },
+    "equipment_notonsale": {
+        "message": "Nie na sprzedaż"
     },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",

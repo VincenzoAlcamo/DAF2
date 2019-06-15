@@ -1229,6 +1229,9 @@
     "rings_notdependent": {
         "message": "No depende del nivel del jugador."
     },
+    "equipment_show_all": {
+        "message": "Todos"
+    },
     "specialweek_end": {
         "message": "tremina en  $FINISH$",
         "placeholders": {

@@ -65,6 +65,9 @@
     "gui_region_required": {
         "message": "Απαιτούμενη\nΠεριοχή"
     },
+    "gui_theme_required": {
+        "message": "Απαιτούμενη\nΠεριοχή/Θέμα"
+    },
     "gui_level_required": {
         "message": "Απαιτούμενο\nΕπίπεδο"
     },
@@ -176,6 +179,42 @@
     "gui_datafrompf": {
         "message": "Τα δεδομένα λήφθηκαν από τα αρχεία παιχνιδιού της Pixel Federation."
     },
+    "gui_gift": {
+        "message": "Δώρο"
+    },
+    "gui_day": {
+        "message": "Μέρα"
+    },
+    "gui_placed": {
+        "message": "Τοποθετημένο στη βάση"
+    },
+    "gui_owned": {
+        "message": "Σας ανήκουν"
+    },
+    "gui_limit": {
+        "message": "Όριο"
+    },
+    "gui_type": {
+        "message": "Είδος"
+    },
+    "gui_width": {
+        "message": "Πλάτος"
+    },
+    "gui_height": {
+        "message": "Ύψος"
+    },
+    "gui_value": {
+        "message": "Αξία"
+    },
+    "gui_slot_value": {
+        "message": "Αξία ανά\nΥποδοχή"
+    },
+    "gui_cost": {
+        "message": "Κόστος"
+    },
+    "gui_items_found": {
+        "message": "Αντικείμενα που βρέθηκαν"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },
@@ -244,6 +283,9 @@
     },
     "tab_export": {
         "message": "Εισαγωγή / Εξαγωγή"
+    },
+    "tab_equipment": {
+        "message": "Εξοπλισμός"
     },
     "about_version": {
         "message": "Εκδοχή: $VERSION$",
@@ -620,6 +662,9 @@
     },
     "neighbors_gift_tooltip": {
         "message": "Εγγραφή των δώρων που λήφθηκαν ενώ το DAF2 είναι ενεργό και καταγράφει."
+    },
+    "neighbors_sortby": {
+        "message": "Ταξινόμηση με"
     },
     "friendship_collect": {
         "message": "Συλλογή και Ταίριασμα"
@@ -1228,6 +1273,26 @@
     },
     "rings_notdependent": {
         "message": "Δεν εξαρτάται από το επίπεδο παίχτη"
+    },
+    "equipment_sellout": {
+        "message": "Η πώληση όλου του μη χρησιμοποιημένου εξοπλισμού θα σας δώσει $COINS$ νομίσματα.",
+        "placeholders": {
+            "coins": {
+                "content": "$1"
+            }
+        }
+    },
+    "equipment_show_all": {
+        "message": "Όλοι"
+    },
+    "equipment_show_owned": {
+        "message": "Μόνο αυτά που σας ανήκουν"
+    },
+    "equipment_show_sale": {
+        "message": "Μόνο αυτά σε προσφορά"
+    },
+    "equipment_show_affordable": {
+        "message": "Μόνο αυτά που μπορείτε να αγοράσετε"
     },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",

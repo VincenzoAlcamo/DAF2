@@ -65,6 +65,9 @@
     "gui_region_required": {
         "message": "Region\nPåkrævet"
     },
+    "gui_theme_required": {
+        "message": "Region/Tema\nPåkrævet"
+    },
     "gui_level_required": {
         "message": "Level (Niveau)\nPåkrævet"
     },
@@ -176,6 +179,42 @@
     "gui_datafrompf": {
         "message": "Data fra Pixel Federations spil filer"
     },
+    "gui_gift": {
+        "message": "Gave"
+    },
+    "gui_day": {
+        "message": "Dag"
+    },
+    "gui_placed": {
+        "message": "Placerest i lejr"
+    },
+    "gui_owned": {
+        "message": "Ejet"
+    },
+    "gui_limit": {
+        "message": "Grænse"
+    },
+    "gui_type": {
+        "message": "Type"
+    },
+    "gui_width": {
+        "message": "Bredde"
+    },
+    "gui_height": {
+        "message": "Højde"
+    },
+    "gui_value": {
+        "message": "Værdi"
+    },
+    "gui_slot_value": {
+        "message": "Sted\nVærdi"
+    },
+    "gui_cost": {
+        "message": "Pris"
+    },
+    "gui_items_found": {
+        "message": "Fundne enheder"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -244,6 +283,9 @@
     },
     "tab_export": {
         "message": "Import / Eksport"
+    },
+    "tab_equipment": {
+        "message": "Udstyr"
     },
     "about_version": {
         "message": "Version: $VERSION$",
@@ -620,6 +662,9 @@
     },
     "neighbors_gift_tooltip": {
         "message": "Antal modtagne gaver mens DAF2 har været aktiv og registrerende."
+    },
+    "neighbors_sortby": {
+        "message": "Sorteret efter"
     },
     "friendship_collect": {
         "message": "Hent og sammenlign"
@@ -1228,6 +1273,29 @@
     },
     "rings_notdependent": {
         "message": "Ikke afhængig af spillers level"
+    },
+    "equipment_sellout": {
+        "message": "Hvis du sælger alle ubrugte udstyr vil du få $COINS$ mønter.",
+        "placeholders": {
+            "coins": {
+                "content": "$1"
+            }
+        }
+    },
+    "equipment_show_all": {
+        "message": "Alle"
+    },
+    "equipment_show_owned": {
+        "message": "Ejet af"
+    },
+    "equipment_show_sale": {
+        "message": "Kun udsalg"
+    },
+    "equipment_show_affordable": {
+        "message": "Kun overkommelige"
+    },
+    "equipment_notonsale": {
+        "message": "Ikke længere på udsalg"
     },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",

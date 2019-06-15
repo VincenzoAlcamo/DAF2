@@ -1311,6 +1311,9 @@
     "equipment_show_affordable": {
         "message": "Affordable only"
     },
+    "equipment_notonsale": {
+        "message": "Not on sale anymore"
+    },
 
     "specialweek_end": {
         "message": "ends on $FINISH$",
