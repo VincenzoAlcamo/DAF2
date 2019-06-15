@@ -73,7 +73,7 @@ var Parser = {
         let arr = (data.neighbours && data.neighbours.item) || [];
         delete data.neighbours;
         let neighbours = {};
-        let time = data.time;
+        let time = +data.time;
         let oldNeighbours = Data.neighbours || {};
         let reFBId = /\/(\d+)\/picture/;
         let spawned = false;
@@ -116,7 +116,7 @@ var Parser = {
         if (pal) {
             // Store spawn time on Mr.Bill
             let old = oldNeighbours[pal.id];
-            pal.spawn_time = spawned ? time : old && old.spawn_time;
+            pal.spawn_time = spawned ? time : (old && +old.spawn_time) || 0;
         }
 
         // File changes
