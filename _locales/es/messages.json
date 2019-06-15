@@ -66,7 +66,7 @@
         "message": "Region"
     },
     "gui_theme_required": {
-        "message": "Región / Temática\nNecesario"
+        "message": "Región / Tema\nNecesario"
     },
     "gui_level_required": {
         "message": "Nivel"
@@ -198,7 +198,7 @@
         "message": "Tipo"
     },
     "gui_width": {
-        "message": "Anchura"
+        "message": "Ancho"
     },
     "gui_height": {
         "message": "Altura"
@@ -207,7 +207,7 @@
         "message": "Valor"
     },
     "gui_slot_value": {
-        "message": "Espacio\nValor"
+        "message": "Hueco\nValor"
     },
     "gui_cost": {
         "message": "Costo"
@@ -285,7 +285,7 @@
         "message": "Importar / Exportar"
     },
     "tab_equipment": {
-        "message": "Equipo"
+        "message": "Equipamiento"
     },
     "about_version": {
         "message": "Version: $VERSION$",
@@ -1289,16 +1289,16 @@
         "message": "única propiedad"
     },
     "equipment_show_sale": {
-        "message": "A la venta sólo"
+        "message": "Solo a la venta"
     },
     "equipment_show_affordable": {
         "message": "sólo asequible"
     },
     "equipment_notonsale": {
-        "message": "No en venta"
+        "message": "No a la venta"
     },
     "specialweek_end": {
-        "message": "tremina en  $FINISH$",
+        "message": "termina en  $FINISH$",
         "placeholders": {
             "finish": {
                 "content": "$1"
