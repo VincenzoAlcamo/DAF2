@@ -11,7 +11,7 @@
   text-align: left;
 }
 
-.equipment img.material {
+.equipment .cost img {
   height: 18px;
   vertical-align: middle;
   margin-left: 2px;

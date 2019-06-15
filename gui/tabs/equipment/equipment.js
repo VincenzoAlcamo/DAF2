@@ -9,6 +9,7 @@ export default {
 };
 
 let tab, container, smartTable, selectShow, selectType, searchInput, searchHandler, allBuildings;
+let matCache;
 
 function init() {
     tab = this;
@@ -37,6 +38,7 @@ function init() {
 function update() {
     let generator = gui.getGenerator();
     let backpack = generator.materials || {};
+    matCache = {};
 
     function collect(list) {
         let result = {};
@@ -92,10 +94,12 @@ function update() {
     let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'building');
     for (let sale of sales) {
         let item = allBuildings[sale.object_id];
-        if (!item || +sale.hide) continue;
+        if (!item) continue;
         let eid = +sale.event_id || 0;
         let erid = +sale.event_region_id || 0;
-        if (eid && (!(eid in events) || erid != events[eid])) continue;
+        if (!item.owned && eid && (!(eid in events) || erid != events[eid])) continue;
+        if (+sale.hide && (item.sale_id || !item.owned)) continue;
+        item.hide = +sale.hide;
         item.sale_id = sale.def_id;
         item.level = +sale.level;
         item.event = eid;
@@ -206,6 +210,12 @@ function refresh() {
 
 let lockedClass = Html ` class="locked"`;
 
+function getMaterialImg(id) {
+    let result = matCache[id];
+    if (!result) result = matCache[id] = gui.getObjectImg('material', id, 20, true, 'desc');
+    return result;
+}
+
 function updateRow(row) {
     let id = row.getAttribute('data-bid');
     let item = allBuildings[id];
@@ -224,11 +234,16 @@ function updateRow(row) {
     htm += HtmlBr `<td>${Locale.formatNumber(item.width)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.height)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
-    let notOnSale = item.hide && item.sale_id ? Html ` class="dot${(item.locked & 8) ? ' locked' : ''}" title="Not on sale anymore"` : ((item.locked & 8) ? lockedClass : '');
-    htm += HtmlBr `<td${notOnSale}>`;
+    let className = 'cost' + ((item.locked & 8) ? ' locked' : '');
+    let title = '';
+    if (item.hide && item.sale_id) {
+        className += ' dot';
+        title = gui.getMessage('equipment_notonsale');
+    }
+    htm += HtmlBr `<td class="${className}"${title ? Html ` title="${title}"` : ''}>`;
     let ch = '';
     for (let req of item.reqs || []) {
-        htm += HtmlBr `${ch}${Locale.formatNumber(req.amount)}<img class="material" src="${gui.getObjectImage('material', req.material_id, 20, true)}" title="${gui.getObjectName('material', req.material_id, 20, true)}">`;
+        htm += HtmlBr `${ch}${Locale.formatNumber(req.amount)}${getMaterialImg(req.material_id)}`;
         ch = '\n';
     }
     htm += HtmlBr `</td>`;
