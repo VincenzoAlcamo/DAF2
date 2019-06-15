@@ -655,7 +655,7 @@
         "message": "Filtro avanzado"
     },
     "neighbors_advancedfilterinfo": {
-        "message": "Puede filtrar aún más a sus vecinos por los regalos que hayan enviado en los últimos @DAYS@ días seleccionando uno o más regalos de la siguiente lista.\n"
+        "message": "Puede filtrar aún más a sus vecinos por los regalos que hayan enviado en los últimos @DAYS@ días seleccionando uno o más regalos de la siguiente lista."
     },
     "neighbors_clearfilter": {
         "message": "Limpiar filtro"
@@ -682,7 +682,7 @@
         "message": "Amigo c onsiderado para la partida\nHaz clic para ignorar a este amigo durante la partida"
     },
     "friendship_actionregard": {
-        "message": "Este amigo es ignorado para el partido.\nHaga clic para ver a este amigo\n"
+        "message": "Este amigo es ignorado para el partido.\nHaga clic para ver a este amigo"
     },
     "friendship_actionunlink": {
         "message": "Haga clic para eliminar la partida"
@@ -1174,7 +1174,7 @@
         "message": "Hay otras recompensas cuya recolección está pendiente.Esto puede exceder su límite diario."
     },
     "rewardlinks_infoprobablyexpired": {
-        "message": "Este enlace probablemente ha caducado.\nLos identificadores de los enlaces se generan secuencialmente y este identificador de recompensa es más bajo que el identificador de una recompensa vencida.\n"
+        "message": "Este enlace probablemente ha caducado.\nLos identificadores de los enlaces se generan secuencialmente y este identificador de recompensa es más bajo que el identificador de una recompensa vencida."
     },
     "rewardlinks_removelinks": {
         "message": "Eliminar enlaces antiguos"

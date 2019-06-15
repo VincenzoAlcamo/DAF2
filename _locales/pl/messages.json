@@ -142,7 +142,7 @@
         }
     },
     "gui_screenshot_shot": {
-        "message": "Kliknij aby zrobić zrzut ekranu.\nZrzut ekranu pojawi się po prawej stronie.\nUwaga: tylko widoczny obszar jest przechwytywany!\nMusisz kliknąć ikonę DAF2 w menu Chrome aby włączyć tą funkcję.\n"
+        "message": "Kliknij aby zrobić zrzut ekranu.\nZrzut ekranu pojawi się po prawej stronie.\nUwaga: tylko widoczny obszar jest przechwytywany!\nMusisz kliknąć ikonę DAF2 w menu Chrome aby włączyć tą funkcję."
     },
     "gui_screenshot_target": {
         "message": "Kliknij aby pobrać obraz.\nKliknij prawym przyciskiem i wybierz \"Kopiuj obraz\" aby skopiować do schowka."

@@ -1194,7 +1194,7 @@
         "message": "Der er ingen links at fjerne"
     },
     "rewardlinks_removeconfirm": {
-        "message": "Links der vil blive fjernet: $Num$\nFjernede links kan ikke længere tilføjes.\n\nFortsæt med fjernelsen?\n",
+        "message": "Links der vil blive fjernet: $Num$\nFjernede links kan ikke længere tilføjes.\n\nFortsæt med fjernelsen?",
         "placeholders": {
             "num": {
                 "content": "$1"
