@@ -139,7 +139,7 @@ function updatePillar(e) {
         (td.classList.contains('grid') ? td : td.parentNode).classList.toggle('excluded', pillar.excluded);
         pillar.qty = pillar.excluded ? 0 : pillar.possible;
     } else {
-        pillar.qty = el.value;
+        pillar.qty = +el.value;
     }
     updateQty(pillar);
     refreshTotals();
@@ -151,11 +151,11 @@ function updateQty(pillar, state) {
     pillar.qty = Math.min(Math.max(pillar.qty, 0), max);
     pillar.predicted_xp = pillar.qty * pillar.xp;
     pillar.predicted_coins = pillar.qty * pillar.coins;
-    var td = container.querySelector('td[did="' + pillar.did + '"]');
-    if (td) {
-        var input = td.querySelector('input[type=number]');
+    let input = container.querySelector('td[did="' + pillar.did + '"] input[type=number]');
+    if (input) {
         input.value = pillar.qty;
         input.max = max;
+        let td = input.parentNode;
         if (!td.classList.contains('grid')) {
             td.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_xp);
             td.nextElementSibling.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_coins);
