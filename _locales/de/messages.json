@@ -1294,6 +1294,9 @@
     "equipment_show_affordable": {
         "message": "Nur bezahlbar"
     },
+    "equipment_notonsale": {
+        "message": "Nicht mehr erhältlich"
+    },
     "specialweek_end": {
         "message": "endet am $FINISH$",
         "placeholders": {

@@ -1294,6 +1294,9 @@
     "equipment_show_affordable": {
         "message": "Μόνο αυτά που μπορείτε να αγοράσετε"
     },
+    "equipment_notonsale": {
+        "message": "Όχι πια σε προσφορά"
+    },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",
         "placeholders": {
