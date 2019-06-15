@@ -94,8 +94,12 @@ let gui = {
     },
     getObjectImg: function(type, id, size = 32, small = false, title = false) {
         let url = bgp.Data.getObjectImage(type, id, small);
-        title = title ? Html ` title="${bgp.Data.getObjectName(type, id)}"` : '';
-        return url ? HtmlBr `<img width="${size}" height="${size}" src="${url}"${title}>` : '';
+        let item = bgp.Data.getObject(type, id);
+        let name_loc = item && item.name_loc;
+        let name = name_loc ? bgp.Data.getString(name_loc) : '#' + type + id;
+        if(title === 'desc' && item && item.desc) name += '\n' + bgp.Data.getString(item.desc);
+        title = title ? Html ` title="${name}"` : '';
+        return url ? Html `<img width="${size}" height="${size}" src="${url}"${title}>` : '';
     },
     getRegionImg: function(rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
