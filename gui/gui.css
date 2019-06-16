@@ -98,6 +98,11 @@ a {
   cursor: pointer;
 }
 
+a.no-link {
+  cursor: default;
+  text-decoration: none;
+}
+
 .warning {
   background-color: var(--warn-bgcol);
   color: var(--warn-fgcol);
