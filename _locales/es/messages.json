@@ -1282,18 +1282,6 @@
             }
         }
     },
-    "equipment_show_all": {
-        "message": "Todos"
-    },
-    "equipment_show_owned": {
-        "message": "única propiedad"
-    },
-    "equipment_show_sale": {
-        "message": "Solo a la venta"
-    },
-    "equipment_show_affordable": {
-        "message": "sólo asequible"
-    },
     "equipment_notonsale": {
         "message": "No a la venta"
     },

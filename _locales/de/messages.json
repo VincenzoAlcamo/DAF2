@@ -57,7 +57,7 @@
         "message": "Anzeigen"
     },
     "gui_search": {
-        "message": "Suchen"
+        "message": "Suchen\n"
     },
     "gui_name": {
         "message": "Name"
@@ -1282,20 +1282,11 @@
             }
         }
     },
-    "equipment_show_all": {
-        "message": "Alle"
-    },
-    "equipment_show_owned": {
-        "message": "Nur im Besitz"
-    },
-    "equipment_show_sale": {
-        "message": "Nur im Angebot"
-    },
-    "equipment_show_affordable": {
-        "message": "Nur bezahlbar"
-    },
     "equipment_notonsale": {
         "message": "Nicht mehr erhältlich"
+    },
+    "equipment_owned": {
+        "message": "Im Besitz"
     },
     "specialweek_end": {
         "message": "endet am $FINISH$",

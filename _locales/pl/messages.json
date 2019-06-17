@@ -1282,20 +1282,11 @@
             }
         }
     },
-    "equipment_show_all": {
-        "message": "Wszystko"
-    },
-    "equipment_show_owned": {
-        "message": "Tylko posiadane"
-    },
-    "equipment_show_sale": {
-        "message": "Tylko na sprzedaż"
-    },
-    "equipment_show_affordable": {
-        "message": "Tylko tanie"
-    },
     "equipment_notonsale": {
         "message": "Nie na sprzedaż"
+    },
+    "equipment_owned": {
+        "message": "Posiadany"
     },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",

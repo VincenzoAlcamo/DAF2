@@ -1282,20 +1282,11 @@
             }
         }
     },
-    "equipment_show_all": {
-        "message": "Alle"
-    },
-    "equipment_show_owned": {
-        "message": "Ejet af"
-    },
-    "equipment_show_sale": {
-        "message": "Kun udsalg"
-    },
-    "equipment_show_affordable": {
-        "message": "Kun overkommelige"
-    },
     "equipment_notonsale": {
         "message": "Ikke længere på udsalg"
+    },
+    "equipment_owned": {
+        "message": "Ejet"
     },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",

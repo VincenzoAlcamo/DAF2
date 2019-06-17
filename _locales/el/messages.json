@@ -1282,20 +1282,11 @@
             }
         }
     },
-    "equipment_show_all": {
-        "message": "Όλοι"
-    },
-    "equipment_show_owned": {
-        "message": "Μόνο αυτά που σας ανήκουν"
-    },
-    "equipment_show_sale": {
-        "message": "Μόνο αυτά σε προσφορά"
-    },
-    "equipment_show_affordable": {
-        "message": "Μόνο αυτά που μπορείτε να αγοράσετε"
-    },
     "equipment_notonsale": {
         "message": "Όχι πια σε προσφορά"
+    },
+    "equipment_owned": {
+        "message": "Σας ανήκουν"
     },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",
