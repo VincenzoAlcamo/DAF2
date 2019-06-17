@@ -207,7 +207,7 @@
         "message": "Potenza"
     },
     "gui_slot_value": {
-        "message": "Potenza\nper slot"
+        "message": "Potenza\na colonna"
     },
     "gui_cost": {
         "message": "Costo"
@@ -1282,20 +1282,26 @@
             }
         }
     },
-    "equipment_show_all": {
-        "message": "Tutti"
-    },
-    "equipment_show_owned": {
-        "message": "Solo quelli posseduti"
-    },
-    "equipment_show_sale": {
-        "message": "Solo quelli in vendita"
-    },
-    "equipment_show_affordable": {
-        "message": "Solo quelli aquistabili"
-    },
     "equipment_notonsale": {
         "message": "Non più in vendita"
+    },
+    "equipment_owned": {
+        "message": "Posseduto"
+    },
+    "equipment_inshop": {
+        "message": "In vendita"
+    },
+    "equipment_affordable": {
+        "message": "Accessibile"
+    },
+    "equipment_useful": {
+        "message": "Utile"
+    },
+    "equipment_gain": {
+        "message": "Guadagno"
+    },
+    "equipment_gain_info": {
+        "message": "Il guadagno è basato sulla colonna minima nel campo"
     },
     "specialweek_end": {
         "message": "termina il $FINISH$",

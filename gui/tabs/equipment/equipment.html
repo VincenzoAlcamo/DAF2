@@ -1,11 +1,37 @@
 <div class="toolbar">
     <label>
-        <span data-i18n-text="gui_show"></span>
-        <select name="show">
-            <option value="" data-i18n-text="equipment_show_all"></option>
-            <option value="owned" data-i18n-text="equipment_show_owned"></option>
-            <option value="sale" data-i18n-text="equipment_show_sale"></option>
-            <option value="affordable" data-i18n-text="equipment_show_affordable"></option>
+        <span data-i18n-text="equipment_owned"></span>
+        <select name="owned">
+            <option value=""></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="no" data-i18n-text="dialog_no"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="equipment_inshop"></span>
+        <select name="shop">
+            <option value=""></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="no" data-i18n-text="dialog_no"></option>
+            <option value="event" data-i18n-text="gui_event"></option>
+            <option value="theme" data-i18n-text="gui_theme"></option>
+            <option value="region" data-i18n-text="gui_region"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="equipment_affordable"></span>
+        <select name="affordable">
+            <option value=""></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="no" data-i18n-text="dialog_no"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="equipment_useful"></span>
+        <select name="useful">
+            <option value=""></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="no" data-i18n-text="dialog_no"></option>
         </select>
     </label>
     <label>
@@ -40,6 +66,7 @@
                 <th class="sortable" sort-name="width"><img data-i18n-title="gui_width" src="/img/gui/width.png"></th>
                 <th class="sortable" sort-name="height"><img data-i18n-title="gui_height" src="/img/gui/height.png"></th>
                 <th class="sortable" sort-name="slotvalue" data-i18n-text="gui_slot_value"></th>
+                <th class="sortable" sort-name="gain" data-i18n-text="equipment_gain"></th>
                 <th><img data-i18n-title="gui_cost" src="/img/gui/shop.png"></th>
             </tr>
         </thead>

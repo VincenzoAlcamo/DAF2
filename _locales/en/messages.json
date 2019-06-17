@@ -1299,20 +1299,26 @@
             }
         }
     },
-    "equipment_show_all": {
-        "message": "All"
-    },
-    "equipment_show_owned": {
-        "message": "Owned only"
-    },
-    "equipment_show_sale": {
-        "message": "On sale only"
-    },
-    "equipment_show_affordable": {
-        "message": "Affordable only"
-    },
     "equipment_notonsale": {
         "message": "Not on sale anymore"
+    },
+    "equipment_owned": {
+        "message": "Owned"
+    },
+    "equipment_inshop": {
+        "message": "In shop"
+    },
+    "equipment_affordable": {
+        "message": "Affordable"
+    },
+    "equipment_useful": {
+        "message": "Useful"
+    },
+    "equipment_gain": {
+        "message": "Gain"
+    },
+    "equipment_gain_info": {
+        "message": "Gain is based on the minimum slot value in your camp"
     },
 
     "specialweek_end": {

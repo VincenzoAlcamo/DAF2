@@ -8,15 +8,24 @@ export default {
     requires: ['materials', 'buildings', 'sales', 'events']
 };
 
-let tab, container, smartTable, selectShow, selectType, searchInput, searchHandler, allBuildings;
-let matCache;
+let tab, container, smartTable, selectOwned, selectShop, selectAffordable, selectUseful, selectType, searchInput, searchHandler, allBuildings;
+let matCache, minRegen, minCapacity;
 
 function init() {
     tab = this;
     container = tab.container;
 
-    selectShow = container.querySelector('[name=show]');
-    selectShow.addEventListener('change', refresh);
+    selectOwned = container.querySelector('[name=owned]');
+    selectOwned.addEventListener('change', refresh);
+
+    selectShop = container.querySelector('[name=shop]');
+    selectShop.addEventListener('change', refresh);
+
+    selectAffordable = container.querySelector('[name=affordable]');
+    selectAffordable.addEventListener('change', refresh);
+
+    selectUseful = container.querySelector('[name=useful]');
+    selectUseful.addEventListener('change', refresh);
 
     selectType = container.querySelector('[name=type]');
     selectType.addEventListener('change', refresh);
@@ -39,6 +48,7 @@ function update() {
     let generator = gui.getGenerator();
     let backpack = generator.materials || {};
     matCache = {};
+    minCapacity = minRegen = Infinity;
 
     function collect(list) {
         let result = {};
@@ -84,22 +94,28 @@ function update() {
         if (cap > 0) {
             item.type = 'capacity';
             item.value = cap;
+            item.slotvalue = Math.floor(item.value / item.width);
+            if (item.placed && item.slotvalue < minCapacity) minCapacity = item.slotvalue;
         } else if (reg > 0) {
             item.type = 'regen';
             item.value = reg;
+            item.slotvalue = Math.floor(item.value / item.width);
+            if (item.placed && item.slotvalue < minRegen) minRegen = item.slotvalue;
         } else continue;
-        item.slotvalue = Math.floor(item.value / item.width);
         allBuildings[item.id] = item;
     }
+    if (!isFinite(minCapacity)) minCapacity = 0;
+    if (!isFinite(minRegen)) minRegen = 0;
     let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'building');
     for (let sale of sales) {
         let item = allBuildings[sale.object_id];
         if (!item) continue;
         let eid = +sale.event_id || 0;
         let erid = +sale.event_region_id || 0;
-        if (!item.owned && eid && (!(eid in events) || erid != events[eid])) continue;
-        if (+sale.hide && (item.sale_id || !item.owned)) continue;
-        item.hide = +sale.hide;
+        let hide = +sale.hide;
+        if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
+        if (hide && (item.sale_id || !item.owned)) continue;
+        item.hide = hide;
         item.sale_id = sale.def_id;
         item.level = +sale.level;
         item.event = eid;
@@ -110,7 +126,8 @@ function update() {
             let result = {};
             result.material_id = +req.material_id;
             result.amount = +req.amount;
-            if ((backpack[result.material_id] || 0) < result.amount) affordable = false;
+            result.stored = backpack[result.material_id] || 0;
+            if (result.stored < result.amount) affordable = false;
             return result;
         }).sort((a, b) => a.material_id - b.material_id);
         if (!affordable) item.locked |= 8;
@@ -139,14 +156,24 @@ function update() {
         if (item.rskin && !skins[item.rskin]) item.locked |= 2;
         if (item.owned >= item.limit) item.locked |= 4;
         if (item.placed < item.owned && item.sell) coins += item.sell * (item.owned - item.placed);
+        item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen)) : 0;
     }
     container.querySelector('.equipment-stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins));
+    let title = gui.getMessage('equipment_gain_info') + ':';
+    title += '\n' + gui.getMessage('camp_capacity') + ' = ' + Locale.formatNumber(minCapacity);
+    title += '\n' + gui.getMessage('camp_regen') + ' = ' + Locale.formatNumber(minRegen);
+    Array.from(container.querySelectorAll('thead [sort-name=gain]')).forEach(cell => {
+        cell.title = title;
+    });
     refresh();
 }
 
 function getState() {
     return {
-        show: selectShow.value,
+        owned: selectOwned.value,
+        shop: selectShop.value,
+        affordable: selectAffordable.value,
+        useful: selectUseful.value,
         type: selectType.value,
         search: searchInput.value,
         sort: gui.getSortState(smartTable)
@@ -154,7 +181,10 @@ function getState() {
 }
 
 function setState(state) {
-    state.show = gui.setSelectState(selectShow, state.show);
+    state.owned = gui.setSelectState(selectOwned, state.owned);
+    state.shop = gui.setSelectState(selectShop, state.shop);
+    state.affordable = gui.setSelectState(selectAffordable, state.affordable);
+    state.useful = gui.setSelectState(selectUseful, state.useful);
     state.type = gui.setSelectState(selectType, state.type);
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
@@ -171,14 +201,28 @@ function refresh() {
     let state = getState();
     let search = (state.search || '').toUpperCase();
     let type = (state.type || '').toLowerCase();
-    let show = state.show;
+    // We use a negative here and NaN in case no comparison must be checked
+    // This works because NaN is never equal to any value, so the "if" is always false.
+    let not_owned = state.owned ? state.owned == 'no' : NaN;
+    //let not_shop = state.shop ? state.shop == 'no' : NaN;
+    let shop = state.shop;
+    let not_affordable = state.affordable ? state.affordable == 'no' : NaN;
+    let not_useful = state.useful ? state.useful == 'no' : NaN;
 
     function isVisible(item) {
         if (search && item.name.toUpperCase().indexOf(search) < 0) return false;
         if (type && item.type != type) return false;
-        if (show == 'owned' && !item.owned) return false;
-        if (show == 'sale' && !item.sale_id) return false;
-        if (show == 'affordable' && (!item.sale_id || item.locked)) return false;
+        // NaN is never equal to true/false, so this will not trigger
+        if (not_owned == (item.owned > 0)) return false;
+        // if (not_shop == (item.sale_id > 0 && !item.hide)) return false;
+        let inShop = item.sale_id > 0 && !item.hide;
+        if (shop == 'yes' && !inShop) return false;
+        if (shop == 'no' && inShop) return false;
+        if (shop == 'event' && (!inShop || isNaN(item.event))) return false;
+        if (shop == 'theme' && (!inShop || item.event > 0 || item.region >= 1)) return false;
+        if (shop == 'region' && (!inShop || item.event > 0 || item.region < 1)) return false;
+        if (not_affordable == (item.locked == 0)) return false;
+        if (not_useful == (item.gain > 0)) return false;
         return true;
     }
 
@@ -210,10 +254,20 @@ function refresh() {
 
 let lockedClass = Html ` class="locked"`;
 
-function getMaterialImg(id) {
+function getMaterialImg(req) {
+    let id = req.material_id;
     let result = matCache[id];
-    if (!result) result = matCache[id] = gui.getObjectImg('material', id, 20, true, 'desc');
-    return result;
+    if (!result) {
+        result = {};
+        result.url = gui.getObjectImage('material', id, true);
+        let item = gui.getObject('material', id);
+        let name_loc = item && item.name_loc;
+        result.name = name_loc ? gui.getString(name_loc) : '#' + id;
+        result.title = item && item.desc ? '\n' + gui.getString(item.desc) : '';
+        matCache[id] = result;
+    }
+    let img = result.url ? Html `<img width="18" height="18" src="${result.url}">` : '';
+    return Html `<span class="${req.amount > req.stored ? 'locked' : ''}" title="${result.name + ' (' + Locale.formatNumber(req.amount) + ' / ' + Locale.formatNumber(req.stored) + ')' + result.title}">${Locale.formatNumber(req.amount)}${img}</span>`;
 }
 
 function updateRow(row) {
@@ -234,17 +288,19 @@ function updateRow(row) {
     htm += HtmlBr `<td>${Locale.formatNumber(item.width)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.height)}</td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
-    let className = 'cost' + ((item.locked & 8) ? ' locked' : '');
+    htm += HtmlBr `<td>${item.gain ? Locale.formatNumber(item.gain) : ''}</td>`;
+    let className = 'cost';
     let title = '';
     if (item.hide && item.sale_id) {
         className += ' dot';
         title = gui.getMessage('equipment_notonsale');
     }
     htm += HtmlBr `<td class="${className}"${title ? Html ` title="${title}"` : ''}>`;
-    let ch = '';
+    let first = true;
     for (let req of item.reqs || []) {
-        htm += HtmlBr `${ch}${Locale.formatNumber(req.amount)}${getMaterialImg(req.material_id)}`;
-        ch = '\n';
+        if (!first) htm += `<br>`;
+        first = false;
+        htm += getMaterialImg(req);
     }
     htm += HtmlBr `</td>`;
     row.innerHTML = htm;
