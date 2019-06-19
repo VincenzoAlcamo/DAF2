@@ -453,13 +453,13 @@
         "message": "Ανεμόμυλοι"
     },
     "camp_avg_value": {
-        "message": "Μέσος Όρος Θέσεων"
+        "message": "Μέσος Όρος Υποδοχής"
     },
     "camp_min_value": {
-        "message": "Μέγιστες Θέσεις"
+        "message": "Μέγιστη Υποδοχή"
     },
     "camp_max_value": {
-        "message": "Ελάχιστες Θέσεις"
+        "message": "Ελάχιστη Υποδοχή"
     },
     "camp_unlock_materials": {
         "message": "Υλικά για ξεκλείδωμα βάσης"
@@ -1287,6 +1287,21 @@
     },
     "equipment_owned": {
         "message": "Σας ανήκουν"
+    },
+    "equipment_inshop": {
+        "message": "Στο μαγαζί"
+    },
+    "equipment_affordable": {
+        "message": "Μπορεί να Αγοραστεί"
+    },
+    "equipment_useful": {
+        "message": "Χρήσιμο"
+    },
+    "equipment_gain": {
+        "message": "Κέρδος"
+    },
+    "equipment_gain_info": {
+        "message": "Το κέρδος βασίζεται στην ελάχιστη τιμή υποδοχής στη βάση σας"
     },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",

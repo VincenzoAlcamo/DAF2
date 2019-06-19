@@ -1288,6 +1288,21 @@
     "equipment_owned": {
         "message": "Im Besitz"
     },
+    "equipment_inshop": {
+        "message": "Im Shop"
+    },
+    "equipment_affordable": {
+        "message": "Bezahlbar"
+    },
+    "equipment_useful": {
+        "message": "Nützlich"
+    },
+    "equipment_gain": {
+        "message": "Zugewinn"
+    },
+    "equipment_gain_info": {
+        "message": "Der Gewinn basiert auf dem minimalen Stellplatzwert in deinem Camp."
+    },
     "specialweek_end": {
         "message": "endet am $FINISH$",
         "placeholders": {

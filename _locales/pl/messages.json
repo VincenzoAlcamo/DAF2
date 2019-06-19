@@ -1288,6 +1288,21 @@
     "equipment_owned": {
         "message": "Posiadany"
     },
+    "equipment_inshop": {
+        "message": "W sklepie"
+    },
+    "equipment_affordable": {
+        "message": "Niedrogie"
+    },
+    "equipment_useful": {
+        "message": "Przydatny"
+    },
+    "equipment_gain": {
+        "message": "Zysk"
+    },
+    "equipment_gain_info": {
+        "message": "Zysk opiera się na minimalnej wartości slotu w twoim obozie"
+    },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",
         "placeholders": {

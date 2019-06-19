@@ -1285,6 +1285,24 @@
     "equipment_notonsale": {
         "message": "No a la venta"
     },
+    "equipment_owned": {
+        "message": "Propiedad"
+    },
+    "equipment_inshop": {
+        "message": "En la tienda"
+    },
+    "equipment_affordable": {
+        "message": "Asequible"
+    },
+    "equipment_useful": {
+        "message": "Util"
+    },
+    "equipment_gain": {
+        "message": "Ganancia"
+    },
+    "equipment_gain_info": {
+        "message": "La ganancia se basa en el valor de espacio mínimo en tu campamento"
+    },
     "specialweek_end": {
         "message": "termina en  $FINISH$",
         "placeholders": {
