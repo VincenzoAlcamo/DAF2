@@ -412,7 +412,7 @@ function infoLevel(row) {
 }
 
 function isValidItem(item) {
-    return +item.hide == 0 && +item.event_id == 0;
+    return +item.hide == 0 && +item.event_id == 0 && item.name_loc;
 }
 
 let achievementImages = {
