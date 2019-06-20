@@ -209,6 +209,14 @@ var Tab = {
                 hostEquals: 'www.facebook.com',
                 pathContains: 'dialog/apprequests',
                 queryContains: 'app_id=146595778757295'
+            // }, {
+            //     hostEquals: 'www.facebook.com',
+            //     pathContains: 'dialog/feed',
+            //     queryContains: 'app_id=470178856367913'
+            // }, {
+            //     hostEquals: 'www.facebook.com',
+            //     pathContains: 'dialog/feed',
+            //     queryContains: 'app_id=146595778757295'
             }]
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
@@ -240,46 +248,11 @@ var Tab = {
         console.log('onDialogCompleted', details);
         if (!Preferences.getValue('autoClick')) return;
         Tab.focus(Tab.gameTabId, true);
-        Tab.injectAutoClick(details.tabId, 2);
-    },
-    injectAutoClick: function(tabId, count) {
-        chrome.tabs.executeScript(tabId, {
-            code: `
-// we try several times (popup has not finished initializing)
-let element = null, timeout = 0, count = 10;
-function autoClick() {
-    timeout += 200;
-    if ((element = document.querySelector('.layerConfirm[name=__CONFIRM__]'))) {
-        var form = element.form;
-        if (!form) return;
-        // guard against payments
-        if (element.getAttribute('data-testid') == 'pay_button') return;
-        if (form.action.indexOf('pay') >= 0) return;
-        if (form.action.indexOf('/app_requests/') < 0 && form.action.indexOf('/share/') < 0) return;
-        // find root node for dialog, so we can send it in background
-        var parent = element;
-        while (parent.parentNode.tagName != 'BODY') {
-            parent = parent.parentNode;
-        }
-        // this is the Invite dialog
-        if (parent.querySelector('.profileBrowserDialog')) return;
-        element.click();
-        // just in case the popup has not been closed
-        setTimeout(autoClick, 2000);
-        setTimeout(autoClick, 5000);
-    } else if (--count > 0) setTimeout(autoClick, timeout);
-}
-autoClick();
-                `,
+        chrome.tabs.executeScript(details.tabId, {
+            file: '/inject/portal_autoclick.js',
+            runAt: 'document_end',
             allFrames: false,
-            frameId: 0
-        }, function() {
-            if (chrome.runtime.lastError) {
-                console.log('Error in inject code', chrome.runtime.lastError);
-                count--;
-                if (count > 0) Tab.injectAutoClick(tabId, count);
-                else Tab.focus(tabId, true);
-            }
+            frameId: details.frameId
         });
     },
     onAutoLoginCompleted: function(details) {
@@ -793,7 +766,7 @@ var Data = {
 
         // Regions
         col = {};
-        for(let region = Data.getMaxRegion(); region >= 1; region--) col[region] = Data.colSkins[Data.getSkinFromRegion(region)];
+        for (let region = Data.getMaxRegion(); region >= 1; region--) col[region] = Data.colSkins[Data.getSkinFromRegion(region)];
         Data.colRegions = col;
 
         // Addon Buildings
