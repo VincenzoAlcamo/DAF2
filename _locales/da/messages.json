@@ -285,7 +285,7 @@
         "message": "Import / Eksport"
     },
     "tab_equipment": {
-        "message": "Udstyr"
+        "message": "Lejudstyr"
     },
     "about_version": {
         "message": "Version: $VERSION$",
@@ -1287,6 +1287,21 @@
     },
     "equipment_owned": {
         "message": "Ejet"
+    },
+    "equipment_inshop": {
+        "message": "I butik"
+    },
+    "equipment_affordable": {
+        "message": "Har råd til"
+    },
+    "equipment_useful": {
+        "message": "Brugbar"
+    },
+    "equipment_gain": {
+        "message": "Forøgelse"
+    },
+    "equipment_gain_info": {
+        "message": "Førøgelse er baseret på laveste lejrudstyr"
     },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",
