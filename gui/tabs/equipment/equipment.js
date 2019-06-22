@@ -309,5 +309,5 @@ function updateRow(row) {
 function onTooltip(event) {
     let element = event.target;
     let htm = HtmlBr `<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
-    Tooltip.show(element, htm, 'w');
+    Tooltip.show(element, htm);
 }

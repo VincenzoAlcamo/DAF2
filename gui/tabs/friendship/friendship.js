@@ -754,6 +754,6 @@ function onTooltip(event) {
     }
     if (fb_id) {
         let htm = HtmlBr `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
-        Tooltip.show(element, htm, 'w');
+        Tooltip.show(element, htm);
     }
 }

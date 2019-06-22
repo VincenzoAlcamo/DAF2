@@ -476,5 +476,5 @@ function onTooltip(event) {
     let element = event.target;
     let bid = parseInt(element.getAttribute('bid'));
     let htm = HtmlBr `<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/></div>`;
-    Tooltip.show(element, htm, 'w bb');
+    Tooltip.show(element, htm, 'bb');
 }

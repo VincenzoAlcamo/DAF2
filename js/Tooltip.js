@@ -16,7 +16,7 @@ Tooltip.init = function() {
     });
 };
 Tooltip.show = function(el, html, direction) {
-    direction = ('' + direction).toUpperCase();
+    direction = ((direction || '') + 'WE').toUpperCase();
     let tip = this.tip;
     for (let name of ['mousedown', 'mouseleave', 'blur']) el.addEventListener(name, autoHide);
     tip.className = 'Tooltip';
@@ -29,7 +29,9 @@ Tooltip.show = function(el, html, direction) {
     top = Math.min(Math.max(16, top), window.innerHeight - 16 - height);
     let leftE = Math.floor(box.left + box.width + 8);
     let leftW = Math.floor(box.left - width - 8);
-    let left = (direction.indexOf('W') >= 0 || leftE + width > window.innerWidth - 16) ? leftW : leftE;
+    let isValidLeftE = leftE + width <= window.innerWidth - 16;
+    let isValidLeftW = leftW >= 16;
+    let left = (direction.indexOf('W') < direction.indexOf('E')) ? (isValidLeftW ? leftW : leftE) : (isValidLeftE ? leftE : leftW);
     tip.style.left = left + 'px';
     tip.style.top = top + 'px';
     tip.classList.add('Tooltip-On');

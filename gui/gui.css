@@ -768,7 +768,7 @@ input.note:focus::-webkit-input-placeholder {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s;
-  z-index: 1000;
+  z-index: 4000;
 }
 
 .Tooltip::after {
