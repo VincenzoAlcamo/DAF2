@@ -100,15 +100,14 @@ var Parser = {
             }
             // Retrieve extra info for neighbor
             var old = oldNeighbours[id];
-            pal.extra = (old && old.extra) || {
-                timeCreated: time
-            };
+            pal.extra = (old && old.extra) || {};
             if (old && old.level != pal.level) {
                 pal.extra.lastLevel = old.level;
                 pal.extra.timeLevel = time;
             }
             if (pal.spawned && !spawned && (!old || !old.spawned)) spawned = true;
-            pal.extra.lastGift = Math.max(pal.extra.lastGift || 0, o.rec_gift || 0);
+            pal.extra.timeCreated = +pal.extra.timeCreated || time;
+            pal.extra.lastGift = Math.max(+pal.extra.lastGift || 0, +o.rec_gift || 0);
             neighbours[id] = pal;
         });
         data.neighbours = neighbours;

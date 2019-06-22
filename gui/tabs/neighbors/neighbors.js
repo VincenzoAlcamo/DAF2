@@ -403,7 +403,7 @@ function refreshDelayed() {
         list: pal => +pal.c_list ? 0 : 1,
         blocks: pal => pal.extra.blocks === undefined ? NaN : +pal.extra.blocks,
         wmtime: pal => pal.extra.wmtime === undefined ? NaN : +pal.extra.wmtime,
-        recorded: pal => pal.extra.timeCreated || 0,
+        recorded: pal => +pal.extra.timeCreated || 0,
         gifts: pal => palGifts[pal.id].length,
         value: pal => palGifts[pal.id]._value
     };
