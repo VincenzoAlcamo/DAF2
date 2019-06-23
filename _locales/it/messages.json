@@ -112,6 +112,15 @@
     "gui_theme": {
         "message": "Tema"
     },
+    "gui_offer": {
+        "message": "Offerta"
+    },
+    "gui_tieredoffer": {
+        "message": "Offerta a livelli"
+    },
+    "gui_pack": {
+        "message": "Pacchetto"
+    },
     "gui_level": {
         "message": "Livello"
     },
@@ -1291,6 +1300,9 @@
     "equipment_inshop": {
         "message": "In vendita"
     },
+    "equipment_from": {
+        "message": "Da"
+    },
     "equipment_affordable": {
         "message": "Accessibile"
     },
@@ -1302,6 +1314,15 @@
     },
     "equipment_gain_info": {
         "message": "Il guadagno è basato sulla colonna minima nel campo"
+    },
+    "equipment_free": {
+        "message": "GRATIS"
+    },
+    "equipment_hidemax": {
+        "message": "Nascondi i massimizzati"
+    },
+    "equipment_price_info": {
+        "message": "Il prezzo mostrato qui non è per questo equipaggiamento,\nma per il pacchetto/offerta che includeva questo equipaggiamento."
     },
     "specialweek_end": {
         "message": "termina il $FINISH$",

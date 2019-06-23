@@ -114,6 +114,15 @@
     "gui_theme": {
         "message": "Theme"
     },
+    "gui_offer": {
+        "message": "Offer"
+    },
+    "gui_tieredoffer": {
+        "message": "Tiered Offer"
+    },
+    "gui_pack": {
+        "message": "Pack"
+    },
     "gui_level": {
         "message": "Level"
     },
@@ -1308,6 +1317,9 @@
     "equipment_inshop": {
         "message": "In shop"
     },
+    "equipment_from": {
+        "message": "From"
+    },
     "equipment_affordable": {
         "message": "Affordable"
     },
@@ -1319,6 +1331,15 @@
     },
     "equipment_gain_info": {
         "message": "Gain is based on the minimum slot value in your camp"
+    },
+    "equipment_free": {
+        "message": "FREE"
+    },
+    "equipment_hidemax": {
+        "message": "Hide maxed"
+    },
+    "equipment_price_info": {
+        "message": "The price shown here is not for this equipment,\nbut for the pack/offer that included this equipment."
     },
 
     "specialweek_end": {

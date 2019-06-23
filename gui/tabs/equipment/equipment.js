@@ -1,15 +1,15 @@
-/*global gui SmartTable HtmlBr Html Locale Tooltip*/
+/*global bgp gui SmartTable HtmlBr Html Locale Tooltip*/
 export default {
     hasCSS: true,
     init: init,
     update: update,
     getState: getState,
     setState: setState,
-    requires: ['materials', 'buildings', 'sales', 'events']
+    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers']
 };
 
-let tab, container, smartTable, selectOwned, selectShop, selectAffordable, selectUseful, selectType, searchInput, searchHandler, allBuildings;
-let matCache, minRegen, minCapacity;
+let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, checkHideMax, selectType, searchInput, searchHandler, allBuildings;
+let matCache, minRegen, minCapacity, updateTime, packsViewed;
 
 function init() {
     tab = this;
@@ -20,12 +20,17 @@ function init() {
 
     selectShop = container.querySelector('[name=shop]');
     selectShop.addEventListener('change', refresh);
+    selectFrom = container.querySelector('[name=from]');
+    selectFrom.addEventListener('change', refresh);
 
     selectAffordable = container.querySelector('[name=affordable]');
     selectAffordable.addEventListener('change', refresh);
 
     selectUseful = container.querySelector('[name=useful]');
     selectUseful.addEventListener('change', refresh);
+
+    checkHideMax = container.querySelector('[name=hidemax]');
+    checkHideMax.addEventListener('click', refresh);
 
     selectType = container.querySelector('[name=type]');
     selectType.addEventListener('change', refresh);
@@ -47,8 +52,22 @@ function init() {
 function update() {
     let generator = gui.getGenerator();
     let backpack = generator.materials || {};
+    let region = +generator.region;
+    updateTime = gui.getUnixTime();
     matCache = {};
     minCapacity = minRegen = Infinity;
+
+    let packs = {};
+    packsViewed = {};
+    for (let pack of (generator.packs_b || '').split(',')) {
+        if (pack) packs[pack] = true;
+    }
+    for (let pack of generator.packs_v || []) {
+        if (pack) {
+            packs[pack.def_id] = true;
+            packsViewed[pack.def_id] = +pack.viewed;
+        }
+    }
 
     function collect(list) {
         let result = {};
@@ -63,12 +82,11 @@ function update() {
 
     // Determine events
     let events = {};
-    let now = gui.getUnixTime();
     for (let event of Object.values(generator.events)) {
         let finished = +event.finished;
         // Shop is open for 7 days after the event ends
         let shopLimit = finished + 86400 * 7;
-        if (shopLimit > now) {
+        if (shopLimit > updateTime) {
             let eid = event.def_id;
             events[eid] = generator.events_region[eid] || 0;
         }
@@ -106,23 +124,18 @@ function update() {
     }
     if (!isFinite(minCapacity)) minCapacity = 0;
     if (!isFinite(minRegen)) minRegen = 0;
-    let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'building');
-    for (let sale of sales) {
-        let item = allBuildings[sale.object_id];
-        if (!item) continue;
-        let eid = +sale.event_id || 0;
-        let erid = +sale.event_region_id || 0;
-        let hide = +sale.hide;
-        if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
-        if (hide && (item.sale_id || !item.owned)) continue;
+
+    function setItem(item, hide, sale, saleType, eid, erid, level, reqs) {
         item.hide = hide;
         item.sale_id = sale.def_id;
-        item.level = +sale.level;
+        item.sale = saleType;
         item.event = eid;
         item.erid = erid;
+        item.level = level;
         item.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 0;
         let affordable = true;
-        item.reqs = Array.isArray(sale.requirements) && sale.requirements.map(req => {
+        if (!reqs) reqs = sale.requirements;
+        item.reqs = Array.isArray(reqs) && reqs.map(req => {
             let result = {};
             result.material_id = +req.material_id;
             result.amount = +req.amount;
@@ -132,6 +145,92 @@ function update() {
         }).sort((a, b) => a.material_id - b.material_id);
         if (!affordable) item.locked |= 8;
     }
+
+    // SALES
+    let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'building');
+    sales.forEach(sale => sale.def_id = +sale.def_id);
+    sales = sales.sort((a, b) => a.def_id - b.def_id).reverse();
+    for (let sale of sales) {
+        let item = allBuildings[sale.object_id];
+        if (!item) continue;
+        let eid = +sale.event_id || 0;
+        let erid = +sale.event_region_id || 0;
+        let hide = +sale.hide;
+        if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
+        if (hide && (item.sale_id || !item.owned)) continue;
+        setItem(item, hide, sale, 'sale', eid, erid, +sale.level);
+    }
+
+    // OFFERS
+    sales = Object.values(gui.getFile('offers')).filter(sale => sale.type == 'building');
+    sales.forEach(sale => sale.def_id = +sale.def_id);
+    sales = sales.sort((a, b) => a.def_id - b.def_id).reverse();
+    for (let sale of sales) {
+        let item = allBuildings[sale.object_id];
+        if (!item || item.sale_id) continue;
+        // Offers are not specified for events
+        let eid = +sale.event || 0;
+        let erid = +sale.event_region_id || 0;
+        for (let region of sale.regions.split(',')) {
+            region = +region;
+            if (region > 0 && (erid == 0 || region < erid)) erid = region;
+        }
+        let hide = +sale.hide;
+        if (+sale.end <= updateTime) hide = 1;
+        if (!eid && erid != region) hide = 1;
+        if (eid && (!(eid in events) || erid > events[eid])) hide = 1;
+        if (hide && (item.sale_id || !item.owned)) continue;
+        setItem(item, hide, sale, 'offer', eid, erid, +sale.level);
+    }
+
+    // PACKS
+    sales = Object.values(gui.getFile('packs'));
+    for (let sale of sales) {
+        if (!(sale.def_id in packs)) continue;
+        let eid = +sale.event_id || 0;
+        let erid = +sale.region_id || 0;
+        let hide = +sale.hide;
+        let start = packsViewed[sale.def_id] || 0;
+        let end = start ? start + (+sale.duration) : 0;
+        if (end <= updateTime) hide = 1;
+        if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
+        let items = Array.isArray(sale.items) ? sale.items : [];
+        for (let item of items) {
+            if (item.type != 'building') continue;
+            item = allBuildings[item.object_id];
+            if (!item || item.sale_id) continue;
+            if (hide && (item.sale_id || !item.owned)) continue;
+            setItem(item, hide, sale, 'pack', eid, erid, +sale.req_level);
+        }
+    }
+
+    // TIERED OFFERS
+    sales = Object.values(gui.getFile('tiered_offers'));
+    for (let sale of sales) {
+        let start = +sale.start || 0;
+        let end = +sale.end || 0;
+        let hide = (end <= updateTime || start > updateTime) ? 1 : 0;
+        let eid = 0;
+        let erid = +sale.region_id;
+        let tiers = Array.isArray(sale.tiers) ? sale.tiers : [];
+        for (let tier of tiers) {
+            let gem = +tier.gem_price;
+            let reqs = [{
+                material_id: 2,
+                amount: gem
+            }];
+            let items = Array.isArray(tier.items) ? tier.items : [];
+            for (let item of items) {
+                if (item.type != 'building') continue;
+                item = allBuildings[item.object_id];
+                if (!item || item.sale_id) continue;
+                if (hide && (item.sale_id || !item.owned)) continue;
+                setItem(item, hide, sale, 'tier', eid, erid, +sale.req_level, reqs);
+                item.tname = tier.name_loc;
+            }
+        }
+    }
+
     // Remove non-owned and not-on-sale; compute other values
     let level = +generator.level;
     let skins = {};
@@ -172,8 +271,10 @@ function getState() {
     return {
         owned: selectOwned.value,
         shop: selectShop.value,
+        from: selectFrom.value,
         affordable: selectAffordable.value,
         useful: selectUseful.value,
+        hidemax: checkHideMax.checked,
         type: selectType.value,
         search: searchInput.value,
         sort: gui.getSortState(smartTable)
@@ -183,8 +284,10 @@ function getState() {
 function setState(state) {
     state.owned = gui.setSelectState(selectOwned, state.owned);
     state.shop = gui.setSelectState(selectShop, state.shop);
+    state.from = gui.setSelectState(selectFrom, state.from);
     state.affordable = gui.setSelectState(selectAffordable, state.affordable);
     state.useful = gui.setSelectState(selectUseful, state.useful);
+    checkHideMax.checked = !!state.hidemax;
     state.type = gui.setSelectState(selectType, state.type);
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
@@ -204,25 +307,28 @@ function refresh() {
     // We use a negative here and NaN in case no comparison must be checked
     // This works because NaN is never equal to any value, so the "if" is always false.
     let not_owned = state.owned ? state.owned == 'no' : NaN;
-    //let not_shop = state.shop ? state.shop == 'no' : NaN;
-    let shop = state.shop;
+    let not_shop = state.shop ? state.shop == 'no' : NaN;
+    let from = state.from;
     let not_affordable = state.affordable ? state.affordable == 'no' : NaN;
     let not_useful = state.useful ? state.useful == 'no' : NaN;
+    let hideMax = state.hidemax;
 
     function isVisible(item) {
         if (search && item.name.toUpperCase().indexOf(search) < 0) return false;
         if (type && item.type != type) return false;
         // NaN is never equal to true/false, so this will not trigger
         if (not_owned == (item.owned > 0)) return false;
-        // if (not_shop == (item.sale_id > 0 && !item.hide)) return false;
         let inShop = item.sale_id > 0 && !item.hide;
-        if (shop == 'yes' && !inShop) return false;
-        if (shop == 'no' && inShop) return false;
-        if (shop == 'event' && (!inShop || isNaN(item.event))) return false;
-        if (shop == 'theme' && (!inShop || item.event > 0 || item.region >= 1)) return false;
-        if (shop == 'region' && (!inShop || item.event > 0 || item.region < 1)) return false;
+        if (not_shop == inShop) return false;
+        if (from == 'offer' && item.sale != 'offer') return false;
+        if (from == 'pack' && item.sale != 'pack') return false;
+        if (from == 'tier' && item.sale != 'tier') return false;
+        if (from == 'event' && isNaN(item.event)) return false;
+        if (from == 'theme' && (item.event > 0 || item.region >= 1)) return false;
+        if (from == 'region' && (item.event > 0 || item.region < 1)) return false;
         if (not_affordable == (item.locked == 0)) return false;
         if (not_useful == (item.gain > 0)) return false;
+        if (hideMax && item.owned >= item.limit) return false;
         return true;
     }
 
@@ -275,7 +381,40 @@ function updateRow(row) {
     let item = allBuildings[id];
     let htm = '';
     htm += HtmlBr `<td><img class="building tooltip-event" src="${gui.getObjectImage('building', item.id)}"></td>`;
-    htm += HtmlBr `<td>${item.name}</td>`;
+    htm += HtmlBr `<td>${item.name}`;
+    let start = 0;
+    let end = 0;
+    let price;
+    if (item.sale == 'offer') {
+        let offer = bgp.Data.files.offers[item.sale_id];
+        htm += HtmlBr `<br><div class="offer">${gui.getMessage('gui_offer')}</div>`;
+        start = +offer.start;
+        end = +offer.end;
+    } else if (item.sale == 'tier') {
+        let offer = bgp.Data.files.tiered_offers[item.sale_id];
+        htm += HtmlBr `<br><div class="offer">${gui.getMessage('gui_tieredoffer')}</div> ${gui.getString(item.tname)}`;
+        start = +offer.start;
+        end = +offer.end;
+    } else if (item.sale == 'pack') {
+        let pack = bgp.Data.files.packs[item.sale_id];
+        htm += HtmlBr `<br><div class="offer">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
+        start = packsViewed[pack.def_id] || 0;
+        end = start ? start + (+pack.duration) : 0;
+        let currency = bgp.Data.generator.currency;
+        for (let p of pack.prices) {
+            let found = p.currency == currency;
+            if (!price || found) price = p;
+            if (found) break;
+        }
+    }
+    if (start || end) {
+        if (end < start) end = start;
+        htm += HtmlBr `<div class="offer-dates">`;
+        if (start) htm += HtmlBr `<span${start > updateTime || end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(start)}</span> - `;
+        htm += HtmlBr `<span${end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(end)}</span>`;
+        htm += HtmlBr `</div>`;
+    }
+    htm += HtmlBr `</td>`;
     htm += HtmlBr `<td${(item.locked & 1) ? lockedClass : ''}>${item.level ? Locale.formatNumber(item.level) : ''}</td>`;
     htm += HtmlBr `<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, true)}</td>`;
     htm += HtmlBr `<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, true) : ''}</td>`;
@@ -285,22 +424,28 @@ function updateRow(row) {
     htm += HtmlBr `<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
     htm += HtmlBr `<td><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.value)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(item.width)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(item.height)}</td>`;
+    htm += HtmlBr `<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
     htm += HtmlBr `<td>${item.gain ? Locale.formatNumber(item.gain) : ''}</td>`;
     let className = 'cost';
-    let title = '';
-    if (item.hide && item.sale_id) {
-        className += ' dot';
-        title = gui.getMessage('equipment_notonsale');
-    }
+    let title = [];
+    if (item.hide && item.sale_id) title.push(gui.getMessage('equipment_notonsale'));
+    if (item.sale == 'pack' || item.sale == 'tier') title.push(gui.getMessage('equipment_price_info'));
+    if (title.length) className += ' dot';
+    title = title.join('\n');
     htm += HtmlBr `<td class="${className}"${title ? Html ` title="${title}"` : ''}>`;
     let first = true;
-    for (let req of item.reqs || []) {
-        if (!first) htm += `<br>`;
-        first = false;
-        htm += getMaterialImg(req);
+    let reqs = item.reqs || [];
+    if (price) {
+        htm += HtmlBr(price.currency + ' ' + Locale.formatNumber(+price.amount, 2));
+    } else if (reqs.length == 1 && reqs[0].amount == 0) {
+        htm += HtmlBr(gui.getMessage('equipment_free'));
+    } else {
+        for (let req of reqs) {
+            if (!first) htm += `<br>`;
+            first = false;
+            htm += getMaterialImg(req);
+        }
     }
     htm += HtmlBr `</td>`;
     row.innerHTML = htm;

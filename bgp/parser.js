@@ -153,7 +153,7 @@ var Parser = {
 
         return data;
     },
-    parse_localization_revision: 2,
+    parse_localization_revision: 3,
     parse_localization: function(text, format) {
         var wanted = {
             //'ABNA': '',
@@ -173,6 +173,7 @@ var Parser = {
             'USNA': 'Usable',
             'WINA': 'Windmill',
             'CT': 'Theme',
+            'SPP': 'Special Packs',
             'ACDE': 'Achievement description',
             'MADE': 'Material description',
             'QIDE': 'Quest Item description',
