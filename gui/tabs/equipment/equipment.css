@@ -26,7 +26,7 @@
   cursor: default;
 }
 
-.equipment cost span.locked {
+.equipment .cost span.locked {
   background-color: rgba(255, 0, 0, 0.2);
   padding-left: 2px;
   padding-right: 2px;
