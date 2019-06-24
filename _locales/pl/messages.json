@@ -112,6 +112,15 @@
     "gui_theme": {
         "message": "Temat"
     },
+    "gui_offer": {
+        "message": "Oferty"
+    },
+    "gui_tieredoffer": {
+        "message": "Oferty wielopoziomowej"
+    },
+    "gui_pack": {
+        "message": "Paczki"
+    },
     "gui_level": {
         "message": "Poziom"
     },
@@ -1291,6 +1300,9 @@
     "equipment_inshop": {
         "message": "W sklepie"
     },
+    "equipment_from": {
+        "message": "Z"
+    },
     "equipment_affordable": {
         "message": "Niedrogie"
     },
@@ -1302,6 +1314,15 @@
     },
     "equipment_gain_info": {
         "message": "Zysk opiera się na minimalnej wartości slotu w twoim obozie"
+    },
+    "equipment_free": {
+        "message": "DARMOWE"
+    },
+    "equipment_hidemax": {
+        "message": "Ukryj maksymalne"
+    },
+    "equipment_price_info": {
+        "message": "Pokazana cena nie dotyczy tego sprzętu,\nale pakietu/oferty, która zawierała ten sprzęt."
     },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",

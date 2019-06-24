@@ -112,6 +112,15 @@
     "gui_theme": {
         "message": "Tema"
     },
+    "gui_offer": {
+        "message": "Specialtilbud"
+    },
+    "gui_tieredoffer": {
+        "message": "Gradueret tilbud"
+    },
+    "gui_pack": {
+        "message": "Pakke"
+    },
     "gui_level": {
         "message": "Level (Niveau)"
     },

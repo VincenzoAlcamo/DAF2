@@ -112,6 +112,15 @@
     "gui_theme": {
         "message": "Temas"
     },
+    "gui_offer": {
+        "message": "Ofertas"
+    },
+    "gui_tieredoffer": {
+        "message": "Oferta escalonada"
+    },
+    "gui_pack": {
+        "message": "Paquetes especiales"
+    },
     "gui_level": {
         "message": "Nivel"
     },

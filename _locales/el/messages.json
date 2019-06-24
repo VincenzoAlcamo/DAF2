@@ -112,6 +112,15 @@
     "gui_theme": {
         "message": "Θέμα"
     },
+    "gui_offer": {
+        "message": "Προσφορά"
+    },
+    "gui_tieredoffer": {
+        "message": "Προσφορά Επιπέδου"
+    },
+    "gui_pack": {
+        "message": "Πακέτο"
+    },
     "gui_level": {
         "message": "Επίπεδο"
     },
@@ -1291,6 +1300,9 @@
     "equipment_inshop": {
         "message": "Στο μαγαζί"
     },
+    "equipment_from": {
+        "message": "Από"
+    },
     "equipment_affordable": {
         "message": "Μπορεί να Αγοραστεί"
     },
@@ -1302,6 +1314,15 @@
     },
     "equipment_gain_info": {
         "message": "Το κέρδος βασίζεται στην ελάχιστη τιμή υποδοχής στη βάση σας"
+    },
+    "equipment_free": {
+        "message": "ΔΩΡΕΑΝ"
+    },
+    "equipment_hidemax": {
+        "message": "Κρύψιμο μέγιστου"
+    },
+    "equipment_price_info": {
+        "message": "Η τιμή εδώ δεν είναι για τον εξοπλισμό αυτό,\nαλλά για το πακέτο/προσφορά που τον περιείχε."
     },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",

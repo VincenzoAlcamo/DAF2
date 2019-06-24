@@ -112,6 +112,15 @@
     "gui_theme": {
         "message": "Motiv"
     },
+    "gui_offer": {
+        "message": "Angebot"
+    },
+    "gui_tieredoffer": {
+        "message": "Gestaffeltes Angebot"
+    },
+    "gui_pack": {
+        "message": "Paket"
+    },
     "gui_level": {
         "message": "Level"
     },
@@ -1291,6 +1300,9 @@
     "equipment_inshop": {
         "message": "Im Shop"
     },
+    "equipment_from": {
+        "message": "Von"
+    },
     "equipment_affordable": {
         "message": "Bezahlbar"
     },
@@ -1302,6 +1314,15 @@
     },
     "equipment_gain_info": {
         "message": "Der Gewinn basiert auf dem minimalen Stellplatzwert in deinem Camp."
+    },
+    "equipment_free": {
+        "message": "GRATIS"
+    },
+    "equipment_hidemax": {
+        "message": "Maximal zulässiges Ausblenden"
+    },
+    "equipment_price_info": {
+        "message": "Der hier angegebene Preis gilt nicht für dieses Ausstattung,\naber für das Paket/Angebot, das diese Ausstattung beinhaltet."
     },
     "specialweek_end": {
         "message": "endet am $FINISH$",
