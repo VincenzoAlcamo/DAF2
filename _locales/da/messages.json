@@ -98,14 +98,6 @@
     "gui_event": {
         "message": "Begivenhed"
     },
-    "gui_event_tooltip": {
-        "message": "Begivenhed: $EVENTS",
-        "placeholders": {
-            "event": {
-                "content": "$1"
-            }
-        }
-    },
     "gui_region": {
         "message": "Region"
     },
@@ -195,7 +187,7 @@
         "message": "Dag"
     },
     "gui_placed": {
-        "message": "Placerest i lejr"
+        "message": "Placeret i lejr"
     },
     "gui_owned": {
         "message": "Ejet"
@@ -427,30 +419,6 @@
     },
     "camp_slot_blocked": {
         "message": "Blokeret"
-    },
-    "camp_slot_capacity": {
-        "message": "Kapacitet: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_regen": {
-        "message": "Regenerering: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_region": {
-        "message": "Region: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
     },
     "camp_regen": {
         "message": "Regenerering"
@@ -1300,6 +1268,9 @@
     "equipment_inshop": {
         "message": "I butik"
     },
+    "equipment_from": {
+        "message": "Fra"
+    },
     "equipment_affordable": {
         "message": "Har råd til"
     },
@@ -1310,7 +1281,16 @@
         "message": "Forøgelse"
     },
     "equipment_gain_info": {
-        "message": "Førøgelse er baseret på laveste lejrudstyr"
+        "message": "Forøgelse er baseret på laveste lejrudstyr"
+    },
+    "equipment_free": {
+        "message": "Gratis"
+    },
+    "equipment_hidemax": {
+        "message": "Skjul Grænse"
+    },
+    "equipment_price_info": {
+        "message": "Pakkepris"
     },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",

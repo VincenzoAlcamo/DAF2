@@ -98,14 +98,6 @@
     "gui_event": {
         "message": "Evento"
     },
-    "gui_event_tooltip": {
-        "message": "Evento: $EVENT$",
-        "placeholders": {
-            "event": {
-                "content": "$1"
-            }
-        }
-    },
     "gui_region": {
         "message": "Regione"
     },
@@ -427,30 +419,6 @@
     },
     "camp_slot_blocked": {
         "message": "Spazio bloccato"
-    },
-    "camp_slot_capacity": {
-        "message": "Capacità: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_regen": {
-        "message": "Rigenerazione: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_region": {
-        "message": "Regione: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
     },
     "camp_regen": {
         "message": "Rigenerazione"

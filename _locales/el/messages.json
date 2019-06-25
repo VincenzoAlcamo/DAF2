@@ -98,14 +98,6 @@
     "gui_event": {
         "message": "Ιστορία"
     },
-    "gui_event_tooltip": {
-        "message": "Ιστορία: $EVENT$",
-        "placeholders": {
-            "event": {
-                "content": "$1"
-            }
-        }
-    },
     "gui_region": {
         "message": "Περιοχή"
     },
@@ -427,30 +419,6 @@
     },
     "camp_slot_blocked": {
         "message": "Μπλοκαρισμένο κενό"
-    },
-    "camp_slot_capacity": {
-        "message": "Χωρητικότητα: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_regen": {
-        "message": "Ανανέωση: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_region": {
-        "message": "Περιοχή: $VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
     },
     "camp_regen": {
         "message": "Ανανέωση"

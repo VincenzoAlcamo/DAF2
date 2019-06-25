@@ -98,14 +98,6 @@
     "gui_event": {
         "message": "Eventos"
     },
-    "gui_event_tooltip": {
-        "message": "Eventos : $EVENT$",
-        "placeholders": {
-            "event": {
-                "content": "$1"
-            }
-        }
-    },
     "gui_region": {
         "message": "Regiones"
     },
@@ -427,30 +419,6 @@
     },
     "camp_slot_blocked": {
         "message": "Espacio bloqueado"
-    },
-    "camp_slot_capacity": {
-        "message": "Capacidad :$VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_regen": {
-        "message": "Regeneracion :$VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_region": {
-        "message": "Region :$VALUE$",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
     },
     "camp_regen": {
         "message": "Regeneracion"
@@ -1300,6 +1268,9 @@
     "equipment_inshop": {
         "message": "En la tienda"
     },
+    "equipment_from": {
+        "message": "Desde"
+    },
     "equipment_affordable": {
         "message": "Asequible"
     },
@@ -1311,6 +1282,15 @@
     },
     "equipment_gain_info": {
         "message": "La ganancia se basa en el valor de espacio mínimo en tu campamento"
+    },
+    "equipment_free": {
+        "message": "Gratis"
+    },
+    "equipment_hidemax": {
+        "message": "Ocultar maximo"
+    },
+    "equipment_price_info": {
+        "message": "El precio que se muestra no es para este equipamiento  , es para el paquete /oferta que incluye este equipamiento"
     },
     "specialweek_end": {
         "message": "termina en  $FINISH$",

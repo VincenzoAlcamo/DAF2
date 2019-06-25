@@ -446,17 +446,17 @@ function renderCamp(campResult, isPublic) {
                 }
                 if (slot.capacity > 0) {
                     kind += ' capacity';
-                    if (isPublic) title += '\n' + gui.getMessage('camp_slot_capacity', slot.capacity);
+                    if (isPublic) title += '\n' + gui.getMessageAndValue('camp_capacity', slot.capacity);
                     strength = getStrength(slot.value, cap_min, cap_range);
                 }
                 if (slot.regen > 0) {
                     kind += ' regen';
-                    if (isPublic) title += '\n' + gui.getMessage('camp_slot_regen', slot.regen);
+                    if (isPublic) title += '\n' + gui.getMessageAndValue('camp_regen', slot.regen);
                     strength = getStrength(slot.value, reg_min, reg_range);
                 }
                 if (slot.region_id > 0) {
                     kind += ' reg' + slot.region_id;
-                    title += '\n' + gui.getMessage('camp_slot_region', gui.getObjectName('region', slot.region_id));
+                    title += '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', slot.region_id));
                 }
                 colValues = HtmlRaw(isPublic ? String(HtmlBr `<div class="value">${slot.value}</div>`).repeat(width) : '');
                 strength = Math.round(strength * 1000) / 1000;
