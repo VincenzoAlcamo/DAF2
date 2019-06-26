@@ -1252,10 +1252,16 @@
         "message": "Non dipende dal livello del giocatore"
     },
     "equipment_sellout": {
-        "message": "Vendere tutti gli equipaggiamenti inutilizzati ti farà guadagnare $COINS$ monete.",
+        "message": "Vendere tutti gli oggetti inutilizzati ti farà guadagnare $TOTAL$ monete (equipaggiamento = $EQUIP$ monete, decorazioni = $DECO$ monete)",
         "placeholders": {
-            "coins": {
+            "total": {
                 "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
             }
         }
     },

@@ -1252,10 +1252,16 @@
         "message": "No depende del nivel del jugador."
     },
     "equipment_sellout": {
-        "message": "La venta de todos los equipos no utilizados le producirá neto $COINS$ monedas.",
+        "message": "Por la venta de los artículos no utilizados obtendrás $TOTAL$ monedas (equipo = $EQUIP$ monedas, decoraciones = $DECO$ monedas)",
         "placeholders": {
-            "coins": {
+            "total": {
                 "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
             }
         }
     },

@@ -1269,10 +1269,16 @@
     },
 
     "equipment_sellout": {
-        "message": "Selling all unused equipments will net you $COINS$ coins.",
+        "message": "Selling all unused items will net you $TOTAL$ coins (equipment = $EQUIP$ coins, decorations = $DECO$ coins)",
         "placeholders": {
-            "coins": {
+            "total": {
                 "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
             }
         }
     },

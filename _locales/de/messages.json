@@ -1252,10 +1252,16 @@
         "message": "Unabhängig vom Level des Spielers"
     },
     "equipment_sellout": {
-        "message": "Wenn du alle unbenutzten Ausstattungen verkaufst, wirst du $COINS$-Münzen erhalten.",
+        "message": "Wenn du alle unbenutzten Gegenstände verkaufst, wirst du $TOTAL$-Münzen erhalten (Ausstattung = $EQUIP$-Münzen, Dekorationen = $DECO$-Münzen).",
         "placeholders": {
-            "coins": {
+            "total": {
                 "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
             }
         }
     },

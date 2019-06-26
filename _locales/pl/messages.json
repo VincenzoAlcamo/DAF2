@@ -1252,10 +1252,16 @@
         "message": "Nie zależy od poziomu gracza"
     },
     "equipment_sellout": {
-        "message": "Sprzedając wszystkie nieużywane wyposażenie otrzymasz $COINS$ monet.",
+        "message": "Sprzedając wszystkie nieużywane wyposażenie otrzymasz $TOTAL$ monet. (inwentarz = $EQUIP$ monet,\ndekoracje = $DECO$ monet)",
         "placeholders": {
-            "coins": {
+            "total": {
                 "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
             }
         }
     },

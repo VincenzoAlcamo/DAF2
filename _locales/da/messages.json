@@ -1252,10 +1252,16 @@
         "message": "Ikke afhængig af spillers level"
     },
     "equipment_sellout": {
-        "message": "Hvis du sælger alle ubrugte udstyr vil du få $COINS$ mønter.",
+        "message": "Hvis du sælger alle ubrugte varer, vil du netto $TOTAL$ mønter (udstyr = $EQUIP$ mønter, dekorationer = $DECO$ mønter)",
         "placeholders": {
-            "coins": {
+            "total": {
                 "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
             }
         }
     },
