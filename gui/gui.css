@@ -791,10 +791,19 @@ input.note:focus::-webkit-input-placeholder {
 
 /*#endregion*/
 
-td.dot {
+td.dot,
+td.dot2 {
   background-image: url(/img/gui/red_dot.gif);
-  background-repeat: no-repeat;
-  background-position: 3px 4px;
+  background-repeat: no-repeat, no-repeat;
+  background-position: 3px 4px, 11px 4px;
+}
+
+td.dot2 {
+  background-image: url(/img/gui/blue_dot.gif);
+}
+
+td.dot.dot2 {
+  background-image: url(/img/gui/red_dot.gif), url(/img/gui/blue_dot.gif);
 }
 
 /*#region GREEN/RED RINGS*/

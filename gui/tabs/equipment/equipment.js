@@ -5,7 +5,7 @@ export default {
     update: update,
     getState: getState,
     setState: setState,
-    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers']
+    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations']
 };
 
 let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, checkHideMax, selectType, searchInput, searchHandler, allBuildings;
@@ -86,11 +86,21 @@ function update() {
         let finished = +event.finished;
         // Shop is open for 7 days after the event ends
         let shopLimit = finished + 86400 * 7;
+        let eid = event.def_id;
         if (shopLimit > updateTime) {
-            let eid = event.def_id;
             events[eid] = generator.events_region[eid] || 0;
         }
     }
+    for (let event of Object.values(gui.getFile('events'))) {
+        let finished = +event.end;
+        // Shop is open for 7 days after the event ends
+        let shopLimit = finished + 86400 * 7;
+        let eid = event.def_id;
+        if (shopLimit > updateTime && !(eid in events)) {
+            events[eid] = region;
+        }
+    }
+
 
     allBuildings = {};
     for (let building of Object.values(gui.getFile('buildings'))) {
@@ -257,7 +267,18 @@ function update() {
         if (item.placed < item.owned && item.sell) coins += item.sell * (item.owned - item.placed);
         item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen)) : 0;
     }
-    container.querySelector('.equipment-stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins));
+
+    let coins_deco = 0;
+    let decorations = gui.getFile('decorations');
+    let stored = generator.stored_decorations || {};
+    for (let did in stored) {
+        let qty = +stored[did];
+        let decoration = decorations[did];
+        if (decoration && qty) coins_deco += qty * +decoration.sell_price;
+    }
+
+    container.querySelector('.equipment-stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins + coins_deco), Locale.formatNumber(coins), Locale.formatNumber(coins_deco));
+
     let title = gui.getMessage('equipment_gain_info') + ':';
     title += '\n' + gui.getMessage('camp_capacity') + ' = ' + Locale.formatNumber(minCapacity);
     title += '\n' + gui.getMessage('camp_regen') + ' = ' + Locale.formatNumber(minRegen);
@@ -401,11 +422,7 @@ function updateRow(row) {
         start = packsViewed[pack.def_id] || 0;
         end = start ? start + (+pack.duration) : 0;
         let currency = bgp.Data.generator.currency;
-        for (let p of pack.prices) {
-            let found = p.currency == currency;
-            if (!price || found) price = p;
-            if (found) break;
-        }
+        price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
     }
     if (start || end) {
         if (end < start) end = start;
@@ -429,9 +446,14 @@ function updateRow(row) {
     htm += HtmlBr `<td>${item.gain ? Locale.formatNumber(item.gain) : ''}</td>`;
     let className = 'cost';
     let title = [];
-    if (item.hide && item.sale_id) title.push(gui.getMessage('equipment_notonsale'));
-    if (item.sale == 'pack' || item.sale == 'tier') title.push(gui.getMessage('equipment_price_info'));
-    if (title.length) className += ' dot';
+    if (item.hide && item.sale_id) {
+        title.push(gui.getMessage('equipment_notonsale'));
+        className += ' dot';
+    }
+    if (item.sale == 'pack' || item.sale == 'tier') {
+        title.push(gui.getMessage('equipment_price_info'));
+        className += ' dot2';
+    }
     title = title.join('\n');
     htm += HtmlBr `<td class="${className}"${title ? Html ` title="${title}"` : ''}>`;
     let first = true;
