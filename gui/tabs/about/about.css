@@ -21,7 +21,25 @@
 
 .about_version {
   font-size: 16pt;
-  margin-top: 6px;
+  margin-top: 10px;
+}
+
+.about_version a {
+  text-decoration: none;
+  padding-left: 24px;
+  background-image: url(/img/gui/facebook.png);
+  background-repeat: no-repeat;
+  background-size: 24px;
+  color: var(--vm-item-sel-fgcol);
+  padding: 2px 6px 2px 24px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+}
+
+.about_version a:hover {
+  background-color: var(--vm-item-hov-bgcol);
+  color: var(--vm-item-hov-fgcol);
+  border-color: var(--vm-item-brcol);
 }
 
 .about_data {
