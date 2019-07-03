@@ -8,7 +8,7 @@ export default {
     requires: ['materials', 'decorations', 'levelups', 'sales']
 };
 
-var tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
+let tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
 let pillarsExcluded = [];
 
 function init() {
@@ -41,7 +41,7 @@ function update() {
     // sales = sales.filter(sale => sale.object_id in ids);
 
     /* New logic using heuristic */
-    var salesByMaterial = {};
+    let salesByMaterial = {};
 
     function setSale(sale) {
         if (!sale) return;
@@ -62,15 +62,15 @@ function update() {
     sales.filter(sale => +sale.event_id == 0 && sale.requirements.length == 1).sort((a, b) => +b.def_id - +a.def_id).forEach(setSale);
     sales = Object.values(salesByMaterial);
 
-    var decorations = gui.getFile('decorations');
-    var materialInventory = gui.getGenerator().materials;
+    let decorations = gui.getFile('decorations');
+    let materialInventory = gui.getGenerator().materials;
     pillars = [];
     for (let sale of sales) {
-        var decoration = decorations[sale.object_id];
-        var req = sale.requirements[0];
+        let decoration = decorations[sale.object_id];
+        let req = sale.requirements[0];
         if (decoration && req) {
-            var matId = req.material_id;
-            var pillar = {};
+            let matId = req.material_id;
+            let pillar = {};
             pillar.did = +decoration.def_id;
             pillar.img = gui.getObjectImage('decoration', pillar.did);
             pillar.excluded = pillarsExcluded.includes(pillar.did);
@@ -121,23 +121,32 @@ function setState(state) {
 
 function toggleCap() {
     gui.updateTabState(tab);
-    var state = getState();
+    let state = getState();
     pillars.forEach(pillar => updateQty(pillar, state));
     refreshTotals();
 }
 
 function updatePillar(e) {
-    var el = e.target;
-    var td = el.parentNode;
-    var did = parseInt(td.getAttribute('did'));
-    var pillar = pillars.find(pillar => pillar.did == did);
+    let el = e.target;
+    let td = el.parentNode;
+    let did = parseInt(td.getAttribute('did'));
+    let pillar = pillars.find(pillar => pillar.did == did);
     if (el.type == 'checkbox') {
-        pillar.excluded = !el.checked;
-        pillarsExcluded = pillarsExcluded.filter(id => id != pillar.did);
-        if (pillar.excluded) pillarsExcluded.push(pillar.did);
-        gui.updateTabState(tab);
-        (td.classList.contains('grid') ? td : td.parentNode).classList.toggle('excluded', pillar.excluded);
-        pillar.qty = pillar.excluded ? 0 : pillar.possible;
+        if(e.ctrlKey) {
+            e.preventDefault();
+            let setAsMax = pillar.qty == 0;
+            for(let pillar of pillars) {
+                pillar.qty = setAsMax ? pillar.possible : 0;
+                updateQty(pillar);
+            }
+        } else {
+            pillar.excluded = !el.checked;
+            pillarsExcluded = pillarsExcluded.filter(id => id != pillar.did);
+            if (pillar.excluded) pillarsExcluded.push(pillar.did);
+            gui.updateTabState(tab);
+            (td.classList.contains('grid') ? td : td.parentNode).classList.toggle('excluded', pillar.excluded);
+            pillar.qty = pillar.excluded ? 0 : pillar.possible;
+        }
     } else {
         pillar.qty = +el.value;
     }
@@ -147,7 +156,7 @@ function updatePillar(e) {
 
 function updateQty(pillar, state) {
     state = state || getState();
-    var max = state.uncapped ? 999 : pillar.possible;
+    let max = state.uncapped ? 999 : pillar.possible;
     pillar.qty = Math.min(Math.max(pillar.qty, 0), max);
     pillar.predicted_xp = pillar.qty * pillar.xp;
     pillar.predicted_coins = pillar.qty * pillar.coins;
@@ -164,12 +173,12 @@ function updateQty(pillar, state) {
 }
 
 function refreshTotals() {
-    var levelups = gui.getFile('levelups');
+    let levelups = gui.getFile('levelups');
 
     function setProgress(className, level, xp) {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
-            var levelup = levelups[level - 1];
-            var div = parent.querySelectorAll('div');
+            let levelup = levelups[level - 1];
+            let div = parent.querySelectorAll('div');
             div[1].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`;
             div[2].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level+1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`;
             div[3].innerHTML = Html `${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`;
@@ -178,9 +187,9 @@ function refreshTotals() {
             div.setAttribute('max', levelup.xp);
         });
     }
-    var tot, qty, xp, coins, maxXp, maxCoins, maxBoost, level, exp, nextLevel, nextExp, boost, totalExp;
+    let tot, qty, xp, coins, maxXp, maxCoins, maxBoost, level, exp, nextLevel, nextExp, boost, totalExp;
     // eslint-disable-next-line no-unused-vars
-    var maxLevel;
+    let maxLevel;
     tot = qty = xp = coins = boost = maxXp = maxCoins = maxBoost = 0;
     pillars.forEach(pillar => {
         tot += pillar.possible;
@@ -190,12 +199,12 @@ function refreshTotals() {
         maxXp += pillar.possible * pillar.xp;
         maxCoins += pillar.possible * pillar.coins;
     });
-    var generator = gui.getGenerator();
+    let generator = gui.getGenerator();
     level = nextLevel = maxLevel = +generator.level;
     exp = +generator.exp;
     nextExp = exp + xp;
     totalExp = exp + maxXp;
-    for (var levelup of levelups) {
+    for (let levelup of levelups) {
         if (levelup.def_id < level) continue;
         if (nextExp >= levelup.xp) {
             boost += levelup.boost;
@@ -232,9 +241,9 @@ function refresh() {
     smartTable.tbody[0].innerHTML = '';
 
     let state = getState();
-    var generator = gui.getGenerator();
-    var level = +generator.level;
-    var region = +generator.region;
+    let generator = gui.getGenerator();
+    let level = +generator.level;
+    let region = +generator.region;
     state.search = (state.search || '').toUpperCase();
 
     function isVisible(p) {
