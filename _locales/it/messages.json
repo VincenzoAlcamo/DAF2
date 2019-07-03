@@ -216,6 +216,9 @@
     "gui_items_found": {
         "message": "Elementi trovati"
     },
+    "gui_reset": {
+        "message": "Azzera"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1233,9 +1236,6 @@
     },
     "rings_playerlevel": {
         "message": "Specifica il livello del giocatore"
-    },
-    "rings_resetlevel": {
-        "message": "Azzera"
     },
     "rings_stats": {
         "message": "Hai $NUM$ $NAME$ nello zaino.",

@@ -216,6 +216,9 @@
     "gui_items_found": {
         "message": "Znalezione itemy"
     },
+    "gui_reset": {
+        "message": "Zresetuj"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1233,9 +1236,6 @@
     },
     "rings_playerlevel": {
         "message": "Określ poziom gracza"
-    },
-    "rings_resetlevel": {
-        "message": "Zresetuj"
     },
     "rings_stats": {
         "message": "Masz $NUM$ $NAME$ w swoim plecaku.",

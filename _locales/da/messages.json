@@ -216,6 +216,9 @@
     "gui_items_found": {
         "message": "Fundne enheder"
     },
+    "gui_reset": {
+        "message": "Reset"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1234,9 +1237,6 @@
     "rings_playerlevel": {
         "message": "Specificer spillers level"
     },
-    "rings_resetlevel": {
-        "message": "Reset"
-    },
     "rings_stats": {
         "message": "Du har $NUM$ $NAME$ i din rygsæk.",
         "placeholders": {
@@ -1252,7 +1252,7 @@
         "message": "Ikke afhængig af spillers level"
     },
     "equipment_sellout": {
-        "message": "Hvis du sælger alle ubrugte varer, vil du netto $TOTAL$ mønter (udstyr = $EQUIP$ mønter, dekorationer = $DECO$ mønter)",
+        "message": "Salg af alt brugt lejrudstyr gi'r dig $TOTAL$ mønter netto (udstyr = $EQUIP$ mønter, dekorationer = $DECO$ mønter)",
         "placeholders": {
             "total": {
                 "content": "$1"

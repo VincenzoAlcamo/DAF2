@@ -216,6 +216,9 @@
     "gui_items_found": {
         "message": "Gefundene Gegenstände"
     },
+    "gui_reset": {
+        "message": "Zurücksetzen"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1233,9 +1236,6 @@
     },
     "rings_playerlevel": {
         "message": "Stufe des Spielers auswählen"
-    },
-    "rings_resetlevel": {
-        "message": "Zurücksetzen"
     },
     "rings_stats": {
         "message": "Du hast $NUM$ $NAME$ im Rucksack.",

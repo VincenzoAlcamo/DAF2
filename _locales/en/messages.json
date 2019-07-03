@@ -218,6 +218,9 @@
     "gui_items_found": {
         "message": "Items found"
     },
+    "gui_reset": {
+        "message": "Reset"
+    },
 
     "dialog_ok": {
         "message": "Ok"
@@ -1249,9 +1252,6 @@
     },
     "rings_playerlevel": {
         "message": "Specify player's level"
-    },
-    "rings_resetlevel": {
-        "message": "Reset"
     },
     "rings_stats": {
         "message": "You have $NUM$ $NAME$ in your backpack.",

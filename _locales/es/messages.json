@@ -216,6 +216,9 @@
     "gui_items_found": {
         "message": "Artículos encontrados"
     },
+    "gui_reset": {
+        "message": "Reiniciar"
+    },
     "dialog_ok": {
         "message": "OK"
     },
@@ -1233,9 +1236,6 @@
     },
     "rings_playerlevel": {
         "message": "Especificar el nivel del jugador."
-    },
-    "rings_resetlevel": {
-        "message": "Reiniciar"
     },
     "rings_stats": {
         "message": "Tienes $NUM$ $NAME$ en tu mochila",

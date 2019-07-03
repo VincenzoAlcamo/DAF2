@@ -216,6 +216,9 @@
     "gui_items_found": {
         "message": "Αντικείμενα που βρέθηκαν"
     },
+    "gui_reset": {
+        "message": "Επαναφορά"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },
@@ -1233,9 +1236,6 @@
     },
     "rings_playerlevel": {
         "message": "Προσδιορίστε επίπεδο παίχτη"
-    },
-    "rings_resetlevel": {
-        "message": "Επαναφορά"
     },
     "rings_stats": {
         "message": "Έχετε $NUM$ $NAME$ στο σακίδιό σας.",
