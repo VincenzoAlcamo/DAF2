@@ -257,7 +257,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
                 div.style.backgroundImage = 'url(' + (item.id == 1 ? item.pic : 'https://graph.facebook.com/v2.8/' + item.fb_id + '/picture') + ')';
                 var fullName = item.name;
                 if (item.surname) fullName += ' ' + item.surname;
-                div.title = fullName + '\n' + getMessage('camp_region') + ': ' + (regions[item.region] || item.region);
+                div.title = fullName + '\n' + getMessage('gui_region') + ': ' + (regions[item.region] || item.region);
                 var d = div.appendChild(document.createElement('div'));
                 d.textContent = item.level;
                 if (item.id == 1) d.style.visibility = 'hidden';
