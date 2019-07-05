@@ -123,6 +123,9 @@ let gui = {
         if (flagReduced && dd > 0) return Locale.formatNumber(dd) + 'd';
         return `${dd ? Locale.formatNumber(dd) + 'd:' : ''}${(hh < 10 ? '0' : '')+hh}h:${(mm < 10 ? '0' : '')+mm}m`;
     },
+    getArray: function(value) {
+        return Array.isArray(value) ? value : [];
+    },
     getArrayOfInt: function(value) {
         return String(value || '').split(',').map(o => parseInt(o)).filter(n => isFinite(n));
     },

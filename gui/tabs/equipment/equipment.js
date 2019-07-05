@@ -59,10 +59,10 @@ function update() {
 
     let packs = {};
     packsViewed = {};
-    for (let pack of (generator.packs_b || '').split(',')) {
+    for (let pack of gui.getArrayOfInt(generator.packs_b)) {
         if (pack) packs[pack] = true;
     }
-    for (let pack of generator.packs_v || []) {
+    for (let pack of gui.getArray(generator.packs_v)) {
         if (pack) {
             packs[pack.def_id] = true;
             packsViewed[pack.def_id] = +pack.viewed;
@@ -71,7 +71,7 @@ function update() {
 
     function collect(list) {
         let result = {};
-        (list ? [].concat(list) : []).forEach(item => result[item.def_id] = (result[item.def_id] || 0) + 1);
+        for(let item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
         return result;
     }
     let owned = Object.assign({}, generator.stored_buildings);
@@ -204,7 +204,7 @@ function update() {
         let end = start ? start + (+sale.duration) : 0;
         if (end <= updateTime) hide = 1;
         if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
-        let items = Array.isArray(sale.items) ? sale.items : [];
+        let items = gui.getArray(sale.items);
         for (let item of items) {
             if (item.type != 'building') continue;
             item = allBuildings[item.object_id];
@@ -222,14 +222,14 @@ function update() {
         let hide = (end <= updateTime || start > updateTime) ? 1 : 0;
         let eid = 0;
         let erid = +sale.region_id;
-        let tiers = Array.isArray(sale.tiers) ? sale.tiers : [];
+        let tiers = gui.getArray(sale.tiers);
         for (let tier of tiers) {
             let gem = +tier.gem_price;
             let reqs = [{
                 material_id: 2,
                 amount: gem
             }];
-            let items = Array.isArray(tier.items) ? tier.items : [];
+            let items = gui.getArray(tier.items);
             for (let item of items) {
                 if (item.type != 'building') continue;
                 item = allBuildings[item.object_id];
@@ -457,7 +457,7 @@ function updateRow(row) {
     title = title.join('\n');
     htm += HtmlBr `<td class="${className}"${title ? Html ` title="${title}"` : ''}>`;
     let first = true;
-    let reqs = item.reqs || [];
+    let reqs = gui.getArray(item.reqs);
     if (price) {
         htm += HtmlBr(price.currency + ' ' + Locale.formatNumber(+price.amount, 2));
     } else if (reqs.length == 1 && reqs[0].amount == 0) {
