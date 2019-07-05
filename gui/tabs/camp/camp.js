@@ -204,7 +204,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         htm += HtmlBr `<tr><td>${gui.getMessage('camp_windmill_regen_total')}</td><td>${Locale.formatNumber(camp.windmill_reg * Math.min(wind_count, camp.windmill_limit))}</td></tr>`;
     }
     htm += HtmlBr `</tbody>`;
-    if (wind_count) {
+    if (wind_expiry) {
         htm += HtmlBr `<tbody>`;
         htm += HtmlBr `<tr><td colspan="2">${gui.getMessage('camp_windmill_expiry', Locale.formatDateTime(wind_expiry))}</td></tr>`;
         htm += HtmlBr `</tbody>`;
