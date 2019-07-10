@@ -71,7 +71,7 @@ function update() {
 
     function collect(list) {
         let result = {};
-        for(let item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
+        for (let item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
         return result;
     }
     let owned = Object.assign({}, generator.stored_buildings);
@@ -222,6 +222,7 @@ function update() {
         let hide = (end <= updateTime || start > updateTime) ? 1 : 0;
         let eid = 0;
         let erid = +sale.region_id;
+        if (erid > 0 && erid != region) continue;
         let tiers = gui.getArray(sale.tiers);
         for (let tier of tiers) {
             let gem = +tier.gem_price;
