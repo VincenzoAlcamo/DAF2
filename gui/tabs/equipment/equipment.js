@@ -53,6 +53,7 @@ function update() {
     let generator = gui.getGenerator();
     let backpack = generator.materials || {};
     let region = +generator.region;
+    let level = +generator.level;
     updateTime = gui.getUnixTime();
     matCache = {};
     minCapacity = minRegen = Infinity;
@@ -216,13 +217,24 @@ function update() {
 
     // TIERED OFFERS
     sales = Object.values(gui.getFile('tiered_offers'));
+    let possibleOffers = [];
     for (let sale of sales) {
         let start = +sale.start || 0;
         let end = +sale.end || 0;
-        let hide = (end <= updateTime || start > updateTime) ? 1 : 0;
+        let erid = +sale.region_id;
+        let hide = (end <= updateTime || start > updateTime || erid > region || +sale.req_level > level) ? 1 : 0;
+        if (!hide) possibleOffers.push(sale);
+    }
+    let viewedOffers = gui.getArrayOfInt(generator.viewed_tiers);
+    let boughtTiers = gui.getArrayOfInt(generator.bought_tiers);
+    // Only one offer at a time, get the first that is viewed / bought (default is the one for the current region)
+    let activeOffer = possibleOffers.find(offer => viewedOffers.includes(+offer.def_id));
+    activeOffer = activeOffer || possibleOffers.find(offer => gui.getArray(offer.tiers).find(tier => boughtTiers.includes(+tier.def_id)));
+    activeOffer = activeOffer || possibleOffers.find(offer => +offer.region_id == region);
+    for (let sale of sales) {
+        let hide = sale != activeOffer;
         let eid = 0;
         let erid = +sale.region_id;
-        if (erid > 0 && erid != region) continue;
         let tiers = gui.getArray(sale.tiers);
         for (let tier of tiers) {
             let gem = +tier.gem_price;
@@ -243,7 +255,6 @@ function update() {
     }
 
     // Remove non-owned and not-on-sale; compute other values
-    let level = +generator.level;
     let skins = {};
     let coins = 0;
     for (let skin of gui.getArrayOfInt(generator.skins)) skins[skin] = true;
