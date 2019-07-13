@@ -1372,6 +1372,17 @@
     "options_resetfullwindow_warning": {
         "message": "This option should be enabled if you experience problems loading the game."
     },
+    "options_fullwindowtimeout": {
+        "message": "Auto full window\nAutomatically enable full window when data has been loaded"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Yes, after $NUM$ seconds",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
     "options_gctable": {
         "message": "GC table\nShow all neighbors with GC beneath the game"
     },

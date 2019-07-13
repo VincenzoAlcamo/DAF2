@@ -75,6 +75,12 @@ function init() {
     option('fullWindowSide', SUBOPTION);
     option('fullWindowLock', SUBOPTION);
     option('resetFullWindow', SUBOPTION + WARNING);
+    let options = [
+        [0, gui.getMessage('dialog_no')],
+        [1, gui.getMessage('dialog_yes')],
+    ];
+    for (let num = 5; num <= 20; num += 5) options.push([num, gui.getMessage('options_fullwindowtimeout_seconds', num)]);
+    option('fullWindowTimeout', SUBOPTION, options);
     option('gcTable', WITHSUBOPTIONS);
     option('gcTableCounter', SUBOPTION);
     option('gcTableRegion', SUBOPTION);

@@ -409,7 +409,7 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    'resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
+    'resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
@@ -455,6 +455,9 @@ function init() {
             loadCompleted = true;
             onFullWindow();
             if (miner) ongcTable(true);
+            if(!getFullWindow() && !miner && prefs.fullWindowTimeout > 0) setTimeout(function() {
+                if(!getFullWindow()) sendPreference('fullWindow', true);
+            }, prefs.fullWindowTimeout * 1000);
         };
         handlers['@gcTableStatus'] = setgcTableStatus;
         window.addEventListener('resize', onResize);
@@ -484,8 +487,6 @@ function init() {
         } else {
             createMenu();
             updateMenu();
-            // Show it later (after the stylesheet has been loaded)
-            setTimeout(() => menu.style.display = '', 1000);
         }
     });
 }
