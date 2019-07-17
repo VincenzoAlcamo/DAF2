@@ -221,8 +221,8 @@ function kitchenFoundry(type) {
         if (sort != oldState.sort) {
             oldState.sort = sort;
             let name = smartTable.sort.name;
-            productions.sort((a, b) => (name != 'name' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
-            if (!smartTable.sort.ascending) productions.reverse();
+            if (smartTable.sort.ascending) productions.sort((a, b) => (name != 'name' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
+            else productions.sort((a, b) => (name != 'name' ? b[name] - a[name] : 0) || a.name.localeCompare(b.name));
         }
 
         sort = gui.getSortInfoText(smartTable.sortSub);
