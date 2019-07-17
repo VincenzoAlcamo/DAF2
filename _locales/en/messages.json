@@ -58,6 +58,9 @@
     "gui_show": {
         "message": "Show"
     },
+    "gui_all": {
+        "message": "All"
+    },
     "gui_search": {
         "message": "Search"
     },
@@ -294,6 +297,9 @@
     },
     "tab_equipment": {
         "message": "Equipment"
+    },
+    "tab_events": {
+        "message": "Events"
     },
 
     "about_version": {
@@ -1316,6 +1322,61 @@
         "message": "The price shown here is not for this equipment,\nbut for the pack/offer that included this equipment."
     },
 
+    "events_year": {
+        "message": "Year"
+    },
+    "events_end": {
+        "message": "End"
+    },
+    "events_quests": {
+        "message": "Quests"
+    },
+    "events_achievements": {
+        "message": "Achievements"
+    },
+    "events_pieces": {
+        "message": "Treasure's pieces"
+    },
+    "events_locations": {
+        "message": "Locations"
+    },
+    "events_materials": {
+        "message": "Special materials"
+    },
+    "events_completed": {
+        "message": "Completed"
+    },
+    "events_total": {
+        "message": "Total"
+    },
+    "events_medal": {
+        "message": "Medal"
+    },
+    "events_story_maps": {
+        "message": "Story maps"
+    },
+    "events_challenges": {
+        "message": "Challenges"
+    },
+    "events_repeatables": {
+        "message": "Repeatables"
+    },
+    "events_active": {
+        "message": "Active"
+    },
+    "events_rerelease": {
+        "message": "Bought/Gifted"
+    },
+    "events_complete": {
+        "message": "Complete"
+    },
+    "events_incomplete": {
+        "message": "Incomplete"
+    },
+    "events_notdone": {
+        "message": "Not done"
+    },
+
     "specialweek_end": {
         "message": "ends on $FINISH$",
         "placeholders": {
@@ -1373,7 +1434,7 @@
         "message": "This option should be enabled if you experience problems loading the game."
     },
     "options_fullwindowtimeout": {
-        "message": "Auto full window\nAutomatically enable full window when data has been loaded"
+        "message": "Auto full window\nAutomatically set full window when data has been loaded (DAF2 turns green)"
     },
     "options_fullwindowtimeout_seconds": {
         "message": "Yes, after $NUM$ seconds",

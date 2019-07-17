@@ -1,0 +1,70 @@
+<div class="toolbar">
+    <label>
+        <span data-i18n-text="gui_show"></span>
+        <select name="show">
+            <option value="" data-i18n-text="gui_all"></option>
+            <option value="active" data-i18n-text="events_active"></option>
+            <option value="rerelease" data-i18n-text="events_rerelease"></option>
+            <option value="complete" data-i18n-text="events_complete"></option>
+            <option value="incomplete" data-i18n-text="events_incomplete"></option>
+            <option value="notdone" data-i18n-text="events_notdone"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="events_year"></span>
+        <select name="year">
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="equipment_inshop"></span>
+        <select name="shop">
+            <option value=""></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="no" data-i18n-text="dialog_no"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_search"></span>
+        <input name="search" type="text" maxlength="40">
+    </label>
+</div>
+<div class="scrollable-content">
+    <table class="events data">
+        <thead>
+            <tr>
+                <th rowspan="2"><img src="/img/gui/events.png"></th>
+                <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="gui_event"></th>
+                <th rowspan="2" class="sortable" sort-name="year" data-i18n-text="events_year"></th>
+                <th rowspan="2" class="sortable" sort-name="gems"><img src="/img/gui/shop.png" data-i18n-title="gui_cost"></th>
+                <th rowspan="2" class="sortable" sort-name="start" data-i18n-text="progress_start"></th>
+                <th rowspan="2" class="sortable" sort-name="end" data-i18n-text="events_end"></th>
+                <th colspan="3" data-i18n-text="events_quests"></th>
+                <th colspan="3" data-i18n-text="events_achievements"></th>
+                <th colspan="3" data-i18n-text="events_pieces"></th>
+                <th colspan="4" data-i18n-text="events_locations"></th>
+                <th rowspan="2" data-i18n-text="events_materials"></th>
+            </tr>
+            <tr>
+                <th class="sortable img" sort-name="cquest"><img src="/img/gui/tick.png" data-i18n-title="events_completed"></th>
+                <th class="sortable img" sort-name="tquest"><img src="/img/gui/list.png" data-i18n-title="events_total"></th>
+                <th class="sortable img" sort-name="pquest"><img src="/img/gui/quest_ok.png" data-i18n-title="events_medal"></th>
+                <th class="sortable img" sort-name="cachiev"><img src="/img/gui/tick.png" data-i18n-title="events_completed"></th>
+                <th class="sortable img" sort-name="tachiev"><img src="/img/gui/list.png" data-i18n-title="events_total"></th>
+                <th class="sortable img" sort-name="pachiev"><img src="/img/gui/achiev_ok.png" data-i18n-title="events_medal"></th>
+                <th class="sortable img" sort-name="ccollect"><img src="/img/gui/tick.png" data-i18n-title="events_completed"></th>
+                <th class="sortable img" sort-name="tcollect"><img src="/img/gui/list.png" data-i18n-title="events_total"></th>
+                <th class="sortable img" sort-name="pcollect"><img src="/img/gui/treasure_ok.png" data-i18n-title="events_medal"></th>
+                <th class="sortable img" sort-name="locations"><img src="/img/gui/list.png" data-i18n-title="events_total"></th>
+                <th class="sortable img" sort-name="maps"><img src="/img/gui/map.png" data-i18n-title="events_story_maps"></th>
+                <th class="sortable img" sort-name="challenges"><img src="/img/gui/q-hard.png" data-i18n-title="events_challenges"></th>
+                <th class="sortable img" sort-name="repeatables"><img src="/img/gui/repeat.png" data-i18n-title="events_repeatables"></th>
+            </tr>
+        </thead>
+        <tbody class="row-coloring"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="20"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

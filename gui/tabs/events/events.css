@@ -1,0 +1,39 @@
+.events img.incomplete {
+  filter: saturate(0);
+}
+
+.events.data td {
+  text-align: center;
+}
+
+.events.data td:nth-child(2) {
+  text-align: left;
+}
+
+.events th.img {
+  padding-left: 0;
+  padding-right: 16px !important;
+}
+
+.events th.img img {
+  width: 16px;
+  height: 16px;
+}
+
+.events td.date {
+  font-size: 9pt;
+}
+
+.events .year {
+  text-align: right;
+  font-weight: bold;
+  font-size: smaller;
+  opacity: 0.6;
+  margin-top: -2px;
+}
+
+.events .cost img {
+  height: 18px;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}

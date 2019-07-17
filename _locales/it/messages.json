@@ -56,6 +56,9 @@
     "gui_show": {
         "message": "Mostra"
     },
+    "gui_all": {
+        "message": "Tutti"
+    },
     "gui_search": {
         "message": "Cerca"
     },
@@ -290,6 +293,9 @@
     },
     "tab_equipment": {
         "message": "Equipaggiamento"
+    },
+    "tab_events": {
+        "message": "Eventi"
     },
     "about_version": {
         "message": "Versione: $VERSION$",
@@ -1298,6 +1304,60 @@
     "equipment_price_info": {
         "message": "Il prezzo mostrato qui non è per questo equipaggiamento,\nma per il pacchetto/offerta che includeva questo equipaggiamento."
     },
+    "events_year": {
+        "message": "Anno"
+    },
+    "events_end": {
+        "message": "Termine"
+    },
+    "events_quests": {
+        "message": "Missioni"
+    },
+    "events_achievements": {
+        "message": "Obiettivi"
+    },
+    "events_pieces": {
+        "message": "Pezzi del tesoro"
+    },
+    "events_locations": {
+        "message": "Luoghi"
+    },
+    "events_materials": {
+        "message": "Materiali speciali"
+    },
+    "events_completed": {
+        "message": "Completati"
+    },
+    "events_total": {
+        "message": "Totale"
+    },
+    "events_medal": {
+        "message": "Medaglia"
+    },
+    "events_story_maps": {
+        "message": "Storia"
+    },
+    "events_challenges": {
+        "message": "Sfide"
+    },
+    "events_repeatables": {
+        "message": "Ripetibili"
+    },
+    "events_active": {
+        "message": "Attivi"
+    },
+    "events_rerelease": {
+        "message": "Comprati/Regalati"
+    },
+    "events_complete": {
+        "message": "Completi"
+    },
+    "events_incomplete": {
+        "message": "Incompleti"
+    },
+    "events_notdone": {
+        "message": "Non fatti"
+    },
     "specialweek_end": {
         "message": "termina il $FINISH$",
         "placeholders": {
@@ -1352,6 +1412,17 @@
     },
     "options_resetfullwindow_warning": {
         "message": "Provate ad abilitare questa opzione se riscontrate problemi nel caricamento del gioco."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Finestra intera in automatico\nMette a finestra intera quando il gioco è stato caricato (DAF2 diventa verde)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Sì, dopo $NUM$ secondi",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "options_gctable": {
         "message": "Tabella bimbi\nMostra tutti i vicini che hanno bimbi in una barra sotto al gioco"

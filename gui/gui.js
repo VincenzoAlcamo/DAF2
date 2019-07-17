@@ -21,15 +21,16 @@ let tabs = (function() {
     addTab('friendship');
     addTab('godchild');
     addTab('equipment');
+    addTab('events');
     addTab('kitchen');
     addTab('foundry');
     addTab('pillars');
-    addTab('locations', false);
+    // addTab('locations', false);
     addTab('greenrings');
     addTab('redrings');
     addTab('rewardlinks');
     addTab('options');
-    addTab('help', false);
+    // addTab('help', false);
     addTab('export');
     return tabs;
 })();
