@@ -260,6 +260,7 @@ function showDetail(show) {
     let isOdd = false;
     let group = {};
     initGroupTotals(group.grandtotal = {});
+    let url = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_filters/';
     for (let sub of item.rows) {
         if (level == 1 && sub.seq != showInfo.subId) continue;
         let isCompleted = sub.value == sub.max;
@@ -270,6 +271,8 @@ function showDetail(show) {
                 updateGroup(group);
                 group.row = null;
                 group.name = sub.gname;
+                group.url = url + sub.ma + '.png';
+                group.ma = sub.ma;
                 if (level == 0) {
                     group.row = document.createElement('tr');
                     group.row.setAttribute('data-level', '1');
@@ -324,7 +327,7 @@ function showDetail(show) {
             let total = group.total;
             let isCompleted = total.value == total.max;
             let htm = '';
-            htm += Html `<td><img src="/img/gui/map.png" width="24" height="24"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
+            htm += Html `<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
             htm += getTimes(isCompleted, total.bt, total.et);
             group.row.innerHTML = htm;
             group.row.classList.toggle('inspect', (!state.hidecompleted || !isCompleted) && state.groups);
@@ -522,7 +525,8 @@ function calcRegion(item) {
             filters[item.filter] = {
                 name: item.name_loc,
                 map: item.def_id,
-                order_id: +item.order_id
+                order_id: +item.order_id,
+                ma: item.mobile_asset
             };
         }
     });
@@ -573,6 +577,7 @@ function calcRegion(item) {
                 max: mPrg,
                 gname: filter.name,
                 seq: filter.order_id,
+                ma: filter.ma,
                 group_id: mine.group_id,
                 order_id: mine.order_id,
                 energy: energy,

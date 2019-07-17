@@ -132,3 +132,15 @@
   margin-bottom: -2px;
   font-weight: bold;
 }
+
+.progress_table td.filter {
+  background-repeat: no-repeat;
+  background-size: auto 40px;
+  background-position: 3px -12px;
+}
+
+.progress_table td.filter.father,
+.progress_table td.filter.main {
+  background-size: auto 24px;
+  background-position: 14px 0px;
+}
