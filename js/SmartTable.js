@@ -68,7 +68,7 @@ Object.assign(SmartTable.prototype, {
             var a = Array.from(thead1.querySelectorAll('th,td')),
                 b = Array.from(thead2.querySelectorAll('th,td'));
             a.forEach((el, index) => {
-                if (index < b.length) b[index].width = el.offsetWidth + 'px';
+                if (index < b.length) b[index].width = el.offsetWidth;
             });
             var table = thead2.parentNode;
             table.style.width = thead1.parentNode.offsetWidth + 'px';
