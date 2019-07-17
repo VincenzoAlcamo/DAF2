@@ -1,8 +1,8 @@
 /*global chrome*/
 // eslint-disable-next-line no-unused-vars
 const Locale = (function() {
-    var localeId;
-    var relativeTimeFormat;
+    let localeId;
+    let relativeTimeFormat;
 
     function getLocale() {
         return localeId;
@@ -19,7 +19,7 @@ const Locale = (function() {
     setLocale(chrome.i18n.getUILanguage());
 
     function formatNumber(value, decimalDigits) {
-        var options = undefined;
+        let options = undefined;
         if (typeof value == 'string') value = parseFloat(value);
         if (typeof value != 'number' || !isFinite(value)) return '';
         if (decimalDigits !== undefined) options = {
@@ -39,7 +39,7 @@ const Locale = (function() {
     function getFormatter(format) {
         let options = {};
         for(let c of format.split('')) {
-            var name = {
+            let name = {
                 y: 'year',
                 m: 'month',
                 d: 'day',
@@ -63,7 +63,7 @@ const Locale = (function() {
         if (!(d2 instanceof Date)) return null;
         d1.setHours(0, 0, 0, 0);
         d2.setHours(0, 0, 0, 0);
-        var num = d1 - d2;
+        let num = d1 - d2;
         return Math.floor(num / (86400 * 1000)); // Fix bug by rounding down (floor)
     }
 
@@ -76,6 +76,7 @@ const Locale = (function() {
         formatNumber: formatNumber,
         getDate: getDate,
         formatDayMonth: getFormatter('md'),
+        formatYear: getFormatter('y'),
         formatDate: getFormatter('ymd'),
         formatDateTime: getFormatter('ymdHM'),
         formatDateTimeFull: getFormatter('ymdHMS'),
@@ -83,7 +84,7 @@ const Locale = (function() {
         formatTimeFull: getFormatter('HMS'),
         getNumDays: getNumDays,
         formatDays: (d1, d2) => {
-            var num = getNumDays(d1, d2);
+            let num = getNumDays(d1, d2);
             return num === null ? '' : relativeTimeFormat.format(num, 'days');
         }
     };
