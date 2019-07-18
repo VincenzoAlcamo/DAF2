@@ -66,6 +66,7 @@ function init() {
     smartTable.tbody[0].addEventListener('click', tableClick);
 
     container.querySelector('.toolbar button[data-action="collect"]').addEventListener('click', showCollectDialog);
+    container.querySelector('.toolbar button[data-action="export"]').addEventListener('click', exportData);
     divMatch = container.querySelector('.DAF-gc-pal');
     divMatch.addEventListener('click', cancelMatch);
     smartTable.container.insertBefore(divMatch, smartTable.container.firstChild);
@@ -296,7 +297,6 @@ function collectFriends(method) {
         });
     });
 }
-
 
 function showStats() {
     var htm = '';
@@ -756,4 +756,30 @@ function onTooltip(event) {
         let htm = HtmlBr `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
         Tooltip.show(element, htm);
     }
+}
+
+function formatDateExcel(value) {
+    let s = Locale.getDate(value).toISOString();
+    s = s.substr(0, s.length - 5).replace('T', ' ');
+    return s;
+}
+
+function exportData() {
+    let data = [];
+    let friends = Object.values(bgp.Data.getFriends());
+    for (let friend of friends) {
+        let line = [];
+        data.push(line);
+        line.push(friend.id, friend.name, friend.uri, formatDateExcel(friend.tc), friend.score);
+        let pal = friend.uid && bgp.Data.getNeighbour(friend.uid);
+        if (pal) {
+            line.push(gui.getPlayerNameFull(pal), pal.level, pal.region, pal.extra.lastGift ? formatDateExcel(pal.extra.lastGift) : '');
+        }
+    }
+    let comparer = gui.getNaturalComparer();
+    data.sort((a, b) => comparer(a[1], b[1]));
+    data.unshift(['FB_ID', 'FB_NAME', 'FB_PAGE', 'RECORDED', 'SCORE', 'NEIGHBOUR', 'LEVEL', 'REGION', 'LAST_GIFT']);
+    data = data.map(line => line.join('\t'));
+    data = data.join('\n');
+    gui.downloadData(data, 'DAF_friends ' + Locale.formatDateTime(gui.getUnixTime()) + '.csv');
 }
