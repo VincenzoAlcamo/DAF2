@@ -56,6 +56,9 @@
     "gui_show": {
         "message": "Vis"
     },
+    "gui_all": {
+        "message": "Alle"
+    },
     "gui_search": {
         "message": "Søg"
     },
@@ -290,6 +293,9 @@
     },
     "tab_equipment": {
         "message": "Lejudstyr"
+    },
+    "tab_events": {
+        "message": "Begivenhed"
     },
     "about_version": {
         "message": "Version: $VERSION$",
@@ -1298,6 +1304,60 @@
     "equipment_price_info": {
         "message": "Pakkepris"
     },
+    "events_year": {
+        "message": "År"
+    },
+    "events_end": {
+        "message": "Slut"
+    },
+    "events_quests": {
+        "message": "Eventyr"
+    },
+    "events_achievements": {
+        "message": "Resultater"
+    },
+    "events_pieces": {
+        "message": "Del af en Skat"
+    },
+    "events_locations": {
+        "message": "Lokationer"
+    },
+    "events_materials": {
+        "message": "Særligt materiale"
+    },
+    "events_completed": {
+        "message": "Fuldført"
+    },
+    "events_total": {
+        "message": "Total"
+    },
+    "events_medal": {
+        "message": "Medalje"
+    },
+    "events_story_maps": {
+        "message": "Historie mappe"
+    },
+    "events_challenges": {
+        "message": "Udfordringer"
+    },
+    "events_repeatables": {
+        "message": "Gentagelige"
+    },
+    "events_active": {
+        "message": "Aktive"
+    },
+    "events_rerelease": {
+        "message": "Købt/fået i gave"
+    },
+    "events_complete": {
+        "message": "Fuldfør"
+    },
+    "events_incomplete": {
+        "message": "Ikke fuldført"
+    },
+    "events_notdone": {
+        "message": "Ikke udført"
+    },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",
         "placeholders": {
@@ -1352,6 +1412,17 @@
     },
     "options_resetfullwindow_warning": {
         "message": "Denne mulighed skal være aktiveret, hvis du oplever problemer med at loade spillet."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Automatisk Fuld Skærm\nSætter automatisk til Fuld Skærm når data er blevet indlæst (DAF2 bliver grøn)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Ja, efter $NUM$ sekunder",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "options_gctable": {
         "message": "Gudebørn tabel\nViser alle naboer med Gudebørn under spillet"

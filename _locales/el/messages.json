@@ -56,6 +56,9 @@
     "gui_show": {
         "message": "Εμφάνιση"
     },
+    "gui_all": {
+        "message": "Όλοι"
+    },
     "gui_search": {
         "message": "Αναζήτηση"
     },
@@ -290,6 +293,9 @@
     },
     "tab_equipment": {
         "message": "Εξοπλισμός"
+    },
+    "tab_events": {
+        "message": "Ιστορίες"
     },
     "about_version": {
         "message": "Εκδοχή: $VERSION$",
@@ -1298,6 +1304,60 @@
     "equipment_price_info": {
         "message": "Η τιμή εδώ δεν είναι για τον εξοπλισμό αυτό,\nαλλά για το πακέτο/προσφορά που τον περιείχε."
     },
+    "events_year": {
+        "message": "Έτος"
+    },
+    "events_end": {
+        "message": "Τέλος"
+    },
+    "events_quests": {
+        "message": "Αποστολές"
+    },
+    "events_achievements": {
+        "message": "Επιτεύγματα"
+    },
+    "events_pieces": {
+        "message": "Κομμάτια θησαυρού"
+    },
+    "events_locations": {
+        "message": "Τοποθεσίες"
+    },
+    "events_materials": {
+        "message": "Ειδικά υλικά"
+    },
+    "events_completed": {
+        "message": "Ολοκληρωμένη"
+    },
+    "events_total": {
+        "message": "Σύνολο"
+    },
+    "events_medal": {
+        "message": "Μετάλλιο"
+    },
+    "events_story_maps": {
+        "message": "Χάρτες ιστορίας"
+    },
+    "events_challenges": {
+        "message": "Προκλήσεις"
+    },
+    "events_repeatables": {
+        "message": "Επαναλαμβανόμενα"
+    },
+    "events_active": {
+        "message": "Ενεργή"
+    },
+    "events_rerelease": {
+        "message": "Αγορασμένη/Δώρο"
+    },
+    "events_complete": {
+        "message": "Ολόκληρη"
+    },
+    "events_incomplete": {
+        "message": "Μη Ολόκληρη"
+    },
+    "events_notdone": {
+        "message": "Όχι τελειωμένη"
+    },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",
         "placeholders": {
@@ -1352,6 +1412,17 @@
     },
     "options_resetfullwindow_warning": {
         "message": "Αυτή η επιλογή πρέπει να ενεργοποιηθεί αν έχετε προβλήματα με τη φόρτωση του παιχνιδιού"
+    },
+    "options_fullwindowtimeout": {
+        "message": "Αυτόματη πλήρη οθόνη\nΑυτόματη ενεργοποίηση πλήρης οθόνης μετά τη φόρτωση των δεδομένων (το DAF2 θα γίνει πράσινο)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Ναι, μετά από $NUM$ δευτερόλεπτα",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "options_gctable": {
         "message": "Πίνακας Παιδιών Θεών\nΕμφάνιση όλων των γειτόνων που έχουν Παιδιά Θεών κάτω από το παιχνίδι"

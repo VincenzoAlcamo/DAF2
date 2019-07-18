@@ -56,6 +56,9 @@
     "gui_show": {
         "message": "Pokaż"
     },
+    "gui_all": {
+        "message": "Wszystko"
+    },
     "gui_search": {
         "message": "Szukaj"
     },
@@ -290,6 +293,9 @@
     },
     "tab_equipment": {
         "message": "Inwentarz"
+    },
+    "tab_events": {
+        "message": "Wydarzenia"
     },
     "about_version": {
         "message": "Wersja: $VERSION$",
@@ -1298,6 +1304,60 @@
     "equipment_price_info": {
         "message": "Pokazana cena nie dotyczy tego sprzętu,\nale pakietu/oferty, która zawierała ten sprzęt."
     },
+    "events_year": {
+        "message": "Rok"
+    },
+    "events_end": {
+        "message": "Koniec"
+    },
+    "events_quests": {
+        "message": "Zadania"
+    },
+    "events_achievements": {
+        "message": "Osiągnięcia"
+    },
+    "events_pieces": {
+        "message": "Części skarbu"
+    },
+    "events_locations": {
+        "message": "Lokacje"
+    },
+    "events_materials": {
+        "message": "Materiały specjalne"
+    },
+    "events_completed": {
+        "message": "Skompletowany"
+    },
+    "events_total": {
+        "message": "Razem"
+    },
+    "events_medal": {
+        "message": "Nagroda"
+    },
+    "events_story_maps": {
+        "message": "Mapy fabularne"
+    },
+    "events_challenges": {
+        "message": "Wyzwania"
+    },
+    "events_repeatables": {
+        "message": "Odnawialne"
+    },
+    "events_active": {
+        "message": "Aktywny"
+    },
+    "events_rerelease": {
+        "message": "Kupiony/Darmowy"
+    },
+    "events_complete": {
+        "message": "Skończony"
+    },
+    "events_incomplete": {
+        "message": "Nieskończony"
+    },
+    "events_notdone": {
+        "message": "Nie zrobiony"
+    },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",
         "placeholders": {
@@ -1352,6 +1412,17 @@
     },
     "options_resetfullwindow_warning": {
         "message": "Ta opcja powinna być włączona, jeśli występują problemy z ładowaniem gry."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Automatyczny pełny ekran\nAutomatycznie ustaw pełny ekran kiedy dane są ładowane (DAF2 zmienia kolor na zielony)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Tak, po upływie $NUM$ sekund",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "options_gctable": {
         "message": "Tabela BD\nPokaż wszystkich sąsiadów z BD poniżej gry"

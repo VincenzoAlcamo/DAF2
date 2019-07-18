@@ -56,6 +56,9 @@
     "gui_show": {
         "message": "Muestra"
     },
+    "gui_all": {
+        "message": "Todos"
+    },
     "gui_search": {
         "message": "Busqueda"
     },
@@ -290,6 +293,9 @@
     },
     "tab_equipment": {
         "message": "Equipamiento"
+    },
+    "tab_events": {
+        "message": "Pestaña de Eventos"
     },
     "about_version": {
         "message": "Version: $VERSION$",
@@ -1298,6 +1304,60 @@
     "equipment_price_info": {
         "message": "El precio que se muestra no es para este equipamiento  , es para el paquete /oferta que incluye este equipamiento"
     },
+    "events_year": {
+        "message": "Año del evento"
+    },
+    "events_end": {
+        "message": "Eventos terminados"
+    },
+    "events_quests": {
+        "message": "MIsiones del evento"
+    },
+    "events_achievements": {
+        "message": "Logros"
+    },
+    "events_pieces": {
+        "message": "piezas del evento"
+    },
+    "events_locations": {
+        "message": "Ubicaciones"
+    },
+    "events_materials": {
+        "message": "Materiales del evento"
+    },
+    "events_completed": {
+        "message": "Eventos completados"
+    },
+    "events_total": {
+        "message": "Total"
+    },
+    "events_medal": {
+        "message": "Medallas del evento"
+    },
+    "events_story_maps": {
+        "message": "Mapas de historias del evento"
+    },
+    "events_challenges": {
+        "message": "Desafios del evento"
+    },
+    "events_repeatables": {
+        "message": "Repetibles del evento"
+    },
+    "events_active": {
+        "message": "Eventos activos"
+    },
+    "events_rerelease": {
+        "message": "Lanzamiento del evento"
+    },
+    "events_complete": {
+        "message": " Completo"
+    },
+    "events_incomplete": {
+        "message": "Incompleto"
+    },
+    "events_notdone": {
+        "message": "No hechos"
+    },
     "specialweek_end": {
         "message": "termina en  $FINISH$",
         "placeholders": {
@@ -1352,6 +1412,17 @@
     },
     "options_resetfullwindow_warning": {
         "message": "Esta opción debería estar habilitada si experimenta problemas al cargar el juego."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Auto ventana completa\nConfigurar automáticamente la ventana completa cuando se han cargado los datos (DAF2 se vuelve verde)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Si,despues de $NUM$ segundos",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "options_gctable": {
         "message": "Tabla con ahijados\nMostrar a todos los vecinos con ahijados  debajo del juego."

@@ -56,6 +56,9 @@
     "gui_show": {
         "message": "Anzeigen"
     },
+    "gui_all": {
+        "message": "Alle"
+    },
     "gui_search": {
         "message": "Suchen\n"
     },
@@ -290,6 +293,9 @@
     },
     "tab_equipment": {
         "message": "Ausstattung"
+    },
+    "tab_events": {
+        "message": "Events"
     },
     "about_version": {
         "message": "Version: $VERSION$",
@@ -1298,6 +1304,60 @@
     "equipment_price_info": {
         "message": "Der hier angegebene Preis gilt nicht für dieses Ausstattung,\naber für das Paket/Angebot, das diese Ausstattung beinhaltet."
     },
+    "events_year": {
+        "message": "Jahr"
+    },
+    "events_end": {
+        "message": "Ende"
+    },
+    "events_quests": {
+        "message": "Aufgaben"
+    },
+    "events_achievements": {
+        "message": "Errungenschaften"
+    },
+    "events_pieces": {
+        "message": "Schatzteile"
+    },
+    "events_locations": {
+        "message": "Standorte"
+    },
+    "events_materials": {
+        "message": "Spezielle Materialien"
+    },
+    "events_completed": {
+        "message": "Erledigt"
+    },
+    "events_total": {
+        "message": "Summe"
+    },
+    "events_medal": {
+        "message": "Auszeichnung"
+    },
+    "events_story_maps": {
+        "message": "Story-Karten"
+    },
+    "events_challenges": {
+        "message": "Herausforderungen"
+    },
+    "events_repeatables": {
+        "message": "Wiederholbare"
+    },
+    "events_active": {
+        "message": "Aktiv"
+    },
+    "events_rerelease": {
+        "message": "Gekauft/Geschenkt"
+    },
+    "events_complete": {
+        "message": "Vollständig"
+    },
+    "events_incomplete": {
+        "message": "Unvollständig"
+    },
+    "events_notdone": {
+        "message": "Noch nicht erledigt"
+    },
     "specialweek_end": {
         "message": "endet am $FINISH$",
         "placeholders": {
@@ -1352,6 +1412,17 @@
     },
     "options_resetfullwindow_warning": {
         "message": "Diese Einstellung sollte aktiviert werden, wenn es Probleme beim Laden des Spiels gibt."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Automatisches Vollfenster\nAutomatisches Einstellen des Vollfensters, wenn Daten geladen wurden (DAF2 wird grün)."
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Ja, nach $NUM$ Sekunden",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "options_gctable": {
         "message": "Götterkinder-Tabelle\nZeige alle Nachbarn mit Götterkindern unter dem Spiel."
