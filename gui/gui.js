@@ -98,7 +98,7 @@ let gui = {
         let item = bgp.Data.getObject(type, id);
         let name_loc = item && item.name_loc;
         let name = name_loc ? bgp.Data.getString(name_loc) : '#' + type + id;
-        if(title === 'desc' && item && item.desc) name += '\n' + bgp.Data.getString(item.desc);
+        if (title === 'desc' && item && item.desc) name += '\n' + bgp.Data.getString(item.desc);
         title = title ? Html ` title="${name}"` : '';
         return url ? Html `<img width="${size}" height="${size}" src="${url}"${title}>` : '';
     },
@@ -240,6 +240,13 @@ let gui = {
             }
         }
         smartTable.setSortInfo();
+    },
+    getNaturalComparer: function() {
+        let collator = new Intl.Collator(undefined, {
+            numeric: true,
+            sensitivity: 'base'
+        });
+        return collator.compare;
     },
     getSortFunction: function(getSortValueFunctions, smartTable, defaultSortName) {
         let arr = [];
