@@ -111,20 +111,20 @@ function update() {
 
         let locations = gui.getArrayOfInt(event.locations);
         let xlo = gui.getArrayOfInt(event.extended_locations);
-        for (let lid of xlo)
+        for (let lid of xlo) {
             if (!locations.includes(lid)) locations.push(lid);
-        item.locations = locations.length;
-        item.maps = item.repeatables = 0;
-        for (let lid of locations) {
+        }
+        let rep = locations.filter(lid => {
             let location = locations0[lid];
             if (location && +location.reset_cd > 0) {
-                ++item.repeatables;
                 xlo = xlo.filter(id => id != lid);
-            } else {
-                ++item.maps;
+                return true;
             }
-        }
+        });
+        item.locations = locations.length;
+        item.repeatables = rep.length;
         item.challenges = xlo.length;
+        item.maps = item.locations - item.repeatables - item.challenges;
 
         if (item.locations && item.tachiev) allEvents[item.id] = item;
     }
