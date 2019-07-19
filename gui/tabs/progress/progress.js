@@ -275,6 +275,7 @@ function showDetail(show) {
                 group.ma = sub.ma;
                 if (level == 0) {
                     group.row = document.createElement('tr');
+                    group.row.setAttribute('height', 31);
                     group.row.setAttribute('data-level', '1');
                     if (state.groups) {
                         group.row.setAttribute('data-id', item.id + REGION_SEPARATOR + sub.seq);
@@ -408,7 +409,7 @@ function infoLevel(row) {
         let value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
         let max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
         let htm = '';
-        htm += Html `<td><img src="/img/gui/xp.png" width="24" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
+        htm += Html `<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
         htm += getTimes(false, 0, 0);
         row.innerHTML = htm;
     }
@@ -422,13 +423,14 @@ let achievementImages = {
     'refresh_mine': 'repeat.png',
     'collection': 'chest.png',
     'friend_child': 'godchild.png',
+    'buy_building': 'equipment.png',
     'building': 'camp.png',
     'dig': 'dig.png',
     'debris': 'bomb.png',
     'gift': 'gift.png',
     'invite': 'friends.png',
     'caravan': 'caravan.png',
-    'windmill': 'mill.png',
+    'windmill': 'windmill.png',
     'decoration': 'deco.png'
 };
 
@@ -472,12 +474,14 @@ function calcAchievements(item) {
                 } else if (achievement.type == 'clear_mine') {
                     imgUrl = gui.getObjectImage('region', achievement.object_id);
                     title = gui.getObjectName('region', achievement.object_id);
-                } else if (achievement.type in achievementImages) {
-                    imgUrl = '/img/gui/' + achievementImages[achievement.type];
+                } else {
+                    let key = achievement.action + '_' + achievement.type;
+                    if (!(key in achievementImages)) key = achievement.type;
+                    if (key in achievementImages) imgUrl = '/img/gui/' + achievementImages[key];
                 }
                 title += (title ? '\n' : '') + gui.getString(achievement.desc);
                 item.rows.push({
-                    img: Html `<img width="24" height="24" src="${imgUrl}" title="${title}">`,
+                    img: Html `<img height="24" src="${imgUrl}" title="${title}">`,
                     sort: (+achievement.region_id || 1) * 10 + value,
                     name: gui.getString(achievement.name_loc) + ' [' + value + '/' + max + ']',
                     info: val == total ? null : gui.getMessage('progress_achievementnextstep', next),
@@ -571,7 +575,7 @@ function calcRegion(item) {
             }
 
             item.rows.push({
-                img: Html `<img width="24" height="24" src="/img/gui/${imgUrl}">`,
+                img: Html `<img height="24" src="/img/gui/${imgUrl}">`,
                 name_loc: mine.name_loc,
                 value: uPrg,
                 max: mPrg,

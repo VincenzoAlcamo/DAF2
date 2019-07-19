@@ -30,6 +30,7 @@
   background-color: rgba(255, 0, 0, 0.2);
   padding-left: 2px;
   padding-right: 2px;
+  border-radius: 4px;
 }
 
 .equipment-stats {
