@@ -1408,7 +1408,7 @@
         "message": "Zablokuj pełny ekran\nZapobiega wychodzeniu gry z pełnego ekranu."
     },
     "options_resetfullwindow": {
-        "message": "Zesetuj i załaduj\nZa każdym razem kiedy załadujesz grę \"Pełny ekran\" i \"Pełny ekran - pasek boczny\" zostaną zresetowane"
+        "message": "Zresetuj i załaduj\nZa każdym razem kiedy załadujesz grę \"Pełny ekran\" i \"Pełny ekran - pasek boczny\" zostaną zresetowane"
     },
     "options_resetfullwindow_warning": {
         "message": "Ta opcja powinna być włączona, jeśli występują problemy z ładowaniem gry."
