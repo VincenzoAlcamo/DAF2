@@ -21,6 +21,12 @@ function addFriend(friend) {
     }
 }
 
+function viewDisabled() {
+    ulInactive.firstElementChild.scrollIntoView({
+        block: 'center'
+    });
+}
+
 // eslint-disable-next-line no-unused-vars
 function collect() {
     var container = document.getElementById('pagelet_timeline_medley_friends');
@@ -51,12 +57,12 @@ function sendFriends() {
         ulInactive.innerHTML = '';
         liInactive.forEach(li => ulInactive.appendChild(li));
         ulInactiveParent.appendChild(ulInactive);
-        ulInactive.scrollIntoView();
+        viewDisabled();
         wait.hide();
         return dialog.show({
             text: chrome.i18n.getMessage('friendship_disabledaccountsdetected'),
             style: [Dialog.OK]
-        });
+        }, viewDisabled);
     }
     return window.close();
 }
