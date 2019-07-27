@@ -70,6 +70,29 @@ let gui = {
     getUnixTime: function() {
         return Math.floor(Date.now() / 1000);
     },
+    getWrappedText: function(text, max = 60) {
+        text = text === null || text === undefined ? '' : String(text);
+        return text.split('\n').map(text => {
+            let s = '';
+            let c = 0;
+            for (let p of text.split(/\s+/)) {
+                let l = p.length;
+                if (!l) continue;
+                if (c > 0) {
+                    if (c + l > max) {
+                        c = 0;
+                        p = '\n' + p;
+                    } else {
+                        c++;
+                        p = ' ' + p;
+                    }
+                }
+                s += p;
+                c += l;
+            }
+            return s;
+        }).join('\n');
+    },
     getPlayerNameFull: function(pal) {
         var name = pal.name || 'Player ' + pal.id;
         return pal.surname ? name + ' ' + pal.surname : name;
@@ -98,7 +121,7 @@ let gui = {
         let item = bgp.Data.getObject(type, id);
         let name_loc = item && item.name_loc;
         let name = name_loc ? bgp.Data.getString(name_loc) : '#' + type + id;
-        if (title === 'desc' && item && item.desc) name += '\n' + bgp.Data.getString(item.desc);
+        if (title === 'desc' && item && item.desc) name += '\n' + gui.getWrappedText(bgp.Data.getString(item.desc));
         title = title ? Html ` title="${name}"` : '';
         return url ? Html `<img width="${size}" height="${size}" src="${url}"${title}>` : '';
     },
@@ -665,7 +688,3 @@ function openWiki(page) {
     });
 }
 //#endregion
-
-// var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
-// var myArray = ['1_Document', '11_Document', '2_Document'];
-// console.log(myArray.sort(collator.compare));

@@ -402,7 +402,7 @@ function getMaterialImg(req) {
         let item = gui.getObject('material', id);
         let name_loc = item && item.name_loc;
         result.name = name_loc ? gui.getString(name_loc) : '#' + id;
-        result.title = item && item.desc ? '\n' + gui.getString(item.desc) : '';
+        result.title = item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '';
         matCache[id] = result;
     }
     let img = result.url ? Html `<img width="18" height="18" src="${result.url}">` : '';

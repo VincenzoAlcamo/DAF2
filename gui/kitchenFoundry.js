@@ -161,12 +161,12 @@ function kitchenFoundry(type) {
         var hasEvent = type == 'recipe';
 
         function getIngredient(ingredient) {
-            return HtmlBr `<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${ingredient.dsc}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
+            return HtmlBr `<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
         for (let p of productions) {
             var rspan = p.ingredients.length;
             var title = p.cname;
-            if (p.cdsc) title += '\n' + p.cdsc;
+            if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
             let htm = '';
             htm += HtmlBr `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
             htm += HtmlBr `<td rowspan="${rspan}">${p.name}</td>`;
