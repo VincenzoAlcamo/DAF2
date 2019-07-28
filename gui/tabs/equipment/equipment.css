@@ -65,10 +65,109 @@
   vertical-align: middle;
 }
 
-.equipment td.wh div.mask {
+div.equipment_mask {
   margin-left: 6px;
   background-image: url(/img/gui/building_mask.png);
   width: calc(var(--w) * 10px + 1px);
   height: calc(var(--h) * 10px + 1px);
   margin-right: calc((5 - var(--w)) * 10px);
+}
+
+.equipment_pack {
+  margin-top: 4px;
+  max-width: 372px;
+  display: inline-block;
+}
+
+.equipment_pack .item {
+  width: 120px;
+  height: 148px;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin: 2px;
+  float: left;
+}
+
+.equipment_pack .item .title {
+  color: #000;
+  font-size: 10pt;
+  padding: 2px;
+  width: 120px;
+  overflow: hidden;
+  text-align: center;
+  display: block;
+}
+
+.equipment_pack .item.gem .title {
+  background-color: #B7C;
+}
+
+.equipment_pack .item.capacity .title {
+  background-color: #99F;
+}
+
+.equipment_pack .item.regen .title {
+  background-color: #6D6;
+}
+
+.equipment_pack .item.usable .title,
+.equipment_pack .item.energy .title {
+  background-color: #DD6;
+}
+
+.equipment_pack .item.xp .title {
+  background-color: #F96;
+}
+
+.equipment_pack .item.material .title {
+  background-color: #6BC;
+}
+
+.equipment_pack .item .image img {
+  width: 120px;
+  height: 100px;
+}
+
+.equipment_pack .bonus {
+  font-size: 10pt;
+  font-weight: bold;
+  color: #FF0;
+  position: absolute;
+}
+
+.equipment_pack .equipment_mask {
+  position: absolute;
+  zoom: 1.5;
+  margin-left: calc(67px - (var(--w) - 1) * 10px);
+  margin-top: calc(60px - (var(--h) - 1) * 10px);
+  opacity: 0.8;
+}
+
+.equipment_pack .item .image img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.equipment_pack .item .caption {
+  text-align: center;
+}
+
+.equipment_pack .item .caption span {
+  color: #FFF;
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.equipment_pack .item.regen .caption,
+.equipment_pack .item.capacity .caption {
+  padding-top: 4px;
+}
+
+.equipment_pack .item.regen .caption span,
+.equipment_pack .item.capacity .caption span {
+  font-size: 14pt;
+}
+
+.equipment_pack .item .caption span.qty {
+  color: #000;
+  font-size: 10pt;
 }

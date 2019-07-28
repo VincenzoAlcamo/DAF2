@@ -1,15 +1,16 @@
-/*global bgp gui SmartTable HtmlBr Html Locale Tooltip*/
+/*global bgp gui SmartTable HtmlBr Html HtmlRaw Locale Tooltip Dialog*/
 export default {
     hasCSS: true,
     init: init,
     update: update,
     getState: getState,
     setState: setState,
-    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations']
+    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables']
 };
 
 let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, checkHideMax, selectType, searchInput, searchHandler, allBuildings;
 let matCache, minRegen, minCapacity, updateTime, packsViewed;
+let lastPack, btnPack;
 
 function init() {
     tab = this;
@@ -38,6 +39,9 @@ function init() {
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
+    btnPack = container.querySelector('[name=pack]');
+    btnPack.addEventListener('click', () => showPacks(lastPack));
+
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('equipment');
@@ -60,13 +64,20 @@ function update() {
 
     let packs = {};
     packsViewed = {};
+    lastPack = 0;
+    let lastPackDate = 0;
     for (let pack of gui.getArrayOfInt(generator.packs_b)) {
         if (pack) packs[pack] = true;
     }
     for (let pack of gui.getArray(generator.packs_v)) {
         if (pack) {
+            let dt = +pack.viewed;
             packs[pack.def_id] = true;
-            packsViewed[pack.def_id] = +pack.viewed;
+            packsViewed[pack.def_id] = dt;
+            if (dt > lastPackDate) {
+                lastPackDate = dt;
+                lastPack = pack.def_id;
+            }
         }
     }
 
@@ -101,7 +112,6 @@ function update() {
             events[eid] = region;
         }
     }
-
 
     allBuildings = {};
     for (let building of Object.values(gui.getFile('buildings'))) {
@@ -204,6 +214,7 @@ function update() {
         let start = packsViewed[sale.def_id] || 0;
         let end = start ? start + (+sale.duration) : 0;
         if (end <= updateTime) hide = 1;
+        if (lastPack && sale.def_id == lastPack && hide) lastPack = 0;
         if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
         let items = gui.getArray(sale.items);
         for (let item of items) {
@@ -214,6 +225,7 @@ function update() {
             setItem(item, hide, sale, 'pack', eid, erid, +sale.req_level);
         }
     }
+    btnPack.style.display = lastPack ? '' : 'none';
 
     // TIERED OFFERS
     sales = Object.values(gui.getFile('tiered_offers'));
@@ -430,7 +442,7 @@ function updateRow(row) {
         end = +offer.end;
     } else if (item.sale == 'pack') {
         let pack = bgp.Data.files.packs[item.sale_id];
-        htm += HtmlBr `<br><div class="offer">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
+        htm += HtmlBr `<br><div class="offer" data-packid="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
         start = packsViewed[pack.def_id] || 0;
         end = start ? start + (+pack.duration) : 0;
         let currency = bgp.Data.generator.currency;
@@ -453,7 +465,7 @@ function updateRow(row) {
     htm += HtmlBr `<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
     htm += HtmlBr `<td><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.value)}</td>`;
-    htm += HtmlBr `<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
+    htm += HtmlBr `<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
     htm += HtmlBr `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
     htm += HtmlBr `<td>${item.gain ? Locale.formatNumber(item.gain) : ''}</td>`;
     let className = 'cost';
@@ -483,6 +495,181 @@ function updateRow(row) {
     }
     htm += HtmlBr `</td>`;
     row.innerHTML = htm;
+    let packDiv = row.querySelector('[data-packid]');
+    if (packDiv) {
+        packDiv.style.cursor = 'zoom-in';
+        packDiv.addEventListener('click', (event) => showPacks(event.target.getAttribute('data-packid')));
+    }
+}
+
+function showPacks(packId) {
+    let packs = gui.getFile('packs');
+    let buildings = gui.getFile('buildings');
+    let usables = gui.getFile('usables');
+    let materials = gui.getFile('materials');
+
+    let currency = gui.getGenerator().currency;
+    if (currency != 'EUR' && currency != 'USD') currency = 'EUR';
+
+    let pack = packs[packId];
+    let related = gui.getArrayOfInt(pack.deny_list);
+    related.push(+pack.def_id);
+
+    let list = {};
+    let regions = [];
+    for (let pid of related) {
+        let pack = packs[pid];
+        if (!pack) continue;
+        let rid = +pack.region_id;
+        if (rid == 0) {
+            let item = pack.items.find(item => item.type == 'building');
+            if (item) {
+                let building = buildings[item.object_id];
+                if (building && building.region_id) rid = building.region_id;
+            }
+        }
+        pack = Object.assign({}, pack);
+        pack.id = pid;
+        pack.rid = rid;
+        pack.price = +(pack.prices.find(p => p.currency == currency).amount);
+        list[pack.id] = pack;
+        if (!regions.includes(pack.rid)) regions.push(pack.rid);
+    }
+    regions.sort((a, b) => a - b);
+    let rid = list[packId].rid;
+
+    function getPriceOptions(rid, pid) {
+        let pack = list[pid];
+        let price = pack.price;
+        let packs = Object.values(list).filter(pack => pack.rid == rid);
+        packs.sort((a, b) => (a.price - b.price) || (a.pid - b.pid));
+        let htm = '';
+        for (let pack of packs) pack.selected = false;
+        pack = packs.find(pack => pack.id == pid);
+        if (!pack) pack = packs.find(pack => pack.price == price);
+        if (pack) pack.selected = true;
+        for (let pack of packs) {
+            htm += HtmlBr `<option value="${pack.id}" ${Html(pack.selected ? 'selected':'')}>${currency + ' ' + Locale.formatNumber(pack.price, 2)}</option>`;
+        }
+        return HtmlRaw(htm);
+    }
+
+    function getOutlinedText(text) {
+        return Html `<span class="outlined">${text}</span>`;
+    }
+
+    // type can be: "system", "building", "decoration", "usable", "material", "token", "camp_skin"
+    function getPackDetails(pid) {
+        let pack = list[pid];
+        let items = [];
+        for (let item of pack.items) {
+            let copy = {};
+            copy.type = item.type;
+            copy.oid = +item.object_id;
+            copy.amount = +item.amount;
+            copy.portal = +item.portal;
+            copy.sort = copy.value = 0;
+            let obj;
+            if (copy.type == 'building') {
+                obj = copy.obj = buildings[copy.oid];
+                if (!obj) continue;
+                let cap = +obj.max_stamina;
+                let reg = +obj.stamina_reg;
+                let img = 'camp_capacity';
+                if (cap) {
+                    copy.kind = 'capacity';
+                    copy.value = cap;
+                    copy.sort = 2;
+                    copy.title = gui.getMessage('camp_capacity');
+                } else {
+                    copy.kind = 'regen';
+                    copy.value = reg;
+                    copy.sort = 1;
+                    copy.title = gui.getMessage('camp_regen');
+                    img = 'camp_energy';
+                }
+                copy.caption = Html `${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" style="vertical-align:top" src="/img/gui/${img}.png">`;
+                copy.width = +obj.columns;
+                copy.height = +obj.rows;
+            } else if (copy.type == 'material') {
+                obj = copy.obj = materials[copy.oid];
+                if (!obj) continue;
+                if (copy.oid == 2) {
+                    copy.kind = 'gem';
+                    copy.sort = 0;
+                    copy.title = gui.getObjectName(copy.type, copy.oid);
+                } else {
+                    copy.kind = 'material';
+                    copy.sort = 3;
+                    copy.title = gui.getString('GUI0010');
+                }
+                copy.value = copy.amount;
+                copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
+            } else if (copy.type == 'usable') {
+                obj = copy.obj = usables[copy.oid];
+                if (!obj) continue;
+                copy.kind = copy.type;
+                copy.sort = 4;
+                copy.value = +obj.value;
+                let caption = getOutlinedText(Locale.formatNumber(copy.value));
+                if (copy.amount > 1) caption = Html `<span class="qty">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
+                copy.caption = caption;
+                copy.title = gui.getString('GUI0008');
+            } else if (copy.type == 'system') {
+                copy.sort = 5;
+                copy.value = copy.oid;
+                copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
+                copy.title = gui.getObjectName(copy.type, copy.oid);
+                copy.kind = copy.oid == 2 ? 'energy' : 'xp';
+            } else {
+                continue;
+            }
+            items.push(copy);
+        }
+        items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
+        let htm = '';
+        for (let item of items) {
+            htm += HtmlBr `<div class="item ${item.kind}"><div class="title">${item.title.toUpperCase()}</div>`;
+            if (item.portal) htm += Html `<div class="bonus outlined">PORTAL BONUS</div>`;
+            let mask = '';
+            if (item.type == 'building') {
+                mask = Html `<div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div>`;
+            }
+            htm += HtmlBr `<div class="image">${mask}${gui.getObjectImg(item.type, item.oid, 0, false, 'desc')}</div><div class="caption">${item.caption}</div>`;
+            htm += HtmlBr `</div>`;
+        }
+        return HtmlRaw(htm);
+    }
+
+    let htm = '';
+    if (regions.length > 1) {
+        htm += HtmlBr `${gui.getMessage('gui_region')} <select name="region" data-method="region" style="margin-bottom:2px">`;
+        for (let id of regions) {
+            htm += HtmlBr `<option value="${id}" ${Html(id == rid ? 'selected' : '')}>${gui.getObjectName('region', id)}</option>`;
+        }
+        htm += HtmlBr `</select>`;
+        htm += HtmlBr `<br>`;
+    }
+    htm += HtmlBr `${gui.getMessage('gui_cost')} <select name="pid" data-method="pid" style="margin-bottom:2px">${getPriceOptions(rid, packId)}</select>`;
+    htm += HtmlBr `<br>`;
+    htm += HtmlBr `<div class="equipment_pack">${getPackDetails(packId)}</div>`;
+
+    gui.dialog.show({
+        title: gui.getString(pack.name_loc),
+        html: htm,
+        style: [Dialog.OK]
+    }, function(method, params) {
+        if (method == 'region') {
+            rid = +params.region;
+            let select = gui.dialog.element.querySelector('[name=pid]');
+            let pid = select.value;
+            select.innerHTML = getPriceOptions(rid, pid);
+            params.pid = select.value;
+        }
+        if (method == 'region' || method == 'pid') {
+            gui.dialog.element.querySelector('.equipment_pack').innerHTML = getPackDetails(+params.pid);
+        }
+    });
 }
 
 function onTooltip(event) {
