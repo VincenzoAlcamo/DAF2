@@ -123,7 +123,9 @@ let gui = {
         let name = name_loc ? bgp.Data.getString(name_loc) : '#' + type + id;
         if (title === 'desc' && item && item.desc) name += '\n' + gui.getWrappedText(bgp.Data.getString(item.desc));
         title = title ? Html ` title="${name}"` : '';
-        return url ? Html `<img width="${size}" height="${size}" src="${url}"${title}>` : '';
+        if (!url) return '';
+        if (!size) return Html `<img src="${url}"${title}>`;
+        return Html `<img width="${size}" height="${size}" src="${url}"${title}>`;
     },
     getRegionImg: function(rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
