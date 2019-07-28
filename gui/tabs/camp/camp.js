@@ -425,7 +425,7 @@ function renderCamp(campResult, isPublic) {
             var bid = 0;
             var exStyle = '';
             while (kind == 'empty' && i + width < NUM_SLOTS && getSlot(i + width).kind == kind) width++;
-            if (width > 1 && (kind == 'empty' || kind == 'block')) title += ' x ' + width;
+            if (width > 1 && (kind == 'empty' || kind == 'block')) title += ' \xd7 ' + width;
             if (kind == 'block') {
                 var block = blocks[line.height].slots[NUM_SLOTS * 2 - blocks[line.height].blocked];
                 if (block) {
