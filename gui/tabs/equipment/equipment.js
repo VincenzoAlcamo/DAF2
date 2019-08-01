@@ -10,7 +10,7 @@ export default {
 
 let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, checkHideMax, selectType, searchInput, searchHandler, allBuildings;
 let matCache, minRegen, minCapacity, updateTime, packsViewed;
-let lastPack, btnPack;
+let currency, lastPack, btnPack;
 
 function init() {
     tab = this;
@@ -58,6 +58,7 @@ function update() {
     let backpack = generator.materials || {};
     let region = +generator.region;
     let level = +generator.level;
+    currency = generator.currency;
     updateTime = gui.getUnixTime();
     matCache = {};
     minCapacity = minRegen = Infinity;
@@ -445,7 +446,6 @@ function updateRow(row) {
         htm += HtmlBr `<br><div class="offer" data-packid="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
         start = packsViewed[pack.def_id] || 0;
         end = start ? start + (+pack.duration) : 0;
-        let currency = bgp.Data.generator.currency;
         price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
     }
     if (start || end) {
@@ -498,24 +498,96 @@ function updateRow(row) {
     let packDiv = row.querySelector('[data-packid]');
     if (packDiv) {
         packDiv.style.cursor = 'zoom-in';
-        packDiv.addEventListener('click', (event) => showPacks(event.target.getAttribute('data-packid')));
+        packDiv.addEventListener('click', (event) => showPacks(+event.target.getAttribute('data-packid')));
     }
+}
+
+function getOutlinedText(text) {
+    return HtmlBr `<span class="outlined-text">${text}</span>`;
+}
+
+function getPackItems(pack) {
+    let buildings = gui.getFile('buildings');
+    let usables = gui.getFile('usables');
+    let materials = gui.getFile('materials');
+    let items = [];
+    for (let item of pack.items) {
+        let copy = {};
+        copy.type = item.type;
+        copy.oid = +item.object_id;
+        copy.amount = +item.amount;
+        copy.portal = +item.portal;
+        copy.sort = copy.value = 0;
+        let obj;
+        if (copy.type == 'building') {
+            obj = copy.obj = buildings[copy.oid];
+            if (!obj) continue;
+            let cap = +obj.max_stamina;
+            let reg = +obj.stamina_reg;
+            let img = 'camp_capacity';
+            if (cap) {
+                copy.kind = 'capacity';
+                copy.value = cap;
+                copy.sort = 2;
+                copy.title = gui.getMessage('camp_capacity');
+            } else {
+                copy.kind = 'regen';
+                copy.value = reg;
+                copy.sort = 1;
+                copy.title = gui.getMessage('camp_regen');
+                img = 'camp_energy';
+            }
+            copy.caption = Html `${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" src="/img/gui/${img}.png">`;
+            copy.width = +obj.columns;
+            copy.height = +obj.rows;
+        } else if (copy.type == 'material') {
+            obj = copy.obj = materials[copy.oid];
+            if (!obj) continue;
+            if (copy.oid == 2) {
+                copy.kind = 'gem';
+                copy.sort = 0;
+                copy.title = gui.getObjectName(copy.type, copy.oid);
+            } else {
+                copy.kind = 'material';
+                copy.sort = 3;
+                copy.title = gui.getString('GUI0010');
+            }
+            copy.value = copy.amount;
+            copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
+        } else if (copy.type == 'usable') {
+            obj = copy.obj = usables[copy.oid];
+            if (!obj) continue;
+            copy.kind = copy.type;
+            copy.sort = 4;
+            copy.value = +obj.value;
+            let caption = getOutlinedText(Locale.formatNumber(copy.value));
+            if (copy.amount > 1) caption = Html `<span class="qty outlined-text">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
+            copy.caption = caption;
+            copy.title = gui.getString('GUI0008');
+        } else if (copy.type == 'system') {
+            copy.sort = 5;
+            copy.value = copy.oid;
+            copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
+            copy.title = gui.getObjectName(copy.type, copy.oid);
+            copy.kind = copy.oid == 2 ? 'energy' : 'xp';
+        } else {
+            continue;
+        }
+        items.push(copy);
+    }
+    items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
+    return items;
 }
 
 function showPacks(packId) {
     let packs = gui.getFile('packs');
     let buildings = gui.getFile('buildings');
-    let usables = gui.getFile('usables');
-    let materials = gui.getFile('materials');
-
-    let currency = gui.getGenerator().currency;
-    if (currency != 'EUR' && currency != 'USD') currency = 'EUR';
 
     let pack = packs[packId];
     let related = gui.getArrayOfInt(pack.deny_list);
     related.push(+pack.def_id);
 
-    let list = {};
+    let hash = {};
     let regions = [];
     for (let pid of related) {
         let pack = packs[pid];
@@ -531,119 +603,84 @@ function showPacks(packId) {
         pack = Object.assign({}, pack);
         pack.id = pid;
         pack.rid = rid;
-        pack.price = +(pack.prices.find(p => p.currency == currency).amount);
-        list[pack.id] = pack;
+        let price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
+        pack.currency = price.currency;
+        pack.price = +price.amount;
+        pack.priceText = pack.currency + ' ' + Locale.formatNumber(pack.price, 2);
+        hash[pack.id] = pack;
         if (!regions.includes(pack.rid)) regions.push(pack.rid);
     }
     regions.sort((a, b) => a - b);
-    let rid = list[packId].rid;
+    let list = Object.values(hash);
+    list.sort((a, b) => (a.rid - b.rid) || (a.price - b.price) || (a.pid - b.pid));
+    let rid = hash[packId].rid;
 
     function getPriceOptions(rid, pid) {
-        let pack = list[pid];
+        let pack = hash[pid];
         let price = pack.price;
-        let packs = Object.values(list).filter(pack => pack.rid == rid);
-        packs.sort((a, b) => (a.price - b.price) || (a.pid - b.pid));
+        let packs = list.filter(pack => pack.rid == rid || rid == -1);
         let htm = '';
         for (let pack of packs) pack.selected = false;
         pack = packs.find(pack => pack.id == pid);
+        // remove other packs with the same price
+        if (pack) packs = packs.filter(p => p === pack || p.priceText != pack.priceText);
         if (!pack) pack = packs.find(pack => pack.price == price);
         if (pack) pack.selected = true;
+        let prices = {};
+        if (rid >= 0) htm += HtmlBr `<option value="0">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
+        packs.sort((a, b) => (a.price - b.price) || (a.id - b.id));
         for (let pack of packs) {
-            htm += HtmlBr `<option value="${pack.id}" ${Html(pack.selected ? 'selected':'')}>${currency + ' ' + Locale.formatNumber(pack.price, 2)}</option>`;
+            if (!(pack.priceText in prices)) {
+                prices[pack.priceText] = true;
+                htm += HtmlBr `<option value="${pack.id}" ${Html(pack.selected ? 'selected':'')}>${pack.priceText}</option>`;
+            }
         }
         return HtmlRaw(htm);
-    }
-
-    function getOutlinedText(text) {
-        return Html `<span class="outlined">${text}</span>`;
     }
 
     // type can be: "system", "building", "decoration", "usable", "material", "token", "camp_skin"
-    function getPackDetails(pid) {
-        let pack = list[pid];
-        let items = [];
-        for (let item of pack.items) {
-            let copy = {};
-            copy.type = item.type;
-            copy.oid = +item.object_id;
-            copy.amount = +item.amount;
-            copy.portal = +item.portal;
-            copy.sort = copy.value = 0;
-            let obj;
-            if (copy.type == 'building') {
-                obj = copy.obj = buildings[copy.oid];
-                if (!obj) continue;
-                let cap = +obj.max_stamina;
-                let reg = +obj.stamina_reg;
-                let img = 'camp_capacity';
-                if (cap) {
-                    copy.kind = 'capacity';
-                    copy.value = cap;
-                    copy.sort = 2;
-                    copy.title = gui.getMessage('camp_capacity');
-                } else {
-                    copy.kind = 'regen';
-                    copy.value = reg;
-                    copy.sort = 1;
-                    copy.title = gui.getMessage('camp_regen');
-                    img = 'camp_energy';
-                }
-                copy.caption = Html `${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" style="vertical-align:top" src="/img/gui/${img}.png">`;
-                copy.width = +obj.columns;
-                copy.height = +obj.rows;
-            } else if (copy.type == 'material') {
-                obj = copy.obj = materials[copy.oid];
-                if (!obj) continue;
-                if (copy.oid == 2) {
-                    copy.kind = 'gem';
-                    copy.sort = 0;
-                    copy.title = gui.getObjectName(copy.type, copy.oid);
-                } else {
-                    copy.kind = 'material';
-                    copy.sort = 3;
-                    copy.title = gui.getString('GUI0010');
-                }
-                copy.value = copy.amount;
-                copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
-            } else if (copy.type == 'usable') {
-                obj = copy.obj = usables[copy.oid];
-                if (!obj) continue;
-                copy.kind = copy.type;
-                copy.sort = 4;
-                copy.value = +obj.value;
-                let caption = getOutlinedText(Locale.formatNumber(copy.value));
-                if (copy.amount > 1) caption = Html `<span class="qty">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
-                copy.caption = caption;
-                copy.title = gui.getString('GUI0008');
-            } else if (copy.type == 'system') {
-                copy.sort = 5;
-                copy.value = copy.oid;
-                copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
-                copy.title = gui.getObjectName(copy.type, copy.oid);
-                copy.kind = copy.oid == 2 ? 'energy' : 'xp';
-            } else {
-                continue;
-            }
-            items.push(copy);
+    function getPackDetails(rid, pid) {
+        let selected;
+        if (pid > 0) {
+            let pack = hash[pid];
+            selected = list.filter(p => p.id == pid || (rid == -1 && p.priceText == pack.priceText));
+        } else {
+            selected = rid ? list.filter(p => p.rid == rid) : list;
         }
-        items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
-        let htm = '';
-        for (let item of items) {
-            htm += HtmlBr `<div class="item ${item.kind}"><div class="title">${item.title.toUpperCase()}</div>`;
-            if (item.portal) htm += Html `<div class="bonus outlined">PORTAL BONUS</div>`;
-            let mask = '';
-            if (item.type == 'building') {
-                mask = Html `<div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div>`;
+        let result = '';
+        let prev = {};
+        for (let pack of selected) {
+            let items = getPackItems(pack);
+            if (items.length == 0) continue;
+            let htm = '';
+            let pre = '';
+            if (rid == -1) {
+                pre += HtmlBr `<div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div>`;
             }
-            htm += HtmlBr `<div class="image">${mask}${gui.getObjectImg(item.type, item.oid, 0, false, 'desc')}</div><div class="caption">${item.caption}</div>`;
-            htm += HtmlBr `</div>`;
+            if (pid == 0) {
+                pre += HtmlBr `<div class="item section">${getOutlinedText(pack.priceText)}</div>`;
+            }
+            for (let item of items) {
+                htm += HtmlBr `<div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
+                htm += HtmlBr `<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
+                htm += HtmlBr `<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
+                if (item.type == 'building') htm += HtmlBr `<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
+                if (item.portal) htm += HtmlBr `<div class="bonus">${getOutlinedText('PORTAL\nBONUS')}</div>`;
+                htm += HtmlBr `<div class="caption"><div>${item.caption}</div></div>`;
+                htm += HtmlBr `</div>`;
+            }
+            if (htm in prev) continue;
+            prev[htm] = true;
+            if (pre) result += (result ? HtmlBr `<div><img src="/img/gui/blank.gif"></div>` : '') + pre;
+            result += htm;
         }
-        return HtmlRaw(htm);
+        return HtmlRaw(result);
     }
 
     let htm = '';
     if (regions.length > 1) {
         htm += HtmlBr `${gui.getMessage('gui_region')} <select name="region" data-method="region" style="margin-bottom:2px">`;
+        htm += HtmlBr `<option value="-1">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
         for (let id of regions) {
             htm += HtmlBr `<option value="${id}" ${Html(id == rid ? 'selected' : '')}>${gui.getObjectName('region', id)}</option>`;
         }
@@ -652,22 +689,29 @@ function showPacks(packId) {
     }
     htm += HtmlBr `${gui.getMessage('gui_cost')} <select name="pid" data-method="pid" style="margin-bottom:2px">${getPriceOptions(rid, packId)}</select>`;
     htm += HtmlBr `<br>`;
-    htm += HtmlBr `<div class="equipment_pack">${getPackDetails(packId)}</div>`;
+    htm += HtmlBr `<div class="equipment_pack">${getPackDetails(rid, packId)}</div>`;
 
     gui.dialog.show({
         title: gui.getString(pack.name_loc),
         html: htm,
-        style: [Dialog.OK]
+        style: [Dialog.OK, Dialog.WIDEST]
     }, function(method, params) {
         if (method == 'region') {
             rid = +params.region;
             let select = gui.dialog.element.querySelector('[name=pid]');
-            let pid = select.value;
+            let pid = +select.value;
+            if (pid == 0) pid = +select.options[1].value;
             select.innerHTML = getPriceOptions(rid, pid);
-            params.pid = select.value;
+            params.pid = +select.value;
+            if (pid > 0 && params.pid == 0) {
+                select.selectedIndex = 1;
+                params.pid = +select.value;
+            }
         }
         if (method == 'region' || method == 'pid') {
-            gui.dialog.element.querySelector('.equipment_pack').innerHTML = getPackDetails(+params.pid);
+            let container = gui.dialog.element.querySelector('.equipment_pack');
+            container.classList.toggle('compact', +params.region == -1 || +params.pid == 0);
+            container.innerHTML = getPackDetails(+params.region, +params.pid);
         }
     });
 }

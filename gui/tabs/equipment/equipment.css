@@ -75,26 +75,46 @@ div.equipment_mask {
 
 .equipment_pack {
   margin-top: 4px;
-  max-width: 372px;
   display: inline-block;
+  max-width: 372px;
+  max-height: calc(100vh - 200px);
+  overflow: auto;
+}
+
+.equipment_pack.compact {
+  max-width: calc(100vw - 32px);
+}
+
+.equipment_pack .outlined-text {
+  text-shadow: -1px -1px #000, -1px 0px #000, -1px 1px #000, 0px -1px #000, 0px 1px #000, 1px -1px #000, 1px 0 #000, 1px 1px #000;
 }
 
 .equipment_pack .item {
   width: 120px;
-  height: 148px;
   background-color: rgba(255, 255, 255, 0.6);
   margin: 2px;
   float: left;
+  cursor: default;
+}
+
+.equipment_pack.compact .item {
+  zoom: 0.8;
 }
 
 .equipment_pack .item .title {
-  color: #000;
-  font-size: 10pt;
-  padding: 2px;
+  padding: 1px 2px;
   width: 120px;
+  height: 24px;
   overflow: hidden;
   text-align: center;
-  display: block;
+  display: grid;
+}
+
+.equipment_pack .item .title span {
+  margin: auto;
+  color: #000;
+  font-size: 10pt;
+  line-height: 0.85em;
 }
 
 .equipment_pack .item.gem .title {
@@ -122,39 +142,64 @@ div.equipment_mask {
   background-color: #6BC;
 }
 
-.equipment_pack .item .image img {
+.equipment_pack .item .bonus {
+  margin-top: -104px;
   width: 120px;
-  height: 100px;
+  height: 104px;
+  display: grid;
 }
 
-.equipment_pack .bonus {
-  font-size: 10pt;
+.equipment_pack .item .bonus span {
+  font-size: 12pt;
   font-weight: bold;
   color: #FF0;
-  position: absolute;
+  margin: auto;
 }
 
-.equipment_pack .equipment_mask {
-  position: absolute;
+.equipment_pack .item .mask {
+  margin-top: -104px;
+  width: 120px;
+  height: 104px;
+  display: grid;
+}
+
+.equipment_pack .item .mask .equipment_mask {
   zoom: 1.5;
-  margin-left: calc(67px - (var(--w) - 1) * 10px);
-  margin-top: calc(60px - (var(--h) - 1) * 10px);
   opacity: 0.8;
+  margin: auto 2px 0px auto;
+}
+
+.equipment_pack .item .image {
+  height: 104px;
+  display: grid;
 }
 
 .equipment_pack .item .image img {
   max-width: 100px;
   max-height: 100px;
+  margin: auto;
 }
 
 .equipment_pack .item .caption {
   text-align: center;
+  height: 42px;
+  margin-top: -16px;
+  display: grid;
+}
+
+.equipment_pack .item .caption div {
+  margin-top: auto;
 }
 
 .equipment_pack .item .caption span {
   color: #FFF;
   font-weight: bold;
   font-size: 16pt;
+}
+
+.equipment_pack .item .caption img {
+  vertical-align: top;
+  margin-top: 2px;
 }
 
 .equipment_pack .item.regen .caption,
@@ -168,6 +213,31 @@ div.equipment_mask {
 }
 
 .equipment_pack .item .caption span.qty {
-  color: #000;
+  color: #FF8;
   font-size: 10pt;
+  line-height: 0.8em;
+}
+
+.equipment_pack .item.section {
+  height: 154px;
+  padding: 4px;
+  display: grid;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.equipment_pack .item.section span {
+  margin: auto;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 17pt;
+  word-break: break-word;
+}
+
+.equipment_pack .item.section.region span {
+  font-size: 12pt;
+}
+
+.equipment_pack .item.section.region img {
+  margin: auto;
+  zoom: 1.2;
 }

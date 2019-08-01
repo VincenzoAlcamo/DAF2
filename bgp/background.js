@@ -1258,6 +1258,11 @@ var Data = {
         var name_loc = item && item.name_loc;
         return name_loc ? Data.getString(name_loc) : '#' + type + id;
     },
+    getObjectDesc: function(type, id) {
+        var item = Data.getObject(type, id);
+        var desc = item && item.desc;
+        return desc ? Data.getString(desc) : '';
+    },
     getRegionFromSkin: function(id) {
         return [1, 2, 5, 8, 9, 13].indexOf(id) + 1;
     },

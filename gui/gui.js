@@ -110,22 +110,23 @@ let gui = {
     getObject: function(type, id) {
         return bgp.Data.getObject(type, id);
     },
-    getObjectName: function(type, id) {
-        return bgp.Data.getObjectName(type, id);
+    getObjectName: function(type, id, addDesc = false) {
+        let name = bgp.Data.getObjectName(type, id);
+        if (addDesc) {
+            let desc = bgp.Data.getObjectDesc(type, id);
+            if (desc) name += '\n' + gui.getWrappedText(desc);
+        }
+        return name;
     },
     getObjectImage: function(type, id, small = false) {
         return bgp.Data.getObjectImage(type, id, small);
     },
-    getObjectImg: function(type, id, size = 32, small = false, title = false) {
+    getObjectImg: function(type, id, displaySize = 32, small = false, addTitle = false) {
         let url = bgp.Data.getObjectImage(type, id, small);
-        let item = bgp.Data.getObject(type, id);
-        let name_loc = item && item.name_loc;
-        let name = name_loc ? bgp.Data.getString(name_loc) : '#' + type + id;
-        if (title === 'desc' && item && item.desc) name += '\n' + gui.getWrappedText(bgp.Data.getString(item.desc));
-        title = title ? Html ` title="${name}"` : '';
         if (!url) return '';
-        if (!size) return Html `<img src="${url}"${title}>`;
-        return Html `<img width="${size}" height="${size}" src="${url}"${title}>`;
+        let title = addTitle != 'none' ? Html ` title="${gui.getObjectName(type, id, addTitle == 'desc')}"` : '';
+        let size = displaySize ? Html ` width="${displaySize}" height="${displaySize}"` : '';
+        return Html `<img src="${url}"${size}${title}>`;
     },
     getRegionImg: function(rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
