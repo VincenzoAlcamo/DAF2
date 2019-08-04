@@ -1442,9 +1442,9 @@ var Synchronize = {
         },
         place_windmill: function(action, task, taskResponse, response) {
             let neighbourId = task.neigh_id;
-            let time = Math.floor(+response.time);
+            let time = response && Math.floor(+response.time);
             let pal = Data.getNeighbour(neighbourId);
-            if (Data.lastVisitedCamp && Data.lastVisitedCamp.neigh_id == neighbourId && pal) {
+            if (Data.lastVisitedCamp && Data.lastVisitedCamp.neigh_id == neighbourId && pal && time) {
                 let windmills = Data.lastVisitedCamp.windmills;
                 windmills = Array.isArray(windmills) ? windmills : [];
                 windmills.push({
