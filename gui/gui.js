@@ -1,4 +1,4 @@
-/*global chrome Locale Dialog UrlInfo HtmlRaw Html HtmlBr dynamicImport Tooltip*/
+/*global chrome Locale Dialog UrlInfo Html dynamicImport Tooltip*/
 let bgp = chrome.extension.getBackgroundPage();
 
 let currentTab = null;
@@ -98,7 +98,7 @@ let gui = {
         return pal.surname ? name + ' ' + pal.surname : name;
     },
     getFBFriendAvatarUrl: function(fb_id, size) {
-        return HtmlRaw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
+        return Html.raw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
     },
     getFBFriendAnchor: function(fb_id, uri) {
         uri = uri || ('https://www.facebook.com/' + fb_id);
@@ -131,7 +131,7 @@ let gui = {
     getRegionImg: function(rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
         if (rid < 0 || rid > 6) rid = 0;
-        return HtmlBr `<img src="${rid == 0 ? '/img/gui/events.png' : bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
+        return Html.br `<img src="${rid == 0 ? '/img/gui/events.png' : bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
     },
     getRegionFromSkin: function(skin) {
         return bgp.Data.getRegionFromSkin(skin);
@@ -141,7 +141,7 @@ let gui = {
     },
     getSkinImg: function(skin, size = 32) {
         var rid = bgp.Data.getRegionFromSkin(skin);
-        return rid > 0 ? this.getRegionImg(rid, false, size) : HtmlBr `<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
+        return rid > 0 ? this.getRegionImg(rid, false, size) : Html.br `<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
     },
     getDuration: function(drn, flagReduced) {
         let mm = Math.floor((drn / 60) % 60);
@@ -395,7 +395,7 @@ let gui = {
                     target.src = data;
                     target.classList.toggle('ready', !!data);
                     if (!data) {
-                        let htm = HtmlBr `${gui.getMessage('gui_screenshot_errorinfo')}`;
+                        let htm = Html.br `${gui.getMessage('gui_screenshot_errorinfo')}`;
                         htm = String(htm).replace(/@DAF2@/g, '<img src="' + bgp.Badge.currentIcon + '" width="16" align="center">');
                         gui.dialog.show({
                             title: gui.getMessage('gui_screenshot_error'),
@@ -588,7 +588,7 @@ async function loadTab(tab) {
         tab.isLoaded = true;
         tab.mustBeUpdated = true;
     } catch (e) {
-        container.innerHTML = HtmlBr `Error: ${e}`;
+        container.innerHTML = Html.br `Error: ${e}`;
         console.error(e);
     } finally {
         container.style.display = '';
@@ -641,7 +641,7 @@ function translate(parent) {
         el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
     });
     Array.from(parent.querySelectorAll('[data-i18n-text]')).forEach(el => {
-        el.innerHTML = HtmlBr(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n'));
+        el.innerHTML = Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n'));
     });
 }
 //#endregion

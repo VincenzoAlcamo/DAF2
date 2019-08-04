@@ -1,4 +1,4 @@
-/*global gui HtmlBr Html Locale*/
+/*global gui Html Locale*/
 
 export default ringLoot;
 
@@ -35,9 +35,9 @@ function ringLoot(kind) {
         for (let lid of floors) {
             let mine = getMine(lid);
             let htm = '';
-            htm += HtmlBr `<input type="checkbox" id="loot_${lid}">`;
-            htm += HtmlBr `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getRegionImg(mine.region_id)}<span>${gui.getString(mine.name_loc)}</span></label>`;
-            htm += HtmlBr `<div></div>`;
+            htm += Html.br `<input type="checkbox" id="loot_${lid}">`;
+            htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getRegionImg(mine.region_id)}<span>${gui.getString(mine.name_loc)}</span></label>`;
+            htm += Html.br `<div></div>`;
             let div = document.createElement('div');
             div.className = 'card rings';
             div.innerHTML = htm;
@@ -93,7 +93,7 @@ function ringLoot(kind) {
     function update() {
         let img = gui.getObjectImg('token', tokenId, 24, true);
         let qty = gui.getGenerator().tokens[tokenId] || 0;
-        container.querySelector('.stats').innerHTML = HtmlBr `${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
+        container.querySelector('.stats').innerHTML = Html.br `${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
 
         if (kind == 'green') {
             let specialWeeks = gui.getActiveSpecialWeeks();
@@ -101,7 +101,7 @@ function ringLoot(kind) {
         }
         let divWarning = container.querySelector('.toolbar .warning');
         if (swDoubleDrop) {
-            divWarning.innerHTML = HtmlBr `${swDoubleDrop.name}: ${swDoubleDrop.ends}`;
+            divWarning.innerHTML = Html.br `${swDoubleDrop.name}: ${swDoubleDrop.ends}`;
             divWarning.style.display = '';
         } else {
             divWarning.style.display = 'none';
@@ -194,17 +194,17 @@ function ringLoot(kind) {
     function showLoot(otherLevel, lid) {
         let level = +gui.getGenerator().level;
         let htm = '';
-        htm += HtmlBr `<table><thead><tr>`;
-        htm += HtmlBr `<th><img src="/img/gui/chest.png"/></th>`;
-        htm += HtmlBr `<th>${gui.getMessage('gui_loot')}</th>`;
+        htm += Html.br `<table><thead><tr>`;
+        htm += Html.br `<th><img src="/img/gui/chest.png"/></th>`;
+        htm += Html.br `<th>${gui.getMessage('gui_loot')}</th>`;
         let text = gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level) + '\n(';
-        htm += HtmlBr `<th class="min"><img src="/img/gui/min.png" title="${Html(text + gui.getMessage('gui_minimum') + ')')}"/></th>`;
-        htm += HtmlBr `<th class="avg"><img src="/img/gui/avg.png" title="${Html(text + gui.getMessage('gui_average') + ')')}"/></th>`;
-        htm += HtmlBr `<th class="max"><img src="/img/gui/max.png" title="${Html(text + gui.getMessage('gui_maximum') + ')')}"/></th>`;
+        htm += Html.br `<th class="min"><img src="/img/gui/min.png" title="${Html(text + gui.getMessage('gui_minimum') + ')')}"/></th>`;
+        htm += Html.br `<th class="avg"><img src="/img/gui/avg.png" title="${Html(text + gui.getMessage('gui_average') + ')')}"/></th>`;
+        htm += Html.br `<th class="max"><img src="/img/gui/max.png" title="${Html(text + gui.getMessage('gui_maximum') + ')')}"/></th>`;
         text = gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(';
-        htm += HtmlBr `<th class="level">${text + gui.getMessage('gui_average') + ')'}</th>`;
-        htm += HtmlBr `</tr></thead>`;
-        htm += HtmlBr `<tbody>`;
+        htm += Html.br `<th class="level">${text + gui.getMessage('gui_average') + ')'}</th>`;
+        htm += Html.br `</tr></thead>`;
+        htm += Html.br `<tbody>`;
         let lastChest = 0;
         let odd = false;
         let multiplier = swDoubleDrop ? 2 : 1;
@@ -218,25 +218,25 @@ function ringLoot(kind) {
             max = lootArea.max + (coef != 0.0 ? Math.floor((level * coef) * lootArea.max) : 0);
             avg = Math.floor((min + max) / 2);
             if (lootArea.chest != lastChest) odd = !odd;
-            htm += HtmlBr `<tr class="${(odd ? 'odd' : '') + (notRandom ? ' not-random' : '')}">`;
+            htm += Html.br `<tr class="${(odd ? 'odd' : '') + (notRandom ? ' not-random' : '')}">`;
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
-                htm += HtmlBr `<td class="chest" rowspan="${lootArea.numRows}">${Locale.formatNumber(lootArea.chest)}</td>`;
+                htm += Html.br `<td class="chest" rowspan="${lootArea.numRows}">${Locale.formatNumber(lootArea.chest)}</td>`;
             }
             let type = lootArea.type;
             let oid = lootArea.object_id;
-            htm += HtmlBr `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
-            htm += HtmlBr `<td class="min">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, min))}</td>`;
-            htm += HtmlBr `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
-            htm += HtmlBr `<td class="max">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, max))}</td>`;
+            htm += Html.br `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
+            htm += Html.br `<td class="min">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, min))}</td>`;
+            htm += Html.br `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
+            htm += Html.br `<td class="max">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, max))}</td>`;
             min = lootArea.min + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.min) : 0);
             max = lootArea.max + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.max) : 0);
             avg = Math.floor((min + max) / 2);
-            htm += HtmlBr `<td class="level">${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
-            htm += HtmlBr `</tr>`;
+            htm += Html.br `<td class="level">${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
+            htm += Html.br `</tr>`;
         }
-        htm += HtmlBr `</tbody>`;
-        htm += HtmlBr `</table>`;
+        htm += Html.br `</tbody>`;
+        htm += Html.br `</table>`;
         let parent = container.querySelector('#loot_' + lid);
         parent = parent.parentNode.querySelector('div');
         parent.innerHTML = htm;

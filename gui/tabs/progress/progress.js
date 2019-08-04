@@ -1,4 +1,4 @@
-/*global gui HtmlBr Html Locale SmartTable*/
+/*global gui Html Locale SmartTable*/
 
 export default {
     hasCSS: true,
@@ -16,7 +16,7 @@ export default {
 const REGION_SEPARATOR = '_';
 
 var tab, container, progress, checkCompleted, checkGroups, checkDates, checkEnergy, smartTable, show, levelSums, sliderLevel;
-var imgCompleted = HtmlBr `<img width="24" src="/img/gui/tick.png"/>`;
+var imgCompleted = Html.br `<img width="24" src="/img/gui/tick.png"/>`;
 
 function init() {
     tab = this;
@@ -106,28 +106,28 @@ function update() {
 
 function getProgress(value, max, energy) {
     if (max == 0) {
-        return HtmlBr `<td></td><td></td><td></td><td></td><td></td>`;
+        return Html.br `<td></td><td></td><td></td><td></td><td></td>`;
     }
     let htm = '';
     let percent = max > 0 ? (value / max * 100) : 0;
     let isCompleted = value == max;
-    htm += HtmlBr `<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) +'%'}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(value)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(max)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(max - value)}</td>`;
-    htm += HtmlBr `<td class="energy">${energy ? Locale.formatNumber(energy) : ''}</td>`;
-    htm += HtmlBr `<td><progress value="${value}" max="${max}"></progress></td>`;
+    htm += Html.br `<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) +'%'}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(value)}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(max)}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(max - value)}</td>`;
+    htm += Html.br `<td class="energy">${energy ? Locale.formatNumber(energy) : ''}</td>`;
+    htm += Html.br `<td><progress value="${value}" max="${max}"></progress></td>`;
     return htm;
 }
 
 function getTimes(isCompleted, bt, et) {
     let htm = '';
     if (bt) {
-        htm += HtmlBr `<td class="date">${Locale.formatDate(bt)}</td>`;
-        htm += HtmlBr `<td class="date">${isCompleted && et ? Locale.formatDate(et) : ''}</td>`;
-        htm += HtmlBr `<td class="date">${isCompleted && et ? gui.getDuration(et - bt, true) : ''}</td>`;
+        htm += Html.br `<td class="date">${Locale.formatDate(bt)}</td>`;
+        htm += Html.br `<td class="date">${isCompleted && et ? Locale.formatDate(et) : ''}</td>`;
+        htm += Html.br `<td class="date">${isCompleted && et ? gui.getDuration(et - bt, true) : ''}</td>`;
     } else {
-        htm += HtmlBr `<td class="date" colspan="3"></td>`;
+        htm += Html.br `<td class="date" colspan="3"></td>`;
     }
     return htm;
 }
@@ -138,12 +138,12 @@ function refresh() {
     var htm = '';
     for (let item of progress) {
         total += item.percent;
-        htm += HtmlBr `<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
-        htm += HtmlBr `<td><img src="${item.isLocked ? '/img/gui/locked.png' : item.icon}"/></td>`;
-        htm += HtmlBr `<td>${item.label.toUpperCase()}</td>`;
+        htm += Html.br `<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
+        htm += Html.br `<td><img src="${item.isLocked ? '/img/gui/locked.png' : item.icon}"/></td>`;
+        htm += Html.br `<td>${item.label.toUpperCase()}</td>`;
         htm += getProgress(item.value, item.max, item.energy);
         htm += getTimes(item.isCompleted, item.bt, item.et);
-        htm += HtmlBr `</tr>`;
+        htm += Html.br `</tr>`;
     }
     smartTable.table.querySelector('tbody').innerHTML = htm;
     container.classList.toggle('no-dates', !state.dates);
@@ -383,13 +383,13 @@ function infoLevel(row) {
     let rowSlider = addRow();
     rowSlider.className = 'slider';
     let htm = '';
-    htm += HtmlBr `<td colspan="6">`;
-    htm += HtmlBr `<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
-    htm += HtmlBr `<span class="slider-step slider-min">${Locale.formatNumber(level + 1)}</span>`;
-    htm += HtmlBr `<span class="slider-step slider-val">${Locale.formatNumber(sliderLevel)}</span>`;
-    htm += HtmlBr `<span class="slider-step slider-max">${Locale.formatNumber(levelSums.length)}</span>`;
-    htm += HtmlBr `</td>`;
-    htm += HtmlBr `<td class="energy"></td><td></td>`;
+    htm += Html.br `<td colspan="6">`;
+    htm += Html.br `<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
+    htm += Html.br `<span class="slider-step slider-min">${Locale.formatNumber(level + 1)}</span>`;
+    htm += Html.br `<span class="slider-step slider-val">${Locale.formatNumber(sliderLevel)}</span>`;
+    htm += Html.br `<span class="slider-step slider-max">${Locale.formatNumber(levelSums.length)}</span>`;
+    htm += Html.br `</td>`;
+    htm += Html.br `<td class="energy"></td><td></td>`;
     htm += getTimes(false, 0, 0);
     rowSlider.innerHTML = htm;
     rowSlider.querySelector('input').addEventListener('input', function() {

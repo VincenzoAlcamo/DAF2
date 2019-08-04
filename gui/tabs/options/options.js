@@ -1,4 +1,4 @@
-/*global chrome gui HtmlBr Html HtmlRaw*/
+/*global chrome gui Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -22,7 +22,7 @@ function init() {
     const WARNING = 'W';
 
     function beginSection(id) {
-        htm += HtmlBr `
+        htm += Html.br `
 <div class="options">
     <table>
         <thead>
@@ -35,7 +35,7 @@ function init() {
     }
 
     function endSection() {
-        htm += HtmlBr `</tbody></table></div>`;
+        htm += Html.br `</tbody></table></div>`;
     }
 
     function option(prefName, features, options) {
@@ -52,19 +52,19 @@ function init() {
         if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
         if (features.indexOf(WARNING) >= 0) warning = gui.getMessage(messageId + '_warning');
         if (info.indexOf('@SILENT@') >= 0) {
-            info = HtmlRaw(String(HtmlBr(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
+            info = Html.raw(String(Html.br(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
         }
 
-        htm += HtmlBr `<tr${className ? Html ` class="${className}"` : ''}>`;
-        htm += HtmlBr `<td${options ? HtmlRaw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? HtmlBr `<div class="warning">${warning}</div>` : ''}`;
+        htm += Html.br `<tr${className ? Html ` class="${className}"` : ''}>`;
+        htm += Html.br `<td${options ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? Html.br `<div class="warning">${warning}</div>` : ''}`;
         if (options) {
-            htm += HtmlBr `<select data-pref="${prefName}">`;
+            htm += Html.br `<select data-pref="${prefName}">`;
             for (let option of options) {
-                htm += HtmlBr `<option value="${option[0]}">${option[1]}</option>`;
+                htm += Html.br `<option value="${option[0]}">${option[1]}</option>`;
             }
-            htm += HtmlBr `</select></td></tr>`;
+            htm += Html.br `</select></td></tr>`;
         } else {
-            htm += HtmlBr `</td><td><input data-pref="${prefName}" type="checkbox"></td></tr>`;
+            htm += Html.br `</td><td><input data-pref="${prefName}" type="checkbox"></td></tr>`;
         }
     }
 

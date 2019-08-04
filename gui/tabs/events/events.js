@@ -1,4 +1,4 @@
-/*global gui SmartTable HtmlBr Locale*/
+/*global gui SmartTable Html Locale*/
 export default {
     hasCSS: true,
     init: init,
@@ -226,43 +226,43 @@ function updateRow(row) {
     let htm = '';
     let img = gui.getObjectImg('event', item.id, 32, false, true);
     if (img == '' && item.materials.length == 1) img = gui.getObjectImg('material', item.materials[0], 32, false);
-    htm += HtmlBr `<td>${img}</td>`;
-    htm += HtmlBr `<td colspan="2">${item.name}<div class="year">${item.year ? Locale.formatYear(item.year) : ''}</div></td>`;
+    htm += Html.br `<td>${img}</td>`;
+    htm += Html.br `<td colspan="2">${item.name}<div class="year">${item.year ? Locale.formatYear(item.year) : ''}</div></td>`;
     if (item.gems) {
-        htm += HtmlBr `<td class="cost">${Locale.formatNumber(item.gems)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
+        htm += Html.br `<td class="cost">${Locale.formatNumber(item.gems)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
     } else {
-        htm += HtmlBr `<td></td>`;
+        htm += Html.br `<td></td>`;
     }
-    htm += HtmlBr `<td class="date">${item.start ? Locale.formatDate(item.start) + '\n' + Locale.formatTime(item.start) : ''}</td>`;
-    htm += HtmlBr `<td class="date">${item.end ? Locale.formatDate(item.end) + '\n' + Locale.formatTime(item.end) : ''}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(item.cquest)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(item.tquest)}</td>`;
-    htm += HtmlBr `<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
+    htm += Html.br `<td class="date">${item.start ? Locale.formatDate(item.start) + '\n' + Locale.formatTime(item.start) : ''}</td>`;
+    htm += Html.br `<td class="date">${item.end ? Locale.formatDate(item.end) + '\n' + Locale.formatTime(item.end) : ''}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(item.cquest)}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(item.tquest)}</td>`;
+    htm += Html.br `<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
 
     if (item.tachiev) {
-        htm += HtmlBr `<td>${Locale.formatNumber(item.cachiev)}</td>`;
-        htm += HtmlBr `<td>${Locale.formatNumber(item.tachiev)}</td>`;
-        htm += HtmlBr `<td><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.cachiev)}</td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.tachiev)}</td>`;
+        htm += Html.br `<td><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
     } else {
-        htm += HtmlBr `<td></td><td></td><td></td>`;
+        htm += Html.br `<td></td><td></td><td></td>`;
     }
 
     if (item.tcollect) {
-        htm += HtmlBr `<td>${Locale.formatNumber(item.ccollect)}</td>`;
-        htm += HtmlBr `<td>${Locale.formatNumber(item.tcollect)}</td>`;
-        htm += HtmlBr `<td><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.ccollect)}</td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.tcollect)}</td>`;
+        htm += Html.br `<td><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
     } else {
-        htm += HtmlBr `<td></td><td></td><td></td>`;
+        htm += Html.br `<td></td><td></td><td></td>`;
     }
 
-    htm += HtmlBr `<td>${Locale.formatNumber(item.locations)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(item.maps)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(item.challenges)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(item.repeatables)}</td>`;
-    htm += HtmlBr `<td>`;
+    htm += Html.br `<td>${Locale.formatNumber(item.locations)}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(item.maps)}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(item.challenges)}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(item.repeatables)}</td>`;
+    htm += Html.br `<td>`;
     for (let matId of item.materials) {
         htm += gui.getObjectImg('material', matId, 32, true, 'desc');
     }
-    htm += HtmlBr `</td>`;
+    htm += Html.br `</td>`;
     row.innerHTML = htm;
 }

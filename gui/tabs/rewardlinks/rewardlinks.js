@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Dialog HtmlBr Locale*/
+/*global bgp gui SmartTable Dialog Html Locale*/
 export default {
     hasCSS: true,
     init: init,
@@ -120,7 +120,7 @@ function onClickButton() {
     if (action == 'add') {
         gui.dialog.show({
             title: gui.getMessage('rewardlinks_addlinks'),
-            html: HtmlBr `${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" name="links"></textarea>`,
+            html: Html.br `${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" name="links"></textarea>`,
             defaultButton: 'links',
             style: [Dialog.CONFIRM, Dialog.CANCEL]
         }, function(method, params) {
@@ -137,7 +137,7 @@ function onClickButton() {
     } else if (action == 'shorten') {
         gui.dialog.show({
             title: gui.getMessage('rewardlinks_shortenlinks'),
-            html: HtmlBr `
+            html: Html.br `
 ${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="convert">
 <option value="3">Facebook</option>
 <option value="2">Portal</option>
@@ -163,12 +163,12 @@ ${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="conve
         let days = parseInt(gui.getPreference('rewardsRemoveDays'));
         days = Math.max(0, Math.min(bgp.Data.REWARDLINKS_REMOVE_DAYS - 1, isFinite(days) ? days : bgp.Data.REWARDLINKS_VALIDITY_DAYS));
         let htm = '';
-        htm += HtmlBr `<select name="days">`;
+        htm += Html.br `<select name="days">`;
         for (let i = 0; i <= bgp.Data.REWARDLINKS_REMOVE_DAYS - 1; i++) {
-            htm += HtmlBr `<option value="${i}" ${i == days ? ' selected' : ''}>${Locale.formatNumber(i)}</option>`;
+            htm += Html.br `<option value="${i}" ${i == days ? ' selected' : ''}>${Locale.formatNumber(i)}</option>`;
         }
-        htm += HtmlBr `</select>`;
-        htm = String(HtmlBr `${gui.getMessage('rewardlinks_removelinksdays', bgp.Data.REWARDLINKS_REMOVE_DAYS)}`).replace('@DAYS@', htm);
+        htm += Html.br `</select>`;
+        htm = String(Html.br `${gui.getMessage('rewardlinks_removelinksdays', bgp.Data.REWARDLINKS_REMOVE_DAYS)}`).replace('@DAYS@', htm);
         gui.dialog.show({
             title: title,
             html: htm,
@@ -242,11 +242,11 @@ function onClickTable(event) {
             target.click();
             return;
         }
-        let htm = HtmlBr(reason.text + '\n\n' + gui.getMessage('rewardlinks_collectanyway'));
+        let htm = Html.br(reason.text + '\n\n' + gui.getMessage('rewardlinks_collectanyway'));
         if (reason.action) {
-            htm += HtmlBr `<br><table style="margin-top:16px"><tr><td><button value="reset">${gui.getMessage('rewardlinks_reset')}</button></td><td>`;
-            htm += HtmlBr `${gui.getMessage('rewardlinks_' + reason.action)}`;
-            htm += HtmlBr `</td></tr></table>`;
+            htm += Html.br `<br><table style="margin-top:16px"><tr><td><button value="reset">${gui.getMessage('rewardlinks_reset')}</button></td><td>`;
+            htm += Html.br `${gui.getMessage('rewardlinks_' + reason.action)}`;
+            htm += Html.br `</td></tr></table>`;
         }
         gui.dialog.show({
             title: reason.title,
@@ -311,7 +311,7 @@ function materialHTML(materialId) {
     if (!(materialId in materialImageCache)) {
         if (materialId > 0) {
             let url = gui.getObjectImage('material', materialId, true);
-            return materialImageCache[materialId] = HtmlBr `<img src="${url}" width="32" height="32" class="outlined">${gui.getObjectName('material', materialId)}`;
+            return materialImageCache[materialId] = Html.br `<img src="${url}" width="32" height="32" class="outlined">${gui.getObjectName('material', materialId)}`;
         }
         let text;
         if (materialId == -1) text = gui.getMessage('rewardlinks_expired');
@@ -321,7 +321,7 @@ function materialHTML(materialId) {
         else if (materialId == -5) text = gui.getMessage('rewardlinks_broken');
         else if (materialId == -6) text = gui.getMessage('rewardlinks_probablyexpired');
         else return materialImageCache[materialId] = '';
-        return materialImageCache[materialId] = HtmlBr `<img src="/img/gui/q-hard.png"/><span class="alert">${text}</span>`;
+        return materialImageCache[materialId] = Html.br `<img src="/img/gui/q-hard.png"/><span class="alert">${text}</span>`;
     }
     return materialImageCache[materialId];
 }
@@ -374,7 +374,7 @@ function update() {
                 flagUpdated = true;
                 item.cid = rewardLink.cid;
                 item.cnm = rewardLink.cnm;
-                item.row.cells[5].innerHTML = item.cid ? HtmlBr `${gui.getFBFriendAnchor(item.cid)}<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a>` : '';
+                item.row.cells[5].innerHTML = item.cid ? Html.br `${gui.getFBFriendAnchor(item.cid)}<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a>` : '';
             }
             if (flagUpdated) status = 3;
         } else {
@@ -384,10 +384,10 @@ function update() {
             item.row = document.createElement('tr');
             item.row.setAttribute('data-id', item.id);
             let htm = '';
-            htm += HtmlBr `<td><input type="checkbox"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
-            htm += HtmlBr `<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
-            htm += HtmlBr `<td>${materialHTML(item.cmt)}</td>`;
-            if (item.cid) htm += HtmlBr `<td>${gui.getFBFriendAnchor(item.cid)}<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a></td>`;
+            htm += Html.br `<td><input type="checkbox"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
+            htm += Html.br `<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
+            htm += Html.br `<td>${materialHTML(item.cmt)}</td>`;
+            if (item.cid) htm += Html.br `<td>${gui.getFBFriendAnchor(item.cid)}<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a></td>`;
             else htm += `<td></td>`;
             item.row.innerHTML = htm;
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
@@ -473,7 +473,7 @@ function showStats() {
     let element = container.querySelector('.stats');
     element.textContent = text + (flagNext ? textNext : '');
     element.classList.toggle('wait', flagNext);
-    container.querySelector('.info').innerHTML = HtmlBr(flagNext ? '' : textNext);
+    container.querySelector('.info').innerHTML = Html.br(flagNext ? '' : textNext);
 
     text = gui.getMessage('rewardlinks_stats', Locale.formatNumber(numToCollect), Locale.formatNumber(numTotal));
     Array.from(smartTable.container.querySelectorAll('tfoot td')).forEach(cell => {

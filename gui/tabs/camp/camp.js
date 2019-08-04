@@ -1,4 +1,4 @@
-/*global bgp gui Locale Html HtmlBr HtmlRaw Tooltip*/
+/*global bgp gui Locale Html Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -45,7 +45,7 @@ function update() {
     let specialWeeks = gui.getActiveSpecialWeeks();
     let htm = [];
     for (let sw of specialWeeks.items) {
-        if (sw.name) htm.push(HtmlBr `${sw.name}: ${sw.ends}`);
+        if (sw.name) htm.push(Html.br `${sw.name}: ${sw.ends}`);
     }
     let divWarning = container.querySelector('.toolbar .warning');
     divWarning.innerHTML = htm.join('<br>');
@@ -142,22 +142,22 @@ function updateCamp(div, flagHeaderOnly = false) {
         }
     }
 
-    htm += HtmlBr `<table class="camp-tables"><tr>`;
+    htm += Html.br `<table class="camp-tables"><tr>`;
 
     // table Player
-    htm += HtmlBr `<td><table class="camp-data camp-player row-coloring">`;
-    htm += HtmlBr `<thead><tr><th colspan="2">${gui.getMessage('camp_player')}</th></tr></thead>`;
-    htm += HtmlBr `<tbody>`;
-    htm += HtmlBr `<tr><td>${gui.getMessage('gui_level')}</td><td>${Locale.formatNumber(level)}</td></tr>`;
-    htm += HtmlBr `<tr><td>${gui.getMessage('gui_region')}</td><td>${gui.getObjectName('region', camp.region)}</td></tr>`;
-    htm += HtmlBr `<tr><td>${gui.getMessage('gui_theme')}</td><td>${gui.getObjectName('skin', camp.skin)}</td></tr>`;
-    htm += HtmlBr `</tbody>`;
+    htm += Html.br `<td><table class="camp-data camp-player row-coloring">`;
+    htm += Html.br `<thead><tr><th colspan="2">${gui.getMessage('camp_player')}</th></tr></thead>`;
+    htm += Html.br `<tbody>`;
+    htm += Html.br `<tr><td>${gui.getMessage('gui_level')}</td><td>${Locale.formatNumber(level)}</td></tr>`;
+    htm += Html.br `<tr><td>${gui.getMessage('gui_region')}</td><td>${gui.getObjectName('region', camp.region)}</td></tr>`;
+    htm += Html.br `<tr><td>${gui.getMessage('gui_theme')}</td><td>${gui.getObjectName('skin', camp.skin)}</td></tr>`;
+    htm += Html.br `</tbody>`;
     if (started && !isNaN(started.getFullYear())) {
-        htm += HtmlBr `<tbody>`;
-        htm += HtmlBr `<tr><td colspan="2">${gui.getMessage('camp_start_date', Locale.formatDateTime(started))}</td></tr>`;
-        htm += HtmlBr `</tbody>`;
+        htm += Html.br `<tbody>`;
+        htm += Html.br `<tr><td colspan="2">${gui.getMessage('camp_start_date', Locale.formatDateTime(started))}</td></tr>`;
+        htm += Html.br `</tbody>`;
     }
-    htm += HtmlBr `</table><div class="screenshot"></div></td>`;
+    htm += Html.br `</table><div class="screenshot"></div></td>`;
 
     if (isPublic) {
         camps.forEach(function(campResult, index) {
@@ -174,42 +174,42 @@ function updateCamp(div, flagHeaderOnly = false) {
             }
 
             // table Regeneration
-            htm += HtmlBr `<td><table class="camp-data row-coloring">`;
+            htm += Html.br `<td><table class="camp-data row-coloring">`;
             var caption = camps.length == 1 ? '' : gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode');
-            htm += HtmlBr `<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
-            htm += HtmlBr `<tbody>`;
-            htm += HtmlBr `<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
-            htm += HtmlBr `<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
-            htm += HtmlBr `<tr><td>${gui.getMessage('camp_min_value')}</td><td>${Locale.formatNumber(campResult.reg_min)}</td><td>${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
-            htm += HtmlBr `<tr><td>${gui.getMessage('camp_max_value')}</td><td>${Locale.formatNumber(campResult.reg_max)}</td><td>${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
-            htm += HtmlBr `</tbody>`;
+            htm += Html.br `<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
+            htm += Html.br `<tbody>`;
+            htm += Html.br `<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
+            htm += Html.br `<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
+            htm += Html.br `<tr><td>${gui.getMessage('camp_min_value')}</td><td>${Locale.formatNumber(campResult.reg_min)}</td><td>${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
+            htm += Html.br `<tr><td>${gui.getMessage('camp_max_value')}</td><td>${Locale.formatNumber(campResult.reg_max)}</td><td>${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
+            htm += Html.br `</tbody>`;
             if (time) {
-                htm += HtmlBr `<tbody>`;
-                htm += HtmlBr `<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
-                htm += HtmlBr `</tbody>`;
+                htm += Html.br `<tbody>`;
+                htm += Html.br `<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
+                htm += Html.br `</tbody>`;
             }
-            htm += HtmlBr `</table></td>`;
+            htm += Html.br `</table></td>`;
         });
     }
 
     var wind_count = (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0;
     var wind_expiry = bgp.Data.getCampWindmillTime(camp);
     // table Windmills
-    htm += HtmlBr `<td><table class="camp-data row-coloring">`;
-    htm += HtmlBr `<thead><tr><th colspan="2">${gui.getMessage('camp_windmills')}</th></tr></thead>`;
-    htm += HtmlBr `<tbody>`;
-    htm += HtmlBr `<tr><td>${gui.getMessage('camp_windmill_num')}</td><td>${Locale.formatNumber(wind_count) + ' / ' + Locale.formatNumber(camp.windmill_limit)}</td></tr>`;
+    htm += Html.br `<td><table class="camp-data row-coloring">`;
+    htm += Html.br `<thead><tr><th colspan="2">${gui.getMessage('camp_windmills')}</th></tr></thead>`;
+    htm += Html.br `<tbody>`;
+    htm += Html.br `<tr><td>${gui.getMessage('camp_windmill_num')}</td><td>${Locale.formatNumber(wind_count) + ' / ' + Locale.formatNumber(camp.windmill_limit)}</td></tr>`;
     if (isPublic && camp.windmill_reg) {
-        htm += HtmlBr `<tr><td>${gui.getMessage('camp_windmill_regen')}</td><td>${Locale.formatNumber(camp.windmill_reg)}</td></tr>`;
-        htm += HtmlBr `<tr><td>${gui.getMessage('camp_windmill_regen_total')}</td><td>${Locale.formatNumber(camp.windmill_reg * Math.min(wind_count, camp.windmill_limit))}</td></tr>`;
+        htm += Html.br `<tr><td>${gui.getMessage('camp_windmill_regen')}</td><td>${Locale.formatNumber(camp.windmill_reg)}</td></tr>`;
+        htm += Html.br `<tr><td>${gui.getMessage('camp_windmill_regen_total')}</td><td>${Locale.formatNumber(camp.windmill_reg * Math.min(wind_count, camp.windmill_limit))}</td></tr>`;
     }
-    htm += HtmlBr `</tbody>`;
+    htm += Html.br `</tbody>`;
     if (wind_expiry) {
-        htm += HtmlBr `<tbody>`;
-        htm += HtmlBr `<tr><td colspan="2">${gui.getMessage('camp_windmill_expiry', Locale.formatDateTime(wind_expiry))}</td></tr>`;
-        htm += HtmlBr `</tbody>`;
+        htm += Html.br `<tbody>`;
+        htm += Html.br `<tr><td colspan="2">${gui.getMessage('camp_windmill_expiry', Locale.formatDateTime(wind_expiry))}</td></tr>`;
+        htm += Html.br `</tbody>`;
     }
-    htm += HtmlBr `</table></td>`;
+    htm += Html.br `</table></td>`;
 
     if (campResult.blocks[2].blocked || campResult.blocks[3].blocked || campResult.blocks[4].blocked) {
         let swDiscount = gui.getActiveSpecialWeeks().debrisDiscount;
@@ -224,10 +224,10 @@ function updateCamp(div, flagHeaderOnly = false) {
                 }
             }
         });
-        htm += HtmlBr `<td><table class="camp-data">`;
-        htm += HtmlBr `<thead><tr><th colspan="3">${gui.getMessage('camp_unlock_materials')}</th>`;
-        if (swDiscount) htm += HtmlBr `<th>${gui.getMessage('camp_discounted')}</th>`;
-        htm += HtmlBr `</tr></thead>`;
+        htm += Html.br `<td><table class="camp-data">`;
+        htm += Html.br `<thead><tr><th colspan="3">${gui.getMessage('camp_unlock_materials')}</th>`;
+        if (swDiscount) htm += Html.br `<th>${gui.getMessage('camp_discounted')}</th>`;
+        htm += Html.br `</tr></thead>`;
 
         var materials = gui.getFile('materials');
 
@@ -236,23 +236,23 @@ function updateCamp(div, flagHeaderOnly = false) {
             var material = materials[matId];
             var img = material ? gui.getObjectImg('material', matId, 24, true) : '';
             if (matId in mat) {
-                htm += HtmlBr `<tr class="material"><td>${img}</td><td>${gui.getObjectName('material', matId)}</td><td>${Locale.formatNumber(mat[matId])}</td>`;
-                if (swDiscount) htm += HtmlBr `<td>${Locale.formatNumber(matDiscount[matId])}</td>`;
-                htm += HtmlBr `</tr>`;
+                htm += Html.br `<tr class="material"><td>${img}</td><td>${gui.getObjectName('material', matId)}</td><td>${Locale.formatNumber(mat[matId])}</td>`;
+                if (swDiscount) htm += Html.br `<td>${Locale.formatNumber(matDiscount[matId])}</td>`;
+                htm += Html.br `</tr>`;
             }
         }
-        htm += HtmlBr `<tbody>`;
+        htm += Html.br `<tbody>`;
         if (swDiscount) {
-            htm += HtmlBr `<tfoot><tr><th colspan="4" class="warning">${swDiscount.name}<br>${swDiscount.ends}</th></tfoot>`;
+            htm += Html.br `<tfoot><tr><th colspan="4" class="warning">${swDiscount.name}<br>${swDiscount.ends}</th></tfoot>`;
         }
-        htm += HtmlBr `</table></td>`;
+        htm += Html.br `</table></td>`;
     }
 
-    htm += HtmlBr `</tr></table>`;
+    htm += Html.br `</tr></table>`;
 
     camps.forEach(function(campResult, index) {
         if (camps.length > 1)
-            htm += HtmlBr `<table class="camp-caption"><thead><tr><th>${gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode')}</th></tr></thead></table>`;
+            htm += Html.br `<table class="camp-caption"><thead><tr><th>${gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode')}</th></tr></thead></table>`;
         htm += renderCamp(campResult, isPublic, cdn);
     });
 
@@ -402,7 +402,7 @@ function renderCamp(campResult, isPublic) {
     var htm = '';
     var state = getState();
 
-    htm += HtmlBr `<div class="camp${isPublic ? ' public' : ''}">`;
+    htm += Html.br `<div class="camp${isPublic ? ' public' : ''}">`;
 
     function getStrength(value, min, range) {
         return range ? (value - min) / range * opacity_range + opacity_min : 1;
@@ -410,7 +410,7 @@ function renderCamp(campResult, isPublic) {
     [1, 2, 3, 5, 7, 9].forEach((lid, index) => {
         var line = lines[lid];
         var slots = line.slots;
-        htm += HtmlBr `<div class="line" style="--lw:24;--lh:${line.height}">`;
+        htm += Html.br `<div class="line" style="--lw:24;--lh:${line.height}">`;
         var isReversed = (index % 2) == 0 && state.webgl;
         var getSlot = function(index) {
             return slots[isReversed ? NUM_SLOTS - 1 - index : index];
@@ -458,23 +458,23 @@ function renderCamp(campResult, isPublic) {
                     kind += ' reg' + slot.region_id;
                     title += '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', slot.region_id));
                 }
-                colValues = HtmlRaw(isPublic ? String(HtmlBr `<div class="value">${slot.value}</div>`).repeat(width) : '');
+                colValues = Html.raw(isPublic ? String(Html.br `<div class="value">${slot.value}</div>`).repeat(width) : '');
                 strength = Math.round(strength * 1000) / 1000;
             }
-            htm += HtmlBr `<div class="item ${kind}" style="--w:${width};--h:${slot.height};--v:${strength}${exStyle}" title="${Html(title)}"`;
-            if (bid) htm += HtmlBr ` bid="${bid}"`;
-            htm += HtmlBr `>${colValues}</div>`;
+            htm += Html.br `<div class="item ${kind}" style="--w:${width};--h:${slot.height};--v:${strength}${exStyle}" title="${Html(title)}"`;
+            if (bid) htm += Html.br ` bid="${bid}"`;
+            htm += Html.br `>${colValues}</div>`;
             i += width;
         }
-        htm += HtmlBr `</div>`;
+        htm += Html.br `</div>`;
     });
-    htm += HtmlBr `</div>`;
+    htm += Html.br `</div>`;
     return htm;
 }
 
 function onTooltip(event) {
     let element = event.target;
     let bid = parseInt(element.getAttribute('bid'));
-    let htm = HtmlBr `<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/></div>`;
+    let htm = Html.br `<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/></div>`;
     Tooltip.show(element, htm, 'bb');
 }

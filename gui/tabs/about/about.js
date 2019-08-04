@@ -1,4 +1,4 @@
-/*global chrome bgp gui Locale HtmlBr*/
+/*global chrome bgp gui Locale Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -8,12 +8,12 @@ export default {
 function init() {}
 
 function update() {
-    this.container.querySelector('.about_version a').innerHTML = HtmlBr(gui.getMessage('about_version', bgp.Data.versionName));
+    this.container.querySelector('.about_version a').innerHTML = Html.br(gui.getMessage('about_version', bgp.Data.versionName));
 
     let generator = gui.getGenerator();
     let div = this.container.querySelector('.about_data');
     if (gui.hasValidGenerator()) {
-        div.innerHTML = HtmlBr(gui.getMessage('about_data',
+        div.innerHTML = Html.br(gui.getMessage('about_data',
             Locale.formatDateTimeFull(generator.time),
             generator.player_id,
             generator.game_site,
@@ -21,7 +21,7 @@ function update() {
         ));
         div.classList.remove('nodata');
     } else {
-        div.innerHTML = HtmlBr(gui.getMessage('about_nodata'));
+        div.innerHTML = Html.br(gui.getMessage('about_nodata'));
         div.classList.add('nodata');
     }
 

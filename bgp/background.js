@@ -1,4 +1,4 @@
-/*global chrome Parser UrlInfo idb HtmlBr Locale*/
+/*global chrome Parser UrlInfo idb Html Locale*/
 'use strict';
 
 //#region MISCELLANEOUS
@@ -1571,19 +1571,19 @@ async function init() {
             } else if (Preferences.getValue('rewardsSummary')) {
                 reward = Data.getRewardLink(reward.id);
                 let htm = '';
-                htm += HtmlBr `<center style="font-family:sans-serif;font-size:12pt;margin:4px 0px;">`;
-                htm += HtmlBr `<table border="0" cellpadding="4" style="border:2px solid #36648b;"><tbody>`;
-                htm += HtmlBr `<tr bgcolor="#3e8cc6" style="color:white">`;
-                htm += HtmlBr `<th>${getMessage('rewardlinks_id')}</th>`;
-                htm += HtmlBr `<th>${getMessage('rewardlinks_insertdate')}</th>`;
-                htm += HtmlBr `<th>${getMessage('rewardlinks_collectdate')}</th>`;
-                if (reward.cid) htm += HtmlBr `<th>${getMessage('rewardlinks_owner')}</th>`;
-                htm += HtmlBr `</tr><tr style="background-color:#e7e7e7;color:black;">`;
-                htm += HtmlBr `<td>${reward.id}</td>`;
-                htm += HtmlBr `<td>${Locale.formatDateTime(reward.adt)}</td>`;
-                htm += HtmlBr `<td>${Locale.formatDateTime(reward.cdt)}</td>`;
-                if (reward.cid) htm += HtmlBr `<td><a target="_blank" href="https://www.facebook.com/${reward.cid}"><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</a></td>`;
-                htm += HtmlBr `</tr></tbody><table>`;
+                htm += Html.br `<center style="font-family:sans-serif;font-size:12pt;margin:4px 0px;">`;
+                htm += Html.br `<table border="0" cellpadding="4" style="border:2px solid #36648b;"><tbody>`;
+                htm += Html.br `<tr bgcolor="#3e8cc6" style="color:white">`;
+                htm += Html.br `<th>${getMessage('rewardlinks_id')}</th>`;
+                htm += Html.br `<th>${getMessage('rewardlinks_insertdate')}</th>`;
+                htm += Html.br `<th>${getMessage('rewardlinks_collectdate')}</th>`;
+                if (reward.cid) htm += Html.br `<th>${getMessage('rewardlinks_owner')}</th>`;
+                htm += Html.br `</tr><tr style="background-color:#e7e7e7;color:black;">`;
+                htm += Html.br `<td>${reward.id}</td>`;
+                htm += Html.br `<td>${Locale.formatDateTime(reward.adt)}</td>`;
+                htm += Html.br `<td>${Locale.formatDateTime(reward.cdt)}</td>`;
+                if (reward.cid) htm += Html.br `<td><a target="_blank" href="https://www.facebook.com/${reward.cid}"><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</a></td>`;
+                htm += Html.br `</tr></tbody><table>`;
                 htm = String(htm);
                 return htm;
             }

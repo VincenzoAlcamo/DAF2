@@ -1,4 +1,4 @@
-/*global bgp gui Locale HtmlBr*/
+/*global bgp gui Locale Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -53,9 +53,9 @@ function updateStatus() {
     var num = gcTable.childNodes.length;
     container.querySelector('.godchild_table').style.display = num ? '' : 'none';
     container.querySelector('.toolbar').style.display = !num ? '' : 'none';
-    let htm = HtmlBr `${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
+    let htm = Html.br `${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
     let time = bgp.Data.getNextGCCollectionTime();
-    if (time) htm += HtmlBr `<br>${gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(time))}`;
+    if (time) htm += Html.br `<br>${gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(time))}`;
     for (let div of container.querySelectorAll('.tab_godchild .stats')) div.innerHTML = htm;
     container.querySelector('.tab_godchild .screenshot .shot').style.display = num > 0 ? '' : 'none';
     var next = gui.getChildrenNext(numNeighbours);

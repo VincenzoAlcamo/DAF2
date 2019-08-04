@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Dialog HtmlBr Html HtmlRaw Tooltip*/
+/*global bgp gui SmartTable Locale Dialog Html Tooltip*/
 
 export default {
     hasCSS: true,
@@ -30,7 +30,7 @@ function init() {
         selectShow.appendChild(option);
     }
 
-    let htm = HtmlBr(gui.getMessage('neighbors_gifts'));
+    let htm = Html.br(gui.getMessage('neighbors_gifts'));
     htm = String(htm).replace('@DAYS@', getSelectDays(0));
     container.querySelector('.toolbar .days').innerHTML = htm;
     selectDays = container.querySelector('[name=days]');
@@ -41,7 +41,7 @@ function init() {
 
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
-    trGifts.innerHTML = HtmlBr `<td colspan="12"><div>${Locale.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+    trGifts.innerHTML = Html.br `<td colspan="12"><div>${Locale.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
 
     let button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
@@ -134,16 +134,16 @@ function onClickAdvanced() {
         return htm;
     }
     let htm = '';
-    let info = HtmlRaw(String(HtmlBr(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
-    htm += HtmlBr `${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
-    htm += HtmlBr `<option value="0">${gui.getMessage('gui_gift')}</option>`;
-    htm += HtmlBr `<option value="1">${gui.getMessage('gui_xp')}</option>`;
-    htm += HtmlBr `<option value="2">${gui.getMessage('gui_day')}</option>`;
-    htm += HtmlBr `</select>`;
-    htm += HtmlBr ` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
-    htm += HtmlBr `<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
+    let info = Html.Raw(String(Html.br(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
+    htm += Html.br `${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
+    htm += Html.br `<option value="0">${gui.getMessage('gui_gift')}</option>`;
+    htm += Html.br `<option value="1">${gui.getMessage('gui_xp')}</option>`;
+    htm += Html.br `<option value="2">${gui.getMessage('gui_day')}</option>`;
+    htm += Html.br `</select>`;
+    htm += Html.br ` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
+    htm += Html.br `<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
-    htm += HtmlBr `</select>`;
+    htm += Html.br `</select>`;
     gui.dialog.show({
         title: gui.getMessage('neighbors_advancedfilter'),
         html: htm,
@@ -200,13 +200,13 @@ function onClick(e) {
                 let t_amount = Locale.formatNumber(amount);
                 let name = gui.getObjectName(gift.type, gift.object_id);
                 if (amount > 1) name += ' x ' + t_amount;
-                piece += HtmlBr `<div title="${Html(gui.getMessage('neighbors_gifttip', name, t_xp, weekdayNames[gift.day]))}"><img src="${gui.getObjectImage(gift.type, gift.object_id)}">`;
-                piece += HtmlBr `<i>${xp}</i><b>${Locale.formatNumber(amount)}</b>`;
+                piece += Html.br `<div title="${Html(gui.getMessage('neighbors_gifttip', name, t_xp, weekdayNames[gift.day]))}"><img src="${gui.getObjectImage(gift.type, gift.object_id)}">`;
+                piece += Html.br `<i>${xp}</i><b>${Locale.formatNumber(amount)}</b>`;
             }
             giftCache[gid] = piece;
         }
         if (piece == '') continue;
-        htm += piece + HtmlBr `<span>${formatDayMonthTime(palGift[2])}</span></div>`;
+        htm += piece + Html.br `<span>${formatDayMonthTime(palGift[2])}</span></div>`;
     }
     giftContainer.innerHTML = htm;
 }
@@ -280,44 +280,44 @@ function updateRow(row) {
     var id = row.getAttribute('data-pal-id');
     var pal = bgp.Data.getNeighbour(id);
     let friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
-    var anchor = friend ? gui.getFriendAnchor(friend) : HtmlRaw('<a class="no-link">');
+    var anchor = friend ? gui.getFriendAnchor(friend) : Html.raw('<a class="no-link">');
     var htm = '';
-    htm += HtmlBr `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
-    htm += HtmlBr `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
-    htm += HtmlBr `<td>${gui.getRegionImg(pal.region)}</td>`;
-    htm += HtmlBr `<td>${Locale.formatNumber(pal.level)}</td>`;
+    htm += Html.br `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
+    htm += Html.br `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
+    htm += Html.br `<td>${gui.getRegionImg(pal.region)}</td>`;
+    htm += Html.br `<td>${Locale.formatNumber(pal.level)}</td>`;
     if (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) {
-        htm += HtmlBr `<td title="${Locale.formatDate(pal.extra.timeLevel)} (${Locale.formatNumber(pal.extra.lastLevel)})">${Locale.formatDays(pal.extra.timeLevel)}</td>`;
+        htm += Html.br `<td title="${Locale.formatDate(pal.extra.timeLevel)} (${Locale.formatNumber(pal.extra.lastLevel)})">${Locale.formatDays(pal.extra.timeLevel)}</td>`;
     } else {
-        htm += HtmlBr `<td></td>`;
+        htm += Html.br `<td></td>`;
     }
-    htm += HtmlBr `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
+    htm += Html.br `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
     if (pal.c_list > 0) {
-        htm += HtmlBr `<td><img src="/img/gui/clist.png"></td>`;
+        htm += Html.br `<td><img src="/img/gui/clist.png"></td>`;
     } else {
-        htm += HtmlBr `<td></td>`;
+        htm += Html.br `<td></td>`;
     }
     let blocks = pal.extra.blocks;
     if (blocks === undefined) {
-        htm += HtmlBr `<td><img src="/img/gui/check_na.png"></td>`;
+        htm += Html.br `<td><img src="/img/gui/check_na.png"></td>`;
     } else {
-        htm += blocks === 0 ? HtmlBr `<td><img src="/img/gui/check_yes.png"></td>` : HtmlBr `<td><span class="camp_blocks">${blocks}</span></td>`;
+        htm += blocks === 0 ? Html.br `<td><img src="/img/gui/check_yes.png"></td>` : Html.br `<td><span class="camp_blocks">${blocks}</span></td>`;
     }
     let wmtime = pal.extra.wmtime;
     if (wmtime === undefined) {
-        htm += HtmlBr `<td></td>`;
+        htm += Html.br `<td></td>`;
     } else {
-        htm += HtmlBr `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
+        htm += Html.br `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
     }
     if (pal.extra.lastGift) {
-        htm += HtmlBr `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
+        htm += Html.br `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
     } else {
-        htm += HtmlBr `<td></td>`;
+        htm += Html.br `<td></td>`;
     }
     var gifts = palGifts[pal.id];
     var count = gifts.length;
-    htm += HtmlBr `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(count)}</td>`;
-    htm += HtmlBr `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(gifts._value)}</td>`;
+    htm += Html.br `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(count)}</td>`;
+    htm += Html.br `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(gifts._value)}</td>`;
     row.innerHTML = htm;
 }
 
@@ -457,7 +457,7 @@ function onTooltip(event) {
     let pal = pal_id && bgp.Data.getNeighbour(pal_id);
     let fb_id = pal && pal.fb_id;
     if (fb_id) {
-        let htm = HtmlBr `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
+        let htm = Html.br `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
         Tooltip.show(element, htm);
     }
 }

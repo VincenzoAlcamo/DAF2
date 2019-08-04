@@ -1,4 +1,4 @@
-/*global gui Locale SmartTable HtmlBr Html*/
+/*global gui Locale SmartTable Html*/
 export default kitchenFoundry;
 
 function kitchenFoundry(type) {
@@ -43,14 +43,14 @@ function kitchenFoundry(type) {
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
         let htm = [];
-        if (swDoubleProduction) htm.push(HtmlBr `${swDoubleProduction.name}: ${swDoubleProduction.ends}`);
-        if (swHalfTimeProduction) htm.push(HtmlBr `${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}`);
+        if (swDoubleProduction) htm.push(Html.br `${swDoubleProduction.name}: ${swDoubleProduction.ends}`);
+        if (swHalfTimeProduction) htm.push(Html.br `${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}`);
         htm = htm.join('<br>');
         for (let td of smartTable.container.querySelectorAll('tfoot td')) {
             td.parentNode.style.display = htm.length ? '' : 'none';
             td.innerHTML = htm;
         }
-        Array.from(container.querySelectorAll('[sort-name="total_time"]')).forEach(el => el.innerHTML = HtmlBr(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
+        Array.from(container.querySelectorAll('[sort-name="total_time"]')).forEach(el => el.innerHTML = Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
         oldState = {};
@@ -161,39 +161,39 @@ function kitchenFoundry(type) {
         var hasEvent = type == 'recipe';
 
         function getIngredient(ingredient) {
-            return HtmlBr `<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
+            return Html.br `<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
         for (let p of productions) {
             var rspan = p.ingredients.length;
             var title = p.cname;
             if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
             let htm = '';
-            htm += HtmlBr `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
-            htm += HtmlBr `<td rowspan="${rspan}">${p.name}</td>`;
-            htm += HtmlBr `<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
+            htm += Html.br `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
+            htm += Html.br `<td rowspan="${rspan}">${p.name}</td>`;
+            htm += Html.br `<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
             if (hasEvent) {
                 var eimage = '';
                 if (p.eid != 0) {
                     var wikiPage = ''; // wikiEvents[p.eid]
-                    eimage = HtmlBr `<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
+                    eimage = Html.br `<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
                 }
-                htm += HtmlBr `<td rowspan="${rspan}">${eimage}</td>`;
+                htm += Html.br `<td rowspan="${rspan}">${eimage}</td>`;
             }
-            htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.level)}</td>`;
-            htm += HtmlBr `<td rowspan="${rspan}">${gui.getDuration(p.time)}</td>`;
+            htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.level)}</td>`;
+            htm += Html.br `<td rowspan="${rspan}">${gui.getDuration(p.time)}</td>`;
             if (hasQty) {
-                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.qty)}</td>`;
+                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.qty)}</td>`;
             }
             if (hasEnergy) {
-                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.energy)}</td>`;
-                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.energy_per_hour)}</td>`;
+                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.energy)}</td>`;
+                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.energy_per_hour)}</td>`;
             }
             htm += getIngredient(p.ingredients[0]);
-            htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.output)}</td>`;
+            htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.output)}</td>`;
             if (hasEnergy) {
-                htm += HtmlBr `<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
+                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
             }
-            htm += HtmlBr `<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
+            htm += Html.br `<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
             let row = document.createElement('tr');
             row.innerHTML = htm;
             p.rows = [row];

@@ -1,13 +1,14 @@
-const {
-    // eslint-disable-next-line no-unused-vars
-    HtmlRaw,
-    // eslint-disable-next-line no-unused-vars
-    Html,
-    // eslint-disable-next-line no-unused-vars
-    HtmlBr
-} = (function() {
+// eslint-disable-next-line no-unused-vars
+const Html = (function() {
+    function HtmlRaw(text) {
+        if (this instanceof HtmlRaw) this.text = (text === null || text === undefined) ? '' : String(text);
+        else return new HtmlRaw(text);
+    }
+    HtmlRaw.prototype.toString = function() {
+        return this.text;
+    };
 
-    var htmlEntities = {
+    const htmlEntities = {
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
@@ -15,18 +16,7 @@ const {
         '"': '&quot;',
         '\n': '<br>'
     };
-
-    function replacer(c) {
-        return htmlEntities[c];
-    }
-
-    function HtmlRaw(text) {
-        if (this instanceof HtmlRaw) this.text = String(text);
-        else return new HtmlRaw(text);
-    }
-    HtmlRaw.prototype.toString = function() {
-        return this.text;
-    };
+    const replacer = (c) => htmlEntities[c];
 
     function getTemplateFunction(re) {
         function encode(v) {
@@ -39,12 +29,12 @@ const {
         };
     }
 
-    var Html = getTemplateFunction(/[&<>'"]/g);
-    var HtmlBr = getTemplateFunction(/[&<>'"\n]/g);
+    const Html = getTemplateFunction(/[&<>'"]/g);
+    Html.encode = Html;
+    Html.raw = HtmlRaw;
+    Html.br = getTemplateFunction(/[&<>'"\n]/g);
+    let div = document.createElement('div');
+    Html.decode = html => div.innerHTML = html, div.innerText;
 
-    return {
-        HtmlRaw: HtmlRaw,
-        Html: Html,
-        HtmlBr: HtmlBr
-    };
+    return Html;
 })();
