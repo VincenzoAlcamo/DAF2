@@ -1,6 +1,7 @@
 /*global chrome Dialog*/
 var collectMethod = 'standard';
 var removeGhosts = 0;
+var unmatched = '';
 var wait = Dialog(Dialog.WAIT);
 var dialog = Dialog();
 var retries = 5;
@@ -31,7 +32,7 @@ function viewDisabled() {
 function collect() {
     var container = document.getElementById('pagelet_timeline_medley_friends');
     if (container) {
-        if (collectMethod == 'standard') collectStandard();
+        if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
         if (collectMethod == 'alternate' || collectMethod == 'both') collectAlternate();
     } else if (retries > 0) {
         retries--;
@@ -49,20 +50,23 @@ function getStatInfo(num, total) {
 function sendFriends() {
     document.title = getStatInfo(friends.length, friends.length);
     wait.setText(document.title);
-    chrome.runtime.sendMessage({
-        action: 'friendsCaptured',
-        data: friends
-    });
+    if (collectMethod != 'unmatched') {
+        chrome.runtime.sendMessage({
+            action: 'friendsCaptured',
+            data: friends
+        });
+    }
     if (ulInactive) {
         ulInactive.innerHTML = '';
         liInactive.forEach(li => ulInactive.appendChild(li));
         ulInactiveParent.appendChild(ulInactive);
         viewDisabled();
         wait.hide();
-        return dialog.show({
-            text: chrome.i18n.getMessage('friendship_disabledaccountsdetected'),
+        dialog.show({
+            text: chrome.i18n.getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' : 'friendship_disabledaccountsdetected') + '\n' + chrome.i18n.getMessage('friendship_unfriendinfo'),
             style: [Dialog.OK]
         }, viewDisabled);
+        return;
     }
     return window.close();
 }
@@ -71,6 +75,7 @@ function collectStandard() {
     var handler = null;
     var countStop = 0;
     var count = 0;
+    var unmatchedList = unmatched.split(',');
 
     handler = setInterval(capture, 500);
 
@@ -103,6 +108,7 @@ function collectStandard() {
                             name: item.innerText,
                             uri: uri
                         });
+                        flag = unmatchedList.includes(id);
                     } else if ((d = item.getAttribute('ajaxify')) && d.indexOf('/inactive/') >= 0 && (id = getId(d))) {
                         count++;
                         addFriend({

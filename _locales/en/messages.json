@@ -697,7 +697,13 @@
         "message": "Account is disabled"
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Disabled accounts were detected.\nYou can unfriend them from this page.\n\nPlease be aware that Facebook accounts may be temporary disabled and may be enabled at a later moment."
+        "message": "Disabled accounts were detected."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Disabled and/or unmatched accounts were detected."
+    },
+    "friendship_unfriendinfo": {
+        "message": "You can unfriend them from this page.\n\nPlease be aware that Facebook accounts may be temporary disabled and may be enabled at a later moment."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ \"ghost\" friends were detected.\nWould you like to remove them now?",
@@ -820,6 +826,12 @@
     },
     "friendship_collectstandardinfo": {
         "message": "This method is reliable, but very slow (it may take several minutes)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Unmatched"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "This method is the same as the 'Standard' method, but it will not collect friends.\nInstead, it will show you all currently unmatched friends, so you can manually unfriend them."
     },
     "friendship_collectalternate": {
         "message": "Alternate"

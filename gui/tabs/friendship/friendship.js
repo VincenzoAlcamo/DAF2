@@ -112,8 +112,13 @@ function getNeighboursAsNotMatched() {
     return notmatched;
 }
 
+function getUnmatched() {
+    return Object.values(bgp.Data.friends).filter(friend => friend.score == 0).map(friend => friend.id);
+}
+
 function showCollectDialog() {
     var ghost = getRemoveGhosts();
+    let numUnmatched = getUnmatched().length;
 
     function addAlternateSettings() {
         var extra = HtmlBr `<br>${gui.getMessage('friendship_collectghostdelete')} <select name="ghost">`;
@@ -125,10 +130,11 @@ function showCollectDialog() {
 
     function button(method) {
         var msgId = 'friendship_collect' + method;
-        var htm = HtmlBr `<tr>
+        var htm = HtmlBr `<tr style="border-top:2px solid rgba(0,0,0,0.2)">
 <td style="text-align:right"><button value="${method}">${gui.getMessage(msgId)}</button></td>
 <td>${gui.getMessage(msgId + 'info')}
 ${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
+${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
 ${method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
 ${method == 'alternate' ? addAlternateSettings() : ''}
 </td></tr>`;
@@ -148,16 +154,18 @@ ${method == 'alternate' ? addAlternateSettings() : ''}
         html: HtmlBr `${gui.getMessage('friendship_collectpreamble')}
 <table style="margin-top:16px">
 ${button('standard')}
+${button('unmatched')}
 ${numFriends > 0 ? button('match') : ''}
 </table>`,
-        style: ['standard', 'alternate', 'both', 'match', Dialog.CANCEL]
+        style: ['standard', 'unmatched', 'alternate', 'both', 'match', Dialog.CANCEL]
     }, function(method, params) {
         setNewGhost(params);
-        if (method == 'standard' || method == 'alternate' || method == 'both' || method == 'match') {
+        if (method == 'standard' || method == 'unmatched' || method == 'alternate' || method == 'both' || method == 'match') {
             gui.dialog.show({
                 title: gui.getMessage('friendship_collect'),
                 html: HtmlBr `<p style="text-align:left">${gui.getMessage('friendship_collect' + method + 'info')}
 ${method == 'both' || method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
+${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
 ${method == 'both' || method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
 </p>
 ${method == 'both' || method == 'alternate' ? addAlternateSettings() : ''}
@@ -166,7 +174,7 @@ ${method == 'both' || method == 'alternate' ? addAlternateSettings() : ''}
             }, function(confirmation, params) {
                 if (method == 'alternate' || method == 'both') setNewGhost(params);
                 if (confirmation != Dialog.CONFIRM) return;
-                if (method == 'standard' || method == 'alternate' || method == 'both') collectFriends(method);
+                if (method == 'standard' || method == 'alternate' || method == 'both' || method == 'unmatched') collectFriends(method);
                 else if (method == 'match') matchStoreAndUpdate();
             });
         }
@@ -269,8 +277,9 @@ function onInput(event) {
 }
 
 function collectFriends(method) {
-    var width = 1000,
-        height = 500;
+    let width = 1000;
+    let height = 500;
+    let unmatched = method == 'unmatched' ? getUnmatched().join() : '';
     chrome.windows.create({
         width: width,
         height: height,
@@ -291,7 +300,7 @@ function collectFriends(method) {
             details.file = '/inject/collectfriends.js';
             chrome.tabs.executeScript(tabId, details, function() {
                 delete details.file;
-                details.code = `collectMethod="${method}";removeGhosts=${getRemoveGhosts()};collect();`;
+                details.code = `unmatched=${JSON.stringify(unmatched)};collectMethod=${JSON.stringify(method)};removeGhosts=${JSON.stringify(getRemoveGhosts())};collect();`;
                 chrome.tabs.executeScript(tabId, details, function() {});
             });
         });
