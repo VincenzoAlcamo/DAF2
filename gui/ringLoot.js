@@ -10,7 +10,7 @@ function ringLoot(kind) {
         floors = [880, 1717, 1718];
         tokenId = 1642;
     } else if (kind == 'green') {
-        floors = [185, 1535, 1932, 2193];
+        floors = [185, 1535, 1932, 2193, 2530];
         tokenId = 32;
     } else throw 'Invalid kind "' + kind + '"';
 
@@ -36,7 +36,7 @@ function ringLoot(kind) {
             let mine = getMine(lid);
             let htm = '';
             htm += Html.br `<input type="checkbox" id="loot_${lid}">`;
-            htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getRegionImg(mine.region_id)}<span>${gui.getString(mine.name_loc)}</span></label>`;
+            htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html `<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
             htm += Html.br `<div></div>`;
             let div = document.createElement('div');
             div.className = 'card rings';
