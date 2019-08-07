@@ -139,7 +139,11 @@
   background-position: -1px -12px;
 }
 
-.progress_table td.filter.father,
+.progress_table td.filter.father {
+  background-size: auto 28px;
+  background-position: 10px 1px;
+}
+
 .progress_table td.filter.main {
   background-size: auto 30px;
   background-position: 12px 0px;
