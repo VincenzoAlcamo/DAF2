@@ -178,7 +178,7 @@ function update() {
         let eid = +sale.event_id || 0;
         let erid = +sale.event_region_id || 0;
         let hide = +sale.hide;
-        if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
+        if (eid && (!(eid in events) || (erid != events[eid] && erid != 0))) hide = 1;
         if (hide && (item.sale_id || !item.owned)) continue;
         setItem(item, hide, sale, 'sale', eid, erid, +sale.level);
     }
