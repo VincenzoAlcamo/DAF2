@@ -506,74 +506,70 @@ function getOutlinedText(text) {
     return Html.br `<span class="outlined-text">${text}</span>`;
 }
 
+function getOfferItem(item) {
+    let copy = {};
+    copy.type = item.type;
+    copy.oid = +item.object_id;
+    copy.amount = +item.amount;
+    copy.portal = +item.portal;
+    copy.sort = copy.value = 0;
+    let obj = copy.obj = (copy.type == 'building' || copy.type == 'material' || copy.type == 'usable') ? gui.getObject(copy.type, copy.oid) : null;
+    if (copy.type == 'building' && obj) {
+        let cap = +obj.max_stamina;
+        let reg = +obj.stamina_reg;
+        let img = 'camp_capacity';
+        if (cap) {
+            copy.kind = 'capacity';
+            copy.value = cap;
+            copy.sort = 2;
+            copy.title = gui.getMessage('camp_capacity');
+        } else {
+            copy.kind = 'regen';
+            copy.value = reg;
+            copy.sort = 1;
+            copy.title = gui.getMessage('camp_regen');
+            img = 'camp_energy';
+        }
+        copy.caption = Html `${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" src="/img/gui/${img}.png">`;
+        copy.width = +obj.columns;
+        copy.height = +obj.rows;
+    } else if (copy.type == 'material' && obj) {
+        if (copy.oid == 2) {
+            copy.kind = 'gem';
+            copy.sort = 0;
+            copy.title = gui.getObjectName(copy.type, copy.oid);
+        } else {
+            copy.kind = 'material';
+            copy.sort = 3;
+            copy.title = gui.getString('GUI0010');
+        }
+        copy.value = copy.amount;
+        copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
+    } else if (copy.type == 'usable' && obj) {
+        copy.kind = copy.type;
+        copy.sort = 4;
+        copy.value = +obj.value;
+        let caption = getOutlinedText(Locale.formatNumber(copy.value));
+        if (copy.amount > 1) caption = Html `<span class="qty outlined-text">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
+        copy.caption = caption;
+        copy.title = gui.getString('GUI0008');
+    } else if (copy.type == 'system') {
+        copy.sort = 5;
+        copy.value = copy.oid;
+        copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
+        copy.title = gui.getObjectName(copy.type, copy.oid);
+        copy.kind = copy.oid == 2 ? 'energy' : 'xp';
+    } else {
+        return null;
+    }
+    return copy;
+}
+
 function getPackItems(pack) {
-    let buildings = gui.getFile('buildings');
-    let usables = gui.getFile('usables');
-    let materials = gui.getFile('materials');
     let items = [];
     for (let item of pack.items) {
-        let copy = {};
-        copy.type = item.type;
-        copy.oid = +item.object_id;
-        copy.amount = +item.amount;
-        copy.portal = +item.portal;
-        copy.sort = copy.value = 0;
-        let obj;
-        if (copy.type == 'building') {
-            obj = copy.obj = buildings[copy.oid];
-            if (!obj) continue;
-            let cap = +obj.max_stamina;
-            let reg = +obj.stamina_reg;
-            let img = 'camp_capacity';
-            if (cap) {
-                copy.kind = 'capacity';
-                copy.value = cap;
-                copy.sort = 2;
-                copy.title = gui.getMessage('camp_capacity');
-            } else {
-                copy.kind = 'regen';
-                copy.value = reg;
-                copy.sort = 1;
-                copy.title = gui.getMessage('camp_regen');
-                img = 'camp_energy';
-            }
-            copy.caption = Html `${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" src="/img/gui/${img}.png">`;
-            copy.width = +obj.columns;
-            copy.height = +obj.rows;
-        } else if (copy.type == 'material') {
-            obj = copy.obj = materials[copy.oid];
-            if (!obj) continue;
-            if (copy.oid == 2) {
-                copy.kind = 'gem';
-                copy.sort = 0;
-                copy.title = gui.getObjectName(copy.type, copy.oid);
-            } else {
-                copy.kind = 'material';
-                copy.sort = 3;
-                copy.title = gui.getString('GUI0010');
-            }
-            copy.value = copy.amount;
-            copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
-        } else if (copy.type == 'usable') {
-            obj = copy.obj = usables[copy.oid];
-            if (!obj) continue;
-            copy.kind = copy.type;
-            copy.sort = 4;
-            copy.value = +obj.value;
-            let caption = getOutlinedText(Locale.formatNumber(copy.value));
-            if (copy.amount > 1) caption = Html `<span class="qty outlined-text">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
-            copy.caption = caption;
-            copy.title = gui.getString('GUI0008');
-        } else if (copy.type == 'system') {
-            copy.sort = 5;
-            copy.value = copy.oid;
-            copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
-            copy.title = gui.getObjectName(copy.type, copy.oid);
-            copy.kind = copy.oid == 2 ? 'energy' : 'xp';
-        } else {
-            continue;
-        }
-        items.push(copy);
+        item = getOfferItem(item);
+        if (item) items.push(item);
     }
     items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
     return items;
