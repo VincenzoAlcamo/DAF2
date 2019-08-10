@@ -125,7 +125,7 @@ let gui = {
         let url = bgp.Data.getObjectImage(type, id, small);
         if (!url) return '';
         let title = addTitle != 'none' ? Html ` title="${gui.getObjectName(type, id, addTitle == 'desc')}"` : '';
-        let size = displaySize ? Html ` width="${displaySize}" height="${displaySize}"` : '';
+        let size = displaySize ? Html ` height="${displaySize}"` : '';
         return Html `<img src="${url}"${size}${title}>`;
     },
     getRegionImg: function(rid, forceEgypt = false, size = 32) {
