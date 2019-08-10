@@ -374,7 +374,7 @@ function update() {
                 flagUpdated = true;
                 item.cid = rewardLink.cid;
                 item.cnm = rewardLink.cnm;
-                item.row.cells[5].innerHTML = item.cid ? Html.br `${gui.getFBFriendAnchor(item.cid)}<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a>` : '';
+                item.row.cells[5].innerHTML = item.cid ? Html.br `<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '';
             }
             if (flagUpdated) status = 3;
         } else {
@@ -387,8 +387,9 @@ function update() {
             htm += Html.br `<td><input type="checkbox"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
             htm += Html.br `<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
             htm += Html.br `<td>${materialHTML(item.cmt)}</td>`;
-            if (item.cid) htm += Html.br `<td>${gui.getFBFriendAnchor(item.cid)}<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}</a></td>`;
-            else htm += `<td></td>`;
+            htm += Html.br `<td translate="no">`;
+            if (item.cid) htm += Html.br `<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
+            htm += `</td>`;
             item.row.innerHTML = htm;
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             item.mtx = item.row.cells[4].textContent;

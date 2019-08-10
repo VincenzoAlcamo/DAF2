@@ -102,10 +102,10 @@ let gui = {
     },
     getFBFriendAnchor: function(fb_id, uri) {
         uri = uri || ('https://www.facebook.com/' + fb_id);
-        return Html `<a target="_blank" href="${uri}" class="limit-width">`;
+        return Html `<a target="_blank" href="${uri}" class="limit-width" translate="no">`;
     },
     getFriendAnchor: function(friend) {
-        return Html `<a target="_blank" href="${friend.uri}" title="${friend.name}">`;
+        return Html `<a target="_blank" href="${friend.uri}" translate="no" title="${friend.name}">`;
     },
     getObject: function(type, id) {
         return bgp.Data.getObject(type, id);

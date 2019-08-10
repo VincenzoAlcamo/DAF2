@@ -366,7 +366,7 @@ function updateRow(row) {
         htm += Html.br `<td></td><td></td><td></td><td></td><td>${buttonManual}</td>`;
     }
     if (pal) {
-        let anchor = Html.raw('<a class="no-link">');
+        let anchor = Html.raw('<a class="no-link" translate="no">');
         htm += Html.br `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
         htm += Html.br `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
         htm += Html.br `<td>${Locale.formatNumber(pal.level)}</td>`;
