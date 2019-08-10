@@ -37,3 +37,24 @@
   vertical-align: text-bottom;
   margin-left: 2px;
 }
+
+.events-tooltip {
+  padding: 4px;
+  text-align: center;
+}
+
+.events-tooltip img {
+  max-height: 150px;
+  vertical-align: middle;
+}
+
+.events-tooltip img.full {
+  height: 146px;
+}
+
+.events-tooltip span {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 4px;
+}

@@ -1,4 +1,4 @@
-/*global gui SmartTable Html Locale*/
+/*global gui SmartTable Html Locale Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -34,6 +34,8 @@ function init() {
     smartTable.tbody[0].addEventListener('render', function(event) {
         updateRow(event.target);
     });
+
+    container.addEventListener('tooltip', onTooltip);
 }
 
 function byEvent(list) {
@@ -87,6 +89,11 @@ function update() {
         item.pquest = item.cquest / (item.tquest || 1);
 
         item.materials = materialsByEvent[eid] || [];
+
+        item.img = gui.getObjectImage('event', item.id);
+        if (item.img == '' && item.materials.length == 1) item.img = gui.getObjectImage('material', item.materials[0]);
+        item.img_full = event.mobile_asset;
+        item.img_webgl = event.shelf_graphics;
 
         let achievs = achievementsByEvent[eid] || [];
         item.tachiev = item.cachiev = 0;
@@ -224,8 +231,7 @@ function updateRow(row) {
     let id = row.getAttribute('data-eid');
     let item = allEvents[id];
     let htm = '';
-    let img = gui.getObjectImg('event', item.id, 32, false, true);
-    if (img == '' && item.materials.length == 1) img = gui.getObjectImg('material', item.materials[0], 32, false);
+    let img = item.img && Html `<img src="${item.img}" title="${item.name}" style="height:32px" class="tooltip-event">`;
     htm += Html.br `<td>${img}</td>`;
     htm += Html.br `<td colspan="2">${item.name}<div class="year">${item.year ? Locale.formatYear(item.year) : ''}</div></td>`;
     if (item.gems) {
@@ -265,4 +271,22 @@ function updateRow(row) {
     }
     htm += Html.br `</td>`;
     row.innerHTML = htm;
+}
+
+function onTooltip(event) {
+    let element = event.target;
+    element.removeAttribute('title');
+    let eid = parseInt(element.parentNode.parentNode.getAttribute('data-eid'));
+    let item = allEvents[eid];
+    let img1 = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_events/' + item.img_webgl + '.png';
+    let img2 = item.img_full == 'default' ? '' : gui.getGenerator().cdn_root + 'mobile/graphics/all/' + item.img_full + '.png';
+    let img = item.img_missing ? img2 : img1;
+    let imgFull = img && Html `<img src="${img}" class="full">`;
+    let htm = Html.br `<div class="events-tooltip"><img src="${item.img}"}" class="outlined"/>${imgFull}<span>${item.name}</span></div>`;
+    Tooltip.show(element, htm, 'e');
+    if (img == img1) Tooltip.tip.querySelector('img.full').addEventListener('error', function() {
+        if (img2) this.src = img2;
+        else this.style.display = 'none';
+        item.img_missing = true;
+    });
 }
