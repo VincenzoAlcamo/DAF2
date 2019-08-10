@@ -94,6 +94,8 @@ function update() {
         if (item.img == '' && item.materials.length == 1) item.img = gui.getObjectImage('material', item.materials[0]);
         item.img_full = event.mobile_asset;
         item.img_webgl = event.shelf_graphics;
+        // this will force the use of img_full instead of img_webgl
+        item.img_missing = true;
 
         let achievs = achievementsByEvent[eid] || [];
         item.tachiev = item.cachiev = 0;
