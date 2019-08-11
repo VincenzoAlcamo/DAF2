@@ -210,14 +210,6 @@ var Tab = {
                 hostEquals: 'www.facebook.com',
                 pathContains: 'dialog/apprequests',
                 queryContains: 'app_id=146595778757295'
-            // }, {
-            //     hostEquals: 'www.facebook.com',
-            //     pathContains: 'dialog/feed',
-            //     queryContains: 'app_id=470178856367913'
-            // }, {
-            //     hostEquals: 'www.facebook.com',
-            //     pathContains: 'dialog/feed',
-            //     queryContains: 'app_id=146595778757295'
             }]
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
@@ -704,6 +696,7 @@ var Data = {
         };
         Data.rewardLinksHistory = [];
         Data.rewardLinksRecent = {}; // stored in-memory only
+        Data.gcInfo = {};
         Data.localization = {};
         Data.localization.cache = {};
         Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
@@ -712,6 +705,9 @@ var Data = {
         });
         tx.objectStore('Files').get('localization').then(file => {
             Data.storeLocalization(file);
+        });
+        tx.objectStore('Files').get('gcInfo').then(file => {
+            Data.gcInfo = file.data;
         });
         tx.objectStore('Neighbours').getAll().then(values => {
             values.forEach(pal => {
@@ -978,6 +974,18 @@ var Data = {
             let time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
             if (time > getUnixTime()) return time;
         }
+    },
+    savegcInfoHandler: 0,
+    savegcInfo: function() {
+        if (Data.savegcInfoHandler) clearTimeout(Data.savegcInfoHandler);
+        Data.savegcInfoHandler = setTimeout(function() {
+            Data.savegcInfoHandler = 0;
+            let file = {};
+            file.id = 'gcInfo';
+            file.data = Data.gcInfo;
+            let tx = Data.db.transaction('Files', 'readwrite');
+            tx.objectStore('Files').put(file);
+        }, 10000);
     },
     //#endregion
     //#region Friends
@@ -1437,6 +1445,29 @@ var Synchronize = {
                     changed = true;
                 }
                 if (changed) Data.saveNeighbour(pal);
+
+                // GC
+                if (Array.isArray(camp.children)) {
+                    let children = [];
+                    for (let child of camp.children) {
+                        let amount = +child.amount;
+                        if (amount > 5) break;
+                        let id = +child.def_id;
+                        while ((amount--) > 0) children.push(id);
+                    }
+                    if (children.length == 5) {
+                        // Store value
+                        children.sort((a, b) => a - b);
+                        let byRegion = Data.gcInfo[pal.region];
+                        if (!byRegion) byRegion = Data.gcInfo[pal.region] = {};
+                        let info = {};
+                        info.l = pal.level;
+                        info.t = camp.time;
+                        info.c = children;
+                        byRegion[info.l] = info;
+                        Data.savegcInfo();
+                    }
+                }
             }
             Synchronize.signal(action, neighbourId);
         },
