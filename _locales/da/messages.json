@@ -686,7 +686,13 @@
         "message": "Kontoen er deaktiveret"
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Der blev fundet deaktiverede konti.\nDu kan fravælge dem på denne side.\n\nVær opmærksom på at Facebook konti kan være midlertidigt deaktiveret og kan blive aktiveret på et senere tidspunkt."
+        "message": "Der blev fundet deaktiverede konti."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Deaktiverede og/eller ikke sammenlignede konti blev fundet."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Du kan fravælge dem på denne side.\n\nVær opmærksom på at Facebook konti kan være midlertidigt deaktiveret og kan blive aktiveret på et senere tidspunkt."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ \"ghost\" venner blev fundet.\nVil du slette dem nu?",
@@ -809,6 +815,12 @@
     },
     "friendship_collectstandardinfo": {
         "message": "Denne metode er troværdig, men meget langsom (det kan tage adskillige minutter)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Ikke sammenlignede"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Denne metode er den samme som Standard metoden, men vil ikke indhente venner.\nI stedet vil den vise dig alle nuværende ikke sammenlignede venner, så du manuelt kan fravælge dem."
     },
     "friendship_collectalternate": {
         "message": "Alternativ"

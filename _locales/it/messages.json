@@ -686,7 +686,13 @@
         "message": "L'account è disabilitato"
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Sono stati rilevati dei profili disabilitati.\nPuoi togliergli l'amicizia da questa pagina.\n\nTieni presente che gli account Facebook possono essere temporaneamente disabilitati e possono essere abilitati in un momento successivo."
+        "message": "Sono stati rilevati dei profili disabilitati."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Sono stati rilevati dei profili disabilitati e/o non abbinati."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Puoi togliergli l'amicizia da questa pagina.\n\nTieni presente che gli account Facebook possono essere temporaneamente disabilitati e possono essere abilitati in un momento successivo."
     },
     "friendship_ghostfriendsdetected": {
         "message": "Sono stati rilevati $NUM$ amici \"fantasmi\".\nVuoi rimuoverli adesso?",
@@ -809,6 +815,12 @@
     },
     "friendship_collectstandardinfo": {
         "message": "Questo metodo è affidabile, ma molto lento (può impiegare diversi minuti)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Non abbinati"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Questo metodo è identico al metodo 'Standard', ma non collezionerà gli amici.\nInvece, verrano mostrati tutti gli amici attualmente non abbinati, in modo da poter rimuovere l'amicizia manualmente."
     },
     "friendship_collectalternate": {
         "message": "Alternativo"

@@ -686,7 +686,13 @@
         "message": "Cuenta desactivada"
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Cuenta desactivada detectada\nPuedes eliminar amigo desde esta pagina\n\nTenga en cuenta que las cuentas de Facebook pueden estar deshabilitadas temporalmente y pueden habilitarse en un momento posterior."
+        "message": "Cuenta desactivada detectada"
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Se detectaron cuentas de movilidad y / o sin competencia."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Puedes eliminar amigo desde esta pagina\n\nTenga en cuenta que las cuentas de Facebook pueden estar deshabilitadas temporalmente y pueden habilitarse en un momento posterior."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ amigos \"fantasmas\" fueron detectados.\n¿Te gustaría eliminarlos ahora?",
@@ -809,6 +815,12 @@
     },
     "friendship_collectstandardinfo": {
         "message": "Este método es confiable, pero muy lento (puede tardar varios minutos)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Sin par"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Este método es el mismo que el método 'estándar', pero no recogerá amigos.\nEn su lugar, se le mostrará todos los amigos: Actualmente sin igual, por lo que les puede unfriend manualmente."
     },
     "friendship_collectalternate": {
         "message": "Alternativo"

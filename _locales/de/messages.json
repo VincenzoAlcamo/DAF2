@@ -66,13 +66,13 @@
         "message": "Name"
     },
     "gui_region_required": {
-        "message": "Region\nerforderlich"
+        "message": "Region\nErforderlich"
     },
     "gui_theme_required": {
         "message": "Region/Motiv\nErforderlich"
     },
     "gui_level_required": {
-        "message": "Level\nRequired"
+        "message": "Level\nErforderlich"
     },
     "gui_qty_required": {
         "message": "Menge\nErforderlich"
@@ -686,7 +686,13 @@
         "message": "Das Profil ist deaktiviert."
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Es wurden deaktivierte Konten gefunden.\nDu kannst sie von dieser Seite aus entfreunden.\n\nBitte beachte, dass Facebook-Konten vorübergehend deaktiviert und zu einem späteren Zeitpunkt aktiviert werden können."
+        "message": "Es wurden deaktivierte Konten gefunden."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Deaktivierte und/oder nicht übereinstimmende Benutzerkonten wurden erkannt."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Du kannst sie von dieser Seite aus entfreunden.\n\nBitte beachte, dass Facebook-Konten vorübergehend deaktiviert und zu einem späteren Zeitpunkt aktiviert werden können."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ \"Geisterfreunde\" wurden entdeckt.\nMöchtest du sie jetzt entfernen?",
@@ -697,7 +703,7 @@
         }
     },
     "friendship_collectalternatewait": {
-        "message": "Freundschaftsliste abrufen...."
+        "message": "Freundschaftsliste abrufen ..."
     },
     "friendship_ghostfriendremoving": {
         "message": "Entfernen von \"Geisterfreunden\" ($NUM$ / $TOTAL$)",
@@ -809,6 +815,12 @@
     },
     "friendship_collectstandardinfo": {
         "message": "Diese Methode ist zuverlässig, aber sehr langsam (es kann einige Minuten dauern)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Nicht übereinstimmend"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Diese Methode ist die gleiche wie die 'Standard'-Methode, aber sie sammelt keine Freunde.\nStattdessen zeigt es alle derzeit ungleichen Freunde an, so dass sie manuell entfreundet werden können."
     },
     "friendship_collectalternate": {
         "message": "Alternativ"
@@ -1329,7 +1341,7 @@
         "message": "Erledigt"
     },
     "events_total": {
-        "message": "Summe"
+        "message": "Gesamt"
     },
     "events_medal": {
         "message": "Auszeichnung"

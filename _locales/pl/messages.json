@@ -686,7 +686,13 @@
         "message": "Konto jest nieaktywne"
     },
     "friendship_disabledaccountsdetected": {
-        "message": "Nieaktywne konta zostały wykryte.\nMożesz je usunąć z tej strony.\n\nPamiętaj, że konto Facebook może być tymczasowo wyłączone i mogą\nzostać włączone w późniejszym czasie."
+        "message": "Niedostępne konta zostały wykryte."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Niedostępne i/lub niedopasowane konta zostały wykryte."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Możesz usunąć ich ze znajomych z tej strony.\n\nNależy pamiętać, że konta na Facebooku mogą być tymczasowo zablokowane i mogą zostać włączone w późniejszym czasie."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ \"znajomych-duchów\" zostało wykrytych.\nCzy chcesz ich teraz usunąć?",
@@ -809,6 +815,12 @@
     },
     "friendship_collectstandardinfo": {
         "message": "Ta metoda jest niezawodna, ale bardzo wolna (może potrwać kilka minut)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Niedopasowany"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Ta metoda jest taka sama jak metoda \"Standardowa\", ale nie będzie kolekcjonować przyjaciół.\nZamiast tego pokaże ci aktualnie niedopasowanych przyjaciół, więc możesz ich usunąć ręcznie."
     },
     "friendship_collectalternate": {
         "message": "Alternatywna"
