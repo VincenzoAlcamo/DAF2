@@ -617,17 +617,17 @@ function regionMineValid(mine) {
     if (!mineValid(mine, false)) return false;
 
     if (mine.filter == 'test' || mine.name_loc == 'TEST' /*|| mine.map == 86 || mine.map == 87 || mine.map == 88*/ ) return false;
-    if (+mine.region_id == 1) {
-        var lid = mine.def_id;
-        if (mine.name_loc == 'LONA203' || lid == 1642 || lid == 1643 || lid == 29) return false;
-        var loc_prog = gui.getGenerator().loc_prog;
-        if (lid == 33 && loc_prog.hasOwnProperty(289)) return false;
-        if (lid == 289 && loc_prog.hasOwnProperty(33)) return false;
-        if (lid == 34 && loc_prog.hasOwnProperty(292)) return false;
-        if (lid == 292 && loc_prog.hasOwnProperty(34)) return false;
-        if (lid == 37 && loc_prog.hasOwnProperty(293)) return false;
-        if (lid == 293 && loc_prog.hasOwnProperty(37)) return false;
-    }
+    let lid = mine.def_id;
+    if (mine.name_loc == 'LONA203' || lid == 1642 || lid == 1643 || lid == 29) return false;
+    let loc_prog = gui.getGenerator().loc_prog;
+    if (lid == 33 && loc_prog.hasOwnProperty(289)) return false;
+    if (lid == 289 && loc_prog.hasOwnProperty(33)) return false;
+    if (lid == 34 && loc_prog.hasOwnProperty(292)) return false;
+    if (lid == 292 && loc_prog.hasOwnProperty(34)) return false;
+    if (lid == 37 && loc_prog.hasOwnProperty(293)) return false;
+    if (lid == 293 && loc_prog.hasOwnProperty(37)) return false;
+    if (lid == 356 && loc_prog.hasOwnProperty(2390)) return false;
+    if (lid == 2390 && loc_prog.hasOwnProperty(356)) return false;
     return true;
 }
 
