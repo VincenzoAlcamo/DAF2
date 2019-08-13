@@ -358,18 +358,27 @@ let gui = {
                     start: start,
                     finish: finish
                 };
+                if (item.type == 'double_drop') {
+                    item.type = 'refresh_drop';
+                    item.coeficient = 2;
+                }
                 result.items.push(item);
                 result.types[item.type] = item;
-                let percent = 0;
-                if (item.type == 'debris_discount') percent = 100 - Math.round(item.coeficient * 100);
-                item.name = gui.getMessage('specialweek_' + item.type, percent);
+                if (item.type == 'debris_discount') {
+                    let percent = 100 - Math.round(item.coeficient * 100);
+                    item.name = gui.getMessage('specialweek_' + item.type, percent);
+                } else if (item.type == 'refresh_drop') {
+                    item.name = `${gui.getMessage('specialweek_double_drop')} (${gui.getMessage('gui_loot')} \xd7 ${Locale.formatNumber(item.coeficient)})`;
+                } else {
+                    item.name = gui.getMessage('specialweek_' + item.type);
+                }
                 item.ends = gui.getMessage('specialweek_end', Locale.formatDateTime(item.finish));
             }
         }
         result.debrisDiscount = result.types['debris_discount'];
         result.doubleProduction = result.types['production'];
         result.halfTimeProduction = result.types['half_prod_time'];
-        result.doubleDrop = result.types['double_drop'];
+        result.refreshDrop = result.types['refresh_drop'];
         result.postcards = result.types['postcards'];
         result.gifts = result.types['gifts'];
         return result;
