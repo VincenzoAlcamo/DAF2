@@ -4,7 +4,6 @@ export default {
     init: init,
     onPrefChange: prefChange,
     update: update,
-    // requires: ['childs'],
     actions: {
         'friend_child_charge': actionFriendChildCharge
     }
@@ -48,42 +47,7 @@ function update() {
         div.appendChild(document.createElement('div')).textContent = pal.name || 'Player ' + pal.id;
     }
     updateStatus();
-
-    // console.log(getOptimizedGCInfo());
 }
-
-// function getGCStamina() {
-//     let childs = bgp.Data.files.childs;
-//     let result = {};
-//     if (childs) {
-//         for (let child of Object.values(childs)) {
-//             let stamina = +child.friend_stamina;
-//             if (stamina > 0) result[child.def_id] = stamina;
-//         }
-//     }
-//     return result;
-// }
-
-// function getOptimizedGCInfo() {
-//     let gcStamina = getGCStamina();
-//     let gcInfo = bgp.Data.gcInfo;
-//     console.log(JSON.stringify(gcInfo).length);
-//     let result = {};
-//     for (let rid of Object.keys(gcInfo)) {
-//         let list = Object.values(gcInfo[rid]);
-//         list.sort((a, b) => a.l - b.l);
-//         let map = result[rid] = {};
-//         for (let info of list) {
-//             if (info.l == 1) continue;
-//             info = Object.assign({}, info);
-//             info.s = info.c.reduce((a, v) => a + gcStamina[v], 0);
-//             info.dt = Locale.formatDateTime(info.t);
-//             map[info.l] = info;
-//         }
-//     }
-//     console.log(JSON.stringify(result).length);
-//     return result;
-// }
 
 function updateStatus() {
     var num = gcTable.childNodes.length;

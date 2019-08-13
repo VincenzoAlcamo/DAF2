@@ -696,7 +696,6 @@ var Data = {
         };
         Data.rewardLinksHistory = [];
         Data.rewardLinksRecent = {}; // stored in-memory only
-        // Data.gcInfo = {};
         Data.localization = {};
         Data.localization.cache = {};
         Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
@@ -704,7 +703,6 @@ var Data = {
             for (let file of values) {
                 if (file.id == 'generator') Data.generator = file.data || {};
                 if (file.id == 'localization') Data.storeLocalization(file);
-                // if (file.id == 'gcInfo') Data.gcInfo = file.data;
                 if (file.id == 'gcInfo') Data.removegcInfo();
             }
         });
@@ -974,18 +972,6 @@ var Data = {
             if (time > getUnixTime()) return time;
         }
     },
-    // savegcInfoHandler: 0,
-    // savegcInfo: function() {
-    //     if (Data.savegcInfoHandler) clearTimeout(Data.savegcInfoHandler);
-    //     Data.savegcInfoHandler = setTimeout(function() {
-    //         Data.savegcInfoHandler = 0;
-    //         let file = {};
-    //         file.id = 'gcInfo';
-    //         file.data = Data.gcInfo;
-    //         let tx = Data.db.transaction('Files', 'readwrite');
-    //         tx.objectStore('Files').put(file);
-    //     }, 10000);
-    // },
     removegcInfo: function() {
         let tx = Data.db.transaction('Files', 'readwrite');
         tx.objectStore('Files').delete('gcInfo');
@@ -1448,29 +1434,6 @@ var Synchronize = {
                     changed = true;
                 }
                 if (changed) Data.saveNeighbour(pal);
-
-                // GC
-                // if (neighbourId != 1 && Array.isArray(camp.children)) {
-                //     let children = [];
-                //     for (let child of camp.children) {
-                //         let amount = +child.amount;
-                //         if (amount > 5) break;
-                //         let id = +child.def_id;
-                //         while ((amount--) > 0) children.push(id);
-                //     }
-                //     if (children.length == 5) {
-                //         // Store value
-                //         children.sort((a, b) => a - b);
-                //         let byRegion = Data.gcInfo[pal.region];
-                //         if (!byRegion) byRegion = Data.gcInfo[pal.region] = {};
-                //         let info = {};
-                //         info.l = pal.level;
-                //         info.t = camp.time;
-                //         info.c = children;
-                //         byRegion[info.l] = info;
-                //         Data.savegcInfo();
-                //     }
-                // }
             }
             Synchronize.signal(action, neighbourId);
         },
