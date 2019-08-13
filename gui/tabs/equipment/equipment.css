@@ -101,6 +101,10 @@ div.equipment_mask {
   zoom: 0.8;
 }
 
+.equipment_pack .row {
+  clear: both;
+}
+
 .equipment_pack .item .title {
   padding: 1px 2px;
   width: 120px;
@@ -140,6 +144,11 @@ div.equipment_mask {
 
 .equipment_pack .item.material .title {
   background-color: #6BC;
+}
+
+.equipment_pack .item.token .title,
+.equipment_pack .item.decoration .title {
+  background-color: #EFE;
 }
 
 .equipment_pack .item .bonus {
