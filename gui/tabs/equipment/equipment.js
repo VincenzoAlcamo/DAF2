@@ -643,7 +643,7 @@ function showPacks(packId) {
         } else {
             selected = rid ? list.filter(p => p.rid == rid) : list;
         }
-        let result = '';
+        let result = [];
         let prev = {};
         for (let pack of selected) {
             let items = getPackItems(pack);
@@ -651,25 +651,43 @@ function showPacks(packId) {
             let htm = '';
             let pre = '';
             if (rid == -1) {
-                pre += Html.br `<div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div>`;
+                pre += Html.br `<td><div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div></td>`;
             }
             if (pid == 0) {
-                pre += Html.br `<div class="item section">${getOutlinedText(pack.priceText)}</div>`;
+                pre += Html.br `<td><div class="item section">${getOutlinedText(pack.priceText)}</div></td>`;
             }
-            for (let item of items) {
-                htm += Html.br `<div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
+            items.forEach((item, index) => {
+                htm += Html.br `<td><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
                 htm += Html.br `<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
                 htm += Html.br `<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
                 if (item.type == 'building') htm += Html.br `<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
                 if (item.portal) htm += Html.br `<div class="bonus">${getOutlinedText('PORTAL\nBONUS')}</div>`;
                 htm += Html.br `<div class="caption"><div>${item.caption}</div></div>`;
-                htm += Html.br `</div>`;
-            }
+                htm += Html.br `</div></td>`;
+                if (!pre && index == 2 && items.length >= 5) htm += `</tr><tr>`;
+            });
             if (htm in prev) continue;
             prev[htm] = true;
-            result += `<div class="row">` + pre + htm + `</div>`;
+            result.push(`<table><tr>${pre + htm}</tr></table>`);
         }
-        return Html.raw(result);
+        let len = result.length;
+        let rows = len || 1;
+        let columns = 1;
+        if (len > 6) {
+            rows = Math.ceil(rows / 2);
+            columns = 2;
+        }
+        let htm = `<div class="equipment_pack${columns > 1 ? ' mini' : (len > 3 ? ' compact' : '')}"><table>`;
+        for (let row = 0; row < rows; row++) {
+            htm += `<tr>`;
+            for (let col = 0; col < columns; col++) {
+                let index = col * rows + row;
+                htm += `<td${col > 0 ? ' class="additional"' : ''}>${index >= len ? '' : result[index]}</td>`;
+            }
+            htm += `</tr>`;
+        }
+        htm += `</table></div>`;
+        return htm;
     }
 
     let htm = '';
@@ -684,7 +702,7 @@ function showPacks(packId) {
     }
     htm += Html.br `${gui.getMessage('gui_cost')} <select name="pid" data-method="pid" style="margin-bottom:2px">${getPriceOptions(rid, packId)}</select>`;
     htm += Html.br `<br>`;
-    htm += Html.br `<div class="equipment_pack">${getPackDetails(rid, packId)}</div>`;
+    htm += getPackDetails(rid, packId);
 
     gui.dialog.show({
         title: gui.getString(pack.name_loc),
@@ -705,8 +723,7 @@ function showPacks(packId) {
         }
         if (method == 'region' || method == 'pid') {
             let container = gui.dialog.element.querySelector('.equipment_pack');
-            container.classList.toggle('compact', +params.region == -1 || +params.pid == 0);
-            container.innerHTML = getPackDetails(+params.region, +params.pid);
+            container.outerHTML = getPackDetails(+params.region, +params.pid);
         }
     });
 }

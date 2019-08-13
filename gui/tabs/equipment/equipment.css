@@ -76,13 +76,20 @@ div.equipment_mask {
 .equipment_pack {
   margin-top: 4px;
   display: inline-block;
-  max-width: 372px;
   max-height: calc(100vh - 200px);
+  max-width: calc(100vw - 32px);
   overflow: auto;
 }
 
-.equipment_pack.compact {
-  max-width: calc(100vw - 32px);
+.equipment_pack table,
+.equipment_pack td {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.equipment_pack td.additional {
+  padding-left: 16px;
 }
 
 .equipment_pack .outlined-text {
@@ -97,12 +104,12 @@ div.equipment_mask {
   cursor: default;
 }
 
-.equipment_pack.compact .item {
-  zoom: 0.8;
+.equipment_pack.mini > table {
+  zoom: 0.7;
 }
 
-.equipment_pack .row {
-  clear: both;
+.equipment_pack.compact > table {
+  zoom: 0.8;
 }
 
 .equipment_pack .item .title {
@@ -232,6 +239,8 @@ div.equipment_mask {
   padding: 4px;
   display: grid;
   background-color: rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 110px;
 }
 
 .equipment_pack .item.section span {
