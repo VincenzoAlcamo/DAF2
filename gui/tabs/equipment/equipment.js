@@ -5,7 +5,7 @@ export default {
     update: update,
     getState: getState,
     setState: setState,
-    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables']
+    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens']
 };
 
 let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, checkHideMax, selectType, searchInput, searchHandler, allBuildings;
