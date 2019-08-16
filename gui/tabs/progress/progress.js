@@ -614,20 +614,18 @@ function regionMineValid(mine) {
     // Prison,        OLD: 34, NEW: 292
     // Stone Pit,     OLD: 37, NEW: 293
     //
+    // Scandinavia, Main
+    // Snowy Grove (356) / Winter Grove (2390)
+    //
     if (!mineValid(mine, false)) return false;
 
     if (mine.filter == 'test' || mine.name_loc == 'TEST' /*|| mine.map == 86 || mine.map == 87 || mine.map == 88*/ ) return false;
     let lid = mine.def_id;
     if (mine.name_loc == 'LONA203' || lid == 1642 || lid == 1643 || lid == 29) return false;
     let loc_prog = gui.getGenerator().loc_prog;
-    if (lid == 33 && loc_prog.hasOwnProperty(289)) return false;
-    if (lid == 289 && loc_prog.hasOwnProperty(33)) return false;
-    if (lid == 34 && loc_prog.hasOwnProperty(292)) return false;
-    if (lid == 292 && loc_prog.hasOwnProperty(34)) return false;
-    if (lid == 37 && loc_prog.hasOwnProperty(293)) return false;
-    if (lid == 293 && loc_prog.hasOwnProperty(37)) return false;
-    if (lid == 356 && loc_prog.hasOwnProperty(2390)) return false;
-    if (lid == 2390 && loc_prog.hasOwnProperty(356)) return false;
+    let isAlternative = (a, b) => (lid == a && b in loc_prog) || (lid == b && a in loc_prog);
+    if (isAlternative(33, 289) || isAlternative(34, 292) || isAlternative(37, 293)) return false;
+    if (isAlternative(356, 2390)) return false;
     return true;
 }
 
