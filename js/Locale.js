@@ -3,6 +3,7 @@
 const Locale = (function() {
     let localeId;
     let relativeTimeFormat;
+    let listFormat;
 
     function getLocale() {
         return localeId;
@@ -14,9 +15,18 @@ const Locale = (function() {
             numeric: 'auto',
             style: 'narrow'
         });
+        listFormat = new Intl.ListFormat(localeId, {
+            style: 'short',
+            type: 'unit'
+        });
     }
 
     setLocale(chrome.i18n.getUILanguage());
+
+    function formatList(list) {
+        list = list.map(v => (v === null || v === undefined) ? '' : (typeof v == 'string' ? v : String(v)));
+        return listFormat.format(list);
+    }
 
     function formatNumber(value, decimalDigits) {
         let options = undefined;
@@ -38,7 +48,7 @@ const Locale = (function() {
 
     function getFormatter(format) {
         let options = {};
-        for(let c of format.split('')) {
+        for (let c of format.split('')) {
             let name = {
                 y: 'year',
                 m: 'month',
@@ -46,9 +56,9 @@ const Locale = (function() {
                 H: 'hour',
                 M: 'minute',
                 S: 'second'
-            }[c];
-            if(name) options[name] = name == 'month' ? 'short' : 'numeric';
-            if(c == 'H' || c == 'M' || c == 'S') options.hour12 = false;
+            } [c];
+            if (name) options[name] = name == 'month' ? 'short' : 'numeric';
+            if (c == 'H' || c == 'M' || c == 'S') options.hour12 = false;
         }
         return function(value) {
             value = getDate(value);
@@ -73,6 +83,7 @@ const Locale = (function() {
         getMessage: function(id, ...args) {
             return chrome.i18n.getMessage(id, args);
         },
+        formatList: formatList,
         formatNumber: formatNumber,
         getDate: getDate,
         formatDayMonth: getFormatter('md'),
