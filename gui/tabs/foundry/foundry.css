@@ -4,6 +4,7 @@
 .foundry tr td:nth-child(5),
 .foundry tr td:nth-child(6),
 .foundry tr td:nth-child(7),
+.foundry tr td:nth-child(11),
 .foundry tr.ingredient td:nth-child(1) {
   text-align: center;
 }
@@ -16,7 +17,6 @@
 
 .foundry tr td:nth-child(9),
 .foundry tr td:nth-child(10),
-.foundry tr td:nth-child(11),
 .foundry tr.ingredient td:nth-child(3) {
   text-align: right;
 }
