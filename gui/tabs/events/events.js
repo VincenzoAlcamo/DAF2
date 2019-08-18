@@ -135,7 +135,12 @@ function update() {
         item.challenges = xlo.length;
         item.maps = item.locations - item.repeatables - item.challenges;
 
-        if (item.locations && item.tachiev) allEvents[item.id] = item;
+        // If event has no locations, we remove the quests
+        // This should affect only postcard special weeks
+        if (!item.locations) item.tquest = item.cquest = item.pquest = 0;
+
+        // Add the event if it has at least one achievement
+        if (item.tachiev) allEvents[item.id] = item;
     }
 
     selectYear.innerHTML = '';
@@ -243,16 +248,21 @@ function updateRow(row) {
     }
     htm += Html.br `<td class="date">${item.start ? Locale.formatDate(item.start) + '\n' + Locale.formatTime(item.start) : ''}</td>`;
     htm += Html.br `<td class="date">${item.end ? Locale.formatDate(item.end) + '\n' + Locale.formatTime(item.end) : ''}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.cquest)}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.tquest)}</td>`;
-    htm += Html.br `<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
+
+    if (item.tquest) {
+        htm += Html.br `<td>${Locale.formatNumber(item.cquest)}</td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.tquest)}</td>`;
+        htm += Html.br `<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
+    } else {
+        htm += Html.br `<td colspan="3"></td>`;
+    }
 
     if (item.tachiev) {
         htm += Html.br `<td>${Locale.formatNumber(item.cachiev)}</td>`;
         htm += Html.br `<td>${Locale.formatNumber(item.tachiev)}</td>`;
         htm += Html.br `<td><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
     } else {
-        htm += Html.br `<td></td><td></td><td></td>`;
+        htm += Html.br `<td colspan="3"></td>`;
     }
 
     if (item.tcollect) {
@@ -260,13 +270,17 @@ function updateRow(row) {
         htm += Html.br `<td>${Locale.formatNumber(item.tcollect)}</td>`;
         htm += Html.br `<td><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
     } else {
-        htm += Html.br `<td></td><td></td><td></td>`;
+        htm += Html.br `<td colspan="3"></td>`;
     }
 
-    htm += Html.br `<td>${Locale.formatNumber(item.locations)}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.maps)}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.challenges)}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.repeatables)}</td>`;
+    if (item.locations) {
+        htm += Html.br `<td>${Locale.formatNumber(item.locations)}</td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.maps)}</td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.challenges)}</td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.repeatables)}</td>`;
+    } else {
+        htm += Html.br `<td colspan="4"></td>`;
+    }
     htm += Html.br `<td>`;
     for (let matId of item.materials) {
         htm += gui.getObjectImg('material', matId, 32, true, 'desc');
