@@ -26,6 +26,7 @@ let tabs = (function() {
     addTab('foundry');
     addTab('pillars');
     // addTab('locations', false);
+    addTab('repeat');
     addTab('greenrings');
     addTab('redrings');
     addTab('rewardlinks');
@@ -143,12 +144,40 @@ let gui = {
         var rid = bgp.Data.getRegionFromSkin(skin);
         return rid > 0 ? this.getRegionImg(rid, false, size) : Html.br `<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
     },
+    getCurrentTab: function() {
+        return currentTab;
+    },
     getDuration: function(drn, flagReduced) {
+        let ss = Math.floor(drn % 60);
         let mm = Math.floor((drn / 60) % 60);
-        let hh = Math.floor((drn / (60 * 60)) % 24);
-        let dd = Math.floor(drn / (60 * 60 * 24));
-        if (flagReduced && dd > 0) return Locale.formatNumber(dd) + 'd';
-        return `${dd ? Locale.formatNumber(dd) + 'd:' : ''}${(hh < 10 ? '0' : '')+hh}h:${(mm < 10 ? '0' : '')+mm}m`;
+        let hh = Math.floor((drn / 3600) % 24);
+        let dd = Math.floor(drn / 86400);
+        // If duration is in days, minutes are ignored (but added to hours)
+        if (dd > 0) {
+            if (mm >= 30) {
+                hh++;
+                if (hh == 24) {
+                    dd++;
+                    hh = 0;
+                }
+            }
+            mm = ss = 0;
+        }
+        if (flagReduced) {
+            if (dd >= 3) {
+                if (hh >= 12) dd++;
+                hh = mm = ss = 0;
+            } else {
+                hh += dd * 24;
+                dd = mm = ss = 0;
+            }
+        }
+        let list = [];
+        if (dd > 0) list.push(Locale.formatNumber(dd) + 'd');
+        if (hh > 0) list.push(Locale.formatNumber(hh) + 'h');
+        if (mm > 0 || (list.length == 0 && ss == 0)) list.push(Locale.formatNumber(mm) + 'm');
+        if (ss > 0 && list.length == 0) list.push(Locale.formatNumber(ss) + 's');
+        return Locale.formatList(list);
     },
     getArray: function(value) {
         return Array.isArray(value) ? value : [];

@@ -297,6 +297,9 @@
     "tab_events": {
         "message": "Eventi"
     },
+    "tab_repeat": {
+        "message": "Ripetibili"
+    },
     "about_version": {
         "message": "Versione: $VERSION$",
         "placeholders": {
@@ -1369,6 +1372,51 @@
     },
     "events_notdone": {
         "message": "Non fatti"
+    },
+    "repeat_name": {
+        "message": "Nome"
+    },
+    "repeat_region_event": {
+        "message": "Regione / Evento"
+    },
+    "repeat_cooldown": {
+        "message": "Rinfresco"
+    },
+    "repeat_cooldown_time": {
+        "message": "Tempo"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Gemme"
+    },
+    "repeat_reset": {
+        "message": "Azzera"
+    },
+    "repeat_bonus": {
+        "message": "Bonus completamento"
+    },
+    "repeat_progress": {
+        "message": "Progresso"
+    },
+    "repeat_progress_current": {
+        "message": "Mattonelle rotte"
+    },
+    "repeat_progress_total": {
+        "message": "Totale mattonelle"
+    },
+    "repeat_time": {
+        "message": "Tempo prima che la miniera sia di nuovo pronta"
+    },
+    "repeat_show_all": {
+        "message": "Tutte le ripetibili"
+    },
+    "repeat_show_selected": {
+        "message": "Solo le ripetibili selezionate"
+    },
+    "repeat_ready": {
+        "message": "PRONTA"
+    },
+    "repeat_show_ready": {
+        "message": "Pronta?"
     },
     "specialweek_end": {
         "message": "termina il $FINISH$",

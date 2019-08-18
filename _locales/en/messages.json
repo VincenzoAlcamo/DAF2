@@ -301,6 +301,9 @@
     "tab_events": {
         "message": "Events"
     },
+    "tab_repeat": {
+        "message": "Repeatables"
+    },
 
     "about_version": {
         "message": "Version: $VERSION$",
@@ -1387,6 +1390,52 @@
     },
     "events_notdone": {
         "message": "Not done"
+    },
+
+    "repeat_name": {
+        "message": "Name"
+    },
+    "repeat_region_event": {
+        "message": "Region / Event"
+    },
+    "repeat_cooldown": {
+        "message": "Cooldown"
+    },
+    "repeat_cooldown_time": {
+        "message": "Time"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Gems"
+    },
+    "repeat_reset": {
+        "message": "Reset"
+    },
+    "repeat_bonus": {
+        "message": "Completion bonus"
+    },
+    "repeat_progress": {
+        "message": "Progress"
+    },
+    "repeat_progress_current": {
+        "message": "Tiles mined"
+    },
+    "repeat_progress_total": {
+        "message": "Total tiles"
+    },
+    "repeat_time": {
+        "message": "Time when the mine will be ready again"
+    },
+    "repeat_show_all": {
+        "message": "All repeatables"
+    },
+    "repeat_show_selected": {
+        "message": "Selected repeatables only"
+    },
+    "repeat_ready": {
+        "message": "READY"
+    },
+    "repeat_show_ready": {
+        "message": "Ready?"
     },
 
     "specialweek_end": {

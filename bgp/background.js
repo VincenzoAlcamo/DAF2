@@ -1374,12 +1374,12 @@ var Synchronize = {
         if (!posted) return;
 
         let response = responseText && Parser.parse('any', responseText);
-        let time = response && Math.floor(+response.time);
+        Synchronize.time = Math.floor(response ? +response.time : +posted.client_time);
 
         Synchronize.delayedSignals = [];
 
         // un_gift
-        let changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, time);
+        let changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, Synchronize.time);
         Data.saveNeighbour(changed);
 
         // tasks
@@ -1409,13 +1409,27 @@ var Synchronize = {
             }
         }
     },
+    last_lid: 0,
+    setLastLocation: function(lid) {
+        if (lid <= 0) return null;
+        this.last_lid = lid;
+        let loc_prog = Data.generator && Data.generator.loc_prog;
+        if (!loc_prog) return null;
+        let prog = loc_prog[lid];
+        if (!prog) {
+            prog = loc_prog[lid] = {};
+            prog.id = lid;
+            prog.prog = 0;
+        }
+        return prog;
+    },
     handlers: {
-        visit_camp: function(action, _task, taskResponse, response) {
+        visit_camp: function(action, _task, taskResponse, _response) {
             if (!taskResponse || !taskResponse.camp) return;
             let neighbourId = taskResponse.neigh_id;
             let camp = Data.lastVisitedCamp = taskResponse.camp;
             camp.neigh_id = neighbourId;
-            camp.time = Math.floor(+response.time);
+            camp.time = Synchronize.time;
             let pal = Data.getNeighbour(neighbourId);
             if (pal) {
                 let changed = false;
@@ -1437,9 +1451,9 @@ var Synchronize = {
             }
             Synchronize.signal(action, neighbourId);
         },
-        place_windmill: function(action, task, taskResponse, response) {
+        place_windmill: function(action, task, _taskResponse, _response) {
             let neighbourId = task.neigh_id;
-            let time = response && Math.floor(+response.time);
+            let time = Synchronize.time;
             let pal = Data.getNeighbour(neighbourId);
             if (Data.lastVisitedCamp && Data.lastVisitedCamp.neigh_id == neighbourId && pal && time) {
                 let windmills = Data.lastVisitedCamp.windmills;
@@ -1457,8 +1471,32 @@ var Synchronize = {
                 }
             }
         },
+        enter_mine: function(_action, task, taskResponse, _response) {
+            let loc_id = +task.loc_id || 0;
+            let prog = Synchronize.setLastLocation(loc_id);
+            if (taskResponse) {
+                prog.lvl = +taskResponse.level_id;
+                // The reset count will increase when entering a refreshed repeatable
+                let reset = +taskResponse.reset_count;
+                if (reset > prog.reset) {
+                    prog.reset = reset;
+                    prog.cmpl = 0;
+                    prog.prog = 0;
+                }
+            }
+        },
+        speedup_reset: function(_action, task, _taskResponse, _response) {
+            let loc_id = +task.loc_id || 0;
+            let prog = Synchronize.setLastLocation(loc_id);
+            prog.prog = 0;
+        },
+        mine: function(_action, _task, _taskResponse, _response) {
+            let loc_id = Synchronize.last_lid;
+            let prog = Synchronize.setLastLocation(loc_id);
+            prog.prog = (+prog.prog || 0) + 1;
+            prog.time = Synchronize.time;
+        },
         friend_child_charge: function(action, task, _taskResponse, _response) {
-            console.log(...arguments);
             var neighbourId = task.neigh_id;
             var neighbour = Data.getNeighbour(neighbourId);
             if (neighbour && neighbour.spawned) {

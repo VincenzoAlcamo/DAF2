@@ -1,0 +1,94 @@
+.repeat.data td {
+  text-align: center;
+}
+
+.repeat.data td:nth-child(3) {
+  text-align: left;
+}
+
+.repeat input[type=checkbox] {
+  margin: 0px;
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.repeat th.sortable.img {
+  padding-left: 0;
+  padding-right: 16px !important;
+}
+
+.repeat th.img img {
+  width: 16px;
+  height: 16px;
+}
+
+.repeat td.progress {
+  border-right: none;
+  text-align: right;
+}
+
+.repeat td.total {
+  border-left: none;
+  text-align: left;
+  padding-left: 0;
+}
+
+.repeat td.total:before {
+  content: "/ ";
+}
+
+.repeat div.mobile {
+  margin: -2px;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 2px solid transparent;
+}
+
+.repeat div.mobile img {
+  width: 36px;
+  height: 36px;
+  margin-top: -2px;
+  margin-left: -2px;
+}
+
+.repeat td.reset_gems {
+  text-align: right;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.repeat td.bonus {
+  text-align: right;
+}
+
+.repeat .reset_gems img,
+.repeat .bonus img {
+  height: 18px;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+.repeat tr.selected {
+  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.2), rgba(0, 255, 255, 0.1), rgba(255, 255, 128, 0.2)) !important;
+}
+
+.repeat tr.selected div.mobile {
+  border-color: #F00;
+}
+
+.repeat tr.selected.ready div.mobile {
+  border-color: #096;
+}
+
+.repeat tr.ready td.time {
+  font-weight: bold;
+  background-color: var(--success-bgcol);
+  color: var(--success-fgcol);
+}
+
+.repeat tr:not(.ready) td.time {
+  background-color: var(--warn-bgcol);
+  color: var(--warn-fgcol);
+}
