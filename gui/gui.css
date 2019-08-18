@@ -53,6 +53,8 @@ html {
   /* WARNING TEXT */
   --warn-bgcol: #F40;
   --warn-fgcol: #FFF;
+  --success-bgcol: #0A0;
+  --success-fgcol: #FFF;
 }
 
 /*#region GENERAL*/
@@ -106,6 +108,11 @@ a.no-link {
 .warning {
   background-color: var(--warn-bgcol);
   color: var(--warn-fgcol);
+}
+
+.success {
+  background-color: var(--success-bgcol);
+  color: var(--success-fgcol);
 }
 
 /*#endregion*/
