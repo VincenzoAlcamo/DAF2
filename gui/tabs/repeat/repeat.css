@@ -12,7 +12,8 @@
   cursor: pointer;
 }
 
-.repeat th.sortable.img {
+.repeat th.sortable.img,
+.repeat th.sortable.img2 {
   padding-left: 0;
   padding-right: 16px !important;
 }
