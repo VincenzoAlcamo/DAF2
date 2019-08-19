@@ -169,7 +169,7 @@ let gui = {
                 hh = mm = ss = 0;
             } else {
                 hh += dd * 24;
-                dd = mm = ss = 0;
+                dd = 0;
             }
         }
         let list = [];
@@ -198,6 +198,9 @@ let gui = {
     },
     getMaxRegion: function() {
         return bgp.Data.getMaxRegion();
+    },
+    getRepeatables: function() {
+        return bgp.Data.getRepeatables();
     },
     setSelectState: function(select, value, defaultIndex) {
         select.value = value || '';

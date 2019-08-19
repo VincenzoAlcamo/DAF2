@@ -49,7 +49,10 @@ function update() {
     // Find active events
     let activeEvents = {};
     let events = gui.getFile('events');
-    let eventData = gui.getGenerator().events || {};
+    let generator = gui.getGenerator();
+    let eventData = generator.events || {};
+    let eventsRegion = generator.events_region || {};
+    let region = +generator.region;
     let now = gui.getUnixTime();
     for (let event of Object.values(events)) {
         if (!event.name_loc) continue;
@@ -60,8 +63,10 @@ function update() {
         if (end > now) activeEvents[eid] = end;
     }
 
+    // This will refresh the background page Repeatables
+    gui.getRepeatables();
+
     let filters = Object.values(gui.getFile('map_filters')).filter(f => f.mobile_asset == 'materials').map(o => o.filter);
-    let region = +gui.getGenerator().region;
     for (let rid = region; rid >= 0; rid--) {
         let locations = Object.values(gui.getFile('locations_' + rid));
         for (let loc of locations) {
@@ -85,6 +90,14 @@ function update() {
             item.cooldown = +loc.reset_cd;
             item.reset = +loc.reset_gems;
             item.xp = +loc.reward_exp;
+            if (Array.isArray(loc.overrides)) {
+                let rid = region;
+                if (eid in eventsRegion) rid = +eventsRegion[eid];
+                if (rid > region) rid = region;
+                for (let ovr of loc.overrides) {
+                    if (+ovr.region_id == region) item.xp = +ovr.override_reward_exp;
+                }
+            }
             item.gr_library = loc.gr_library;
             item.gr_clip = loc.gr_clip;
             item.mobile_asset = loc.mobile_asset;
@@ -261,7 +274,7 @@ function calculateItem(item, flagRefreshRow) {
             if (item._ready !== item.ready || !item.ready) {
                 if (item._ready !== item.ready) row.classList.toggle('ready', item.ready);
                 item._ready = item.ready;
-                let text = item.ready ? gui.getMessage('repeat_ready') : gui.getDuration(item.time - now);
+                let text = item.ready ? gui.getMessage('repeat_ready') : gui.getDuration(item.time - now, true);
                 if (item._readyText !== text) {
                     row.querySelector('td.time').innerText = item._readyText = text;
                 }
