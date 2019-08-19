@@ -297,6 +297,9 @@
     "tab_events": {
         "message": "Wydarzenia"
     },
+    "tab_repeat": {
+        "message": "Odnawialne"
+    },
     "about_version": {
         "message": "Wersja: $VERSION$",
         "placeholders": {
@@ -1369,6 +1372,51 @@
     },
     "events_notdone": {
         "message": "Nie zrobiony"
+    },
+    "repeat_name": {
+        "message": "Nazwa"
+    },
+    "repeat_region_event": {
+        "message": "Region / Wydarzenie"
+    },
+    "repeat_cooldown": {
+        "message": "Odnowienie"
+    },
+    "repeat_cooldown_time": {
+        "message": "Czas"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Gemy"
+    },
+    "repeat_reset": {
+        "message": "Resetuj"
+    },
+    "repeat_bonus": {
+        "message": "Bonus za ukończenie"
+    },
+    "repeat_progress": {
+        "message": "Postęp"
+    },
+    "repeat_progress_current": {
+        "message": "Kostki wydobyte"
+    },
+    "repeat_progress_total": {
+        "message": "Wszystkich kostek"
+    },
+    "repeat_time": {
+        "message": "Czas kiedy kopalnia będzie ponownie dostępna"
+    },
+    "repeat_show_all": {
+        "message": "Wszytskie odnawialne"
+    },
+    "repeat_show_selected": {
+        "message": "Tylko wybrane odnawialne"
+    },
+    "repeat_ready": {
+        "message": "GOTOWE"
+    },
+    "repeat_show_ready": {
+        "message": "Gotowe?"
     },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",

@@ -297,6 +297,9 @@
     "tab_events": {
         "message": "Events"
     },
+    "tab_repeat": {
+        "message": "Wiederholbare"
+    },
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -959,7 +962,7 @@
         "message": "Erreicht"
     },
     "progress_goal": {
-        "message": "Ziel"
+        "message": "Gesamt"
     },
     "progress_remaining": {
         "message": "Verbleibend"
@@ -1369,6 +1372,51 @@
     },
     "events_notdone": {
         "message": "Noch nicht erledigt"
+    },
+    "repeat_name": {
+        "message": "Name"
+    },
+    "repeat_region_event": {
+        "message": "Region / Event"
+    },
+    "repeat_cooldown": {
+        "message": "Wartezeit"
+    },
+    "repeat_cooldown_time": {
+        "message": "Zeit"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Gems"
+    },
+    "repeat_reset": {
+        "message": "Zurücksetzen"
+    },
+    "repeat_bonus": {
+        "message": "Abschlussbonus"
+    },
+    "repeat_progress": {
+        "message": "Fortschritt"
+    },
+    "repeat_progress_current": {
+        "message": "Abgebaute Fliesen"
+    },
+    "repeat_progress_total": {
+        "message": "Gesamtzahl der Fliesen"
+    },
+    "repeat_time": {
+        "message": "Zeit, in der die Mine wieder betriebsbereit ist."
+    },
+    "repeat_show_all": {
+        "message": "Alle Wiederholbaren"
+    },
+    "repeat_show_selected": {
+        "message": "Nur ausgewählte Wiederholbaren"
+    },
+    "repeat_ready": {
+        "message": "BEREIT"
+    },
+    "repeat_show_ready": {
+        "message": "Bereit?"
     },
     "specialweek_end": {
         "message": "endet am $FINISH$",

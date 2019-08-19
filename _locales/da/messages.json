@@ -297,6 +297,9 @@
     "tab_events": {
         "message": "Begivenhed"
     },
+    "tab_repeat": {
+        "message": "Gentagelige"
+    },
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -1369,6 +1372,51 @@
     },
     "events_notdone": {
         "message": "Ikke udført"
+    },
+    "repeat_name": {
+        "message": "Navn"
+    },
+    "repeat_region_event": {
+        "message": "Region / Begivenhed"
+    },
+    "repeat_cooldown": {
+        "message": "Nedkøling/Genstart"
+    },
+    "repeat_cooldown_time": {
+        "message": "Tid"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Juveler"
+    },
+    "repeat_reset": {
+        "message": "Nulstil"
+    },
+    "repeat_bonus": {
+        "message": "Fuldført bonus"
+    },
+    "repeat_progress": {
+        "message": "Fremskridt"
+    },
+    "repeat_progress_current": {
+        "message": "Mine felter"
+    },
+    "repeat_progress_total": {
+        "message": "Felter ialt"
+    },
+    "repeat_time": {
+        "message": "Tid til minen er klar igen"
+    },
+    "repeat_show_all": {
+        "message": "Alle gentagelige"
+    },
+    "repeat_show_selected": {
+        "message": "Vælg kun gentagelige"
+    },
+    "repeat_ready": {
+        "message": "KLAR"
+    },
+    "repeat_show_ready": {
+        "message": "Klar?"
     },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",
