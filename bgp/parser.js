@@ -230,7 +230,7 @@ var Parser = {
         if (format != FORMATS.TEXT) return;
         var arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
         var keys = arr.length > 0 ? arr.shift().split(/\|/) : [];
-        var id = keys.indexOf('def_id') >= 0 ? 'def_id' : null;
+        var id = keys.indexOf('def_id') >= 0 ? 'def_id' : (keys.indexOf('override_id') >= 0 ? 'override_id' : null);
         var result = id ? {} : [];
         arr.forEach(s => {
             if (s == '') return;
