@@ -8,7 +8,7 @@ export default {
     requires: ['materials', 'events', 'achievements', 'collections', 'locations_0']
 };
 
-let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectShop;
+let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop;
 let allEvents;
 
 function init() {
@@ -20,6 +20,9 @@ function init() {
 
     selectYear = container.querySelector('[name=year]');
     selectYear.addEventListener('change', refresh);
+
+    selectSegmented = container.querySelector('[name=segmented]');
+    selectSegmented.addEventListener('change', refresh);
 
     selectShop = container.querySelector('[name=shop]');
     selectShop.addEventListener('change', refresh);
@@ -107,6 +110,10 @@ function update() {
         }
         item.pachiev = item.cachiev / (item.tachiev || 1);
 
+        // Add the event if it has at least one achievement
+        if (!item.tachiev) continue;
+        allEvents[item.id] = item;
+
         let collects = collectionsByEvent[eid] || [];
         item.tcollect = item.ccollect = 0;
         for (let cid of collects) {
@@ -123,8 +130,12 @@ function update() {
         for (let lid of xlo) {
             if (!locations.includes(lid)) locations.push(lid);
         }
+        // Segmented events have at least one reward specific to a region
+        item.segmented = !!event.reward.find(reward => +reward.region_id > 0);
         let rep = locations.filter(lid => {
             let location = locations0[lid];
+            // Segmented events have an override for completion bonus
+            if (location.overrides && location.overrides.length) item.segmented = true;
             if (location && +location.reset_cd > 0) {
                 xlo = xlo.filter(id => id != lid);
                 return true;
@@ -138,9 +149,6 @@ function update() {
         // If event has no locations, we remove the quests
         // This should affect only postcard special weeks
         if (!item.locations) item.tquest = item.cquest = item.pquest = 0;
-
-        // Add the event if it has at least one achievement
-        if (item.tachiev) allEvents[item.id] = item;
     }
 
     selectYear.innerHTML = '';
@@ -164,6 +172,7 @@ function getState() {
     return {
         show: selectShow.value,
         year: selectYear.value,
+        segmented: selectSegmented.value,
         shop: selectShop.value,
         search: searchInput.value,
         sort: gui.getSortState(smartTable)
@@ -173,6 +182,7 @@ function getState() {
 function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
     state.year = gui.setSelectState(selectYear, state.year);
+    state.segmented = gui.setSelectState(selectSegmented, state.segmented);
     state.shop = gui.setSelectState(selectShop, state.shop);
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
@@ -189,6 +199,7 @@ function refresh() {
     let state = getState();
     let show = state.show;
     let year = state.year;
+    let not_segmented = state.segmented ? state.segmented == 'no' : NaN;
     let not_shop = state.shop ? state.shop == 'no' : NaN;
     let search = (state.search || '').toUpperCase();
     let now = gui.getUnixTime();
@@ -203,6 +214,7 @@ function refresh() {
         else status = 'incomplete';
         if ((show == 'complete' || show == 'incomplete' || show == 'notdone') && show != status) return false;
         if (year && item.yeartxt != year) return false;
+        if (not_segmented == item.segmented) return false;
         let inShop = item.gems > 0;
         if (not_shop == inShop) return false;
         return true;
@@ -240,7 +252,9 @@ function updateRow(row) {
     let htm = '';
     let img = item.img && Html `<img src="${item.img}" title="${item.name}" style="height:32px" class="tooltip-event">`;
     htm += Html.br `<td>${img}</td>`;
-    htm += Html.br `<td colspan="2">${item.name}<div class="year">${item.year ? Locale.formatYear(item.year) : ''}</div></td>`;
+    htm += Html.br `<td>${item.name}</td>`;
+    htm += Html.br `<td>${item.year ? Locale.formatYear(item.year) : ''}</td>`;
+    htm += Html.br `<td${Html.raw(item.segmented ? ' class="segmented"' : '')}></td>`;
     if (item.gems) {
         htm += Html.br `<td class="cost">${Locale.formatNumber(item.gems)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
     } else {
@@ -281,10 +295,13 @@ function updateRow(row) {
     } else {
         htm += Html.br `<td colspan="4"></td>`;
     }
-    htm += Html.br `<td>`;
-    for (let matId of item.materials) {
-        htm += gui.getObjectImg('material', matId, 32, true, 'desc');
-    }
+    htm += Html.br `<td class="materials">`;
+    let numMaterials = item.materials.length || 1;
+    let size = Math.max(21, Math.min(32, Math.floor(96 / numMaterials)));
+    item.materials.forEach((matId, index) => {
+        if (numMaterials >= 5 && index == Math.floor(numMaterials / 2)) htm += `<br>`;
+        htm += gui.getObjectImg('material', matId, size, true, 'desc');
+    });
     htm += Html.br `</td>`;
     row.innerHTML = htm;
 }

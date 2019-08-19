@@ -1356,7 +1356,7 @@
         "message": "Locations"
     },
     "events_materials": {
-        "message": "Special materials"
+        "message": "Special\nmaterials"
     },
     "events_completed": {
         "message": "Completed"
@@ -1390,6 +1390,9 @@
     },
     "events_notdone": {
         "message": "Not done"
+    },
+    "events_segmented": {
+        "message": "Segmented"
     },
 
     "repeat_name": {

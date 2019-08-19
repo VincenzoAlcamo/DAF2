@@ -16,6 +16,14 @@
         </select>
     </label>
     <label>
+        <span data-i18n-text="events_segmented"></span>
+        <select name="segmented">
+            <option value=""></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="no" data-i18n-text="dialog_no"></option>
+        </select>
+    </label>
+    <label>
         <span data-i18n-text="equipment_inshop"></span>
         <select name="shop">
             <option value=""></option>
@@ -34,8 +42,9 @@
             <tr>
                 <th rowspan="2"><img src="/img/gui/events.png"></th>
                 <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="gui_event"></th>
-                <th rowspan="2" class="sortable" sort-name="year" data-i18n-text="events_year"></th>
-                <th rowspan="2" class="sortable" sort-name="gems"><img src="/img/gui/shop.png" data-i18n-title="gui_cost"></th>
+                <th rowspan="2" class="sortable img2" sort-name="year"><img src="/img/gui/time.png" data-i18n-title="events_year"></th>
+                <th rowspan="2" class="sortable img2" sort-name="segmented"><img src="/img/gui/segmented.png" data-i18n-title="events_segmented"></th>
+                <th rowspan="2" class="sortable img2" sort-name="gems"><img src="/img/gui/shop.png" data-i18n-title="gui_cost"></th>
                 <th rowspan="2" class="sortable" sort-name="start" data-i18n-text="progress_start"></th>
                 <th rowspan="2" class="sortable" sort-name="end" data-i18n-text="events_end"></th>
                 <th colspan="3" data-i18n-text="events_quests"></th>
