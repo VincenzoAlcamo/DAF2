@@ -699,11 +699,13 @@ var Data = {
         Data.localization = {};
         Data.localization.cache = {};
         Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
+        Data.repeatables = {};
         tx.objectStore('Files').getAll().then(values => {
             for (let file of values) {
                 if (file.id == 'generator') Data.generator = file.data || {};
                 if (file.id == 'localization') Data.storeLocalization(file);
                 if (file.id == 'gcInfo') Data.removegcInfo();
+                if (file.id == 'repeatables') Data.repeatables = file.data || {};
             }
         });
         tx.objectStore('Neighbours').getAll().then(values => {
@@ -933,6 +935,40 @@ var Data = {
             wmtime = windmills[windmills.length - camp.windmill_limit];
         }
         return wmtime;
+    },
+    getRepeatables: function() {
+        // Collect all repeatables in the game
+        // Make sure that all files are loaded, before calling this method
+        let repeatables = {};
+        for (let rid = Data.getMaxRegion(); rid >= 0; rid--) {
+            let locations = Data.files['locations_' + rid];
+            if (!locations) return {};
+            for (let loc of Object.values(locations)) {
+                if (+loc.reset_cd <= 0) continue;
+                if (+loc.test || !+loc.order_id) continue;
+                let item = {};
+                item.id = +loc.def_id;
+                item.cooldown = +loc.reset_cd;
+                item.rotation = [];
+                for (let rot of loc.rotation) {
+                    let copy = {};
+                    copy.level = +rot.level;
+                    copy.progress = +rot.progress;
+                    copy.chance = +rot.chance;
+                    item.rotation.push(copy);
+                }
+                if (item.rotation.length) repeatables[item.id] = item;
+            }
+        }
+        // If something is changed, store the new value
+        if (JSON.stringify(Data.repeatables) !== JSON.stringify(repeatables)) {
+            let file = {};
+            file.id = 'repeatables';
+            file.time = getUnixTime();
+            file.data = Data.repeatables = repeatables;
+            Data.store(file);
+        }
+        return repeatables;
     },
     //#region Neighbors
     getNeighbour: function(id) {
@@ -1474,27 +1510,40 @@ var Synchronize = {
         enter_mine: function(_action, task, taskResponse, _response) {
             let loc_id = +task.loc_id || 0;
             let prog = Synchronize.setLastLocation(loc_id);
-            if (taskResponse) {
+            if (prog && taskResponse) {
+                // console.log(Object.assign({}, prog), taskResponse, Data.repeatables && Data.repeatables[loc_id]);
                 prog.lvl = +taskResponse.level_id;
-                // The reset count will increase when entering a refreshed repeatable
-                let reset = +taskResponse.reset_count;
-                if (reset > prog.reset) {
-                    prog.reset = reset;
+                let rep = Data.repeatables && Data.repeatables[loc_id];
+                if (rep) {
+                    // We have repeatables info => this is a repeatable
+                    // Marks as ready, since we just entered it
                     prog.cmpl = 0;
-                    prog.prog = 0;
+                    let floor = taskResponse.floor_progress && taskResponse.floor_progress.find(t => +t.floor == prog.lvl);
+                    prog.prog = floor ? +floor.progress : 0;
+                } else {
+                    // No repeatable info => alternative method
+                    // The reset count will increase when entering a refreshed repeatable
+                    let reset = +taskResponse.reset_count;
+                    if (reset > prog.reset) {
+                        prog.reset = reset;
+                        prog.cmpl = 0;
+                        prog.prog = 0;
+                    }
                 }
             }
         },
         speedup_reset: function(_action, task, _taskResponse, _response) {
             let loc_id = +task.loc_id || 0;
             let prog = Synchronize.setLastLocation(loc_id);
-            prog.prog = 0;
+            if (prog) prog.prog = 0;
         },
         mine: function(_action, _task, _taskResponse, _response) {
             let loc_id = Synchronize.last_lid;
             let prog = Synchronize.setLastLocation(loc_id);
-            prog.prog = (+prog.prog || 0) + 1;
-            prog.time = Synchronize.time;
+            if (prog) {
+                prog.prog = (+prog.prog || 0) + 1;
+                prog.time = Synchronize.time;
+            }
         },
         friend_child_charge: function(action, task, _taskResponse, _response) {
             var neighbourId = task.neigh_id;
