@@ -297,6 +297,9 @@
     "tab_events": {
         "message": "Ιστορίες"
     },
+    "tab_repeat": {
+        "message": "Επαναλαμβανόμενα"
+    },
     "about_version": {
         "message": "Εκδοχή: $VERSION$",
         "placeholders": {
@@ -692,7 +695,7 @@
         "message": "Ανιχνεύτηκαν απενεργοποιημένοι και μη ταιριασμένοι λογαριασμοί."
     },
     "friendship_unfriendinfo": {
-        "message": "Μπορείτε να τους αφαιρέσετε από αυτή τη σελίδα.\r\n\r\nΝα ξέρετε όμως πως λογαριασμοί του Facebook μπορεί να απενεργοποιηθούν προσωρινά και να ενεργοποιηθούν αργότερα."
+        "message": "Μπορείτε να τους αφαιρέσετε από αυτή τη σελίδα.\n\nΝα ξέρετε όμως πως λογαριασμοί του Facebook μπορεί να απενεργοποιηθούν προσωρινά και να ενεργοποιηθούν αργότερα."
     },
     "friendship_ghostfriendsdetected": {
         "message": "Βρέθηκαν $NUM$ φίλοι \"φαντάσματα\".\nΘα θέλατε να τους αφαιρέσετε τώρα;",
@@ -1335,7 +1338,7 @@
         "message": "Τοποθεσίες"
     },
     "events_materials": {
-        "message": "Ειδικά υλικά"
+        "message": "Ειδικά\nυλικά"
     },
     "events_completed": {
         "message": "Ολοκληρωμένη"
@@ -1369,6 +1372,54 @@
     },
     "events_notdone": {
         "message": "Όχι τελειωμένη"
+    },
+    "events_segmented": {
+        "message": "Κατακερματισμένη"
+    },
+    "repeat_name": {
+        "message": "Όνομα"
+    },
+    "repeat_region_event": {
+        "message": "Περιοχή / Ιστορία"
+    },
+    "repeat_cooldown": {
+        "message": "Αναμονή"
+    },
+    "repeat_cooldown_time": {
+        "message": "Χρόνος"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Πετράδια"
+    },
+    "repeat_reset": {
+        "message": "Επαναφορά"
+    },
+    "repeat_bonus": {
+        "message": "Μπόνους ολοκλήρωσης"
+    },
+    "repeat_progress": {
+        "message": "Πρόοδος"
+    },
+    "repeat_progress_current": {
+        "message": "Σκαμένα Πλακάκια"
+    },
+    "repeat_progress_total": {
+        "message": "Συνολικά πλακάκια"
+    },
+    "repeat_time": {
+        "message": "Χρόνος στον οποίο θα είναι έτοιμο το ορυχείο"
+    },
+    "repeat_show_all": {
+        "message": "Όλα τα επαναλαμβανόμενα"
+    },
+    "repeat_show_selected": {
+        "message": "Μόνο τα επιλεγμένα επαναλαμβανόμενα"
+    },
+    "repeat_ready": {
+        "message": "ΕΤΟΙΜΟΣ"
+    },
+    "repeat_show_ready": {
+        "message": "Έτοιμος;"
     },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",

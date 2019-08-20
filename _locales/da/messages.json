@@ -1317,7 +1317,7 @@
         "message": "Skjul Grænse"
     },
     "equipment_price_info": {
-        "message": "Pakkepris"
+        "message": "Pakkepris - Prisen er ikke for dette udstyr,\nmen for hele den pakke/tilbud, der indeholdt dette udstyr"
     },
     "events_year": {
         "message": "År"
@@ -1329,7 +1329,7 @@
         "message": "Eventyr"
     },
     "events_achievements": {
-        "message": "Resultater"
+        "message": "Præstationer"
     },
     "events_pieces": {
         "message": "Del af en Skat"
@@ -1338,7 +1338,7 @@
         "message": "Lokationer"
     },
     "events_materials": {
-        "message": "Særligt materiale"
+        "message": "Særligt\nmateriale"
     },
     "events_completed": {
         "message": "Fuldført"
@@ -1365,13 +1365,16 @@
         "message": "Købt/fået i gave"
     },
     "events_complete": {
-        "message": "Fuldfør"
+        "message": "Fuldført"
     },
     "events_incomplete": {
         "message": "Ikke fuldført"
     },
     "events_notdone": {
         "message": "Ikke udført"
+    },
+    "events_segmented": {
+        "message": "Regionsopdelt"
     },
     "repeat_name": {
         "message": "Navn"
