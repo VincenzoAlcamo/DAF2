@@ -1445,6 +1445,8 @@ var Synchronize = {
             }
         }
     },
+    time: 0,
+    lastTimeMined: 0,
     last_lid: 0,
     setLastLocation: function(lid) {
         if (lid <= 0) return null;
@@ -1538,6 +1540,7 @@ var Synchronize = {
             if (prog) prog.prog = 0;
         },
         mine: function(_action, _task, _taskResponse, _response) {
+            Synchronize.lastTimeMined = Synchronize.time;
             let loc_id = Synchronize.last_lid;
             let prog = Synchronize.setLastLocation(loc_id);
             if (prog) {

@@ -5,6 +5,7 @@ export default {
     update: update,
     getState: getState,
     setState: setState,
+    visibilityChange: visibilityChange,
     requires: (function() {
         var requires = ['materials', 'map_filters', 'events', 'special_weeks'];
         for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
@@ -200,7 +201,20 @@ function refresh() {
     }
     gui.collectLazyElements(tbody);
     smartTable.syncLater();
-    if (!refreshInterval) refreshInterval = setInterval(refreshItems, 5000);
+    setRefreshTimer();
+}
+
+function setRefreshTimer() {
+    if (!refreshInterval) {
+        refreshInterval = setInterval(refreshItems, 5000);
+    }
+}
+
+function clearRefreshTimer() {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
+    refreshInterval = 0;
 }
 
 function refreshItems() {
@@ -311,5 +325,14 @@ function onClickTable(event) {
         }
         selected.sort((a, b) => a - b);
         return gui.updateTabState(tab);
+    }
+}
+
+function visibilityChange(visible) {
+    if (visible) {
+        refreshItems();
+        setRefreshTimer();
+    } else {
+        clearRefreshTimer();
     }
 }

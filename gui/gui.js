@@ -519,6 +519,10 @@ let gui = {
 
 window.addEventListener('load', onLoad);
 
+function notifyVisibility(tab, visible) {
+    if (tab && typeof tab.visibilityChange == 'function') tab.visibilityChange(document.visibilityState == 'visible' && visible);
+}
+
 function onLoad() {
     let htm = '';
     let hasValidGenerator = gui.hasValidGenerator();
@@ -571,6 +575,8 @@ function onLoad() {
             }
         }
     });
+
+    document.addEventListener('visibilitychange', () => notifyVisibility(currentTab, true));
 
     var urlInfo = new UrlInfo(location.href);
     var tabId = urlInfo.parameters.tab;
@@ -661,6 +667,7 @@ async function clickMenu(e) {
         tab.container.classList.add('tab_' + tabId);
         await loadTab(tab);
     }
+    notifyVisibility(currentTab, false);
     currentTab = tab;
     localStorage.setItem('tab', currentTab.id);
     gui.updateTabState(currentTab);
@@ -669,11 +676,13 @@ async function clickMenu(e) {
 }
 
 function updateCurrentTab() {
-    if (currentTab.isLoaded && currentTab.mustBeUpdated) {
+    if (!currentTab || !currentTab.isLoaded) return;
+    if (currentTab.mustBeUpdated) {
         currentTab.mustBeUpdated = false;
         translate(currentTab.container);
         if (typeof currentTab.update == 'function') currentTab.update();
     }
+    notifyVisibility(currentTab, true);
 }
 
 //#region TEXT INFO

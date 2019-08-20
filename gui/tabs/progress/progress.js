@@ -1,4 +1,4 @@
-/*global gui Html Locale SmartTable*/
+/*global bgp gui Html Locale SmartTable*/
 
 export default {
     hasCSS: true,
@@ -6,6 +6,7 @@ export default {
     update: update,
     getState: getState,
     setState: setState,
+    visibilityChange: visibilityChange,
     requires: (function() {
         var requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters'];
         for (let rid = gui.getMaxRegion(); rid > 0; rid--) requires.push('locations_' + rid);
@@ -15,8 +16,9 @@ export default {
 
 const REGION_SEPARATOR = '_';
 
-var tab, container, progress, checkCompleted, checkGroups, checkDates, checkEnergy, smartTable, show, levelSums, sliderLevel;
-var imgCompleted = Html.br `<img width="24" src="/img/gui/tick.png"/>`;
+let tab, container, progress, checkCompleted, checkGroups, checkDates, checkEnergy, smartTable, show, levelSums, sliderLevel;
+let imgCompleted = Html.br `<img width="24" src="/img/gui/tick.png"/>`;
+let lastTimeMined = 0;
 
 function init() {
     tab = this;
@@ -91,7 +93,8 @@ function toggles() {
 }
 
 function update() {
-    var rid = +gui.getGenerator().region;
+    let rid = +gui.getGenerator().region;
+    lastTimeMined = bgp.Synchronize.lastTimeMined;
     for (let item of progress) {
         item.calc(item);
         item.percent = item.max > 0 ? item.value / item.max * 100 : 0;
@@ -206,16 +209,17 @@ function getShowInfo(show) {
 }
 
 function onClickMain(event) {
-    var row = null;
-    for (var node = event.target; node && !row; node = node.parentNode) {
+    let row = null;
+    for (let node = event.target; node && !row; node = node.parentNode) {
         if (node.tagName == 'TABLE') break;
         if (node.tagName == 'TR') row = node;
     }
     if (!row || !row.classList.contains('inspect')) return;
-    var level = +row.getAttribute('data-level');
-    var showInfo = getShowInfo(row.getAttribute('data-id') || '');
+
+    let level = +row.getAttribute('data-level');
+    let showInfo = getShowInfo(row.getAttribute('data-id') || '');
     if (!showInfo.show) return;
-    var parent = row.parentNode;
+    let parent = row.parentNode;
     if (row.classList.contains('inspected')) {
         show = '';
         gui.updateTabState(tab);
@@ -224,12 +228,13 @@ function onClickMain(event) {
         return;
     }
 
-    var otherRow = parent.querySelector('tr.inspected[data-level="' + level + '"]');
+    let otherRow = parent.querySelector('tr.inspected[data-level="' + level + '"]');
     if (otherRow) setInspected(otherRow, false);
 
     show = showInfo.show;
     gui.updateTabState(tab);
     showDetail(show);
+    if (lastTimeMined < bgp.Synchronize.lastTimeMined) update();
 }
 
 function showDetail(show) {
@@ -591,6 +596,10 @@ function calcRegion(item) {
         }
     }
     item.rows.sort((a, b) => (a.seq - b.seq) || (a.group_id - b.group_id) || (a.order_id - b.order_id));
+}
+
+function visibilityChange(visible) {
+    if (visible && lastTimeMined < bgp.Synchronize.lastTimeMined) update();
 }
 
 function regionMineValid(mine) {
