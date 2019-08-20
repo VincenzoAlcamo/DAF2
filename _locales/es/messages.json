@@ -297,6 +297,9 @@
     "tab_events": {
         "message": "Pestaña de Eventos"
     },
+    "tab_repeat": {
+        "message": "Minas"
+    },
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -811,7 +814,7 @@
         "message": "Aquí puedes reunr a tus amigos de Facebook y compararlos con tus vecinos."
     },
     "friendship_collectstandard": {
-        "message": "estándar"
+        "message": "Estándar"
     },
     "friendship_collectstandardinfo": {
         "message": "Este método es confiable, pero muy lento (puede tardar varios minutos)."
@@ -1335,7 +1338,7 @@
         "message": "Ubicaciones"
     },
     "events_materials": {
-        "message": "Materiales del evento"
+        "message": "Materiales\ndel evento"
     },
     "events_completed": {
         "message": "Eventos completados"
@@ -1369,6 +1372,54 @@
     },
     "events_notdone": {
         "message": "No hechos"
+    },
+    "events_segmented": {
+        "message": "Segmentado"
+    },
+    "repeat_name": {
+        "message": "Nombre"
+    },
+    "repeat_region_event": {
+        "message": "Región / Evento"
+    },
+    "repeat_cooldown": {
+        "message": "Enfriarse"
+    },
+    "repeat_cooldown_time": {
+        "message": "Hora"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Gemas"
+    },
+    "repeat_reset": {
+        "message": "Reiniciar"
+    },
+    "repeat_bonus": {
+        "message": "Bono de finalización"
+    },
+    "repeat_progress": {
+        "message": "Progreso"
+    },
+    "repeat_progress_current": {
+        "message": "Azulejos minadas"
+    },
+    "repeat_progress_total": {
+        "message": "Azulejos totales"
+    },
+    "repeat_time": {
+        "message": "Momento en que la mina estará listo de nuevo"
+    },
+    "repeat_show_all": {
+        "message": "Todas las minas"
+    },
+    "repeat_show_selected": {
+        "message": "Solo minas seleccionadas"
+    },
+    "repeat_ready": {
+        "message": "LISTA"
+    },
+    "repeat_show_ready": {
+        "message": "Lista?"
     },
     "specialweek_end": {
         "message": "termina en  $FINISH$",

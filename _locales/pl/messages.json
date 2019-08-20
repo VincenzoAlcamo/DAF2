@@ -1338,7 +1338,7 @@
         "message": "Lokacje"
     },
     "events_materials": {
-        "message": "Materiały specjalne"
+        "message": "Materiały\nspecjalne"
     },
     "events_completed": {
         "message": "Skompletowany"
@@ -1372,6 +1372,9 @@
     },
     "events_notdone": {
         "message": "Nie zrobiony"
+    },
+    "events_segmented": {
+        "message": "Segmentowany"
     },
     "repeat_name": {
         "message": "Nazwa"
