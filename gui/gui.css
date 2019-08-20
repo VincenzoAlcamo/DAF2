@@ -321,6 +321,7 @@ progress::-webkit-progress-value {
   vertical-align: middle;
   height: 34px;
   padding-left: 40px;
+  word-break: break-word;
 }
 
 .vertical-menu li.last {
