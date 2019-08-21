@@ -871,3 +871,18 @@ td.dot.dot2 {
 }
 
 /*#endregion*/
+
+td.add_slash {
+  border-right: none;
+  text-align: right !important;
+}
+
+td.add_slash+td {
+  border-left: none;
+  text-align: left !important;
+  padding-left: 0;
+}
+
+td.add_slash+td:before {
+  content: "/ ";
+}

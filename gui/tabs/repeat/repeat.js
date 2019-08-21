@@ -240,7 +240,7 @@ function updateRow(row) {
     htm += Html.br `<td class="reset_gems">${Locale.formatNumber(item.reset)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
     let xp = swPostcards ? item.xp * 10 : item.xp;
     htm += Html.br `<td class="bonus">${Locale.formatNumber(xp)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
-    htm += Html.br `<td class="progress"></td>`;
+    htm += Html.br `<td class="progress add_slash"></td>`;
     htm += Html.br `<td class="total"></td>`;
     htm += Html.br `<td class="time"></td>`;
     row.classList.toggle('selected', item.selected);

@@ -17,21 +17,6 @@
   height: 16px;
 }
 
-.repeat td.progress {
-  border-right: none;
-  text-align: right;
-}
-
-.repeat td.total {
-  border-left: none;
-  text-align: left;
-  padding-left: 0;
-}
-
-.repeat td.total:before {
-  content: "/ ";
-}
-
 .repeat div.mobile {
   margin: -2px;
   width: 36px;
