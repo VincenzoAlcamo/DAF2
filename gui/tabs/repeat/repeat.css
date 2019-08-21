@@ -6,12 +6,6 @@
   text-align: left;
 }
 
-.repeat input[type=checkbox] {
-  margin: 0px;
-  transform: scale(1.5);
-  cursor: pointer;
-}
-
 .repeat th.sortable.img,
 .repeat th.sortable.img2 {
   padding-left: 0;

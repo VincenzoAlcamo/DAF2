@@ -3,12 +3,6 @@
   transition: all 1s;
 }
 
-.rewardlinks_data input[type=checkbox] {
-  margin: 0px;
-  transform: scale(1.5);
-  cursor: pointer;
-}
-
 .rewardlinks_data img {
   display: inline;
   vertical-align: middle;
