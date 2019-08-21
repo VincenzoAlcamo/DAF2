@@ -1452,6 +1452,15 @@
     "specialweek_postcards": {
         "message": "Postkort uge"
     },
+    "specialweek_material_seller": {
+        "message": "Købmand for gamle materialer"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Gratis gammel begivenhed (Du skal indløse/aktivere det)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Mysterie boks"
+    },
     "options_section_ingame": {
         "message": "Spil muligheder"
     },

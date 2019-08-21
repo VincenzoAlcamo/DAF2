@@ -1452,6 +1452,15 @@
     "specialweek_postcards": {
         "message": "Semana de postales."
     },
+    "specialweek_material_seller": {
+        "message": "Comerciante de materiales antiguos"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Viejo acontecimiento libre (hay que redimir)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Cajas misteriosas"
+    },
     "options_section_ingame": {
         "message": "Opciones en el juego"
     },

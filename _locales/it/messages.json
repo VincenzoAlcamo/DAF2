@@ -1452,6 +1452,15 @@
     "specialweek_postcards": {
         "message": "Settimana cartoline"
     },
+    "specialweek_material_seller": {
+        "message": "Mercante per vecchi materiali"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Vecchio evento in regalo (dovrai riscattarlo)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Scatole misteriose"
+    },
     "options_section_ingame": {
         "message": "Opzioni nel gioco"
     },

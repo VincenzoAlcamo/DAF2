@@ -1356,7 +1356,7 @@
         "message": "Προκλήσεις"
     },
     "events_repeatables": {
-        "message": "Επαναλαμβανόμενα"
+        "message": "Επαναλ/νόμενα"
     },
     "events_active": {
         "message": "Ενεργή"
@@ -1451,6 +1451,15 @@
     },
     "specialweek_postcards": {
         "message": "Εβδομάδα καρτ ποστάλ"
+    },
+    "specialweek_material_seller": {
+        "message": "Έμπορος για παλιά υλικά"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Δωρεάν παλιά ιστορία (πρέπει να την εξαργυρώσετε)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Μυστηριώδης κουτί"
     },
     "options_section_ingame": {
         "message": "Ρυθμίσεις παιχνιδιού"
