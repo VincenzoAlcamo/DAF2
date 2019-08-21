@@ -872,6 +872,14 @@ td.dot.dot2 {
 
 /*#endregion*/
 
+td.no_right_border {
+  border-right: none;
+}
+
+td.no_right_border+td {
+  border-left: none;
+}
+
 td.add_slash {
   border-right: none;
   text-align: right !important;

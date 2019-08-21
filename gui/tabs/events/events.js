@@ -265,7 +265,7 @@ function updateRow(row) {
 
     if (item.tquest) {
         htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.cquest)}</td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.tquest)}</td>`;
+        htm += Html.br `<td class="no_right_border">${Locale.formatNumber(item.tquest)}</td>`;
         htm += Html.br `<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
     } else {
         htm += Html.br `<td colspan="3"></td>`;
@@ -273,7 +273,7 @@ function updateRow(row) {
 
     if (item.tachiev) {
         htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.cachiev)}</td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.tachiev)}</td>`;
+        htm += Html.br `<td class="no_right_border">${Locale.formatNumber(item.tachiev)}</td>`;
         htm += Html.br `<td><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
     } else {
         htm += Html.br `<td colspan="3"></td>`;
@@ -281,7 +281,7 @@ function updateRow(row) {
 
     if (item.tcollect) {
         htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.ccollect)}</td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.tcollect)}</td>`;
+        htm += Html.br `<td class="no_right_border">${Locale.formatNumber(item.tcollect)}</td>`;
         htm += Html.br `<td><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
     } else {
         htm += Html.br `<td colspan="3"></td>`;
