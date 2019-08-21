@@ -14,7 +14,7 @@ function ringLoot(kind) {
         tokenId = 32;
     } else throw 'Invalid kind "' + kind + '"';
 
-    let tab, container, floorData, checkMinMax, inputLevel, swRefreshDrop, checkLevel;
+    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel;
     let checkState = {};
 
     function init() {
@@ -97,11 +97,11 @@ function ringLoot(kind) {
 
         if (kind == 'green') {
             let specialWeeks = gui.getActiveSpecialWeeks();
-            swRefreshDrop = specialWeeks.refreshDrop;
+            swDoubleDrop = specialWeeks.doubleDrop;
         }
         let divWarning = container.querySelector('.toolbar .warning');
-        if (swRefreshDrop) {
-            divWarning.innerHTML = Html.br `${swRefreshDrop.name}: ${swRefreshDrop.ends}`;
+        if (swDoubleDrop) {
+            divWarning.innerHTML = Html.br `${swDoubleDrop.name}: ${swDoubleDrop.ends}`;
             divWarning.style.display = '';
         } else {
             divWarning.style.display = 'none';
@@ -207,7 +207,7 @@ function ringLoot(kind) {
         htm += Html.br `<tbody>`;
         let lastChest = 0;
         let odd = false;
-        let multiplier = swRefreshDrop ? swRefreshDrop.coeficient : 1;
+        let multiplier = swDoubleDrop ? swDoubleDrop.coeficient : 1;
         let tdAvg = Html `<td class="avg">`;
         let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
         for (let lootArea of floorData[lid].loots) {

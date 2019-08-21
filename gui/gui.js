@@ -378,11 +378,30 @@ let gui = {
         let result = {};
         result.items = [];
         result.types = {};
+        // Drop in repeatables  :   refresh_drop (multiplier = coeficient)
+        //                          double_drop (obsolete, multiplier = 2)
+        // Double gifts         :   gifts
+        //                          double_gifts (obsolete)
+        // Double production    :   production
+        //                          double_prod (obsolete)
+        // Half production time :   prod_time (coeficient = multiplier)
+        //                          half_prod_time (obsolete)
+        // Postcards            :   postcards (location.reward_postcard is the amount)
+        // Merchant             :   material_seller
+        // Free premium event   :   free_premium_event
+        // Mystery box          :   mystery_box
+        // Debris discount      :   debris_discount (coeficient is not used, discount is 20%)
+        // Discount offer       :   discount_so (shows badge)
+        // Double usable offer  :   double_usable_so (shows badge)
+        // camp_particle_effect
+        // camp_snow_skin
         let now = gui.getUnixTime();
         for (let sw of Object.values(gui.getFile('special_weeks'))) {
             let start = +sw.start;
             let finish = +sw.finish;
-            if (start <= now && now <= finish) {
+            let isActive = start <= now && now <= finish;
+            // if ([154, 156, 158, 162, 170, 174, 175, 176, 177].includes(+sw.def_id)) isActive = true;
+            if (isActive) {
                 let item = {
                     id: sw.def_id,
                     type: sw.type,
@@ -390,17 +409,35 @@ let gui = {
                     start: start,
                     finish: finish
                 };
+
+                // Checks for obsolete values (this check may be obsolete as well)
                 if (item.type == 'double_drop') {
                     item.type = 'refresh_drop';
                     item.coeficient = 2;
                 }
+                if (item.type == 'double_gifts') {
+                    item.type = 'gifts';
+                }
+                if (item.type == 'double_prod') {
+                    item.type = 'production';
+                }
+                if (item.type == 'half_prod_time') {
+                    item.type = 'prod_time';
+                    item.coeficient = 0.5;
+                }
+
                 result.items.push(item);
                 result.types[item.type] = item;
                 if (item.type == 'debris_discount') {
+                    // the coeficient may be right, but the game uses this fixed value
+                    item.coeficient = 0.8;
                     let percent = 100 - Math.round(item.coeficient * 100);
                     item.name = gui.getMessage('specialweek_' + item.type, percent);
                 } else if (item.type == 'refresh_drop') {
                     item.name = `${gui.getMessage('specialweek_double_drop')} (${gui.getMessage('gui_loot')} \xd7 ${Locale.formatNumber(item.coeficient)})`;
+                } else if (item.type == 'prod_time') {
+                    item.name = gui.getMessage('specialweek_half_prod_time');
+                    if (item.coeficient != 0.5) item.name = `${item.name} (\xd7 ${Locale.formatNumber(item.coeficient)})`;
                 } else {
                     item.name = gui.getMessage('specialweek_' + item.type);
                 }
@@ -409,10 +446,9 @@ let gui = {
         }
         result.debrisDiscount = result.types['debris_discount'];
         result.doubleProduction = result.types['production'];
-        result.halfTimeProduction = result.types['half_prod_time'];
-        result.refreshDrop = result.types['refresh_drop'];
+        result.halfTimeProduction = result.types['prod_time'];
+        result.doubleDrop = result.types['refresh_drop'];
         result.postcards = result.types['postcards'];
-        result.gifts = result.types['gifts'];
         return result;
     },
     setupScreenshot: function(element, fileName = 'screenshot.png', screenshot) {

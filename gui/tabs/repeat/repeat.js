@@ -115,7 +115,7 @@ function update() {
     }
     let specialWeeks = gui.getActiveSpecialWeeks();
     swPostcards = specialWeeks.postcards;
-    showSpecialWeeks([specialWeeks.refreshDrop, specialWeeks.postcards]);
+    showSpecialWeeks([specialWeeks.doubleDrop, specialWeeks.postcards]);
     setState(getState());
     refresh();
 }

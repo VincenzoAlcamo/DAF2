@@ -116,7 +116,7 @@ function kitchenFoundry(type) {
             p.ename = (event && gui.getString(event.name_loc)) || '';
             p.eimg = event && gui.getObjectImage('event', p.eid);
             p.time = +item.duration;
-            if (swHalfTimeProduction) p.time /= 2;
+            if (swHalfTimeProduction) p.time *= swHalfTimeProduction.coeficient;
             p.energy_per_hour = p.time ? Math.round(p.energy / p.time * 3600) : 0;
             p.ingredients = [];
             var numProd = 0,

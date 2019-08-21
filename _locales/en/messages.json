@@ -1472,6 +1472,15 @@
     "specialweek_postcards": {
         "message": "Postcard week"
     },
+    "specialweek_material_seller": {
+        "message": "Merchant for old materials"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Free old event (you have to redeem it)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Mystery box"
+    },
 
     "options_section_ingame": {
         "message": "In-Game options"

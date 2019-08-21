@@ -42,14 +42,14 @@ function init() {
 function update() {
     markToBeRendered(container.querySelector('.camp-player'));
     markToBeRendered(container.querySelector('.camp-neighbor'));
+    let divWeeks = container.querySelector('.toolbar .weeks');
     let specialWeeks = gui.getActiveSpecialWeeks();
     let htm = [];
     for (let sw of specialWeeks.items) {
-        if (sw.name) htm.push(Html.br `${sw.name}: ${sw.ends}`);
+        if (sw.name) htm.push(Html.br `<div class="warning">${sw.name}: ${sw.ends}</div>`);
     }
-    let divWarning = container.querySelector('.toolbar .warning');
-    divWarning.innerHTML = htm.join('<br>');
-    divWarning.style.display = htm.length ? '' : 'none';
+    divWeeks.innerHTML = htm.join('');
+    divWeeks.style.display = htm.length ? '' : 'none';
 }
 
 function actionVisitCamp() {
