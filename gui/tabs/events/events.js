@@ -297,9 +297,10 @@ function updateRow(row) {
     }
     htm += Html.br `<td class="materials">`;
     let numMaterials = item.materials.length || 1;
+    let breakIndex = numMaterials >= 5 ? Math.ceil(numMaterials / 2) : -1;
     let size = Math.max(21, Math.min(32, Math.floor(96 / numMaterials)));
     item.materials.forEach((matId, index) => {
-        if (numMaterials >= 5 && index == Math.floor(numMaterials / 2)) htm += `<br>`;
+        if (index == breakIndex) htm += `<br>`;
         htm += gui.getObjectImg('material', matId, size, true, 'desc');
     });
     htm += Html.br `</td>`;
