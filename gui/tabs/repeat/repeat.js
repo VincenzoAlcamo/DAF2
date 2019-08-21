@@ -245,6 +245,7 @@ function updateRow(row) {
     htm += Html.br `<td class="time"></td>`;
     row.classList.toggle('selected', item.selected);
     row.innerHTML = htm;
+    item._ready = item._readyText = null;
     calculateItem(item, true);
 }
 
@@ -274,7 +275,11 @@ function calculateItem(item, flagRefreshRow) {
         }
         item.time = end;
         item.ready = item.time <= now;
-        if (item.ready !== item._ready) changedState = true;
+        let readyHasChanged = item.ready !== item._ready;
+        if (readyHasChanged) {
+            item._ready = item.ready;
+            changedState = true;
+        }
         if (flagRefreshRow && item.row && item.row.firstChild) {
             let row = item.row;
             if (item._progress !== item.progress) {
@@ -285,9 +290,8 @@ function calculateItem(item, flagRefreshRow) {
                 item._total = item.total;
                 row.querySelector('td.total').innerText = Locale.formatNumber(item.total);
             }
-            if (item._ready !== item.ready || !item.ready) {
-                if (item._ready !== item.ready) row.classList.toggle('ready', item.ready);
-                item._ready = item.ready;
+            if (readyHasChanged || !item.ready) {
+                if (readyHasChanged) row.classList.toggle('ready', item.ready);
                 let text = item.ready ? gui.getMessage('repeat_ready') : gui.getDuration(item.time - now, true);
                 if (item._readyText !== text) {
                     row.querySelector('td.time').innerText = item._readyText = text;
