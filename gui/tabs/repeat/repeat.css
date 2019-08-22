@@ -50,8 +50,8 @@
   margin-left: 2px;
 }
 
-.repeat tr.selected {
-  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.2), rgba(0, 255, 255, 0.1), rgba(255, 255, 128, 0.2)) !important;
+.repeat tbody tr.selected {
+  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.2), rgba(0, 255, 255, 0.1), rgba(255, 255, 128, 0.2));
 }
 
 .repeat tr.selected div.mobile {

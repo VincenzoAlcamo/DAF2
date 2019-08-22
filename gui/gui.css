@@ -92,7 +92,8 @@ input[type=number] {
 }
 
 .help,
-.wiki {
+.wiki,
+[data-wiki-page] {
   cursor: help !important;
 }
 

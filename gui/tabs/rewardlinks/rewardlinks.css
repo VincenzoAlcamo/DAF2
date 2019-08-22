@@ -38,15 +38,15 @@
   font-weight: bold;
 }
 
-.rewardlinks_data tr[data-status="1"] {
+.rewardlinks_data tbody tr[data-status="1"] {
   background-color: #DAA;
 }
 
-.rewardlinks_data tr[data-status="2"] {
+.rewardlinks_data tbody tr[data-status="2"] {
   background-color: #0F0;
 }
 
-.rewardlinks_data tr[data-status="3"] {
+.rewardlinks_data tbody tr[data-status="3"] {
   background-color: #FD0;
 }
 
@@ -79,6 +79,6 @@
   background-color: #F0F;
 }
 
-.rewardlinks_data tr.selected {
+.rewardlinks_data tbody tr.selected {
   background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.4), rgba(255, 255, 128, 0.4));
 }
