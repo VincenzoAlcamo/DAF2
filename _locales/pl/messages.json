@@ -1452,6 +1452,15 @@
     "specialweek_postcards": {
         "message": "Tydzień pocztówek"
     },
+    "specialweek_material_seller": {
+        "message": "Sprzedawca starych materiałów"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Darmowy stary event (musisz go kupić)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Tajemnicza skrzynia"
+    },
     "options_section_ingame": {
         "message": "Opcje w grze"
     },
