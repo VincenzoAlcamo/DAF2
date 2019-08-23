@@ -1678,8 +1678,9 @@ async function init() {
         addRewardLinks: function(request, _sender) {
             return Data.addRewardLinks(request.values);
         },
-        friendsCaptured: function(request) {
-            Data.friendsCaptured(request.data);
+        friendsCaptured: function(request, sender) {
+            if (request.data) Data.friendsCaptured(request.data);
+            if (request.close) chrome.tabs.remove(sender.tab.id);
         }
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));
 

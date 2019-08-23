@@ -50,12 +50,11 @@ function getStatInfo(num, total) {
 function sendFriends() {
     document.title = getStatInfo(friends.length, friends.length);
     wait.setText(document.title);
-    if (collectMethod != 'unmatched') {
-        chrome.runtime.sendMessage({
-            action: 'friendsCaptured',
-            data: friends
-        });
-    }
+    chrome.runtime.sendMessage({
+        action: 'friendsCaptured',
+        data: collectMethod == 'unmatched' ? null : friends,
+        close: !ulInactive
+    });
     if (ulInactive) {
         ulInactive.innerHTML = '';
         liInactive.forEach(li => ulInactive.appendChild(li));
@@ -66,9 +65,7 @@ function sendFriends() {
             text: chrome.i18n.getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' : 'friendship_disabledaccountsdetected') + '\n' + chrome.i18n.getMessage('friendship_unfriendinfo'),
             style: [Dialog.OK]
         }, viewDisabled);
-        return;
     }
-    return window.close();
 }
 
 function collectStandard() {
