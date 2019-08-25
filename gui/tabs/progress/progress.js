@@ -8,7 +8,7 @@ export default {
     setState: setState,
     visibilityChange: visibilityChange,
     requires: (function() {
-        var requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters'];
+        let requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters'];
         for (let rid = gui.getMaxRegion(); rid > 0; rid--) requires.push('locations_' + rid);
         return requires;
     })()
@@ -19,6 +19,7 @@ const REGION_SEPARATOR = '_';
 let tab, container, progress, checkCompleted, checkGroups, checkDates, checkEnergy, smartTable, show, levelSums, sliderLevel;
 let imgCompleted = Html.br `<img width="24" src="/img/gui/tick.png"/>`;
 let lastTimeMined = 0;
+let mapFilters, mapTutorials;
 
 function init() {
     tab = this;
@@ -93,6 +94,26 @@ function toggles() {
 }
 
 function update() {
+
+    mapFilters = {};
+    for (let item of Object.values(gui.getFile('map_filters'))) {
+        if (item.filter in mapFilters) continue;
+        mapFilters[item.filter] = {
+            name: item.name_loc,
+            map: item.def_id,
+            order_id: +item.order_id,
+            ma: item.mobile_asset
+        };
+    }
+
+    // A tutorial map must match the user tutorial
+    let userTutorial = +gui.getGenerator().tutorial_def_id;
+    mapTutorials = {};
+    for (let lesson of Object.values(gui.getFile('tutorials'))) {
+        let flag = userTutorial == +lesson.def_id;
+        for (let lid of gui.getArrayOfInt(lesson.locations)) mapTutorials[lid] = flag;
+    }
+
     let rid = +gui.getGenerator().region;
     lastTimeMined = bgp.Synchronize.lastTimeMined;
     for (let item of progress) {
@@ -136,9 +157,9 @@ function getTimes(isCompleted, bt, et) {
 }
 
 function refresh() {
-    var state = getState();
-    var total = 0;
-    var htm = '';
+    let state = getState();
+    let total = 0;
+    let htm = '';
     for (let item of progress) {
         total += item.percent;
         htm += Html.br `<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
@@ -152,7 +173,7 @@ function refresh() {
     container.classList.toggle('no-dates', !state.dates);
     container.classList.toggle('no-energy', !state.energy);
 
-    var percent = total / progress.length;
+    let percent = total / progress.length;
     Array.from(smartTable.container.querySelectorAll('tfoot td:nth-child(2)')).forEach(cell => cell.innerText = Locale.formatNumber(percent, 2) + '%');
     Array.from(smartTable.container.querySelectorAll('tfoot td progress')).forEach(progress => progress.value = percent);
 
@@ -170,11 +191,11 @@ function refreshPlayTime() {
 
 function setInspected(row, inspected) {
     let level = +row.getAttribute('data-level');
-    var parent = row.parentNode;
+    let parent = row.parentNode;
     row.classList.toggle('inspected', inspected);
-    var nextRow = row.nextSibling;
+    let nextRow = row.nextSibling;
     while (nextRow && +nextRow.getAttribute('data-level') > level) {
-        var temp = nextRow;
+        let temp = nextRow;
         nextRow = nextRow.nextSibling;
         parent.removeChild(temp);
     }
@@ -526,26 +547,47 @@ function calcCollection(item) {
 
 function calcRegion(item) {
     item.max = item.value = item.crtd = item.cmpl = item.energy = 0;
-    var locations = gui.getFile('locations_' + item.rid);
-    var loc_prog = gui.getGenerator().loc_prog;
-    var filters = {};
-    Object.values(gui.getFile('map_filters')).forEach(item => {
-        if (!(item.filter in filters)) {
-            filters[item.filter] = {
-                name: item.name_loc,
-                map: item.def_id,
-                order_id: +item.order_id,
-                ma: item.mobile_asset
-            };
+    let locations = gui.getFile('locations_' + item.rid);
+    let loc_prog = gui.getGenerator().loc_prog;
+    let excluded = {};
+    // There should be only one map for each pair <filter, order_id>
+    // otherwise this means that Pixel replaced an old map and we have to get the correct one
+    let byFilterOrderId = {};
+    for (let mine of Object.values(locations)) {
+        let lid = mine.def_id;
+        let filter = mapFilters[mine.filter];
+        if (!filter) {
+            excluded[lid] = 1;
+        } else if (!isMineValid(mine)) {
+            excluded[lid] = 2;
+        } else {
+            let key = mine.filter + '\t' + mine.order_id;
+            if (key in byFilterOrderId) byFilterOrderId[key].push(lid);
+            else byFilterOrderId[key] = [lid];
         }
-    });
+    }
+    // We have to check each pair with more than one map
+    for (let arr of Object.values(byFilterOrderId).filter(arr => arr.length > 1)) {
+        // Get list of all map without a progress
+        let list = arr.filter(lid => !(lid in loc_prog && +loc_prog[lid].prog > 0));
+        // If all of them are withouth a progress, then pick only the most recent one
+        // (the map with the highest id) and exclude the rest
+        if (list.length == arr.length) {
+            // Sort by lid descending and remove the first one (the maximum)
+            list.sort((a, b) => b - a);
+            list.shift();
+        }
+        // All the others are excluded
+        for (let lid of list) excluded[lid] = 3;
+    }
+
     item.rows = [];
     item.bt = item.et = 0;
-    for (var lid of Object.keys(locations)) {
-        let mine = locations[lid];
-        if ((+mine.event_id == 0 && mine.mobile_filter == 'side') || mine.group_id != 0) mine.isXLO = true;
-        let filter = filters[mine.filter];
-        if (filter && regionMineValid(mine)) {
+    for (let mine of Object.values(locations)) {
+        let lid = +mine.def_id;
+        if (!(lid in excluded)) {
+            let filter = mapFilters[mine.filter];
+            let isSide = mine.mobile_filter == 'side';
             let mPrg = +mine.progress;
             let uPrg = 0;
             let done = loc_prog[lid];
@@ -555,7 +597,7 @@ function calcRegion(item) {
                 uPrg = +done.prog;
                 bt = +done.crtd;
                 et = +done.cmpl;
-                if (!mine.isXLO) {
+                if (!isSide) {
                     // Kludge, if no created time, use the end time minus 1 second
                     if (bt == 0 && et > 0) bt = (et - 1);
                     if (bt < item.bt || item.bt == 0) item.bt = bt;
@@ -569,12 +611,12 @@ function calcRegion(item) {
             item.energy += energy;
 
             let imgUrl;
-            if (mine.tutorial > 0) {
+            if (mine.def_id in mapTutorials) {
                 imgUrl = 'tutorial.png';
             } else if (+mine.reset_cd > 0) {
                 imgUrl = 'repeat.png';
-            } else if (mine.isXLO) {
-                imgUrl = +mine.event_id > 0 ? 'q-hard.png' : 'q-side.png';
+            } else if (isSide) {
+                imgUrl = 'q-side.png';
             } else {
                 imgUrl = 'q-main.png';
             }
@@ -602,61 +644,24 @@ function visibilityChange(visible) {
     if (visible && lastTimeMined < bgp.Synchronize.lastTimeMined) update();
 }
 
-function regionMineValid(mine) {
-    // Emerald Nest (1345) was a re-diggable location until December of 2015.
+function isMineValid(mine) {
+    // Test mine are excluded
+    if (+mine.test || mine.filter == 'test' || mine.name_loc == 'TEST') return false;
+    // Mine must have an oder_id
+    if (!+mine.order_id) return false;
+    // Exclude repeatables
+    if (+mine.reset_cd) return false;
+    // Tutorial id must match player's tutorial
+    if (mine.def_id in mapTutorials && !mapTutorials[mine.def_id]) return false;
+    // Special cases
+    // a) Emerald Nest (LONA203 / #1345) was a re-diggable location until December of 2015.
     // PF changed the format. It will NOT count towards the Hero of Egypt Achievement,
     // so we ignore it. In case the Mine ID changes, we will use the Name ID as the
     // identifier
-    //
-    // Anpu's Arena (1642) and Anpu's Racetrack (1643) are not part of the
+    // b) Anpu's Arena (#1642) and Anpu's Racetrack (#1643) are not part of the
     // main game so skip as well (seem to have been a later addition?)
-    //
-    // The following mines, have old and new versions, so we need to check
-    // which is the correct version to use, the daFilters, gives the current
-    // correct list, but we need these checks to allow for users who played
-    // the old versions!
-    //
-    // All in Egypt, Anubis
-    //
-    // Deserted Tomb, OLD: 29, NEW: Various, Part of Tutorials
-    // Smugglers Den, OLD: 33, NEW: 289
-    // Prison,        OLD: 34, NEW: 292
-    // Stone Pit,     OLD: 37, NEW: 293
-    //
-    // Scandinavia, Main
-    // Snowy Grove (356) / Winter Grove (2390)
-    //
-    if (!mineValid(mine, false)) return false;
-
-    if (mine.filter == 'test' || mine.name_loc == 'TEST' /*|| mine.map == 86 || mine.map == 87 || mine.map == 88*/ ) return false;
-    let lid = mine.def_id;
+    // c) Deserted Tomb (#29) 
+    let lid = +mine.def_id;
     if (mine.name_loc == 'LONA203' || lid == 1642 || lid == 1643 || lid == 29) return false;
-    let loc_prog = gui.getGenerator().loc_prog;
-    let isAlternative = (a, b) => (lid == a && b in loc_prog) || (lid == b && a in loc_prog);
-    if (isAlternative(33, 289) || isAlternative(34, 292) || isAlternative(37, 293)) return false;
-    if (isAlternative(356, 2390)) return false;
     return true;
-}
-
-function mineValid(mine, includeRepeatables = true) {
-    if (+mine.test || !+mine.order_id) return false;
-    let user_tutorial = +gui.getGenerator().tutorial_def_id;
-    let tutorial = mineTutorial(mine);
-    if (tutorial > 0 && user_tutorial != tutorial) return false;
-    if (+mine.reset_cd > 0 && !includeRepeatables) return false;
-    return true;
-}
-
-function mineTutorial(mine) {
-    if (!mine.hasOwnProperty('tutorial')) {
-        var search = ',' + mine.def_id + ',';
-        mine.tutorial = 0;
-        for (let lesson of Object.values(gui.getFile('tutorials'))) {
-            if ((',' + lesson.locations + ',').indexOf(search) >= 0) {
-                mine.tutorial = +lesson.def_id;
-                break;
-            }
-        }
-    }
-    return mine.tutorial;
 }
