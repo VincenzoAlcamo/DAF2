@@ -202,6 +202,20 @@ let gui = {
     getRepeatables: function() {
         return bgp.Data.getRepeatables();
     },
+    getSearchFilter: function(terms) {
+        if (terms === null || terms === undefined || terms === '') return null;
+        return String(terms).toUpperCase().split('|').map(function(term) {
+            return term.split('+').reduce(function(prev, curr) {
+                if (curr == '') return prev;
+                if (!prev) return (value) => value.indexOf(curr) >= 0;
+                return (value) => value.indexOf(curr) >= 0 && prev(value);
+            }, null);
+        }).reduce(function(prev, curr) {
+            if (!curr) return prev;
+            if (!prev) return (value) => curr(value);
+            return (value) => curr(value) || prev(value);
+        }, null);
+    },
     setSelectState: function(select, value, defaultIndex) {
         select.value = value || '';
         if (select.selectedIndex < 0) {

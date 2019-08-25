@@ -132,10 +132,10 @@ function updatePillar(e) {
     let did = parseInt(td.getAttribute('did'));
     let pillar = pillars.find(pillar => pillar.did == did);
     if (el.type == 'checkbox') {
-        if(e.ctrlKey) {
+        if (e.ctrlKey) {
             e.preventDefault();
             let setAsMax = pillar.qty == 0;
-            for(let pillar of pillars) {
+            for (let pillar of pillars) {
                 pillar.qty = setAsMax ? pillar.possible : 0;
                 updateQty(pillar);
             }
@@ -244,11 +244,11 @@ function refresh() {
     let generator = gui.getGenerator();
     let level = +generator.level;
     let region = +generator.region;
-    state.search = (state.search || '').toUpperCase();
+    let fnSearch = gui.getSearchFilter(state.search);
 
     function isVisible(p) {
         if (state.show == 'possible' && (p.possible == 0 || level < p.level || region < p.region)) return false;
-        if (state.search && p.name.toUpperCase().indexOf(state.search) < 0) return false;
+        if (fnSearch && !fnSearch(p.name.toUpperCase())) return false;
         return true;
     }
 

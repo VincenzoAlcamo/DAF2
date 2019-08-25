@@ -166,12 +166,12 @@ function refresh() {
     let state = getState();
     let show = state.show;
     let not_ready = state.ready ? state.ready == 'no' : NaN;
-    let search = (state.search || '').toUpperCase();
+    let fnSearch = gui.getSearchFilter(state.search);
     let now = gui.getUnixTime();
     calculateItem();
 
     function isVisible(item) {
-        if (search && item.name.toUpperCase().indexOf(search) < 0) return false;
+        if (fnSearch && !fnSearch(item.name.toUpperCase())) return false;
         if (show == 'selected' && !item.selected) return false;
         if (not_ready == !(item.time > now)) return false;
         return true;

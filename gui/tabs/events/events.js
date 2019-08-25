@@ -201,11 +201,11 @@ function refresh() {
     let year = state.year;
     let not_segmented = state.segmented ? state.segmented == 'no' : NaN;
     let not_shop = state.shop ? state.shop == 'no' : NaN;
-    let search = (state.search || '').toUpperCase();
+    let fnSearch = gui.getSearchFilter(state.search);
     let now = gui.getUnixTime();
 
     function isVisible(item) {
-        if (search && item.name.toUpperCase().indexOf(search) < 0) return false;
+        if (fnSearch && !fnSearch(item.name)) return false;
         if (show == 'active' && item.end < now) return false;
         if (show == 'rerelease' && !item.start) return false;
         let status = '';

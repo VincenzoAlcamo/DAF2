@@ -214,6 +214,7 @@ function kitchenFoundry(type) {
         gui.updateTabState(tab);
         let state = getState();
         state.search = (state.search || '').toUpperCase();
+        let fnSearch = gui.getSearchFilter(state.search);
 
         smartTable.showFixed(false);
 
@@ -247,7 +248,7 @@ function kitchenFoundry(type) {
             if (state.show == 'possible' && (p.output == 0 || level < p.level || region < p.region)) return false;
             if (state.from == 'region' && p.eid > 0) return false;
             if (state.from == 'event' && p.eid == 0) return false;
-            if (state.search && (p.name + '\t' + p.ingredients.map(i => i.name).join('\t')).toUpperCase().indexOf(state.search) < 0) return false;
+            if (fnSearch && !fnSearch((p.name + '\t' + p.ingredients.map(i => i.name).join('\t')).toUpperCase())) return false;
             return true;
         }
 

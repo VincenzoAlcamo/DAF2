@@ -345,7 +345,7 @@ function getDateAgo(days) {
 function refreshDelayed() {
     scheduledRefresh = 0;
     let state = getState();
-    let search = (state.search || '').toUpperCase();
+    let fnSearch = gui.getSearchFilter(state.search);
     let show = state.show;
     let list, days;
     if (show == 'inlist' || show == 'notinlist') {
@@ -417,10 +417,7 @@ function refreshDelayed() {
         if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
         else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         let fullname = gui.getPlayerNameFull(pal).toUpperCase();
-        if (search != '') {
-            let text = fullname + '\t' + (pal.extra.note || '').toUpperCase();
-            if (text.indexOf(search) < 0) continue;
-        }
+        if (fnSearch && !fnSearch(fullname + '\t' + (pal.extra.note || '').toUpperCase())) continue;
         if (applyGiftFilter) {
             let flag = false;
             for (let palGift of (palGifts[pal.id] || [])) {

@@ -395,10 +395,10 @@ function refresh() {
 }
 
 function getRowVisibilityChecker() {
-    var state = getState();
-    var search = (state.search || '').toUpperCase();
-    var show = state.show;
-    var fn = {
+    let state = getState();
+    let fnSearch = gui.getSearchFilter(state.search);
+    let show = state.show;
+    let fn = {
         'a': (_friend, _pal) => true,
         'd': (friend, _pal) => friend && friend.disabled,
         'm': (friend, pal) => friend && pal,
@@ -411,11 +411,11 @@ function getRowVisibilityChecker() {
         's': (friend, pal) => friend ? friend.score == 0 : pal,
     } [show] || (() => false);
     return function isRowVisible(friend, pal) {
-        if (search) {
+        if (fnSearch) {
             let text = '';
             if (friend) text += '\t' + friend.name + '\t' + (friend.note || '');
             if (pal) text += '\t' + gui.getPlayerNameFull(pal) + '\t' + (pal.extra.note || '');
-            if (text.toUpperCase().indexOf(search) < 0) return false;
+            if (!fnSearch(text.toUpperCase())) return false;
         }
         return fn(friend, pal);
     };

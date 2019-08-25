@@ -348,7 +348,7 @@ function refresh() {
     gui.updateTabState(tab);
 
     let state = getState();
-    let search = (state.search || '').toUpperCase();
+    let fnSearch = gui.getSearchFilter(state.search);
     let type = (state.type || '').toLowerCase();
     // We use a negative here and NaN in case no comparison must be checked
     // This works because NaN is never equal to any value, so the "if" is always false.
@@ -360,7 +360,7 @@ function refresh() {
     let hideMax = state.hidemax;
 
     function isVisible(item) {
-        if (search && item.name.toUpperCase().indexOf(search) < 0) return false;
+        if (fnSearch && !fnSearch(item.name.toUpperCase())) return false;
         if (type && item.type != type) return false;
         // NaN is never equal to true/false, so this will not trigger
         if (not_owned == (item.owned > 0)) return false;

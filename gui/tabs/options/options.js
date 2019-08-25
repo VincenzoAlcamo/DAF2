@@ -164,14 +164,14 @@ function setState(state) {
 function refresh() {
     gui.updateTabState(tab);
 
-    let search = searchInput.value.toUpperCase();
+    let fnSearch = gui.getSearchFilter(searchInput.value);
     for (let table of container.querySelectorAll('.options table')) {
         let count = 0;
         let parent = null;
         for (let row of table.tBodies[0].rows) {
             if (row.classList.contains('hassuboptions')) parent = row;
             let visible = true;
-            if (search) visible = row.textContent.toUpperCase().indexOf(search) > 0;
+            if (fnSearch) visible = fnSearch(row.textContent.toUpperCase());
             row.style.display = visible ? '' : 'none';
             if (visible) {
                 count++;
