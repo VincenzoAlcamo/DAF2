@@ -10,6 +10,7 @@ export default {
 
 let tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
 let pillarsExcluded = [];
+let expByMaterial;
 
 function init() {
     tab = this;
@@ -32,36 +33,42 @@ function init() {
     container.addEventListener('tooltip', onTooltip);
 }
 
-function update() {
-    let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'decoration' && sale.hide != 1);
-
-    /* Old logic with specified values */
-    // var ids = {};
-    // for (var i = 865; i <= 904; i++) ids[i] = true;
-    // sales = sales.filter(sale => sale.object_id in ids);
-
+function getPillarSales(expByMaterial) {
     /* New logic using heuristic */
-    let salesByMaterial = {};
-
-    function setSale(sale) {
+    // Get all sales: decoration, non hidden, non-event with only one requirements
+    let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'decoration' && sale.hide != 1 && +sale.event_id == 0 && sale.requirements.length == 1);
+    // sort descending by id (newer first)
+    sales.sort((a, b) => +b.def_id - +a.def_id);
+    expByMaterial = expByMaterial || {};
+    let saleByMaterial = {};
+    let setSale = (sale) => {
         if (!sale) return;
         let materialId = sale.requirements[0].material_id;
         // Gem requirement is skipped
         if (materialId == 2) return;
         // Calculate experience for one unit of material
-        let exp1 = +sale.exp / +sale.requirements[0].amount;
+        let exp = +sale.exp / +sale.requirements[0].amount;
         // If a sale was already detected, check that it has a bigger XP return
-        if (materialId in salesByMaterial && +salesByMaterial[materialId].exp1 >= exp1) return;
-        sale = Object.assign({}, sale);
-        sale.exp1 = exp1;
-        salesByMaterial[materialId] = sale;
-    }
+        if (materialId in expByMaterial && expByMaterial[materialId] >= exp) return;
+        expByMaterial[materialId] = exp;
+        saleByMaterial[materialId] = sale;
+    };
     // Force the COIN PILLARS (decoration id = 867) in case other decoration (like ABU SIMBEL) are added in the future
     setSale(sales.find(sale => sale.object_id == 867));
-    // Get all sales: non-event with only one requirements, sort descending by id (newer first), then check and set
-    sales.filter(sale => +sale.event_id == 0 && sale.requirements.length == 1).sort((a, b) => +b.def_id - +a.def_id).forEach(setSale);
-    sales = Object.values(salesByMaterial);
+    sales.forEach(setSale);
+    return Object.values(saleByMaterial);
+}
 
+function update() {
+
+    /* Old logic with specified values */
+    // var ids = {};
+    // for (var i = 865; i <= 904; i++) ids[i] = true;
+    // let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'decoration' && sale.hide != 1);
+    // sales = sales.filter(sale => sale.object_id in ids);
+
+    expByMaterial = {};
+    let sales = getPillarSales(expByMaterial);
     let decorations = gui.getFile('decorations');
     let materialInventory = gui.getGenerator().materials;
     pillars = [];
@@ -77,7 +84,7 @@ function update() {
             pillar.name = gui.getObjectName('decoration', pillar.did);
             pillar.xp = +sale.exp;
             pillar.coins = +decoration.sell_price;
-            pillar.mname = gui.getObjectName('material', matId);
+            pillar.mname = gui.getObjectName('material', matId) + '\n' + gui.getMessage('gui_xp') + ': ' + Locale.formatNumber(expByMaterial[matId]);
             pillar.required = +req.amount;
             pillar.available = materialInventory[matId] || 0;
             pillar.matimg = gui.getObjectImage('material', matId, true);
@@ -296,7 +303,7 @@ function refresh() {
             htm += Html.br `<td>${Locale.formatNumber(pillar.xp)}</td>`;
             htm += Html.br `<td>${Locale.formatNumber(pillar.coins)}</td>`;
             htm += Html.br `<td>${Locale.formatNumber(pillar.required)}</td>`;
-            htm += Html.br `<td class="material" style="background-image:url(${pillar.matimg})" title="${pillar.mname}">${Locale.formatNumber(pillar.available)}</td>`;
+            htm += Html.br `<td class="material" style="background-image:url(${pillar.matimg})" title="${Html(pillar.mname)}">${Locale.formatNumber(pillar.available)}</td>`;
             htm += Html.br `<td>${Locale.formatNumber(pillar.perc_next, 2)}%</td>`;
             htm += Html.br `<td>${Locale.formatNumber(pillar.possible)}</td>`;
             htm += Html.br `<td did="${pillar.did}">${htmInputs}</td>`;
