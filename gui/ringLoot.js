@@ -7,7 +7,7 @@ function ringLoot(kind) {
     let floors, tokenId;
 
     if (kind == 'red') {
-        floors = [880, 1717, 1718];
+        floors = [880, 1717, 1718, 2588];
         tokenId = 1642;
     } else if (kind == 'green') {
         floors = [185, 1535, 1932, 2193, 2530];
