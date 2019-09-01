@@ -63,6 +63,7 @@ function update() {
     let eventData = generator.events || {};
     let questsFinished = gui.getArrayOfInt(generator.quests_f);
     let artifacts = gui.getArrayOfInt(generator.artifacts);
+    let eventsRegion = generator.events_region || {};
     let events = gui.getFile('events');
     allEvents = {};
     for (let event of Object.values(events)) {
@@ -149,6 +150,8 @@ function update() {
         // If event has no locations, we remove the quests
         // This should affect only postcard special weeks
         if (!item.locations) item.tquest = item.cquest = item.pquest = 0;
+
+        item.segmented = item.segmented ? eventsRegion[eid] || 0 : -1;
     }
 
     selectYear.innerHTML = '';
@@ -214,7 +217,7 @@ function refresh() {
         else status = 'incomplete';
         if ((show == 'complete' || show == 'incomplete' || show == 'notdone') && show != status) return false;
         if (year && item.yeartxt != year) return false;
-        if (not_segmented == item.segmented) return false;
+        if (not_segmented == (item.segmented >= 0)) return false;
         let inShop = item.gems > 0;
         if (not_shop == inShop) return false;
         return true;
@@ -254,7 +257,14 @@ function updateRow(row) {
     htm += Html.br `<td>${img}</td>`;
     htm += Html.br `<td>${item.name}</td>`;
     htm += Html.br `<td>${item.year ? Locale.formatYear(item.year) : ''}</td>`;
-    htm += Html.br `<td${Html.raw(item.segmented ? ' class="segmented"' : '')}></td>`;
+    img = '';
+    if (item.segmented > 0) {
+        img = gui.getObjectImg('region', item.segmented, 24);
+    } else if (item.segmented == 0) {
+        img = Html.br `<img src="/img/gui/check_yes.png" height="24">`;
+    }
+    // if (img) img = Html.raw(img.toString().replace('>', ' class="outlined">'));
+    htm += Html.br `<td>${img}</td>`;
     if (item.gems) {
         htm += Html.br `<td class="cost">${Locale.formatNumber(item.gems)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
     } else {
