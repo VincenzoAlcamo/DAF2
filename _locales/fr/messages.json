@@ -384,7 +384,7 @@
         }
     },
     "camp_your_camp": {
-        "message": "votre camp"
+        "message": "Votre camp"
     },
     "camp_player_name": {
         "message": "$PLAYER$ est sur le camp depuis le $DATE$",
@@ -413,7 +413,7 @@
         "message": "Régénération d'un seul moulin"
     },
     "camp_windmill_regen_total": {
-        "message": "régénération totale moulin"
+        "message": "Régénération totale moulin"
     },
     "camp_windmill_num": {
         "message": "Nombre actuel de moulins"
@@ -662,7 +662,7 @@
         "message": "Score"
     },
     "friendship_scoretooltip": {
-        "message": "Faites correspondre la confiance, comme suit:\n100 = Même identique de Facebook\n99 = Rencontre manuallement\n95 = Même photo de profil\n90 = Même nom complet\n80 = Même prénom et nom de famille\n70 = Même le prénom et le nom (inversé)\n60 = Correspondance des caractères chinois"
+        "message": "Faites correspondre la confiance, comme suit:\n100 = Même identique de Facebook\n99 = Rencontre manuellement\n95 = Même photo de profil\n90 = Même nom complet\n80 = Même prénom et nom de famille\n70 = Même le prénom et le nom (inversé)\n60 = Correspondance des caractères chinois"
     },
     "friendship_action": {
         "message": "Action"
@@ -695,7 +695,7 @@
         "message": "Des comptes désactivés et/ou sans correspondance ont été détectés."
     },
     "friendship_unfriendinfo": {
-        "message": "Vous pouvez les supprimer de cette page.\n\nNotez pas que les comptes Facebook peuvent être temporairement désactivés et peuvent être activés ultérieurement."
+        "message": "Vous pouvez les supprimer de cette page.\n\nSachez que les comptes Facebook peuvent être temporairement désactivés et peuvent être activés ultérieurement."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ amis \"fantômes\" ont été détectés.\nVoulez-vous les supprimer maintenant?",
@@ -887,7 +887,7 @@
         }
     },
     "friendship_manualmatchhelp": {
-        "message": "Pour correspondre à ce voisin, vous devez trouver un ami non jumelé et cliquer sur la cellule où se trouve ⭐ du symbole."
+        "message": "Pour correspondre à ce voisin, vous devez trouver un ami non jumelé et cliquer sur la cellule contenant le symbole étoile."
     },
     "friendship_friendupdateinfo": {
         "message": "La liste d'amis Facebook a été mise à jour le $DATE$",
@@ -1244,7 +1244,7 @@
         "message": "Importer des données"
     },
     "export_invalidexportdata": {
-        "message": "Fichier n'est pas exporter des données DAF valide pour le joueur en cours!"
+        "message": "Le fichier n'est pas une donnée d'exportation de DAF valide pour le lecteur actuel!"
     },
     "export_importsuccess": {
         "message": "Les données ont été importées avec succès!"
@@ -1341,7 +1341,7 @@
         "message": "Matériaux\nspéciaux"
     },
     "events_completed": {
-        "message": "Terminé"
+        "message": "Terminés"
     },
     "events_total": {
         "message": "Total"
@@ -1359,13 +1359,13 @@
         "message": "Répétables"
     },
     "events_active": {
-        "message": "Active"
+        "message": "Actifs"
     },
     "events_rerelease": {
         "message": "Achat/Cadeau"
     },
     "events_complete": {
-        "message": "Achevé"
+        "message": "Achevés"
     },
     "events_incomplete": {
         "message": "Incomplète"
