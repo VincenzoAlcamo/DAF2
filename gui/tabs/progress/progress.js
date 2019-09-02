@@ -580,6 +580,11 @@ function calcRegion(item) {
         // All the others are excluded
         for (let lid of list) excluded[lid] = 3;
     }
+    // Exclude some maps, if the progress is 0
+    // Small Oasis (406)
+    for (let lid of [406]) {
+        if (!(lid in loc_prog) || +loc_prog[lid].prog == 0) excluded[lid] = 4;
+    }
 
     item.rows = [];
     item.bt = item.et = 0;
@@ -624,6 +629,7 @@ function calcRegion(item) {
             item.rows.push({
                 img: Html `<img height="24" src="/img/gui/${imgUrl}">`,
                 name_loc: mine.name_loc,
+                // name: gui.getString(mine.name_loc) + ' (' + lid + ')',
                 value: uPrg,
                 max: mPrg,
                 gname: filter.name,
