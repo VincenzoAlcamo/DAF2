@@ -1,3 +1,4 @@
+/*global chrome*/
 (function() {
     // we try several times (popup has not finished initializing)
     console.log('Begin');
@@ -35,8 +36,11 @@
             console.log('Clicking');
             element.click();
             // just in case the popup has not been closed
-            setTimeout(autoClick, 2000);
-            setTimeout(autoClick, 5000);
+            setTimeout(function() {
+                chrome.runtime.sendMessage({
+                    action: 'closeWindow',
+                });
+            }, 3000);
         } else if (--count > 0) setTimeout(autoClick, timeout);
     }
     autoClick();

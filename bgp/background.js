@@ -1681,6 +1681,9 @@ async function init() {
         addRewardLinks: function(request, _sender) {
             return Data.addRewardLinks(request.values);
         },
+        closeWindow: function(_request, sender) {
+            chrome.tabs.remove(sender.tab.id);
+        },
         friendsCaptured: function(request, sender) {
             if (request.data) Data.friendsCaptured(request.data);
             if (request.close) chrome.tabs.remove(sender.tab.id);
