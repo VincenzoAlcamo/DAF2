@@ -233,7 +233,7 @@ function updateRow(row) {
     // let img = `${gui.getGenerator().cdn_root}mobile/graphics/map/webgl_locations/${item.gr_library}_${item.gr_clip}.png`;
     let img = `${gui.getGenerator().cdn_root}mobile/graphics/map/${item.mobile_asset}.png`;
     htm += Html.br `<td><input type="checkbox"${item.selected ? Html(' checked') : ''}></td>`;
-    htm += Html.br `<td><div class="mobile"><img src="${img}" title="${item.name}\n${gui.getMessage('pillars_ignore')}"></div></td>`;
+    htm += Html.br `<td><div class="mobile"><img src="${img}" title="${Html(item.name)}"></div></td>`;
     htm += Html `<td>${item.name}</td>`;
     htm += Html.br `<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, true) : gui.getObjectImg('region', item.region, 32, false, true)}</td>`;
     htm += Html.br `<td>${gui.getDuration(item.cooldown, true)}</td>`;
