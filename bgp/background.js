@@ -571,6 +571,7 @@ var WebRequest = {
             Badge.setText('');
         } else if (urlInfo.pathname == '/miner/login.php') {
             Badge.setIcon('grey');
+            Badge.setText('');
             Tab.injectGame(details.tabId);
             Debugger.attach(details.tabId);
         } else if (urlInfo.pathname == '/miner/generator.php') {
@@ -1598,6 +1599,8 @@ var Synchronize = {
 //#region INIT
 async function init() {
     Badge.setIcon('grey');
+    Badge.setBackgroundColor('purple');
+    Badge.setText('INIT');
     await Preferences.init();
     await Data.init();
     await Message.init();
@@ -1692,6 +1695,7 @@ async function init() {
         Data.checkLocalization('');
         Badge.setIcon('yellow');
     }
+    Badge.setText('');
 
     if (Preferences.getValue('keepDebugging')) autoAttachDebugger();
 
