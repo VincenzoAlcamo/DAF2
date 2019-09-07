@@ -737,7 +737,6 @@ var Data = {
             chrome.management.getSelf(function(self) {
                 Data.isDevelopment = self.installType == 'development';
                 Data.version = self.version;
-                Data.versionName = self.versionName;
                 resolve();
             });
         });
