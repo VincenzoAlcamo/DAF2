@@ -309,7 +309,7 @@
         }
     },
     "about_data": {
-        "message": "Dernière mise à jour: $TIME$\nSite de jeu: $SITE$ ($PLATFORM$)\nIdentifiant d'utilisateur: #$USERID$",
+        "message": "Dernière mise à jour le $TIME$\nSite de jeu: $SITE$ ($PLATFORM$)\nIdentifiant d'utilisateur: #$USERID$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -387,7 +387,7 @@
         "message": "Votre camp"
     },
     "camp_player_name": {
-        "message": "$PLAYER$, votre camp depuis le $DATE$",
+        "message": "$PLAYER$, ton camp depuis le $DATE$",
         "placeholders": {
             "player": {
                 "content": "$1"
@@ -496,7 +496,7 @@
         "message": "Seuls les piliers possibles"
     },
     "pillars_perc_next": {
-        "message": "Suivant\nen pourcentage"
+        "message": "Suivant en\npourcentage"
     },
     "pillars_possible": {
         "message": "Possible"
@@ -1181,7 +1181,7 @@
         "message": "Supprimer les anciens liens"
     },
     "rewardlinks_removeselected": {
-        "message": "Supprimer la sélection"
+        "message": "Supprimer vos liens"
     },
     "rewardlinks_removelinksdays": {
         "message": "Supprimer les liens de récompense non collectables âgés de plus de  @DAYS@ jours.\nCela inclut les liens expirés et les liens déjà collectés..\nLes liens de plus de $NUM$ jours sont supprimés périodiquement.",
@@ -1192,7 +1192,7 @@
         }
     },
     "rewardlinks_removenone": {
-        "message": "Aucun lien à supprimer!"
+        "message": "Aucuns liens à supprimer!"
     },
     "rewardlinks_removeconfirm": {
         "message": "Les liens qui seront supprimés: $NUM$\nLes liens supprimés ne peuvent plus être ajoutés.\n\nProcéder à la suppression?",
@@ -1536,7 +1536,7 @@
         "message": "Ajouter un résumé\nSi la page n'est pas fermée automatiquement, un résumé est inséré au bas de la page."
     },
     "options_linkgrabenabled": {
-        "message": "Link Grabber\nActiver Link Grabber sur les pages Facebook.\nSinon, les options suivantes n'ont aucun effet."
+        "message": "Link Grabber\nActiver Link Grabber (lien de saisie) sur les pages Facebook.\nSinon, les options suivantes n'ont aucun effet."
     },
     "options_linkgrabbutton": {
         "message": "Bouton de souris\nChanger le bouton qui lance le Link Grabber."
