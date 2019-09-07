@@ -8,7 +8,7 @@ export default {
 function init() {}
 
 function update() {
-    this.container.querySelector('.about_version a').innerHTML = Html.br(gui.getMessage('about_version', bgp.Data.versionName));
+    this.container.querySelector('.about_version a').innerHTML = Html.br(gui.getMessage('about_version', bgp.Data.version));
 
     let generator = gui.getGenerator();
     let div = this.container.querySelector('.about_data');
