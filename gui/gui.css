@@ -855,10 +855,16 @@ td.dot.dot2 {
   background-position: 4px center;
 }
 
+.rings.card .no-minmax,
 .rings-no-level .rings.card .level,
+.rings-no-minmax .rings.card th.minmax,
 .rings-no-minmax .rings.card .min,
 .rings-no-minmax .rings.card .max {
   display: none;
+}
+
+.rings-no-minmax .rings.card th.no-minmax {
+  display: table-cell;
 }
 
 .rings tr.not-random td.max,

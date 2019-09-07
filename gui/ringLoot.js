@@ -1,18 +1,23 @@
-/*global gui Html Locale*/
+/*global bgp gui Html Locale*/
 
 export default ringLoot;
 
 function ringLoot(kind) {
 
-    let floors, tokenId;
+    let mines, tokenId, locations;
+    let requires = ['materials', 'usables', 'tokens'];
 
-    if (kind == 'red') {
-        floors = [880, 1717, 1718, 2588];
-        tokenId = 1642;
-    } else if (kind == 'green') {
-        floors = [185, 1535, 1932, 2193, 2530];
+    if (kind == 'green') {
         tokenId = 32;
+        let maxRId = gui.getMaxRegion();
+        locations = [];
+        for (let rid = 1; rid <= maxRId; rid++) locations.push('locations_' + rid);
+        requires.push('special_weeks');
+    } else if (kind == 'red') {
+        tokenId = 1642;
+        locations = ['locations_0'];
     } else throw 'Invalid kind "' + kind + '"';
+    requires = requires.concat(locations);
 
     let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel;
     let checkState = {};
@@ -30,50 +35,31 @@ function ringLoot(kind) {
 
         checkLevel = container.querySelector('[name=showlevel]');
         checkLevel.addEventListener('click', onInput);
-
-        let parent = container.querySelector('.scrollable-content');
-        for (let lid of floors) {
-            let mine = getMine(lid);
-            let htm = '';
-            htm += Html.br `<input type="checkbox" id="loot_${lid}">`;
-            htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html `<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
-            htm += Html.br `<div></div>`;
-            let div = document.createElement('div');
-            div.className = 'card rings';
-            div.innerHTML = htm;
-            parent.appendChild(div);
-            let input = div.querySelector('input');
-            input.addEventListener('click', function() {
-                setRotate(this);
-                gui.updateTabState(tab);
-            });
-        }
     }
 
     function getState() {
-        let getCheck = (id, c) => checkState[id] ? c : '';
         let level = parseInt(inputLevel.value) || 0;
         return {
             minmax: checkMinMax.checked,
             [checkLevel.checked ? 'level' : 'no-level']: (level >= 1 && level <= 999 ? level : +gui.getGenerator().level),
-            h: floors.map((lid, index) => getCheck('loot_' + lid, index + 1)).filter(v => v).join(',')
+            h: Object.keys(checkState).join(',')
         };
     }
 
     function setState(state) {
-        let h = String(state.h || '').toLowerCase();
+        checkState = {};
+        for (const index of gui.getArrayOfInt(state.h)) checkState[index] = true;
         let setCheck = (id, c) => {
-            checkState[id] = h.indexOf(c) >= 0;
             let input = document.getElementById(id);
             if (input) {
-                input.checked = checkState[id];
+                input.checked = !!checkState[c];
                 setRotate(input);
             }
         };
         checkLevel.checked = 'level' in state;
         let level = parseInt(state.level || state['no-level']) || 0;
         inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
-        floors.forEach((lid, index) => setCheck('loot_' + lid, index + 1));
+        for (const [index, mine] of (mines || []).entries()) setCheck('loot_' + mine.def_id, index + 1);
         checkMinMax.checked = !!state.minmax;
     }
 
@@ -90,7 +76,7 @@ function ringLoot(kind) {
         }
     }
 
-    function update() {
+    async function update() {
         let img = gui.getObjectImg('token', tokenId, 24, true);
         let qty = gui.getGenerator().tokens[tokenId] || 0;
         container.querySelector('.stats').innerHTML = Html.br `${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
@@ -107,17 +93,27 @@ function ringLoot(kind) {
             divWarning.style.display = 'none';
         }
 
+        let seconds = (kind == 'green' ? 168 : 2) * 3600;
+        let eid = kind == 'green' ? 0 : 20;
+        mines = [];
+        for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
+            return +mine.test == 0 && +mine.event_id == eid && +mine.reset_cd == seconds;
+        }));
+
         floorData = {};
-        for (let lid of floors) {
-            let mine = getMine(lid);
-            let floors = gui.getFile('floors_' + lid);
+        let parent = container.querySelector('.scrollable-content');
+        parent.innerHTML = '';
+        for (const [index, mine] of mines.entries()) {
+            let lid = mine.def_id;
+            if (+mine.region_id > +gui.getGenerator().region) continue;
+            let floors = await bgp.Data.getFile('floors_' + lid);
             let allLoots = [];
             let chest = 0;
-            for (let floor of floors.floor) {
+            for (const floor of floors.floor) {
                 let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
                 lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
                 let loots = [];
-                for (let lootArea of lootAreas) {
+                for (const lootArea of lootAreas) {
                     if (lootArea.type == 'token') continue;
                     let tle = lootArea.tiles;
                     if (typeof tle != 'string') continue;
@@ -134,7 +130,7 @@ function ringLoot(kind) {
                 loots.sort((a, b) => a.tle.localeCompare(b.tle));
 
                 let last = null;
-                for (let lootArea of loots) {
+                for (const lootArea of loots) {
                     if (last == null || last.tle != lootArea.tle) {
                         last = lootArea;
                         chest = chest + 1;
@@ -150,8 +146,21 @@ function ringLoot(kind) {
                 mine: mine,
                 loots: allLoots
             };
-            let div = container.querySelector('#loot_' + lid).parentNode;
-            div.style.display = +mine.region_id > +gui.getGenerator().region ? 'none' : '';
+            if (+gui.getGenerator().region >= +mine.region_id) {
+                let htm = '';
+                htm += Html.br `<input type="checkbox" id="loot_${lid}" data-index="${index + 1}">`;
+                htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html `<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
+                htm += Html.br `<div></div>`;
+                let div = document.createElement('div');
+                div.className = 'card rings';
+                div.innerHTML = htm;
+                parent.appendChild(div);
+                let input = div.querySelector('input');
+                input.addEventListener('click', function() {
+                    setRotate(this);
+                    gui.updateTabState(tab);
+                });
+            }
         }
         setState(getState());
         refresh();
@@ -159,7 +168,9 @@ function ringLoot(kind) {
 
     function setRotate(input) {
         let div = input.parentNode;
-        checkState[input.id] = input.checked;
+        let index = input.getAttribute('data-index');
+        if (input.checked) checkState[index] = true;
+        else delete checkState[index];
         if (input.checked) {
             let width = div.offsetWidth;
             let height = div.offsetHeight;
@@ -174,35 +185,30 @@ function ringLoot(kind) {
     }
 
     function refresh() {
-        let state = getState();
+        const state = getState();
+        container.classList.toggle('rings-minmax', state.minmax);
         container.classList.toggle('rings-no-minmax', !state.minmax);
         container.classList.toggle('rings-no-level', !checkLevel.checked);
         let level = inputLevel.value;
         if (level < 1 || level > 999) level = +gui.getGenerator().level;
-        for (let lid of floors) showLoot(level, lid);
-    }
-
-    function getMine(lid) {
-        let maxRegion = gui.getMaxRegion();
-        for (let rid = 0; rid <= maxRegion; rid++) {
-            let mine = gui.getFile('locations_' + rid)[lid];
-            if (mine) return mine;
-        }
-        return null;
+        for (const mine of mines) showLoot(level, mine.def_id);
     }
 
     function showLoot(otherLevel, lid) {
+        let parent = container.querySelector('#loot_' + lid);
+        if (!parent) return;
         let level = +gui.getGenerator().level;
         let htm = '';
         htm += Html.br `<table><thead><tr>`;
-        htm += Html.br `<th><img src="/img/gui/chest.png"/></th>`;
-        htm += Html.br `<th>${gui.getMessage('gui_loot')}</th>`;
-        let text = gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level) + '\n(';
-        htm += Html.br `<th class="min"><img src="/img/gui/min.png" title="${Html(text + gui.getMessage('gui_minimum') + ')')}"/></th>`;
-        htm += Html.br `<th class="avg"><img src="/img/gui/avg.png" title="${Html(text + gui.getMessage('gui_average') + ')')}"/></th>`;
-        htm += Html.br `<th class="max"><img src="/img/gui/max.png" title="${Html(text + gui.getMessage('gui_maximum') + ')')}"/></th>`;
-        text = gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(';
-        htm += Html.br `<th class="level">${text + gui.getMessage('gui_average') + ')'}</th>`;
+        htm += Html.br `<th rowspan="2"><img src="/img/gui/chest.png"/></th>`;
+        htm += Html.br `<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
+        htm += Html.br `<th colspan="3" class="minmax">${gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level)}</th>`;
+        htm += Html.br `<th rowspan="2" class="no-minmax">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(level) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+        htm += Html.br `<th rowspan="2" class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+        htm += Html.br `</tr><tr>`;
+        htm += Html.br `<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
+        htm += Html.br `<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
+        htm += Html.br `<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
         htm += Html.br `</tr></thead>`;
         htm += Html.br `<tbody>`;
         let lastChest = 0;
@@ -210,7 +216,7 @@ function ringLoot(kind) {
         let multiplier = swDoubleDrop ? swDoubleDrop.coeficient : 1;
         let tdAvg = Html `<td class="avg">`;
         let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
-        for (let lootArea of floorData[lid].loots) {
+        for (const lootArea of floorData[lid].loots) {
             let coef = lootArea.coef;
             let notRandom = lootArea.min == lootArea.max;
             let min, max, avg;
@@ -237,23 +243,16 @@ function ringLoot(kind) {
         }
         htm += Html.br `</tbody>`;
         htm += Html.br `</table>`;
-        let parent = container.querySelector('#loot_' + lid);
         parent = parent.parentNode.querySelector('div');
         parent.innerHTML = htm;
     }
 
     return {
-        init: init,
-        update: update,
-        refresh: refresh,
-        getState: getState,
-        setState: setState,
-        requires: (function() {
-            let requires = ['materials', 'usables', 'tokens'];
-            if (kind == 'green') requires.push('special_weeks');
-            for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
-            for (let lid of floors) requires.push('floors_' + lid);
-            return requires;
-        })()
+        init,
+        update,
+        refresh,
+        getState,
+        setState,
+        requires
     };
 }
