@@ -581,8 +581,13 @@ function showPacks(packId) {
     let buildings = gui.getFile('buildings');
 
     let pack = packs[packId];
+    packId = +pack.def_id;
     let related = gui.getArrayOfInt(pack.deny_list);
-    related.push(+pack.def_id);
+    related = related.filter(id => {
+        let pack = packs[id];
+        return pack && gui.getArrayOfInt(pack.deny_list).includes(packId);
+    });
+    related.push(packId);
 
     let hash = {};
     let regions = [];
