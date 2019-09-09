@@ -300,7 +300,13 @@ function collectFriends(method) {
             details.file = '/inject/collectfriends.js';
             chrome.tabs.executeScript(tabId, details, function() {
                 delete details.file;
-                details.code = `unmatched=${JSON.stringify(unmatched)};collectMethod=${JSON.stringify(method)};removeGhosts=${JSON.stringify(getRemoveGhosts())};collect();`;
+                let code = '';
+                let addVar = (name, value) => code += name + '=' + JSON.stringify(value) + ';';
+                addVar('language', gui.getPreference('language'));
+                addVar('unmatched', unmatched);
+                addVar('collectMethod', method);
+                addVar('removeGhosts', getRemoveGhosts());
+                details.code = code + 'collect();';
                 chrome.tabs.executeScript(tabId, details, function() {});
             });
         });

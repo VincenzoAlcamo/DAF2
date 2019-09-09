@@ -1,4 +1,4 @@
-/*global chrome Parser UrlInfo idb Html Locale*/
+﻿/*global chrome Parser UrlInfo idb Html Locale*/
 'use strict';
 
 //#region MISCELLANEOUS
@@ -15,8 +15,12 @@ function getUnixTime() {
     return Math.floor(Date.now() / 1000);
 }
 
+let languageId = 'en';
+
 function getMessage(id, ...args) {
-    return chrome.i18n.getMessage(id, args);
+    let text = chrome.i18n.getMessage(languageId + '@' + id, args);
+    if (text == '' && languageId != 'en') text = chrome.i18n.getMessage('en@' + id, args);
+    return text;
 }
 
 var Badge = {
@@ -48,6 +52,7 @@ var Preferences = {
     handlers: {},
     getDefaults: function() {
         return {
+            language: '',
             injectGame: true,
             resetFullWindow: true,
             fullWindow: false,
@@ -298,8 +303,8 @@ if (loginButton) {
                 chrome.tabs.executeScript(tabId, details, function() {
                     delete details.file;
                     details.code = '';
-                    for (let key of ['linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
-                        details.code += key + '=' + Preferences.getValue(key) + ';';
+                    for (let key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
+                        details.code += key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
                     details.code += 'initialize();';
                     chrome.tabs.executeScript(tabId, details, function() {});
                 });
@@ -656,7 +661,37 @@ var Data = {
     REWARDLINKS_REMOVE_DAYS: 10,
     REWARDLINKS_HISTORY_MAXITEMS: 10000,
     GC_REFRESH_HOURS: 22,
+    languages: [
+        ['da', 'Danish', 'Dansk'],
+        ['de', 'German', 'Deutsch'],
+        ['el', 'Greek', 'Ελληνικά'],
+        ['en', 'English', 'English'],
+        ['es', 'Spanish (Castilian)', 'Español (Castellano)'],
+        ['fr', 'French', 'Français'],
+        ['it', 'Italian', 'Italiano'],
+        ['pl', 'Polish', 'Polski']
+    ],
+    acceptedLanguages: [],
+    detectLanguage: function(lang) {
+        let languages = [].concat(lang, Data.acceptedLanguages);
+        for (let id of languages) {
+            let match = String(id || '').match(/([a-z]+)[^a-z]?/i);
+            if (match) {
+                let lang = match[1].toLowerCase();
+                if (Data.languages.find(item => item[0] == lang)) {
+                    return lang;
+                }
+            }
+        }
+        return 'en';
+    },
     init: async function() {
+        await new Promise(function(resolve, _reject) {
+            chrome.i18n.getAcceptLanguages(items => {
+                if (!hasRuntimeError()) Data.acceptedLanguages = items;
+                resolve();
+            });
+        });
         Data.db = await idb.open('DAF', 1, function(db) {
             switch (db.oldVersion) {
                 case 0:
@@ -1607,6 +1642,10 @@ async function init() {
     await WebRequest.init();
     await Tab.init();
 
+    let lang = Preferences.getValue('language');
+    languageId = Data.detectLanguage(lang);
+    if (languageId !== lang) Preferences.setValue('language', languageId);
+
     function autoAttachDebugger() {
         Data.generator && Data.generator.player_id && Debugger.attach();
     }
@@ -1690,7 +1729,8 @@ async function init() {
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));
 
     Object.entries({
-        keepDebugging: value => value ? autoAttachDebugger() : Debugger.detach()
+        keepDebugging: value => value ? autoAttachDebugger() : Debugger.detach(),
+        language: value => languageId = value
     }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
 
     if (Data.generator && Data.generator.player_id) {

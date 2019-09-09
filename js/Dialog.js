@@ -41,8 +41,11 @@ Object.assign(Dialog, {
     escapeHtmlBr: function(value) {
         return Dialog.escapeHtml(value).replace(/\n/g, '<br>');
     },
-    getMessage: function(message, subs = null) {
-        return chrome.i18n ? Dialog.escapeHtmlBr(chrome.i18n.getMessage(message, subs)) : message;
+    language: 'en',
+    getMessage: function getMessage(id, ...args) {
+        let text = chrome.i18n.getMessage(Dialog.language + '@' + id, args);
+        if (text == '' && Dialog.language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
+        return text;
     },
     onkeydown: function(event) {
         if (event.keyCode == 27 && this.cancelable) {

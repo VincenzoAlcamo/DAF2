@@ -4,6 +4,7 @@ let linkGrabButton = 2;
 let linkGrabKey = 0;
 let linkGrabSort = 1;
 let linkGrabConvert = 0;
+let language = 'en';
 
 const LEFT_BUTTON = 0;
 const KEY_ESC = 27;
@@ -30,7 +31,9 @@ let links = [];
 let linkCount, oldLabel, mouseX, mouseY, startX, startY, autoOpenElement, autoOpenCount, flagLinks;
 
 function getMessage(id, ...args) {
-    return chrome.i18n.getMessage(id, args);
+    let text = chrome.i18n.getMessage(language + '@' + id, args);
+    if (text == '' && language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
+    return text;
 }
 
 function addListeners(obj, _args) {
@@ -50,6 +53,7 @@ function removeListeners(obj, _args) {
 
 // eslint-disable-next-line no-unused-vars
 function initialize() {
+    Dialog.language = language;
     var link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';

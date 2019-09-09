@@ -1,4 +1,5 @@
 /*global chrome Dialog*/
+var language = 'en';
 var collectMethod = 'standard';
 var removeGhosts = 0;
 var unmatched = '';
@@ -10,6 +11,12 @@ var friends = [];
 var ulInactiveParent = null;
 var ulInactive = null;
 var liInactive = [];
+
+function getMessage(id, ...args) {
+    let text = chrome.i18n.getMessage(language + '@' + id, args);
+    if (text == '' && language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
+    return text;
+}
 
 function addFriend(friend) {
     var old = hashById[friend.id];
@@ -30,6 +37,7 @@ function viewDisabled() {
 
 // eslint-disable-next-line no-unused-vars
 function collect() {
+    Dialog.language = language;
     var container = document.getElementById('pagelet_timeline_medley_friends');
     if (container) {
         if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
@@ -44,7 +52,7 @@ function collect() {
 
 function getStatInfo(num, total) {
     var count = num == total ? total : (num + ' / ' + total);
-    return chrome.i18n.getMessage('friendship_collectstat', [count]);
+    return getMessage('friendship_collectstat', count);
 }
 
 function sendFriends() {
@@ -62,7 +70,7 @@ function sendFriends() {
         viewDisabled();
         wait.hide();
         dialog.show({
-            text: chrome.i18n.getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' : 'friendship_disabledaccountsdetected') + '\n' + chrome.i18n.getMessage('friendship_unfriendinfo'),
+            text: getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' : 'friendship_disabledaccountsdetected') + '\n' + getMessage('friendship_unfriendinfo'),
             style: [Dialog.OK]
         }, viewDisabled);
     }
@@ -143,7 +151,7 @@ function collectStandard() {
 function collectAlternate() {
     var fb_dtsg, fb_id, req, ghosts, toRemove, numToRemove, numProcessed, numRemoved, removingMessage, removedMessage;
 
-    wait.show().setText(chrome.i18n.getMessage('friendship_collectalternatewait'));
+    wait.show().setText(getMessage('friendship_collectalternatewait'));
 
     try {
         fb_dtsg = document.getElementsByName('fb_dtsg')[0].value;
@@ -201,7 +209,7 @@ function collectAlternate() {
             wait.hide();
             if (removeGhosts == 2) startRemoving(ghosts, 'friendship_ghostfriendremoving', null);
             else dialog.show({
-                text: chrome.i18n.getMessage('friendship_ghostfriendsdetected', [ghosts.length]),
+                text: getMessage('friendship_ghostfriendsdetected', ghosts.length),
                 style: [Dialog.OK, Dialog.CANCEL]
             }, function(method) {
                 if (method != Dialog.OK) {
@@ -234,13 +242,13 @@ function collectAlternate() {
         var name = item && item[1];
         if (item) {
             numProcessed++;
-            wait.setText(chrome.i18n.getMessage(removingMessage, [numProcessed, numToRemove]));
+            wait.setText(getMessage(removingMessage, numProcessed, numToRemove));
             remove();
         } else {
             wait.hide();
             if (removedMessage)
                 dialog.show({
-                    text: chrome.i18n.getMessage(removedMessage, [numRemoved]),
+                    text: getMessage(removedMessage, numRemoved),
                     style: [Dialog.OK]
                 }, continueOperation);
             else continueOperation();

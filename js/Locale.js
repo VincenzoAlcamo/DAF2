@@ -80,9 +80,6 @@ const Locale = (function() {
     return {
         getLocale: getLocale,
         setLocale: setLocale,
-        getMessage: function(id, ...args) {
-            return chrome.i18n.getMessage(id, args);
-        },
         formatList: formatList,
         formatNumber: formatNumber,
         getDate: getDate,

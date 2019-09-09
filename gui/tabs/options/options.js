@@ -1,4 +1,4 @@
-/*global chrome gui Html*/
+/*global bgp chrome gui Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -119,6 +119,9 @@ function init() {
     ]);
     endSection();
     beginSection('general');
+    let languages = bgp.Data.languages.map(item => [item[0], item[1] + ' - ' + item[2]]);
+    languages.sort((a, b) => a[1].localeCompare(b[1]));
+    option('language', CRITICAL, languages);
     option('autoLogin');
     option('keepDebugging', WARNING);
     endSection();
@@ -140,7 +143,9 @@ function init() {
     for (let input of container.querySelectorAll('[data-pref]')) {
         if (input.tagName == 'SELECT') {
             input.addEventListener('input', function() {
-                gui.setPreference(input.getAttribute('data-pref'), input.value);
+                let prefName = input.getAttribute('data-pref');
+                gui.setPreference(prefName, input.value);
+                if (prefName == 'language') document.location.reload();
             });
         } else if (input.type == 'checkbox') {
             input.addEventListener('click', function() {

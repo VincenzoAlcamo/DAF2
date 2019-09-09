@@ -62,7 +62,10 @@ var htmlEncodeBr = (function() {
 })();
 
 function getMessage(id, ...args) {
-    return chrome.i18n.getMessage(id, args);
+    let language = prefs.language || 'en';
+    let text = chrome.i18n.getMessage(language + '@' + id, args);
+    if (text == '' && language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
+    return text;
 }
 
 function getFullWindow() {
@@ -409,7 +412,7 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    'resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
+    'language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
@@ -455,8 +458,8 @@ function init() {
             loadCompleted = true;
             onFullWindow();
             if (miner) ongcTable(true);
-            if(!getFullWindow() && !miner && prefs.fullWindowTimeout > 0) setTimeout(function() {
-                if(!getFullWindow()) sendPreference('fullWindow', true);
+            if (!getFullWindow() && !miner && prefs.fullWindowTimeout > 0) setTimeout(function() {
+                if (!getFullWindow()) sendPreference('fullWindow', true);
             }, prefs.fullWindowTimeout * 1000);
         };
         handlers['@gcTableStatus'] = setgcTableStatus;
@@ -480,7 +483,18 @@ function init() {
     window.exitFullscreen = function() {
         if (!document.mozFullScreenElement) return original_exitFullscreen();
         window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
+    };
+    var original_userRequest = window.userRequest;
+    window.userRequest = function(recipients, req_type) {
+        cur_req_type = req_type;
+        cur_recipients = String(recipients).split(',').filter(id => id > 0).join(',');
+        if (cur_recipients) userRequestResult({ request: true });
+    };
+    function setCookie(name, value) {
+        document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
     }
+    setCookie('settings_gem_confirmation', '1');
+    setCookie('fb_sharing', '1');
 })();
 `);
             }

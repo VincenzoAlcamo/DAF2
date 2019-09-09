@@ -26,7 +26,7 @@ function init() {
     for (let days of [7, 14, 21, 28, 35, 42]) {
         let option = document.createElement('option');
         option.value = 'nogift' + days;
-        option.innerText = Locale.getMessage('neighbors_nogift', days);
+        option.innerText = gui.getMessage('neighbors_nogift', days);
         selectShow.appendChild(option);
     }
 
@@ -41,7 +41,7 @@ function init() {
 
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
-    trGifts.innerHTML = Html.br `<td colspan="12"><div>${Locale.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+    trGifts.innerHTML = Html.br `<td colspan="12"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
 
     let button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
@@ -434,7 +434,7 @@ function refreshDelayed() {
 
     smartTable.tbody[0].innerHTML = '';
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
-        cell.innerText = Locale.getMessage('neighbors_found', items.length, neighbors.length);
+        cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });
 
     scheduledRefresh = setTimeout(function() {

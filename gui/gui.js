@@ -59,8 +59,8 @@ let gui = {
     getString: function(id) {
         return bgp.Data.getString(id);
     },
-    getMessage: function(id, ...args) {
-        return chrome.i18n.getMessage(id, args);
+    getMessage: function() {
+        return bgp.getMessage.apply(null, arguments);
     },
     getMessageAndValue: function(id, value) {
         return gui.getMessage(id) + ': ' + value;
@@ -574,6 +574,7 @@ function notifyVisibility(tab, visible) {
 }
 
 function onLoad() {
+    Dialog.language = gui.getPreference('language');
     let htm = '';
     let hasValidGenerator = gui.hasValidGenerator();
     for (let tab of Object.values(tabs)) {
@@ -791,3 +792,36 @@ function openWiki(page) {
     });
 }
 //#endregion
+
+// eslint-disable-next-line no-unused-vars
+async function processLanguages() {
+    let languages = bgp.Data.languages.map(item => item[0]);
+    let result = {};
+    result.ext_title = result.ext_name = {
+        message: ''
+    };
+    for (let lang of languages) {
+        let url = chrome.extension.getURL('/._locales/' + lang + '/messages.json');
+        let response = await fetch(url);
+        let text = await response.text();
+        let items = JSON.parse(text);
+        for (let [key, item] of Object.entries(items)) {
+            let message = item.message;
+            let placeholders = item.placeholders;
+            if (placeholders) {
+                let hash = {};
+                for (let [key, item] of Object.entries(placeholders)) hash[key.toLowerCase()] = item.content;
+                message = message.replace(/\$([a-z][a-z0-9_]*)\$/gi, (t, name) => hash[name.toLowerCase()]);
+            }
+            result[lang + '@' + key.toLowerCase()] = {
+                message
+            };
+        }
+        if (lang == 'en') {
+            result.ext_name = result[lang + '@ext_name'];
+            result.ext_title = result[lang + '@ext_title'];
+        } else delete result[lang + '@ext_name'];
+    }
+    result = JSON.stringify(result).replace(/},"/g, '},\n"');
+    gui.downloadData(result, 'messages.json');
+}
