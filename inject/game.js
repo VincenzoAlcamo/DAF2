@@ -414,7 +414,7 @@ function init() {
     prefs = {};
     let addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
-    addPrefs('autoClick,gcTable,gcTableCounter,gcTableRegion,hacks,@bodyHeight,@gcTableStatus');
+    addPrefs('autoClick,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight,@gcTableStatus');
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
@@ -478,7 +478,7 @@ function init() {
                 if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
-            let hacks = String(prefs.hacks || '').split(',');
+            let fixes = String(prefs.fixes || '').split(',');
             if (isWebGL) {
                 let code = '';
                 code += `
@@ -488,7 +488,7 @@ window.exitFullscreen = function() {
     window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
 };
 `;
-                if (hacks.includes('gc')) {
+                if (fixes.includes('gc')) {
                     code += `
 var original_userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
@@ -498,7 +498,7 @@ window.userRequest = function(recipients, req_type) {
 };
 `;
                 }
-                if (hacks.includes('settings')) {
+                if (fixes.includes('settings')) {
                     code += `
 function setCookie(name, value) {
     document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
