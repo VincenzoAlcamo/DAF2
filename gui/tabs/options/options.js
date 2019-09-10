@@ -68,6 +68,13 @@ function init() {
         }
     }
 
+    beginSection('general');
+    let languages = bgp.Data.languages.map(item => [item[0], item[1] + ' - ' + item[2]]);
+    languages.sort((a, b) => a[1].localeCompare(b[1]));
+    option('language', CRITICAL, languages);
+    option('autoLogin');
+    option('keepDebugging', WARNING);
+    endSection();
     beginSection('ingame');
     option('injectGame', CRITICAL);
     option('fullWindow', WITHSUBOPTIONS);
@@ -117,13 +124,6 @@ function init() {
         [3, 'Facebook'],
         [2, 'Portal']
     ]);
-    endSection();
-    beginSection('general');
-    let languages = bgp.Data.languages.map(item => [item[0], item[1] + ' - ' + item[2]]);
-    languages.sort((a, b) => a[1].localeCompare(b[1]));
-    option('language', CRITICAL, languages);
-    option('autoLogin');
-    option('keepDebugging', WARNING);
     endSection();
 
     container.querySelector('.scrollable-content').innerHTML = htm;
