@@ -412,7 +412,9 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    'language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout,autoClick,gcTable,gcTableCounter,gcTableRegion,@bodyHeight,@gcTableStatus'.split(',').forEach(name => prefs[name] = undefined);
+    let addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
+    addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
+    addPrefs('autoClick,gcTable,gcTableCounter,gcTableRegion,hacks,@bodyHeight,@gcTableStatus');
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
@@ -476,27 +478,36 @@ function init() {
                 if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
+            let hacks = String(prefs.hacks || '').split(',');
             if (isWebGL) {
-                appendScript(`
-(function() {
-    var original_exitFullscreen = window.exitFullscreen;
-    window.exitFullscreen = function() {
-        if (!document.mozFullScreenElement) return original_exitFullscreen();
-        window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
-    };
-    var original_userRequest = window.userRequest;
-    window.userRequest = function(recipients, req_type) {
-        cur_req_type = req_type;
-        cur_recipients = String(recipients).split(',').filter(id => id > 0).join(',');
-        if (cur_recipients) userRequestResult({ request: true });
-    };
-    function setCookie(name, value) {
-        document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
-    }
-    setCookie('settings_gem_confirmation', '1');
-    setCookie('fb_sharing', '1');
-})();
-`);
+                let code = '';
+                code += `
+var original_exitFullscreen = window.exitFullscreen;
+window.exitFullscreen = function() {
+    if (!document.mozFullScreenElement) return original_exitFullscreen();
+    window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
+};
+`;
+                if (hacks.includes('gc')) {
+                    code += `
+var original_userRequest = window.userRequest;
+window.userRequest = function(recipients, req_type) {
+    cur_req_type = req_type;
+    cur_recipients = String(recipients).split(',').filter(id => id > 0).join(',');
+    if (cur_recipients) userRequestResult({ request: true });
+};
+`;
+                }
+                if (hacks.includes('settings')) {
+                    code += `
+function setCookie(name, value) {
+    document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
+}
+setCookie('settings_gem_confirmation', '1');
+setCookie('fb_sharing', '1');
+`;
+                }
+                appendScript(code);
             }
         } else {
             createMenu();

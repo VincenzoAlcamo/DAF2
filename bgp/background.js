@@ -53,6 +53,7 @@ var Preferences = {
     getDefaults: function() {
         return {
             language: '',
+            hacks: '',
             injectGame: true,
             resetFullWindow: true,
             fullWindow: false,
