@@ -1077,7 +1077,7 @@
         "message": "DÉJÀ COLLECTIONNÉ"
     },
     "rewardlinks_maxreached": {
-        "message": "LIMITE JOURNALIÈRE ATTEINT"
+        "message": "MAXIMUM QUOTIDIEN ATTEINT"
     },
     "rewardlinks_noself": {
         "message": "PAS DE RÉCOMPENSE"
@@ -1220,19 +1220,19 @@
         "message": "Vous pouvez réinitialiser les informations sur les liens probablement expirés et continuer malgré tout avec ce lien."
     },
     "rewardlinks_convert": {
-        "message": "Convertir des liens"
+        "message": "Convertir les liens"
     },
     "rewardlinks_noconversion": {
         "message": "Pas de conversion"
     },
     "rewardlinks_shortenlinks": {
-        "message": "Raccourcir ou convertir les liens"
+        "message": "Convertir tes liens"
     },
     "rewardlinks_shortenlinks_info1": {
-        "message": "Collez les liens pour raccourcir ou convertir ici."
+        "message": "Collez tes liens pour convertir ici."
     },
     "rewardlinks_shortenlinks_info2": {
-        "message": "Les liens raccourcis seront affichés ci-dessous\n(les doublons seront supprimés).\n"
+        "message": "Les liens à convertir seront affichés ci-dessous\n(les doublons seront supprimés)."
     },
     "export_exportdata": {
         "message": "Exporter des données"
@@ -1579,6 +1579,9 @@
     },
     "options_sort_descending": {
         "message": "Descendant"
+    },
+    "options_language": {
+        "message": "Langue\nChoisissez la langue à utiliser"
     },
     "linkgrabber_selected": {
         "message": "Liens: $UNIQUE$ / $TOTAL$",

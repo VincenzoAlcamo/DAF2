@@ -1580,6 +1580,9 @@
     "options_sort_descending": {
         "message": "Faldende"
     },
+    "options_language": {
+        "message": "Sprog\nVælg det sprog der skal bruges"
+    },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",
         "placeholders": {

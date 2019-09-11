@@ -1580,6 +1580,9 @@
     "options_sort_descending": {
         "message": "Φθίνουσα"
     },
+    "options_language": {
+        "message": "Γλώσσα\nΔιαλέξτε τη γλώσσα προς χρήση"
+    },
     "linkgrabber_selected": {
         "message": "Σύνδεσμοι: $UNIQUE$ / $TOTAL$",
         "placeholders": {

@@ -1580,6 +1580,9 @@
     "options_sort_descending": {
         "message": "Malejąco"
     },
+    "options_language": {
+        "message": "Język\nWybierz język, aby użyć"
+    },
     "linkgrabber_selected": {
         "message": "Linki: $UNIQUE$ / $TOTAL$",
         "placeholders": {

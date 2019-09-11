@@ -1580,6 +1580,9 @@
     "options_sort_descending": {
         "message": "Absteigend"
     },
+    "options_language": {
+        "message": "Sprache\nSprache auswählen"
+    },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",
         "placeholders": {
