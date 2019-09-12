@@ -478,7 +478,7 @@ function init() {
                 if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
-            let fixes = String(prefs.fixes || '').split(',');
+            let fixes = String(prefs.fixes || '').toUpperCase().split(/\W+/);
             if (isWebGL) {
                 let code = '';
                 code += `
@@ -488,7 +488,7 @@ window.exitFullscreen = function() {
     window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
 };
 `;
-                if (fixes.includes('gc')) {
+                if (fixes.includes('GC')) {
                     code += `
 var original_userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
@@ -498,7 +498,7 @@ window.userRequest = function(recipients, req_type) {
 };
 `;
                 }
-                if (fixes.includes('settings')) {
+                if (fixes.includes('SETTINGS')) {
                     code += `
 function setCookie(name, value) {
     document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
