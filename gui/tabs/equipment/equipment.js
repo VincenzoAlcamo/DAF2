@@ -524,12 +524,12 @@ function getOfferItem(item) {
             copy.kind = 'capacity';
             copy.value = cap;
             copy.sort = 2;
-            copy.title = gui.getMessage('camp_capacity');
+            copy.title = gui.getString('GUI2921');
         } else {
             copy.kind = 'regen';
             copy.value = reg;
             copy.sort = 1;
-            copy.title = gui.getMessage('camp_regen');
+            copy.title = gui.getString('GUI2920');
             img = 'camp_energy';
         }
         copy.caption = Html `${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" src="/img/gui/${img}.png">`;
@@ -666,7 +666,7 @@ function showPacks(packId) {
                 htm += Html.br `<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
                 htm += Html.br `<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
                 if (item.type == 'building') htm += Html.br `<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
-                if (item.portal) htm += Html.br `<div class="bonus">${getOutlinedText('PORTAL\nBONUS')}</div>`;
+                if (item.portal) htm += Html.br `<div class="bonus">${getOutlinedText(gui.getString('GUI3065'))}</div>`;
                 htm += Html.br `<div class="caption"><div>${item.caption}</div></div>`;
                 htm += Html.br `</div></td>`;
                 if (!pre && index == 2 && items.length >= 5) htm += `</tr><tr>`;

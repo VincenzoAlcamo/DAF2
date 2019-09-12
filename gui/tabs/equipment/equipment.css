@@ -170,6 +170,7 @@ div.equipment_mask {
   font-weight: bold;
   color: #FF0;
   margin: auto;
+  text-align: center;
 }
 
 .equipment_pack .item .mask {
