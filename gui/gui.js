@@ -651,13 +651,12 @@ async function loadTab(tab) {
     } catch (e) {
         tab.state = null;
     }
-    let resource_count = 2;
+    let resource_count = 0;
     let resource_value = 0;
     let advanceProgress = () => gui.wait.show({
         text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count)
     });
     try {
-        advanceProgress();
         container.style.display = 'none';
         var tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
         var module = await dynamicImport(tabBasePath + '.js');
@@ -674,7 +673,6 @@ async function loadTab(tab) {
             return !file.data;
         });
         resource_count += requires.length;
-        advanceProgress();
         var response = await fetch(tabBasePath + '.html');
         var text = await response.text();
         container.innerHTML = text;
