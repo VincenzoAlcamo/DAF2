@@ -46,6 +46,7 @@
   max-width: 640px;
   min-width: 200px;
   display: inline-block;
+  pointer-events: all;
 }
 
 .DAF-md-widest .DAF-md-box {
@@ -55,6 +56,10 @@
 .DAF-modal .DAF-md-box {
   min-width: 500px;
   margin: auto;
+}
+
+.DAF-toast {
+  pointer-events: none;
 }
 
 .DAF-toast .DAF-md-box {
