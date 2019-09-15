@@ -85,8 +85,9 @@ function update() {
             let item = {};
             item.id = +loc.def_id;
             item.name = gui.getString(loc.name_loc);
-            item.region = rid;
+            item.rid = rid;
             item.eid = eid;
+            item.region = item.rid + ',' + item.eid;
             item.expire = expire;
             item.cooldown = +loc.reset_cd;
             item.reset = +loc.reset_gems;
@@ -235,7 +236,7 @@ function updateRow(row) {
     htm += Html.br `<td><input type="checkbox"${item.selected ? Html(' checked') : ''}></td>`;
     htm += Html.br `<td><div class="mobile"><img src="${img}" title="${Html(item.name)}"></div></td>`;
     htm += Html `<td>${item.name}</td>`;
-    htm += Html.br `<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, true) : gui.getObjectImg('region', item.region, 32, false, true)}</td>`;
+    htm += Html.br `<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, true) : gui.getObjectImg('region', item.rid, 32, false, true)}</td>`;
     htm += Html.br `<td>${gui.getDuration(item.cooldown, true)}</td>`;
     htm += Html.br `<td class="reset_gems">${Locale.formatNumber(item.reset)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
     let xp = swPostcards ? item.xp * 10 : item.xp;
