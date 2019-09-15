@@ -1604,6 +1604,12 @@
     "options_language": {
         "message": "Language\nChoose the language to use"
     },
+    "options_locale": {
+        "message": "Localization\nUsed for formatting numbers, dates and lists"
+    },
+    "options_locale_browser": {
+        "message": "Use browser's setting"
+    },
 
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",

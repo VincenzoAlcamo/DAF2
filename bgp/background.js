@@ -53,6 +53,7 @@ var Preferences = {
     getDefaults: function() {
         return {
             language: '',
+            locale: '',
             fixes: '',
             injectGame: true,
             resetFullWindow: true,
@@ -663,14 +664,14 @@ var Data = {
     REWARDLINKS_HISTORY_MAXITEMS: 10000,
     GC_REFRESH_HOURS: 22,
     languages: [
-        ['da', 'Danish', 'Dansk'],
-        ['de', 'German', 'Deutsch'],
-        ['el', 'Greek', 'Ελληνικά'],
-        ['en', 'English', 'English'],
-        ['es', 'Spanish (Castilian)', 'Español (Castellano)'],
-        ['fr', 'French', 'Français'],
-        ['it', 'Italian', 'Italiano'],
-        ['pl', 'Polish', 'Polski']
+        ['da', 'Danish', 'Dansk', 'DK'],
+        ['de', 'German', 'Deutsch', 'DE,AT,CH,LI,LU'],
+        ['el', 'Greek', 'Ελληνικά', 'GR'],
+        ['en', 'English', 'English', 'US,AU,BZ,CA,GB,IE,IN,JM,MY,NZ,PH,SG,TT,ZA,ZW'],
+        ['es', 'Spanish (Castilian)', 'Español (Castellano)', 'ES,AR,BO,CL,CO,CR,DO,EC,GT,HN,MX,NI,PA,PE,PR,PY,SV,US,UY,VE'],
+        ['fr', 'French', 'Français', 'FR,BE,CA,CH,LU,MC'],
+        ['it', 'Italian', 'Italiano', 'IT,CH'],
+        ['pl', 'Polish', 'Polski', 'PL']
     ],
     acceptedLanguages: [],
     detectLanguage: function(lang) {

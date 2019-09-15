@@ -20,6 +20,9 @@ function init() {
     const WITHSUBOPTIONS = 'P';
     const SUBOPTION = 'S';
     const WARNING = 'W';
+    const TEXT = 'T';
+    const CHECKBOX = '1';
+    const SELECT = '2';
 
     function beginSection(id) {
         htm += Html.br `
@@ -40,7 +43,7 @@ function init() {
 
     function option(prefName, features, options) {
         let messageId = 'options_' + prefName.toLowerCase();
-        let text = gui.getMessage(messageId);
+        let text = prefName == 'fixes' ? 'Special settings' : gui.getMessage(messageId);
         let i = text.indexOf('\n');
         let title = i >= 0 ? text.substr(0, i) : text;
         let info = i >= 0 ? text.substr(i + 1) : '';
@@ -55,25 +58,47 @@ function init() {
             info = Html.raw(String(Html.br(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
         }
 
+        let type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
+
         htm += Html.br `<tr${className ? Html ` class="${className}"` : ''}>`;
-        htm += Html.br `<td${options ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? Html.br `<div class="warning">${warning}</div>` : ''}`;
-        if (options) {
+        htm += Html.br `<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? Html.br `<div class="warning">${warning}</div>` : ''}`;
+        if (type == SELECT) {
             htm += Html.br `<select data-pref="${prefName}">`;
             for (let option of options) {
                 htm += Html.br `<option value="${option[0]}">${option[1]}</option>`;
             }
             htm += Html.br `</select></td></tr>`;
+        } else if (type == TEXT) {
+            htm += Html.br `<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td></tr>`;
         } else {
             htm += Html.br `</td><td><input data-pref="${prefName}" type="checkbox"></td></tr>`;
         }
     }
 
+    function determineLocales(currentLanguage) {
+        let currentLocale = gui.getPreference('locale');
+        let locales = [];
+        locales.push(['', gui.getMessage('options_locale_browser')]);
+        for (let item of bgp.Data.languages) {
+            if (item[0] == currentLanguage) {
+                let subs = item[3].split(',');
+                if (currentLocale && !subs.includes(currentLocale)) {
+                    gui.setPreference('locale', currentLocale = subs[0]);
+                }
+                locales = locales.concat(subs.sort().map(v => [v, v]));
+            }
+        }
+        return locales;
+    }
+
     beginSection('general');
     let languages = bgp.Data.languages.map(item => [item[0], item[1] + ' - ' + item[2]]);
     languages.sort((a, b) => a[1].localeCompare(b[1]));
-    option('language', CRITICAL, languages);
+    option('language', CRITICAL + WITHSUBOPTIONS, languages);
+    option('locale', SUBOPTION, determineLocales(gui.getPreference('language')));
     option('autoLogin');
     option('keepDebugging', WARNING);
+    if (gui.getPreference('fixes')) option('fixes', TEXT);
     endSection();
     beginSection('ingame');
     option('injectGame', CRITICAL);
@@ -140,17 +165,37 @@ function init() {
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => refresh());
 
+    let handler = null;
+    let changes = {};
+
+    function applyChanges() {
+        if (handler) clearTimeout(handler);
+        handler = null;
+        for (let [name, value] of Object.entries(changes)) gui.setPreference(name, value);
+        changes = {};
+    }
+
+    function onInput() {
+        let input = this;
+        let name = input.getAttribute('data-pref');
+        let value = input.type == 'checkbox' ? input.checked : input.value;
+        if (handler) clearTimeout(handler);
+        handler = setTimeout(applyChanges, 2000);
+        changes[name] = value;
+        if (name == 'language' || name == 'locale') {
+            applyChanges();
+            determineLocales();
+            document.location.reload();
+        }
+    }
+
     for (let input of container.querySelectorAll('[data-pref]')) {
         if (input.tagName == 'SELECT') {
-            input.addEventListener('input', function() {
-                let prefName = input.getAttribute('data-pref');
-                gui.setPreference(prefName, input.value);
-                if (prefName == 'language') document.location.reload();
-            });
+            input.addEventListener('input', onInput);
+        } else if (input.type == 'text') {
+            input.addEventListener('input', onInput);
         } else if (input.type == 'checkbox') {
-            input.addEventListener('click', function() {
-                gui.setPreference(input.getAttribute('data-pref'), input.checked);
-            });
+            input.addEventListener('click', onInput);
         }
     }
 }
@@ -189,7 +234,7 @@ function refresh() {
         let name = input.getAttribute('data-pref');
         let value = gui.getPreference(name);
         if (value !== undefined) {
-            if (input.tagName == 'SELECT') input.value = value;
+            if (input.tagName == 'SELECT' || input.type == 'text') input.value = value;
             if (input.type == 'checkbox') input.checked = value === true;
         }
     }

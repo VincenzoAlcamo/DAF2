@@ -1583,6 +1583,12 @@
     "options_language": {
         "message": "Idioma\nElija el idioma que desea utilizar"
     },
+    "options_locale": {
+        "message": "Localización\nSe utiliza para dar formato a números, fechas y listas"
+    },
+    "options_locale_browser": {
+        "message": "Uso del ajuste del navegador"
+    },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",
         "placeholders": {

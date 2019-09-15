@@ -574,7 +574,10 @@ function notifyVisibility(tab, visible) {
 }
 
 function onLoad() {
-    Dialog.language = gui.getPreference('language');
+    let currentLanguage = gui.getPreference('language');
+    let currentLocale = gui.getPreference('locale');
+    Dialog.language = currentLanguage;
+    Locale.setLocale(currentLocale ? currentLanguage + '-' + currentLocale : chrome.i18n.getUILanguage());
     let htm = '';
     let hasValidGenerator = gui.hasValidGenerator();
     for (let tab of Object.values(tabs)) {
