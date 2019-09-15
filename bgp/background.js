@@ -1712,7 +1712,7 @@ async function init() {
                 htm += Html.br `<td>${reward.id}</td>`;
                 htm += Html.br `<td>${Locale.formatDateTime(reward.adt)}</td>`;
                 htm += Html.br `<td>${Locale.formatDateTime(reward.cdt)}</td>`;
-                if (reward.cid) htm += Html.br `<td><a target="_blank" href="https://www.facebook.com/${reward.cid}"><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</a></td>`;
+                if (reward.cid) htm += Html.br `<td><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</td>`;
                 htm += Html.br `</tr></tbody><table>`;
                 htm = String(htm);
                 return htm;
