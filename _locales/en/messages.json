@@ -1641,6 +1641,7 @@
 "en@options_sort_ascending":{"message":"Ascending"},
 "en@options_sort_descending":{"message":"Descending"},
 "en@options_language":{"message":"Language\nChoose the language to use"},
+"en@options_gamelanguage":{"message": "Game Language\nLanguage for game's messages"},
 "en@options_locale":{"message":"Localization\nUsed for formatting numbers, dates and lists"},
 "en@options_locale_browser":{"message":"Use browser's setting"},
 "en@linkgrabber_selected":{"message":"Links: $1 / $2"},

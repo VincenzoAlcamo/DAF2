@@ -80,22 +80,24 @@ function init() {
         let locales = [];
         locales.push(['', gui.getMessage('options_locale_browser')]);
         for (let item of bgp.Data.languages) {
-            if (item[0] == currentLanguage) {
-                let subs = item[3].split(',');
-                if (currentLocale && !subs.includes(currentLocale)) {
-                    gui.setPreference('locale', currentLocale = subs[0]);
+            if (item.id == currentLanguage) {
+                if (currentLocale && !item.locales.includes(currentLocale)) {
+                    gui.setPreference('locale', currentLocale = item.preferredLocale);
                 }
-                locales = locales.concat(subs.sort().map(v => [v, v]));
+                locales = locales.concat(item.locales.map(v => [v, v]));
             }
         }
         return locales;
     }
 
     beginSection('general');
-    let languages = bgp.Data.languages.map(item => [item[0], item[1] + ' - ' + item[2]]);
-    languages.sort((a, b) => a[1].localeCompare(b[1]));
-    option('language', CRITICAL + WITHSUBOPTIONS, languages);
+    let languages = bgp.Data.languages;
+    languages.sort((a, b) => a.name.localeCompare(b.name));
+    let guiLanguages = languages.filter(item => bgp.Data.guiLanguages.includes(item.id)).map(item => [item.id, item.name + ' - ' + item.nameLocal]);
+    option('language', CRITICAL + WITHSUBOPTIONS, guiLanguages);
     option('locale', SUBOPTION, determineLocales(gui.getPreference('language')));
+    let gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
+    if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
     option('keepDebugging', WARNING);
     if (gui.getPreference('fixes')) option('fixes', TEXT);
@@ -186,6 +188,14 @@ function init() {
             applyChanges();
             determineLocales();
             document.location.reload();
+        } else if (name == 'gameLanguage') {
+            gui.wait.show({
+                text: gui.getMessage('gui_loadingresources', 1, 1)
+            });
+            applyChanges();
+            determineLocales();
+            let promise = bgp.Data.checkLocalization() || Promise.resolve(0);
+            promise.then(() => document.location.reload());
         }
     }
 

@@ -53,6 +53,7 @@ var Preferences = {
     getDefaults: function() {
         return {
             language: '',
+            gameLanguage: '',
             locale: '',
             fixes: '',
             injectGame: true,
@@ -558,9 +559,9 @@ var WebRequest = {
     onBeforeRequest: function(details) {
         if (details.tabId != Tab.gameTabId) return;
         if (details.url.indexOf('/webgl_client/') >= 0) return;
-        var urlInfo = new UrlInfo(details.url),
-            isPost = details.method == 'POST',
-            info = {};
+        var urlInfo = new UrlInfo(details.url);
+        var isPost = details.method == 'POST';
+        var info = {};
         if (urlInfo.url in WebRequest.captures) {
             console.log('Skipping a second request for', urlInfo.url);
             return;
@@ -655,6 +656,16 @@ var WebRequest = {
 //#endregion
 
 //#region DATA / GAME / PLAYER / LOCALIZATION
+function Language(id, gameId, name, nameLocal, locales) {
+    this.id = id;
+    this.gameId = gameId;
+    this.name = name;
+    this.nameLocal = nameLocal;
+    locales = locales.split(',');
+    this.preferredLocale = locales[0];
+    locales.sort();
+    this.locales = locales;
+}
 var Data = {
     db: null,
     REWARDLINKS_DAILY_LIMIT: 100,
@@ -664,15 +675,28 @@ var Data = {
     REWARDLINKS_HISTORY_MAXITEMS: 10000,
     GC_REFRESH_HOURS: 22,
     languages: [
-        ['da', 'Danish', 'Dansk', 'DK'],
-        ['de', 'German', 'Deutsch', 'DE,AT,CH,LI,LU'],
-        ['el', 'Greek', 'Ελληνικά', 'GR'],
-        ['en', 'English', 'English', 'US,AU,BZ,CA,GB,IE,IN,JM,MY,NZ,PH,SG,TT,ZA,ZW'],
-        ['es', 'Spanish (Castilian)', 'Español (Castellano)', 'ES,AR,BO,CL,CO,CR,DO,EC,GT,HN,MX,NI,PA,PE,PR,PY,SV,US,UY,VE'],
-        ['fr', 'French', 'Français', 'FR,BE,CA,CH,LU,MC'],
-        ['it', 'Italian', 'Italiano', 'IT,CH'],
-        ['pl', 'Polish', 'Polski', 'PL']
+        new Language('da', 'DK', 'Danish', 'Dansk', 'DK'),
+        new Language('de', 'DE', 'German', 'Deutsch', 'DE,AT,CH,LI,LU'),
+        new Language('el', 'GR', 'Greek', 'Ελληνικά', 'GR'),
+        new Language('en', 'EN', 'English', 'English', 'US,AU,BZ,CA,GB,IE,IN,JM,MY,NZ,PH,SG,TT,ZA,ZW'),
+        new Language('es', 'ES', 'Spanish (Castilian)', 'Español (Castellano)', 'ES,AR,BO,CL,CO,CR,DO,EC,GT,HN,MX,NI,PA,PE,PR,PY,SV,US,UY,VE'),
+        new Language('fr', 'FR', 'French', 'Français', 'FR,BE,CA,CH,LU,MC'),
+        new Language('it', 'IT', 'Italian', 'Italiano', 'IT,CH'),
+        new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
+        // OTHER (GAME)
+        new Language('bg', 'BG', 'Bulgarian', 'български', 'BG'),
+        new Language('cs', 'CZ', 'Czech', 'Čeština', 'CZ'),
+        new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
+        new Language('hu', 'HU', 'Hungarian ', 'Magyar', 'HU'),
+        new Language('nl', 'NL', 'Dutch ', 'Nederlands', 'NL,BE'),
+        new Language('pt', 'PT', 'Portuguese ', 'Português', 'PT,BR'),
+        new Language('ro', 'RO', 'Romanian ', 'Română', 'RO,MD'),
+        new Language('ru', 'RU', 'Russian ', 'Русский', 'RU,MD,UA'),
+        new Language('se', 'SE', 'Swedish ', 'Svenska', 'SE,FI'),
+        new Language('sk', 'SK', 'Slovak ', 'Slovenčina', 'SK'),
+        new Language('tr', 'TR', 'Turkish ', 'Türkçe', 'TR'),
     ],
+    guiLanguages: 'da,de,el,en,es,fr,it,pl'.split(','),
     acceptedLanguages: [],
     detectLanguage: function(lang) {
         let languages = [].concat(lang, Data.acceptedLanguages);
@@ -913,38 +937,33 @@ var Data = {
         return [3951243, 11530133, 8700592, 583351, 11715879, 1798336, 5491844].indexOf(Data.generator.player_id) >= 0;
     },
     getLanguageIdFromUrl: function(url) {
-        return url.match(/\/([A-Z][A-Z])\/localization\./)[1];
+        let match = url && url.match(/\/([A-Z][A-Z])\/localization\./);
+        return match && match[1];
     },
     checkLocalization: function(url) {
-        var file = {
+        if (!Data.generator || !Data.generator.file_changes) return;
+        let gameLanguage = Preferences.getValue('gameLanguage');
+        if (!gameLanguage) {
+            gameLanguage = Data.getLanguageIdFromUrl(url);
+            if (!gameLanguage) return;
+        }
+        let key = Object.keys(Data.generator.file_changes).find(key => key.endsWith('localization.csv') && Data.getLanguageIdFromUrl(key) == gameLanguage);
+        if (!key) return;
+        let file = {
             id: 'localization',
-            url: url,
+            url: Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key],
+            version: Data.generator.file_changes[key],
+            revision: Parser.parse_localization_revision,
             time: getUnixTime()
         };
-        let languageId = Data.localization.languageId || Data.getLanguageIdFromUrl(url) || 'EN';
-        let find = function(suffix) {
-            if (!Data.generator || !Data.generator.file_changes) return;
-            for (let key of Object.keys(Data.generator && Data.generator.file_changes)) {
-                if (key.endsWith(suffix) && Data.getLanguageIdFromUrl(key) == languageId) {
-                    file.url = Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key];
-                    return true;
-                }
-            }
-        };
-        if (!find('localization.csv')) find('localization.xml');
-        if (!file.url) return;
-        languageId = Data.getLanguageIdFromUrl(file.url);
-        let urlInfo = new UrlInfo(file.url);
-        file.version = urlInfo.parameters.ver;
-        var id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
-        var id2 = [languageId, file.version, Parser.parse_localization_revision].join(',');
+        let id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
+        let id2 = [gameLanguage, file.version, file.revision].join(',');
         if (id1 != id2) {
             WebRequest.captures[file.url] = file;
             return fetch(file.url).then(function(response) {
                 return response.text();
             }).then(function(text) {
                 file.data = Parser.parse(file.id, text);
-                file.revision = Parser.parse_localization_revision;
                 Data.store(file);
             }).finally(function() {
                 delete WebRequest.captures[file.url];
@@ -960,6 +979,9 @@ var Data = {
                 version: file.version,
                 revision: file.revision
             };
+            if (Preferences.getValue('gameLanguage') != Data.localization.languageId) {
+                Preferences.setValue('gameLanguage', Data.localization.languageId);
+            }
         }
     },
     getCampWindmillTime: function(camp) {
