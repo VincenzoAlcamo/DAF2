@@ -5,7 +5,7 @@ export default ringLoot;
 function ringLoot(kind) {
 
     let mines, tokenId, locations;
-    let requires = ['materials', 'usables', 'tokens'];
+    let requires = ['materials', 'usables', 'tokens', 'sales'];
 
     if (kind == 'green') {
         tokenId = 32;
@@ -19,7 +19,7 @@ function ringLoot(kind) {
     } else throw 'Invalid kind "' + kind + '"';
     requires = requires.concat(locations);
 
-    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel;
+    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel, checkXp;
     let checkState = {};
 
     function init() {
@@ -28,6 +28,9 @@ function ringLoot(kind) {
 
         checkMinMax = container.querySelector('[name=minmax]');
         checkMinMax.addEventListener('click', onInput);
+
+        checkXp = container.querySelector('[name=xp]');
+        checkXp.addEventListener('click', onInput);
 
         inputLevel = container.querySelector('[name=level]');
         inputLevel.addEventListener('input', onInput);
@@ -41,6 +44,7 @@ function ringLoot(kind) {
         let level = parseInt(inputLevel.value) || 0;
         return {
             minmax: checkMinMax.checked,
+            xp: checkXp.checked,
             [checkLevel.checked ? 'level' : 'no-level']: (level >= 1 && level <= 999 ? level : +gui.getGenerator().level),
             h: Object.keys(checkState).join(',')
         };
@@ -56,6 +60,7 @@ function ringLoot(kind) {
                 setRotate(input);
             }
         };
+        checkXp.checked = 'xp' in state;
         checkLevel.checked = 'level' in state;
         let level = parseInt(state.level || state['no-level']) || 0;
         inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
@@ -63,9 +68,11 @@ function ringLoot(kind) {
         checkMinMax.checked = !!state.minmax;
     }
 
-    function onInput() {
+    function onInput(event) {
         gui.updateTabState(tab);
-        refresh();
+        let name = event.srcElement.name;
+        if (name == 'xp' || name == 'minmax' || name == 'showlevel') setStateFlags();
+        else refresh();
     }
 
     function onBlur() {
@@ -77,6 +84,7 @@ function ringLoot(kind) {
     }
 
     async function update() {
+        bgp.Data.getPillarsInfo();
         let img = gui.getObjectImg('token', tokenId, 24, true);
         let qty = gui.getGenerator().tokens[tokenId] || 0;
         container.querySelector('.stats').innerHTML = Html.br `${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
@@ -184,11 +192,16 @@ function ringLoot(kind) {
         }
     }
 
-    function refresh() {
+    function setStateFlags() {
         const state = getState();
         container.classList.toggle('rings-minmax', state.minmax);
         container.classList.toggle('rings-no-minmax', !state.minmax);
-        container.classList.toggle('rings-no-level', !checkLevel.checked);
+        container.classList.toggle('rings-no-level', !('level' in state));
+        container.classList.toggle('rings-no-xp', !state.xp);
+    }
+
+    function refresh() {
+        setStateFlags();
         let level = inputLevel.value;
         if (level < 1 || level > 999) level = +gui.getGenerator().level;
         for (const mine of mines) showLoot(level, mine.def_id);
@@ -216,6 +229,13 @@ function ringLoot(kind) {
         let multiplier = swDoubleDrop ? swDoubleDrop.coeficient : 1;
         let tdAvg = Html `<td class="avg">`;
         let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
+        let expByMaterial = bgp.Data.pillars.expByMaterial;
+        let showXp = (type, oid, qty) => {
+            let exp = 0;
+            if (type == 'material') exp = expByMaterial[oid];
+            if (type == 'system' && (oid == 1 || oid == 2)) exp = 1;
+            return exp ? Html `<div class="xp">${Locale.formatNumber(exp * qty)} ${gui.getMessage('gui_xp')}</div>` : '';
+        };
         for (const lootArea of floorData[lid].loots) {
             let coef = lootArea.coef;
             let notRandom = lootArea.min == lootArea.max;
@@ -233,12 +253,12 @@ function ringLoot(kind) {
             let oid = lootArea.object_id;
             htm += Html.br `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
             htm += Html.br `<td class="min">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, min))}</td>`;
-            htm += Html.br `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
+            htm += Html.br `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(multiplier * Math.max(0, avg))}${showXp(type, oid, avg)}</td>`;
             htm += Html.br `<td class="max">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, max))}</td>`;
             min = lootArea.min + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.min) : 0);
             max = lootArea.max + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.max) : 0);
             avg = Math.floor((min + max) / 2);
-            htm += Html.br `<td class="level">${Locale.formatNumber(multiplier * Math.max(0, avg))}</td>`;
+            htm += Html.br `<td class="level">${Locale.formatNumber(multiplier * Math.max(0, avg))}${showXp(type, oid, avg)}</td>`;
             htm += Html.br `</tr>`;
         }
         htm += Html.br `</tbody>`;

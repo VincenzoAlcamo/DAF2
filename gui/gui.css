@@ -855,8 +855,21 @@ td.dot.dot2 {
   background-position: 4px center;
 }
 
+.rings .xp {
+  font-size: 10px;
+  font-weight: bold;
+  background-color: var(--tb-hlcol);
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 4px;
+  width: fit-content;
+  margin-left: auto;
+}
+
+
 .rings.card .no-minmax,
 .rings-no-level .rings.card .level,
+.rings-no-xp .rings.card .xp,
 .rings-no-minmax .rings.card th.minmax,
 .rings-no-minmax .rings.card .min,
 .rings-no-minmax .rings.card .max {
