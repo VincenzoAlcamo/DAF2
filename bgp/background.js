@@ -762,12 +762,14 @@ var Data = {
         Data.localization.cache = {};
         Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
         Data.repeatables = {};
+        Data.pillars = {};
         tx.objectStore('Files').getAll().then(values => {
             for (let file of values) {
                 if (file.id == 'generator') Data.generator = file.data || {};
                 if (file.id == 'localization') Data.storeLocalization(file);
                 if (file.id == 'gcInfo') Data.removegcInfo();
                 if (file.id == 'repeatables') Data.repeatables = file.data || {};
+                if (file.id == 'expByMaterial') Data.pillars.expByMaterial = file.data;
             }
         });
         tx.objectStore('Neighbours').getAll().then(values => {
@@ -903,6 +905,13 @@ var Data = {
             });
         });
     },
+    storeSimple: function(id, data) {
+        let file = {};
+        file.id = id;
+        file.time = getUnixTime();
+        file.data = data;
+        Data.store(file);
+    },
     store: function(file) {
         console.log('Would store', file);
         if (!file.data) return;
@@ -1020,14 +1029,43 @@ var Data = {
             }
         }
         // If something is changed, store the new value
-        if (JSON.stringify(Data.repeatables) !== JSON.stringify(repeatables)) {
-            let file = {};
-            file.id = 'repeatables';
-            file.time = getUnixTime();
-            file.data = Data.repeatables = repeatables;
-            Data.store(file);
-        }
+        if (JSON.stringify(Data.repeatables) !== JSON.stringify(repeatables)) Data.storeSimple('repeatables', repeatables);
+        Data.repeatables = repeatables;
         return repeatables;
+    },
+    getPillarsInfo: function() {
+        // Collect all pillars in the game and compute XP by material
+        // Make sure that all files are loaded, before calling this method
+        let time = (Data.generator && Data.generator.time) || 0;
+        if (time != Data.pillars.time) {
+            /* New logic using heuristic */
+            // Get all sales: decoration, non hidden, non-event with only one requirements
+            let sales = Object.values(Data.files['sales']).filter(sale => sale.type == 'decoration' && sale.hide != 1 && +sale.event_id == 0 && sale.requirements.length == 1);
+            // sort descending by id (newer first)
+            sales.sort((a, b) => +b.def_id - +a.def_id);
+            let expByMaterial = {};
+            let saleByMaterial = {};
+            let setSale = (sale) => {
+                if (!sale) return;
+                let materialId = sale.requirements[0].material_id;
+                // Gem requirement is skipped
+                if (materialId == 2) return;
+                // Calculate experience for one unit of material
+                let exp = +sale.exp / +sale.requirements[0].amount;
+                // If a sale was already detected, check that it has a bigger XP return
+                if (materialId in expByMaterial && expByMaterial[materialId] >= exp) return;
+                expByMaterial[materialId] = exp;
+                saleByMaterial[materialId] = sale;
+            };
+            // Force the COIN PILLARS (decoration id = 867) in case other decoration (like ABU SIMBEL) are added in the future
+            setSale(sales.find(sale => sale.object_id == 867));
+            sales.forEach(setSale);
+            if (JSON.stringify(Data.pillars.expByMaterial) !== JSON.stringify(expByMaterial)) Data.storeSimple('expByMaterial', expByMaterial);
+            Data.pillars.time = time;
+            Data.pillars.expByMaterial = expByMaterial;
+            Data.pillars.sales = Object.values(saleByMaterial).map(sale => +sale.def_id);
+        }
+        return Data.pillars;
     },
     //#region Neighbors
     getNeighbour: function(id) {

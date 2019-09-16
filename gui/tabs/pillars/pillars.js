@@ -1,4 +1,4 @@
-/*global gui SmartTable Locale Html Tooltip*/
+/*global bgp gui SmartTable Locale Html Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -33,46 +33,16 @@ function init() {
     container.addEventListener('tooltip', onTooltip);
 }
 
-function getPillarSales(expByMaterial) {
-    /* New logic using heuristic */
-    // Get all sales: decoration, non hidden, non-event with only one requirements
-    let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'decoration' && sale.hide != 1 && +sale.event_id == 0 && sale.requirements.length == 1);
-    // sort descending by id (newer first)
-    sales.sort((a, b) => +b.def_id - +a.def_id);
-    expByMaterial = expByMaterial || {};
-    let saleByMaterial = {};
-    let setSale = (sale) => {
-        if (!sale) return;
-        let materialId = sale.requirements[0].material_id;
-        // Gem requirement is skipped
-        if (materialId == 2) return;
-        // Calculate experience for one unit of material
-        let exp = +sale.exp / +sale.requirements[0].amount;
-        // If a sale was already detected, check that it has a bigger XP return
-        if (materialId in expByMaterial && expByMaterial[materialId] >= exp) return;
-        expByMaterial[materialId] = exp;
-        saleByMaterial[materialId] = sale;
-    };
-    // Force the COIN PILLARS (decoration id = 867) in case other decoration (like ABU SIMBEL) are added in the future
-    setSale(sales.find(sale => sale.object_id == 867));
-    sales.forEach(setSale);
-    return Object.values(saleByMaterial);
-}
-
 function update() {
+    let pillarsInfo = bgp.Data.getPillarsInfo();
+    expByMaterial = pillarsInfo.expByMaterial;
 
-    /* Old logic with specified values */
-    // var ids = {};
-    // for (var i = 865; i <= 904; i++) ids[i] = true;
-    // let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'decoration' && sale.hide != 1);
-    // sales = sales.filter(sale => sale.object_id in ids);
-
-    expByMaterial = {};
-    let sales = getPillarSales(expByMaterial);
+    let sales = gui.getFile('sales');
     let decorations = gui.getFile('decorations');
     let materialInventory = gui.getGenerator().materials;
     pillars = [];
-    for (let sale of sales) {
+    for (let saleId of pillarsInfo.sales) {
+        let sale = sales[saleId];
         let decoration = decorations[sale.object_id];
         let req = sale.requirements[0];
         if (decoration && req) {
