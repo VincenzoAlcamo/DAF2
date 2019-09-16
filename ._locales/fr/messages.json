@@ -3,16 +3,16 @@
         "message": "DA Friends 2"
     },
     "ext_title": {
-        "message": "Outil d'aide pour l'aventure Diggy"
+        "message": "Outil d'aide pour l'aventure de Diggy"
     },
     "menu_resetfullwindow": {
         "message": "Réinitialiser en charge"
     },
     "menu_fullwindow": {
-        "message": "Jeu en pleine fenêtre"
+        "message": "Jeu en plein écran"
     },
     "menu_fullwindowheader": {
-        "message": "Entête"
+        "message": "En-tête"
     },
     "menu_fullwindowside": {
         "message": "Barre latérale"
@@ -21,7 +21,7 @@
         "message": "Serrure"
     },
     "menu_gctable": {
-        "message": "Afficher la table des filleuls"
+        "message": "Afficher le tableau de filleuls"
     },
     "menu_gctablecounter": {
         "message": "Compteur"
@@ -45,22 +45,22 @@
         "message": "Passer à Facebook"
     },
     "menu_on": {
-        "message": "ON"
+        "message": "MARCHE"
     },
     "menu_off": {
-        "message": "OFF"
+        "message": "ARRÊT"
     },
     "gui_card_clicker": {
         "message": "Cliquez pour réduire ou agrandir cette section"
     },
     "gui_show": {
-        "message": "Affichage"
+        "message": "Afficher"
     },
     "gui_all": {
         "message": "Tous"
     },
     "gui_search": {
-        "message": "Recherche"
+        "message": "Rechercher"
     },
     "gui_name": {
         "message": "Nom"
@@ -81,7 +81,7 @@
         "message": "Énergie"
     },
     "gui_backpack": {
-        "message": "Sac à dos"
+        "message": "Inventaire"
     },
     "gui_clickwiki": {
         "message": "Cliquez pour ouvrir la page Wiki."
@@ -108,13 +108,13 @@
         "message": "Thème"
     },
     "gui_offer": {
-        "message": "Offre"
+        "message": "Offre spéciale"
     },
     "gui_tieredoffer": {
         "message": "Offre à plusieurs niveaux"
     },
     "gui_pack": {
-        "message": "Pack"
+        "message": "Paquet"
     },
     "gui_level": {
         "message": "Niveau"
@@ -158,7 +158,7 @@
         "message": "Vous devez d’abord cliquer sur l’icône @ DAF2 @ du menu Chrome.\nCela activera la fonction de capture jusqu'à la fermeture de la page.\n\nCliquez sur l'icône @ DAF2 @ et essayez à nouveau de capturer l'écran."
     },
     "gui_infodated": {
-        "message": "Les informations présentées ici sont à jour en date du '$VALID$'.",
+        "message": "Les informations présentées sont à jour depuis le '$VALID$'.",
         "placeholders": {
             "valid": {
                 "content": "$1"
@@ -211,7 +211,7 @@
         "message": "Valeur"
     },
     "gui_slot_value": {
-        "message": "Valeur\nde fente"
+        "message": "Valeur de l'\nemplacement"
     },
     "gui_cost": {
         "message": "Coût"
@@ -326,7 +326,7 @@
         }
     },
     "about_nodata": {
-        "message": "Aucune donnée de jeu n'a encore été téléchargée. Télécharger ou mettre à jour la fenêtre de jeu."
+        "message": "Aucune donnée de jeu n'a encore été rechargée. Recharger ou raffraîchir l'écran du jeu."
     },
     "about_disclaimer": {
         "message": "DA Friends est créé par les fans du jeu et n’est ni approuvé ni soutenu par la Pixel Federation, les auteurs de \"Diggy's Adventure\".\nL'utilisation de DA Friends est à vos risques et périls et la fonctionnalité ou la convivialité n'est garantie ni explicitement ni implicitement.\nL'auteur n'assume aucune responsabilité pour les dommages ou pertes causés par son utilisation.\nEn utilisant cette extension, vous acceptez ces conditions."
@@ -338,7 +338,7 @@
         "message": "Toutes les recettes"
     },
     "kitchen_only_possible": {
-        "message": "Seules les recettes possibles"
+        "message": "Les recettes possibles"
     },
     "kitchen_time_to_cook": {
         "message": "Durée"
@@ -364,7 +364,7 @@
         "message": "Tous les alliages"
     },
     "foundry_only_possible": {
-        "message": "Seuls les alliages possibles"
+        "message": "Les alliages possibles"
     },
     "foundry_time_to_craft": {
         "message": "Durée"
@@ -373,7 +373,7 @@
         "message": "Fabriqué par enclume"
     },
     "foundry_possible_alloys": {
-        "message": "Alliages\npossible"
+        "message": "Alliages\npossibles"
     },
     "foundry_total_time": {
         "message": "Temps de fabrication\n($ANVILS$ enclumes)",
@@ -442,19 +442,19 @@
         "message": "Moulins à vent"
     },
     "camp_avg_value": {
-        "message": "Fente moyenne"
+        "message": "Emplacement moyen"
     },
     "camp_min_value": {
-        "message": "Fente minimum"
+        "message": "Minimum"
     },
     "camp_max_value": {
-        "message": "Fente maximum"
+        "message": "Maximum"
     },
     "camp_unlock_materials": {
         "message": "Matériaux pour débloquer le terrain"
     },
     "camp_unlock_one": {
-        "message": "Débloquer une fente fera $VALUE$ expériences",
+        "message": "Débloquer l'emplacement fera $VALUE$ expériences",
         "placeholders": {
             "value": {
                 "content": "$1"
@@ -462,7 +462,7 @@
         }
     },
     "camp_unlock_cost": {
-        "message": "Une fente peut être débloquée pour $VALUE$ gemmes\nou avec ces matériaux:",
+        "message": "L'emplacement peut être débloqué pour $VALUE$ gemmes\nou avec ces matériaux:",
         "placeholders": {
             "value": {
                 "content": "$1"
@@ -493,7 +493,7 @@
         "message": "Tous les piliers"
     },
     "pillars_only_possible": {
-        "message": "Seuls les piliers possibles"
+        "message": "Les piliers possibles"
     },
     "pillars_perc_next": {
         "message": "Suivant en\npourcentage"
@@ -829,7 +829,7 @@
         "message": "Alternative"
     },
     "friendship_collectalternateinfo": {
-        "message": "Cette méthode est très rapide, mais ne peut pas détecter les comptes désactivés."
+        "message": "Cette méthode est très rapide, mais sans détecter les comptes désactivés."
     },
     "friendship_collectboth": {
         "message": "Les deux"
@@ -962,7 +962,7 @@
         "message": "Atteint"
     },
     "progress_goal": {
-        "message": "But"
+        "message": "Objectif"
     },
     "progress_remaining": {
         "message": "Restant"
@@ -1089,7 +1089,7 @@
         "message": "LIEN PROBABLEMENT EXPIRÉ"
     },
     "rewardlinks_addlinks": {
-        "message": "Ajouter un lien"
+        "message": "Ajouter les liens"
     },
     "rewardlinks_pasteAdd": {
         "message": "Collez les liens à ajouter ici, puis appuyez sur le bouton \"$CONFIRM$\"",
@@ -1178,13 +1178,13 @@
         "message": "Ce lien a probablement expiré.\nLes identifiants de lien sont générés en séquence et l'identifiant de cette récompense est inférieur à celui d'une récompense expirée."
     },
     "rewardlinks_removelinks": {
-        "message": "Supprimer les anciens liens"
+        "message": "Supprimer vos anciens liens"
     },
     "rewardlinks_removeselected": {
         "message": "Supprimer vos liens"
     },
     "rewardlinks_removelinksdays": {
-        "message": "Supprimer les liens de récompense non collectables âgés de plus de  @DAYS@ jours.\nCela inclut les liens expirés et les liens déjà collectés..\nLes liens de plus de $NUM$ jours sont supprimés périodiquement.",
+        "message": "Supprimer les liens de récompense non collectables depuis plus de  @DAYS@ jours.\nCela inclut les liens expirés et les liens déjà collectés..\nLes liens de plus de $NUM$ jours sont supprimés périodiquement.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1220,16 +1220,16 @@
         "message": "Vous pouvez réinitialiser les informations sur les liens probablement expirés et continuer malgré tout avec ce lien."
     },
     "rewardlinks_convert": {
-        "message": "Convertir les liens"
+        "message": "Type de liens:"
     },
     "rewardlinks_noconversion": {
         "message": "Pas de conversion"
     },
     "rewardlinks_shortenlinks": {
-        "message": "Convertir tes liens"
+        "message": "Convertir des liens"
     },
     "rewardlinks_shortenlinks_info1": {
-        "message": "Collez tes liens pour convertir ici."
+        "message": "Collez des liens pour convertir ici."
     },
     "rewardlinks_shortenlinks_info2": {
         "message": "Les liens à convertir seront affichés ci-dessous\n(les doublons seront supprimés)."
@@ -1259,7 +1259,7 @@
         "message": "Spécifiez le niveau du joueur"
     },
     "rings_stats": {
-        "message": "Vous avez $NUM$ $NAME$ dans votre sac à dos.",
+        "message": "Vous avez $NUM$ $NAME$ dans l'inventaire.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1270,7 +1270,7 @@
         }
     },
     "rings_notdependent": {
-        "message": "Cela ne dépend pas du niveau du joueur"
+        "message": "Çà ne compte pas du niveau du joueur"
     },
     "equipment_sellout": {
         "message": "La vente de tous les objets inutilisés vous rapportera $TOTAL$ pièces de monnaie (équipments = $EQUIP$ pièces, décorations = $DECO$ pièces)",
@@ -1293,10 +1293,10 @@
         "message": "En propriété"
     },
     "equipment_inshop": {
-        "message": "À vendre"
+        "message": "A vendre"
     },
     "equipment_from": {
-        "message": "De"
+        "message": "depuis"
     },
     "equipment_affordable": {
         "message": "Accessible"
@@ -1308,7 +1308,7 @@
         "message": "Gain"
     },
     "equipment_gain_info": {
-        "message": "Le gain est basé sur la fente minimum du camp"
+        "message": "Le gain est basé sur l'emplacement minimum du camp"
     },
     "equipment_free": {
         "message": "GRATUIT"
@@ -1332,7 +1332,7 @@
         "message": "Réalisations"
     },
     "events_pieces": {
-        "message": "Pièces de trésor"
+        "message": "Trésors"
     },
     "events_locations": {
         "message": "Locations"
@@ -1347,7 +1347,7 @@
         "message": "Total"
     },
     "events_medal": {
-        "message": "Médaille"
+        "message": "Médailles"
     },
     "events_story_maps": {
         "message": "Histoires"
@@ -1359,10 +1359,10 @@
         "message": "Répétables"
     },
     "events_active": {
-        "message": "Actifs"
+        "message": "Actuellement"
     },
     "events_rerelease": {
-        "message": "Achat/Cadeau"
+        "message": "Acheté ou gratuit"
     },
     "events_complete": {
         "message": "Complet"
@@ -1371,19 +1371,19 @@
         "message": "Incomplet"
     },
     "events_notdone": {
-        "message": "Pas fait"
+        "message": "Inachevé"
     },
     "events_segmented": {
         "message": "Segmentée"
     },
     "repeat_name": {
-        "message": "Nom"
+        "message": "Mines"
     },
     "repeat_region_event": {
         "message": "Régions & événements"
     },
     "repeat_cooldown": {
-        "message": "Rafraîchissements"
+        "message": "Rafraîchissement"
     },
     "repeat_cooldown_time": {
         "message": "Durée"
@@ -1398,13 +1398,13 @@
         "message": "Bonus d'achèvement"
     },
     "repeat_progress": {
-        "message": "Progrès"
+        "message": "Tuiles"
     },
     "repeat_progress_current": {
-        "message": "Tuiles minées"
+        "message": "Restantes"
     },
     "repeat_progress_total": {
-        "message": "Tuiles au total"
+        "message": "Pleines"
     },
     "repeat_time": {
         "message": "Le temps avant que la mine est prêt à nouveau."
@@ -1413,7 +1413,7 @@
         "message": "Tous les répétables"
     },
     "repeat_show_selected": {
-        "message": "Seules les répétables sélectionnées"
+        "message": "Les répétables sélectionnés"
     },
     "repeat_ready": {
         "message": "PRÊT"
@@ -1465,28 +1465,28 @@
         "message": "Options dans le jeu"
     },
     "options_injectgame": {
-        "message": "Activer DAF\nActiver DAF dans le jeu.\nSinon, les options suivantes n'ont aucun effet."
+        "message": "Activer DAF\nActiver DAF dans le jeu.\nSi désactiver, les options suivantes n'ont aucun effet."
     },
     "options_fullwindow": {
-        "message": "Fenêtre entière\nAfficher le jeu de la fenêtre complète."
+        "message": "Plein écran\nAfficher le jeu en plein écran."
     },
     "options_fullwindowheader": {
-        "message": "En-tête\nAfficher l'en-tête de la page en pleine fenêtre."
+        "message": "En-tête\nAfficher l'en-tête de la page en plein écran."
     },
     "options_fullwindowside": {
-        "message": "Barre latérale\nMasquer la barre latérale (Facebook) lorsque vous n'êtes pas en pleine fenêtre."
+        "message": "Barre latérale\nMasquer la barre latérale (Facebook) lorsque vous n'êtes pas en plein écran."
     },
     "options_fullwindowlock": {
-        "message": "Verrouiller toute la fenêtre\nEmpêche le jeu de sortir de la fenêtre entière."
+        "message": "Verrouiller le plein écran\nEmpêche le jeu de sortir de plein écran."
     },
     "options_resetfullwindow": {
-        "message": "Réinitialiser lors du chargement\nChaque fois que le jeu est chargé, les options \"Fenêtre entière\" et \"Fenêtre entière - Barre latérale\" sont réinitialisées."
+        "message": "Réinitialiser lors du chargement\nChaque fois que le jeu est chargé, les options \"Plein écran\" et \"Plein écran avec une barre latérale\" sont réinitialisées."
     },
     "options_resetfullwindow_warning": {
         "message": "Essayez d'activer cette option si vous rencontrez des problèmes pour charger le jeu."
     },
     "options_fullwindowtimeout": {
-        "message": "Fenêtre entièrement automatique\nFenêtre entière lorsque le jeu a été chargé (DAF2 devient vert)"
+        "message": "Plein écran automatique\nLe plein écran lorsque le jeu a été chargé (DAF2 devient vert)."
     },
     "options_fullwindowtimeout_seconds": {
         "message": "Oui, après $NUM$ secondes",
@@ -1497,10 +1497,10 @@
         }
     },
     "options_gctable": {
-        "message": "Table de filleuls\nAfficher tous les voisins qui ont des filleuls dans la barre en dessous du jeu."
+        "message": "Tableau de filleuls\nAfficher tous les voisins qui ont des filleuls dans la barre en dessous du jeu."
     },
     "options_gctablecounter": {
-        "message": "Compteur\nAfficher le compteur."
+        "message": "Compteur\nAfficher le compteur de filleuls."
     },
     "options_gctableregion": {
         "message": "Région\nUtilisez les couleurs pour identifier la région du voisin."
@@ -1536,7 +1536,7 @@
         "message": "Ajouter un résumé\nSi la page n'est pas fermée automatiquement, un résumé est inséré au bas de la page."
     },
     "options_linkgrabenabled": {
-        "message": "Link Grabber\nActiver Link Grabber (lien de saisie) sur les pages Facebook.\nSinon, les options suivantes n'ont aucun effet."
+        "message": "Link Grabber\nActiver Link Grabber (lien de saisie) sur les pages Facebook.\nSi désactiver, les options suivantes n'ont aucun effet."
     },
     "options_linkgrabbutton": {
         "message": "Bouton de souris\nChanger le bouton qui lance le Link Grabber."
@@ -1581,7 +1581,16 @@
         "message": "Descendant"
     },
     "options_language": {
-        "message": "Langue\nChoisissez la langue à utiliser"
+        "message": "Langue\nChoisissez la langue à utiliser."
+    },
+    "options_locale": {
+        "message": "localisation\nUtilisé pour formater des nombres, des dates et des listes."
+    },
+    "options_locale_browser": {
+        "message": "Utiliser les paramètres du navigateur."
+    },
+    "options_gamelanguage": {
+        "message": "Langue du jeu\nLangue pour les messages de jeu."
     },
     "linkgrabber_selected": {
         "message": "Liens: $UNIQUE$ / $TOTAL$",

@@ -1583,6 +1583,15 @@
     "options_language": {
         "message": "Sprache\nSprache auswählen"
     },
+    "options_locale": {
+        "message": "Lokalisierung\nWird zur Formatierung von Zahlen, Daten und Listen verwendet."
+    },
+    "options_locale_browser": {
+        "message": "Browsereinstellung verwenden"
+    },
+    "options_gamelanguage": {
+        "message": "Spielsprache\nSprache für die Nachrichten des Spiels"
+    },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",
         "placeholders": {

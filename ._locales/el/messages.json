@@ -1583,6 +1583,15 @@
     "options_language": {
         "message": "Γλώσσα\nΔιαλέξτε τη γλώσσα προς χρήση"
     },
+    "options_locale": {
+        "message": "Τοπικοποίηση\nΧρησιμοποιείται για τη μορφοποίηση αριθμών, ημερομηνιών και λιστών"
+    },
+    "options_locale_browser": {
+        "message": "Χρήση ρυθμίσεων φυλλομετρητή"
+    },
+    "options_gamelanguage": {
+        "message": "Γλώσσα Παιχνιδιού\nΓλώσσα για μηνύματα του παιχνιδιού"
+    },
     "linkgrabber_selected": {
         "message": "Σύνδεσμοι: $UNIQUE$ / $TOTAL$",
         "placeholders": {

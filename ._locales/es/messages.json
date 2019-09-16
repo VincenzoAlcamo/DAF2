@@ -1589,6 +1589,9 @@
     "options_locale_browser": {
         "message": "Uso del ajuste del navegador"
     },
+    "options_gamelanguage": {
+        "message": "Idioma del juego\nIdioma para los mensajes del juego"
+    },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",
         "placeholders": {

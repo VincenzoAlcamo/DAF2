@@ -796,12 +796,11 @@ function openWiki(page) {
 
 // eslint-disable-next-line no-unused-vars
 async function processLanguages() {
-    let languages = bgp.Data.languages.map(item => item[0]);
     let result = {};
     result.ext_title = result.ext_name = {
         message: ''
     };
-    for (let lang of languages) {
+    for (let lang of bgp.Data.guiLanguages) {
         let url = chrome.extension.getURL('/._locales/' + lang + '/messages.json');
         let response = await fetch(url);
         let text = await response.text();
