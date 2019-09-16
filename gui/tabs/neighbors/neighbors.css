@@ -102,3 +102,9 @@
   font-size: 12pt;
   font-weight: bold;
 }
+
+.neighbors-stats {
+  padding-top: 4px;
+  margin-bottom: -2px;
+  font-weight: bold;
+}

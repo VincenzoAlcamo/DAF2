@@ -10,7 +10,7 @@ export default {
         'visit_camp': markNeighbor,
         'place_windmill': markNeighbor
     },
-    requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills']
+    requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'sales']
 };
 
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
@@ -212,6 +212,7 @@ function onClick(e) {
 }
 
 function update() {
+    bgp.Data.getPillarsInfo();
     lastGiftDays = 0;
     palRows = {};
     for (let pal of Object.values(bgp.Data.getNeighbours())) {
@@ -235,20 +236,9 @@ function update() {
     giftCache = {};
     giftValues = {
         system2: 1, // Energy
-        material1: 1, // Coin
-        material2: 1000, // Gem
-        material3: 60, // Copper
-        material6: 150, // Tin
-        material7: 30, // Lumber
-        material9: 75, // Coal
-        material11: 60, // Root
-        material19: 30, // Mushroom
-        material20: 20, // Apple
-        material21: 60, // Herb
-        material22: 50, // Stone
-        material29: 20, // Berry
-        material33: 190 // Iron ore
+        material2: 1000 // Gem
     };
+    for (let [id, xp] of Object.entries(bgp.Data.pillars.expByMaterial)) giftValues['material' + id] = xp;
     for (let gift of Object.values(gui.getFile('gifts'))) {
         let type = gift.type;
         let oid = gift.object_id;
@@ -364,6 +354,8 @@ function refreshDelayed() {
     let giftDays = Math.max(7, +state.days || 0);
     let giftThreshold = getDateAgo(giftDays - 1);
     if (giftDays != lastGiftDays) {
+        let giftTotal = 0;
+        let giftCount = 0;
         lastGiftDays = giftDays;
         palGifts = {};
         uniqueGifts = {};
@@ -379,9 +371,14 @@ function refreshDelayed() {
                 }
             });
             gifts._value = value;
+            giftTotal += value;
+            giftCount += gifts.length;
             palGifts[pal.id] = gifts;
             palRows[pal.id].setAttribute('lazy-render', '');
         }
+        let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(giftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / giftDays)));
+        text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / giftDays, 1));
+        container.querySelector('.neighbors-stats').innerHTML = Html.br(text);
     }
 
     let giftFilter = {};

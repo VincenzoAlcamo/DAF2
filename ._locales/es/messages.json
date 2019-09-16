@@ -655,6 +655,34 @@
     "neighbors_sortby": {
         "message": "Ordenar por"
     },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ regalos en $DAYS$ días = $TOTAL$ XP ($AVERAGE$ XP / día)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Valor de regalo promedio = $XP$ XP ($AVERAGE$ XP por vecino / día)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
+    },
     "friendship_collect": {
         "message": "Recoger y combinar"
     },
@@ -1253,10 +1281,13 @@
         "message": "Exportar datos de diagnóstico."
     },
     "rings_showminmax": {
-        "message": "Mostrar valores mínimos y máximos."
+        "message": "Mostrar valores mínimos y máximos"
+    },
+    "rings_showxp": {
+        "message": "Mostrar XP"
     },
     "rings_playerlevel": {
-        "message": "Especificar el nivel del jugador."
+        "message": "Especificar el nivel del jugador"
     },
     "rings_stats": {
         "message": "Tienes $NUM$ $NAME$ en tu mochila",
