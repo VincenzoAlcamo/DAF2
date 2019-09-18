@@ -149,7 +149,7 @@ function onClickAdvanced() {
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL]
     }, function(method, params) {
-        let list = gui.getArrayOfInt(params.gifts).sort().join(',');
+        let list = gui.getArrayOfInt(params.gifts).sort(gui.sortNumberAscending).join(',');
         if (method == 'clear') {
             for (let option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
             return;
@@ -356,6 +356,7 @@ function refreshDelayed() {
     if (giftDays != lastGiftDays) {
         let giftTotal = 0;
         let giftCount = 0;
+        let minDate = gui.getUnixTime();
         lastGiftDays = giftDays;
         palGifts = {};
         uniqueGifts = {};
@@ -363,7 +364,9 @@ function refreshDelayed() {
             let gifts = Array.isArray(pal.extra.g) ? pal.extra.g : [];
             let value = 0;
             gifts = gifts.filter(gift => {
-                if (gift[2] >= giftThreshold) {
+                let dt = gift[2];
+                if (dt >= giftThreshold) {
+                    if (dt < minDate) minDate = dt;
                     let gid = gift[1];
                     value += (giftValues[gid] || 0);
                     uniqueGifts[gid] = true;
@@ -376,8 +379,11 @@ function refreshDelayed() {
             palGifts[pal.id] = gifts;
             palRows[pal.id].setAttribute('lazy-render', '');
         }
-        let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(giftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / giftDays)));
-        text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / giftDays, 1));
+        let dt = Locale.getDate(minDate);
+        dt.setHours(0, 0, 0, 0);
+        let realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
+        let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
+        text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
         container.querySelector('.neighbors-stats').innerHTML = Html.br(text);
     }
 
