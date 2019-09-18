@@ -222,6 +222,15 @@
     "gui_reset": {
         "message": "Zresetuj"
     },
+    "gui_material": {
+        "message": "Materiał"
+    },
+    "gui_filter_clear": {
+        "message": "Wyczyść"
+    },
+    "gui_filter_invert": {
+        "message": "Odwróć"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -654,6 +663,34 @@
     },
     "neighbors_sortby": {
         "message": "Sortuj wegług"
+    },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ prezentów w $DAYS$ dni = $TOTAL$ XP ($AVERAGE$ XP/dzień)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Średnia wartość prezentu = $XP$ XP ($AVERAGE$ XP od sąsiada/dzień)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
     },
     "friendship_collect": {
         "message": "Zbierz i dopasuj"
@@ -1255,6 +1292,9 @@
     "rings_showminmax": {
         "message": "Pokaż minimalne i maksymalne wartości."
     },
+    "rings_showxp": {
+        "message": "Pokaż XP"
+    },
     "rings_playerlevel": {
         "message": "Określ poziom gracza"
     },
@@ -1318,6 +1358,24 @@
     },
     "equipment_price_info": {
         "message": "Pokazana cena nie dotyczy tego sprzętu,\nale pakietu/oferty, która zawierała ten sprzęt."
+    },
+    "equipment_level_none": {
+        "message": "Nie ma znaczenia"
+    },
+    "equipment_level_eq": {
+        "message": "Dokładnie"
+    },
+    "equipment_level_le": {
+        "message": "Najwyższy"
+    },
+    "equipment_level_ge": {
+        "message": "Najniższy"
+    },
+    "equipment_level_your": {
+        "message": "twój poziom"
+    },
+    "equipment_level_this": {
+        "message": "ten poziom"
     },
     "events_year": {
         "message": "Rok"

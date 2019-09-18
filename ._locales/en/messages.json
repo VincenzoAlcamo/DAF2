@@ -1380,7 +1380,7 @@
         "message": "Does not matter"
     },
     "equipment_level_eq": {
-        "message": "Exacly"
+        "message": "Exactly"
     },
     "equipment_level_le": {
         "message": "At most"

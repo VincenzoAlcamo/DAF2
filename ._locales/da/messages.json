@@ -222,6 +222,15 @@
     "gui_reset": {
         "message": "Reset"
     },
+    "gui_material": {
+        "message": "Materiale"
+    },
+    "gui_filter_clear": {
+        "message": "Ryd"
+    },
+    "gui_filter_invert": {
+        "message": "Vend"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -654,6 +663,34 @@
     },
     "neighbors_sortby": {
         "message": "Sorteret efter"
+    },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ gaver i $DAYS$ dage = $TOTAL$ XP $AVERAGE$ XP/dag",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Genemsnitlig gave værdi = $XP$ XP ($AVERAGE$ XP per nabo/dag)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
     },
     "friendship_collect": {
         "message": "Hent og sammenlign"
@@ -1255,6 +1292,9 @@
     "rings_showminmax": {
         "message": "Vis minimum og maksimum værdier"
     },
+    "rings_showxp": {
+        "message": "Vis XP"
+    },
     "rings_playerlevel": {
         "message": "Specificer spillers level"
     },
@@ -1318,6 +1358,24 @@
     },
     "equipment_price_info": {
         "message": "Pakkepris - Prisen er ikke for dette udstyr,\nmen for hele den pakke/tilbud, der indeholdt dette udstyr"
+    },
+    "equipment_level_none": {
+        "message": "Betyder ikke noget"
+    },
+    "equipment_level_eq": {
+        "message": "Præcist"
+    },
+    "equipment_level_le": {
+        "message": "Mest"
+    },
+    "equipment_level_ge": {
+        "message": "Mindst"
+    },
+    "equipment_level_your": {
+        "message": "dit level (niveau)"
+    },
+    "equipment_level_this": {
+        "message": "dette level (niveau)"
     },
     "events_year": {
         "message": "År"

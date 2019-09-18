@@ -222,6 +222,15 @@
     "gui_reset": {
         "message": "Zurücksetzen"
     },
+    "gui_material": {
+        "message": "Material"
+    },
+    "gui_filter_clear": {
+        "message": "Leeren"
+    },
+    "gui_filter_invert": {
+        "message": "Invertieren"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -654,6 +663,34 @@
     },
     "neighbors_sortby": {
         "message": "Sortieren nach"
+    },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ Geschenke in $DAYS$ Tagen = $TOTAL$ XP ($AVERAGE$ XP/Tag)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Durchschnittlicher Geschenkwert = $XP$ XP ($AVERAGE$ XP pro Nachbar/Tag)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
     },
     "friendship_collect": {
         "message": "Sammeln und Vergleichen"
@@ -1255,6 +1292,9 @@
     "rings_showminmax": {
         "message": "Minimal- und Maximalwerte anzeigen"
     },
+    "rings_showxp": {
+        "message": "XP anzeigen"
+    },
     "rings_playerlevel": {
         "message": "Stufe des Spielers auswählen"
     },
@@ -1318,6 +1358,24 @@
     },
     "equipment_price_info": {
         "message": "Der hier angegebene Preis gilt nicht für dieses Ausstattung,\naber für das Paket/Angebot, das diese Ausstattung beinhaltet."
+    },
+    "equipment_level_none": {
+        "message": "Nicht wichtig"
+    },
+    "equipment_level_eq": {
+        "message": "Exakt"
+    },
+    "equipment_level_le": {
+        "message": "Maximal"
+    },
+    "equipment_level_ge": {
+        "message": "Mindestens"
+    },
+    "equipment_level_your": {
+        "message": "Dein Level"
+    },
+    "equipment_level_this": {
+        "message": "Dieses Level"
     },
     "events_year": {
         "message": "Jahr"
