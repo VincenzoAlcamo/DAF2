@@ -320,6 +320,14 @@ let gui = {
         });
         return collator.compare;
     },
+    sortTextAscending: function(a, b) {
+        if (a === null) return b === null ? 0 : 1;
+        return b === null ? -1 : a.localeCompare(b);
+    },
+    sortNumberAscending: function(a, b) {
+        if (isNaN(a)) return isNaN(b) ? 0 : 1;
+        return isNaN(b) ? -1 : a - b;
+    },
     getSortFunction: function(getSortValueFunctions, smartTable, defaultSortName) {
         let arr = [];
 
@@ -343,19 +351,9 @@ let gui = {
         let fn1 = arr[0] && arr[0].fn;
         let fn2 = (arr[1] && arr[1].fn) || (() => 0);
 
-        function sortTextAscending(a, b) {
-            if (a === null) return b === null ? 0 : 1;
-            return b === null ? -1 : a.localeCompare(b);
-        }
-
         function sortTextDescending(a, b) {
             if (a === null) return b === null ? 0 : 1;
             return b === null ? -1 : -a.localeCompare(b);
-        }
-
-        function sortNumberAscending(a, b) {
-            if (isNaN(a)) return isNaN(b) ? 0 : 1;
-            return isNaN(b) ? -1 : a - b;
         }
 
         function sortNumberDescending(a, b) {
@@ -367,8 +365,8 @@ let gui = {
             function getSortFn(index) {
                 let sample = items[0][index];
                 let isAscending = arr[index - 1] && arr[index - 1].ascending;
-                if (sample === null || typeof sample == 'string') return isAscending ? sortTextAscending : sortTextDescending;
-                return isAscending ? sortNumberAscending : sortNumberDescending;
+                if (sample === null || typeof sample == 'string') return isAscending ? gui.sortTextAscending : sortTextDescending;
+                return isAscending ? gui.sortNumberAscending : sortNumberDescending;
             }
             if (items.length) {
                 items = items.map(item => [item, fn1(item), fn2(item)]);

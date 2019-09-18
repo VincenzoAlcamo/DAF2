@@ -328,7 +328,7 @@ function onClickTable(event) {
             if (flag) selected.push(id);
             repeatables[id].selected = flag;
         }
-        selected.sort((a, b) => a - b);
+        selected.sort(gui.sortNumberAscending);
         return gui.updateTabState(tab);
     }
 }
