@@ -77,6 +77,7 @@ var Parser = {
         let oldNeighbours = Data.neighbours || {};
         let reFBId = /\/(\d+)\/picture/;
         let spawned = false;
+        let countMismatch = 0;
         arr = arr.map((o, index) => {
             var id = o.uid;
             // Keep only the needed data
@@ -93,7 +94,10 @@ var Parser = {
             var match = o.pic_square.match(reFBId);
             if (match) {
                 var fb_id = match[1];
-                if (o.escaped_fb_id && o.escaped_fb_id != '#' + fb_id) console.log('mismatch', o.escaped_fb_id, fb_id);
+                if (o.escaped_fb_id && o.escaped_fb_id != '#' + fb_id) {
+                    countMismatch++;
+                    if (countMismatch <= 10) console.log('mismatch', o.escaped_fb_id, fb_id);
+                }
                 pal.fb_id = fb_id;
             } else {
                 pal.pic_square = o.pic_square;
@@ -110,6 +114,7 @@ var Parser = {
             pal.extra.lastGift = Math.max(+pal.extra.lastGift || 0, +o.rec_gift || 0);
             neighbours[id] = pal;
         });
+        if (countMismatch) console.log('Total number mismatched id is', countMismatch);
         data.neighbours = neighbours;
         let pal = neighbours[1];
         if (pal) {
