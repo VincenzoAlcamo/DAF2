@@ -1617,7 +1617,10 @@ var Synchronize = {
                     // We have repeatables info => this is a repeatable
                     // Marks as ready, since we just entered it
                     prog.cmpl = 0;
-                    let floor = taskResponse.floor_progress && taskResponse.floor_progress.find(t => +t.floor == prog.lvl);
+                    let fp = taskResponse.floor_progress;
+                    let floor = null;
+                    if (Array.isArray(fp)) floor = fp.find(t => +t.floor == prog.lvl);
+                    else if (fp && +fp.floor == prog.lvl) floor = fp;
                     prog.prog = floor ? +floor.progress : 0;
                 } else {
                     // No repeatable info => alternative method
