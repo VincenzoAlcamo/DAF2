@@ -104,11 +104,11 @@ div.equipment_mask {
   cursor: default;
 }
 
-.equipment_pack.mini > table {
+.equipment_pack.mini>table {
   zoom: 0.7;
 }
 
-.equipment_pack.compact > table {
+.equipment_pack.compact>table {
   zoom: 0.8;
 }
 
@@ -259,4 +259,10 @@ div.equipment_mask {
 .equipment_pack .item.section.region img {
   margin: auto;
   zoom: 1.2;
+}
+
+.equipment-activated {
+  background-color: var(--tt-button-hlcol);
+  color: var(--tt-button-fgcol);
+  border-radius: 4px;
 }

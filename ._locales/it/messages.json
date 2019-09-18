@@ -222,6 +222,15 @@
     "gui_reset": {
         "message": "Azzera"
     },
+    "gui_material": {
+        "message": "Materiale"
+    },
+    "gui_filter_clear": {
+        "message": "Azzera"
+    },
+    "gui_filter_invert": {
+        "message": "Inverti"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1349,6 +1358,24 @@
     },
     "equipment_price_info": {
         "message": "Il prezzo mostrato qui non è per questo equipaggiamento,\nma per il pacchetto/offerta che includeva questo equipaggiamento."
+    },
+    "equipment_level_none": {
+        "message": "Non importa"
+    },
+    "equipment_level_eq": {
+        "message": "Esattamente"
+    },
+    "equipment_level_le": {
+        "message": "Al massimo"
+    },
+    "equipment_level_ge": {
+        "message": "Almeno"
+    },
+    "equipment_level_your": {
+        "message": "il tuo livello"
+    },
+    "equipment_level_this": {
+        "message": "questo livello"
     },
     "events_year": {
         "message": "Anno"

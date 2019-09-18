@@ -224,6 +224,15 @@
     "gui_reset": {
         "message": "Reset"
     },
+    "gui_material": {
+        "message": "Material"
+    },
+    "gui_filter_clear": {
+        "message": "Clear"
+    },
+    "gui_filter_invert": {
+        "message": "Invert"
+    },
 
     "dialog_ok": {
         "message": "Ok"
@@ -1366,6 +1375,24 @@
     },
     "equipment_price_info": {
         "message": "The price shown here is not for this equipment,\nbut for the pack/offer that included this equipment."
+    },
+    "equipment_level_none": {
+        "message": "Does not matter"
+    },
+    "equipment_level_eq": {
+        "message": "Exacly"
+    },
+    "equipment_level_le": {
+        "message": "At most"
+    },
+    "equipment_level_ge": {
+        "message": "At least"
+    },
+    "equipment_level_your": {
+        "message": "your level"
+    },
+    "equipment_level_this": {
+        "message": "this level"
     },
 
     "events_year": {

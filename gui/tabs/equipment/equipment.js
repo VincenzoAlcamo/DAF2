@@ -8,9 +8,11 @@ export default {
     requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens']
 };
 
-let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, checkHideMax, selectType, searchInput, searchHandler, allBuildings;
+let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, selectType, searchInput, searchHandler, allBuildings;
 let matCache, minRegen, minCapacity, updateTime, packsViewed;
 let currency, lastPack, btnPack;
+let listRegion, listSkin, listEvent, listMaterial;
+let filterSkin, filterEvent, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
 
 function init() {
     tab = this;
@@ -30,14 +32,14 @@ function init() {
     selectUseful = container.querySelector('[name=useful]');
     selectUseful.addEventListener('change', refresh);
 
-    checkHideMax = container.querySelector('[name=hidemax]');
-    checkHideMax.addEventListener('click', refresh);
-
     selectType = container.querySelector('[name=type]');
     selectType.addEventListener('change', refresh);
 
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
+
+    let button = container.querySelector('.toolbar button.advanced');
+    button.addEventListener('click', onClickAdvanced);
 
     btnPack = container.querySelector('[name=pack]');
     btnPack.addEventListener('click', () => showPacks(lastPack));
@@ -269,6 +271,10 @@ function update() {
 
     // Remove non-owned and not-on-sale; compute other values
     let skins = {};
+    listRegion = {};
+    listSkin = {};
+    listEvent = {};
+    listMaterial = {};
     let coins = 0;
     for (let skin of gui.getArrayOfInt(generator.skins)) skins[skin] = true;
     for (let id of Object.keys(allBuildings)) {
@@ -280,18 +286,28 @@ function update() {
         if (item.skin) {
             item.rskin = item.skin;
             item.region = gui.getRegionFromSkin(item.skin);
-            if (!item.region) item.region = item.skin / 100;
+            if (!item.region) {
+                item.region = item.skin / 100;
+                listSkin[item.skin] = true;
+            }
         } else {
             item.region = item.erid || item.region || 1;
             item.rskin = gui.getSkinFromRegion(item.region);
+            listRegion[item.region] = true;
         }
         item.event = item.event || NaN;
+        if (item.event) listEvent[item.event] = true;
+        for (let req of item.reqs || []) listMaterial[req.material_id] = true;
         if (item.level > level) item.locked |= 1;
         if (item.rskin && !skins[item.rskin]) item.locked |= 2;
         if (item.owned >= item.limit) item.locked |= 4;
         if (item.placed < item.owned && item.sell) coins += item.sell * (item.owned - item.placed);
         item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen)) : 0;
     }
+    listRegion = Object.keys(listRegion).map(n => +n).sort(gui.sortNumberAscending);
+    listSkin = Object.keys(listSkin).map(n => +n).sort(gui.sortNumberAscending);
+    listEvent = Object.keys(listEvent).map(n => +n).sort(gui.sortNumberAscending);
+    listMaterial = Object.keys(listMaterial).map(n => +n).sort(gui.sortNumberAscending);
 
     let coins_deco = 0;
     let decorations = gui.getFile('decorations');
@@ -320,8 +336,12 @@ function getState() {
         from: selectFrom.value,
         affordable: selectAffordable.value,
         useful: selectUseful.value,
-        hidemax: checkHideMax.checked,
+        hidemax: !!filterHideMax,
         type: selectType.value,
+        level: filterLevelComparison + filterLevelType + (filterLevel > 0 ? filterLevel : ''),
+        skin: filterSkin,
+        event: filterEvent,
+        material: filterMaterial,
         search: searchInput.value,
         sort: gui.getSortState(smartTable)
     };
@@ -333,10 +353,122 @@ function setState(state) {
     state.from = gui.setSelectState(selectFrom, state.from);
     state.affordable = gui.setSelectState(selectAffordable, state.affordable);
     state.useful = gui.setSelectState(selectUseful, state.useful);
-    checkHideMax.checked = !!state.hidemax;
+    filterHideMax = !!state.hidemax;
     state.type = gui.setSelectState(selectType, state.type);
+    let level = String(state.level || '').toUpperCase();
+    let match = level.match(/[EGL]/);
+    filterLevelComparison = match ? match[0] : '';
+    match = level.match(/C/);
+    filterLevelType = match ? match[0] : '';
+    match = level.match(/\d+/);
+    filterLevel = Math.min(999, Math.max(1, (match && parseInt(match[0])) || 0));
+    filterSkin = state.skin;
+    filterEvent = state.event;
+    filterMaterial = state.material;
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
+    updateButton();
+}
+
+function updateButton() {
+    let flag = !!(filterSkin || filterEvent || filterMaterial || filterLevelComparison || filterHideMax);
+    let button = container.querySelector('.toolbar button.advanced');
+    button.textContent = gui.getMessage('neighbors_advancedfilter') + ': ' + gui.getMessage(flag ? 'menu_on' : 'menu_off');
+    button.classList.toggle('activated', flag);
+}
+
+function onClickAdvanced() {
+    let getValueSelected = (value, flag) => Html `value="${value}"${flag ? ' selected' : ''}`;
+    let getValueCurrent = (value, current) => getValueSelected(value, value == current);
+    let list;
+    let htm = '';
+    htm += Html `<b data-lbl="level">${gui.getMessage('gui_level')}</b>: `;
+    htm += Html `<select name="levelcomparison" data-method="level">`;
+    htm += Html `<option ${getValueCurrent('', filterLevelComparison)}>${gui.getMessage('equipment_level_none')}</option>`;
+    htm += Html `<option ${getValueCurrent('E', filterLevelComparison)}>${gui.getMessage('equipment_level_eq')}</option>`;
+    htm += Html `<option ${getValueCurrent('L', filterLevelComparison)}>${gui.getMessage('equipment_level_le')}</option>`;
+    htm += Html `<option ${getValueCurrent('G', filterLevelComparison)}>${gui.getMessage('equipment_level_ge')}</option>`;
+    htm += Html `</select>&#32;`;
+    htm += Html `<select name="leveltype" data-method="level">`;
+    htm += Html `<option ${getValueCurrent('', filterLevelType)}>${gui.getMessage('equipment_level_your')} (${Locale.formatNumber(+gui.getGenerator().level)})</option>`;
+    htm += Html `<option ${getValueCurrent('C', filterLevelType)}>${gui.getMessage('equipment_level_this')}</option>`;
+    htm += Html `</select>&#32;`;
+    htm += Html `<input type="number" name="level" min="1" max="999" maxlength="3" value=${filterLevel ? filterLevel : ''}>`;
+    htm += Html `<br><br>`;
+    htm += Html `<label for="d_hidemax"><b data-lbl="hidemax">${gui.getMessage('equipment_hidemax')}</b> <input id="d_hidemax" name="hidemax" type="checkbox" style="vertical-align:middle" ${filterHideMax ? 'checked' : ''} data-method="hidemax"></label>`;
+    htm += Html `<br><br>`;
+    htm += Html `<table><tr>`;
+    htm += Html `<td align="center"><b data-lbl="skin">${gui.getMessage('gui_theme_required')}</b><br>`;
+    htm += Html `<select name="skin" multiple style="height:250px;margin:2px" data-method="skin">`;
+    htm += Html `<optgroup label="${gui.getMessage('gui_region').toUpperCase()}">`;
+    list = gui.getArrayOfInt(filterSkin);
+    for (let rid of listRegion) {
+        let id = gui.getSkinFromRegion(rid);
+        htm += `<option ${getValueSelected(id, list.includes(id))}>${gui.getObjectName('region', rid)}</option>`;
+    }
+    htm += Html `</optgroup>`;
+    htm += Html `<optgroup label="${gui.getMessage('gui_theme').toUpperCase()}">`;
+    for (let item of listSkin.map(id => [id, gui.getObjectName('skin', id)]).sort((a, b) => a[1].localeCompare(b[1]))) {
+        htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+    }
+    htm += Html `</optgroup>`;
+    htm += Html `</select><br>`;
+    htm += Html `<input data-method="clear-s" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
+    htm += Html `&#32;<input data-method="invert-s" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
+    htm += Html `<td align="center"><b data-lbl="material">${gui.getMessage('gui_material')}</b><br>`;
+    htm += Html `<select name="material" multiple style="height:250px;margin:2px" data-method="material">`;
+    list = gui.getArrayOfInt(filterMaterial);
+    let materials = gui.getFile('materials');
+    let items = listMaterial.map(id => [id, gui.getObjectName('material', id), +materials[id].event_id]).sort((a, b) => a[1].localeCompare(b[1]));
+    htm += Html `<optgroup label="${gui.getMessage('gui_from_regions').toUpperCase()}">`;
+    for (let item of items.filter(item => item[2] == 0)) {
+        htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+    }
+    htm += Html `</optgroup>`;
+    htm += Html `<optgroup label="${gui.getMessage('gui_from_events').toUpperCase()}">`;
+    for (let item of items.filter(item => item[2] > 0)) {
+        htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+    }
+    htm += Html `</optgroup>`;
+    htm += Html `</select><br>`;
+    htm += Html `<input data-method="clear-m" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
+    htm += Html `&#32;<input data-method="invert-m" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
+    htm += Html `</tr></table>`;
+    gui.dialog.show({
+        title: gui.getMessage('neighbors_advancedfilter'),
+        html: htm,
+        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.WIDEST, Dialog.AUTORUN]
+    }, function(method, params) {
+        if (method == Dialog.CANCEL) return;
+        if (method == 'level' || method == Dialog.AUTORUN) {
+            gui.dialog.element.querySelector('[name=leveltype]').style.display = params.levelcomparison ? '' : 'none';
+            gui.dialog.element.querySelector('[name=level]').style.display = params.levelcomparison && params.leveltype == 'C' ? '' : 'none';
+        }
+        let name = method.endsWith('-s') ? 'skin' : (method.endsWith('-m') ? 'material' : '');
+        let fn = null;
+        if (method.startsWith('clear-')) fn = option => option.selected = false;
+        if (method.startsWith('invert-')) fn = option => option.selected = !option.selected;
+        if (fn) {
+            let select = gui.dialog.element.querySelector('[name=' + name + ']');
+            for (let option of select.querySelectorAll('option')) fn(option);
+            params[name] = select.selectedOptions.length > 0;
+        }
+        if (method == 'hidemax' || method == 'skin' || method == 'material' || method == 'level' || method == Dialog.AUTORUN || fn) {
+            let setActivated = (lbl, flag) => gui.dialog.element.querySelector('[data-lbl=' + lbl + ']').classList.toggle('equipment-activated', !!flag);
+            setActivated('level', params.levelcomparison);
+            setActivated('hidemax', params.hidemax);
+            setActivated('skin', params.skin);
+            setActivated('material', params.material);
+            return;
+        }
+        filterLevelComparison = params.levelcomparison;
+        filterLevelType = params.leveltype;
+        filterLevel = params.level || 0;
+        filterHideMax = params.hidemax;
+        filterSkin = gui.getArrayOfInt(params.skin).sort(gui.sortNumberAscending).join(',');
+        filterMaterial = gui.getArrayOfInt(params.material).sort(gui.sortNumberAscending).join(',');
+        refresh();
+    });
 }
 
 function triggerSearchHandler(flag) {
@@ -346,6 +478,7 @@ function triggerSearchHandler(flag) {
 
 function refresh() {
     gui.updateTabState(tab);
+    updateButton();
 
     let state = getState();
     let fnSearch = gui.getSearchFilter(state.search);
@@ -358,6 +491,17 @@ function refresh() {
     let not_affordable = state.affordable ? state.affordable == 'no' : NaN;
     let not_useful = state.useful ? state.useful == 'no' : NaN;
     let hideMax = state.hidemax;
+
+    let listSkin = gui.getArrayOfInt(filterSkin);
+    if (listSkin.length == 0) listSkin = null;
+    let listMaterial = gui.getArrayOfInt(filterMaterial);
+    if (listMaterial.length == 0) listMaterial = null;
+
+    let level = filterLevelType ? filterLevel : +gui.getGenerator().level;
+    let fnLevel = null;
+    if (filterLevelComparison == 'E') fnLevel = value => value != level;
+    if (filterLevelComparison == 'L') fnLevel = value => value > level;
+    if (filterLevelComparison == 'G') fnLevel = value => value < level;
 
     function isVisible(item) {
         if (fnSearch && !fnSearch(item.name.toUpperCase())) return false;
@@ -375,6 +519,15 @@ function refresh() {
         if (not_affordable == (item.locked == 0)) return false;
         if (not_useful == (item.gain > 0)) return false;
         if (hideMax && item.owned >= item.limit) return false;
+        if (listSkin && !listSkin.includes(item.rskin)) return false;
+        if (listMaterial) {
+            let found = false;
+            for (let req of item.reqs || []) {
+                if (listMaterial.includes(req.material_id)) found = true;
+            }
+            if (!found) return false;
+        }
+        if (fnLevel && fnLevel(item.level)) return false;
         return true;
     }
 
@@ -612,7 +765,7 @@ function showPacks(packId) {
         hash[pack.id] = pack;
         if (!regions.includes(pack.rid)) regions.push(pack.rid);
     }
-    regions.sort((a, b) => a - b);
+    regions.sort(gui.sortNumberAscending);
     let list = Object.values(hash);
     list.sort((a, b) => (a.rid - b.rid) || (a.price - b.price) || (a.pid - b.pid));
     let rid = hash[packId].rid;
