@@ -24,6 +24,7 @@ Object.assign(Dialog, {
     YES: 'yes',
     NO: 'no',
     CANCEL: 'cancel',
+    AUTORUN: 'autorun',
     escapeHtml: (function() {
         var re = /[&<>'"]/g;
         var o = {
@@ -115,11 +116,9 @@ Object.assign(Dialog.prototype, {
         if (o.html) this.setHtml(o.html);
         else this.setText(o.text);
 
-        var element = this.element,
-            elements = [];
-        ['BUTTON', 'INPUT', 'TEXTAREA'].forEach(tagName => {
-            elements = elements.concat(Array.from(element.getElementsByTagName(tagName)));
-        });
+        var element = this.element;
+        var elements = [];
+        for (let tagName of ['BUTTON', 'INPUT', 'TEXTAREA']) elements = elements.concat(Array.from(element.getElementsByTagName(tagName)));
         element = elements.find(el => o.defaultButton == (el.tagName == 'BUTTON' ? el.value.toLowerCase() : el.name));
         if (element) setTimeout(() => element.focus(), 100);
         if (this.mode === Dialog.TOAST) {
@@ -133,6 +132,7 @@ Object.assign(Dialog.prototype, {
                 }, 500);
             }, this.delay);
         }
+        if (this.lastStyle.includes(Dialog.AUTORUN)) this.runCallback(Dialog.AUTORUN, null, true);
         return this;
     },
     runCallback: function(method, input, flagNoHide) {
@@ -173,12 +173,12 @@ Object.assign(Dialog.prototype, {
         if (style === null || style === undefined) style = this.lastStyle;
         style = this.lastStyle = style instanceof Array ? style : String(style).split(/,|\s/);
         style = style.map(method => method.toLowerCase());
-        for (let tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.indexOf(tag) >= 0);
+        for (let tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
         let dialog = this;
         for (let input of this.element.querySelectorAll('button,[data-method]')) {
             let isInput = input.getAttribute('data-method');
             let method = isInput ? input.getAttribute('data-method') : input.value.toLowerCase();
-            input.style.display = isInput || style.indexOf(method) >= 0 ? '' : 'none';
+            input.style.display = isInput || style.includes(method) ? '' : 'none';
             if (!input.getAttribute('hasListener')) {
                 input.setAttribute('hasListener', '1');
                 let eventName = input.tagName == 'BUTTON' || input.getAttribute('type') == 'button' ? 'click' : 'input';
@@ -209,6 +209,7 @@ Object.assign(Dialog.prototype, {
             switch (type) {
                 case 'TEXT':
                 case 'TEXTAREA':
+                case 'NUMBER':
                     add(name, value);
                     break;
                 case 'RADIO':

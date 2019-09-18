@@ -136,6 +136,11 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
+.DAF-dialog input.small[type=button],
+.DAF-dialog button.small {
+  font-size: 0.8em;
+}
+
 .DAF-dialog input[type=button]:hover,
 .DAF-dialog button:hover {
   background-color: rgba(255, 255, 255, 0.2);
