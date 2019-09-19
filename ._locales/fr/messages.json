@@ -111,10 +111,10 @@
         "message": "Offre spéciale"
     },
     "gui_tieredoffer": {
-        "message": "Offre à plusieurs niveaux"
+        "message": "Offre à niveaux"
     },
     "gui_pack": {
-        "message": "Paquet"
+        "message": "Pack spécial"
     },
     "gui_level": {
         "message": "Niveau"
@@ -221,6 +221,15 @@
     },
     "gui_reset": {
         "message": "Réinitialiser"
+    },
+    "gui_material": {
+        "message": "Matériel"
+    },
+    "gui_filter_clear": {
+        "message": "Nettoyer"
+    },
+    "gui_filter_invert": {
+        "message": "Inverser"
     },
     "dialog_ok": {
         "message": "D'accord"
@@ -543,7 +552,7 @@
         }
     },
     "pillars_grid": {
-        "message": "Afficher la grille"
+        "message": "En mode grille"
     },
     "pillars_cap": {
         "message": "Quantité maximum par défaut"
@@ -655,6 +664,34 @@
     "neighbors_sortby": {
         "message": "Trier par"
     },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ cadeaux dans $DAYS$ jours = $TOTAL$ XP ($AVERAGE$ XP/jour)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Valeur moyenne du cadeau = $XP$ XP ($AVERAGE$ XP par voisin/jour)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
+    },
     "friendship_collect": {
         "message": "Recueillir et correspondre"
     },
@@ -662,7 +699,7 @@
         "message": "Score"
     },
     "friendship_scoretooltip": {
-        "message": "Fiabilité correspondante:\n100 = Identique à l'identifiant Facebook\n99 = combinaison manuelle\n95 = Même photo de profil\n90 = Même nom complet\n80 = Même nom et prénom\n70 = Même nom et prénom (inversé)\n60 = association avec des caractères chinois\nL'association par image est faite en dernier et uniquement sur les éléments non encore associés."
+        "message": "Fiabilité correspondante:\n100 = Identique à l'identifiant de Facebook\n99 = Combinaison manuelle\n95 = Photo de profil identique\n90 = Même nom complet\n80 = Même nom et prénom\n70 = Même nom et prénom (inversé)\n60 = Association avec des caractères chinois\nL'association par image est faite en dernier et uniquement sur les éléments non encore associés."
     },
     "friendship_action": {
         "message": "Action"
@@ -1255,6 +1292,9 @@
     "rings_showminmax": {
         "message": "Afficher les valeurs minimales et maximales"
     },
+    "rings_showxp": {
+        "message": "Afficher l'expèrience"
+    },
     "rings_playerlevel": {
         "message": "Spécifiez le niveau du joueur"
     },
@@ -1287,7 +1327,7 @@
         }
     },
     "equipment_notonsale": {
-        "message": "Plus à vendre"
+        "message": "Ce n'est plus à vendre"
     },
     "equipment_owned": {
         "message": "En propriété"
@@ -1317,7 +1357,25 @@
         "message": "Masquer le maximisé"
     },
     "equipment_price_info": {
-        "message": "Le prix indiqué ici n'est pas pour cet équipement,\nmais pour le forfait ou l'offre qui comprenait cet équipement."
+        "message": "Le prix indiqué ici n'est pas pour cet équipement,\nmais pour le pack ou l'offre qui comprenait cet équipement."
+    },
+    "equipment_level_none": {
+        "message": "Ça n'a pas d'importance"
+    },
+    "equipment_level_eq": {
+        "message": "Exactement"
+    },
+    "equipment_level_le": {
+        "message": "Au plus"
+    },
+    "equipment_level_ge": {
+        "message": "Au moins"
+    },
+    "equipment_level_your": {
+        "message": "ton niveau"
+    },
+    "equipment_level_this": {
+        "message": "ce niveau"
     },
     "events_year": {
         "message": "Année"
@@ -1374,7 +1432,7 @@
         "message": "Inachevé"
     },
     "events_segmented": {
-        "message": "Segmentée"
+        "message": "Avec segmenté"
     },
     "repeat_name": {
         "message": "Mines"
