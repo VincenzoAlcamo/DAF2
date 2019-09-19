@@ -222,6 +222,15 @@
     "gui_reset": {
         "message": "Επαναφορά"
     },
+    "gui_material": {
+        "message": "Υλικό"
+    },
+    "gui_filter_clear": {
+        "message": "Καθαρισμός"
+    },
+    "gui_filter_invert": {
+        "message": "Αντιστροφή"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },
@@ -654,6 +663,34 @@
     },
     "neighbors_sortby": {
         "message": "Ταξινόμηση με"
+    },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ δώρα σε $DAYS$ μέρες = $TOTAL$ Εμπειρία ($AVERAGE$ Εμπειρία/μέρα)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Μέση αξία δώρου = $XP$ Εμπειρία ($AVERAGE$ Εμπειρία για κάθε γείτονα/μέρα)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
     },
     "friendship_collect": {
         "message": "Συλλογή και Ταίριασμα"
@@ -1255,6 +1292,9 @@
     "rings_showminmax": {
         "message": "Δείξε μικρότερες και μεγαλύτερες τιμές"
     },
+    "rings_showxp": {
+        "message": "Εμφάνιση Εμπειρίας"
+    },
     "rings_playerlevel": {
         "message": "Προσδιορίστε επίπεδο παίχτη"
     },
@@ -1318,6 +1358,24 @@
     },
     "equipment_price_info": {
         "message": "Η τιμή εδώ δεν είναι για τον εξοπλισμό αυτό,\nαλλά για το πακέτο/προσφορά που τον περιείχε."
+    },
+    "equipment_level_none": {
+        "message": "Δεν έχει σημασία"
+    },
+    "equipment_level_eq": {
+        "message": "Ακριβώς"
+    },
+    "equipment_level_le": {
+        "message": "Το περισσότερο"
+    },
+    "equipment_level_ge": {
+        "message": "Το λιγότερο"
+    },
+    "equipment_level_your": {
+        "message": "το επίπεδό σας"
+    },
+    "equipment_level_this": {
+        "message": "αυτό το επίπεδο"
     },
     "events_year": {
         "message": "Έτος"
