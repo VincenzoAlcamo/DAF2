@@ -326,6 +326,7 @@ function showDetail(show) {
             htm += Html `<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max, sub.energy);
             htm += getTimes(isCompleted, sub.bt, sub.et);
             sub.row = document.createElement('tr');
+            if (sub.id) sub.row.setAttribute('data-id', sub.id);
             sub.row.setAttribute('data-level', level + 1);
             sub.row.innerHTML = htm;
         }
@@ -550,7 +551,7 @@ function calcRegion(item) {
     let locations = gui.getFile('locations_' + item.rid);
     let loc_prog = gui.getGenerator().loc_prog;
     let excluded = {};
-    // There should be only one map for each pair <filter, order_id>
+    // There should be only one map for each tuple <filter, group_id, order_id>
     // otherwise this means that Pixel replaced an old map and we have to get the correct one
     let byFilterOrderId = {};
     for (let mine of Object.values(locations)) {
@@ -561,7 +562,7 @@ function calcRegion(item) {
         } else if (!isMineValid(mine)) {
             excluded[lid] = 2;
         } else {
-            let key = mine.filter + '\t' + mine.order_id;
+            let key = mine.filter + '\t' + mine.group_id + '\t' + mine.order_id;
             if (key in byFilterOrderId) byFilterOrderId[key].push(lid);
             else byFilterOrderId[key] = [lid];
         }
@@ -627,6 +628,7 @@ function calcRegion(item) {
             }
 
             item.rows.push({
+                id: lid,
                 img: Html `<img height="24" src="/img/gui/${imgUrl}">`,
                 name_loc: mine.name_loc,
                 // name: gui.getString(mine.name_loc) + ' (' + lid + ')',
