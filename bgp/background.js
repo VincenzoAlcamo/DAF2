@@ -699,17 +699,11 @@ var Data = {
     guiLanguages: 'da,de,el,en,es,fr,it,pl'.split(','),
     acceptedLanguages: [],
     detectLanguage: function(lang) {
-        let languages = [].concat(lang, Data.acceptedLanguages);
-        for (let id of languages) {
-            let match = String(id || '').match(/([a-z]+)[^a-z]?/i);
-            if (match) {
-                let lang = match[1].toLowerCase();
-                if (Data.languages.find(item => item[0] == lang)) {
-                    return lang;
-                }
-            }
-        }
-        return 'en';
+        return [].concat(lang, Data.acceptedLanguages)
+            .map(id => {
+                let match = String(id || '').match(/([a-z]+)[^a-z]?/i);
+                return match ? match[1].toLowerCase() : '';
+            }).find(id => Data.guiLanguages.includes(id)) || 'en';
     },
     init: async function() {
         await new Promise(function(resolve, _reject) {
