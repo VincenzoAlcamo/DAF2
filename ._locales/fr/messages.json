@@ -665,7 +665,7 @@
         "message": "Trier par"
     },
     "neighbors_totxpstats": {
-        "message": "$COUNT$ cadeaux dans $DAYS$ jours = $TOTAL$ XP ($AVERAGE$ XP/jour)",
+        "message": "$COUNT$ cadeaux depuis $DAYS$ jours = $TOTAL$ expèriences ($AVERAGE$ expèrience par jour)",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -682,7 +682,7 @@
         }
     },
     "neighbors_avgxpstats": {
-        "message": "Valeur moyenne du cadeau = $XP$ XP ($AVERAGE$ XP par voisin/jour)",
+        "message": "En moyenne du cadeau = $XP$ expèriences ($AVERAGE$ expèrience avec voisin par jour)",
         "placeholders": {
             "xp": {
                 "content": "$1"
