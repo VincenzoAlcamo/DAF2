@@ -683,20 +683,20 @@ var Data = {
         new Language('fr', 'FR', 'French', 'Français', 'FR,BE,CA,CH,LU,MC'),
         new Language('it', 'IT', 'Italian', 'Italiano', 'IT,CH'),
         new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
+        new Language('pt', 'PT', 'Portuguese ', 'Português', 'PT,BR'),
         // OTHER (GAME)
         new Language('bg', 'BG', 'Bulgarian', 'български', 'BG'),
         new Language('cs', 'CZ', 'Czech', 'Čeština', 'CZ'),
         new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
         new Language('hu', 'HU', 'Hungarian ', 'Magyar', 'HU'),
         new Language('nl', 'NL', 'Dutch ', 'Nederlands', 'NL,BE'),
-        new Language('pt', 'PT', 'Portuguese ', 'Português', 'PT,BR'),
         new Language('ro', 'RO', 'Romanian ', 'Română', 'RO,MD'),
         new Language('ru', 'RU', 'Russian ', 'Русский', 'RU,MD,UA'),
         new Language('se', 'SE', 'Swedish ', 'Svenska', 'SE,FI'),
         new Language('sk', 'SK', 'Slovak ', 'Slovenčina', 'SK'),
         new Language('tr', 'TR', 'Turkish ', 'Türkçe', 'TR'),
     ],
-    guiLanguages: 'da,de,el,en,es,fr,it,pl'.split(','),
+    guiLanguages: 'da,de,el,en,es,fr,it,pl,pt'.split(','),
     acceptedLanguages: [],
     detectLanguage: function(lang) {
         return [].concat(lang, Data.acceptedLanguages)

@@ -723,7 +723,7 @@
         "message": "Cliquez ici pour annuler cet appariement"
     },
     "friendship_accountdisabled": {
-        "message": "Le compte est désactivé"
+        "message": "Son compte est désactivé"
     },
     "friendship_disabledaccountsdetected": {
         "message": "Des profils désactivés ont été détectés."
