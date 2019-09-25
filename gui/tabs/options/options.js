@@ -100,7 +100,7 @@ function init() {
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
     option('keepDebugging', WARNING);
-    if (gui.getPreference('fixes')) option('fixes', TEXT);
+    option('fixes', TEXT);
     endSection();
     beginSection('ingame');
     option('injectGame', CRITICAL);
