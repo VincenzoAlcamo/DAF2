@@ -490,6 +490,7 @@ window.exitFullscreen = function() {
 `;
                 if (fixes.includes('GC')) {
                     code += `
+gamevars.fb_enabled = 1;
 var original_userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
     cur_req_type = req_type;
