@@ -93,6 +93,8 @@ function update() {
         item.pquest = item.cquest / (item.tquest || 1);
 
         item.materials = materialsByEvent[eid] || [];
+        // Red Ring
+        if (eid == 20) item.materials.push(-1642);
 
         item.img = gui.getObjectImage('event', item.id);
         if (item.img == '' && item.materials.length == 1) item.img = gui.getObjectImage('material', item.materials[0]);
@@ -311,7 +313,7 @@ function updateRow(row) {
     let size = Math.max(21, Math.min(32, Math.floor(96 / numMaterials)));
     item.materials.forEach((matId, index) => {
         if (index == breakIndex) htm += `<br>`;
-        htm += gui.getObjectImg('material', matId, size, true, 'desc');
+        htm += gui.getObjectImg(matId > 0 ? 'material' : 'token', Math.abs(matId), size, true, 'desc');
     });
     htm += Html.br `</td>`;
     row.innerHTML = htm;
