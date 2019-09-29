@@ -478,20 +478,20 @@ function init() {
                 if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
-            let fixes = String(prefs.fixes || '').toUpperCase().split(/\W+/);
+            let fixes = String(prefs.fixes || '').toUpperCase().split(/\W+/).reduce((v, k) => (v[k] = true, v), {});
             if (isWebGL) {
                 let code = '';
                 code += `
-var original_exitFullscreen = window.exitFullscreen;
+window.original_exitFullscreen = window.exitFullscreen;
 window.exitFullscreen = function() {
-    if (!document.mozFullScreenElement) return original_exitFullscreen();
+    if (!document.mozFullScreenElement) return window.original_exitFullscreen();
     window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
 };
 `;
-                if (fixes.includes('GC')) {
+                if ('FBENABLED' in fixes) code += `gamevars.fb_enabled = 1;`;
+                if ('NOGCPOPUP' in fixes) {
                     code += `
-gamevars.fb_enabled = 1;
-var original_userRequest = window.userRequest;
+window.original_userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
     cur_req_type = req_type;
     cur_recipients = String(recipients).split(',').filter(id => id > 0).join(',');
@@ -499,15 +499,13 @@ window.userRequest = function(recipients, req_type) {
 };
 `;
                 }
-                if (fixes.includes('SETTINGS')) {
+                if ('GEMCONFIRMATION' in fixes || 'FBSHARING' in fixes) {
                     code += `
-function setCookie(name, value) {
-    document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
-}
-setCookie('settings_gem_confirmation', '1');
-setCookie('fb_sharing', '1');
+window.setCookie = (name, value) => document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
 `;
                 }
+                if ('GEMCONFIRMATION' in fixes) code += `setCookie('settings_gem_confirmation', '1');`;
+                if ('FBSHARING' in fixes) code += `setCookie('fb_sharing', '1');`;
                 appendScript(code);
             }
         } else {
