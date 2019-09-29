@@ -385,7 +385,7 @@ function refreshDelayed() {
             palGifts[pal.id] = gifts;
             palRows[pal.id].setAttribute('lazy-render', '');
             let days = -palDays[pal.id];
-            palEfficiency[pal.id] = Math.ceil((days < 7 ? NaN : gifts.length / Math.min(days, giftDays)) * 100);
+            palEfficiency[pal.id] = Math.min(100, Math.ceil((days < 7 ? NaN : gifts.length / Math.min(days, giftDays)) * 100));
         }
         let dt = Locale.getDate(minDate);
         dt.setHours(0, 0, 0, 0);
