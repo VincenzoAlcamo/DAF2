@@ -91,9 +91,7 @@ const Locale = (function() {
         formatTime: getFormatter('HM'),
         formatTimeFull: getFormatter('HMS'),
         getNumDays: getNumDays,
-        formatDays: (d1, d2) => {
-            let num = getNumDays(d1, d2);
-            return num === null ? '' : relativeTimeFormat.format(num, 'days');
-        }
+        formatDaysNum: num => num === null ? '' : relativeTimeFormat.format(num, 'days'),
+        formatDays: (d1, d2) => Locale.formatDaysNum(getNumDays(d1, d2))
     };
 })();
