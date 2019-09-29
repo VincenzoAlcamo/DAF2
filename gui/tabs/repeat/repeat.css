@@ -6,17 +6,6 @@
   text-align: left;
 }
 
-.repeat th.sortable.img,
-.repeat th.sortable.img2 {
-  padding-left: 0;
-  padding-right: 16px !important;
-}
-
-.repeat th.img img {
-  width: 16px;
-  height: 16px;
-}
-
 .repeat div.mobile {
   margin: -2px;
   width: 36px;

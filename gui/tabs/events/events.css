@@ -10,17 +10,6 @@
   text-align: left;
 }
 
-.events th.img,
-.events th.img2 {
-  padding-left: 0;
-  padding-right: 16px !important;
-}
-
-.events th.img img {
-  width: 16px;
-  height: 16px;
-}
-
 .events td.date {
   font-size: 9pt;
 }

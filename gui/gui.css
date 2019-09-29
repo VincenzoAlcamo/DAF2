@@ -495,6 +495,20 @@ th.sort-sub.sort-ascending {
   background-image: url(data:image/gif;base64,R0lGODlhCwAMAIAAAAAAgP///yH5BAEAAAEALAAAAAALAAwAAAIRjI+pywYN4oo00Xuubrz7UwAAOw==);
 }
 
+th.only-image {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+th.sortable.only-image,
+th.sortable-sub.only-image {
+  padding-right: 16px;
+}
+
+img.small {
+  width: 16px;
+  height: 16px;
+}
 /*#endregion*/
 
 /*#region TOOLBAR*/

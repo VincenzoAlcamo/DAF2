@@ -20,17 +20,20 @@
     <table class="foundry data">
         <thead>
             <tr>
-                <th class=""><img class="wiki" data-wiki-page="Foundry" data-i18n-title="tab_foundry+gui_clickwiki" src="/img/gui/foundry.png"/></th>
-                <th class="sortable" sort-name="name" data-i18n-text="gui_name"></th>
-                <th class="sortable" sort-name="region"><img data-i18n-title="gui_region_required" src="/img/gui/map.png" /></th>
-                <th class="sortable" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png" /></th>
-                <th class="sortable" sort-name="time"><img data-i18n-title="foundry_time_to_craft" src="/img/gui/time.png" /></th>
-                <th class="sortable" sort-name="qty"><img data-i18n-title="foundry_qty" src="/img/gui/anvil.png" /></th>
-                <th class="sortable-sub" sort-name="required"><img data-i18n-title="gui_qty_required" src="/img/gui/loot.png" /></th>
-                <th class="sortable-sub" sort-name="ingredient"><img data-i18n-title="gui_ingredients" src="/img/gui/materials.png" /></th>
-                <th class="sortable-sub" sort-name="available"><img data-i18n-title="gui_backpack" src="/img/gui/backpack.png" /></th>
-                <th class="sortable" sort-name="output" data-i18n-text="foundry_possible_alloys"></th>
-                <th class="sortable" sort-name="total_time" data-i18n-text="foundry_total_time"></th>
+                <th rowspan="2" class="only-image"><img class="wiki" data-wiki-page="Foundry" data-i18n-title="tab_foundry+gui_clickwiki" src="/img/gui/foundry.png"/></th>
+                <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="gui_name"></th>
+                <th rowspan="2" class="sortable only-image" sort-name="region"><img data-i18n-title="gui_region_required" src="/img/gui/map.png" /></th>
+                <th rowspan="2" class="sortable only-image" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png" /></th>
+                <th rowspan="2" class="sortable only-image" sort-name="time"><img data-i18n-title="foundry_time_to_craft" src="/img/gui/time.png" /></th>
+                <th rowspan="2" class="sortable only-image" sort-name="qty"><img data-i18n-title="foundry_qty" src="/img/gui/anvil.png" /></th>
+                <th colspan="3" data-i18n-text="gui_ingredients"></th>
+                <th rowspan="2" class="sortable" sort-name="output" data-i18n-text="foundry_possible_alloys"></th>
+                <th rowspan="2" class="sortable" sort-name="total_time" data-i18n-text="foundry_total_time"></th>
+            </tr>
+            <tr>
+                <th class="sortable-sub only-image" sort-name="required"><img class="small" data-i18n-title="gui_qty_required" src="/img/gui/loot.png" /></th>
+                <th class="sortable-sub" sort-name="ingredient" data-i18n-text="gui_material"></th>
+                <th class="sortable-sub only-image" sort-name="available"><img class="small" data-i18n-title="gui_backpack" src="/img/gui/backpack.png" /></th>
             </tr>
         </thead>
         <tbody></tbody>
