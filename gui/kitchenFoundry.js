@@ -43,13 +43,11 @@ function kitchenFoundry(type) {
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
         let htm = [];
-        if (swDoubleProduction) htm.push(Html.br `${swDoubleProduction.name}: ${swDoubleProduction.ends}`);
-        if (swHalfTimeProduction) htm.push(Html.br `${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}`);
-        htm = htm.join('<br>');
-        for (let td of smartTable.container.querySelectorAll('tfoot td')) {
-            td.parentNode.style.display = htm.length ? '' : 'none';
-            td.innerHTML = htm;
-        }
+        if (swDoubleProduction) htm.push(Html.br `<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`);
+        if (swHalfTimeProduction) htm.push(Html.br `<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`);
+        let divWeeks = container.querySelector('.toolbar .weeks');
+        divWeeks.innerHTML = htm.join('');
+        divWeeks.style.display = htm.length ? '' : 'none';
         Array.from(container.querySelectorAll('[sort-name="total_time"]')).forEach(el => el.innerHTML = Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
@@ -255,7 +253,9 @@ function kitchenFoundry(type) {
         var isOdd = false;
         var tbody = smartTable.tbody[0];
         tbody.innerHTML = '';
-        for (let p of productions.filter(isVisible)) {
+        let total = productions.length;
+        let items = productions.filter(isVisible);
+        for (let p of items) {
             isOdd = !isOdd;
             let toggleOdd = isOdd != p.rows[0].classList.contains('odd');
             for (let row of p.rows) {
@@ -263,6 +263,10 @@ function kitchenFoundry(type) {
                 tbody.appendChild(row);
             }
         }
+
+        Array.from(container.querySelectorAll('tfoot td.totals')).forEach(cell => {
+            cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(total));
+        });
 
         gui.collectLazyElements(smartTable.container);
         smartTable.syncLater();
