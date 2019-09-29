@@ -14,7 +14,7 @@ export default {
 };
 
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
-let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts;
+let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '';
 
 function init() {
@@ -41,7 +41,7 @@ function init() {
 
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
-    trGifts.innerHTML = Html.br `<td colspan="12"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+    trGifts.innerHTML = Html.br `<td colspan="13"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
 
     let button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
@@ -215,12 +215,14 @@ function update() {
     bgp.Data.getPillarsInfo();
     lastGiftDays = 0;
     palRows = {};
+    palDays = {};
     for (let pal of Object.values(bgp.Data.getNeighbours())) {
         let row = document.createElement('tr');
         row.setAttribute('data-pal-id', pal.id);
         row.setAttribute('height', 61);
         row.setAttribute('lazy-render', '');
         palRows[pal.id] = row;
+        palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
     }
     // Remove Mr.Bill
     delete palRows[1];
@@ -281,7 +283,7 @@ function updateRow(row) {
     } else {
         htm += Html.br `<td></td>`;
     }
-    htm += Html.br `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
+    htm += Html.br `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDaysNum(palDays[pal.id])}</td>`;
     if (pal.c_list > 0) {
         htm += Html.br `<td><img src="/img/gui/clist.png"></td>`;
     } else {
@@ -304,10 +306,13 @@ function updateRow(row) {
     } else {
         htm += Html.br `<td></td>`;
     }
-    var gifts = palGifts[pal.id];
-    var count = gifts.length;
-    htm += Html.br `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(count)}</td>`;
-    htm += Html.br `<td class="${count > 0 ? 'has-gifts' : ''}">${Locale.formatNumber(gifts._value)}</td>`;
+    let gifts = palGifts[pal.id];
+    let count = gifts.length;
+    let  className = count > 0 ? 'has-gifts' : '';
+    let efficiency = palEfficiency[id];
+    htm += Html.br `<td class="${className}">${Locale.formatNumber(count)}</td>`;
+    htm += Html.br `<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
+    htm += Html.br `<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
     row.innerHTML = htm;
 }
 
@@ -357,6 +362,7 @@ function refreshDelayed() {
         let giftTotal = 0;
         let giftCount = 0;
         let minDate = gui.getUnixTime();
+        palEfficiency = {};
         lastGiftDays = giftDays;
         palGifts = {};
         uniqueGifts = {};
@@ -378,6 +384,8 @@ function refreshDelayed() {
             giftCount += gifts.length;
             palGifts[pal.id] = gifts;
             palRows[pal.id].setAttribute('lazy-render', '');
+            let days = -palDays[pal.id];
+            palEfficiency[pal.id] = Math.ceil((days < 7 ? NaN : gifts.length / Math.min(days, giftDays)) * 100);
         }
         let dt = Locale.getDate(minDate);
         dt.setHours(0, 0, 0, 0);
@@ -408,6 +416,7 @@ function refreshDelayed() {
         wmtime: pal => pal.extra.wmtime === undefined ? NaN : +pal.extra.wmtime,
         recorded: pal => +pal.extra.timeCreated || 0,
         gifts: pal => palGifts[pal.id].length,
+        efficiency: pal => palEfficiency[pal.id],
         value: pal => palGifts[pal.id]._value
     };
     let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'name');

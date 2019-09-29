@@ -186,6 +186,9 @@
     "gui_gift": {
         "message": "Regalo"
     },
+    "gui_gifts": {
+        "message": "Regali"
+    },
     "gui_day": {
         "message": "Giorno"
     },
@@ -615,6 +618,9 @@
     "neighbors_giftvalue": {
         "message": "Valore Regali (in XP)"
     },
+    "neighbors_efficiency": {
+        "message": "Efficienza (regali / giorni)"
+    },
     "neighbors_wmtime": {
         "message": "Data scadenza mulini"
     },
@@ -659,7 +665,7 @@
         "message": "Azzera il filtro"
     },
     "neighbors_gift_tooltip": {
-        "message": "Registro dei regali ricevuti mentre DAF2 era attivo e in registrazione."
+        "message": "Regali ricevuti mentre DAF2 era attivo e in registrazione."
     },
     "neighbors_sortby": {
         "message": "Ordina per"

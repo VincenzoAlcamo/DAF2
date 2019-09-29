@@ -188,6 +188,9 @@
     "gui_gift": {
         "message": "Gift"
     },
+    "gui_gifts": {
+        "message": "Gifts"
+    },
     "gui_day": {
         "message": "Day"
     },
@@ -625,6 +628,9 @@
     "neighbors_giftvalue": {
         "message": "Gift Value (in XP)"
     },
+    "neighbors_efficiency": {
+        "message": "Efficiency (gifts / days)"
+    },
     "neighbors_wmtime": {
         "message": "Windmill expiration time"
     },
@@ -669,7 +675,7 @@
         "message": "Clear filter"
     },
     "neighbors_gift_tooltip": {
-        "message": "Record of gifts received whilst DAF2 is active and recording."
+        "message": "Gifts received while DAF2 was active and recording."
     },
     "neighbors_sortby": {
         "message": "Sort by"

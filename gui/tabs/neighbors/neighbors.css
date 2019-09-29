@@ -14,11 +14,11 @@
   min-height: 61px;
 }
 
-.neighbors tr th:nth-child(1) {
+.neighbors tr th[rowspan=2]:nth-child(1) {
   min-width: 61px;
 }
 
-.neighbors tr th:nth-child(2) {
+.neighbors tr th[rowspan=2]:nth-child(2) {
   min-width: 180px;
   max-width: 300px;
 }
