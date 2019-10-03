@@ -186,6 +186,9 @@
     "gui_gift": {
         "message": "Geschenk"
     },
+    "gui_gifts": {
+        "message": "Geschenke"
+    },
     "gui_day": {
         "message": "Tag"
     },
@@ -615,6 +618,9 @@
     "neighbors_giftvalue": {
         "message": "Geschenkwert (in XP)"
     },
+    "neighbors_efficiency": {
+        "message": "Effizienz (Geschenke / Tage)"
+    },
     "neighbors_wmtime": {
         "message": "Ablaufdatum der Windmühlen"
     },
@@ -659,7 +665,7 @@
         "message": "Filter entfernen"
     },
     "neighbors_gift_tooltip": {
-        "message": "Aufzeichnung der erhaltenen Geschenke, während DAF2 aktiv ist und aufzeichnet."
+        "message": "Geschenke, die empfangen wurden, während DAF2 aktiv war und aufnahm."
     },
     "neighbors_sortby": {
         "message": "Sortieren nach"

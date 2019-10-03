@@ -186,6 +186,9 @@
     "gui_gift": {
         "message": "Δώρο"
     },
+    "gui_gifts": {
+        "message": "Δώρα"
+    },
     "gui_day": {
         "message": "Μέρα"
     },
@@ -615,6 +618,9 @@
     "neighbors_giftvalue": {
         "message": "Αξία δώρων (σε Εμπειρία)"
     },
+    "neighbors_efficiency": {
+        "message": "Αποδοτικότητα (δώρα / μέρες)"
+    },
     "neighbors_wmtime": {
         "message": "Ώρα λήξης ανεμόμυλου"
     },
@@ -659,7 +665,7 @@
         "message": "Καθαρισμός φίλτρου"
     },
     "neighbors_gift_tooltip": {
-        "message": "Εγγραφή των δώρων που λήφθηκαν ενώ το DAF2 είναι ενεργό και καταγράφει."
+        "message": "Δώρα που λήφθηκαν ενώ το DAF2 ήταν ενεργό και κατέγραφε."
     },
     "neighbors_sortby": {
         "message": "Ταξινόμηση με"

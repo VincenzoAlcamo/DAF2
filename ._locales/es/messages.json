@@ -186,6 +186,9 @@
     "gui_gift": {
         "message": "Regalo"
     },
+    "gui_gifts": {
+        "message": "Regalos"
+    },
     "gui_day": {
         "message": "Día"
     },
@@ -615,6 +618,9 @@
     "neighbors_giftvalue": {
         "message": "Valor de los regalos ( en XP)"
     },
+    "neighbors_efficiency": {
+        "message": "Eficiencia ( regalos /dias"
+    },
     "neighbors_wmtime": {
         "message": "Tiempo de expiracion de los molinos"
     },
@@ -659,7 +665,7 @@
         "message": "Limpiar filtro"
     },
     "neighbors_gift_tooltip": {
-        "message": "Record of gifts received whilst DAF2 is active and recording."
+        "message": "Regalos recibidos mientras DAF2 estaba activo y grabando."
     },
     "neighbors_sortby": {
         "message": "Ordenar por"

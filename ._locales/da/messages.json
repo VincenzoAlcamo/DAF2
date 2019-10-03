@@ -186,6 +186,9 @@
     "gui_gift": {
         "message": "Gave"
     },
+    "gui_gifts": {
+        "message": "Gaver"
+    },
     "gui_day": {
         "message": "Dag"
     },
@@ -615,6 +618,9 @@
     "neighbors_giftvalue": {
         "message": "Gave værdi (i XP)"
     },
+    "neighbors_efficiency": {
+        "message": "Effektivitet (gaver/dag)"
+    },
     "neighbors_wmtime": {
         "message": "Vindmølle udløbstid"
     },
@@ -659,7 +665,7 @@
         "message": "Ryd filter"
     },
     "neighbors_gift_tooltip": {
-        "message": "Antal modtagne gaver mens DAF2 har været aktiv og registrerende."
+        "message": "Modtagne gaver mens DAF2 har været aktiv og registrerende."
     },
     "neighbors_sortby": {
         "message": "Sorteret efter"

@@ -186,6 +186,9 @@
     "gui_gift": {
         "message": "Prezent"
     },
+    "gui_gifts": {
+        "message": "Prezenty"
+    },
     "gui_day": {
         "message": "Dzień"
     },
@@ -615,6 +618,9 @@
     "neighbors_giftvalue": {
         "message": "Wartość prezentu (w XP)"
     },
+    "neighbors_efficiency": {
+        "message": "Efektywność (prezent / dzień)"
+    },
     "neighbors_wmtime": {
         "message": "Czas wygaśnięcia wiatraków"
     },
@@ -659,7 +665,7 @@
         "message": "Wyczyść filtr"
     },
     "neighbors_gift_tooltip": {
-        "message": "Zapis otrzymanych prezentów, gdy DAF2 jest aktywny."
+        "message": "Otrzymane prezenty, gdy DAF2 jest aktywny i nagrywa."
     },
     "neighbors_sortby": {
         "message": "Sortuj wegług"

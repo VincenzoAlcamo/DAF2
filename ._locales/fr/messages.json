@@ -184,6 +184,9 @@
         "message": "Données obtenues à partir des fichiers de jeu Pixel Federation."
     },
     "gui_gift": {
+        "message": "Cadeau"
+    },
+    "gui_gifts": {
         "message": "Cadeaux"
     },
     "gui_day": {
@@ -613,7 +616,10 @@
         "message": "Nombre de cadeaux"
     },
     "neighbors_giftvalue": {
-        "message": "Valeur du cadeau (en expèrience)"
+        "message": "Valeur du cadeau (point)"
+    },
+    "neighbors_efficiency": {
+        "message": "Efficacité (cadeaux / jours)"
     },
     "neighbors_wmtime": {
         "message": "Date d'expiration des moulins"
@@ -622,7 +628,7 @@
         "message": "La date du cadeau correspond au moment où DAF a enregistré ce cadeau, et non au moment où il a été envoyé."
     },
     "neighbors_gifttip": {
-        "message": "$NAME$\nExpèrience: $XP$\nJour: $DAY$",
+        "message": "$NAME$\nPoint: $XP$\nJour: $DAY$",
         "placeholders": {
             "name": {
                 "content": "$1"
@@ -665,7 +671,7 @@
         "message": "Trier par"
     },
     "neighbors_totxpstats": {
-        "message": "$COUNT$ cadeaux depuis $DAYS$ jours = $TOTAL$ expèriences ($AVERAGE$ expèrience par jour)",
+        "message": "$COUNT$ cadeaux depuis $DAYS$ jours = $TOTAL$ points ($AVERAGE$ point par jour)",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -682,7 +688,7 @@
         }
     },
     "neighbors_avgxpstats": {
-        "message": "En moyenne du cadeau = $XP$ expèriences ($AVERAGE$ expèrience avec voisin par jour)",
+        "message": "En moyenne du cadeau = $XP$ points ($AVERAGE$ points par jour)",
         "placeholders": {
             "xp": {
                 "content": "$1"
@@ -1293,7 +1299,7 @@
         "message": "Afficher les valeurs minimales et maximales"
     },
     "rings_showxp": {
-        "message": "Afficher l'expèrience"
+        "message": "Afficher les expériences"
     },
     "rings_playerlevel": {
         "message": "Spécifiez le niveau du joueur"

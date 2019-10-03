@@ -186,6 +186,9 @@
     "gui_gift": {
         "message": "Presente"
     },
+    "gui_gifts": {
+        "message": "Presentes"
+    },
     "gui_day": {
         "message": "Dia"
     },
@@ -615,6 +618,9 @@
     "neighbors_giftvalue": {
         "message": "Valor do Presente (em XP)"
     },
+    "neighbors_efficiency": {
+        "message": "Eficiência (presentes / dias)"
+    },
     "neighbors_wmtime": {
         "message": "Tempo dos Moinhos expirarem"
     },
@@ -659,7 +665,7 @@
         "message": "Limpar o filtro"
     },
     "neighbors_gift_tooltip": {
-        "message": "Registro de presentes recebidos enquanto o DAF2 está ativo e a gravar."
+        "message": "Presentes recebidos enquanto o DAF2 está ativo e a gravar."
     },
     "neighbors_sortby": {
         "message": "Ordenar por"
