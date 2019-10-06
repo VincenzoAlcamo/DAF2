@@ -460,9 +460,21 @@ function init() {
             loadCompleted = true;
             onFullWindow();
             if (miner) ongcTable(true);
-            if (!getFullWindow() && !miner && prefs.fullWindowTimeout > 0) setTimeout(function() {
-                if (!getFullWindow()) sendPreference('fullWindow', true);
-            }, prefs.fullWindowTimeout * 1000);
+            if (!getFullWindow() && !miner && prefs.fullWindowTimeout > 0) {
+                let eventAttached = false;
+                let check = () => {
+                    // Better wait until the document is visible
+                    if (document.hidden) {
+                        if (!eventAttached) document.addEventListener('visibilitychange', check);
+                        eventAttached = true;
+                        return;
+                    }
+                    if (eventAttached) document.removeEventListener('visibilitychange', check);
+                    eventAttached = false;
+                    if (!getFullWindow()) sendPreference('fullWindow', true);
+                };
+                setTimeout(check, prefs.fullWindowTimeout * 1000);
+            }
         };
         handlers['@gcTableStatus'] = setgcTableStatus;
         window.addEventListener('resize', onResize);

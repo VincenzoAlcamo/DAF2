@@ -568,7 +568,7 @@ let gui = {
 window.addEventListener('load', onLoad);
 
 function notifyVisibility(tab, visible) {
-    if (tab && typeof tab.visibilityChange == 'function') tab.visibilityChange(document.visibilityState == 'visible' && visible);
+    if (tab && typeof tab.visibilityChange == 'function') tab.visibilityChange(!document.hidden && visible);
 }
 
 function onLoad() {
