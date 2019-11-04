@@ -60,7 +60,7 @@ function ringLoot(kind) {
                 setRotate(input);
             }
         };
-        checkXp.checked = 'xp' in state;
+        checkXp.checked = !!state.xp;
         checkLevel.checked = 'level' in state;
         let level = parseInt(state.level || state['no-level']) || 0;
         inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
