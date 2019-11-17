@@ -351,6 +351,29 @@
     "about_translators": {
         "message": "Translators"
     },
+    "about_alternate": {
+        "message": "An alternate account was loaded ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Your previous account's data was preserved.\nTo reset your data and use another account, click @RESET@"
+    },
+    "about_reset_ask_title": {
+        "message": "Reset account"
+    },
+    "about_reset_ask_text": {
+        "message": "Do you want to reset your data\nso you can use another account?"
+    },
+    "about_reset_ok_title": {
+        "message": "Data has been reset"
+    },
+    "about_reset_ok_text": {
+        "message": "Please reload Diggy's Adventure with the account you wish to use."
+    },
 
     "kitchen_all": {
         "message": "All recipes"

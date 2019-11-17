@@ -21,7 +21,7 @@
         "message": "Serrure"
     },
     "menu_gctable": {
-        "message": "Afficher le tableau de filleuls"
+        "message": "Tableau de filleuls"
     },
     "menu_gctablecounter": {
         "message": "Compteur"
@@ -33,10 +33,10 @@
         "message": "Tous les filleuls ont été collectés"
     },
     "menu_autoclick": {
-        "message": "Cliquez autom. sur le pop-up de Facebook"
+        "message": "Anti-popups"
     },
     "menu_reloadgame": {
-        "message": "Recharger le jeu et forcer une relecture des données"
+        "message": "Recharger le jeu"
     },
     "menu_switchportal": {
         "message": "Passer au portail"
@@ -482,7 +482,7 @@
         }
     },
     "camp_start_date": {
-        "message": "Vous avez commencé à jouer:\n$STARTED$",
+        "message": "Vous avez commencé à jouer\nle $STARTED$",
         "placeholders": {
             "started": {
                 "content": "$1"
@@ -558,7 +558,7 @@
         "message": "En mode grille"
     },
     "pillars_cap": {
-        "message": "Quantité maximum par défaut"
+        "message": "Fixer quantité par défaut"
     },
     "neighbors_lastlevelup": {
         "message": "Dernière\nmise à niveau"
@@ -570,7 +570,7 @@
         "message": "Tous"
     },
     "neighbors_nogift": {
-        "message": "Pas de cadeau dans $NUM$ jours",
+        "message": "Pas de cadeau depuis $NUM$ jours",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -584,22 +584,22 @@
         "message": "Liste personnalisée"
     },
     "neighbors_blocks": {
-        "message": "Blocs à détruire dans le camp souterrain"
+        "message": "Blocs à détruire souterrain"
     },
     "neighbors_inlist": {
-        "message": "Dans une liste personnalisée"
+        "message": "Une liste personnalisée"
     },
     "neighbors_notinlist": {
-        "message": "Pas dans la liste personnalisée"
+        "message": "Une liste sans personnalisée"
     },
     "neighbors_withblocks": {
-        "message": "Avec des blocs à détruire"
+        "message": "Des blocs à détruire"
     },
     "neighbors_unknownblocks": {
-        "message": "Blocs d'état inconnus"
+        "message": "Des blocs d'état inconnus"
     },
     "neighbors_withexpiredwindmills": {
-        "message": "Avec des moulins expirés"
+        "message": "Des moulins expirés"
     },
     "neighbors_found": {
         "message": "Voisins trouvés: $NUM$ / $TOTAL$",
@@ -642,7 +642,7 @@
         }
     },
     "neighbors_gift": {
-        "message": "$NAME$ ($XP$ XP) le $DAY$",
+        "message": "$NAME$ ($XP$ points) le $DAY$",
         "placeholders": {
             "name": {
                 "content": "$1"
@@ -1026,13 +1026,13 @@
         "message": "Masquer les complétés"
     },
     "progress_grouplocations": {
-        "message": "Emplacements du groupe"
+        "message": "Cacher les mines"
     },
     "progress_showdates": {
         "message": "Afficher les dates"
     },
     "progress_showenergy": {
-        "message": "Affiche l'énergie estimée"
+        "message": "Afficher les énergies"
     },
     "progress_energy": {
         "message": "Énergie"
@@ -1206,7 +1206,7 @@
         }
     },
     "rewardlinks_infonoself": {
-        "message": "Ceci est votre lien: les récompenses automatiques ne sont pas valides."
+        "message": "Ce lien vous appartient: les récompenses personnelles ne sont pas valides."
     },
     "rewardlinks_infobroken": {
         "message": "Ce lien est invalide ou ne fonctionne pas."
@@ -1339,7 +1339,7 @@
         "message": "En propriété"
     },
     "equipment_inshop": {
-        "message": "A vendre"
+        "message": "A la boutique"
     },
     "equipment_from": {
         "message": "depuis"
@@ -1520,10 +1520,10 @@
         "message": "Brocanteur"
     },
     "specialweek_free_premium_event": {
-        "message": "Ancien événement gratuit (vous aurez besoin de racheter)"
+        "message": "Ancien événement gratuit (vous aurez besoin de le racheter)"
     },
     "specialweek_mystery_box": {
-        "message": "Boîtes mystérieuses"
+        "message": "Boîte mystère"
     },
     "options_section_ingame": {
         "message": "Options dans le jeu"
@@ -1588,13 +1588,13 @@
         "message": "Lien récompense"
     },
     "options_rewardsclose": {
-        "message": "Fermeture automatique\nIl ferme automatiquement la page après la collecte de la récompense."
+        "message": "Fermeture automatique\nIl ferme automatiquement la page après collecter la récompense."
     },
     "options_rewardscloseexceptgems": {
-        "message": "Sauf les gemmes\nQuand une gemme est trouvée, la page n'est pas fermée automatiquement."
+        "message": "Sauf les gemmes\nQuand une gemme est trouvée, la page ne ferme pas automatiquement."
     },
     "options_rewardscloseexcepterrors": {
-        "message": "Sauf les erreurs\nEn cas d'erreur, la page n'est pas fermée automatiquement."
+        "message": "Sauf les erreurs\nEn cas d'erreur, la page ne ferme pas automatiquement."
     },
     "options_rewardssummary": {
         "message": "Ajouter un résumé\nSi la page n'est pas fermée automatiquement, un résumé est inséré au bas de la page."

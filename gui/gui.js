@@ -604,6 +604,9 @@ function onLoad() {
                 div.classList.toggle('disabled', disabled);
             }
             updateCurrentTab();
+        } else if (action == 'account_mismatch') {
+            tabs.about.mustBeUpdated = true;
+            setCurrentTab('about');
         } else {
             for (let tab of Object.values(tabs)) {
                 if (tab.isLoaded && tab.actions && action in tab.actions) {
@@ -639,10 +642,11 @@ function onLoad() {
         delete state.tab;
         localStorage.setItem('state_' + tabId, JSON.stringify(state));
     } else {
-        div = gui.getTabMenuItem(localStorage.getItem('tab'));
+        tabId = localStorage.getItem('tab');
+        div = gui.getTabMenuItem(tabId);
     }
-    if (!div || div.classList.contains('disabled')) div = gui.getTabMenuItem('about');
-    if (div) div.dispatchEvent(new Event('click'));
+    if (!div || div.classList.contains('disabled') || bgp.Data.alternateAccountDetected) tabId = 'about';
+    setCurrentTab(tabId);
 }
 
 async function loadTab(tab) {
@@ -694,13 +698,17 @@ async function loadTab(tab) {
     if (tab.isLoaded && typeof tab.setState == 'function' && tab.state && typeof tab.state == 'object') tab.setState(tab.state);
 }
 
-async function clickMenu(e) {
+function clickMenu(e) {
     var li = null;
-    var el, tabId, tab;
+    var el, tabId;
     for (el = e.target; el.tagName != 'UL'; el = el.parentNode)
         if (el.tagName == 'LI') li = el;
     if (!li || li.classList.contains('selected') || li.classList.contains('disabled') || li.classList.contains('last')) return;
     tabId = li.getAttribute('data-tabid');
+    setCurrentTab(tabId);
+}
+
+async function setCurrentTab(tabId) {
     if (tabId == 'game') {
         chrome.runtime.sendMessage({
             action: 'reloadGame',
@@ -708,8 +716,8 @@ async function clickMenu(e) {
         });
         return;
     }
-    Array.from(el.querySelectorAll('li')).forEach(item => {
-        item.classList.toggle('selected', item == li);
+    Array.from(document.querySelectorAll('.left-panel ul li')).forEach(item => {
+        item.classList.toggle('selected', item.getAttribute('data-tabid') == tabId);
     });
     tab = tabs[tabId];
     if (!tab.container) {

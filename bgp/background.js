@@ -1,4 +1,4 @@
-﻿/*global chrome Parser UrlInfo idb Html Locale*/
+/*global chrome Parser UrlInfo idb Html Locale*/
 'use strict';
 
 //#region MISCELLANEOUS
@@ -43,6 +43,7 @@ var Badge = {
         chrome.browserAction.setBadgeBackgroundColor({
             color: color
         });
+        return this;
     }
 };
 //#endregion
@@ -503,7 +504,15 @@ var Debugger = {
         var info;
         if (method == 'Network.requestWillBeSent') {
             //console.log(method, source, params);
-            info = WebRequest.captures[params.request.url];
+            let url = params.request.url;
+            info = WebRequest.captures[url];
+            if (!info && (url.indexOf('/miner/generator.php') >= 0 || url.indexOf('/miner/synchronize.php') >= 0)) {
+                // Edge will fire the Debugger event *before* the WebRequest event, so we add it and reconcile it later
+                info = {};
+                info.id = 'none';
+                info.url = url;
+                WebRequest.captures[url] = info;
+            }
             if (info && info.id && !info.skip) {
                 info.debuggerRequestId = params.requestId;
                 Debugger.captures[info.debuggerRequestId] = info;
@@ -516,6 +525,11 @@ var Debugger = {
             if (params.requestId in Debugger.captures) {
                 info = Debugger.captures[params.requestId];
                 delete Debugger.captures[params.requestId];
+                if (info.id == 'none') {
+                    console.log('WebRequest was not reconciled');
+                    delete Debugger.captures[info.url];
+                    return;
+                }
                 chrome.debugger.sendCommand(Debugger.target,
                     'Network.getResponseBody', {
                         requestId: params.requestId
@@ -563,8 +577,12 @@ var WebRequest = {
         var isPost = details.method == 'POST';
         var info = {};
         if (urlInfo.url in WebRequest.captures) {
-            console.log('Skipping a second request for', urlInfo.url);
-            return;
+            info = WebRequest.captures[urlInfo.url];
+            if (info.id != 'none') {
+                console.log('Skipping a second request for', urlInfo.url);
+                return;
+            }
+            console.log('Reconciled debugger info', info);
         }
         if (isPost) {
             let formData = details.requestBody.formData;
@@ -599,8 +617,20 @@ var WebRequest = {
             info.skip = true;
             console.log('LANGUAGE FILE', 'URL', urlInfo.url);
         }
+        if (info.id && !info.skip && info.player_id && Data.generator) {
+            if (!Data.generator.player_id || Data.generator.player_id == info.player_id) {
+                delete Data.alternateAccountDetected;
+            } else {
+                Data.alternateAccountDetected = info.player_id;
+                Badge.setIcon('grey').setText('ALT').setBackgroundColor('red');
+                console.log('Request is for a different player', info.player_id, 'instead of', Data.generator.player_id);
+                Synchronize.signal('account_mismatch', info.player_id);
+                delete info.id;
+                Debugger.detach();
+            }
+        }
         if (info.id) {
-            console.log('File will be analyzed');
+            if (!info.skip) console.log('File will be analyzed');
             info.requestId = details.requestId;
             info.url = urlInfo.url;
             info.filename = urlInfo.filename;
@@ -677,24 +707,24 @@ var Data = {
     languages: [
         new Language('da', 'DK', 'Danish', 'Dansk', 'DK'),
         new Language('de', 'DE', 'German', 'Deutsch', 'DE,AT,CH,LI,LU'),
-        new Language('el', 'GR', 'Greek', 'Ελληνικά', 'GR'),
+        new Language('el', 'GR', 'Greek', '\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac' /* 'Ελληνικά' */, 'GR'),
         new Language('en', 'EN', 'English', 'English', 'US,AU,BZ,CA,GB,IE,IN,JM,MY,NZ,PH,SG,TT,ZA,ZW'),
-        new Language('es', 'ES', 'Spanish (Castilian)', 'Español (Castellano)', 'ES,AR,BO,CL,CO,CR,DO,EC,GT,HN,MX,NI,PA,PE,PR,PY,SV,US,UY,VE'),
-        new Language('fr', 'FR', 'French', 'Français', 'FR,BE,CA,CH,LU,MC'),
+        new Language('es', 'ES', 'Spanish (Castilian)', 'Espa\u00f1ol (Castellano)', 'ES,AR,BO,CL,CO,CR,DO,EC,GT,HN,MX,NI,PA,PE,PR,PY,SV,US,UY,VE'),
+        new Language('fr', 'FR', 'French', 'Fran\u00e7ais', 'FR,BE,CA,CH,LU,MC'),
         new Language('it', 'IT', 'Italian', 'Italiano', 'IT,CH'),
         new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
-        new Language('pt', 'PT', 'Portuguese ', 'Português', 'PT,BR'),
+        new Language('pt', 'PT', 'Portuguese ', 'Portugu\u00eas', 'PT,BR'),
         // OTHER (GAME)
-        new Language('bg', 'BG', 'Bulgarian', 'български', 'BG'),
-        new Language('cs', 'CZ', 'Czech', 'Čeština', 'CZ'),
+        new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */, 'BG'),
+        new Language('cs', 'CZ', 'Czech', '\u010ce\u0161tina', 'CZ'),
         new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
         new Language('hu', 'HU', 'Hungarian ', 'Magyar', 'HU'),
         new Language('nl', 'NL', 'Dutch ', 'Nederlands', 'NL,BE'),
-        new Language('ro', 'RO', 'Romanian ', 'Română', 'RO,MD'),
-        new Language('ru', 'RU', 'Russian ', 'Русский', 'RU,MD,UA'),
+        new Language('ro', 'RO', 'Romanian ', 'Rom\u00e2n\u0103', 'RO,MD'),
+        new Language('ru', 'RU', 'Russian ', '\u0420\u0443\u0441\u0441\u043a\u0438\u0439', 'RU,MD,UA'),
         new Language('se', 'SE', 'Swedish ', 'Svenska', 'SE,FI'),
-        new Language('sk', 'SK', 'Slovak ', 'Slovenčina', 'SK'),
-        new Language('tr', 'TR', 'Turkish ', 'Türkçe', 'TR'),
+        new Language('sk', 'SK', 'Slovak ', 'Sloven\u010dina', 'SK'),
+        new Language('tr', 'TR', 'Turkish ', 'T\u00fcrk\u00e7e', 'TR'),
     ],
     guiLanguages: 'da,de,el,en,es,fr,it,pl,pt'.split(','),
     acceptedLanguages: [],
@@ -704,6 +734,9 @@ var Data = {
                 let match = String(id || '').match(/([a-z]+)[^a-z]?/i);
                 return match ? match[1].toLowerCase() : '';
             }).find(id => Data.guiLanguages.includes(id)) || 'en';
+    },
+    resetGenerator: function() {
+        Data.generator = {};
     },
     init: async function() {
         await new Promise(function(resolve, _reject) {

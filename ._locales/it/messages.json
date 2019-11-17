@@ -346,6 +346,29 @@
     "about_translators": {
         "message": "Traduttori"
     },
+    "about_alternate": {
+        "message": "Un account secondario è stato caricato ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "I dati del tuo precedente account sono stati mantenuti.\nPer azzerare i tuoi dati e usare un nuovo account, clicca @RESET@"
+    },
+    "about_reset_ask_title": {
+        "message": "Azzera account"
+    },
+    "about_reset_ask_text": {
+        "message": "Vuoi azzerare i tuoi dati,\nin modo da usare un altro account?"
+    },
+    "about_reset_ok_title": {
+        "message": "I dati sono stati azzerati"
+    },
+    "about_reset_ok_text": {
+        "message": "Per favore, ricarica Diggy's Adventure con l'account che desideri utilizzare."
+    },
     "kitchen_all": {
         "message": "Tutte le ricette"
     },

@@ -47,6 +47,25 @@
   font-size: 12pt;
 }
 
+.about_reset {
+  font-size: 12pt;
+  margin-top: 4px;
+}
+
+.about_reset button {
+  padding: 2px 4px;
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+  border: 1px solid var(--tb-brcol);
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.about_reset button:hover {
+  background-color: var(--tb-hlcol);
+  color: var(--td-fgcol);
+}
+
 .about_translators {
   margin-top: 42px;
   font-size: 13pt;
@@ -56,7 +75,8 @@
   content: ":";
 }
 
-.about_data.nodata {
+.about_warning {
+  margin-top: 12px;
   animation: about_blinker 1.7s cubic-bezier(.5, 0, 1, 1) infinite alternate;
   font-size: 20pt;
   background-color: var(--warn-bgcol);
