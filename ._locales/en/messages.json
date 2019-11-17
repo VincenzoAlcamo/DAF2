@@ -804,6 +804,9 @@
             }
         }
     },
+    "friendship_confirmcollect": {
+        "message": "Press YES to confirm, NO to try further.\n\nYou can close this window at any time\nto cancel the operation."
+    },
     "friendship_filter_a": {
         "message": "Friends: $FRIENDS$, Neighbours: $NEIGHBOURS$",
         "placeholders": {
@@ -940,6 +943,9 @@
     },
     "friendship_confirmwarning": {
         "message": "This operation may take several minutes.\n\nPlease confirm that you want to proceed."
+    },
+    "friendship_confirmcollection": {
+        "message": "Confirm collection result?"
     },
     "friendship_analyzingmatches": {
         "message": "Analyzing data, $PERCENT$ % ($NUM$ / $TOTAL$)",

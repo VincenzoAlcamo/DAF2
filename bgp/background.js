@@ -71,6 +71,7 @@ var Preferences = {
             gcTableRegion: true,
             keepDebugging: false,
             removeGhosts: 0,
+            confirmCollection: false,
             linkGrabEnabled: false,
             linkGrabButton: 2,
             linkGrabKey: 0,

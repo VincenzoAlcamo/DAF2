@@ -793,6 +793,9 @@
             }
         }
     },
+    "friendship_confirmcollect": {
+        "message": "Premi SI per confermare, NO per provare ancora.\n\nPuoi chiudere questa finestra in qualunque momento,\nper annullare l'operazione."
+    },
     "friendship_filter_a": {
         "message": "Amici: $FRIENDS$, Vicini: $NEIGHBOURS$",
         "placeholders": {
@@ -929,6 +932,9 @@
     },
     "friendship_confirmwarning": {
         "message": "Questa operazione potrebbe richiede alcuni minuti.\n\nPer favore, conferma che desideri procedere."
+    },
+    "friendship_confirmcollection": {
+        "message": "Conferma i risultati del collezionamento?"
     },
     "friendship_analyzingmatches": {
         "message": "Sto analizzando i dati, $PERCENT$ % ($NUM$ / $TOTAL$)",

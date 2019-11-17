@@ -3,6 +3,7 @@ var language = 'en';
 var collectMethod = 'standard';
 var removeGhosts = 0;
 var unmatched = '';
+var confirmCollection = false;
 var wait = Dialog(Dialog.WAIT);
 var dialog = Dialog();
 var retries = 5;
@@ -70,7 +71,8 @@ function sendFriends() {
         viewDisabled();
         wait.hide();
         dialog.show({
-            text: getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' : 'friendship_disabledaccountsdetected') + '\n' + getMessage('friendship_unfriendinfo'),
+            text: getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' :
+                'friendship_disabledaccountsdetected') + '\n' + getMessage('friendship_unfriendinfo'),
             style: [Dialog.OK]
         }, viewDisabled);
     }
@@ -140,7 +142,22 @@ function collectStandard() {
             // if the connection is slow, we may want to try a bit more
             if (countStop > 20) {
                 clearInterval(handler);
-                sendFriends();
+                if (confirmCollection) {
+                    dialog.show({
+                        title: getStatInfo(count, friends.length),
+                        text: getMessage('friendship_confirmcollect'),
+                        style: [Dialog.YES, Dialog.NO]
+                    }, function (method) {
+                        if (method == Dialog.YES) {
+                            sendFriends();
+                        } else if (method == Dialog.NO) {
+                            countStop = 0;
+                            handler = setInterval(capture, 500);
+                        }
+                    });
+                } else {
+                    sendFriends();
+                }
             }
         }
         document.body.scrollIntoView(true);
@@ -156,7 +173,8 @@ function collectAlternate() {
     try {
         fb_dtsg = document.getElementsByName('fb_dtsg')[0].value;
         fb_id = document.cookie.match(/c_user=(\d+)/)[1];
-        var url = 'https://www.facebook.com/chat/user_info_all/?viewer=' + fb_id + '&cb=' + Date.now() + '&__user=' + fb_id + '&__a=1&__dyn=&__req=3m&fb_dtsg=' + fb_dtsg + '&ttstamp=&__rev=';
+        var url = 'https://www.facebook.com/chat/user_info_all/?viewer=' + fb_id + '&cb=' + Date.now() + '&__user=' + fb_id +
+            '&__a=1&__dyn=&__req=3m&fb_dtsg=' + fb_dtsg + '&ttstamp=&__rev=';
         req = new XMLHttpRequest();
         req.addEventListener('load', transferComplete, false);
         req.addEventListener('error', (_event) => {
@@ -211,7 +229,7 @@ function collectAlternate() {
             else dialog.show({
                 text: getMessage('friendship_ghostfriendsdetected', ghosts.length),
                 style: [Dialog.OK, Dialog.CANCEL]
-            }, function(method) {
+            }, function (method) {
                 if (method != Dialog.OK) {
                     ghosts = [];
                     return continueOperation();
@@ -256,7 +274,9 @@ function collectAlternate() {
 
         function remove() {
             var url = 'https://www.facebook.com/ajax/profile/removefriendconfirm.php?dpr=1';
-            url += '&uid=' + id + '&unref=bd_friends_tab&floc=friends_tab&nctr[_mod]=pagelet_timeline_app_collection_' + fb_id + '%3A2356318349%3A2&__user=' + fb_id + '&__a=1&__dyn=&__req=1b&__be=0&__pc=PHASED%3ADEFAULT&fb_dtsg=' + fb_dtsg + '&ttstamp=&__rev=';
+            url += '&uid=' + id + '&unref=bd_friends_tab&floc=friends_tab&nctr[_mod]=pagelet_timeline_app_collection_' + fb_id +
+                '%3A2356318349%3A2&__user=' + fb_id + '&__a=1&__dyn=&__req=1b&__be=0&__pc=PHASED%3ADEFAULT&fb_dtsg=' + fb_dtsg +
+                '&ttstamp=&__rev=';
             var req = new XMLHttpRequest();
             req.addEventListener('load', transferComplete, false);
             req.addEventListener('error', transferFailed, false);

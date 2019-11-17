@@ -104,6 +104,10 @@ function getRemoveGhosts() {
     return result >= 0 && result <= 2 ? result : 0;
 }
 
+function getConfirmCollection() {
+    return !!gui.getPreference('confirmCollection');
+}
+
 function getNeighboursAsNotMatched() {
     var neighbours = bgp.Data.getNeighbours();
     var notmatched = Object.assign({}, neighbours);
@@ -118,6 +122,7 @@ function getUnmatched() {
 
 function showCollectDialog() {
     var ghost = getRemoveGhosts();
+    var confirmCollection = getConfirmCollection();
     let numUnmatched = getUnmatched().length;
 
     function addAlternateSettings() {
@@ -125,6 +130,12 @@ function showCollectDialog() {
         for (var i = 0; i <= 2; i++)
             extra += Html.br `<option value="${i}"${i == ghost ? ' selected' : ''}>${gui.getMessage('friendship_collectghost' + i)}</option>`;
         extra += Html.br `</select>`;
+        return Html.raw(extra);
+    }
+
+    function addStandardSettings() {
+        var extra = Html.br `<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
+        <input style="vertical-align:middle" type="checkbox" id="f_cc" name="confirmcollection" value="1" ${confirmCollection ? ' checked' : ''}>`;
         return Html.raw(extra);
     }
 
@@ -137,6 +148,7 @@ ${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 ${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
 ${method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
 ${method == 'alternate' ? addAlternateSettings() : ''}
+${method == 'standard' ? addStandardSettings() : ''}
 </td></tr>`;
         return htm;
     }
@@ -146,6 +158,14 @@ ${method == 'alternate' ? addAlternateSettings() : ''}
         if (ghost != newGhost) {
             gui.setPreference('removeGhosts', newGhost);
             ghost = newGhost;
+        }
+    }
+
+    function setNewConfirmCollection(params) {
+        var newConfirmCollection = !!(parseInt(params.confirmcollection));
+        if (confirmCollection != newConfirmCollection) {
+            gui.setPreference('confirmCollection', newConfirmCollection);
+            confirmCollection = newConfirmCollection;
         }
     }
 
@@ -160,6 +180,7 @@ ${numFriends > 0 ? button('match') : ''}
         style: ['standard', 'unmatched', 'alternate', 'both', 'match', Dialog.CANCEL]
     }, function(method, params) {
         setNewGhost(params);
+        setNewConfirmCollection(params);
         if (method == 'standard' || method == 'unmatched' || method == 'alternate' || method == 'both' || method == 'match') {
             gui.dialog.show({
                 title: gui.getMessage('friendship_collect'),
@@ -169,10 +190,12 @@ ${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.fo
 ${method == 'both' || method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
 </p>
 ${method == 'both' || method == 'alternate' ? addAlternateSettings() : ''}
+${method == 'both' || method == 'standard' || method == 'unmatched' ? addStandardSettings() : ''}
 <br><br>${gui.getMessage('friendship_confirmwarning')}`,
                 style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
             }, function(confirmation, params) {
                 if (method == 'alternate' || method == 'both') setNewGhost(params);
+                if (method == 'standard' || method == 'unmatched' || method == 'both') setNewConfirmCollection(params);
                 if (confirmation != Dialog.CONFIRM) return;
                 if (method == 'standard' || method == 'alternate' || method == 'both' || method == 'unmatched') collectFriends(method);
                 else if (method == 'match') matchStoreAndUpdate();
@@ -306,6 +329,7 @@ function collectFriends(method) {
                 addVar('unmatched', unmatched);
                 addVar('collectMethod', method);
                 addVar('removeGhosts', getRemoveGhosts());
+                addVar('confirmCollection', getConfirmCollection());
                 details.code = code + 'collect();';
                 chrome.tabs.executeScript(tabId, details, function() {});
             });
