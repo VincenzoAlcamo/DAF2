@@ -374,7 +374,7 @@ function showStats() {
     for (let div of container.querySelectorAll('.numneighbours')) div.innerHTML = htm;
 
     htm = '';
-    if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 1 * 86400) {
+    if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400) {
         const method = gui.getMessage('friendship_collectstandard');
         htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collect'), method));
     }
