@@ -1374,6 +1374,9 @@
     "rings_notdependent": {
         "message": "Not dependent on player's level"
     },
+    "rings_averageperring": {
+        "message": "Average XP per ring"
+    },
 
     "equipment_sellout": {
         "message": "Selling all unused items will net you $TOTAL$ coins (equipment = $EQUIP$ coins, decorations = $DECO$ coins)",

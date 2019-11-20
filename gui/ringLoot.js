@@ -21,6 +21,7 @@ function ringLoot(kind) {
 
     let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel, checkXp;
     let checkState = {};
+    let selectState = [];
 
     function init() {
         tab = this;
@@ -40,13 +41,25 @@ function ringLoot(kind) {
         checkLevel.addEventListener('click', onInput);
     }
 
+    function toInt(value) {
+        const n = parseInt(value);
+        return isFinite(n) && n > 0 ? n : 0;
+    }
+
     function getState() {
-        let level = parseInt(inputLevel.value) || 0;
+        const level = parseInt(inputLevel.value) || 0;
+        let selected = '';
+        for (let i = 0; i < selectState.length; i++) {
+            selected += ',' + (toInt(selectState[i]) || '');
+        }
+        selected = selected.substr(1);
+        if (selected.match(/^,+$/)) selected = '';
         return {
             minmax: checkMinMax.checked,
             xp: checkXp.checked,
             [checkLevel.checked ? 'level' : 'no-level']: (level >= 1 && level <= 999 ? level : +gui.getGenerator().level),
-            h: Object.keys(checkState).join(',')
+            h: Object.keys(checkState).join(','),
+            selected
         };
     }
 
@@ -66,6 +79,7 @@ function ringLoot(kind) {
         inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
         for (const [index, mine] of (mines || []).entries()) setCheck('loot_' + mine.def_id, index + 1);
         checkMinMax.checked = !!state.minmax;
+        selectState = String(state.selected).split(',').map(n => toInt(n));
     }
 
     function onInput(event) {
@@ -127,7 +141,11 @@ function ringLoot(kind) {
                     if (typeof tle != 'string') continue;
                     tle = tle.split(';');
                     for (let t of tle) {
-                        t = t.split(',').map(n => n.padStart(2, '0')).join(',');
+                        t = t.split(',').map(n => parseInt(n));
+                        if (kind == 'red') {
+                            t[0] = 99 - t[0];
+                        }
+                        t = t.map(n => String(n).padStart(3, '0')).join(',');
                         // skip spurious Orichalcum in "Temple of Fortune"
                         if (lid == 2193 && t.substr(0, 3) == '30,' && lootArea.type == 'material' && lootArea.object_id == 148) continue;
                         let copy = Object.assign({}, lootArea);
@@ -164,7 +182,7 @@ function ringLoot(kind) {
                 div.innerHTML = htm;
                 parent.appendChild(div);
                 let input = div.querySelector('input');
-                input.addEventListener('click', function() {
+                input.addEventListener('click', function () {
                     setRotate(this);
                     gui.updateTabState(tab);
                 });
@@ -210,6 +228,8 @@ function ringLoot(kind) {
     function showLoot(otherLevel, lid) {
         let parent = container.querySelector('#loot_' + lid);
         if (!parent) return;
+        const cardIndex = parseInt(parent.getAttribute('data-index'));
+        const chestState = toInt(selectState[cardIndex - 1]);
         let level = +gui.getGenerator().level;
         let htm = '';
         htm += Html.br `<table><thead><tr>`;
@@ -230,16 +250,22 @@ function ringLoot(kind) {
         let tdAvg = Html `<td class="avg">`;
         let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
         let expByMaterial = bgp.Data.pillars.expByMaterial;
-        let showXp = (type, oid, qty) => {
+        let getXp = (type, oid) => {
             let exp = 0;
-            if (type == 'material') exp = expByMaterial[oid];
+            if (type == 'material') exp = expByMaterial[oid] || 0;
             if (type == 'system' && (oid == 1 || oid == 2)) exp = 1;
-            return exp ? Html `<div class="xp">${Locale.formatNumber(exp * qty)} ${gui.getMessage('gui_xp')}</div>` : '';
+            return exp;
         };
+        let showXp = (exp) => {
+            return exp ? Html `<div class="xp">${Locale.formatNumber(exp)} ${gui.getMessage('gui_xp')}</div>` : '';
+        };
+        let totalExp, totalExp2, countExp;
+        totalExp = totalExp2 = countExp = 0;
+        let checked = true;
         for (const lootArea of floorData[lid].loots) {
             let coef = lootArea.coef;
             let notRandom = lootArea.min == lootArea.max;
-            let min, max, avg;
+            let min, max, avg, exp;
             min = lootArea.min + (coef != 0.0 ? Math.floor((level * coef) * lootArea.min) : 0);
             max = lootArea.max + (coef != 0.0 ? Math.floor((level * coef) * lootArea.max) : 0);
             avg = Math.floor((min + max) / 2);
@@ -247,24 +273,84 @@ function ringLoot(kind) {
             htm += Html.br `<tr class="${(odd ? 'odd' : '') + (notRandom ? ' not-random' : '')}">`;
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
-                htm += Html.br `<td class="chest" rowspan="${lootArea.numRows}">${Locale.formatNumber(lootArea.chest)}</td>`;
+                let checkbox = '';
+                if (kind == 'red') {
+                    checked = (chestState & (2 ** (lootArea.chest - 1))) > 0;
+                    checkbox = Html `<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''}>`;
+                }
+                htm += Html.br `<td class="chest" rowspan="${lootArea.numRows}">${checkbox}<span class="chest-id">${Locale.formatNumber(lootArea.chest)}</span></td>`;
+                if (checked) countExp++;
             }
+            lootArea.checked = checked;
             let type = lootArea.type;
             let oid = lootArea.object_id;
             htm += Html.br `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
-            htm += Html.br `<td class="min">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, min))}</td>`;
-            htm += Html.br `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(multiplier * Math.max(0, avg))}${showXp(type, oid, avg)}</td>`;
-            htm += Html.br `<td class="max">${notRandom ? '' : Locale.formatNumber(multiplier * Math.max(0, max))}</td>`;
+            min = multiplier * Math.max(0, min);
+            max = multiplier * Math.max(0, max);
+            avg = multiplier * Math.max(0, avg);
+            exp = avg * getXp(type, oid);
+            lootArea.exp = exp;
+            if (lootArea.checked) totalExp += exp;
+            htm += Html.br `<td class="min">${notRandom ? '' : Locale.formatNumber(min)}</td>`;
+            htm += Html.br `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(avg)}${showXp(exp)}</td>`;
+            htm += Html.br `<td class="max">${notRandom ? '' : Locale.formatNumber(max)}</td>`;
+
             min = lootArea.min + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.min) : 0);
             max = lootArea.max + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.max) : 0);
             avg = Math.floor((min + max) / 2);
-            htm += Html.br `<td class="level">${Locale.formatNumber(multiplier * Math.max(0, avg))}${showXp(type, oid, avg)}</td>`;
+            min = multiplier * Math.max(0, min);
+            max = multiplier * Math.max(0, max);
+            avg = multiplier * Math.max(0, avg);
+            exp = avg * getXp(type, oid);
+            lootArea.exp2 = exp;
+            if (lootArea.checked) totalExp2 += exp;
+            htm += Html.br `<td class="level">${Locale.formatNumber(avg)}${showXp(exp)}</td>`;
             htm += Html.br `</tr>`;
         }
         htm += Html.br `</tbody>`;
+        htm += Html.br `<tfoot class="xp"><tr class="not-random"><th colspan="2">${gui.getMessage('rings_averageperring')}</th><th class="min"></th>`;
+        htm += Html.br `<th class="avg">${Locale.formatNumber(Math.floor(totalExp / countExp))}</th>`;
+        htm += Html.br `<th class="max"></th><th class="level">${Locale.formatNumber(Math.floor(totalExp2 / countExp))}</th>`
+        htm += Html.br `</tfoot>`;
         htm += Html.br `</table>`;
         parent = parent.parentNode.querySelector('div');
         parent.innerHTML = htm;
+        for (const input of parent.querySelectorAll('input[type=checkbox].xp')) {
+            input.addEventListener('click', onChestClick);
+        }
+    }
+
+    function onChestClick(event) {
+        const input = event.srcElement;
+        const card = input.closest('.card');
+        if (!card) return;
+        const toggler = card.querySelector('input');
+        const cardIndex = parseInt(toggler && toggler.getAttribute('data-index'));
+        if (!cardIndex) return;
+        const checked = input.checked;
+        const lid = toggler.id.substr(5);
+        const chestId = parseInt(input.getAttribute('data-chest-id'));
+        const chestBit = 2 ** (chestId - 1);
+        let chestState = toInt(selectState[cardIndex - 1]);
+        chestState = chestState & (-chestBit - 1) | (checked ? chestBit : 0);
+        selectState[cardIndex - 1] = chestState;
+        let lastChest = 0;
+        let totalExp, totalExp2, countExp;
+        totalExp = totalExp2 = countExp = 0;
+        for (const lootArea of floorData[lid].loots) {
+            if (lootArea.chest == chestId) lootArea.checked = checked;
+            if (lootArea.chest != lastChest) {
+                lastChest = lootArea.chest;
+                if (lootArea.checked) countExp++;
+            }
+            if (lootArea.checked) {
+                totalExp += lootArea.exp;
+                totalExp2 += lootArea.exp2;
+            }
+        }
+        card.querySelector('tfoot th.avg').innerText = Locale.formatNumber(Math.floor(totalExp / countExp));
+        card.querySelector('tfoot th.level').innerText = Locale.formatNumber(Math.floor(totalExp2 / countExp));
+        gui.updateTabState(tab);
     }
 
     return {

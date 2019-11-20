@@ -869,7 +869,7 @@ td.dot.dot2 {
   background-position: 4px center;
 }
 
-.rings .xp {
+.rings div.xp {
   font-size: 10px;
   font-weight: bold;
   background-color: var(--tb-hlcol);
@@ -880,6 +880,10 @@ td.dot.dot2 {
   margin-left: auto;
 }
 
+.rings tfoot.xp th.avg,
+.rings tfoot.xp th.level {
+  text-align: right;
+}
 
 .rings.card .no-minmax,
 .rings-no-level .rings.card .level,
@@ -894,14 +898,22 @@ td.dot.dot2 {
   display: table-cell;
 }
 
-.rings tr.not-random td.max,
-.rings tr.not-random td.avg {
+.rings tr.not-random .max,
+.rings tr.not-random .avg {
   border-left: 0;
 }
 
-.rings tr.not-random td.min,
-.rings tr.not-random td.avg {
+.rings tr.not-random .min,
+.rings tr.not-random .avg {
   border-right: 0;
+}
+
+.rings .chest-id {
+  display: inline-block;
+  width: 20px;
+}
+.rings input[type=checkbox].xp {
+  vertical-align: middle;
 }
 
 /*#endregion*/
