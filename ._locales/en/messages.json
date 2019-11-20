@@ -1002,6 +1002,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "It appears that you have not performed a friend collection in a long time.\nPlease click the \"$COLLECT$\" button and choose the \"$METHOD$\" method.",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
 
     "godchild_info": {
         "message": "$NUM$ Neighbours = $GC$ Gods children",

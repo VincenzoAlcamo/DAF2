@@ -178,7 +178,7 @@ ${numFriends > 0 ? button('unmatched') : ''}
 ${numFriends > 0 ? button('match') : ''}
 </table>`,
         style: ['standard', 'unmatched', 'alternate', 'both', 'match', Dialog.CANCEL]
-    }, function(method, params) {
+    }, function (method, params) {
         setNewGhost(params);
         setNewConfirmCollection(params);
         if (method == 'standard' || method == 'unmatched' || method == 'alternate' || method == 'both' || method == 'match') {
@@ -193,7 +193,7 @@ ${method == 'both' || method == 'alternate' ? addAlternateSettings() : ''}
 ${method == 'both' || method == 'standard' || method == 'unmatched' ? addStandardSettings() : ''}
 <br><br>${gui.getMessage('friendship_confirmwarning')}`,
                 style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
-            }, function(confirmation, params) {
+            }, function (confirmation, params) {
                 if (method == 'alternate' || method == 'both') setNewGhost(params);
                 if (method == 'standard' || method == 'unmatched' || method == 'both') setNewConfirmCollection(params);
                 if (confirmation != Dialog.CONFIRM) return;
@@ -310,7 +310,7 @@ function collectFriends(method) {
         top: Math.floor((screen.availHeight - height) / 2),
         type: 'popup',
         url: 'https://www.facebook.com/profile.php?sk=friends'
-    }, function(w) {
+    }, function (w) {
         var tabId = w.tabs[0].id;
         bgp.Tab.excludeFromInjection(tabId);
         var details = {
@@ -319,9 +319,9 @@ function collectFriends(method) {
             allFrames: false,
             frameId: 0
         };
-        chrome.tabs.executeScript(tabId, details, function() {
+        chrome.tabs.executeScript(tabId, details, function () {
             details.file = '/inject/collectfriends.js';
-            chrome.tabs.executeScript(tabId, details, function() {
+            chrome.tabs.executeScript(tabId, details, function () {
                 delete details.file;
                 let code = '';
                 let addVar = (name, value) => code += name + '=' + JSON.stringify(value) + ';';
@@ -331,7 +331,7 @@ function collectFriends(method) {
                 addVar('removeGhosts', getRemoveGhosts());
                 addVar('confirmCollection', getConfirmCollection());
                 details.code = code + 'collect();';
-                chrome.tabs.executeScript(tabId, details, function() {});
+                chrome.tabs.executeScript(tabId, details, function () {});
             });
         });
     });
@@ -372,6 +372,15 @@ function showStats() {
     for (let div of container.querySelectorAll('.numfriends')) div.innerHTML = htm;
     htm = Html.br `${gui.getMessage('friendship_totalneighbours', Locale.formatNumber(numNeighboursShown), Locale.formatNumber(numNeighbours))}`;
     for (let div of container.querySelectorAll('.numneighbours')) div.innerHTML = htm;
+
+    htm = '';
+    if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 1 * 86400) {
+        const method = gui.getMessage('friendship_collectstandard');
+        htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collect'), method));
+    }
+    let div = container.querySelector('.warning');
+    div.innerHTML = htm;
+    div.style.display = htm ? '' : 'none';
 }
 
 function updateRow(row) {
@@ -499,7 +508,7 @@ function refreshDelayed() {
     smartTable.tbody[0].innerHTML = arr.map(item => item[2]).join('');
     showStats();
 
-    scheduledRefresh = setTimeout(function() {
+    scheduledRefresh = setTimeout(function () {
         gui.collectLazyElements(smartTable.container);
         smartTable.syncLater();
     }, 50);
