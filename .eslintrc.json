@@ -32,6 +32,13 @@
             "error",
             "always"
         ],
+        "brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
         "no-console": "off",
         "no-unused-vars": [
             "error",
