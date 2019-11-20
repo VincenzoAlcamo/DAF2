@@ -346,6 +346,29 @@
     "about_translators": {
         "message": "Übersetzer"
     },
+    "about_alternate": {
+        "message": "Ein anderes Konto wurde geladen ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Die Daten des vorherigen Kontos wurden beibehalten.\nUm die Daten zurückzusetzen und ein anderes Konto zu verwenden, klicke auf @RESET@."
+    },
+    "about_reset_ask_title": {
+        "message": "Konto zurücksetzen"
+    },
+    "about_reset_ask_text": {
+        "message": "Möchtest du deine Daten zurücksetzen?\nDamit du ein anderes Konto benutzen kannst."
+    },
+    "about_reset_ok_title": {
+        "message": "Die Daten wurden zurückgesetzt."
+    },
+    "about_reset_ok_text": {
+        "message": "Bitte lade Diggy's Adventure mit dem Konto neu, das du verwenden möchtest."
+    },
     "kitchen_all": {
         "message": "Alle Rezepte"
     },
@@ -770,6 +793,9 @@
             }
         }
     },
+    "friendship_confirmcollect": {
+        "message": "Klicke Sie JA zur Bestätigung, NEIN zum weiteren Versuch.\n\nDu kannst dieses Fenster jederzeit schließen,\num den Vorgang abzubrechen."
+    },
     "friendship_filter_a": {
         "message": "Freunde: $FRIENDS$, Nachbarn: $NEIGHBOURS$",
         "placeholders": {
@@ -906,6 +932,9 @@
     },
     "friendship_confirmwarning": {
         "message": "Dieser Vorgang kann mehrere Minuten dauern.\n\nZum Fortfahren bitte bestätigen."
+    },
+    "friendship_confirmcollection": {
+        "message": "Abholergebnis bestätigen?"
     },
     "friendship_analyzingmatches": {
         "message": "Datenanalyse: $PERCENT$ % ($NUM$ / $TOTAL$)",

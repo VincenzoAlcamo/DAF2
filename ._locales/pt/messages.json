@@ -346,6 +346,29 @@
     "about_translators": {
         "message": "Tradutores"
     },
+    "about_alternate": {
+        "message": "Uma conta alternativa foi carregada ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Os dados da sua conta anterior foram preservados.\nPara redefinir seus dados e usar outra conta, clique em @RESET@"
+    },
+    "about_reset_ask_title": {
+        "message": "Redefinir conta"
+    },
+    "about_reset_ask_text": {
+        "message": "Deseja redefinir seus dados\npara que possa usar outra conta?"
+    },
+    "about_reset_ok_title": {
+        "message": "Os dados foram redefinidos"
+    },
+    "about_reset_ok_text": {
+        "message": "Atualize a Diggy's Adventure com a conta que deseja usar."
+    },
     "kitchen_all": {
         "message": "Todos as receitas"
     },
@@ -770,6 +793,9 @@
             }
         }
     },
+    "friendship_confirmcollect": {
+        "message": "Pressione YES para confirmar, NO para tentar mais.\n\nPode fechar esta janela a qualquer momento\npara cancelar a operação ."
+    },
     "friendship_filter_a": {
         "message": "Amigos: $FRIENDS$, Vizinhos: $NEIGHBOURS$",
         "placeholders": {
@@ -782,7 +808,7 @@
         }
     },
     "friendship_filter_d": {
-        "message": "Conas de Facebook desactivadas: $NUM$",
+        "message": "Contas de Facebook desactivadas: $NUM$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -906,6 +932,9 @@
     },
     "friendship_confirmwarning": {
         "message": "Esta Operação poderá demorar alguns minutos.\n\nPor favor confirme que é assim que quer proceder"
+    },
+    "friendship_confirmcollection": {
+        "message": "Confirmar resultado da coleção?"
     },
     "friendship_analyzingmatches": {
         "message": "Analizando dados, $PERCENT$ % ($NUM$ / $TOTAL$)",

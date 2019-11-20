@@ -991,6 +991,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Sembra che tu non abbia effettuato un collezionamento amici da molto tempo.\nPer favore, clicca il bottone \"$COLLECT$\" e scegli il metodo \"$METHOD$\".",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ Vicini = $GC$ bimbi",
         "placeholders": {
@@ -1346,6 +1357,9 @@
     },
     "rings_notdependent": {
         "message": "Non dipende dal livello del giocatore"
+    },
+    "rings_averageperring": {
+        "message": "XP medi per anello"
     },
     "equipment_sellout": {
         "message": "Vendere tutti gli oggetti inutilizzati ti farà guadagnare $TOTAL$ monete (equipaggiamento = $EQUIP$ monete, decorazioni = $DECO$ monete)",

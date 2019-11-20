@@ -346,6 +346,29 @@
     "about_translators": {
         "message": "Oversættere"
     },
+    "about_alternate": {
+        "message": "En alternativ konto blev loaded ($ID$)",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Din tidligere kontos data blev bevaret.\nFor at resette dine data og bruge en anden konto - Klik @RESET@"
+    },
+    "about_reset_ask_title": {
+        "message": "Reset konto"
+    },
+    "about_reset_ask_text": {
+        "message": "Vil du resette dine data\nså du kan bruge en anden konto?"
+    },
+    "about_reset_ok_title": {
+        "message": "Data er blevet resat"
+    },
+    "about_reset_ok_text": {
+        "message": "Genindlæs Diggys Adventure med den konto du ønsker at bruge."
+    },
     "kitchen_all": {
         "message": "Alle opskrifter"
     },
@@ -770,6 +793,9 @@
             }
         }
     },
+    "friendship_confirmcollect": {
+        "message": "Tryk JA for at bekræfte, NEJ for at prøve igen.\n\nDu kan lukke dette vindue på et hvert tidspunkt\nfor at afbryde handlingen."
+    },
     "friendship_filter_a": {
         "message": "Venner: $FRIENDS$, Naboer: $NEIGHBOURS$",
         "placeholders": {
@@ -906,6 +932,9 @@
     },
     "friendship_confirmwarning": {
         "message": "Denne handling vil tage adskillige minutter.\n\nBekræft venligst at du vil fortsætte."
+    },
+    "friendship_confirmcollection": {
+        "message": "Bekræft indsamlings resultat?"
     },
     "friendship_analyzingmatches": {
         "message": "Analyserer data, $PERCENT$ % ($NUM$ / $TOTAL$)",

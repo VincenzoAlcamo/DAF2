@@ -346,6 +346,29 @@
     "about_translators": {
         "message": "Traductores"
     },
+    "about_alternate": {
+        "message": "Cuenta alternativa se ha cargado",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Se conservaron los datos de su cuenta anterior.\n\nPara restablecer sus datos y usar otra cuenta, haga clic en @ RESET @"
+    },
+    "about_reset_ask_title": {
+        "message": "Restablecer cuenta"
+    },
+    "about_reset_ask_text": {
+        "message": "Quieres restablecer tus datos"
+    },
+    "about_reset_ok_title": {
+        "message": "para que puedas usar otra cuenta?"
+    },
+    "about_reset_ok_text": {
+        "message": "Vuelva a cargar Diggy's Adventure con la cuenta que desea utilizar."
+    },
     "kitchen_all": {
         "message": "Todas las recetas"
     },
@@ -770,6 +793,9 @@
             }
         }
     },
+    "friendship_confirmcollect": {
+        "message": "Presione SI  para confirmar, NO para intentar más tarde .\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
+    },
     "friendship_filter_a": {
         "message": "Amigos: $FRIENDS$, Vecinos: $NEIGHBOURS$",
         "placeholders": {
@@ -906,6 +932,9 @@
     },
     "friendship_confirmwarning": {
         "message": "Esta operación puede tardar varios minutos.\n\nPor favor, confirme que desea continuar."
+    },
+    "friendship_confirmcollection": {
+        "message": "\n¿Confirmar el resultado de la recolección?"
     },
     "friendship_analyzingmatches": {
         "message": "Analizando datos, $PERCENT$% ($NUM$ / $TOTAL$)",

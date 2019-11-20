@@ -346,6 +346,29 @@
     "about_translators": {
         "message": "Μεταφραστές"
     },
+    "about_alternate": {
+        "message": "Φορτώθηκε διαφορετικός λογαριασμός ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Τα δεδομένα του προηγούμενου λογαριασμού σας διατηρήθηκαν.\nΓια επαναφορά των δεδομένων και χρήση διαφορετικού λογαριασμού, πατήστε @RESET@"
+    },
+    "about_reset_ask_title": {
+        "message": "Επαναφορά λογαριασμού"
+    },
+    "about_reset_ask_text": {
+        "message": "Θέλετε να επαναφέρετε τα δεδομένα σας\nώστε να χρησιμοποιήσετε άλλο λογαριασμό;"
+    },
+    "about_reset_ok_title": {
+        "message": "Έγινε επαναφορά δεδομένων"
+    },
+    "about_reset_ok_text": {
+        "message": "Παρακαλώ φορτώστε ξανά το Diggy's Adventure με τον λογαριασμό που θέλετε να χρησιμοποιήσετε."
+    },
     "kitchen_all": {
         "message": "Όλες οι συνταγές"
     },
@@ -770,6 +793,9 @@
             }
         }
     },
+    "friendship_confirmcollect": {
+        "message": "Πατήστε ΝΑΙ για επιβεβαίωση, ΟΧΙ για περαιτέρω εύρεση\n\nΜπορείτε να κλείσετε αυτό το παράθυρο όποτε\nθέλετε για να ακυρώσετε τη διαδικασία."
+    },
     "friendship_filter_a": {
         "message": "Φίλοι: $FRIENDS$, Γείτονες: $NEIGHBOURS$",
         "placeholders": {
@@ -906,6 +932,9 @@
     },
     "friendship_confirmwarning": {
         "message": "Η διαδικασία μπορεί να διαρκέσει μερικά λεπτά.\n\nΠαρακαλούμε επιβεβαιώστε την ενέργεια."
+    },
+    "friendship_confirmcollection": {
+        "message": "Επιβεβαίωση αποτελέσματος συλλογής;"
     },
     "friendship_analyzingmatches": {
         "message": "Ανάλυση δεδομένων, $PERCENT$ % ($NUM$ / $TOTAL$)",
