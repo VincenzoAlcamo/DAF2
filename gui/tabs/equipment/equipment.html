@@ -67,22 +67,25 @@
     <table class="equipment data">
         <thead>
             <tr>
-                <th></th>
-                <th class="sortable" sort-name="name" data-i18n-text="tab_equipment"></th>
-                <th class="sortable" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png"></th>
-                <th class="sortable" sort-name="region"><img data-i18n-title="gui_theme_required" src="/img/gui/map.png"></th>
-                <th class="sortable" sort-name="event"><img data-i18n-title="gui_event" src="/img/gui/events.png" /></th>
-                <th class="sortable" sort-name="sell"><img data-i18n-title="gui_sell_price" src="/img/gui/coin.png"></th>
-                <th class="sortable" sort-name="placed"><img data-i18n-title="gui_placed" src="/img/gui/camp.png"></th>
-                <th class="sortable" sort-name="owned"><img data-i18n-title="gui_owned" src="/img/gui/backpack.png"></th>
-                <th class="sortable" sort-name="limit"><img data-i18n-title="gui_limit" src="/img/gui/limit.png"></th>
-                <th class="sortable" sort-name="type" data-i18n-text="gui_type"></th>
-                <th class="sortable" sort-name="value" data-i18n-text="gui_value"></th>
-                <th class="sortable" sort-name="width"><img data-i18n-title="gui_width" src="/img/gui/width.png"></th>
-                <th class="sortable" sort-name="height"><img data-i18n-title="gui_height" src="/img/gui/height.png"></th>
-                <th class="sortable" sort-name="slotvalue" data-i18n-text="gui_slot_value"></th>
-                <th class="sortable" sort-name="gain" data-i18n-text="equipment_gain"></th>
-                <th><img data-i18n-title="gui_cost" src="/img/gui/shop.png"></th>
+                <th rowspan="2"><img src="/img/gui/equipment.png" data-wiki-page="Camp_Equipment" data-i18n-title="tab_equipment+gui_clickwiki"></th>
+                <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="tab_equipment"></th>
+                <th rowspan="2" class="sortable" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png"></th>
+                <th rowspan="2" class="sortable" sort-name="region"><img data-i18n-title="gui_theme_required" src="/img/gui/map.png"></th>
+                <th rowspan="2" class="sortable" sort-name="event"><img data-i18n-title="gui_event" src="/img/gui/events.png"></th>
+                <th rowspan="2" class="sortable" sort-name="sell"><img data-i18n-title="gui_sell_price" src="/img/gui/coin.png"></th>
+                <th colspan="3" data-i18n-text="equipment_quantities"></th>
+                <th colspan="2" class="sortable" sort-name="type"><img data-i18n-title="gui_type" src="/img/gui/regen_capacity.png"></th>
+                <th rowspan="2" class="sortable" sort-name="width"><img data-i18n-title="gui_width" src="/img/gui/width.png"></th>
+                <th rowspan="2" class="sortable" sort-name="height"><img data-i18n-title="gui_height" src="/img/gui/height.png"></th>
+                <th rowspan="2" class="sortable" sort-name="slotvalue"><img data-i18n-title="gui_slot_value" src="/img/gui/power_slot.png"></th>
+                <th rowspan="2" class="sortable" sort-name="gain"><img data-i18n-title="equipment_gain" src="/img/gui/power_gain.png"></th>
+                <th rowspan="2"><img data-i18n-title="gui_cost" src="/img/gui/shop.png"></th>
+            </tr>
+            <tr>
+                <th class="sortable only-image" sort-name="placed"><img data-i18n-title="gui_placed" src="/img/gui/camp.png" class="small"></th>
+                <th class="sortable only-image" sort-name="owned"><img data-i18n-title="gui_owned" src="/img/gui/backpack.png" class="small"></th>
+                <th class="sortable only-image" sort-name="limit"><img data-i18n-title="gui_limit" src="/img/gui/limit.png" class="small"></th>
+                <th colspan="2" class="sortable" sort-name="value" data-i18n-text="gui_value"></th>
             </tr>
         </thead>
         <tbody class="row-coloring"></tbody>

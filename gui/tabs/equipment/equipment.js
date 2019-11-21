@@ -320,11 +320,11 @@ function update() {
 
     container.querySelector('.equipment-stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins + coins_deco), Locale.formatNumber(coins), Locale.formatNumber(coins_deco));
 
-    let title = gui.getMessage('equipment_gain_info') + ':';
+    let title = gui.getMessage('equipment_gain') + '\n' + gui.getMessage('equipment_gain_info') + ':';
     title += '\n' + gui.getMessage('camp_capacity') + ' = ' + Locale.formatNumber(minCapacity);
     title += '\n' + gui.getMessage('camp_regen') + ' = ' + Locale.formatNumber(minRegen);
-    Array.from(container.querySelectorAll('thead [sort-name=gain]')).forEach(cell => {
-        cell.title = title;
+    Array.from(container.querySelectorAll('thead [sort-name=gain] img')).forEach(el => {
+        el.title = title;
     });
     refresh();
 }
@@ -613,14 +613,14 @@ function updateRow(row) {
     htm += Html.br `<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, true)}</td>`;
     htm += Html.br `<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, true) : ''}</td>`;
     htm += Html.br `<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.placed)}</td>`;
+    htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
     htm += Html.br `<td>${Locale.formatNumber(item.owned)}</td>`;
     htm += Html.br `<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
-    htm += Html.br `<td><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
+    htm += Html.br `<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
     htm += Html.br `<td>${Locale.formatNumber(item.value)}</td>`;
     htm += Html.br `<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
     htm += Html.br `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
-    htm += Html.br `<td>${item.gain ? Locale.formatNumber(item.gain) : ''}</td>`;
+    htm += Html.br `<td>${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
     let className = 'cost';
     let title = [];
     if (item.hide && item.sale_id) {

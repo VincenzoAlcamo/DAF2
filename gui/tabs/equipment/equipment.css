@@ -1,10 +1,14 @@
 .equipment img.building {
-  max-width: 48px;
-  max-height: 48px;
+  max-width: 60px;
+  max-height: 60px;
 }
 
 .equipment tr td {
   text-align: center;
+}
+
+.equipment tr td:nth-child(1) {
+  padding: 2px 2px;
 }
 
 .equipment tr td:nth-child(2) {
@@ -19,6 +23,12 @@
 
 .equipment td.locked {
   background-color: rgba(255, 0, 0, 0.2);
+}
+
+.equipment th[sort-name=type] img {
+  width: 24px;
+  height: 24px;
+  margin: -4px 0;
 }
 
 .equipment .cost span {
