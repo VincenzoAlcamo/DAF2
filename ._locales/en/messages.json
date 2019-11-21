@@ -1395,6 +1395,9 @@
     "equipment_notonsale": {
         "message": "Not on sale anymore"
     },
+    "equipment_quantities": {
+        "message": "Quantities"
+    },
     "equipment_owned": {
         "message": "Owned"
     },

@@ -991,6 +991,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Il semble que vous n'ayez pas effectué de collecte d'amis depuis longtemps.\nVeuillez cliquer sur le bouton \"$COLLECT$\" et choisir la méthode \"$METHOD$\".",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ voisins = $GC$ filleuls",
         "placeholders": {
@@ -1161,10 +1172,10 @@
         "message": "LIEN PROBABLEMENT EXPIRÉ"
     },
     "rewardlinks_addlinks": {
-        "message": "Ajouter les liens"
+        "message": "Ajouter des liens"
     },
     "rewardlinks_pasteAdd": {
-        "message": "Collez les liens à ajouter ici, puis appuyez sur le bouton \"$CONFIRM$\"",
+        "message": "Collez des liens ajoutés ici, puis appuyez sur le bouton \"$CONFIRM$\"",
         "placeholders": {
             "confirm": {
                 "content": "$1"
@@ -1346,6 +1357,9 @@
     },
     "rings_notdependent": {
         "message": "Çà ne compte pas du niveau du joueur"
+    },
+    "rings_averageperring": {
+        "message": "Expérience moyenne par anneau"
     },
     "equipment_sellout": {
         "message": "La vente de tous les objets inutilisés vous rapportera $TOTAL$ pièces de monnaie (équipments = $EQUIP$ pièces, décorations = $DECO$ pièces)",

@@ -991,6 +991,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Wygląda na to, że od dłuższego czasu nie wykonałeś zbierania przyjaciół.\nKliknij przycisk \"$COLLECT$\" i wybierz metodę \"$METHOD$\".",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ Sąsiadów = $GC$ Bożych dzieci",
         "placeholders": {
@@ -1346,6 +1357,9 @@
     },
     "rings_notdependent": {
         "message": "Nie zależy od poziomu gracza"
+    },
+    "rings_averageperring": {
+        "message": "Średnia wartość XP na pierścień"
     },
     "equipment_sellout": {
         "message": "Sprzedając wszystkie nieużywane wyposażenie otrzymasz $TOTAL$ monet. (inwentarz = $EQUIP$ monet,\ndekoracje = $DECO$ monet)",

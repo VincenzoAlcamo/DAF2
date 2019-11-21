@@ -991,6 +991,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Parece que você não realiza uma coleção de amigos há muito tempo.\nPor favor, clique no botão \"$COLLECT$\" e escolha o método \"$METHOD$\".",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ Vizinhos = $GC$ Filhos de Deus",
         "placeholders": {
@@ -1346,6 +1357,9 @@
     },
     "rings_notdependent": {
         "message": "Não depende do nível do jogador"
+    },
+    "rings_averageperring": {
+        "message": "Média de XP por anel"
     },
     "equipment_sellout": {
         "message": "A venda de todos os itens não utilizados renderá $TOTAL$ moedas (equipamento = $EQUIP$ moedas, decorações = $DECO$ moedas)",

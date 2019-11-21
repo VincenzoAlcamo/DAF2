@@ -1359,7 +1359,7 @@
         "message": "Non dipende dal livello del giocatore"
     },
     "rings_averageperring": {
-        "message": "XP medi per anello"
+        "message": "Media XP per anello"
     },
     "equipment_sellout": {
         "message": "Vendere tutti gli oggetti inutilizzati ti farà guadagnare $TOTAL$ monete (equipaggiamento = $EQUIP$ monete, decorazioni = $DECO$ monete)",
@@ -1377,6 +1377,9 @@
     },
     "equipment_notonsale": {
         "message": "Non più in vendita"
+    },
+    "equipment_quantities": {
+        "message": "Quantità"
     },
     "equipment_owned": {
         "message": "Posseduto"

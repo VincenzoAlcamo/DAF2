@@ -991,8 +991,19 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Parece que no has realizado una colección de amigos en mucho tiempo.\nHaga clic en el botón \"$ COLLECT $\" y elija el método \"$ METHOD $\".",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
-        "message": "$NUM$ Vecinos = $GC$ Ahijados",
+        "message": "$NUM$ Neighbours = $GC$ Gods children",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1346,6 +1357,9 @@
     },
     "rings_notdependent": {
         "message": "No depende del nivel del jugador."
+    },
+    "rings_averageperring": {
+        "message": "Experiencia promedio por anillo"
     },
     "equipment_sellout": {
         "message": "Por la venta de los artículos no utilizados obtendrás $TOTAL$ monedas (equipo = $EQUIP$ monedas, decoraciones = $DECO$ monedas)",

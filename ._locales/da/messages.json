@@ -991,6 +991,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Det ser ud til at det er længe siden at du har lavet en vennesamling.\nKlik på \"$COLLECT$\" knappen og vælg \"$METHOD$\"\nmetode.",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ Naboer = $GC$ Gudebørn",
         "placeholders": {
@@ -1346,6 +1357,9 @@
     },
     "rings_notdependent": {
         "message": "Ikke afhængig af spillers level"
+    },
+    "rings_averageperring": {
+        "message": "Gennemsnitlig XP per ring"
     },
     "equipment_sellout": {
         "message": "Salg af alt brugt lejrudstyr gi'r dig $TOTAL$ mønter netto (udstyr = $EQUIP$ mønter, dekorationer = $DECO$ mønter)",
