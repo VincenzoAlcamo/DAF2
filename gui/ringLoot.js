@@ -52,8 +52,7 @@ function ringLoot(kind) {
         for (let i = 0; i < selectState.length; i++) {
             selected += ',' + (toInt(selectState[i]) || '');
         }
-        selected = selected.substr(1);
-        if (selected.match(/^,+$/)) selected = '';
+        selected = selected.substr(1).replace(/,+$/, '');
         return {
             minmax: checkMinMax.checked,
             xp: checkXp.checked,
@@ -253,6 +252,10 @@ function ringLoot(kind) {
         let getXp = (type, oid) => {
             let exp = 0;
             if (type == 'material') exp = expByMaterial[oid] || 0;
+            if (type == 'usable') {
+                const usable = gui.getObject(type, oid);
+                exp = usable ? +usable.value : 0;
+            }
             if (type == 'system' && (oid == 1 || oid == 2)) exp = 1;
             return exp;
         };
