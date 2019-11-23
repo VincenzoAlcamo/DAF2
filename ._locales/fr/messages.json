@@ -1378,6 +1378,9 @@
     "equipment_notonsale": {
         "message": "Ce n'est plus à vendre"
     },
+    "equipment_quantities": {
+        "message": "Quantités"
+    },
     "equipment_owned": {
         "message": "En propriété"
     },

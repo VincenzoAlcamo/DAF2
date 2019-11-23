@@ -991,6 +991,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Es scheint, dass seit langem keine Freundschaftssammlung mehr durchgeführt wurde.\nBitte auf die Schaltfläche \"\"$COLLECT$\"\" klicken und die Methode \"\"$METHOD$\"\"\" wählen.",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ Nachbarn = $GC$ Götterkinder",
         "placeholders": {
@@ -1347,6 +1358,9 @@
     "rings_notdependent": {
         "message": "Unabhängig vom Level des Spielers"
     },
+    "rings_averageperring": {
+        "message": "Durchschnittliche XP pro Ring"
+    },
     "equipment_sellout": {
         "message": "Wenn du alle unbenutzten Gegenstände verkaufst, wirst du $TOTAL$-Münzen erhalten (Ausstattung = $EQUIP$-Münzen, Dekorationen = $DECO$-Münzen).",
         "placeholders": {
@@ -1363,6 +1377,9 @@
     },
     "equipment_notonsale": {
         "message": "Nicht mehr erhältlich"
+    },
+    "equipment_quantities": {
+        "message": "Mengen"
     },
     "equipment_owned": {
         "message": "Im Besitz"

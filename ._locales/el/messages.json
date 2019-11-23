@@ -991,6 +991,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Φαίνεται πως δεν έχετε κάνει συλλογή φίλων αρκετό καιρό. Παρακαλώ πατήστε το κουμπί \"$COLLECT$\" και διαλέξτε τη μέθοδο \"$METHOD$\".",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ Γείτονες  = $GC$ Παιδιά θεών",
         "placeholders": {
@@ -1347,6 +1358,9 @@
     "rings_notdependent": {
         "message": "Δεν εξαρτάται από το επίπεδο παίχτη"
     },
+    "rings_averageperring": {
+        "message": "Μέση Εμπειρία ανά δαχτυλίδι"
+    },
     "equipment_sellout": {
         "message": "Η πώληση όλων των αχρησιμοποίητων αντικειμένων θα σας δώσει $TOTAL$ νομίσματα (εξοπλισμός = $EQUIP$ νομίσματα, διακοσμητικά = $DECO$ νομίσματα)",
         "placeholders": {
@@ -1363,6 +1377,9 @@
     },
     "equipment_notonsale": {
         "message": "Όχι πια σε προσφορά"
+    },
+    "equipment_quantities": {
+        "message": "Ποσότητες"
     },
     "equipment_owned": {
         "message": "Σας ανήκουν"

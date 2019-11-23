@@ -1378,6 +1378,9 @@
     "equipment_notonsale": {
         "message": "Ikke længere på udsalg"
     },
+    "equipment_quantities": {
+        "message": "Antal"
+    },
     "equipment_owned": {
         "message": "Ejet"
     },

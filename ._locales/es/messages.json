@@ -355,7 +355,7 @@
         }
     },
     "about_reset": {
-        "message": "Se conservaron los datos de su cuenta anterior.\n\nPara restablecer sus datos y usar otra cuenta, haga clic en @ RESET @"
+        "message": "Se conservaron los datos de su cuenta anterior.\nPara restablecer sus datos y usar otra cuenta, haga clic en @RESET@"
     },
     "about_reset_ask_title": {
         "message": "Restablecer cuenta"
@@ -1377,6 +1377,9 @@
     },
     "equipment_notonsale": {
         "message": "No a la venta"
+    },
+    "equipment_quantities": {
+        "message": "Cantidades"
     },
     "equipment_owned": {
         "message": "Propiedad"
