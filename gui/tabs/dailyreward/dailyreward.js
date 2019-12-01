@@ -39,7 +39,7 @@ function refresh() {
     const rid = +generator.region;
     const level = +generator.level;
     const lastId = +generator.dr_id || 0;
-    const lastTime = +generator.dr_time;
+    const lastTime = +generator.dr_time || 0;
     if (!lastId) return;
     const dailyRewards = Object.values(gui.getFile('daily_rewards'));
     if (!dailyRewards) return;
@@ -63,7 +63,7 @@ function refresh() {
         amount = amount.replace('[level]', level);
         const qty = Math.floor(calculation.calculate(amount));
         let title = gui.getObjectName(item.type, item.object_id);
-        if (id == lastId) {
+        if (id == lastId && lastTime) {
             title += '\n' + gui.getMessage('dailyreward_lastcollect', Locale.formatDateTime(lastTime));
         }
         htm += Html `<div class="item${id == lastId ? ' last' : ''}${id == nextId ? ' next' : ''}" title="${title}">`;

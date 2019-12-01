@@ -1568,7 +1568,7 @@
     "dailyreward_lastcollect": {
         "message": "Collected on $DATE$",
         "placeholders": {
-            "data": {
+            "date": {
                 "content": "$1"
             }
         }
@@ -1673,6 +1673,9 @@
     },
     "options_keepdebugging_warning": {
         "message": "This is necessary to register incoming gifts while playing and to inspect a neighbor's camp."
+    },
+    "options_disablealtguard": {
+        "message": "Disable alternate account guard\nIf you enable this option, loading an alternate account will overwrite your current DAF2 data."
     },
     "options_section_rewardlinks": {
         "message": "Reward Links"
