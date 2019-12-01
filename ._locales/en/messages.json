@@ -316,6 +316,9 @@
     "tab_repeat": {
         "message": "Repeatables"
     },
+    "tab_dailyreward": {
+        "message": "Daily Reward"
+    },
 
     "about_version": {
         "message": "Version: $VERSION$",
@@ -1549,6 +1552,26 @@
     },
     "repeat_show_ready": {
         "message": "Ready?"
+    },
+
+    "dailyreward_stats": {
+        "message": "The daily reward is based on your current level ($LEVEL$) and region ($REGION$).",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Collected on $DATE$",
+        "placeholders": {
+            "data": {
+                "content": "$1"
+            }
+        }
     },
 
     "specialweek_end": {

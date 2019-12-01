@@ -1,0 +1,106 @@
+.dailyreward .main {
+  display: flex;
+  flex-direction: row;
+  max-width: 580px;
+  flex-wrap: wrap;
+  margin: 0px 10px 20px;
+}
+
+.dailyreward .item {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  margin: 10px 8px;
+  position: relative;
+  --brcol: #336;
+}
+
+.dailyreward .item.last {
+  --brcol: #aa0;
+}
+
+.dailyreward .item.next {
+  --brcol: #088;
+}
+
+.dailyreward .item .disc {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  background: linear-gradient(30deg, #46e 0%, #8aa 50%, #46e 100%);
+  border-radius: 50px;
+  border: 1px solid var(--brcol);
+}
+
+.dailyreward .item .inner {
+  height: 86px;
+  width: 86px;
+  position: absolute;
+  background-color: #eee;
+  margin: 7px;
+  border-radius: 44px;
+  border: 1px solid var(--brcol);
+}
+
+.dailyreward .item .amount {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 21px;
+  margin-top: 85px;
+  color: #fff;
+  background-color: #5b7dd7;
+  display: inline-block;
+  padding: 0px 8px;
+  border-radius: 14px;
+  height: 23px;
+}
+
+.dailyreward .item img {
+  margin-top: 4px;
+}
+
+.dailyreward .item.last .disc,
+.dailyreward .item.next .disc {
+  animation: dailyreward_rotate 3s linear infinite;
+}
+
+.dailyreward .item.last .amount,
+.dailyreward .item.next .amount {
+  animation: dailyreward_blinker 3s ease-in infinite alternate;
+}
+
+.dailyreward .item.last .disc {
+  background: linear-gradient(45deg, #ee6 0%, #f80 50%, #ee6 100%);
+}
+
+.dailyreward .item.next .disc {
+  background: linear-gradient(80deg, #6af 0%, #0f6 50%, #6af 100%);
+}
+
+.dailyreward .item.last .inner {
+  background-color: #ffa;
+}
+
+.dailyreward .item.last .amount {
+  background-color: #e60;
+}
+
+.dailyreward .item.next .inner {
+  background-color: #aff;
+}
+
+.dailyreward .item.next .amount {
+  background-color: #0c0;
+}
+
+@keyframes dailyreward_blinker {
+  to {
+    background-color: transparent;
+  }
+}
+
+@keyframes dailyreward_rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}

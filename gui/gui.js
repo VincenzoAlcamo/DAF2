@@ -30,6 +30,7 @@ let tabs = (function() {
     addTab('greenrings');
     addTab('redrings');
     addTab('rewardlinks');
+    addTab('dailyreward');
     addTab('options');
     // addTab('help', false);
     addTab('export');
