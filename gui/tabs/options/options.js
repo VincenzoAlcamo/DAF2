@@ -100,7 +100,7 @@ function init() {
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
     option('keepDebugging', WARNING);
-    option('disableAltGuard');
+    option('disableAltGuard', WARNING);
     if (gui.getPreference('fixes')) option('fixes', TEXT);
     endSection();
     beginSection('ingame');
