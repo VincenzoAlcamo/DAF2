@@ -312,6 +312,9 @@
     "tab_repeat": {
         "message": "Ripetibili"
     },
+    "tab_dailyreward": {
+        "message": "Ricompensa del giorno"
+    },
     "about_version": {
         "message": "Versione: $VERSION$",
         "placeholders": {
@@ -523,6 +526,9 @@
     },
     "camp_discounted": {
         "message": "Scontato"
+    },
+    "camp_neighbor": {
+        "message": "Mostra il campo del vicino"
     },
     "pillars_all": {
         "message": "Tutti i pilastri"
@@ -1531,6 +1537,25 @@
     "repeat_show_ready": {
         "message": "Pronta?"
     },
+    "dailyreward_stats": {
+        "message": "La ricompensa del giorno è basata sul tuo attuale livello ($LEVEL$) e regione ($REGION$).",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Raccolta il $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_end": {
         "message": "termina il $FINISH$",
         "placeholders": {
@@ -1629,6 +1654,12 @@
     },
     "options_keepdebugging_warning": {
         "message": "Questa opzione è necessaria per registrare i regali mentre si gioca e per ispezionare il campo dei vicini."
+    },
+    "options_disablealtguard": {
+        "message": "Azzera quando account alternativo.\nSe imposti questa opzione, caricare un account alternativo sovrascriverà i tuoi dati attuali di DAF2."
+    },
+    "options_disablealtguard_warning": {
+        "message": "ATTENZIONE: abilitate questa opzione a vostro rischio!"
     },
     "options_section_rewardlinks": {
         "message": "Link ricompensa"
