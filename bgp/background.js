@@ -57,6 +57,7 @@ var Preferences = {
             gameLanguage: '',
             locale: '',
             fixes: '',
+            disableAltGuard: false,
             injectGame: true,
             resetFullWindow: true,
             fullWindow: false,
@@ -619,7 +620,7 @@ var WebRequest = {
             console.log('LANGUAGE FILE', 'URL', urlInfo.url);
         }
         if (info.id && !info.skip && info.player_id && Data.generator) {
-            if (!Data.generator.player_id || Data.generator.player_id == info.player_id) {
+            if (!Data.generator.player_id || Data.generator.player_id == info.player_id || Preferences.getValue('disableAltGuard')) {
                 delete Data.alternateAccountDetected;
             } else {
                 Data.alternateAccountDetected = info.player_id;
