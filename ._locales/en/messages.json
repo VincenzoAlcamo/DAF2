@@ -535,6 +535,9 @@
     "camp_discounted": {
         "message": "Discounted"
     },
+    "camp_neighbor": {
+        "message": "Show neighbour's camp"
+    },
 
     "pillars_all": {
         "message": "All pillars"
@@ -1675,7 +1678,7 @@
         "message": "This is necessary to register incoming gifts while playing and to inspect a neighbor's camp."
     },
     "options_disablealtguard": {
-        "message": "Disable alternate account guard\nIf you enable this option, loading an alternate account will overwrite your current DAF2 data."
+        "message": "Disable alternate account guard\nIf you set this option, loading an alternate account will overwrite your current DAF2 data."
     },
     "options_section_rewardlinks": {
         "message": "Reward Links"

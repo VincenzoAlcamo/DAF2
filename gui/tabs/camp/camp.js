@@ -13,13 +13,15 @@ export default {
 
 const NUM_SLOTS = 24;
 
-var tab, container, checkWebGL;
+var tab, container, checkWebGL, checkNeighbor;
 
 function init() {
     tab = this;
     container = tab.container;
     checkWebGL = container.querySelector('[name=webgl]');
     checkWebGL.addEventListener('click', toggleWebGL);
+    checkNeighbor = container.querySelector('[name=neighbor]');
+    checkNeighbor.addEventListener('click', toggleNeighbor);
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
         var div = tab.container.querySelector('.' + className);
@@ -65,6 +67,7 @@ function getState() {
     var getCheck = (id, c) => document.getElementById(id).checked ? c : '';
     return {
         webgl: checkWebGL.checked,
+        'no-neighbour': !checkNeighbor.checked,
         h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('')
     };
 }
@@ -75,11 +78,18 @@ function setState(state) {
     setCheck('camp_player', 'p');
     setCheck('camp_neighbor', 'n');
     checkWebGL.checked = !!state.webgl;
+    checkNeighbor.checked = !state['no-neighbour'];
+    container.querySelector('.camp-neighbor').style.display = checkNeighbor.checked ? '' : 'none';
 }
 
 function toggleWebGL() {
     gui.updateTabState(tab);
     update();
+}
+
+function toggleNeighbor() {
+    gui.updateTabState(tab);
+    setState(getState());
 }
 
 function onmousemove(event) {
