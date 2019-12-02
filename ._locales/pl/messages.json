@@ -312,6 +312,9 @@
     "tab_repeat": {
         "message": "Odnawialne"
     },
+    "tab_dailyreward": {
+        "message": "Nagrody codzienne"
+    },
     "about_version": {
         "message": "Wersja: $VERSION$",
         "placeholders": {
@@ -523,6 +526,9 @@
     },
     "camp_discounted": {
         "message": "Zniżka"
+    },
+    "camp_neighbor": {
+        "message": "Pokaż obóz sąsiada"
     },
     "pillars_all": {
         "message": "Wszystkie kolumny"
@@ -1531,6 +1537,25 @@
     "repeat_show_ready": {
         "message": "Gotowe?"
     },
+    "dailyreward_stats": {
+        "message": "Nagroda codzienna oparta jest na twoim aktualnym levelu ($LEVEL$) i regionie ($REGION$)",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Zebrane $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",
         "placeholders": {
@@ -1629,6 +1654,12 @@
     },
     "options_keepdebugging_warning": {
         "message": "Jest to konieczne, aby zarejestrować przychodzące prezenty podczas gry i mieć podgląd na\nobóz sąsiada"
+    },
+    "options_disablealtguard": {
+        "message": "Zresetuj na koncie alternatywnym\nJeśli ustawisz tą opcję, ładowanie konta alternatywnego zastąpi twoje aktualne\ndane DAF2"
+    },
+    "options_disablealtguard_warning": {
+        "message": "UWAŻAJ: właczasz tą opcję na swoje własne ryzyko!"
     },
     "options_section_rewardlinks": {
         "message": "Linki z nagrodami"

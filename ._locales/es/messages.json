@@ -312,6 +312,9 @@
     "tab_repeat": {
         "message": "Minas"
     },
+    "tab_dailyreward": {
+        "message": "Recompensa Diaria"
+    },
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -523,6 +526,9 @@
     },
     "camp_discounted": {
         "message": "Con descuentos"
+    },
+    "camp_neighbor": {
+        "message": "Mostrar campamento de vecinos"
     },
     "pillars_all": {
         "message": "Todos los pilares"
@@ -1531,8 +1537,27 @@
     "repeat_show_ready": {
         "message": "Lista?"
     },
+    "dailyreward_stats": {
+        "message": "La recompensa diaria se basa en su nivel actual ($LEVEL$) y región ($REGION$).",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Recogido el $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_end": {
-        "message": "termina en  $FINISH$",
+        "message": "termina en $ FINISH $",
         "placeholders": {
             "finish": {
                 "content": "$1"
@@ -1629,6 +1654,12 @@
     },
     "options_keepdebugging_warning": {
         "message": "Esto es necesario para registrar regalos entrantes mientras se juega e inspeccionar el campamento de un vecino."
+    },
+    "options_disablealtguard": {
+        "message": "Restablecer con una  cuenta alternativa\nSi configura esta opción, cargar una cuenta alternativa sobrescribirá sus datos DAF2 actuales."
+    },
+    "options_disablealtguard_warning": {
+        "message": "CUIDADO. habilite  esta opción bajo su propia responsabilidad y riesgo"
     },
     "options_section_rewardlinks": {
         "message": "Enlaces de recompensa"

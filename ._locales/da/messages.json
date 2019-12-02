@@ -312,6 +312,9 @@
     "tab_repeat": {
         "message": "Gentagelige"
     },
+    "tab_dailyreward": {
+        "message": "Daglig Belønning"
+    },
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -523,6 +526,9 @@
     },
     "camp_discounted": {
         "message": "Tilbud"
+    },
+    "camp_neighbor": {
+        "message": "Vis nabo's lejr"
     },
     "pillars_all": {
         "message": "Alle søjler"
@@ -1531,6 +1537,25 @@
     "repeat_show_ready": {
         "message": "Klar?"
     },
+    "dailyreward_stats": {
+        "message": "Den daglige belønning er baseret på dit nuværende level ($LEVEL) og region\n($REGION$)",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Indsamlet den $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",
         "placeholders": {
@@ -1629,6 +1654,12 @@
     },
     "options_keepdebugging_warning": {
         "message": "Dette er nødvendigt for at modtage gaver og besøge naboers lejre, mens du spiller."
+    },
+    "options_disablealtguard": {
+        "message": "Reset på alternativ konto\nHvis du vælger denne mulighed, vil indlæsning af en alternativ konto overskrive dine nuværende DAF2 data."
+    },
+    "options_disablealtguard_warning": {
+        "message": "Pas på: Aktivering af denne mulighed er på egen risiko!"
     },
     "options_section_rewardlinks": {
         "message": "Præmie links"

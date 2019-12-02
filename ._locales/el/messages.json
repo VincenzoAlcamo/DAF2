@@ -312,6 +312,9 @@
     "tab_repeat": {
         "message": "Επαναλαμβανόμενα"
     },
+    "tab_dailyreward": {
+        "message": "Ημερήσιο Έπαθλο"
+    },
     "about_version": {
         "message": "Εκδοχή: $VERSION$",
         "placeholders": {
@@ -523,6 +526,9 @@
     },
     "camp_discounted": {
         "message": "Σε προσφορά"
+    },
+    "camp_neighbor": {
+        "message": "Εμφάνιση βάσης γείτονα"
     },
     "pillars_all": {
         "message": "Όλοι οι κίονες"
@@ -1531,6 +1537,25 @@
     "repeat_show_ready": {
         "message": "Έτοιμος;"
     },
+    "dailyreward_stats": {
+        "message": "Το ημερήσιο έπαθλο βασίζεται στο επίπεδό σας ($LEVEL$) και την περιοχή σας ($REGION$)",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Συλλέχθει τις $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_end": {
         "message": "τελειώνει στις $FINISH$",
         "placeholders": {
@@ -1629,6 +1654,12 @@
     },
     "options_keepdebugging_warning": {
         "message": "Αυτό είναι απαραίτητο για την καταγραφή εισερχόμενων δώρων ενώ παίζετε και τον έλεγχο της βάσης κάποιου γείτονα."
+    },
+    "options_disablealtguard": {
+        "message": "Επαναφορά σε διαφορετικούς λογαριασμούς\nΑν επιλεχθεί, η φόρτωση ενός διαφορετικού λογαριασμού θα κάνει αντικατάσταση των τωρινών σας δεδομένων του DAF2."
+    },
+    "options_disablealtguard_warning": {
+        "message": "ΠΡΟΣΟΧΗ: Ενεργοποιήστε αυτή τη ρύθμιση με δικό σας ρίσκο"
     },
     "options_section_rewardlinks": {
         "message": "Σύνδεσμοι Δώρων"
