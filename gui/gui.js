@@ -720,7 +720,7 @@ async function setCurrentTab(tabId) {
     Array.from(document.querySelectorAll('.left-panel ul li')).forEach(item => {
         item.classList.toggle('selected', item.getAttribute('data-tabid') == tabId);
     });
-    tab = tabs[tabId];
+    const tab = tabs[tabId];
     if (!tab.container) {
         tab.container = document.querySelector('.main-container').appendChild(document.createElement('div'));
         tab.container.classList.add('tab_' + tabId);

@@ -1,12 +1,10 @@
-/*global gui SmartTable Html Locale Tooltip*/
+/*global gui Html Locale */
 import Calculation from '../../../js/Calculation.js';
 
 export default {
     hasCSS: true,
     init,
     update,
-    getState,
-    setState,
     requires: ['daily_rewards', 'materials', 'buildings', 'tokens', 'usables']
 };
 
@@ -23,15 +21,7 @@ function update() {
     refresh();
 }
 
-function getState() {
-    return {};
-}
-
-function setState(state) {}
-
 function refresh() {
-    gui.updateTabState(tab);
-
     divRewards.innerHTML = '';
     divStats.innerHTML = '';
 

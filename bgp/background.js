@@ -391,7 +391,7 @@ if (loginButton) {
             } else {
                 chrome.tabs.create({
                     url: url,
-                    selected: true
+                    active: true
                 });
             }
         });

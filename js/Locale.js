@@ -1,6 +1,6 @@
 /*global chrome*/
 // eslint-disable-next-line no-unused-vars
-const Locale = (function() {
+const Locale = (function () {
     let localeId;
     let relativeTimeFormat;
     let listFormat;
@@ -15,10 +15,16 @@ const Locale = (function() {
             numeric: 'auto',
             style: 'narrow'
         });
-        listFormat = new Intl.ListFormat(localeId, {
-            style: 'short',
-            type: 'unit'
-        });
+        if ('ListFormat' in Intl) {
+            listFormat = new Intl.ListFormat(localeId, {
+                style: 'short',
+                type: 'unit'
+            });
+        } else {
+            listFormat = {
+                format: list => [].concat(list).join(', ')
+            };
+        }
     }
 
     setLocale(chrome.i18n.getUILanguage());
@@ -56,11 +62,11 @@ const Locale = (function() {
                 H: 'hour',
                 M: 'minute',
                 S: 'second'
-            } [c];
+            }[c];
             if (name) options[name] = name == 'month' ? 'short' : 'numeric';
             if (c == 'H' || c == 'M' || c == 'S') options.hour12 = false;
         }
-        return function(value) {
+        return function (value) {
             value = getDate(value);
             return value instanceof Date ? value.toLocaleString(localeId, options) : '';
         };

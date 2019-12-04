@@ -1,4 +1,4 @@
-/*global chrome bgp gui Locale Html*/
+/*global chrome bgp gui Dialog Locale Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -57,7 +57,7 @@ function resetAccount() {
         title: gui.getMessage('about_reset_ask_title'),
         html: Html.br(gui.getMessage('about_reset_ask_text')),
         style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
-    }, function (confirmation, params) {
+    }, function (confirmation, _params) {
         if (confirmation != Dialog.CONFIRM) return;
         bgp.Data.resetGenerator();
         gui.dialog.show({

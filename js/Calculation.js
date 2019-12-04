@@ -30,12 +30,12 @@ export default class Calculation {
                 + (/\w$/.test(symbol) ? "\\b" : "") // add a break if it's a name
         });
     }
-    last(...a)           { return a[a.length-1] }
-    negation(a)          { return -a }
-    addition(a, b)       { return a + b }
-    subtraction(a, b)    { return a - b }
-    multiplication(a, b) { return a * b }
-    division(a, b)       { return a / b }
+    last(...a)           { return a[a.length-1]; }
+    negation(a)          { return -a; }
+    addition(a, b)       { return a + b; }
+    subtraction(a, b)    { return a - b; }
+    multiplication(a, b) { return a * b; }
+    division(a, b)       { return a / b; }
     calculate(expression) {
         let match;
         const values = [],
@@ -87,7 +87,7 @@ export default class Calculation {
                 operators.push(notNumber.prefix || notNumber.func);
                 if (notNumber.func) { // Require an opening parenthesis
                     match = pattern.exec(expression);
-                    if (!match || match[0] !== "(") return error("Function needs parentheses")
+                    if (!match || match[0] !== "(") return error("Function needs parentheses");
                 }
             } else { // number
                 values.push(+token);
@@ -96,6 +96,6 @@ export default class Calculation {
         } while (match && operators.length);
         return operators.length ? error("Missing closing parenthesis")
                 : match ? error("Too many closing parentheses")
-                : values.pop() // All done!
+                : values.pop(); // All done!
     }
 }

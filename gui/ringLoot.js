@@ -328,7 +328,7 @@ function ringLoot(kind) {
         htm += Html.br `</tbody>`;
         htm += Html.br `<tfoot class="xp"><tr class="not-random"><th colspan="2">${gui.getMessage('rings_averageperring')}</th><th class="min"></th>`;
         htm += Html.br `<th class="avg">${Locale.formatNumber(Math.floor(totalExp / countExp))}</th>`;
-        htm += Html.br `<th class="max"></th><th class="level">${Locale.formatNumber(Math.floor(totalExp2 / countExp))}</th>`
+        htm += Html.br `<th class="max"></th><th class="level">${Locale.formatNumber(Math.floor(totalExp2 / countExp))}</th>`;
         htm += Html.br `</tfoot>`;
         htm += Html.br `</table>`;
         parent = parent.parentNode.querySelector('div');
