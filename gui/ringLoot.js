@@ -263,17 +263,6 @@ function ringLoot(kind) {
         let multiplier = swDoubleDrop ? swDoubleDrop.coeficient : 1;
         let tdAvg = Html `<td class="avg">`;
         let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
-        let expByMaterial = bgp.Data.pillars.expByMaterial;
-        let getXp = (type, oid) => {
-            let exp = 0;
-            if (type == 'material') exp = expByMaterial[oid] || 0;
-            if (type == 'usable') {
-                const usable = gui.getObject(type, oid);
-                exp = usable ? +usable.value : 0;
-            }
-            if (type == 'system' && (oid == 1 || oid == 2)) exp = 1;
-            return exp;
-        };
         let showXp = (exp) => {
             return exp ? Html `<div class="xp">${Locale.formatNumber(exp)} ${gui.getMessage('gui_xp')}</div>` : '';
         };
@@ -306,7 +295,7 @@ function ringLoot(kind) {
             min = multiplier * Math.max(0, min);
             max = multiplier * Math.max(0, max);
             avg = multiplier * Math.max(0, avg);
-            exp = avg * getXp(type, oid);
+            exp = avg * gui.getXp(type, oid);
             lootArea.exp = exp;
             if (lootArea.checked) totalExp += exp;
             htm += Html.br `<td class="min">${notRandom ? '' : Locale.formatNumber(min)}</td>`;
@@ -319,7 +308,7 @@ function ringLoot(kind) {
             min = multiplier * Math.max(0, min);
             max = multiplier * Math.max(0, max);
             avg = multiplier * Math.max(0, avg);
-            exp = avg * getXp(type, oid);
+            exp = avg * gui.getXp(type, oid);
             lootArea.exp2 = exp;
             if (lootArea.checked) totalExp2 += exp;
             htm += Html.br `<td class="level">${Locale.formatNumber(avg)}${showXp(exp)}</td>`;

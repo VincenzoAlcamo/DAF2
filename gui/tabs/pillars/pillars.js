@@ -10,7 +10,6 @@ export default {
 
 let tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
 let pillarsExcluded = [];
-let expByMaterial;
 
 function init() {
     tab = this;
@@ -35,7 +34,6 @@ function init() {
 
 function update() {
     let pillarsInfo = bgp.Data.getPillarsInfo();
-    expByMaterial = pillarsInfo.expByMaterial;
 
     let sales = gui.getFile('sales');
     let decorations = gui.getFile('decorations');
@@ -54,7 +52,7 @@ function update() {
             pillar.name = gui.getObjectName('decoration', pillar.did);
             pillar.xp = +sale.exp;
             pillar.coins = +decoration.sell_price;
-            pillar.mname = gui.getObjectName('material', matId) + '\n' + gui.getMessage('gui_xp') + ': ' + Locale.formatNumber(expByMaterial[matId]);
+            pillar.mname = gui.getObjectName('material', matId) + '\n' + gui.getMessage('gui_xp') + ': ' + Locale.formatNumber(gui.getXp('material', matId));
             pillar.required = +req.amount;
             pillar.available = materialInventory[matId] || 0;
             pillar.matimg = gui.getObjectImage('material', matId, true);

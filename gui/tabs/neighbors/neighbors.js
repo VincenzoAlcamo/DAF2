@@ -237,27 +237,15 @@ function update() {
     // Determine gift value
     giftCache = {};
     giftValues = {
-        system2: 1, // Energy
         material2: 1000 // Gem
     };
-    for (let [id, xp] of Object.entries(bgp.Data.pillars.expByMaterial)) giftValues['material' + id] = xp;
     for (let gift of Object.values(gui.getFile('gifts'))) {
         let type = gift.type;
         let oid = gift.object_id;
         let key = type + oid;
         let value = giftValues[key];
         if (value === undefined) {
-            value = 0;
-            if (type == 'system') {
-                value = 1;
-            } else if (type == 'usable') {
-                let o = bgp.Data.getObject(type, oid);
-                value = o ? +o.value : 0;
-            } else if (type == 'decoration' || type == 'windmill') {
-                let o = bgp.Data.getObject(type, oid);
-                value = o ? +o.sell_price : 0;
-            }
-            giftValues[key] = value;
+            giftValues[key] = gui.getXp(type, oid);
         }
         giftValues[gift.def_id] = value * +gift.amount;
     }

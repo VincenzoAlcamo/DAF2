@@ -2,7 +2,7 @@
 let bgp = chrome.extension.getBackgroundPage();
 
 let currentTab = null;
-let tabs = (function() {
+let tabs = (function () {
     let tabs = {};
 
     function addTab(id, enabled = true) {
@@ -41,38 +41,38 @@ let gui = {
     dialog: Dialog(),
     wait: Dialog(Dialog.WAIT),
     toast: Dialog(Dialog.TOAST),
-    setPreference: function(name, value) {
+    setPreference: function (name, value) {
         bgp.Preferences.setValue(name, value);
     },
-    getPreference: function(name) {
+    getPreference: function (name) {
         return bgp.Preferences.getValue(name);
     },
-    getGenerator: function() {
+    getGenerator: function () {
         return bgp.Data.generator;
     },
-    hasValidGenerator: function() {
+    hasValidGenerator: function () {
         var generator = gui.getGenerator();
         return generator && generator.player_id;
     },
-    getFile: function(name) {
+    getFile: function (name) {
         return bgp.Data.files[name];
     },
-    getString: function(id) {
+    getString: function (id) {
         return bgp.Data.getString(id);
     },
-    getMessage: function() {
+    getMessage: function () {
         return bgp.getMessage.apply(null, arguments);
     },
-    getMessageAndValue: function(id, value) {
+    getMessageAndValue: function (id, value) {
         return gui.getMessage(id) + ': ' + value;
     },
-    getMessageAndFraction: function(id, numerator, denominator) {
+    getMessageAndFraction: function (id, numerator, denominator) {
         return gui.getMessage(id) + ': ' + numerator + ' / ' + denominator;
     },
-    getUnixTime: function() {
+    getUnixTime: function () {
         return Math.floor(Date.now() / 1000);
     },
-    getWrappedText: function(text, max = 60) {
+    getWrappedText: function (text, max = 60) {
         text = text === null || text === undefined ? '' : String(text);
         return text.split('\n').map(text => {
             let s = '';
@@ -95,24 +95,24 @@ let gui = {
             return s;
         }).join('\n');
     },
-    getPlayerNameFull: function(pal) {
+    getPlayerNameFull: function (pal) {
         var name = pal.name || 'Player ' + pal.id;
         return pal.surname ? name + ' ' + pal.surname : name;
     },
-    getFBFriendAvatarUrl: function(fb_id, size) {
+    getFBFriendAvatarUrl: function (fb_id, size) {
         return Html.raw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
     },
-    getFBFriendAnchor: function(fb_id, uri) {
+    getFBFriendAnchor: function (fb_id, uri) {
         uri = uri || ('https://www.facebook.com/' + fb_id);
         return Html `<a target="_blank" href="${uri}" class="limit-width" translate="no">`;
     },
-    getFriendAnchor: function(friend) {
+    getFriendAnchor: function (friend) {
         return Html `<a target="_blank" href="${friend.uri}" translate="no" title="${friend.name}">`;
     },
-    getObject: function(type, id) {
+    getObject: function (type, id) {
         return bgp.Data.getObject(type, id);
     },
-    getObjectName: function(type, id, addDesc = false) {
+    getObjectName: function (type, id, addDesc = false) {
         let name = bgp.Data.getObjectName(type, id);
         if (addDesc) {
             let desc = bgp.Data.getObjectDesc(type, id);
@@ -120,35 +120,35 @@ let gui = {
         }
         return name;
     },
-    getObjectImage: function(type, id, small = false) {
+    getObjectImage: function (type, id, small = false) {
         return bgp.Data.getObjectImage(type, id, small);
     },
-    getObjectImg: function(type, id, displaySize = 32, small = false, addTitle = false) {
+    getObjectImg: function (type, id, displaySize = 32, small = false, addTitle = false) {
         let url = bgp.Data.getObjectImage(type, id, small);
         if (!url) return '';
         let title = addTitle != 'none' ? Html ` title="${gui.getObjectName(type, id, addTitle == 'desc')}"` : '';
         let size = displaySize ? Html ` height="${displaySize}"` : '';
         return Html `<img src="${url}"${size}${title}>`;
     },
-    getRegionImg: function(rid, forceEgypt = false, size = 32) {
+    getRegionImg: function (rid, forceEgypt = false, size = 32) {
         if (rid == 0 && forceEgypt) rid = 1;
         if (rid < 0 || rid > 6) rid = 0;
         return Html.br `<img src="${rid == 0 ? '/img/gui/events.png' : bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
     },
-    getRegionFromSkin: function(skin) {
+    getRegionFromSkin: function (skin) {
         return bgp.Data.getRegionFromSkin(skin);
     },
-    getSkinFromRegion: function(region) {
+    getSkinFromRegion: function (region) {
         return bgp.Data.getSkinFromRegion(region);
     },
-    getSkinImg: function(skin, size = 32) {
+    getSkinImg: function (skin, size = 32) {
         var rid = bgp.Data.getRegionFromSkin(skin);
         return rid > 0 ? this.getRegionImg(rid, false, size) : Html.br `<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
     },
-    getCurrentTab: function() {
+    getCurrentTab: function () {
         return currentTab;
     },
-    getDuration: function(drn, flagReduced) {
+    getDuration: function (drn, flagReduced) {
         let ss = Math.floor(drn % 60);
         let mm = Math.floor((drn / 60) % 60);
         let hh = Math.floor((drn / 3600) % 24);
@@ -180,44 +180,58 @@ let gui = {
         if (ss > 0 && list.length == 0) list.push(Locale.formatNumber(ss) + 's');
         return Locale.formatList(list);
     },
-    getArray: function(value) {
+    getArray: function (value) {
         return Array.isArray(value) ? value : [];
     },
-    getArrayOfInt: function(value) {
+    getArrayOfInt: function (value) {
         return String(value || '').split(',').map(o => parseInt(o)).filter(n => isFinite(n));
     },
-    getChildrenMax: function(realNeighbours) {
+    getChildrenMax: function (realNeighbours) {
         var max = Math.floor(Math.sqrt(realNeighbours)) + 3;
         return max > realNeighbours ? realNeighbours : max;
     },
-    getChildrenNext: function(realNeighbours) {
+    getChildrenNext: function (realNeighbours) {
         if (realNeighbours < 5) return 1;
         var next = Math.floor(Math.sqrt(realNeighbours)) + 1;
         var goal = next * next;
         // Facebook hard limit of 5000 friends
         return goal > 5000 ? 0 : goal - realNeighbours;
     },
-    getMaxRegion: function() {
+    getMaxRegion: function () {
         return bgp.Data.getMaxRegion();
     },
-    getRepeatables: function() {
+    getXp: function (type, oid) {
+        const expByMaterial = bgp.Data.pillars.expByMaterial;
+        if (type == 'material') return expByMaterial[oid] || 0;
+        if (type == 'usable') {
+            const usable = gui.getObject(type, oid);
+            return usable && usable.action == 'add_stamina' ? +usable.value || 0 : 0;
+        }
+        if (type == 'decoration' || type == 'windmill') {
+            const o = bgp.Data.getObject(type, oid);
+            return o ? +o.sell_price || 0 : 0;
+        }
+        if (type == 'system' && (oid == 1 || oid == 2)) return 1;
+        return 0;
+    },
+    getRepeatables: function () {
         return bgp.Data.getRepeatables();
     },
-    getSearchFilter: function(terms) {
+    getSearchFilter: function (terms) {
         if (terms === null || terms === undefined || terms === '') return null;
-        return String(terms).toUpperCase().split('|').map(function(term) {
-            return term.split('+').reduce(function(prev, curr) {
+        return String(terms).toUpperCase().split('|').map(function (term) {
+            return term.split('+').reduce(function (prev, curr) {
                 if (curr == '') return prev;
                 if (!prev) return (value) => value.indexOf(curr) >= 0;
                 return (value) => value.indexOf(curr) >= 0 && prev(value);
             }, null);
-        }).reduce(function(prev, curr) {
+        }).reduce(function (prev, curr) {
             if (!curr) return prev;
             if (!prev) return (value) => curr(value);
             return (value) => curr(value) || prev(value);
         }, null);
     },
-    setSelectState: function(select, value, defaultIndex) {
+    setSelectState: function (select, value, defaultIndex) {
         select.value = value || '';
         if (select.selectedIndex < 0) {
             select.selectedIndex = defaultIndex || 0;
@@ -227,7 +241,7 @@ let gui = {
     // Lazy load images using an IntersectionObserver
     lazyElements: [],
     lazyElementsTimeout: 0,
-    lazyElementsHandler: function() {
+    lazyElementsHandler: function () {
         gui.lazyElementsTimeout = 0;
         let maxItemsAtOnce = 20;
         while (maxItemsAtOnce-- && gui.lazyElements.length) {
@@ -246,7 +260,7 @@ let gui = {
         }
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     },
-    lazyObserver: new IntersectionObserver(function(entries) {
+    lazyObserver: new IntersectionObserver(function (entries) {
         for (let entry of entries) {
             if (entry.intersectionRatio <= 0 && !entry.isIntersecting) continue;
             let element = entry.target;
@@ -255,16 +269,16 @@ let gui = {
         }
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     }),
-    collectLazyElements: function(container) {
+    collectLazyElements: function (container) {
         if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.observe(item));
     },
-    setLazyRender: function(element) {
+    setLazyRender: function (element) {
         if (element) {
             element.setAttribute('lazy-render', '');
             gui.lazyObserver.observe(element);
         }
     },
-    updateTabState: function(tab) {
+    updateTabState: function (tab) {
         if (tab.isLoaded && typeof tab.getState == 'function') tab.state = tab.getState();
         var text = JSON.stringify(tab.state);
         if (text != 'null' && text != '{}') localStorage.setItem('state_' + tab.id, text);
@@ -278,10 +292,10 @@ let gui = {
         });
         history.replaceState(null, null, location);
     },
-    getSortInfoText: function(sortInfo) {
+    getSortInfoText: function (sortInfo) {
         return sortInfo ? sortInfo.name + (sortInfo.ascending ? '(asc)' : '(desc)') : '';
     },
-    getSortState: function(smartTable, _defaultSort, _defaultSortSub) {
+    getSortState: function (smartTable, _defaultSort, _defaultSortSub) {
         let result = '';
         if (smartTable) {
             let sortInfo = smartTable.sort;
@@ -291,7 +305,7 @@ let gui = {
         }
         return result;
     },
-    setSortState: function(value, smartTable, defaultSort, defaultSortSub) {
+    setSortState: function (value, smartTable, defaultSort, defaultSortSub) {
         if (!smartTable) return;
         let arr = String(value || '').split(',');
         smartTable.sort = smartTable.sort || {};
@@ -314,22 +328,22 @@ let gui = {
         }
         smartTable.setSortInfo();
     },
-    getNaturalComparer: function() {
+    getNaturalComparer: function () {
         let collator = new Intl.Collator(undefined, {
             numeric: true,
             sensitivity: 'base'
         });
         return collator.compare;
     },
-    sortTextAscending: function(a, b) {
+    sortTextAscending: function (a, b) {
         if (a === null) return b === null ? 0 : 1;
         return b === null ? -1 : a.localeCompare(b);
     },
-    sortNumberAscending: function(a, b) {
+    sortNumberAscending: function (a, b) {
         if (isNaN(a)) return isNaN(b) ? 0 : 1;
         return isNaN(b) ? -1 : a - b;
     },
-    getSortFunction: function(getSortValueFunctions, smartTable, defaultSortName) {
+    getSortFunction: function (getSortValueFunctions, smartTable, defaultSortName) {
         let arr = [];
 
         function addSortBy(sortInfo) {
@@ -362,7 +376,7 @@ let gui = {
             return isNaN(b) ? -1 : b - a;
         }
 
-        return function(items) {
+        return function (items) {
             function getSortFn(index) {
                 let sample = items[0][index];
                 let isAscending = arr[index - 1] && arr[index - 1].ascending;
@@ -379,14 +393,14 @@ let gui = {
             return items;
         };
     },
-    getTabMenuItem: function(tabId) {
+    getTabMenuItem: function (tabId) {
         return tabId && document.querySelector('.vertical-menu li[data-tabid="' + tabId + '"]');
     },
-    markNeighborsTab: function() {
+    markNeighborsTab: function () {
         tabs.friendship.mustBeUpdated = true;
         tabs.neighbors.mustBeUpdated = true;
     },
-    getActiveSpecialWeeks: function() {
+    getActiveSpecialWeeks: function () {
         // requires special_weeks
         let result = {};
         result.items = [];
@@ -464,7 +478,7 @@ let gui = {
         result.postcards = result.types['postcards'];
         return result;
     },
-    setupScreenshot: function(element, fileName = 'screenshot.png', screenshot) {
+    setupScreenshot: function (element, fileName = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
         if (!fileName.endsWith('.png')) fileName += '.png';
@@ -477,11 +491,11 @@ let gui = {
         target.className = 'target';
         target.title = gui.getMessage('gui_screenshot_target');
         screenshot.appendChild(target);
-        shot.addEventListener('click', function() {
+        shot.addEventListener('click', function () {
             screenshot.style.display = 'none';
             target.classList.remove('ready');
-            setTimeout(function() {
-                gui.captureElement(element).then(function(data) {
+            setTimeout(function () {
+                gui.captureElement(element).then(function (data) {
                     target.src = data;
                     target.classList.toggle('ready', !!data);
                     if (!data) {
@@ -493,12 +507,12 @@ let gui = {
                             style: [Dialog.OK, Dialog.CRITICAL]
                         });
                     }
-                }).finally(function() {
+                }).finally(function () {
                     screenshot.style.display = '';
                 });
             }, 100);
         });
-        target.addEventListener('click', function() {
+        target.addEventListener('click', function () {
             if (!target.classList.contains('ready')) return;
             let canvas = document.createElement('canvas');
             canvas.width = target.naturalWidth;
@@ -508,7 +522,7 @@ let gui = {
             canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
         });
     },
-    copyToClipboard: function(str, mimeType = 'text/plain') {
+    copyToClipboard: function (str, mimeType = 'text/plain') {
         function oncopy(event) {
             event.clipboardData.setData(mimeType, str);
             event.preventDefault();
@@ -517,7 +531,7 @@ let gui = {
         document.execCommand('copy', false, null);
         document.removeEventListener('copy', oncopy);
     },
-    downloadData: function(data, fileName) {
+    downloadData: function (data, fileName) {
         const a = document.createElement('a');
         a.style.display = 'none';
         document.body.appendChild(a);
@@ -528,17 +542,17 @@ let gui = {
         a.href = url;
         a.download = fileName;
         a.click();
-        setTimeout(function() {
+        setTimeout(function () {
             window.URL.revokeObjectURL(url);
             a.parentNode.removeChild(a);
         }, 2000);
     },
-    captureElement: function(element) {
-        return new Promise(function(resolve, reject) {
+    captureElement: function (element) {
+        return new Promise(function (resolve, reject) {
             let rect = element.getBoundingClientRect();
             chrome.runtime.sendMessage({
                 action: 'capture'
-            }, function(dataUrl) {
+            }, function (dataUrl) {
                 if (chrome.runtime.lastError) {
                     reject(chrome.runtime.lastError);
                     return;
@@ -547,7 +561,7 @@ let gui = {
                 let image = new Image();
                 image.setAttribute('crossOrigin', 'anonymous');
                 image.src = dataUrl;
-                image.onload = function() {
+                image.onload = function () {
                     let ratio = window.devicePixelRatio;
                     let sx = Math.floor(rect.left * ratio);
                     let sy = Math.floor(rect.top * ratio);
@@ -589,7 +603,7 @@ function onLoad() {
     div.innerHTML = htm;
     div.addEventListener('click', clickMenu, true);
 
-    document.body.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function (e) {
         if (e.target && e.target.hasAttribute('data-wiki-page')) openWiki(e.target.getAttribute('data-wiki-page'));
     }, true);
 
@@ -762,10 +776,10 @@ function openWiki(page) {
     var url = page && page.indexOf('://') > 0 ? page : WIKI_URL + (page ? '?title=' + page : '');
     var urlInfo = new UrlInfo(url);
 
-    chrome.tabs.query({}, function(tabs) {
+    chrome.tabs.query({}, function (tabs) {
         var tabId = 0,
             windowId = 0;
-        tabs.forEach(function(tab) {
+        tabs.forEach(function (tab) {
             var tabInfo = new UrlInfo(tab.url);
             if (tab.url == url || (!tabId && tabInfo.hostname == urlInfo.hostName)) {
                 windowId = tab.windowId;
@@ -795,7 +809,7 @@ function openWiki(page) {
                 height: height,
                 focused: true,
                 type: 'popup'
-            }, function(_w) {});
+            }, function (_w) {});
         }
     });
 }

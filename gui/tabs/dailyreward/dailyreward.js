@@ -53,6 +53,12 @@ function refresh() {
         amount = amount.replace('[level]', level);
         const qty = Math.floor(calculation.calculate(amount));
         let title = gui.getObjectName(item.type, item.object_id);
+        const xp = gui.getXp(item.type, item.object_id);
+        if (xp) {
+            const totXp = qty * xp;
+            const textXp = ((xp == 1 || qty == 1) ? '' : Locale.formatNumber(qty) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
+            title += '\n' + gui.getMessageAndValue(item.type == 'usable' ? 'gui_energy' : 'gui_xp', textXp);
+        }
         if (id == lastId && lastTime) {
             title += '\n' + gui.getMessage('dailyreward_lastcollect', Locale.formatDateTime(lastTime));
         }
