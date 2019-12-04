@@ -312,6 +312,9 @@
     "tab_repeat": {
         "message": "Wiederholbare"
     },
+    "tab_dailyreward": {
+        "message": "Tägliche Belohnung"
+    },
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -523,6 +526,9 @@
     },
     "camp_discounted": {
         "message": "Ermäßigter Preis"
+    },
+    "camp_neighbor": {
+        "message": "Nachbarcamp anzeigen"
     },
     "pillars_all": {
         "message": "Alle Säulen"
@@ -1400,7 +1406,7 @@
         "message": "Zugewinn"
     },
     "equipment_gain_info": {
-        "message": "Der Gewinn basiert auf dem minimalen Stellplatzwert in deinem Camp."
+        "message": "Der Gewinn basiert auf dem minimalen Stellplatzwert im Camp."
     },
     "equipment_free": {
         "message": "GRATIS"
@@ -1531,6 +1537,25 @@
     "repeat_show_ready": {
         "message": "Bereit?"
     },
+    "dailyreward_stats": {
+        "message": "Die tägliche Belohnung basiert auf dem aktuellen Level ($LEVEL$) und der Region ($REGION$).",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Gesammelt am $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_end": {
         "message": "endet am $FINISH$",
         "placeholders": {
@@ -1629,6 +1654,12 @@
     },
     "options_keepdebugging_warning": {
         "message": "Dies ist erforderlich, um eingehende Geschenke während des Spiels zu registrieren und das Camp eines Nachbarn zu besuchen."
+    },
+    "options_disablealtguard": {
+        "message": "Zurücksetzen auf ein anderes Konto\nWenn Sie diese Option aktivieren, überschreibt das Laden eines alternativen Kontos Ihre aktuellen DAF2-Daten."
+    },
+    "options_disablealtguard_warning": {
+        "message": "ACHTUNG: Aktivierung dieser Option auf eigene Gefahr!"
     },
     "options_section_rewardlinks": {
         "message": "Belohnungslinks"

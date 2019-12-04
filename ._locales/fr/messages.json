@@ -312,6 +312,9 @@
     "tab_repeat": {
         "message": "Répétables"
     },
+    "tab_dailyreward": {
+        "message": "Récompense quotidienne"
+    },
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -523,6 +526,9 @@
     },
     "camp_discounted": {
         "message": "À prix réduit"
+    },
+    "camp_neighbor": {
+        "message": "Afficher le camp du voisin"
     },
     "pillars_all": {
         "message": "Tous les piliers"
@@ -1531,6 +1537,25 @@
     "repeat_show_ready": {
         "message": "Prêt?"
     },
+    "dailyreward_stats": {
+        "message": "La récompense quotidienne dépend de votre niveau actuel ($LEVEL$) et la région ($REGION$).",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Collecte le $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_end": {
         "message": "termine le $FINISH$",
         "placeholders": {
@@ -1629,6 +1654,12 @@
     },
     "options_keepdebugging_warning": {
         "message": "Cette option est nécessaire pour enregistrer les cadeaux tout en jouant et pour inspecter le terrain des voisins."
+    },
+    "options_disablealtguard": {
+        "message": "Réinitialiser sur un autre compte\nSi vous définissez cette option, le chargement d'un autre compte écrasera vos données DAF2 actuelles."
+    },
+    "options_disablealtguard_warning": {
+        "message": "ATTENTION: activez cette option à vos risques et périls!"
     },
     "options_section_rewardlinks": {
         "message": "Lien récompense"

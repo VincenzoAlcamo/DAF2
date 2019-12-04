@@ -998,7 +998,7 @@
         }
     },
     "friendship_timewarning": {
-        "message": "Parece que no has realizado una colección de amigos en mucho tiempo.\nHaga clic en el botón \"$ COLLECT $\" y elija el método \"$ METHOD $\".",
+        "message": "Parece que no has realizado una colección de amigos en mucho tiempo.\nHaga clic en el botón \"$COLLECT$\" y elija el método \"$METHOD$\".",
         "placeholders": {
             "collect": {
                 "content": "$1"
@@ -1557,7 +1557,7 @@
         }
     },
     "specialweek_end": {
-        "message": "termina en $ FINISH $",
+        "message": "termina en $FINISH$",
         "placeholders": {
             "finish": {
                 "content": "$1"
