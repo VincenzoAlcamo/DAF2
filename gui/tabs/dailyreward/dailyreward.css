@@ -9,26 +9,35 @@
 .dailyreward .item {
   width: 100px;
   height: 100px;
-  border-radius: 50px;
+  border-radius: 50%;
   margin: 10px 8px;
   position: relative;
   --brcol: #336;
+  --g1col: #8aa;
+  --g2col: #46e;
+  --bgcol: #eee;
 }
 
 .dailyreward .item.last {
   --brcol: #aa0;
+  --g1col: #ee6;
+  --g2col: #f80;
+  --bgcol: #ffa;
 }
 
 .dailyreward .item.next {
   --brcol: #088;
+  --g1col: #6af;
+  --g2col: #0f6;
+  --bgcol: #aff;
 }
 
 .dailyreward .item .disc {
   width: 100px;
   height: 100px;
   position: absolute;
-  background: linear-gradient(30deg, #46e 0%, #8aa 50%, #46e 100%);
-  border-radius: 50px;
+  background: linear-gradient(30deg, var(--g1col) 0%, var(--g2col) 50%, var(--g1col) 100%);
+  border-radius: 50%;
   border: 1px solid var(--brcol);
 }
 
@@ -36,9 +45,9 @@
   height: 86px;
   width: 86px;
   position: absolute;
-  background-color: #eee;
+  background-color: var(--bgcol);
   margin: 7px;
-  border-radius: 44px;
+  border-radius: 50%;
   border: 1px solid var(--brcol);
 }
 
@@ -48,7 +57,7 @@
   font-size: 21px;
   margin-top: 85px;
   color: #fff;
-  background-color: #5b7dd7;
+  background-color: var(--g2col);
   display: inline-block;
   padding: 0px 8px;
   border-radius: 14px;
@@ -61,36 +70,16 @@
 
 .dailyreward .item.last .disc,
 .dailyreward .item.next .disc {
-  animation: dailyreward_rotate 3s linear infinite;
+  animation: dailyreward_rotate 5s linear infinite;
+  width: 110px;
+  height: 110px;
+  margin-top: -5px;
+  margin-left: -5px;
 }
 
 .dailyreward .item.last .amount,
 .dailyreward .item.next .amount {
   animation: dailyreward_blinker 3s ease-in infinite alternate;
-}
-
-.dailyreward .item.last .disc {
-  background: linear-gradient(45deg, #ee6 0%, #f80 50%, #ee6 100%);
-}
-
-.dailyreward .item.next .disc {
-  background: linear-gradient(80deg, #6af 0%, #0f6 50%, #6af 100%);
-}
-
-.dailyreward .item.last .inner {
-  background-color: #ffa;
-}
-
-.dailyreward .item.last .amount {
-  background-color: #e60;
-}
-
-.dailyreward .item.next .inner {
-  background-color: #aff;
-}
-
-.dailyreward .item.next .amount {
-  background-color: #0c0;
 }
 
 @keyframes dailyreward_blinker {
