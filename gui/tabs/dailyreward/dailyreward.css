@@ -1,7 +1,7 @@
 .dailyreward .main {
   display: flex;
   flex-direction: row;
-  max-width: 580px;
+  max-width: 582px;
   flex-wrap: wrap;
   margin: 0px 10px 20px;
 }
