@@ -48,7 +48,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('equipment');
     smartTable.fixedFooter.parentNode.classList.add('equipment');
-    smartTable.tbody[0].addEventListener('render', function(event) {
+    smartTable.tbody[0].addEventListener('render', function (event) {
         updateRow(event.target);
     });
 
@@ -438,7 +438,7 @@ function onClickAdvanced() {
         title: gui.getMessage('neighbors_advancedfilter'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.WIDEST, Dialog.AUTORUN]
-    }, function(method, params) {
+    }, function (method, params) {
         if (method == Dialog.CANCEL) return;
         if (method == 'level' || method == Dialog.AUTORUN) {
             gui.dialog.element.querySelector('[name=leveltype]').style.display = params.levelcomparison ? '' : 'none';
@@ -568,7 +568,14 @@ function getMaterialImg(req) {
         let item = gui.getObject('material', id);
         let name_loc = item && item.name_loc;
         result.name = name_loc ? gui.getString(name_loc) : '#' + id;
-        result.title = item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '';
+        result.title = '';
+        const xp = gui.getXp('material', id);
+        const totXp = req.amount * xp;
+        if (totXp) {
+            const textXp = ((xp == 1 || req.amount == 1) ? '' : Locale.formatNumber(req.amount) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
+            result.title += '\n' + gui.getMessageAndValue('gui_xp', textXp);
+        }
+        result.title += (item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '');
         matCache[id] = result;
     }
     let img = result.url ? Html `<img width="18" height="18" src="${result.url}">` : '';
@@ -866,7 +873,7 @@ function showPacks(packId) {
         title: gui.getString(pack.name_loc),
         html: htm,
         style: [Dialog.OK, Dialog.WIDEST]
-    }, function(method, params) {
+    }, function (method, params) {
         if (method == 'region') {
             rid = +params.region;
             let select = gui.dialog.element.querySelector('[name=pid]');
