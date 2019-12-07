@@ -25,7 +25,7 @@ function getMessage(id, ...args) {
 
 var Badge = {
     currentIcon: '',
-    setIcon: function(color) {
+    setIcon: function (color) {
         color = color[0].toUpperCase() + color.substr(1).toLowerCase();
         Badge.currentIcon = '/img/logo/icon' + color + '.png';
         chrome.browserAction.setIcon({
@@ -33,13 +33,13 @@ var Badge = {
         });
         return this;
     },
-    setText: function(text) {
+    setText: function (text) {
         chrome.browserAction.setBadgeText({
             text: text
         });
         return this;
     },
-    setBackgroundColor: function(color) {
+    setBackgroundColor: function (color) {
         chrome.browserAction.setBadgeBackgroundColor({
             color: color
         });
@@ -51,7 +51,7 @@ var Badge = {
 //#region PREFERENCES
 var Preferences = {
     handlers: {},
-    getDefaults: function() {
+    getDefaults: function () {
         return {
             language: '',
             gameLanguage: '',
@@ -86,12 +86,12 @@ var Preferences = {
             friendsCollectDate: 0
         };
     },
-    init: async function() {
+    init: async function () {
         Preferences.values = Preferences.getDefaults();
-        return new Promise(function(resolve, _reject) {
+        return new Promise(function (resolve, _reject) {
             var keysToRemove = [];
             var valuesToSet = Object.assign({}, Preferences.values);
-            chrome.storage.local.get(null, function(values) {
+            chrome.storage.local.get(null, function (values) {
                 hasRuntimeError();
                 for (var key of Object.keys(values)) {
                     if (key in valuesToSet) {
@@ -102,20 +102,20 @@ var Preferences = {
                     }
                 }
                 if (keysToRemove.length) chrome.storage.local.remove(keysToRemove);
-                if (Object.keys(valuesToSet).length) chrome.storage.local.set(valuesToSet, function() {
+                if (Object.keys(valuesToSet).length) chrome.storage.local.set(valuesToSet, function () {
                     hasRuntimeError();
                     resolve();
                 });
                 else resolve();
             });
-        }).then(function() {
+        }).then(function () {
             chrome.storage.onChanged.addListener(Preferences.onChanged);
         });
     },
-    setHandler: function(action, callback) {
+    setHandler: function (action, callback) {
         Preferences.handlers[action] = callback;
     },
-    onChanged: function(changes, area) {
+    onChanged: function (changes, area) {
         if (area != 'local') return;
         for (var name in changes)
             if (name in Preferences.values) {
@@ -127,15 +127,15 @@ var Preferences = {
                 }
             }
     },
-    getValue: function(name) {
+    getValue: function (name) {
         return Preferences.values[name];
     },
-    setValue: function(name, value) {
+    setValue: function (name, value) {
         Preferences.setValues({
             [name]: value
         });
     },
-    setValues: function(values) {
+    setValues: function (values) {
         if (!values) return;
         let data = {};
         let flag = false;
@@ -148,7 +148,7 @@ var Preferences = {
         }
         if (flag) chrome.storage.local.set(data);
     },
-    getValues: function(names) {
+    getValues: function (names) {
         var result = {};
         if (names) {
             for (var name of [].concat(names)) {
@@ -163,15 +163,15 @@ var Preferences = {
 //#region MESSAGE HANDLING
 var Message = {
     handlers: {},
-    init: function() {
+    init: function () {
         chrome.runtime.onMessage.addListener(Message.onMessage);
     },
-    setHandler: function(action, callback) {
+    setHandler: function (action, callback) {
         Message.handlers[action] = callback;
     },
-    onMessage: function(request, sender, sendResponse) {
+    onMessage: function (request, sender, sendResponse) {
         if (request && request.action == 'capture') {
-            chrome.tabs.captureVisibleTab(function(dataUrl) {
+            chrome.tabs.captureVisibleTab(function (dataUrl) {
                 sendResponse(hasRuntimeError() ? '' : dataUrl);
             });
             return true;
@@ -198,7 +198,7 @@ var Tab = {
     guiTabId: null,
     GUI_URL: chrome.extension.getURL('gui/gui.html'),
     tabSettings: {},
-    init: function() {
+    init: function () {
         chrome.tabs.onUpdated.addListener(Tab.onUpdated);
         chrome.tabs.onRemoved.addListener(Tab.onRemoved);
         chrome.tabs.onReplaced.addListener(Tab.onReplaced);
@@ -221,6 +221,14 @@ var Tab = {
                 hostEquals: 'www.facebook.com',
                 pathContains: 'dialog/apprequests',
                 queryContains: 'app_id=146595778757295'
+            }, {
+                hostEquals: 'web.facebook.com',
+                pathContains: 'dialog/apprequests',
+                queryContains: 'app_id=470178856367913'
+            }, {
+                hostEquals: 'web.facebook.com',
+                pathContains: 'dialog/apprequests',
+                queryContains: 'app_id=146595778757295'
             }]
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
@@ -229,6 +237,8 @@ var Tab = {
         const fbFilters = {
             url: [{
                 hostEquals: 'www.facebook.com'
+            }, {
+                hostEquals: 'web.facebook.com'
             }]
         };
         chrome.webNavigation.onDOMContentLoaded.addListener(Tab.onFBNavigation, fbFilters);
@@ -248,7 +258,7 @@ var Tab = {
 
         return Tab.detectAll();
     },
-    onDialogCompleted: function(details) {
+    onDialogCompleted: function (details) {
         console.log('onDialogCompleted', details);
         if (!Preferences.getValue('autoClick')) return;
         Tab.focus(Tab.gameTabId, true);
@@ -259,7 +269,7 @@ var Tab = {
             frameId: details.frameId
         });
     },
-    onAutoLoginCompleted: function(details) {
+    onAutoLoginCompleted: function (details) {
         if (!Preferences.getValue('autoLogin')) return;
         console.log('injecting auto portal login');
         chrome.tabs.executeScript(details.tabId, {
@@ -286,7 +296,7 @@ if (loginButton) {
             frameId: 0
         });
     },
-    onRewardNavigation: function(details) {
+    onRewardNavigation: function (details) {
         chrome.tabs.executeScript(details.tabId, {
             file: '/inject/rewardlink.js',
             runAt: 'document_end',
@@ -294,7 +304,7 @@ if (loginButton) {
             frameId: details.frameId
         });
     },
-    onFBNavigation: function(details) {
+    onFBNavigation: function (details) {
         let tabId = details.tabId;
         if (details.frameId == 0 && Preferences.getValue('linkGrabEnabled') && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
             console.log('Injecting LinkGrabber');
@@ -304,21 +314,21 @@ if (loginButton) {
                 allFrames: false,
                 frameId: 0
             };
-            chrome.tabs.executeScript(tabId, details, function() {
+            chrome.tabs.executeScript(tabId, details, function () {
                 details.file = '/inject/linkgrabber.js';
-                chrome.tabs.executeScript(tabId, details, function() {
+                chrome.tabs.executeScript(tabId, details, function () {
                     delete details.file;
                     details.code = '';
                     for (let key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
                         details.code += key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
                     details.code += 'initialize();';
-                    chrome.tabs.executeScript(tabId, details, function() {});
+                    chrome.tabs.executeScript(tabId, details, function () {});
                 });
             });
 
         }
     },
-    onRemoved: function(tabId, _removeInfo) {
+    onRemoved: function (tabId, _removeInfo) {
         delete Tab.tabSettings[tabId];
         if (tabId == Tab.guiTabId) Tab.guiTabId = null;
         if (tabId == Tab.gameTabId) {
@@ -326,37 +336,37 @@ if (loginButton) {
             Debugger.detach();
         }
     },
-    onUpdated: function(tabId, changeInfo, tab) {
+    onUpdated: function (tabId, changeInfo, tab) {
         Tab.tabSettings[tabId] = Object.assign(Tab.tabSettings[tabId] || {}, tab);
         if ('url' in changeInfo) Tab.detectTab(tab);
     },
-    onReplaced: function(addedTabId, removedTabId) {
+    onReplaced: function (addedTabId, removedTabId) {
         Tab.tabSettings[addedTabId] = Tab.tabSettings[removedTabId];
         delete Tab.tabSettings[removedTabId];
     },
-    excludeFromInjection: function(tabId, flag = true) {
+    excludeFromInjection: function (tabId, flag = true) {
         if (!Tab.tabSettings[tabId]) Tab.tabSettings[tabId] = {};
         Tab.tabSettings[tabId].excludeFromInjection = flag;
     },
-    canBeInjected: function(tabId) {
+    canBeInjected: function (tabId) {
         return tabId in Tab.tabSettings ? !Tab.tabSettings[tabId].excludeFromInjection : true;
     },
-    detectTab: function(tab) {
+    detectTab: function (tab) {
         Tab.onRemoved(tab.id);
         var info = Tab.detect(tab.url);
         if (info.isGUI) Tab.guiTabId = tab.id;
         else if (info.isGame) Tab.gameTabId = tab.id;
     },
-    detectAll: function() {
+    detectAll: function () {
         Tab.guiTabId = Tab.gameTabId = null;
-        return new Promise(function(resolve, _reject) {
-            chrome.tabs.query({}, function(tabs) {
+        return new Promise(function (resolve, _reject) {
+            chrome.tabs.query({}, function (tabs) {
                 tabs.forEach(Tab.detectTab);
                 resolve();
             });
         });
     },
-    detect: function(url) {
+    detect: function (url) {
         var result = {};
         var urlInfo = new UrlInfo(url);
         if (url.indexOf(Tab.GUI_URL) == 0) {
@@ -373,15 +383,15 @@ if (loginButton) {
         }
         return result;
     },
-    showTab: function(kind, url, urlIfExist) {
-        chrome.tabs.query({}, function(tabs) {
+    showTab: function (kind, url, urlIfExist) {
+        chrome.tabs.query({}, function (tabs) {
             var tab = tabs.find(tab => {
                 return Tab.detect(tab.url)[kind];
             });
             if (tab) {
                 chrome.windows.update(tab.windowId, {
                     focused: true
-                }, function() {
+                }, function () {
                     var updateProperties = {
                         active: true
                     };
@@ -396,10 +406,10 @@ if (loginButton) {
             }
         });
     },
-    showGUI: function() {
+    showGUI: function () {
         Tab.showTab('isGUI', Tab.GUI_URL, null);
     },
-    showGame: function(options) {
+    showGame: function (options) {
         let values = (options || '') + ' ' + (Data.generator ? Data.generator.game_site + ' ' + Data.generator.game_platform : '');
         values = values.toLowerCase().split(' ');
         let site = values.find(item => item == 'facebook' || item == 'portal');
@@ -408,14 +418,14 @@ if (loginButton) {
         url += (platform == 'flash' ? '?flash' : '?webgl');
         Tab.showTab('isGame', url, values.includes('keep') ? null : url);
     },
-    focus: function(tabId, flag) {
-        if (tabId) chrome.tabs.get(tabId, function(tab) {
+    focus: function (tabId, flag) {
+        if (tabId) chrome.tabs.get(tabId, function (tab) {
             if (tab.windowId) chrome.windows.update(tab.windowId, {
                 focused: flag
             });
         });
     },
-    injectGame: function(tabId) {
+    injectGame: function (tabId) {
         if (!Preferences.getValue('injectGame')) return;
         if (Preferences.getValue('resetFullWindow')) {
             Preferences.setValues({
@@ -425,7 +435,7 @@ if (loginButton) {
         }
         chrome.webNavigation.getAllFrames({
             tabId: tabId
-        }, function(frames) {
+        }, function (frames) {
             var frame = frames.find(frame => frame.parentFrameId == 0 && frame.url.includes('/miner/'));
             if (!frame) return;
             var details = {
@@ -433,7 +443,7 @@ if (loginButton) {
                 allFrames: false,
                 frameId: 0
             };
-            chrome.tabs.executeScript(tabId, details, function() {
+            chrome.tabs.executeScript(tabId, details, function () {
                 details.frameId = frame.frameId;
                 chrome.tabs.executeScript(tabId, details);
             });
@@ -448,10 +458,10 @@ var Debugger = {
     target: null,
     tabId: null,
     captures: {},
-    detach: function() {
+    detach: function () {
         if (Debugger.attached) {
             Debugger.attached = false;
-            chrome.debugger.detach(Debugger.target, function() {
+            chrome.debugger.detach(Debugger.target, function () {
                 console.log('Debugger.detach');
                 if (hasRuntimeError()) return;
             });
@@ -460,9 +470,9 @@ var Debugger = {
         }
         Badge.setBackgroundColor('darkorange');
     },
-    attach: function(tabId) {
+    attach: function (tabId) {
         if (arguments.length == 0) {
-            Tab.detectAll().then(function() {
+            Tab.detectAll().then(function () {
                 if (Tab.gameTabId) Debugger.attach(Tab.gameTabId);
                 else Debugger.detach();
             });
@@ -470,17 +480,17 @@ var Debugger = {
         }
         if (Debugger.attached && tabId == Debugger.tabId) return;
         Debugger.detach();
-        chrome.debugger.getTargets(function(targets) {
+        chrome.debugger.getTargets(function (targets) {
             Debugger.target = {
                 tabId: tabId
             };
-            targets.forEach(function(t) {
+            targets.forEach(function (t) {
                 if (t.url.startsWith('https://diggysadventure.com/miner/')) Debugger.target = {
                     targetId: t.id
                 };
             });
             console.log('Trying to attach debugger', Debugger.target);
-            chrome.debugger.attach(Debugger.target, '1.0', function() {
+            chrome.debugger.attach(Debugger.target, '1.0', function () {
                 console.log('debugger.attach');
                 if (hasRuntimeError()) return;
                 Badge.setBackgroundColor('green');
@@ -492,7 +502,7 @@ var Debugger = {
                 chrome.debugger.sendCommand(Debugger.target, 'Network.enable', {
                     maxResourceBufferSize: 15 * MEGA,
                     maxTotalBufferSize: 30 * MEGA,
-                }, function(_result) {
+                }, function (_result) {
                     console.log('debugger.sendCommand: Network.enable');
                     if (hasRuntimeError()) {
                         Debugger.detach();
@@ -502,7 +512,7 @@ var Debugger = {
             });
         });
     },
-    onEvent: function(source, method, params) {
+    onEvent: function (source, method, params) {
         var info;
         if (method == 'Network.requestWillBeSent') {
             //console.log(method, source, params);
@@ -518,7 +528,7 @@ var Debugger = {
             if (info && info.id && !info.skip) {
                 info.debuggerRequestId = params.requestId;
                 Debugger.captures[info.debuggerRequestId] = info;
-                info.promise = new Promise(function(resolve, _reject) {
+                info.promise = new Promise(function (resolve, _reject) {
                     info.resolve = resolve;
                 });
                 console.log('DEBUGGER', info);
@@ -536,7 +546,7 @@ var Debugger = {
                     'Network.getResponseBody', {
                         requestId: params.requestId
                     },
-                    function(response) {
+                    function (response) {
                         console.log('Resolving debugger promise');
                         if (hasRuntimeError()) info.resolve(null);
                         else info.resolve(response.body);
@@ -545,7 +555,7 @@ var Debugger = {
             }
         }
     },
-    onDetach: function(source, reason) {
+    onDetach: function (source, reason) {
         console.log('Debugger.onDetach', source, reason);
         Debugger.attached = false;
         Badge.setIcon(reason == 'canceled_by_user' ? (Data.generator ? 'yellow' : 'gray') : 'red');
@@ -558,7 +568,7 @@ var Debugger = {
 var WebRequest = {
     tabId: null,
     captures: {},
-    init: function() {
+    init: function () {
         // Game data files interceptor
         const dataFilters = {
             urls: [
@@ -572,7 +582,7 @@ var WebRequest = {
         chrome.webRequest.onCompleted.addListener(WebRequest.onCompleted, dataFilters);
         chrome.webRequest.onErrorOccurred.addListener(WebRequest.onErrorOccurred, dataFilters);
     },
-    onBeforeRequest: function(details) {
+    onBeforeRequest: function (details) {
         if (details.tabId != Tab.gameTabId) return;
         if (details.url.indexOf('/webgl_client/') >= 0) return;
         var urlInfo = new UrlInfo(details.url);
@@ -606,7 +616,7 @@ var WebRequest = {
             Badge.setIcon('blue');
             console.log('GENERATOR FILE', 'URL', urlInfo.url);
             info.id = 'generator';
-            chrome.tabs.get(details.tabId, function(tab) {
+            chrome.tabs.get(details.tabId, function (tab) {
                 info.game_site = tab.url.indexOf('//portal.') > 0 ? 'Portal' : 'Facebook';
             });
             info.game_platform = urlInfo.parameters.webgl ? 'WebGL' : 'Flash';
@@ -639,13 +649,13 @@ var WebRequest = {
             WebRequest.captures[info.url] = WebRequest.captures[info.requestId] = info;
         }
     },
-    onCompleted: function(details) {
+    onCompleted: function (details) {
         var info = WebRequest.captures[details.requestId];
         delete WebRequest.captures[details.requestId];
         if (!info) return;
         console.log('onCompleted', info.filename, info);
         if (!info.promise) info.promise = Promise.resolve(null);
-        info.promise.then(function(text) {
+        info.promise.then(function (text) {
             if (info.id == 'localization') {
                 return Data.checkLocalization(info.url);
             } else if (info.id == 'synchronize') {
@@ -667,18 +677,18 @@ var WebRequest = {
                     Badge.setIcon('red');
                 }
             }
-        }).finally(function() {
+        }).finally(function () {
             WebRequest.deleteRequest(info.id);
             delete WebRequest.captures[info.url];
         });
     },
-    onErrorOccurred: function(details) {
+    onErrorOccurred: function (details) {
         Badge.setIcon('red');
         var info = WebRequest.captures[details.requestId];
         delete WebRequest.captures[details.requestId];
         if (info) WebRequest.deleteRequest(info.id);
     },
-    deleteRequest: function(id) {
+    deleteRequest: function (id) {
         if (id == 'generator') {
             console.log('Debugger can be detached now');
             if (Debugger.attached && !Preferences.getValue('keepDebugging')) Debugger.detach();
@@ -709,7 +719,7 @@ var Data = {
     languages: [
         new Language('da', 'DK', 'Danish', 'Dansk', 'DK'),
         new Language('de', 'DE', 'German', 'Deutsch', 'DE,AT,CH,LI,LU'),
-        new Language('el', 'GR', 'Greek', '\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac' /* 'Ελληνικά' */, 'GR'),
+        new Language('el', 'GR', 'Greek', '\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac' /* 'Ελληνικά' */ , 'GR'),
         new Language('en', 'EN', 'English', 'English', 'US,AU,BZ,CA,GB,IE,IN,JM,MY,NZ,PH,SG,TT,ZA,ZW'),
         new Language('es', 'ES', 'Spanish (Castilian)', 'Espa\u00f1ol (Castellano)', 'ES,AR,BO,CL,CO,CR,DO,EC,GT,HN,MX,NI,PA,PE,PR,PY,SV,US,UY,VE'),
         new Language('fr', 'FR', 'French', 'Fran\u00e7ais', 'FR,BE,CA,CH,LU,MC'),
@@ -717,7 +727,7 @@ var Data = {
         new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
         new Language('pt', 'PT', 'Portuguese ', 'Portugu\u00eas', 'PT,BR'),
         // OTHER (GAME)
-        new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */, 'BG'),
+        new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */ , 'BG'),
         new Language('cs', 'CZ', 'Czech', '\u010ce\u0161tina', 'CZ'),
         new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
         new Language('hu', 'HU', 'Hungarian ', 'Magyar', 'HU'),
@@ -730,24 +740,24 @@ var Data = {
     ],
     guiLanguages: 'da,de,el,en,es,fr,it,pl,pt'.split(','),
     acceptedLanguages: [],
-    detectLanguage: function(lang) {
+    detectLanguage: function (lang) {
         return [].concat(lang, Data.acceptedLanguages)
             .map(id => {
                 let match = String(id || '').match(/([a-z]+)[^a-z]?/i);
                 return match ? match[1].toLowerCase() : '';
             }).find(id => Data.guiLanguages.includes(id)) || 'en';
     },
-    resetGenerator: function() {
+    resetGenerator: function () {
         Data.generator = {};
     },
-    init: async function() {
-        await new Promise(function(resolve, _reject) {
+    init: async function () {
+        await new Promise(function (resolve, _reject) {
             chrome.i18n.getAcceptLanguages(items => {
                 if (!hasRuntimeError()) Data.acceptedLanguages = items;
                 resolve();
             });
         });
-        Data.db = await idb.open('DAF', 1, function(db) {
+        Data.db = await idb.open('DAF', 1, function (db) {
             switch (db.oldVersion) {
                 case 0:
                     db.createObjectStore('Files', {
@@ -825,15 +835,15 @@ var Data = {
         });
         await tx.complete;
         Data.removeExpiredRewardLinks();
-        await new Promise(function(resolve, _reject) {
-            chrome.management.getSelf(function(self) {
+        await new Promise(function (resolve, _reject) {
+            chrome.management.getSelf(function (self) {
                 Data.isDevelopment = self.installType == 'development';
                 Data.version = self.version;
                 resolve();
             });
         });
     },
-    initCollections: function() {
+    initCollections: function () {
         var col;
 
         function setItem(def_id, name_loc, mobile_asset) {
@@ -847,7 +857,7 @@ var Data = {
 
         // Skins
         col = {};
-        'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,,CT016,MAP039'.split(',').forEach(function(name_loc, index) {
+        'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,,CT016,MAP039'.split(',').forEach(function (name_loc, index) {
             setItem(index + 1, name_loc, '/img/skins/' + (index + 1) + '.png');
         });
         Data.colSkins = col;
@@ -859,27 +869,27 @@ var Data = {
 
         // Addon Buildings
         col = {};
-        ',,ABNA001,ABNA002,,ABNA004,ABNA005,,,,ABNA009'.split(',').forEach(function(name_loc, index) {
+        ',,ABNA001,ABNA002,,ABNA004,ABNA005,,,,ABNA009'.split(',').forEach(function (name_loc, index) {
             setItem(index + 1, name_loc);
         });
         Data.colAddonBuildings = col;
 
         // Systems
         col = {};
-        'GUI0064,GUI0065'.split(',').forEach(function(name_loc, index) {
+        'GUI0064,GUI0065'.split(',').forEach(function (name_loc, index) {
             setItem(index + 1, name_loc, index == 0 ? 'loot_exp_webgl' : 'loot_energy');
         });
         Data.colSystems = col;
     },
-    showDBSize: function() {
+    showDBSize: function () {
         var db;
         var storesizes = [];
 
         function openDatabase() {
-            return new Promise(function(resolve, _reject) {
+            return new Promise(function (resolve, _reject) {
                 var dbname = 'DAF';
                 var request = window.indexedDB.open(dbname);
-                request.onsuccess = function(event) {
+                request.onsuccess = function (event) {
                     db = event.target.result;
                     resolve(db.objectStoreNames);
                 };
@@ -887,11 +897,11 @@ var Data = {
         }
 
         function getObjectStoreData(storename) {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 var trans = db.transaction(storename, IDBTransaction.READ_ONLY);
                 var store = trans.objectStore(storename);
                 var items = [];
-                trans.oncomplete = function(_evt) {
+                trans.oncomplete = function (_evt) {
                     var szBytes = toSize(items);
                     var szMBytes = (szBytes / 1024 / 1024).toFixed(2);
                     storesizes.push({
@@ -902,10 +912,10 @@ var Data = {
                     resolve();
                 };
                 var cursorRequest = store.openCursor();
-                cursorRequest.onerror = function(error) {
+                cursorRequest.onerror = function (error) {
                     reject(error);
                 };
-                cursorRequest.onsuccess = function(evt) {
+                cursorRequest.onsuccess = function (evt) {
                     var cursor = evt.target.result;
                     if (cursor) {
                         items.push(cursor.value);
@@ -924,24 +934,24 @@ var Data = {
             return size;
         }
 
-        openDatabase().then(function(stores) {
+        openDatabase().then(function (stores) {
             var PromiseArray = [];
             for (var i = 0; i < stores.length; i++) {
                 PromiseArray.push(getObjectStoreData(stores[i]));
             }
-            Promise.all(PromiseArray).then(function() {
+            Promise.all(PromiseArray).then(function () {
                 console.table(storesizes);
             });
         });
     },
-    storeSimple: function(id, data) {
+    storeSimple: function (id, data) {
         let file = {};
         file.id = id;
         file.time = getUnixTime();
         file.data = data;
         Data.store(file);
     },
-    store: function(file) {
+    store: function (file) {
         console.log('Would store', file);
         if (!file.data) return;
         var tx;
@@ -971,14 +981,14 @@ var Data = {
         }
         return tx.complete;
     },
-    isDeveloper: function() {
+    isDeveloper: function () {
         return [3951243, 11530133, 8700592, 583351, 11715879, 1798336, 5491844].indexOf(Data.generator.player_id) >= 0;
     },
-    getLanguageIdFromUrl: function(url) {
+    getLanguageIdFromUrl: function (url) {
         let match = url && url.match(/\/([A-Z][A-Z])\/localization\./);
         return match && match[1];
     },
-    checkLocalization: function(url) {
+    checkLocalization: function (url) {
         if (!Data.generator || !Data.generator.file_changes) return;
         let gameLanguage = Preferences.getValue('gameLanguage');
         if (!gameLanguage) {
@@ -998,17 +1008,17 @@ var Data = {
         let id2 = [gameLanguage, file.version, file.revision].join(',');
         if (id1 != id2) {
             WebRequest.captures[file.url] = file;
-            return fetch(file.url).then(function(response) {
+            return fetch(file.url).then(function (response) {
                 return response.text();
-            }).then(function(text) {
+            }).then(function (text) {
                 file.data = Parser.parse(file.id, text);
                 Data.store(file);
-            }).finally(function() {
+            }).finally(function () {
                 delete WebRequest.captures[file.url];
             });
         }
     },
-    storeLocalization: function(file) {
+    storeLocalization: function (file) {
         if (file && file.data) {
             Data.localization = {
                 data: file.data,
@@ -1022,7 +1032,7 @@ var Data = {
             }
         }
     },
-    getCampWindmillTime: function(camp) {
+    getCampWindmillTime: function (camp) {
         let wmtime = 0;
         let wmduration = 7 * SECONDS_IN_A_DAY;
         if (camp && Array.isArray(camp.windmills) && camp.windmills.length >= +camp.windmill_limit) {
@@ -1033,7 +1043,7 @@ var Data = {
         }
         return wmtime;
     },
-    getRepeatables: function() {
+    getRepeatables: function () {
         // Collect all repeatables in the game
         // Make sure that all files are loaded, before calling this method
         let repeatables = {};
@@ -1062,7 +1072,7 @@ var Data = {
         Data.repeatables = repeatables;
         return repeatables;
     },
-    getPillarsInfo: function() {
+    getPillarsInfo: function () {
         // Collect all pillars in the game and compute XP by material
         // Make sure that all files are loaded, before calling this method
         let time = (Data.generator && Data.generator.time) || 0;
@@ -1097,21 +1107,21 @@ var Data = {
         return Data.pillars;
     },
     //#region Neighbors
-    getNeighbour: function(id) {
+    getNeighbour: function (id) {
         return Data.neighbours[id];
     },
-    getNeighbours: function() {
+    getNeighbours: function () {
         return Data.neighbours;
     },
     saveNeighbourHandler: 0,
     saveNeighbourList: {},
-    saveNeighbourDelayed: function() {
+    saveNeighbourDelayed: function () {
         Data.saveNeighbourHandler = 0;
         let tx = Data.db.transaction('Neighbours', 'readwrite');
         tx.objectStore('Neighbours').bulkPut(Object.values(Data.saveNeighbourList));
         Data.saveNeighbourList = {};
     },
-    saveNeighbour: function(neighbour) {
+    saveNeighbour: function (neighbour) {
         if (!neighbour) return;
         var neighbours = [].concat(neighbour);
         if (!neighbours.length) return;
@@ -1119,7 +1129,7 @@ var Data = {
         Data.saveNeighbourHandler = setTimeout(Data.saveNeighbourDelayed, 500);
         neighbours.forEach(neighbour => Data.saveNeighbourList[neighbour.id] = neighbour);
     },
-    convertNeighbourExtra: function(extra) {
+    convertNeighbourExtra: function (extra) {
         if (!extra) return;
         // Convert gifts to new compact format
         if (extra.gifts) {
@@ -1127,29 +1137,29 @@ var Data = {
             delete extra.gifts;
         }
     },
-    getNextGCCollectionTime: function() {
+    getNextGCCollectionTime: function () {
         let pal = Data.neighbours[1];
         if (pal && pal.spawn_time) {
             let time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
             if (time > getUnixTime()) return time;
         }
     },
-    removegcInfo: function() {
+    removegcInfo: function () {
         let tx = Data.db.transaction('Files', 'readwrite');
         tx.objectStore('Files').delete('gcInfo');
     },
     //#endregion
     //#region Friends
-    getFriend: function(id) {
+    getFriend: function (id) {
         return Data.friends[id];
     },
-    getFriends: function() {
+    getFriends: function () {
         return Data.friends;
     },
     saveFriendHandler: 0,
     saveFriendList: {},
     removeFriendList: {},
-    saveFriendDelayed: function() {
+    saveFriendDelayed: function () {
         Data.saveFriendHandler = 0;
         let tx = Data.db.transaction('Friends', 'readwrite');
         var store = tx.objectStore('Friends');
@@ -1159,7 +1169,7 @@ var Data = {
         for (var item of Object.values(Data.removeFriendList)) store.delete(item.id);
         Data.removeFriendList = {};
     },
-    saveFriend: function(friend, remove = false) {
+    saveFriend: function (friend, remove = false) {
         if (!friend) return;
         var friends = [].concat(friend);
         if (!friends.length) return;
@@ -1177,10 +1187,10 @@ var Data = {
             }
         }
     },
-    removeFriend: function(friend) {
+    removeFriend: function (friend) {
         Data.saveFriend(friend, true);
     },
-    friendsCaptured: function(data) {
+    friendsCaptured: function (data) {
         if (!data) return;
         var newFriends = [].concat(data);
         if (newFriends.length == 0) return;
@@ -1212,17 +1222,17 @@ var Data = {
     },
     //#endregion
     //#region RewardLinks
-    getRewardLink: function(id) {
+    getRewardLink: function (id) {
         return Data.rewardLinks[id];
     },
-    getRewardLinks: function() {
+    getRewardLinks: function () {
         return Data.rewardLinks;
     },
     saveRewardLinkHandler: 0,
     saveRewardLinkList: {},
     removeRewardLinkList: {},
     saveRewardLinksHistory: false,
-    saveRewardLinkDelayed: function() {
+    saveRewardLinkDelayed: function () {
         Data.saveRewardLinkHandler = 0;
         let tx = Data.db.transaction('RewardLinks', 'readwrite');
         let store = tx.objectStore('RewardLinks');
@@ -1241,7 +1251,7 @@ var Data = {
         for (let item of Object.values(Data.removeRewardLinkList)) store.delete(item.id);
         Data.removeRewardLinkList = {};
     },
-    saveRewardLink: function(rewardLink, remove = false) {
+    saveRewardLink: function (rewardLink, remove = false) {
         if (!rewardLink) return;
         let rewardLinks = [].concat(rewardLink);
         if (!rewardLink.length) return;
@@ -1264,10 +1274,10 @@ var Data = {
             }
         }
     },
-    removeRewardLink: function(rewardLink) {
+    removeRewardLink: function (rewardLink) {
         Data.saveRewardLink(rewardLink, true);
     },
-    removeExpiredRewardLinks: function() {
+    removeExpiredRewardLinks: function () {
         let rewards = Object.values(Data.rewardLinks);
         // check expired
         let maxExpired = 0;
@@ -1285,7 +1295,7 @@ var Data = {
         let rewardsToRemove = rewards.filter(reward => reward.adt <= threshold);
         Data.removeRewardLink(rewardsToRemove);
     },
-    addRewardLinks: function(rewardsOrArray) {
+    addRewardLinks: function (rewardsOrArray) {
         let arr = [].concat(rewardsOrArray);
         let now = getUnixTime();
         let rewardLinksData = Data.rewardLinksData;
@@ -1379,10 +1389,10 @@ var Data = {
     },
     //#endregion
     //#region Game Messages
-    getString: function(id) {
+    getString: function (id) {
         return id in Data.localization.data ? Data.localization.data[id] : '#' + id;
     },
-    getObjectCollection: function(type) {
+    getObjectCollection: function (type) {
         if (type == 'region') return Data.colRegions;
         else if (type == 'skin') return Data.colSkins;
         else if (type == 'system') return Data.colSystems;
@@ -1398,11 +1408,11 @@ var Data = {
         else if (type == 'windmill') return Data.files.windmills;
         return null;
     },
-    getObject: function(type, id) {
+    getObject: function (type, id) {
         var col = Data.getObjectCollection(type);
         return col && col[id];
     },
-    getObjectImage: function(type, id, small) {
+    getObjectImage: function (type, id, small) {
         var item = Data.getObject(type, id);
         if (!item) return '';
         if (type == 'windmill') return Data.generator.cdn_root + 'mobile/graphics/windmills/greece_windmill.png';
@@ -1412,23 +1422,23 @@ var Data = {
         if (type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
         return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
     },
-    getObjectName: function(type, id) {
+    getObjectName: function (type, id) {
         var item = Data.getObject(type, id);
         var name_loc = item && item.name_loc;
         return name_loc ? Data.getString(name_loc) : '#' + type + id;
     },
-    getObjectDesc: function(type, id) {
+    getObjectDesc: function (type, id) {
         var item = Data.getObject(type, id);
         var desc = item && item.desc;
         return desc ? Data.getString(desc) : '';
     },
-    getRegionFromSkin: function(id) {
+    getRegionFromSkin: function (id) {
         return [1, 2, 5, 8, 9, 13].indexOf(id) + 1;
     },
-    getSkinFromRegion: function(id) {
+    getSkinFromRegion: function (id) {
         return [1, 2, 5, 8, 9, 13][id - 1] || 0;
     },
-    getMaxRegion: function() {
+    getMaxRegion: function () {
         return 6;
     },
     //#endregion
@@ -1436,7 +1446,7 @@ var Data = {
     unusedFiles: {
         'buildings_actions': true
     },
-    checkFile: function(name, version) {
+    checkFile: function (name, version) {
         let result = {};
         result.name = name;
         result.version = version;
@@ -1463,7 +1473,7 @@ var Data = {
         result.data = file && file.version == version ? Data.files[name] : null;
         return result;
     },
-    getFile: async function(name, version) {
+    getFile: async function (name, version) {
         let file = Data.checkFile(name, version);
         if (file.data) return file.data;
         delete Data.files[file.name];
@@ -1499,7 +1509,7 @@ var Data = {
         Data.files[file.fileName] = file;
         return data;
     },
-    getConfigValue: function(name, defaultValue = 0) {
+    getConfigValue: function (name, defaultValue = 0) {
         var result = NaN;
         try {
             var config = Data.files.configs[Data.generator.config_id];
@@ -1515,11 +1525,11 @@ var Data = {
 
 //#region SYNCHRONIZE
 var Synchronize = {
-    init: async function() {
+    init: async function () {
         //
     },
     delayedSignals: [],
-    signal: function(action, data, delayed) {
+    signal: function (action, data, delayed) {
         let message = action;
         if (typeof action == 'string') {
             message = {};
@@ -1530,7 +1540,7 @@ var Synchronize = {
         chrome.extension.sendMessage(message);
         chrome.tabs.sendMessage(Tab.gameTabId, message);
     },
-    process: function(postedXml, responseText) {
+    process: function (postedXml, responseText) {
         let posted = Parser.parse('any', postedXml);
         // eslint-disable-next-line no-unused-vars
         if (!posted) return;
@@ -1574,7 +1584,7 @@ var Synchronize = {
     time: 0,
     lastTimeMined: 0,
     last_lid: 0,
-    setLastLocation: function(lid) {
+    setLastLocation: function (lid) {
         if (lid <= 0) return null;
         this.last_lid = lid;
         let loc_prog = Data.generator && Data.generator.loc_prog;
@@ -1588,7 +1598,7 @@ var Synchronize = {
         return prog;
     },
     handlers: {
-        visit_camp: function(action, _task, taskResponse, _response) {
+        visit_camp: function (action, _task, taskResponse, _response) {
             if (!taskResponse || !taskResponse.camp) return;
             let neighbourId = taskResponse.neigh_id;
             let camp = Data.lastVisitedCamp = taskResponse.camp;
@@ -1615,7 +1625,7 @@ var Synchronize = {
             }
             Synchronize.signal(action, neighbourId);
         },
-        place_windmill: function(action, task, _taskResponse, _response) {
+        place_windmill: function (action, task, _taskResponse, _response) {
             let neighbourId = task.neigh_id;
             let time = Synchronize.time;
             let pal = Data.getNeighbour(neighbourId);
@@ -1635,7 +1645,7 @@ var Synchronize = {
                 }
             }
         },
-        enter_mine: function(_action, task, taskResponse, _response) {
+        enter_mine: function (_action, task, taskResponse, _response) {
             let loc_id = +task.loc_id || 0;
             let prog = Synchronize.setLastLocation(loc_id);
             if (prog && taskResponse) {
@@ -1663,12 +1673,12 @@ var Synchronize = {
                 }
             }
         },
-        speedup_reset: function(_action, task, _taskResponse, _response) {
+        speedup_reset: function (_action, task, _taskResponse, _response) {
             let loc_id = +task.loc_id || 0;
             let prog = Synchronize.setLastLocation(loc_id);
             if (prog) prog.prog = 0;
         },
-        mine: function(_action, _task, _taskResponse, _response) {
+        mine: function (_action, _task, _taskResponse, _response) {
             Synchronize.lastTimeMined = Synchronize.time;
             let loc_id = Synchronize.last_lid;
             let prog = Synchronize.setLastLocation(loc_id);
@@ -1677,7 +1687,7 @@ var Synchronize = {
                 prog.time = Synchronize.time;
             }
         },
-        friend_child_charge: function(action, task, _taskResponse, _response) {
+        friend_child_charge: function (action, task, _taskResponse, _response) {
             var neighbourId = task.neigh_id;
             var neighbour = Data.getNeighbour(neighbourId);
             if (neighbour && neighbour.spawned) {
@@ -1692,7 +1702,7 @@ var Synchronize = {
             }
         }
     },
-    processUnGift: function(ungift, time, neighbours) {
+    processUnGift: function (ungift, time, neighbours) {
         if (!Array.isArray(ungift)) return [];
         if (!neighbours) neighbours = Data.neighbours;
         time = +time;
@@ -1745,17 +1755,17 @@ async function init() {
     }
 
     Object.entries({
-        sendValue: function(request, sender) {
+        sendValue: function (request, sender) {
             chrome.tabs.sendMessage(sender.tab.id, request);
         },
-        getPrefs: function(request) {
+        getPrefs: function (request) {
             return Preferences.getValues(request.keys);
         },
-        showGUI: function() {
+        showGUI: function () {
             Tab.showGUI();
         },
         debug: () => Debugger.attached ? Debugger.detach() : autoAttachDebugger(),
-        getGCList: function(request) {
+        getGCList: function (request) {
             var neighbours = Object.values(Data.neighbours);
             var realNeighbours = neighbours.length - 1;
             var list = request.simulate ? neighbours.slice(0, request.simulate) : neighbours.filter(n => n.spawned);
@@ -1765,7 +1775,7 @@ async function init() {
                 regions: regionNames,
                 max: Math.min(realNeighbours, Math.floor(Math.sqrt(realNeighbours)) + 3) + 1,
                 list: list.sort((a, b) => a.index - b.index)
-                    .map(function(n) {
+                    .map(function (n) {
                         var result = {
                             id: n.id,
                             name: n.name || 'Player ' + n.id,
@@ -1779,10 +1789,10 @@ async function init() {
                     })
             };
         },
-        reloadGame: function(request, _sender) {
+        reloadGame: function (request, _sender) {
             Tab.showGame(request.value);
         },
-        collectRewardLink: function(request, sender) {
+        collectRewardLink: function (request, sender) {
             let flagClose = Preferences.getValue('rewardsClose');
             let reward = request.reward;
             if (reward.cmt == 2 && Preferences.getValue('rewardsCloseExceptGems')) flagClose = false;
@@ -1810,13 +1820,13 @@ async function init() {
                 return htm;
             }
         },
-        addRewardLinks: function(request, _sender) {
+        addRewardLinks: function (request, _sender) {
             return Data.addRewardLinks(request.values);
         },
-        closeWindow: function(_request, sender) {
+        closeWindow: function (_request, sender) {
             chrome.tabs.remove(sender.tab.id);
         },
-        friendsCaptured: function(request, sender) {
+        friendsCaptured: function (request, sender) {
             if (request.data) Data.friendsCaptured(request.data);
             if (request.close) chrome.tabs.remove(sender.tab.id);
         }
@@ -1835,7 +1845,7 @@ async function init() {
 
     if (Preferences.getValue('keepDebugging')) autoAttachDebugger();
 
-    chrome.browserAction.onClicked.addListener(function(_activeTab) {
+    chrome.browserAction.onClicked.addListener(function (_activeTab) {
         Tab.showGUI();
     });
 }
