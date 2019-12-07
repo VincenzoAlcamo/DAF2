@@ -214,6 +214,13 @@ let gui = {
         if (type == 'system' && (oid == 1 || oid == 2)) return 1;
         return 0;
     },
+    getBackpackFood: function() {
+        let total = 0;
+        for (const [key, qty] of Object.entries(bgp.Data.generator.usables)) {
+            total += (qty * gui.getXp('usable', key));
+        }
+        return total;
+    },
     getRepeatables: function () {
         return bgp.Data.getRepeatables();
     },

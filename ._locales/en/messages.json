@@ -404,6 +404,14 @@
             }
         }
     },
+    "kitchen_total_food": {
+        "message": "Total food in backpack: $FOOD$ energies.",
+        "placeholders": {
+            "food": {
+                "content": "$1"
+            }
+        }
+    },
 
     "foundry_all": {
         "message": "All alloys"

@@ -547,6 +547,11 @@ thead .stats {
   font-weight: bold;
 }
 
+.toolbar *+.stats {
+  padding-top: 4px;
+  margin-bottom: -2px;
+}
+
 .toolbar select,
 .toolbar input[type=number],
 .toolbar input[type=text],
@@ -912,6 +917,7 @@ td.dot.dot2 {
   display: inline-block;
   width: 20px;
 }
+
 .rings input[type=checkbox].xp {
   vertical-align: middle;
 }

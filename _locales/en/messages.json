@@ -1457,6 +1457,7 @@
 "en@kitchen_possible_dishes":{"message":"Possible\nDishes"},
 "en@kitchen_possible_energy":{"message":"Possible\nEnergy"},
 "en@kitchen_total_time":{"message":"Cooking Time\n($1 Pots)"},
+"en@kitchen_total_food":{"message":"Total food in backpack: $1 energies."},
 "en@foundry_all":{"message":"All alloys"},
 "en@foundry_only_possible":{"message":"Only possible alloys"},
 "en@foundry_time_to_craft":{"message":"Time to Craft"},

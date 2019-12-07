@@ -127,12 +127,6 @@
   margin-bottom: 10px;
 }
 
-.progress_playtime {
-  padding-top: 4px;
-  margin-bottom: -2px;
-  font-weight: bold;
-}
-
 .progress_table td.filter {
   background-repeat: no-repeat;
   background-size: auto 46px;

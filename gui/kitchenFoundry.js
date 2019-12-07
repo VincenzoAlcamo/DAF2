@@ -270,14 +270,18 @@ function kitchenFoundry(type) {
 
         gui.collectLazyElements(smartTable.container);
         smartTable.syncLater();
+
+        if (type == 'recipe') {
+            container.querySelector('.stats').innerHTML = Html.br(gui.getMessage('kitchen_total_food', Locale.formatNumber(gui.getBackpackFood())));
+        }
     }
 
     return {
         hasCSS: true,
-        init: init,
-        update: update,
-        getState: getState,
-        setState: setState,
+        init,
+        update,
+        getState,
+        setState,
         requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks']
     };
 }

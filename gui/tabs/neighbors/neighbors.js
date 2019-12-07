@@ -380,7 +380,7 @@ function refreshDelayed() {
         let realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
         let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
         text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
-        container.querySelector('.neighbors-stats').innerHTML = Html.br(text);
+        container.querySelector('.stats').innerHTML = Html.br(text);
     }
 
     let giftFilter = {};

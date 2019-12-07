@@ -318,7 +318,7 @@ function update() {
         if (decoration && qty) coins_deco += qty * +decoration.sell_price;
     }
 
-    container.querySelector('.equipment-stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins + coins_deco), Locale.formatNumber(coins), Locale.formatNumber(coins_deco));
+    container.querySelector('.stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins + coins_deco), Locale.formatNumber(coins), Locale.formatNumber(coins_deco));
 
     let title = gui.getMessage('equipment_gain') + '\n' + gui.getMessage('equipment_gain_info') + ':';
     title += '\n' + gui.getMessage('camp_capacity') + ' = ' + Locale.formatNumber(minCapacity);

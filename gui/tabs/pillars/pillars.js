@@ -205,7 +205,7 @@ function refreshTotals() {
     Array.from(container.querySelectorAll('.pillars-boost')).forEach(el => {
         el.innerText = Locale.formatNumber(boost);
     });
-    container.querySelector('.pillars-stats').innerText = gui.getMessage('pillars_stats', Locale.formatNumber(tot), Locale.formatNumber(maxXp), Locale.formatNumber(maxCoins), Locale.formatNumber(maxBoost));
+    container.querySelector('.stats').innerText = gui.getMessage('pillars_stats', Locale.formatNumber(tot), Locale.formatNumber(maxXp), Locale.formatNumber(maxCoins), Locale.formatNumber(maxBoost));
 }
 
 function refresh() {
