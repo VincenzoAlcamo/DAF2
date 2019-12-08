@@ -116,6 +116,10 @@ a.no-link {
   color: var(--success-fgcol);
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 /*#endregion*/
 
 /*#region GUI ELEMENTS*/
@@ -509,6 +513,7 @@ img.small {
   width: 16px;
   height: 16px;
 }
+
 /*#endregion*/
 
 /*#region TOOLBAR*/

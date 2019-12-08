@@ -5,7 +5,7 @@ export default {
     update: update,
     getState: getState,
     setState: setState,
-    requires: ['materials', 'decorations', 'levelups', 'sales']
+    requires: ['materials', 'decorations', 'levelups', 'sales', 'usables']
 };
 
 let tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
@@ -88,7 +88,7 @@ function getState() {
 function setState(state) {
     searchInput.value = state.search || '';
     selectShow.value = state.show == 'possible' ? state.show : '';
-    checkCap.checked = !!state.uncapped;
+    checkCap.checked = !('uncapped' in state);
     checkGrid.checked = !!state.grid;
     pillarsExcluded = gui.getArrayOfInt(state.excluded);
     gui.setSortState(state.sort, smartTable, 'name');
@@ -162,10 +162,8 @@ function refreshTotals() {
             div.setAttribute('max', levelup.xp);
         });
     }
-    let tot, qty, xp, coins, maxXp, maxCoins, maxBoost, level, exp, nextLevel, nextExp, boost, totalExp;
-    // eslint-disable-next-line no-unused-vars
-    let maxLevel;
-    tot = qty = xp = coins = boost = maxXp = maxCoins = maxBoost = 0;
+    let tot, qty, xp, coins, maxXp, maxCoins, maxBoost, level, exp, nextLevel, nextExp, boost, totalExp, food, maxFood, maxLevel, coins2, maxCoins2;
+    tot = qty = xp = coins = boost = maxXp = maxCoins = maxBoost = food = maxFood = coins2 = maxCoins2 = 0;
     pillars.forEach(pillar => {
         tot += pillar.possible;
         qty += pillar.qty;
@@ -181,17 +179,25 @@ function refreshTotals() {
     totalExp = exp + maxXp;
     for (let levelup of levelups) {
         if (levelup.def_id < level) continue;
+        let thisFood = 0;
+        for (const reward of levelup.reward) {
+            if (reward.type == 'usable') {
+                thisFood += gui.getXp(reward.type, reward.object_id) * reward.amount;
+            }
+        }
         if (nextExp >= levelup.xp) {
             boost += levelup.boost;
             nextExp -= levelup.xp;
-            // coins += levelup.coins;
+            coins2 += levelup.coins;
+            food += thisFood;
             nextLevel++;
         }
         if (totalExp >= levelup.xp) {
             maxBoost += levelup.boost;
             totalExp -= levelup.xp;
-            // maxCoins += levelup.coins;
-            // maxLevel++;
+            maxCoins2 += levelup.coins;
+            maxFood += thisFood;
+            maxLevel++;
         }
     }
     Array.from(container.querySelectorAll('.pillars-totals')).forEach(row => {
@@ -200,12 +206,25 @@ function refreshTotals() {
         row.cells[3].innerText = Locale.formatNumber(xp);
         row.cells[4].innerText = Locale.formatNumber(coins);
     });
-    setProgress('.pillars-current', level, exp);
-    setProgress('.pillars-next', nextLevel, nextExp);
-    Array.from(container.querySelectorAll('.pillars-boost')).forEach(el => {
-        el.innerText = Locale.formatNumber(boost);
+    setProgress('.pillars-progress.pillars-current', level, exp);
+    setProgress('.pillars-progress.pillars-next', nextLevel, nextExp);
+    let gains = [];
+    if (boost) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(boost))}</span>`);
+    if (food) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(food))}</span>`);
+    if (coins2) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(coins2))}</span>`);
+    gains = gains.join(', ');
+    Array.from(container.querySelectorAll('.pillars-gain')).forEach(el => {
+        el.innerHTML = gains;
     });
-    container.querySelector('.stats').innerText = gui.getMessage('pillars_stats', Locale.formatNumber(tot), Locale.formatNumber(maxXp), Locale.formatNumber(maxCoins), Locale.formatNumber(maxBoost));
+    gains = [];
+    gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('pillars_maxpossible', Locale.formatNumber(tot))}</span>`);
+    gains.push(Html `<span class="outlined nowrap">${gui.getMessageAndValue('gui_xp', Locale.formatNumber(maxXp))}</span>`);
+    gains.push(Html `<span class="outlined nowrap">${gui.getMessageAndValue('gui_level', Locale.formatNumber(maxLevel))}</span>`);
+    if (maxBoost) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(maxBoost))}</span>`);
+    if (maxFood) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxFood))}</span>`);
+    if (maxCoins + maxCoins2) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxCoins + maxCoins2))}</span>`);
+    gains = gains.join(', ');
+    container.querySelector('.stats').innerHTML = gains;
 }
 
 function refresh() {
@@ -241,9 +260,6 @@ function refresh() {
                 break;
             case '2':
                 tr.cells[0].colSpan = state.grid ? 8 : 13;
-                break;
-            case '3':
-                tr.cells[0].colSpan = state.grid ? 4 : 9;
                 break;
         }
     });

@@ -82,6 +82,12 @@
     "gui_energy": {
         "message": "Energy"
     },
+    "gui_food": {
+        "message": "Food"
+    },
+    "gui_coins": {
+        "message": "Coins"
+    },
     "gui_backpack": {
         "message": "Backpack"
     },
@@ -577,28 +583,14 @@
     "pillars_predicted_level": {
         "message": "Predicted Level"
     },
-    "pillars_predicted_energy": {
-        "message": "Predicted Energy Gain from Level Up's"
+    "pillars_predicted_gain": {
+        "message": "Predicted gain from level ups"
     },
     "pillars_ignore": {
         "message": "Click to ignore/consider"
     },
-    "pillars_stats": {
-        "message": "Max Possible: $QTY$, XP Gain: $XP$, Coins: $COINS$, Energy Boost: $BOOST$",
-        "placeholders": {
-            "qty": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "coins": {
-                "content": "$3"
-            },
-            "boost": {
-                "content": "$4"
-            }
-        }
+    "pillars_maxpossible": {
+        "message": "Max possible"
     },
     "pillars_grid": {
         "message": "Show as grid"

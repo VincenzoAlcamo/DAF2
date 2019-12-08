@@ -80,6 +80,12 @@
     "gui_energy": {
         "message": "Energia"
     },
+    "gui_food": {
+        "message": "Cibo"
+    },
+    "gui_coins": {
+        "message": "Monete"
+    },
     "gui_backpack": {
         "message": "Zaino"
     },
@@ -398,6 +404,14 @@
             }
         }
     },
+    "kitchen_total_food": {
+        "message": "Cibo totale nello zaino: $FOOD$ energie.",
+        "placeholders": {
+            "food": {
+                "content": "$1"
+            }
+        }
+    },
     "foundry_all": {
         "message": "Tutte le leghe"
     },
@@ -560,28 +574,14 @@
     "pillars_predicted_level": {
         "message": "Livello previsto"
     },
-    "pillars_predicted_energy": {
-        "message": "Energia guadagnata dall'avanzamento livello"
+    "pillars_predicted_gain": {
+        "message": "Guadagno previsto dal livellamento"
     },
     "pillars_ignore": {
         "message": "Clicca per ignorare/considerare"
     },
-    "pillars_stats": {
-        "message": "Massimo possibile: $QTY$, Punti XP: $XP$, Monete: $COINS$, Energia: $BOOST$",
-        "placeholders": {
-            "qty": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "coins": {
-                "content": "$3"
-            },
-            "boost": {
-                "content": "$4"
-            }
-        }
+    "pillars_maxpossible": {
+        "message": "Massimo possibile"
     },
     "pillars_grid": {
         "message": "Mostra in griglia"
