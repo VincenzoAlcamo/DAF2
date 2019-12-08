@@ -95,7 +95,7 @@ function setState(state) {
 
 function updateButton() {
     let button = container.querySelector('.toolbar button.advanced');
-    button.textContent = gui.getMessage('neighbors_advancedfilter') + ': ' + gui.getMessage(filterGifts ? 'menu_on' : 'menu_off');
+    button.textContent = gui.getMessage('gui_advancedfilter') + ': ' + gui.getMessage(filterGifts ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', !!filterGifts);
 }
 
@@ -134,7 +134,7 @@ function onClickAdvanced() {
         return htm;
     }
     let htm = '';
-    let info = Html.raw(String(Html.br(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
+    let info = Html.raw(String(Html.br(gui.getMessage('gui_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
     htm += Html.br `${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
     htm += Html.br `<option value="0">${gui.getMessage('gui_gift')}</option>`;
     htm += Html.br `<option value="1">${gui.getMessage('gui_xp')}</option>`;
@@ -145,7 +145,7 @@ function onClickAdvanced() {
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
     htm += Html.br `</select>`;
     gui.dialog.show({
-        title: gui.getMessage('neighbors_advancedfilter'),
+        title: gui.getMessage('gui_advancedfilter'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL]
     }, function(method, params) {

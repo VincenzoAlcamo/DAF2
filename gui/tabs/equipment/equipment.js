@@ -373,7 +373,7 @@ function setState(state) {
 function updateButton() {
     let flag = !!(filterSkin || filterEvent || filterMaterial || filterLevelComparison || filterHideMax);
     let button = container.querySelector('.toolbar button.advanced');
-    button.textContent = gui.getMessage('neighbors_advancedfilter') + ': ' + gui.getMessage(flag ? 'menu_on' : 'menu_off');
+    button.textContent = gui.getMessage(flag ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', flag);
 }
 
@@ -435,7 +435,7 @@ function onClickAdvanced() {
     htm += Html `&#32;<input data-method="invert-m" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
     htm += Html `</tr></table>`;
     gui.dialog.show({
-        title: gui.getMessage('neighbors_advancedfilter'),
+        title: gui.getMessage('gui_advancedfilter'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.WIDEST, Dialog.AUTORUN]
     }, function (method, params) {

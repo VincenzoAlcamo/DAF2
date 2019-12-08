@@ -242,6 +242,9 @@
     "gui_filter_invert": {
         "message": "Invert"
     },
+    "gui_advancedfilter": {
+        "message": "Advanced filter"
+    },
 
     "dialog_ok": {
         "message": "Ok"
@@ -693,9 +696,6 @@
                 "content": "$3"
             }
         }
-    },
-    "neighbors_advancedfilter": {
-        "message": "Advanced filter"
     },
     "neighbors_advancedfilterinfo": {
         "message": "You can further filter your neighbours by the gifts they have sent in the last @DAYS@ days by selecting one or more gifts from the following list."
