@@ -29,6 +29,7 @@ let tabs = (function () {
     addTab('repeat');
     addTab('greenrings');
     addTab('redrings');
+    addTab('christmasrings');
     addTab('rewardlinks');
     addTab('dailyreward');
     addTab('options');

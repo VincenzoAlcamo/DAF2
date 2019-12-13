@@ -6,6 +6,11 @@ function ringLoot(kind) {
 
     let tokenId, locations;
     let requires = ['materials', 'usables', 'tokens', 'sales'];
+    const christmasMines = {
+        1987: 5605,
+        2284: 6844,
+        2640: 7833
+    };
 
     if (kind == 'green') {
         tokenId = 32;
@@ -16,16 +21,31 @@ function ringLoot(kind) {
     } else if (kind == 'red') {
         tokenId = 1642;
         locations = ['locations_0'];
+    } else if (kind == 'christmas') {
+        tokenId = 0;
+        locations = ['locations_0'];
     } else throw 'Invalid kind "' + kind + '"';
     requires = requires.concat(locations);
 
-    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel, checkXp;
+    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel, checkXp, selectRegion;
     let checkState = {};
     let selectState = [];
 
     function init() {
         tab = this;
         container = tab.container;
+
+        selectRegion = container.querySelector('[name=region]');
+        if (selectRegion) {
+            selectRegion.addEventListener('change', onInput);
+            selectRegion.innerHTML = '';
+            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
+                const option = document.createElement('option');
+                option.value = '' + rid;
+                option.innerText = gui.getObjectName('region', rid);
+                selectRegion.appendChild(option);
+            }
+        }
 
         checkMinMax = container.querySelector('[name=minmax]');
         checkMinMax.addEventListener('click', onInput);
@@ -34,11 +54,15 @@ function ringLoot(kind) {
         checkXp.addEventListener('click', onInput);
 
         inputLevel = container.querySelector('[name=level]');
-        inputLevel.addEventListener('input', onInput);
-        inputLevel.addEventListener('blur', onBlur);
+        if (inputLevel) {
+            inputLevel.addEventListener('input', onInput);
+            inputLevel.addEventListener('blur', onBlur);
+        }
 
         checkLevel = container.querySelector('[name=showlevel]');
-        checkLevel.addEventListener('click', onInput);
+        if (checkLevel) {
+            checkLevel.addEventListener('click', onInput);
+        }
     }
 
     function toInt(value) {
@@ -47,19 +71,24 @@ function ringLoot(kind) {
     }
 
     function getState() {
-        const level = parseInt(inputLevel.value) || 0;
+        const level = inputLevel ? parseInt(inputLevel.value) || 0 : 0;
         let selected = '';
         for (let i = 0; i < selectState.length; i++) {
             selected += ',' + (toInt(selectState[i]) || '');
         }
         selected = selected.substr(1).replace(/,+$/, '');
-        return {
+        const result = {
+            region: selectRegion ? selectRegion.value : '',
             minmax: checkMinMax.checked,
             xp: checkXp.checked,
-            [checkLevel.checked ? 'level' : 'no-level']: (level >= 1 && level <= 999 ? level : +gui.getGenerator().level),
+
             h: Object.keys(checkState).join(','),
             selected
         };
+        if (checkLevel) {
+            result[checkLevel.checked ? 'level' : 'no-level'] = (level >= 1 && level <= 999 ? level : +gui.getGenerator().level);
+        }
+        return result;
     }
 
     function setState(state) {
@@ -72,10 +101,15 @@ function ringLoot(kind) {
                 setRotate(input);
             }
         };
+        if (selectRegion) {
+            state.region = gui.setSelectState(selectRegion, state.region);
+        }
         checkXp.checked = !!state.xp;
-        checkLevel.checked = 'level' in state;
-        let level = parseInt(state.level || state['no-level']) || 0;
-        inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
+        if (checkLevel) {
+            checkLevel.checked = 'level' in state;
+            let level = parseInt(state.level || state['no-level']) || 0;
+            inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
+        }
         for (const data of Object.values(floorData || {})) setCheck('loot_' + data.mine.def_id, data.index);
         checkMinMax.checked = !!state.minmax;
         selectState = String(state.selected).split(',').map(n => toInt(n));
@@ -98,9 +132,11 @@ function ringLoot(kind) {
 
     async function update() {
         bgp.Data.getPillarsInfo();
-        let img = gui.getObjectImg('token', tokenId, 24, true);
-        let qty = gui.getGenerator().tokens[tokenId] || 0;
-        container.querySelector('.stats').innerHTML = Html.br `${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
+        if (tokenId) {
+            let img = gui.getObjectImg('token', tokenId, 24, true);
+            let qty = gui.getGenerator().tokens[tokenId] || 0;
+            container.querySelector('.stats').innerHTML = Html.br `${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
+        }
 
         if (kind == 'green') {
             let specialWeeks = gui.getActiveSpecialWeeks();
@@ -117,9 +153,15 @@ function ringLoot(kind) {
         let seconds = (kind == 'green' ? 168 : 2) * 3600;
         let eid = kind == 'green' ? 0 : 20;
         let mines = [];
-        for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
-            return +mine.test == 0 && +mine.event_id == eid && +mine.reset_cd == seconds;
-        }));
+        if (kind == 'christmas') {
+            for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
+                return +mine.test == 0 && +mine.def_id in christmasMines;
+            }));
+        } else {
+            for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
+                return +mine.test == 0 && +mine.event_id == eid && +mine.reset_cd == seconds;
+            }));
+        }
 
         floorData = {};
         let parent = container.querySelector('.scrollable-content');
@@ -131,10 +173,13 @@ function ringLoot(kind) {
             let floors = await bgp.Data.getFile('floors_' + lid);
             let allLoots = [];
             let chest = 0;
+            let hasCandy = false;
             for (const floor of floors.floor) {
                 let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
                 lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
                 let loots = [];
+                let gemTle = '';
+                let candyTle = '';
                 for (const lootArea of lootAreas) {
                     if (lootArea.type == 'token') continue;
                     let tle = lootArea.tiles;
@@ -142,7 +187,7 @@ function ringLoot(kind) {
                     tle = tle.split(';');
                     for (let t of tle) {
                         t = t.split(',').map(n => parseInt(n));
-                        if (kind == 'red') {
+                        if (kind == 'red' || kind == 'christmas') {
                             t[0] = 99 - t[0];
                         }
                         t = t.map(n => String(n).padStart(3, '0')).join(',');
@@ -150,7 +195,19 @@ function ringLoot(kind) {
                         if (lid == 2193 && t.substr(0, 3) == '30,' && lootArea.type == 'material' && lootArea.object_id == 148) continue;
                         let copy = Object.assign({}, lootArea);
                         copy.tle = t;
+                        const type = copy.type;
+                        const oid = copy.object_id;
+                        if (type == 'material' && oid == 2) gemTle = copy.tle;
+                        if (type == 'usable' && oid == 19) candyTle = copy.tle;
                         loots.push(copy);
+                    }
+                }
+                for (const lootArea of loots) {
+                    if (lootArea.tle == candyTle) {
+                        lootArea.tle = 'z' + lootArea.tle;
+                        hasCandy = true;
+                    } else if (lootArea.tle == gemTle) {
+                        lootArea.tle = 'g' + lootArea.tle;
                     }
                 }
                 loots.sort((a, b) => a.tle.localeCompare(b.tle));
@@ -171,11 +228,19 @@ function ringLoot(kind) {
             floorData[lid] = {
                 index: ++index,
                 mine: mine,
+                chests: chest,
+                hasCandy: hasCandy,
                 loots: allLoots
             };
             let htm = '';
             htm += Html.br `<input type="checkbox" id="loot_${lid}">`;
-            htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html `<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
+            if (kind == 'christmas') {
+                const tokenId = christmasMines[lid];
+                let qty = gui.getGenerator().tokens[tokenId] || 0;
+                htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getObjectImg('token', tokenId, 32, true)}<span>${gui.getString(mine.name_loc)}<br>${gui.getMessageAndValue('rings_rings', Locale.formatNumber(qty))}</span></label>`;
+            } else {
+                htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html `<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
+            }
             htm += Html.br `<div></div>`;
             let div = document.createElement('div');
             div.className = 'card rings';
@@ -224,7 +289,7 @@ function ringLoot(kind) {
     function updateTabState() {
         selectState.length = Object.values(floorData).length;
         for (const data of Object.values(floorData)) {
-            const max = data.loots.length;
+            const max = data.chests + (data.hasCandy ? -1 : 0);
             const mask = (2 ** max) - 1;
             selectState[data.index - 1] = selectState[data.index - 1] & mask;
         }
@@ -233,12 +298,13 @@ function ringLoot(kind) {
 
     function refresh() {
         setStateFlags();
-        let level = inputLevel.value;
+        let level = inputLevel ? inputLevel.value : 0;
         if (level < 1 || level > 999) level = +gui.getGenerator().level;
-        for (const data of Object.values(floorData)) showLoot(level, data.mine.def_id);
+        const rid = selectRegion ? +selectRegion.value : 0;
+        for (const data of Object.values(floorData)) showLoot(level, data.mine.def_id, rid);
     }
 
-    function showLoot(otherLevel, lid) {
+    function showLoot(otherLevel, lid, rid) {
         let parent = container.querySelector('#loot_' + lid);
         const data = floorData[lid];
         if (!parent || !data) return;
@@ -247,15 +313,25 @@ function ringLoot(kind) {
         let level = +gui.getGenerator().level;
         let htm = '';
         htm += Html.br `<table><thead><tr>`;
-        htm += Html.br `<th rowspan="2"><img src="/img/gui/chest.png"/></th>`;
-        htm += Html.br `<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
-        htm += Html.br `<th colspan="3" class="minmax">${gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level)}</th>`;
-        htm += Html.br `<th rowspan="2" class="no-minmax">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(level) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
-        htm += Html.br `<th rowspan="2" class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
-        htm += Html.br `</tr><tr>`;
-        htm += Html.br `<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
-        htm += Html.br `<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
-        htm += Html.br `<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
+        if (kind == 'christmas') {
+            htm += Html.br `<th><img src="/img/gui/chest.png"/></th>`;
+            htm += Html.br `<th>${gui.getMessage('gui_loot')}</th>`;
+            htm += Html.br `<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
+            htm += Html.br `<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
+            htm += Html.br `<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
+            htm += Html.br `<th class="no-minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
+            htm += Html.br `<th class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+        } else {
+            htm += Html.br `<th rowspan="2"><img src="/img/gui/chest.png"/></th>`;
+            htm += Html.br `<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
+            htm += Html.br `<th colspan="3" class="minmax">${gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level)}</th>`;
+            htm += Html.br `<th rowspan="2" class="no-minmax">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(level) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+            htm += Html.br `<th rowspan="2" class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+            htm += Html.br `</tr><tr>`;
+            htm += Html.br `<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
+            htm += Html.br `<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
+            htm += Html.br `<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
+        }
         htm += Html.br `</tr></thead>`;
         htm += Html.br `<tbody>`;
         let lastChest = 0;
@@ -269,7 +345,25 @@ function ringLoot(kind) {
         let totalExp, totalExp2, countExp;
         totalExp = totalExp2 = countExp = 0;
         let checked = true;
-        for (const lootArea of floorData[lid].loots) {
+
+        let loots = floorData[lid].loots;
+        if (rid) {
+            loots = loots.filter(lootArea => lootArea.region_id == rid || (lootArea.region_id || 0) == 0);
+            let last = null;
+            let chest = 0;
+            for (const lootArea of loots) {
+                if (last == null || last.tle != lootArea.tle) {
+                    last = lootArea;
+                    chest = chest + 1;
+                    lootArea.numRows = 1;
+                } else {
+                    last.numRows++;
+                }
+            }
+        }
+        floorData[lid].curLoots = loots;
+
+        for (const lootArea of loots) {
             let coef = lootArea.coef;
             let notRandom = lootArea.min == lootArea.max;
             let min, max, avg, exp;
@@ -281,7 +375,9 @@ function ringLoot(kind) {
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
                 let checkbox = '';
-                if (kind == 'red') {
+                if (kind == 'christmas' && lootArea.tle.startsWith('z')) {
+                    checkbox = Html `<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}" checked disabled>`;
+                } else if (kind == 'red' || kind == 'christmas') {
                     checked = (chestState & (2 ** (lootArea.chest - 1))) > 0;
                     checkbox = Html `<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''}>`;
                 }
@@ -297,9 +393,9 @@ function ringLoot(kind) {
             avg = multiplier * Math.max(0, avg);
             exp = avg * gui.getXp(type, oid);
             lootArea.exp = exp;
-            if (lootArea.checked) totalExp += exp;
+            if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp += exp;
             htm += Html.br `<td class="min">${notRandom ? '' : Locale.formatNumber(min)}</td>`;
-            htm += Html.br `${coef == 0 ? tdNotDependent : tdAvg}${Locale.formatNumber(avg)}${showXp(exp)}</td>`;
+            htm += Html.br `${coef == 0 && kind != 'christmas' ? tdNotDependent : tdAvg}${Locale.formatNumber(avg)}${showXp(exp)}</td>`;
             htm += Html.br `<td class="max">${notRandom ? '' : Locale.formatNumber(max)}</td>`;
 
             min = lootArea.min + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.min) : 0);
@@ -310,7 +406,7 @@ function ringLoot(kind) {
             avg = multiplier * Math.max(0, avg);
             exp = avg * gui.getXp(type, oid);
             lootArea.exp2 = exp;
-            if (lootArea.checked) totalExp2 += exp;
+            if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp2 += exp;
             htm += Html.br `<td class="level">${Locale.formatNumber(avg)}${showXp(exp)}</td>`;
             htm += Html.br `</tr>`;
         }
@@ -337,7 +433,7 @@ function ringLoot(kind) {
         if (!data) return;
         const checked = input.checked;
         const chestId = parseInt(input.getAttribute('data-chest-id'));
-        for (const lootArea of data.loots) {
+        for (const lootArea of data.curLoots) {
             if (lootArea.chest == chestId || event.ctrlKey) {
                 lootArea.checked = checked;
                 if (lootArea.chest != chestId) {
@@ -350,7 +446,7 @@ function ringLoot(kind) {
         let totalExp, totalExp2, countExp;
         totalExp = totalExp2 = countExp = 0;
         let chestState = 0;
-        for (const lootArea of data.loots) {
+        for (const lootArea of data.curLoots) {
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
                 if (lootArea.checked) {
@@ -358,7 +454,7 @@ function ringLoot(kind) {
                     chestState += (2 ** (lootArea.chest - 1));
                 }
             }
-            if (lootArea.checked) {
+            if (lootArea.checked || lootArea.tle.startsWith('z')) {
                 totalExp += lootArea.exp;
                 totalExp2 += lootArea.exp2;
             }

@@ -124,6 +124,21 @@
     "gui_pack": {
         "message": "Pack"
     },
+    "gui_equipment": {
+        "message": "Equipment"
+    },
+    "gui_shop": {
+        "message": "Shop"
+    },
+    "gui_decoration": {
+        "message": "Decoration"
+    },
+    "gui_usable": {
+        "message": "Usable"
+    },
+    "gui_token": {
+        "message": "Token"
+    },
     "gui_level": {
         "message": "Level"
     },
@@ -304,6 +319,9 @@
     "tab_redrings": {
         "message": "Red Rings"
     },
+    "tab_christmasrings": {
+        "message": "Christmas Rings"
+    },
     "tab_rewardlinks": {
         "message": "Reward Links"
     },
@@ -317,7 +335,7 @@
         "message": "Import / Export"
     },
     "tab_equipment": {
-        "message": "Equipment"
+        "message": "Equipment / Shop"
     },
     "tab_events": {
         "message": "Events"
@@ -413,13 +431,8 @@
             }
         }
     },
-    "kitchen_total_food": {
-        "message": "Total food in backpack: $FOOD$ energies.",
-        "placeholders": {
-            "food": {
-                "content": "$1"
-            }
-        }
+    "kitchen_food_in_backpack": {
+        "message": "from food in backpack"
     },
 
     "foundry_all": {
@@ -1382,6 +1395,9 @@
     },
     "rings_averageperring": {
         "message": "Average XP per ring"
+    },
+    "rings_rings": {
+        "message": "Rings"
     },
 
     "equipment_sellout": {

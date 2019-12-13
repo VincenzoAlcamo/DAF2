@@ -122,6 +122,21 @@
     "gui_pack": {
         "message": "Pacchetto"
     },
+    "gui_equipment": {
+        "message": "Equipaggiamento"
+    },
+    "gui_shop": {
+        "message": "Negozio"
+    },
+    "gui_decoration": {
+        "message": "Decorazione"
+    },
+    "gui_usable": {
+        "message": "Consumabile"
+    },
+    "gui_token": {
+        "message": "Token"
+    },
     "gui_level": {
         "message": "Livello"
     },
@@ -240,6 +255,9 @@
     "gui_filter_invert": {
         "message": "Inverti"
     },
+    "gui_advancedfilter": {
+        "message": "Filtro avanzato"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -297,6 +315,9 @@
     "tab_redrings": {
         "message": "Anelli Rossi"
     },
+    "tab_christmasrings": {
+        "message": "Anelli di Natale"
+    },
     "tab_rewardlinks": {
         "message": "Link ricompensa"
     },
@@ -310,7 +331,7 @@
         "message": "Importa / Esporta"
     },
     "tab_equipment": {
-        "message": "Equipaggiamento"
+        "message": "Equipaggiamento / Negozio"
     },
     "tab_events": {
         "message": "Eventi"
@@ -404,13 +425,8 @@
             }
         }
     },
-    "kitchen_total_food": {
-        "message": "Cibo totale nello zaino: $FOOD$ energie.",
-        "placeholders": {
-            "food": {
-                "content": "$1"
-            }
-        }
+    "kitchen_food_in_backpack": {
+        "message": "dal cibo nello zaino"
     },
     "foundry_all": {
         "message": "Tutte le leghe"
@@ -683,9 +699,6 @@
                 "content": "$3"
             }
         }
-    },
-    "neighbors_advancedfilter": {
-        "message": "Filtro avanzato"
     },
     "neighbors_advancedfilterinfo": {
         "message": "Puoi ulteriormente filtrare i vicini in base al regalo che hanno inviato negli ultimi @DAYS@ giorni, selezionando uno o più regali dalla seguente lista."
@@ -1366,6 +1379,9 @@
     },
     "rings_averageperring": {
         "message": "Media XP per anello"
+    },
+    "rings_rings": {
+        "message": "Anelli"
     },
     "equipment_sellout": {
         "message": "Vendere tutti gli oggetti inutilizzati ti farà guadagnare $TOTAL$ monete (equipaggiamento = $EQUIP$ monete, decorazioni = $DECO$ monete)",
