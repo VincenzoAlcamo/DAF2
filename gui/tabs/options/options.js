@@ -55,7 +55,8 @@ function init() {
         if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
         if (features.indexOf(WARNING) >= 0) warning = gui.getMessage(messageId + '_warning');
         if (info.indexOf('@SILENT@') >= 0) {
-            info = Html.raw(String(Html.br(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
+            info = info.split('\n')[0];
+            // info = Html.raw(String(Html.br(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
         }
 
         let type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
