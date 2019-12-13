@@ -1,5 +1,36 @@
 <div class="toolbar">
     <label>
+        <span data-i18n-text="gui_show"></span>
+        <select name="show">
+            <option value="" data-i18n-text="gui_equipment"></option>
+            <option value="shop" data-i18n-text="gui_shop"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="equipment_from"></span>
+        <select name="from">
+            <option value=""></option>
+            <option value="event" data-i18n-text="gui_event"></option>
+            <option value="region" data-i18n-text="gui_region"></option>
+            <option value="theme" data-i18n-text="gui_theme"></option>
+            <option value="offer" data-i18n-text="gui_offer"></option>
+            <option value="tier" data-i18n-text="gui_tieredoffer"></option>
+            <option value="pack" data-i18n-text="gui_pack"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_event"></span>
+        <select name="event"></select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_region"></span>
+        <select name="region"></select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_theme"></span>
+        <select name="theme"></select>
+    </label>
+    <label>
         <span data-i18n-text="equipment_owned"></span>
         <select name="owned">
             <option value=""></option>
@@ -13,18 +44,6 @@
             <option value=""></option>
             <option value="yes" data-i18n-text="dialog_yes"></option>
             <option value="no" data-i18n-text="dialog_no"></option>
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="equipment_from"></span>
-        <select name="from">
-            <option value=""></option>
-            <option value="event" data-i18n-text="gui_event"></option>
-            <option value="theme" data-i18n-text="gui_theme"></option>
-            <option value="region" data-i18n-text="gui_region"></option>
-            <option value="offer" data-i18n-text="gui_offer"></option>
-            <option value="tier" data-i18n-text="gui_tieredoffer"></option>
-            <option value="pack" data-i18n-text="gui_pack"></option>
         </select>
     </label>
     <label>
@@ -49,6 +68,10 @@
             <option value=""></option>
             <option value="regen" data-i18n-text="camp_regen"></option>
             <option value="capacity" data-i18n-text="camp_capacity"></option>
+            <option value="decoration" data-i18n-text="gui_decoration"></option>
+            <option value="usable" data-i18n-text="gui_usable"></option>
+            <option value="material" data-i18n-text="gui_material"></option>
+            <option value="token" data-i18n-text="gui_token"></option>
         </select>
     </label>
     <label>
@@ -68,24 +91,37 @@
     <table class="equipment data">
         <thead>
             <tr>
-                <th rowspan="2"><img src="/img/gui/equipment.png" data-wiki-page="Camp_Equipment" data-i18n-title="tab_equipment+gui_clickwiki"></th>
-                <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="tab_equipment"></th>
-                <th rowspan="2" class="sortable" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png"></th>
-                <th rowspan="2" class="sortable" sort-name="region"><img data-i18n-title="gui_theme_required" src="/img/gui/map.png"></th>
-                <th rowspan="2" class="sortable" sort-name="event"><img data-i18n-title="gui_event" src="/img/gui/events.png"></th>
-                <th rowspan="2" class="sortable" sort-name="sell"><img data-i18n-title="gui_sell_price" src="/img/gui/coin.png"></th>
+                <th rowspan="2"><img src="/img/gui/equipment.png" data-wiki-page="Camp_Equipment"
+                        data-i18n-title="tab_equipment+gui_clickwiki"></th>
+                <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="gui_name"></th>
+                <th rowspan="2" class="sortable" sort-name="level"><img data-i18n-title="gui_level_required"
+                        src="/img/gui/level.png"></th>
+                <th rowspan="2" class="sortable" sort-name="region"><img data-i18n-title="gui_theme_required"
+                        src="/img/gui/map.png"></th>
+                <th rowspan="2" class="sortable" sort-name="event"><img data-i18n-title="gui_event"
+                        src="/img/gui/events.png"></th>
+                <th rowspan="2" class="sortable" sort-name="sell"><img data-i18n-title="gui_sell_price"
+                        src="/img/gui/coin.png"></th>
                 <th colspan="3" data-i18n-text="equipment_quantities"></th>
-                <th colspan="2" class="sortable" sort-name="type"><img data-i18n-title="gui_type" src="/img/gui/regen_capacity.png"></th>
-                <th rowspan="2" class="sortable" sort-name="width"><img data-i18n-title="gui_width" src="/img/gui/width.png"></th>
-                <th rowspan="2" class="sortable" sort-name="height"><img data-i18n-title="gui_height" src="/img/gui/height.png"></th>
-                <th rowspan="2" class="sortable" sort-name="slotvalue"><img data-i18n-title="gui_slot_value" src="/img/gui/power_slot.png"></th>
-                <th rowspan="2" class="sortable" sort-name="gain"><img data-i18n-title="equipment_gain" src="/img/gui/power_gain.png"></th>
+                <th colspan="2" class="sortable" sort-name="type"><img data-i18n-title="gui_type"
+                        src="/img/gui/regen_capacity.png"></th>
+                <th rowspan="2" class="sortable" sort-name="width"><img data-i18n-title="gui_width"
+                        src="/img/gui/width.png"></th>
+                <th rowspan="2" class="sortable" sort-name="height"><img data-i18n-title="gui_height"
+                        src="/img/gui/height.png"></th>
+                <th rowspan="2" class="sortable" sort-name="slotvalue"><img data-i18n-title="gui_slot_value"
+                        src="/img/gui/power_slot.png"></th>
+                <th rowspan="2" class="sortable" sort-name="gain"><img data-i18n-title="equipment_gain"
+                        src="/img/gui/power_gain.png"></th>
                 <th rowspan="2"><img data-i18n-title="gui_cost" src="/img/gui/shop.png"></th>
             </tr>
             <tr>
-                <th class="sortable only-image" sort-name="placed"><img data-i18n-title="gui_placed" src="/img/gui/camp.png" class="small"></th>
-                <th class="sortable only-image" sort-name="owned"><img data-i18n-title="gui_owned" src="/img/gui/backpack.png" class="small"></th>
-                <th class="sortable only-image" sort-name="limit"><img data-i18n-title="gui_limit" src="/img/gui/limit.png" class="small"></th>
+                <th class="sortable only-image" sort-name="placed"><img data-i18n-title="gui_placed"
+                        src="/img/gui/camp.png" class="small"></th>
+                <th class="sortable only-image" sort-name="owned"><img data-i18n-title="gui_owned"
+                        src="/img/gui/backpack.png" class="small"></th>
+                <th class="sortable only-image" sort-name="limit"><img data-i18n-title="gui_limit"
+                        src="/img/gui/limit.png" class="small"></th>
                 <th colspan="2" class="sortable" sort-name="value" data-i18n-text="gui_value"></th>
             </tr>
         </thead>

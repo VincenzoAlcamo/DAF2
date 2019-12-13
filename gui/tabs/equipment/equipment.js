@@ -1,30 +1,45 @@
 /*global bgp gui SmartTable Html Locale Tooltip Dialog*/
 export default {
     hasCSS: true,
-    init: init,
-    update: update,
-    getState: getState,
-    setState: setState,
+    init,
+    update,
+    getState,
+    setState,
     requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens']
 };
 
-let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, selectType, searchInput, searchHandler, allBuildings;
+let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectAffordable, selectUseful, selectType, searchInput, searchHandler;
+let selectShow, selectEvent, selectRegion, selectTheme;
+let allItems, currentItems, allEvents, state_from;
 let matCache, minRegen, minCapacity, updateTime, packsViewed;
 let currency, lastPack, btnPack;
-let listRegion, listSkin, listEvent, listMaterial;
-let filterSkin, filterEvent, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
+let listRegion, listSkin, listMaterial;
+let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
 
 function init() {
     tab = this;
     container = tab.container;
+
+    selectShow = container.querySelector('[name=show]');
+    selectShow.addEventListener('change', refresh);
+
+    selectFrom = container.querySelector('[name=from]');
+    selectFrom.addEventListener('change', refresh);
+
+    selectEvent = container.querySelector('[name=event]');
+    selectEvent.addEventListener('change', refresh);
+
+    selectRegion = container.querySelector('[name=region]');
+    selectRegion.addEventListener('change', refresh);
+
+    selectTheme = container.querySelector('[name=theme]');
+    selectTheme.addEventListener('change', refresh);
 
     selectOwned = container.querySelector('[name=owned]');
     selectOwned.addEventListener('change', refresh);
 
     selectShop = container.querySelector('[name=shop]');
     selectShop.addEventListener('change', refresh);
-    selectFrom = container.querySelector('[name=from]');
-    selectFrom.addEventListener('change', refresh);
 
     selectAffordable = container.querySelector('[name=affordable]');
     selectAffordable.addEventListener('change', refresh);
@@ -53,6 +68,107 @@ function init() {
     });
 
     container.addEventListener('tooltip', onTooltip);
+}
+
+function getItemFromBuilding(building, owned, active) {
+    if (!building) return null;
+    let item = {};
+    item.oid = building.def_id;
+    item.id = 'b' + item.oid;
+    item.owned = (owned && owned[item.oid]) || 0;
+    item.placed = (active && active[item.oid]) || 0;
+    // This marks the building is not on-sale
+    item.sale_id = item.level = item.event = item.erid = item.skin = item.locked = 0;
+    item.name = gui.getString(building.name_loc);
+    item.limit = +building.limit;
+    item.brid = +building.region;
+    if (item.limit == 0) item.limit = +Infinity;
+    item.width = Math.max(+building.columns || 0, 1);
+    item.height = Math.max(+building.rows || 0, 1);
+    item.sell = +building.sell_price || 0;
+    let cap = +building.max_stamina || 0;
+    let reg = +building.stamina_reg || 0;
+    if (cap > 0) {
+        item.type = 'capacity';
+        item.value = cap;
+        item.slotvalue = Math.floor(item.value / item.width);
+        if (item.placed && item.slotvalue < minCapacity) minCapacity = item.slotvalue;
+    } else if (reg > 0) {
+        item.type = 'regen';
+        item.value = reg;
+        item.slotvalue = Math.floor(item.value / item.width);
+        if (item.placed && item.slotvalue < minRegen) minRegen = item.slotvalue;
+    } else {
+        item.type = 'building';
+    }
+    return item;
+}
+
+function getBoughtSkins() {
+    const skins = {};
+    for (let skin of gui.getArrayOfInt(gui.getGenerator().skins)) skins[skin] = true;
+    return skins;
+}
+
+function computeItem(item, level, skins) {
+    item.event = item.event || NaN;
+    if (item.level > level) item.locked |= 1;
+    if (item.rskin && !skins[item.rskin]) item.locked |= 2;
+    if (item.owned >= item.limit) item.locked |= 4;
+    item.gain = 0;
+    if (item.type == 'capacity' || item.type == 'regen') {
+        item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.subtype == 'capacity' ? minCapacity : minRegen)) : 0;
+    }
+}
+
+function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
+    item.hide = hide;
+    item.sale_id = sale.def_id;
+    item.sale = saleType;
+    item.event = eid;
+    item.erid = erid;
+    item.level = level;
+    item.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 0;
+    let affordable = true;
+    if (!reqs) reqs = sale.requirements;
+    item.reqs = Array.isArray(reqs) && reqs.map(req => {
+        let result = {};
+        result.material_id = +req.material_id;
+        result.amount = +req.amount;
+        result.stored = backpack[result.material_id] || 0;
+        if (result.stored < result.amount) affordable = false;
+        return result;
+    }).sort((a, b) => a.material_id - b.material_id);
+    if (!affordable) item.locked |= 8;
+}
+
+function getOwnedActive(stored, placed, placed2) {
+    function collect(list) {
+        let result = {};
+        for (let item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
+        return result;
+    }
+    let owned = Object.assign({}, stored);
+    let active = collect(placed);
+    let inactive = collect(placed2);
+    Object.keys(inactive).forEach(id => active[id] = Math.max(active[id] || 0, inactive[id]));
+    Object.keys(active).forEach(id => owned[id] = (owned[id] || 0) + active[id]);
+    return {
+        owned,
+        active
+    };
+}
+
+function getEventInfo(event) {
+    const eid = +event.def_id;
+    let end = +event.end || 0;
+    if (!end && eid == 14) end = 1393326000;
+    if (!end && eid == 15) end = 1395745200;
+    return {
+        end,
+        // compute the year as END - 14 days
+        year: end - 14 * 86400
+    };
 }
 
 function update() {
@@ -84,16 +200,10 @@ function update() {
         }
     }
 
-    function collect(list) {
-        let result = {};
-        for (let item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
-        return result;
-    }
-    let owned = Object.assign({}, generator.stored_buildings);
-    let inactive = collect(generator.camp.inactive_b);
-    let active = collect(generator.camp.buildings);
-    Object.keys(inactive).forEach(id => active[id] = Math.max(active[id] || 0, inactive[id]));
-    Object.keys(active).forEach(id => owned[id] = (owned[id] || 0) + active[id]);
+    const {
+        owned,
+        active
+    } = getOwnedActive(generator.stored_buildings, generator.camp.buildings, generator.camp.inactive_b);
 
     // Determine events
     let events = {};
@@ -106,6 +216,7 @@ function update() {
             events[eid] = generator.events_region[eid] || 0;
         }
     }
+    allEvents = {};
     for (let event of Object.values(gui.getFile('events'))) {
         let finished = +event.end;
         // Shop is open for 7 days after the event ends
@@ -114,75 +225,82 @@ function update() {
         if (shopLimit > updateTime && !(eid in events)) {
             events[eid] = region;
         }
+        const info = getEventInfo(event);
+        allEvents[eid] = {
+            id: eid,
+            year: info.year
+        };
     }
 
-    allBuildings = {};
-    for (let building of Object.values(gui.getFile('buildings'))) {
-        let item = {};
-        item.id = building.def_id;
-        item.owned = owned[item.id] || 0;
-        item.placed = active[item.id] || 0;
-        // This marks the building is not on-sale
-        item.sale_id = item.level = item.event = item.erid = item.skin = item.locked = 0;
-        item.name = gui.getString(building.name_loc);
-        item.limit = +building.limit;
-        item.brid = +building.region;
-        if (item.limit == 0) item.limit = +Infinity;
-        item.width = Math.max(+building.columns || 0, 1);
-        item.height = Math.max(+building.rows || 0, 1);
-        item.sell = +building.sell_price || 0;
-        let cap = +building.max_stamina || 0;
-        let reg = +building.stamina_reg || 0;
-        if (cap > 0) {
-            item.type = 'capacity';
-            item.value = cap;
-            item.slotvalue = Math.floor(item.value / item.width);
-            if (item.placed && item.slotvalue < minCapacity) minCapacity = item.slotvalue;
-        } else if (reg > 0) {
-            item.type = 'regen';
-            item.value = reg;
-            item.slotvalue = Math.floor(item.value / item.width);
-            if (item.placed && item.slotvalue < minRegen) minRegen = item.slotvalue;
-        } else continue;
-        allBuildings[item.id] = item;
+    allItems = {};
+    for (const building of Object.values(gui.getFile('buildings'))) {
+        const item = getItemFromBuilding(building, owned, active);
+        if (item) allItems[item.id] = item;
     }
     if (!isFinite(minCapacity)) minCapacity = 0;
     if (!isFinite(minRegen)) minRegen = 0;
-
-    function setItem(item, hide, sale, saleType, eid, erid, level, reqs) {
-        item.hide = hide;
-        item.sale_id = sale.def_id;
-        item.sale = saleType;
-        item.event = eid;
-        item.erid = erid;
-        item.level = level;
-        item.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 0;
-        let affordable = true;
-        if (!reqs) reqs = sale.requirements;
-        item.reqs = Array.isArray(reqs) && reqs.map(req => {
-            let result = {};
-            result.material_id = +req.material_id;
-            result.amount = +req.amount;
-            result.stored = backpack[result.material_id] || 0;
-            if (result.stored < result.amount) affordable = false;
-            return result;
-        }).sort((a, b) => a.material_id - b.material_id);
-        if (!affordable) item.locked |= 8;
-    }
 
     // SALES
     let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'building');
     sales.forEach(sale => sale.def_id = +sale.def_id);
     sales = sales.sort((a, b) => a.def_id - b.def_id).reverse();
+    const allSkins = {};
     for (let sale of sales) {
-        let item = allBuildings[sale.object_id];
-        if (!item) continue;
-        let eid = +sale.event_id || 0;
-        let erid = +sale.event_region_id || 0;
+        const eid = +sale.event_id || 0;
+        const erid = +sale.event_region_id || 0;
         let hide = +sale.hide;
+        if (!hide) {
+            if (eid) {
+                const data = allEvents[eid];
+                if (data) {
+                    data.sale = true;
+                    if (erid > 1) data.segmented = true;
+                }
+            }
+            const skin = sale.req_type == 'camp_skin' ? +sale.req_object : 0;
+            if (skin) {
+                allSkins[skin] = skin;
+            }
+        }
+        let item = allItems['b' + sale.object_id];
+        if (!item) continue;
         if (eid && (!(eid in events) || (erid != events[eid] && erid != 0))) hide = 1;
         if (hide && (item.sale_id || !item.owned)) continue;
-        setItem(item, hide, sale, 'sale', eid, erid, +sale.level);
+        setItem(item, hide, sale, 'sale', eid, erid, +sale.level, null, backpack);
+    }
+
+    const arrEvents = Object.values(allEvents).filter(event => event.sale).sort((a, b) => b.year - a.year);
+    let optGroup = null;
+    let lastYearText = '';
+    selectEvent.innerHTML = '';
+    for (const event of arrEvents) {
+        const option = document.createElement('option');
+        option.value = '' + event.id;
+        option.innerText = gui.getObjectName('event', event.id);
+        const yearText = Locale.formatYear(event.year);
+        if (!optGroup || lastYearText != yearText) {
+            lastYearText = yearText;
+            optGroup = document.createElement('optgroup');
+            optGroup.label = gui.getMessageAndValue('events_year', yearText);
+            selectEvent.appendChild(optGroup);
+        }
+        optGroup.appendChild(option);
+    }
+
+    selectRegion.innerHTML = '';
+    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
+        const option = document.createElement('option');
+        option.value = '' + rid;
+        option.innerText = gui.getObjectName('region', rid);
+        selectRegion.appendChild(option);
+    }
+
+    selectTheme.innerHTML = '';
+    for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending)) {
+        const option = document.createElement('option');
+        option.value = '' + skin;
+        option.innerText = gui.getObjectName('skin', skin);
+        selectTheme.appendChild(option);
     }
 
     // OFFERS
@@ -190,7 +308,7 @@ function update() {
     sales.forEach(sale => sale.def_id = +sale.def_id);
     sales = sales.sort((a, b) => a.def_id - b.def_id).reverse();
     for (let sale of sales) {
-        let item = allBuildings[sale.object_id];
+        let item = allItems['b' + sale.object_id];
         if (!item || item.sale_id) continue;
         // Offers are not specified for events
         let eid = +sale.event || 0;
@@ -204,7 +322,7 @@ function update() {
         if (!eid && erid != region) hide = 1;
         if (eid && (!(eid in events) || erid > events[eid])) hide = 1;
         if (hide && (item.sale_id || !item.owned)) continue;
-        setItem(item, hide, sale, 'offer', eid, erid, +sale.level);
+        setItem(item, hide, sale, 'offer', eid, erid, +sale.level, null, backpack);
     }
 
     // PACKS
@@ -222,10 +340,10 @@ function update() {
         let items = gui.getArray(sale.items);
         for (let item of items) {
             if (item.type != 'building') continue;
-            item = allBuildings[item.object_id];
+            item = allItems['b' + item.object_id];
             if (!item || item.sale_id) continue;
             if (hide && (item.sale_id || !item.owned)) continue;
-            setItem(item, hide, sale, 'pack', eid, erid, +sale.req_level);
+            setItem(item, hide, sale, 'pack', eid, erid, +sale.req_level, null, backpack);
         }
     }
     btnPack.style.display = lastPack ? '' : 'none';
@@ -260,27 +378,25 @@ function update() {
             let items = gui.getArray(tier.items);
             for (let item of items) {
                 if (item.type != 'building') continue;
-                item = allBuildings[item.object_id];
+                item = allItems['b' + item.object_id];
                 if (!item || item.sale_id) continue;
                 if (hide && (item.sale_id || !item.owned)) continue;
-                setItem(item, hide, sale, 'tier', eid, erid, +sale.req_level, reqs);
+                setItem(item, hide, sale, 'tier', eid, erid, +sale.req_level, reqs, backpack);
                 item.tname = tier.name_loc;
             }
         }
     }
 
     // Remove non-owned and not-on-sale; compute other values
-    let skins = {};
     listRegion = {};
     listSkin = {};
-    listEvent = {};
     listMaterial = {};
     let coins = 0;
-    for (let skin of gui.getArrayOfInt(generator.skins)) skins[skin] = true;
-    for (let id of Object.keys(allBuildings)) {
-        let item = allBuildings[id];
+    const skins = getBoughtSkins();
+    for (let id of Object.keys(allItems)) {
+        let item = allItems[id];
         if (!item.owned && !item.sale_id) {
-            delete allBuildings[id];
+            delete allItems[id];
             continue;
         }
         if (item.skin) {
@@ -295,18 +411,12 @@ function update() {
             item.rskin = gui.getSkinFromRegion(item.region);
             listRegion[item.region] = true;
         }
-        item.event = item.event || NaN;
-        if (item.event) listEvent[item.event] = true;
         for (let req of item.reqs || []) listMaterial[req.material_id] = true;
-        if (item.level > level) item.locked |= 1;
-        if (item.rskin && !skins[item.rskin]) item.locked |= 2;
-        if (item.owned >= item.limit) item.locked |= 4;
         if (item.placed < item.owned && item.sell) coins += item.sell * (item.owned - item.placed);
-        item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen)) : 0;
+        computeItem(item, level, skins);
     }
     listRegion = Object.keys(listRegion).map(n => +n).sort(gui.sortNumberAscending);
     listSkin = Object.keys(listSkin).map(n => +n).sort(gui.sortNumberAscending);
-    listEvent = Object.keys(listEvent).map(n => +n).sort(gui.sortNumberAscending);
     listMaterial = Object.keys(listMaterial).map(n => +n).sort(gui.sortNumberAscending);
 
     let coins_deco = 0;
@@ -329,18 +439,71 @@ function update() {
     refresh();
 }
 
+function isEventSegmented(eventId) {
+    return allEvents && allEvents[eventId] && allEvents[eventId].segmented ? true : false;
+}
+
+function encodeFrom() {
+    let from = selectFrom.value;
+    const values = [from];
+    if (selectShow.value == 'shop') {
+        if (from == 'event') {
+            values.push(selectEvent.value);
+            if (isEventSegmented(selectEvent.value)) {
+                values.push(selectRegion.value);
+            }
+        } else if (from == 'region') {
+            values.push(selectRegion.value);
+        } else if (from == 'theme') {
+            values.push(selectTheme.value);
+        }
+    }
+    return values.join('_');
+}
+
+function decodeFrom(value) {
+    let show, from, event, region, theme;
+    const arr = String(value || '').split('_');
+    from = arr[0] || '';
+    if (arr.length > 1 && ['event', 'region', 'theme'].includes(from)) {
+        const p1 = parseInt(arr[1]) || 0;
+        const p2 = parseInt(arr[2]) || 0;
+        show = 'shop';
+        if (from == 'event') {
+            event = p1;
+            region = p2;
+            if (allEvents && !(event in allEvents)) {
+                show = '';
+            }
+        } else if (from == 'region') {
+            region = p1;
+        } else if (from == 'theme') {
+            theme = p1;
+        }
+    } else {
+        show = '';
+        from = ['event', 'region', 'theme', 'offer', 'tier', 'pack'].includes(from) ? from : '';
+    }
+    return {
+        show,
+        from,
+        event,
+        region,
+        theme
+    };
+}
+
 function getState() {
     return {
+        from: encodeFrom(),
         owned: selectOwned.value,
         shop: selectShop.value,
-        from: selectFrom.value,
         affordable: selectAffordable.value,
         useful: selectUseful.value,
         hidemax: !!filterHideMax,
         type: selectType.value,
         level: filterLevelComparison + filterLevelType + (filterLevel > 0 ? filterLevel : ''),
         skin: filterSkin,
-        event: filterEvent,
         material: filterMaterial,
         search: searchInput.value,
         sort: gui.getSortState(smartTable)
@@ -348,9 +511,17 @@ function getState() {
 }
 
 function setState(state) {
+    state_from = state.from;
+    const decoded = decodeFrom(state.from);
+    gui.setSelectState(selectShow, decoded.show);
+    gui.setSelectState(selectFrom, decoded.from);
+    if (allEvents) {
+        gui.setSelectState(selectEvent, decoded.event);
+        gui.setSelectState(selectRegion, decoded.region);
+        gui.setSelectState(selectTheme, decoded.theme);
+    }
     state.owned = gui.setSelectState(selectOwned, state.owned);
     state.shop = gui.setSelectState(selectShop, state.shop);
-    state.from = gui.setSelectState(selectFrom, state.from);
     state.affordable = gui.setSelectState(selectAffordable, state.affordable);
     state.useful = gui.setSelectState(selectUseful, state.useful);
     filterHideMax = !!state.hidemax;
@@ -363,18 +534,28 @@ function setState(state) {
     match = level.match(/\d+/);
     filterLevel = Math.min(999, Math.max(1, (match && parseInt(match[0])) || 0));
     filterSkin = state.skin;
-    filterEvent = state.event;
     filterMaterial = state.material;
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
-    updateButton();
+    updateButton(state);
 }
 
-function updateButton() {
-    let flag = !!(filterSkin || filterEvent || filterMaterial || filterLevelComparison || filterHideMax);
+function updateButton(state) {
+    let flag = !!(filterSkin || filterMaterial || filterLevelComparison || filterHideMax);
     let button = container.querySelector('.toolbar button.advanced');
     button.textContent = gui.getMessage(flag ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', flag);
+
+    const setDisplay = (el, flag) => el.style.display = flag ? '' : 'none';
+    const decoded = decodeFrom(state.from);
+    const isShop = decoded.show == 'shop';
+    const isSegmented = allEvents && allEvents[decoded.event] && allEvents[decoded.event].segmented;
+    for (const option of selectFrom.querySelectorAll('option')) {
+        setDisplay(option, !isShop || ['event', 'region', 'theme'].includes(option.value));
+    }
+    setDisplay(selectEvent.parentNode, isShop && decoded.from == 'event');
+    setDisplay(selectRegion.parentNode, isShop && (decoded.from == 'region' || (decoded.from == 'event' && isSegmented)));
+    setDisplay(selectTheme.parentNode, isShop && decoded.from == 'theme');
 }
 
 function onClickAdvanced() {
@@ -476,18 +657,129 @@ function triggerSearchHandler(flag) {
     searchHandler = flag ? setTimeout(refresh, 500) : 0;
 }
 
+function getCurrentItems(decoded) {
+    currentItems = {};
+    if (decoded.show != 'shop') {
+        currentItems = allItems;
+    } else {
+        const validSale = {
+            building: true,
+            decoration: true,
+            material: true,
+            token: true,
+            usable: true
+        };
+        const generator = gui.getGenerator();
+        const sales = Object.values(gui.getFile('sales')).filter(sale => sale.type in validSale);
+        const buildings = gui.getFile('buildings');
+        const decorations = gui.getFile('decorations');
+        const usables = gui.getFile('usables');
+        const materials = gui.getFile('materials');
+        const tokens = gui.getFile('tokens');
+        const level = +generator.level;
+        const skins = getBoughtSkins();
+        const backpack = generator.materials || {};
+        const {
+            owned,
+            active
+        } = getOwnedActive(generator.stored_buildings, generator.camp.buildings, generator.camp.inactive_b);
+        const {
+            owned: decoOwned,
+            active: decoActive
+        } = getOwnedActive(generator.stored_decorations, generator.camp.decorations);
+        const usaOwned = generator.usables;
+        const tokOwned = generator.tokens;
+        const matOwned = generator.materials;
+
+        function addSale(sale) {
+            if (+sale.hide) return null;
+            let item = sale.type == 'building' ? allItems['b' + sale.object_id] : null;
+            if (item == null) {
+                if (sale.type == 'building') {
+                    const building = buildings[sale.object_id];
+                    item = getItemFromBuilding(building, owned, active);
+                } else {
+                    item = {};
+                    item.type = sale.type;
+                    item.oid = sale.object_id;
+                    item.id = item.type.substr(0, 1) + item.oid;
+                    item.owned = item.placed = 0;
+                    item.sale_id = sale.def_id;
+                    item.name = gui.getObjectName(item.type, item.oid);
+                    item.limit = +Infinity;
+                    item.sell = 0;
+                    if (sale.type == 'decoration') {
+                        item.owned = decoOwned[item.oid] || 0;
+                        item.placed = decoActive[item.oid] || 0;
+                        const decoration = decorations[item.oid];
+                        if (!decoration) return;
+                        item.sell = +decoration.sell_price;
+                        item.value = +sale.exp;
+                    } else if (sale.type == 'usable') {
+                        const usable = usables[item.oid];
+                        if (!usable) return;
+                        item.owned = usaOwned[item.oid] || 0;
+                        item.sell = +usable.sell_price;
+                        item.value = usable.action == 'add_stamina' ? +usable.value : 0;
+                    } else if (sale.type == 'material') {
+                        const material = materials[item.oid];
+                        if (!material) return;
+                        item.owned = matOwned[item.oid] || 0;
+                        item.sell = +material.sell_price;
+                    } else if (sale.type == 'token') {
+                        const token = tokens[item.oid];
+                        if (!token) return;
+                        item.owned = tokOwned[item.oid] || 0;
+                        item.sell = +token.sell_price;
+                    }
+                }
+                setItem(item, +sale.hide, sale, 'sale', +sale.event_id || 0, +sale.event_region_id || 0, +sale.level, null, backpack);
+                if (item.skin) {
+                    item.rskin = item.skin;
+                    item.region = gui.getRegionFromSkin(item.skin);
+                    if (!item.region) {
+                        item.region = item.skin / 100;
+                    }
+                } else {
+                    item.region = item.erid || item.region || 1;
+                    item.rskin = gui.getSkinFromRegion(item.region);
+                }
+                computeItem(item, level, skins);
+            }
+            if (item) currentItems[item.id] = item;
+        }
+        if (decoded.from == 'theme' || (decoded.from == 'region' && decoded.region > 1)) {
+            const skin = decoded.from == 'theme' ? decoded.theme : gui.getSkinFromRegion(decoded.region);
+            for (const sale of sales) {
+                if (!+sale.event_id && sale.req_type == 'camp_skin' && +sale.req_object == skin) addSale(sale);
+            }
+        } else if (decoded.from == 'region') {
+            // Egypt
+            for (const sale of sales) {
+                if (!+sale.event_id && +sale.req_object == 0) addSale(sale);
+            }
+        } else if (decoded.from == 'event') {
+            for (const sale of sales) {
+                if (+sale.event_id == decoded.event && +sale.event_region_id == decoded.region) addSale(sale);
+            }
+        }
+
+    }
+}
+
 function refresh() {
     gui.updateTabState(tab);
-    updateButton();
-
     let state = getState();
+    updateButton(state);
+
     let fnSearch = gui.getSearchFilter(state.search);
     let type = (state.type || '').toLowerCase();
     // We use a negative here and NaN in case no comparison must be checked
     // This works because NaN is never equal to any value, so the "if" is always false.
     let not_owned = state.owned ? state.owned == 'no' : NaN;
     let not_shop = state.shop ? state.shop == 'no' : NaN;
-    let from = state.from;
+    let decoded = decodeFrom(state.from);
+    let from = decoded.show == '' ? decoded.from : '';
     let not_affordable = state.affordable ? state.affordable == 'no' : NaN;
     let not_useful = state.useful ? state.useful == 'no' : NaN;
     let hideMax = state.hidemax;
@@ -531,7 +823,8 @@ function refresh() {
         return true;
     }
 
-    let items = Object.values(allBuildings);
+    getCurrentItems(decoded);
+    let items = Object.values(currentItems);
     let total = items.length;
     items = items.filter(isVisible);
     Array.from(container.querySelectorAll('.equipment tfoot td')).forEach(cell => {
@@ -547,8 +840,8 @@ function refresh() {
         let row = item.row;
         if (!row) {
             row = item.row = document.createElement('tr');
-            row.setAttribute('data-bid', item.id);
-            row.setAttribute('height', 55);
+            row.setAttribute('data-id', item.id);
+            row.setAttribute('height', 65);
             row.setAttribute('lazy-render', '');
         }
         tbody.appendChild(row);
@@ -557,7 +850,7 @@ function refresh() {
     smartTable.syncLater();
 }
 
-let lockedClass = Html ` class="locked"`;
+const lockedClass = Html ` class="locked"`;
 
 function getMaterialImg(req) {
     let id = req.material_id;
@@ -583,10 +876,11 @@ function getMaterialImg(req) {
 }
 
 function updateRow(row) {
-    let id = row.getAttribute('data-bid');
-    let item = allBuildings[id];
+    let id = row.getAttribute('data-id');
+    let item = currentItems[id];
     let htm = '';
-    htm += Html.br `<td><img class="building tooltip-event" src="${gui.getObjectImage('building', item.id)}"></td>`;
+    const type = item.type == 'capacity' || item.type == 'regen' ? 'building' : item.type;
+    htm += Html.br `<td><img class="building tooltip-event" src="${gui.getObjectImage(type, item.oid)}"></td>`;
     htm += Html.br `<td>${item.name}`;
     let start = 0;
     let end = 0;
@@ -620,14 +914,32 @@ function updateRow(row) {
     htm += Html.br `<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, true)}</td>`;
     htm += Html.br `<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, true) : ''}</td>`;
     htm += Html.br `<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
-    htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
+    if (type == 'building' || type == 'decoration') {
+        htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
+    } else {
+        htm += Html.br `<td class="no_right_border"></td>`;
+    }
     htm += Html.br `<td>${Locale.formatNumber(item.owned)}</td>`;
     htm += Html.br `<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
-    htm += Html.br `<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.value)}</td>`;
-    htm += Html.br `<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
-    htm += Html.br `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
-    htm += Html.br `<td>${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
+    if (type == 'building') {
+        htm += Html.br `<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.value)}</td>`;
+        htm += Html.br `<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
+        htm += Html.br `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
+        htm += Html.br `<td>${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
+    } else if (type == 'decoration') {
+        htm += Html.br `<td class="no_right_border"><img src="/img/gui/deco.png" title="${gui.getMessage('gui_decoration')}"></td>`;
+        htm += Html.br `<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
+    } else if (type == 'usable') {
+        htm += Html.br `<td class="no_right_border"><img src="/img/gui/usable.png" title="${gui.getMessage('gui_decoration')}"></td>`;
+        if (item.value) {
+            htm += Html.br `<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 2, 18, true)}</td>`;
+        } else {
+            htm += Html.br `<td class="bonus" colspan="5">${item.name}</td>`;
+        }
+    } else {
+        htm += Html.br `<td colspan="6"></td>`;
+    }
     let className = 'cost';
     let title = [];
     if (item.hide && item.sale_id) {

@@ -15,10 +15,15 @@
   text-align: left;
 }
 
-.equipment .cost img {
+.equipment .cost img,
+.equipment .bonus img {
   height: 18px;
   vertical-align: text-bottom;
   margin-left: 2px;
+}
+
+.equipment .bonus {
+  text-align: left;
 }
 
 .equipment td.locked {
