@@ -596,7 +596,7 @@ function onClickAdvanced() {
     htm += Html `</select><br>`;
     htm += Html `<input data-method="clear-s" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
     htm += Html `&#32;<input data-method="invert-s" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
-    htm += Html `<td align="center"><b data-lbl="material">${gui.getMessage('gui_material')}</b><br>`;
+    htm += Html `<td align="center"><b data-lbl="material">${gui.getMessage('equipment_include_material')}</b><br>`;
     htm += Html `<select name="material" multiple style="height:250px;margin:2px" data-method="material">`;
     list = gui.getArrayOfInt(filterMaterial);
     let materials = gui.getFile('materials');
@@ -760,7 +760,7 @@ function getCurrentItems(decoded) {
             }
         } else if (decoded.from == 'event') {
             for (const sale of sales) {
-                if (+sale.event_id == decoded.event && +sale.event_region_id == decoded.region) addSale(sale);
+                if (+sale.event_id == decoded.event && (+sale.event_region_id == decoded.region || +sale.event_region_id == 0)) addSale(sale);
             }
         }
 
