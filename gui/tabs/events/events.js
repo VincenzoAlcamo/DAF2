@@ -34,7 +34,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('events');
     smartTable.fixedFooter.parentNode.classList.add('events');
-    smartTable.tbody[0].addEventListener('render', function(event) {
+    smartTable.tbody[0].addEventListener('render', function (event) {
         updateRow(event.target);
     });
 
@@ -50,6 +50,18 @@ function byEvent(list) {
         hash[eid].push(+item.def_id);
     }
     return hash;
+}
+
+function getEventInfo(event) {
+    const eid = +event.def_id;
+    let end = +event.end || 0;
+    if (!end && eid == 14) end = 1393326000;
+    if (!end && eid == 15) end = 1395745200;
+    return {
+        end,
+        // compute the year as END - 14 days
+        year: end - 14 * 86400
+    };
 }
 
 function update() {
@@ -74,14 +86,11 @@ function update() {
         item.name = gui.getString(event.name_loc);
         item.gems = (+event.premium > 0 ? +event.gems_price : 0) || NaN;
         let edata = eventData[eid];
-        let end = +event.end || 0;
-        if (!end && eid == 14) end = 1393326000;
-        if (!end && eid == 15) end = 1395745200;
+        const info = getEventInfo(event);
         item.start = (edata && +edata.started) || NaN;
-        item.end = (edata && +edata.finished) || end;
-        // compute the year as END - 14 days
-        item.year = end - 14 * 86400;
-        item.yeartxt = Locale.formatYear(item.year);
+        item.end = (edata && +edata.finished) || info.end;
+        item.year = info.year;
+        item.yeartxt = Locale.formatYear(info.year);
 
         let quests = gui.getArrayOfInt(event.quests);
         if (!quests.length) continue;
@@ -330,7 +339,7 @@ function onTooltip(event) {
     let imgFull = img && Html `<img src="${img}" class="full">`;
     let htm = Html.br `<div class="events-tooltip"><img src="${item.img}"}" class="outlined"/>${imgFull}<span>${item.name}</span></div>`;
     Tooltip.show(element, htm, 'e');
-    if (img == img1) Tooltip.tip.querySelector('img.full').addEventListener('error', function() {
+    if (img == img1) Tooltip.tip.querySelector('img.full').addEventListener('error', function () {
         if (img2) this.src = img2;
         else this.style.display = 'none';
         item.img_missing = true;
