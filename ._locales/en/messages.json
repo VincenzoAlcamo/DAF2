@@ -1468,6 +1468,12 @@
     "equipment_level_this": {
         "message": "this level"
     },
+    "equipment_include_material": {
+        "message": "Include these materials"
+    },
+    "equipment_exclude_material": {
+        "message": "Exclude these materials"
+    },
 
     "events_year": {
         "message": "Year"
