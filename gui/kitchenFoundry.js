@@ -272,7 +272,9 @@ function kitchenFoundry(type) {
         smartTable.syncLater();
 
         if (type == 'recipe') {
-            container.querySelector('.stats').innerHTML = Html.br(gui.getMessage('kitchen_total_food', Locale.formatNumber(gui.getBackpackFood())));
+            let htm = '';
+            htm += Html `<span class="outlined nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(gui.getBackpackFood()))}</span> (${gui.getMessage('kitchen_food_in_backpack')})`;
+            container.querySelector('.stats').innerHTML = htm;
         }
     }
 
