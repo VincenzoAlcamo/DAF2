@@ -2,7 +2,7 @@
 export default {
     init: init,
     update: update,
-    requires: ['materials', 'decorations', 'usables', 'windmills', 'buildings']
+    requires: ['materials', 'decorations', 'usables', 'windmills', 'buildings', 'tokens']
 };
 
 var tab, container, form, fileChooser, callback;
@@ -13,7 +13,7 @@ function init() {
 
     fileChooser = document.createElement('input');
     fileChooser.type = 'file';
-    fileChooser.addEventListener('change', function() {
+    fileChooser.addEventListener('change', function () {
         if (callback) {
             let file = fileChooser.files[0];
             try {
@@ -47,6 +47,7 @@ function exportInventory() {
     let data = [];
     let generator = gui.getGenerator();
     let materials = generator.materials;
+    let tokens = generator.tokens;
     data.push('LEVEL\t' + generator.level);
     data.push('REGION\t' + generator.region);
     data.push('XP\t' + generator.exp);
@@ -57,6 +58,12 @@ function exportInventory() {
     data.push('MAT_ID\tMAT_NAME\tQTY');
     Object.keys(materials).forEach(key => {
         if (materials[key] > 0) data.push(key + '\t' + gui.getObjectName('material', key) + '\t' + materials[key]);
+    });
+    Object.keys(tokens).forEach(key => {
+        if (tokens[key] > 0) {
+            const name = gui.getObjectName('token', key);
+            if (!name.startsWith('#')) data.push('T' + key + '\t' + name + '\t' + tokens[key]);
+        }
     });
     Object.keys(generator.stored_windmills).forEach(key => {
         data.push('W' + key + '\t' + gui.getObjectName('windmill', key) + '\t' + generator.stored_windmills[key]);
@@ -107,16 +114,16 @@ function exportData() {
 }
 
 function importData() {
-    callback = function(file) {
-        new Promise(function(resolve, _reject) {
+    callback = function (file) {
+        new Promise(function (resolve, _reject) {
             if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw new Error(gui.getMessage('export_invalidexportdata'));
             let reader = new FileReader();
-            reader.onload = function() {
+            reader.onload = function () {
                 let data = JSON.parse(reader.result);
                 resolve(data);
             };
             reader.readAsText(file);
-        }).then(function(data) {
+        }).then(function (data) {
             if (data.player_id != bgp.Data.generator.player_id) throw new Error(gui.getMessage('export_invalidexportdata'));
             let extras = data.extras || {};
             let neighbours = bgp.Data.getNeighbours();
@@ -136,7 +143,7 @@ function importData() {
                 title: gui.getMessage('export_importdata'),
                 text: gui.getMessage('export_importsuccess')
             });
-        }).catch(function(error) {
+        }).catch(function (error) {
             gui.dialog.show({
                 title: gui.getMessage('export_importdata'),
                 text: error.message || error,
