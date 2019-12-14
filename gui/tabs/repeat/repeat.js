@@ -6,7 +6,7 @@ export default {
     getState: getState,
     setState: setState,
     visibilityChange: visibilityChange,
-    requires: (function() {
+    requires: (function () {
         var requires = ['materials', 'map_filters', 'events', 'special_weeks'];
         for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
         return requires;
@@ -36,7 +36,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('repeat');
     smartTable.fixedFooter.parentNode.classList.add('repeat');
-    smartTable.tbody[0].addEventListener('render', function(event) {
+    smartTable.tbody[0].addEventListener('render', function (event) {
         updateRow(event.target);
     });
     smartTable.table.addEventListener('click', onClickTable, true);
@@ -65,14 +65,14 @@ function update() {
     }
 
     // This will refresh the background page Repeatables
-    gui.getRepeatables();
+    const allRepeatables = gui.getRepeatables();
 
     let filters = Object.values(gui.getFile('map_filters')).filter(f => f.mobile_asset == 'materials').map(o => o.filter);
     for (let rid = region; rid >= 0; rid--) {
         let locations = Object.values(gui.getFile('locations_' + rid));
         for (let loc of locations) {
-            if (+loc.reset_cd <= 0) continue;
-            if (+loc.test || !+loc.order_id) continue;
+            const lid = +loc.def_id;
+            if (!(lid in allRepeatables)) continue;
             let expire = 0;
             let eid = 0;
             if (rid > 0) {
@@ -83,7 +83,7 @@ function update() {
                 if (!expire) continue;
             }
             let item = {};
-            item.id = +loc.def_id;
+            item.id = lid;
             item.name = gui.getString(loc.name_loc);
             item.rid = rid;
             item.eid = eid;

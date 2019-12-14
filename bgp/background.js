@@ -1053,6 +1053,8 @@ var Data = {
             for (let loc of Object.values(locations)) {
                 if (+loc.reset_cd <= 0) continue;
                 if (+loc.test || !+loc.order_id) continue;
+                // Additional check
+                if (+loc.req_quest_a == 1) continue;
                 let item = {};
                 item.id = +loc.def_id;
                 item.cooldown = +loc.reset_cd;
