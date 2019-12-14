@@ -25,7 +25,7 @@ function init() {
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
         var div = tab.container.querySelector('.' + className);
-        div.addEventListener('render', function(_event) {
+        div.addEventListener('render', function (_event) {
             updateCamp(this);
         });
 
@@ -94,13 +94,13 @@ function toggleNeighbor() {
 
 function onmousemove(event) {
     var el = event.target;
-    var bid = 0;
+    var bid = [];
     while (!el.classList.contains('card')) {
-        if (el.hasAttribute('bid')) bid = el.getAttribute('bid');
+        if (el.hasAttribute('bid')) bid = el.getAttribute('bid').split(',');
         el = el.parentNode;
     }
     el.querySelectorAll('.item.building').forEach(el => {
-        var flag = el.getAttribute('bid') === bid;
+        var flag = bid.includes(el.getAttribute('bid'));
         el.classList.toggle('selected', flag);
         el.classList.toggle('selected-first', flag && (!el.previousElementSibling || el.previousElementSibling.getAttribute('bid') !== bid));
         el.classList.toggle('selected-last', flag && (!el.nextElementSibling || el.nextElementSibling.getAttribute('bid') !== bid));
@@ -170,7 +170,7 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += Html.br `</table><div class="screenshot"></div></td>`;
 
     if (isPublic) {
-        camps.forEach(function(campResult, index) {
+        camps.forEach(function (campResult, index) {
             var cap_total = campResult.cap_tot;
             var reg_total = campResult.reg_tot;
             var fillTime = Math.ceil(cap_total / reg_total * 3600);
@@ -190,8 +190,10 @@ function updateCamp(div, flagHeaderOnly = false) {
             htm += Html.br `<tbody>`;
             htm += Html.br `<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
             htm += Html.br `<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
-            htm += Html.br `<tr><td>${gui.getMessage('camp_min_value')}</td><td>${Locale.formatNumber(campResult.reg_min)}</td><td>${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
-            htm += Html.br `<tr><td>${gui.getMessage('camp_max_value')}</td><td>${Locale.formatNumber(campResult.reg_max)}</td><td>${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
+            htm += Html.br `<tr><td>${gui.getMessage('camp_min_value')}</td><td bid="${campResult.stat.reg.min.join(',')}">${Locale.formatNumber(campResult.reg_min)}</td>`;
+            htm += Html.br `<td bid="${campResult.stat.cap.min.join(',')}">${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
+            htm += Html.br `<tr><td>${gui.getMessage('camp_max_value')}</td><td bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
+            htm += Html.br `<td bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
             htm += Html.br `</tbody>`;
             if (time) {
                 htm += Html.br `<tbody>`;
@@ -260,7 +262,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     htm += Html.br `</tr></table>`;
 
-    camps.forEach(function(campResult, index) {
+    camps.forEach(function (campResult, index) {
         if (camps.length > 1)
             htm += Html.br `<table class="camp-caption"><thead><tr><th>${gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode')}</th></tr></thead></table>`;
         htm += renderCamp(campResult, isPublic, cdn);
@@ -331,6 +333,10 @@ function calculateCamp(camp, current = true) {
     // position buildings
     reg_min = reg_max = cap_min = cap_max = reg_tot = cap_tot = reg_cnt = cap_cnt = 0;
 
+    const stat = {};
+    stat.cap = {};
+    stat.reg = {};
+
     var blds = current ? camp.buildings : camp.inactive_b;
     blds = blds ? (Array.isArray(blds) ? blds : [blds]) : [];
     blds.forEach(building => {
@@ -346,14 +352,34 @@ function calculateCamp(camp, current = true) {
                 var width = +building.columns;
                 var value = Math.floor((regen || capacity) / width);
                 if (capacity > 0) {
-                    if (cap_min == 0 || value < cap_min) cap_min = value;
-                    if (cap_max == 0 || value > cap_max) cap_max = value;
+                    if (cap_min == 0 || value < cap_min) {
+                        cap_min = value;
+                        stat.cap.min = [bid];
+                    } else if (value == cap_min) {
+                        stat.cap.min.push(bid);
+                    }
+                    if (cap_max == 0 || value > cap_max) {
+                        cap_max = value;
+                        stat.cap.max = [bid];
+                    } else if (value == cap_max) {
+                        stat.cap.max.push(bid);
+                    }
                     cap_tot += capacity;
                     cap_cnt += width;
                 }
                 if (regen > 0) {
-                    if (reg_min == 0 || value < reg_min) reg_min = value;
-                    if (reg_max == 0 || value > reg_max) reg_max = value;
+                    if (reg_min == 0 || value < reg_min) {
+                        reg_min = value;
+                        stat.reg.min = [bid];
+                    } else if (value == reg_min) {
+                        stat.reg.min.push(bid);
+                    }
+                    if (reg_max == 0 || value > reg_max) {
+                        reg_max = value;
+                        stat.reg.max = [bid];
+                    } else if (value == reg_max) {
+                        stat.reg.max.push(bid);
+                    }
                     reg_tot += regen;
                     reg_cnt += width;
                 }
@@ -379,18 +405,19 @@ function calculateCamp(camp, current = true) {
     cap_tot += cap_base;
 
     return {
-        lines: lines,
-        blocks: blocks,
-        reg_min: reg_min,
-        reg_max: reg_max,
-        reg_avg: reg_avg,
-        cap_min: cap_min,
-        cap_max: cap_max,
-        cap_avg: cap_avg,
-        reg_base: reg_base,
-        cap_base: cap_base,
-        reg_tot: reg_tot,
-        cap_tot: cap_tot
+        lines,
+        blocks,
+        stat,
+        reg_min,
+        reg_max,
+        reg_avg,
+        cap_min,
+        cap_max,
+        cap_avg,
+        reg_base,
+        cap_base,
+        reg_tot,
+        cap_tot
     };
 }
 
@@ -422,7 +449,7 @@ function renderCamp(campResult, isPublic) {
         var slots = line.slots;
         htm += Html.br `<div class="line" style="--lw:24;--lh:${line.height}">`;
         var isReversed = (index % 2) == 0 && state.webgl;
-        var getSlot = function(index) {
+        var getSlot = function (index) {
             return slots[isReversed ? NUM_SLOTS - 1 - index : index];
         };
         for (var i = 0; i < NUM_SLOTS;) {

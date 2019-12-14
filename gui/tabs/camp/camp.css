@@ -95,6 +95,13 @@
   margin-right: var(--size);
 }
 
+.camp-data td[bid] {
+  cursor: help;
+}
+.camp-data td[bid]:hover {
+  background-color: var(--tb-hlcol);
+}
+
 .camp .item {
   width: calc(var(--w) * var(--size));
   height: calc(var(--h) * var(--size));
