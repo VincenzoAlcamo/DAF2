@@ -606,12 +606,12 @@ function onClickAdvanced() {
         filterLevelComparison = params.levelcomparison;
         filterLevelType = params.leveltype;
         filterLevel = params.level || 0;
-        filterHideMax = params.hidemax; {
-            const hash = {};
-            for (const option of gui.dialog.element.querySelector('[name=material1').selectedOptions) hash[option.value] = option.value;
-            for (const option of gui.dialog.element.querySelector('[name=material0').selectedOptions) hash[option.value] = -option.value;
-            filterMaterial = Object.values(hash).map(n => parseInt(n)).sort(gui.sortNumberAscending).join(',');
-        }
+        filterHideMax = params.hidemax;
+        const hash = {};
+        for (const option of gui.dialog.element.querySelector('[name=material1').selectedOptions) hash[option.value] = option.value;
+        for (const option of gui.dialog.element.querySelector('[name=material0').selectedOptions) hash[option.value] = -option.value;
+        const keys = Object.keys(hash).map(n => parseInt(n)).sort(gui.sortNumberAscending);
+        filterMaterial = keys.map(n => hash[n]).join(',');
         refresh();
     });
 }
