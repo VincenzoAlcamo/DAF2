@@ -116,6 +116,9 @@
     "gui_pack": {
         "message": "Πακέτο"
     },
+    "gui_equipment": {
+        "message": "Εξοπλισμός"
+    },
     "gui_level": {
         "message": "Επίπεδο"
     },
@@ -233,6 +236,9 @@
     },
     "gui_filter_invert": {
         "message": "Αντιστροφή"
+    },
+    "gui_advancedfilter": {
+        "message": "Εξελιγμένο φίλτρο"
     },
     "dialog_ok": {
         "message": "Εντάξει"
@@ -560,28 +566,8 @@
     "pillars_predicted_level": {
         "message": "Προβλεπόμενο Επίπεδο"
     },
-    "pillars_predicted_energy": {
-        "message": "Προβλεπόμενη Ενέργεια από την Απόκτηση Επιπέδων"
-    },
     "pillars_ignore": {
         "message": "Πατήστε για να αγνοήσετε/συμπεριλάβετε"
-    },
-    "pillars_stats": {
-        "message": "Μέγιστα Πιθανά: $QTY$, Απόκτηση Εμπειρίας: $XP$, Κέρματα: $COINS$, Απόκτηση Ενέργειας: $BOOST$",
-        "placeholders": {
-            "qty": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "coins": {
-                "content": "$3"
-            },
-            "boost": {
-                "content": "$4"
-            }
-        }
     },
     "pillars_grid": {
         "message": "Εμφάνιση ως πλέγμα"
@@ -683,9 +669,6 @@
                 "content": "$3"
             }
         }
-    },
-    "neighbors_advancedfilter": {
-        "message": "Εξελιγμένο φίλτρο"
     },
     "neighbors_advancedfilterinfo": {
         "message": "Μπορείτε να φιλτράρετε τους γείτονές σας με βάση τα δώρα που έστειλαν τις τελευταίες @DAYS@ μέρες επιλέγοντας ένα ή περισσότερα δώρα  από την ακόλουθη λίστα."

@@ -80,6 +80,12 @@
     "gui_energy": {
         "message": "Energia"
     },
+    "gui_food": {
+        "message": "Comida"
+    },
+    "gui_coins": {
+        "message": "Monedas"
+    },
     "gui_backpack": {
         "message": "Mochila"
     },
@@ -115,6 +121,21 @@
     },
     "gui_pack": {
         "message": "Paquetes especiales"
+    },
+    "gui_equipment": {
+        "message": "Equipamiento"
+    },
+    "gui_shop": {
+        "message": "Tienda"
+    },
+    "gui_decoration": {
+        "message": "Decoraciones"
+    },
+    "gui_usable": {
+        "message": "Consumibles"
+    },
+    "gui_token": {
+        "message": "Anillos verdes/rojos/gusanos etc ( coleccionables )"
     },
     "gui_level": {
         "message": "Nivel"
@@ -234,6 +255,9 @@
     "gui_filter_invert": {
         "message": "Inverir"
     },
+    "gui_advancedfilter": {
+        "message": "Filtro avanzado"
+    },
     "dialog_ok": {
         "message": "OK"
     },
@@ -291,6 +315,9 @@
     "tab_redrings": {
         "message": "Anillos rojos"
     },
+    "tab_christmasrings": {
+        "message": "Anillos navideños"
+    },
     "tab_rewardlinks": {
         "message": "Enlaces de recompensas"
     },
@@ -304,7 +331,7 @@
         "message": "Importar / Exportar"
     },
     "tab_equipment": {
-        "message": "Equipamiento"
+        "message": "Equipamiento/tienda"
     },
     "tab_events": {
         "message": "Pestaña de Eventos"
@@ -397,6 +424,9 @@
                 "content": "$1"
             }
         }
+    },
+    "kitchen_food_in_backpack": {
+        "message": "comida en la mochila"
     },
     "foundry_all": {
         "message": "Todas las aleaciones"
@@ -560,28 +590,14 @@
     "pillars_predicted_level": {
         "message": "Nivel estimado"
     },
-    "pillars_predicted_energy": {
-        "message": "Estimativo de energia ganada al subir de nivel"
+    "pillars_predicted_gain": {
+        "message": "Ganancia estimada por subir de nivel"
     },
     "pillars_ignore": {
         "message": "Clic para ignorar /considerar"
     },
-    "pillars_stats": {
-        "message": "Max Possible: $QTY$, XP Gain: $XP$, Coins: $COINS$, Energy Boost: $BOOST$",
-        "placeholders": {
-            "qty": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "coins": {
-                "content": "$3"
-            },
-            "boost": {
-                "content": "$4"
-            }
-        }
+    "pillars_maxpossible": {
+        "message": "Maximo posible"
     },
     "pillars_grid": {
         "message": "Mostrar como cuadricula"
@@ -683,9 +699,6 @@
                 "content": "$3"
             }
         }
-    },
-    "neighbors_advancedfilter": {
-        "message": "Filtro avanzado"
     },
     "neighbors_advancedfilterinfo": {
         "message": "Puede filtrar aún más a sus vecinos por los regalos que hayan enviado en los últimos @DAYS@ días seleccionando uno o más regalos de la siguiente lista."
@@ -1367,6 +1380,9 @@
     "rings_averageperring": {
         "message": "Experiencia promedio por anillo"
     },
+    "rings_rings": {
+        "message": "Anillos"
+    },
     "equipment_sellout": {
         "message": "Por la venta de los artículos no utilizados obtendrás $TOTAL$ monedas (equipo = $EQUIP$ monedas, decoraciones = $DECO$ monedas)",
         "placeholders": {
@@ -1434,6 +1450,12 @@
     },
     "equipment_level_this": {
         "message": "este livel"
+    },
+    "equipment_include_material": {
+        "message": "Incluye estos materiales"
+    },
+    "equipment_exclude_material": {
+        "message": "Excluye estos materiales"
     },
     "events_year": {
         "message": "Año del evento"

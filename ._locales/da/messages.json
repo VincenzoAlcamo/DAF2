@@ -80,6 +80,12 @@
     "gui_energy": {
         "message": "Energy"
     },
+    "gui_food": {
+        "message": "Mad"
+    },
+    "gui_coins": {
+        "message": "Mønter"
+    },
     "gui_backpack": {
         "message": "Rygsæk"
     },
@@ -115,6 +121,21 @@
     },
     "gui_pack": {
         "message": "Pakke"
+    },
+    "gui_equipment": {
+        "message": "Lejudstyr"
+    },
+    "gui_shop": {
+        "message": "Butik"
+    },
+    "gui_decoration": {
+        "message": "Dekoration"
+    },
+    "gui_usable": {
+        "message": "Brugbart"
+    },
+    "gui_token": {
+        "message": "Særlig gave"
     },
     "gui_level": {
         "message": "Level (Niveau)"
@@ -234,6 +255,9 @@
     "gui_filter_invert": {
         "message": "Vend"
     },
+    "gui_advancedfilter": {
+        "message": "Avanceret filter"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -290,6 +314,9 @@
     },
     "tab_redrings": {
         "message": "Røde ringe"
+    },
+    "tab_christmasrings": {
+        "message": "Jule Ringe"
     },
     "tab_rewardlinks": {
         "message": "Belønnings links"
@@ -560,28 +587,11 @@
     "pillars_predicted_level": {
         "message": "Forventet level"
     },
-    "pillars_predicted_energy": {
-        "message": "Forventet Energi fra Level stigning"
+    "pillars_predicted_gain": {
+        "message": "Forudset gevinst ved at gå et niveau op"
     },
     "pillars_ignore": {
         "message": "Klik for at ignorere / overveje"
-    },
-    "pillars_stats": {
-        "message": "Max mulige: $QTY$, XP grundlag: $XP$, Mønter: $COINS$, Energi Boost: $BOOST$",
-        "placeholders": {
-            "qty": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "coins": {
-                "content": "$3"
-            },
-            "boost": {
-                "content": "$4"
-            }
-        }
     },
     "pillars_grid": {
         "message": "Vis som tabel"
@@ -683,9 +693,6 @@
                 "content": "$3"
             }
         }
-    },
-    "neighbors_advancedfilter": {
-        "message": "Avanceret filter"
     },
     "neighbors_advancedfilterinfo": {
         "message": "Du kan sortere dine naboer på de gaver de har sendt i de sidste @DAYS@ dage ved at vælge en eller flere gaver fra den følgende liste."
@@ -1434,6 +1441,12 @@
     },
     "equipment_level_this": {
         "message": "dette level (niveau)"
+    },
+    "equipment_include_material": {
+        "message": "Med disse materialer"
+    },
+    "equipment_exclude_material": {
+        "message": "Uden disse materialer"
     },
     "events_year": {
         "message": "År"

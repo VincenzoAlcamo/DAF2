@@ -116,6 +116,9 @@
     "gui_pack": {
         "message": "Pack spécial"
     },
+    "gui_equipment": {
+        "message": "Équipements"
+    },
     "gui_level": {
         "message": "Niveau"
     },
@@ -233,6 +236,9 @@
     },
     "gui_filter_invert": {
         "message": "Inverser"
+    },
+    "gui_advancedfilter": {
+        "message": "Filtre avancé"
     },
     "dialog_ok": {
         "message": "D'accord"
@@ -560,28 +566,8 @@
     "pillars_predicted_level": {
         "message": "Niveau prévu"
     },
-    "pillars_predicted_energy": {
-        "message": "Energie acquise à partir du niveau d'avancement"
-    },
     "pillars_ignore": {
         "message": "Cliquez pour ignorer ou considérer"
-    },
-    "pillars_stats": {
-        "message": "Maximum possible: $QTY$, Gain d'expérience: $XP$, Monnaies: $COINS$, Regain d'énergie: $BOOST$",
-        "placeholders": {
-            "qty": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "coins": {
-                "content": "$3"
-            },
-            "boost": {
-                "content": "$4"
-            }
-        }
     },
     "pillars_grid": {
         "message": "En mode grille"
@@ -683,9 +669,6 @@
                 "content": "$3"
             }
         }
-    },
-    "neighbors_advancedfilter": {
-        "message": "Filtre avancé"
     },
     "neighbors_advancedfilterinfo": {
         "message": "Vous pouvez filtrer davantage les voisins en fonction du cadeau qu'ils ont envoyé au cours des @DAYS@ derniers jours en sélectionnant un ou plusieurs cadeaux dans la liste suivante.\n"

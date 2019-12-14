@@ -80,6 +80,12 @@
     "gui_energy": {
         "message": "Energie"
     },
+    "gui_food": {
+        "message": "Nahrung"
+    },
+    "gui_coins": {
+        "message": "Münzen"
+    },
     "gui_backpack": {
         "message": "Rucksack"
     },
@@ -115,6 +121,21 @@
     },
     "gui_pack": {
         "message": "Paket"
+    },
+    "gui_equipment": {
+        "message": "Ausstattung"
+    },
+    "gui_shop": {
+        "message": "Shop"
+    },
+    "gui_decoration": {
+        "message": "Dekoration"
+    },
+    "gui_usable": {
+        "message": "Verwendbar"
+    },
+    "gui_token": {
+        "message": "Token"
     },
     "gui_level": {
         "message": "Level"
@@ -234,6 +255,9 @@
     "gui_filter_invert": {
         "message": "Invertieren"
     },
+    "gui_advancedfilter": {
+        "message": "Erweiterter Filter"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -291,6 +315,9 @@
     "tab_redrings": {
         "message": "Rote Ringe"
     },
+    "tab_christmasrings": {
+        "message": "Weihnachtsringe"
+    },
     "tab_rewardlinks": {
         "message": "Belohnungs-Links"
     },
@@ -304,7 +331,7 @@
         "message": "Import / Export"
     },
     "tab_equipment": {
-        "message": "Ausstattung"
+        "message": "Ausstattung / Shop"
     },
     "tab_events": {
         "message": "Events"
@@ -397,6 +424,9 @@
                 "content": "$1"
             }
         }
+    },
+    "kitchen_food_in_backpack": {
+        "message": "aus der Nahrung im Rucksack"
     },
     "foundry_all": {
         "message": "Alle Legierungen"
@@ -560,28 +590,14 @@
     "pillars_predicted_level": {
         "message": "Voraussichtliches Level"
     },
-    "pillars_predicted_energy": {
-        "message": "Voraussichtlicher Energiegewinn durch den Level-Aufstieg"
+    "pillars_predicted_gain": {
+        "message": "Voraussichtlicher Gewinn aus Level-Ups"
     },
     "pillars_ignore": {
         "message": "Klicken, um zu ignorieren/überlegen."
     },
-    "pillars_stats": {
-        "message": "Max Möglich: $QTY$, XP Gewinn: $XP$, Münzen: $COINS$, Energieschub: $BOOST$",
-        "placeholders": {
-            "qty": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "coins": {
-                "content": "$3"
-            },
-            "boost": {
-                "content": "$4"
-            }
-        }
+    "pillars_maxpossible": {
+        "message": "Maximal möglich"
     },
     "pillars_grid": {
         "message": "Als Raster anzeigen"
@@ -683,9 +699,6 @@
                 "content": "$3"
             }
         }
-    },
-    "neighbors_advancedfilter": {
-        "message": "Erweiterter Filter"
     },
     "neighbors_advancedfilterinfo": {
         "message": "Du kannst deine Nachbarn weiter nach den Geschenken filtern, die sie in den letzten @DAYS@ Tagen versendet haben. Indem du ein oder mehrere Geschenke aus der folgenden Liste auswählst."
@@ -1367,6 +1380,9 @@
     "rings_averageperring": {
         "message": "Durchschnittliche XP pro Ring"
     },
+    "rings_rings": {
+        "message": "Ringe"
+    },
     "equipment_sellout": {
         "message": "Wenn du alle unbenutzten Gegenstände verkaufst, wirst du $TOTAL$-Münzen erhalten (Ausstattung = $EQUIP$-Münzen, Dekorationen = $DECO$-Münzen).",
         "placeholders": {
@@ -1434,6 +1450,12 @@
     },
     "equipment_level_this": {
         "message": "Dieses Level"
+    },
+    "equipment_include_material": {
+        "message": "Diese Materialien hinzufügen."
+    },
+    "equipment_exclude_material": {
+        "message": "Diese Materialien ausschließen."
     },
     "events_year": {
         "message": "Jahr"
