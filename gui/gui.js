@@ -215,7 +215,7 @@ let gui = {
         if (type == 'system' && (oid == 1 || oid == 2)) return 1;
         return 0;
     },
-    getBackpackFood: function() {
+    getBackpackFood: function () {
         let total = 0;
         for (const [key, qty] of Object.entries(bgp.Data.generator.usables)) {
             total += (qty * gui.getXp('usable', key));
@@ -485,6 +485,33 @@ let gui = {
         result.doubleDrop = result.types['refresh_drop'];
         result.postcards = result.types['postcards'];
         return result;
+    },
+    calculateLoot: function (lootArea, level, swDoubleDrop) {
+        let min = +lootArea.min;
+        let max = +lootArea.max;
+        let coef = +lootArea.coef;
+        if (min > max) {
+            min = max = 1;
+            coef = 0;
+        }
+        let minValue = Math.floor(min);
+        let maxValue = Math.floor(max);
+        if (coef) {
+            minValue += Math.floor(minValue * coef * level);
+            maxValue += Math.floor(maxValue * coef * level);
+        }
+        if (swDoubleDrop) {
+            const coeficient = swDoubleDrop.coeficient;
+            minValue = Math.round(minValue * coeficient);
+            maxValue = Math.round(maxValue * coeficient);
+        }
+        return {
+            notRandom: min == max,
+            coef: coef,
+            min: Math.max(0, minValue),
+            max: Math.max(0, maxValue),
+            avg: Math.max(0, (minValue + maxValue) / 2)
+        };
     },
     setupScreenshot: function (element, fileName = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');

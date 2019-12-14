@@ -336,7 +336,6 @@ function ringLoot(kind) {
         htm += Html.br `<tbody>`;
         let lastChest = 0;
         let odd = false;
-        let multiplier = swDoubleDrop ? swDoubleDrop.coeficient : 1;
         let tdAvg = Html `<td class="avg">`;
         let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
         let showXp = (exp) => {
@@ -346,32 +345,57 @@ function ringLoot(kind) {
         totalExp = totalExp2 = countExp = 0;
         let checked = true;
 
-        let loots = floorData[lid].loots;
-        if (rid) {
-            loots = loots.filter(lootArea => lootArea.region_id == rid || (lootArea.region_id || 0) == 0);
-            let last = null;
-            let chest = 0;
-            for (const lootArea of loots) {
-                if (last == null || last.tle != lootArea.tle) {
-                    last = lootArea;
-                    chest = chest + 1;
-                    lootArea.numRows = 1;
-                } else {
-                    last.numRows++;
+        let last = null;
+        let chest = 0;
+        let loots = [];
+        for (const lootArea of floorData[lid].loots.filter(lootArea => lootArea.region_id == rid || (lootArea.region_id || 0) == 0)) {
+            if (last == null || last.tle != lootArea.tle) {
+                last = lootArea;
+                chest = chest + 1;
+                lootArea.numRows = 1;
+                delete lootArea.additional;
+            } else {
+                // Merge material
+                const existing = loots.find(l => l.chest == chest && l.type == lootArea.type && l.object_id == lootArea.object_id);
+                if (existing) {
+                    if (!existing.additional) existing.additional = [];
+                    existing.additional.push(lootArea);
+                    continue;
                 }
+                last.numRows++;
             }
+            loots.push(lootArea);
         }
         floorData[lid].curLoots = loots;
 
+        const calculateLoot = (lootArea, level) => {
+            const loot = gui.calculateLoot(lootArea, level, swDoubleDrop);
+            if (lootArea.additional) {
+                for (const lootArea2 of lootArea.additional) {
+                    const loot2 = gui.calculateLoot(lootArea2, level, swDoubleDrop);
+                    loot.notRandom = loot.notRandom && loot2.notRandom;
+                    loot.coef = loot.coef || loot2.coef;
+                    loot.min += loot2.min;
+                    loot.max += loot2.max;
+                    loot.avg += loot2.avg;
+                }
+            }
+            loot.avg = Math.floor(loot.avg);
+            return loot;
+        };
+
         for (const lootArea of loots) {
-            let coef = lootArea.coef;
-            let notRandom = lootArea.min == lootArea.max;
-            let min, max, avg, exp;
-            min = lootArea.min + (coef != 0.0 ? Math.floor((level * coef) * lootArea.min) : 0);
-            max = lootArea.max + (coef != 0.0 ? Math.floor((level * coef) * lootArea.max) : 0);
-            avg = Math.floor((min + max) / 2);
+            const type = lootArea.type;
+            const oid = lootArea.object_id;
+            const matXp = gui.getXp(type, oid);
+
+            const loot = calculateLoot(lootArea, level);
+            const loot2 = gui.calculateLoot(lootArea, otherLevel);
+            lootArea.exp = loot.avg * matXp;
+            lootArea.exp2 = loot2.avg * matXp;
+
             if (lootArea.chest != lastChest) odd = !odd;
-            htm += Html.br `<tr class="${(odd ? 'odd' : '') + (notRandom ? ' not-random' : '')}">`;
+            htm += Html.br `<tr class="${(odd ? 'odd' : '') + (loot.notRandom ? ' not-random' : '')}">`;
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
                 let checkbox = '';
@@ -384,30 +408,16 @@ function ringLoot(kind) {
                 htm += Html.br `<td class="chest" rowspan="${lootArea.numRows}">${checkbox}<span class="chest-id">${Locale.formatNumber(lootArea.chest)}</span></td>`;
                 if (checked) countExp++;
             }
-            lootArea.checked = checked;
-            let type = lootArea.type;
-            let oid = lootArea.object_id;
-            htm += Html.br `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
-            min = multiplier * Math.max(0, min);
-            max = multiplier * Math.max(0, max);
-            avg = multiplier * Math.max(0, avg);
-            exp = avg * gui.getXp(type, oid);
-            lootArea.exp = exp;
-            if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp += exp;
-            htm += Html.br `<td class="min">${notRandom ? '' : Locale.formatNumber(min)}</td>`;
-            htm += Html.br `${coef == 0 && kind != 'christmas' ? tdNotDependent : tdAvg}${Locale.formatNumber(avg)}${showXp(exp)}</td>`;
-            htm += Html.br `<td class="max">${notRandom ? '' : Locale.formatNumber(max)}</td>`;
 
-            min = lootArea.min + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.min) : 0);
-            max = lootArea.max + (coef != 0.0 ? Math.floor((otherLevel * coef) * lootArea.max) : 0);
-            avg = Math.floor((min + max) / 2);
-            min = multiplier * Math.max(0, min);
-            max = multiplier * Math.max(0, max);
-            avg = multiplier * Math.max(0, avg);
-            exp = avg * gui.getXp(type, oid);
-            lootArea.exp2 = exp;
-            if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp2 += exp;
-            htm += Html.br `<td class="level">${Locale.formatNumber(avg)}${showXp(exp)}</td>`;
+            lootArea.checked = checked;
+            if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp += lootArea.exp;
+            if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp2 += lootArea.exp2;
+
+            htm += Html.br `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
+            htm += Html.br `<td class="min">${loot.notRandom ? '' : Locale.formatNumber(loot.min)}</td>`;
+            htm += Html.br `${loot.coef == 0 && kind != 'christmas' ? tdNotDependent : tdAvg}${Locale.formatNumber(loot.avg)}${showXp(lootArea.exp)}</td>`;
+            htm += Html.br `<td class="max">${loot.notRandom ? '' : Locale.formatNumber(loot.max)}</td>`;
+            htm += Html.br `<td class="level">${Locale.formatNumber(loot2.avg)}${showXp(lootArea.exp2)}</td>`;
             htm += Html.br `</tr>`;
         }
         htm += Html.br `</tbody>`;
