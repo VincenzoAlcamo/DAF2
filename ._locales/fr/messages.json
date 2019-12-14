@@ -80,6 +80,12 @@
     "gui_energy": {
         "message": "Énergie"
     },
+    "gui_food": {
+        "message": "Nourriture"
+    },
+    "gui_coins": {
+        "message": "Pièces d'or"
+    },
     "gui_backpack": {
         "message": "Inventaire"
     },
@@ -118,6 +124,18 @@
     },
     "gui_equipment": {
         "message": "Équipements"
+    },
+    "gui_shop": {
+        "message": "Boutique"
+    },
+    "gui_decoration": {
+        "message": "Décoration"
+    },
+    "gui_usable": {
+        "message": "Utilisable"
+    },
+    "gui_token": {
+        "message": "Divers"
     },
     "gui_level": {
         "message": "Niveau"
@@ -297,6 +315,9 @@
     "tab_redrings": {
         "message": "Anneaux Rouges"
     },
+    "tab_christmasrings": {
+        "message": "Anneaux de Noël"
+    },
     "tab_rewardlinks": {
         "message": "Liens de récompense"
     },
@@ -310,7 +331,7 @@
         "message": "Importer et Exporter"
     },
     "tab_equipment": {
-        "message": "Équipements"
+        "message": "Équipements / Boutique"
     },
     "tab_events": {
         "message": "Événements"
@@ -403,6 +424,9 @@
                 "content": "$1"
             }
         }
+    },
+    "kitchen_food_in_backpack": {
+        "message": "de la nourriture dans le sac à dos"
     },
     "foundry_all": {
         "message": "Tous les alliages"
@@ -566,8 +590,14 @@
     "pillars_predicted_level": {
         "message": "Niveau prévu"
     },
+    "pillars_predicted_gain": {
+        "message": "Gain prévu des augmentations de niveau"
+    },
     "pillars_ignore": {
         "message": "Cliquez pour ignorer ou considérer"
+    },
+    "pillars_maxpossible": {
+        "message": "Max possible"
     },
     "pillars_grid": {
         "message": "En mode grille"
@@ -1350,6 +1380,9 @@
     "rings_averageperring": {
         "message": "Expérience moyenne par anneau"
     },
+    "rings_rings": {
+        "message": "Anneaux"
+    },
     "equipment_sellout": {
         "message": "La vente de tous les objets inutilisés vous rapportera $TOTAL$ pièces de monnaie (équipments = $EQUIP$ pièces, décorations = $DECO$ pièces)",
         "placeholders": {
@@ -1417,6 +1450,12 @@
     },
     "equipment_level_this": {
         "message": "ce niveau"
+    },
+    "equipment_include_material": {
+        "message": "Inclure ces matériaux"
+    },
+    "equipment_exclude_material": {
+        "message": "Exclure ces matériaux"
     },
     "events_year": {
         "message": "Année"

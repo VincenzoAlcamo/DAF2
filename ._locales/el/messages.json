@@ -80,6 +80,12 @@
     "gui_energy": {
         "message": "Ενέργεια"
     },
+    "gui_food": {
+        "message": "Φαγητό"
+    },
+    "gui_coins": {
+        "message": "Νομίσματα"
+    },
     "gui_backpack": {
         "message": "Αποθήκη"
     },
@@ -118,6 +124,18 @@
     },
     "gui_equipment": {
         "message": "Εξοπλισμός"
+    },
+    "gui_shop": {
+        "message": "Μαγαζί"
+    },
+    "gui_decoration": {
+        "message": "Διακοσμητικό"
+    },
+    "gui_usable": {
+        "message": "Μιας χρήσης"
+    },
+    "gui_token": {
+        "message": "Δαχτυλίδι"
     },
     "gui_level": {
         "message": "Επίπεδο"
@@ -297,6 +315,9 @@
     "tab_redrings": {
         "message": "Κόκκινα Δαχτυλίδια"
     },
+    "tab_christmasrings": {
+        "message": "Χριστουγεννιάτικα Δαχτυλίδια"
+    },
     "tab_rewardlinks": {
         "message": "Σύνδεσμοι Δώρων"
     },
@@ -310,7 +331,7 @@
         "message": "Εισαγωγή / Εξαγωγή"
     },
     "tab_equipment": {
-        "message": "Εξοπλισμός"
+        "message": "Εξοπλισμός / Μαγαζί"
     },
     "tab_events": {
         "message": "Ιστορίες"
@@ -403,6 +424,9 @@
                 "content": "$1"
             }
         }
+    },
+    "kitchen_food_in_backpack": {
+        "message": "από το φαγητό στο σακίδιο"
     },
     "foundry_all": {
         "message": "Όλα τα κράματα"
@@ -566,8 +590,14 @@
     "pillars_predicted_level": {
         "message": "Προβλεπόμενο Επίπεδο"
     },
+    "pillars_predicted_gain": {
+        "message": "Αναμενόμενο κέρδος από αυξήσεις επιπέδων"
+    },
     "pillars_ignore": {
         "message": "Πατήστε για να αγνοήσετε/συμπεριλάβετε"
+    },
+    "pillars_maxpossible": {
+        "message": "Το μεγαλύτερο δυνατό"
     },
     "pillars_grid": {
         "message": "Εμφάνιση ως πλέγμα"
@@ -1350,6 +1380,9 @@
     "rings_averageperring": {
         "message": "Μέση Εμπειρία ανά δαχτυλίδι"
     },
+    "rings_rings": {
+        "message": "Δαχτυλίδια"
+    },
     "equipment_sellout": {
         "message": "Η πώληση όλων των αχρησιμοποίητων αντικειμένων θα σας δώσει $TOTAL$ νομίσματα (εξοπλισμός = $EQUIP$ νομίσματα, διακοσμητικά = $DECO$ νομίσματα)",
         "placeholders": {
@@ -1417,6 +1450,12 @@
     },
     "equipment_level_this": {
         "message": "αυτό το επίπεδο"
+    },
+    "equipment_include_material": {
+        "message": "Συμπερίληψη αυτών των υλικών"
+    },
+    "equipment_exclude_material": {
+        "message": "Μη συμπερίληψη αυτών των υλικών"
     },
     "events_year": {
         "message": "Έτος"
