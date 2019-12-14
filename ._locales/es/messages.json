@@ -135,7 +135,7 @@
         "message": "Consumibles"
     },
     "gui_token": {
-        "message": "Anillos verdes/rojos/gusanos etc ( coleccionables )"
+        "message": "Diverso"
     },
     "gui_level": {
         "message": "Nivel"
@@ -331,7 +331,7 @@
         "message": "Importar / Exportar"
     },
     "tab_equipment": {
-        "message": "Equipamiento/tienda"
+        "message": "Equipamiento / Tienda"
     },
     "tab_events": {
         "message": "Pestaña de Eventos"
