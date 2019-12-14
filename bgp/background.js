@@ -1046,15 +1046,22 @@ var Data = {
     getRepeatables: function () {
         // Collect all repeatables in the game
         // Make sure that all files are loaded, before calling this method
-        let repeatables = {};
+        const events = Data.files.events;
+        const repeatables = {};
         for (let rid = Data.getMaxRegion(); rid >= 0; rid--) {
             let locations = Data.files['locations_' + rid];
             if (!locations) return {};
             for (let loc of Object.values(locations)) {
                 if (+loc.reset_cd <= 0) continue;
                 if (+loc.test || !+loc.order_id) continue;
-                // Additional check
+                // Additional checks
                 if (+loc.req_quest_a == 1) continue;
+                let eid = +loc.event_id || 0;
+                if (eid) {
+                    const event = events[eid];
+                    if (!event) continue;
+                    if ((',' + event.locations + ',' + event.extended_locations + ',').indexOf(',' + loc.def_id + ',') < 0) continue;
+                }
                 let item = {};
                 item.id = +loc.def_id;
                 item.cooldown = +loc.reset_cd;

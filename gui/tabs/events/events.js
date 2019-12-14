@@ -142,10 +142,23 @@ function update() {
         for (let lid of xlo) {
             if (!locations.includes(lid)) locations.push(lid);
         }
+        locations = locations.filter(lid => {
+            let location = locations0[lid];
+            // Additional check
+            if (+location.req_quest_a == 1) {
+                xlo = xlo.filter(id => id != lid);
+                return false;
+            }
+            return true;
+        });
         // Segmented events have at least one reward specific to a region
         item.segmented = !!event.reward.find(reward => +reward.region_id > 0);
         let rep = locations.filter(lid => {
             let location = locations0[lid];
+            // Additional check
+            if (+location.req_quest_a == 1) {
+
+            }
             // Segmented events have an override for completion bonus
             if (location.overrides && location.overrides.length) item.segmented = true;
             if (location && +location.reset_cd > 0) {
