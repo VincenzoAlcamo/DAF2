@@ -825,18 +825,19 @@ function getMaterialImg(req) {
         let item = gui.getObject('material', id);
         let name_loc = item && item.name_loc;
         result.name = name_loc ? gui.getString(name_loc) : '#' + id;
-        result.title = '';
-        const xp = gui.getXp('material', id);
-        const totXp = req.amount * xp;
-        if (totXp) {
-            const textXp = ((xp == 1 || req.amount == 1) ? '' : Locale.formatNumber(req.amount) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
-            result.title += '\n' + gui.getMessageAndValue('gui_xp', textXp);
-        }
-        result.title += (item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '');
+        result.title = (item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '');
         matCache[id] = result;
     }
     let img = result.url ? Html `<img width="18" height="18" src="${result.url}">` : '';
-    return Html `<span class="${req.amount > req.stored ? 'locked' : ''}" title="${result.name + ' (' + Locale.formatNumber(req.amount) + ' / ' + Locale.formatNumber(req.stored) + ')' + result.title}">${Locale.formatNumber(req.amount)}${img}</span>`;
+    let title = result.name + ' (' + Locale.formatNumber(req.amount) + ' / ' + Locale.formatNumber(req.stored) + ')';
+    const xp = gui.getXp('material', id);
+    const totXp = req.amount * xp;
+    if (totXp) {
+        const textXp = ((xp == 1 || req.amount == 1) ? '' : Locale.formatNumber(req.amount) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
+        title += '\n' + gui.getMessageAndValue('gui_xp', textXp);
+    }
+    title += result.title;
+    return Html `<span class="${req.amount > req.stored ? 'locked' : ''}" title="${title}">${Locale.formatNumber(req.amount)}${img}</span>`;
 }
 
 function updateRow(row) {
