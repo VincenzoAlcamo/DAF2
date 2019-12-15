@@ -102,8 +102,8 @@ function onmousemove(event) {
     el.querySelectorAll('.item.building').forEach(el => {
         var flag = bid.includes(el.getAttribute('bid'));
         el.classList.toggle('selected', flag);
-        el.classList.toggle('selected-first', flag && (!el.previousElementSibling || el.previousElementSibling.getAttribute('bid') !== bid));
-        el.classList.toggle('selected-last', flag && (!el.nextElementSibling || el.nextElementSibling.getAttribute('bid') !== bid));
+        el.classList.toggle('selected-first', flag && (!el.previousElementSibling || !bid.includes(el.previousElementSibling.getAttribute('bid'))));
+        el.classList.toggle('selected-last', flag && (!el.nextElementSibling || !bid.includes(el.nextElementSibling.getAttribute('bid'))));
     });
 }
 
