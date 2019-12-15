@@ -621,6 +621,9 @@
     "neighbors_lastgiftreceived": {
         "message": "Last Gift\nReceived"
     },
+    "neighbors_lastvisit": {
+        "message": "Last\nVisit"
+    },
     "neighbors_all": {
         "message": "All"
     },

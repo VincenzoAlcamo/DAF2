@@ -289,6 +289,11 @@ function updateRow(row) {
     } else {
         htm += Html.br `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
     }
+    if (pal.extra.lastVisit) {
+        htm += Html.br `<td>${Locale.formatDate(pal.extra.lastVisit)}<br>${Locale.formatDays(pal.extra.lastVisit)}</td>`;
+    } else {
+        htm += Html.br `<td></td>`;
+    }
     if (pal.extra.lastGift) {
         htm += Html.br `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
     } else {
@@ -402,6 +407,7 @@ function refreshDelayed() {
         list: pal => +pal.c_list ? 0 : 1,
         blocks: pal => pal.extra.blocks === undefined ? NaN : +pal.extra.blocks,
         wmtime: pal => pal.extra.wmtime === undefined ? NaN : +pal.extra.wmtime,
+        visit: pal => pal.extra.lastVisit === undefined ? NaN : +pal.extra.lastVisit,
         recorded: pal => +pal.extra.timeCreated || 0,
         gifts: pal => palGifts[pal.id].length,
         efficiency: pal => palEfficiency[pal.id],

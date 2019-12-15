@@ -1550,6 +1550,7 @@
 "en@pillars_cap":{"message":"Cap to Possible"},
 "en@neighbors_lastlevelup":{"message":"Last\nLevel Up"},
 "en@neighbors_lastgiftreceived":{"message":"Last Gift\nReceived"},
+"en@neighbors_lastvisit":{"message":"Last\nVisit"},
 "en@neighbors_all":{"message":"All"},
 "en@neighbors_nogift":{"message":"No gifts in $1 days"},
 "en@neighbors_gifts":{"message":"Consider gifts in last @DAYS@ days"},

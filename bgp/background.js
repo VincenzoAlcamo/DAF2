@@ -1615,22 +1615,15 @@ var Synchronize = {
             camp.time = Synchronize.time;
             let pal = Data.getNeighbour(neighbourId);
             if (pal) {
-                let changed = false;
+                pal.extra.lastVisit = Synchronize.time;
                 let blocks = 144;
                 for (let n of String(camp.lines_blocked || '').split(',')) {
                     n = parseInt(n);
                     if (isFinite(n)) blocks += n - 24;
                 }
-                if (blocks !== pal.extra.blocks) {
-                    pal.extra.blocks = blocks;
-                    changed = true;
-                }
-                let wmtime = Data.getCampWindmillTime(camp);
-                if (wmtime !== pal.extra.wmtime) {
-                    pal.extra.wmtime = wmtime;
-                    changed = true;
-                }
-                if (changed) Data.saveNeighbour(pal);
+                pal.extra.blocks = blocks;
+                pal.extra.wmtime = Data.getCampWindmillTime(camp);
+                Data.saveNeighbour(pal);
             }
             Synchronize.signal(action, neighbourId);
         },
