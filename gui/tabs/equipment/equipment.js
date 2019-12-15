@@ -120,7 +120,7 @@ function computeItem(item, level, skins) {
     if (item.owned >= item.limit) item.locked |= 4;
     item.gain = 0;
     if (item.type == 'capacity' || item.type == 'regen') {
-        item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.subtype == 'capacity' ? minCapacity : minRegen)) : 0;
+        item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen)) : 0;
     }
 }
 
