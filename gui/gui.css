@@ -510,8 +510,13 @@ th.sortable-sub.only-image {
 }
 
 img.small {
-  width: 16px;
-  height: 16px;
+  max-width: 16px;
+  max-height: 16px;
+}
+
+img.medium {
+  max-width: 24px;
+  max-height: 24px;
 }
 
 /*#endregion*/
