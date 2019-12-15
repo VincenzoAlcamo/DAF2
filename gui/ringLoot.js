@@ -460,7 +460,7 @@ function ringLoot(kind) {
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
                 if (lootArea.checked) {
-                    countExp++;
+                    if (!lootArea.tle.startsWith('z')) countExp++;
                     chestState += (2 ** (lootArea.chest - 1));
                 }
             }
