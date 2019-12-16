@@ -135,7 +135,7 @@
         "message": "Utilisable"
     },
     "gui_token": {
-        "message": "Divers"
+        "message": "Jeton"
     },
     "gui_level": {
         "message": "Niveau"
@@ -331,7 +331,7 @@
         "message": "Importer et Exporter"
     },
     "tab_equipment": {
-        "message": "Équipements / Boutique"
+        "message": "Équipements"
     },
     "tab_events": {
         "message": "Événements"
@@ -597,7 +597,7 @@
         "message": "Cliquez pour ignorer ou considérer"
     },
     "pillars_maxpossible": {
-        "message": "Max possible"
+        "message": "Maximum possible"
     },
     "pillars_grid": {
         "message": "En mode grille"
