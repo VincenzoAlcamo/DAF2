@@ -120,7 +120,7 @@ function computeItem(item, level, skins) {
     if (item.owned >= item.limit) item.locked |= 4;
     item.gain = 0;
     if (item.type == 'capacity' || item.type == 'regen') {
-        item.gain = item.owned < item.limit ? item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen)) : 0;
+        item.gain = item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen));
     }
 }
 
@@ -439,10 +439,6 @@ function update() {
     refresh();
 }
 
-function isEventSegmented(eventId) {
-    return allEvents && allEvents[eventId] && allEvents[eventId].segmented ? true : false;
-}
-
 function getState() {
     return {
         show: selectShow.value,
@@ -655,7 +651,7 @@ function getCurrentItems(state) {
         const tokOwned = generator.tokens;
         const matOwned = generator.materials;
 
-        function addSale(sale) {
+        const addSale = (sale) => {
             if (+sale.hide) return null;
             let item = sale.type == 'building' ? allItems['b' + sale.object_id] : null;
             if (item == null) {
@@ -711,7 +707,7 @@ function getCurrentItems(state) {
                 computeItem(item, level, skins);
             }
             if (item) currentItems[item.id] = item;
-        }
+        };
         if (state.shop_from == 'theme' || (state.shop_from == 'region' && state.region > 1)) {
             const skin = state.shop_from == 'theme' ? state.theme : gui.getSkinFromRegion(state.region);
             for (const sale of sales) {
