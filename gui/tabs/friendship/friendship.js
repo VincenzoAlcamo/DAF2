@@ -15,6 +15,7 @@ var buttonUnlink, buttonIgnore, buttonRegard, buttonManual, friendDisabled;
 var divMatch, matchingId;
 
 var firstTimeManualHelp = true;
+var firstTimeCollectPopup = true;
 var numFriends = 0;
 var numDisabled = 0;
 var numNeighbours = 0;
@@ -409,9 +410,10 @@ function updateRow(row) {
         htm += Html.br `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
         htm += Html.br `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
         htm += Html.br `<td>${Locale.formatNumber(pal.level)}</td>`;
+        htm += Html.br `<td>${gui.getRegionImg(pal.region)}</td>`;
         htm += Html.br `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
     } else {
-        htm += Html.br `<td></td><td></td><td></td><td></td>`;
+        htm += Html.br `<td></td><td></td><td></td><td></td><td></td>`;
     }
     row.innerHTML = htm;
     var isIgnored = friend ? friend.score == -1 : false;
@@ -466,7 +468,10 @@ function refreshDelayed() {
     var friends = Object.values(bgp.Data.getFriends());
     var notmatched = getNeighboursAsNotMatched();
     numFriends = friends.length;
-    if (numFriends == 0) setTimeout(showCollectDialog, 500);
+    if (numFriends == 0 && firstTimeCollectPopup) {
+        firstTimeCollectPopup = false;
+        setTimeout(showCollectDialog, 500);
+    }
     numNeighbours = Object.keys(notmatched).length;
     numMatched = numMatchedImage = numMatchedManually = numDisabled = numIgnored = numFriendsShown = numNeighboursShown = 0;
     let getSortValueFunctions = {
@@ -475,6 +480,7 @@ function refreshDelayed() {
         score: (pair) => pair[0] ? pair[0].score : NaN,
         name: (pair) => pair[1] ? gui.getPlayerNameFull(pair[1]) : null,
         level: (pair) => pair[1] ? pair[1].level : NaN,
+        region: (pair) => pair[1] ? pair[1].region : NaN,
         recorded: (pair) => pair[1] ? pair[1].extra.timeCreated || 0 : NaN
     };
     let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'fname');
