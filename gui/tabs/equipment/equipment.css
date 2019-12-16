@@ -302,12 +302,12 @@ div.equipment_mask {
 
 .equipment-advanced-table b {
   display: inline-block;
-  max-width: 230px;
+  max-width: 234px;
 }
 
 .equipment-advanced-table select {
   height: 270px !important;
-  width: 230px !important;
+  width: 234px !important;
 }
 
 .equipment-advanced-table option {

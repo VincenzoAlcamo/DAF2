@@ -555,7 +555,11 @@ function onClickAdvanced() {
     htm += Html `</optgroup>`;
     htm += Html `</select></td>`;
     const materials = gui.getFile('materials');
-    const items = listMaterial.map(id => [id, gui.getObjectName('material', id), +materials[id].event_id]).sort((a, b) => a[1].localeCompare(b[1]));
+    const items = listMaterial.map(id => {
+        let name = gui.getObjectName('material', id);
+        name = name.substr(0, 1) + name.substr(1).toLowerCase();
+        return [id, name, +materials[id].event_id];
+    }).sort((a, b) => a[1].localeCompare(b[1]));
     const addMaterialList = (isInclude) => {
         const list = gui.getArrayOfInt(filterMaterial).map(isInclude ? n => n : n => -n).filter(n => n > 0);
         const name = 'material' + (isInclude ? 1 : 0);
