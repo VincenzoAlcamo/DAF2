@@ -157,7 +157,7 @@ function update() {
             let location = locations0[lid];
             // Additional check
             if (+location.req_quest_a == 1) {
-
+                return false;
             }
             // Segmented events have an override for completion bonus
             if (location.overrides && location.overrides.length) item.segmented = true;
