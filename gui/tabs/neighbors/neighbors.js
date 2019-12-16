@@ -289,11 +289,11 @@ function updateRow(row) {
     } else {
         htm += Html.br `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
     }
-    if (pal.extra.lastVisit) {
-        htm += Html.br `<td>${Locale.formatDate(pal.extra.lastVisit)}<br>${Locale.formatDays(pal.extra.lastVisit)}</td>`;
-    } else {
-        htm += Html.br `<td></td>`;
-    }
+    // if (pal.extra.lastVisit) {
+    //     htm += Html.br `<td>${Locale.formatDate(pal.extra.lastVisit)}<br>${Locale.formatDays(pal.extra.lastVisit)}</td>`;
+    // } else {
+    //     htm += Html.br `<td></td>`;
+    // }
     if (pal.extra.lastGift) {
         htm += Html.br `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
     } else {
