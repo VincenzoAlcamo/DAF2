@@ -13,8 +13,8 @@ let selectShow, selectEvent, selectRegion, selectTheme;
 let allItems, currentItems, allEvents;
 let matCache, minRegen, minCapacity, updateTime, packsViewed;
 let currency, lastPack, btnPack;
-let listMaterial;
-let filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
+let listRegion, listSkin, listMaterial;
+let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
 
 function init() {
     tab = this;
@@ -394,6 +394,8 @@ function update() {
     }
 
     // Remove non-owned and not-on-sale; compute other values
+    listSkin = {};
+    listRegion = {};
     listMaterial = {};
     let coins = 0;
     const skins = getBoughtSkins();
@@ -408,15 +410,19 @@ function update() {
             item.region = gui.getRegionFromSkin(item.skin);
             if (!item.region) {
                 item.region = item.skin / 100;
+                listSkin[item.skin] = true;
             }
         } else {
             item.region = item.erid || item.region || 1;
             item.rskin = gui.getSkinFromRegion(item.region);
+            listRegion[item.region] = true;
         }
         for (let req of item.reqs || []) listMaterial[req.material_id] = true;
         if (item.placed < item.owned && item.sell) coins += item.sell * (item.owned - item.placed);
         computeItem(item, level, skins);
     }
+    listSkin = Object.keys(listSkin).map(n => +n).sort(gui.sortNumberAscending);
+    listRegion = Object.keys(listRegion).map(n => +n).sort(gui.sortNumberAscending);
     listMaterial = Object.keys(listMaterial).map(n => +n).sort(gui.sortNumberAscending);
 
     let coins_deco = 0;
@@ -454,6 +460,7 @@ function getState() {
         hidemax: !!filterHideMax,
         type: selectType.value,
         level: filterLevelComparison + filterLevelType + (filterLevel > 0 ? filterLevel : ''),
+        skin: filterSkin,
         material: filterMaterial,
         search: searchInput.value,
         sort: gui.getSortState(smartTable)
@@ -485,6 +492,7 @@ function setState(state) {
     filterLevelType = match ? match[0] : '';
     match = level.match(/\d+/);
     filterLevel = Math.min(999, Math.max(1, (match && parseInt(match[0])) || 0));
+    filterSkin = state.skin;
     filterMaterial = state.material;
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
@@ -492,7 +500,7 @@ function setState(state) {
 }
 
 function updateButton() {
-    let flag = !!(filterMaterial || filterLevelComparison || filterHideMax);
+    let flag = !!(filterSkin || filterMaterial || filterLevelComparison || filterHideMax);
     let button = container.querySelector('.toolbar button.advanced');
     button.textContent = gui.getMessage(flag ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', flag);
@@ -527,14 +535,31 @@ function onClickAdvanced() {
     htm += Html `<br><br>`;
     htm += Html `<label for="d_hidemax"><b data-lbl="hidemax">${gui.getMessage('equipment_hidemax')}</b> <input id="d_hidemax" name="hidemax" type="checkbox" style="vertical-align:middle" ${filterHideMax ? 'checked' : ''} data-method="hidemax"></label>`;
     htm += Html `<br><br>`;
-    htm += Html `<table><tr>`;
+    htm += Html `<table class="equipment-advanced-table"><tr>`;
+    htm += Html `<td><b data-lbl="skin">${gui.getMessage('gui_theme_required')}</b></td>`;
+    htm += Html `<td><b data-lbl="material1">${gui.getMessage('equipment_include_material')}</b></td>`;
+    htm += Html `<td><b data-lbl="material0">${gui.getMessage('equipment_exclude_material')}</b></td>`;
+    htm += Html `</tr><tr>`;
+    htm += Html `<td><select name="skin" multiple data-method="skin">`;
+    htm += Html `<optgroup label="${gui.getMessage('gui_region').toUpperCase()}">`;
+    let list = gui.getArrayOfInt(filterSkin);
+    for (let rid of listRegion) {
+        let id = gui.getSkinFromRegion(rid);
+        htm += `<option ${getValueSelected(id, list.includes(id))}>${gui.getObjectName('region', rid)}</option>`;
+    }
+    htm += Html `</optgroup>`;
+    htm += Html `<optgroup label="${gui.getMessage('gui_theme').toUpperCase()}">`;
+    for (let item of listSkin.map(id => [id, gui.getObjectName('skin', id)]).sort((a, b) => a[1].localeCompare(b[1]))) {
+        htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+    }
+    htm += Html `</optgroup>`;
+    htm += Html `</select></td>`;
     const materials = gui.getFile('materials');
     const items = listMaterial.map(id => [id, gui.getObjectName('material', id), +materials[id].event_id]).sort((a, b) => a[1].localeCompare(b[1]));
     const addMaterialList = (isInclude) => {
         const list = gui.getArrayOfInt(filterMaterial).map(isInclude ? n => n : n => -n).filter(n => n > 0);
         const name = 'material' + (isInclude ? 1 : 0);
-        htm += Html `<td align="center"><b data-lbl="${name}">${gui.getMessage(isInclude ? 'equipment_include_material' : 'equipment_exclude_material')}</b><br>`;
-        htm += Html `<select name="${name}" multiple style="height:250px;margin:2px" data-method="${name}">`;
+        htm += Html `<td><select name="${name}" multiple data-method="${name}">`;
         htm += Html `<optgroup label="${gui.getMessage('gui_from_regions').toUpperCase()}">`;
         for (let item of items.filter(item => item[2] == 0)) {
             htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
@@ -545,12 +570,18 @@ function onClickAdvanced() {
             htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
         }
         htm += Html `</optgroup>`;
-        htm += Html `</select><br>`;
-        htm += Html `<input data-method="clr-${name}" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
-        htm += Html `&#32;<input data-method="inv-${name}" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
+        htm += Html `</select></td>`;
     };
     addMaterialList(true);
     addMaterialList(false);
+    htm += Html `</tr></tr>`;
+    const addClrInvButtons = (suffix) => {
+        htm += Html `<td><input data-method="clr-${suffix}" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
+        htm += Html `&#32;<input data-method="inv-${suffix}" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
+    };
+    addClrInvButtons('skin');
+    addClrInvButtons('material1');
+    addClrInvButtons('material0');
     htm += Html `</tr></table>`;
     gui.dialog.show({
         title: gui.getMessage('gui_advancedfilter'),
@@ -562,15 +593,6 @@ function onClickAdvanced() {
             gui.dialog.element.querySelector('[name=leveltype]').style.display = params.levelcomparison ? '' : 'none';
             gui.dialog.element.querySelector('[name=level]').style.display = params.levelcomparison && params.leveltype == 'C' ? '' : 'none';
         }
-        // let name = method.endsWith('-s') ? 'skin' : (method.endsWith('-m') ? 'material' : '');
-        // let fn = null;
-        // if (method.startsWith('clear-')) fn = option => option.selected = false;
-        // if (method.startsWith('invert-')) fn = option => option.selected = !option.selected;
-        // if (fn) {
-        //     let select = gui.dialog.element.querySelector('[name=' + name + ']');
-        //     for (let option of select.querySelectorAll('option')) fn(option);
-        //     params[name] = select.selectedOptions.length > 0;
-        // }
         let shouldRefresh = method == 'hidemax' || method == 'skin' || method == 'material0' || method == 'material1' || method == 'level' || method == Dialog.AUTORUN;
         if (method.startsWith('clr-') || method.startsWith('inv-')) {
             shouldRefresh = true;
@@ -578,6 +600,7 @@ function onClickAdvanced() {
             method = method.substr(4);
             const select = gui.dialog.element.querySelector(`[name=${method}`);
             for (const option of select.options) fn(option);
+            params[select.name] = select.selectedOptions.length > 0;
         }
         if (method == 'material0' || method == 'material1') {
             const index = method == 'material0' ? 0 : 1;
@@ -595,6 +618,7 @@ function onClickAdvanced() {
             let setActivated = (lbl, flag) => gui.dialog.element.querySelector('[data-lbl=' + lbl + ']').classList.toggle('equipment-activated', !!flag);
             setActivated('level', params.levelcomparison);
             setActivated('hidemax', params.hidemax);
+            setActivated('skin', params.skin);
             setActivated('material1', params.material1);
             setActivated('material0', params.material0);
             return;
@@ -607,6 +631,7 @@ function onClickAdvanced() {
         for (const option of gui.dialog.element.querySelector('[name=material1').selectedOptions) hash[option.value] = option.value;
         for (const option of gui.dialog.element.querySelector('[name=material0').selectedOptions) hash[option.value] = -option.value;
         const keys = Object.keys(hash).map(n => parseInt(n)).sort(gui.sortNumberAscending);
+        filterSkin = gui.getArrayOfInt(params.skin).sort(gui.sortNumberAscending).join(',');
         filterMaterial = keys.map(n => hash[n]).join(',');
         refresh();
     });
@@ -743,6 +768,8 @@ function refresh() {
     let not_useful = state.useful ? state.useful == 'no' : NaN;
     let hideMax = state.hidemax;
 
+    let listSkin = gui.getArrayOfInt(filterSkin);
+    if (listSkin.length == 0) listSkin = null;
     let listMaterialInclude = gui.getArrayOfInt(filterMaterial).filter(n => n > 0);
     let listMaterialExclude = gui.getArrayOfInt(filterMaterial).filter(n => n < 0).map(n => -n);
     if (listMaterialInclude.length == 0) listMaterialInclude = null;
@@ -770,6 +797,7 @@ function refresh() {
         if (not_affordable == (item.locked == 0)) return false;
         if (not_useful == (item.gain > 0)) return false;
         if (hideMax && item.owned >= item.limit) return false;
+        if (listSkin && !listSkin.includes(item.rskin)) return false;
         if (listMaterialExclude) {
             for (let req of item.reqs || []) {
                 if (listMaterialExclude.includes(req.material_id)) return false;
