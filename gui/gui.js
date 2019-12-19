@@ -441,6 +441,7 @@ let gui = {
                     id: sw.def_id,
                     type: sw.type,
                     coeficient: +sw.coeficient,
+                    priority: +sw.priority || 0,
                     start: start,
                     finish: finish
                 };
@@ -461,6 +462,9 @@ let gui = {
                     item.coeficient = 0.5;
                 }
 
+                const old = result.types[item.type];
+                if (old && old.priority >= item.priority) continue;
+                if (old) result.items = result.items.filter(item => item != old);
                 result.items.push(item);
                 result.types[item.type] = item;
                 if (item.type == 'debris_discount') {
