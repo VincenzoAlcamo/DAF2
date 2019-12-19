@@ -1,6 +1,4 @@
-/*global gui Html Locale */
-import Calculation from '../../../js/Calculation.js';
-
+/*global gui Html Locale Calculation*/
 export default {
     hasCSS: true,
     init,
@@ -50,8 +48,9 @@ function refresh() {
         if (!item) continue;
         const id = +reward.def_id;
         let amount = String(item.amount);
-        amount = amount.replace('[level]', level);
-        const qty = Math.floor(calculation.calculate(amount));
+        amount = amount.replace('[level]', 'level');
+        calculation.defineConstant('level', level);
+        const qty = Math.floor(calculation.eval(amount));
         let title = gui.getObjectName(item.type, item.object_id);
         const xp = gui.getXp(item.type, item.object_id);
         if (xp) {

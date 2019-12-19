@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Dialog Html Tooltip*/
+/*global bgp gui SmartTable Locale Dialog Html Tooltip Calculation*/
 
 export default {
     hasCSS: true,
@@ -50,7 +50,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('neighbors');
     smartTable.fixedFooter.parentNode.classList.add('neighbors');
-    smartTable.tbody[0].addEventListener('render', function(event) {
+    smartTable.tbody[0].addEventListener('render', function (event) {
         updateRow(event.target);
     });
     smartTable.tbody[0].addEventListener('click', onClick);
@@ -148,7 +148,7 @@ function onClickAdvanced() {
         title: gui.getMessage('gui_advancedfilter'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL]
-    }, function(method, params) {
+    }, function (method, params) {
         let list = gui.getArrayOfInt(params.gifts).sort(gui.sortNumberAscending).join(',');
         if (method == 'clear') {
             for (let option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
@@ -301,7 +301,7 @@ function updateRow(row) {
     }
     let gifts = palGifts[pal.id];
     let count = gifts.length;
-    let  className = count > 0 ? 'has-gifts' : '';
+    let className = count > 0 ? 'has-gifts' : '';
     let efficiency = palEfficiency[id];
     htm += Html.br `<td class="${className}">${Locale.formatNumber(count)}</td>`;
     htm += Html.br `<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
@@ -330,11 +330,66 @@ function getDateAgo(days) {
     return dt.getTime() / 1000;
 }
 
+function getCalculationFromSearch(search, getValueFunctions) {
+    const i = search.indexOf('@');
+    const expression = i >= 0 ? search.substring(i + 1).trim() : '';
+    let calculation, error;
+    if (expression) {
+        search = search.substring(0, i);
+        calculation = new Calculation();
+        calculation.defineConstant('now', gui.getUnixTime());
+        const rpn = calculation.parse(expression);
+        if (typeof rpn == 'string') {
+            error = rpn;
+            calculation = null;
+        } else {
+            let values, ref;
+            calculation.getExternalVariable = (name) => {
+                if (name in values) return values[name];
+                const fn = getValueFunctions[name];
+                const value = fn ? fn(...ref) : undefined;
+                return values[name] = value;
+            };
+            calculation.evaluate = (...args) => {
+                ref = args;
+                values = {};
+                return calculation.calc(rpn);
+            };
+        }
+    }
+    return {
+        search,
+        calculation,
+        error
+    };
+}
+
 function refreshDelayed() {
     scheduledRefresh = 0;
-    let state = getState();
-    let fnSearch = gui.getSearchFilter(state.search);
-    let show = state.show;
+    const state = getState();
+
+    const getSortValueFunctions = {
+        name: pal => palNames[pal.id] || '',
+        region: pal => +pal.region,
+        level: pal => +pal.level,
+        levelup: pal => (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? -pal.extra.timeLevel : 0,
+        lastgift: pal => pal.extra.lastGift || 0,
+        list: pal => +pal.c_list ? 0 : 1,
+        blocks: pal => pal.extra.blocks === undefined ? NaN : +pal.extra.blocks,
+        wmtime: pal => pal.extra.wmtime === undefined ? NaN : +pal.extra.wmtime,
+        visit: pal => pal.extra.lastVisit === undefined ? NaN : +pal.extra.lastVisit,
+        recorded: pal => +pal.extra.timeCreated || 0,
+        gifts: pal => palGifts[pal.id].length,
+        efficiency: pal => palEfficiency[pal.id],
+        value: pal => palGifts[pal.id]._value
+    };
+
+    const { search, calculation, error } = getCalculationFromSearch(state.search, getSortValueFunctions);
+    searchInput.title = error || '';
+    searchInput.classList.toggle('error', !!error);
+    const fnSearch = gui.getSearchFilter(search);
+
+    const show = state.show;
     let list, days;
     if (show == 'inlist' || show == 'notinlist') {
         list = show == 'inlist' ? 0 : 1;
@@ -398,21 +453,6 @@ function refreshDelayed() {
     }
 
     let palNames = {};
-    let getSortValueFunctions = {
-        name: pal => palNames[pal.id] || '',
-        region: pal => +pal.region,
-        level: pal => +pal.level,
-        levelup: pal => (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? -pal.extra.timeLevel : 0,
-        lastgift: pal => pal.extra.lastGift || 0,
-        list: pal => +pal.c_list ? 0 : 1,
-        blocks: pal => pal.extra.blocks === undefined ? NaN : +pal.extra.blocks,
-        wmtime: pal => pal.extra.wmtime === undefined ? NaN : +pal.extra.wmtime,
-        visit: pal => pal.extra.lastVisit === undefined ? NaN : +pal.extra.lastVisit,
-        recorded: pal => +pal.extra.timeCreated || 0,
-        gifts: pal => palGifts[pal.id].length,
-        efficiency: pal => palEfficiency[pal.id],
-        value: pal => palGifts[pal.id]._value
-    };
     let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'name');
     let now = gui.getUnixTime();
     let items = [];
@@ -434,6 +474,7 @@ function refreshDelayed() {
             }
             if (!flag) continue;
         }
+        if (calculation && !calculation.evaluate(pal)) continue;
         palNames[pal.id] = fullname;
         items.push(pal);
     }
@@ -443,7 +484,7 @@ function refreshDelayed() {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });
 
-    scheduledRefresh = setTimeout(function() {
+    scheduledRefresh = setTimeout(function () {
         items = sort(items);
         var tbody = smartTable.tbody[0];
         for (let item of items) {

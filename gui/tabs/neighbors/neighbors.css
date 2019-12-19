@@ -102,3 +102,7 @@
   font-size: 12pt;
   font-weight: bold;
 }
+
+.tab_neighbors input.error {
+  background-color: orange;
+}
