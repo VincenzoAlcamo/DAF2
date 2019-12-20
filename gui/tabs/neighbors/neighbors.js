@@ -15,7 +15,7 @@ export default {
 
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
-let filterGifts = '';
+let filterGifts = '', filterExpression = '';
 
 function init() {
     tab = this;
@@ -80,6 +80,7 @@ function getState() {
         days: selectDays.value,
         search: searchInput.value,
         gift: filterGifts,
+        filter: filterExpression,
         sort: gui.getSortState(smartTable)
     };
 }
@@ -89,6 +90,7 @@ function setState(state) {
     state.days = gui.setSelectState(selectDays, state.days, 21);
     searchInput.value = state.search || '';
     filterGifts = state.gift;
+    filterExpression = state.filterExpression;
     gui.setSortState(state.sort, smartTable, 'name');
     updateButton();
 }
@@ -134,7 +136,9 @@ function onClickAdvanced() {
         return htm;
     }
     let htm = '';
-    let info = Html.raw(String(Html.br(gui.getMessage('gui_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
+    htm += Html.br `Filter expression:<br><input type="text" name="expression" value="${filterExpression}" data-method="expression" maxlength="500" size="60">`;
+    htm += Html.br `<br><div class="expression-error"></div><br>`;
+    let info = Html.raw(String(Html.br(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
     htm += Html.br `${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
     htm += Html.br `<option value="0">${gui.getMessage('gui_gift')}</option>`;
     htm += Html.br `<option value="1">${gui.getMessage('gui_xp')}</option>`;
@@ -147,7 +151,7 @@ function onClickAdvanced() {
     gui.dialog.show({
         title: gui.getMessage('gui_advancedfilter'),
         html: htm,
-        style: [Dialog.CONFIRM, Dialog.CANCEL]
+        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN]
     }, function (method, params) {
         let list = gui.getArrayOfInt(params.gifts).sort(gui.sortNumberAscending).join(',');
         if (method == 'clear') {
@@ -158,8 +162,14 @@ function onClickAdvanced() {
             gui.dialog.element.querySelector('[name=gifts]').innerHTML = getGiftListHtml(list, params.sort);
             return;
         }
+        if (method == 'expression' || method == Dialog.AUTORUN) {
+            const calculator = getCalculator(params.expression, {});
+            gui.dialog.element.querySelector(`.expression-error`).innerText = calculator.error;
+            return;
+        }
         if (method == Dialog.CANCEL) return;
         filterGifts = list;
+        filterExpression = params.expression;
         selectDays.value = params.days;
         refresh();
     });
@@ -330,19 +340,19 @@ function getDateAgo(days) {
     return dt.getTime() / 1000;
 }
 
-function getCalculationFromSearch(search, getValueFunctions) {
-    const i = search.indexOf('@');
-    const expression = i >= 0 ? search.substring(i + 1).trim() : '';
-    let calculation, error;
+function getCalculator(expression, getValueFunctions) {
+    const calculator = {};
+    calculator.isOk = false;
+    calculator.error = '';
+    expression = expression === null || expression === undefined ? '' : String(expression).trim();
     if (expression) {
-        search = search.substring(0, i);
-        calculation = new Calculation();
-        calculation.defineConstant('now', gui.getUnixTime());
+        const calculation = new Calculation();
         const rpn = calculation.parse(expression);
         if (typeof rpn == 'string') {
-            error = rpn;
-            calculation = null;
+            calculator.error = rpn;
         } else {
+            calculator.isOk = true;
+            calculation.defineConstant('now', gui.getUnixTime());
             let values, ref;
             calculation.getExternalVariable = (name) => {
                 if (name in values) return values[name];
@@ -350,18 +360,14 @@ function getCalculationFromSearch(search, getValueFunctions) {
                 const value = fn ? fn(...ref) : undefined;
                 return values[name] = value;
             };
-            calculation.evaluate = (...args) => {
+            calculator.evaluate = (...args) => {
                 ref = args;
                 values = {};
                 return calculation.calc(rpn);
             };
         }
     }
-    return {
-        search,
-        calculation,
-        error
-    };
+    return calculator;
 }
 
 function refreshDelayed() {
@@ -384,11 +390,7 @@ function refreshDelayed() {
         value: pal => palGifts[pal.id]._value
     };
 
-    const { search, calculation, error } = getCalculationFromSearch(state.search, getSortValueFunctions);
-    searchInput.title = error || '';
-    searchInput.classList.toggle('error', !!error);
-    const fnSearch = gui.getSearchFilter(search);
-
+    const fnSearch = gui.getSearchFilter(state.search);
     const show = state.show;
     let list, days;
     if (show == 'inlist' || show == 'notinlist') {
@@ -456,6 +458,7 @@ function refreshDelayed() {
     let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'name');
     let now = gui.getUnixTime();
     let items = [];
+    let calculator = getCalculator(filterExpression, getSortValueFunctions);
     for (let pal of neighbors) {
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
         if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
@@ -474,7 +477,7 @@ function refreshDelayed() {
             }
             if (!flag) continue;
         }
-        if (calculation && !calculation.evaluate(pal)) continue;
+        if (calculator.isOk && !calculator.evaluate(pal)) continue;
         palNames[pal.id] = fullname;
         items.push(pal);
     }
