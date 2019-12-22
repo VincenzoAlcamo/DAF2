@@ -41,7 +41,7 @@ function init() {
 
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
-    trGifts.innerHTML = Html.br `<td colspan="13"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+    trGifts.innerHTML = Html.br`<td colspan="13"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
 
     let button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
@@ -63,7 +63,7 @@ function init() {
 function getSelectDays(selectedValue) {
     let htm = '<select name="days">';
     for (let days = 7; days <= 50; days++) {
-        htm += Html `<option value="${days}"${days == selectedValue ? ' selected' : ''}>${Locale.formatNumber(days)}</option>`;
+        htm += Html`<option value="${days}"${days == selectedValue ? ' selected' : ''}>${Locale.formatNumber(days)}</option>`;
     }
     htm += '</select>';
     return htm;
@@ -89,16 +89,17 @@ function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
     state.days = gui.setSelectState(selectDays, state.days, 21);
     searchInput.value = state.search || '';
-    filterGifts = state.gift;
-    filterExpression = state.filterExpression;
+    filterGifts = state.gift || '';
+    filterExpression = state.filter || '';
     gui.setSortState(state.sort, smartTable, 'name');
     updateButton();
 }
 
 function updateButton() {
+    const isActive = filterGifts != '' || filterExpression != '';
     let button = container.querySelector('.toolbar button.advanced');
-    button.textContent = gui.getMessage('gui_advancedfilter') + ': ' + gui.getMessage(filterGifts ? 'menu_on' : 'menu_off');
-    button.classList.toggle('activated', !!filterGifts);
+    button.textContent = gui.getMessage('gui_advancedfilter') + ': ' + gui.getMessage(isActive ? 'menu_on' : 'menu_off');
+    button.classList.toggle('activated', isActive);
 }
 
 function onInput(event) {
@@ -131,27 +132,48 @@ function onClickAdvanced() {
         items.sort(fn);
         let htm = '';
         for (let item of items) {
-            htm += Html `<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
+            htm += Html`<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
         }
         return htm;
     }
     let htm = '';
-    htm += Html.br `Filter expression:<br><input type="text" name="expression" value="${filterExpression}" data-method="expression" maxlength="500" size="60">`;
-    htm += Html.br `<br><div class="expression-error"></div><br>`;
+    htm += Html.br`<table class="neighbors-advanced-table"><tr><td>`;
+    htm += Html.br`Specify an expression to evaluate:
+<br><textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3">${Html(filterExpression)}</textarea>
+<br><div class="expression-error"></div>
+<table class="expression-help"><tr><th colspan="3">Operators</th></tr>
+<tr><th>Arithmentic</th><th>Comparison</th><th>Logical</th></tr>
+<tr><td>- + * / % ** ^</td><td>= ==<br><> !=<br>> >= < <=</td><td>&& and<br>|| or<br>! not</td></tr>
+<tr><th colspan="3">Functions</th></tr>
+<tr><td colspan="3">${Object.getOwnPropertyNames(Math).filter(n => typeof Math[n] == 'function').sort().join(' ')}
+<br>if(expression, trueValue, falseValue)
+</td></tr>
+<tr><th colspan="3">Variables</th></tr><td colspan="3">
+now region level levelup lastgift list blocks wmtime visit recorded gifts efficiency value
+</td></tr>
+<tr><th colspan="3">Examples</th></tr>
+<tr><td colspan="3">
+level>100 and level<150
+<br>
+blocks>20 or (region=1 and level<100)
+</td></tr></table>
+</div>`;
+    htm += Html.br`</td><td>`;
     let info = Html.raw(String(Html.br(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
-    htm += Html.br `${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
-    htm += Html.br `<option value="0">${gui.getMessage('gui_gift')}</option>`;
-    htm += Html.br `<option value="1">${gui.getMessage('gui_xp')}</option>`;
-    htm += Html.br `<option value="2">${gui.getMessage('gui_day')}</option>`;
-    htm += Html.br `</select>`;
-    htm += Html.br ` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
-    htm += Html.br `<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
+    htm += Html.br`${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
+    htm += Html.br`<option value="0">${gui.getMessage('gui_gift')}</option>`;
+    htm += Html.br`<option value="1">${gui.getMessage('gui_xp')}</option>`;
+    htm += Html.br`<option value="2">${gui.getMessage('gui_day')}</option>`;
+    htm += Html.br`</select>`;
+    htm += Html.br` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
+    htm += Html.br`<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
-    htm += Html.br `</select>`;
+    htm += Html.br`</select>`;
+    htm += Html.br`</td></tr></table>`;
     gui.dialog.show({
         title: gui.getMessage('gui_advancedfilter'),
         html: htm,
-        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN]
+        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
     }, function (method, params) {
         let list = gui.getArrayOfInt(params.gifts).sort(gui.sortNumberAscending).join(',');
         if (method == 'clear') {
@@ -163,8 +185,18 @@ function onClickAdvanced() {
             return;
         }
         if (method == 'expression' || method == Dialog.AUTORUN) {
-            const calculator = getCalculator(params.expression, {});
-            gui.dialog.element.querySelector(`.expression-error`).innerText = calculator.error;
+            const expression = params.expression;
+            const calculator = getCalculator(expression, {});
+            let htm = '';
+            if (calculator.errorPos) {
+                let pre = expression.substring(0, calculator.errorPos - 1);
+                let post = expression.substring(calculator.errorPos);
+                let c = expression.charAt(calculator.errorPos - 1);
+                if (pre.length > 15) pre = '\u2025' + pre.substring(pre.length - 15);
+                if (post.length > 15) post = post.substring(0, 15) + '\u2025';
+                htm = Html`<b>${calculator.error}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
+            }
+            gui.dialog.element.querySelector(`.expression-error`).innerHTML = htm;
             return;
         }
         if (method == Dialog.CANCEL) return;
@@ -210,13 +242,13 @@ function onClick(e) {
                 let t_amount = Locale.formatNumber(amount);
                 let name = gui.getObjectName(gift.type, gift.object_id);
                 if (amount > 1) name += ' x ' + t_amount;
-                piece += Html.br `<div title="${Html(gui.getMessage('neighbors_gifttip', name, t_xp, weekdayNames[gift.day]))}"><img src="${gui.getObjectImage(gift.type, gift.object_id)}">`;
-                piece += Html.br `<i>${xp}</i><b>${Locale.formatNumber(amount)}</b>`;
+                piece += Html.br`<div title="${Html(gui.getMessage('neighbors_gifttip', name, t_xp, weekdayNames[gift.day]))}"><img src="${gui.getObjectImage(gift.type, gift.object_id)}">`;
+                piece += Html.br`<i>${xp}</i><b>${Locale.formatNumber(amount)}</b>`;
             }
             giftCache[gid] = piece;
         }
         if (piece == '') continue;
-        htm += piece + Html.br `<span>${formatDayMonthTime(palGift[2])}</span></div>`;
+        htm += piece + Html.br`<span>${formatDayMonthTime(palGift[2])}</span></div>`;
     }
     giftContainer.innerHTML = htm;
 }
@@ -272,50 +304,50 @@ function updateRow(row) {
     let friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
     var anchor = friend ? gui.getFriendAnchor(friend) : Html.raw('<a class="no-link">');
     var htm = '';
-    htm += Html.br `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
-    htm += Html.br `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
-    htm += Html.br `<td>${gui.getRegionImg(pal.region)}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(pal.level)}</td>`;
+    htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
+    htm += Html.br`<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
+    htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;
+    htm += Html.br`<td>${Locale.formatNumber(pal.level)}</td>`;
     if (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) {
-        htm += Html.br `<td title="${Locale.formatDate(pal.extra.timeLevel)} (${Locale.formatNumber(pal.extra.lastLevel)})">${Locale.formatDays(pal.extra.timeLevel)}</td>`;
+        htm += Html.br`<td title="${Locale.formatDate(pal.extra.timeLevel)} (${Locale.formatNumber(pal.extra.lastLevel)})">${Locale.formatDays(pal.extra.timeLevel)}</td>`;
     } else {
-        htm += Html.br `<td></td>`;
+        htm += Html.br`<td></td>`;
     }
-    htm += Html.br `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDaysNum(palDays[pal.id])}</td>`;
+    htm += Html.br`<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDaysNum(palDays[pal.id])}</td>`;
     if (pal.c_list > 0) {
-        htm += Html.br `<td><img src="/img/gui/clist.png"></td>`;
+        htm += Html.br`<td><img src="/img/gui/clist.png"></td>`;
     } else {
-        htm += Html.br `<td></td>`;
+        htm += Html.br`<td></td>`;
     }
     let blocks = pal.extra.blocks;
     if (blocks === undefined) {
-        htm += Html.br `<td><img src="/img/gui/check_na.png"></td>`;
+        htm += Html.br`<td><img src="/img/gui/check_na.png"></td>`;
     } else {
-        htm += blocks === 0 ? Html.br `<td><img src="/img/gui/check_yes.png"></td>` : Html.br `<td><span class="camp_blocks">${blocks}</span></td>`;
+        htm += blocks === 0 ? Html.br`<td><img src="/img/gui/check_yes.png"></td>` : Html.br`<td><span class="camp_blocks">${blocks}</span></td>`;
     }
     let wmtime = pal.extra.wmtime;
     if (wmtime === undefined) {
-        htm += Html.br `<td></td>`;
+        htm += Html.br`<td></td>`;
     } else {
-        htm += Html.br `<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
+        htm += Html.br`<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
     }
-    // if (pal.extra.lastVisit) {
-    //     htm += Html.br `<td>${Locale.formatDate(pal.extra.lastVisit)}<br>${Locale.formatDays(pal.extra.lastVisit)}</td>`;
-    // } else {
-    //     htm += Html.br `<td></td>`;
-    // }
-    if (pal.extra.lastGift) {
-        htm += Html.br `<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
+    if (pal.extra.lastVisit) {
+        htm += Html.br`<td>${Locale.formatDate(pal.extra.lastVisit)}<br>${Locale.formatDays(pal.extra.lastVisit)}</td>`;
     } else {
-        htm += Html.br `<td></td>`;
+        htm += Html.br`<td></td>`;
+    }
+    if (pal.extra.lastGift) {
+        htm += Html.br`<td>${Locale.formatDate(pal.extra.lastGift)}<br>${Locale.formatDays(pal.extra.lastGift)}</td>`;
+    } else {
+        htm += Html.br`<td></td>`;
     }
     let gifts = palGifts[pal.id];
     let count = gifts.length;
     let className = count > 0 ? 'has-gifts' : '';
     let efficiency = palEfficiency[id];
-    htm += Html.br `<td class="${className}">${Locale.formatNumber(count)}</td>`;
-    htm += Html.br `<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
-    htm += Html.br `<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
+    htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
+    htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
+    htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
     row.innerHTML = htm;
 }
 
@@ -342,16 +374,18 @@ function getDateAgo(days) {
 
 function getCalculator(expression, getValueFunctions) {
     const calculator = {};
-    calculator.isOk = false;
+    calculator.hasValidExpression = false;
     calculator.error = '';
+    calculator.errorPos = 0;
     expression = expression === null || expression === undefined ? '' : String(expression).trim();
     if (expression) {
         const calculation = new Calculation();
         const rpn = calculation.parse(expression);
-        if (typeof rpn == 'string') {
-            calculator.error = rpn;
+        if (calculation.errorPos) {
+            calculator.errorPos = calculation.errorPos;
+            calculator.error = calculation.errorMessage;
         } else {
-            calculator.isOk = true;
+            calculator.hasValidExpression = true;
             calculation.defineConstant('now', gui.getUnixTime());
             let values, ref;
             calculation.getExternalVariable = (name) => {
@@ -391,7 +425,7 @@ function refreshDelayed() {
     };
 
     const fnSearch = gui.getSearchFilter(state.search);
-    const show = state.show;
+    let show = state.show;
     let list, days;
     if (show == 'inlist' || show == 'notinlist') {
         list = show == 'inlist' ? 0 : 1;
@@ -477,7 +511,7 @@ function refreshDelayed() {
             }
             if (!flag) continue;
         }
-        if (calculator.isOk && !calculator.evaluate(pal)) continue;
+        if (calculator.hasValidExpression && !calculator.evaluate(pal)) continue;
         palNames[pal.id] = fullname;
         items.push(pal);
     }
@@ -504,7 +538,7 @@ function onTooltip(event) {
     let pal = pal_id && bgp.Data.getNeighbour(pal_id);
     let fb_id = pal && pal.fb_id;
     if (fb_id) {
-        let htm = Html.br `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
+        let htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
         Tooltip.show(element, htm);
     }
 }
