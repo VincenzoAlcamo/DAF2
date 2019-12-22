@@ -589,7 +589,13 @@ thead .stats {
 }
 
 input[type=checkbox] {
-  zoom: 1.8;
+  width: 20px !important;
+  height: 20px !important;
+}
+@-moz-document url-prefix() {
+  input[type=checkbox] {
+    transform: scale(1.8);
+  }
 }
 
 .toolbar input[type=checkbox] {
@@ -675,7 +681,7 @@ input[type=checkbox] {
 /* CARD CLICKER */
 
 .card>input[type=checkbox] {
-  -webkit-appearance: none;
+  display: none;
 }
 
 .card>input[type=checkbox]:checked~div {
