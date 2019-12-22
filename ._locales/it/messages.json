@@ -611,6 +611,9 @@
     "neighbors_lastgiftreceived": {
         "message": "Ultimo Regalo\nRicevuto"
     },
+    "neighbors_yourlastvisit": {
+        "message": "La tua ultima visita"
+    },
     "neighbors_all": {
         "message": "Tutti"
     },
@@ -739,6 +742,9 @@
                 "content": "$2"
             }
         }
+    },
+    "neighbors_expression": {
+        "message": "Specifica un'espressione da valutare"
     },
     "friendship_collect": {
         "message": "Colleziona e abbina"
@@ -1754,6 +1760,39 @@
     },
     "options_gamelanguage": {
         "message": "Lingua del gioco\nLingua per i messaggi del gioco"
+    },
+    "calc_operators": {
+        "message": "Operatori"
+    },
+    "calc_arithmetic": {
+        "message": "Aritmetici"
+    },
+    "calc_comparison": {
+        "message": "Di confronto"
+    },
+    "calc_logical": {
+        "message": "Logici"
+    },
+    "calc_functions": {
+        "message": "Funzioni"
+    },
+    "calc_variables": {
+        "message": "Variabili"
+    },
+    "calc_examples": {
+        "message": "Esempi"
+    },
+    "calc_error_1": {
+        "message": "Errore di sintassi"
+    },
+    "calc_error_2": {
+        "message": "La funzione richiede le parentesi"
+    },
+    "calc_error_3": {
+        "message": "Manca la parentesi di chiusura"
+    },
+    "calc_error_4": {
+        "message": "Troppe parentesi di chiusura"
     },
     "linkgrabber_selected": {
         "message": "Link: $UNIQUE$ / $TOTAL$",

@@ -753,6 +753,9 @@
             }
         }
     },
+    "neighbors_expression": {
+        "message": "Specify an expression to evaluate"
+    },
 
     "friendship_collect": {
         "message": "Collect and match"
@@ -1779,6 +1782,40 @@
     },
     "options_gamelanguage": {
         "message": "Game Language\nLanguage for game's messages"
+    },
+
+    "calc_operators": {
+        "message": "Operators"
+    },
+    "calc_arithmetic": {
+        "message": "Arithmetic"
+    },
+    "calc_comparison": {
+        "message": "Comparison"
+    },
+    "calc_logical": {
+        "message": "Logical"
+    },
+    "calc_functions": {
+        "message": "Functions"
+    },
+    "calc_variables": {
+        "message": "Variables"
+    },
+    "calc_examples": {
+        "message": "Examples"
+    },
+    "calc_error_1": {
+        "message": "Syntax error"
+    },
+    "calc_error_2": {
+        "message": "Function needs parentheses"
+    },
+    "calc_error_3": {
+        "message": "Missing closing parenthesis"
+    },
+    "calc_error_4": {
+        "message": "Too many closing parentheses"
     },
 
     "linkgrabber_selected": {

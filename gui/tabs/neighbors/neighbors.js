@@ -138,20 +138,20 @@ function onClickAdvanced() {
     }
     let htm = '';
     htm += Html.br`<table class="neighbors-advanced-table"><tr><td>`;
-    htm += Html.br`Specify an expression to evaluate:
+    htm += Html.br`${gui.getMessage('neighbors_expression')}:
 <br><textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3">${Html(filterExpression)}</textarea>
 <br><div class="expression-error"></div>
-<table class="expression-help"><tr><th colspan="3">Operators</th></tr>
-<tr><th>Arithmentic</th><th>Comparison</th><th>Logical</th></tr>
+<table class="expression-help"><tr><th colspan="3">${gui.getMessage('calc_operators')}</th></tr>
+<tr><th>${gui.getMessage('calc_arithmetic')}</th><th>${gui.getMessage('calc_comparison')}</th><th>${gui.getMessage('calc_logical')}</th></tr>
 <tr><td>- + * / % ** ^</td><td>= ==<br><> !=<br>> >= < <=</td><td>&& and<br>|| or<br>! not</td></tr>
-<tr><th colspan="3">Functions</th></tr>
+<tr><th colspan="3">${gui.getMessage('calc_functions')}</th></tr>
 <tr><td colspan="3">${Object.getOwnPropertyNames(Math).filter(n => typeof Math[n] == 'function').sort().join(' ')}
 <br>if(expression, trueValue, falseValue)
 </td></tr>
-<tr><th colspan="3">Variables</th></tr><td colspan="3">
+<tr><th colspan="3">${gui.getMessage('calc_variables')}</th></tr><td colspan="3">
 now region level levelup lastgift list blocks wmtime visit recorded gifts efficiency value
 </td></tr>
-<tr><th colspan="3">Examples</th></tr>
+<tr><th colspan="3">${gui.getMessage('calc_examples')}</th></tr>
 <tr><td colspan="3">
 level>100 and level<150
 <br>
@@ -188,13 +188,14 @@ blocks>20 or (region=1 and level<100)
             const expression = params.expression;
             const calculator = getCalculator(expression, {});
             let htm = '';
-            if (calculator.errorPos) {
+            if (calculator.errorCode) {
+                let message = gui.getMessage('calc_error_' + calculator.errorCode) || calculator.errorMessage;
                 let pre = expression.substring(0, calculator.errorPos - 1);
                 let post = expression.substring(calculator.errorPos);
                 let c = expression.charAt(calculator.errorPos - 1);
                 if (pre.length > 15) pre = '\u2025' + pre.substring(pre.length - 15);
                 if (post.length > 15) post = post.substring(0, 15) + '\u2025';
-                htm = Html`<b>${calculator.error}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
+                htm = Html`<b>${message}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
             }
             gui.dialog.element.querySelector(`.expression-error`).innerHTML = htm;
             return;
@@ -375,16 +376,16 @@ function getDateAgo(days) {
 function getCalculator(expression, getValueFunctions) {
     const calculator = {};
     calculator.hasValidExpression = false;
-    calculator.error = '';
-    calculator.errorPos = 0;
+    calculator.errorText = '';
+    calculator.errorPos = calculator.errorCode = 0;
     expression = expression === null || expression === undefined ? '' : String(expression).trim();
     if (expression) {
         const calculation = new Calculation();
         const rpn = calculation.parse(expression);
-        if (calculation.errorPos) {
-            calculator.errorPos = calculation.errorPos;
-            calculator.error = calculation.errorMessage;
-        } else {
+        calculator.errorCode = calculation.errorCode;
+        calculator.errorPos = calculation.errorPos;
+        calculator.errorMessage = calculation.errorMessage;
+        if (!calculation.errorCode) {
             calculator.hasValidExpression = true;
             calculation.defineConstant('now', gui.getUnixTime());
             let values, ref;

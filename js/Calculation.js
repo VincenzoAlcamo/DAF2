@@ -80,7 +80,8 @@ class Calculation {
             values.push(op);
             return op.precedence;
         };
-        const error = msg => {
+        const error = (code, msg) => {
+            this.errorCode = code;
             this.errorPos = (match ? match.index : expression.length) + 1;
             this.errorMessage = msg;
             return `${msg} at ${this.errorPos}:\n${expression}\n${' '.repeat(this.errorPos - 1)}^`;
@@ -96,7 +97,7 @@ class Calculation {
             + '|(\\S)', 'gi'
         );
         this.errorMessage = '';
-        this.errorPos = 0;
+        this.errorPos = this.errorCode = 0;
         let afterValue = false;
         pattern.lastIndex = 0; // Reset regular expression object
         do {
@@ -106,7 +107,7 @@ class Calculation {
             const notNewValue = notNumber && !notNumber.prefix && !notNumber.func;
             const notAfterValue = !notNumber || !notNumber.postfix && !notNumber.infix;
             // Check for syntax errors:
-            if (bad || (afterValue ? notAfterValue : notNewValue)) return error('Syntax error');
+            if (bad || (afterValue ? notAfterValue : notNewValue)) return error(1, 'Syntax error');
             if (afterValue) {
                 // We either have an infix or postfix operator (they should be mutually exclusive)
                 const curr = notNumber.postfix || notNumber.infix;
@@ -125,7 +126,7 @@ class Calculation {
                 operators.push(notNumber.prefix || notNumber.func);
                 if (notNumber.func) { // Require an opening parenthesis
                     match = pattern.exec(expression);
-                    if (!match || match[0] !== '(') return error('Function needs parentheses');
+                    if (!match || match[0] !== '(') return error(2, 'Function needs parentheses');
                 }
             } else { // number or string
                 if (/^[a-z]/.test(token)) {
@@ -137,8 +138,8 @@ class Calculation {
                 afterValue = true;
             }
         } while (match && operators.length);
-        if (operators.length) return error('Missing closing parenthesis');
-        if (match) return error('Too many closing parentheses');
+        if (operators.length) return error(3, 'Missing closing parenthesis');
+        if (match) return error(4, 'Too many closing parentheses');
         return values.slice(0, values.length - 1); // All done!
     }
     eval(expression) { return this.calc(this.parse(expression)); }

@@ -66,13 +66,13 @@
         "message": "Nom"
     },
     "gui_region_required": {
-        "message": "Région\nrequise"
+        "message": "À partir du niveau\nrequis"
     },
     "gui_theme_required": {
         "message": "Région ou thème\nrequise"
     },
     "gui_level_required": {
-        "message": "Niveau\nrequis"
+        "message": "À partir du niveau\nrequis"
     },
     "gui_qty_required": {
         "message": "Quantité\nrequise"
