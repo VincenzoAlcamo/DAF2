@@ -60,7 +60,7 @@ function refresh() {
         if (id == lastId && lastTime) {
             title += '\n' + gui.getMessage('dailyreward_lastcollect', Locale.formatDateTime(lastTime));
         }
-        title += `\n${gui.getMessageAndValue('dailyreward_formula'), formula.replace(/(\W)/g, ' $1 ')}`;
+        title += `\n${gui.getMessageAndValue('dailyreward_formula', formula.replace(/(\W)/g, ' $1 '))}`;
         htm += Html `<div class="item${id == lastId ? ' last' : ''}${id == nextId ? ' next' : ''}" title="${title}">`;
         htm += Html `<div class="disc"></div>`;
         htm += Html `<div class="inner">` + gui.getObjectImg(item.type, item.object_id, 80, true, 'none') + `</div>`;
