@@ -381,13 +381,14 @@ function getCalculator(expression, getValueFunctions) {
     expression = expression === null || expression === undefined ? '' : String(expression).trim();
     if (expression) {
         const calculation = new Calculation();
+        calculation.defineConstant('now', gui.getUnixTime());
+        calculation.defineConstant('day', 86400);
         const rpn = calculation.parse(expression);
         calculator.errorCode = calculation.errorCode;
         calculator.errorPos = calculation.errorPos;
         calculator.errorMessage = calculation.errorMessage;
         if (!calculation.errorCode) {
             calculator.hasValidExpression = true;
-            calculation.defineConstant('now', gui.getUnixTime());
             let values, ref;
             calculation.getExternalVariable = (name) => {
                 if (name in values) return values[name];
