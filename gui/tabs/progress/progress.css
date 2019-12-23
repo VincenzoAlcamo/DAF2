@@ -103,6 +103,18 @@
   background-color: var(--pb-fgcol2);
 }
 
+@-moz-document url-prefix() {
+  .tab_progress tfoot progress::-moz-progress-bar {
+    background-color: var(--pb-fgcol2);
+  }
+  .progress_table tr.subtotal progress::-moz-progress-bar {
+    background-color: var(--pb-fgcol3);
+  }
+  .tab_progress tr[data-level="1"] progress::-moz-progress-bar {
+    background-color: var(--pb-fgcol2);
+  }
+}
+
 .tab_progress tr.slider {
   background: var(--tr-bgcol2);
 }

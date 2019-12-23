@@ -93,6 +93,11 @@
 .pillars-next progress::-webkit-progress-value {
   background-color: var(--pb-fgcol2);
 }
+@-moz-document url-prefix() {
+  .pillars-next progress::-moz-progress-bar {
+    background-color: var(--pb-fgcol2);
+  }
+}
 
 .pillars tr[data-row="2"] th {
   padding: 0;
