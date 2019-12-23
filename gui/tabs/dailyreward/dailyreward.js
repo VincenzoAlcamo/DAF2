@@ -41,16 +41,15 @@ function refresh() {
     //     nextId = visibleRewards[index].def_id;
     // }
     const calculation = new Calculation();
+    calculation.defineConstant('level', level);
     divStats.textContent = Html.br `${gui.getMessage('dailyreward_stats', Locale.formatNumber(level), gui.getObjectName('region', rid))}`;
     let htm = '';
     for (const reward of visibleRewards) {
         const item = reward.segmentation.find(o => +o.region_id == rid);
         if (!item) continue;
         const id = +reward.def_id;
-        let amount = String(item.amount);
-        amount = amount.replace('[level]', 'level');
-        calculation.defineConstant('level', level);
-        const qty = Math.floor(calculation.eval(amount));
+        const formula = String(item.amount).replace('[level]', 'level');
+        const qty = Math.floor(calculation.eval(formula));
         let title = gui.getObjectName(item.type, item.object_id);
         const xp = gui.getXp(item.type, item.object_id);
         if (xp) {
@@ -61,6 +60,7 @@ function refresh() {
         if (id == lastId && lastTime) {
             title += '\n' + gui.getMessage('dailyreward_lastcollect', Locale.formatDateTime(lastTime));
         }
+        title += `\n${gui.getMessageAndValue('dailyreward_formula'), formula.replace(/(\W)/g, ' $1 ')}`;
         htm += Html `<div class="item${id == lastId ? ' last' : ''}${id == nextId ? ' next' : ''}" title="${title}">`;
         htm += Html `<div class="disc"></div>`;
         htm += Html `<div class="inner">` + gui.getObjectImg(item.type, item.object_id, 80, true, 'none') + `</div>`;
