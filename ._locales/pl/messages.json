@@ -611,6 +611,9 @@
     "neighbors_lastgiftreceived": {
         "message": "Ostatni\notrzymany prezent"
     },
+    "neighbors_yourlastvisit": {
+        "message": "Twoja ostatnia wizyta"
+    },
     "neighbors_all": {
         "message": "Wszystko"
     },
@@ -739,6 +742,9 @@
                 "content": "$2"
             }
         }
+    },
+    "neighbors_expression": {
+        "message": "Określ wyrażenie do oszacowania"
     },
     "friendship_collect": {
         "message": "Zbierz i dopasuj"
@@ -1578,6 +1584,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Formuła"
+    },
     "specialweek_end": {
         "message": "Kończy się $FINISH$",
         "placeholders": {
@@ -1754,6 +1763,39 @@
     },
     "options_gamelanguage": {
         "message": "Język gry\nJęzyk komunikatów gry"
+    },
+    "calc_operators": {
+        "message": "Użytkownicy"
+    },
+    "calc_arithmetic": {
+        "message": "Arytmetyka"
+    },
+    "calc_comparison": {
+        "message": "Porównanie"
+    },
+    "calc_logical": {
+        "message": "Logika"
+    },
+    "calc_functions": {
+        "message": "Funkcje"
+    },
+    "calc_variables": {
+        "message": "Zmienne"
+    },
+    "calc_examples": {
+        "message": "Przykłady"
+    },
+    "calc_error_1": {
+        "message": "Błąd składniowy"
+    },
+    "calc_error_2": {
+        "message": "Funkcja wymaga nawiasów"
+    },
+    "calc_error_3": {
+        "message": "Brakujący nawias zamykający"
+    },
+    "calc_error_4": {
+        "message": "Zbyt wiele nawiasów zamykających"
     },
     "linkgrabber_selected": {
         "message": "Linki: $UNIQUE$ / $TOTAL$",

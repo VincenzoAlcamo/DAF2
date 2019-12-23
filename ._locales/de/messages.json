@@ -611,6 +611,9 @@
     "neighbors_lastgiftreceived": {
         "message": "Letztes Geschenk\nerhalten"
     },
+    "neighbors_yourlastvisit": {
+        "message": "Letzter Besuch"
+    },
     "neighbors_all": {
         "message": "Alle"
     },
@@ -739,6 +742,9 @@
                 "content": "$2"
             }
         }
+    },
+    "neighbors_expression": {
+        "message": "Einen auszuwertenden Ausdruck angeben."
     },
     "friendship_collect": {
         "message": "Sammeln und Vergleichen"
@@ -1578,6 +1584,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Formel"
+    },
     "specialweek_end": {
         "message": "endet am $FINISH$",
         "placeholders": {
@@ -1754,6 +1763,39 @@
     },
     "options_gamelanguage": {
         "message": "Spielsprache\nSprache für die Nachrichten des Spiels"
+    },
+    "calc_operators": {
+        "message": "Operatoren"
+    },
+    "calc_arithmetic": {
+        "message": "Arithmetische"
+    },
+    "calc_comparison": {
+        "message": "Vergleichende"
+    },
+    "calc_logical": {
+        "message": "Logische"
+    },
+    "calc_functions": {
+        "message": "Funktionen"
+    },
+    "calc_variables": {
+        "message": "Variablen"
+    },
+    "calc_examples": {
+        "message": "Beispiele"
+    },
+    "calc_error_1": {
+        "message": "Syntax-Fehler"
+    },
+    "calc_error_2": {
+        "message": "Die Funktion benötigt Klammern."
+    },
+    "calc_error_3": {
+        "message": "Fehlende schließende Klammer"
+    },
+    "calc_error_4": {
+        "message": "Zu viele schließende Klammern"
     },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",

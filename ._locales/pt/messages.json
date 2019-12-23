@@ -611,6 +611,9 @@
     "neighbors_lastgiftreceived": {
         "message": "Último presente recebido"
     },
+    "neighbors_yourlastvisit": {
+        "message": "A sua última visita"
+    },
     "neighbors_all": {
         "message": "Todos"
     },
@@ -739,6 +742,9 @@
                 "content": "$2"
             }
         }
+    },
+    "neighbors_expression": {
+        "message": "Especifique uma expressão para avaliar"
     },
     "friendship_collect": {
         "message": "Coletar e combinar"
@@ -1578,6 +1584,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Fórmula"
+    },
     "specialweek_end": {
         "message": "termina em $FINISH$",
         "placeholders": {
@@ -1754,6 +1763,39 @@
     },
     "options_gamelanguage": {
         "message": "Idioma do jogo\nIdioma para mensagens do jogo"
+    },
+    "calc_operators": {
+        "message": "Operadoras"
+    },
+    "calc_arithmetic": {
+        "message": "Aritmética"
+    },
+    "calc_comparison": {
+        "message": "Comparação"
+    },
+    "calc_logical": {
+        "message": "Lógico"
+    },
+    "calc_functions": {
+        "message": "Funções"
+    },
+    "calc_variables": {
+        "message": "Variaáveis"
+    },
+    "calc_examples": {
+        "message": "Exemplos"
+    },
+    "calc_error_1": {
+        "message": "Erro de sintaxe"
+    },
+    "calc_error_2": {
+        "message": "A função precisa de parênteses"
+    },
+    "calc_error_3": {
+        "message": "Falta fechar parêntices"
+    },
+    "calc_error_4": {
+        "message": "Demasiados fecha parentices"
     },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",

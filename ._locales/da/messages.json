@@ -425,6 +425,9 @@
             }
         }
     },
+    "kitchen_food_in_backpack": {
+        "message": "fra mad i rygsækken"
+    },
     "foundry_all": {
         "message": "Alle legeringer"
     },
@@ -593,6 +596,9 @@
     "pillars_ignore": {
         "message": "Klik for at ignorere / overveje"
     },
+    "pillars_maxpossible": {
+        "message": "Max mulige"
+    },
     "pillars_grid": {
         "message": "Vis som tabel"
     },
@@ -604,6 +610,9 @@
     },
     "neighbors_lastgiftreceived": {
         "message": "Sidste gave\nModtaget"
+    },
+    "neighbors_yourlastvisit": {
+        "message": "Dit sidste besøg"
     },
     "neighbors_all": {
         "message": "Alle"
@@ -733,6 +742,9 @@
                 "content": "$2"
             }
         }
+    },
+    "neighbors_expression": {
+        "message": "Angiv et udtryk for at evaluere"
     },
     "friendship_collect": {
         "message": "Hent og sammenlign"
@@ -1374,6 +1386,9 @@
     "rings_averageperring": {
         "message": "Gennemsnitlig XP per ring"
     },
+    "rings_rings": {
+        "message": "Ringe"
+    },
     "equipment_sellout": {
         "message": "Salg af alt brugt lejrudstyr gi'r dig $TOTAL$ mønter netto (udstyr = $EQUIP$ mønter, dekorationer = $DECO$ mønter)",
         "placeholders": {
@@ -1569,6 +1584,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Formel"
+    },
     "specialweek_end": {
         "message": "Slutter den $FINISH$",
         "placeholders": {
@@ -1745,6 +1763,39 @@
     },
     "options_gamelanguage": {
         "message": "Spil sprog\nSprog til spillets beskeder"
+    },
+    "calc_operators": {
+        "message": "Aktører"
+    },
+    "calc_arithmetic": {
+        "message": "Aritmetiske"
+    },
+    "calc_comparison": {
+        "message": "Sammenligning"
+    },
+    "calc_logical": {
+        "message": "Logisk"
+    },
+    "calc_functions": {
+        "message": "Funktioner"
+    },
+    "calc_variables": {
+        "message": "Variabler"
+    },
+    "calc_examples": {
+        "message": "Eksempler"
+    },
+    "calc_error_1": {
+        "message": "Syntax fejl"
+    },
+    "calc_error_2": {
+        "message": "Funktionen mangler parenteser"
+    },
+    "calc_error_3": {
+        "message": "Mangler slut parentes"
+    },
+    "calc_error_4": {
+        "message": "For mange slut parenteser"
     },
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",

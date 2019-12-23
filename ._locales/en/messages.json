@@ -1604,6 +1604,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Formula"
+    },
 
     "specialweek_end": {
         "message": "ends on $FINISH$",

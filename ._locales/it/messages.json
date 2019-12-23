@@ -1584,6 +1584,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Formula"
+    },
     "specialweek_end": {
         "message": "termina il $FINISH$",
         "placeholders": {
