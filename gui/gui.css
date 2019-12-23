@@ -593,6 +593,12 @@ input[type=checkbox] {
   height: 20px !important;
 }
 @-moz-document url-prefix() {
+  .vertical-menu {
+    scrollbar-width: thin;
+  }
+  .vertical-menu li {
+    padding-right: 0;
+  }
   input[type=checkbox] {
     transform: scale(1.5);
   }
