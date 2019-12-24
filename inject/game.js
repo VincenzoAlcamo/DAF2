@@ -42,24 +42,9 @@ function addStylesheet(href, onLoad) {
     document.head.appendChild(link);
 }
 
-var htmlEncodeBr = (function() {
-    var htmlEntities = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '\'': '&#39;',
-        '"': '&quot;',
-        '\n': '<br>'
-    };
-    var re = /[&<>'"\n]/g;
-
-    function replacer(c) {
-        return htmlEntities[c];
-    }
-    return function htmlEncodeBr(text) {
-        return text === undefined || text === null ? '' : String(text).replace(re, replacer);
-    };
-})();
+function htmlEncodeBr(text) {
+    return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
+}
 
 function getMessage(id, ...args) {
     let language = prefs.language || 'en';
@@ -131,8 +116,7 @@ function onFullWindow() {
         if (fullWindow != lastFullWindow) {
             lastFullWindow = fullWindow;
             if (isWebGL) {
-                var script = appendScript('document.mozFullScreenElement=' + (fullWindow ? '{}' : 'null'));
-                setTimeout(() => script.parentNode.removeChild(script), 500);
+                document.body.setAttribute('daf_fw', fullWindow ? '1' : '0');
                 document.body.style.backgroundColor = fullWindow ? '#000' : '';
                 document.body.style.overflow = fullWindow ? 'hidden' : '';
             } else {
@@ -242,7 +226,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
                 gcTable = miner.parentNode.insertBefore(document.createElement('div'), miner.nextSibling);
                 gcTable.className = 'DAF-gc-bar DAF-gc-flipped';
                 gcTable.style.display = 'none';
-                gcTable.addEventListener('click', function(e) {
+                gcTable.addEventListener('click', function (e) {
                     for (var div = e.ctrlKey && e.srcElement; div && div !== gcTable; div = div.parentNode)
                         if (div.id && div.id.startsWith('DAF-gc_')) return gcTable_remove(div);
                 });
@@ -268,7 +252,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
             });
             if (gcTable_isEmpty()) return gcTable_remove(null);
             sendValue('@gcTableStatus', 'default');
-            setTimeout(function() {
+            setTimeout(function () {
                 gcTable.style.display = '';
                 if (getFullWindow()) forceResize(0);
             }, gcTableStyle ? 500 : 2000);
@@ -327,7 +311,7 @@ function createMenu() {
     // remove spaces
     html = html.replace(/>\s+/g, '>');
 
-    addStylesheet(chrome.extension.getURL('inject/game_menu.css'), function() {
+    addStylesheet(chrome.extension.getURL('inject/game_menu.css'), function () {
         menu.style.display = '';
     });
     menu = document.createElement('ul');
@@ -394,7 +378,7 @@ function init() {
         // Set body height to 100% so we can use height:100% in miner
         document.body.style.height = '100%';
         // insert link for condensed font
-        addStylesheet(chrome.extension.getURL('inject/game_gctable.css'), function() {
+        addStylesheet(chrome.extension.getURL('inject/game_gctable.css'), function () {
             gcTableStyle = true;
         });
     } else {
@@ -426,17 +410,20 @@ function init() {
     chrome.runtime.sendMessage({
         action: 'getPrefs',
         keys: Object.keys(prefs)
-    }, function(response) {
-        if (chrome.runtime.lastError) return;
+    }, function (response) {
+        if (chrome.runtime.lastError) {
+            console.log('Error retrieving preferences');
+            return;
+        }
         Object.keys(response).forEach(name => setPref(name, response[name]));
 
         // track preference changes
-        chrome.storage.onChanged.addListener(function(changes, area) {
+        chrome.storage.onChanged.addListener(function (changes, area) {
             if (area != 'local') return;
             for (var name in changes) setPref(name, changes[name].newValue);
         });
 
-        chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             try {
                 var fn = request && request.action && msgHandlers[request.action];
                 var response = fn ? fn(request, sender) : undefined;
@@ -486,7 +473,7 @@ function init() {
         }
         if (miner) {
             let key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
-            window.addEventListener('message', function(event) {
+            window.addEventListener('message', function (event) {
                 if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
@@ -494,9 +481,12 @@ function init() {
             if (isWebGL) {
                 let code = '';
                 code += `
+window.original_isFullScreen = window.isFullScreen;
+window.isDAFFullWindow = function() { return document.body.getAttribute('daf_fw') == '1'; };
+window.isFullScreen = function() { return window.isDAFFullWindow() || window.original_isFullScreen(); };
 window.original_exitFullscreen = window.exitFullscreen;
 window.exitFullscreen = function() {
-    if (!document.mozFullScreenElement) return window.original_exitFullscreen();
+    if (!window.isDAFFullWindow()) return window.original_exitFullscreen();
     window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
 };
 `;
