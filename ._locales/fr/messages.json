@@ -611,6 +611,9 @@
     "neighbors_lastgiftreceived": {
         "message": "Dernier cadeau\nreçu"
     },
+    "neighbors_yourlastvisit": {
+        "message": "Votre dernière visite"
+    },
     "neighbors_all": {
         "message": "Tous"
     },
@@ -739,6 +742,9 @@
                 "content": "$2"
             }
         }
+    },
+    "neighbors_expression": {
+        "message": "Spécifiez une expression à évaluer"
     },
     "friendship_collect": {
         "message": "Recueillir et correspondre"
@@ -1578,6 +1584,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Formule"
+    },
     "specialweek_end": {
         "message": "termine le $FINISH$",
         "placeholders": {
@@ -1754,6 +1763,39 @@
     },
     "options_gamelanguage": {
         "message": "Langue du jeu\nLangue pour les messages de jeu."
+    },
+    "calc_operators": {
+        "message": "Les opérateurs"
+    },
+    "calc_arithmetic": {
+        "message": "Arithmétique"
+    },
+    "calc_comparison": {
+        "message": "Comparaison"
+    },
+    "calc_logical": {
+        "message": "Logique"
+    },
+    "calc_functions": {
+        "message": "Les fonctions"
+    },
+    "calc_variables": {
+        "message": "Variables"
+    },
+    "calc_examples": {
+        "message": "Exemples"
+    },
+    "calc_error_1": {
+        "message": "Erreur de syntaxe"
+    },
+    "calc_error_2": {
+        "message": "La fonction a besoin de parenthèses"
+    },
+    "calc_error_3": {
+        "message": "Parenthèse fermante manquante"
+    },
+    "calc_error_4": {
+        "message": "Trop de parenthèses fermantes"
     },
     "linkgrabber_selected": {
         "message": "Liens: $UNIQUE$ / $TOTAL$",
