@@ -404,9 +404,9 @@ function ringLoot(kind) {
                 } else if (kind == 'red' || kind == 'christmas') {
                     checked = (chestState & (2 ** (lootArea.chest - 1))) > 0;
                     checkbox = Html `<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''}>`;
+                    if (checked) countExp++;
                 }
                 htm += Html.br `<td class="chest" rowspan="${lootArea.numRows}">${checkbox}<span class="chest-id">${Locale.formatNumber(lootArea.chest)}</span></td>`;
-                if (checked) countExp++;
             }
 
             lootArea.checked = checked;
