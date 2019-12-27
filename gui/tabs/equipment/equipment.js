@@ -1122,13 +1122,13 @@ function showPacks(packId) {
             let htm = '';
             let pre = '';
             if (rid == -1) {
-                pre += Html.br `<td><div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div></td>`;
+                pre += Html.br `<td class="td-section"><div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div></td>`;
             }
             if (pid == 0) {
-                pre += Html.br `<td><div class="item section">${getOutlinedText(pack.priceText)}</div></td>`;
+                pre += Html.br `<td class="td-section"><div class="item section">${getOutlinedText(pack.priceText)}</div></td>`;
             }
             items.forEach((item, index) => {
-                htm += Html.br `<td><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
+                htm += Html.br `<td class="td-item"><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
                 htm += Html.br `<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
                 htm += Html.br `<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
                 if (item.type == 'building') htm += Html.br `<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
@@ -1148,7 +1148,7 @@ function showPacks(packId) {
             rows = Math.ceil(rows / 2);
             columns = 2;
         }
-        let htm = `<div class="equipment_pack${columns > 1 ? ' mini' : (len > 3 ? ' compact' : '')}"><table>`;
+        let htm = `<div class="equipment_pack${columns > 1 ? ' zoomed mini' : (len > 3 ? ' zoomed compact' : '')}"><table>`;
         for (let row = 0; row < rows; row++) {
             htm += `<tr>`;
             for (let col = 0; col < columns; col++) {
