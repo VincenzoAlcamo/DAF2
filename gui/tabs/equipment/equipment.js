@@ -175,6 +175,7 @@ function getEventInfo(event) {
 }
 
 function update() {
+    bgp.Data.getPillarsInfo();
     const state = getState();
     let generator = gui.getGenerator();
     let backpack = generator.materials || {};

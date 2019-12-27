@@ -203,6 +203,7 @@ let gui = {
     },
     getXp: function (type, oid) {
         const expByMaterial = bgp.Data.pillars.expByMaterial;
+        if (!expByMaterial) return 0;
         if (type == 'material') return expByMaterial[oid] || 0;
         if (type == 'usable') {
             const usable = gui.getObject(type, oid);
