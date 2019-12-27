@@ -42,11 +42,11 @@ function init() {
     tab = this;
     container = tab.container;
 
-    buttonUnlink = Html `<button data-action="unlink" title="${gui.getMessage('friendship_actionunlink')}"></button>`;
-    buttonIgnore = Html `<button data-action="ignore" title="${gui.getMessage('friendship_actionignore')}"></button>`;
-    buttonRegard = Html `<button data-action="regard" title="${gui.getMessage('friendship_actionregard')}"></button>`;
-    buttonManual = Html `<button data-action="manual" title="${gui.getMessage('friendship_actionmanual')}"></button>`;
-    friendDisabled = Html `<div class="f-disabled">${gui.getMessage('friendship_accountdisabled')}</div>`;
+    buttonUnlink = Html`<button data-action="unlink" title="${gui.getMessage('friendship_actionunlink')}"></button>`;
+    buttonIgnore = Html`<button data-action="ignore" title="${gui.getMessage('friendship_actionignore')}"></button>`;
+    buttonRegard = Html`<button data-action="regard" title="${gui.getMessage('friendship_actionregard')}"></button>`;
+    buttonManual = Html`<button data-action="manual" title="${gui.getMessage('friendship_actionmanual')}"></button>`;
+    friendDisabled = Html`<div class="f-disabled">${gui.getMessage('friendship_accountdisabled')}</div>`;
 
     selectShow = container.querySelector('[name=show]');
     for (var char of 'admghifuns'.split('')) {
@@ -127,22 +127,22 @@ function showCollectDialog() {
     let numUnmatched = getUnmatched().length;
 
     function addAlternateSettings() {
-        var extra = Html.br `<br>${gui.getMessage('friendship_collectghostdelete')} <select name="ghost">`;
+        var extra = Html.br`<br>${gui.getMessage('friendship_collectghostdelete')} <select name="ghost">`;
         for (var i = 0; i <= 2; i++)
-            extra += Html.br `<option value="${i}"${i == ghost ? ' selected' : ''}>${gui.getMessage('friendship_collectghost' + i)}</option>`;
-        extra += Html.br `</select>`;
+            extra += Html.br`<option value="${i}"${i == ghost ? ' selected' : ''}>${gui.getMessage('friendship_collectghost' + i)}</option>`;
+        extra += Html.br`</select>`;
         return Html.raw(extra);
     }
 
     function addStandardSettings() {
-        var extra = Html.br `<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
+        var extra = Html.br`<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
         <input style="vertical-align:middle" type="checkbox" id="f_cc" name="confirmcollection" value="1" ${confirmCollection ? ' checked' : ''}>`;
         return Html.raw(extra);
     }
 
     function button(method) {
         var msgId = 'friendship_collect' + method;
-        var htm = Html.br `<tr style="border-top:2px solid rgba(0,0,0,0.2)">
+        var htm = Html.br`<tr style="border-top:2px solid rgba(0,0,0,0.2)">
 <td style="text-align:right"><button value="${method}">${gui.getMessage(msgId)}</button></td>
 <td>${gui.getMessage(msgId + 'info')}
 ${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
@@ -172,7 +172,7 @@ ${method == 'standard' ? addStandardSettings() : ''}
 
     gui.dialog.show({
         title: gui.getMessage('friendship_collect'),
-        html: Html.br `${gui.getMessage('friendship_collectpreamble')}
+        html: Html.br`${gui.getMessage('friendship_collectpreamble')}
 <table style="margin-top:16px">
 ${button('standard')}
 ${numFriends > 0 ? button('unmatched') : ''}
@@ -185,7 +185,7 @@ ${numFriends > 0 ? button('match') : ''}
         if (method == 'standard' || method == 'unmatched' || method == 'alternate' || method == 'both' || method == 'match') {
             gui.dialog.show({
                 title: gui.getMessage('friendship_collect'),
-                html: Html.br `<p style="text-align:left">${gui.getMessage('friendship_collect' + method + 'info')}
+                html: Html.br`<p style="text-align:left">${gui.getMessage('friendship_collect' + method + 'info')}
 ${method == 'both' || method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 ${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
 ${method == 'both' || method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
@@ -301,40 +301,67 @@ function onInput(event) {
 }
 
 function collectFriends(method) {
-    let width = 1000;
-    let height = 500;
-    let unmatched = method == 'unmatched' ? getUnmatched().join() : '';
+    const width = 1000;
+    const height = 500;
+    const unmatched = method == 'unmatched' ? getUnmatched().join() : '';
     chrome.windows.create({
-        width: width,
-        height: height,
+        width,
+        height,
         left: Math.floor((screen.availWidth - width) / 2),
         top: Math.floor((screen.availHeight - height) / 2),
         type: 'popup',
         url: 'https://www.facebook.com/profile.php?sk=friends'
     }, function (w) {
-        var tabId = w.tabs[0].id;
-        bgp.Tab.excludeFromInjection(tabId);
-        var details = {
-            file: '/js/Dialog.js',
-            runAt: 'document_end',
-            allFrames: false,
-            frameId: 0
-        };
-        chrome.tabs.executeScript(tabId, details, function () {
-            details.file = '/inject/collectfriends.js';
-            chrome.tabs.executeScript(tabId, details, function () {
-                delete details.file;
-                let code = '';
-                let addVar = (name, value) => code += name + '=' + JSON.stringify(value) + ';';
-                addVar('language', gui.getPreference('language'));
-                addVar('unmatched', unmatched);
-                addVar('collectMethod', method);
-                addVar('removeGhosts', getRemoveGhosts());
-                addVar('confirmCollection', getConfirmCollection());
-                details.code = code + 'collect();';
-                chrome.tabs.executeScript(tabId, details, function () {});
+        const tabId = w.tabs[0].id;
+        chrome.tabs.get(tabId, function(tab) {
+            if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
+            waitForTab(tab).then(function() {
+                bgp.Tab.excludeFromInjection(tabId);
+                const details = {
+                    file: '/js/Dialog.js',
+                    runAt: 'document_end',
+                    allFrames: false,
+                    frameId: 0
+                };
+                chrome.tabs.executeScript(tabId, details, function () {
+                    if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
+                    details.file = '/inject/collectfriends.js';
+                    chrome.tabs.executeScript(tabId, details, function () {
+                        if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
+                        delete details.file;
+                        let code = '';
+                        let addVar = (name, value) => code += name + '=' + JSON.stringify(value) + ';';
+                        addVar('language', gui.getPreference('language'));
+                        addVar('unmatched', unmatched);
+                        addVar('collectMethod', method);
+                        addVar('removeGhosts', getRemoveGhosts());
+                        addVar('confirmCollection', getConfirmCollection());
+                        details.code = code + 'collect();';
+                        chrome.tabs.executeScript(tabId, details, function () {
+                            if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
+                        });
+                    });
+                });
             });
         });
+    });
+}
+
+function waitForTab(tab) {
+    if (tab.status !== 'loading') return Promise.resolve(tab);
+    return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+            chrome.tabs.onCreated.removeListener(onUpdated);
+            reject(new Error('Tab did not complete'));
+        }, 5000);
+        function onUpdated(tabId, changeInfo, _tab) {
+            if (tabId == tab.id && _tab.status == 'complete') {
+                clearTimeout(timer);
+                chrome.tabs.onUpdated.removeListener(onUpdated);
+                resolve(_tab);
+            }
+        }
+        chrome.tabs.onUpdated.addListener(onUpdated);
     });
 }
 
@@ -343,13 +370,13 @@ function showStats() {
     if (numToAnalyze == numAnalyzed || numToAnalyze == 0) {
         gui.wait.hide();
         if (bgp.Data.friendsCollectDate > 0) {
-            htm += Html.br `${gui.getMessage('friendship_friendupdateinfo',  Locale.formatDateTimeFull(bgp.Data.friendsCollectDate))}`;
+            htm += Html.br`${gui.getMessage('friendship_friendupdateinfo', Locale.formatDateTimeFull(bgp.Data.friendsCollectDate))}`;
         }
     } else {
         var num = Math.min(numAnalyzed > 0 ? numAnalyzed + 1 : 0, numToAnalyze);
         var analyzingText = gui.getMessage('friendship_analyzingmatches', Math.floor(num / numToAnalyze * 100), num, numToAnalyze);
         gui.wait.setText(analyzingText);
-        htm += Html.br `${analyzingText}`;
+        htm += Html.br`${analyzingText}`;
     }
     container.querySelector('.stats').innerHTML = htm;
 
@@ -369,9 +396,9 @@ function showStats() {
         option.innerText = gui.getMessage('friendship_filter_' + option.value, ...params[option.value]);
     }
 
-    htm = Html.br `${gui.getMessage('friendship_totalfriends', Locale.formatNumber(numFriendsShown), Locale.formatNumber(numFriends))}`;
+    htm = Html.br`${gui.getMessage('friendship_totalfriends', Locale.formatNumber(numFriendsShown), Locale.formatNumber(numFriends))}`;
     for (let div of container.querySelectorAll('.numfriends')) div.innerHTML = htm;
-    htm = Html.br `${gui.getMessage('friendship_totalneighbours', Locale.formatNumber(numNeighboursShown), Locale.formatNumber(numNeighbours))}`;
+    htm = Html.br`${gui.getMessage('friendship_totalneighbours', Locale.formatNumber(numNeighboursShown), Locale.formatNumber(numNeighbours))}`;
     for (let div of container.querySelectorAll('.numneighbours')) div.innerHTML = htm;
 
     htm = '';
@@ -392,28 +419,28 @@ function updateRow(row) {
     var htm = '';
     if (friend) {
         let anchor = gui.getFBFriendAnchor(friend.id, friend.uri);
-        htm += Html.br `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}" class="tooltip-event"/></a></td>`;
-        htm += Html.br `<td>${anchor}${friend.name}</a><br>`;
-        htm += Html.br `<input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}">${friend.disabled ? friendDisabled : ''}</td>`;
-        htm += Html.br `<td>${Locale.formatDate(friend.tc)}<br>${Locale.formatDays(friend.tc)}</td>`;
+        htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}" class="tooltip-event"/></a></td>`;
+        htm += Html.br`<td>${anchor}${friend.name}</a><br>`;
+        htm += Html.br`<input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}">${friend.disabled ? friendDisabled : ''}</td>`;
+        htm += Html.br`<td>${Locale.formatDate(friend.tc)}<br>${Locale.formatDays(friend.tc)}</td>`;
         if (pal) {
-            htm += Html.br `<td>${Locale.formatNumber(friend.score)}</td>`;
-            htm += Html.br `<td>${buttonUnlink}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(friend.score)}</td>`;
+            htm += Html.br`<td>${buttonUnlink}</td>`;
         } else {
-            htm += Html.br `<td></td><td>${friend.score == -1 ? buttonRegard : buttonIgnore}</td>`;
+            htm += Html.br`<td></td><td>${friend.score == -1 ? buttonRegard : buttonIgnore}</td>`;
         }
     } else {
-        htm += Html.br `<td></td><td></td><td></td><td></td><td>${buttonManual}</td>`;
+        htm += Html.br`<td></td><td></td><td></td><td></td><td>${buttonManual}</td>`;
     }
     if (pal) {
         let anchor = Html.raw('<a class="no-link" translate="no">');
-        htm += Html.br `<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
-        htm += Html.br `<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
-        htm += Html.br `<td>${Locale.formatNumber(pal.level)}</td>`;
-        htm += Html.br `<td>${gui.getRegionImg(pal.region)}</td>`;
-        htm += Html.br `<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
+        htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
+        htm += Html.br`<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
+        htm += Html.br`<td>${Locale.formatNumber(pal.level)}</td>`;
+        htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;
+        htm += Html.br`<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
     } else {
-        htm += Html.br `<td></td><td></td><td></td><td></td><td></td>`;
+        htm += Html.br`<td></td><td></td><td></td><td></td><td></td>`;
     }
     row.innerHTML = htm;
     var isIgnored = friend ? friend.score == -1 : false;
@@ -450,7 +477,7 @@ function getRowVisibilityChecker() {
         'u': (friend, pal) => friend && !pal,
         'n': (friend, pal) => pal && !friend,
         's': (friend, pal) => friend ? friend.score == 0 : pal,
-    } [show] || (() => false);
+    }[show] || (() => false);
     return function isRowVisible(friend, pal) {
         if (fnSearch) {
             let text = '';
@@ -807,7 +834,7 @@ function onTooltip(event) {
         fb_id = pal && pal.fb_id;
     }
     if (fb_id) {
-        let htm = Html.br `<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
+        let htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
         Tooltip.show(element, htm);
     }
 }
