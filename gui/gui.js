@@ -719,8 +719,7 @@ async function loadTab(tab) {
     try {
         container.style.display = 'none';
         var tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
-        var module = await dynamicImport(tabBasePath + '.js');
-        Object.assign(tab, module.default);
+        Object.assign(tab, imported_tabs[tab.id]);
         if (tab.hasCSS) {
             let link = document.createElement('link');
             link.setAttribute('rel', 'stylesheet');
