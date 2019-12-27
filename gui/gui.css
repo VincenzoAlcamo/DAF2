@@ -594,23 +594,6 @@ input[type=checkbox] {
   width: 20px !important;
   height: 20px !important;
 }
-@-moz-document url-prefix() {
-  .vertical-menu {
-    scrollbar-width: thin;
-  }
-  .vertical-menu li {
-    padding-right: 0;
-  }
-  input[type=checkbox] {
-    transform: scale(1.5);
-  }
-  progress::-moz-progress-bar {
-    border-radius: 50px;
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
-    background-color: var(--pb-fgcol);
-    filter: drop-shadow(2px 0px 0px var(--pb-brcol));
-  }
-}
 
 .toolbar input[type=checkbox] {
   vertical-align: middle;
@@ -976,3 +959,26 @@ td.add_slash+td {
 td.add_slash+td:before {
   content: "/ ";
 }
+
+/*@region Firefox overrides*/
+@-moz-document url-prefix() {
+  .vertical-menu {
+    scrollbar-width: thin;
+  }
+  .vertical-menu li {
+    padding-right: 0;
+  }
+  input[type=checkbox] {
+    transform: scale(1.5);
+  }
+  progress::-moz-progress-bar {
+    border-radius: 50px;
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+    background-color: var(--pb-fgcol);
+    filter: drop-shadow(2px 0px 0px var(--pb-brcol));
+  }
+  .screenshot {
+    display: none !important;
+  }
+}
+/*#endregion*/
