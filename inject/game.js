@@ -303,8 +303,6 @@ function createMenu() {
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
     <div><span>${gm('menu_reloadgame')}</span><br>
-    <i data-value="webgl" class="${isWebGL ? 'DAF-on' : ''}">WebGL</i>
-    <i data-value="flash" class="${!isWebGL ? 'DAF-on' : ''}">Flash</i>
     <i data-value="switch">${gm(isFacebook ? 'menu_switchportal' : 'menu_switchfacebook')}</i></div>
 </li>
 `;
@@ -368,6 +366,50 @@ function onMenuClick(e) {
     }
 }
 
+function interceptData() {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = `
+(function() {
+    const XHR = XMLHttpRequest.prototype;
+    const send = XHR.send;
+    const open = XHR.open;
+    const site = location.host.startsWith('portal.') ? 'Portal' : 'Facebook';
+    function dispatch(type, kind, request, response) {
+        let lang;
+        try { lang = gamevars.lang; } catch(e) { }
+        const event = new CustomEvent('daf_xhr', { detail: { type, kind, site, lang, request, response } });
+        document.dispatchEvent(event);
+    }
+    XHR.open = function(method, url) {
+        this.url = url;
+        return open.apply(this, arguments);
+    }
+    XHR.send = function() {
+        const match = this.url.match(/\\/(generator|synchronize)\\.php/);
+        if(match) {
+            const kind = match[1];
+            const request = arguments[0];
+            const error = _ => dispatch('error', kind, null, null);
+            dispatch('send', kind, request, null);
+            this.addEventListener('load', _ => dispatch('ok', kind, request, this.response));
+            this.addEventListener('error', error);
+            this.addEventListener('abort', error);
+            this.addEventListener('timeout', error);
+        }
+        return send.apply(this, arguments);
+    };
+})();
+    `
+    document.head.prepend(script);
+    document.addEventListener('daf_xhr', function (event) {
+        chrome.runtime.sendMessage({
+            action: 'daf_xhr',
+            detail: event.detail
+        });
+    });
+}
+
 function init() {
     isWebGL = true;
     miner = document.getElementById('miner') || document.getElementById('canvas');
@@ -381,6 +423,7 @@ function init() {
         addStylesheet(chrome.extension.getURL('inject/game_gctable.css'), function () {
             gcTableStyle = true;
         });
+        if (isWebGL) interceptData();
     } else {
         for (var item of String(location.search).substr(1).split('&'))
             if (item.split('=')[0] == 'flash') isWebGL = false;
@@ -412,7 +455,7 @@ function init() {
         keys: Object.keys(prefs)
     }, function (response) {
         if (chrome.runtime.lastError) {
-            console.log('Error retrieving preferences');
+            console.error('Error retrieving preferences');
             return;
         }
         Object.keys(response).forEach(name => setPref(name, response[name]));

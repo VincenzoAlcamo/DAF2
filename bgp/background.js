@@ -333,7 +333,6 @@ if (loginButton) {
         if (tabId == Tab.guiTabId) Tab.guiTabId = null;
         if (tabId == Tab.gameTabId) {
             Tab.gameTabId = null;
-            Debugger.detach();
         }
     },
     onUpdated: function (tabId, changeInfo, tab) {
@@ -413,9 +412,7 @@ if (loginButton) {
         let values = (options || '') + ' ' + (Data.generator ? Data.generator.game_site + ' ' + Data.generator.game_platform : '');
         values = values.toLowerCase().split(' ');
         let site = values.find(item => item == 'facebook' || item == 'portal');
-        let platform = values.find(item => item == 'webgl' || item == 'flash');
-        let url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/');
-        url += (platform == 'flash' ? '?flash' : '?webgl');
+        let url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/') + '?webgl';
         Tab.showTab('isGame', url, values.includes('keep') ? null : url);
     },
     focus: function (tabId, flag) {
@@ -443,256 +440,17 @@ if (loginButton) {
                 allFrames: false,
                 frameId: 0
             };
+            console.log('Inject game page');
+            Badge.setIcon('grey').setText('').setBackgroundColor('green');
             chrome.tabs.executeScript(tabId, details, function () {
+                if (hasRuntimeError()) return Badge.setIcon('red').setBackgroundColor('red');
                 details.frameId = frame.frameId;
-                chrome.tabs.executeScript(tabId, details);
-            });
-        });
-    }
-};
-//#endregion
-
-//#region DEBUGGER
-var Debugger = {
-    attached: false,
-    target: null,
-    tabId: null,
-    captures: {},
-    detach: function () {
-        if (Debugger.attached) {
-            Debugger.attached = false;
-            chrome.debugger.detach(Debugger.target, function () {
-                console.log('Debugger.detach');
-                if (hasRuntimeError()) return;
-            });
-            chrome.debugger.onDetach.removeListener(Debugger.onDetach);
-            chrome.debugger.onEvent.removeListener(Debugger.onEvent);
-        }
-        Badge.setBackgroundColor('darkorange');
-    },
-    attach: function (tabId) {
-        if (arguments.length == 0) {
-            Tab.detectAll().then(function () {
-                if (Tab.gameTabId) Debugger.attach(Tab.gameTabId);
-                else Debugger.detach();
-            });
-            return;
-        }
-        if (Debugger.attached && tabId == Debugger.tabId) return;
-        Debugger.detach();
-        chrome.debugger.getTargets(function (targets) {
-            Debugger.target = {
-                tabId: tabId
-            };
-            targets.forEach(function (t) {
-                if (t.url.startsWith('https://diggysadventure.com/miner/')) Debugger.target = {
-                    targetId: t.id
-                };
-            });
-            console.log('Trying to attach debugger', Debugger.target);
-            chrome.debugger.attach(Debugger.target, '1.0', function () {
-                console.log('debugger.attach');
-                if (hasRuntimeError()) return;
-                Badge.setBackgroundColor('green');
-                Debugger.attached = true;
-                Debugger.tabId = tabId;
-                chrome.debugger.onEvent.addListener(Debugger.onEvent);
-                chrome.debugger.onDetach.addListener(Debugger.onDetach);
-                const MEGA = 1024 * 1024;
-                chrome.debugger.sendCommand(Debugger.target, 'Network.enable', {
-                    maxResourceBufferSize: 15 * MEGA,
-                    maxTotalBufferSize: 30 * MEGA,
-                }, function (_result) {
-                    console.log('debugger.sendCommand: Network.enable');
-                    if (hasRuntimeError()) {
-                        Debugger.detach();
-                        return;
-                    }
+                console.log('Inject iframe page');
+                chrome.tabs.executeScript(tabId, details, function () {
+                    if (hasRuntimeError()) return Badge.setIcon('red').setBackgroundColor('red');
                 });
             });
         });
-    },
-    onEvent: function (source, method, params) {
-        var info;
-        if (method == 'Network.requestWillBeSent') {
-            //console.log(method, source, params);
-            let url = params.request.url;
-            info = WebRequest.captures[url];
-            if (!info && (url.indexOf('/miner/generator.php') >= 0 || url.indexOf('/miner/synchronize.php') >= 0)) {
-                // Edge will fire the Debugger event *before* the WebRequest event, so we add it and reconcile it later
-                info = {};
-                info.id = 'none';
-                info.url = url;
-                WebRequest.captures[url] = info;
-            }
-            if (info && info.id && !info.skip) {
-                info.debuggerRequestId = params.requestId;
-                Debugger.captures[info.debuggerRequestId] = info;
-                info.promise = new Promise(function (resolve, _reject) {
-                    info.resolve = resolve;
-                });
-                console.log('DEBUGGER', info);
-            }
-        } else if (method == 'Network.loadingFinished') {
-            if (params.requestId in Debugger.captures) {
-                info = Debugger.captures[params.requestId];
-                delete Debugger.captures[params.requestId];
-                if (info.id == 'none') {
-                    console.log('WebRequest was not reconciled');
-                    delete Debugger.captures[info.url];
-                    return;
-                }
-                chrome.debugger.sendCommand(Debugger.target,
-                    'Network.getResponseBody', {
-                        requestId: params.requestId
-                    },
-                    function (response) {
-                        console.log('Resolving debugger promise');
-                        if (hasRuntimeError()) info.resolve(null);
-                        else info.resolve(response.body);
-                    }
-                );
-            }
-        }
-    },
-    onDetach: function (source, reason) {
-        console.log('Debugger.onDetach', source, reason);
-        Debugger.attached = false;
-        Badge.setIcon(reason == 'canceled_by_user' ? (Data.generator ? 'yellow' : 'gray') : 'red');
-        Badge.setBackgroundColor('darkorange');
-    }
-};
-//#endregion
-
-//#region WEB REQUEST
-var WebRequest = {
-    tabId: null,
-    captures: {},
-    init: function () {
-        // Game data files interceptor
-        const dataFilters = {
-            urls: [
-                '*://cdn.diggysadventure.com/*/localization*',
-                '*://static.diggysadventure.com/*/localization*',
-                '*://diggysadventure.com/miner/*.php*',
-                '*://portal.pixelfederation.com/_da/miner/*.php*'
-            ]
-        };
-        chrome.webRequest.onBeforeRequest.addListener(WebRequest.onBeforeRequest, dataFilters, ['requestBody']);
-        chrome.webRequest.onCompleted.addListener(WebRequest.onCompleted, dataFilters);
-        chrome.webRequest.onErrorOccurred.addListener(WebRequest.onErrorOccurred, dataFilters);
-    },
-    onBeforeRequest: function (details) {
-        if (details.tabId != Tab.gameTabId) return;
-        if (details.url.indexOf('/webgl_client/') >= 0) return;
-        var urlInfo = new UrlInfo(details.url);
-        var isPost = details.method == 'POST';
-        var info = {};
-        if (urlInfo.url in WebRequest.captures) {
-            info = WebRequest.captures[urlInfo.url];
-            if (info.id != 'none') {
-                console.log('Skipping a second request for', urlInfo.url);
-                return;
-            }
-            console.log('Reconciled debugger info', info);
-        }
-        if (isPost) {
-            let formData = details.requestBody.formData;
-            if (formData) {
-                info.player_id = formData.player_id && parseInt(formData.player_id[0]);
-                info.postedXml = formData.xml && formData.xml[0];
-            }
-        }
-        if (urlInfo.pathname == '/miner/webgltracking.php') {
-            // Set icon as soon as possible (like old DAF)
-            Badge.setIcon('grey');
-            Badge.setText('');
-        } else if (urlInfo.pathname == '/miner/login.php') {
-            Badge.setIcon('grey');
-            Badge.setText('');
-            Tab.injectGame(details.tabId);
-            Debugger.attach(details.tabId);
-        } else if (urlInfo.pathname == '/miner/generator.php') {
-            Badge.setIcon('blue');
-            console.log('GENERATOR FILE', 'URL', urlInfo.url);
-            info.id = 'generator';
-            chrome.tabs.get(details.tabId, function (tab) {
-                info.game_site = tab.url.indexOf('//portal.') > 0 ? 'Portal' : 'Facebook';
-            });
-            info.game_platform = urlInfo.parameters.webgl ? 'WebGL' : 'Flash';
-        } else if (urlInfo.pathname == '/miner/synchronize.php') {
-            console.log('SYNCHRONIZE FILE', 'URL', urlInfo.url);
-            info.id = 'synchronize';
-            Badge.setText('SYNC');
-        } else if (urlInfo.pathname.endsWith('/localization.csv') || urlInfo.pathname.endsWith('/localization.xml')) {
-            info.id = 'localization';
-            info.skip = true;
-            console.log('LANGUAGE FILE', 'URL', urlInfo.url);
-        }
-        if (info.id && !info.skip && info.player_id && Data.generator) {
-            if (!Data.generator.player_id || Data.generator.player_id == info.player_id || Preferences.getValue('disableAltGuard')) {
-                delete Data.alternateAccountDetected;
-            } else {
-                Data.alternateAccountDetected = info.player_id;
-                Badge.setIcon('grey').setText('ALT').setBackgroundColor('red');
-                console.log('Request is for a different player', info.player_id, 'instead of', Data.generator.player_id);
-                Synchronize.signal('account_mismatch', info.player_id);
-                delete info.id;
-                Debugger.detach();
-            }
-        }
-        if (info.id) {
-            if (!info.skip) console.log('File will be analyzed');
-            info.requestId = details.requestId;
-            info.url = urlInfo.url;
-            info.filename = urlInfo.filename;
-            WebRequest.captures[info.url] = WebRequest.captures[info.requestId] = info;
-        }
-    },
-    onCompleted: function (details) {
-        var info = WebRequest.captures[details.requestId];
-        delete WebRequest.captures[details.requestId];
-        if (!info) return;
-        console.log('onCompleted', info.filename, info);
-        if (!info.promise) info.promise = Promise.resolve(null);
-        info.promise.then(function (text) {
-            if (info.id == 'localization') {
-                return Data.checkLocalization(info.url);
-            } else if (info.id == 'synchronize') {
-                Synchronize.process(info.postedXml, text);
-                Badge.setText('');
-            } else if (info.id == 'generator') {
-                var file = {};
-                file.id = info.id;
-                file.url = info.url;
-                file.time = getUnixTime();
-                file.data = Parser.parse(info.id, text);
-                if (file.data && file.data.neighbours) {
-                    file.data.player_id = info.player_id;
-                    file.data.game_site = info.game_site;
-                    file.data.game_platform = info.game_platform;
-                    Data.store(file);
-                    Badge.setIcon('green');
-                } else {
-                    Badge.setIcon('red');
-                }
-            }
-        }).finally(function () {
-            WebRequest.deleteRequest(info.id);
-            delete WebRequest.captures[info.url];
-        });
-    },
-    onErrorOccurred: function (details) {
-        Badge.setIcon('red');
-        var info = WebRequest.captures[details.requestId];
-        delete WebRequest.captures[details.requestId];
-        if (info) WebRequest.deleteRequest(info.id);
-    },
-    deleteRequest: function (id) {
-        if (id == 'generator') {
-            console.log('Debugger can be detached now');
-            if (Debugger.attached && !Preferences.getValue('keepDebugging')) Debugger.detach();
-        }
     }
 };
 //#endregion
@@ -972,8 +730,10 @@ var Data = {
             let store = tx.objectStore('Neighbours');
             // We don't need to wait for the operation to be completed
             store.clear().then(() => store.bulkPut(Object.values(neighbours)));
-            tx.objectStore('Files').put(file);
-            Synchronize.signal('generator');
+            tx.objectStore('Files').put(file).then(() => {
+                Data.checkLocalization('', file.data.game_language);
+                Tab.detectAll().then(() => Synchronize.signal('generator'));
+            });
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
             tx = Data.db.transaction('Files', 'readwrite');
@@ -981,21 +741,16 @@ var Data = {
         }
         return tx.complete;
     },
-    isDeveloper: function () {
-        return [3951243, 11530133, 8700592, 583351, 11715879, 1798336, 5491844].indexOf(Data.generator.player_id) >= 0;
-    },
     getLanguageIdFromUrl: function (url) {
         let match = url && url.match(/\/([A-Z][A-Z])\/localization\./);
         return match && match[1];
     },
-    checkLocalization: function (url) {
-        if (!Data.generator || !Data.generator.file_changes) return;
-        let gameLanguage = Preferences.getValue('gameLanguage');
-        if (!gameLanguage) {
-            gameLanguage = Data.getLanguageIdFromUrl(url);
-            if (!gameLanguage) return;
-        }
-        let key = Object.keys(Data.generator.file_changes).find(key => key.endsWith('localization.csv') && Data.getLanguageIdFromUrl(key) == gameLanguage);
+    checkLocalization: function (url, lang) {
+        const changes = Data.generator && Data.generator.file_changes;
+        if (!changes) return;
+        let gameLanguage, key;
+        const find = lang => key = (gameLanguage = lang) && Object.keys(changes).find(key => key.endsWith('localization.csv') && Data.getLanguageIdFromUrl(key) == lang);
+        find(Preferences.getValue('gameLanguage')) || find(Data.getLanguageIdFromUrl(url)) || find(lang) || find('EN');
         if (!key) return;
         let file = {
             id: 'localization',
@@ -1007,14 +762,11 @@ var Data = {
         let id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
         let id2 = [gameLanguage, file.version, file.revision].join(',');
         if (id1 != id2) {
-            WebRequest.captures[file.url] = file;
             return fetch(file.url).then(function (response) {
                 return response.text();
             }).then(function (text) {
                 file.data = Parser.parse(file.id, text);
                 Data.store(file);
-            }).finally(function () {
-                delete WebRequest.captures[file.url];
             });
         }
     },
@@ -1546,7 +1298,7 @@ var Synchronize = {
             if (data) message.data = data;
         }
         if (delayed) return Synchronize.delayedSignals.push(message);
-        chrome.extension.sendMessage(message);
+        chrome.runtime.sendMessage(message);
         chrome.tabs.sendMessage(Tab.gameTabId, message);
     },
     process: function (postedXml, responseText) {
@@ -1732,6 +1484,57 @@ var Synchronize = {
             changed[pal.id] = pal;
         }
         return Object.values(changed);
+    },
+    processXhr: function (detail) {
+        const { type, kind, site, lang, request, response } = detail;
+        const isError = type == 'error';
+        if (isError) return Badge.setIcon('red').setBackgroundColor('red');
+        const isSend = type == 'send', isOk = type == 'ok';
+        if (!isSend && !isOk) return;
+        const isGenerator = kind == 'generator', isSynchronize = kind == 'synchronize';
+        if (!isGenerator && !isSynchronize) return;
+        const parameters = {};
+        for (const item of (request || '').split('&')) {
+            const p = item.split('=');
+            parameters[decodeURIComponent(p[0])] = p.length > 1 ? decodeURIComponent(p[1]) : true;
+        }
+        if (Data.generator.player_id && Data.generator.player_id != parameters.player_id) {
+            if (isSynchronize) return;
+            if (!Preferences.getValue('disableAltGuard')) {
+                if (isSend) {
+                    Data.alternateAccountDetected = parameters.player_id;
+                    Badge.setIcon('grey').setText('ALT').setBackgroundColor('red');
+                    console.log('Request is for a different player', parameters.player_id, 'instead of', Data.generator.player_id);
+                    Synchronize.signal('account_mismatch', parameters.player_id);
+                }
+                return;
+            }
+        }
+        if (isGenerator) {
+            if (isSend) {
+                delete Data.alternateAccountDetected;
+                return Badge.setIcon('blue').setText('READ').setBackgroundColor('green');
+            }
+            Badge.setText('');
+            const file = {};
+            file.id = kind;
+            file.time = getUnixTime();
+            file.data = Parser.parse(kind, response);
+            if (file.data && file.data.neighbours) {
+                file.data.player_id = parameters.player_id;
+                file.data.game_site = site;
+                file.data.game_platform = 'WebGL';
+                file.data.game_language = lang;
+                Data.store(file);
+                Badge.setIcon('green');
+            } else {
+                Badge.setIcon('red');
+            }
+        } else {
+            if (isSend) return Badge.setText('SYNC').setBackgroundColor('green');
+            Badge.setText('');
+            Synchronize.process(parameters.xml, response);
+        }
     }
 };
 //#endregion
@@ -1745,18 +1548,16 @@ async function init() {
     await Data.init();
     await Message.init();
     await Synchronize.init();
-    await WebRequest.init();
     await Tab.init();
 
     let lang = Preferences.getValue('language');
     languageId = Data.detectLanguage(lang);
     if (languageId !== lang) Preferences.setValue('language', languageId);
 
-    function autoAttachDebugger() {
-        Data.generator && Data.generator.player_id && Debugger.attach();
-    }
-
     Object.entries({
+        daf_xhr: function (request, _sender) {
+            Synchronize.processXhr(request.detail);
+        },
         sendValue: function (request, sender) {
             chrome.tabs.sendMessage(sender.tab.id, request);
         },
@@ -1766,7 +1567,6 @@ async function init() {
         showGUI: function () {
             Tab.showGUI();
         },
-        debug: () => Debugger.attached ? Debugger.detach() : autoAttachDebugger(),
         getGCList: function (request) {
             var neighbours = Object.values(Data.neighbours);
             var realNeighbours = neighbours.length - 1;
@@ -1835,7 +1635,6 @@ async function init() {
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));
 
     Object.entries({
-        keepDebugging: value => value ? autoAttachDebugger() : Debugger.detach(),
         language: value => languageId = value
     }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
 
@@ -1844,8 +1643,6 @@ async function init() {
         Badge.setIcon('yellow');
     }
     Badge.setText('');
-
-    if (Preferences.getValue('keepDebugging')) autoAttachDebugger();
 
     chrome.browserAction.onClicked.addListener(function (_activeTab) {
         Tab.showGUI();

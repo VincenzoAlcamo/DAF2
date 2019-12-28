@@ -284,3 +284,13 @@
 .tab_camp .toolbar .weeks .warning:not(:last-child) {
   margin: 2px auto 0px;
 }
+
+.camp-new .camp {
+  width: calc(var(--size) * 24);
+  height: calc(var(--size) * 21 + 58px);
+  float: left;
+}
+
+.camp-new .camp .line {
+  float: none;
+}

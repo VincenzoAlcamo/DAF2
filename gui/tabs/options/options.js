@@ -100,12 +100,10 @@ function init() {
     let gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
-    option('keepDebugging', WARNING);
     option('disableAltGuard', WARNING);
     if (gui.getPreference('fixes')) option('fixes', TEXT);
     endSection();
     beginSection('ingame');
-    option('injectGame', CRITICAL);
     option('fullWindow', WITHSUBOPTIONS);
     option('fullWindowHeader', SUBOPTION);
     option('fullWindowSide', SUBOPTION);
