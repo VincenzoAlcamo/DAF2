@@ -197,7 +197,7 @@ var Tab = {
     gameTabId: null,
     guiTabId: null,
     GUI_URL: chrome.extension.getURL('gui/gui.html'),
-    tabSettings: {},
+    tabExcluded: {},
     init: function () {
         chrome.tabs.onUpdated.addListener(Tab.onUpdated);
         chrome.tabs.onRemoved.addListener(Tab.onRemoved);
@@ -329,26 +329,21 @@ if (loginButton) {
         }
     },
     onRemoved: function (tabId, _removeInfo) {
-        delete Tab.tabSettings[tabId];
         if (tabId == Tab.guiTabId) Tab.guiTabId = null;
         if (tabId == Tab.gameTabId) {
             Tab.gameTabId = null;
         }
     },
     onUpdated: function (tabId, changeInfo, tab) {
-        Tab.tabSettings[tabId] = Object.assign(Tab.tabSettings[tabId] || {}, tab);
         if ('url' in changeInfo) Tab.detectTab(tab);
     },
     onReplaced: function (addedTabId, removedTabId) {
-        Tab.tabSettings[addedTabId] = Tab.tabSettings[removedTabId];
-        delete Tab.tabSettings[removedTabId];
     },
     excludeFromInjection: function (tabId, flag = true) {
-        if (!Tab.tabSettings[tabId]) Tab.tabSettings[tabId] = {};
-        Tab.tabSettings[tabId].excludeFromInjection = flag;
+        Tab.tabExcluded[tabId] = flag;
     },
     canBeInjected: function (tabId) {
-        return tabId in Tab.tabSettings ? !Tab.tabSettings[tabId].excludeFromInjection : true;
+        return tabId in Tab.tabExcluded ? !Tab.tabExcluded[tabId] : true;
     },
     detectTab: function (tab) {
         Tab.onRemoved(tab.id);

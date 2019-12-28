@@ -313,10 +313,11 @@ function collectFriends(method) {
         url: 'https://www.facebook.com/profile.php?sk=friends'
     }, function (w) {
         const tabId = w.tabs[0].id;
+        bgp.Tab.excludeFromInjection(tabId);
+        setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 15000);
         chrome.tabs.get(tabId, function(tab) {
             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
             waitForTab(tab).then(function() {
-                bgp.Tab.excludeFromInjection(tabId);
                 const details = {
                     file: '/js/Dialog.js',
                     runAt: 'document_end',
@@ -353,7 +354,7 @@ function waitForTab(tab) {
         const timer = setTimeout(() => {
             chrome.tabs.onCreated.removeListener(onUpdated);
             reject(new Error('Tab did not complete'));
-        }, 5000);
+        }, 15000);
         function onUpdated(tabId, changeInfo, _tab) {
             if (tabId == tab.id && _tab.status == 'complete') {
                 clearTimeout(timer);
