@@ -153,13 +153,11 @@ a.no-link {
   position: sticky;
   top: -12px;
   z-index: 1;
-  table-layout: fixed;
 }
 
 .sticky-footer {
   position: sticky;
   bottom: -12px;
-  table-layout: fixed;
 }
 
 .sticky-container {
@@ -979,6 +977,10 @@ td.add_slash+td:before {
   }
   .screenshot {
     display: none !important;
+  }
+  .sticky-header,
+  .sticky-footer {
+    table-layout: fixed;
   }
 }
 /*#endregion*/
