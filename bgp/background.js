@@ -201,7 +201,6 @@ var Tab = {
     init: function () {
         chrome.tabs.onUpdated.addListener(Tab.onUpdated);
         chrome.tabs.onRemoved.addListener(Tab.onRemoved);
-        chrome.tabs.onReplaced.addListener(Tab.onReplaced);
 
         // Portal auto login
         const autoLoginFilters = {
@@ -336,8 +335,6 @@ if (loginButton) {
     },
     onUpdated: function (tabId, changeInfo, tab) {
         if ('url' in changeInfo) Tab.detectTab(tab);
-    },
-    onReplaced: function (addedTabId, removedTabId) {
     },
     excludeFromInjection: function (tabId, flag = true) {
         Tab.tabExcluded[tabId] = flag;
