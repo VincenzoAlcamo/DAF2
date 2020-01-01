@@ -143,7 +143,7 @@ function onClickAdvanced() {
 <br><div class="expression-error"></div>
 <table class="expression-help"><tr><th colspan="3">${gui.getMessage('calc_operators')}</th></tr>
 <tr><th>${gui.getMessage('calc_arithmetic')}</th><th>${gui.getMessage('calc_comparison')}</th><th>${gui.getMessage('calc_logical')}</th></tr>
-<tr><td>- + * / % ** ^</td><td>= ==<br><> !=<br>> >= < <=</td><td>&& and<br>|| or<br>! not</td></tr>
+<tr><td>- + * / % ** ^</td><td>= == <> != > >= < <=</td><td>&& and || or ! not</td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_functions')}</th></tr>
 <tr><td colspan="3">${Object.getOwnPropertyNames(Math).filter(n => typeof Math[n] == 'function').sort().join(' ')}
 <br>if(expression, trueValue, falseValue)
