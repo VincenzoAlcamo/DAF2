@@ -25,22 +25,8 @@ Object.assign(Dialog, {
     NO: 'no',
     CANCEL: 'cancel',
     AUTORUN: 'autorun',
-    escapeHtml: (function() {
-        var re = /[&<>'"]/g;
-        var o = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '\'': '&#39;',
-            '"': '&quot;'
-        };
-        return function(value) {
-            value = typeof value == 'string' ? value : (value ? value.toString() : '');
-            return value.replace(re, c => o[c]);
-        };
-    })(),
-    escapeHtmlBr: function(value) {
-        return Dialog.escapeHtml(value).replace(/\n/g, '<br>');
+    htmlEncodeBr: function (text) {
+        return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
     },
     language: 'en',
     getMessage: function getMessage(id, ...args) {
@@ -83,16 +69,10 @@ Object.assign(Dialog.prototype, {
             this.element = document.createElement('div');
             this.element.className = 'DAF-dialog DAF-md-superscale ' + (this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal') + (this.mode === Dialog.WAIT ? ' DAF-md-wait' : '');
             // We stopped using a CSS transform (that blurs the text)
-            var htm = [
-                '<div class="DAF-md-box"><div class="DAF-md-content"><div class="DAF-md-title"></div><form action="#" method="get"><div class="DAF-md-body"></div><div class="DAF-md-footer">',
-                '<button value="ok">', Dialog.getMessage('dialog_ok') + '</button>',
-                '<button value="confirm">', Dialog.getMessage('dialog_confirm') + '</button>',
-                '<button value="yes">', Dialog.getMessage('dialog_yes') + '</button>',
-                '<button value="no">', Dialog.getMessage('dialog_no') + '</button>',
-                '<button value="cancel">', Dialog.getMessage('dialog_cancel') + '</button>',
-                '</div></form></div></div></div>',
-            ].join('');
-            this.element.innerHTML = htm;
+            const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
+            this.element.innerHTML = `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
+            <div class="DAF-md-title"></div><div class="DAF-md-body"></div>
+            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div>`;
             this.form = this.element.getElementsByTagName('form')[0];
             document.body.appendChild(this.element);
         }
@@ -149,7 +129,7 @@ Object.assign(Dialog.prototype, {
     setTitle: function(title) {
         var el = this.create().element.getElementsByClassName('DAF-md-title')[0];
         if (el) {
-            el.innerHTML = Dialog.escapeHtmlBr(title);
+            el.innerHTML = Dialog.htmlEncodeBr(title);
             el.style.display = title ? '' : 'none';
         }
         return this;
@@ -167,7 +147,7 @@ Object.assign(Dialog.prototype, {
             return this.show({
                 text: text
             });
-        return this.setHtml(Dialog.escapeHtmlBr(text));
+        return this.setHtml(Dialog.htmlEncodeBr(text));
     },
     setStyle: function(style) {
         if (style === null || style === undefined) style = this.lastStyle;

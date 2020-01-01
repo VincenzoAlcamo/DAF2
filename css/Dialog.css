@@ -75,6 +75,9 @@
   margin: 0 auto;
   background: #66c;
   border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
 }
 
 .DAF-md-content form select,
@@ -120,6 +123,8 @@
 .DAF-md-body {
   text-align: center;
   padding: 1em;
+  flex-grow: 1;
+  overflow: auto;
 }
 
 .DAF-dialog input[type=button],
