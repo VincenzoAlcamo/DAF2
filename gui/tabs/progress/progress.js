@@ -611,7 +611,7 @@ function calcRegion(item) {
                 }
             }
             uPrg = Math.min(mPrg, uPrg);
-            let energy = Math.floor(mPrg > 0 ? (+mine.reward_exp * 10 / mPrg) * (mPrg - uPrg) : 0);
+            let energy = mPrg > 0 ? Math.round(+mine.reward_exp * 10 * (mPrg - uPrg) / mPrg) : 0;
             item.max += mPrg;
             item.value += uPrg;
             item.energy += energy;
@@ -668,7 +668,7 @@ function isMineValid(mine) {
     // identifier
     // b) Anpu's Arena (#1642) and Anpu's Racetrack (#1643) are not part of the
     // main game so skip as well (seem to have been a later addition?)
-    // c) Deserted Tomb (#29) 
+    // c) Deserted Tomb (#29)
     let lid = +mine.def_id;
     if (mine.name_loc == 'LONA203' || lid == 1642 || lid == 1643 || lid == 29) return false;
     return true;
