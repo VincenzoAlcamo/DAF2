@@ -698,6 +698,7 @@ function getCurrentItems(state) {
                     item.name = gui.getObjectName(item.type, item.oid);
                     item.limit = +Infinity;
                     item.sell = 0;
+                    item.locked = 0;
                     if (sale.type == 'decoration') {
                         item.owned = decoOwned[item.oid] || 0;
                         item.placed = decoActive[item.oid] || 0;
