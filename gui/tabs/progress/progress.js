@@ -20,6 +20,7 @@ let tab, container, progress, checkCompleted, checkGroups, checkDates, checkEner
 let imgCompleted = Html.br `<img width="24" src="/img/gui/tick.png"/>`;
 let lastTimeMined = 0;
 let mapFilters, mapTutorials;
+let qtypes;
 
 function init() {
     tab = this;
@@ -94,6 +95,7 @@ function toggles() {
 }
 
 function update() {
+    qtypes = getQuestTypes();
 
     mapFilters = {};
     for (let item of Object.values(gui.getFile('map_filters'))) {
@@ -582,9 +584,21 @@ function calcRegion(item) {
         for (let lid of list) excluded[lid] = 3;
     }
     // Exclude some maps, if the progress is 0
+    // Special cases
+    // a) Emerald Nest (LONA203 / #1345) was a re-diggable location until December of 2015.
+    // PF changed the format. It will NOT count towards the Hero of Egypt Achievement,
+    // so we ignore it. In case the Mine ID changes, we will use the Name ID as the
+    // identifier
+    // b) Anpu's Arena (#1642) and Anpu's Racetrack (#1643) are not part of the
+    // main game so skip as well (seem to have been a later addition?)
+    // c) Deserted Tomb (#29)
+    for (let lid of [29, 1345, 1642, 1643]) {
+        if (!(lid in loc_prog) || +loc_prog[lid].prog == 0) excluded[lid] = 4;
+    }
+    // Exclude maps
     // Small Oasis (406)
     for (let lid of [406]) {
-        if (!(lid in loc_prog) || +loc_prog[lid].prog == 0) excluded[lid] = 4;
+        excluded[lid] = 4;
     }
 
     item.rows = [];
@@ -593,7 +607,7 @@ function calcRegion(item) {
         let lid = +mine.def_id;
         if (!(lid in excluded)) {
             let filter = mapFilters[mine.filter];
-            let isSide = mine.mobile_filter == 'side';
+            let isSide = (qtypes[lid] || mine.mobile_filter) == 'side';
             let mPrg = +mine.progress;
             let uPrg = 0;
             let done = loc_prog[lid];
@@ -661,15 +675,24 @@ function isMineValid(mine) {
     if (+mine.reset_cd) return false;
     // Tutorial id must match player's tutorial
     if (mine.def_id in mapTutorials && !mapTutorials[mine.def_id]) return false;
-    // Special cases
-    // a) Emerald Nest (LONA203 / #1345) was a re-diggable location until December of 2015.
-    // PF changed the format. It will NOT count towards the Hero of Egypt Achievement,
-    // so we ignore it. In case the Mine ID changes, we will use the Name ID as the
-    // identifier
-    // b) Anpu's Arena (#1642) and Anpu's Racetrack (#1643) are not part of the
-    // main game so skip as well (seem to have been a later addition?)
-    // c) Deserted Tomb (#29)
-    let lid = +mine.def_id;
-    if (mine.name_loc == 'LONA203' || lid == 1642 || lid == 1643 || lid == 29) return false;
     return true;
+}
+
+function getQuestTypes() {
+    const qtypes = {};
+    const toArray = a => a ? [].concat(a) : [];
+    for (const quest of Object.values(gui.getFile('quests'))) {
+        if (+quest.event_id) continue;
+        const qtype = quest.quest_type;
+        for (const step of toArray(quest.steps)) {
+            for (const obj of toArray(step.objectives)) {
+                const lid = +obj.location_id;
+                if (lid > 1) {
+                    if (!(lid in qtypes)) qtypes[lid] = qtype;
+                    else if (qtypes[lid] != qtype) qtypes[lid] = null;
+                }
+            }
+        }
+    }
+    return qtypes;
 }
