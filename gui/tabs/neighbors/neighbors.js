@@ -288,7 +288,7 @@ function update() {
         let key = type + oid;
         let value = giftValues[key];
         if (value === undefined) {
-            giftValues[key] = gui.getXp(type, oid);
+            giftValues[key] = value = gui.getXp(type, oid);
         }
         giftValues[gift.def_id] = value * +gift.amount;
     }
