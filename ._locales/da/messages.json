@@ -35,6 +35,9 @@
     "menu_autoclick": {
         "message": "Auto klik Facebook's popup"
     },
+    "menu_nogcpopup": {
+        "message": "Ingen pop-up når du samler Gudebørn"
+    },
     "menu_reloadgame": {
         "message": "Genstarter spillet og gennemtvinger en opdatering"
     },
@@ -135,7 +138,7 @@
         "message": "Brugbart"
     },
     "gui_token": {
-        "message": "Særlig gave"
+        "message": "Særlig pant"
     },
     "gui_level": {
         "message": "Level (Niveau)"
@@ -1673,6 +1676,9 @@
     },
     "options_autoclick": {
         "message": "Autoklik\nAccepterer automatisk Facebook's popups"
+    },
+    "options_nogcpopup": {
+        "message": "Ingen Gudebørn pop-ups\nIngen pop-ups når du samler Gudebørn"
     },
     "options_section_general": {
         "message": "Generelle instillinger"

@@ -1,9 +1,9 @@
 /*global chrome*/
 var prefs, handlers, msgHandlers, isFacebook, miner, isWebGL, originalHeight, header;
-var autoClickAttached, autoClickStyle;
+// var autoClickAttached, autoClickStyle;
 var gcTable, gcTableStyle;
 var menu, textOn, textOff;
-var loadCompleted;
+var loadCompleted, styleLoaded;
 var lastFullWindow = false;
 
 function sendMinerPosition() {
@@ -139,38 +139,42 @@ function onFullWindow() {
     }
 }
 
-function autoClickHandler() {
-    if (event.animationName !== 'DAF_anim' || !prefs.autoClick) return;
-    var element = event.target;
-    var form = element.form;
-    if (!form) return;
-    // guard against payments
-    if (element.getAttribute('data-testid') == 'pay_button') return;
-    if (form.action.indexOf('pay') >= 0) return;
-    if (form.action.indexOf('/app_requests/') < 0 && form.action.indexOf('/share/') < 0) return;
-    // find root node for dialog, so we can send it in background
-    var parent = element;
-    while (parent.parentNode.tagName != 'BODY') {
-        parent = parent.parentNode;
-    }
-    // this is the Invite dialog
-    if (parent.querySelector('.profileBrowserDialog')) return;
-    parent.style.zIndex = -1;
-    // click the confirm button
-    element.click();
-}
+// function autoClickHandler() {
+//     if (event.animationName !== 'DAF_anim' || !prefs.autoClick) return;
+//     var element = event.target;
+//     var form = element.form;
+//     if (!form) return;
+//     // guard against payments
+//     if (element.getAttribute('data-testid') == 'pay_button') return;
+//     if (form.action.indexOf('pay') >= 0) return;
+//     if (form.action.indexOf('/app_requests/') < 0 && form.action.indexOf('/share/') < 0) return;
+//     // find root node for dialog, so we can send it in background
+//     var parent = element;
+//     while (parent.parentNode.tagName != 'BODY') {
+//         parent = parent.parentNode;
+//     }
+//     // this is the Invite dialog
+//     if (parent.querySelector('.profileBrowserDialog')) return;
+//     parent.style.zIndex = -1;
+//     // click the confirm button
+//     element.click();
+// }
 
-function onAutoClick() {
-    var autoClick = prefs.autoClick;
-    if (autoClick == autoClickAttached) return;
-    if (autoClick && !autoClickStyle) {
-        autoClickStyle = document.createElement('style');
-        autoClickStyle.innerHTML = `@keyframes DAF_anim { from { outline: 1px solid transparent } to { outline: 0px solid transparent } }
-button.layerConfirm[name=__CONFIRM__] { animation-duration: 0.001s; animation-name: DAF_anim; }`;
-        document.head.appendChild(autoClickStyle);
-    }
-    autoClickAttached = autoClick;
-    document[autoClick ? 'addEventListener' : 'removeEventListener']('animationstart', autoClickHandler, false);
+// function onAutoClick() {
+//     var autoClick = prefs.autoClick;
+//     if (autoClick == autoClickAttached) return;
+//     if (autoClick && !autoClickStyle) {
+//         autoClickStyle = document.createElement('style');
+//         autoClickStyle.innerHTML = `@keyframes DAF_anim { from { outline: 1px solid transparent } to { outline: 0px solid transparent } }
+// button.layerConfirm[name=__CONFIRM__] { animation-duration: 0.001s; animation-name: DAF_anim; }`;
+//         document.head.appendChild(autoClickStyle);
+//     }
+//     autoClickAttached = autoClick;
+//     document[autoClick ? 'addEventListener' : 'removeEventListener']('animationstart', autoClickHandler, false);
+// }
+
+function onNoGCPopup() {
+    document.body.setAttribute('daf_nogc', prefs.noGCPopup ? '1' : '0');
 }
 
 function gcTable_isEmpty() {
@@ -194,7 +198,6 @@ function gcTable_remove(div) {
     }
     // handle case where the table is empty
     if (gcTable_isEmpty()) {
-        sendValue('@gcTableStatus', 'collected');
         if (gcTable.style.display != 'none') {
             gcTable.style.display = 'none';
             if (fullWindow) forceResize();
@@ -213,7 +216,6 @@ function ongcTable(forceRefresh = false, simulate = 0) {
         if (getFullWindow()) forceResize();
         // If table is not present and we need to show it, we must retrieve the neighbours first
     } else if (show) {
-        sendValue('@gcTableStatus', 'default');
         chrome.runtime.sendMessage({
             action: 'getGCList',
             simulate: simulate
@@ -251,7 +253,6 @@ function ongcTable(forceRefresh = false, simulate = 0) {
                 div.appendChild(document.createElement('div')).textContent = item.name;
             });
             if (gcTable_isEmpty()) return gcTable_remove(null);
-            sendValue('@gcTableStatus', 'default');
             setTimeout(function () {
                 gcTable.style.display = '';
                 if (getFullWindow()) forceResize(0);
@@ -261,14 +262,24 @@ function ongcTable(forceRefresh = false, simulate = 0) {
 }
 
 function setgcTableOptions() {
-    if (!gcTable) return;
-    gcTable.classList.toggle('DAF-gc-show-counter', !!prefs.gcTableCounter);
-    gcTable.classList.toggle('DAF-gc-show-region', !!prefs.gcTableRegion);
+    if (gcTable) {
+        gcTable.classList.toggle('DAF-gc-show-region', !!prefs.gcTableRegion);
+    }
+    if (menu) {
+        menu.classList.toggle('DAF-gc-show-counter', !!prefs.gcTableCounter);
+    }
 }
 
-function setgcTableStatus() {
-    var status = prefs['@gcTableStatus'];
-    if (menu) menu.classList.toggle('DAF-gc-collected', status == 'collected');
+function updateGCStatus(data) {
+    if (!menu) return;
+    const el = menu.querySelector('[data-value=status]');
+    el.textContent = data.count ? getMessage('godchild_stat', data.count, data.max) : el.textContent = getMessage('menu_gccollected');
+    el.title = data.nexttxt;
+    el.style.display = '';
+    const badge = menu.querySelector('.DAF-badge-gc');
+    badge.textContent = data.count;
+    badge.title = data.nexttxt;
+    badge.style.display = data.count ? '' : 'none';
 }
 
 function createMenu() {
@@ -278,6 +289,7 @@ function createMenu() {
     textOn = getMessage('menu_on');
     textOff = getMessage('menu_off');
     var html = `
+<ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
 <li data-action="about"><b>&nbsp;</b>
     <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
 </li>
@@ -290,31 +302,42 @@ function createMenu() {
     </div>
 </li>
 <li data-action="gcTable"><b data-pref="gcTable">&nbsp;</b>
-    <div><span>${gm('menu_gctable')}</span><span data-value="status">${gm('menu_gccollected')}</span><br>
+    <div><span>${gm('menu_gctable')}</span><span data-value="status" style="display:none"></span><br>
     <i data-pref="gcTable"></i>
     <i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
     <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
     </div>
 </li>
+<!--
 <li data-action="autoClick"><b data-pref="autoClick">&nbsp;</b>
     <div><span>${gm('menu_autoclick')}</span><br>
     <i data-pref="autoClick"></i>
+    </div>
+</li>
+-->
+<li data-action="noGCPopup"><b data-pref="noGCPopup">&nbsp;</b>
+    <div><span>${gm('menu_nogcpopup')}</span><br>
+    <i data-pref="noGCPopup"></i>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
     <div><span>${gm('menu_reloadgame')}</span><br>
     <i data-value="switch">${gm(isFacebook ? 'menu_switchportal' : 'menu_switchfacebook')}</i></div>
 </li>
+</ul>
+<div class="DAF-badges">
+    <b class="DAF-badge-gc"></b>
+</div>
 `;
     // remove spaces
     html = html.replace(/>\s+/g, '>');
 
     addStylesheet(chrome.extension.getURL('inject/game_menu.css'), function () {
-        menu.style.display = '';
+        styleLoaded = true;
+        showMenu();
     });
-    menu = document.createElement('ul');
-    menu.className = 'DAF-menu';
-    menu.classList.toggle('DAF-facebook', isFacebook);
+    menu = document.createElement('div');
+    menu.classList.add('DAF-menu-container');
     menu.style.display = 'none';
     menu.innerHTML = html;
     document.body.appendChild(menu);
@@ -325,13 +348,17 @@ function createMenu() {
     menu.addEventListener('click', onMenuClick);
 }
 
+function showMenu() {
+    if (loadCompleted && styleLoaded) menu.style.display = '';
+}
+
 function updateMenu(prefName) {
     if (!menu) return;
     for (let el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
         prefName = el.getAttribute('data-pref');
         let isOn = !!prefs[prefName];
         el.classList.toggle('DAF-on', isOn);
-        if (el.tagName == 'I' && (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick')) el.textContent = isOn ? textOn : textOff;
+        if (el.tagName == 'I' && (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick' || prefName == 'noGCPopup')) el.textContent = isOn ? textOn : textOff;
     }
 }
 
@@ -351,6 +378,7 @@ function onMenuClick(e) {
         case 'fullWindow':
         case 'gcTable':
         case 'autoClick':
+        case 'noGCPopup':
             var name = target.getAttribute('data-pref') || action;
             sendPreference(name, !prefs[name]);
             break;
@@ -441,7 +469,7 @@ function init() {
     prefs = {};
     let addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
-    addPrefs('autoClick,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight,@gcTableStatus');
+    addPrefs('autoClick,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
 
     function setPref(name, value) {
         if (!prefs.hasOwnProperty(name)) return;
@@ -481,15 +509,23 @@ function init() {
         if (!miner) handlers['fullWindowHeader'] = onFullWindow;
         if (!miner && isFacebook) handlers['fullWindowSide'] = onFullWindow;
         if (miner) {
-            msgHandlers['friend_child_charge'] = (request) => gcTable_remove(document.getElementById('DAF-gc_' + request.data));
             handlers['gcTable'] = ongcTable;
-            handlers['gcTableCounter'] = handlers['gcTableRegion'] = setgcTableOptions;
+            handlers['gcTableRegion'] = setgcTableOptions;
             ongcTable();
+        } else {
+            handlers['gcTableCounter'] = setgcTableOptions;
         }
         msgHandlers['generator'] = () => {
             loadCompleted = true;
             onFullWindow();
             if (miner) ongcTable(true);
+            else {
+                showMenu();
+                chrome.runtime.sendMessage({ action: 'getGCInfo' }, function(result) {
+                    updateGCStatus(result);
+                    setgcTableOptions();
+                });
+            }
             if (!getFullWindow() && !miner && prefs.fullWindowTimeout > 0) {
                 let eventAttached = false;
                 let check = () => {
@@ -506,15 +542,20 @@ function init() {
                 setTimeout(check, prefs.fullWindowTimeout * 1000);
             }
         };
-        handlers['@gcTableStatus'] = setgcTableStatus;
+        msgHandlers['friend_child_charge'] = (request) => {
+            updateGCStatus(request.data);
+            if (miner) gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
+        };
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();
         onFullWindow();
-        if (!miner) {
-            handlers['autoClick'] = onAutoClick;
-            onAutoClick();
-        }
+        // if (!miner) {
+        //     handlers['autoClick'] = onAutoClick;
+        //     onAutoClick();
+        // }
         if (miner) {
+            handlers['noGCPopup'] = onNoGCPopup;
+            onNoGCPopup();
             let key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
             window.addEventListener('message', function (event) {
                 if (event.source != window || !event.data || event.data.key != key) return;
@@ -534,16 +575,16 @@ window.exitFullscreen = function() {
 };
 `;
                 if ('FBENABLED' in fixes) code += `gamevars.fb_enabled = 1;`;
-                if ('NOGCPOPUP' in fixes) {
-                    code += `
+                code += `
+window.isBypassGCPopup = function() { return document.body.getAttribute('daf_nogc') == '1'; };
 window.original_userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
+    if (!window.isBypassGCPopup()) return window.original_userRequest(recipients, req_type);
     cur_req_type = req_type;
     cur_recipients = String(recipients).split(',').filter(id => id > 0).join(',');
     if (cur_recipients) userRequestResult({ request: true });
 };
 `;
-                }
                 if ('GEMCONFIRMATION' in fixes || 'FBSHARING' in fixes) {
                     code += `
 window.setCookie = (name, value) => document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();

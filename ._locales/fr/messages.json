@@ -35,6 +35,9 @@
     "menu_autoclick": {
         "message": "Anti-popups"
     },
+    "menu_nogcpopup": {
+        "message": "Pas de popups lors de la collecte des filleuls"
+    },
     "menu_reloadgame": {
         "message": "Recharger le jeu"
     },
@@ -1673,6 +1676,9 @@
     },
     "options_autoclick": {
         "message": "Clic automatique\nConfirmer automatiquement les popups de Facebook."
+    },
+    "options_nogcpopup": {
+        "message": "Pas de popups de filleuls\nPas de popups lors de la collecte des filleuls"
     },
     "options_section_general": {
         "message": "Options générales"

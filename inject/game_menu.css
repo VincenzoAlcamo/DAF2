@@ -1,5 +1,12 @@
 /*#region MENU */
 
+.DAF-menu-container {
+  z-index: 2000;
+  position: fixed;
+  left: -8px;
+  top: 32px;
+}
+
 .DAF-menu,
 .DAF-menu * {
   box-sizing: border-box;
@@ -22,10 +29,6 @@
 }
 
 .DAF-menu {
-  z-index: 2000;
-  position: fixed;
-  left: -8px;
-  top: 32px;
   background-color: #FFF;
   padding: 0;
   border-left: 0;
@@ -44,12 +47,10 @@
 
 .DAF-menu:hover {
   height: auto;
-  left: 0px;
-  top: 8px;
   border-color: transparent;
   background-color: transparent;
   background-image: none;
-  padding: 24px 0px 24px 8px;
+  padding: 8px 0px 24px 8px;
   width: 54px;
   background-position: -14px 24px;
 }
@@ -99,12 +100,7 @@
 }
 
 .DAF-menu span[data-value="status"] {
-  display: none;
   background-color: #0FF;
-}
-
-.DAF-menu.DAF-gc-collected li:hover span[data-value="status"] {
-  display: inline-block;
 }
 
 .DAF-menu li:hover b {
@@ -150,6 +146,7 @@
   background-image: url("/img/gui/godchild.png");
 }
 
+.DAF-menu li[data-action="noGCPopup"] b,
 .DAF-menu li[data-action="autoClick"] b {
   background-image: url("/img/gui/facebook.png");
 }
@@ -162,6 +159,42 @@
 
 .DAF-menu:not(.DAF-facebook) i[data-pref="fullWindowSide"] {
   display: none;
+}
+
+.DAF-badges {
+  display: inline-block;
+  position: fixed;
+  left: 22px;
+  top: 34px;
+}
+
+.DAF-menu:hover+.DAF-badges {
+  display: none;
+}
+
+.DAF-badges b {
+  display: none;
+  border: 2px solid #000;
+  height: 23px;
+  border-radius: 1em;
+  background-color: #BDF;
+  color: #046;
+  font-style: normal;
+  font-size: 14px;
+  cursor: default;
+}
+
+.DAF-badge-gc {
+  background-image: url(chrome-extension://lpceicijeadkpilnbnhleognnkicioel/img/gui/godchild.png);
+  background-position: 1px 0px;
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  padding: 0px 5px 0 20px;
+  background-color: #0FF;
+}
+
+.DAF-gc-show-counter .DAF-badge-gc {
+  display: inline-block;
 }
 
 /*#endregion*/

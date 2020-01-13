@@ -35,6 +35,9 @@
     "menu_autoclick": {
         "message": "Click automatico para ventana emergente de Facebook"
     },
+    "menu_nogcpopup": {
+        "message": "No a la ventana emergente al recolectar Niños dioses"
+    },
     "menu_reloadgame": {
         "message": "Recarga el juego y obliga a nueva recopilacion de datos"
     },
@@ -1634,7 +1637,7 @@
         "message": "Habilitar DAF\nHabilitar DAF en el juego.\nSi no está habilitado, las siguientes opciones no tienen efecto"
     },
     "options_fullwindow": {
-        "message": "\"Ventana completa\nMostrar juego en pantalla  completa \""
+        "message": "Ventana completa\nMostrar juego en pantalla completa"
     },
     "options_fullwindowheader": {
         "message": "Encabezado\nMostrar el encabezado de la página en la ventana completa"
@@ -1673,6 +1676,9 @@
     },
     "options_autoclick": {
         "message": "Clic automático\nConfirmar automáticamente las ventanas emergentes de Facebook"
+    },
+    "options_nogcpopup": {
+        "message": "No niños dioses ventana emergente\nNo a la ventan emergente al recolectar niños dioses"
     },
     "options_section_general": {
         "message": "Opciones generales."

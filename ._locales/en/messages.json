@@ -36,6 +36,9 @@
     "menu_autoclick": {
         "message": "Auto click Facebook's popup"
     },
+    "menu_nogcpopup": {
+        "message": "No popups when collecting GC"
+    },
     "menu_reloadgame": {
         "message": "Reloads the game and forces a fresh data collection"
     },
@@ -1695,6 +1698,9 @@
     },
     "options_autoclick": {
         "message": "Autoclick\nAutomatically confirm Facebook's popups"
+    },
+    "options_nogcpopup": {
+        "message": "No GC popups\nNo popups when collecting GC"
     },
     "options_section_general": {
         "message": "General options"

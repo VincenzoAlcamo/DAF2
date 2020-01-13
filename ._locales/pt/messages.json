@@ -30,10 +30,13 @@
         "message": "Região"
     },
     "menu_gccollected": {
-        "message": "Todos os FD foram recolhidos"
+        "message": "Todos os Afilhados foram recolhidos"
     },
     "menu_autoclick": {
         "message": "Clique automático do popup do Facebook"
+    },
+    "menu_nogcpopup": {
+        "message": "Nenhum pop-up ao coletar os Afilhados"
     },
     "menu_reloadgame": {
         "message": "Recarrega o jogo e força uma nova releitura dos dados"
@@ -304,7 +307,7 @@
         "message": "Amigos"
     },
     "tab_godchild": {
-        "message": "Filhos de Deus"
+        "message": "Afilhados"
     },
     "tab_locations": {
         "message": "Localizações"
@@ -1028,7 +1031,7 @@
         }
     },
     "godchild_info": {
-        "message": "$NUM$ Vizinhos = $GC$ Filhos de Deus",
+        "message": "$NUM$ Vizinhos = $GC$ Afilhados",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1039,7 +1042,7 @@
         }
     },
     "godchild_stat": {
-        "message": "Filhos de Deus: $NUM$ / $TOTAL$",
+        "message": "Afilhados: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1673,6 +1676,9 @@
     },
     "options_autoclick": {
         "message": "utomáticamente confirma as popups do Facebook"
+    },
+    "options_nogcpopup": {
+        "message": "Nenhum pop-up dos Afilhados\nNão há pop-ups ao coletar os Afilhados"
     },
     "options_section_general": {
         "message": "Opções gerais"

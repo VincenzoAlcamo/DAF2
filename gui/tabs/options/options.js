@@ -118,7 +118,8 @@ function init() {
     option('gcTable', WITHSUBOPTIONS);
     option('gcTableCounter', SUBOPTION);
     option('gcTableRegion', SUBOPTION);
-    option('autoClick');
+    // option('autoClick');
+    option('noGCPopup');
     endSection();
     beginSection('rewardlinks');
     option('rewardsClose', WITHSUBOPTIONS);

@@ -66,6 +66,7 @@ var Preferences = {
             fullWindowLock: false,
             fullWindowTimeout: 0,
             autoClick: false,
+            noGCPopup: false,
             autoLogin: false,
             gcTable: false,
             gcTableCounter: true,
@@ -210,27 +211,27 @@ var Tab = {
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onAutoLoginCompleted, autoLoginFilters);
 
-        // Facebook dialog interceptor
-        const dialogFilters = {
-            url: [{
-                hostEquals: 'www.facebook.com',
-                pathContains: 'dialog/apprequests',
-                queryContains: 'app_id=470178856367913'
-            }, {
-                hostEquals: 'www.facebook.com',
-                pathContains: 'dialog/apprequests',
-                queryContains: 'app_id=146595778757295'
-            }, {
-                hostEquals: 'web.facebook.com',
-                pathContains: 'dialog/apprequests',
-                queryContains: 'app_id=470178856367913'
-            }, {
-                hostEquals: 'web.facebook.com',
-                pathContains: 'dialog/apprequests',
-                queryContains: 'app_id=146595778757295'
-            }]
-        };
-        chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
+//         // Facebook dialog interceptor
+//         const dialogFilters = {
+//             url: [{
+//                 hostEquals: 'www.facebook.com',
+//                 pathContains: 'dialog/apprequests',
+//                 queryContains: 'app_id=470178856367913'
+//             }, {
+//                 hostEquals: 'www.facebook.com',
+//                 pathContains: 'dialog/apprequests',
+//                 queryContains: 'app_id=146595778757295'
+//             }, {
+//                 hostEquals: 'web.facebook.com',
+//                 pathContains: 'dialog/apprequests',
+//                 queryContains: 'app_id=470178856367913'
+//             }, {
+//                 hostEquals: 'web.facebook.com',
+//                 pathContains: 'dialog/apprequests',
+//                 queryContains: 'app_id=146595778757295'
+//             }]
+//         };
+//         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
 
         // Add Link Grabber script to Facebook pages
         const fbFilters = {
@@ -257,17 +258,17 @@ var Tab = {
 
         return Tab.detectAll();
     },
-    onDialogCompleted: function (details) {
-        console.log('onDialogCompleted', details);
-        if (!Preferences.getValue('autoClick')) return;
-        Tab.focus(Tab.gameTabId, true);
-        chrome.tabs.executeScript(details.tabId, {
-            file: '/inject/portal_autoclick.js',
-            runAt: 'document_end',
-            allFrames: false,
-            frameId: details.frameId
-        });
-    },
+//     onDialogCompleted: function (details) {
+//         console.log('onDialogCompleted', details);
+//         if (!Preferences.getValue('autoClick')) return;
+//         Tab.focus(Tab.gameTabId, true);
+//         chrome.tabs.executeScript(details.tabId, {
+//             file: '/inject/portal_autoclick.js',
+//             runAt: 'document_end',
+//             allFrames: false,
+//             frameId: details.frameId
+//         });
+//     },
     onAutoLoginCompleted: function (details) {
         if (!Preferences.getValue('autoLogin')) return;
         console.log('injecting auto portal login');
@@ -903,7 +904,10 @@ var Data = {
         const pal = Data.neighbours[1];
         if (pal && pal.spawn_time) {
             const time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
-            if (time > getUnixTime()) data.next = time;
+            if (time > getUnixTime()) {
+                data.next = time;
+                data.nexttxt = getMessage('rewardlinks_nexttime', Locale.formatDateTime(time));
+            }
         }
         return data;
     },
@@ -1513,7 +1517,7 @@ var Synchronize = {
         if (isGenerator) {
             if (isSend) {
                 delete Data.alternateAccountDetected;
-                return Badge.setIcon('blue').setText('READ').setBackgroundColor('green');
+                return Badge.setIcon('grey').setText('READ').setBackgroundColor('green');
             }
             Badge.setText('');
             const file = {};

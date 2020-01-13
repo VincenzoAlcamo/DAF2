@@ -35,6 +35,9 @@
     "menu_autoclick": {
         "message": "Auto click popup di Facebook"
     },
+    "menu_nogcpopup": {
+        "message": "Nessun popup quando si raccolgono i Bimbi"
+    },
     "menu_reloadgame": {
         "message": "Ricarica il gioco e forza una rilettura dei dati"
     },
@@ -1673,6 +1676,9 @@
     },
     "options_autoclick": {
         "message": "Click automatico\nConferma automaticamente i popup di Facebook"
+    },
+    "options_nogcpopup": {
+        "message": "Nessun popup dei Bimbi\nNessun popup quando si raccolgono i Bimbi"
     },
     "options_section_general": {
         "message": "Opzioni generali"

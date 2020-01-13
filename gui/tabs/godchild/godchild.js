@@ -54,8 +54,8 @@ function updateStatus() {
     container.querySelector('.godchild_table').style.display = num ? '' : 'none';
     container.querySelector('.toolbar').style.display = !num ? '' : 'none';
     let htm = Html.br `${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
-    let time = bgp.Data.getGCInfo().next;
-    if (time) htm += Html.br `<br>${gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(time))}`;
+    const nextTxt = bgp.Data.getGCInfo().nexttxt;
+    if (nextTxt) htm += Html.br `<br>${nextTxt}`;
     for (let div of container.querySelectorAll('.tab_godchild .stats')) div.innerHTML = htm;
     container.querySelector('.tab_godchild .screenshot .shot').style.display = num > 0 ? '' : 'none';
     var next = gui.getChildrenNext(numNeighbours);

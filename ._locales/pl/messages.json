@@ -35,6 +35,9 @@
     "menu_autoclick": {
         "message": "Auto-klik powiadomień Facebooka"
     },
+    "menu_nogcpopup": {
+        "message": "Brak wyskakujących okienek podczas zbierania BD"
+    },
     "menu_reloadgame": {
         "message": "Przeładuj grę i odśwież dane gry"
     },
@@ -1673,6 +1676,9 @@
     },
     "options_autoclick": {
         "message": "Auto-klik\nAutomatycznie potwierdza okienka Facebooka"
+    },
+    "options_nogcpopup": {
+        "message": "Brak wyskakujących okienek BD\nBrak wyskakującyhc okienek podczas zbierania BD"
     },
     "options_section_general": {
         "message": "Opcje ogólne"
