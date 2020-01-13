@@ -17,6 +17,10 @@ function getUnixTime() {
 
 let languageId = 'en';
 
+function changeLocale(localeId) {
+    Locale.setLocale(localeId ? languageId + '-' + localeId : chrome.i18n.getUILanguage());
+}
+
 function getMessage(id, ...args) {
     let text = chrome.i18n.getMessage(languageId + '@' + id, args);
     if (text == '' && languageId != 'en') text = chrome.i18n.getMessage('en@' + id, args);
@@ -1557,6 +1561,7 @@ async function init() {
     let lang = Preferences.getValue('language');
     languageId = Data.detectLanguage(lang);
     if (languageId !== lang) Preferences.setValue('language', languageId);
+    changeLocale(Preferences.getValue('locale'));
 
     Object.entries({
         daf_xhr: function (request, _sender) {
@@ -1642,7 +1647,8 @@ async function init() {
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));
 
     Object.entries({
-        language: value => languageId = value
+        language: value => languageId = value,
+        locale: changeLocale
     }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
 
     if (Data.generator && Data.generator.player_id) {
