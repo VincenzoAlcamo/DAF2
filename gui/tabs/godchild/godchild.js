@@ -54,7 +54,7 @@ function updateStatus() {
     container.querySelector('.godchild_table').style.display = num ? '' : 'none';
     container.querySelector('.toolbar').style.display = !num ? '' : 'none';
     let htm = Html.br `${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
-    let time = bgp.Data.getNextGCCollectionTime();
+    let time = bgp.Data.getGCInfo().next;
     if (time) htm += Html.br `<br>${gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(time))}`;
     for (let div of container.querySelectorAll('.tab_godchild .stats')) div.innerHTML = htm;
     container.querySelector('.tab_godchild .screenshot .shot').style.display = num > 0 ? '' : 'none';
@@ -65,7 +65,7 @@ function updateStatus() {
 }
 
 function actionFriendChildCharge(data) {
-    var id = data;
+    var id = data.id;
     var div = gcTable.querySelector('[data-pal-id="' + id + '"]');
     if (div) {
         div.parentNode.removeChild(div);

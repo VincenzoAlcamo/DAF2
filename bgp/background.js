@@ -890,16 +890,22 @@ var Data = {
             delete extra.gifts;
         }
     },
-    getNextGCCollectionTime: function () {
-        let pal = Data.neighbours[1];
-        if (pal && pal.spawn_time) {
-            let time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
-            if (time > getUnixTime()) return time;
-        }
-    },
     removegcInfo: function () {
         let tx = Data.db.transaction('Files', 'readwrite');
         tx.objectStore('Files').delete('gcInfo');
+    },
+    getGCInfo: function() {
+        const data = {};
+        const neighbours = Object.values(Data.neighbours);
+        const realNeighbours = neighbours.length - 1;
+        data.count = neighbours.filter(n => n.spawned).length;
+        data.max = Math.min(realNeighbours, Math.floor(Math.sqrt(realNeighbours)) + 3) + 1;
+        const pal = Data.neighbours[1];
+        if (pal && pal.spawn_time) {
+            const time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
+            if (time > getUnixTime()) data.next = time;
+        }
+        return data;
     },
     //#endregion
     //#region Friends
@@ -1442,7 +1448,9 @@ var Synchronize = {
                     // Collected all of them!
                     neighbour.spawned = 0;
                     delete neighbour.extra.gcCount;
-                    Synchronize.signal(action, neighbourId);
+                    const data = Data.getGCInfo();
+                    data.id = neighbourId;
+                    Synchronize.signal(action, data);
                 }
                 Data.saveNeighbour(neighbour);
             }
@@ -1558,6 +1566,9 @@ async function init() {
         },
         showGUI: function () {
             Tab.showGUI();
+        },
+        getGCInfo: function () {
+            return Data.getGCInfo();
         },
         getGCList: function (request) {
             var neighbours = Object.values(Data.neighbours);
