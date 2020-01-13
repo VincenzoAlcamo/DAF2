@@ -182,7 +182,7 @@ function init() {
         let name = input.getAttribute('data-pref');
         let value = input.type == 'checkbox' ? input.checked : input.value;
         if (handler) clearTimeout(handler);
-        handler = setTimeout(applyChanges, 2000);
+        handler = setTimeout(applyChanges, 500);
         changes[name] = value;
         if (name == 'language' || name == 'locale') {
             applyChanges();
