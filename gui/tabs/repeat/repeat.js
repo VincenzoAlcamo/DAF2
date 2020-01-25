@@ -127,7 +127,7 @@ function showSpecialWeeks(items) {
     }
     let htm = [];
     for (let sw of items) {
-        if (sw && sw.name) htm.push(Html.br `${sw.name}: ${sw.ends}`);
+        if (sw && sw.name) htm.push(Html.br`${sw.name}: ${sw.ends}`);
     }
     let divWarning = container.querySelector('.toolbar .warning');
     divWarning.innerHTML = htm.join('<br>');
@@ -233,17 +233,17 @@ function updateRow(row) {
     let htm = '';
     // let img = `${gui.getGenerator().cdn_root}mobile/graphics/map/webgl_locations/${item.gr_library}_${item.gr_clip}.png`;
     let img = `${gui.getGenerator().cdn_root}mobile/graphics/map/${item.mobile_asset}.png`;
-    htm += Html.br `<td><input type="checkbox"${item.selected ? Html(' checked') : ''}></td>`;
-    htm += Html.br `<td><div class="mobile"><img src="${img}" title="${Html(item.name)}"></div></td>`;
-    htm += Html `<td>${item.name}</td>`;
-    htm += Html.br `<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, true) : gui.getObjectImg('region', item.rid, 32, false, true)}</td>`;
-    htm += Html.br `<td>${gui.getDuration(item.cooldown, true)}</td>`;
-    htm += Html.br `<td class="reset_gems">${Locale.formatNumber(item.reset)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
+    htm += Html.br`<td><input type="checkbox"${item.selected ? Html(' checked') : ''}></td>`;
+    htm += Html.br`<td><div class="mobile"><img src="${img}" title="${Html(item.name)}"></div></td>`;
+    htm += Html`<td>${item.name}</td>`;
+    htm += Html.br`<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, true) : gui.getObjectImg('region', item.rid, 32, false, true)}</td>`;
+    htm += Html.br`<td>${gui.getDuration(item.cooldown, true)}</td>`;
+    htm += Html.br`<td class="reset_gems">${Locale.formatNumber(item.reset)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
     let xp = swPostcards ? item.xp * 10 : item.xp;
-    htm += Html.br `<td class="bonus">${Locale.formatNumber(xp)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
-    htm += Html.br `<td class="progress add_slash"></td>`;
-    htm += Html.br `<td class="total"></td>`;
-    htm += Html.br `<td class="time"></td>`;
+    htm += Html.br`<td class="bonus">${Locale.formatNumber(xp)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
+    htm += Html.br`<td class="progress add_slash"></td>`;
+    htm += Html.br`<td class="total"></td>`;
+    htm += Html.br`<td class="time"></td>`;
     row.classList.toggle('selected', item.selected);
     row.innerHTML = htm;
     item._ready = item._readyText = null;
@@ -303,6 +303,24 @@ function calculateItem(item, flagRefreshRow) {
     return changedState;
 }
 
+function toggleSelected(id, flag) {
+    const item = repeatables[id];
+    flag = flag === undefined ? !item.selected : !!flag;
+    item.selected = flag;
+    if (item.row) {
+        item.row.classList.toggle('selected', flag);
+        const input = item.row.querySelector('input');
+        if (input) input.checked = flag;
+    }
+    const index = selected.indexOf(id);
+    if (!flag && index >= 0) {
+        selected.splice(index, 1);
+    } else if (flag && index < 0) {
+        selected.push(id);
+        selected.sort(gui.sortNumberAscending);
+    }
+}
+
 function onClickTable(event) {
     let target = event.target;
     if (!target) return true;
@@ -312,23 +330,12 @@ function onClickTable(event) {
         let flag = target.checked;
         if (event.ctrlKey) {
             // apply to all
-            selected = [];
-            for (let item of Object.values(repeatables)) {
-                item.selected = flag;
-                if (item.row) {
-                    item.row.classList.toggle('selected', flag);
-                    let input = item.row.querySelector('input');
-                    if (input) input.checked = flag;
-                }
-                if (flag) selected.push(item.id);
+            for (const row of smartTable.table.querySelectorAll('tr[data-id]')) {
+                toggleSelected(+row.getAttribute('data-id'), flag);
             }
         } else {
-            row.classList.toggle('selected', flag);
-            selected = selected.filter(v => v != id);
-            if (flag) selected.push(id);
-            repeatables[id].selected = flag;
+            toggleSelected(id, flag);
         }
-        selected.sort(gui.sortNumberAscending);
         return gui.updateTabState(tab);
     }
 }
