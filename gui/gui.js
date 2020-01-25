@@ -627,6 +627,7 @@ function notifyVisibility(tab, visible) {
 }
 
 function onLoad() {
+    gui.isFirefox = getComputedStyle(document.body.querySelector('.mozTest')).textDecorationStyle === 'wavy';
     let currentLanguage = gui.getPreference('language');
     let currentLocale = gui.getPreference('locale');
     Dialog.language = currentLanguage;

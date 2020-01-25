@@ -982,5 +982,8 @@ td.add_slash+td:before {
   .sticky-footer {
     table-layout: fixed;
   }
+  .mozTest {
+    text-decoration-style: wavy;
+  }
 }
 /*#endregion*/
