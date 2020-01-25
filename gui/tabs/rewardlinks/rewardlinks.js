@@ -220,7 +220,19 @@ function onClickTable(event) {
     if (!target) return true;
 
     if (target.tagName == 'INPUT') {
-        target.parentNode.parentNode.classList.toggle('selected', target.checked);
+        const flag = target.checked;
+        let rows = [target.parentNode.parentNode];
+        if (event.ctrlKey || event.altKey) {
+            rows = Array.from(smartTable.table.querySelectorAll('tr[data-id]'));
+            if (event.altKey) {
+                const html = target.parentNode.parentNode.cells[5].innerHTML;
+                rows = rows.filter(row => row.cells[5].innerHTML == html);
+            }
+        }
+        for (const row of rows) {
+            row.classList.toggle('selected', flag);
+            row.querySelector('input').checked = flag;
+        }
         return;
     }
     if (!target.classList.contains('reward')) return true;
