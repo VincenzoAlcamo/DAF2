@@ -7,7 +7,7 @@ export default {
     getState: getState,
     setState: setState,
     visibilityChange: visibilityChange,
-    requires: (function() {
+    requires: (function () {
         let requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests'];
         for (let rid = gui.getMaxRegion(); rid > 0; rid--) requires.push('locations_' + rid);
         return requires;
@@ -17,7 +17,7 @@ export default {
 const REGION_SEPARATOR = '_';
 
 let tab, container, progress, checkCompleted, checkGroups, checkDates, checkEnergy, smartTable, show, levelSums, sliderLevel;
-let imgCompleted = Html.br `<img width="24" src="/img/gui/tick.png"/>`;
+let imgCompleted = Html.br`<img width="24" src="/img/gui/tick.png"/>`;
 let lastTimeMined = 0;
 let mapFilters, mapTutorials;
 let qtypes;
@@ -132,28 +132,28 @@ function update() {
 
 function getProgress(value, max, energy) {
     if (max == 0) {
-        return Html.br `<td></td><td></td><td></td><td></td><td></td>`;
+        return Html.br`<td></td><td></td><td></td><td></td><td></td>`;
     }
     let htm = '';
     let percent = max > 0 ? (value / max * 100) : 0;
     let isCompleted = value == max;
-    htm += Html.br `<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) +'%'}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(value)}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(max)}</td>`;
-    htm += Html.br `<td>${Locale.formatNumber(max - value)}</td>`;
-    htm += Html.br `<td class="energy">${energy ? Locale.formatNumber(energy) : ''}</td>`;
-    htm += Html.br `<td><progress value="${value}" max="${max}"></progress></td>`;
+    htm += Html.br`<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) + '%'}</td>`;
+    htm += Html.br`<td>${Locale.formatNumber(value)}</td>`;
+    htm += Html.br`<td>${Locale.formatNumber(max)}</td>`;
+    htm += Html.br`<td>${Locale.formatNumber(max - value)}</td>`;
+    htm += Html.br`<td class="energy">${energy ? Locale.formatNumber(energy) : ''}</td>`;
+    htm += Html.br`<td><progress value="${value}" max="${max}"></progress></td>`;
     return htm;
 }
 
 function getTimes(isCompleted, bt, et) {
     let htm = '';
     if (bt) {
-        htm += Html.br `<td class="date">${Locale.formatDate(bt)}</td>`;
-        htm += Html.br `<td class="date">${isCompleted && et ? Locale.formatDate(et) : ''}</td>`;
-        htm += Html.br `<td class="date">${isCompleted && et ? gui.getDuration(et - bt, true) : ''}</td>`;
+        htm += Html.br`<td class="date">${Locale.formatDate(bt)}</td>`;
+        htm += Html.br`<td class="date">${isCompleted && et ? Locale.formatDate(et) : ''}</td>`;
+        htm += Html.br`<td class="date">${isCompleted && et ? gui.getDuration(et - bt, true) : ''}</td>`;
     } else {
-        htm += Html.br `<td class="date" colspan="3"></td>`;
+        htm += Html.br`<td class="date" colspan="3"></td>`;
     }
     return htm;
 }
@@ -164,12 +164,12 @@ function refresh() {
     let htm = '';
     for (let item of progress) {
         total += item.percent;
-        htm += Html.br `<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
-        htm += Html.br `<td><img src="${item.isLocked ? '/img/gui/locked.png' : item.icon}"/></td>`;
-        htm += Html.br `<td>${item.label.toUpperCase()}</td>`;
+        htm += Html.br`<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
+        htm += Html.br`<td><img src="${item.isLocked ? '/img/gui/locked.png' : item.icon}"/></td>`;
+        htm += Html.br`<td>${item.label.toUpperCase()}</td>`;
         htm += getProgress(item.value, item.max, item.energy);
         htm += getTimes(item.isCompleted, item.bt, item.et);
-        htm += Html.br `</tr>`;
+        htm += Html.br`</tr>`;
     }
     smartTable.table.querySelector('tbody').innerHTML = htm;
     container.classList.toggle('no-dates', !state.dates);
@@ -308,7 +308,7 @@ function showDetail(show) {
                     if (state.groups) {
                         group.row.setAttribute('data-id', item.id + REGION_SEPARATOR + sub.seq);
                     } else group.row.classList.add('header');
-                    group.row.innerHTML = Html `<td colspan="2">${gui.getString(sub.gname)}</td>`;
+                    group.row.innerHTML = Html`<td colspan="2">${gui.getString(sub.gname)}</td>`;
                     parent.insertBefore(group.row, nextRow);
                 }
                 initGroupTotals(group.total = {});
@@ -322,10 +322,10 @@ function showDetail(show) {
 
         if (!visible) continue;
         if (!sub.row) {
-            let info = sub.info ? Html `<div>${sub.info}</div>` : '';
+            let info = sub.info ? Html`<div>${sub.info}</div>` : '';
             let htm = '';
             if (!sub.name) sub.name = gui.getString(sub.name_loc);
-            htm += Html `<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max, sub.energy);
+            htm += Html`<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max, sub.energy);
             htm += getTimes(isCompleted, sub.bt, sub.et);
             sub.row = document.createElement('tr');
             if (sub.id) sub.row.setAttribute('data-id', sub.id);
@@ -357,7 +357,7 @@ function showDetail(show) {
             let total = group.total;
             let isCompleted = total.value == total.max;
             let htm = '';
-            htm += Html `<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
+            htm += Html`<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
             htm += getTimes(isCompleted, total.bt, total.et);
             group.row.innerHTML = htm;
             group.row.classList.toggle('inspect', (!state.hidecompleted || !isCompleted) && state.groups);
@@ -374,7 +374,7 @@ function showDetail(show) {
         row.classList.add(isGrandTotal ? 'grandtotal' : 'subtotal');
         let isCompleted = total.value == total.max;
         let htm = '';
-        htm += Html `<td></td><td>${gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal', total.qty)}</td>` + getProgress(total.value, total.max, total.energy);
+        htm += Html`<td></td><td>${gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal', total.qty)}</td>` + getProgress(total.value, total.max, total.energy);
         htm += getTimes(isCompleted, total.bt, total.et);
         row.innerHTML = htm;
         parent.insertBefore(row, nextRow);
@@ -412,16 +412,16 @@ function infoLevel(row) {
     let rowSlider = addRow();
     rowSlider.className = 'slider';
     let htm = '';
-    htm += Html.br `<td colspan="6">`;
-    htm += Html.br `<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
-    htm += Html.br `<span class="slider-step slider-min">${Locale.formatNumber(level + 1)}</span>`;
-    htm += Html.br `<span class="slider-step slider-val">${Locale.formatNumber(sliderLevel)}</span>`;
-    htm += Html.br `<span class="slider-step slider-max">${Locale.formatNumber(levelSums.length)}</span>`;
-    htm += Html.br `</td>`;
-    htm += Html.br `<td class="energy"></td><td></td>`;
+    htm += Html.br`<td colspan="6">`;
+    htm += Html.br`<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
+    htm += Html.br`<span class="slider-step slider-min">${Locale.formatNumber(level + 1)}</span>`;
+    htm += Html.br`<span class="slider-step slider-val">${Locale.formatNumber(sliderLevel)}</span>`;
+    htm += Html.br`<span class="slider-step slider-max">${Locale.formatNumber(levelSums.length)}</span>`;
+    htm += Html.br`</td>`;
+    htm += Html.br`<td class="energy"></td><td></td>`;
     htm += getTimes(false, 0, 0);
     rowSlider.innerHTML = htm;
-    rowSlider.querySelector('input').addEventListener('input', function() {
+    rowSlider.querySelector('input').addEventListener('input', function () {
         sliderLevel = this.value;
         rowSlider.querySelector('.slider-val').textContent = Locale.formatNumber(sliderLevel);
         setRowLevel(rowLevel, level, sliderLevel);
@@ -438,7 +438,7 @@ function infoLevel(row) {
         let value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
         let max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
         let htm = '';
-        htm += Html `<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
+        htm += Html`<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
         htm += getTimes(false, 0, 0);
         row.innerHTML = htm;
     }
@@ -510,7 +510,7 @@ function calcAchievements(item) {
                 }
                 title += (title ? '\n' : '') + gui.getString(achievement.desc);
                 item.rows.push({
-                    img: Html `<img height="24" src="${imgUrl}" title="${title}">`,
+                    img: Html`<img height="24" src="${imgUrl}" title="${title}">`,
                     sort: (+achievement.region_id || 1) * 10 + value,
                     name: gui.getString(achievement.name_loc) + ' [' + value + '/' + max + ']',
                     info: val == total ? null : gui.getMessage('progress_achievementnextstep', next),
@@ -644,7 +644,7 @@ function calcRegion(item) {
 
             item.rows.push({
                 id: lid,
-                img: Html `<img height="24" src="/img/gui/${imgUrl}">`,
+                img: Html`<img height="24" src="/img/gui/${imgUrl}">`,
                 name_loc: mine.name_loc,
                 // name: gui.getString(mine.name_loc) + ' (' + lid + ')',
                 value: uPrg,

@@ -22,19 +22,19 @@ Source  : https://github.com/jakearchibald/idb
 Notes   : Retrieved on 2018-04-15 and later modified by Vincenzo Alcamo
 */
 // eslint-disable-next-line no-unused-vars
-let idb = (function() {
+let idb = (function () {
     'use strict';
 
     // This function can be called with one parameter (request) or three parameters
     function promisifyRequest(obj, method, args) {
         var request = arguments.length == 1 ? obj : null;
-        var p = new Promise(function(resolve, reject) {
+        var p = new Promise(function (resolve, reject) {
             // we call the method here, so the Promise constructor can catch an eventual exception
             request = request || obj[method].apply(obj, args);
-            request.onsuccess = function() {
+            request.onsuccess = function () {
                 resolve(request.result);
             };
-            request.onerror = function() {
+            request.onerror = function () {
                 reject(request.error);
             };
         });
@@ -44,30 +44,30 @@ let idb = (function() {
 
     function proxify(ProxyClass, Constructor, options) {
         var prototype = Constructor.prototype;
-        if (options.properties) options.properties.forEach(function(name) {
+        if (options.properties) options.properties.forEach(function (name) {
             Object.defineProperty(ProxyClass.prototype, name, {
-                get: function() {
+                get: function () {
                     return this._native[name];
                 },
-                set: function(val) {
+                set: function (val) {
                     this._native[name] = val;
                 }
             });
         });
-        if (options.methods) options.methods.forEach(function(name) {
-            if (name in prototype) ProxyClass.prototype[name] = function() {
+        if (options.methods) options.methods.forEach(function (name) {
+            if (name in prototype) ProxyClass.prototype[name] = function () {
                 return this._native[name].apply(this._native, arguments);
             };
         });
-        if (options.requestMethods) options.requestMethods.forEach(function(name) {
-            if (name in prototype) ProxyClass.prototype[name] = function() {
+        if (options.requestMethods) options.requestMethods.forEach(function (name) {
+            if (name in prototype) ProxyClass.prototype[name] = function () {
                 return promisifyRequest(this._native, name, arguments);
             };
         });
-        if (options.cursorRequestMethods) options.cursorRequestMethods.forEach(function(name) {
-            if (name in prototype) ProxyClass.prototype[name] = function() {
+        if (options.cursorRequestMethods) options.cursorRequestMethods.forEach(function (name) {
+            if (name in prototype) ProxyClass.prototype[name] = function () {
                 var p = promisifyRequest(this._native, name, arguments);
-                return p.then(function(value) {
+                return p.then(function (value) {
                     return value && new Cursor(value, p.request);
                 });
             };
@@ -95,13 +95,13 @@ let idb = (function() {
     });
 
     // proxy 'next' methods
-    ['advance', 'continue', 'continuePrimaryKey'].forEach(function(name) {
-        if (name in IDBCursor.prototype) Cursor.prototype[name] = function() {
+    ['advance', 'continue', 'continuePrimaryKey'].forEach(function (name) {
+        if (name in IDBCursor.prototype) Cursor.prototype[name] = function () {
             var cursor = this,
                 args = arguments;
-            return Promise.resolve().then(function() {
+            return Promise.resolve().then(function () {
                 cursor._native[name].apply(cursor._native, args);
-                return promisifyRequest(cursor._request).then(function(value) {
+                return promisifyRequest(cursor._request).then(function (value) {
                     return value && new Cursor(value, cursor._request);
                 });
             });
@@ -112,32 +112,32 @@ let idb = (function() {
         this._native = store;
     }
 
-    ObjectStore.prototype.createIndex = function() {
+    ObjectStore.prototype.createIndex = function () {
         return new Index(this._native.createIndex.apply(this._native, arguments));
     };
 
-    ObjectStore.prototype.index = function() {
+    ObjectStore.prototype.index = function () {
         return new Index(this._native.index.apply(this._native, arguments));
     };
 
     // Bulk add / put
-    ['bulkAdd', 'bulkPut'].forEach(function(methodName) {
+    ['bulkAdd', 'bulkPut'].forEach(function (methodName) {
         var name = methodName.substr(4).toLowerCase();
-        ObjectStore.prototype[methodName] = function(items) {
+        ObjectStore.prototype[methodName] = function (items) {
             var store = this._native;
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 var array = Array.isArray(items) ? items : [items],
                     len = array.length,
                     fired = false,
                     count = 0,
-                    success = function() {
+                    success = function () {
                         count += 1;
                         if (count == len && !fired) {
                             fired = true;
                             resolve(this.result);
                         }
                     },
-                    error = function() {
+                    error = function () {
                         if (!fired) {
                             fired = true;
                             reject(this.error);
@@ -161,17 +161,17 @@ let idb = (function() {
 
     function Transaction(idbTransaction) {
         this._native = idbTransaction;
-        this.complete = new Promise(function(resolve, reject) {
-            idbTransaction.oncomplete = function() {
+        this.complete = new Promise(function (resolve, reject) {
+            idbTransaction.oncomplete = function () {
                 resolve();
             };
-            idbTransaction.onerror = idbTransaction.onabort = function() {
+            idbTransaction.onerror = idbTransaction.onabort = function () {
                 reject(idbTransaction.error);
             };
         });
     }
 
-    Transaction.prototype.objectStore = function(_name) {
+    Transaction.prototype.objectStore = function (_name) {
         return new ObjectStore(this._native.objectStore.apply(this._native, arguments));
     };
 
@@ -184,7 +184,7 @@ let idb = (function() {
         this._native = db;
     }
 
-    DB.prototype.transaction = function() {
+    DB.prototype.transaction = function () {
         return new Transaction(this._native.transaction.apply(this._native, arguments));
     };
 
@@ -199,7 +199,7 @@ let idb = (function() {
         this.transaction = new Transaction(transaction);
     }
 
-    UpgradeDB.prototype.createObjectStore = function() {
+    UpgradeDB.prototype.createObjectStore = function () {
         return new ObjectStore(this._native.createObjectStore.apply(this._native, arguments));
     };
 
@@ -210,14 +210,14 @@ let idb = (function() {
 
     // Add cursor iterators
     // TODO: remove this once browsers do the right thing with promises
-    ['openCursor', 'openKeyCursor'].forEach(function(funcName) {
-        [ObjectStore, Index].forEach(function(Constructor) {
-            Constructor.prototype[funcName.replace('open', 'iterate')] = function() {
+    ['openCursor', 'openKeyCursor'].forEach(function (funcName) {
+        [ObjectStore, Index].forEach(function (Constructor) {
+            Constructor.prototype[funcName.replace('open', 'iterate')] = function () {
                 var args = Array.from(arguments);
                 var callback = args[args.length - 1];
                 var nativeObject = this._native;
                 var request = nativeObject[funcName].apply(nativeObject, args.slice(0, -1));
-                request.onsuccess = function() {
+                request.onsuccess = function () {
                     callback(request.result);
                 };
             };
@@ -225,19 +225,19 @@ let idb = (function() {
     });
 
     return {
-        open: function(name, version, upgradeCallback) {
+        open: function (name, version, upgradeCallback) {
             var p = promisifyRequest(indexedDB, 'open', [name, version]);
-            p.request.onupgradeneeded = function(event) {
+            p.request.onupgradeneeded = function (event) {
                 if (upgradeCallback) {
                     upgradeCallback(new UpgradeDB(event.target.result, event.oldVersion, event.target.transaction));
                 }
             };
 
-            return p.then(function(db) {
+            return p.then(function (db) {
                 return new DB(db);
             });
         },
-        delete: function(name) {
+        delete: function (name) {
             return promisifyRequest(indexedDB, 'deleteDatabase', [name]);
         }
     };

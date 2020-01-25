@@ -154,9 +154,9 @@ function refreshTotals() {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
             let levelup = levelups[level - 1];
             let div = parent.querySelectorAll('div');
-            div[1].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`;
-            div[2].innerHTML = Html `${gui.getMessage('gui_level')}: ${Locale.formatNumber(level+1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`;
-            div[3].innerHTML = Html `${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`;
+            div[1].innerHTML = Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`;
+            div[2].innerHTML = Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`;
+            div[3].innerHTML = Html`${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`;
             div = parent.querySelector('progress');
             div.setAttribute('value', xp);
             div.setAttribute('max', levelup.xp);
@@ -209,20 +209,20 @@ function refreshTotals() {
     setProgress('.pillars-progress.pillars-current', level, exp);
     setProgress('.pillars-progress.pillars-next', nextLevel, nextExp);
     let gains = [];
-    if (boost) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(boost))}</span>`);
-    if (food) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(food))}</span>`);
-    if (coins2) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(coins2))}</span>`);
+    if (boost) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(boost))}</span>`);
+    if (food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(food))}</span>`);
+    if (coins2) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(coins2))}</span>`);
     gains = gains.join(', ');
     Array.from(container.querySelectorAll('.pillars-gain')).forEach(el => {
         el.innerHTML = gains;
     });
     gains = [];
-    gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('pillars_maxpossible', Locale.formatNumber(tot))}</span>`);
-    gains.push(Html `<span class="outlined nowrap">${gui.getMessageAndValue('gui_xp', Locale.formatNumber(maxXp))}</span>`);
-    gains.push(Html `<span class="outlined nowrap">${gui.getMessageAndValue('gui_level', Locale.formatNumber(maxLevel))}</span>`);
-    if (maxBoost) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(maxBoost))}</span>`);
-    if (maxFood) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxFood))}</span>`);
-    if (maxCoins + maxCoins2) gains.push(Html `<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxCoins + maxCoins2))}</span>`);
+    gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('pillars_maxpossible', Locale.formatNumber(tot))}</span>`);
+    gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_xp', Locale.formatNumber(maxXp))}</span>`);
+    gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_level', Locale.formatNumber(maxLevel))}</span>`);
+    if (maxBoost) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(maxBoost))}</span>`);
+    if (maxFood) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxFood))}</span>`);
+    if (maxCoins + maxCoins2) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxCoins + maxCoins2))}</span>`);
     gains = gains.join(', ');
     container.querySelector('.stats').innerHTML = gains;
 }
@@ -269,31 +269,31 @@ function refresh() {
     let titleIgnore = gui.getMessage('pillars_ignore');
     let index = 0;
     for (let pillar of pillars.filter(isVisible)) {
-        let htmInputs = Html.br `<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
+        let htmInputs = Html.br`<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
         if (state.grid) {
             index++;
             if (index == 9) {
                 htm += `</tr><tr>`;
                 index = 1;
             }
-            htm += Html.br `<td class="image grid${pillar.excluded ? ' excluded' : ''}" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"/>${htmInputs}</td>`;
+            htm += Html.br`<td class="image grid${pillar.excluded ? ' excluded' : ''}" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"/>${htmInputs}</td>`;
         } else {
             isOdd = !isOdd;
-            htm += Html.br `<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
-            htm += Html.br `<td class="image" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"></td>`;
-            htm += Html.br `<td>${pillar.name}</td>`;
-            htm += Html.br `<td>${gui.getRegionImg(pillar.region)}</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.level)}</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.xp)}</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.coins)}</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.required)}</td>`;
-            htm += Html.br `<td class="material" style="background-image:url(${pillar.matimg})" title="${Html(pillar.mname)}">${Locale.formatNumber(pillar.available)}</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.perc_next, 2)}%</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.possible)}</td>`;
-            htm += Html.br `<td did="${pillar.did}">${htmInputs}</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.predicted_xp)}</td>`;
-            htm += Html.br `<td>${Locale.formatNumber(pillar.predicted_coins)}</td>`;
-            htm += Html.br `</tr>`;
+            htm += Html.br`<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
+            htm += Html.br`<td class="image" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"></td>`;
+            htm += Html.br`<td>${pillar.name}</td>`;
+            htm += Html.br`<td>${gui.getRegionImg(pillar.region)}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.level)}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.xp)}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.coins)}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.required)}</td>`;
+            htm += Html.br`<td class="material" style="background-image:url(${pillar.matimg})" title="${Html(pillar.mname)}">${Locale.formatNumber(pillar.available)}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.perc_next, 2)}%</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.possible)}</td>`;
+            htm += Html.br`<td did="${pillar.did}">${htmInputs}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.predicted_xp)}</td>`;
+            htm += Html.br`<td>${Locale.formatNumber(pillar.predicted_coins)}</td>`;
+            htm += Html.br`</tr>`;
         }
     }
     if (state.grid && index > 0) {
@@ -317,6 +317,6 @@ function onTooltip(event) {
     element.removeAttribute('title');
     let did = parseInt(element.parentNode.getAttribute('did'));
     let pillar = pillars.find(pillar => pillar.did == did);
-    let htm = Html.br `<div class="pillars-tooltip"><img src="${pillar.img}"}" class="outlined"/><span>${pillar.name}</span></div>`;
+    let htm = Html.br`<div class="pillars-tooltip"><img src="${pillar.img}"}" class="outlined"/><span>${pillar.name}</span></div>`;
     Tooltip.show(element, htm);
 }

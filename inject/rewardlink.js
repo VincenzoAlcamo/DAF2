@@ -78,7 +78,7 @@ if (data) {
     chrome.runtime.sendMessage({
         action: 'collectRewardLink',
         reward: data
-    }, function(htm) {
+    }, function (htm) {
         var div = document.getElementsByClassName('playerIdInfo')[0];
         if (!chrome.runtime.lastError && div && htm) {
             var p = document.createElement('div');

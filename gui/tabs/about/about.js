@@ -5,7 +5,7 @@ export default {
     update: update
 };
 
-function init() {}
+function init() { }
 
 function update() {
     this.container.querySelector('.about_version a').innerHTML = Html.br(gui.getMessage('about_version', bgp.Data.version));
@@ -23,7 +23,7 @@ function update() {
         ));
         if (bgp.Data.alternateAccountDetected) {
             html_warning = Html.br(gui.getMessage('about_alternate', bgp.Data.alternateAccountDetected));
-            html_reset = String(Html.br(gui.getMessage('about_reset'))).replace('@RESET@', Html `<button>${gui.getMessage('gui_reset')}</button>`);
+            html_reset = String(Html.br(gui.getMessage('about_reset'))).replace('@RESET@', Html`<button>${gui.getMessage('gui_reset')}</button>`);
         }
     } else {
         html_warning = Html.br(gui.getMessage('about_nodata'));

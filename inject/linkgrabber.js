@@ -262,7 +262,7 @@ function scroll() {
         try {
             autoOpenElement.click();
             flagLinks = true;
-        } catch (e) {}
+        } catch (e) { }
     }
 }
 
@@ -378,7 +378,7 @@ function contextmenu(event) {
 }
 
 //#region LINK HELPER FUNCTIONS
-const LinkData = (function() {
+const LinkData = (function () {
     const reLink1 = /https?:\/\/l\.facebook\.com\/l.php\?u=([^&\s]+)(&|\s|$)/g;
     const reLink2 = /https?:\/\/diggysadventure\.com\/miner\/wallpost_link.php\S*[?&]url=([^&\s]+)(&|\s|$)/g;
     const reFacebook = /https?:\/\/apps\.facebook\.com\/diggysadventure\/wallpost\.php\?wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
@@ -418,7 +418,7 @@ const LinkData = (function() {
                         data = getObj(json.wp_id, json.fb_type, json.wp_sig);
                         if (data) result.push(data);
                     }
-                } catch (e) {}
+                } catch (e) { }
             }
         }
         return result;

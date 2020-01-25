@@ -97,7 +97,7 @@ function update() {
         item.tquest = quests.length;
         item.cquest = 0;
         for (let qid of quests) {
-            if (questsFinished.includes(qid)) ++item.cquest;
+            if (questsFinished.includes(qid))++item.cquest;
         }
         item.pquest = item.cquest / (item.tquest || 1);
 
@@ -133,7 +133,7 @@ function update() {
             let pieces = gui.getArrayOfInt(collection.pieces);
             item.tcollect += pieces.length;
             for (let pid of pieces)
-                if (artifacts.includes(pid)) ++item.ccollect;
+                if (artifacts.includes(pid))++item.ccollect;
         }
         item.pcollect = item.ccollect / (item.tcollect || 1);
 
@@ -277,59 +277,59 @@ function updateRow(row) {
     let id = row.getAttribute('data-eid');
     let item = allEvents[id];
     let htm = '';
-    let img = item.img && Html `<img src="${item.img}" title="${item.name}" style="height:32px" class="tooltip-event">`;
-    htm += Html.br `<td>${img}</td>`;
-    htm += Html.br `<td>${item.name}</td>`;
-    htm += Html.br `<td>${item.year ? Locale.formatYear(item.year) : ''}</td>`;
+    let img = item.img && Html`<img src="${item.img}" title="${item.name}" style="height:32px" class="tooltip-event">`;
+    htm += Html.br`<td>${img}</td>`;
+    htm += Html.br`<td>${item.name}</td>`;
+    htm += Html.br`<td>${item.year ? Locale.formatYear(item.year) : ''}</td>`;
     img = '';
     if (item.segmented > 0) {
         img = gui.getObjectImg('region', item.segmented, 24);
     } else if (item.segmented == 0) {
-        img = Html.br `<img src="/img/gui/check_yes.png" height="24">`;
+        img = Html.br`<img src="/img/gui/check_yes.png" height="24">`;
     }
     // if (img) img = Html.raw(img.toString().replace('>', ' class="outlined">'));
-    htm += Html.br `<td>${img}</td>`;
+    htm += Html.br`<td>${img}</td>`;
     if (item.gems) {
-        htm += Html.br `<td class="cost">${Locale.formatNumber(item.gems)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
+        htm += Html.br`<td class="cost">${Locale.formatNumber(item.gems)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
     } else {
-        htm += Html.br `<td></td>`;
+        htm += Html.br`<td></td>`;
     }
-    htm += Html.br `<td class="date">${item.start ? Locale.formatDate(item.start) + '\n' + Locale.formatTime(item.start) : ''}</td>`;
-    htm += Html.br `<td class="date">${item.end ? Locale.formatDate(item.end) + '\n' + Locale.formatTime(item.end) : ''}</td>`;
+    htm += Html.br`<td class="date">${item.start ? Locale.formatDate(item.start) + '\n' + Locale.formatTime(item.start) : ''}</td>`;
+    htm += Html.br`<td class="date">${item.end ? Locale.formatDate(item.end) + '\n' + Locale.formatTime(item.end) : ''}</td>`;
 
     if (item.tquest) {
-        htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.cquest)}</td>`;
-        htm += Html.br `<td class="no_right_border">${Locale.formatNumber(item.tquest)}</td>`;
-        htm += Html.br `<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.cquest)}</td>`;
+        htm += Html.br`<td class="no_right_border">${Locale.formatNumber(item.tquest)}</td>`;
+        htm += Html.br`<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
     } else {
-        htm += Html.br `<td colspan="3"></td>`;
+        htm += Html.br`<td colspan="3"></td>`;
     }
 
     if (item.tachiev) {
-        htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.cachiev)}</td>`;
-        htm += Html.br `<td class="no_right_border">${Locale.formatNumber(item.tachiev)}</td>`;
-        htm += Html.br `<td><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.cachiev)}</td>`;
+        htm += Html.br`<td class="no_right_border">${Locale.formatNumber(item.tachiev)}</td>`;
+        htm += Html.br`<td><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
     } else {
-        htm += Html.br `<td colspan="3"></td>`;
+        htm += Html.br`<td colspan="3"></td>`;
     }
 
     if (item.tcollect) {
-        htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.ccollect)}</td>`;
-        htm += Html.br `<td class="no_right_border">${Locale.formatNumber(item.tcollect)}</td>`;
-        htm += Html.br `<td><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.ccollect)}</td>`;
+        htm += Html.br`<td class="no_right_border">${Locale.formatNumber(item.tcollect)}</td>`;
+        htm += Html.br`<td><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
     } else {
-        htm += Html.br `<td colspan="3"></td>`;
+        htm += Html.br`<td colspan="3"></td>`;
     }
 
     if (item.locations) {
-        htm += Html.br `<td>${Locale.formatNumber(item.locations)}</td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.maps)}</td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.challenges)}</td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.repeatables)}</td>`;
+        htm += Html.br`<td>${Locale.formatNumber(item.locations)}</td>`;
+        htm += Html.br`<td>${Locale.formatNumber(item.maps)}</td>`;
+        htm += Html.br`<td>${Locale.formatNumber(item.challenges)}</td>`;
+        htm += Html.br`<td>${Locale.formatNumber(item.repeatables)}</td>`;
     } else {
-        htm += Html.br `<td colspan="4"></td>`;
+        htm += Html.br`<td colspan="4"></td>`;
     }
-    htm += Html.br `<td class="materials">`;
+    htm += Html.br`<td class="materials">`;
     let numMaterials = item.materials.length || 1;
     let breakIndex = numMaterials >= 5 ? Math.ceil(numMaterials / 2) : -1;
     let size = Math.max(21, Math.min(32, Math.floor(96 / numMaterials)));
@@ -337,7 +337,7 @@ function updateRow(row) {
         if (index == breakIndex) htm += `<br>`;
         htm += gui.getObjectImg(matId > 0 ? 'material' : 'token', Math.abs(matId), size, true, 'desc');
     });
-    htm += Html.br `</td>`;
+    htm += Html.br`</td>`;
     row.innerHTML = htm;
 }
 
@@ -349,8 +349,8 @@ function onTooltip(event) {
     let img1 = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_events/' + item.img_webgl + '.png';
     let img2 = item.img_full == 'default' ? '' : gui.getGenerator().cdn_root + 'mobile/graphics/all/' + item.img_full + '.png';
     let img = item.img_missing ? img2 : img1;
-    let imgFull = img && Html `<img src="${img}" class="full">`;
-    let htm = Html.br `<div class="events-tooltip"><img src="${item.img}"}" class="outlined"/>${imgFull}<span>${item.name}</span></div>`;
+    let imgFull = img && Html`<img src="${img}" class="full">`;
+    let htm = Html.br`<div class="events-tooltip"><img src="${item.img}"}" class="outlined"/>${imgFull}<span>${item.name}</span></div>`;
     Tooltip.show(element, htm, 'e');
     if (img == img1) Tooltip.tip.querySelector('img.full').addEventListener('error', function () {
         if (img2) this.src = img2;

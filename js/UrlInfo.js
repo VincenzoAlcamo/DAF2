@@ -18,7 +18,7 @@ function UrlInfo(url) {
     this.filename = url.substring(i5 + 1, i3);
 }
 Object.defineProperty(UrlInfo.prototype, 'parameters', {
-    get: function() {
+    get: function () {
         if (!this.__parameters) {
             this.__parameters = {};
             if (this.search) this.search.substr(1).split('&').forEach(item => {

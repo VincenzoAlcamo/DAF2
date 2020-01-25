@@ -42,7 +42,7 @@ function refresh() {
     // }
     const calculation = new Calculation();
     calculation.defineConstant('level', level);
-    divStats.textContent = Html.br `${gui.getMessage('dailyreward_stats', Locale.formatNumber(level), gui.getObjectName('region', rid))}`;
+    divStats.textContent = Html.br`${gui.getMessage('dailyreward_stats', Locale.formatNumber(level), gui.getObjectName('region', rid))}`;
     let htm = '';
     for (const reward of visibleRewards) {
         const item = reward.segmentation.find(o => +o.region_id == rid);
@@ -61,11 +61,11 @@ function refresh() {
             title += '\n' + gui.getMessage('dailyreward_lastcollect', Locale.formatDateTime(lastTime));
         }
         title += `\n${gui.getMessageAndValue('dailyreward_formula', formula.replace(/(\W)/g, ' $1 '))}`;
-        htm += Html `<div class="item${id == lastId ? ' last' : ''}${id == nextId ? ' next' : ''}" title="${title}">`;
-        htm += Html `<div class="disc"></div>`;
-        htm += Html `<div class="inner">` + gui.getObjectImg(item.type, item.object_id, 80, true, 'none') + `</div>`;
-        htm += Html `<div class="amount"><span class="outlined">${Locale.formatNumber(qty)}</span></div>`;
-        htm += Html `</div>`;
+        htm += Html`<div class="item${id == lastId ? ' last' : ''}${id == nextId ? ' next' : ''}" title="${title}">`;
+        htm += Html`<div class="disc"></div>`;
+        htm += Html`<div class="inner">` + gui.getObjectImg(item.type, item.object_id, 80, true, 'none') + `</div>`;
+        htm += Html`<div class="amount"><span class="outlined">${Locale.formatNumber(qty)}</span></div>`;
+        htm += Html`</div>`;
     }
     divRewards.innerHTML = htm;
 }

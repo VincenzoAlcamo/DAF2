@@ -135,7 +135,7 @@ function ringLoot(kind) {
         if (tokenId) {
             let img = gui.getObjectImg('token', tokenId, 24, true);
             let qty = gui.getGenerator().tokens[tokenId] || 0;
-            container.querySelector('.stats').innerHTML = Html.br `${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
+            container.querySelector('.stats').innerHTML = Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
         }
 
         if (kind == 'green') {
@@ -144,7 +144,7 @@ function ringLoot(kind) {
         }
         let divWarning = container.querySelector('.toolbar .warning');
         if (swDoubleDrop) {
-            divWarning.innerHTML = Html.br `${swDoubleDrop.name}: ${swDoubleDrop.ends}`;
+            divWarning.innerHTML = Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`;
             divWarning.style.display = '';
         } else {
             divWarning.style.display = 'none';
@@ -233,15 +233,15 @@ function ringLoot(kind) {
                 loots: allLoots
             };
             let htm = '';
-            htm += Html.br `<input type="checkbox" id="loot_${lid}">`;
+            htm += Html.br`<input type="checkbox" id="loot_${lid}">`;
             if (kind == 'christmas') {
                 const tokenId = christmasMines[lid];
                 let qty = gui.getGenerator().tokens[tokenId] || 0;
-                htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getObjectImg('token', tokenId, 32, true)}<span>${gui.getString(mine.name_loc)}<br>${gui.getMessageAndValue('rings_rings', Locale.formatNumber(qty))}</span></label>`;
+                htm += Html.br`<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getObjectImg('token', tokenId, 32, true)}<span>${gui.getString(mine.name_loc)}<br>${gui.getMessageAndValue('rings_rings', Locale.formatNumber(qty))}</span></label>`;
             } else {
-                htm += Html.br `<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html `<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
+                htm += Html.br`<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html`<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
             }
-            htm += Html.br `<div></div>`;
+            htm += Html.br`<div></div>`;
             let div = document.createElement('div');
             div.className = 'card rings';
             div.innerHTML = htm;
@@ -312,34 +312,34 @@ function ringLoot(kind) {
         const chestState = toInt(selectState[cardIndex - 1]);
         let level = +gui.getGenerator().level;
         let htm = '';
-        htm += Html.br `<table><thead><tr>`;
+        htm += Html.br`<table><thead><tr>`;
         if (kind == 'christmas') {
-            htm += Html.br `<th><img src="/img/gui/chest.png"/></th>`;
-            htm += Html.br `<th>${gui.getMessage('gui_loot')}</th>`;
-            htm += Html.br `<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
-            htm += Html.br `<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
-            htm += Html.br `<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
-            htm += Html.br `<th class="no-minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
-            htm += Html.br `<th class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+            htm += Html.br`<th><img src="/img/gui/chest.png"/></th>`;
+            htm += Html.br`<th>${gui.getMessage('gui_loot')}</th>`;
+            htm += Html.br`<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
+            htm += Html.br`<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
+            htm += Html.br`<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
+            htm += Html.br`<th class="no-minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
+            htm += Html.br`<th class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
         } else {
-            htm += Html.br `<th rowspan="2"><img src="/img/gui/chest.png"/></th>`;
-            htm += Html.br `<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
-            htm += Html.br `<th colspan="3" class="minmax">${gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level)}</th>`;
-            htm += Html.br `<th rowspan="2" class="no-minmax">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(level) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
-            htm += Html.br `<th rowspan="2" class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
-            htm += Html.br `</tr><tr>`;
-            htm += Html.br `<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
-            htm += Html.br `<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
-            htm += Html.br `<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
+            htm += Html.br`<th rowspan="2"><img src="/img/gui/chest.png"/></th>`;
+            htm += Html.br`<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
+            htm += Html.br`<th colspan="3" class="minmax">${gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level)}</th>`;
+            htm += Html.br`<th rowspan="2" class="no-minmax">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(level) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+            htm += Html.br`<th rowspan="2" class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
+            htm += Html.br`</tr><tr>`;
+            htm += Html.br`<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
+            htm += Html.br`<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
+            htm += Html.br`<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
         }
-        htm += Html.br `</tr></thead>`;
-        htm += Html.br `<tbody>`;
+        htm += Html.br`</tr></thead>`;
+        htm += Html.br`<tbody>`;
         let lastChest = 0;
         let odd = false;
-        let tdAvg = Html `<td class="avg">`;
-        let tdNotDependent = Html `<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
+        let tdAvg = Html`<td class="avg">`;
+        let tdNotDependent = Html`<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
         let showXp = (exp) => {
-            return exp ? Html `<div class="xp">${Locale.formatNumber(exp)} ${gui.getMessage('gui_xp')}</div>` : '';
+            return exp ? Html`<div class="xp">${Locale.formatNumber(exp)} ${gui.getMessage('gui_xp')}</div>` : '';
         };
         let totalExp, totalExp2, countExp;
         totalExp = totalExp2 = countExp = 0;
@@ -395,37 +395,37 @@ function ringLoot(kind) {
             lootArea.exp2 = loot2.avg * matXp;
 
             if (lootArea.chest != lastChest) odd = !odd;
-            htm += Html.br `<tr class="${(odd ? 'odd' : '') + (loot.notRandom ? ' not-random' : '')}">`;
+            htm += Html.br`<tr class="${(odd ? 'odd' : '') + (loot.notRandom ? ' not-random' : '')}">`;
             if (lootArea.chest != lastChest) {
                 lastChest = lootArea.chest;
                 let checkbox = '';
                 if (kind == 'christmas' && lootArea.tle.startsWith('z')) {
-                    checkbox = Html `<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}" checked disabled>`;
+                    checkbox = Html`<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}" checked disabled>`;
                 } else if (kind == 'red' || kind == 'christmas') {
                     checked = (chestState & (2 ** (lootArea.chest - 1))) > 0;
-                    checkbox = Html `<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''}>`;
+                    checkbox = Html`<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''}>`;
                     if (checked) countExp++;
                 }
-                htm += Html.br `<td class="chest" rowspan="${lootArea.numRows}">${checkbox}<span class="chest-id">${Locale.formatNumber(lootArea.chest)}</span></td>`;
+                htm += Html.br`<td class="chest" rowspan="${lootArea.numRows}">${checkbox}<span class="chest-id">${Locale.formatNumber(lootArea.chest)}</span></td>`;
             }
 
             lootArea.checked = checked;
             if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp += lootArea.exp;
             if (lootArea.checked || lootArea.tle.startsWith('z')) totalExp2 += lootArea.exp2;
 
-            htm += Html.br `<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
-            htm += Html.br `<td class="min">${loot.notRandom ? '' : Locale.formatNumber(loot.min)}</td>`;
-            htm += Html.br `${loot.coef == 0 && kind != 'christmas' ? tdNotDependent : tdAvg}${Locale.formatNumber(loot.avg)}${showXp(lootArea.exp)}</td>`;
-            htm += Html.br `<td class="max">${loot.notRandom ? '' : Locale.formatNumber(loot.max)}</td>`;
-            htm += Html.br `<td class="level">${Locale.formatNumber(loot2.avg)}${showXp(lootArea.exp2)}</td>`;
-            htm += Html.br `</tr>`;
+            htm += Html.br`<td class="material" style="background-image:url(${gui.getObjectImage(type, oid, true)})">${gui.getObjectName(type, oid)}</td>`;
+            htm += Html.br`<td class="min">${loot.notRandom ? '' : Locale.formatNumber(loot.min)}</td>`;
+            htm += Html.br`${loot.coef == 0 && kind != 'christmas' ? tdNotDependent : tdAvg}${Locale.formatNumber(loot.avg)}${showXp(lootArea.exp)}</td>`;
+            htm += Html.br`<td class="max">${loot.notRandom ? '' : Locale.formatNumber(loot.max)}</td>`;
+            htm += Html.br`<td class="level">${Locale.formatNumber(loot2.avg)}${showXp(lootArea.exp2)}</td>`;
+            htm += Html.br`</tr>`;
         }
-        htm += Html.br `</tbody>`;
-        htm += Html.br `<tfoot class="xp"><tr class="not-random"><th colspan="2">${gui.getMessage('rings_averageperring')}</th><th class="min"></th>`;
-        htm += Html.br `<th class="avg">${Locale.formatNumber(Math.floor(totalExp / countExp))}</th>`;
-        htm += Html.br `<th class="max"></th><th class="level">${Locale.formatNumber(Math.floor(totalExp2 / countExp))}</th>`;
-        htm += Html.br `</tfoot>`;
-        htm += Html.br `</table>`;
+        htm += Html.br`</tbody>`;
+        htm += Html.br`<tfoot class="xp"><tr class="not-random"><th colspan="2">${gui.getMessage('rings_averageperring')}</th><th class="min"></th>`;
+        htm += Html.br`<th class="avg">${Locale.formatNumber(Math.floor(totalExp / countExp))}</th>`;
+        htm += Html.br`<th class="max"></th><th class="level">${Locale.formatNumber(Math.floor(totalExp2 / countExp))}</th>`;
+        htm += Html.br`</tfoot>`;
+        htm += Html.br`</table>`;
         parent = parent.parentNode.querySelector('div');
         parent.innerHTML = htm;
         for (const input of parent.querySelectorAll('input[type=checkbox].xp')) {

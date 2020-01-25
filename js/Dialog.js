@@ -34,7 +34,7 @@ Object.assign(Dialog, {
         if (text == '' && Dialog.language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
         return text;
     },
-    onkeydown: function(event) {
+    onkeydown: function (event) {
         if (event.keyCode == 27 && this.cancelable) {
             this.runCallback(Dialog.CANCEL);
         }
@@ -42,7 +42,7 @@ Object.assign(Dialog, {
 });
 // class methods
 Object.defineProperty(Dialog.prototype, 'visible', {
-    set: function(visible) {
+    set: function (visible) {
         this.getElement().classList.toggle('DAF-md-show', !!visible);
         if (visible && !this.onkeydown && this.cancelable) {
             this.onkeydown = Dialog.onkeydown.bind(this);
@@ -52,18 +52,18 @@ Object.defineProperty(Dialog.prototype, 'visible', {
             delete this.onkeydown;
         }
     },
-    get: function() {
+    get: function () {
         return this.element ? this.element.classList.contains('DAF-md-show') : false;
     }
 });
 Object.assign(Dialog.prototype, {
     delay: 5000,
-    remove: function() {
+    remove: function () {
         if (this.element) this.element.parentNode.removeChild(this.element);
         delete this.element;
         return this;
     },
-    create: function(force) {
+    create: function (force) {
         if (!this.element || force) {
             this.remove();
             this.element = document.createElement('div');
@@ -78,10 +78,10 @@ Object.assign(Dialog.prototype, {
         }
         return this;
     },
-    getElement: function() {
+    getElement: function () {
         return this.create().element;
     },
-    show: function(options, callback) {
+    show: function (options, callback) {
         var o = Object.assign({}, this.defaults, options);
         if (this.mode === Dialog.WAIT) {
             o.title = Dialog.getMessage('dialog_pleasewait');
@@ -115,18 +115,18 @@ Object.assign(Dialog.prototype, {
         if (this.lastStyle.includes(Dialog.AUTORUN)) this.runCallback(Dialog.AUTORUN, null, true);
         return this;
     },
-    runCallback: function(method, input, flagNoHide) {
+    runCallback: function (method, input, flagNoHide) {
         let dialog = this;
         let params = dialog.getParams(method);
         if (input) params.input = input;
         if (!flagNoHide) dialog.hide();
         if (dialog.callback) setTimeout(() => dialog.callback(method, dialog.getParams(method)), flagNoHide ? 0 : 100);
     },
-    hide: function() {
+    hide: function () {
         this.visible = false;
         return this;
     },
-    setTitle: function(title) {
+    setTitle: function (title) {
         var el = this.create().element.getElementsByClassName('DAF-md-title')[0];
         if (el) {
             el.innerHTML = Dialog.htmlEncodeBr(title);
@@ -134,7 +134,7 @@ Object.assign(Dialog.prototype, {
         }
         return this;
     },
-    setHtml: function(html) {
+    setHtml: function (html) {
         var el = this.create().element.getElementsByClassName('DAF-md-body')[0];
         if (el) {
             el.innerHTML = html;
@@ -142,14 +142,14 @@ Object.assign(Dialog.prototype, {
         }
         return this.setStyle();
     },
-    setText: function(text) {
+    setText: function (text) {
         if (this.mode === Dialog.WAIT && !this.visible)
             return this.show({
                 text: text
             });
         return this.setHtml(Dialog.htmlEncodeBr(text));
     },
-    setStyle: function(style) {
+    setStyle: function (style) {
         if (style === null || style === undefined) style = this.lastStyle;
         style = this.lastStyle = style instanceof Array ? style : String(style).split(/,|\s/);
         style = style.map(method => method.toLowerCase());
@@ -162,7 +162,7 @@ Object.assign(Dialog.prototype, {
             if (!input.getAttribute('hasListener')) {
                 input.setAttribute('hasListener', '1');
                 let eventName = input.tagName == 'BUTTON' || input.getAttribute('type') == 'button' ? 'click' : 'input';
-                input.addEventListener(eventName, function(event) {
+                input.addEventListener(eventName, function (event) {
                     event.stopPropagation();
                     event.preventDefault();
                     dialog.runCallback(method, input, isInput);
@@ -171,7 +171,7 @@ Object.assign(Dialog.prototype, {
         }
         return this;
     },
-    getParams: function(method) {
+    getParams: function (method) {
         var params = {};
         if (method) params.method = method;
 

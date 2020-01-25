@@ -315,9 +315,9 @@ function collectFriends(method) {
         const tabId = w.tabs[0].id;
         bgp.Tab.excludeFromInjection(tabId);
         setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 15000);
-        chrome.tabs.get(tabId, function(tab) {
+        chrome.tabs.get(tabId, function (tab) {
             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-            waitForTab(tab).then(function() {
+            waitForTab(tab).then(function () {
                 const details = {
                     file: '/js/Dialog.js',
                     runAt: 'document_end',

@@ -6,7 +6,7 @@ const FORMATS = {
 };
 
 var Parser = {
-    detectFormat: function(text) {
+    detectFormat: function (text) {
         switch (text && text.charAt(0)) {
             case '{':
                 return FORMATS.JSON;
@@ -16,7 +16,7 @@ var Parser = {
                 return FORMATS.TEXT;
         }
     },
-    parse: function(kind, text) {
+    parse: function (kind, text) {
         var data;
         try {
             var fn = Parser['parse_' + kind];
@@ -29,18 +29,18 @@ var Parser = {
         }
         return data || {};
     },
-    isXmlElement: function(value) {
+    isXmlElement: function (value) {
         if (!value) return false;
         var nodeType = value.nodeType;
         if (nodeType !== 1 && nodeType !== 9) return false;
         var kind = Object.prototype.toString.call(value);
         return kind == '[object XMLDocument]' || kind == '[object Element]';
     },
-    parseXml: function(str) {
+    parseXml: function (str) {
         if (!Parser.parserXml) Parser.parserXml = new DOMParser();
         return str ? (Parser.isXmlElement(str) ? str : Parser.parserXml.parseFromString(str, 'text/xml')) : null;
     },
-    parse_xml: function(source) {
+    parse_xml: function (source) {
         var root = Parser.parseXml(source);
         if (root && root.nodeType == 9) root = root.documentElement;
         return parse(root);
@@ -61,11 +61,11 @@ var Parser = {
             return item;
         }
     },
-    parse_any: function(text, format) {
+    parse_any: function (text, format) {
         if (format == FORMATS.JSON) return JSON.parse(text);
         if (format == FORMATS.XML) return Parser.parse_xml(text);
     },
-    parse_generator: function(text, format) {
+    parse_generator: function (text, format) {
         var data = Parser.parse_any(text, format);
         if (!data) return;
 
@@ -159,7 +159,7 @@ var Parser = {
         return data;
     },
     parse_localization_revision: 3,
-    parse_localization: function(text, format) {
+    parse_localization: function (text, format) {
         var wanted = {
             //'ABNA': '',
             'ACNA': 'Achievement',
@@ -226,12 +226,12 @@ var Parser = {
             return data;
         }
     },
-    parse_json: function(text, format) {
+    parse_json: function (text, format) {
         if (format != FORMATS.JSON) return;
         var result = JSON.parse(text);
         return result;
     },
-    parse_erik: function(text, format) {
+    parse_erik: function (text, format) {
         if (format != FORMATS.TEXT) return;
         var arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
         var keys = arr.length > 0 ? arr.shift().split(/\|/) : [];
@@ -251,7 +251,7 @@ var Parser = {
         result.__keys = keys;
         return result;
     },
-    fix_buildings: function(data) {
+    fix_buildings: function (data) {
         var regPrefixes = ['eg|egy|egypt', 'val|valhalla', 'ch|chi|china', 'atl|alt', 'gre', 'nwo'],
             reRegion = new RegExp('_(' + regPrefixes.join('|') + ')([12]?|_(L|reg|stor)?\\d|_(strong|stor|mid|weak))$', 'i'),
             regions = {},
@@ -272,7 +272,7 @@ var Parser = {
             } else dictByNId[nid] = [building.gr_clip, building];
         }
     },
-    fix_levelups: function(data) {
+    fix_levelups: function (data) {
         var levelups = Object.values(data);
         for (var levelup of levelups) {
             levelup.def_id = +levelup.def_id;

@@ -32,7 +32,7 @@ function init() {
     }
 }
 
-function update() {}
+function update() { }
 
 function onClick(_event) {
     let target = this;

@@ -518,43 +518,43 @@ function updateButton() {
 }
 
 function onClickAdvanced() {
-    const getValueSelected = (value, flag) => Html `value="${value}"${flag ? ' selected' : ''}`;
+    const getValueSelected = (value, flag) => Html`value="${value}"${flag ? ' selected' : ''}`;
     const getValueCurrent = (value, current) => getValueSelected(value, value == current);
     let htm = '';
-    htm += Html `<b data-lbl="level">${gui.getMessage('gui_level')}</b>: `;
-    htm += Html `<select name="levelcomparison" data-method="level">`;
-    htm += Html `<option ${getValueCurrent('', filterLevelComparison)}>${gui.getMessage('equipment_level_none')}</option>`;
-    htm += Html `<option ${getValueCurrent('E', filterLevelComparison)}>${gui.getMessage('equipment_level_eq')}</option>`;
-    htm += Html `<option ${getValueCurrent('L', filterLevelComparison)}>${gui.getMessage('equipment_level_le')}</option>`;
-    htm += Html `<option ${getValueCurrent('G', filterLevelComparison)}>${gui.getMessage('equipment_level_ge')}</option>`;
-    htm += Html `</select>&#32;`;
-    htm += Html `<select name="leveltype" data-method="level">`;
-    htm += Html `<option ${getValueCurrent('', filterLevelType)}>${gui.getMessage('equipment_level_your')} (${Locale.formatNumber(+gui.getGenerator().level)})</option>`;
-    htm += Html `<option ${getValueCurrent('C', filterLevelType)}>${gui.getMessage('equipment_level_this')}</option>`;
-    htm += Html `</select>&#32;`;
-    htm += Html `<input type="number" name="level" min="1" max="999" maxlength="3" value=${filterLevel ? filterLevel : ''}>`;
-    htm += Html `<br><br>`;
-    htm += Html `<label for="d_hidemax"><b data-lbl="hidemax">${gui.getMessage('equipment_hidemax')}</b> <input id="d_hidemax" name="hidemax" type="checkbox" style="vertical-align:middle" ${filterHideMax ? 'checked' : ''} data-method="hidemax"></label>`;
-    htm += Html `<br><br>`;
-    htm += Html `<table class="equipment-advanced-table"><tr>`;
-    htm += Html `<td><b data-lbl="skin">${gui.getMessage('gui_theme_required')}</b></td>`;
-    htm += Html `<td><b data-lbl="material1">${gui.getMessage('equipment_include_material')}</b></td>`;
-    htm += Html `<td><b data-lbl="material0">${gui.getMessage('equipment_exclude_material')}</b></td>`;
-    htm += Html `</tr><tr>`;
-    htm += Html `<td><select name="skin" multiple data-method="skin">`;
-    htm += Html `<optgroup label="${gui.getMessage('gui_region').toUpperCase()}">`;
+    htm += Html`<b data-lbl="level">${gui.getMessage('gui_level')}</b>: `;
+    htm += Html`<select name="levelcomparison" data-method="level">`;
+    htm += Html`<option ${getValueCurrent('', filterLevelComparison)}>${gui.getMessage('equipment_level_none')}</option>`;
+    htm += Html`<option ${getValueCurrent('E', filterLevelComparison)}>${gui.getMessage('equipment_level_eq')}</option>`;
+    htm += Html`<option ${getValueCurrent('L', filterLevelComparison)}>${gui.getMessage('equipment_level_le')}</option>`;
+    htm += Html`<option ${getValueCurrent('G', filterLevelComparison)}>${gui.getMessage('equipment_level_ge')}</option>`;
+    htm += Html`</select>&#32;`;
+    htm += Html`<select name="leveltype" data-method="level">`;
+    htm += Html`<option ${getValueCurrent('', filterLevelType)}>${gui.getMessage('equipment_level_your')} (${Locale.formatNumber(+gui.getGenerator().level)})</option>`;
+    htm += Html`<option ${getValueCurrent('C', filterLevelType)}>${gui.getMessage('equipment_level_this')}</option>`;
+    htm += Html`</select>&#32;`;
+    htm += Html`<input type="number" name="level" min="1" max="999" maxlength="3" value=${filterLevel ? filterLevel : ''}>`;
+    htm += Html`<br><br>`;
+    htm += Html`<label for="d_hidemax"><b data-lbl="hidemax">${gui.getMessage('equipment_hidemax')}</b> <input id="d_hidemax" name="hidemax" type="checkbox" style="vertical-align:middle" ${filterHideMax ? 'checked' : ''} data-method="hidemax"></label>`;
+    htm += Html`<br><br>`;
+    htm += Html`<table class="equipment-advanced-table"><tr>`;
+    htm += Html`<td><b data-lbl="skin">${gui.getMessage('gui_theme_required')}</b></td>`;
+    htm += Html`<td><b data-lbl="material1">${gui.getMessage('equipment_include_material')}</b></td>`;
+    htm += Html`<td><b data-lbl="material0">${gui.getMessage('equipment_exclude_material')}</b></td>`;
+    htm += Html`</tr><tr>`;
+    htm += Html`<td><select name="skin" multiple data-method="skin">`;
+    htm += Html`<optgroup label="${gui.getMessage('gui_region').toUpperCase()}">`;
     let list = gui.getArrayOfInt(filterSkin);
     for (let rid of listRegion) {
         let id = gui.getSkinFromRegion(rid);
         htm += `<option ${getValueSelected(id, list.includes(id))}>${gui.getObjectName('region', rid)}</option>`;
     }
-    htm += Html `</optgroup>`;
-    htm += Html `<optgroup label="${gui.getMessage('gui_theme').toUpperCase()}">`;
+    htm += Html`</optgroup>`;
+    htm += Html`<optgroup label="${gui.getMessage('gui_theme').toUpperCase()}">`;
     for (let item of listSkin.map(id => [id, gui.getObjectName('skin', id)]).sort((a, b) => a[1].localeCompare(b[1]))) {
         htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
     }
-    htm += Html `</optgroup>`;
-    htm += Html `</select></td>`;
+    htm += Html`</optgroup>`;
+    htm += Html`</select></td>`;
     const materials = gui.getFile('materials');
     const items = listMaterial.map(id => {
         let name = gui.getObjectName('material', id);
@@ -564,30 +564,30 @@ function onClickAdvanced() {
     const addMaterialList = (isInclude) => {
         const list = gui.getArrayOfInt(filterMaterial).map(isInclude ? n => n : n => -n).filter(n => n > 0);
         const name = 'material' + (isInclude ? 1 : 0);
-        htm += Html `<td><select name="${name}" multiple data-method="${name}">`;
-        htm += Html `<optgroup label="${gui.getMessage('gui_from_regions').toUpperCase()}">`;
+        htm += Html`<td><select name="${name}" multiple data-method="${name}">`;
+        htm += Html`<optgroup label="${gui.getMessage('gui_from_regions').toUpperCase()}">`;
         for (let item of items.filter(item => item[2] == 0)) {
             htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
         }
-        htm += Html `</optgroup>`;
-        htm += Html `<optgroup label="${gui.getMessage('gui_from_events').toUpperCase()}">`;
+        htm += Html`</optgroup>`;
+        htm += Html`<optgroup label="${gui.getMessage('gui_from_events').toUpperCase()}">`;
         for (let item of items.filter(item => item[2] > 0)) {
             htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
         }
-        htm += Html `</optgroup>`;
-        htm += Html `</select></td>`;
+        htm += Html`</optgroup>`;
+        htm += Html`</select></td>`;
     };
     addMaterialList(true);
     addMaterialList(false);
-    htm += Html `</tr></tr>`;
+    htm += Html`</tr></tr>`;
     const addClrInvButtons = (suffix) => {
-        htm += Html `<td><input data-method="clr-${suffix}" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
-        htm += Html `&#32;<input data-method="inv-${suffix}" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
+        htm += Html`<td><input data-method="clr-${suffix}" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
+        htm += Html`&#32;<input data-method="inv-${suffix}" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/></td>`;
     };
     addClrInvButtons('skin');
     addClrInvButtons('material1');
     addClrInvButtons('material0');
-    htm += Html `</tr></table>`;
+    htm += Html`</tr></table>`;
     gui.dialog.show({
         title: gui.getMessage('gui_advancedfilter'),
         html: htm,
@@ -844,7 +844,7 @@ function refresh() {
     smartTable.syncLater();
 }
 
-const lockedClass = Html ` class="locked"`;
+const lockedClass = Html` class="locked"`;
 
 function getMaterialImg(req) {
     let id = req.material_id;
@@ -858,7 +858,7 @@ function getMaterialImg(req) {
         result.title = (item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '');
         matCache[id] = result;
     }
-    let img = result.url ? Html `<img width="18" height="18" src="${result.url}">` : '';
+    let img = result.url ? Html`<img width="18" height="18" src="${result.url}">` : '';
     let title = result.name + ' (' + Locale.formatNumber(req.amount) + ' / ' + Locale.formatNumber(req.stored) + ')';
     const xp = gui.getXp('material', id);
     const totXp = req.amount * xp;
@@ -867,7 +867,7 @@ function getMaterialImg(req) {
         title += '\n' + gui.getMessageAndValue('gui_xp', textXp);
     }
     title += result.title;
-    return Html `<span class="${req.amount > req.stored ? 'locked' : ''}" title="${title}">${Locale.formatNumber(req.amount)}${img}</span>`;
+    return Html`<span class="${req.amount > req.stored ? 'locked' : ''}" title="${title}">${Locale.formatNumber(req.amount)}${img}</span>`;
 }
 
 function updateRow(row) {
@@ -875,65 +875,65 @@ function updateRow(row) {
     let item = currentItems[id];
     let htm = '';
     const type = item.type == 'capacity' || item.type == 'regen' ? 'building' : item.type;
-    htm += Html.br `<td><img class="building tooltip-event" src="${gui.getObjectImage(type, item.oid)}"></td>`;
-    htm += Html.br `<td>${item.name}`;
+    htm += Html.br`<td><img class="building tooltip-event" src="${gui.getObjectImage(type, item.oid)}"></td>`;
+    htm += Html.br`<td>${item.name}`;
     let start = 0;
     let end = 0;
     let price;
     if (item.sale == 'offer') {
         let offer = bgp.Data.files.offers[item.sale_id];
-        htm += Html.br `<br><div class="offer">${gui.getMessage('gui_offer')}</div>`;
+        htm += Html.br`<br><div class="offer">${gui.getMessage('gui_offer')}</div>`;
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'tier') {
         let offer = bgp.Data.files.tiered_offers[item.sale_id];
-        htm += Html.br `<br><div class="offer">${gui.getMessage('gui_tieredoffer')}</div> ${gui.getString(item.tname)}`;
+        htm += Html.br`<br><div class="offer">${gui.getMessage('gui_tieredoffer')}</div> ${gui.getString(item.tname)}`;
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'pack') {
         let pack = bgp.Data.files.packs[item.sale_id];
-        htm += Html.br `<br><div class="offer" data-packid="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
+        htm += Html.br`<br><div class="offer" data-packid="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
         start = packsViewed[pack.def_id] || 0;
         end = start ? start + (+pack.duration) : 0;
         price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
     }
     if (start || end) {
         if (end < start) end = start;
-        htm += Html.br `<div class="offer-dates">`;
-        if (start) htm += Html.br `<span${start > updateTime || end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(start)}</span> - `;
-        htm += Html.br `<span${end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(end)}</span>`;
-        htm += Html.br `</div>`;
+        htm += Html.br`<div class="offer-dates">`;
+        if (start) htm += Html.br`<span${start > updateTime || end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(start)}</span> - `;
+        htm += Html.br`<span${end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(end)}</span>`;
+        htm += Html.br`</div>`;
     }
-    htm += Html.br `</td>`;
-    htm += Html.br `<td${(item.locked & 1) ? lockedClass : ''}>${item.level ? Locale.formatNumber(item.level) : ''}</td>`;
-    htm += Html.br `<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, true)}</td>`;
-    htm += Html.br `<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, true) : ''}</td>`;
-    htm += Html.br `<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
+    htm += Html.br`</td>`;
+    htm += Html.br`<td${(item.locked & 1) ? lockedClass : ''}>${item.level ? Locale.formatNumber(item.level) : ''}</td>`;
+    htm += Html.br`<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, true)}</td>`;
+    htm += Html.br`<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, true) : ''}</td>`;
+    htm += Html.br`<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
     if (type == 'building' || type == 'decoration') {
-        htm += Html.br `<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
+        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
     } else {
-        htm += Html.br `<td class="no_right_border"></td>`;
+        htm += Html.br`<td class="no_right_border"></td>`;
     }
-    htm += Html.br `<td>${Locale.formatNumber(item.owned)}</td>`;
-    htm += Html.br `<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
+    htm += Html.br`<td>${Locale.formatNumber(item.owned)}</td>`;
+    htm += Html.br`<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
     if (type == 'building') {
-        htm += Html.br `<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.value)}</td>`;
-        htm += Html.br `<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
-        htm += Html.br `<td>${Locale.formatNumber(item.slotvalue)}</td>`;
-        htm += Html.br `<td>${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
+        htm += Html.br`<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
+        htm += Html.br`<td>${Locale.formatNumber(item.value)}</td>`;
+        htm += Html.br`<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
+        htm += Html.br`<td>${Locale.formatNumber(item.slotvalue)}</td>`;
+        htm += Html.br`<td>${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
     } else if (type == 'decoration') {
-        htm += Html.br `<td class="no_right_border"><img src="/img/gui/deco.png" title="${gui.getMessage('gui_decoration')}"></td>`;
-        htm += Html.br `<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
+        htm += Html.br`<td class="no_right_border"><img src="/img/gui/deco.png" title="${gui.getMessage('gui_decoration')}"></td>`;
+        htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
     } else if (type == 'usable') {
-        htm += Html.br `<td class="no_right_border"><img src="/img/gui/usable.png" title="${gui.getMessage('gui_decoration')}"></td>`;
+        htm += Html.br`<td class="no_right_border"><img src="/img/gui/usable.png" title="${gui.getMessage('gui_decoration')}"></td>`;
         if (item.value) {
-            htm += Html.br `<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 2, 18, true)}</td>`;
+            htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 2, 18, true)}</td>`;
         } else {
-            htm += Html.br `<td class="bonus" colspan="5">${item.name}</td>`;
+            htm += Html.br`<td class="bonus" colspan="5">${item.name}</td>`;
         }
     } else {
-        htm += Html.br `<td colspan="6"></td>`;
+        htm += Html.br`<td colspan="6"></td>`;
     }
     let className = 'cost';
     let title = [];
@@ -946,7 +946,7 @@ function updateRow(row) {
         className += ' dot2';
     }
     title = title.join('\n');
-    htm += Html.br `<td class="${className}"${title ? Html ` title="${title}"` : ''}>`;
+    htm += Html.br`<td class="${className}"${title ? Html` title="${title}"` : ''}>`;
     let first = true;
     let reqs = gui.getArray(item.reqs);
     if (price) {
@@ -960,7 +960,7 @@ function updateRow(row) {
             htm += getMaterialImg(req);
         }
     }
-    htm += Html.br `</td>`;
+    htm += Html.br`</td>`;
     row.innerHTML = htm;
     let packDiv = row.querySelector('[data-packid]');
     if (packDiv) {
@@ -970,7 +970,7 @@ function updateRow(row) {
 }
 
 function getOutlinedText(text) {
-    return Html.br `<span class="outlined-text">${text}</span>`;
+    return Html.br`<span class="outlined-text">${text}</span>`;
 }
 
 function getOfferItem(item) {
@@ -999,7 +999,7 @@ function getOfferItem(item) {
             copy.title = gui.getString('GUI2920');
             img = 'camp_energy';
         }
-        copy.caption = Html `${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" src="/img/gui/${img}.png">`;
+        copy.caption = Html`${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" src="/img/gui/${img}.png">`;
         copy.width = +obj.columns;
         copy.height = +obj.rows;
     } else if (copy.type == 'material' && obj) {
@@ -1015,7 +1015,7 @@ function getOfferItem(item) {
         copy.sort = 4;
         copy.value = +obj.value;
         let caption = getOutlinedText(Locale.formatNumber(copy.value));
-        if (copy.amount > 1) caption = Html `<span class="qty outlined-text">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
+        if (copy.amount > 1) caption = Html`<span class="qty outlined-text">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
         copy.caption = caption;
         copy.title = gui.getString('GUI0008');
     } else if (copy.type == 'token') {
@@ -1096,12 +1096,12 @@ function showPacks(packId) {
         if (!pack) pack = packs.find(pack => pack.price == price);
         if (pack) pack.selected = true;
         let prices = {};
-        if (rid >= 0) htm += Html.br `<option value="0">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
+        if (rid >= 0) htm += Html.br`<option value="0">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
         packs.sort((a, b) => (a.price - b.price) || (a.id - b.id));
         for (let pack of packs) {
             if (!(pack.priceText in prices)) {
                 prices[pack.priceText] = true;
-                htm += Html.br `<option value="${pack.id}" ${Html(pack.selected ? 'selected':'')}>${pack.priceText}</option>`;
+                htm += Html.br`<option value="${pack.id}" ${Html(pack.selected ? 'selected' : '')}>${pack.priceText}</option>`;
             }
         }
         return Html.raw(htm);
@@ -1123,19 +1123,19 @@ function showPacks(packId) {
             let htm = '';
             let pre = '';
             if (rid == -1) {
-                pre += Html.br `<td class="td-section"><div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div></td>`;
+                pre += Html.br`<td class="td-section"><div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div></td>`;
             }
             if (pid == 0) {
-                pre += Html.br `<td class="td-section"><div class="item section">${getOutlinedText(pack.priceText)}</div></td>`;
+                pre += Html.br`<td class="td-section"><div class="item section">${getOutlinedText(pack.priceText)}</div></td>`;
             }
             items.forEach((item, index) => {
-                htm += Html.br `<td class="td-item"><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
-                htm += Html.br `<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
-                htm += Html.br `<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
-                if (item.type == 'building') htm += Html.br `<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
-                if (item.portal) htm += Html.br `<div class="bonus">${getOutlinedText(gui.getString('GUI3065'))}</div>`;
-                htm += Html.br `<div class="caption"><div>${item.caption}</div></div>`;
-                htm += Html.br `</div></td>`;
+                htm += Html.br`<td class="td-item"><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
+                htm += Html.br`<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
+                htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
+                if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
+                if (item.portal) htm += Html.br`<div class="bonus">${getOutlinedText(gui.getString('GUI3065'))}</div>`;
+                htm += Html.br`<div class="caption"><div>${item.caption}</div></div>`;
+                htm += Html.br`</div></td>`;
                 if (!pre && index == 2 && items.length >= 5) htm += `</tr><tr>`;
             });
             if (htm in prev) continue;
@@ -1164,16 +1164,16 @@ function showPacks(packId) {
 
     let htm = '';
     if (regions.length > 1) {
-        htm += Html.br `${gui.getMessage('gui_region')} <select name="region" data-method="region" style="margin-bottom:2px">`;
-        htm += Html.br `<option value="-1">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
+        htm += Html.br`${gui.getMessage('gui_region')} <select name="region" data-method="region" style="margin-bottom:2px">`;
+        htm += Html.br`<option value="-1">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
         for (let id of regions) {
-            htm += Html.br `<option value="${id}" ${Html(id == rid ? 'selected' : '')}>${gui.getObjectName('region', id)}</option>`;
+            htm += Html.br`<option value="${id}" ${Html(id == rid ? 'selected' : '')}>${gui.getObjectName('region', id)}</option>`;
         }
-        htm += Html.br `</select>`;
-        htm += Html.br `<br>`;
+        htm += Html.br`</select>`;
+        htm += Html.br`<br>`;
     }
-    htm += Html.br `${gui.getMessage('gui_cost')} <select name="pid" data-method="pid" style="margin-bottom:2px">${getPriceOptions(rid, packId)}</select>`;
-    htm += Html.br `<br>`;
+    htm += Html.br`${gui.getMessage('gui_cost')} <select name="pid" data-method="pid" style="margin-bottom:2px">${getPriceOptions(rid, packId)}</select>`;
+    htm += Html.br`<br>`;
     htm += getPackDetails(rid, packId);
 
     gui.dialog.show({
@@ -1202,6 +1202,6 @@ function showPacks(packId) {
 
 function onTooltip(event) {
     let element = event.target;
-    let htm = Html.br `<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
+    let htm = Html.br`<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
     Tooltip.show(element, htm);
 }

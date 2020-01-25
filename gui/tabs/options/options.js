@@ -25,7 +25,7 @@ function init() {
     const SELECT = '2';
 
     function beginSection(id) {
-        htm += Html.br `
+        htm += Html.br`
 <div class="options">
     <table>
         <thead>
@@ -38,7 +38,7 @@ function init() {
     }
 
     function endSection() {
-        htm += Html.br `</tbody></table></div>`;
+        htm += Html.br`</tbody></table></div>`;
     }
 
     function option(prefName, features, options) {
@@ -61,18 +61,18 @@ function init() {
 
         let type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
 
-        htm += Html.br `<tr${className ? Html ` class="${className}"` : ''}>`;
-        htm += Html.br `<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? Html.br `<div class="warning">${warning}</div>` : ''}`;
+        htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
+        htm += Html.br`<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? Html.br`<div class="warning">${warning}</div>` : ''}`;
         if (type == SELECT) {
-            htm += Html.br `<select data-pref="${prefName}">`;
+            htm += Html.br`<select data-pref="${prefName}">`;
             for (let option of options) {
-                htm += Html.br `<option value="${option[0]}">${option[1]}</option>`;
+                htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
             }
-            htm += Html.br `</select></td></tr>`;
+            htm += Html.br`</select></td></tr>`;
         } else if (type == TEXT) {
-            htm += Html.br `<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td></tr>`;
+            htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td></tr>`;
         } else {
-            htm += Html.br `</td><td><input data-pref="${prefName}" type="checkbox"></td></tr>`;
+            htm += Html.br`</td><td><input data-pref="${prefName}" type="checkbox"></td></tr>`;
         }
     }
 
@@ -157,7 +157,7 @@ function init() {
     container.querySelector('.scrollable-content').innerHTML = htm;
 
     for (let item of container.querySelectorAll('.open_href')) {
-        item.addEventListener('click', function(event) {
+        item.addEventListener('click', function (event) {
             event.preventDefault();
             chrome.tabs.create({
                 url: item.href

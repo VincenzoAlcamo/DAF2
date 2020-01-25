@@ -1,5 +1,5 @@
 /*global ResizeObserver*/
-var resizeObserver = new ResizeObserver(function(entries) {
+var resizeObserver = new ResizeObserver(function (entries) {
     for (let entry of entries) {
         var element = entry.target;
         var event = new Event('resized', {
@@ -27,7 +27,7 @@ function SmartTable(table) {
     return this;
 }
 Object.assign(SmartTable.prototype, {
-    recreateHeader: function() {
+    recreateHeader: function () {
         let tableHeader = this.container.querySelector('table.sticky-header');
         if (tableHeader) tableHeader.parentNode.removeChild(tableHeader);
         this.hasSortableSub = false;
@@ -43,7 +43,7 @@ Object.assign(SmartTable.prototype, {
             this.fixedHeader.addEventListener('click', e => this.headerClick(e));
         }
     },
-    recreateFooter: function() {
+    recreateFooter: function () {
         let tableFooter = this.container.querySelector('table.sticky-footer');
         if (tableFooter) tableFooter.parentNode.removeChild(tableFooter);
         this.fixedFooter = null;
@@ -56,10 +56,10 @@ Object.assign(SmartTable.prototype, {
             this.footer.style.visibility = 'hidden';
         }
     },
-    syncLater: function() {
+    syncLater: function () {
         setTimeout(() => this.sync(), 100);
     },
-    sync: function() {
+    sync: function () {
         this.container.style.maxWidth = (this.container.parentNode.clientWidth - 12) + 'px';
         this.container.style.maxHeight = (this.container.parentNode.clientHeight - 28) + 'px';
 
@@ -80,10 +80,10 @@ Object.assign(SmartTable.prototype, {
         process(this.footer, this.fixedFooter);
         this.showFixed();
     },
-    showFixed: function(flag = true) {
+    showFixed: function (flag = true) {
         [this.fixedHeader, this.fixedFooter].forEach(el => el && (el.parentNode.style.display = flag ? '' : 'none'));
     },
-    headerClick: function(e) {
+    headerClick: function (e) {
         let el;
         for (el = e.target; el && el.tagName != 'TABLE'; el = el.parentNode)
             if (el.tagName == 'TH') break;
@@ -108,21 +108,21 @@ Object.assign(SmartTable.prototype, {
         this.setSortInfo();
         if (typeof this.onSort == 'function') this.onSort();
     },
-    isValidSortName: function(name, isSub) {
+    isValidSortName: function (name, isSub) {
         if (!this.header || !name) return false;
         for (let el of this.header.querySelectorAll(this.hasSortableSub && isSub ? 'th.sortable-sub' : 'th.sortable')) {
             if (el.getAttribute('sort-name') == name) return true;
         }
         return false;
     },
-    setSortInfo: function() {
+    setSortInfo: function () {
         this.sortSub = this.sortSub || {};
         this.sortSub.ascending = this.sortSub.ascending !== false;
         if (!this.isValidSortName(this.sortSub.name, true)) delete this.sortSub.name;
         this.sort = this.sort || {};
         this.sort.ascending = this.sort.ascending !== false;
         if (!this.isValidSortName(this.sort.name, false)) delete this.sort.name;
-        if(this.sort.name == this.sortSub.name) {
+        if (this.sort.name == this.sortSub.name) {
             delete this.sortSub.name;
         } else if (!this.sort.name && !this.hasSortableSub && this.sortSub.name) {
             this.sort = this.sortSub;

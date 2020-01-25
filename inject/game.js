@@ -521,7 +521,7 @@ function init() {
             if (miner) ongcTable(true);
             else {
                 showMenu();
-                chrome.runtime.sendMessage({ action: 'getGCInfo' }, function(result) {
+                chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) {
                     updateGCStatus(result);
                     setgcTableOptions();
                 });

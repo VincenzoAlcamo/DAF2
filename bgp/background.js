@@ -128,7 +128,7 @@ var Preferences = {
                 if (name in Preferences.handlers) {
                     try {
                         Preferences.handlers[name](Preferences.values[name]);
-                    } catch (e) {}
+                    } catch (e) { }
                 }
             }
     },
@@ -215,27 +215,27 @@ var Tab = {
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onAutoLoginCompleted, autoLoginFilters);
 
-//         // Facebook dialog interceptor
-//         const dialogFilters = {
-//             url: [{
-//                 hostEquals: 'www.facebook.com',
-//                 pathContains: 'dialog/apprequests',
-//                 queryContains: 'app_id=470178856367913'
-//             }, {
-//                 hostEquals: 'www.facebook.com',
-//                 pathContains: 'dialog/apprequests',
-//                 queryContains: 'app_id=146595778757295'
-//             }, {
-//                 hostEquals: 'web.facebook.com',
-//                 pathContains: 'dialog/apprequests',
-//                 queryContains: 'app_id=470178856367913'
-//             }, {
-//                 hostEquals: 'web.facebook.com',
-//                 pathContains: 'dialog/apprequests',
-//                 queryContains: 'app_id=146595778757295'
-//             }]
-//         };
-//         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
+        //         // Facebook dialog interceptor
+        //         const dialogFilters = {
+        //             url: [{
+        //                 hostEquals: 'www.facebook.com',
+        //                 pathContains: 'dialog/apprequests',
+        //                 queryContains: 'app_id=470178856367913'
+        //             }, {
+        //                 hostEquals: 'www.facebook.com',
+        //                 pathContains: 'dialog/apprequests',
+        //                 queryContains: 'app_id=146595778757295'
+        //             }, {
+        //                 hostEquals: 'web.facebook.com',
+        //                 pathContains: 'dialog/apprequests',
+        //                 queryContains: 'app_id=470178856367913'
+        //             }, {
+        //                 hostEquals: 'web.facebook.com',
+        //                 pathContains: 'dialog/apprequests',
+        //                 queryContains: 'app_id=146595778757295'
+        //             }]
+        //         };
+        //         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
 
         // Add Link Grabber script to Facebook pages
         const fbFilters = {
@@ -262,17 +262,17 @@ var Tab = {
 
         return Tab.detectAll();
     },
-//     onDialogCompleted: function (details) {
-//         console.log('onDialogCompleted', details);
-//         if (!Preferences.getValue('autoClick')) return;
-//         Tab.focus(Tab.gameTabId, true);
-//         chrome.tabs.executeScript(details.tabId, {
-//             file: '/inject/portal_autoclick.js',
-//             runAt: 'document_end',
-//             allFrames: false,
-//             frameId: details.frameId
-//         });
-//     },
+    //     onDialogCompleted: function (details) {
+    //         console.log('onDialogCompleted', details);
+    //         if (!Preferences.getValue('autoClick')) return;
+    //         Tab.focus(Tab.gameTabId, true);
+    //         chrome.tabs.executeScript(details.tabId, {
+    //             file: '/inject/portal_autoclick.js',
+    //             runAt: 'document_end',
+    //             allFrames: false,
+    //             frameId: details.frameId
+    //         });
+    //     },
     onAutoLoginCompleted: function (details) {
         if (!Preferences.getValue('autoLogin')) return;
         console.log('injecting auto portal login');
@@ -326,7 +326,7 @@ if (loginButton) {
                     for (let key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
                         details.code += key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
                     details.code += 'initialize();';
-                    chrome.tabs.executeScript(tabId, details, function () {});
+                    chrome.tabs.executeScript(tabId, details, function () { });
                 });
             });
 
@@ -474,7 +474,7 @@ var Data = {
     languages: [
         new Language('da', 'DK', 'Danish', 'Dansk', 'DK'),
         new Language('de', 'DE', 'German', 'Deutsch', 'DE,AT,CH,LI,LU'),
-        new Language('el', 'GR', 'Greek', '\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac' /* 'Ελληνικά' */ , 'GR'),
+        new Language('el', 'GR', 'Greek', '\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac' /* 'Ελληνικά' */, 'GR'),
         new Language('en', 'EN', 'English', 'English', 'US,AU,BZ,CA,GB,IE,IN,JM,MY,NZ,PH,SG,TT,ZA,ZW'),
         new Language('es', 'ES', 'Spanish (Castilian)', 'Espa\u00f1ol (Castellano)', 'ES,AR,BO,CL,CO,CR,DO,EC,GT,HN,MX,NI,PA,PE,PR,PY,SV,US,UY,VE'),
         new Language('fr', 'FR', 'French', 'Fran\u00e7ais', 'FR,BE,CA,CH,LU,MC'),
@@ -482,7 +482,7 @@ var Data = {
         new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
         new Language('pt', 'PT', 'Portuguese ', 'Portugu\u00eas', 'PT,BR'),
         // OTHER (GAME)
-        new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */ , 'BG'),
+        new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */, 'BG'),
         new Language('cs', 'CZ', 'Czech', '\u010ce\u0161tina', 'CZ'),
         new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
         new Language('hu', 'HU', 'Hungarian ', 'Magyar', 'HU'),
@@ -899,7 +899,7 @@ var Data = {
         let tx = Data.db.transaction('Files', 'readwrite');
         tx.objectStore('Files').delete('gcInfo');
     },
-    getGCInfo: function() {
+    getGCInfo: function () {
         const data = {};
         const neighbours = Object.values(Data.neighbours);
         const realNeighbours = neighbours.length - 1;
@@ -1617,19 +1617,19 @@ async function init() {
             } else if (Preferences.getValue('rewardsSummary')) {
                 reward = Data.getRewardLink(reward.id);
                 let htm = '';
-                htm += Html.br `<center style="font-family:sans-serif;font-size:12pt;margin:4px 0px;">`;
-                htm += Html.br `<table border="0" cellpadding="4" style="border:2px solid #36648b;"><tbody>`;
-                htm += Html.br `<tr bgcolor="#3e8cc6" style="color:white">`;
-                htm += Html.br `<th>${getMessage('rewardlinks_id')}</th>`;
-                htm += Html.br `<th>${getMessage('rewardlinks_insertdate')}</th>`;
-                htm += Html.br `<th>${getMessage('rewardlinks_collectdate')}</th>`;
-                if (reward.cid) htm += Html.br `<th>${getMessage('rewardlinks_owner')}</th>`;
-                htm += Html.br `</tr><tr style="background-color:#e7e7e7;color:black;">`;
-                htm += Html.br `<td>${reward.id}</td>`;
-                htm += Html.br `<td>${Locale.formatDateTime(reward.adt)}</td>`;
-                htm += Html.br `<td>${Locale.formatDateTime(reward.cdt)}</td>`;
-                if (reward.cid) htm += Html.br `<td><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</td>`;
-                htm += Html.br `</tr></tbody><table>`;
+                htm += Html.br`<center style="font-family:sans-serif;font-size:12pt;margin:4px 0px;">`;
+                htm += Html.br`<table border="0" cellpadding="4" style="border:2px solid #36648b;"><tbody>`;
+                htm += Html.br`<tr bgcolor="#3e8cc6" style="color:white">`;
+                htm += Html.br`<th>${getMessage('rewardlinks_id')}</th>`;
+                htm += Html.br`<th>${getMessage('rewardlinks_insertdate')}</th>`;
+                htm += Html.br`<th>${getMessage('rewardlinks_collectdate')}</th>`;
+                if (reward.cid) htm += Html.br`<th>${getMessage('rewardlinks_owner')}</th>`;
+                htm += Html.br`</tr><tr style="background-color:#e7e7e7;color:black;">`;
+                htm += Html.br`<td>${reward.id}</td>`;
+                htm += Html.br`<td>${Locale.formatDateTime(reward.adt)}</td>`;
+                htm += Html.br`<td>${Locale.formatDateTime(reward.cdt)}</td>`;
+                if (reward.cid) htm += Html.br`<td><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</td>`;
+                htm += Html.br`</tr></tbody><table>`;
                 htm = String(htm);
                 return htm;
             }

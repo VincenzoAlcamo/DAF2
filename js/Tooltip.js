@@ -1,10 +1,10 @@
 let Tooltip = {};
-Tooltip.init = function() {
+Tooltip.init = function () {
     this.tip = document.createElement('span');
     this.tip.className = 'Tooltip';
     this.tip.style.display = 'none';
     document.body.appendChild(this.tip);
-    document.addEventListener('mouseover', function(e) {
+    document.addEventListener('mouseover', function (e) {
         let el = e.target;
         if (el.hasAttribute('data-tooltip')) Tooltip.show(el, el.getAttribute('data-tooltip'));
         else if (el.classList.contains('tooltip-event')) {
@@ -15,7 +15,7 @@ Tooltip.init = function() {
         }
     });
 };
-Tooltip.show = function(el, html, direction) {
+Tooltip.show = function (el, html, direction) {
     direction = ((direction || '') + 'WE').toUpperCase();
     let tip = this.tip;
     for (let name of ['mousedown', 'mouseleave', 'blur']) el.addEventListener(name, autoHide);
@@ -41,6 +41,6 @@ Tooltip.show = function(el, html, direction) {
         Tooltip.hide();
     }
 };
-Tooltip.hide = function() {
+Tooltip.hide = function () {
     this.tip.style.display = 'none';
 };

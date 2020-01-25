@@ -43,8 +43,8 @@ function kitchenFoundry(type) {
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
         let htm = [];
-        if (swDoubleProduction) htm.push(Html.br `<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`);
-        if (swHalfTimeProduction) htm.push(Html.br `<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`);
+        if (swDoubleProduction) htm.push(Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`);
+        if (swHalfTimeProduction) htm.push(Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`);
         let divWeeks = container.querySelector('.toolbar .weeks');
         divWeeks.innerHTML = htm.join('');
         divWeeks.style.display = htm.length ? '' : 'none';
@@ -159,39 +159,39 @@ function kitchenFoundry(type) {
         var hasEvent = type == 'recipe';
 
         function getIngredient(ingredient) {
-            return Html.br `<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
+            return Html.br`<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
         for (let p of productions) {
             var rspan = p.ingredients.length;
             var title = p.cname;
             if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
             let htm = '';
-            htm += Html.br `<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
-            htm += Html.br `<td rowspan="${rspan}">${p.name}</td>`;
-            htm += Html.br `<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
+            htm += Html.br`<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
+            htm += Html.br`<td rowspan="${rspan}">${p.name}</td>`;
+            htm += Html.br`<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
             if (hasEvent) {
                 var eimage = '';
                 if (p.eid != 0) {
                     var wikiPage = ''; // wikiEvents[p.eid]
-                    eimage = Html.br `<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
+                    eimage = Html.br`<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
                 }
-                htm += Html.br `<td rowspan="${rspan}">${eimage}</td>`;
+                htm += Html.br`<td rowspan="${rspan}">${eimage}</td>`;
             }
-            htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.level)}</td>`;
-            htm += Html.br `<td rowspan="${rspan}">${gui.getDuration(p.time)}</td>`;
+            htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.level)}</td>`;
+            htm += Html.br`<td rowspan="${rspan}">${gui.getDuration(p.time)}</td>`;
             if (hasQty) {
-                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.qty)}</td>`;
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.qty)}</td>`;
             }
             if (hasEnergy) {
-                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.energy)}</td>`;
-                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.energy_per_hour)}</td>`;
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.energy)}</td>`;
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.energy_per_hour)}</td>`;
             }
             htm += getIngredient(p.ingredients[0]);
-            htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.output)}</td>`;
+            htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.output)}</td>`;
             if (hasEnergy) {
-                htm += Html.br `<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
             }
-            htm += Html.br `<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
+            htm += Html.br`<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
             let row = document.createElement('tr');
             row.innerHTML = htm;
             p.rows = [row];
@@ -273,7 +273,7 @@ function kitchenFoundry(type) {
 
         if (type == 'recipe') {
             let htm = '';
-            htm += Html `<span class="outlined nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(gui.getBackpackFood()))}</span> (${gui.getMessage('kitchen_food_in_backpack')})`;
+            htm += Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(gui.getBackpackFood()))}</span> (${gui.getMessage('kitchen_food_in_backpack')})`;
             container.querySelector('.stats').innerHTML = htm;
         }
     }
