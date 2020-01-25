@@ -592,7 +592,8 @@ function calcRegion(item) {
     // b) Anpu's Arena (#1642) and Anpu's Racetrack (#1643) are not part of the
     // main game so skip as well (seem to have been a later addition?)
     // c) Deserted Tomb (#29)
-    for (let lid of [29, 1345, 1642, 1643]) {
+    // d) Linda's Trap (#25), Stone Pit (#37)
+    for (let lid of [25, 29, 37, 1345, 1642, 1643]) {
         if (!(lid in loc_prog) || +loc_prog[lid].prog == 0) excluded[lid] = 4;
     }
     // Exclude maps
