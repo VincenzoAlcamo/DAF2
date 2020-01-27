@@ -1,11 +1,4 @@
-.friendhsip tr td:nth-child(1),
-.friendship tr td:nth-child(3),
-.friendship tr td:nth-child(4),
-.friendship tr td:nth-child(5),
-.friendship tr td:nth-child(6),
-.friendship tr td:nth-child(7),
-.friendship tr td:nth-child(8),
-.friendship tr td:nth-child(9) {
+.friendship tr td {
   text-align: center;
 }
 
