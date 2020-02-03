@@ -22,7 +22,7 @@ function init() {
     checkNeighbor.addEventListener('click', toggleNeighbor);
 
     selectShow = container.querySelector('[name=show]');
-    selectShow.addEventListener('change', _ => {
+    selectShow.addEventListener('change', () => {
         gui.updateTabState(tab);
         markToBeRendered(container.querySelector('.camp-player'));
     });

@@ -75,7 +75,7 @@ class Calculation {
         let match;
         const values = [];
         const operators = [this._symbols['('].prefix];
-        const exec = _ => {
+        const exec = () => {
             let op = operators.pop();
             values.push(op);
             return op.precedence;

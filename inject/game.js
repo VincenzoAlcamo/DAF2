@@ -418,9 +418,9 @@ function interceptData() {
         if(match) {
             const kind = match[1];
             const request = arguments[0];
-            const error = _ => dispatch('error', kind, null, null);
+            const error = () => dispatch('error', kind, null, null);
             dispatch('send', kind, request, null);
-            this.addEventListener('load', _ => dispatch('ok', kind, request, this.response));
+            this.addEventListener('load', () => dispatch('ok', kind, request, this.response));
             this.addEventListener('error', error);
             this.addEventListener('abort', error);
             this.addEventListener('timeout', error);
