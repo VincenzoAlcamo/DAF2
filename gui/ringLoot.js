@@ -343,7 +343,6 @@ function ringLoot(kind) {
         };
         let totalExp, totalExp2, countExp;
         totalExp = totalExp2 = countExp = 0;
-        let checked = true;
 
         let last = null;
         let chest = 0;
@@ -384,13 +383,14 @@ function ringLoot(kind) {
             return loot;
         };
 
+        let checked = true;
         for (const lootArea of loots) {
             const type = lootArea.type;
             const oid = lootArea.object_id;
             const matXp = gui.getXp(type, oid);
 
             const loot = calculateLoot(lootArea, level);
-            const loot2 = gui.calculateLoot(lootArea, otherLevel);
+            const loot2 = calculateLoot(lootArea, otherLevel);
             lootArea.exp = loot.avg * matXp;
             lootArea.exp2 = loot2.avg * matXp;
 
@@ -405,6 +405,8 @@ function ringLoot(kind) {
                     checked = (chestState & (2 ** (lootArea.chest - 1))) > 0;
                     checkbox = Html`<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''}>`;
                     if (checked) countExp++;
+                } else if (kind == 'green') {
+                    countExp++;
                 }
                 htm += Html.br`<td class="chest" rowspan="${lootArea.numRows}">${checkbox}<span class="chest-id">${Locale.formatNumber(lootArea.chest)}</span></td>`;
             }
