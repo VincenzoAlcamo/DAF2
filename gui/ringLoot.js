@@ -138,7 +138,7 @@ function ringLoot(kind) {
             container.querySelector('.stats').innerHTML = Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
         }
 
-        if (kind == 'green') {
+        if (kind == 'green' || kind == 'christmas') {
             let specialWeeks = gui.getActiveSpecialWeeks();
             swDoubleDrop = specialWeeks.doubleDrop;
         }
