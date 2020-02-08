@@ -12,7 +12,7 @@ let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectShopF
 let selectShow, selectEvent, selectRegion, selectTheme;
 let allItems, currentItems, allEvents;
 let matCache, minRegen, minCapacity, updateTime, packsViewed;
-let currency, lastPack, btnPack;
+let currency, lastPack, lastOffer, btnPack, btnOffer;
 let listRegion, listSkin, listMaterial;
 let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
 
@@ -60,7 +60,9 @@ function init() {
     button.addEventListener('click', onClickAdvanced);
 
     btnPack = container.querySelector('[name=pack]');
-    btnPack.addEventListener('click', () => showPacks(lastPack));
+    btnPack.addEventListener('click', () => showOffer('pack', lastPack));
+    btnOffer = container.querySelector('[name=offer]');
+    btnOffer.addEventListener('click', () => showOffer('offer', lastOffer));
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -123,6 +125,15 @@ function computeItem(item, level, skins) {
         item.gain = item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen));
     }
 }
+function getRequirements(requirements, backpack) {
+    return Array.isArray(requirements) ? requirements.map(req => {
+        let result = {};
+        result.material_id = +req.material_id;
+        result.amount = +req.amount;
+        result.stored = backpack[result.material_id] || 0;
+        return result;
+    }).sort((a, b) => a.material_id - b.material_id) : null;
+}
 
 function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
     item.hide = hide;
@@ -132,16 +143,8 @@ function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
     item.erid = erid;
     item.level = level;
     item.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 0;
-    let affordable = true;
-    if (!reqs) reqs = sale.requirements;
-    item.reqs = Array.isArray(reqs) && reqs.map(req => {
-        let result = {};
-        result.material_id = +req.material_id;
-        result.amount = +req.amount;
-        result.stored = backpack[result.material_id] || 0;
-        if (result.stored < result.amount) affordable = false;
-        return result;
-    }).sort((a, b) => a.material_id - b.material_id);
+    item.reqs = getRequirements(reqs || sale.requirements, backpack);
+    const affordable = !(item.reqs ? item.reqs.find(r => r.amount > r.stored) : null);
     if (!affordable) item.locked |= 8;
 }
 
@@ -204,6 +207,10 @@ function update() {
             }
         }
     }
+
+    const now = gui.getUnixTime();
+    const currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
+    lastOffer = currentOffer ? currentOffer.def_id : 0;
 
     const {
         owned,
@@ -353,7 +360,6 @@ function update() {
             setItem(item, hide, sale, 'pack', eid, erid, +sale.req_level, null, backpack);
         }
     }
-    btnPack.style.display = lastPack ? '' : 'none';
 
     // TIERED OFFERS
     sales = Object.values(gui.getFile('tiered_offers'));
@@ -434,6 +440,10 @@ function update() {
         let decoration = decorations[did];
         if (decoration && qty) coins_deco += qty * +decoration.sell_price;
     }
+
+    btnPack.style.display = lastPack ? '' : 'none';
+    btnOffer.style.display = lastOffer ? '' : 'none';
+    btnOffer.parentNode.style.display = (lastOffer || lastPack) ? '' : 'none';
 
     container.querySelector('.stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins + coins_deco), Locale.formatNumber(coins), Locale.formatNumber(coins_deco));
 
@@ -789,7 +799,10 @@ function refresh() {
 
     function isVisible(item) {
         if (fnSearch && !fnSearch(item.name.toUpperCase())) return false;
-        if (type && item.type != type) return false;
+        if (type) {
+            const skip = type == 'equipment' ? item.type != 'regen' && item.type != 'capacity' : item.type != type;
+            if (skip) return false;
+        }
         // NaN is never equal to true/false, so this will not trigger
         if (not_owned == (item.owned > 0)) return false;
         let inShop = item.sale_id > 0 && !item.hide;
@@ -882,7 +895,7 @@ function updateRow(row) {
     let price;
     if (item.sale == 'offer') {
         let offer = bgp.Data.files.offers[item.sale_id];
-        htm += Html.br`<br><div class="offer">${gui.getMessage('gui_offer')}</div>`;
+        htm += Html.br`<br><div class="offer" data-type="offer" data-id="${offer.def_id}">${gui.getMessage('gui_offer')}</div>`;
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'tier') {
@@ -892,7 +905,7 @@ function updateRow(row) {
         end = +offer.end;
     } else if (item.sale == 'pack') {
         let pack = bgp.Data.files.packs[item.sale_id];
-        htm += Html.br`<br><div class="offer" data-packid="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
+        htm += Html.br`<br><div class="offer" data-type="pack" data-id="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
         start = packsViewed[pack.def_id] || 0;
         end = start ? start + (+pack.duration) : 0;
         price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
@@ -947,13 +960,13 @@ function updateRow(row) {
     }
     title = title.join('\n');
     htm += Html.br`<td class="${className}"${title ? Html` title="${title}"` : ''}>`;
-    let first = true;
     let reqs = gui.getArray(item.reqs);
     if (price) {
         htm += Html.br(price.currency + ' ' + Locale.formatNumber(+price.amount, 2));
     } else if (reqs.length == 1 && reqs[0].amount == 0) {
         htm += Html.br(gui.getMessage('equipment_free'));
     } else {
+        let first = true;
         for (let req of reqs) {
             if (!first) htm += `<br>`;
             first = false;
@@ -962,10 +975,10 @@ function updateRow(row) {
     }
     htm += Html.br`</td>`;
     row.innerHTML = htm;
-    let packDiv = row.querySelector('[data-packid]');
-    if (packDiv) {
-        packDiv.style.cursor = 'zoom-in';
-        packDiv.addEventListener('click', (event) => showPacks(+event.target.getAttribute('data-packid')));
+    const badge = row.querySelector('.offer[data-type]');
+    if (badge) {
+        badge.style.cursor = 'zoom-in';
+        badge.addEventListener('click', (event) => showOffer(event.target.getAttribute('data-type'), +event.target.getAttribute('data-id')));
     }
 }
 
@@ -978,9 +991,12 @@ function getOfferItem(item) {
     copy.type = copy.kind = item.type;
     copy.oid = +item.object_id;
     copy.amount = +item.amount;
-    copy.portal = +item.portal;
+    copy.portal = +item.portal || 0;
     copy.sort = 0;
     copy.value = copy.oid;
+    const backpack = gui.getGenerator().materials || {};
+    copy.reqs = getRequirements(item.requirements, backpack);
+    copy.limit = +item.limit || 0;
     let obj = copy.obj = (copy.type == 'building' || copy.type == 'material' || copy.type == 'usable') ? gui.getObject(copy.type, copy.oid) : null;
     // type can be: "system", "building", "decoration", "usable", "material", "token", "camp_skin"
     if (copy.type == 'building' && obj) {
@@ -1033,127 +1049,132 @@ function getOfferItem(item) {
     return copy;
 }
 
-function getPackItems(pack) {
-    let items = [];
-    for (let item of pack.items) {
-        item = getOfferItem(item);
-        if (item) items.push(item);
-    }
-    items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
-    return items;
+function onTooltip(event) {
+    let element = event.target;
+    let htm = Html.br`<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
+    Tooltip.show(element, htm);
 }
 
-function showPacks(packId) {
-    let packs = gui.getFile('packs');
-    let buildings = gui.getFile('buildings');
+function showOffer(type, id) {
+    let blocks = [];
+    let title = '';
+    if (type == 'pack') {
+        blocks = getPacks(id);
+        title = gui.getString(blocks[0].name_loc);
+    } else if (type == 'offer') {
+        blocks = getOffers(id);
+        const offer = gui.getFile('offers')[id];
+        // title = gui.getMessageAndValue('gui_offer', Locale.formatDate(offer.start) + ' - ' + Locale.formatDate(offer.end));
+    }
 
-    let pack = packs[packId];
-    packId = +pack.def_id;
-    let related = gui.getArrayOfInt(pack.deny_list);
-    related = related.filter(id => {
-        let pack = packs[id];
-        return pack && gui.getArrayOfInt(pack.deny_list).includes(packId);
+    const block = blocks.find(block => block.id == id);
+    const current = { rid: block.rid, price: block.price, date: block.date };
+
+    gui.dialog.show({
+        title: title,
+        html: getDetails(),
+        style: [Dialog.OK, Dialog.WIDEST]
+    }, function (method, params) {
+        if (method == 'rid' || method == 'price' || method == 'date') {
+            current[method] = +params[method];
+            gui.dialog.setHtml(getDetails());
+        }
     });
-    related.push(packId);
 
-    let hash = {};
-    let regions = [];
-    for (let pid of related) {
-        let pack = packs[pid];
-        if (!pack) continue;
-        let rid = +pack.region_id;
-        if (rid == 0) {
-            let item = pack.items.find(item => item.type == 'building');
-            if (item) {
-                let building = buildings[item.object_id];
-                if (building && building.region_id) rid = building.region_id;
-            }
-        }
-        pack = Object.assign({}, pack);
-        pack.id = pid;
-        pack.rid = rid;
-        let price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
-        pack.currency = price.currency;
-        pack.price = +price.amount;
-        pack.priceText = pack.currency + ' ' + Locale.formatNumber(pack.price, 2);
-        hash[pack.id] = pack;
-        if (!regions.includes(pack.rid)) regions.push(pack.rid);
+    function getSelection(current) {
+        return blocks.filter(block => (current.rid == -1 || block.rid == current.rid) &&
+            (current.price == -1 || block.price == current.price) &&
+            (current.date == -1 || block.date == current.date)
+        );
     }
-    regions.sort(gui.sortNumberAscending);
-    let list = Object.values(hash);
-    list.sort((a, b) => (a.rid - b.rid) || (a.price - b.price) || (a.pid - b.pid));
-    let rid = hash[packId].rid;
 
-    function getPriceOptions(rid, pid) {
-        let pack = hash[pid];
-        let price = pack.price;
-        let packs = list.filter(pack => pack.rid == rid || rid == -1);
+    function optionHtml(value, text, current) {
+        return Html.br`<option value="${value}"${Html(value == current ? ' selected' : '')}>${text}</option>`;
+    }
+
+    function getDetails() {
         let htm = '';
-        for (let pack of packs) pack.selected = false;
-        pack = packs.find(pack => pack.id == pid);
-        // remove other packs with the same price
-        if (pack) packs = packs.filter(p => p === pack || p.priceText != pack.priceText);
-        if (!pack) pack = packs.find(pack => pack.price == price);
-        if (pack) pack.selected = true;
-        let prices = {};
-        if (rid >= 0) htm += Html.br`<option value="0">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
-        packs.sort((a, b) => (a.price - b.price) || (a.id - b.id));
-        for (let pack of packs) {
-            if (!(pack.priceText in prices)) {
-                prices[pack.priceText] = true;
-                htm += Html.br`<option value="${pack.id}" ${Html(pack.selected ? 'selected' : '')}>${pack.priceText}</option>`;
-            }
-        }
-        return Html.raw(htm);
-    }
 
-    function getPackDetails(rid, pid) {
-        let selected;
-        if (pid > 0) {
-            let pack = hash[pid];
-            selected = list.filter(p => p.id == pid || (rid == -1 && p.priceText == pack.priceText));
-        } else {
-            selected = rid ? list.filter(p => p.rid == rid) : list;
+        if (type == 'offer') {
+            const dates = getDistincts(getSelection(Object.assign({}, current, { date: -1 })).map(block => block.date));
+            htm += Html.br`${gui.getMessage('gui_offer')} <select name="date" data-method="date" style="margin-bottom:2px">`;
+            if (dates.length > 1) htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.date);
+            for (const date of dates) htm += optionHtml(date, Locale.formatDateTime(date), current.date);
+            htm += Html.br`</select>`;
+            htm += Html.br`<br>`;
         }
-        let result = [];
-        let prev = {};
-        for (let pack of selected) {
-            let items = getPackItems(pack);
-            if (items.length == 0) continue;
+        const regions = getDistincts(getSelection(Object.assign({}, current, { rid: -1 })).map(block => block.rid));
+        if (regions.length > 1) {
+            htm += Html.br`${gui.getMessage('gui_region')} <select name="rid" data-method="rid" style="margin-bottom:2px">`;
+            htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.rid);
+            for (const rid of regions) htm += optionHtml(rid, gui.getObjectName('region', rid), current.rid);
+            htm += Html.br`</select>`;
+            htm += Html.br`<br>`;
+        }
+        const prices = getDistincts(getSelection(Object.assign({}, current, { price: -1 })).map(block => block.price));
+        if (prices.length > 1) {
+            htm += Html.br`${gui.getMessage('gui_cost')} <select name="price" data-method="price" style="margin-bottom:2px">`;
+            htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.price);
+            for (const price of prices) htm += optionHtml(price, blocks.find(block => block.price == price).priceText, current.price);
+            htm += Html.br`</select>`;
+            htm += Html.br`<br>`;
+        }
+
+        const selection = getSelection(current);
+        const result = [];
+        const prev = {};
+        for (const block of selection) {
             let htm = '';
             let pre = '';
-            if (rid == -1) {
-                pre += Html.br`<td class="td-section"><div class="item section region"><span>${gui.getObjectImg('region', pack.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', pack.rid))}</span></div></td>`;
+            if (current.date == -1) {
+                pre += Html.br`<span class="date outlined-text">${Locale.formatDate(block.date)}</span>`;
             }
-            if (pid == 0) {
-                pre += Html.br`<td class="td-section"><div class="item section">${getOutlinedText(pack.priceText)}</div></td>`;
+            if (current.rid == -1) {
+                pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
             }
-            items.forEach((item, index) => {
+            if (current.price == -1) {
+                pre += Html.br`${getOutlinedText(block.priceText)}`;
+            }
+            if (pre) {
+                pre = `<td class="td-section"><div class="item section">${pre}</div></td>`;
+            }
+            block.items.forEach((item, index) => {
                 htm += Html.br`<td class="td-item"><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
                 htm += Html.br`<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
                 htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
                 if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
+                if (item.limit) htm += Html.br`<div class="limit outlined-text">${gui.getMessageAndValue('gui_maximum', Locale.formatNumber(item.limit))}</div>`;
                 if (item.portal) htm += Html.br`<div class="bonus">${getOutlinedText(gui.getString('GUI3065'))}</div>`;
                 htm += Html.br`<div class="caption"><div>${item.caption}</div></div>`;
+                if (item.reqs) {
+                    htm += Html.br`<div class="cost">`;
+                    let first = true;
+                    for (let req of item.reqs) {
+                        if (!first) htm += `<br>`;
+                        first = false;
+                        htm += getMaterialImg(req);
+                    }
+                    htm += Html.br`</div>`;
+                }
                 htm += Html.br`</div></td>`;
-                if (!pre && index == 2 && items.length >= 5) htm += `</tr><tr>`;
+                if (!pre && index == 2 && block.items.length >= 5) htm += `</tr><tr>`;
             });
             if (htm in prev) continue;
             prev[htm] = true;
             result.push(`<table><tr>${pre + htm}</tr></table>`);
         }
-        let len = result.length;
+        const len = result.length;
         let rows = len || 1;
         let columns = 1;
-        if (len > 6) {
+        if (len > 6 || (len > 5 && type == 'offer')) {
             rows = Math.ceil(rows / 2);
             columns = 2;
         }
-        let htm = `<div class="equipment_pack${columns > 1 ? ' zoomed mini' : (len > 3 ? ' zoomed compact' : '')}"><table>`;
+        htm += `<div class="equipment_pack${columns > 1 ? ' zoomed mini' : (len > 3 ? ' zoomed compact' : '')}" data-type="${type}"><table>`;
         for (let row = 0; row < rows; row++) {
             htm += `<tr>`;
             for (let col = 0; col < columns; col++) {
-                let index = col * rows + row;
+                const index = col * rows + row;
                 htm += `<td${col > 0 ? ' class="additional"' : ''}>${index >= len ? '' : result[index]}</td>`;
             }
             htm += `</tr>`;
@@ -1161,47 +1182,127 @@ function showPacks(packId) {
         htm += `</table></div>`;
         return htm;
     }
-
-    let htm = '';
-    if (regions.length > 1) {
-        htm += Html.br`${gui.getMessage('gui_region')} <select name="region" data-method="region" style="margin-bottom:2px">`;
-        htm += Html.br`<option value="-1">[ ${gui.getMessage('gui_all').toUpperCase()} ]</option>`;
-        for (let id of regions) {
-            htm += Html.br`<option value="${id}" ${Html(id == rid ? 'selected' : '')}>${gui.getObjectName('region', id)}</option>`;
-        }
-        htm += Html.br`</select>`;
-        htm += Html.br`<br>`;
-    }
-    htm += Html.br`${gui.getMessage('gui_cost')} <select name="pid" data-method="pid" style="margin-bottom:2px">${getPriceOptions(rid, packId)}</select>`;
-    htm += Html.br`<br>`;
-    htm += getPackDetails(rid, packId);
-
-    gui.dialog.show({
-        title: gui.getString(pack.name_loc),
-        html: htm,
-        style: [Dialog.OK, Dialog.WIDEST]
-    }, function (method, params) {
-        if (method == 'region') {
-            rid = +params.region;
-            let select = gui.dialog.element.querySelector('[name=pid]');
-            let pid = +select.value;
-            if (pid == 0) pid = +select.options[1].value;
-            select.innerHTML = getPriceOptions(rid, pid);
-            params.pid = +select.value;
-            if (pid > 0 && params.pid == 0) {
-                select.selectedIndex = 1;
-                params.pid = +select.value;
-            }
-        }
-        if (method == 'region' || method == 'pid') {
-            let container = gui.dialog.element.querySelector('.equipment_pack');
-            container.outerHTML = getPackDetails(+params.region, +params.pid);
-        }
-    });
 }
 
-function onTooltip(event) {
-    let element = event.target;
-    let htm = Html.br`<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
-    Tooltip.show(element, htm);
+function getDistincts(values) {
+    const hash = {};
+    for (const value of values) {
+        hash[value] = value;
+    }
+    return Object.values(hash).sort(gui.sortNumberAscending);
+}
+
+function getPacks(id) {
+    const packs = gui.getFile('packs');
+    const buildings = gui.getFile('buildings');
+
+    // Get related packs
+    const pack = packs[id];
+    const packId = +pack.def_id;
+    const related = gui.getArrayOfInt(pack.deny_list).map(id => packs[id]).filter(pack => pack && gui.getArrayOfInt(pack.deny_list).includes(packId));
+    related.push(pack);
+
+    const blocks = [];
+    for (const pack of related) {
+        let rid = +pack.region_id;
+        if (rid == 0) {
+            const item = pack.items.find(item => item.type == 'building');
+            if (item) {
+                const building = buildings[item.object_id];
+                if (building && building.region_id) rid = building.region_id;
+            }
+        }
+        const price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
+        const items = pack.items.map(item => getOfferItem(item)).filter(item => item);
+        items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
+
+        const block = {
+            id: pack.def_id,
+            rid,
+            date: 0,
+            price: +price.amount,
+            priceText: price.currency + ' ' + Locale.formatNumber(+price.amount, 2),
+            items,
+            name_loc: pack.name_loc
+        };
+        blocks.push(block);
+    }
+    return blocks;
+}
+
+function getOffers(id) {
+    let blocks = getOffersBase(id);
+    const DAILY_OFFER_TIMESPAN = 86400 * 1.2;
+    const isDailyOffer = (offer) => +offer.end - +offer.start < DAILY_OFFER_TIMESPAN;
+    const offers = gui.getFile('offers');
+    const offer = offers[id];
+    if (isDailyOffer(offer)) {
+        // Extend to neareast offers
+        const start = +offer.start;
+        const arr = Object.values(offers);
+        let start1;
+        start1 = start;
+        while (true) {
+            const end1 = start1 + DAILY_OFFER_TIMESPAN;
+            const other = arr.find(offer => +offer.start > start1 && +offer.start < end1 && isDailyOffer(offer));
+            if (!other) break;
+            blocks = blocks.concat(getOffersBase(other.def_id));
+            start1 = +other.start;
+        }
+        start1 = start - DAILY_OFFER_TIMESPAN;
+        while (true) {
+            const end1 = start1 + DAILY_OFFER_TIMESPAN;
+            const other = arr.find(offer => +offer.start > start1 && +offer.start < end1 && isDailyOffer(offer));
+            if (!other) break;
+            blocks = blocks.concat(getOffersBase(other.def_id));
+            start1 = +other.start - DAILY_OFFER_TIMESPAN;
+        }
+    }
+    return blocks;
+}
+
+function getOffersBase(id) {
+    const offers = gui.getFile('offers');
+    const start = +offers[id].start;
+    const hash = {};
+    let maxRid = 0;
+    for (const offer of Object.values(offers).filter(offer => +offer.start == start)) {
+        const regions = gui.getArrayOfInt(offer.regions || '0');
+        const item = getOfferItem(offer);
+        if (item) {
+            for (const rid of regions) {
+                maxRid = Math.max(rid, maxRid);
+                const key = rid + '_' + start;
+                let block = hash[key];
+                if (!block) {
+                    block = hash[key] = {
+                        id: offer.def_id,
+                        rid,
+                        date: start,
+                        price: 0,
+                        items: []
+                    };
+                }
+                if (offer.def_id == id) block.id = id;
+                block.items.push(item);
+            }
+        }
+    }
+    if (maxRid > 0) {
+        const key = 0 + '_' + start;
+        const block0 = hash[key];
+        if (block0) {
+            delete hash[key];
+            for (const block of Object.values(hash)) {
+                for (const item of block0.items) {
+                    block.items.push(item);
+                }
+            }
+        }
+    }
+    const blocks = Object.values(hash);
+    for (const block of blocks) {
+        block.items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
+    }
+    return blocks;
 }

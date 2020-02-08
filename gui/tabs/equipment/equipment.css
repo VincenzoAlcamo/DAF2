@@ -15,6 +15,7 @@
   text-align: left;
 }
 
+.equipment_pack .cost img,
 .equipment .cost img,
 .equipment .bonus img {
   height: 18px;
@@ -36,11 +37,13 @@
   margin: -4px 0;
 }
 
+.equipment_pack .cost span,
 .equipment .cost span {
   display: inline-block;
   cursor: default;
 }
 
+.equipment_pack .cost span.locked,
 .equipment .cost span.locked {
   background-color: rgba(255, 0, 0, 0.2);
   padding-left: 2px;
@@ -175,6 +178,15 @@ div.equipment_mask {
   text-align: center;
 }
 
+.equipment_pack .item .limit {
+  margin-top: -104px;
+  width: 120px;
+  height: 104px;
+  text-align: center;
+  font-size: 12px;
+  padding-top: 2px;
+}
+
 .equipment_pack .item .mask {
   margin-top: -104px;
   width: 120px;
@@ -255,11 +267,13 @@ div.equipment_mask {
   word-break: break-word;
 }
 
-.equipment_pack .item.section.region span {
+.equipment_pack .item.section.region span,
+.equipment_pack .item.section span.region span {
   font-size: 12pt;
 }
 
-.equipment_pack .item.section.region img {
+.equipment_pack .item.section.region img,
+.equipment_pack .item.section span.region img {
   margin: auto;
   transform: scale(1.2);
   transform-origin: bottom center;
@@ -332,6 +346,14 @@ div.equipment_mask {
   height: 111px;
 }
 
+.equipment_pack.mini[data-type=offer] td.td-section {
+  height: 126px;
+}
+
+.equipment_pack.compact[data-type=offer] td.td-section {
+  height: 144px;
+}
+
 .equipment_pack.compact td.td-item {
   width: 99px;
 }
@@ -347,3 +369,14 @@ div.equipment_mask {
   position: absolute;
 }
 
+.equipment_pack .cost {
+  color: white;
+  background-color: #446;
+  text-align: center;
+  height: 21px;
+  overflow: hidden;
+}
+
+.equipment_pack span {
+  font-size: 14px;
+}
