@@ -36,7 +36,7 @@
         "message": "Anti-popups"
     },
     "menu_nogcpopup": {
-        "message": "Pas de popups lors de la collecte des filleuls"
+        "message": "Anti-popups"
     },
     "menu_reloadgame": {
         "message": "Recharger le jeu"
@@ -69,16 +69,16 @@
         "message": "Nom"
     },
     "gui_region_required": {
-        "message": "À partir du niveau\nrequis"
+        "message": "À partir de la région requise"
     },
     "gui_theme_required": {
-        "message": "Région ou thème\nrequise"
+        "message": "Région ou thème requise"
     },
     "gui_level_required": {
-        "message": "À partir du niveau\nrequis"
+        "message": "À partir du niveau requis"
     },
     "gui_qty_required": {
-        "message": "Quantité\nrequise"
+        "message": "Quantité requise"
     },
     "gui_energy": {
         "message": "Énergie"
@@ -93,7 +93,7 @@
         "message": "Inventaire"
     },
     "gui_clickwiki": {
-        "message": "Cliquez pour ouvrir la page Wiki."
+        "message": "Cliquez pour ouvrir la page de Wiki."
     },
     "gui_from_any": {
         "message": "Tous"
@@ -238,7 +238,7 @@
         "message": "Valeur"
     },
     "gui_slot_value": {
-        "message": "Valeur de l'\nemplacement"
+        "message": "Valeur de l'emplacement"
     },
     "gui_cost": {
         "message": "Coût"
@@ -354,7 +354,7 @@
         }
     },
     "about_data": {
-        "message": "Dernière mise à jour le $TIME$\nSite de jeu: $SITE$ ($PLATFORM$)\nIdentifiant d'utilisateur: #$USERID$",
+        "message": "Dernier instantané de données: $TIME$\nSite de jeu: $SITE$ ($PLATFORM$)\nIdentifiant d'utilisateur: #$USERID$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -1711,7 +1711,7 @@
         "message": "Sauf les erreurs\nEn cas d'erreur, la page ne ferme pas automatiquement."
     },
     "options_rewardssummary": {
-        "message": "Ajouter un résumé\nSi la page n'est pas fermée automatiquement, un résumé est inséré au bas de la page."
+        "message": "Ajouter un résumé\nSi la page n'est pas fermée automatiquement, un résumé est inséré en bas de la page."
     },
     "options_linkgrabenabled": {
         "message": "Link Grabber\nActiver Link Grabber (lien de saisie) sur les pages Facebook.\nSi désactiver, les options suivantes n'ont aucun effet."
