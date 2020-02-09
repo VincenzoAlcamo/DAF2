@@ -1302,6 +1302,7 @@ function getOffersBase(id) {
     }
     const blocks = Object.values(hash);
     for (const block of blocks) {
+        block.items.filter(item => item.type == 'building').forEach(item => item.limit = item.obj.limit);
         block.items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
     }
     return blocks;
