@@ -1483,6 +1483,9 @@
     "equipment_exclude_material": {
         "message": "Exclude these materials"
     },
+    "equipment_current": {
+        "message": "Current"
+    },
 
     "events_year": {
         "message": "Year"
