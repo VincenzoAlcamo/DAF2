@@ -570,7 +570,7 @@ function calcRegion(item) {
         }
     }
     // We have to check each pair with more than one map
-    for (let arr of Object.values(byFilterOrderId).filter(arr => arr.length > 1)) {
+    for (let arr of item.rid >= 5 ? [] : Object.values(byFilterOrderId).filter(arr => arr.length > 1)) {
         // Get list of all map without a progress
         let list = arr.filter(lid => !(lid in loc_prog && +loc_prog[lid].prog > 0));
         // If all of them are withouth a progress, then pick only the most recent one
