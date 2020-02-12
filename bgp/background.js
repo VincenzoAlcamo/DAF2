@@ -1187,6 +1187,7 @@ var Data = {
         if (!asset) return '';
         if (asset[0] == '/') return asset;
         if (type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
+        if (small && !(type == 'material' || type == 'usable' || type == 'token')) small = false;
         return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
     },
     getObjectName: function (type, id) {
