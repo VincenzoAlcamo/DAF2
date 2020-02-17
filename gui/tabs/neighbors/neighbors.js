@@ -306,7 +306,14 @@ function updateRow(row) {
     var anchor = friend ? gui.getFriendAnchor(friend) : Html.raw('<a class="no-link">');
     var htm = '';
     htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
-    htm += Html.br`<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
+    const fullName = gui.getPlayerNameFull(pal);
+    if (friend && friend.name == fullName) {
+        htm += Html.br`<td>${anchor}${fullName}</a>`;
+    } else {
+        htm += Html.br`<td><a class="no-link">${fullName}</a>`;
+        if (friend) htm += Html.br`<br>${anchor}${friend.name}</a>`;
+    }
+    htm += Html.br`<br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
     htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(pal.level)}</td>`;
     if (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) {
@@ -495,14 +502,16 @@ function refreshDelayed() {
     let now = gui.getUnixTime();
     let items = [];
     let calculator = getCalculator(filterExpression, getSortValueFunctions);
+    const friendNames = {};
+    for(const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();
     for (let pal of neighbors) {
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
         if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
         if (show == 'unknownblocks' && pal.extra.blocks !== undefined) continue;
         if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
         else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
-        let fullname = gui.getPlayerNameFull(pal).toUpperCase();
-        if (fnSearch && !fnSearch(fullname + '\t' + (pal.extra.note || '').toUpperCase())) continue;
+        const fullname = gui.getPlayerNameFull(pal).toUpperCase();
+        if (fnSearch && !fnSearch(fullname + '\t' + (pal.extra.note || '').toUpperCase() + (friendNames[pal.id] || ''))) continue;
         if (applyGiftFilter) {
             let flag = false;
             for (let palGift of (palGifts[pal.id] || [])) {
