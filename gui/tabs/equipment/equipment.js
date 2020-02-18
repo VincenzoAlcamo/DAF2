@@ -1030,7 +1030,8 @@ function getOfferItem(item) {
     } else if (copy.type == 'usable' && obj) {
         copy.sort = 4;
         copy.value = +obj.value;
-        let caption = getOutlinedText(Locale.formatNumber(copy.value));
+        let caption = obj.action == 'speedup_ctrl' ? gui.getDuration(copy.value) : Locale.formatNumber(copy.value);
+        caption = getOutlinedText(caption);
         if (copy.amount > 1) caption = Html`<span class="qty outlined-text">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
         copy.caption = caption;
         copy.title = gui.getString('GUI0008');
@@ -1073,7 +1074,7 @@ function showOffer(type, id) {
     gui.dialog.show({
         title: title,
         html: getDetails(),
-        style: [Dialog.OK, Dialog.WIDEST]
+        style: [Dialog.CLOSE, Dialog.WIDEST]
     }, function (method, params) {
         if (method == 'rid' || method == 'price' || method == 'date') {
             current[method] = +params[method];
