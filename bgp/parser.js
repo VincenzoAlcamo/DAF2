@@ -174,6 +174,7 @@ var Parser = {
             'MAP': 'Map',
             'NPCN': 'NPC',
             'QINA': 'Quest Item',
+            'QUHE': 'Quest heading text',
             //'TRNA': 'Pieces',
             'USNA': 'Usable',
             'WINA': 'Windmill',
