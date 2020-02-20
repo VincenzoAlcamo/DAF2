@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Θέμα"
     },
+    "gui_year": {
+        "message": "Έτος"
+    },
+    "gui_quest": {
+        "message": "Αποστολή"
+    },
     "gui_offer": {
         "message": "Προσφορά"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Εξελιγμένο φίλτρο"
     },
+    "gui_location": {
+        "message": "Τοποθεσία"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Ακύρωση"
+    },
+    "dialog_close": {
+        "message": "Κλείσιμο"
     },
     "dialog_pleasewait": {
         "message": "Παρακαλούμε περιμένετε"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Μη συμπερίληψη αυτών των υλικών"
     },
+    "equipment_current": {
+        "message": "Τωρινό"
+    },
     "events_year": {
         "message": "Έτος"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Κατακερματισμένη"
+    },
+    "events_yourprogress": {
+        "message": "Η πρόοδός σας"
+    },
+    "events_rewards": {
+        "message": "Βραβεία"
+    },
+    "events_finalreward": {
+        "message": "Τελικό Βραβείο"
+    },
+    "events_notsegmented": {
+        "message": "Όχι τμηματοποιημένο"
+    },
+    "events_tiles": {
+        "message": "Πλακάκια"
+    },
+    "events_chance": {
+        "message": "Πιθανότητα"
+    },
+    "events_clearbonus": {
+        "message": "Μπόνους ολοκλήρωσης"
     },
     "repeat_name": {
         "message": "Όνομα"

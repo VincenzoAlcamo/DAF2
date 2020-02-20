@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Motiv"
     },
+    "gui_year": {
+        "message": "Jahr"
+    },
+    "gui_quest": {
+        "message": "Aufgaben"
+    },
     "gui_offer": {
         "message": "Angebot"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Erweiterter Filter"
     },
+    "gui_location": {
+        "message": "Örtlichkeit"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Abbrechen"
+    },
+    "dialog_close": {
+        "message": "Schließen"
     },
     "dialog_pleasewait": {
         "message": "Bitte warten"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Diese Materialien ausschließen."
     },
+    "equipment_current": {
+        "message": "Aktuell"
+    },
     "events_year": {
         "message": "Jahr"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Segmentiert"
+    },
+    "events_yourprogress": {
+        "message": "Eigene Fortschritte"
+    },
+    "events_rewards": {
+        "message": "Belohnungen"
+    },
+    "events_finalreward": {
+        "message": "Abschließende Belohnung"
+    },
+    "events_notsegmented": {
+        "message": "Nicht segmentiert"
+    },
+    "events_tiles": {
+        "message": "Fliesen"
+    },
+    "events_chance": {
+        "message": "Wahrscheinlichkeit"
+    },
+    "events_clearbonus": {
+        "message": "Bonus für's Aufräumen"
     },
     "repeat_name": {
         "message": "Name"

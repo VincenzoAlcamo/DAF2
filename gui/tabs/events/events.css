@@ -2,11 +2,11 @@
   filter: saturate(0);
 }
 
-.events.data td {
+.events tr[data-eid] td {
   text-align: center;
 }
 
-.events.data td:nth-child(2) {
+.events tr[data-eid] td:nth-child(2) {
   text-align: left;
 }
 
@@ -51,4 +51,131 @@
   font-size: 16px;
   font-weight: bold;
   margin-top: 4px;
+}
+
+.events tr.hilight-qst td.qst,
+.events tr.hilight-ach td.ach,
+.events tr.hilight-tre td.tre,
+.events tr.hilight-loc td.loc {
+  background-color: var(--tb-hlcol);
+  cursor: zoom-in;
+}
+
+.events tr.set-qst td.qst,
+.events tr.set-ach td.ach,
+.events tr.set-tre td.tre,
+.events tr.set-loc td.loc {
+  background-color: var(--success-bgcol);
+  color: var(--success-fgcol);
+  cursor: default;
+}
+
+.events .event-quests,
+.events .event-treasure,
+.events .event-achievement,
+.events .event-locations {
+  margin-top: 2px;
+}
+
+.events .event-quests .rewards,
+.events .event-treasure .rewards,
+.events .event-achievement .rewards,
+.events .event-locations .rewards {
+  text-align: right;
+}
+
+.events .event-quests .rewards+.rewards,
+.events .event-treasure .rewards+.rewards,
+.events .event-achievement .rewards+.rewards,
+.events .event-locations .rewards+.rewards {
+  padding-left: 4px;
+}
+
+.events .event-locations tr.separator td {
+  border-top: 2px solid var(--tb-brcol);
+}
+
+.events .reset {
+  text-align: center;
+}
+
+.events .rewards span,
+.events .reset span {
+  display: inline-block;
+  cursor: default;
+  margin: 0px 2px;
+}
+
+.events .rewards i,
+.events .reset i {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+}
+
+.events .rewards img,
+.events .reset img {
+  max-height: 24px;
+  max-width: 24px;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.events .event-quests tr td.level,
+.events .event-treasure tr td.level,
+.events .event-achievement tr td.level {
+  text-align: center;
+}
+
+.events .event-achievement tr td.reached,
+.events .event-locations tr td.reached {
+  text-align: right;
+}
+
+.events .event-achievement tr td.target,
+.events .event-locations tr td.target {
+  text-align: left;
+}
+
+.events .event-achievement tr td.goal,
+.events .event-locations tr td.goal,
+.events .event-locations tr td.chance {
+  text-align: right;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.events .event-quests tr td.final,
+.events .event-treasure tr td.final {
+  text-align: center;
+  font-weight: bold;
+}
+
+.events .event-achievement th.icon {
+  background-color: var(--tr-bgcol);
+}
+
+.events .event-treasure th.icon img,
+.events .event-achievement th.icon img {
+  max-width: 128px;
+  max-height: 128px;
+}
+
+.events.sticky-header tbody {
+  border-bottom: 2px solid var(--tb-brcol);
+}
+
+.events td.toolbar {
+  position: relative;
+  background-color: var(--th-bgcol);
+}
+
+.events td.toolbar button[name=close] {
+  position: absolute;
+  left: 8px;
+}
+
+.events td.toolbar label span {
+  font-weight: bold;
 }

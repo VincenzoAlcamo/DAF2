@@ -629,6 +629,11 @@ var Data = {
         });
         Data.colAddonBuildings = col;
 
+        // Event pass xp
+        col = {};
+        setItem(1, 'GUI3165', 'loot_event_pass_xp_drop_1');
+        Data.colEventpassXp = col;
+
         // Systems
         col = {};
         'GUI0064,GUI0065'.split(',').forEach(function (name_loc, index) {
@@ -1173,9 +1178,12 @@ var Data = {
         else if (type == 'production') return Data.files.productions;
         else if (type == 'tablet') return Data.files.tablets;
         else if (type == 'windmill') return Data.files.windmills;
+        else if (type == 'collection') return Data.files.collections;
+        else if (type == 'artifact') return Data.files.artifacts;
         return null;
     },
     getObject: function (type, id) {
+        if (type == 'eventpass_xp') return Data.colEventpassXp[1];
         var col = Data.getObjectCollection(type);
         return col && col[id];
     },

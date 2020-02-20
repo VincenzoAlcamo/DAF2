@@ -166,10 +166,10 @@ a.no-link {
   border: 2px solid var(--tb-brcol);
 }
 
-.sticky-container table,
-.sticky-container thead,
-.sticky-container tbody,
-.sticky-container tfoot {
+.sticky-container>table,
+.sticky-container>table>thead,
+.sticky-container>table>tbody,
+.sticky-container>table>tfoot {
   border: none;
 }
 
@@ -602,6 +602,7 @@ input[type=checkbox] {
 }
 
 .toolbar .warning {
+  border-collapse: separate;
   border-radius: 4px;
   padding: 1px 6px;
   font-size: larger;
@@ -963,27 +964,34 @@ td.add_slash+td:before {
   .vertical-menu {
     scrollbar-width: thin;
   }
+
   .vertical-menu li {
     padding-right: 0;
   }
+
   input[type=checkbox] {
     transform: scale(1.5);
   }
+
   progress::-moz-progress-bar {
     border-radius: 50px;
     background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
     background-color: var(--pb-fgcol);
     filter: drop-shadow(2px 0px 0px var(--pb-brcol));
   }
+
   .screenshot {
     display: none !important;
   }
+
   .sticky-header,
   .sticky-footer {
     table-layout: fixed;
   }
+
   .mozTest {
     text-decoration-style: wavy;
   }
 }
+
 /*#endregion*/

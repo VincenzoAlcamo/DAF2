@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Temat"
     },
+    "gui_year": {
+        "message": "Rok"
+    },
+    "gui_quest": {
+        "message": "Zadanie"
+    },
     "gui_offer": {
         "message": "Oferty"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Filtr zaawansowany"
     },
+    "gui_location": {
+        "message": "Lokacja"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Anuluj"
+    },
+    "dialog_close": {
+        "message": "Zamknij"
     },
     "dialog_pleasewait": {
         "message": "Proszę czekaj"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Wyklucza te materiały"
     },
+    "equipment_current": {
+        "message": "Aktualny"
+    },
     "events_year": {
         "message": "Rok"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Segmentowany"
+    },
+    "events_yourprogress": {
+        "message": "Twój postęp"
+    },
+    "events_rewards": {
+        "message": "Nagrody"
+    },
+    "events_finalreward": {
+        "message": "Finałowa nagroda"
+    },
+    "events_notsegmented": {
+        "message": "Nie segmentowany"
+    },
+    "events_tiles": {
+        "message": "Kostki"
+    },
+    "events_chance": {
+        "message": "Szansa"
+    },
+    "events_clearbonus": {
+        "message": "Bonus za wyczyszczenie"
     },
     "repeat_name": {
         "message": "Nazwa"

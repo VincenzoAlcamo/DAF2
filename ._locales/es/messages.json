@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Temas"
     },
+    "gui_year": {
+        "message": "Año del evento"
+    },
+    "gui_quest": {
+        "message": "Mision"
+    },
     "gui_offer": {
         "message": "Ofertas"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Filtro avanzado"
     },
+    "gui_location": {
+        "message": "Ubicacion"
+    },
     "dialog_ok": {
         "message": "OK"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Cancelar"
+    },
+    "dialog_close": {
+        "message": "Cerrar"
     },
     "dialog_pleasewait": {
         "message": "Por favor espere"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Excluye estos materiales"
     },
+    "equipment_current": {
+        "message": "Actual"
+    },
     "events_year": {
         "message": "Año del evento"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Segmentado"
+    },
+    "events_yourprogress": {
+        "message": "Poregreso"
+    },
+    "events_rewards": {
+        "message": "Recompensa"
+    },
+    "events_finalreward": {
+        "message": "Recompensa final"
+    },
+    "events_notsegmented": {
+        "message": "No segmentado"
+    },
+    "events_tiles": {
+        "message": "Baldosas"
+    },
+    "events_chance": {
+        "message": "Oportunidad"
+    },
+    "events_clearbonus": {
+        "message": "Recompensa por llimpiar toda la mina"
     },
     "repeat_name": {
         "message": "Nombre"

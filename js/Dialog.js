@@ -24,6 +24,7 @@ Object.assign(Dialog, {
     YES: 'yes',
     NO: 'no',
     CANCEL: 'cancel',
+    CLOSE: 'close',
     AUTORUN: 'autorun',
     htmlEncodeBr: function (text) {
         return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
@@ -72,7 +73,7 @@ Object.assign(Dialog.prototype, {
             const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
             this.element.innerHTML = `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
             <div class="DAF-md-title"></div><div class="DAF-md-body"></div>
-            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div>`;
+            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL, Dialog.CLOSE].map(button).join('')}</div></form></div>`;
             this.form = this.element.getElementsByTagName('form')[0];
             document.body.appendChild(this.element);
         }

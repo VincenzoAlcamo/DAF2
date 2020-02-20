@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Tema"
     },
+    "gui_year": {
+        "message": "År"
+    },
+    "gui_quest": {
+        "message": "Opgave"
+    },
     "gui_offer": {
         "message": "Specialtilbud"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Avanceret filter"
     },
+    "gui_location": {
+        "message": "Bane"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Afbryd"
+    },
+    "dialog_close": {
+        "message": "Luk"
     },
     "dialog_pleasewait": {
         "message": "Vent venligst"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Uden disse materialer"
     },
+    "equipment_current": {
+        "message": "Nuværende"
+    },
     "events_year": {
         "message": "År"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Regionsopdelt"
+    },
+    "events_yourprogress": {
+        "message": "Din fremgang"
+    },
+    "events_rewards": {
+        "message": "Belønninger"
+    },
+    "events_finalreward": {
+        "message": "Sidste Belønning"
+    },
+    "events_notsegmented": {
+        "message": "Ikke segmenteret"
+    },
+    "events_tiles": {
+        "message": "Felter"
+    },
+    "events_chance": {
+        "message": "Chance"
+    },
+    "events_clearbonus": {
+        "message": "Alt ryddet bonus"
     },
     "repeat_name": {
         "message": "Navn"

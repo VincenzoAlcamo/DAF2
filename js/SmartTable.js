@@ -72,9 +72,14 @@ Object.assign(SmartTable.prototype, {
             });
             var table = thead2.parentNode;
             table.style.width = thead1.parentNode.offsetWidth + 'px';
-            let height = thead1.offsetHeight;
-            if (thead1.tagName == 'THEAD') table.style.marginBottom = (height ? -height - 2 : 0) + 'px';
-            else table.style.marginTop = (height ? -height - 1 : 0) + 'px';
+            setTimeout(() => {
+                let height = thead1.offsetHeight;
+                if (thead1.tagName == 'THEAD') {
+                    // table.style.marginBottom = (height ? -height - 2 : 0) + 'px';
+                    table.style.marginBottom = (-table.offsetHeight) + 'px';
+                }
+                else table.style.marginTop = (height ? -height - 1 : 0) + 'px';
+            }, 0);
         }
         process(this.header, this.fixedHeader);
         process(this.footer, this.fixedFooter);

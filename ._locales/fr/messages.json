@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Thème"
     },
+    "gui_year": {
+        "message": "Année"
+    },
+    "gui_quest": {
+        "message": "Quête"
+    },
     "gui_offer": {
         "message": "Offre spéciale"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Filtre avancé"
     },
+    "gui_location": {
+        "message": "Location"
+    },
     "dialog_ok": {
         "message": "D'accord"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Annuler"
+    },
+    "dialog_close": {
+        "message": "Fermer"
     },
     "dialog_pleasewait": {
         "message": "Patience SVP"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Exclure ces matériaux"
     },
+    "equipment_current": {
+        "message": "Courant"
+    },
     "events_year": {
         "message": "Année"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Avec segmenté"
+    },
+    "events_yourprogress": {
+        "message": "Vos progrès"
+    },
+    "events_rewards": {
+        "message": "Récompenses"
+    },
+    "events_finalreward": {
+        "message": "Récompense finale"
+    },
+    "events_notsegmented": {
+        "message": "Non segmenté"
+    },
+    "events_tiles": {
+        "message": "Tuiles"
+    },
+    "events_chance": {
+        "message": "Chance"
+    },
+    "events_clearbonus": {
+        "message": "Bonus de nettoyage"
     },
     "repeat_name": {
         "message": "Mines"

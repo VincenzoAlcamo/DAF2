@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Tema"
     },
+    "gui_year": {
+        "message": "Anno"
+    },
+    "gui_quest": {
+        "message": "Missione"
+    },
     "gui_offer": {
         "message": "Offerta"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Filtro avanzato"
     },
+    "gui_location": {
+        "message": "Luogo"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Annulla"
+    },
+    "dialog_close": {
+        "message": "Chiudi"
     },
     "dialog_pleasewait": {
         "message": "Attendere, per favore"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Escludi questi materiali"
     },
+    "equipment_current": {
+        "message": "Attuale"
+    },
     "events_year": {
         "message": "Anno"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Segmentato"
+    },
+    "events_yourprogress": {
+        "message": "Il tuo progresso"
+    },
+    "events_rewards": {
+        "message": "Ricompense"
+    },
+    "events_finalreward": {
+        "message": "Ricompensa Finale"
+    },
+    "events_notsegmented": {
+        "message": "Non segmentato"
+    },
+    "events_tiles": {
+        "message": "Mattonelle"
+    },
+    "events_chance": {
+        "message": "Prob."
+    },
+    "events_clearbonus": {
+        "message": "Bonus pulizia"
     },
     "repeat_name": {
         "message": "Nome"

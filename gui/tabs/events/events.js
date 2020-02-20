@@ -5,11 +5,16 @@ export default {
     update: update,
     getState: getState,
     setState: setState,
-    requires: ['materials', 'events', 'achievements', 'collections', 'locations_0']
+    requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts']
 };
 
-let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop;
-let allEvents;
+const infos = ['qst', 'ach', 'tre', 'loc'];
+const PREFIX_HILIGHT = 'hilight-';
+const PREFIX_SET = 'set-';
+
+let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion;
+let allEvents, trInfo, fixedBody, tbodyInfo, trRegion;
+let selectedRegion, selectedInfo, selectedEventId;
 
 function init() {
     tab = this;
@@ -27,6 +32,16 @@ function init() {
     selectShop = container.querySelector('[name=shop]');
     selectShop.addEventListener('change', refresh);
 
+    selectRegion = container.querySelector('[name=region]');
+    selectRegion.addEventListener('change', refreshRegion);
+
+    trRegion = container.querySelector('.trRegion');
+
+    container.querySelector('[name=close]').addEventListener('click', () => {
+        selectedEventId = selectedInfo = null;
+        showInfo();
+    });
+
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
@@ -34,11 +49,36 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('events');
     smartTable.fixedFooter.parentNode.classList.add('events');
-    smartTable.tbody[0].addEventListener('render', function (event) {
+    const tbody = smartTable.tbody[0];
+    tbody.addEventListener('render', function (event) {
         updateRow(event.target);
     });
+    tbody.addEventListener('click', onClick);
+    tbody.addEventListener('mouseover', onmousemove);
+    tbody.addEventListener('mouseout', onmousemove);
+    tbody.addEventListener('mouseleave', onmousemove);
+    smartTable.fixedHeader.parentNode.addEventListener('click', onClick);
+    smartTable.fixedHeader.parentNode.addEventListener('mouseover', onmousemove);
+    smartTable.fixedHeader.parentNode.addEventListener('mouseout', onmousemove);
+    smartTable.fixedHeader.parentNode.addEventListener('mouseleave', onmousemove);
 
     container.addEventListener('tooltip', onTooltip);
+}
+
+function onmousemove(event) {
+    let el = event.target;
+    let row = null;
+    let classNames = {};
+    infos.forEach(k => classNames[k] = false);
+    while (el.tagName != 'TABLE') {
+        if (el.tagName == 'TD') Array.from(el.classList).filter(k => k in classNames).forEach(k => classNames[k] = true);
+        if (el.tagName == 'TR') row = el;
+        el = el.parentNode;
+    }
+    for (const r of el.querySelectorAll('tr')) {
+        const fn = r == row ? k => r.classList.toggle(PREFIX_HILIGHT + k, classNames[k]) : k => r.classList.remove(PREFIX_HILIGHT + k);
+        Object.keys(classNames).forEach(fn);
+    }
 }
 
 function byEvent(list) {
@@ -64,7 +104,15 @@ function getEventInfo(event) {
     };
 }
 
+function addOption(select, value, text) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.innerText = text;
+    select.appendChild(option);
+}
+
 function update() {
+    const state = getState();
     let achievements = gui.getFile('achievements');
     let achievementsByEvent = byEvent(Object.values(achievements));
     let collections = gui.getFile('collections');
@@ -92,12 +140,12 @@ function update() {
         item.year = info.year;
         item.yeartxt = Locale.formatYear(info.year);
 
-        let quests = gui.getArrayOfInt(event.quests);
+        const quests = getQuests(event);
         if (!quests.length) continue;
         item.tquest = quests.length;
         item.cquest = 0;
-        for (let qid of quests) {
-            if (questsFinished.includes(qid))++item.cquest;
+        for (const quest of quests) {
+            if (questsFinished.includes(+quest.def_id))++item.cquest;
         }
         item.pquest = item.cquest / (item.tquest || 1);
 
@@ -151,8 +199,6 @@ function update() {
             }
             return true;
         });
-        // Segmented events have at least one reward specific to a region
-        item.segmented = !!event.reward.find(reward => +reward.region_id > 0);
         let rep = locations.filter(lid => {
             let location = locations0[lid];
             // Additional check
@@ -160,37 +206,45 @@ function update() {
                 return false;
             }
             // Segmented events have an override for completion bonus
-            if (location.overrides && location.overrides.length) item.segmented = true;
+            // if (Array.isArray(location.overrides)) item.maxsegment = location.overrides.reduce((max, obj) => Math.max(max, +obj.region_id), item.maxsegment);
             if (location && +location.reset_cd > 0) {
                 xlo = xlo.filter(id => id != lid);
                 return true;
             }
         });
+        item.loc_qst = locations.filter(lid => !(rep.includes(lid) || xlo.includes(lid)));
+        item.loc_rep = rep;
+        item.loc_xlo = xlo;
         item.locations = locations.length;
         item.repeatables = rep.length;
         item.challenges = xlo.length;
         item.maps = item.locations - item.repeatables - item.challenges;
 
-        // If event has no locations, we remove the quests
-        // This should affect only postcard special weeks
-        if (!item.locations) item.tquest = item.cquest = item.pquest = 0;
+        if (item.cquest == 0 && item.cachiev == 0 && item.ccollect == 0) item.status = 'notdone';
+        else if (item.tquest == item.cquest && item.tachiev == item.cachiev && item.tcollect == item.ccollect) item.status = 'complete';
+        else item.status = 'incomplete';
 
-        item.segmented = item.segmented ? eventsRegion[eid] || 0 : -1;
+        // Segmented events: check event's rewards
+        item.maxsegment = event.reward.reduce((max, obj) => Math.max(max, +obj.region_id), 0);
+        // and quests's rewards
+        for (const quest of quests) item.maxsegment = quest.reward.reduce((max, obj) => Math.max(max, +obj.region_id), item.maxsegment);
+
+        item.issegmented = item.maxsegment > 1;
+        item.segmented = item.issegmented ? eventsRegion[eid] || 0 : -1;
     }
 
     selectYear.innerHTML = '';
-    selectYear.appendChild(document.createElement('option'));
+    addOption(selectYear, '', '');
     let lastYear = null;
     let items = Object.values(allEvents).sort((a, b) => a.year - b.year);
     for (let item of items) {
         if (item.year && item.yeartxt !== lastYear) {
             lastYear = item.yeartxt;
-            let option = document.createElement('option');
-            option.value = lastYear;
-            option.innerText = lastYear;
-            selectYear.appendChild(option);
+            addOption(selectYear, lastYear, lastYear);
         }
     }
+
+    setState(state);
 
     refresh();
 }
@@ -198,9 +252,12 @@ function update() {
 function getState() {
     return {
         show: selectShow.value,
-        year: selectYear.value,
+        year: allEvents ? selectYear.value : selectYear.getAttribute('data-value'),
         segmented: selectSegmented.value,
         shop: selectShop.value,
+        region: selectedRegion || null,
+        event: selectedEventId || null,
+        info: selectedInfo,
         search: searchInput.value,
         sort: gui.getSortState(smartTable)
     };
@@ -208,9 +265,15 @@ function getState() {
 
 function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
-    state.year = gui.setSelectState(selectYear, state.year);
     state.segmented = gui.setSelectState(selectSegmented, state.segmented);
     state.shop = gui.setSelectState(selectShop, state.shop);
+    if (allEvents) state.year = gui.setSelectState(selectYear, state.year);
+    selectYear.setAttribute('data-value', state.year);
+    selectedRegion = Math.min(gui.getMaxRegion(), Math.max(0, +state.region || 0));
+    selectedEventId = parseInt(state.event) || null;
+    let info = (state.info || '').toLowerCase();
+    if (!infos.includes(info)) info = '';
+    state.info = selectedInfo = info;
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
 }
@@ -235,13 +298,9 @@ function refresh() {
         if (fnSearch && !fnSearch(item.name)) return false;
         if (show == 'active' && item.end < now) return false;
         if (show == 'rerelease' && !item.start) return false;
-        let status = '';
-        if (item.cquest == 0 && item.cachiev == 0 && item.ccollect == 0) status = 'notdone';
-        else if (item.tquest == item.cquest && item.tachiev == item.cachiev && item.tcollect == item.ccollect) status = 'complete';
-        else status = 'incomplete';
-        if ((show == 'complete' || show == 'incomplete' || show == 'notdone') && show != status) return false;
+        if ((show == 'complete' || show == 'incomplete' || show == 'notdone') && show != item.status) return false;
         if (year && item.yeartxt != year) return false;
-        if (not_segmented == (item.segmented >= 0)) return false;
+        if (not_segmented == item.issegmented) return false;
         let inShop = item.gems > 0;
         if (not_shop == inShop) return false;
         return true;
@@ -270,6 +329,9 @@ function refresh() {
         tbody.appendChild(row);
     }
     gui.collectLazyElements(tbody);
+
+    showInfo();
+
     smartTable.syncLater();
 }
 
@@ -282,10 +344,8 @@ function updateRow(row) {
     htm += Html.br`<td>${item.name}</td>`;
     htm += Html.br`<td>${item.year ? Locale.formatYear(item.year) : ''}</td>`;
     img = '';
-    if (item.segmented > 0) {
-        img = gui.getObjectImg('region', item.segmented, 24);
-    } else if (item.segmented == 0) {
-        img = Html.br`<img src="/img/gui/check_yes.png" height="24">`;
+    if (item.issegmented) {
+        img = item.segmented == 0 ? Html.br`<img src="/img/gui/check_yes.png" height="24">` : gui.getObjectImg('region', item.segmented, 24);
     }
     // if (img) img = Html.raw(img.toString().replace('>', ' class="outlined">'));
     htm += Html.br`<td>${img}</td>`;
@@ -298,34 +358,34 @@ function updateRow(row) {
     htm += Html.br`<td class="date">${item.end ? Locale.formatDate(item.end) + '\n' + Locale.formatTime(item.end) : ''}</td>`;
 
     if (item.tquest) {
-        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.cquest)}</td>`;
-        htm += Html.br`<td class="no_right_border">${Locale.formatNumber(item.tquest)}</td>`;
-        htm += Html.br`<td><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br`<td class="qst add_slash">${Locale.formatNumber(item.cquest)}</td>`;
+        htm += Html.br`<td class="qst no_right_border">${Locale.formatNumber(item.tquest)}</td>`;
+        htm += Html.br`<td class="qst">${item.locations ? Html.br`<img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}">` : ''}</td>`;
     } else {
         htm += Html.br`<td colspan="3"></td>`;
     }
 
     if (item.tachiev) {
-        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.cachiev)}</td>`;
-        htm += Html.br`<td class="no_right_border">${Locale.formatNumber(item.tachiev)}</td>`;
-        htm += Html.br`<td><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br`<td class="ach add_slash">${Locale.formatNumber(item.cachiev)}</td>`;
+        htm += Html.br`<td class="ach no_right_border">${Locale.formatNumber(item.tachiev)}</td>`;
+        htm += Html.br`<td class="ach"><img src="/img/gui/achiev_ok.png" class="${item.pachiev < 1 ? 'incomplete' : ''}"></td>`;
     } else {
         htm += Html.br`<td colspan="3"></td>`;
     }
 
     if (item.tcollect) {
-        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.ccollect)}</td>`;
-        htm += Html.br`<td class="no_right_border">${Locale.formatNumber(item.tcollect)}</td>`;
-        htm += Html.br`<td><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
+        htm += Html.br`<td class="tre add_slash">${Locale.formatNumber(item.ccollect)}</td>`;
+        htm += Html.br`<td class="tre no_right_border">${Locale.formatNumber(item.tcollect)}</td>`;
+        htm += Html.br`<td class="tre"><img src="/img/gui/treasure_ok.png" class="${item.pcollect < 1 ? 'incomplete' : ''}"></td>`;
     } else {
         htm += Html.br`<td colspan="3"></td>`;
     }
 
     if (item.locations) {
-        htm += Html.br`<td>${Locale.formatNumber(item.locations)}</td>`;
-        htm += Html.br`<td>${Locale.formatNumber(item.maps)}</td>`;
-        htm += Html.br`<td>${Locale.formatNumber(item.challenges)}</td>`;
-        htm += Html.br`<td>${Locale.formatNumber(item.repeatables)}</td>`;
+        htm += Html.br`<td class="loc">${Locale.formatNumber(item.locations)}</td>`;
+        htm += Html.br`<td class="loc">${Locale.formatNumber(item.maps)}</td>`;
+        htm += Html.br`<td class="loc">${Locale.formatNumber(item.challenges)}</td>`;
+        htm += Html.br`<td class="loc">${Locale.formatNumber(item.repeatables)}</td>`;
     } else {
         htm += Html.br`<td colspan="4"></td>`;
     }
@@ -357,4 +417,347 @@ function onTooltip(event) {
         else this.style.display = 'none';
         item.img_missing = true;
     });
+}
+
+function refreshRegion() {
+    selectedRegion = selectRegion.value;
+    showInfo();
+}
+
+function onClick(e) {
+    let row;
+    for (var el = e.target; !row && el.tagName != 'TABLE'; el = el.parentNode)
+        if (el.tagName == 'TR') row = el;
+    if (!row) return;
+    const info = infos.find(info => row.classList.contains(PREFIX_HILIGHT + info));
+    if (!info) return;
+    selectedInfo = info;
+    selectedEventId = parseInt(row.getAttribute('data-eid'));
+    showInfo();
+}
+
+function ensureSmartTableExtra() {
+    fixedBody = smartTable.fixedHeader.parentNode.querySelector('tbody');
+    if (!fixedBody) {
+        fixedBody = document.createElement('tbody');
+        smartTable.fixedHeader.parentNode.appendChild(fixedBody);
+    }
+    tbodyInfo = smartTable.tbody[1];
+    if (!tbodyInfo) {
+        tbodyInfo = document.createElement('tbody');
+        smartTable.tbody[0].parentNode.appendChild(tbodyInfo);
+        smartTable.tbody.push(tbodyInfo);
+    }
+    if (!trInfo) {
+        trInfo = document.createElement('tr');
+        trInfo.className = 'inforow';
+        tbodyInfo.appendChild(trInfo);
+    }
+    fixedBody.style.display = tbodyInfo.style.display = 'none';
+}
+
+function showInfo() {
+    const setRowsState = (display, visibility) => {
+        for (const tr of smartTable.tbody[0].querySelectorAll('tr')) {
+            tr.style.display = display;
+            tr.style.visibility = visibility;
+        }
+    };
+
+    const event = selectedEventId ? gui.getFile('events')[selectedEventId] : null;
+    const row = selectedEventId && event ? smartTable.tbody[0].querySelector('tr[data-eid="' + selectedEventId + '"]') : null;
+
+    ensureSmartTableExtra();
+    if (trRegion.parentNode) trRegion.parentNode.removeChild(trRegion);
+    for (const tr of smartTable.tbody[0].querySelectorAll('.trRegion')) tr.parentNode.removeChild(tr);
+
+    if (!row) {
+        fixedBody.style.display = tbodyInfo.style.display = 'none';
+        smartTable.fixedFooter.style.display = smartTable.footer.style.display = '';
+        setRowsState('', '');
+        if (selectedEventId) selectedEventId = null;
+    }
+
+    gui.updateTabState(tab);
+    if (!row) return;
+
+    if (row.getAttribute('lazy-render') !== null) {
+        row.removeAttribute('lazy-render');
+        updateRow(row);
+    }
+    fixedBody.innerHTML = '';
+    const clone = row.cloneNode(true);
+    for (const info of infos) clone.classList.remove(PREFIX_HILIGHT + info);
+    clone.classList.add(PREFIX_SET + selectedInfo);
+    fixedBody.appendChild(clone);
+    fixedBody.appendChild(trRegion);
+    fixedBody.style.display = tbodyInfo.style.display = '';
+    smartTable.fixedFooter.style.display = smartTable.footer.style.display = 'none';
+    setRowsState('none', 'hidden');
+    row.style.display = '';
+    row.style.visibility = '';
+    row.parentNode.insertBefore(trRegion.cloneNode(true), row.nextSibling);
+
+    const ticked = Html.br`<img width="24" src="/img/gui/ticked.png">`;
+    const unticked = Html.br`<img width="24" src="/img/gui/unticked.png">`;
+
+    let htm = '';
+    htm += Html.br`<td colspan="21">`;
+
+    const generator = gui.getGenerator();
+    const item = allEvents[selectedEventId];
+    let region = selectedRegion || 0;
+    let showProgress = region == 0;
+
+    selectRegion.innerHTML = '';
+    // Your progress
+    let yourRegion = 1;
+    if (item.issegmented) yourRegion = item.status == 'notdone' ? Math.min(+generator.region, item.maxsegment) : item.segmented || 1;
+    let text = item.issegmented ? gui.getMessageAndValue('events_yourprogress', gui.getObjectName('region', yourRegion)) : gui.getMessage('events_yourprogress');
+    if (item.status == 'notdone') text += ' (' + gui.getMessage('events_notdone') + ')';
+    addOption(selectRegion, '', text);
+    // List regions
+    if (item.issegmented) {
+        region = Math.min(region, item.maxsegment);
+        for (let rid = 1; rid <= item.maxsegment; rid++) addOption(selectRegion, rid, gui.getObjectName('region', rid));
+    } else {
+        region = Math.min(region, 1);
+        addOption(selectRegion, Math.max(selectedRegion, 1), gui.getMessage('events_notsegmented'));
+    }
+    selectRegion.value = selectedRegion || '';
+    region = region || yourRegion;
+
+    const showRewards = (rewards, maxNumRewards, rows = 1) => {
+        let htm = '';
+        for (let i = 1; i <= maxNumRewards; i++) {
+            htm += Html.br`<td rowspan="${rows}" class="rewards ${i < maxNumRewards ? 'no_right_border' : ''}">`;
+            if (i <= rewards.length) {
+                const reward = rewards[i - 1];
+                const title = gui.getObjectName(reward.type, reward.object_id, true);
+                htm += `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i>${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
+            }
+            htm += Html.br`</td>`;
+        }
+        return htm;
+    };
+
+    // Quests
+    if (selectedInfo == 'qst') {
+        const questsFinished = gui.getArrayOfInt(generator.quests_f);
+        const quests = getQuests(event).map(quest => {
+            const copy = Object.assign({}, quest);
+            copy.completed = questsFinished.includes(+quest.def_id);
+            copy.rewards = gui.getArray(quest.reward).filter(reward => {
+                const rid = +reward.region_id;
+                return rid == 0 || rid == region;
+            });
+            return copy;
+        });
+        if (quests.length) {
+            const rewards = gui.getArray(event.reward).filter(reward => {
+                const rid = +reward.region_id;
+                return rid == 0 || rid == region;
+            });
+            const maxNumRewards = quests.reduce((max, quest) => Math.max(max, quest.rewards.length), rewards.length || 1);
+            htm += Html.br`<table class="event-quests">`;
+            htm += Html.br`<thead><tr><th><img width="24" src="/img/gui/list.png"></th><th colspan="${showProgress ? 2 : 1}">${gui.getMessage('gui_quest')}</th>`;
+            htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_rewards')}</th></tr></thead><tbody class="row-coloring">`;
+            let found = 0;
+            quests.forEach((quest, index) => {
+                htm += Html.br`<tr>`;
+                htm += Html.br`<td class="level">${Locale.formatNumber(index + 1)}</td>`;
+                htm += Html.br`<td class="${showProgress ? 'no_right_border' : ''}">${bgp.Data.getString(quest.heading_text)}</td>`;
+                if (quest.completed) found++;
+                if (showProgress) htm += Html.br`<td>${quest.completed ? ticked : unticked}</td>`;
+                htm += showRewards(quest.rewards, maxNumRewards);
+                htm += Html.br`</tr>`;
+            });
+            htm += Html.br`<tr><td colspan="2" class="final ${showProgress ? 'no_right_border' : ''}">${gui.getMessage('events_finalreward')}</td>`;
+            if (showProgress) htm += Html.br`<td>${found == quests.length ? ticked : unticked}</td>`;
+            htm += showRewards(rewards, maxNumRewards);
+            htm += Html.br`</tr>`;
+            htm += Html.br`</tbody></table>`;
+        }
+    }
+
+    // Achievements
+    if (selectedInfo == 'ach') {
+        const achievements = Object.values(gui.getFile('achievements')).filter(achievement => +achievement.event_id == selectedEventId);
+        for (const achievement of achievements) {
+            const levels = achievement.levels.map(level => {
+                const copy = {};
+                copy.level_id = +level.level_id;
+                copy.amount = +level.amount;
+                copy.rewards = gui.getArray(level.reward).filter(reward => {
+                    const rid = +reward.region_id;
+                    return rid == 0 || rid == region;
+                });
+                return copy;
+            }).sort((a, b) => a.level_id - b.level_id);
+            const achiev = generator.achievs[achievement.def_id];
+            const a_level = achiev ? +achiev.level : 0;
+            const a_progress = achiev ? +achiev.progress : 0;
+            const maxNumRewards = levels.reduce((max, level) => Math.max(max, level.rewards.length), 1);
+            const hasIcon = achievement.type == 'material' || achievement.type == 'token' || achievement.type == 'usable';
+            htm += Html.br`<table class="event-achievement">`;
+            htm += Html.br`<thead><tr><th colspan="${maxNumRewards + 2 + (showProgress ? 2 : 0) + (hasIcon ? 1 : 0)}">${gui.getString(achievement.name_loc)}</th></tr>`;
+            htm += Html.br`<tr>`;
+            if (hasIcon) htm += Html.br`<th></th>`;
+            htm += Html.br`<th><img width="24" src="/img/gui/list.png"></th><th colspan="${showProgress ? 3 : 1}">${gui.getMessage('progress_goal')}</th>`;
+            htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_rewards')}</th></tr></thead><tbody class="row-coloring">`;
+            for (const level of levels) {
+                htm += Html.br`<tr>`;
+                if (hasIcon && level.level_id == 1) {
+                    htm += Html.br`<th class="icon" rowspan="${levels.length}">${gui.getObjectImg(achievement.type, achievement.object_id, null, false, 'desc')}</th>`;
+                }
+                htm += Html.br`<td class="level">${Locale.formatNumber(level.level_id)}</td>`;
+                let progress = a_level == level.level_id ? a_progress : 0;
+                let completed = false;
+                if (showProgress) {
+                    if (a_level > level.level_id || (a_level == level.level_id && a_progress >= level.amount)) {
+                        progress = level.amount;
+                        completed = true;
+                    }
+                    htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
+                }
+                htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(level.amount)}</td>`;
+                if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
+                htm += showRewards(level.rewards, maxNumRewards);
+                htm += Html.br`</tr>`;
+            }
+            htm += Html.br`</tbody></table>`;
+        }
+    }
+
+    // Treasure pieces
+    if (selectedInfo == 'tre') {
+        const collections = Object.values(gui.getFile('collections')).filter(col => +col.event_id == selectedEventId);
+        const artifacts = gui.getFile('artifacts');
+        const piecesFound = gui.getArrayOfInt(generator.artifacts);
+        const locations = gui.getFile('locations_0');
+        for (const col of collections) {
+            const pieces = gui.getArrayOfInt(col.pieces).map((piece, index) => {
+                const artifact = artifacts[piece];
+                const rewards = [{ type: 'artifact', object_id: piece, amount: 1 }];
+                const amount = +artifact.eventpass_xp;
+                if (amount) rewards.push({ type: 'eventpass_xp', object_id: 1, amount });
+                return Object.assign({}, artifact, { index: index + 1, rewards });
+            });
+            const rewards = gui.getArray(col.reward).filter(reward => {
+                const rid = +reward.region_id;
+                return rid == 0 || rid == region;
+            }).sort((a, b) => a.type == 'decoration' ? -1 : (b.type == 'decoration' ? 1 : 0));
+            const maxNumRewards = Math.max(2, rewards.length);
+            htm += Html.br`<table class="event-treasure">`;
+            htm += Html.br`<thead><tr><th colspan="${maxNumRewards + 2 + (showProgress ? 1 : 0) + 1}">${gui.getString(col.name_loc)}</th></tr>`;
+            htm += Html.br`<tr>`;
+            htm += Html.br`<th></th>`;
+            htm += Html.br`<th><img width="24" src="/img/gui/list.png"></th><th colspan="${showProgress ? 2 : 1}">${gui.getMessage('gui_location')}</th>`;
+            htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_rewards')}</th></tr></thead><tbody class="row-coloring">`;
+            let found = 0;
+            for (const piece of pieces) {
+                htm += Html.br`<tr>`;
+                if (piece.index == 1) {
+                    htm += Html.br`<th class="icon" rowspan="${pieces.length + 1}">${gui.getObjectImg('collection', col.def_id, null, false, 'desc')}</th>`;
+                }
+                htm += Html.br`<td class="level">${Locale.formatNumber(piece.index)}</td>`;
+                const loc = locations[piece.found_in];
+                htm += Html.br`<td class="${showProgress ? 'no_right_border' : ''}">${gui.getString(loc.name_loc)}</td>`;
+                const completed = piecesFound.includes(+piece.def_id);
+                if (completed) found++;
+                if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
+                htm += showRewards(piece.rewards, maxNumRewards);
+                htm += Html.br`</tr>`;
+            }
+            htm += Html.br`<tr><td colspan="2" class="final ${showProgress ? 'no_right_border' : ''}">${gui.getMessage('events_finalreward')}</td>`;
+            if (showProgress) htm += Html.br`<td>${found == pieces.length ? ticked : unticked}</td>`;
+            htm += showRewards(rewards, maxNumRewards);
+            htm += Html.br`</tr>`;
+            htm += Html.br`</tbody></table>`;
+        }
+    }
+
+    // Locations
+    if (selectedInfo == 'loc') {
+        const locations = gui.getFile('locations_0');
+        const loc_prog = generator.loc_prog || {};
+        const maxNumRewards = [].concat(item.loc_qst, item.loc_xlo, item.loc_rep).find(lid => +locations[lid].eventpass_xp > 0) ? 2 : 1;
+        const showLocations = (locs, title, isRepeatables) => {
+            if (!locs.length) return;
+            htm += Html.br`<table class="event-locations">`;
+            htm += Html.br`<thead><tr><th>${title}</th>`;
+            htm += Html.br`<th colspan="${showProgress ? 3 : 1}">${gui.getMessage('events_tiles')}</th>`;
+            if (isRepeatables) htm += Html.br`<th>${gui.getMessage('events_chance')}</th><th>${gui.getMessage('repeat_cooldown')}</th>`;
+            htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th></tr></thead>`;
+            htm += Html.br`<tbody class="${isRepeatables ? '' : 'row-coloring'}">`;
+            let isOdd = false;
+            for (const lid of locs) {
+                const location = locations[lid];
+                const ovr = location.overrides && location.overrides.find(ovr => +ovr.region_id == region);
+                const clearXp = ovr ? +ovr.override_reward_exp : +location.reward_exp;
+                let floors = isRepeatables ? Object.values(location.rotation) : [];
+                const chance = floors.reduce((sum, floor) => sum + +floor.chance, 0);
+                floors = floors.map(floor => {
+                    const clone = Object.assign({}, floor);
+                    clone.chance = +clone.chance;
+                    clone.chance = clone.chance == chance ? 100 : Math.floor(clone.chance * 100 / chance);
+                    return clone;
+                }).filter(floor => floor.chance > 0);
+                const rows = isRepeatables ? floors.length : 1;
+                isOdd = !isOdd;
+                htm += Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''} ${isRepeatables && lid != locs[0] ? 'separator' : ''}">`;
+                htm += Html.br`<td rowspan="${rows}">${gui.getString(location.name_loc)}</td>`;
+                const tiles = +location.progress;
+                const prog = loc_prog[lid];
+                const mined = (prog && +prog.prog) || 0;
+                const lastFloorLevel = (prog && +prog.lvl) || 0;
+                const showFloor = (floor) => {
+                    let htm = '';
+                    const isCurrentFloor = +floor.level == lastFloorLevel;
+                    const tiles = +floor.progress;
+                    const completed = mined >= tiles;
+                    if (showProgress) htm += Html.br`<td class="reached${isCurrentFloor ? ' add_slash' : ' no_right_border'}">${isCurrentFloor ? Locale.formatNumber(mined) : ''}</td>`;
+                    htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
+                    if (showProgress) htm += Html.br`<td>${isCurrentFloor ? (completed ? ticked : unticked) : ''}</td>`;
+                    htm += Html.br`<td class="chance">${Locale.formatNumber(+floor.chance)} %</td>`;
+                    return htm;
+                };
+                if (isRepeatables) {
+                    // Fix chance
+                    htm += showFloor(floors.shift());
+                    htm += Html.br`<td rowspan="${rows}" class="reset">`;
+                    htm += `<span>${gui.getDuration(+location.reset_cd)}<i><img src="/img/gui/time.png"></i></span><br>`;
+                    htm += `<span>${Locale.formatNumber(+location.reset_gems)}<i>${gui.getObjectImg('material', 2, null, true, 'none')}</i></span>`;
+                    htm += Html.br`</td>`;
+                } else {
+                    const completed = mined >= tiles;
+                    if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(mined)}</td>`;
+                    htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
+                    if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
+                }
+                const eventpassXp = +location.eventpass_xp;
+                const rewards = [{ type: 'system', object_id: 1, amount: clearXp }];
+                if (eventpassXp) rewards.push({ type: 'eventpass_xp', object_id: 1, amount: eventpassXp });
+                htm += showRewards(rewards, maxNumRewards, rows);
+                htm += Html.br`</tr>`;
+                htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}">${Html.raw(showFloor(floor))}</tr>`).join('');
+            }
+            htm += Html.br`</tbody></table>`;
+        };
+        showLocations(item.loc_qst, gui.getMessage('events_story_maps'), false);
+        showLocations(item.loc_xlo, gui.getMessage('events_challenges'), false);
+        showLocations(item.loc_rep, gui.getMessage('events_repeatables'), true);
+    }
+
+    htm += Html.br`</td>`;
+    trInfo.innerHTML = htm;
+}
+
+function getQuests(event) {
+    const quests = gui.getFile('quests');
+    return gui.getArrayOfInt(event.quests).sort().map(qid => {
+        const quest = quests[qid];
+        // Quest must have the heading
+        return quest && quest.heading_text ? quest : null;
+    }).filter(quest => !!quest);
 }

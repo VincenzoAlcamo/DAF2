@@ -116,6 +116,12 @@
     "gui_theme": {
         "message": "Tema"
     },
+    "gui_year": {
+        "message": "Ano"
+    },
+    "gui_quest": {
+        "message": "Missão"
+    },
     "gui_offer": {
         "message": "Oferta"
     },
@@ -261,6 +267,9 @@
     "gui_advancedfilter": {
         "message": "Filtro avançado"
     },
+    "gui_location": {
+        "message": "Localização"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -275,6 +284,9 @@
     },
     "dialog_cancel": {
         "message": "Cancelar"
+    },
+    "dialog_close": {
+        "message": "Fechar"
     },
     "dialog_pleasewait": {
         "message": "Por favor espere"
@@ -1117,7 +1129,7 @@
         }
     },
     "progress_start": {
-        "message": "Começado"
+        "message": "Início"
     },
     "progress_end": {
         "message": "Acabado"
@@ -1466,6 +1478,9 @@
     "equipment_exclude_material": {
         "message": "Exclua estes materiais"
     },
+    "equipment_current": {
+        "message": "Actual"
+    },
     "events_year": {
         "message": "Ano"
     },
@@ -1522,6 +1537,27 @@
     },
     "events_segmented": {
         "message": "Segmentado"
+    },
+    "events_yourprogress": {
+        "message": "O teu progresso"
+    },
+    "events_rewards": {
+        "message": "Recompensas"
+    },
+    "events_finalreward": {
+        "message": "Recompensa Final"
+    },
+    "events_notsegmented": {
+        "message": "Não segmentado"
+    },
+    "events_tiles": {
+        "message": "Blocos"
+    },
+    "events_chance": {
+        "message": "Probabilidade"
+    },
+    "events_clearbonus": {
+        "message": "Bónus de Limpeza"
     },
     "repeat_name": {
         "message": "Nome"

@@ -118,6 +118,12 @@
     "gui_theme": {
         "message": "Theme"
     },
+    "gui_year": {
+        "message": "Year"
+    },
+    "gui_quest": {
+        "message": "Quest"
+    },
     "gui_offer": {
         "message": "Offer"
     },
@@ -263,6 +269,9 @@
     "gui_advancedfilter": {
         "message": "Advanced filter"
     },
+    "gui_location": {
+        "message": "Location"
+    },
 
     "dialog_ok": {
         "message": "Ok"
@@ -278,6 +287,9 @@
     },
     "dialog_cancel": {
         "message": "Cancel"
+    },
+    "dialog_close": {
+        "message": "Close"
     },
     "dialog_pleasewait": {
         "message": "Please Wait"
@@ -1543,6 +1555,27 @@
     },
     "events_segmented": {
         "message": "Segmented"
+    },
+    "events_yourprogress": {
+        "message": "Your progress"
+    },
+    "events_rewards": {
+        "message": "Rewards"
+    },
+    "events_finalreward": {
+        "message": "Final Reward"
+    },
+    "events_notsegmented": {
+        "message": "Not segmented"
+    },
+    "events_tiles": {
+        "message": "Tiles"
+    },
+    "events_chance": {
+        "message": "Chance"
+    },
+    "events_clearbonus": {
+        "message": "Clear bonus"
     },
 
     "repeat_name": {
