@@ -1623,6 +1623,9 @@
     "repeat_show_ready": {
         "message": "Ready?"
     },
+    "repeat_postcard": {
+        "message": "Postcard week ready?"
+    },
 
     "dailyreward_stats": {
         "message": "The daily reward is based on your current level ($LEVEL$) and region ($REGION$).",

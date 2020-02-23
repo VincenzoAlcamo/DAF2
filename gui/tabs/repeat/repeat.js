@@ -19,6 +19,9 @@ let repeatables;
 let swPostcards;
 let refreshInterval = 0;
 
+const ticked = Html.br`<img width="24" src="/img/gui/ticked.png">`;
+const unticked = Html.br`<img width="24" src="/img/gui/unticked.png">`;
+
 function init() {
     tab = this;
     container = tab.container;
@@ -243,6 +246,7 @@ function updateRow(row) {
     htm += Html.br`<td class="bonus">${Locale.formatNumber(xp)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
     htm += Html.br`<td class="progress add_slash"></td>`;
     htm += Html.br`<td class="total"></td>`;
+    htm += Html.br`<td class="postcard"></td>`;
     htm += Html.br`<td class="time"></td>`;
     row.classList.toggle('selected', item.selected);
     row.innerHTML = htm;
@@ -281,6 +285,7 @@ function calculateItem(item, flagRefreshRow) {
             item._ready = item.ready;
             changedState = true;
         }
+        item.postcard = item.progress == item.total - 1 ? 1 : 0;
         if (flagRefreshRow && item.row && item.row.firstChild) {
             let row = item.row;
             if (item._progress !== item.progress) {
@@ -290,6 +295,10 @@ function calculateItem(item, flagRefreshRow) {
             if (item._total !== item.total) {
                 item._total = item.total;
                 row.querySelector('td.total').innerText = Locale.formatNumber(item.total);
+            }
+            if (item._postcard !== item.postcard) {
+                item._postcard = item.postcard;
+                row.querySelector('td.postcard').innerHTML = item.postcard ? ticked : unticked;
             }
             if (readyHasChanged || !item.ready) {
                 if (readyHasChanged) row.classList.toggle('ready', item.ready);
