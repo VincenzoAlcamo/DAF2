@@ -695,6 +695,12 @@ function showInfo() {
                 const location = locations[lid];
                 const ovr = location.overrides && location.overrides.find(ovr => +ovr.region_id == region);
                 const clearXp = ovr ? +ovr.override_reward_exp : +location.reward_exp;
+                const tiles = +location.progress;
+                const prog = loc_prog[lid];
+                const mined = (prog && +prog.prog) || 0;
+                const lastFloorLevel = (prog && +prog.lvl) || 0;
+                let completed = mined >= tiles;
+
                 let floors = isRepeatables ? Object.values(location.rotation) : [];
                 const chance = floors.reduce((sum, floor) => sum + +floor.chance, 0);
                 floors = floors.map(floor => {
@@ -702,35 +708,32 @@ function showInfo() {
                     clone.chance = +clone.chance;
                     clone.chance = clone.chance == chance ? 100 : Math.floor(clone.chance * 100 / chance);
                     return clone;
-                }).filter(floor => floor.chance > 0);
-                const rows = isRepeatables ? floors.length : 1;
-                isOdd = !isOdd;
-                htm += Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''} ${isRepeatables && lid != locs[0] ? 'separator' : ''}">`;
-                htm += Html.br`<td rowspan="${rows}">${gui.getString(location.name_loc)}</td>`;
-                const tiles = +location.progress;
-                const prog = loc_prog[lid];
-                const mined = (prog && +prog.prog) || 0;
-                const lastFloorLevel = (prog && +prog.lvl) || 0;
-                const showFloor = (floor) => {
+                }).filter(floor => floor.chance > 0).map(floor => {
                     let htm = '';
                     const isCurrentFloor = +floor.level == lastFloorLevel;
                     const tiles = +floor.progress;
-                    const completed = mined >= tiles;
+                    const isCompleted = mined >= tiles;
+                    if (isCurrentFloor) completed = isCompleted;
                     if (showProgress) htm += Html.br`<td class="reached${isCurrentFloor ? ' add_slash' : ' no_right_border'}">${isCurrentFloor ? Locale.formatNumber(mined) : ''}</td>`;
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
-                    if (showProgress) htm += Html.br`<td>${isCurrentFloor ? (completed ? ticked : unticked) : ''}</td>`;
+                    if (showProgress) htm += Html.br`<td>${isCurrentFloor ? (isCompleted ? ticked : unticked) : ''}</td>`;
                     htm += Html.br`<td class="chance">${Locale.formatNumber(+floor.chance)} %</td>`;
-                    return htm;
-                };
+                    floor.htm = htm;
+                    return floor;
+                });
+                const rows = isRepeatables ? floors.length : 1;
+
+                isOdd = !isOdd;
+                htm += Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''} ${isRepeatables && lid != locs[0] ? 'separator' : ''}">`;
+                htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${gui.getLocationImg(location)}<div class="location_name">${Html(gui.getString(location.name_loc))}</div></td>`;
                 if (isRepeatables) {
                     // Fix chance
-                    htm += showFloor(floors.shift());
+                    htm += floors.shift().htm;
                     htm += Html.br`<td rowspan="${rows}" class="reset">`;
                     htm += `<span>${gui.getDuration(+location.reset_cd)}<i><img src="/img/gui/time.png"></i></span><br>`;
                     htm += `<span>${Locale.formatNumber(+location.reset_gems)}<i>${gui.getObjectImg('material', 2, null, true, 'none')}</i></span>`;
                     htm += Html.br`</td>`;
                 } else {
-                    const completed = mined >= tiles;
                     if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(mined)}</td>`;
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
@@ -740,7 +743,7 @@ function showInfo() {
                 if (eventpassXp) rewards.push({ type: 'eventpass_xp', object_id: 1, amount: eventpassXp });
                 htm += showRewards(rewards, maxNumRewards, rows);
                 htm += Html.br`</tr>`;
-                htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}">${Html.raw(showFloor(floor))}</tr>`).join('');
+                htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}">${Html.raw(floor.htm)}</tr>`).join('');
             }
             htm += Html.br`</tbody></table>`;
         };

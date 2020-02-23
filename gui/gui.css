@@ -959,6 +959,24 @@ td.add_slash+td:before {
   content: "/ ";
 }
 
+div.location_icon {
+  margin: -2px;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+div.location_icon img {
+  width: 36px;
+  height: 36px;
+  margin-top: -2px;
+  margin-left: -2px;
+}
+
 /*@region Firefox overrides*/
 @-moz-document url-prefix() {
   .vertical-menu {

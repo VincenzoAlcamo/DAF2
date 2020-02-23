@@ -146,6 +146,10 @@ let gui = {
         var rid = bgp.Data.getRegionFromSkin(skin);
         return rid > 0 ? this.getRegionImg(rid, false, size) : Html.br`<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
     },
+    getLocationImg: function (location) {
+        const img = `${gui.getGenerator().cdn_root}mobile/graphics/map/${location.mobile_asset}.png`;
+        return Html.br`<div class="location_icon"><img src="${img}" title="${Html(gui.getString(location.name_loc))}"></div>`;
+    },
     getCurrentTab: function () {
         return currentTab;
     },

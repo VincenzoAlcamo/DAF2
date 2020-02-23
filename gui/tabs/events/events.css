@@ -179,3 +179,23 @@
 .events td.toolbar label span {
   font-weight: bold;
 }
+
+.events .location_icon,
+.events .location_icon img {
+  width: 32px;
+  height: 32px;
+}
+
+.events .location_name {
+  margin-left: 6px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.events .not-completed div.location_icon {
+  border-color: #F00;
+}
+
+.events .completed div.location_icon {
+  border-color: #096;
+}
