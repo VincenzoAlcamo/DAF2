@@ -158,7 +158,7 @@ var Parser = {
 
         return data;
     },
-    parse_localization_revision: 3,
+    parse_localization_revision: 4,
     parse_localization: function (text, format) {
         var wanted = {
             //'ABNA': '',
