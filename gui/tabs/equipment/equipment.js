@@ -12,7 +12,7 @@ let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectShopF
 let selectShow, selectEvent, selectRegion, selectTheme;
 let allItems, currentItems, allEvents;
 let matCache, minRegen, minCapacity, updateTime, packsViewed;
-let currency, lastPack, lastOffer, btnPack, btnOffer;
+let currency, lastPack, lastOffer, lastTieredOffer, btnPack, btnOffer, btnTieredOffer;
 let listRegion, listSkin, listMaterial;
 let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
 
@@ -63,6 +63,8 @@ function init() {
     btnPack.addEventListener('click', () => showOffer('pack', lastPack));
     btnOffer = container.querySelector('[name=offer]');
     btnOffer.addEventListener('click', () => showOffer('offer', lastOffer));
+    btnTieredOffer = container.querySelector('[name=tieredoffer]');
+    btnTieredOffer.addEventListener('click', () => showOffer('tier', lastTieredOffer));
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -208,9 +210,11 @@ function update() {
         }
     }
 
-    const now = gui.getUnixTime();
-    const currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
+    const now = 1579219200 || gui.getUnixTime();
+    let currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
     lastOffer = currentOffer ? currentOffer.def_id : 0;
+    currentOffer = Object.values(gui.getFile('tiered_offers')).find(offer => +offer.start <= now && +offer.end > now && +offer.region_id == region);
+    lastTieredOffer = currentOffer ? currentOffer.def_id : 0;
 
     const {
         owned,
@@ -443,7 +447,8 @@ function update() {
 
     btnPack.style.display = lastPack ? '' : 'none';
     btnOffer.style.display = lastOffer ? '' : 'none';
-    btnOffer.parentNode.style.display = (lastOffer || lastPack) ? '' : 'none';
+    btnTieredOffer.style.display = lastTieredOffer ? '' : 'none';
+    btnOffer.parentNode.style.display = (lastOffer || lastPack || lastTieredOffer) ? '' : 'none';
 
     container.querySelector('.stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins + coins_deco), Locale.formatNumber(coins), Locale.formatNumber(coins_deco));
 
@@ -900,7 +905,7 @@ function updateRow(row) {
         end = +offer.end;
     } else if (item.sale == 'tier') {
         let offer = bgp.Data.files.tiered_offers[item.sale_id];
-        htm += Html.br`<br><div class="offer">${gui.getMessage('gui_tieredoffer')}</div> ${gui.getString(item.tname)}`;
+        htm += Html.br`<br><div class="offer" data-type="tier" data-id="${offer.def_id}">${gui.getMessage('gui_tieredoffer')}</div> ${gui.getString(item.tname)}`;
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'pack') {
@@ -1062,10 +1067,12 @@ function showOffer(type, id) {
     if (type == 'pack') {
         blocks = getPacks(id);
         title = gui.getString(blocks[0].name_loc);
+    } else if (type == 'tier') {
+        blocks = getTieredOffers(id);
+        title = gui.getMessage('gui_tieredoffer');
     } else if (type == 'offer') {
         blocks = getOffers(id);
-        const offer = gui.getFile('offers')[id];
-        // title = gui.getMessageAndValue('gui_offer', Locale.formatDate(offer.start) + ' - ' + Locale.formatDate(offer.end));
+        title = gui.getMessage('gui_offer');
     }
 
     const block = blocks.find(block => block.id == id);
@@ -1107,7 +1114,7 @@ function showOffer(type, id) {
         const regions = getDistincts(getSelection(Object.assign({}, current, { rid: -1 })).map(block => block.rid));
         if (regions.length > 1) {
             htm += Html.br`${gui.getMessage('gui_region')} <select name="rid" data-method="rid" style="margin-bottom:2px">`;
-            htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.rid);
+            if (type != 'tier') htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.rid);
             for (const rid of regions) htm += optionHtml(rid, gui.getObjectName('region', rid), current.rid);
             htm += Html.br`</select>`;
             htm += Html.br`<br>`;
@@ -1135,6 +1142,10 @@ function showOffer(type, id) {
             }
             if (current.price == -1) {
                 pre += Html.br`${getOutlinedText(block.priceText)}`;
+            }
+            if (type == 'tier') {
+                pre += Html.br`<span><span class="outlined-text">${gui.getString(block.name_loc)}</span><br>`;
+                pre += Html.br`<span class="tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.gems)}${gui.getObjectImg('material', 2, 28, false)}</span></span>`;
             }
             if (pre) {
                 pre = `<td class="td-section"><div class="item section">${pre}</div></td>`;
@@ -1167,9 +1178,12 @@ function showOffer(type, id) {
         const len = result.length;
         let rows = len || 1;
         let columns = 1;
-        if (len > 6 || (len > 5 && type == 'offer')) {
-            rows = Math.ceil(rows / 2);
+        if (len > 5 && type == 'tier') {
+            columns = (len % 3 == 0) ? 3 : 2;
+            rows = Math.ceil(rows / columns);
+        } else if (len > 6 || (len > 5 && type == 'offer')) {
             columns = 2;
+            rows = Math.ceil(rows / 2);
         }
         htm += `<div class="equipment_pack${columns > 1 ? ' zoomed mini' : (len > 3 ? ' zoomed compact' : '')}" data-type="${type}"><table>`;
         for (let row = 0; row < rows; row++) {
@@ -1228,6 +1242,46 @@ function getPacks(id) {
         };
         blocks.push(block);
     }
+    return blocks;
+}
+
+function getTieredOffers(id) {
+    const offers = gui.getFile('tiered_offers');
+    const offer = offers[id];
+    // Get related offers
+    const related = Object.values(offers).filter(o => o.start == offer.start);
+
+    const blocks = [];
+    const categories = {};
+    for (const offer of related) {
+        let rid = +offer.region_id;
+        let category = gui.getArrayOfInt(offer.payer_category_list)[0] || 0;
+        categories[category] = true;
+        for (const tier of offer.tiers) {
+            const items = tier.items.map(item => getOfferItem(item)).filter(item => item);
+            items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
+            const block = {
+                id: offer.def_id,
+                tier: +tier.order_id,
+                rid,
+                date: 0,
+                price: 0,
+                gems: +tier.gem_price,
+                category,
+                items,
+                name_loc: tier.name_loc
+            };
+            blocks.push(block);
+        }
+    }
+    Object.keys(categories).map(k => +k).sort((a, b) => a - b).forEach((category, index) => {
+        const price = index + 1;
+        const priceText = gui.getMessage('gui_type') + ' ' + String.fromCharCode(65 + index);
+        for (const block of blocks.filter(block => block.category == category)) {
+            block.price = price;
+            block.priceText = priceText;
+        }
+    });
     return blocks;
 }
 
