@@ -987,8 +987,8 @@ function updateRow(row) {
     }
 }
 
-function getOutlinedText(text) {
-    return Html.br`<span class="outlined-text">${text}</span>`;
+function getOutlinedText(text, extraClass = '') {
+    return Html.br`<span class="outlined-text ${extraClass}">${text}</span>`;
 }
 
 function getOfferItem(item) {
@@ -1035,9 +1035,13 @@ function getOfferItem(item) {
     } else if (copy.type == 'usable' && obj) {
         copy.sort = 4;
         copy.value = +obj.value;
-        let caption = obj.action == 'speedup_ctrl' ? gui.getDuration(copy.value) : Locale.formatNumber(copy.value);
-        caption = getOutlinedText(caption);
-        if (copy.amount > 1) caption = Html`<span class="qty outlined-text">${Locale.formatNumber(copy.amount) + ' \xd7 '}</span>${caption}`;
+        let caption;
+        if (obj.action == 'speedup_ctrl') {
+            caption = getOutlinedText(gui.getDuration(copy.value), 'time');
+        } else {
+            caption = getOutlinedText(Locale.formatNumber(copy.value), 'energy');
+        }
+        if (copy.amount > 1) caption = Html`${getOutlinedText(Locale.formatNumber(copy.amount) + ' \xd7 ', 'qty')}${caption}`;
         copy.caption = caption;
         copy.title = gui.getString('GUI0008');
     } else if (copy.type == 'token') {

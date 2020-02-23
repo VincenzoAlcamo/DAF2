@@ -226,7 +226,7 @@ div.equipment_mask {
 .equipment_pack .item .caption span {
   color: #FFF;
   font-weight: bold;
-  font-size: 16pt;
+  font-size: 15pt;
 }
 
 .equipment_pack .item .caption img {
@@ -389,4 +389,16 @@ div.equipment_mask {
   height: 28px;
   vertical-align: middle;
   margin-left: 2px;
+}
+
+.equipment_pack .energy {
+  padding-right: 28px;
+  background: url(/img/gui/energy.png) no-repeat right center;
+  background-size: 26px;
+}
+
+.equipment_pack .time {
+  padding-right: 28px;
+  background: url(/img/gui/time.png) no-repeat right center;
+  background-size: 26px;
 }
