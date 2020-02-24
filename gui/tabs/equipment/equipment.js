@@ -210,7 +210,7 @@ function update() {
         }
     }
 
-    const now = 1579219200 || gui.getUnixTime();
+    const now = gui.getUnixTime();
     let currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
     lastOffer = currentOffer ? currentOffer.def_id : 0;
     currentOffer = Object.values(gui.getFile('tiered_offers')).find(offer => +offer.start <= now && +offer.end > now && +offer.region_id == region);
