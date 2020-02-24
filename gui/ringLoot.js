@@ -24,6 +24,7 @@ function ringLoot(kind) {
     } else if (kind == 'christmas') {
         tokenId = 0;
         locations = ['locations_0'];
+        requires.push('special_weeks');
     } else throw 'Invalid kind "' + kind + '"';
     requires = requires.concat(locations);
 
