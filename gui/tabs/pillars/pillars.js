@@ -250,8 +250,9 @@ function refresh() {
     pillars = sort(pillars);
 
     Array.from(container.querySelectorAll('.pillars thead th')).forEach(th => {
-        th.colSpan = state.grid && !th.previousElementSibling ? 8 : 1;
-        th.style.display = state.grid && th.previousElementSibling ? 'none' : '';
+        const isFirstCol = th.classList.contains('firstcol');
+        th.colSpan = state.grid && isFirstCol ? 8 : (th.classList.contains('colspan3') ? 3 : 1);
+        th.style.display = state.grid && !isFirstCol ? 'none' : '';
     });
     Array.from(container.querySelectorAll('.pillars tfoot tr')).forEach(tr => {
         switch (tr.getAttribute('data-row')) {

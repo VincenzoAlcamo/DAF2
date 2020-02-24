@@ -475,8 +475,18 @@ th.sortable-sub {
   background-image: url(data:image/gif;base64,R0lGODlhCwAMAIAAAP///////yH5BAEAAAEALAAAAAALAAwAAAIWjA2nCLnR4or00PuytlcyrIBTszlHAQA7);
   cursor: pointer;
   background-repeat: no-repeat;
+}
+
+th.sortable:not(.sortable-left),
+th.sortable-sub:not(.sortable-left) {
   background-position: calc(100% - 5px) center;
   padding-right: 21px !important;
+}
+
+th.sortable.sortable-left,
+th.sortable-sub.sortable-left {
+  background-position: 5px center;
+  padding-left: 21px !important;
 }
 
 th.sort-descending {
@@ -504,9 +514,14 @@ th.only-image {
   padding-right: 0;
 }
 
-th.sortable.only-image,
-th.sortable-sub.only-image {
+th.sortable.only-image:not(sortable-left),
+th.sortable-sub.only-image:not(sortable-left) {
   padding-right: 16px;
+}
+
+th.sortable.only-image.sortable-left,
+th.sortable-sub.only-image.sortable-left {
+  padding-left: 16px;
 }
 
 img.small {

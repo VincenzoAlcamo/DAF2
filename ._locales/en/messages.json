@@ -79,6 +79,9 @@
     "gui_level_required": {
         "message": "Level\nRequired"
     },
+    "gui_qty": {
+        "message": "Quantity"
+    },
     "gui_qty_required": {
         "message": "Quantity\nRequired"
     },
@@ -596,20 +599,14 @@
     "pillars_possible": {
         "message": "Possible"
     },
-    "pillars_qty": {
-        "message": "Predicted\nQty"
-    },
-    "pillars_xp": {
-        "message": "Predicted\nXP Gain"
-    },
-    "pillars_coins": {
-        "message": "Predicted\nCoins"
-    },
     "pillars_totals": {
         "message": "Totals"
     },
     "pillars_current_level": {
         "message": "Your Current Level"
+    },
+    "pillars_predicted": {
+        "message": "Predicted"
     },
     "pillars_predicted_level": {
         "message": "Predicted Level"
