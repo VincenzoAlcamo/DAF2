@@ -213,8 +213,6 @@ function update() {
     const now = gui.getUnixTime();
     let currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
     lastOffer = currentOffer ? currentOffer.def_id : 0;
-    currentOffer = Object.values(gui.getFile('tiered_offers')).find(offer => +offer.start <= now && +offer.end > now && +offer.region_id == region);
-    lastTieredOffer = currentOffer ? currentOffer.def_id : 0;
 
     const {
         owned,
@@ -381,6 +379,7 @@ function update() {
     let activeOffer = possibleOffers.find(offer => viewedOffers.includes(+offer.def_id));
     activeOffer = activeOffer || possibleOffers.find(offer => gui.getArray(offer.tiers).find(tier => boughtTiers.includes(+tier.def_id)));
     activeOffer = activeOffer || possibleOffers.find(offer => +offer.region_id == region);
+    lastTieredOffer = activeOffer ? activeOffer.def_id : 0;
     for (let sale of sales) {
         let hide = sale != activeOffer;
         let eid = 0;
