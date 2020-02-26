@@ -77,6 +77,9 @@
     "gui_level_required": {
         "message": "Nivel"
     },
+    "gui_qty": {
+        "message": "Cantidad"
+    },
     "gui_qty_required": {
         "message": "Cantidad"
     },
@@ -587,20 +590,14 @@
     "pillars_possible": {
         "message": "Posible"
     },
-    "pillars_qty": {
-        "message": "Estimado\nQty"
-    },
-    "pillars_xp": {
-        "message": "Estimado\nXP ganada"
-    },
-    "pillars_coins": {
-        "message": "Estimado\nmonedas"
-    },
     "pillars_totals": {
         "message": "Totales"
     },
     "pillars_current_level": {
         "message": "Nivel actual"
+    },
+    "pillars_predicted": {
+        "message": "Estimado"
     },
     "pillars_predicted_level": {
         "message": "Nivel estimado"
@@ -1603,6 +1600,9 @@
     },
     "repeat_show_ready": {
         "message": "Lista?"
+    },
+    "repeat_postcard": {
+        "message": "¿Lista para la semana de la postal?"
     },
     "dailyreward_stats": {
         "message": "La recompensa diaria se basa en su nivel actual ($LEVEL$) y región ($REGION$).",

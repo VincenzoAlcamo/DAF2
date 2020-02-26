@@ -77,6 +77,9 @@
     "gui_level_required": {
         "message": "Απαιτούμενο\nΕπίπεδο"
     },
+    "gui_qty": {
+        "message": "Ποσότητας"
+    },
     "gui_qty_required": {
         "message": "Απαιτούμενη\nΠοσότητα"
     },
@@ -196,7 +199,7 @@
         }
     },
     "gui_nonote": {
-        "message": "Καμμία σημείωση"
+        "message": "Καμία σημείωση"
     },
     "gui_minimum": {
         "message": "Ελάχιστα"
@@ -205,7 +208,7 @@
         "message": "Μέγιστα"
     },
     "gui_average": {
-        "message": "Μέσος Όροςσ"
+        "message": "Μέσος Όρος"
     },
     "gui_loot": {
         "message": "Αποκτήματα"
@@ -358,7 +361,7 @@
         "message": "Ημερήσιο Έπαθλο"
     },
     "about_version": {
-        "message": "Εκδοχή: $VERSION$",
+        "message": "Έκδοση: $VERSION$",
         "placeholders": {
             "version": {
                 "content": "$1"
@@ -386,7 +389,7 @@
         "message": "Δε φορτώθηκαν ακόμα Δεδομένα του Παιχνιδιού, παρακαλώ φορτώστε ή επαναφορτώστε το παράθυρο του παιχνιδιού."
     },
     "about_disclaimer": {
-        "message": "Το DA Friends φτιάχτηκε από φαν, και δεν εγκρίθηκε ούτε υποστηρίζετε από τη Pixel Federation, τους δημιουργούς του παιχνιδιού \"Diggy's Adventure\".\nΧρησιμοποιείτε το DA Friends με δικό σας ρίσκο. Δεν έρχεται με καμμία εγγύηση, ούτε σαφή ή υπονοούμενη λειτουργικότητα ή χρησιμότητα. Ο δημιουργός δεν πρέπει να κριθεί υπεύθυνος για οποιαδήποτε ζημιά ή απώλεια που προκλήθηκε από τη χρήση του.\nΧρησιμοποιώντας αυτήν την επέκταση, συμφωνείτε με αυτούς τους όρους."
+        "message": "Το DA Friends φτιάχτηκε από φαν, και δεν εγκρίθηκε ούτε υποστηρίζετε από τη Pixel Federation, τους δημιουργούς του παιχνιδιού \"Diggy's Adventure\".\nΧρησιμοποιείτε το DA Friends με δικό σας ρίσκο. Δεν έρχεται με καμία εγγύηση, ούτε σαφή ή υπονοούμενη λειτουργικότητα ή χρησιμότητα. Ο δημιουργός δεν πρέπει να κριθεί υπεύθυνος για οποιαδήποτε ζημιά ή απώλεια που προκλήθηκε από τη χρήση του.\nΧρησιμοποιώντας αυτήν την επέκταση, συμφωνείτε με αυτούς τους όρους."
     },
     "about_translators": {
         "message": "Μεταφραστές"
@@ -450,16 +453,16 @@
         "message": "Μόνο πιθανά κράματα"
     },
     "foundry_time_to_craft": {
-        "message": "Χρόνος για τη Χειροτεχνία"
+        "message": "Χρόνος για τη κατασκευή"
     },
     "foundry_qty": {
-        "message": "Χειροτεχνίες ανά Αμόνια"
+        "message": "Κατασκευή ανά Αμόνια"
     },
     "foundry_possible_alloys": {
         "message": "Πιθανά\nΚράματα"
     },
     "foundry_total_time": {
-        "message": "Χρόνος Χειροτεχνίας\n($ANVILS$ Αμόνια)",
+        "message": "Χρόνος Κατασκευής\n($ANVILS$ Αμόνια)",
         "placeholders": {
             "anvils": {
                 "content": "$1"
@@ -481,7 +484,7 @@
         }
     },
     "camp_no_player": {
-        "message": "Ακόμα καμμία επίσκεψη σε βάση"
+        "message": "Ακόμα καμία επίσκεψη σε βάση"
     },
     "camp_player": {
         "message": "Παίχτης"
@@ -502,7 +505,7 @@
         "message": "Τωρινός αριθμός ανεμόμυλων"
     },
     "camp_windmill_expiry": {
-        "message": "Οι ανεμόμυλοι θα λύξουν στις\n$TIME$",
+        "message": "Οι ανεμόμυλοι θα λήξουν στις\n$TIME$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -528,10 +531,10 @@
         "message": "Μέσος Όρος Υποδοχής"
     },
     "camp_min_value": {
-        "message": "Μέγιστη Υποδοχή"
+        "message": "Ελάχιστη Υποδοχή"
     },
     "camp_max_value": {
-        "message": "Ελάχιστη Υποδοχή"
+        "message": "Μέγιστη Υποδοχή"
     },
     "camp_unlock_materials": {
         "message": "Υλικά για ξεκλείδωμα βάσης"
@@ -587,20 +590,14 @@
     "pillars_possible": {
         "message": "Πιθανοί"
     },
-    "pillars_qty": {
-        "message": "Προβλεπόμενη\nΠοσότητα"
-    },
-    "pillars_xp": {
-        "message": "Προβλεπόμενη\nΑπόκτηση Εμπειρίας"
-    },
-    "pillars_coins": {
-        "message": "Προβλεπόμενα\nΚέρματα"
-    },
     "pillars_totals": {
         "message": "Σύνολα"
     },
     "pillars_current_level": {
         "message": "Το Επίπεδό σας"
+    },
+    "pillars_predicted": {
+        "message": "Πρόβλεψη"
     },
     "pillars_predicted_level": {
         "message": "Προβλεπόμενο Επίπεδο"
@@ -618,13 +615,13 @@
         "message": "Εμφάνιση ως πλέγμα"
     },
     "pillars_cap": {
-        "message": "Φράγμα στις 'Προβλεπόμενες Κορώνες'"
+        "message": "Φράγμα στους 'Προβλεπόμενους Κίονες'"
     },
     "neighbors_lastlevelup": {
-        "message": "Τελευταίο\nΑνέβασμα Επιπέδου"
+        "message": "Τελευταία\nΑνοδος Επιπέδου"
     },
     "neighbors_lastgiftreceived": {
-        "message": "Τελευταίο\nΛηφθέντο Δώρο"
+        "message": "Τελευταίο\nΛηφθέν Δώρο"
     },
     "neighbors_yourlastvisit": {
         "message": "Η τελευταία σας επίσκεψη"
@@ -641,13 +638,13 @@
         }
     },
     "neighbors_gifts": {
-        "message": "Να μετρηθούν τα δώραν των τελευταίων @DAYS@ ημερών"
+        "message": "Να μετρηθούν τα δώρα των τελευταίων @DAYS@ ημερών"
     },
     "neighbors_listed": {
         "message": "Προσαρμοσμένη λίστα"
     },
     "neighbors_blocks": {
-        "message": "Μπλοκ πρως καθάρισμα στην υπόγεια βάση"
+        "message": "Μπλοκ προς καθάρισμα στην υπόγεια βάση"
     },
     "neighbors_inlist": {
         "message": "Στην προσαρμοσμένη λίστα"
@@ -665,7 +662,7 @@
         "message": "Με ανεμόμυλους που έληξαν"
     },
     "neighbors_found": {
-        "message": "Γείτονας που βρέθηκαν: $NUM$ / $TOTAL$",
+        "message": "Γείτονες που βρέθηκαν: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1103,7 +1100,7 @@
         "message": "Συνολικά"
     },
     "progress_hidecompleted": {
-        "message": "Ολοκήρωση απόκρυψης"
+        "message": "Ολοκλήρωση απόκρυψης"
     },
     "progress_grouplocations": {
         "message": "Ομαδικές τοποθεσίες"
@@ -1121,7 +1118,7 @@
         "message": "Η ενέργεια που εμφανίζεται εδώ προβλέπεται πολλαπλασιάζοντας τον αριθμό των υπολοιπόμενων πλακιδίων με το μέσο κόστος πλακιδίων.\nΤο μέσο κόστος πλακιδίων είναι: μπόνους ολοκλήρωσης x 10 / συνολικός αριθμός πλακιδίων"
     },
     "progress_achievementnextstep": {
-        "message": "Στο επόμενο βήμα = $NEXT$",
+        "message": "Για το επόμενο επίπεδο = $NEXT$",
         "placeholders": {
             "next": {
                 "content": "$1"
@@ -1154,7 +1151,7 @@
         }
     },
     "progress_playtime": {
-        "message": "Αρχίσατε να παίζεται στις $STARTED$ και παίζεται για $DURATION$ (μέχρι τις $NOW$)",
+        "message": "Αρχίσατε να παίζετε στις $STARTED$ και παίζεται για $DURATION$ (μέχρι τις $NOW$)",
         "placeholders": {
             "started": {
                 "content": "$1"
@@ -1212,7 +1209,7 @@
         "message": "ΠΙΘΑΝΟΝ ΛΗΓΜΕΝΟΣ ΣΥΝΔΕΣΜΟΣ"
     },
     "rewardlinks_addlinks": {
-        "message": "Πρόσθεση συνδέσμων"
+        "message": "Προσθήκη συνδέσμων"
     },
     "rewardlinks_pasteAdd": {
         "message": "Επικολήστε εδώ τους συνδέσμους και πατήστε \"$CONFIRM$\"",
@@ -1346,7 +1343,7 @@
         "message": "Μετατροπή συνδέσμου"
     },
     "rewardlinks_noconversion": {
-        "message": "Καμμία μετατροπή"
+        "message": "Καμία μετατροπή"
     },
     "rewardlinks_shortenlinks": {
         "message": "Σμίκρυνση/Μετατροπή συνδέσμων"
@@ -1604,6 +1601,9 @@
     "repeat_show_ready": {
         "message": "Έτοιμος;"
     },
+    "repeat_postcard": {
+        "message": "Έτοιμο για την εβδομάδα καρτ ποστάλ;"
+    },
     "dailyreward_stats": {
         "message": "Το ημερήσιο έπαθλο βασίζεται στο επίπεδό σας ($LEVEL$) και την περιοχή σας ($REGION$)",
         "placeholders": {
@@ -1786,7 +1786,7 @@
         "message": "Δεξιό"
     },
     "options_sort_none": {
-        "message": "Καμμία"
+        "message": "Καμία"
     },
     "options_sort_ascending": {
         "message": "Αύξουσα"

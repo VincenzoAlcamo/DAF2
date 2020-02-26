@@ -77,6 +77,9 @@
     "gui_level_required": {
         "message": "Level (Niveau)\nPåkrævet"
     },
+    "gui_qty": {
+        "message": "Antal"
+    },
     "gui_qty_required": {
         "message": "Antal\nPåkrævet"
     },
@@ -587,20 +590,14 @@
     "pillars_possible": {
         "message": "Mulig"
     },
-    "pillars_qty": {
-        "message": "Forventet\nAntal"
-    },
-    "pillars_xp": {
-        "message": "Forventet\nXP opnået"
-    },
-    "pillars_coins": {
-        "message": "Forventet\nMønter"
-    },
     "pillars_totals": {
         "message": "Totaler"
     },
     "pillars_current_level": {
         "message": "Dit nuværende level"
+    },
+    "pillars_predicted": {
+        "message": "Forventet"
     },
     "pillars_predicted_level": {
         "message": "Forventet level"
@@ -1603,6 +1600,9 @@
     },
     "repeat_show_ready": {
         "message": "Klar?"
+    },
+    "repeat_postcard": {
+        "message": "Klar til Postkort uge?"
     },
     "dailyreward_stats": {
         "message": "Den daglige belønning er baseret på dit nuværende level ($LEVEL) og region\n($REGION$)",

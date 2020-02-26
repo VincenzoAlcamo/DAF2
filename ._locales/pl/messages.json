@@ -77,6 +77,9 @@
     "gui_level_required": {
         "message": "Poziom\nWymagany"
     },
+    "gui_qty": {
+        "message": "Ilość\nWymagana"
+    },
     "gui_qty_required": {
         "message": "Ilość\nWymagana"
     },
@@ -587,20 +590,14 @@
     "pillars_possible": {
         "message": "Możliwe"
     },
-    "pillars_qty": {
-        "message": "Przewidywana\nIlość"
-    },
-    "pillars_xp": {
-        "message": "Przewidywana\nIlość XP"
-    },
-    "pillars_coins": {
-        "message": "Przewidywana\nMonety"
-    },
     "pillars_totals": {
         "message": "Razem"
     },
     "pillars_current_level": {
         "message": "Twój obecny poziom"
+    },
+    "pillars_predicted": {
+        "message": "Przewidywany"
     },
     "pillars_predicted_level": {
         "message": "Przewidywany poziom"
@@ -1603,6 +1600,9 @@
     },
     "repeat_show_ready": {
         "message": "Gotowe?"
+    },
+    "repeat_postcard": {
+        "message": "Tydzień pocztówek gotowy?"
     },
     "dailyreward_stats": {
         "message": "Nagroda codzienna oparta jest na twoim aktualnym levelu ($LEVEL$) i regionie ($REGION$)",
