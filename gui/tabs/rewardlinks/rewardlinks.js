@@ -39,8 +39,8 @@ const LinkData = (function () {
                 sig: sig
             };
         }
-        href = href.replace(reLink1, (a, b) => ' ' + decodeURIComponent(b) + ' ');
-        href = href.replace(reLink2, (a, b) => ' ' + decodeURIComponent(b) + ' ');
+        const fn = (a, b) => ' ' + decodeURIComponent(b) + ' ';
+        href = href.replace(reLink1, fn) + ' ' + href.replace(reLink2, fn) + ' ' + href;
         if (href.indexOf('://apps.facebook.com/') > 0) {
             reFacebook.lastIndex = 0;
             while ((match = reFacebook.exec(href))) {
@@ -139,8 +139,8 @@ function onClickButton() {
             title: gui.getMessage('rewardlinks_shortenlinks'),
             html: Html.br`
 ${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="convert">
-<option value="3">Facebook</option>
 <option value="2">Portal</option>
+<option value="3">Facebook</option>
 </select>
 <br/>${gui.getMessage('rewardlinks_shortenlinks_info1')}<br/>
 <textarea data-method="input" cols="60" rows="5" name="links"></textarea>
