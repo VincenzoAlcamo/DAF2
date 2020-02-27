@@ -391,14 +391,28 @@ div.equipment_mask {
   margin-left: 2px;
 }
 
-.equipment_pack .energy {
+.equipment_pack .caption .with-energy,
+.equipment_pack .caption .with-time,
+.equipment_pack .caption .with-xp,
+.equipment_pack .caption .with-deco {
   padding-right: 28px;
-  background: url(/img/gui/energy.png) no-repeat right center;
   background-size: 26px;
+  background-position: right center;
+  background-repeat: no-repeat;
 }
 
-.equipment_pack .time {
-  padding-right: 28px;
-  background: url(/img/gui/time.png) no-repeat right center;
-  background-size: 26px;
+.equipment_pack .caption .with-energy {
+  background-image: url(/img/gui/energy.png);
+}
+
+.equipment_pack .caption .with-time {
+  background-image: url(/img/gui/time.png);
+}
+
+.equipment_pack .caption .with-xp {
+  background-image: url(/img/gui/xp.png);
+}
+
+.equipment_pack .caption .with-deco {
+  background-image: url(/img/gui/deco.png);
 }

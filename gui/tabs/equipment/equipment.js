@@ -1036,9 +1036,9 @@ function getOfferItem(item) {
         copy.value = +obj.value;
         let caption;
         if (obj.action == 'speedup_ctrl') {
-            caption = getOutlinedText(gui.getDuration(copy.value), 'time');
+            caption = getOutlinedText(gui.getDuration(copy.value), 'with-time');
         } else {
-            caption = getOutlinedText(Locale.formatNumber(copy.value), 'energy');
+            caption = getOutlinedText(Locale.formatNumber(copy.value), 'with-energy');
         }
         if (copy.amount > 1) caption = Html`${getOutlinedText(Locale.formatNumber(copy.amount) + ' \xd7 ', 'qty')}${caption}`;
         copy.caption = caption;
@@ -1047,9 +1047,11 @@ function getOfferItem(item) {
         copy.sort = 5;
     } else if (copy.type == 'decoration') {
         copy.sort = 6;
+        copy.caption = getOutlinedText(Locale.formatNumber(copy.amount), 'with-deco');
     } else if (copy.type == 'system') {
         copy.sort = 7;
         copy.kind = copy.oid == 2 ? 'energy' : 'xp';
+        copy.caption = getOutlinedText(Locale.formatNumber(copy.amount), 'with-' + copy.kind);
     } else {
         return null;
     }
