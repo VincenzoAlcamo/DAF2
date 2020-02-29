@@ -398,8 +398,14 @@ const LinkData = (function () {
                 sig: sig
             };
         }
-        const fn = (a, b) => ' ' + decodeURIComponent(b) + ' ';
-        href = href.replace(reLink1, fn) + ' ' + href.replace(reLink2, fn) + ' ' + href;
+        const urls = [href];
+        href.replace(reLink1, (a, b) => {
+            const url = decodeURIComponent(b);
+            urls.push(url);
+            url.replace(reLink2, (a, b) => urls.push(decodeURIComponent(b)));
+        });
+        href.replace(reLink2, (a, b) => urls.push(decodeURIComponent(b)));
+        href = urls.join(' ');
         if (href.indexOf('://apps.facebook.com/') > 0) {
             reFacebook.lastIndex = 0;
             while ((match = reFacebook.exec(href))) {
