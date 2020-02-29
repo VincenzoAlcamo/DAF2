@@ -374,7 +374,8 @@ function showDetail(show) {
         row.classList.add(isGrandTotal ? 'grandtotal' : 'subtotal');
         let isCompleted = total.value == total.max;
         let htm = '';
-        htm += Html`<td></td><td>${gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal', total.qty)}</td>` + getProgress(total.value, total.max, total.energy);
+        let caption = gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal');
+        htm += Html`<td></td><td>${caption} (${gui.getMessageAndValue('events_locations', Locale.formatNumber(total.qty))})</td>` + getProgress(total.value, total.max, total.energy);
         htm += getTimes(isCompleted, total.bt, total.et);
         row.innerHTML = htm;
         parent.insertBefore(row, nextRow);

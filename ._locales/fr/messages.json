@@ -1135,20 +1135,10 @@
         "message": "Durée"
     },
     "progress_subtotal": {
-        "message": "Sous total ($NUM$ Locations)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
+        "message": "Sous total"
     },
     "progress_grandtotal": {
-        "message": "Total général ($NUM$ Locations)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
+        "message": "Total général"
     },
     "progress_playtime": {
         "message": "Vous avez commencé à jouer le $STARTED$, et la durée de $DURATION$ (jusqu'à maintenant le $NOW$)",
