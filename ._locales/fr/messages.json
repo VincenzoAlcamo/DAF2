@@ -473,7 +473,7 @@
         "message": "Votre camp"
     },
     "camp_player_name": {
-        "message": "$PLAYER$, ton camp depuis le $DATE$",
+        "message": "le camp de $PLAYER$, vu depuis le $DATE$",
         "placeholders": {
             "player": {
                 "content": "$1"

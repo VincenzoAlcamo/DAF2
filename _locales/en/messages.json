@@ -2572,7 +2572,7 @@
 "fr@foundry_possible_alloys":{"message":"Alliages\npossibles"},
 "fr@foundry_total_time":{"message":"Temps de fabrication\n($1 enclumes)"},
 "fr@camp_your_camp":{"message":"Votre camp"},
-"fr@camp_player_name":{"message":"$1, ton camp depuis le $2"},
+"fr@camp_player_name":{"message":"le camp de $1, vu depuis le $2"},
 "fr@camp_no_player":{"message":"Aucun camp n'a encore été visité"},
 "fr@camp_player":{"message":"Joueur"},
 "fr@camp_total":{"message":"Total"},
