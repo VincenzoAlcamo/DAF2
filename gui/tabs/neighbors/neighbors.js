@@ -549,7 +549,7 @@ function onTooltip(event) {
     let pal = pal_id && bgp.Data.getNeighbour(pal_id);
     let fb_id = pal && pal.fb_id;
     if (fb_id) {
-        let htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
+        let htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, null, 108)}"/></div>`;
         Tooltip.show(element, htm);
     }
 }

@@ -100,7 +100,12 @@ let gui = {
         var name = pal.name || 'Player ' + pal.id;
         return pal.surname ? name + ' ' + pal.surname : name;
     },
-    getFBFriendAvatarUrl: function (fb_id, size) {
+    FB_ANON_MALE_IMG: 'data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBwCdASoyADIAPm0qkUWkIqGYDf2AQAbEtIBp7Ay0G/WSUM7JlLizCyxMfDWO4GTZsZ3rW/OD7o4ZrD5+BT08hIdEQYAA/voQZ4IvItpppdVXQWuubgHZ7Hz5ClT98CfXGkCeTZrhstMPkFiBPgl23Ssn29LDaI8GTQEsEUH2eeI8S7rLcNeX3hT74sAvZ2QAc9yDKh3vCDZXO6AcSFxINezC50AA',
+    FB_ANON_FEMALE_IMG: 'data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBwCdASoyADIAPm0sk0WkIqGYDP0AQAbEtIBpOAqR8vvvO+zCp3M5F/ypDPVcAFo8VaiTamuvfoNQ/F5jaFiClqnYAAD++hBpI/d9yd90D8hRGlQZaLknz1bhjUBHwA03kCUnr+UZrKEK7H/RvtF2vwwgGNTfo5enYKkJ23075Nyi25PsFHIttUiGOfXnjtuOyT6lisDClpVR4YKW7iP+LCUUBF1yzvTUONcxCYqsEAAA',
+    getFBFriendAvatarUrl: function (fb_id, url, size) {
+        if(fb_id == '' || fb_id.startsWith('/')) {
+            return url || gui.FB_ANON_MALE_IMG;
+        }
         return Html.raw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
     },
     getFBFriendAnchor: function (fb_id, uri) {

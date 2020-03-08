@@ -342,10 +342,11 @@ if (loginButton) {
         if ('url' in changeInfo) Tab.detectTab(tab);
     },
     excludeFromInjection: function (tabId, flag = true) {
-        Tab.tabExcluded[tabId] = flag;
+        if (flag) Tab.tabExcluded[tabId] = true;
+        else delete Tab.tabExcluded[tabId];
     },
     canBeInjected: function (tabId) {
-        return tabId in Tab.tabExcluded ? !Tab.tabExcluded[tabId] : true;
+        return !(tabId in Tab.tabExcluded) && !(0 in Tab.tabExcluded);
     },
     detectTab: function (tab) {
         Tab.onRemoved(tab.id);

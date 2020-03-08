@@ -28,6 +28,8 @@ var numToAnalyze = 0;
 var numFriendsShown = 0;
 var numNeighboursShown = 0;
 
+var FB_ANON_MALE_IMG, FB_ANON_FEMALE_IMG;
+
 let processed = {};
 
 function setProcessed(friend, value) {
@@ -75,6 +77,9 @@ function init() {
     smartTable.table.addEventListener('input', onInput);
 
     container.addEventListener('tooltip', onTooltip);
+
+    createImage(function () { FB_ANON_MALE_IMG = getImgDataURL(this); }).src = gui.FB_ANON_MALE_IMG;
+    createImage(function () { FB_ANON_FEMALE_IMG = getImgDataURL(this); }).src = gui.FB_ANON_FEMALE_IMG;
 }
 
 function triggerSearchHandler(flag) {
@@ -304,6 +309,8 @@ function collectFriends(method) {
     const width = 1000;
     const height = 500;
     const unmatched = method == 'unmatched' ? getUnmatched().join() : '';
+    bgp.Tab.excludeFromInjection(0);
+    setTimeout(_ => bgp.Tab.excludeFromInjection(0, false), 20000);
     chrome.windows.create({
         width,
         height,
@@ -314,7 +321,7 @@ function collectFriends(method) {
     }, function (w) {
         const tabId = w.tabs[0].id;
         bgp.Tab.excludeFromInjection(tabId);
-        setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 15000);
+        setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 20000);
         chrome.tabs.get(tabId, function (tab) {
             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
             waitForTab(tab).then(function () {
@@ -354,7 +361,7 @@ function waitForTab(tab) {
         const timer = setTimeout(() => {
             chrome.tabs.onCreated.removeListener(onUpdated);
             reject(new Error('Tab did not complete'));
-        }, 15000);
+        }, 30000);
         function onUpdated(tabId, changeInfo, _tab) {
             if (tabId == tab.id && _tab.status == 'complete') {
                 clearTimeout(timer);
@@ -420,7 +427,7 @@ function updateRow(row) {
     var htm = '';
     if (friend) {
         let anchor = gui.getFBFriendAnchor(friend.id, friend.uri);
-        htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id)}" class="tooltip-event"/></a></td>`;
+        htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(friend.id, friend.img)}" class="tooltip-event"/></a></td>`;
         htm += Html.br`<td>${anchor}${friend.name}</a><br>`;
         htm += Html.br`<input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}">${friend.disabled ? friendDisabled : ''}</td>`;
         htm += Html.br`<td>${Locale.formatDate(friend.tc)}<br>${Locale.formatDays(friend.tc)}</td>`;
@@ -568,8 +575,77 @@ function matchFriendBase(friend, pal, score) {
     return true;
 }
 
+function createImage(onLoad, onError) {
+    var img = new Image();
+    img.setAttribute('crossOrigin', 'anonymous');
+    img.onload = onLoad;
+    img.onerror = onError;
+    return img;
+}
+
+const MATCH_WIDTH = 50;
+const MATCH_HEIGHT = 50;
+const MATCH_THRESHOLD = 0.02;
+const MATCH_MAXDIFF = Math.floor(MATCH_WIDTH * MATCH_HEIGHT * 0.01);
+
+function drawImage(img) {
+    const canvas = document.createElement('canvas');
+    canvas.width = MATCH_WIDTH;
+    canvas.height = MATCH_HEIGHT;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvas;
+}
+
+// get picture as base64 string
+function getImgDataURL(img) {
+    const canvas = drawImage(img);
+    return canvas.toDataURL('image/webp');
+}
+
+function getImgData(img) {
+    const canvas = drawImage(img);
+    const data = canvas.getContext('2d').getImageData(0, 0, MATCH_WIDTH, MATCH_HEIGHT).data;
+    blendImage(data, MATCH_WIDTH, MATCH_HEIGHT);
+    return data;
+}
+
+function pixelMatch(img1, img2, width, height, threshold, maxDiff) {
+    let diff = 0;
+    const maxPos = width * height * 4;
+    for (let pos = 0; pos < maxPos; pos += 4) {
+        const r = img1[pos + 0] - img2[pos + 0];
+        const g = img1[pos + 1] - img2[pos + 1];
+        const b = img1[pos + 2] - img2[pos + 2];
+        const y = r * 0.29889531 + g * 0.58662247 + b * 0.11448223;
+        const i = r * 0.59597799 - g * 0.27417610 - b * 0.32180189;
+        const q = r * 0.21147017 - g * 0.52261711 + b * 0.31114694;
+        const delta = (0.5053 * y * y + 0.299 * i * i + 0.1957 * q * q) / 32858;
+        if (delta > threshold) {
+            diff++;
+            if (diff > maxDiff) break;
+        }
+    }
+    return diff;
+}
+
+function blendImage(img, width, height) {
+    const maxPos = width * height * 4;
+    const blend = (c, a) => 255 + (c - 255) * a;
+    for (let pos = 0; pos < maxPos; pos += 4) {
+        const a = img[pos + 3];
+        if (a < 255) {
+            a /= 255;
+            img[pos + 0] = blend(img[pos + 0], a);
+            img[pos + 1] = blend(img[pos + 1], a);
+            img[pos + 2] = blend(img[pos + 2], a);
+            img[pos + 3] = 255;
+        }
+    }
+}
+
 function matchStoreAndUpdate() {
-    var rest, notmatched, images, friendData, neighbourData, canvas;
+    var rest, notmatched, images, friendData, neighbourData;
     var hashById = {};
     var hashByName = {};
 
@@ -608,7 +684,7 @@ function matchStoreAndUpdate() {
     // Collect images to match
     images = [];
     for (let friend of rest) {
-        if (!friend.disabled) addImage('f' + friend.id, gui.getFBFriendAvatarUrl(friend.id));
+        if (!friend.disabled) addImage('f' + friend.id, gui.getFBFriendAvatarUrl(friend.id, friend.img));
     }
     var numFriendsToAnalyze = images.length;
     for (let pal of Object.values(notmatched)) {
@@ -619,11 +695,10 @@ function matchStoreAndUpdate() {
     if (numFriendsToAnalyze > 0 && numNeighboursToAnalyze > 0) {
         friendData = [];
         neighbourData = [];
-        canvas = document.createElement('canvas');
         // Start num parallel tasks to load images
         var num = 2;
         num = Math.min(images.length, num);
-        while ((num--) > 0) collectNext(createImage());
+        while ((num--) > 0) collectNext(createImage(imageOnLoad, imageOnLoad));
     } else {
         endMatching();
     }
@@ -755,40 +830,26 @@ function matchStoreAndUpdate() {
     }
 
     function collectNext(img) {
-        var a = images.pop();
+        const a = images.pop();
         if (a) {
             img.id = a[0];
             img.src = a[1];
         }
     }
 
-    function createImage() {
-        var img = new Image();
-        img.setAttribute('crossOrigin', 'anonymous');
-        img.onload = imageOnLoad;
-        img.onerror = imageOnLoad;
-        return img;
-    }
-
-
     function imageOnLoad() {
         // this is the image used by FB when a profile has no picture
-        const FB_ANON_MALE_IMG = 'data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBwCdASoyADIAPm0qkUWkIqGYDf2AQAbEtIBp7Ay0G/WSUM7JlLizCyxMfDWO4GTZsZ3rW/OD7o4ZrD5+BT08hIdEQYAA/voQZ4IvItpppdVXQWuubgHZ7Hz5ClT98CfXGkCeTZrhstMPkFiBPgl23Ssn29LDaI8GTQEsEUH2eeI8S7rLcNeX3hT74sAvZ2QAc9yDKh3vCDZXO6AcSFxINezC50AA';
-        const FB_ANON_FEMALE_IMG = 'data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBwCdASoyADIAPm0sk0WkIqGYDP0AQAbEtIBpOAqR8vvvO+zCp3M5F/ypDPVcAFo8VaiTamuvfoNQ/F5jaFiClqnYAAD++hBpI/d9yd90D8hRGlQZaLknz1bhjUBHwA03kCUnr+UZrKEK7H/RvtF2vwwgGNTfo5enYKkJ23075Nyi25PsFHIttUiGOfXnjtuOyT6lisDClpVR4YKW7iP+LCUUBF1yzvTUONcxCYqsEAAA';
         numAnalyzed++;
         showStats();
-        var img = this;
+        const img = this;
         if (img.complete && img.naturalHeight > 0) {
-            // get picture as base64 string
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            var dataURL = canvas.toDataURL('image/webp');
-            if (dataURL != FB_ANON_MALE_IMG && dataURL != FB_ANON_FEMALE_IMG) {
-                var isFriend = img.id.charAt(0) == 'f';
-                var id = img.id.substr(1);
-                var data = [id, dataURL];
+            const dataURL = getImgDataURL(img);
+            const imgData = getImgData(img);
+            const skip = dataURL == FB_ANON_MALE_IMG || dataURL == FB_ANON_FEMALE_IMG;
+            if (!skip) {
+                const isFriend = img.id.charAt(0) == 'f';
+                const id = img.id.substr(1);
+                const data = [id, dataURL, imgData];
                 if (isFriend) friendData.push(data);
                 else neighbourData.push(data);
             }
@@ -805,17 +866,27 @@ function matchStoreAndUpdate() {
     }
 
     function matchByImage() {
-        for (var data of friendData) {
-            var fb_id = data[0];
-            var dataURL = data[1];
-            var friendsMatched = friendData.filter(data => data[1] == dataURL);
-            var neighbourMatched = neighbourData.filter(data => data[1] == dataURL);
-            // Image should be unique
-            if (friendsMatched.length == 1 && neighbourMatched.length == 1) {
-                var friend = friends.find(friend => friend.id == fb_id);
-                var uid = neighbourMatched[0][0];
-                var pal = notmatched[uid];
-                matchFriend(friend, pal, 95);
+        for (let diffPerc = 1; diffPerc <= 15 && friendData.length && neighbourData.length; diffPerc++) {
+            const MATCH_MAXDIFF = Math.floor(MATCH_WIDTH * MATCH_HEIGHT * diffPerc / 100);
+            for (let index = friendData.length - 1; index >= 0; index--) {
+                const data = friendData[index];
+                const fb_id = data[0];
+                // const dataURL = data[1];
+                const imgData = data[2];
+                // const friendsMatched = friendData.filter(data => data[0] == fb_id || data[1] == dataURL);
+                // const neighbourMatched = neighbourData.filter(data => data[1] == dataURL);
+                const friendsMatched = friendData.filter(data => data[0] == fb_id || pixelMatch(imgData, data[2], MATCH_WIDTH, MATCH_HEIGHT, MATCH_THRESHOLD, MATCH_MAXDIFF) < MATCH_MAXDIFF);
+                const neighbourMatched = neighbourData.filter(data => pixelMatch(imgData, data[2], MATCH_WIDTH, MATCH_HEIGHT, MATCH_THRESHOLD, MATCH_MAXDIFF) < MATCH_MAXDIFF);
+                // Image should be unique
+                if (friendsMatched.length == 1 && neighbourMatched.length == 1) {
+                    const friend = friends.find(friend => friend.id == fb_id);
+                    const uid = neighbourMatched[0][0];
+                    const pal = notmatched[uid];
+                    matchFriend(friend, pal, 95);
+                    // Remove friend & neighbor
+                    friendData.splice(index, 1);
+                    neighbourData = neighbourData.filter(data => data[0] != uid);
+                }
             }
         }
         rest = rest.filter(friend => !getProcessed(friend));
@@ -826,16 +897,18 @@ function onTooltip(event) {
     let element = event.target;
     let td = element.parentNode.parentNode;
     let row = td.parentNode;
-    let fb_id;
+    let fb_id, fb_image;
     if (td.cellIndex == 0) {
         fb_id = row.getAttribute('data-friend-id');
+        let friend = fb_id && bgp.Data.getFriend(fb_id);
+        fb_image = friend && friend.img;
     } else {
         let pal_id = row.getAttribute('data-pal-id');
         let pal = pal_id && bgp.Data.getNeighbour(pal_id);
         fb_id = pal && pal.fb_id;
     }
-    if (fb_id) {
-        let htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, 108)}"/></div>`;
+    if (fb_id || fb_image) {
+        let htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, fb_image, 108)}"/></div>`;
         Tooltip.show(element, htm);
     }
 }

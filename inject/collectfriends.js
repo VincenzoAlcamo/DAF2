@@ -12,6 +12,9 @@ var friends = [];
 var ulInactiveParent = null;
 var ulInactive = null;
 var liInactive = [];
+var container, captureOneBlock, unmatchedList;
+
+console.log('Collection start', new Date());
 
 function getMessage(id, ...args) {
     let text = chrome.i18n.getMessage(language + '@' + id, args);
@@ -36,10 +39,22 @@ function viewDisabled() {
     });
 }
 
+function detectContainer() {
+    container = document.getElementById('pagelet_timeline_medley_friends');
+    captureOneBlock = captureOneBlockOld;
+    if (!container) {
+        const img = document.querySelector('a > img[width="80"]');
+        if (img) {
+            container = img.parentElement.parentElement.parentElement.parentElement;
+            captureOneBlock = captureOneBlockNew;
+        }
+    }
+}
+
 // eslint-disable-next-line no-unused-vars
 function collect() {
     Dialog.language = language;
-    var container = document.getElementById('pagelet_timeline_medley_friends');
+    detectContainer();
     if (container) {
         if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
         if (collectMethod == 'alternate' || collectMethod == 'both') collectAlternate();
@@ -57,6 +72,7 @@ function getStatInfo(num, total) {
 }
 
 function sendFriends() {
+    console.log('Collection end', new Date());
     document.title = getStatInfo(friends.length, friends.length);
     wait.setText(document.title);
     chrome.runtime.sendMessage({
@@ -65,9 +81,11 @@ function sendFriends() {
         close: !ulInactive
     });
     if (ulInactive) {
-        ulInactive.innerHTML = '';
+        if (ulInactive !== container) {
+            ulInactive.innerHTML = '';
+            ulInactiveParent.appendChild(ulInactive);
+        }
         liInactive.forEach(li => ulInactive.appendChild(li));
-        ulInactiveParent.appendChild(ulInactive);
         viewDisabled();
         wait.hide();
         dialog.show({
@@ -78,63 +96,104 @@ function sendFriends() {
     }
 }
 
+function getId(d) {
+    var i = d.indexOf('?id=');
+    if (i < 0) return null;
+    d = d.substr(i + 4);
+    i = d.indexOf('&');
+    return i > 0 ? d.substr(0, i) : d;
+}
+
+function getFriendUri(uri) {
+    var i;
+    if ((i = uri.indexOf('profile.php?id=')) >= 0) {
+        if ((i = uri.indexOf('&', i)) >= 0) uri = uri.substr(0, i);
+    } else if ((i = uri.indexOf('?')) >= 0) uri = uri.substr(0, i);
+    return uri;
+}
+
+function getFriendIdFromUri(uri) {
+    return uri.substring(uri.lastIndexOf('/'));
+}
+
+function captureOneBlockOld() {
+    let count = 0;
+    let ul = container && container.getElementsByClassName('uiList')[0];
+    if (!ul) return -1;
+    for (const li of Array.from(ul.getElementsByTagName('li'))) {
+        for (const item of Array.from(li.getElementsByTagName('a'))) {
+            const name = item.textContent;
+            if (name == '') continue;
+            var id, d, uri;
+            var add = false, keep = false, disabled = false;
+            if ((d = item.getAttribute('data-hovercard')) && d.indexOf('user.php?id=') >= 0 && (id = getId(d))) {
+                uri = getFriendUri(item.href);
+                add = true;
+                keep = unmatchedList.includes(id);
+            } else if ((d = item.getAttribute('ajaxify')) && d.indexOf('/inactive/') >= 0 && (id = getId(d))) {
+                add = keep = disabled = true;
+            }
+            if (add) {
+                count++;
+                const data = { id, name, uri };
+                const img = li.querySelector('a img');
+                if (img) data.img = img.src;
+                if (disabled) data.disabled = true;
+                addFriend(data);
+            }
+            if (keep) {
+                if (!ulInactive) {
+                    ulInactiveParent = ul.parentNode;
+                    ulInactive = ul;
+                }
+                liInactive.push(li);
+            }
+        }
+    }
+    ul.parentNode.removeChild(ul);
+    return count;
+}
+
+function captureOneBlockNew() {
+    let count = 0;
+    const items = Array.from(container.querySelectorAll('a > img[width="80"]:not(.collected)'));
+    if (items.length == 0) return -1;
+    // Detect if a disabled account exists
+    if (!ulInactive && container.querySelectorAll('div > img[width="80"]')) ulInactive = container;
+    for (const item of items) {
+        item.classList.add('collected');
+        let keep = false;
+        const uri = getFriendUri(item.parentElement.href);
+        const name = item.parentElement.parentElement.nextElementSibling.firstElementChild.textContent;
+        const id = getFriendIdFromUri(uri);
+        const img = item.src;
+        count++;
+        addFriend({ id, name, uri, img });
+        keep = unmatchedList.includes(id);
+        const node = item.parentElement.parentElement.parentElement;
+        node.remove();
+        if (keep) {
+            ulInactive = container;
+            liInactive.push(node);
+        }
+    }
+    return count;
+}
+
+
 function collectStandard() {
     var handler = null;
     var countStop = 0;
     var count = 0;
-    var unmatchedList = unmatched.split(',');
+    unmatchedList = unmatched.split(',');
 
     handler = setInterval(capture, 500);
 
-    function getId(d) {
-        var i = d.indexOf('?id=');
-        if (i < 0) return null;
-        d = d.substr(i + 4);
-        i = d.indexOf('&');
-        return i > 0 ? d.substr(0, i) : d;
-    }
-
     function capture() {
-        var container = document.getElementById('pagelet_timeline_medley_friends');
-        var ul = container && container.getElementsByClassName('uiList')[0];
-        if (ul) {
+        const num = captureOneBlock();
+        if (num >= 0) {
+            count += num;
             countStop = 0;
-            Array.from(ul.getElementsByTagName('li')).forEach(li => {
-                Array.from(li.getElementsByTagName('a')).forEach(item => {
-                    if (item.innerText == '') return;
-                    var id, d, uri, i;
-                    var flag = false;
-                    if ((d = item.getAttribute('data-hovercard')) && d.indexOf('user.php?id=') >= 0 && (id = getId(d))) {
-                        uri = item.href;
-                        if ((i = uri.indexOf('profile.php?id=')) >= 0) {
-                            if ((i = uri.indexOf('&', i)) >= 0) uri = uri.substr(0, i);
-                        } else if ((i = uri.indexOf('?')) >= 0) uri = uri.substr(0, i);
-                        count++;
-                        addFriend({
-                            id: id,
-                            name: item.innerText,
-                            uri: uri
-                        });
-                        flag = unmatchedList.includes(id);
-                    } else if ((d = item.getAttribute('ajaxify')) && d.indexOf('/inactive/') >= 0 && (id = getId(d))) {
-                        count++;
-                        addFriend({
-                            id: id,
-                            name: item.innerText,
-                            disabled: true
-                        });
-                        flag = true;
-                    }
-                    if (flag) {
-                        if (!ulInactive) {
-                            ulInactiveParent = ul.parentNode;
-                            ulInactive = ul;
-                        }
-                        liInactive.push(li);
-                    }
-                });
-            });
-            ul.parentNode.removeChild(ul);
             document.title = getStatInfo(count, friends.length);
             wait.setText(document.title);
         } else {
