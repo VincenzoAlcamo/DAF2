@@ -14,6 +14,8 @@ const KEY_I = 73;
 const KEY_P = 80;
 const KEY_R = 82;
 const KEY_S = 83;
+const KEY_T = 84;
+const KEY_Y = 89;
 const OS_WIN = 1;
 const OS_LINUX = 0;
 
@@ -314,11 +316,18 @@ function detect() {
     }
 
     var text = getMessage('linkgrabber_selected', count, total);
-    if (count > 0) text += addFn('C/F/P', 'linkgrabber_fn_copy');
-    if (count > 0) text += addFn('S', 'linkgrabber_fn_send');
+    if (count > 0) {
+        text += addFn('C/F/P', 'linkgrabber_fn_copy');
+        text += addFn('S', 'linkgrabber_fn_send');
+    }
     text += addFn('I', 'linkgrabber_fn_showid');
     text += addFn('R', 'linkgrabber_fn_refresh');
-    text += addFn('ESC', 'linkgrabber_fn_cancel');
+    if (count == 0) {
+        text += '\n\nCollect friends:';
+        text += '\nT = Standard';
+        text += '\nY = Standard + Confirm';
+    }
+    text += '\n' + addFn('ESC', 'linkgrabber_fn_cancel');
     if (text != oldLabel) countLabel.innerText = oldLabel = text;
 }
 
@@ -329,6 +338,8 @@ var fnHandlers = {
     [KEY_C]: (_event) => copyLinksToClipboard(),
     [KEY_F]: (_event) => copyLinksToClipboard(3),
     [KEY_P]: (_event) => copyLinksToClipboard(2),
+    [KEY_T]: (_event) => { stop(); collect(false); },
+    [KEY_Y]: (_event) => { stop(); collect(true); },
     [KEY_S]: (_event) => {
         var values = collectData(true);
         stop();
@@ -536,4 +547,219 @@ function copyToClipboard(str, mimeType = 'text/plain') {
     document.addEventListener('copy', oncopy);
     document.execCommand('copy', false, null);
     document.removeEventListener('copy', oncopy);
+}
+
+function collect(confirmCollection) {
+    const autoClose = false;
+    let collectMethod = 'standard';
+    let unmatched = '';
+    const wait = Dialog(Dialog.WAIT);
+    const dialog = Dialog();
+    let retries = 10;
+    const friends = [];
+    let ulInactiveParent = null, ulInactive = null, liInactive = [];
+    let container, captureOneBlock, unmatchedList;
+
+    function addFriend(friend) {
+        friends.push(friend);
+    }
+
+    function scrollWindow() {
+        try {
+            document.body.scrollIntoView(true);
+            document.getElementById('pagelet_dock').scrollIntoView();
+        } catch (e) { }
+    }
+
+    wait.show();
+    const handler = setInterval(function () {
+        container = document.getElementById('pagelet_timeline_medley_friends');
+        captureOneBlock = captureOneBlockOld;
+        if (!container) {
+            const img = document.querySelector('a > img[width="80"]');
+            if (img) {
+                container = img.parentElement.parentElement.parentElement.parentElement;
+                captureOneBlock = captureOneBlockNew;
+            }
+        }
+        if (container) {
+            clearInterval(handler);
+            wait.hide();
+            if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
+            return;
+        } else if (retries > 0) {
+            retries--;
+            wait.setText(retries);
+            scrollWindow();
+        } else {
+            clearInterval(handler);
+            wait.hide();
+            dialog.show({
+                text: 'Something went wrong',
+                style: [Dialog.OK, Dialog.CRITICAL]
+            });
+        }
+    }, 1000);
+
+    function getStatInfo(num, total) {
+        const count = num == total ? total : (num + ' / ' + total);
+        return getMessage('friendship_collectstat', count);
+    }
+
+    function sendFriends() {
+        const viewDisabled = () => ulInactive.firstElementChild.scrollIntoView({ block: 'center' });
+        console.log('Collection end', new Date());
+        document.title = getStatInfo(friends.length, friends.length);
+        wait.setText(document.title);
+        const close = autoClose && !ulInactive;
+        chrome.runtime.sendMessage({
+            action: 'friendsCaptured',
+            data: collectMethod == 'unmatched' ? null : friends,
+            close
+        });
+        wait.hide();
+        const showDisabled = () => {
+            if (ulInactive) {
+                if (ulInactive !== container) {
+                    ulInactive.innerHTML = '';
+                    ulInactiveParent.appendChild(ulInactive);
+                }
+                liInactive.forEach(li => ulInactive.appendChild(li));
+                viewDisabled();
+                dialog.show({
+                    text: getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' :
+                        'friendship_disabledaccountsdetected') + '\n' + getMessage('friendship_unfriendinfo'),
+                    style: [Dialog.OK]
+                }, viewDisabled);
+            }
+        };
+        if (autoClose) return showDisabled();
+        let text = document.title;
+        text += '\n\n';
+        text += `Please refresh the DAF2 page, go to "${getMessage('tab_friendship')}" tab, click "${getMessage('friendship_collect')}" and choose "${getMessage('friendship_collectmatch')}".`;
+        dialog.show({ text, style: [Dialog.OK] }, showDisabled);
+    }
+
+    function getId(d) {
+        let i = d.indexOf('?id=');
+        if (i < 0) return null;
+        d = d.substr(i + 4);
+        i = d.indexOf('&');
+        return i > 0 ? d.substr(0, i) : d;
+    }
+
+    function getFriendUri(uri) {
+        let i;
+        if ((i = uri.indexOf('profile.php?id=')) >= 0) {
+            if ((i = uri.indexOf('&', i)) >= 0) uri = uri.substr(0, i);
+        } else if ((i = uri.indexOf('?')) >= 0) uri = uri.substr(0, i);
+        return uri;
+    }
+
+    function getFriendIdFromUri(uri) {
+        return uri.substring(uri.lastIndexOf('/'));
+    }
+
+    function captureOneBlockOld() {
+        let count = 0;
+        let ul = container && container.getElementsByClassName('uiList')[0];
+        if (!ul) return -1;
+        for (const li of Array.from(ul.getElementsByTagName('li'))) {
+            for (const item of Array.from(li.getElementsByTagName('a'))) {
+                const name = item.textContent;
+                if (name == '') continue;
+                var id, d, uri;
+                var add = false, keep = false, disabled = false;
+                if ((d = item.getAttribute('data-hovercard')) && d.indexOf('user.php?id=') >= 0 && (id = getId(d))) {
+                    uri = getFriendUri(item.href);
+                    add = true;
+                    keep = unmatchedList.includes(id);
+                } else if ((d = item.getAttribute('ajaxify')) && d.indexOf('/inactive/') >= 0 && (id = getId(d))) {
+                    add = keep = disabled = true;
+                }
+                if (add) {
+                    count++;
+                    const data = { id, name, uri };
+                    const img = li.querySelector('a img');
+                    if (img) data.img = img.src;
+                    if (disabled) data.disabled = true;
+                    addFriend(data);
+                }
+                if (keep) {
+                    if (!ulInactive) {
+                        ulInactiveParent = ul.parentNode;
+                        ulInactive = ul;
+                    }
+                    liInactive.push(li);
+                }
+            }
+        }
+        ul.parentNode.removeChild(ul);
+        return count;
+    }
+
+    function captureOneBlockNew() {
+        let count = 0;
+        const items = Array.from(container.querySelectorAll('a > img[width="80"]:not(.collected)'));
+        if (items.length == 0) return -1;
+        // Detect if a disabled account exists
+        if (!ulInactive && container.querySelectorAll('div > img[width="80"]')) ulInactive = container;
+        for (const item of items) {
+            item.classList.add('collected');
+            let keep = false;
+            const uri = getFriendUri(item.parentElement.href);
+            const name = item.parentElement.parentElement.nextElementSibling.firstElementChild.textContent;
+            const id = getFriendIdFromUri(uri);
+            const img = item.src;
+            count++;
+            addFriend({ id, name, uri, img });
+            keep = unmatchedList.includes(id);
+            const node = item.parentElement.parentElement.parentElement;
+            node.remove();
+            if (keep) {
+                ulInactive = container;
+                liInactive.push(node);
+            }
+        }
+        return count;
+    }
+
+
+    function collectStandard() {
+        let handler = null, countStop = 0, count = 0;
+        unmatchedList = unmatched.split(',');
+        handler = setInterval(capture, 500);
+        function capture() {
+            const num = captureOneBlock();
+            if (num >= 0) {
+                count += num;
+                countStop = 0;
+                document.title = getStatInfo(count, friends.length);
+                wait.setText(document.title);
+            } else {
+                countStop++;
+                // if the connection is slow, we may want to try a bit more
+                if (countStop > 20) {
+                    clearInterval(handler);
+                    if (confirmCollection) {
+                        dialog.show({
+                            title: getStatInfo(count, friends.length),
+                            text: getMessage('friendship_confirmcollect'),
+                            style: [Dialog.YES, Dialog.NO]
+                        }, function (method) {
+                            if (method == Dialog.YES) {
+                                sendFriends();
+                            } else if (method == Dialog.NO) {
+                                countStop = 0;
+                                handler = setInterval(capture, 500);
+                            }
+                        });
+                    } else {
+                        sendFriends();
+                    }
+                }
+            }
+            scrollWindow();
+        }
+    }
 }
