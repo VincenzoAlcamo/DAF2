@@ -33,8 +33,6 @@ const Html = (function () {
     Html.encode = Html;
     Html.raw = HtmlRaw;
     Html.br = getTemplateFunction(/[&<>'"\n]/g);
-    let div = document.createElement('div');
-    Html.decode = html => div.innerHTML = html, div.innerText;
 
     return Html;
 })();

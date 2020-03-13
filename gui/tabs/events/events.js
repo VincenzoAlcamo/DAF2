@@ -1,4 +1,4 @@
-/*global gui SmartTable Html Locale Tooltip*/
+/*global bgp gui SmartTable Html Locale Tooltip Dialog*/
 export default {
     hasCSS: true,
     init: init,
@@ -145,7 +145,7 @@ function update() {
         item.tquest = quests.length;
         item.cquest = 0;
         for (const quest of quests) {
-            if (questsFinished.includes(+quest.def_id))++item.cquest;
+            if (questsFinished.includes(+quest.def_id)) ++item.cquest;
         }
         item.pquest = item.cquest / (item.tquest || 1);
 
@@ -181,7 +181,7 @@ function update() {
             let pieces = gui.getArrayOfInt(collection.pieces);
             item.tcollect += pieces.length;
             for (let pid of pieces)
-                if (artifacts.includes(pid))++item.ccollect;
+                if (artifacts.includes(pid)) ++item.ccollect;
         }
         item.pcollect = item.ccollect / (item.tcollect || 1);
 
@@ -233,7 +233,7 @@ function update() {
         item.segmented = item.issegmented ? eventsRegion[eid] || 0 : -1;
     }
 
-    selectYear.innerHTML = '';
+    Dialog.htmlToDOM(selectYear, '');
     addOption(selectYear, '', '');
     let lastYear = null;
     let items = Object.values(allEvents).sort((a, b) => a.year - b.year);
@@ -317,7 +317,7 @@ function refresh() {
     items = sort(items);
 
     let tbody = smartTable.tbody[0];
-    tbody.innerHTML = '';
+    Dialog.htmlToDOM(tbody, '');
     for (let item of items) {
         let row = item.row;
         if (!row) {
@@ -398,7 +398,7 @@ function updateRow(row) {
         htm += gui.getObjectImg(matId > 0 ? 'material' : 'token', Math.abs(matId), size, true, 'desc');
     });
     htm += Html.br`</td>`;
-    row.innerHTML = htm;
+    Dialog.htmlToDOM(row, htm);
 }
 
 function onTooltip(event) {
@@ -485,7 +485,7 @@ function showInfo() {
         row.removeAttribute('lazy-render');
         updateRow(row);
     }
-    fixedBody.innerHTML = '';
+    Dialog.htmlToDOM(fixedBody, '');
     const clone = row.cloneNode(true);
     for (const info of infos) clone.classList.remove(PREFIX_HILIGHT + info);
     clone.classList.add(PREFIX_SET + selectedInfo);
@@ -509,7 +509,7 @@ function showInfo() {
     let region = selectedRegion || 0;
     let showProgress = region == 0;
 
-    selectRegion.innerHTML = '';
+    Dialog.htmlToDOM(selectRegion, '');
     // Your progress
     let yourRegion = 1;
     if (item.issegmented) yourRegion = item.status == 'notdone' ? Math.min(+generator.region, item.maxsegment) : item.segmented || 1;
@@ -753,7 +753,7 @@ function showInfo() {
     }
 
     htm += Html.br`</td>`;
-    trInfo.innerHTML = htm;
+    Dialog.htmlToDOM(trInfo, htm);
 }
 
 function getQuests(event) {

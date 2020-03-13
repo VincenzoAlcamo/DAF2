@@ -1,4 +1,4 @@
-/*global bgp gui Html Locale*/
+/*global bgp gui Html Locale Dialog*/
 
 export default ringLoot;
 
@@ -39,7 +39,7 @@ function ringLoot(kind) {
         selectRegion = container.querySelector('[name=region]');
         if (selectRegion) {
             selectRegion.addEventListener('change', onInput);
-            selectRegion.innerHTML = '';
+            Dialog.htmlToDOM(selectRegion, '');
             for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
                 const option = document.createElement('option');
                 option.value = '' + rid;
@@ -136,7 +136,7 @@ function ringLoot(kind) {
         if (tokenId) {
             let img = gui.getObjectImg('token', tokenId, 24, true);
             let qty = gui.getGenerator().tokens[tokenId] || 0;
-            container.querySelector('.stats').innerHTML = Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`;
+            Dialog.htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`);
         }
 
         if (kind == 'green' || kind == 'christmas') {
@@ -145,7 +145,7 @@ function ringLoot(kind) {
         }
         let divWarning = container.querySelector('.toolbar .warning');
         if (swDoubleDrop) {
-            divWarning.innerHTML = Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`;
+            Dialog.htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
             divWarning.style.display = '';
         } else {
             divWarning.style.display = 'none';
@@ -166,7 +166,7 @@ function ringLoot(kind) {
 
         floorData = {};
         let parent = container.querySelector('.scrollable-content');
-        parent.innerHTML = '';
+        Dialog.htmlToDOM(parent, '');
         let index = 0;
         for (const mine of mines) {
             let lid = mine.def_id;
@@ -245,7 +245,7 @@ function ringLoot(kind) {
             htm += Html.br`<div></div>`;
             let div = document.createElement('div');
             div.className = 'card rings';
-            div.innerHTML = htm;
+            Dialog.htmlToDOM(div, htm);
             parent.appendChild(div);
             let input = div.querySelector('input');
             input.addEventListener('click', function () {
@@ -430,7 +430,7 @@ function ringLoot(kind) {
         htm += Html.br`</tfoot>`;
         htm += Html.br`</table>`;
         parent = parent.parentNode.querySelector('div');
-        parent.innerHTML = htm;
+        Dialog.htmlToDOM(parent, htm);
         for (const input of parent.querySelectorAll('input[type=checkbox].xp')) {
             input.addEventListener('click', onChestClick);
         }

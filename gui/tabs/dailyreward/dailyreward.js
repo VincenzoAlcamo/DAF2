@@ -1,4 +1,4 @@
-/*global gui Html Locale Calculation*/
+/*global gui Html Locale Calculation Dialog*/
 export default {
     hasCSS: true,
     init,
@@ -20,8 +20,8 @@ function update() {
 }
 
 function refresh() {
-    divRewards.innerHTML = '';
-    divStats.innerHTML = '';
+    Dialog.htmlToDOM(divRewards, '');
+    Dialog.htmlToDOM(divStats, '');
 
     const generator = gui.getGenerator();
     const rid = +generator.region;
@@ -67,5 +67,5 @@ function refresh() {
         htm += Html`<div class="amount"><span class="outlined">${Locale.formatNumber(qty)}</span></div>`;
         htm += Html`</div>`;
     }
-    divRewards.innerHTML = htm;
+    Dialog.htmlToDOM(divRewards, htm);
 }

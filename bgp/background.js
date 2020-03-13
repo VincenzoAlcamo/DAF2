@@ -1461,7 +1461,7 @@ var Synchronize = {
             var neighbourId = task.neigh_id;
             var neighbour = Data.getNeighbour(neighbourId);
             if (neighbour && neighbour.spawned) {
-                if (!neighbour.extra.hasOwnProperty('gcCount')) neighbour.extra.gcCount = Data.getConfigValue('child_count', 5);
+                if (!('gcCount' in neighbour.extra)) neighbour.extra.gcCount = Data.getConfigValue('child_count', 5);
                 if ((--neighbour.extra.gcCount) <= 0) {
                     // Collected all of them!
                     neighbour.spawned = 0;

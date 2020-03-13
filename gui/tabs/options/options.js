@@ -1,4 +1,4 @@
-/*global bgp chrome gui Html*/
+/*global bgp chrome gui Html Dialog*/
 export default {
     hasCSS: true,
     init: init,
@@ -154,7 +154,7 @@ function init() {
     ]);
     endSection();
 
-    container.querySelector('.scrollable-content').innerHTML = htm;
+    Dialog.htmlToDOM(container.querySelector('.scrollable-content'), htm);
 
     for (let item of container.querySelectorAll('.open_href')) {
         item.addEventListener('click', function (event) {

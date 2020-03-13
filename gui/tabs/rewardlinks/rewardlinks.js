@@ -384,7 +384,7 @@ function update() {
             if (item.cmt != rewardLink.cmt) {
                 flagUpdated = true;
                 item.cmt = rewardLink.cmt;
-                item.row.cells[4].innerHTML = materialHTML(item.cmt);
+                Dialog.htmlToDOM(item.row.cells[4], materialHTML(item.cmt));
                 item.mtx = item.row.cells[4].textContent;
                 if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             }
@@ -392,7 +392,7 @@ function update() {
                 flagUpdated = true;
                 item.cid = rewardLink.cid;
                 item.cnm = rewardLink.cnm;
-                item.row.cells[5].innerHTML = item.cid ? Html.br`<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '';
+                Dialog.htmlToDOM(item.row.cells[5], item.cid ? Html.br`<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
             }
             if (flagUpdated) status = 3;
         } else {
@@ -408,7 +408,7 @@ function update() {
             htm += Html.br`<td translate="no">`;
             if (item.cid) htm += Html.br`<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
             htm += `</td>`;
-            item.row.innerHTML = htm;
+            Dialog.htmlToDOM(item.row, htm);
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             item.mtx = item.row.cells[4].textContent;
             if (!firstTime) status = 2;
@@ -492,7 +492,7 @@ function showStats() {
     let element = container.querySelector('.stats');
     element.textContent = text + (flagNext ? textNext : '');
     element.classList.toggle('wait', flagNext);
-    container.querySelector('.info').innerHTML = Html.br(flagNext ? '' : textNext);
+    Dialog.htmlToDOM(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
 
     text = gui.getMessage('rewardlinks_stats', Locale.formatNumber(numToCollect), Locale.formatNumber(numTotal));
     Array.from(smartTable.container.querySelectorAll('tfoot td')).forEach(cell => {

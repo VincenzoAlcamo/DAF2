@@ -8,7 +8,7 @@ export default {
 function init() { }
 
 function update() {
-    this.container.querySelector('.about_version a').innerHTML = Html.br(gui.getMessage('about_version', bgp.Data.version));
+    Dialog.htmlToDOM(this.container.querySelector('.about_version a'), Html.br(gui.getMessage('about_version', bgp.Data.version)));
 
     let generator = gui.getGenerator();
     let html_data = '';
@@ -40,7 +40,7 @@ function update() {
 }
 
 function setHtml(div, html) {
-    div.innerHTML = html || '';
+    Dialog.htmlToDOM(div, html || '');
     div.style.display = html ? '' : 'none';
 }
 

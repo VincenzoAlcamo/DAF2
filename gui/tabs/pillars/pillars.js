@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Html Tooltip*/
+/*global bgp gui SmartTable Locale Html Tooltip Dialog*/
 export default {
     hasCSS: true,
     init: init,
@@ -154,9 +154,9 @@ function refreshTotals() {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
             let levelup = levelups[level - 1];
             let div = parent.querySelectorAll('div');
-            div[1].innerHTML = Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`;
-            div[2].innerHTML = Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`;
-            div[3].innerHTML = Html`${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`;
+            Dialog.htmlToDOM(div[1], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`);
+            Dialog.htmlToDOM(div[2], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`);
+            Dialog.htmlToDOM(div[3], Html`${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`);
             div = parent.querySelector('progress');
             div.setAttribute('value', xp);
             div.setAttribute('max', levelup.xp);
@@ -213,9 +213,7 @@ function refreshTotals() {
     if (food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(food))}</span>`);
     if (coins2) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(coins2))}</span>`);
     gains = gains.join(', ');
-    Array.from(container.querySelectorAll('.pillars-gain')).forEach(el => {
-        el.innerHTML = gains;
-    });
+    for (const el of Array.from(container.querySelectorAll('.pillars-gain'))) Dialog.htmlToDOM(el, gains);
     gains = [];
     gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('pillars_maxpossible', Locale.formatNumber(tot))}</span>`);
     gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_xp', Locale.formatNumber(maxXp))}</span>`);
@@ -224,7 +222,7 @@ function refreshTotals() {
     if (maxFood) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxFood))}</span>`);
     if (maxCoins + maxCoins2) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxCoins + maxCoins2))}</span>`);
     gains = gains.join(', ');
-    container.querySelector('.stats').innerHTML = gains;
+    Dialog.htmlToDOM(container.querySelector('.stats'), gains);
 }
 
 function refresh() {
@@ -232,7 +230,7 @@ function refresh() {
     gui.updateTabState(tab);
 
     smartTable.showFixed(false);
-    smartTable.tbody[0].innerHTML = '';
+    Dialog.htmlToDOM(smartTable.tbody[0], '');
 
     let state = getState();
     let generator = gui.getGenerator();
@@ -301,7 +299,7 @@ function refresh() {
         while (index++ < 8) htm += `<td class="grid"></td>`;
         htm = `<tr>` + htm + `</tr>`;
     }
-    smartTable.tbody[0].innerHTML = htm;
+    Dialog.htmlToDOM(smartTable.tbody[0], htm);
     Array.from(smartTable.tbody[0].querySelectorAll('input[type=checkbox]')).forEach(input => {
         input.addEventListener('click', updatePillar);
     });

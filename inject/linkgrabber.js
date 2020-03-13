@@ -621,7 +621,7 @@ function collect(confirmCollection) {
         const showDisabled = () => {
             if (ulInactive) {
                 if (ulInactive !== container) {
-                    ulInactive.innerHTML = '';
+                    while (ulInactive.firstChild) ulInactive.firstChild.remove();
                     ulInactiveParent.appendChild(ulInactive);
                 }
                 liInactive.forEach(li => ulInactive.appendChild(li));

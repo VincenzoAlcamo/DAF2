@@ -1,4 +1,4 @@
-/*global gui SmartTable Html Locale*/
+/*global gui SmartTable Html Locale Dialog*/
 export default {
     hasCSS: true,
     init: init,
@@ -134,7 +134,7 @@ function showSpecialWeeks(items) {
         if (sw && sw.name) htm.push(Html.br`${sw.name}: ${sw.ends}`);
     }
     let divWarning = container.querySelector('.toolbar .warning');
-    divWarning.innerHTML = htm.join('<br>');
+    Dialog.htmlToDOM(divWarning, htm.join('<br>'));
     divWarning.style.display = htm.length ? '' : 'none';
 }
 
@@ -193,7 +193,7 @@ function refresh() {
     items = sort(items);
 
     let tbody = smartTable.tbody[0];
-    tbody.innerHTML = '';
+    Dialog.htmlToDOM(tbody, '');
     for (let item of items) {
         let row = item.row;
         if (!row) {
@@ -248,7 +248,7 @@ function updateRow(row) {
     htm += Html.br`<td class="postcard"></td>`;
     htm += Html.br`<td class="time"></td>`;
     row.classList.toggle('selected', item.selected);
-    row.innerHTML = htm;
+    Dialog.htmlToDOM(row, htm);
     item._ready = item._readyText = null;
     calculateItem(item, true);
 }
@@ -297,7 +297,7 @@ function calculateItem(item, flagRefreshRow) {
             }
             if (item._postcard !== item.postcard) {
                 item._postcard = item.postcard;
-                row.querySelector('td.postcard').innerHTML = item.postcard ? ticked : unticked;
+                Dialog.htmlToDOM(row.querySelector('td.postcard'), item.postcard ? ticked : unticked);
             }
             if (readyHasChanged || !item.ready) {
                 if (readyHasChanged) row.classList.toggle('ready', item.ready);

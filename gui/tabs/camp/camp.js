@@ -1,4 +1,4 @@
-/*global bgp gui Locale Html Tooltip*/
+/*global bgp gui Locale Html Dialog Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -54,7 +54,7 @@ function update() {
     for (let sw of specialWeeks.items) {
         if (sw.name) htm.push(Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
     }
-    divWeeks.innerHTML = htm.join('');
+    Dialog.htmlToDOM(divWeeks, htm.join(''));
     divWeeks.style.display = htm.length ? '' : 'none';
 }
 
@@ -138,7 +138,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     div.querySelector('img').setAttribute('src', pal ? (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) : '/img/gui/anon.png');
     div.querySelector('span').textContent = campName;
-    div.querySelector('div').innerHTML = '';
+    Dialog.htmlToDOM(div.querySelector('div'), '');
     if (flagHeaderOnly || !camp) return;
 
     const campResult = calculateCamp(camp, true);
@@ -271,7 +271,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         htm += Html.br`</div>`;
     });
 
-    div.querySelector('div').innerHTML = htm;
+    Dialog.htmlToDOM(div.querySelector('div'), htm);
 
     gui.setupScreenshot(div, campName);
 }
@@ -440,7 +440,6 @@ function renderCamp(campResult) {
     var opacity_min = 0.4;
     var opacity_range = 1 - opacity_min;
     var htm = '';
-    var state = getState();
 
     htm += Html.br`<div class="camp public">`;
 

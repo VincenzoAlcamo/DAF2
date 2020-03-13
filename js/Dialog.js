@@ -29,6 +29,19 @@ Object.assign(Dialog, {
     htmlEncodeBr: function (text) {
         return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
     },
+    htmlToDOM: function (parent, html) {
+        while (parent.firstChild) parent.firstChild.remove();
+        if (html === null || html === undefined || html === '') return;
+        html = String(html);
+        const getBody = html => (new DOMParser()).parseFromString(html, 'text/html').body;
+        let container;
+        const first3 = html.substring(0, 3).toLowerCase();
+        if (first3 == '<td' || first3 == '<th') container = getBody(`<table><tr>${html}</tr></table>`).querySelector('tr');
+        else if(first3 == '<tr') container = getBody(`<table>${html}</table>`).querySelector('tbody');
+        else container = getBody(html);
+        const owner = parent.ownerDocument;
+        for (let node = container.firstChild; node; node = node.nextSibling) parent.appendChild(owner.importNode(node, true));
+    },
     language: 'en',
     getMessage: function getMessage(id, ...args) {
         let text = chrome.i18n.getMessage(Dialog.language + '@' + id, args);
@@ -71,9 +84,9 @@ Object.assign(Dialog.prototype, {
             this.element.className = 'DAF-dialog DAF-md-superscale ' + (this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal') + (this.mode === Dialog.WAIT ? ' DAF-md-wait' : '');
             // We stopped using a CSS transform (that blurs the text)
             const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
-            this.element.innerHTML = `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
+            Dialog.htmlToDOM(this.element, `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
             <div class="DAF-md-title"></div><div class="DAF-md-body"></div>
-            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL, Dialog.CLOSE].map(button).join('')}</div></form></div>`;
+            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL, Dialog.CLOSE].map(button).join('')}</div></form></div>`);
             this.form = this.element.getElementsByTagName('form')[0];
             document.body.appendChild(this.element);
         }
@@ -130,7 +143,7 @@ Object.assign(Dialog.prototype, {
     setTitle: function (title) {
         var el = this.create().element.getElementsByClassName('DAF-md-title')[0];
         if (el) {
-            el.innerHTML = Dialog.htmlEncodeBr(title);
+            Dialog.htmlToDOM(el, Dialog.htmlEncodeBr(title));
             el.style.display = title ? '' : 'none';
         }
         return this;
@@ -138,7 +151,7 @@ Object.assign(Dialog.prototype, {
     setHtml: function (html) {
         var el = this.create().element.getElementsByClassName('DAF-md-body')[0];
         if (el) {
-            el.innerHTML = html;
+            Dialog.htmlToDOM(el, html);
             el.style.display = el.firstChild ? '' : 'none';
         }
         return this.setStyle();

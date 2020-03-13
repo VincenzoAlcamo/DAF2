@@ -1,3 +1,4 @@
+/*global Dialog*/
 let Tooltip = {};
 Tooltip.init = function () {
     this.tip = document.createElement('span');
@@ -21,7 +22,7 @@ Tooltip.show = function (el, html, direction) {
     for (let name of ['mousedown', 'mouseleave', 'blur']) el.addEventListener(name, autoHide);
     tip.className = 'Tooltip';
     tip.style.display = '';
-    tip.innerHTML = html;
+    Dialog.htmlToDOM(tip, html);
     let height = this.tip.offsetHeight;
     let width = this.tip.offsetWidth;
     let box = el.getBoundingClientRect();

@@ -1,4 +1,4 @@
-/*global bgp gui Html Locale SmartTable*/
+/*global bgp gui Html Locale SmartTable Dialog*/
 
 export default {
     hasCSS: true,
@@ -171,7 +171,7 @@ function refresh() {
         htm += getTimes(item.isCompleted, item.bt, item.et);
         htm += Html.br`</tr>`;
     }
-    smartTable.table.querySelector('tbody').innerHTML = htm;
+    Dialog.htmlToDOM(smartTable.table.querySelector('tbody'), htm);
     container.classList.toggle('no-dates', !state.dates);
     container.classList.toggle('no-energy', !state.energy);
 
@@ -308,7 +308,7 @@ function showDetail(show) {
                     if (state.groups) {
                         group.row.setAttribute('data-id', item.id + REGION_SEPARATOR + sub.seq);
                     } else group.row.classList.add('header');
-                    group.row.innerHTML = Html`<td colspan="2">${gui.getString(sub.gname)}</td>`;
+                    Dialog.htmlToDOM(group.row, Html`<td colspan="2">${gui.getString(sub.gname)}</td>`);
                     parent.insertBefore(group.row, nextRow);
                 }
                 initGroupTotals(group.total = {});
@@ -330,7 +330,7 @@ function showDetail(show) {
             sub.row = document.createElement('tr');
             if (sub.id) sub.row.setAttribute('data-id', sub.id);
             sub.row.setAttribute('data-level', level + (state.groups ? 1 : 2));
-            sub.row.innerHTML = htm;
+            Dialog.htmlToDOM(sub.row, htm);
         }
         isOdd = !isOdd;
         sub.row.classList.toggle('odd', isOdd);
@@ -359,7 +359,7 @@ function showDetail(show) {
             let htm = '';
             htm += Html`<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
             htm += getTimes(isCompleted, total.bt, total.et);
-            group.row.innerHTML = htm;
+            Dialog.htmlToDOM(group.row, htm);
             group.row.classList.toggle('inspect', (!state.hidecompleted || !isCompleted) && state.groups);
         }
         // Sub total
@@ -377,7 +377,7 @@ function showDetail(show) {
         let caption = gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal');
         htm += Html`<td></td><td>${caption} (${gui.getMessageAndValue('events_locations', Locale.formatNumber(total.qty))})</td>` + getProgress(total.value, total.max, total.energy);
         htm += getTimes(isCompleted, total.bt, total.et);
-        row.innerHTML = htm;
+        Dialog.htmlToDOM(row, htm);
         parent.insertBefore(row, nextRow);
     }
 }
@@ -421,7 +421,7 @@ function infoLevel(row) {
     htm += Html.br`</td>`;
     htm += Html.br`<td class="energy"></td><td></td>`;
     htm += getTimes(false, 0, 0);
-    rowSlider.innerHTML = htm;
+    Dialog.htmlToDOM(rowSlider, htm);
     rowSlider.querySelector('input').addEventListener('input', function () {
         sliderLevel = this.value;
         rowSlider.querySelector('.slider-val').textContent = Locale.formatNumber(sliderLevel);
@@ -441,7 +441,7 @@ function infoLevel(row) {
         let htm = '';
         htm += Html`<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
         htm += getTimes(false, 0, 0);
-        row.innerHTML = htm;
+        Dialog.htmlToDOM(row, htm);
     }
 }
 

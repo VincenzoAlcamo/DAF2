@@ -286,7 +286,7 @@ function update() {
     const arrEvents = Object.values(allEvents).filter(event => event.sale).sort((a, b) => b.year - a.year);
     let optGroup = null;
     let lastYearText = '';
-    selectEvent.innerHTML = '';
+    Dialog.htmlToDOM(selectEvent, '');
     for (const event of arrEvents) {
         const option = document.createElement('option');
         option.value = '' + event.id;
@@ -301,7 +301,7 @@ function update() {
         optGroup.appendChild(option);
     }
 
-    selectRegion.innerHTML = '';
+    Dialog.htmlToDOM(selectRegion, '');
     for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
         const option = document.createElement('option');
         option.value = '' + rid;
@@ -309,7 +309,7 @@ function update() {
         selectRegion.appendChild(option);
     }
 
-    selectTheme.innerHTML = '';
+    Dialog.htmlToDOM(selectTheme, '');
     for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending)) {
         const option = document.createElement('option');
         option.value = '' + skin;
@@ -846,7 +846,7 @@ function refresh() {
     items = sort(items);
 
     var tbody = smartTable.tbody[0];
-    tbody.innerHTML = '';
+    Dialog.htmlToDOM(tbody, '');
     for (let item of items) {
         let row = item.row;
         if (!row) {
@@ -978,7 +978,7 @@ function updateRow(row) {
         }
     }
     htm += Html.br`</td>`;
-    row.innerHTML = htm;
+    Dialog.htmlToDOM(row, htm);
     const badge = row.querySelector('.offer[data-type]');
     if (badge) {
         badge.style.cursor = 'zoom-in';
@@ -1302,7 +1302,7 @@ function getOffers(id) {
         const arr = Object.values(offers);
         let start1;
         start1 = start;
-        while (true) {
+        for (; ;) {
             const end1 = start1 + DAILY_OFFER_TIMESPAN;
             const other = arr.find(offer => +offer.start > start1 && +offer.start < end1 && isDailyOffer(offer));
             if (!other) break;
@@ -1310,7 +1310,7 @@ function getOffers(id) {
             start1 = +other.start;
         }
         start1 = start - DAILY_OFFER_TIMESPAN;
-        while (true) {
+        for (; ;) {
             const end1 = start1 + DAILY_OFFER_TIMESPAN;
             const other = arr.find(offer => +offer.start > start1 && +offer.start < end1 && isDailyOffer(offer));
             if (!other) break;

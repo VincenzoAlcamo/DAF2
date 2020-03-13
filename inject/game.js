@@ -101,10 +101,10 @@ function onResize() {
     }
 }
 
-function appendScript(code) {
-    var script = document.createElement('script');
-    script.innerHTML = code;
-    document.head.appendChild(script);
+function createScript(code) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.appendChild(document.createTextNode(code));
     return script;
 }
 
@@ -220,7 +220,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
             action: 'getGCList',
             simulate: simulate
         }, function updateGCTable(result) {
-            if (gcTable) gcTable.innerHTML = '';
+            if (gcTable) while (gcTable.firstChild) gcTable.firstChild.remove();
             var list = (result && result.list) || [];
             var max = (result && result.max) || 0;
             var regions = (result && result.regions) || {};
@@ -331,7 +331,6 @@ function createMenu() {
 `;
     // remove spaces
     html = html.replace(/>\s+/g, '>');
-
     addStylesheet(chrome.extension.getURL('inject/game_menu.css'), function () {
         styleLoaded = true;
         showMenu();
@@ -339,7 +338,7 @@ function createMenu() {
     menu = document.createElement('div');
     menu.classList.add('DAF-menu-container');
     menu.style.display = 'none';
-    menu.innerHTML = html;
+    for(let node = (new DOMParser()).parseFromString(html, 'text/html').body.firstChild; node; node = node.nextSibling) menu.appendChild(menu.ownerDocument.importNode(node, true));
     document.body.appendChild(menu);
     for (let el of Array.from(menu.querySelectorAll('[data-pref]'))) {
         let prefName = el.getAttribute('data-pref');
@@ -395,41 +394,39 @@ function onMenuClick(e) {
 }
 
 function interceptData() {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.innerHTML = `
-(function() {
-    const XHR = XMLHttpRequest.prototype;
-    const send = XHR.send;
-    const open = XHR.open;
-    const site = location.host.startsWith('portal.') ? 'Portal' : 'Facebook';
-    function dispatch(type, kind, request, response) {
-        let lang;
-        try { lang = gamevars.lang; } catch(e) { }
-        const event = new CustomEvent('daf_xhr', { detail: { type, kind, site, lang, request, response } });
-        document.dispatchEvent(event);
-    }
-    XHR.open = function(method, url) {
-        this.url = url;
-        return open.apply(this, arguments);
-    }
-    XHR.send = function() {
-        const match = this.url.match(/\\/(generator|synchronize)\\.php/);
-        if(match) {
-            const kind = match[1];
-            const request = arguments[0];
-            const error = () => dispatch('error', kind, null, null);
-            dispatch('send', kind, request, null);
-            this.addEventListener('load', () => dispatch('ok', kind, request, this.response));
-            this.addEventListener('error', error);
-            this.addEventListener('abort', error);
-            this.addEventListener('timeout', error);
+    const code = `
+    (function() {
+        const XHR = XMLHttpRequest.prototype;
+        const send = XHR.send;
+        const open = XHR.open;
+        const site = location.host.startsWith('portal.') ? 'Portal' : 'Facebook';
+        function dispatch(type, kind, request, response) {
+            let lang;
+            try { lang = gamevars.lang; } catch(e) { }
+            const event = new CustomEvent('daf_xhr', { detail: { type, kind, site, lang, request, response } });
+            document.dispatchEvent(event);
         }
-        return send.apply(this, arguments);
-    };
-})();
-    `
-    document.head.prepend(script);
+        XHR.open = function(method, url) {
+            this.url = url;
+            return open.apply(this, arguments);
+        }
+        XHR.send = function() {
+            const match = this.url.match(/\\/(generator|synchronize)\\.php/);
+            if(match) {
+                const kind = match[1];
+                const request = arguments[0];
+                const error = () => dispatch('error', kind, null, null);
+                dispatch('send', kind, request, null);
+                this.addEventListener('load', () => dispatch('ok', kind, request, this.response));
+                this.addEventListener('error', error);
+                this.addEventListener('abort', error);
+                this.addEventListener('timeout', error);
+            }
+            return send.apply(this, arguments);
+        };
+    })();
+    `;
+    document.head.prepend(createScript(code));
     document.addEventListener('daf_xhr', function (event) {
         chrome.runtime.sendMessage({
             action: 'daf_xhr',
@@ -472,7 +469,7 @@ function init() {
     addPrefs('autoClick,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
 
     function setPref(name, value) {
-        if (!prefs.hasOwnProperty(name)) return;
+        if (!(name in prefs)) return;
         prefs[name] = value;
         if (name in handlers) handlers[name]();
         updateMenu(name);
@@ -592,7 +589,8 @@ window.setCookie = (name, value) => document.cookie = name + '=' + encodeURIComp
                 }
                 if ('GEMCONFIRMATION' in fixes) code += `setCookie('settings_gem_confirmation', '1');`;
                 if ('FBSHARING' in fixes) code += `setCookie('fb_sharing', '1');`;
-                appendScript(code);
+                // appendScript(code);
+                document.head.appendChild(createScript(code));
             }
         } else {
             createMenu();

@@ -1,4 +1,4 @@
-/*global chrome Locale Dialog UrlInfo Html dynamicImport Tooltip*/
+/*global chrome Locale Dialog UrlInfo Html Tooltip imported_tabs*/
 let bgp = chrome.extension.getBackgroundPage();
 
 let currentTab = null;
@@ -650,7 +650,7 @@ function onLoad() {
     }
     htm += Html`<li class="last"></li>`;
     var div = document.querySelector('.vertical-menu');
-    div.innerHTML = htm;
+    Dialog.htmlToDOM(div, htm);
     div.addEventListener('click', clickMenu, true);
 
     document.body.addEventListener('click', function (e) {
@@ -744,7 +744,7 @@ async function loadTab(tab) {
         resource_count += requires.length;
         var response = await fetch(tabBasePath + '.html');
         var text = await response.text();
-        container.innerHTML = text;
+        Dialog.htmlToDOM(container, text);
         for (var name of requires) {
             advanceProgress();
             await bgp.Data.getFile(name);
@@ -753,7 +753,7 @@ async function loadTab(tab) {
         tab.isLoaded = true;
         tab.mustBeUpdated = true;
     } catch (e) {
-        container.innerHTML = Html.br`Error: ${e}`;
+        Dialog.htmlToDOM(container, Html.br`Error: ${e}`);
         console.error(e);
     } finally {
         container.style.display = '';
@@ -809,12 +809,8 @@ function updateCurrentTab() {
 
 //#region TEXT INFO
 function translate(parent) {
-    Array.from(parent.querySelectorAll('[data-i18n-title]')).forEach(el => {
-        el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
-    });
-    Array.from(parent.querySelectorAll('[data-i18n-text]')).forEach(el => {
-        el.innerHTML = Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n'));
-    });
+    for(const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
+    for(const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Dialog.htmlToDOM(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
 }
 //#endregion
 

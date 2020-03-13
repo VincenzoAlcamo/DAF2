@@ -386,7 +386,7 @@ function showStats() {
         gui.wait.setText(analyzingText);
         htm += Html.br`${analyzingText}`;
     }
-    container.querySelector('.stats').innerHTML = htm;
+    Dialog.htmlToDOM(container.querySelector('.stats'), htm);
 
     var params = {
         'a': [Locale.formatNumber(numFriends), Locale.formatNumber(numNeighbours)],
@@ -405,9 +405,9 @@ function showStats() {
     }
 
     htm = Html.br`${gui.getMessage('friendship_totalfriends', Locale.formatNumber(numFriendsShown), Locale.formatNumber(numFriends))}`;
-    for (let div of container.querySelectorAll('.numfriends')) div.innerHTML = htm;
+    for (const div of container.querySelectorAll('.numfriends')) Dialog.htmlToDOM(div, htm);
     htm = Html.br`${gui.getMessage('friendship_totalneighbours', Locale.formatNumber(numNeighboursShown), Locale.formatNumber(numNeighbours))}`;
-    for (let div of container.querySelectorAll('.numneighbours')) div.innerHTML = htm;
+    for (const div of container.querySelectorAll('.numneighbours')) Dialog.htmlToDOM(div, htm);
 
     htm = '';
     if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400) {
@@ -415,7 +415,7 @@ function showStats() {
         htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collect'), method));
     }
     let div = container.querySelector('.warning');
-    div.innerHTML = htm;
+    Dialog.htmlToDOM(div, htm);
     div.style.display = htm ? '' : 'none';
 }
 
@@ -450,7 +450,7 @@ function updateRow(row) {
     } else {
         htm += Html.br`<td></td><td></td><td></td><td></td><td></td>`;
     }
-    row.innerHTML = htm;
+    Dialog.htmlToDOM(row, htm);
     var isIgnored = friend ? friend.score == -1 : false;
     var isNotMatched = friend && !pal ? !isIgnored : false;
     row.classList.toggle('f-ignored', isIgnored);
@@ -463,7 +463,7 @@ function refresh() {
     triggerSearchHandler(false);
     gui.updateTabState(tab);
 
-    smartTable.tbody[0].innerHTML = '';
+    Dialog.htmlToDOM(smartTable.tbody[0], '');
     showStats();
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
@@ -546,7 +546,7 @@ function refreshDelayed() {
         }
     }
     arr = sort(arr);
-    smartTable.tbody[0].innerHTML = arr.map(item => item[2]).join('');
+    Dialog.htmlToDOM(smartTable.tbody[0], arr.map(item => item[2]).join(''));
     showStats();
 
     scheduledRefresh = setTimeout(function () {
@@ -586,7 +586,7 @@ function createImage(onLoad, onError) {
 const MATCH_WIDTH = 50;
 const MATCH_HEIGHT = 50;
 const MATCH_THRESHOLD = 0.02;
-const MATCH_MAXDIFF = Math.floor(MATCH_WIDTH * MATCH_HEIGHT * 0.01);
+// const MATCH_MAXDIFF = Math.floor(MATCH_WIDTH * MATCH_HEIGHT * 0.01);
 
 function drawImage(img) {
     const canvas = document.createElement('canvas');
@@ -633,7 +633,7 @@ function blendImage(img, width, height) {
     const maxPos = width * height * 4;
     const blend = (c, a) => 255 + (c - 255) * a;
     for (let pos = 0; pos < maxPos; pos += 4) {
-        const a = img[pos + 3];
+        let a = img[pos + 3];
         if (a < 255) {
             a /= 255;
             img[pos + 0] = blend(img[pos + 0], a);

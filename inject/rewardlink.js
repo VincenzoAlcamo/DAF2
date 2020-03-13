@@ -81,8 +81,7 @@ if (data) {
     }, function (htm) {
         var div = document.getElementsByClassName('playerIdInfo')[0];
         if (!chrome.runtime.lastError && div && htm) {
-            var p = document.createElement('div');
-            p.innerHTML = htm;
+            const p = div.ownerDocument.importNode((new DOMParser()).parseFromString(`<div>${htm}</div>`, 'text/html').body.querySelector('div'), true);
             div.parentNode.insertBefore(p, div);
         }
     });

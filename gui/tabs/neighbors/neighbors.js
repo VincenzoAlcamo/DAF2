@@ -32,7 +32,7 @@ function init() {
 
     let htm = Html.br(gui.getMessage('neighbors_gifts'));
     htm = String(htm).replace('@DAYS@', getSelectDays(0));
-    container.querySelector('.toolbar .days').innerHTML = htm;
+    Dialog.htmlToDOM(container.querySelector('.toolbar .days'), htm);
     selectDays = container.querySelector('[name=days]');
     selectDays.addEventListener('change', refresh);
 
@@ -41,7 +41,7 @@ function init() {
 
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
-    trGifts.innerHTML = Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`;
+    Dialog.htmlToDOM(trGifts, Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`);
 
     let button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
@@ -181,7 +181,7 @@ blocks>20 or (region=1 and level<100)
             return;
         }
         if (method == 'sort') {
-            gui.dialog.element.querySelector('[name=gifts]').innerHTML = getGiftListHtml(list, params.sort);
+            Dialog.htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
             return;
         }
         if (method == 'expression' || method == Dialog.AUTORUN) {
@@ -197,7 +197,7 @@ blocks>20 or (region=1 and level<100)
                 if (post.length > 15) post = post.substring(0, 15) + '\u2025';
                 htm = Html`<b>${message}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
             }
-            gui.dialog.element.querySelector(`.expression-error`).innerHTML = htm;
+            Dialog.htmlToDOM(gui.dialog.element.querySelector(`.expression-error`), htm);
             return;
         }
         if (method == Dialog.CANCEL) return;
@@ -223,7 +223,7 @@ function onClick(e) {
         return;
     }
     var giftContainer = trGifts.querySelector('.giftlist');
-    giftContainer.innerHTML = '';
+    Dialog.htmlToDOM(giftContainer, '');
     giftContainer.style.width = (row.offsetWidth - 2) + 'px';
     row.parentNode.insertBefore(trGifts, row.nextSibling);
     var id = row.getAttribute('data-pal-id');
@@ -251,7 +251,7 @@ function onClick(e) {
         if (piece == '') continue;
         htm += piece + Html.br`<span>${formatDayMonthTime(palGift[2])}</span></div>`;
     }
-    giftContainer.innerHTML = htm;
+    Dialog.htmlToDOM(giftContainer, htm);
 }
 
 function update() {
@@ -356,7 +356,7 @@ function updateRow(row) {
     htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
     htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
     htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
-    row.innerHTML = htm;
+    Dialog.htmlToDOM(row, htm);
 }
 
 var scheduledRefresh;
@@ -367,7 +367,7 @@ function refresh() {
     updateButton();
 
     //smartTable.showFixed(false);
-    smartTable.tbody[0].innerHTML = '';
+    Dialog.htmlToDOM(smartTable.tbody[0], '');
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
     scheduledRefresh = setTimeout(refreshDelayed, 50);
@@ -485,7 +485,7 @@ function refreshDelayed() {
         let realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
         let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
         text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
-        container.querySelector('.stats').innerHTML = Html.br(text);
+        Dialog.htmlToDOM(container.querySelector('.stats'), Html.br(text));
     }
 
     let giftFilter = {};
@@ -527,7 +527,7 @@ function refreshDelayed() {
         items.push(pal);
     }
 
-    smartTable.tbody[0].innerHTML = '';
+    Dialog.htmlToDOM(smartTable.tbody[0], '');
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });

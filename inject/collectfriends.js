@@ -1,6 +1,7 @@
 /*global chrome Dialog*/
 var language = 'en';
 var collectMethod = 'standard';
+// eslint-disable-next-line no-unused-vars
 var removeGhosts = 0;
 var unmatched = '';
 var confirmCollection = false;
@@ -92,7 +93,7 @@ function sendFriends() {
     });
     if (ulInactive) {
         if (ulInactive !== container) {
-            ulInactive.innerHTML = '';
+            while (ulInactive.firstChild) ulInactive.firstChild.remove();
             ulInactiveParent.appendChild(ulInactive);
         }
         liInactive.forEach(li => ulInactive.appendChild(li));
