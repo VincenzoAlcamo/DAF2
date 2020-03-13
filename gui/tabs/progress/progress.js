@@ -329,7 +329,7 @@ function showDetail(show) {
             htm += getTimes(isCompleted, sub.bt, sub.et);
             sub.row = document.createElement('tr');
             if (sub.id) sub.row.setAttribute('data-id', sub.id);
-            sub.row.setAttribute('data-level', level + 1);
+            sub.row.setAttribute('data-level', level + (state.groups ? 1 : 2));
             sub.row.innerHTML = htm;
         }
         isOdd = !isOdd;
