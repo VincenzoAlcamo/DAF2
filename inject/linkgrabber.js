@@ -323,9 +323,9 @@ function detect() {
     text += addFn('I', 'linkgrabber_fn_showid');
     text += addFn('R', 'linkgrabber_fn_refresh');
     if (count == 0) {
-        text += '\n\nCollect friends:';
-        text += '\nT = Standard';
-        text += '\nY = Standard + Confirm';
+        text += `\n\n${getMessage('friendship_collectfriends')}:`;
+        text += `\nT = ${getMessage('friendship_collectstandard')}`;
+        text += `\nY = ${getMessage('friendship_collectstandard')} + ${getMessage('dialog_confirm')}`;
     }
     text += '\n' + addFn('ESC', 'linkgrabber_fn_cancel');
     if (text != oldLabel) countLabel.innerText = oldLabel = text;
@@ -635,8 +635,7 @@ function collect(confirmCollection) {
         };
         if (autoClose) return showDisabled();
         let text = document.title;
-        text += '\n\n';
-        text += `Please refresh the DAF2 page, go to "${getMessage('tab_friendship')}" tab, click "${getMessage('friendship_collect')}" and choose "${getMessage('friendship_collectmatch')}".`;
+        text += '\n\n'+ getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
         dialog.show({ text, style: [Dialog.OK] }, showDisabled);
     }
 

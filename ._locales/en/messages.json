@@ -769,8 +769,8 @@
         "message": "Specify an expression to evaluate"
     },
 
-    "friendship_collect": {
-        "message": "Collect and match"
+    "friendship_collectfriends": {
+        "message": "Collect friends"
     },
     "friendship_score": {
         "message": "Score"
@@ -983,6 +983,20 @@
     },
     "friendship_confirmcollection": {
         "message": "Confirm collection result?"
+    },
+    "friendship_manualhelp": {
+        "message": "Please refresh the DAF2 page, go to \"$FRIENDSHIP$\" tab, click \"$COLLECT$\" and choose \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
     },
     "friendship_analyzingmatches": {
         "message": "Analyzing data, $PERCENT$ % ($NUM$ / $TOTAL$)",

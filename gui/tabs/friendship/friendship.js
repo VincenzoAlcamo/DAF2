@@ -176,7 +176,7 @@ ${method == 'standard' ? addStandardSettings() : ''}
     }
 
     gui.dialog.show({
-        title: gui.getMessage('friendship_collect'),
+        title: gui.getMessage('friendship_collectfriends'),
         html: Html.br`${gui.getMessage('friendship_collectpreamble')}
 <table style="margin-top:16px">
 ${button('standard')}
@@ -189,7 +189,7 @@ ${numFriends > 0 ? button('match') : ''}
         setNewConfirmCollection(params);
         if (method == 'standard' || method == 'unmatched' || method == 'alternate' || method == 'both' || method == 'match') {
             gui.dialog.show({
-                title: gui.getMessage('friendship_collect'),
+                title: gui.getMessage('friendship_collectfriends'),
                 html: Html.br`<p style="text-align:left">${gui.getMessage('friendship_collect' + method + 'info')}
 ${method == 'both' || method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 ${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
@@ -412,7 +412,7 @@ function showStats() {
     htm = '';
     if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400) {
         const method = gui.getMessage('friendship_collectstandard');
-        htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collect'), method));
+        htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collectfriends'), method));
     }
     let div = container.querySelector('.warning');
     Dialog.htmlToDOM(div, htm);
