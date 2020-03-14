@@ -158,7 +158,7 @@ var Parser = {
 
         return data;
     },
-    parse_localization_revision: 4,
+    parse_localization_revision: 5,
     parse_localization: function (text, format) {
         var wanted = {
             //'ABNA': '',
@@ -168,6 +168,7 @@ var Parser = {
             'COL': 'Treasure',
             'DENA': 'Decoration',
             'EVN': 'Event',
+            'STDE': 'Event',
             //'JOST': 'Journals',
             'LONA': 'Location',
             'MANA': 'Material',
