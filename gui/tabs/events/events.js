@@ -529,6 +529,12 @@ function showInfo() {
 
     const showRewards = (rewards, maxNumRewards, rows = 1) => {
         let htm = '';
+        for (const reward of rewards) {
+            let n = ['artifact', 'material', 'token', 'usable', 'decoration', 'system', 'eventpass_xp'].indexOf(reward.type);
+            if (n < 0) console.log(reward.type);
+            reward._index = +reward.object_id + n * 1000000;
+        }
+        rewards.sort((a, b) => a._index - b._index);
         for (let i = 1; i <= maxNumRewards; i++) {
             htm += Html.br`<td rowspan="${rows}" class="rewards ${i < maxNumRewards ? 'no_right_border' : ''}">`;
             if (i <= rewards.length) {
