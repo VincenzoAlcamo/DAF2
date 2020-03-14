@@ -70,24 +70,21 @@
   cursor: default;
 }
 
-.events .event-quests,
-.events .event-treasure,
-.events .event-achievement,
-.events .event-locations {
+.events .event-subtable {
   margin-top: 2px;
 }
 
-.events .event-quests .rewards,
-.events .event-treasure .rewards,
-.events .event-achievement .rewards,
-.events .event-locations .rewards {
-  text-align: right;
+.events .event-subtable tfoot {
+  background-color: var(--tb-brcol);
+  color: var(--th-fgcol);
 }
 
-.events .event-quests .rewards+.rewards,
-.events .event-treasure .rewards+.rewards,
-.events .event-achievement .rewards+.rewards,
-.events .event-locations .rewards+.rewards {
+.events .event-subtable .rewards {
+  text-align: right;
+  vertical-align: top;
+}
+
+.events .event-subtable .rewards+.rewards {
   padding-left: 4px;
 }
 

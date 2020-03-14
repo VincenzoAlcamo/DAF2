@@ -527,6 +527,24 @@ function showInfo() {
     selectRegion.value = selectedRegion || '';
     region = region || yourRegion;
 
+    const getTotalRewards = (...arrRewards) => {
+        const result = { max: 0 };
+        const totals = {};
+        for (const rewards of arrRewards) {
+            result.max = Math.max(result.max, rewards.length);
+            for (const reward of rewards) {
+                reward.amount = +reward.amount || 0;
+                const key = reward.type + '\t' + reward.object_id;
+                const total = totals[key];
+                if (total) total.amount += reward.amount; else totals[key] = Object.assign({}, reward);
+            }
+        }
+        result.rewards = Object.values(totals);
+        // A maximum of 5 rewards per row
+        result.max = Math.min(5, Math.max(result.max, result.rewards.length));
+        return result;
+    };
+
     const showRewards = (rewards, maxNumRewards, rows = 1) => {
         let htm = '';
         for (const reward of rewards) {
@@ -537,13 +555,24 @@ function showInfo() {
         rewards.sort((a, b) => a._index - b._index);
         for (let i = 1; i <= maxNumRewards; i++) {
             htm += Html.br`<td rowspan="${rows}" class="rewards ${i < maxNumRewards ? 'no_right_border' : ''}">`;
-            if (i <= rewards.length) {
-                const reward = rewards[i - 1];
+            for (let j = i, prefix = ''; j <= rewards.length; j += maxNumRewards) {
+                const reward = rewards[j - 1];
                 const title = gui.getObjectName(reward.type, reward.object_id, true);
-                htm += `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i>${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
+                htm += prefix + `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i>${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
+                prefix = '<br>';
             }
             htm += Html.br`</td>`;
         }
+        return htm;
+    };
+
+    const showTotalRewards = (totalRewards, maxNumRewards, colSpan) => {
+        let htm = '';
+        htm += Html.br`<tfoot>`;
+        htm += Html.br`<tr><td colspan="${colSpan}" class="final">${gui.getMessage('events_total')}</td>`;
+        htm += showRewards(totalRewards, maxNumRewards);
+        htm += Html.br`</tr>`;
+        htm += Html.br`</tfoot>`;
         return htm;
     };
 
@@ -564,8 +593,8 @@ function showInfo() {
                 const rid = +reward.region_id;
                 return rid == 0 || rid == region;
             });
-            const maxNumRewards = quests.reduce((max, quest) => Math.max(max, quest.rewards.length), rewards.length || 1);
-            htm += Html.br`<table class="event-quests">`;
+            const { max: maxNumRewards, rewards: totalRewards } = getTotalRewards(rewards, ...quests.map(q => q.rewards));
+            htm += Html.br`<table class="event-subtable event-quests">`;
             htm += Html.br`<thead><tr><th><img width="24" src="/img/gui/list.png"></th><th colspan="${showProgress ? 2 : 1}">${gui.getMessage('gui_quest')}</th>`;
             htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_rewards')}</th></tr></thead><tbody class="row-coloring">`;
             let found = 0;
@@ -582,7 +611,9 @@ function showInfo() {
             if (showProgress) htm += Html.br`<td>${found == quests.length ? ticked : unticked}</td>`;
             htm += showRewards(rewards, maxNumRewards);
             htm += Html.br`</tr>`;
-            htm += Html.br`</tbody></table>`;
+            htm += Html.br`</tbody>`;
+            htm += showTotalRewards(totalRewards, maxNumRewards, 2 + (showProgress ? 1 : 0));
+            htm += Html.br`</table>`;
         }
     }
 
@@ -603,9 +634,10 @@ function showInfo() {
             const achiev = generator.achievs[achievement.def_id];
             const a_level = achiev ? +achiev.level : 0;
             const a_progress = achiev ? +achiev.progress : 0;
-            const maxNumRewards = levels.reduce((max, level) => Math.max(max, level.rewards.length), 1);
+            // eslint-disable-next-line no-unused-vars
+            const { max: maxNumRewards, rewards: totalRewards } = getTotalRewards(...levels.map(l => l.rewards));
             const hasIcon = achievement.type == 'material' || achievement.type == 'token' || achievement.type == 'usable';
-            htm += Html.br`<table class="event-achievement">`;
+            htm += Html.br`<table class="event-subtable event-achievement">`;
             htm += Html.br`<thead><tr><th colspan="${maxNumRewards + 2 + (showProgress ? 2 : 0) + (hasIcon ? 1 : 0)}">${gui.getString(achievement.name_loc)}</th></tr>`;
             htm += Html.br`<tr>`;
             if (hasIcon) htm += Html.br`<th></th>`;
@@ -631,7 +663,9 @@ function showInfo() {
                 htm += showRewards(level.rewards, maxNumRewards);
                 htm += Html.br`</tr>`;
             }
-            htm += Html.br`</tbody></table>`;
+            htm += Html.br`</tbody>`;
+            // htm += showTotalRewards(totalRewards, maxNumRewards, 3 + (showProgress ? 2 : 0));
+            htm += Html.br`</table>`;
         }
     }
 
@@ -654,7 +688,7 @@ function showInfo() {
                 return rid == 0 || rid == region;
             }).sort((a, b) => a.type == 'decoration' ? -1 : (b.type == 'decoration' ? 1 : 0));
             const maxNumRewards = Math.max(2, rewards.length);
-            htm += Html.br`<table class="event-treasure">`;
+            htm += Html.br`<table class="event-subtable event-treasure">`;
             htm += Html.br`<thead><tr><th colspan="${maxNumRewards + 2 + (showProgress ? 1 : 0) + 1}">${gui.getString(col.name_loc)}</th></tr>`;
             htm += Html.br`<tr>`;
             htm += Html.br`<th></th>`;
@@ -687,27 +721,36 @@ function showInfo() {
     if (selectedInfo == 'loc') {
         const locations = gui.getFile('locations_0');
         const loc_prog = generator.loc_prog || {};
-        const maxNumRewards = [].concat(item.loc_qst, item.loc_xlo, item.loc_rep).find(lid => +locations[lid].eventpass_xp > 0) ? 2 : 1;
         const showLocations = (locs, title, isRepeatables) => {
             if (!locs.length) return;
-            htm += Html.br`<table class="event-locations">`;
+            locs = locs.map(lid => {
+                const location = locations[lid];
+                const ovr = location.overrides && location.overrides.find(ovr => +ovr.region_id == region);
+                const clearXp = ovr ? +ovr.override_reward_exp : +location.reward_exp;
+                const eventpassXp = +location.eventpass_xp;
+                const rewards = [{ type: 'system', object_id: 1, amount: clearXp }];
+                if (eventpassXp) rewards.push({ type: 'eventpass_xp', object_id: 1, amount: eventpassXp });
+                const loc = Object.assign({}, location);
+                loc.rewards = rewards;
+                return loc;
+            });
+            const { max: maxNumRewards, rewards: totalRewards } = getTotalRewards(...locs.map(l => l.rewards));
+            htm += Html.br`<table class="event-subtable event-locations">`;
             htm += Html.br`<thead><tr><th>${title}</th>`;
             htm += Html.br`<th colspan="${showProgress ? 3 : 1}">${gui.getMessage('events_tiles')}</th>`;
             if (isRepeatables) htm += Html.br`<th>${gui.getMessage('events_chance')}</th><th>${gui.getMessage('repeat_cooldown')}</th>`;
             htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th></tr></thead>`;
             htm += Html.br`<tbody class="${isRepeatables ? '' : 'row-coloring'}">`;
             let isOdd = false;
-            for (const lid of locs) {
-                const location = locations[lid];
-                const ovr = location.overrides && location.overrides.find(ovr => +ovr.region_id == region);
-                const clearXp = ovr ? +ovr.override_reward_exp : +location.reward_exp;
-                const tiles = +location.progress;
+            for (const loc of locs) {
+                const lid = loc.def_id;
+                const tiles = +loc.progress;
                 const prog = loc_prog[lid];
                 const mined = (prog && +prog.prog) || 0;
                 const lastFloorLevel = (prog && +prog.lvl) || 0;
                 let completed = mined >= tiles;
 
-                let floors = isRepeatables ? Object.values(location.rotation) : [];
+                let floors = isRepeatables ? Object.values(loc.rotation) : [];
                 const chance = floors.reduce((sum, floor) => sum + +floor.chance, 0);
                 floors = floors.map(floor => {
                     const clone = Object.assign({}, floor);
@@ -731,27 +774,26 @@ function showInfo() {
 
                 isOdd = !isOdd;
                 htm += Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''} ${isRepeatables && lid != locs[0] ? 'separator' : ''}">`;
-                htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${gui.getLocationImg(location)}<div class="location_name">${Html(gui.getString(location.name_loc))}</div></td>`;
+                htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${gui.getLocationImg(loc)}<div class="location_name">${Html(gui.getString(loc.name_loc))}</div></td>`;
                 if (isRepeatables) {
                     // Fix chance
                     htm += floors.shift().htm;
                     htm += Html.br`<td rowspan="${rows}" class="reset">`;
-                    htm += `<span>${gui.getDuration(+location.reset_cd)}<i><img src="/img/gui/time.png"></i></span><br>`;
-                    htm += `<span>${Locale.formatNumber(+location.reset_gems)}<i>${gui.getObjectImg('material', 2, null, true, 'none')}</i></span>`;
+                    htm += `<span>${gui.getDuration(+loc.reset_cd)}<i><img src="/img/gui/time.png"></i></span><br>`;
+                    htm += `<span>${Locale.formatNumber(+loc.reset_gems)}<i>${gui.getObjectImg('material', 2, null, true, 'none')}</i></span>`;
                     htm += Html.br`</td>`;
                 } else {
                     if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(mined)}</td>`;
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
                 }
-                const eventpassXp = +location.eventpass_xp;
-                const rewards = [{ type: 'system', object_id: 1, amount: clearXp }];
-                if (eventpassXp) rewards.push({ type: 'eventpass_xp', object_id: 1, amount: eventpassXp });
-                htm += showRewards(rewards, maxNumRewards, rows);
+                htm += showRewards(loc.rewards, maxNumRewards, rows);
                 htm += Html.br`</tr>`;
                 htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}">${Html.raw(floor.htm)}</tr>`).join('');
             }
-            htm += Html.br`</tbody></table>`;
+            htm += Html.br`</tbody>`;
+            if (!isRepeatables) htm += showTotalRewards(totalRewards, maxNumRewards, 2 + (showProgress ? 2 : 0));
+            htm += Html.br`</table>`;
         };
         showLocations(item.loc_qst, gui.getMessage('events_story_maps'), false);
         showLocations(item.loc_xlo, gui.getMessage('events_challenges'), false);
