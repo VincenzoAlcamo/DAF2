@@ -1715,6 +1715,7 @@
 "en@friendship_collectmatchinfo":{"message":"This will perform the automatic match between your friends and neighbours.\nYour friend list will not be refreshed.\nIgnored friends and friends with a score greater than 90 are not automatically matched.\nMatching will still be performed at the end of your friends collection."},
 "en@friendship_confirmwarning":{"message":"This operation may take several minutes.\n\nPlease confirm that you want to proceed."},
 "en@friendship_confirmcollection":{"message":"Confirm collection result?"},
+"en@friendship_collecterror":{"message":"Something went wrong."},
 "en@friendship_manualhelp":{"message":"Please refresh the DAF2 page, go to \"$1\" tab, click \"$2\" and choose \"$3\""},
 "en@friendship_analyzingmatches":{"message":"Analyzing data, $1 % ($2 / $3)"},
 "en@friendship_collectstat":{"message":"Friends collected: $1"},

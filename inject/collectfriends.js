@@ -69,7 +69,7 @@ function collect() {
             clearInterval(handler);
             wait.hide();
             dialog.show({
-                text: 'Something went wrong',
+                text: getMessage('friendship_collecterror'),
                 style: [Dialog.OK, Dialog.CRITICAL]
             });
         }
