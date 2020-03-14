@@ -758,8 +758,8 @@
     "neighbors_expression": {
         "message": "Specifica un'espressione da valutare"
     },
-    "friendship_collect": {
-        "message": "Colleziona e abbina"
+    "friendship_collectfriends": {
+        "message": "Colleziona amici"
     },
     "friendship_score": {
         "message": "Punti"
@@ -972,6 +972,23 @@
     },
     "friendship_confirmcollection": {
         "message": "Conferma i risultati del collezionamento?"
+    },
+    "friendship_collecterror": {
+        "message": "Qualcosa è andato storto."
+    },
+    "friendship_manualhelp": {
+        "message": "Ora rinfresca la pagina di DAF2, vai sul tab \"$FRIENDSHIP$\", clicca \"$COLLECT$\" e scegli \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
     },
     "friendship_analyzingmatches": {
         "message": "Sto analizzando i dati, $PERCENT$ % ($NUM$ / $TOTAL$)",

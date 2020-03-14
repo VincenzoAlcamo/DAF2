@@ -103,7 +103,7 @@ let gui = {
     FB_ANON_MALE_IMG: 'data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBwCdASoyADIAPm0qkUWkIqGYDf2AQAbEtIBp7Ay0G/WSUM7JlLizCyxMfDWO4GTZsZ3rW/OD7o4ZrD5+BT08hIdEQYAA/voQZ4IvItpppdVXQWuubgHZ7Hz5ClT98CfXGkCeTZrhstMPkFiBPgl23Ssn29LDaI8GTQEsEUH2eeI8S7rLcNeX3hT74sAvZ2QAc9yDKh3vCDZXO6AcSFxINezC50AA',
     FB_ANON_FEMALE_IMG: 'data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBwCdASoyADIAPm0sk0WkIqGYDP0AQAbEtIBpOAqR8vvvO+zCp3M5F/ypDPVcAFo8VaiTamuvfoNQ/F5jaFiClqnYAAD++hBpI/d9yd90D8hRGlQZaLknz1bhjUBHwA03kCUnr+UZrKEK7H/RvtF2vwwgGNTfo5enYKkJ23075Nyi25PsFHIttUiGOfXnjtuOyT6lisDClpVR4YKW7iP+LCUUBF1yzvTUONcxCYqsEAAA',
     getFBFriendAvatarUrl: function (fb_id, url, size) {
-        if(fb_id == '' || fb_id.startsWith('/')) {
+        if (fb_id == '' || fb_id.startsWith('/')) {
             return url || gui.FB_ANON_MALE_IMG;
         }
         return Html.raw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
@@ -118,9 +118,25 @@ let gui = {
     getObject: function (type, id) {
         return bgp.Data.getObject(type, id);
     },
-    getObjectName: function (type, id, addDesc = false) {
+    getObjectName: function (type, id, options = '') {
         let name = bgp.Data.getObjectName(type, id);
-        if (addDesc) {
+        if (options.includes('info')) {
+            if (type == 'building') {
+                const building = gui.getObject(type, id);
+                if (building) {
+                    name += ` (${+building.columns} \xd7 ${+building.rows})`;
+                    if (+building.stamina_reg > 0) name += '\n' + gui.getMessageAndValue('camp_regen', Locale.formatNumber(+building.stamina_reg));
+                    if (+building.max_stamina > 0) name += '\n' + gui.getMessageAndValue('camp_capacity', Locale.formatNumber(+building.max_stamina));
+                }
+            }
+            if (type == 'usable') {
+                const usable = gui.getObject(type, id);
+                if (usable) {
+                    if (usable.action == 'add_stamina') name += '\n' + gui.getMessageAndValue('gui_energy', Locale.formatNumber(+usable.value));
+                }
+            }
+        }
+        if (options.includes('desc')) {
             let desc = bgp.Data.getObjectDesc(type, id);
             if (desc) name += '\n' + gui.getWrappedText(desc);
         }
@@ -129,10 +145,10 @@ let gui = {
     getObjectImage: function (type, id, small = false) {
         return bgp.Data.getObjectImage(type, id, small);
     },
-    getObjectImg: function (type, id, displaySize = 32, small = false, addTitle = false) {
+    getObjectImg: function (type, id, displaySize = 32, small = false, options = '') {
         let url = bgp.Data.getObjectImage(type, id, small);
         if (!url) return '';
-        let title = addTitle != 'none' ? Html` title="${gui.getObjectName(type, id, addTitle == 'desc')}"` : '';
+        let title = options != 'none' ? Html` title="${gui.getObjectName(type, id, options)}"` : '';
         let size = displaySize ? Html` height="${displaySize}"` : '';
         return Html`<img src="${url}"${size}${title}>`;
     },
@@ -809,8 +825,8 @@ function updateCurrentTab() {
 
 //#region TEXT INFO
 function translate(parent) {
-    for(const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
-    for(const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Dialog.htmlToDOM(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
+    for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
+    for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Dialog.htmlToDOM(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
 }
 //#endregion
 

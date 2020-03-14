@@ -923,8 +923,8 @@ function updateRow(row) {
     }
     htm += Html.br`</td>`;
     htm += Html.br`<td${(item.locked & 1) ? lockedClass : ''}>${item.level ? Locale.formatNumber(item.level) : ''}</td>`;
-    htm += Html.br`<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, true)}</td>`;
-    htm += Html.br`<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, true) : ''}</td>`;
+    htm += Html.br`<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, 'desc')}</td>`;
+    htm += Html.br`<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, 'desc') : ''}</td>`;
     htm += Html.br`<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
     if (type == 'building' || type == 'decoration') {
         htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
@@ -1143,7 +1143,7 @@ function showOffer(type, id) {
                 pre += Html.br`<span class="date outlined-text">${Locale.formatDate(block.date)}</span>`;
             }
             if (current.rid == -1) {
-                pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, true)}<br>${getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
+                pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, 'desc')}<br>${getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
             }
             if (current.price == -1) {
                 pre += Html.br`${getOutlinedText(block.priceText)}`;
@@ -1156,7 +1156,7 @@ function showOffer(type, id) {
                 pre = `<td class="td-section"><div class="item section">${pre}</div></td>`;
             }
             block.items.forEach((item, index) => {
-                htm += Html.br`<td class="td-item"><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, true))}">`;
+                htm += Html.br`<td class="td-item"><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, 'info+desc'))}">`;
                 htm += Html.br`<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
                 htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
                 if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;

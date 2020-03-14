@@ -557,7 +557,7 @@ function showInfo() {
             htm += Html.br`<td rowspan="${rows}" class="rewards ${i < maxNumRewards ? 'no_right_border' : ''}">`;
             for (let j = i, prefix = ''; j <= rewards.length; j += maxNumRewards) {
                 const reward = rewards[j - 1];
-                const title = gui.getObjectName(reward.type, reward.object_id, true);
+                const title = gui.getObjectName(reward.type, reward.object_id, 'info+desc');
                 htm += prefix + `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i>${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
                 prefix = '<br>';
             }
