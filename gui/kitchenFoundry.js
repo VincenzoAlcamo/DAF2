@@ -48,7 +48,7 @@ function kitchenFoundry(type) {
         let divWeeks = container.querySelector('.toolbar .weeks');
         Dialog.htmlToDOM(divWeeks, htm.join(''));
         divWeeks.style.display = htm.length ? '' : 'none';
-        for(const el of Array.from(container.querySelectorAll('[sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
+        for (const el of Array.from(container.querySelectorAll('[sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
         oldState = {};
@@ -68,21 +68,30 @@ function kitchenFoundry(type) {
     }
 
     function getProductions() {
-        var generator = gui.getGenerator();
-        var usables = gui.getFile('usables');
-        var materials = gui.getFile('materials');
-        var tokens = gui.getFile('tokens');
-        var productions = gui.getFile('productions');
-        var player_events = generator.events || {};
-        var events = gui.getFile('events');
-        var slots = getNumSlots();
-        var unlocked = type == 'recipe' ? generator.pot_recipes :
-            type == 'alloy' ? generator.alloys : null;
+        const generator = gui.getGenerator();
+        const region = +generator.region;
+        const usables = gui.getFile('usables');
+        const materials = gui.getFile('materials');
+        const tokens = gui.getFile('tokens');
+        const player_events = Object.assign({}, generator.events);
+        const events = gui.getFile('events');
+        const slots = getNumSlots();
 
+        let unlocked = type == 'recipe' ? generator.pot_recipes : (type == 'alloy' ? generator.alloys : null);
         unlocked = [].concat(unlocked || []).map(id => +id);
-        productions = Object.values(productions).filter(item => {
-            if (item.type != type || +item.hide != 0) return false;
-            if (+item.event_id > 0 && item.event_id in player_events) return true;
+
+        let productions = gui.getFile('productions');
+        productions = Object.values(productions).filter(item => item.type == type && +item.hide == 0);
+
+        for (const item of productions) {
+            const eid = +item.event_id;
+            if (eid > 0 && unlocked.includes(+item.def_id)) player_events[eid] = true;
+        }
+        productions = productions.filter(item => {
+            const eid = +item.event_id;
+            if (eid > 0 && eid in player_events) return true;
+            const rid = +item.region_id;
+            if (eid == 0 && rid > 0 && rid <= region) return true;
             return +item.unlocked == 1 || unlocked.includes(+item.def_id);
         });
 
@@ -193,6 +202,7 @@ function kitchenFoundry(type) {
             }
             htm += Html.br`<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
             let row = document.createElement('tr');
+            row.setAttribute('data-id', p.id);
             Dialog.htmlToDOM(row, htm);
             p.rows = [row];
             for (let i = 1; i < p.ingredients.length; i++) {
