@@ -8,7 +8,7 @@ export default {
 function init() { }
 
 function update() {
-    Dialog.htmlToDOM(this.container.querySelector('.about_version a'), Html.br(gui.getMessage('about_version', bgp.Data.version)));
+    this.container.querySelector('.about_version').innerText = gui.getMessage('about_version', bgp.Data.version);
 
     let generator = gui.getGenerator();
     let html_data = '';

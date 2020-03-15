@@ -20,7 +20,12 @@
   margin-top: 10px;
 }
 
-.about_version a {
+.about_visit {
+  font-size: 16pt;
+  margin-top: 32px;
+}
+
+.about_visit a {
   text-decoration: none;
   padding-left: 24px;
   background-image: url(/img/gui/facebook.png);
@@ -32,7 +37,7 @@
   border: 1px solid transparent;
 }
 
-.about_version a:hover {
+.about_visit a:hover {
   background-color: var(--vm-item-hov-bgcol);
   color: var(--vm-item-hov-fgcol);
   border-color: var(--vm-item-brcol);

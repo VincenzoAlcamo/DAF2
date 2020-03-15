@@ -390,6 +390,9 @@
             }
         }
     },
+    "about_visit": {
+        "message": "Visit the official Facebook page"
+    },
     "about_nodata": {
         "message": "No Game Data has been loaded yet, please load or refresh the game window"
     },
