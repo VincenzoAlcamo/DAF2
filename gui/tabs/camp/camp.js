@@ -117,7 +117,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         pal = {
             name: generator.name,
             surname: generator.surname,
-            id: generator.player_name,
+            id: generator.player_id,
             fb_id: generator.fb_id
         };
         level = +generator.level;
