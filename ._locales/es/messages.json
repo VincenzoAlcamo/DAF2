@@ -385,6 +385,9 @@
             }
         }
     },
+    "about_visit": {
+        "message": "Visita la pagina oficial en Facebook"
+    },
     "about_nodata": {
         "message": "Aun no se han cargado datos del juego .por favor cargue o actualice la venta del juego"
     },
@@ -758,8 +761,8 @@
     "neighbors_expression": {
         "message": "Especifique una expresion para evaluar"
     },
-    "friendship_collect": {
-        "message": "Recoger y combinar"
+    "friendship_collectfriends": {
+        "message": "Recoge amigos"
     },
     "friendship_score": {
         "message": "Puntuacion"
@@ -780,7 +783,7 @@
         "message": "Haga clic para eliminar la partida"
     },
     "friendship_actionmanual": {
-        "message": "\nHaga clic para coincidir manualmente con este vecino"
+        "message": "Haga clic para coincidir manualmente con este vecino"
     },
     "friendship_actiondelete": {
         "message": "Haz clic para borrar permanentemente este amigo."
@@ -971,7 +974,24 @@
         "message": "Esta operación puede tardar varios minutos.\n\nPor favor, confirme que desea continuar."
     },
     "friendship_confirmcollection": {
-        "message": "\n¿Confirmar el resultado de la recolección?"
+        "message": "¿Confirmar el resultado de la recolección?"
+    },
+    "friendship_collecterror": {
+        "message": "Algo no salió bien"
+    },
+    "friendship_manualhelp": {
+        "message": "Actualice la página DAF2, vaya a la pestaña \"$FRIENDSHIP$\", haga clic en \"$COLLECT$\" y elija \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
     },
     "friendship_analyzingmatches": {
         "message": "Analizando datos, $PERCENT$% ($NUM$ / $TOTAL$)",
@@ -1007,7 +1027,7 @@
         }
     },
     "friendship_totalfriends": {
-        "message": "\nAmigos: $NUM$ / $TOTAL$",
+        "message": "Amigos: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"

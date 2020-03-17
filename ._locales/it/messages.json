@@ -385,6 +385,9 @@
             }
         }
     },
+    "about_visit": {
+        "message": "Visita la pagina ufficiale Facebook"
+    },
     "about_nodata": {
         "message": "Non è ancora stato caricato alcun dato di gioco. Carica o aggiorna la finestra del gioco"
     },

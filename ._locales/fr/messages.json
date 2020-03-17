@@ -90,7 +90,7 @@
         "message": "Nourriture"
     },
     "gui_coins": {
-        "message": "Pièces d'or"
+        "message": "Pièce d'or"
     },
     "gui_backpack": {
         "message": "Inventaire"
@@ -328,10 +328,10 @@
         "message": "Locations"
     },
     "tab_greenrings": {
-        "message": "Bagues Vertes"
+        "message": "Bagues vertes"
     },
     "tab_redrings": {
-        "message": "Anneaux Rouges"
+        "message": "Anneaux rouges"
     },
     "tab_christmasrings": {
         "message": "Anneaux de Noël"
@@ -384,6 +384,9 @@
                 "content": "$4"
             }
         }
+    },
+    "about_visit": {
+        "message": "Visitez la page Facebook officielle"
     },
     "about_nodata": {
         "message": "Aucune donnée de jeu n'a encore été rechargée. Recharger ou raffraîchir l'écran du jeu."
@@ -585,7 +588,7 @@
         "message": "Les piliers possibles"
     },
     "pillars_perc_next": {
-        "message": "Suivant en\npourcentage"
+        "message": "Suivant"
     },
     "pillars_possible": {
         "message": "Possible"
@@ -597,7 +600,7 @@
         "message": "Votre niveau actuel"
     },
     "pillars_predicted": {
-        "message": "Prévu"
+        "message": "Prévision"
     },
     "pillars_predicted_level": {
         "message": "Niveau prévu"
@@ -758,8 +761,8 @@
     "neighbors_expression": {
         "message": "Spécifiez une expression à évaluer"
     },
-    "friendship_collect": {
-        "message": "Recueillir et correspondre"
+    "friendship_collectfriends": {
+        "message": "Collectez des amis"
     },
     "friendship_score": {
         "message": "Score"
@@ -972,6 +975,23 @@
     },
     "friendship_confirmcollection": {
         "message": "Confirmer le résultat de la collecte?"
+    },
+    "friendship_collecterror": {
+        "message": "Quelque chose a mal tourné."
+    },
+    "friendship_manualhelp": {
+        "message": "Veuillez rafraîchir la page DAF2, allez dans l'onglet \"$FRIENDSHIP$\", cliquez sur \"$COLLECT$\" et choisissez \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
     },
     "friendship_analyzingmatches": {
         "message": "Analyse des données en cours, $PERCENT$ % ($NUM$ / $TOTAL$)",
@@ -1392,7 +1412,7 @@
         "message": "Anneaux"
     },
     "equipment_sellout": {
-        "message": "La vente de tous les objets inutilisés vous rapportera $TOTAL$ pièces de monnaie (équipments = $EQUIP$ pièces, décorations = $DECO$ pièces)",
+        "message": "La vente de tous les objets inutilisés vous rapportera $TOTAL$ pièces d'or (équipments = $EQUIP$ ; décorations = $DECO$)",
         "placeholders": {
             "total": {
                 "content": "$1"

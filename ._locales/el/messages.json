@@ -385,6 +385,9 @@
             }
         }
     },
+    "about_visit": {
+        "message": "Επισκεφτείτε τη σελίδα στο Facebook"
+    },
     "about_nodata": {
         "message": "Δε φορτώθηκαν ακόμα Δεδομένα του Παιχνιδιού, παρακαλώ φορτώστε ή επαναφορτώστε το παράθυρο του παιχνιδιού."
     },
@@ -758,8 +761,8 @@
     "neighbors_expression": {
         "message": "Δώστε μια έκφραση προς αξιολόγηση"
     },
-    "friendship_collect": {
-        "message": "Συλλογή και Ταίριασμα"
+    "friendship_collectfriends": {
+        "message": "Συλλογή φίλων"
     },
     "friendship_score": {
         "message": "Σκορ"
@@ -972,6 +975,23 @@
     },
     "friendship_confirmcollection": {
         "message": "Επιβεβαίωση αποτελέσματος συλλογής;"
+    },
+    "friendship_collecterror": {
+        "message": "Κάτι πήγε λάθος."
+    },
+    "friendship_manualhelp": {
+        "message": "Παρακαλώ επαναφορτώστε τη σελίδα DAF2, πηγαίντε στην καρτέλα \"$FRIENDSHIP$\", πατήστε \"$COLLECT$\" και διαλέξτε \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
     },
     "friendship_analyzingmatches": {
         "message": "Ανάλυση δεδομένων, $PERCENT$ % ($NUM$ / $TOTAL$)",

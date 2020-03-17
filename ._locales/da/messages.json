@@ -758,8 +758,8 @@
     "neighbors_expression": {
         "message": "Angiv et udtryk for at evaluere"
     },
-    "friendship_collect": {
-        "message": "Hent og sammenlign"
+    "friendship_collectfriends": {
+        "message": "Saml venner"
     },
     "friendship_score": {
         "message": "Score"
@@ -973,6 +973,23 @@
     "friendship_confirmcollection": {
         "message": "Bekræft indsamlings resultat?"
     },
+    "friendship_collecterror": {
+        "message": "Noget gik galt."
+    },
+    "friendship_manualhelp": {
+        "message": "Genstart DAF2 siden, gå til \"$FRIENDSHIP$\" fanen, tryk\n\"$COLLECT$\" og vælg \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
+    },
     "friendship_analyzingmatches": {
         "message": "Analyserer data, $PERCENT$ % ($NUM$ / $TOTAL$)",
         "placeholders": {
@@ -1029,7 +1046,7 @@
         }
     },
     "friendship_timewarning": {
-        "message": "Det ser ud til at det er længe siden at du har lavet en vennesamling.\nKlik på \"$COLLECT$\" knappen og vælg \"$METHOD$\"\nmetode.",
+        "message": "Det ser ud til at det er længe siden at du har lavet en vennesamling.\nKlik på \"$COLLECT$\" knappen og vælg \"$METHOD$\" metode.",
         "placeholders": {
             "collect": {
                 "content": "$1"

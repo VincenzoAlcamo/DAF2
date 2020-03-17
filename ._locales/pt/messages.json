@@ -385,6 +385,9 @@
             }
         }
     },
+    "about_visit": {
+        "message": "Visite a página oficial do Facebook"
+    },
     "about_nodata": {
         "message": "Nenhum dado do jogo foi ainda carregado, carregue ou atualize a janela do jogo"
     },
@@ -758,8 +761,8 @@
     "neighbors_expression": {
         "message": "Especifique uma expressão para avaliar"
     },
-    "friendship_collect": {
-        "message": "Coletar e combinar"
+    "friendship_collectfriends": {
+        "message": "Colectar amigos"
     },
     "friendship_score": {
         "message": "Pontuação"
@@ -972,6 +975,23 @@
     },
     "friendship_confirmcollection": {
         "message": "Confirmar resultado da coleção?"
+    },
+    "friendship_collecterror": {
+        "message": "Algo correu mal."
+    },
+    "friendship_manualhelp": {
+        "message": "Por favor recarregue a pagina do DAF2, vá para a aba \"$FRIENDSHIP$\", clicque \"$COLLECT$\" e escolha \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
     },
     "friendship_analyzingmatches": {
         "message": "Analizando dados, $PERCENT$ % ($NUM$ / $TOTAL$)",
