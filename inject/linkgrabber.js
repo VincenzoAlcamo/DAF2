@@ -667,8 +667,8 @@ function collect(confirmCollection) {
             for (const item of Array.from(li.getElementsByTagName('a'))) {
                 const name = item.textContent;
                 if (name == '') continue;
-                var id, d, uri;
-                var add = false, keep = false, disabled = false;
+                let id, d, uri;
+                let add = false, keep = false, disabled = false;
                 if ((d = item.getAttribute('data-hovercard')) && d.indexOf('user.php?id=') >= 0 && (id = getId(d))) {
                     uri = getFriendUri(item.href);
                     add = true;
