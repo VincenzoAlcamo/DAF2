@@ -236,7 +236,7 @@ function update() {
     Dialog.htmlToDOM(selectYear, '');
     addOption(selectYear, '', '');
     let lastYear = null;
-    let items = Object.values(allEvents).sort((a, b) => a.year - b.year);
+    let items = Object.values(allEvents).sort((a, b) => b.year - a.year);
     for (let item of items) {
         if (item.year && item.yeartxt !== lastYear) {
             lastYear = item.yeartxt;
