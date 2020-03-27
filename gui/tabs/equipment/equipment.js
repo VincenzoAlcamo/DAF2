@@ -1098,7 +1098,7 @@ function showOffer(type, id) {
         return blocks.filter(block => (current.rid == -1 || block.rid == current.rid) &&
             (current.price == -1 || block.price == current.price) &&
             (current.date == -1 || block.date == current.date)
-        );
+        ).sort((a, b) => (a.date || 0) - (b.date || 0) || (a.rid || 0) - (b.rid || 0) || (a.price || 0) - (b.price || 0));
     }
 
     function optionHtml(value, text, current) {
