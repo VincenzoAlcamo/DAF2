@@ -753,11 +753,24 @@ function showInfo() {
                 let floors = isRepeatables ? Object.values(loc.rotation) : [];
                 const chance = floors.reduce((sum, floor) => sum + +floor.chance, 0);
                 floors = floors.map(floor => {
-                    const clone = Object.assign({}, floor);
-                    clone.chance = +clone.chance;
-                    clone.chance = clone.chance == chance ? 100 : Math.floor(clone.chance * 100 / chance);
-                    return clone;
-                }).filter(floor => floor.chance > 0).map(floor => {
+                    floor = Object.assign({}, floor);
+                    floor.chance = +floor.chance;
+                    return floor;
+                }).filter(floor => floor.chance > 0);
+                // Compute chance
+                let remainingChances = 1000;
+                for (const floor of floors) {
+                    const p = floor.chance * 1000 / chance;
+                    floor.chance = Math.floor(p);
+                    floor.chanceRest = p - floor.chance;
+                    remainingChances -= floor.chance;
+                }
+                const fCopy = [].concat(floors).sort((a, b) => b.chanceRest - a.chanceRest);
+                // Add remaining chances to the floors with the highest rest
+                for (let i = Math.min(fCopy.length, remainingChances); i-- > 0;) fCopy[i].chance++;
+                for (const floor of floors) floor.chance /= 10;
+
+                floors = floors.map(floor => {
                     let htm = '';
                     const isCurrentFloor = +floor.level == lastFloorLevel;
                     const tiles = +floor.progress;
@@ -766,7 +779,7 @@ function showInfo() {
                     if (showProgress) htm += Html.br`<td class="reached${isCurrentFloor ? ' add_slash' : ' no_right_border'}">${isCurrentFloor ? Locale.formatNumber(mined) : ''}</td>`;
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${isCurrentFloor ? (isCompleted ? ticked : unticked) : ''}</td>`;
-                    htm += Html.br`<td class="chance">${Locale.formatNumber(+floor.chance)} %</td>`;
+                    htm += Html.br`<td class="chance">${Locale.formatNumber(floor.chance, 1)} %</td>`;
                     floor.htm = htm;
                     return floor;
                 });
