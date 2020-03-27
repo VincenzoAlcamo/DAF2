@@ -212,16 +212,22 @@ function formatDayMonthTime(time) {
     return Locale.formatDayMonth(time) + '\n' + Locale.formatTime(time);
 }
 
+function removeAllShowGifts() {
+    for (const row of Array.from(smartTable.table.querySelectorAll('tr.show-gifts'))) row.classList.remove('show-gifts');
+}
+
 function onClick(e) {
     var cell;
     for (var el = e.target; !cell && el.tagName != 'TABLE'; el = el.parentNode)
         if (el.tagName == 'TD') cell = el;
     if (!cell || !cell.classList.contains('has-gifts')) return;
+    removeAllShowGifts();
     var row = cell.parentNode;
     if (row.nextSibling == trGifts) {
         trGifts.parentNode.removeChild(trGifts);
         return;
     }
+    row.classList.add('show-gifts');
     var giftContainer = trGifts.querySelector('.giftlist');
     Dialog.htmlToDOM(giftContainer, '');
     giftContainer.style.width = (row.offsetWidth - 2) + 'px';
@@ -503,7 +509,7 @@ function refreshDelayed() {
     let items = [];
     let calculator = getCalculator(filterExpression, getSortValueFunctions);
     const friendNames = {};
-    for(const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();
+    for (const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();
     for (let pal of neighbors) {
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
         if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
@@ -538,6 +544,7 @@ function refreshDelayed() {
         for (let item of items) {
             tbody.appendChild(palRows[item.id]);
         }
+        removeAllShowGifts();
         gui.collectLazyElements(tbody);
         smartTable.syncLater();
     }, 50);

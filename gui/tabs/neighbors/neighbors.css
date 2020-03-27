@@ -27,6 +27,12 @@
   cursor: zoom-in;
 }
 
+.neighbors tr.show-gifts td.has-gifts {
+  cursor: zoom-out;
+  color: var(--success-fgcol);
+  background-color: var(--success-bgcol);
+}
+
 .neighbors td.has-gifts:hover {
   background-color: var(--tb-hlcol);
 }
