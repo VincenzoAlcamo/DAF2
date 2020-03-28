@@ -113,18 +113,21 @@ function addOption(select, value, text) {
 
 function update() {
     const state = getState();
-    let achievements = gui.getFile('achievements');
-    let achievementsByEvent = byEvent(Object.values(achievements));
-    let collections = gui.getFile('collections');
-    let collectionsByEvent = byEvent(Object.values(collections));
-    let materialsByEvent = byEvent(Object.values(gui.getFile('materials')));
-    let locations0 = gui.getFile('locations_0');
-    let generator = gui.getGenerator();
-    let eventData = generator.events || {};
-    let questsFinished = gui.getArrayOfInt(generator.quests_f);
-    let artifacts = gui.getArrayOfInt(generator.artifacts);
-    let eventsRegion = generator.events_region || {};
-    let events = gui.getFile('events');
+    const achievements = gui.getFile('achievements');
+    const achievementsByEvent = byEvent(Object.values(achievements));
+    const collections = gui.getFile('collections');
+    const collectionsByEvent = byEvent(Object.values(collections));
+    const materials = gui.getFile('materials');
+    // Patch bug in material
+    if (44 in materials) materials[44].event_id = 6;    // RIBBON (#44) should be in CHRISTMAS 2012 (#6)
+    const materialsByEvent = byEvent(Object.values(materials));
+    const locations0 = gui.getFile('locations_0');
+    const generator = gui.getGenerator();
+    const eventData = generator.events || {};
+    const questsFinished = gui.getArrayOfInt(generator.quests_f);
+    const artifacts = gui.getArrayOfInt(generator.artifacts);
+    const eventsRegion = generator.events_region || {};
+    const events = gui.getFile('events');
     allEvents = {};
     for (let event of Object.values(events)) {
         if (!event.name_loc) continue;
