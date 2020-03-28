@@ -254,7 +254,7 @@ let gui = {
     },
     getSearchFilter: function (terms) {
         if (terms === null || terms === undefined || terms === '') return null;
-        return String(terms).toUpperCase().split('|').map(function (term) {
+        const fn = String(terms).toUpperCase().split('|').map(function (term) {
             return term.split('+').reduce(function (prev, curr) {
                 if (curr == '') return prev;
                 if (!prev) return (value) => value.indexOf(curr) >= 0;
@@ -262,9 +262,10 @@ let gui = {
             }, null);
         }).reduce(function (prev, curr) {
             if (!curr) return prev;
-            if (!prev) return (value) => curr(value);
+            if (!prev) return curr;
             return (value) => curr(value) || prev(value);
         }, null);
+        return (value) => fn(String(value === null || value === undefined ? '' : value).toUpperCase());
     },
     setSelectState: function (select, value, defaultIndex) {
         select.value = value || '';
