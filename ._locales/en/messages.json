@@ -115,6 +115,9 @@
     "gui_event": {
         "message": "Event"
     },
+    "gui_specialweek": {
+        "message": "Special week"
+    },
     "gui_region": {
         "message": "Region"
     },

@@ -1,4 +1,4 @@
-<div class="toolbar">
+<div class="toolbar vertical">
     <label>
         <span data-i18n-text="gui_show"></span>
         <select name="show">
@@ -8,6 +8,14 @@
             <option value="complete" data-i18n-text="events_complete"></option>
             <option value="incomplete" data-i18n-text="events_incomplete"></option>
             <option value="notdone" data-i18n-text="events_notdone"></option>
+        </select>
+    </label>
+    <label>
+        <span data-i18n-text="gui_type"></span>
+        <select name="type">
+            <option value="" data-i18n-text="gui_all"></option>
+            <option value="event" data-i18n-text="gui_event"></option>
+            <option value="sw" data-i18n-text="gui_specialweek"></option>
         </select>
     </label>
     <label>
@@ -35,6 +43,15 @@
         <span data-i18n-text="gui_search"></span>
         <input name="search" type="text" maxlength="40">
     </label>
+    <label>
+        <span data-i18n-text="gui_loot"></span>
+        <select name="loot">
+            <option value="" data-i18n-text="dialog_no"></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="total" data-i18n-text="events_total"></option>
+        </select>
+    </label>
+    <div class="warning"></div>
 </div>
 <div class="scrollable-content">
     <table class="events data">

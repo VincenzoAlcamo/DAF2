@@ -1504,6 +1504,7 @@
 "en@gui_from_events":{"message":"from events"},
 "en@gui_ingredients":{"message":"Ingredients"},
 "en@gui_event":{"message":"Event"},
+"en@gui_specialweek":{"message":"Special week"},
 "en@gui_region":{"message":"Region"},
 "en@gui_theme":{"message":"Theme"},
 "en@gui_year":{"message":"Year"},

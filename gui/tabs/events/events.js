@@ -1,19 +1,19 @@
 /*global bgp gui SmartTable Html Locale Tooltip Dialog*/
 export default {
     hasCSS: true,
-    init: init,
-    update: update,
-    getState: getState,
-    setState: setState,
-    requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts']
+    init,
+    update,
+    getState,
+    setState,
+    requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts', 'sales', 'special_weeks']
 };
 
 const infos = ['qst', 'ach', 'tre', 'loc'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
 
-let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion;
-let allEvents, trInfo, fixedBody, tbodyInfo, trRegion;
+let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectLoot, selectType;
+let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop;
 let selectedRegion, selectedInfo, selectedEventId;
 
 function init() {
@@ -22,6 +22,9 @@ function init() {
 
     selectShow = container.querySelector('[name=show]');
     selectShow.addEventListener('change', refresh);
+
+    selectType = container.querySelector('[name=type]');
+    selectType.addEventListener('change', refresh);
 
     selectYear = container.querySelector('[name=year]');
     selectYear.addEventListener('change', refresh);
@@ -34,6 +37,9 @@ function init() {
 
     selectRegion = container.querySelector('[name=region]');
     selectRegion.addEventListener('change', refreshRegion);
+
+    selectLoot = container.querySelector('[name=loot]');
+    selectLoot.addEventListener('change', refreshRegion);
 
     trRegion = container.querySelector('.trRegion');
 
@@ -112,6 +118,17 @@ function addOption(select, value, text) {
 }
 
 function update() {
+    bgp.Data.getPillarsInfo();
+
+    swDoubleDrop = gui.getActiveSpecialWeeks().doubleDrop;
+    const divWarning = container.querySelector('.toolbar .warning');
+    if (swDoubleDrop) {
+        Dialog.htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
+        divWarning.style.display = '';
+    } else {
+        divWarning.style.display = 'none';
+    }
+
     const state = getState();
     const achievements = gui.getFile('achievements');
     const achievementsByEvent = byEvent(Object.values(achievements));
@@ -155,9 +172,13 @@ function update() {
         item.materials = materialsByEvent[eid] || [];
         // Red Ring
         if (eid == 20) item.materials.push(-1642);
+        // Christmast Rings
+        if (eid == 86) item.materials.push(-5605);
+        if (eid == 103) item.materials.push(-6844);
+        if (eid == 121) item.materials.push(-7833);
 
         item.img = gui.getObjectImage('event', item.id);
-        if (item.img == '' && item.materials.length == 1) item.img = gui.getObjectImage('material', item.materials[0]);
+        if (item.img == '' && item.materials.length == 1) item.img = gui.getObjectImage('material', item.materials[0], true);
         item.img_full = event.mobile_asset;
         item.img_webgl = event.shelf_graphics;
         // this will force the use of img_full instead of img_webgl
@@ -165,11 +186,17 @@ function update() {
 
         let achievs = achievementsByEvent[eid] || [];
         item.tachiev = item.cachiev = 0;
-        for (let aid of achievs) {
-            let achievement = achievements[aid];
+        item.machiev = [];
+        for (const aid of achievs) {
+            const achievement = achievements[aid];
+            if (achievement.type == 'material') {
+                const matId = +achievement.object_id;
+                item.machiev.push(matId);
+                if (!item.materials.includes(matId)) item.materials.push(matId);
+            }
             item.tachiev += achievement.levels.length;
-            achievement = generator.achievs[aid];
-            item.cachiev += (achievement ? +achievement.confirmed_level : 0);
+            const completed = generator.achievs[aid];
+            item.cachiev += (completed ? +completed.confirmed_level : 0);
         }
         item.pachiev = item.cachiev / (item.tachiev || 1);
 
@@ -255,6 +282,7 @@ function update() {
 function getState() {
     return {
         show: selectShow.value,
+        type: selectType.value,
         year: allEvents ? selectYear.value : selectYear.getAttribute('data-value'),
         segmented: selectSegmented.value,
         shop: selectShop.value,
@@ -262,12 +290,14 @@ function getState() {
         event: selectedEventId || null,
         info: selectedInfo,
         search: searchInput.value,
+        loot: selectLoot.value,
         sort: gui.getSortState(smartTable)
     };
 }
 
 function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
+    state.type = gui.setSelectState(selectType, state.type);
     state.segmented = gui.setSelectState(selectSegmented, state.segmented);
     state.shop = gui.setSelectState(selectShop, state.shop);
     if (allEvents) state.year = gui.setSelectState(selectYear, state.year);
@@ -277,6 +307,7 @@ function setState(state) {
     let info = (state.info || '').toLowerCase();
     if (!infos.includes(info)) info = '';
     state.info = selectedInfo = info;
+    state.loot = gui.setSelectState(selectLoot, state.loot);
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
 }
@@ -289,19 +320,21 @@ function triggerSearchHandler(flag) {
 function refresh() {
     gui.updateTabState(tab);
 
-    let state = getState();
-    let show = state.show;
-    let year = state.year;
-    let not_segmented = state.segmented ? state.segmented == 'no' : NaN;
-    let not_shop = state.shop ? state.shop == 'no' : NaN;
-    let fnSearch = gui.getSearchFilter(state.search);
-    let now = gui.getUnixTime();
+    const state = getState();
+    const show = state.show;
+    const year = state.year;
+    const not_segmented = state.segmented ? state.segmented == 'no' : NaN;
+    const not_shop = state.shop ? state.shop == 'no' : NaN;
+    const fnSearch = gui.getSearchFilter(state.search);
+    const now = gui.getUnixTime();
+    const not_event = state.type == 'event' ? false : (state.type == 'sw' ? true : NaN);
 
     function isVisible(item) {
         if (fnSearch && !fnSearch(item.name)) return false;
         if (show == 'active' && item.end < now) return false;
         if (show == 'rerelease' && !item.start) return false;
         if ((show == 'complete' || show == 'incomplete' || show == 'notdone') && show != item.status) return false;
+        if (not_event == (item.tcollect > 0)) return false;
         if (year && item.yeartxt != year) return false;
         if (not_segmented == item.issegmented) return false;
         let inShop = item.gems > 0;
@@ -405,15 +438,19 @@ function updateRow(row) {
 }
 
 function onTooltip(event) {
-    let element = event.target;
+    const element = event.target;
     element.removeAttribute('title');
-    let eid = parseInt(element.parentNode.parentNode.getAttribute('data-eid'));
-    let item = allEvents[eid];
+    const eid = parseInt(element.parentNode.parentNode.getAttribute('data-eid'));
+    const description = gui.getString(gui.getObject('event', eid).desc);
+    const item = allEvents[eid];
     let img1 = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_events/' + item.img_webgl + '.png';
     let img2 = item.img_full == 'default' ? '' : gui.getGenerator().cdn_root + 'mobile/graphics/all/' + item.img_full + '.png';
-    let img = item.img_missing ? img2 : img1;
-    let imgFull = img && Html`<img src="${img}" class="full">`;
-    let htm = Html.br`<div class="events-tooltip"><img src="${item.img}"}" class="outlined"/>${imgFull}<span>${item.name}</span></div>`;
+    const img = item.img_missing ? img2 : img1;
+    const imgFull = img && Html`<img src="${img}" class="full">`;
+    let htm = '';
+    htm += Html.br`<div class="events-tooltip"><img src="${item.img}"}" class="outlined"/>${imgFull}<span>${item.name}</span>`;
+    if (description != '#') htm += Html.br`<span class="desc">${description}</span>`;
+    htm += Html.br`</div>`;
     Tooltip.show(element, htm, 'e');
     if (img == img1) Tooltip.tip.querySelector('img.full').addEventListener('error', function () {
         if (img2) this.src = img2;
@@ -484,6 +521,10 @@ function showInfo() {
     gui.updateTabState(tab);
     if (!row) return;
 
+    const state = getState();
+    const showLoot = state.loot;
+    const showTotalLoot = state.loot == 'total';
+
     if (row.getAttribute('lazy-render') !== null) {
         row.removeAttribute('lazy-render');
         updateRow(row);
@@ -509,18 +550,19 @@ function showInfo() {
 
     const generator = gui.getGenerator();
     const item = allEvents[selectedEventId];
+    const isSegmented = item.issegmented;
     let region = selectedRegion || 0;
     let showProgress = region == 0;
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
     let yourRegion = 1;
-    if (item.issegmented) yourRegion = item.status == 'notdone' ? Math.min(+generator.region, item.maxsegment) : item.segmented || 1;
-    let text = item.issegmented ? gui.getMessageAndValue('events_yourprogress', gui.getObjectName('region', yourRegion)) : gui.getMessage('events_yourprogress');
+    if (isSegmented) yourRegion = item.status == 'notdone' ? Math.min(+generator.region, item.maxsegment) : item.segmented || 1;
+    let text = isSegmented ? gui.getMessageAndValue('events_yourprogress', gui.getObjectName('region', yourRegion)) : gui.getMessage('events_yourprogress');
     if (item.status == 'notdone') text += ' (' + gui.getMessage('events_notdone') + ')';
     addOption(selectRegion, '', text);
     // List regions
-    if (item.issegmented) {
+    if (isSegmented) {
         region = Math.min(region, item.maxsegment);
         for (let rid = 1; rid <= item.maxsegment; rid++) addOption(selectRegion, rid, gui.getObjectName('region', rid));
     } else {
@@ -530,17 +572,21 @@ function showInfo() {
     selectRegion.value = selectedRegion || '';
     region = region || yourRegion;
 
+    const augmentTotalRewards = (totals, rewards) => {
+        for (const reward of rewards) {
+            reward.amount = +reward.amount || 0;
+            const { type, object_id, amount } = reward;
+            const key = type + '\t' + object_id;
+            const total = totals[key];
+            if (total) total.amount += amount; else totals[key] = { type, object_id, amount };
+        }
+    };
     const getTotalRewards = (...arrRewards) => {
         const result = { max: 0 };
         const totals = {};
         for (const rewards of arrRewards) {
             result.max = Math.max(result.max, rewards.length);
-            for (const reward of rewards) {
-                reward.amount = +reward.amount || 0;
-                const key = reward.type + '\t' + reward.object_id;
-                const total = totals[key];
-                if (total) total.amount += reward.amount; else totals[key] = Object.assign({}, reward);
-            }
+            augmentTotalRewards(totals, rewards);
         }
         result.rewards = Object.values(totals);
         // A maximum of 5 rewards per row
@@ -548,32 +594,64 @@ function showInfo() {
         return result;
     };
 
-    const showRewards = (rewards, maxNumRewards, rows = 1) => {
+    const classesByType = {};
+    ['artifact', 'material', 'token', 'usable', 'decoration', 'system', 'eventpass_xp'].forEach((v, i) => classesByType[v] = i + 10);
+    const gems = [2, 235, 197, 143, 149, 92, 47];
+    const showRewards = (rewards, maxNumRewards, rows = 1, className = '', raw = false) => {
         let htm = '';
         for (const reward of rewards) {
-            let n = ['artifact', 'material', 'token', 'usable', 'decoration', 'system', 'eventpass_xp'].indexOf(reward.type);
-            if (n < 0) console.log(reward.type);
-            reward._index = +reward.object_id + n * 1000000;
+            const type = reward.type;
+            const id = reward.object_id;
+            const xp = gui.getXp(type, id);
+            reward._i = xp > 0 ? -xp : id;
+            reward._c = classesByType[type];
+            if (type == 'material') {
+                if (item.machiev.includes(id)) reward._c = 0;
+                if (id == 1) reward._c = classesByType['system'], reward._i = 0;
+                const gemIndex = gems.indexOf(id);
+                if (gemIndex >= 0) reward._c = 1, reward._i = gemIndex;
+            }
         }
-        rewards.sort((a, b) => a._index - b._index);
+        rewards.sort((a, b) => (a._c - b._c) || (a._i - b._i));
+        const cells = [];
         for (let i = 1; i <= maxNumRewards; i++) {
-            htm += Html.br`<td rowspan="${rows}" class="rewards ${i < maxNumRewards ? 'no_right_border' : ''}">`;
+            htm += Html.br`<td rowspan="${rows}" class="rewards ${i < maxNumRewards ? 'no_right_border' : ''} ${className}">`;
+            let cell = '';
             for (let j = i, prefix = ''; j <= rewards.length; j += maxNumRewards) {
                 const reward = rewards[j - 1];
                 const title = gui.getObjectName(reward.type, reward.object_id, 'info+desc');
-                htm += prefix + `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i>${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
+                cell += prefix + `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i>${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
                 prefix = '<br>';
             }
+            htm += cell;
+            cells.push(cell);
             htm += Html.br`</td>`;
         }
-        return htm;
+        return raw ? cells : htm;
+    };
+    const showRewardsInCell = (cell, rewards) => {
+        rewards = rewards.filter(reward => {
+            reward.amount = Math.floor(reward.amount);
+            return reward.amount > 0;
+        });
+        const cells = showRewards(rewards, 5, 1, '', true);
+        for (let i = 0; i < cells.length && cell; i++, cell = cell.nextSibling) Dialog.htmlToDOM(cell, cells[i]);
     };
 
-    const showTotalRewards = (totalRewards, maxNumRewards, colSpan) => {
+    let lootPlaceholder = '';
+    if (showLoot) {
+        lootPlaceholder = `<td class="loot no_right_border"></td>`;
+        lootPlaceholder += lootPlaceholder;
+        lootPlaceholder += lootPlaceholder;
+        lootPlaceholder += `<td class="loot"></td>`;
+    }
+
+    const showTotalRewards = (totalRewards, maxNumRewards, colSpan, className, addLoot) => {
         let htm = '';
         htm += Html.br`<tfoot>`;
         htm += Html.br`<tr><td colspan="${colSpan}" class="final">${gui.getMessage('events_total')}</td>`;
-        htm += showRewards(totalRewards, maxNumRewards);
+        htm += showRewards(totalRewards, maxNumRewards, 1, className);
+        if (addLoot) { htm += lootPlaceholder; }
         htm += Html.br`</tr>`;
         htm += Html.br`</tfoot>`;
         return htm;
@@ -649,7 +727,7 @@ function showInfo() {
             for (const level of levels) {
                 htm += Html.br`<tr>`;
                 if (hasIcon && level.level_id == 1) {
-                    htm += Html.br`<th class="icon" rowspan="${levels.length}">${gui.getObjectImg(achievement.type, achievement.object_id, null, false, 'desc')}</th>`;
+                    htm += Html.br`<th class="icon" rowspan="${levels.length}">${gui.getObjectImg(achievement.type, achievement.object_id, null, false, 'info+desc')}</th>`;
                 }
                 htm += Html.br`<td class="level">${Locale.formatNumber(level.level_id)}</td>`;
                 let progress = a_level == level.level_id ? a_progress : 0;
@@ -724,8 +802,10 @@ function showInfo() {
     if (selectedInfo == 'loc') {
         const locations = gui.getFile('locations_0');
         const loc_prog = generator.loc_prog || {};
-        const showLocations = (locs, title, isRepeatables) => {
+        const showLocations = (locs, key) => {
             if (!locs.length) return;
+            const title = gui.getMessage('events_' + key);
+            const isRepeatables = key == 'repeatables';
             locs = locs.map(lid => {
                 const location = locations[lid];
                 const ovr = location.overrides && location.overrides.find(ovr => +ovr.region_id == region);
@@ -738,13 +818,17 @@ function showInfo() {
                 return loc;
             });
             const { max: maxNumRewards, rewards: totalRewards } = getTotalRewards(...locs.map(l => l.rewards));
-            htm += Html.br`<table class="event-subtable event-locations">`;
+            htm += Html.br`<table class="event-subtable event-locations" data-key="${key}">`;
             htm += Html.br`<thead><tr><th>${title}</th>`;
             htm += Html.br`<th colspan="${showProgress ? 3 : 1}">${gui.getMessage('events_tiles')}</th>`;
             if (isRepeatables) htm += Html.br`<th>${gui.getMessage('events_chance')}</th><th>${gui.getMessage('repeat_cooldown')}</th>`;
-            htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th></tr></thead>`;
+            htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th>`;
+            if (showLoot) htm += Html.br`<th colspan="5">${gui.getMessage('gui_loot')}</th>`;
+            htm += Html.br`</tr></thead>`;
             htm += Html.br`<tbody class="${isRepeatables ? '' : 'row-coloring'}">`;
             let isOdd = false;
+            const totalLoot = {};
+            let numLootLoaded = 0;
             for (const loc of locs) {
                 const lid = loc.def_id;
                 const tiles = +loc.progress;
@@ -754,12 +838,17 @@ function showInfo() {
                 let completed = mined >= tiles;
 
                 let floors = isRepeatables ? Object.values(loc.rotation) : [];
-                const chance = floors.reduce((sum, floor) => sum + +floor.chance, 0);
+                let chance = floors.reduce((sum, floor) => sum + +floor.chance, 0);
                 floors = floors.map(floor => {
                     floor = Object.assign({}, floor);
                     floor.chance = +floor.chance;
                     return floor;
-                }).filter(floor => floor.chance > 0);
+                });
+                if (chance == 0) {
+                    chance = floors.length;
+                    for (const floor of floors) floor.chance = 1;
+                }
+                floors = floors.filter(floor => floor.chance > 0 || chance);
                 // Compute chance
                 let remainingChances = 1000;
                 for (const floor of floors) {
@@ -787,9 +876,10 @@ function showInfo() {
                     return floor;
                 });
                 const rows = isRepeatables ? floors.length : 1;
+                const floorLevels = floors.map(floor => +floor.level);
 
                 isOdd = !isOdd;
-                htm += Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''} ${isRepeatables && lid != locs[0] ? 'separator' : ''}">`;
+                htm += Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''} ${isRepeatables && lid != locs[0] ? 'separator' : ''}" data-loc="${lid}" data-floor="${isRepeatables ? floors[0].level : 0}">`;
                 htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${gui.getLocationImg(loc)}<div class="location_name">${Html(gui.getString(loc.name_loc))}</div></td>`;
                 if (isRepeatables) {
                     // Fix chance
@@ -803,17 +893,57 @@ function showInfo() {
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
                 }
-                htm += showRewards(loc.rewards, maxNumRewards, rows);
+                htm += showRewards(loc.rewards, maxNumRewards, rows, 'clear');
+                htm += lootPlaceholder;
                 htm += Html.br`</tr>`;
-                htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}">${Html.raw(floor.htm)}</tr>`).join('');
+                htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}" data-loc="${lid}" data-floor="${floor.level}">${Html.raw(floor.htm + lootPlaceholder)}</tr>`).join('');
+                if (showLoot) bgp.Data.getFile('floors_' + lid).then(data => {
+                    data = Object.assign({}, data);
+                    data.floor = data.floor.map(floor => Object.assign({}, floor));
+                    const levels = isRepeatables ? floorLevels : [0];
+                    const locLoot = {};
+                    for (const floor of data.floor) {
+                        const level = +floor.def_id;
+                        let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
+                        lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
+                        const rewards = {};
+                        for (const lootArea of lootAreas) {
+                            const rid = +lootArea.region_id || region;
+                            if (isSegmented && rid != region) continue;
+                            const type = lootArea.type;
+                            const object_id = +lootArea.object_id;
+                            if (type == 'artifact' || type == 'decoration') continue;
+                            if (type == 'token' && ![32, 1642, 5605, 6844, 7833].includes(object_id)) continue;
+                            const num = typeof lootArea.tiles == 'string' ? lootArea.tiles.split(';').length : 0;
+                            const amount = num * gui.calculateLoot(lootArea, level, isRepeatables ? swDoubleDrop : null).avg;
+                            if (amount > 0) {
+                                const key = type + '\t' + object_id;
+                                const reward = rewards[key];
+                                if (reward) reward.amount += amount; else rewards[key] = { type, object_id, amount };
+                            }
+                        }
+                        floor.loot = Object.values(rewards);
+                        augmentTotalRewards(locLoot, floor.loot);
+                    }
+                    const locationLoot = Object.values(locLoot);
+                    for (const level of levels) {
+                        let rewards = level == 0 ? locationLoot : data.floor.find(floor => +floor.def_id == level).loot;
+                        showRewardsInCell(container.querySelector(`tr[data-loc="${lid}"][data-floor="${level}"] td.loot`), rewards);
+                    }
+                    augmentTotalRewards(totalLoot, locationLoot);
+                    numLootLoaded++;
+                    if (numLootLoaded == locs.length && showTotalLoot) {
+                        showRewardsInCell(container.querySelector(`table[data-key="${key}"] tfoot td.loot`), Object.values(totalLoot));
+                    }
+                });
             }
             htm += Html.br`</tbody>`;
-            if (!isRepeatables) htm += showTotalRewards(totalRewards, maxNumRewards, 2 + (showProgress ? 2 : 0));
+            if (!isRepeatables) htm += showTotalRewards(totalRewards, maxNumRewards, 2 + (showProgress ? 2 : 0), 'clear', true);
             htm += Html.br`</table>`;
         };
-        showLocations(item.loc_qst, gui.getMessage('events_story_maps'), false);
-        showLocations(item.loc_xlo, gui.getMessage('events_challenges'), false);
-        showLocations(item.loc_rep, gui.getMessage('events_repeatables'), true);
+        showLocations(item.loc_qst, 'story_maps');
+        showLocations(item.loc_xlo, 'challenges');
+        showLocations(item.loc_rep, 'repeatables');
     }
 
     htm += Html.br`</td>`;

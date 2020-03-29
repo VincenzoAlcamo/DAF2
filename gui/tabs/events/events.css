@@ -53,6 +53,13 @@
   margin-top: 4px;
 }
 
+.events-tooltip span.desc {
+  font-size: 14px;
+  font-weight: normal;
+  max-width: 500px;
+  margin: auto;
+}
+
 .events tr.hilight-qst td.qst,
 .events tr.hilight-ach td.ach,
 .events tr.hilight-tre td.tre,
@@ -75,15 +82,17 @@
 }
 
 .events .event-subtable tfoot {
-  background-color: var(--tb-brcol);
+  background-color: var(--th-bgcol);
   color: var(--th-fgcol);
 }
 
+.events .event-subtable .loot,
 .events .event-subtable .rewards {
   text-align: right;
   vertical-align: top;
 }
 
+.events .event-subtable .loot+.loot,
 .events .event-subtable .rewards+.rewards {
   padding-left: 4px;
 }
@@ -97,6 +106,7 @@
 }
 
 .events .rewards span,
+.events .loot span,
 .events .reset span {
   display: inline-block;
   cursor: default;
@@ -104,6 +114,7 @@
 }
 
 .events .rewards i,
+.events .loot i,
 .events .reset i {
   display: inline-block;
   width: 24px;
@@ -112,6 +123,7 @@
 }
 
 .events .rewards img,
+.events .loot img,
 .events .reset img {
   max-height: 24px;
   max-width: 24px;
@@ -141,6 +153,11 @@
   text-align: right;
   padding-left: 16px;
   padding-right: 16px;
+}
+
+.events .event-locations tr td.chance,
+.events .event-locations tr td.clear {
+  vertical-align: middle;
 }
 
 .events .event-quests tr td.final,
