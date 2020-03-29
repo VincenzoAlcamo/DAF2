@@ -285,16 +285,6 @@ div.equipment_mask {
   border-radius: 4px;
 }
 
-.tab_equipment .toolbar label {
-  display: inline-block;
-  text-align: left;
-}
-
-.tab_equipment .toolbar label span {
-  display: table-cell;
-  white-space: nowrap;
-}
-
 .equipment-advanced-table td {
   padding: 1px;
   text-align: center;

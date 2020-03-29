@@ -562,6 +562,16 @@ img.medium {
   opacity: 1;
 }
 
+.toolbar.vertical label {
+  display: inline-block;
+  text-align: left;
+}
+
+.toolbar.vertical label span {
+  display: table-cell;
+  white-space: nowrap;
+}
+
 .toolbar .outlined {
   color: var(--tt-outlined-fgcol);
 }
