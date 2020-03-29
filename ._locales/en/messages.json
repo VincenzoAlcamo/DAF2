@@ -1232,6 +1232,9 @@
     "rewardlinks_probablyexpired": {
         "message": "PROBABLY EXPIRED LINK"
     },
+    "rewardlinks_background": {
+        "message": "Background?"
+    },
     "rewardlinks_addlinks": {
         "message": "Add links"
     },

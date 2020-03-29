@@ -1,10 +1,10 @@
 /*global bgp gui SmartTable Dialog Html Locale*/
 export default {
     hasCSS: true,
-    init: init,
-    update: update,
-    getState: getState,
-    setState: setState,
+    init,
+    update,
+    getState,
+    setState,
     actions: {
         'rewards_update': update
     },
@@ -13,7 +13,7 @@ export default {
 
 const SECONDS_IN_A_DAY = 86400;
 
-let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert;
+let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert, checkBackground;
 let materialImageCache = {};
 let clicked = {};
 let firstTime = true;
@@ -103,6 +103,9 @@ function init() {
     selectConvert = container.querySelector('[name=convert]');
     selectConvert.addEventListener('input', update);
 
+    checkBackground = container.querySelector('[name=background]');
+    checkBackground.addEventListener('click', saveState);
+
     for (let button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClickButton);
     }
@@ -111,14 +114,20 @@ function init() {
 function getState() {
     return {
         convert: selectConvert.value,
+        background: checkBackground.checked,
         sort: gui.getSortState(smartTable, 'id')
     };
 }
 
 function setState(state) {
     state.convert = gui.setSelectState(selectConvert, state.convert);
+    checkBackground.checked = !!state['background'];
     gui.setSortState(state.sort, smartTable, 'id');
     smartTable.setSortInfo();
+}
+
+function saveState() {
+    gui.updateTabState(tab);
 }
 
 function onClickButton() {
@@ -322,6 +331,12 @@ function onClickTable(event) {
     delete reward.time;
     reward.row.setAttribute('data-status', reward.status);
     clicked[reward.id] = now;
+    // Open link in background?
+    if (getState().background) {
+        event.preventDefault();
+        bgp.Tab.open(target.href, true);
+        return false;
+    }
     return true;
 }
 

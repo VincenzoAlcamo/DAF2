@@ -1771,6 +1771,7 @@
 "en@rewardlinks_noself":{"message":"NO SELF REWARD"},
 "en@rewardlinks_broken":{"message":"BROKEN LINK"},
 "en@rewardlinks_probablyexpired":{"message":"PROBABLY EXPIRED LINK"},
+"en@rewardlinks_background":{"message":"Background?"},
 "en@rewardlinks_addlinks":{"message":"Add links"},
 "en@rewardlinks_pasteadd":{"message":"Paste here the links to add, then press the \"$1\" button"},
 "en@rewardlinks_linksadded":{"message":"Rewards links added: $1"},

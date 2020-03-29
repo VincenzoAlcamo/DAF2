@@ -420,6 +420,12 @@ if (loginButton) {
             });
         });
     },
+    open: function(url, background = false) {
+        chrome.tabs.create({
+            url: url,
+            active: !background
+        });
+    },
     injectGame: function (tabId) {
         if (!Preferences.getValue('injectGame')) return;
         if (Preferences.getValue('resetFullWindow')) {
