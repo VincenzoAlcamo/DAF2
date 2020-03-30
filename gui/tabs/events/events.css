@@ -186,7 +186,7 @@
 
 .events td.toolbar {
   position: relative;
-  background-color: var(--th-bgcol);
+  background-color: var(--tb-brcol);
 }
 
 .events td.toolbar button[name=close] {
