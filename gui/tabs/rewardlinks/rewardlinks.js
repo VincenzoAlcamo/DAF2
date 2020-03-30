@@ -6,17 +6,23 @@ export default {
     getState,
     setState,
     actions: {
-        'rewards_update': update
+        'rewards_update': function () {
+            update();
+            clickNextButton();
+        }
     },
     requires: ['materials']
 };
 
 const SECONDS_IN_A_DAY = 86400;
+const TAG_CLICKANYWAY = 'clickanyway';
+const TAG_AUTOCLICKED = 'autoclicked';
 
 let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert, checkBackground;
 let materialImageCache = {};
 let clicked = {};
 let firstTime = true;
+let autoClick = false;
 
 //#region LINK HELPER FUNCTIONS
 const LinkData = (function () {
@@ -244,28 +250,21 @@ function onClickTable(event) {
                 rows = rows.filter(row => row.cells[5].innerHTML == html);
             }
         }
-        for (const row of rows) {
-            row.classList.toggle('selected', flag);
-            row.querySelector('input').checked = flag;
-        }
+        for (const row of rows) setInputChecked(row.querySelector('input'), flag);
         return;
     }
     if (!target.classList.contains('reward')) return true;
 
     let reasons = [];
 
-    function pushReason(title, text, action) {
-        reasons.push({
-            title: title,
-            text: text,
-            action: action
-        });
+    function pushReason(title, text, action, critical = false) {
+        reasons.push({ title, text, critical, action });
     }
 
     function showNextReason() {
         let reason = reasons.shift();
         if (!reason) {
-            target.setAttribute('clickanyway', '1');
+            target.setAttribute(TAG_CLICKANYWAY, '1');
             target.click();
             return;
         }
@@ -292,19 +291,21 @@ function onClickTable(event) {
         });
     }
 
-    let row = target.parentNode.parentNode;
-    let rewardId = row.getAttribute('data-id');
-    let reward = items[rewardId];
+    const row = target.parentNode.parentNode;
+    const rewardId = row.getAttribute('data-id');
+    const reward = items[rewardId];
     if (!reward) return;
-    let now = gui.getUnixTime();
+    const now = gui.getUnixTime();
     let countClicked;
-    if (target.getAttribute('clickanyway') == '1') {
-        target.removeAttribute('clickanyway');
-    } else {
+    const wasAutoClicked = target.hasAttribute(TAG_AUTOCLICKED) || event.altKey;
+    target.removeAttribute(TAG_AUTOCLICKED);
+    const clickAnyway = target.hasAttribute(TAG_CLICKANYWAY);
+    target.removeAttribute(TAG_CLICKANYWAY);
+    if (!clickAnyway) {
         if (reward.cmt == -2 || reward.cmt > 0) {
             pushReason(gui.getMessage('rewardlinks_collected'), gui.getMessage('rewardlinks_infocollected'));
         } else if (reward.cmt == -3) {
-            pushReason(gui.getMessage('rewardlinks_maxreached'), gui.getMessage('rewardlinks_infomaxreached', bgp.Data.REWARDLINKS_DAILY_LIMIT));
+            pushReason(gui.getMessage('rewardlinks_maxreached'), gui.getMessage('rewardlinks_infomaxreached', bgp.Data.REWARDLINKS_DAILY_LIMIT), true);
         } else if (reward.cmt == -1) {
             pushReason(gui.getMessage('rewardlinks_expired'), gui.getMessage('rewardlinks_infoexpired', bgp.Data.REWARDLINKS_VALIDITY_DAYS));
         } else if (reward.cmt == -4) {
@@ -313,16 +314,24 @@ function onClickTable(event) {
             pushReason(gui.getMessage('rewardlinks_broken'), gui.getMessage('rewardlinks_infobroken'));
         }
         if (bgp.Data.rewardLinksData.next > now) {
-            pushReason(gui.getMessage('rewardlinks_maxreached'), gui.getMessage('rewardlinks_allcollected') + '\n' + gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(bgp.Data.rewardLinksData.next)), 'resetcount');
+            pushReason(gui.getMessage('rewardlinks_maxreached'), gui.getMessage('rewardlinks_allcollected') + '\n' + gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(bgp.Data.rewardLinksData.next)), 'resetcount', true);
         }
         if (+reward.id <= bgp.Data.rewardLinksData.expired) {
             pushReason(gui.getMessage('rewardlinks_probablyexpired'), gui.getMessage('rewardlinks_infoprobablyexpired'), 'resetexpired');
         }
         if ((countClicked = Object.keys(clicked).length) > 0 && countClicked + bgp.Data.rewardLinksData.count >= bgp.Data.REWARDLINKS_DAILY_LIMIT) {
-            pushReason(gui.getMessage('rewardlinks_maxreached'), gui.getMessage('rewardlinks_infomayexceedlimit'));
+            pushReason(gui.getMessage('rewardlinks_maxreached'), gui.getMessage('rewardlinks_infomayexceedlimit'), null, true);
         }
         if (reasons.length) {
             event.preventDefault();
+            // Sort by critical descending
+            reasons.sort((a, b) => (a.critical ? 1 : 0) - (b.critical ? 1 : 0)).reverse();
+            if (wasAutoClicked && !reasons[0].critical) {
+                // Clear checkbox and proceed with next link
+                setInputChecked(target.parentNode.parentNode.querySelector('input'), false);
+                setTimeout(clickNextButton, 0);
+                return false;
+            }
             showNextReason();
             return false;
         }
@@ -331,6 +340,7 @@ function onClickTable(event) {
     delete reward.time;
     reward.row.setAttribute('data-status', reward.status);
     clicked[reward.id] = now;
+    if (event.altKey) autoClick = true;
     // Open link in background?
     if (getState().background) {
         event.preventDefault();
@@ -357,6 +367,28 @@ function materialHTML(materialId) {
         return materialImageCache[materialId] = Html.br`<img src="/img/gui/q-hard.png"/><span class="alert">${text}</span>`;
     }
     return materialImageCache[materialId];
+}
+
+function setInputChecked(input, checked) {
+    input.checked = checked;
+    input.parentNode.parentNode.classList.toggle('selected', checked);
+}
+
+function clickNextButton() {
+    if (!autoClick) return;
+    let button = null;
+    while (!button) {
+        const input = smartTable.table.querySelector('input[type=checkbox]:checked');
+        if (!input) break;
+        const rewardId = input.parentNode.parentNode.getAttribute('data-id');
+        const reward = items[rewardId];
+        if (!reward || reward.cdt) setInputChecked(input, false);
+        else button = input.parentNode.nextElementSibling.firstElementChild;
+    }
+    if (button) {
+        button.setAttribute(TAG_AUTOCLICKED, '1');
+        button.click();
+    } else autoClick = false;
 }
 
 function update() {
