@@ -521,9 +521,9 @@ function collectLinks(convert) {
     var values = collectData();
     if (convert === undefined) convert = linkGrabConvert;
     if (convert != 1 && convert != 2 && convert != 3) convert = 0;
-    values = values.map(data => LinkData.getLink(data, convert));
-    if (linkGrabSort) values.sort();
+    if (linkGrabSort) values.sort((a, b) => a.id - b.id);
     if (linkGrabSort == 2) values.reverse();
+    values = values.map(data => LinkData.getLink(data, convert));
     return values;
 }
 
@@ -635,7 +635,7 @@ function collect(confirmCollection) {
         };
         if (autoClose) return showDisabled();
         let text = document.title;
-        text += '\n\n'+ getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
+        text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
         dialog.show({ text, style: [Dialog.OK] }, showDisabled);
     }
 
