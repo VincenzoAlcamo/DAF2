@@ -86,6 +86,10 @@
   color: var(--th-fgcol);
 }
 
+.events .event-subtable tfoot td {
+  background-color: #888A;
+}
+
 .events .event-subtable .loot,
 .events .event-subtable .rewards {
   text-align: right;

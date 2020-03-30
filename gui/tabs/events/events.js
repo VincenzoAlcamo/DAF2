@@ -8,9 +8,21 @@ export default {
     requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts', 'sales', 'special_weeks']
 };
 
-const infos = ['qst', 'ach', 'tre', 'loc'];
+const INFOS = ['qst', 'ach', 'tre', 'loc'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
+// GEM, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST
+const GEMS = [2, 235, 197, 143, 149, 92, 47];
+//
+const RINGS_BY_EVENT = {
+    0: 32,      // Green ring
+    20: 1642,   // Red ring
+    86: 5605,   // Christmas 2017
+    103: 6844,  // Christmas 2018
+    121: 7833   // Christmas 2019
+};
+// Red Ring
+
 
 let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectLoot, selectType;
 let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop;
@@ -75,7 +87,7 @@ function onmousemove(event) {
     let el = event.target;
     let row = null;
     let classNames = {};
-    infos.forEach(k => classNames[k] = false);
+    INFOS.forEach(k => classNames[k] = false);
     while (el.tagName != 'TABLE') {
         if (el.tagName == 'TD') Array.from(el.classList).filter(k => k in classNames).forEach(k => classNames[k] = true);
         if (el.tagName == 'TR') row = el;
@@ -170,12 +182,7 @@ function update() {
         item.pquest = item.cquest / (item.tquest || 1);
 
         item.materials = materialsByEvent[eid] || [];
-        // Red Ring
-        if (eid == 20) item.materials.push(-1642);
-        // Christmast Rings
-        if (eid == 86) item.materials.push(-5605);
-        if (eid == 103) item.materials.push(-6844);
-        if (eid == 121) item.materials.push(-7833);
+        if (eid in RINGS_BY_EVENT) item.materials.push(-RINGS_BY_EVENT[eid]);
 
         item.img = gui.getObjectImage('event', item.id);
         if (item.img == '' && item.materials.length == 1) item.img = gui.getObjectImage('material', item.materials[0], true);
@@ -305,7 +312,7 @@ function setState(state) {
     selectedRegion = Math.min(gui.getMaxRegion(), Math.max(0, +state.region || 0));
     selectedEventId = parseInt(state.event) || null;
     let info = (state.info || '').toLowerCase();
-    if (!infos.includes(info)) info = '';
+    if (!INFOS.includes(info)) info = '';
     state.info = selectedInfo = info;
     state.loot = gui.setSelectState(selectLoot, state.loot);
     searchInput.value = state.search || '';
@@ -469,7 +476,7 @@ function onClick(e) {
     for (var el = e.target; !row && el.tagName != 'TABLE'; el = el.parentNode)
         if (el.tagName == 'TR') row = el;
     if (!row) return;
-    const info = infos.find(info => row.classList.contains(PREFIX_HILIGHT + info));
+    const info = INFOS.find(info => row.classList.contains(PREFIX_HILIGHT + info));
     if (!info) return;
     selectedInfo = info;
     selectedEventId = parseInt(row.getAttribute('data-eid'));
@@ -531,7 +538,7 @@ function showInfo() {
     }
     Dialog.htmlToDOM(fixedBody, '');
     const clone = row.cloneNode(true);
-    for (const info of infos) clone.classList.remove(PREFIX_HILIGHT + info);
+    for (const info of INFOS) clone.classList.remove(PREFIX_HILIGHT + info);
     clone.classList.add(PREFIX_SET + selectedInfo);
     fixedBody.appendChild(clone);
     fixedBody.appendChild(trRegion);
@@ -596,20 +603,23 @@ function showInfo() {
 
     const classesByType = {};
     ['artifact', 'material', 'token', 'usable', 'decoration', 'system', 'eventpass_xp'].forEach((v, i) => classesByType[v] = i + 10);
-    const gems = [2, 235, 197, 143, 149, 92, 47];
+    const RINGS = Object.values(RINGS_BY_EVENT);
     const showRewards = (rewards, maxNumRewards, rows = 1, className = '', raw = false) => {
         let htm = '';
         for (const reward of rewards) {
             const type = reward.type;
-            const id = reward.object_id;
+            const id = +reward.object_id;
             const xp = gui.getXp(type, id);
             reward._i = xp > 0 ? -xp : id;
             reward._c = classesByType[type];
             if (type == 'material') {
                 if (item.machiev.includes(id)) reward._c = 0;
                 if (id == 1) reward._c = classesByType['system'], reward._i = 0;
-                const gemIndex = gems.indexOf(id);
-                if (gemIndex >= 0) reward._c = 1, reward._i = gemIndex;
+                const gemIndex = GEMS.indexOf(id);
+                if (gemIndex >= 0) reward._c = 2, reward._i = gemIndex;
+            } else if (type == 'token') {
+                const ringIndex = RINGS.indexOf(id);
+                if (ringIndex >= 0) reward._c = 1, reward._i = ringIndex;
             }
         }
         rewards.sort((a, b) => (a._c - b._c) || (a._i - b._i));
@@ -646,10 +656,15 @@ function showInfo() {
         lootPlaceholder += `<td class="loot"></td>`;
     }
 
-    const showTotalRewards = (totalRewards, maxNumRewards, colSpan, className, addLoot) => {
+    const showTotalRewards = (totalRewards, maxNumRewards, colSpan, className, addLoot, showProgress, progress, total) => {
+        const showTotal = total !== undefined;
+        colSpan -= (showProgress ? 2 : 0) + (showTotal ? 1 : 0);
         let htm = '';
         htm += Html.br`<tfoot>`;
         htm += Html.br`<tr><td colspan="${colSpan}" class="final">${gui.getMessage('events_total')}</td>`;
+        if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
+        if (showTotal) htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(total)}</td>`;
+        if (showProgress) htm += Html.br`<td>${progress >= total ? ticked : unticked}</td>`;
         htm += showRewards(totalRewards, maxNumRewards, 1, className);
         if (addLoot) { htm += lootPlaceholder; }
         htm += Html.br`</tr>`;
@@ -724,28 +739,26 @@ function showInfo() {
             if (hasIcon) htm += Html.br`<th></th>`;
             htm += Html.br`<th><img width="24" src="/img/gui/list.png"></th><th colspan="${showProgress ? 3 : 1}">${gui.getMessage('progress_goal')}</th>`;
             htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_rewards')}</th></tr></thead><tbody class="row-coloring">`;
+            let totalAchieved = 0;
+            let totalRequired = 0;
             for (const level of levels) {
                 htm += Html.br`<tr>`;
                 if (hasIcon && level.level_id == 1) {
                     htm += Html.br`<th class="icon" rowspan="${levels.length}">${gui.getObjectImg(achievement.type, achievement.object_id, null, false, 'info+desc')}</th>`;
                 }
                 htm += Html.br`<td class="level">${Locale.formatNumber(level.level_id)}</td>`;
-                let progress = a_level == level.level_id ? a_progress : 0;
-                let completed = false;
-                if (showProgress) {
-                    if (a_level > level.level_id || (a_level == level.level_id && a_progress >= level.amount)) {
-                        progress = level.amount;
-                        completed = true;
-                    }
-                    htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
-                }
+                const progress = a_level > level.level_id ? level.amount : (a_level == level.level_id ? a_progress : 0);
+                const completed = progress >= level.amount;
+                totalAchieved += progress;
+                totalRequired += level.amount;
+                if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
                 htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(level.amount)}</td>`;
                 if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
                 htm += showRewards(level.rewards, maxNumRewards);
                 htm += Html.br`</tr>`;
             }
             htm += Html.br`</tbody>`;
-            // htm += showTotalRewards(totalRewards, maxNumRewards, 3 + (showProgress ? 2 : 0));
+            htm += showTotalRewards(totalRewards, maxNumRewards, 3 + (showProgress ? 2 : 0), undefined, undefined, showProgress, totalAchieved, totalRequired);
             htm += Html.br`</table>`;
         }
     }
