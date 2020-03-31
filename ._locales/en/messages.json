@@ -5,7 +5,6 @@
     "ext_title": {
         "message": "Helper Tool for Diggy's Adventure"
     },
-
     "menu_resetfullwindow": {
         "message": "Reset on load"
     },
@@ -54,7 +53,6 @@
     "menu_off": {
         "message": "OFF"
     },
-
     "gui_card_clicker": {
         "message": "Click to collapse/expand this section"
     },
@@ -66,6 +64,9 @@
     },
     "gui_search": {
         "message": "Search"
+    },
+    "gui_filter": {
+        "message": "Filter"
     },
     "gui_name": {
         "message": "Name"
@@ -278,7 +279,6 @@
     "gui_location": {
         "message": "Location"
     },
-
     "dialog_ok": {
         "message": "Ok"
     },
@@ -300,7 +300,6 @@
     "dialog_pleasewait": {
         "message": "Please Wait"
     },
-
     "tab_game": {
         "message": "Switch to game"
     },
@@ -367,7 +366,6 @@
     "tab_dailyreward": {
         "message": "Daily Reward"
     },
-
     "about_version": {
         "message": "Version: $VERSION$",
         "placeholders": {
@@ -428,7 +426,6 @@
     "about_reset_ok_text": {
         "message": "Please reload Diggy's Adventure with the account you wish to use."
     },
-
     "kitchen_all": {
         "message": "All recipes"
     },
@@ -458,7 +455,6 @@
     "kitchen_food_in_backpack": {
         "message": "from food in backpack"
     },
-
     "foundry_all": {
         "message": "All alloys"
     },
@@ -482,7 +478,6 @@
             }
         }
     },
-
     "camp_your_camp": {
         "message": "Your camp"
     },
@@ -592,7 +587,6 @@
     "camp_neighbor": {
         "message": "Show neighbour's camp"
     },
-
     "pillars_all": {
         "message": "All pillars"
     },
@@ -632,7 +626,6 @@
     "pillars_cap": {
         "message": "Cap to Possible"
     },
-
     "neighbors_lastlevelup": {
         "message": "Last\nLevel Up"
     },
@@ -774,7 +767,6 @@
     "neighbors_expression": {
         "message": "Specify an expression to evaluate"
     },
-
     "friendship_collectfriends": {
         "message": "Collect friends"
     },
@@ -1073,7 +1065,6 @@
             }
         }
     },
-
     "godchild_info": {
         "message": "$NUM$ Neighbours = $GC$ Gods children",
         "placeholders": {
@@ -1110,7 +1101,6 @@
     "godchild_next1": {
         "message": "To get an additional GC, you have to add just one more neighbour"
     },
-
     "progress_measure": {
         "message": "Measure"
     },
@@ -1201,7 +1191,6 @@
             }
         }
     },
-
     "rewardlinks_id": {
         "message": "Reward Id"
     },
@@ -1384,7 +1373,6 @@
     "rewardlinks_shortenlinks_info2": {
         "message": "Shortened links are shown below (duplicates are removed)."
     },
-
     "export_exportdata": {
         "message": "Export data"
     },
@@ -1403,7 +1391,6 @@
     "export_debugdata": {
         "message": "Export diagnostics data"
     },
-
     "rings_showminmax": {
         "message": "Show minimum and maximum values"
     },
@@ -1433,7 +1420,6 @@
     "rings_rings": {
         "message": "Rings"
     },
-
     "equipment_sellout": {
         "message": "Selling all unused items will net you $TOTAL$ coins (equipment = $EQUIP$ coins, decorations = $DECO$ coins)",
         "placeholders": {
@@ -1511,7 +1497,6 @@
     "equipment_current": {
         "message": "Current"
     },
-
     "events_year": {
         "message": "Year"
     },
@@ -1590,7 +1575,6 @@
     "events_clearbonus": {
         "message": "Clear bonus"
     },
-
     "repeat_name": {
         "message": "Name"
     },
@@ -1639,7 +1623,6 @@
     "repeat_postcard": {
         "message": "Postcard week ready?"
     },
-
     "dailyreward_stats": {
         "message": "The daily reward is based on your current level ($LEVEL$) and region ($REGION$).",
         "placeholders": {
@@ -1662,7 +1645,6 @@
     "dailyreward_formula": {
         "message": "Formula"
     },
-
     "specialweek_end": {
         "message": "ends on $FINISH$",
         "placeholders": {
@@ -1703,7 +1685,6 @@
     "specialweek_mystery_box": {
         "message": "Mystery box"
     },
-
     "options_section_ingame": {
         "message": "In-Game options"
     },
@@ -1844,7 +1825,6 @@
     "options_gamelanguage": {
         "message": "Game Language\nLanguage for game's messages"
     },
-
     "calc_operators": {
         "message": "Operators"
     },
@@ -1878,7 +1858,6 @@
     "calc_error_4": {
         "message": "Too many closing parentheses"
     },
-
     "linkgrabber_selected": {
         "message": "Links: $UNIQUE$ / $TOTAL$",
         "placeholders": {

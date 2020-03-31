@@ -65,6 +65,9 @@
     "gui_search": {
         "message": "Søg"
     },
+    "gui_filter": {
+        "message": "Filter"
+    },
     "gui_name": {
         "message": "Navn"
     },
@@ -112,6 +115,9 @@
     },
     "gui_event": {
         "message": "Begivenhed"
+    },
+    "gui_specialweek": {
+        "message": "Secial uge"
     },
     "gui_region": {
         "message": "Region"
@@ -384,6 +390,9 @@
                 "content": "$4"
             }
         }
+    },
+    "about_visit": {
+        "message": "Besøg den oficielle Facebook side"
     },
     "about_nodata": {
         "message": "Der er ikke blevet loaded nogen spildata endnu, vær venlig at loade eller genstarte spil vinduet"
@@ -1214,6 +1223,9 @@
     },
     "rewardlinks_probablyexpired": {
         "message": "MULIGT UDLØBET LINK"
+    },
+    "rewardlinks_background": {
+        "message": "Baggrund?"
     },
     "rewardlinks_addlinks": {
         "message": "Tilføj links"

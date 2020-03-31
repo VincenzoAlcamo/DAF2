@@ -65,6 +65,9 @@
     "gui_search": {
         "message": "Αναζήτηση"
     },
+    "gui_filter": {
+        "message": "Φίλτρο"
+    },
     "gui_name": {
         "message": "Όνομα"
     },
@@ -112,6 +115,9 @@
     },
     "gui_event": {
         "message": "Ιστορία"
+    },
+    "gui_specialweek": {
+        "message": "Ειδική εβδομάδα"
     },
     "gui_region": {
         "message": "Περιοχή"
@@ -1217,6 +1223,9 @@
     },
     "rewardlinks_probablyexpired": {
         "message": "ΠΙΘΑΝΟΝ ΛΗΓΜΕΝΟΣ ΣΥΝΔΕΣΜΟΣ"
+    },
+    "rewardlinks_background": {
+        "message": "Φόντο;"
     },
     "rewardlinks_addlinks": {
         "message": "Προσθήκη συνδέσμων"

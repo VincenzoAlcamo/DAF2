@@ -65,6 +65,9 @@
     "gui_search": {
         "message": "Rechercher"
     },
+    "gui_filter": {
+        "message": "Filtre"
+    },
     "gui_name": {
         "message": "Nom"
     },
@@ -112,6 +115,9 @@
     },
     "gui_event": {
         "message": "Événement"
+    },
+    "gui_specialweek": {
+        "message": "Semaine spéciale"
     },
     "gui_region": {
         "message": "Région"
@@ -1217,6 +1223,9 @@
     },
     "rewardlinks_probablyexpired": {
         "message": "LIEN PROBABLEMENT EXPIRÉ"
+    },
+    "rewardlinks_background": {
+        "message": "Connaissance de base?"
     },
     "rewardlinks_addlinks": {
         "message": "Ajouter des liens"
