@@ -30,3 +30,8 @@
   background-position: 4px center;
   cursor: help;
 }
+
+.kitchen tr.odd+tr:not(.odd) td,
+.kitchen tr:not(.odd)+tr.odd td {
+  border-top-width: 2px;
+}

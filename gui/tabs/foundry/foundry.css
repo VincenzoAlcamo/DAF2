@@ -28,3 +28,8 @@
   background-position: 4px center;
   cursor: help;
 }
+
+.foundry tr.odd+tr:not(.odd) td,
+.foundry tr:not(.odd)+tr.odd td {
+  border-top-width: 2px;
+}
