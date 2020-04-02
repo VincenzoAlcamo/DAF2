@@ -98,7 +98,7 @@ function kitchenFoundry(type) {
         var result = [];
         for (var item of productions) {
             var cargo = item.cargo.find(item => item.type == 'usable' || item.type == 'material' || (item.type == 'token' && tokens[item.object_id].name_loc != ''));
-            if (!cargo) return;
+            if (!cargo) continue;
             var p = {};
             p.id = item.def_id;
             p.level = Math.max(+item.req_level, 1);
