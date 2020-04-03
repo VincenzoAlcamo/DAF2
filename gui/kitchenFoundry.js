@@ -70,6 +70,7 @@ function kitchenFoundry(type) {
     function getProductions() {
         const generator = gui.getGenerator();
         const region = +generator.region;
+        const level = +generator.level;
         const usables = gui.getFile('usables');
         const materials = gui.getFile('materials');
         const tokens = gui.getFile('tokens');
@@ -89,9 +90,7 @@ function kitchenFoundry(type) {
         }
         productions = productions.filter(item => {
             const eid = +item.event_id;
-            if (eid > 0 && eid in player_events) return true;
-            const rid = +item.region_id;
-            if (eid == 0 && rid > 0 && rid <= region) return true;
+            if (eid == 0 || (eid > 0 && eid in player_events)) return true;
             return +item.unlocked == 1 || unlocked.includes(+item.def_id);
         });
 
@@ -119,6 +118,7 @@ function kitchenFoundry(type) {
             p.cimg = gui.getObjectImage(cargo.type, cargo.object_id, true);
             p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || 0;
             p.eid = +item.event_id;
+            p.locked = p.level > level || (p.eid == 0 && p.region > region);
             const event = p.eid ? events && events[p.eid] : null;
             p.ename = (event && gui.getString(event.name_loc)) || '';
             p.eimg = event && gui.getObjectImage('event', p.eid);
@@ -175,7 +175,9 @@ function kitchenFoundry(type) {
             let title = p.cname;
             if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
             let htm = '';
-            htm += Html.br`<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
+            let img = Html.br`<img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/>`;
+            if (p.locked) { img = Html.br`<span class="locked32" title="Locked">${img}</span>`; }
+            htm += Html.br`<td rowspan="${rspan}">${img}</td>`;
             htm += Html.br`<td rowspan="${rspan}">${p.name}</td>`;
             htm += Html.br`<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
             if (hasEvent) {
@@ -248,12 +250,8 @@ function kitchenFoundry(type) {
         if (productions[0] && !productions[0].rows) flagRecreate = true;
         if (flagRecreate) recreateRows();
 
-        const generator = gui.getGenerator();
-        const level = +generator.level;
-        const region = +generator.region;
-
         function isVisible(p) {
-            if (state.show == 'possible' && (p.output == 0 || level < p.level || region < p.region)) return false;
+            if (state.show == 'possible' && (p.output == 0 || p.locked)) return false;
             if (state.from == 'region' && p.eid > 0) return false;
             if (state.from == 'event' && p.eid == 0) return false;
             if (fnSearch && !fnSearch((p.name + '\t' + p.ingredients.map(i => i.name).join('\t')).toUpperCase())) return false;
