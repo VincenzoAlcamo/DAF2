@@ -165,7 +165,9 @@ function refresh() {
     for (const item of progress) {
         total += item.percent;
         htm += Html.br`<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
-        htm += Html.br`<td><img src="${item.isLocked ? '/img/gui/locked.png' : item.icon}"/></td>`;
+        let img = Html.br`<img src="${item.icon}"/>`;
+        if (item.isLocked) { img = Html.br`<span class="locked32" title="Locked">${img}</span>`; }
+        htm += Html.br`<td>${img}</td>`;
         htm += Html.br`<td>${item.label.toUpperCase()}</td>`;
         htm += getProgress(item.value, item.max, item.energy);
         htm += getTimes(item.isCompleted, item.bt, item.et);

@@ -120,6 +120,26 @@ a.no-link {
   white-space: nowrap;
 }
 
+span.locked32 {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+}
+
+span.locked32::after {
+  content: " ";
+  position: absolute;
+  display: inline-block;
+  left: 18px;
+  top: 18px;
+  width: 16px;
+  height: 16px;
+  background-image: url(../img/gui/locked.png);
+  background-repeat: no-repeat;
+  background-size: 16px;
+}
+
 /*#endregion*/
 
 /*#region GUI ELEMENTS*/
