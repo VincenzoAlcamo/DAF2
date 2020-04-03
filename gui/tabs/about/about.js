@@ -10,7 +10,7 @@ function init() { }
 function update() {
     this.container.querySelector('.about_version').innerText = gui.getMessage('about_version', bgp.Data.version);
 
-    let generator = gui.getGenerator();
+    const generator = gui.getGenerator();
     let html_data = '';
     let html_warning = '';
     let html_reset = '';
@@ -32,10 +32,10 @@ function update() {
     setHtml(this.container.querySelector('.about_warning'), html_warning);
     setHtml(this.container.querySelector('.about_reset'), html_reset);
 
-    for (let button of this.container.querySelectorAll('.about_launcher button'))
+    for (const button of this.container.querySelectorAll('.about_launcher button'))
         button.addEventListener('click', onClick);
 
-    let button = this.container.querySelector('.about_reset button');
+    const button = this.container.querySelector('.about_reset button');
     if (button) button.addEventListener('click', resetAccount);
 }
 
@@ -45,7 +45,7 @@ function setHtml(div, html) {
 }
 
 function onClick() {
-    let button = this;
+    const button = this;
     chrome.runtime.sendMessage({
         action: 'reloadGame',
         value: button.getAttribute('data-value')

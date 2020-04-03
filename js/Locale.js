@@ -53,9 +53,9 @@ const Locale = (function () {
     }
 
     function getFormatter(format) {
-        let options = {};
-        for (let c of format.split('')) {
-            let name = {
+        const options = {};
+        for (const c of format.split('')) {
+            const name = {
                 y: 'year',
                 m: 'month',
                 d: 'day',
@@ -79,7 +79,7 @@ const Locale = (function () {
         if (!(d2 instanceof Date)) return null;
         d1.setHours(0, 0, 0, 0);
         d2.setHours(0, 0, 0, 0);
-        let num = d1 - d2;
+        const num = d1 - d2;
         return Math.floor(num / (86400 * 1000)); // Fix bug by rounding down (floor)
     }
 

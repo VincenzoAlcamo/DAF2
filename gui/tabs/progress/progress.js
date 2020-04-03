@@ -8,7 +8,7 @@ export default {
     setState: setState,
     visibilityChange: visibilityChange,
     requires: (function () {
-        let requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests'];
+        const requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests'];
         for (let rid = gui.getMaxRegion(); rid > 0; rid--) requires.push('locations_' + rid);
         return requires;
     })()
@@ -17,7 +17,7 @@ export default {
 const REGION_SEPARATOR = '_';
 
 let tab, container, progress, checkCompleted, checkGroups, checkDates, checkEnergy, smartTable, show, levelSums, sliderLevel;
-let imgCompleted = Html.br`<img width="24" src="/img/gui/tick.png"/>`;
+const imgCompleted = Html.br`<img width="24" src="/img/gui/tick.png"/>`;
 let lastTimeMined = 0;
 let mapFilters, mapTutorials;
 let qtypes;
@@ -85,7 +85,7 @@ function setState(state) {
     checkDates.checked = !!state.dates;
     checkEnergy.checked = !!state.energy;
     show = state.show;
-    let showInfo = getShowInfo(show);
+    const showInfo = getShowInfo(show);
     if (!progress.find(item => item.id == showInfo.id)) show = '';
 }
 
@@ -98,7 +98,7 @@ function update() {
     qtypes = getQuestTypes();
 
     mapFilters = {};
-    for (let item of Object.values(gui.getFile('map_filters'))) {
+    for (const item of Object.values(gui.getFile('map_filters'))) {
         if (item.filter in mapFilters) continue;
         mapFilters[item.filter] = {
             name: item.name_loc,
@@ -109,22 +109,22 @@ function update() {
     }
 
     // A tutorial map must match the user tutorial
-    let userTutorial = +gui.getGenerator().tutorial_def_id;
+    const userTutorial = +gui.getGenerator().tutorial_def_id;
     mapTutorials = {};
-    for (let lesson of Object.values(gui.getFile('tutorials'))) {
-        let flag = userTutorial == +lesson.def_id;
-        for (let lid of gui.getArrayOfInt(lesson.locations)) mapTutorials[lid] = flag;
+    for (const lesson of Object.values(gui.getFile('tutorials'))) {
+        const flag = userTutorial == +lesson.def_id;
+        for (const lid of gui.getArrayOfInt(lesson.locations)) mapTutorials[lid] = flag;
     }
 
-    let rid = +gui.getGenerator().region;
+    const rid = +gui.getGenerator().region;
     lastTimeMined = bgp.Synchronize.lastTimeMined;
-    for (let item of progress) {
+    for (const item of progress) {
         item.calc(item);
         item.percent = item.max > 0 ? item.value / item.max * 100 : 0;
         item.isCompleted = item.value == item.max;
         item.isLocked = +item.rid > 0 && +item.rid > rid;
     }
-    for (let element of container.querySelectorAll('.warning')) {
+    for (const element of container.querySelectorAll('.warning')) {
         element.innerText = gui.getMessage('gui_infodated', Locale.formatDateTime(gui.getGenerator().time));
     }
     refresh();
@@ -135,8 +135,8 @@ function getProgress(value, max, energy) {
         return Html.br`<td></td><td></td><td></td><td></td><td></td>`;
     }
     let htm = '';
-    let percent = max > 0 ? (value / max * 100) : 0;
-    let isCompleted = value == max;
+    const percent = max > 0 ? (value / max * 100) : 0;
+    const isCompleted = value == max;
     htm += Html.br`<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) + '%'}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(value)}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(max)}</td>`;
@@ -159,10 +159,10 @@ function getTimes(isCompleted, bt, et) {
 }
 
 function refresh() {
-    let state = getState();
+    const state = getState();
     let total = 0;
     let htm = '';
-    for (let item of progress) {
+    for (const item of progress) {
         total += item.percent;
         htm += Html.br`<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}">`;
         htm += Html.br`<td><img src="${item.isLocked ? '/img/gui/locked.png' : item.icon}"/></td>`;
@@ -175,7 +175,7 @@ function refresh() {
     container.classList.toggle('no-dates', !state.dates);
     container.classList.toggle('no-energy', !state.energy);
 
-    let percent = total / progress.length;
+    const percent = total / progress.length;
     Array.from(smartTable.container.querySelectorAll('tfoot td:nth-child(2)')).forEach(cell => cell.innerText = Locale.formatNumber(percent, 2) + '%');
     Array.from(smartTable.container.querySelectorAll('tfoot td progress')).forEach(progress => progress.value = percent);
 
@@ -185,19 +185,19 @@ function refresh() {
 }
 
 function refreshPlayTime() {
-    let now = new Date();
-    let started = new Date(+gui.getGenerator().registered_on * 1000);
-    let playing = Math.floor((now - started) / 1000);
+    const now = new Date();
+    const started = new Date(+gui.getGenerator().registered_on * 1000);
+    const playing = Math.floor((now - started) / 1000);
     container.querySelector('.progress_playtime').innerText = gui.getMessage('progress_playTime', Locale.formatDateTime(started), gui.getDuration(playing), Locale.formatDateTime(now));
 }
 
 function setInspected(row, inspected) {
-    let level = +row.getAttribute('data-level');
-    let parent = row.parentNode;
+    const level = +row.getAttribute('data-level');
+    const parent = row.parentNode;
     row.classList.toggle('inspected', inspected);
     let nextRow = row.nextSibling;
     while (nextRow && +nextRow.getAttribute('data-level') > level) {
-        let temp = nextRow;
+        const temp = nextRow;
         nextRow = nextRow.nextSibling;
         parent.removeChild(temp);
     }
@@ -216,12 +216,12 @@ function getShowInfo(show) {
     show = show || '';
     let id = show;
     let subId = null;
-    let i = show.indexOf(REGION_SEPARATOR);
+    const i = show.indexOf(REGION_SEPARATOR);
     if (i > 0) {
         id = show.substr(0, i);
         subId = +show.substr(i + 1) || 0;
     }
-    let item = progress.find(item => item.id === id);
+    const item = progress.find(item => item.id === id);
     if (!item) return {};
     if (subId && (!item.rows || !item.rows.find(sub => sub.seq === subId))) subId = null;
     return {
@@ -239,10 +239,10 @@ function onClickMain(event) {
     }
     if (!row || !row.classList.contains('inspect')) return;
 
-    let level = +row.getAttribute('data-level');
-    let showInfo = getShowInfo(row.getAttribute('data-id') || '');
+    const level = +row.getAttribute('data-level');
+    const showInfo = getShowInfo(row.getAttribute('data-id') || '');
     if (!showInfo.show) return;
-    let parent = row.parentNode;
+    const parent = row.parentNode;
     if (row.classList.contains('inspected')) {
         show = '';
         gui.updateTabState(tab);
@@ -251,7 +251,7 @@ function onClickMain(event) {
         return;
     }
 
-    let otherRow = parent.querySelector('tr.inspected[data-level="' + level + '"]');
+    const otherRow = parent.querySelector('tr.inspected[data-level="' + level + '"]');
     if (otherRow) setInspected(otherRow, false);
 
     show = showInfo.show;
@@ -262,10 +262,10 @@ function onClickMain(event) {
 
 function showDetail(show) {
     refreshPlayTime();
-    let showInfo = getShowInfo(show);
+    const showInfo = getShowInfo(show);
     if (!showInfo.show) return;
 
-    let item = progress.find(item => item.id == showInfo.id);
+    const item = progress.find(item => item.id == showInfo.id);
     let row = smartTable.table.querySelector('tr[data-id="' + showInfo.show + '"]');
     if (!row && showInfo.subId) {
         showDetail(showInfo.id);
@@ -273,7 +273,7 @@ function showDetail(show) {
     }
     if (!row || !row.classList.contains('inspect')) return;
 
-    let level = +row.getAttribute('data-level');
+    const level = +row.getAttribute('data-level');
 
     smartTable.syncLater();
     if (item.id == 'level') return infoLevel(row);
@@ -281,18 +281,18 @@ function showDetail(show) {
 
     setInspected(row, true);
 
-    let nextRow = row.nextSibling;
-    let parent = row.parentNode;
-    let state = getState();
-    let hideCompleted = state.hidecompleted;
+    const nextRow = row.nextSibling;
+    const parent = row.parentNode;
+    const state = getState();
+    const hideCompleted = state.hidecompleted;
     let isOdd = false;
-    let group = {};
+    const group = {};
     initGroupTotals(group.grandtotal = {});
-    let url = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_filters/';
-    for (let sub of item.rows) {
+    const url = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_filters/';
+    for (const sub of item.rows) {
         if (level == 1 && sub.seq != showInfo.subId) continue;
-        let isCompleted = sub.value == sub.max;
-        let visible = hideCompleted ? !isCompleted : true;
+        const isCompleted = sub.value == sub.max;
+        const visible = hideCompleted ? !isCompleted : true;
 
         if (sub.gname) {
             if (sub.gname != group.name) {
@@ -322,7 +322,7 @@ function showDetail(show) {
 
         if (!visible) continue;
         if (!sub.row) {
-            let info = sub.info ? Html`<div>${sub.info}</div>` : '';
+            const info = sub.info ? Html`<div>${sub.info}</div>` : '';
             let htm = '';
             if (!sub.name) sub.name = gui.getString(sub.name_loc);
             htm += Html`<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max, sub.energy);
@@ -354,8 +354,8 @@ function showDetail(show) {
 
     function updateGroup(group) {
         if (group.row) {
-            let total = group.total;
-            let isCompleted = total.value == total.max;
+            const total = group.total;
+            const isCompleted = total.value == total.max;
             let htm = '';
             htm += Html`<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
             htm += getTimes(isCompleted, total.bt, total.et);
@@ -367,14 +367,14 @@ function showDetail(show) {
     }
 
     function updateGroupSubTotal(group, isGrandTotal) {
-        let total = isGrandTotal ? group.grandtotal : group.subtotal;
+        const total = isGrandTotal ? group.grandtotal : group.subtotal;
         if (total.qty <= 0) return;
-        let row = document.createElement('tr');
+        const row = document.createElement('tr');
         row.setAttribute('data-level', '2');
         row.classList.add(isGrandTotal ? 'grandtotal' : 'subtotal');
-        let isCompleted = total.value == total.max;
+        const isCompleted = total.value == total.max;
         let htm = '';
-        let caption = gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal');
+        const caption = gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal');
         htm += Html`<td></td><td>${caption} (${gui.getMessageAndValue('events_locations', Locale.formatNumber(total.qty))})</td>` + getProgress(total.value, total.max, total.energy);
         htm += getTimes(isCompleted, total.bt, total.et);
         Dialog.htmlToDOM(row, htm);
@@ -392,25 +392,25 @@ function infoLevel(row) {
 
     if (!levelSums) {
         levelSums = [0];
-        for (let levelup of gui.getFile('levelups')) {
+        for (const levelup of gui.getFile('levelups')) {
             levelSums[levelup.def_id] = +levelup.xp;
         }
         for (let i = 1; i < levelSums.length; i++) levelSums[i] += levelSums[i - 1];
     }
 
-    let nextRow = row.nextSibling;
-    let parent = row.parentNode;
+    const nextRow = row.nextSibling;
+    const parent = row.parentNode;
 
-    let level = +gui.getGenerator().level;
-    let xp = +gui.getGenerator().exp;
+    const level = +gui.getGenerator().level;
+    const xp = +gui.getGenerator().exp;
     sliderLevel = sliderLevel || (level + 1);
 
     setRowLevel(addRow(), 1, levelSums.length);
 
-    let rowLevel = addRow();
+    const rowLevel = addRow();
     setRowLevel(rowLevel, level, sliderLevel);
 
-    let rowSlider = addRow();
+    const rowSlider = addRow();
     rowSlider.className = 'slider';
     let htm = '';
     htm += Html.br`<td colspan="6">`;
@@ -429,15 +429,15 @@ function infoLevel(row) {
     });
 
     function addRow() {
-        let row = document.createElement('tr');
+        const row = document.createElement('tr');
         row.setAttribute('data-level', '1');
         parent.insertBefore(row, nextRow);
         return row;
     }
 
     function setRowLevel(row, levelFrom, levelTo) {
-        let value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
-        let max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
+        const value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
+        const max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
         let htm = '';
         htm += Html`<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
         htm += getTimes(false, 0, 0);
@@ -449,7 +449,7 @@ function isValidItem(item) {
     return +item.hide == 0 && +item.event_id == 0 && item.name_loc;
 }
 
-let achievementImages = {
+const achievementImages = {
     'refresh_mine': 'repeat.png',
     'collection': 'chest.png',
     'friend_child': 'godchild.png',
@@ -465,25 +465,25 @@ let achievementImages = {
 };
 
 function calcAchievements(item) {
-    let achievements = gui.getFile('achievements');
-    let achievs = gui.getGenerator().achievs;
+    const achievements = gui.getFile('achievements');
+    const achievs = gui.getGenerator().achievs;
     item.max = 0;
     item.value = 0;
     item.rows = [];
-    for (let achievement of Object.values(achievements)) {
+    for (const achievement of Object.values(achievements)) {
         if (isValidItem(achievement)) {
-            let achiev = achievs[achievement.def_id];
+            const achiev = achievs[achievement.def_id];
             let total = 0;
             let max = 0;
             let val = 0;
             let next = 0;
-            let userLevel = achiev ? +achiev.level : 0;
+            const userLevel = achiev ? +achiev.level : 0;
             achievement.levels.forEach(level => {
-                let amount = +level.amount;
+                const amount = +level.amount;
                 if (amount > 0) {
                     total += amount;
                     max++;
-                    let levelId = +level.level_id;
+                    const levelId = +level.level_id;
                     if (levelId < userLevel) {
                         val += amount;
                     } else if (levelId == userLevel) {
@@ -494,7 +494,7 @@ function calcAchievements(item) {
             });
             item.max += max;
             if (achiev) {
-                let value = +achiev.confirmed_level;
+                const value = +achiev.confirmed_level;
                 item.value += value;
                 let imgUrl = '/img/gui/blank.gif';
                 let title = '';
@@ -526,18 +526,18 @@ function calcAchievements(item) {
 
 function calcCollection(item) {
     item.max = item.value = 0;
-    let artifacts = gui.getArrayOfInt(gui.getGenerator().artifacts);
-    let rid = +gui.getGenerator().region;
-    let collections = Object.values(gui.getFile('collections')).filter(isValidItem);
-    let images = {};
+    const artifacts = gui.getArrayOfInt(gui.getGenerator().artifacts);
+    const rid = +gui.getGenerator().region;
+    const collections = Object.values(gui.getFile('collections')).filter(isValidItem);
+    const images = {};
     item.rows = [];
-    for (let collection of collections) {
-        let pieces = gui.getArrayOfInt(collection.pieces);
-        let max = pieces.length;
-        let value = pieces.filter(piece => artifacts.includes(piece)).length;
+    for (const collection of collections) {
+        const pieces = gui.getArrayOfInt(collection.pieces);
+        const max = pieces.length;
+        const value = pieces.filter(piece => artifacts.includes(piece)).length;
         item.max += max;
         item.value += value;
-        let region_id = +collection.region_id || 1;
+        const region_id = +collection.region_id || 1;
         if (region_id <= rid) {
             item.rows.push({
                 img: images[region_id] || (images[region_id] = gui.getRegionImg(region_id, false, 24)),
@@ -551,29 +551,29 @@ function calcCollection(item) {
 
 function calcRegion(item) {
     item.max = item.value = item.crtd = item.cmpl = item.energy = 0;
-    let locations = gui.getFile('locations_' + item.rid);
-    let loc_prog = gui.getGenerator().loc_prog;
-    let excluded = {};
+    const locations = gui.getFile('locations_' + item.rid);
+    const loc_prog = gui.getGenerator().loc_prog;
+    const excluded = {};
     // There should be only one map for each tuple <filter, group_id, order_id>
     // otherwise this means that Pixel replaced an old map and we have to get the correct one
-    let byFilterOrderId = {};
-    for (let mine of Object.values(locations)) {
-        let lid = mine.def_id;
-        let filter = mapFilters[mine.filter];
+    const byFilterOrderId = {};
+    for (const mine of Object.values(locations)) {
+        const lid = mine.def_id;
+        const filter = mapFilters[mine.filter];
         if (!filter) {
             excluded[lid] = 1;
         } else if (!isMineValid(mine)) {
             excluded[lid] = 2;
         } else {
-            let key = mine.filter + '\t' + mine.group_id + '\t' + mine.order_id;
+            const key = mine.filter + '\t' + mine.group_id + '\t' + mine.order_id;
             if (key in byFilterOrderId) byFilterOrderId[key].push(lid);
             else byFilterOrderId[key] = [lid];
         }
     }
     // We have to check each pair with more than one map
-    for (let arr of item.rid >= 5 ? [] : Object.values(byFilterOrderId).filter(arr => arr.length > 1)) {
+    for (const arr of item.rid >= 5 ? [] : Object.values(byFilterOrderId).filter(arr => arr.length > 1)) {
         // Get list of all map without a progress
-        let list = arr.filter(lid => !(lid in loc_prog && +loc_prog[lid].prog > 0));
+        const list = arr.filter(lid => !(lid in loc_prog && +loc_prog[lid].prog > 0));
         // If all of them are withouth a progress, then pick only the most recent one
         // (the map with the highest id) and exclude the rest
         if (list.length == arr.length) {
@@ -582,7 +582,7 @@ function calcRegion(item) {
             list.shift();
         }
         // All the others are excluded
-        for (let lid of list) excluded[lid] = 3;
+        for (const lid of list) excluded[lid] = 3;
     }
     // Exclude some maps, if the progress is 0
     // Special cases
@@ -594,25 +594,25 @@ function calcRegion(item) {
     // main game so skip as well (seem to have been a later addition?)
     // c) Deserted Tomb (#29)
     // d) Linda's Trap (#25), Stone Pit (#37)
-    for (let lid of [25, 29, 37, 1345, 1642, 1643]) {
+    for (const lid of [25, 29, 37, 1345, 1642, 1643]) {
         if (!(lid in loc_prog) || +loc_prog[lid].prog == 0) excluded[lid] = 4;
     }
     // Exclude maps
     // Small Oasis (406)
-    for (let lid of [406]) {
+    for (const lid of [406]) {
         excluded[lid] = 4;
     }
 
     item.rows = [];
     item.bt = item.et = 0;
-    for (let mine of Object.values(locations)) {
-        let lid = +mine.def_id;
+    for (const mine of Object.values(locations)) {
+        const lid = +mine.def_id;
         if (!(lid in excluded)) {
-            let filter = mapFilters[mine.filter];
-            let isSide = (qtypes[lid] || mine.mobile_filter) == 'side';
-            let mPrg = +mine.progress;
+            const filter = mapFilters[mine.filter];
+            const isSide = (qtypes[lid] || mine.mobile_filter) == 'side';
+            const mPrg = +mine.progress;
             let uPrg = 0;
-            let done = loc_prog[lid];
+            const done = loc_prog[lid];
             let bt = 0;
             let et = 0;
             if (done) {
@@ -627,7 +627,7 @@ function calcRegion(item) {
                 }
             }
             uPrg = Math.min(mPrg, uPrg);
-            let energy = mPrg > 0 ? Math.round(+mine.reward_exp * 10 * (mPrg - uPrg) / mPrg) : 0;
+            const energy = mPrg > 0 ? Math.round(+mine.reward_exp * 10 * (mPrg - uPrg) / mPrg) : 0;
             item.max += mPrg;
             item.value += uPrg;
             item.energy += energy;

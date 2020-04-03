@@ -42,10 +42,10 @@ function init() {
     }
 
     function option(prefName, features, options) {
-        let messageId = 'options_' + prefName.toLowerCase();
-        let text = prefName == 'fixes' ? 'Special settings' : gui.getMessage(messageId);
-        let i = text.indexOf('\n');
-        let title = i >= 0 ? text.substr(0, i) : text;
+        const messageId = 'options_' + prefName.toLowerCase();
+        const text = prefName == 'fixes' ? 'Special settings' : gui.getMessage(messageId);
+        const i = text.indexOf('\n');
+        const title = i >= 0 ? text.substr(0, i) : text;
         let info = i >= 0 ? text.substr(i + 1) : '';
         let warning = '';
         let className = '';
@@ -59,13 +59,13 @@ function init() {
             // info = Html.raw(String(Html.br(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
         }
 
-        let type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
+        const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
 
         htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
         htm += Html.br`<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? Html.br`<div class="warning">${warning}</div>` : ''}`;
         if (type == SELECT) {
             htm += Html.br`<select data-pref="${prefName}">`;
-            for (let option of options) {
+            for (const option of options) {
                 htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
             }
             htm += Html.br`</select></td></tr>`;
@@ -80,7 +80,7 @@ function init() {
         let currentLocale = gui.getPreference('locale');
         let locales = [];
         locales.push(['', gui.getMessage('options_locale_browser')]);
-        for (let item of bgp.Data.languages) {
+        for (const item of bgp.Data.languages) {
             if (item.id == currentLanguage) {
                 if (currentLocale && !item.locales.includes(currentLocale)) {
                     gui.setPreference('locale', currentLocale = item.preferredLocale);
@@ -92,12 +92,12 @@ function init() {
     }
 
     beginSection('general');
-    let languages = bgp.Data.languages;
+    const languages = bgp.Data.languages;
     languages.sort((a, b) => a.name.localeCompare(b.name));
-    let guiLanguages = languages.filter(item => bgp.Data.guiLanguages.includes(item.id)).map(item => [item.id, item.name + ' - ' + item.nameLocal]);
+    const guiLanguages = languages.filter(item => bgp.Data.guiLanguages.includes(item.id)).map(item => [item.id, item.name + ' - ' + item.nameLocal]);
     option('language', CRITICAL + WITHSUBOPTIONS, guiLanguages);
     option('locale', SUBOPTION, determineLocales(gui.getPreference('language')));
-    let gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
+    const gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
     option('disableAltGuard', WARNING);
@@ -109,7 +109,7 @@ function init() {
     option('fullWindowSide', SUBOPTION);
     option('fullWindowLock', SUBOPTION);
     option('resetFullWindow', SUBOPTION + WARNING);
-    let options = [
+    const options = [
         [0, gui.getMessage('dialog_no')],
         [1, gui.getMessage('dialog_yes')],
     ];
@@ -132,7 +132,7 @@ function init() {
         [1, gui.getMessage('options_button_middle')],
         [2, gui.getMessage('options_button_right')]
     ]);
-    let optionsKey = [
+    const optionsKey = [
         [0, gui.getMessage('options_modifier_none')],
         [16, gui.getMessage('options_modifier_shift')],
         [17, gui.getMessage('options_modifier_ctrl')],
@@ -156,7 +156,7 @@ function init() {
 
     Dialog.htmlToDOM(container.querySelector('.scrollable-content'), htm);
 
-    for (let item of container.querySelectorAll('.open_href')) {
+    for (const item of container.querySelectorAll('.open_href')) {
         item.addEventListener('click', function (event) {
             event.preventDefault();
             chrome.tabs.create({
@@ -174,14 +174,14 @@ function init() {
     function applyChanges() {
         if (handler) clearTimeout(handler);
         handler = null;
-        for (let [name, value] of Object.entries(changes)) gui.setPreference(name, value);
+        for (const [name, value] of Object.entries(changes)) gui.setPreference(name, value);
         changes = {};
     }
 
     function onInput() {
-        let input = this;
-        let name = input.getAttribute('data-pref');
-        let value = input.type == 'checkbox' ? input.checked : input.value;
+        const input = this;
+        const name = input.getAttribute('data-pref');
+        const value = input.type == 'checkbox' ? input.checked : input.value;
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, 500);
         changes[name] = value;
@@ -195,12 +195,12 @@ function init() {
             });
             applyChanges();
             determineLocales();
-            let promise = bgp.Data.checkLocalization() || Promise.resolve(0);
+            const promise = bgp.Data.checkLocalization() || Promise.resolve(0);
             promise.then(() => document.location.reload());
         }
     }
 
-    for (let input of container.querySelectorAll('[data-pref]')) {
+    for (const input of container.querySelectorAll('[data-pref]')) {
         if (input.tagName == 'SELECT') {
             input.addEventListener('input', onInput);
         } else if (input.type == 'text') {
@@ -225,11 +225,11 @@ function setState(state) {
 function refresh() {
     gui.updateTabState(tab);
 
-    let fnSearch = gui.getSearchFilter(searchInput.value);
-    for (let table of container.querySelectorAll('.options table')) {
+    const fnSearch = gui.getSearchFilter(searchInput.value);
+    for (const table of container.querySelectorAll('.options table')) {
         let count = 0;
         let parent = null;
-        for (let row of table.tBodies[0].rows) {
+        for (const row of table.tBodies[0].rows) {
             if (row.classList.contains('hassuboptions')) parent = row;
             let visible = true;
             if (fnSearch) visible = fnSearch(row.textContent.toUpperCase());
@@ -241,9 +241,9 @@ function refresh() {
         }
         table.style.display = count > 0 ? '' : 'none';
     }
-    for (let input of container.querySelectorAll('[data-pref]')) {
-        let name = input.getAttribute('data-pref');
-        let value = gui.getPreference(name);
+    for (const input of container.querySelectorAll('[data-pref]')) {
+        const name = input.getAttribute('data-pref');
+        const value = gui.getPreference(name);
         if (value !== undefined) {
             if (input.tagName == 'SELECT' || input.type == 'text') input.value = value;
             if (input.type == 'checkbox') input.checked = value === true;

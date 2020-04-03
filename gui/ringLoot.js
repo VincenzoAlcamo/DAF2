@@ -14,7 +14,7 @@ function ringLoot(kind) {
 
     if (kind == 'green') {
         tokenId = 32;
-        let maxRId = gui.getMaxRegion();
+        const maxRId = gui.getMaxRegion();
         locations = [];
         for (let rid = 1; rid <= maxRId; rid++) locations.push('locations_' + rid);
         requires.push('special_weeks');
@@ -95,8 +95,8 @@ function ringLoot(kind) {
     function setState(state) {
         checkState = {};
         for (const index of gui.getArrayOfInt(state.h)) checkState[index] = true;
-        let setCheck = (id, c) => {
-            let input = document.getElementById(id);
+        const setCheck = (id, c) => {
+            const input = document.getElementById(id);
             if (input) {
                 input.checked = !!checkState[c];
                 setRotate(input);
@@ -108,7 +108,7 @@ function ringLoot(kind) {
         checkXp.checked = !!state.xp;
         if (checkLevel) {
             checkLevel.checked = 'level' in state;
-            let level = parseInt(state.level || state['no-level']) || 0;
+            const level = parseInt(state.level || state['no-level']) || 0;
             inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
         }
         for (const data of Object.values(floorData || {})) setCheck('loot_' + data.mine.def_id, data.index);
@@ -118,13 +118,13 @@ function ringLoot(kind) {
 
     function onInput(event) {
         updateTabState();
-        let name = event.srcElement.name;
+        const name = event.srcElement.name;
         if (name == 'xp' || name == 'minmax' || name == 'showlevel') setStateFlags();
         else refresh();
     }
 
     function onBlur() {
-        let level = parseInt(inputLevel.value) || 0;
+        const level = parseInt(inputLevel.value) || 0;
         if (level < 1 || level > 999) {
             inputLevel.value = +gui.getGenerator().level;
             onInput();
@@ -134,16 +134,16 @@ function ringLoot(kind) {
     async function update() {
         bgp.Data.getPillarsInfo();
         if (tokenId) {
-            let img = gui.getObjectImg('token', tokenId, 24, true);
-            let qty = gui.getGenerator().tokens[tokenId] || 0;
+            const img = gui.getObjectImg('token', tokenId, 24, true);
+            const qty = gui.getGenerator().tokens[tokenId] || 0;
             Dialog.htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`);
         }
 
         if (kind == 'green' || kind == 'christmas') {
-            let specialWeeks = gui.getActiveSpecialWeeks();
+            const specialWeeks = gui.getActiveSpecialWeeks();
             swDoubleDrop = specialWeeks.doubleDrop;
         }
-        let divWarning = container.querySelector('.toolbar .warning');
+        const divWarning = container.querySelector('.toolbar .warning');
         if (swDoubleDrop) {
             Dialog.htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
             divWarning.style.display = '';
@@ -151,8 +151,8 @@ function ringLoot(kind) {
             divWarning.style.display = 'none';
         }
 
-        let seconds = (kind == 'green' ? 168 : 2) * 3600;
-        let eid = kind == 'green' ? 0 : 20;
+        const seconds = (kind == 'green' ? 168 : 2) * 3600;
+        const eid = kind == 'green' ? 0 : 20;
         let mines = [];
         if (kind == 'christmas') {
             for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
@@ -165,20 +165,20 @@ function ringLoot(kind) {
         }
 
         floorData = {};
-        let parent = container.querySelector('.scrollable-content');
+        const parent = container.querySelector('.scrollable-content');
         Dialog.htmlToDOM(parent, '');
         let index = 0;
         for (const mine of mines) {
-            let lid = mine.def_id;
+            const lid = mine.def_id;
             if (+mine.region_id > +gui.getGenerator().region) continue;
-            let floors = await bgp.Data.getFile('floors_' + lid);
-            let allLoots = [];
+            const floors = await bgp.Data.getFile('floors_' + lid);
+            const allLoots = [];
             let chest = 0;
             let hasCandy = false;
             for (const floor of floors.floor) {
                 let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
                 lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
-                let loots = [];
+                const loots = [];
                 let gemTle = '';
                 let candyTle = '';
                 for (const lootArea of lootAreas) {
@@ -194,7 +194,7 @@ function ringLoot(kind) {
                         t = t.map(n => String(n).padStart(3, '0')).join(',');
                         // skip spurious Orichalcum in "Temple of Fortune"
                         if (lid == 2193 && t.substr(0, 3) == '30,' && lootArea.type == 'material' && lootArea.object_id == 148) continue;
-                        let copy = Object.assign({}, lootArea);
+                        const copy = Object.assign({}, lootArea);
                         copy.tle = t;
                         const type = copy.type;
                         const oid = copy.object_id;
@@ -237,17 +237,17 @@ function ringLoot(kind) {
             htm += Html.br`<input type="checkbox" id="loot_${lid}">`;
             if (kind == 'christmas') {
                 const tokenId = christmasMines[lid];
-                let qty = gui.getGenerator().tokens[tokenId] || 0;
+                const qty = gui.getGenerator().tokens[tokenId] || 0;
                 htm += Html.br`<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getObjectImg('token', tokenId, 32, true)}<span>${gui.getString(mine.name_loc)}<br>${gui.getMessageAndValue('rings_rings', Locale.formatNumber(qty))}</span></label>`;
             } else {
                 htm += Html.br`<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html`<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
             }
             htm += Html.br`<div></div>`;
-            let div = document.createElement('div');
+            const div = document.createElement('div');
             div.className = 'card rings';
             Dialog.htmlToDOM(div, htm);
             parent.appendChild(div);
-            let input = div.querySelector('input');
+            const input = div.querySelector('input');
             input.addEventListener('click', function () {
                 setRotate(this);
                 updateTabState();
@@ -259,16 +259,16 @@ function ringLoot(kind) {
     }
 
     function setRotate(input) {
-        let div = input.parentNode;
+        const div = input.parentNode;
         const lid = input.id.substr(5);
         const data = floorData[lid];
         if (!data) return;
-        let index = data.index;
+        const index = data.index;
         if (input.checked) checkState[index] = true;
         else delete checkState[index];
         if (input.checked) {
-            let width = div.offsetWidth;
-            let height = div.offsetHeight;
+            const width = div.offsetWidth;
+            const height = div.offsetHeight;
             div.style.transform = 'rotate(-90deg) translateY(' + (-Math.floor((width - height) / 2)) + 'px) translateX(' + (-Math.floor((width - height) / 2)) + 'px)';
             div.style.marginRight = (-Math.floor(width - height - 3)) + 'px';
             div.querySelector('label').style.cursor = 'ew-resize';
@@ -311,7 +311,7 @@ function ringLoot(kind) {
         if (!parent || !data) return;
         const cardIndex = data.index;
         const chestState = toInt(selectState[cardIndex - 1]);
-        let level = +gui.getGenerator().level;
+        const level = +gui.getGenerator().level;
         let htm = '';
         htm += Html.br`<table><thead><tr>`;
         if (kind == 'christmas') {
@@ -337,9 +337,9 @@ function ringLoot(kind) {
         htm += Html.br`<tbody>`;
         let lastChest = 0;
         let odd = false;
-        let tdAvg = Html`<td class="avg">`;
-        let tdNotDependent = Html`<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
-        let showXp = (exp) => {
+        const tdAvg = Html`<td class="avg">`;
+        const tdNotDependent = Html`<td class="avg dot" title="${gui.getMessage('rings_notdependent')}">`;
+        const showXp = (exp) => {
             return exp ? Html`<div class="xp">${Locale.formatNumber(exp)} ${gui.getMessage('gui_xp')}</div>` : '';
         };
         let totalExp, totalExp2, countExp;
@@ -347,7 +347,7 @@ function ringLoot(kind) {
 
         let last = null;
         let chest = 0;
-        let loots = [];
+        const loots = [];
         for (const lootArea of floorData[lid].loots.filter(lootArea => lootArea.region_id == rid || (lootArea.region_id || 0) == 0)) {
             if (last == null || last.tle != lootArea.tle) {
                 last = lootArea;

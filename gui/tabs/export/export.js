@@ -5,7 +5,7 @@ export default {
     requires: ['materials', 'decorations', 'usables', 'windmills', 'buildings', 'tokens']
 };
 
-var tab, container, form, fileChooser, callback;
+let tab, container, form, fileChooser, callback;
 
 function init() {
     tab = this;
@@ -15,7 +15,7 @@ function init() {
     fileChooser.type = 'file';
     fileChooser.addEventListener('change', function () {
         if (callback) {
-            let file = fileChooser.files[0];
+            const file = fileChooser.files[0];
             try {
                 callback(file);
             } finally {
@@ -27,7 +27,7 @@ function init() {
     form = document.createElement('form');
     form.appendChild(fileChooser);
 
-    for (let button of container.querySelectorAll('.toolbar button')) {
+    for (const button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClick);
     }
 }
@@ -35,8 +35,8 @@ function init() {
 function update() { }
 
 function onClick(_event) {
-    let target = this;
-    let action = target.getAttribute('data-action');
+    const target = this;
+    const action = target.getAttribute('data-action');
     if (action == 'exportinventory') exportInventory();
     if (action == 'exportdata') exportData();
     if (action == 'importdata') importData();
@@ -45,9 +45,9 @@ function onClick(_event) {
 
 function exportInventory() {
     let data = [];
-    let generator = gui.getGenerator();
-    let materials = generator.materials;
-    let tokens = generator.tokens;
+    const generator = gui.getGenerator();
+    const materials = generator.materials;
+    const tokens = generator.tokens;
     data.push('LEVEL\t' + generator.level);
     data.push('REGION\t' + generator.region);
     data.push('XP\t' + generator.exp);
@@ -71,19 +71,19 @@ function exportInventory() {
 
     function inventory(prefix, in_use, not_in_use, stored, type) {
         function collect(list) {
-            let result = {};
+            const result = {};
             (list ? [].concat(list) : []).forEach(item => result[item.def_id] = (result[item.def_id] || 0) + 1);
             return result;
         }
-        let list = Object.assign({}, stored);
-        let active = collect(in_use);
-        let inactive = collect(not_in_use);
+        const list = Object.assign({}, stored);
+        const active = collect(in_use);
+        const inactive = collect(not_in_use);
         Object.keys(inactive).forEach(id => active[id] = Math.max(active[id] || 0, inactive[id]));
         Object.keys(active).forEach(id => list[id] = (list[id] || 0) + active[id]);
         Object.keys(list).forEach(key => {
-            let id = prefix + key;
-            let item = gui.getObject(type, key);
-            var name = (item && gui.getString(item.name_loc)) || id;
+            const id = prefix + key;
+            const item = gui.getObject(type, key);
+            const name = (item && gui.getString(item.name_loc)) || id;
             data.push(id + '\t' + name + '\t' + list[key]);
         });
     }
@@ -95,17 +95,17 @@ function exportInventory() {
 }
 
 function exportDebug() {
-    let data = gui.getGenerator();
+    const data = gui.getGenerator();
     gui.downloadData(data, 'DAF_diagnostics.json');
 }
 
 function exportData() {
-    let data = {};
-    let generator = gui.getGenerator();
+    const data = {};
+    const generator = gui.getGenerator();
     data.schema = 1;
     data.player_id = generator.player_id;
-    let extras = data.extras = {};
-    for (let pal of Object.values(bgp.Data.neighbours)) {
+    const extras = data.extras = {};
+    for (const pal of Object.values(bgp.Data.neighbours)) {
         extras[pal.id] = pal.extra;
     }
     delete extras[1];
@@ -117,19 +117,19 @@ function importData() {
     callback = function (file) {
         new Promise(function (resolve, _reject) {
             if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw new Error(gui.getMessage('export_invalidexportdata'));
-            let reader = new FileReader();
+            const reader = new FileReader();
             reader.onload = function () {
-                let data = JSON.parse(reader.result);
+                const data = JSON.parse(reader.result);
                 resolve(data);
             };
             reader.readAsText(file);
         }).then(function (data) {
             if (data.player_id != bgp.Data.generator.player_id) throw new Error(gui.getMessage('export_invalidexportdata'));
-            let extras = data.extras || {};
-            let neighbours = bgp.Data.getNeighbours();
-            let toSave = [];
-            for (let palId of Object.keys(extras)) {
-                let pal = neighbours[palId];
+            const extras = data.extras || {};
+            const neighbours = bgp.Data.getNeighbours();
+            const toSave = [];
+            for (const palId of Object.keys(extras)) {
+                const pal = neighbours[palId];
                 if (pal) {
                     pal.extra = extras[palId];
                     bgp.Data.convertNeighbourExtra(pal.extra);

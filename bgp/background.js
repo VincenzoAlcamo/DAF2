@@ -6,7 +6,7 @@ const SECONDS_IN_A_DAY = 86400;
 
 function hasRuntimeError() {
     // This is necessary to avoid unchecked runtime errors from Chrome
-    var hasError = !!chrome.runtime.lastError;
+    const hasError = !!chrome.runtime.lastError;
     if (hasError) console.log('RUNTIME error: "' + chrome.runtime.lastError.message + '"');
     return hasError;
 }
@@ -27,6 +27,7 @@ function getMessage(id, ...args) {
     return text;
 }
 
+// eslint-disable-next-line no-var
 var Badge = {
     currentIcon: '',
     setIcon: function (color) {
@@ -53,6 +54,7 @@ var Badge = {
 //#endregion
 
 //#region PREFERENCES
+// eslint-disable-next-line no-var
 var Preferences = {
     handlers: {},
     getDefaults: function () {
@@ -94,11 +96,11 @@ var Preferences = {
     init: async function () {
         Preferences.values = Preferences.getDefaults();
         return new Promise(function (resolve, _reject) {
-            var keysToRemove = [];
-            var valuesToSet = Object.assign({}, Preferences.values);
+            const keysToRemove = [];
+            const valuesToSet = Object.assign({}, Preferences.values);
             chrome.storage.local.get(null, function (values) {
                 hasRuntimeError();
-                for (var key of Object.keys(values)) {
+                for (const key of Object.keys(values)) {
                     if (key in valuesToSet) {
                         delete valuesToSet[key];
                         Preferences.values[key] = values[key];
@@ -122,7 +124,7 @@ var Preferences = {
     },
     onChanged: function (changes, area) {
         if (area != 'local') return;
-        for (var name in changes)
+        for (const name in changes)
             if (name in Preferences.values) {
                 Preferences.values[name] = changes[name].newValue;
                 if (name in Preferences.handlers) {
@@ -142,9 +144,9 @@ var Preferences = {
     },
     setValues: function (values) {
         if (!values) return;
-        let data = {};
+        const data = {};
         let flag = false;
-        for (let name of Object.keys(values)) {
+        for (const name of Object.keys(values)) {
             if (name in Preferences.values) {
                 Preferences.values[name] = values[name];
                 flag = true;
@@ -154,9 +156,9 @@ var Preferences = {
         if (flag) chrome.storage.local.set(data);
     },
     getValues: function (names) {
-        var result = {};
+        let result = {};
         if (names) {
-            for (var name of [].concat(names)) {
+            for (const name of [].concat(names)) {
                 if (name in Preferences.values) result[name] = Preferences.values[name];
             }
         } else result = Object.assign({}, Preferences.values);
@@ -166,6 +168,7 @@ var Preferences = {
 //#endregion
 
 //#region MESSAGE HANDLING
+// eslint-disable-next-line no-var
 var Message = {
     handlers: {},
     init: function () {
@@ -183,7 +186,7 @@ var Message = {
         }
         if (request && request.action && request.action in Message.handlers) {
             try {
-                var response = Message.handlers[request.action](request, sender);
+                const response = Message.handlers[request.action](request, sender);
                 if (response instanceof Promise) {
                     response.then(sendResponse);
                     return true;
@@ -198,6 +201,7 @@ var Message = {
 //#endregion
 
 //#region TAB LISTENER (WEBNAVIGATION)
+// eslint-disable-next-line no-var
 var Tab = {
     gameTabId: null,
     guiTabId: null,
@@ -309,10 +313,10 @@ if (loginButton) {
         });
     },
     onFBNavigation: function (details) {
-        let tabId = details.tabId;
+        const tabId = details.tabId;
         if (details.frameId == 0 && Preferences.getValue('linkGrabEnabled') && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
             console.log('Injecting LinkGrabber');
-            let details = {
+            const details = {
                 file: '/js/Dialog.js',
                 runAt: 'document_end',
                 allFrames: false,
@@ -323,7 +327,7 @@ if (loginButton) {
                 chrome.tabs.executeScript(tabId, details, function () {
                     delete details.file;
                     details.code = '';
-                    for (let key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
+                    for (const key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert'])
                         details.code += key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
                     details.code += 'initialize();';
                     chrome.tabs.executeScript(tabId, details, function () { });
@@ -350,7 +354,7 @@ if (loginButton) {
     },
     detectTab: function (tab) {
         Tab.onRemoved(tab.id);
-        var info = Tab.detect(tab.url);
+        const info = Tab.detect(tab.url);
         if (info.isGUI) Tab.guiTabId = tab.id;
         else if (info.isGame) Tab.gameTabId = tab.id;
     },
@@ -364,8 +368,8 @@ if (loginButton) {
         });
     },
     detect: function (url) {
-        var result = {};
-        var urlInfo = new UrlInfo(url);
+        const result = {};
+        const urlInfo = new UrlInfo(url);
         if (url.indexOf(Tab.GUI_URL) == 0) {
             result.isGUI = true;
         } else if (urlInfo.hostname == 'apps.facebook.com') {
@@ -373,7 +377,7 @@ if (loginButton) {
                 result.isGame = result.isFacebook = true;
             }
         } else if (urlInfo.hostname == 'portal.pixelfederation.com') {
-            var arr = urlInfo.pathname.split('/');
+            const arr = urlInfo.pathname.split('/');
             if (arr[2] == 'diggysadventure') {
                 result.isGame = result.isPortal = true;
             }
@@ -382,14 +386,14 @@ if (loginButton) {
     },
     showTab: function (kind, url, urlIfExist) {
         chrome.tabs.query({}, function (tabs) {
-            var tab = tabs.find(tab => {
+            const tab = tabs.find(tab => {
                 return Tab.detect(tab.url)[kind];
             });
             if (tab) {
                 chrome.windows.update(tab.windowId, {
                     focused: true
                 }, function () {
-                    var updateProperties = {
+                    const updateProperties = {
                         active: true
                     };
                     if (urlIfExist) updateProperties.url = urlIfExist;
@@ -409,8 +413,8 @@ if (loginButton) {
     showGame: function (options) {
         let values = (options || '') + ' ' + (Data.generator ? Data.generator.game_site + ' ' + Data.generator.game_platform : '');
         values = values.toLowerCase().split(' ');
-        let site = values.find(item => item == 'facebook' || item == 'portal');
-        let url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/') + '?webgl';
+        const site = values.find(item => item == 'facebook' || item == 'portal');
+        const url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/') + '?webgl';
         Tab.showTab('isGame', url, values.includes('keep') ? null : url);
     },
     focus: function (tabId, flag) {
@@ -420,7 +424,7 @@ if (loginButton) {
             });
         });
     },
-    open: function(url, background = false) {
+    open: function (url, background = false) {
         chrome.tabs.create({
             url: url,
             active: !background
@@ -437,9 +441,9 @@ if (loginButton) {
         chrome.webNavigation.getAllFrames({
             tabId: tabId
         }, function (frames) {
-            var frame = frames.find(frame => frame.parentFrameId == 0 && frame.url.includes('/miner/'));
+            const frame = frames.find(frame => frame.parentFrameId == 0 && frame.url.includes('/miner/'));
             if (!frame) return;
-            var details = {
+            const details = {
                 file: '/inject/game.js',
                 allFrames: false,
                 frameId: 0
@@ -470,6 +474,7 @@ function Language(id, gameId, name, nameLocal, locales) {
     locales.sort();
     this.locales = locales;
 }
+// eslint-disable-next-line no-var
 var Data = {
     db: null,
     REWARDLINKS_DAILY_LIMIT: 100,
@@ -505,7 +510,7 @@ var Data = {
     detectLanguage: function (lang) {
         return [].concat(lang, Data.acceptedLanguages)
             .map(id => {
-                let match = String(id || '').match(/([a-z]+)[^a-z]?/i);
+                const match = String(id || '').match(/([a-z]+)[^a-z]?/i);
                 return match ? match[1].toLowerCase() : '';
             }).find(id => Data.guiLanguages.includes(id)) || 'en';
     },
@@ -536,7 +541,7 @@ var Data = {
                     });
             }
         });
-        var tx = Data.db.transaction(['Files', 'Neighbours', 'Friends', 'RewardLinks'], 'readonly');
+        const tx = Data.db.transaction(['Files', 'Neighbours', 'Friends', 'RewardLinks'], 'readonly');
         /*
         tx.objectStore('Files').iterateCursor(cursor => {
             if (!cursor) return;
@@ -565,7 +570,7 @@ var Data = {
         Data.repeatables = {};
         Data.pillars = {};
         tx.objectStore('Files').getAll().then(values => {
-            for (let file of values) {
+            for (const file of values) {
                 if (file.id == 'generator') Data.generator = file.data || {};
                 if (file.id == 'localization') Data.storeLocalization(file);
                 if (file.id == 'gcInfo') Data.removegcInfo();
@@ -574,13 +579,13 @@ var Data = {
             }
         });
         tx.objectStore('Neighbours').getAll().then(values => {
-            for (let pal of values) {
+            for (const pal of values) {
                 Data.convertNeighbourExtra(pal.extra);
                 Data.neighbours[pal.id] = pal;
             }
         });
         tx.objectStore('Friends').getAll().then(values => {
-            for (let friend of values) {
+            for (const friend of values) {
                 // Convert object to smaller format
                 delete friend.processed;
                 friend.tc = friend.tc || friend.timeCreated;
@@ -589,7 +594,7 @@ var Data = {
             }
         });
         tx.objectStore('RewardLinks').getAll().then(values => {
-            for (let rewardLink of values) {
+            for (const rewardLink of values) {
                 if (rewardLink.id == 'data') Data.rewardLinksData = rewardLink;
                 else if (rewardLink.id == 'history') Data.rewardLinksHistory = rewardLink.history;
                 else Data.rewardLinks[rewardLink.id] = rewardLink;
@@ -606,11 +611,11 @@ var Data = {
         });
     },
     initCollections: function () {
-        var col;
+        let col;
 
         function setItem(def_id, name_loc, mobile_asset) {
             if (!name_loc) return;
-            var item = {};
+            const item = {};
             item.def_id = def_id;
             item.name_loc = name_loc;
             if (mobile_asset) item.mobile_asset = mobile_asset;
@@ -649,13 +654,13 @@ var Data = {
         Data.colSystems = col;
     },
     showDBSize: function () {
-        var db;
-        var storesizes = [];
+        let db;
+        const storesizes = [];
 
         function openDatabase() {
             return new Promise(function (resolve, _reject) {
-                var dbname = 'DAF';
-                var request = window.indexedDB.open(dbname);
+                const dbname = 'DAF';
+                const request = window.indexedDB.open(dbname);
                 request.onsuccess = function (event) {
                     db = event.target.result;
                     resolve(db.objectStoreNames);
@@ -665,12 +670,12 @@ var Data = {
 
         function getObjectStoreData(storename) {
             return new Promise(function (resolve, reject) {
-                var trans = db.transaction(storename, IDBTransaction.READ_ONLY);
-                var store = trans.objectStore(storename);
-                var items = [];
+                const trans = db.transaction(storename, IDBTransaction.READ_ONLY);
+                const store = trans.objectStore(storename);
+                const items = [];
                 trans.oncomplete = function (_evt) {
-                    var szBytes = toSize(items);
-                    var szMBytes = (szBytes / 1024 / 1024).toFixed(2);
+                    const szBytes = toSize(items);
+                    const szMBytes = (szBytes / 1024 / 1024).toFixed(2);
                     storesizes.push({
                         'Store Name': storename,
                         'Items': items.length,
@@ -678,12 +683,12 @@ var Data = {
                     });
                     resolve();
                 };
-                var cursorRequest = store.openCursor();
+                const cursorRequest = store.openCursor();
                 cursorRequest.onerror = function (error) {
                     reject(error);
                 };
                 cursorRequest.onsuccess = function (evt) {
-                    var cursor = evt.target.result;
+                    const cursor = evt.target.result;
                     if (cursor) {
                         items.push(cursor.value);
                         cursor.continue();
@@ -693,17 +698,17 @@ var Data = {
         }
 
         function toSize(items) {
-            var size = 0;
-            for (var i = 0; i < items.length; i++) {
-                var objectSize = JSON.stringify(items[i]).length;
+            let size = 0;
+            for (let i = 0; i < items.length; i++) {
+                const objectSize = JSON.stringify(items[i]).length;
                 size += objectSize * 2;
             }
             return size;
         }
 
         openDatabase().then(function (stores) {
-            var PromiseArray = [];
-            for (var i = 0; i < stores.length; i++) {
+            const PromiseArray = [];
+            for (let i = 0; i < stores.length; i++) {
                 PromiseArray.push(getObjectStoreData(stores[i]));
             }
             Promise.all(PromiseArray).then(function () {
@@ -712,7 +717,7 @@ var Data = {
         });
     },
     storeSimple: function (id, data) {
-        let file = {};
+        const file = {};
         file.id = id;
         file.time = getUnixTime();
         file.data = data;
@@ -721,22 +726,22 @@ var Data = {
     store: function (file) {
         console.log('Would store', file);
         if (!file.data) return;
-        var tx;
+        let tx;
         if (file.id == 'generator') {
             tx = Data.db.transaction(['Files', 'Neighbours'], 'readwrite');
-            let neighbours = file.data.neighbours;
+            const neighbours = file.data.neighbours;
             delete file.data.neighbours;
             // Process un_gifts
-            var un_gifts = file.data.un_gifts;
+            const un_gifts = file.data.un_gifts;
             Synchronize.processUnGift(un_gifts && un_gifts.item, +file.data.time, neighbours);
             delete file.data.un_gifts;
             // Remove the player itself from the neighbors, but store their fb_id
-            let pal = neighbours[file.data.player_id];
+            const pal = neighbours[file.data.player_id];
             file.data.fb_id = pal ? pal.fb_id : Data.generator && Data.generator.fb_id;
             delete neighbours[file.data.player_id];
             Data.neighbours = neighbours;
             Data.generator = file.data;
-            let store = tx.objectStore('Neighbours');
+            const store = tx.objectStore('Neighbours');
             // We don't need to wait for the operation to be completed
             store.clear().then(() => store.bulkPut(Object.values(neighbours)));
             tx.objectStore('Files').put(file).then(() => {
@@ -751,7 +756,7 @@ var Data = {
         return tx.complete;
     },
     getLanguageIdFromUrl: function (url) {
-        let match = url && url.match(/\/([A-Z][A-Z])\/localization\./);
+        const match = url && url.match(/\/([A-Z][A-Z])\/localization\./);
         return match && match[1];
     },
     checkLocalization: function (url, lang) {
@@ -761,15 +766,15 @@ var Data = {
         const find = lang => key = (gameLanguage = lang) && Object.keys(changes).find(key => key.endsWith('localization.csv') && Data.getLanguageIdFromUrl(key) == lang);
         find(Preferences.getValue('gameLanguage')) || find(Data.getLanguageIdFromUrl(url)) || find(lang) || find('EN');
         if (!key) return;
-        let file = {
+        const file = {
             id: 'localization',
             url: Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key],
             version: Data.generator.file_changes[key],
             revision: Parser.parse_localization_revision,
             time: getUnixTime()
         };
-        let id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
-        let id2 = [gameLanguage, file.version, file.revision].join(',');
+        const id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
+        const id2 = [gameLanguage, file.version, file.revision].join(',');
         if (id1 != id2) {
             return fetch(file.url).then(function (response) {
                 return response.text();
@@ -795,10 +800,10 @@ var Data = {
     },
     getCampWindmillTime: function (camp) {
         let wmtime = 0;
-        let wmduration = 7 * SECONDS_IN_A_DAY;
+        const wmduration = 7 * SECONDS_IN_A_DAY;
         if (camp && Array.isArray(camp.windmills) && camp.windmills.length >= +camp.windmill_limit) {
             // Take for each windmill the expiry date, then sort ascending
-            let windmills = camp.windmills.map(wm => (wmduration + (+wm.activated)) || 0).sort();
+            const windmills = camp.windmills.map(wm => (wmduration + (+wm.activated)) || 0).sort();
             // If there are windmills in excess, considers only the first of the last "mindmill_limit" windmills
             wmtime = windmills[windmills.length - camp.windmill_limit];
         }
@@ -810,25 +815,25 @@ var Data = {
         const events = Data.files.events;
         const repeatables = {};
         for (let rid = Data.getMaxRegion(); rid >= 0; rid--) {
-            let locations = Data.files['locations_' + rid];
+            const locations = Data.files['locations_' + rid];
             if (!locations) return {};
-            for (let loc of Object.values(locations)) {
+            for (const loc of Object.values(locations)) {
                 if (+loc.reset_cd <= 0) continue;
                 if (+loc.test || !+loc.order_id) continue;
                 // Additional checks
                 if (+loc.req_quest_a == 1) continue;
-                let eid = +loc.event_id || 0;
+                const eid = +loc.event_id || 0;
                 if (eid) {
                     const event = events[eid];
                     if (!event) continue;
                     if ((',' + event.locations + ',' + event.extended_locations + ',').indexOf(',' + loc.def_id + ',') < 0) continue;
                 }
-                let item = {};
+                const item = {};
                 item.id = +loc.def_id;
                 item.cooldown = +loc.reset_cd;
                 item.rotation = [];
-                for (let rot of loc.rotation) {
-                    let copy = {};
+                for (const rot of loc.rotation) {
+                    const copy = {};
                     copy.level = +rot.level;
                     copy.progress = +rot.progress;
                     copy.chance = +rot.chance;
@@ -845,22 +850,22 @@ var Data = {
     getPillarsInfo: function () {
         // Collect all pillars in the game and compute XP by material
         // Make sure that all files are loaded, before calling this method
-        let time = (Data.generator && Data.generator.time) || 0;
+        const time = (Data.generator && Data.generator.time) || 0;
         if (time != Data.pillars.time) {
             /* New logic using heuristic */
             // Get all sales: decoration, non hidden, non-event with only one requirements
-            let sales = Object.values(Data.files['sales']).filter(sale => sale.type == 'decoration' && sale.hide != 1 && +sale.event_id == 0 && sale.requirements.length == 1);
+            const sales = Object.values(Data.files['sales']).filter(sale => sale.type == 'decoration' && sale.hide != 1 && +sale.event_id == 0 && sale.requirements.length == 1);
             // sort descending by id (newer first)
             sales.sort((a, b) => +b.def_id - +a.def_id);
-            let expByMaterial = {};
-            let saleByMaterial = {};
-            let setSale = (sale) => {
+            const expByMaterial = {};
+            const saleByMaterial = {};
+            const setSale = (sale) => {
                 if (!sale) return;
-                let materialId = sale.requirements[0].material_id;
+                const materialId = sale.requirements[0].material_id;
                 // Gem requirement is skipped
                 if (materialId == 2) return;
                 // Calculate experience for one unit of material
-                let exp = +sale.exp / +sale.requirements[0].amount;
+                const exp = +sale.exp / +sale.requirements[0].amount;
                 // If a sale was already detected, check that it has a bigger XP return
                 if (materialId in expByMaterial && expByMaterial[materialId] >= exp) return;
                 expByMaterial[materialId] = exp;
@@ -887,13 +892,13 @@ var Data = {
     saveNeighbourList: {},
     saveNeighbourDelayed: function () {
         Data.saveNeighbourHandler = 0;
-        let tx = Data.db.transaction('Neighbours', 'readwrite');
+        const tx = Data.db.transaction('Neighbours', 'readwrite');
         tx.objectStore('Neighbours').bulkPut(Object.values(Data.saveNeighbourList));
         Data.saveNeighbourList = {};
     },
     saveNeighbour: function (neighbour) {
         if (!neighbour) return;
-        var neighbours = [].concat(neighbour);
+        const neighbours = [].concat(neighbour);
         if (!neighbours.length) return;
         if (Data.saveNeighbourHandler) clearTimeout(Data.saveNeighbourHandler);
         Data.saveNeighbourHandler = setTimeout(Data.saveNeighbourDelayed, 500);
@@ -908,7 +913,7 @@ var Data = {
         }
     },
     removegcInfo: function () {
-        let tx = Data.db.transaction('Files', 'readwrite');
+        const tx = Data.db.transaction('Files', 'readwrite');
         tx.objectStore('Files').delete('gcInfo');
     },
     getGCInfo: function () {
@@ -940,21 +945,21 @@ var Data = {
     removeFriendList: {},
     saveFriendDelayed: function () {
         Data.saveFriendHandler = 0;
-        let tx = Data.db.transaction('Friends', 'readwrite');
-        var store = tx.objectStore('Friends');
-        var items = Object.values(Data.saveFriendList);
+        const tx = Data.db.transaction('Friends', 'readwrite');
+        const store = tx.objectStore('Friends');
+        const items = Object.values(Data.saveFriendList);
         if (items.length) store.bulkPut(items);
         Data.saveFriendList = {};
-        for (var item of Object.values(Data.removeFriendList)) store.delete(item.id);
+        for (const item of Object.values(Data.removeFriendList)) store.delete(item.id);
         Data.removeFriendList = {};
     },
     saveFriend: function (friend, remove = false) {
         if (!friend) return;
-        var friends = [].concat(friend);
+        const friends = [].concat(friend);
         if (!friends.length) return;
         if (Data.saveFriendHandler) clearTimeout(Data.saveFriendHandler);
         Data.saveFriendHandler = setTimeout(Data.saveFriendDelayed, 500);
-        for (var f of friends) {
+        for (const f of friends) {
             if (remove) {
                 Data.removeFriendList[f.id] = f;
                 delete Data.saveFriendList[f.id];
@@ -971,15 +976,15 @@ var Data = {
     },
     friendsCaptured: function (data) {
         if (!data) return;
-        var newFriends = [].concat(data);
+        const newFriends = [].concat(data);
         if (newFriends.length == 0) return;
-        var oldFriends = Object.assign({}, Data.getFriends());
-        var friends = {};
-        var now = getUnixTime();
+        const oldFriends = Object.assign({}, Data.getFriends());
+        const friends = {};
+        const now = getUnixTime();
         // We retain the old association (score and uid)
-        for (var friend of newFriends) {
+        for (const friend of newFriends) {
             friend.tc = now;
-            var oldFriend = oldFriends[friend.id];
+            const oldFriend = oldFriends[friend.id];
             if (oldFriend) {
                 friend.score = oldFriend.score;
                 friend.uid = oldFriend.uid;
@@ -1013,32 +1018,32 @@ var Data = {
     saveRewardLinksHistory: false,
     saveRewardLinkDelayed: function () {
         Data.saveRewardLinkHandler = 0;
-        let tx = Data.db.transaction('RewardLinks', 'readwrite');
-        let store = tx.objectStore('RewardLinks');
+        const tx = Data.db.transaction('RewardLinks', 'readwrite');
+        const store = tx.objectStore('RewardLinks');
         if (Data.saveRewardLinksHistory) {
             Data.saveRewardLinksHistory = false;
             if (Data.rewardLinksHistory.length > Data.REWARDLINKS_HISTORY_MAXITEMS) Data.rewardLinksHistory = Data.rewardLinksHistory.slice(-Data.REWARDLINKS_HISTORY_MAXITEMS);
-            let item = {
+            const item = {
                 id: 'history',
                 history: Data.rewardLinksHistory
             };
             Data.saveRewardLinkList[item.id] = item;
         }
-        let items = Object.values(Data.saveRewardLinkList);
+        const items = Object.values(Data.saveRewardLinkList);
         if (items.length) store.bulkPut(items);
         Data.saveRewardLinkList = {};
-        for (let item of Object.values(Data.removeRewardLinkList)) store.delete(item.id);
+        for (const item of Object.values(Data.removeRewardLinkList)) store.delete(item.id);
         Data.removeRewardLinkList = {};
     },
     saveRewardLink: function (rewardLink, remove = false) {
         if (!rewardLink) return;
-        let rewardLinks = [].concat(rewardLink);
+        const rewardLinks = [].concat(rewardLink);
         if (!rewardLink.length) return;
         if (Data.saveRewardLinkHandler) clearTimeout(Data.saveRewardLinkHandler);
         Data.saveRewardLinkHandler = setTimeout(Data.saveRewardLinkDelayed, 500);
-        for (let rl of rewardLinks) {
+        for (const rl of rewardLinks) {
             if (remove) {
-                let id = +rl.id;
+                const id = +rl.id;
                 Data.removeRewardLinkList[rl.id] = rl;
                 delete Data.saveRewardLinkList[id];
                 delete Data.rewardLinks[id];
@@ -1057,11 +1062,11 @@ var Data = {
         Data.saveRewardLink(rewardLink, true);
     },
     removeExpiredRewardLinks: function () {
-        let rewards = Object.values(Data.rewardLinks);
+        const rewards = Object.values(Data.rewardLinks);
         // check expired
         let maxExpired = 0;
         let threshold = getUnixTime() - Data.REWARDLINKS_VALIDITY_DAYS * SECONDS_IN_A_DAY;
-        for (let reward of rewards) {
+        for (const reward of rewards) {
             if (reward.adt <= threshold || reward.cmt == -1) maxExpired = Math.max(maxExpired, +reward.id);
         }
         if (maxExpired > Data.rewardLinksData.expired) {
@@ -1071,25 +1076,25 @@ var Data = {
         }
         // remove old links
         threshold = getUnixTime() - Data.REWARDLINKS_REMOVE_DAYS * SECONDS_IN_A_DAY;
-        let rewardsToRemove = rewards.filter(reward => reward.adt <= threshold);
+        const rewardsToRemove = rewards.filter(reward => reward.adt <= threshold);
         Data.removeRewardLink(rewardsToRemove);
     },
     addRewardLinks: function (rewardsOrArray) {
-        let arr = [].concat(rewardsOrArray);
-        let now = getUnixTime();
-        let rewardLinksData = Data.rewardLinksData;
-        let rewardLinksHistory = Data.rewardLinksHistory;
-        let rewardLinksRecent = Data.rewardLinksRecent;
-        let removeThreshold = now - 3600;
-        let data = {};
+        const arr = [].concat(rewardsOrArray);
+        const now = getUnixTime();
+        const rewardLinksData = Data.rewardLinksData;
+        const rewardLinksHistory = Data.rewardLinksHistory;
+        const rewardLinksRecent = Data.rewardLinksRecent;
+        const removeThreshold = now - 3600;
+        const data = {};
         let flagStoreData = false;
         let flagRefresh = false;
         // remove old "Recent" rewards older than one hour
-        for (let id in Object.keys(rewardLinksRecent)) {
+        for (const id in Object.keys(rewardLinksRecent)) {
             if (rewardLinksRecent[id] < removeThreshold) delete rewardLinksRecent[id];
         }
-        let expiredId = Data.rewardLinksData.expired || 0;
-        for (let reward of arr) {
+        const expiredId = Data.rewardLinksData.expired || 0;
+        for (const reward of arr) {
             if (!reward || !reward.id) return;
             // do not process old links, except when collection was successful
             if (!rewardLinksHistory.includes(+reward.id) || reward.cmt > 0) {
@@ -1151,8 +1156,8 @@ var Data = {
             }
         }
 
-        let save = Object.values(data);
-        let count = save.length;
+        const save = Object.values(data);
+        const count = save.length;
         if (flagStoreData || count > 0) {
             if (flagStoreData) {
                 save.push(rewardLinksData);
@@ -1191,14 +1196,14 @@ var Data = {
     },
     getObject: function (type, id) {
         if (type == 'eventpass_xp') return Data.colEventpassXp[1];
-        var col = Data.getObjectCollection(type);
+        const col = Data.getObjectCollection(type);
         return col && col[id];
     },
     getObjectImage: function (type, id, small) {
-        var item = Data.getObject(type, id);
+        const item = Data.getObject(type, id);
         if (!item) return '';
         if (type == 'windmill') return Data.generator.cdn_root + 'mobile/graphics/windmills/greece_windmill.png';
-        var asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
+        const asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
         if (!asset) return '';
         if (asset[0] == '/') return asset;
         if (type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
@@ -1206,13 +1211,13 @@ var Data = {
         return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
     },
     getObjectName: function (type, id) {
-        var item = Data.getObject(type, id);
-        var name_loc = item && item.name_loc;
+        const item = Data.getObject(type, id);
+        const name_loc = item && item.name_loc;
         return name_loc ? Data.getString(name_loc) : '#' + type + id;
     },
     getObjectDesc: function (type, id) {
-        var item = Data.getObject(type, id);
-        var desc = item && item.desc;
+        const item = Data.getObject(type, id);
+        const desc = item && item.desc;
         return desc ? Data.getString(desc) : '';
     },
     getRegionFromSkin: function (id) {
@@ -1230,7 +1235,7 @@ var Data = {
         'buildings_actions': true
     },
     checkFile: function (name, version) {
-        let result = {};
+        const result = {};
         result.name = name;
         result.version = version;
         if (name.startsWith('floors_')) {
@@ -1251,34 +1256,34 @@ var Data = {
             if (Data.generator && Data.generator.file_changes && result.fileName in Data.generator.file_changes) version = String(Data.generator.file_changes[result.fileName]);
             result.version = version;
         }
-        var file = Data.files[result.fileName];
+        const file = Data.files[result.fileName];
         // If file in cache has the same version, return it
         result.data = file && file.version == version ? Data.files[name] : null;
         return result;
     },
     getFile: async function (name, version) {
-        let file = Data.checkFile(name, version);
+        const file = Data.checkFile(name, version);
         if (file.data) return file.data;
         delete Data.files[file.name];
         delete Data.files[file.fileName];
         if (!Data.generator || !Data.generator.cdn_root) return Promise.reject('Data has not been loaded yet');
         file.url = Data.generator.cdn_root + file.fileName + '?ver=' + file.version;
-        var response = await fetch(file.url);
-        var text = await response.text();
-        var data = Parser.parse(file.kind, text);
+        const response = await fetch(file.url);
+        const text = await response.text();
+        let data = Parser.parse(file.kind, text);
         if (!data) throw `File cannot be parsed: "${file}"`;
         if (file.kind == 'erik') {
-            var keys = data.__keys.filter(key => key.startsWith('@'));
+            const keys = data.__keys.filter(key => key.startsWith('@'));
             delete data.__keys;
-            var items = keys.length ? (Array.isArray(data) ? data : Object.values(data)) : null;
-            for (var key of keys) {
-                var key2 = key.substr(1);
-                var detail = await Data.getFile(name + '_' + key2);
+            const items = keys.length ? (Array.isArray(data) ? data : Object.values(data)) : null;
+            for (const key of keys) {
+                const key2 = key.substr(1);
+                const detail = await Data.getFile(name + '_' + key2);
                 // Expand key
                 items.forEach(item => {
-                    var ids = (item[key] || '').split(',');
-                    var arr = [];
-                    for (var id of ids) {
+                    const ids = (item[key] || '').split(',');
+                    const arr = [];
+                    for (const id of ids) {
                         if (id && id in detail) arr.push(detail[id]);
                     }
                     delete item[key];
@@ -1286,16 +1291,16 @@ var Data = {
                 });
             }
         }
-        var fixFn = Parser['fix_' + name];
+        const fixFn = Parser['fix_' + name];
         if (typeof fixFn == 'function') data = fixFn(data) || data;
         Data.files[name] = data;
         Data.files[file.fileName] = file;
         return data;
     },
     getConfigValue: function (name, defaultValue = 0) {
-        var result = NaN;
+        let result = NaN;
         try {
-            var config = Data.files.configs[Data.generator.config_id];
+            const config = Data.files.configs[Data.generator.config_id];
             result = parseInt(config[name]);
         } catch (e) {
             result = NaN;
@@ -1307,6 +1312,7 @@ var Data = {
 //#endregion
 
 //#region SYNCHRONIZE
+// eslint-disable-next-line no-var
 var Synchronize = {
     init: async function () {
         //
@@ -1324,29 +1330,29 @@ var Synchronize = {
         chrome.tabs.sendMessage(Tab.gameTabId, message);
     },
     process: function (postedXml, responseText) {
-        let posted = Parser.parse('any', postedXml);
+        const posted = Parser.parse('any', postedXml);
         // eslint-disable-next-line no-unused-vars
         if (!posted) return;
 
-        let response = responseText && Parser.parse('any', responseText);
+        const response = responseText && Parser.parse('any', responseText);
         Synchronize.time = Math.floor(response ? +response.time : +posted.client_time);
 
         Synchronize.delayedSignals = [];
 
         // un_gift
-        let changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, Synchronize.time);
+        const changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, Synchronize.time);
         Data.saveNeighbour(changed);
 
         // tasks
         let tasks = posted.task;
         tasks = tasks ? (Array.isArray(tasks) ? tasks : [tasks]) : [];
         let taskIndex = 0;
-        for (let task of tasks) {
-            let action = task.action;
+        for (const task of tasks) {
+            const action = task.action;
             console.log('Action "' + action + '"');
-            let fn = Synchronize.handlers[action];
+            const fn = Synchronize.handlers[action];
             if (fn instanceof Function) {
-                let taskName = 'task_' + taskIndex;
+                const taskName = 'task_' + taskIndex;
                 taskIndex++;
                 try {
                     fn(action, task, response && response[taskName], response);
@@ -1355,9 +1361,9 @@ var Synchronize = {
                 }
             }
         }
-        let sent = {};
-        for (let message of Synchronize.delayedSignals) {
-            let json = JSON.stringify(message);
+        const sent = {};
+        for (const message of Synchronize.delayedSignals) {
+            const json = JSON.stringify(message);
             if (!(json in sent)) {
                 sent[json] = true;
                 Synchronize.signal(message);
@@ -1370,7 +1376,7 @@ var Synchronize = {
     setLastLocation: function (lid) {
         if (lid <= 0) return null;
         this.last_lid = lid;
-        let loc_prog = Data.generator && Data.generator.loc_prog;
+        const loc_prog = Data.generator && Data.generator.loc_prog;
         if (!loc_prog) return null;
         let prog = loc_prog[lid];
         if (!prog) {
@@ -1383,11 +1389,11 @@ var Synchronize = {
     handlers: {
         visit_camp: function (action, _task, taskResponse, _response) {
             if (!taskResponse || !taskResponse.camp) return;
-            let neighbourId = taskResponse.neigh_id;
-            let camp = Data.lastVisitedCamp = taskResponse.camp;
+            const neighbourId = taskResponse.neigh_id;
+            const camp = Data.lastVisitedCamp = taskResponse.camp;
             camp.neigh_id = neighbourId;
             camp.time = Synchronize.time;
-            let pal = Data.getNeighbour(neighbourId);
+            const pal = Data.getNeighbour(neighbourId);
             if (pal) {
                 pal.extra.lastVisit = Synchronize.time;
                 let blocks = 144;
@@ -1402,9 +1408,9 @@ var Synchronize = {
             Synchronize.signal(action, neighbourId);
         },
         place_windmill: function (action, task, _taskResponse, _response) {
-            let neighbourId = task.neigh_id;
-            let time = Synchronize.time;
-            let pal = Data.getNeighbour(neighbourId);
+            const neighbourId = task.neigh_id;
+            const time = Synchronize.time;
+            const pal = Data.getNeighbour(neighbourId);
             if (Data.lastVisitedCamp && Data.lastVisitedCamp.neigh_id == neighbourId && pal && time) {
                 let windmills = Data.lastVisitedCamp.windmills;
                 windmills = Array.isArray(windmills) ? windmills : [];
@@ -1413,7 +1419,7 @@ var Synchronize = {
                     provider: Data.generator.player_id
                 });
                 Data.lastVisitedCamp.windmills = windmills;
-                let wmtime = Data.getCampWindmillTime(Data.lastVisitedCamp);
+                const wmtime = Data.getCampWindmillTime(Data.lastVisitedCamp);
                 if (wmtime !== pal.extra.wmtime) {
                     pal.extra.wmtime = wmtime;
                     Data.saveNeighbour(pal);
@@ -1422,17 +1428,17 @@ var Synchronize = {
             }
         },
         enter_mine: function (_action, task, taskResponse, _response) {
-            let loc_id = +task.loc_id || 0;
-            let prog = Synchronize.setLastLocation(loc_id);
+            const loc_id = +task.loc_id || 0;
+            const prog = Synchronize.setLastLocation(loc_id);
             if (prog && taskResponse) {
                 // console.log(Object.assign({}, prog), taskResponse, Data.repeatables && Data.repeatables[loc_id]);
                 prog.lvl = +taskResponse.level_id;
-                let rep = Data.repeatables && Data.repeatables[loc_id];
+                const rep = Data.repeatables && Data.repeatables[loc_id];
                 if (rep) {
                     // We have repeatables info => this is a repeatable
                     // Marks as ready, since we just entered it
                     prog.cmpl = 0;
-                    let fp = taskResponse.floor_progress;
+                    const fp = taskResponse.floor_progress;
                     let floor = null;
                     if (Array.isArray(fp)) floor = fp.find(t => +t.floor == prog.lvl);
                     else if (fp && +fp.floor == prog.lvl) floor = fp;
@@ -1440,7 +1446,7 @@ var Synchronize = {
                 } else {
                     // No repeatable info => alternative method
                     // The reset count will increase when entering a refreshed repeatable
-                    let reset = +taskResponse.reset_count;
+                    const reset = +taskResponse.reset_count;
                     if (reset > prog.reset) {
                         prog.reset = reset;
                         prog.cmpl = 0;
@@ -1450,22 +1456,22 @@ var Synchronize = {
             }
         },
         speedup_reset: function (_action, task, _taskResponse, _response) {
-            let loc_id = +task.loc_id || 0;
-            let prog = Synchronize.setLastLocation(loc_id);
+            const loc_id = +task.loc_id || 0;
+            const prog = Synchronize.setLastLocation(loc_id);
             if (prog) prog.prog = 0;
         },
         mine: function (_action, _task, _taskResponse, _response) {
             Synchronize.lastTimeMined = Synchronize.time;
-            let loc_id = Synchronize.last_lid;
-            let prog = Synchronize.setLastLocation(loc_id);
+            const loc_id = Synchronize.last_lid;
+            const prog = Synchronize.setLastLocation(loc_id);
             if (prog) {
                 prog.prog = (+prog.prog || 0) + 1;
                 prog.time = Synchronize.time;
             }
         },
         friend_child_charge: function (action, task, _taskResponse, _response) {
-            var neighbourId = task.neigh_id;
-            var neighbour = Data.getNeighbour(neighbourId);
+            const neighbourId = task.neigh_id;
+            const neighbour = Data.getNeighbour(neighbourId);
             if (neighbour && neighbour.spawned) {
                 if (!('gcCount' in neighbour.extra)) neighbour.extra.gcCount = Data.getConfigValue('child_count', 5);
                 if ((--neighbour.extra.gcCount) <= 0) {
@@ -1484,14 +1490,14 @@ var Synchronize = {
         if (!Array.isArray(ungift)) return [];
         if (!neighbours) neighbours = Data.neighbours;
         time = +time;
-        var changed = {};
-        for (let item of ungift) {
-            let giftId = +item.gift_id;
-            let pal = neighbours[item.sender_id];
+        const changed = {};
+        for (const item of ungift) {
+            const giftId = +item.gift_id;
+            const pal = neighbours[item.sender_id];
             if (!pal) continue;
             let gifts = pal.extra.g;
             if (gifts && gifts.find(item => item[0] == giftId)) continue;
-            let gift = [giftId, +item.def_id, time];
+            const gift = [giftId, +item.def_id, time];
             if (!gifts) gifts = pal.extra.g = [];
             gifts.push(gift);
             // Sort gifts by id (id is a sequence)
@@ -1574,7 +1580,7 @@ async function init() {
     await Synchronize.init();
     await Tab.init();
 
-    let lang = Preferences.getValue('language');
+    const lang = Preferences.getValue('language');
     languageId = Data.detectLanguage(lang);
     if (languageId !== lang) Preferences.setValue('language', languageId);
     changeLocale(Preferences.getValue('locale'));
@@ -1596,17 +1602,17 @@ async function init() {
             return Data.getGCInfo();
         },
         getGCList: function (request) {
-            var neighbours = Object.values(Data.neighbours);
-            var realNeighbours = neighbours.length - 1;
-            var list = request.simulate ? neighbours.slice(0, request.simulate) : neighbours.filter(n => n.spawned);
-            var regionNames = {};
+            const neighbours = Object.values(Data.neighbours);
+            const realNeighbours = neighbours.length - 1;
+            const list = request.simulate ? neighbours.slice(0, request.simulate) : neighbours.filter(n => n.spawned);
+            const regionNames = {};
             if (Data.localization.data) Object.keys(Data.colRegions).forEach(key => regionNames[key] = Data.getObjectName('region', key));
             return {
                 regions: regionNames,
                 max: Math.min(realNeighbours, Math.floor(Math.sqrt(realNeighbours)) + 3) + 1,
                 list: list.sort((a, b) => a.index - b.index)
                     .map(function (n) {
-                        var result = {
+                        const result = {
                             id: n.id,
                             name: n.name || 'Player ' + n.id,
                             surname: n.surname,

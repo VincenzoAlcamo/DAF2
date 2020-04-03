@@ -86,7 +86,7 @@ function init() {
 function onmousemove(event) {
     let el = event.target;
     let row = null;
-    let classNames = {};
+    const classNames = {};
     INFOS.forEach(k => classNames[k] = false);
     while (el.tagName != 'TABLE') {
         if (el.tagName == 'TD') Array.from(el.classList).filter(k => k in classNames).forEach(k => classNames[k] = true);
@@ -100,9 +100,9 @@ function onmousemove(event) {
 }
 
 function byEvent(list) {
-    let hash = {};
-    for (let item of list) {
-        let eid = +item.event_id;
+    const hash = {};
+    for (const item of list) {
+        const eid = +item.event_id;
         if (!eid) continue;
         if (!(eid in hash)) hash[eid] = [];
         hash[eid].push(+item.def_id);
@@ -158,14 +158,14 @@ function update() {
     const eventsRegion = generator.events_region || {};
     const events = gui.getFile('events');
     allEvents = {};
-    for (let event of Object.values(events)) {
+    for (const event of Object.values(events)) {
         if (!event.name_loc) continue;
-        let eid = event.def_id;
-        let item = {};
+        const eid = event.def_id;
+        const item = {};
         item.id = eid;
         item.name = gui.getString(event.name_loc);
         item.gems = (+event.premium > 0 ? +event.gems_price : 0) || NaN;
-        let edata = eventData[eid];
+        const edata = eventData[eid];
         const info = getEventInfo(event);
         item.start = (edata && +edata.started) || NaN;
         item.end = (edata && +edata.finished) || info.end;
@@ -191,7 +191,7 @@ function update() {
         // this will force the use of img_full instead of img_webgl
         item.img_missing = true;
 
-        let achievs = achievementsByEvent[eid] || [];
+        const achievs = achievementsByEvent[eid] || [];
         item.tachiev = item.cachiev = 0;
         item.machiev = [];
         for (const aid of achievs) {
@@ -211,24 +211,24 @@ function update() {
         if (!item.tachiev) continue;
         allEvents[item.id] = item;
 
-        let collects = collectionsByEvent[eid] || [];
+        const collects = collectionsByEvent[eid] || [];
         item.tcollect = item.ccollect = 0;
-        for (let cid of collects) {
-            let collection = collections[cid];
-            let pieces = gui.getArrayOfInt(collection.pieces);
+        for (const cid of collects) {
+            const collection = collections[cid];
+            const pieces = gui.getArrayOfInt(collection.pieces);
             item.tcollect += pieces.length;
-            for (let pid of pieces)
+            for (const pid of pieces)
                 if (artifacts.includes(pid)) ++item.ccollect;
         }
         item.pcollect = item.ccollect / (item.tcollect || 1);
 
         let locations = gui.getArrayOfInt(event.locations);
         let xlo = gui.getArrayOfInt(event.extended_locations);
-        for (let lid of xlo) {
+        for (const lid of xlo) {
             if (!locations.includes(lid)) locations.push(lid);
         }
         locations = locations.filter(lid => {
-            let location = locations0[lid];
+            const location = locations0[lid];
             // Additional check
             if (+location.req_quest_a == 1) {
                 xlo = xlo.filter(id => id != lid);
@@ -236,8 +236,8 @@ function update() {
             }
             return true;
         });
-        let rep = locations.filter(lid => {
-            let location = locations0[lid];
+        const rep = locations.filter(lid => {
+            const location = locations0[lid];
             // Additional check
             if (+location.req_quest_a == 1) {
                 return false;
@@ -273,8 +273,8 @@ function update() {
     Dialog.htmlToDOM(selectYear, '');
     addOption(selectYear, '', '');
     let lastYear = null;
-    let items = Object.values(allEvents).sort((a, b) => b.year - a.year);
-    for (let item of items) {
+    const items = Object.values(allEvents).sort((a, b) => b.year - a.year);
+    for (const item of items) {
         if (item.year && item.yeartxt !== lastYear) {
             lastYear = item.yeartxt;
             addOption(selectYear, lastYear, lastYear);
@@ -344,24 +344,24 @@ function refresh() {
         if (not_event == (item.tcollect > 0)) return false;
         if (year && item.yeartxt != year) return false;
         if (not_segmented == item.issegmented) return false;
-        let inShop = item.gems > 0;
+        const inShop = item.gems > 0;
         if (not_shop == inShop) return false;
         return true;
     }
 
     let items = Object.values(allEvents);
-    let total = items.length;
+    const total = items.length;
     items = items.filter(isVisible);
     Array.from(container.querySelectorAll('.events tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(total));
     });
 
-    let sort = gui.getSortFunction(null, smartTable, 'name');
+    const sort = gui.getSortFunction(null, smartTable, 'name');
     items = sort(items);
 
-    let tbody = smartTable.tbody[0];
+    const tbody = smartTable.tbody[0];
     Dialog.htmlToDOM(tbody, '');
-    for (let item of items) {
+    for (const item of items) {
         let row = item.row;
         if (!row) {
             row = item.row = document.createElement('tr');
@@ -379,8 +379,8 @@ function refresh() {
 }
 
 function updateRow(row) {
-    let id = row.getAttribute('data-eid');
-    let item = allEvents[id];
+    const id = row.getAttribute('data-eid');
+    const item = allEvents[id];
     let htm = '';
     let img = item.img && Html`<img src="${item.img}" title="${item.name}" style="height:32px" class="tooltip-event">`;
     htm += Html.br`<td>${img}</td>`;
@@ -433,9 +433,9 @@ function updateRow(row) {
         htm += Html.br`<td colspan="4"></td>`;
     }
     htm += Html.br`<td class="materials">`;
-    let numMaterials = item.materials.length || 1;
-    let breakIndex = numMaterials >= 5 ? Math.ceil(numMaterials / 2) : -1;
-    let size = Math.max(21, Math.min(32, Math.floor(96 / numMaterials)));
+    const numMaterials = item.materials.length || 1;
+    const breakIndex = numMaterials >= 5 ? Math.ceil(numMaterials / 2) : -1;
+    const size = Math.max(21, Math.min(32, Math.floor(96 / numMaterials)));
     item.materials.forEach((matId, index) => {
         if (index == breakIndex) htm += `<br>`;
         htm += gui.getObjectImg(matId > 0 ? 'material' : 'token', Math.abs(matId), size, true, 'desc');
@@ -450,8 +450,8 @@ function onTooltip(event) {
     const eid = parseInt(element.parentNode.parentNode.getAttribute('data-eid'));
     const description = gui.getString(gui.getObject('event', eid).desc);
     const item = allEvents[eid];
-    let img1 = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_events/' + item.img_webgl + '.png';
-    let img2 = item.img_full == 'default' ? '' : gui.getGenerator().cdn_root + 'mobile/graphics/all/' + item.img_full + '.png';
+    const img1 = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_events/' + item.img_webgl + '.png';
+    const img2 = item.img_full == 'default' ? '' : gui.getGenerator().cdn_root + 'mobile/graphics/all/' + item.img_full + '.png';
     const img = item.img_missing ? img2 : img1;
     const imgFull = img && Html`<img src="${img}" class="full">`;
     let htm = '';
@@ -473,7 +473,7 @@ function refreshRegion() {
 
 function onClick(e) {
     let row;
-    for (var el = e.target; !row && el.tagName != 'TABLE'; el = el.parentNode)
+    for (let el = e.target; !row && el.tagName != 'TABLE'; el = el.parentNode)
         if (el.tagName == 'TR') row = el;
     if (!row) return;
     const info = INFOS.find(info => row.classList.contains(PREFIX_HILIGHT + info));
@@ -559,7 +559,7 @@ function showInfo() {
     const item = allEvents[selectedEventId];
     const isSegmented = item.issegmented;
     let region = selectedRegion || 0;
-    let showProgress = region == 0;
+    const showProgress = region == 0;
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
@@ -940,7 +940,7 @@ function showInfo() {
                     }
                     const locationLoot = Object.values(locLoot);
                     for (const level of levels) {
-                        let rewards = level == 0 ? locationLoot : data.floor.find(floor => +floor.def_id == level).loot;
+                        const rewards = level == 0 ? locationLoot : data.floor.find(floor => +floor.def_id == level).loot;
                         showRewardsInCell(container.querySelector(`tr[data-loc="${lid}"][data-floor="${level}"] td.loot`), rewards);
                     }
                     augmentTotalRewards(totalLoot, locationLoot);

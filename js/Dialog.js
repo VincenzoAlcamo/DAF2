@@ -96,7 +96,7 @@ Object.assign(Dialog.prototype, {
         return this.create().element;
     },
     show: function (options, callback) {
-        var o = Object.assign({}, this.defaults, options);
+        const o = Object.assign({}, this.defaults, options);
         if (this.mode === Dialog.WAIT) {
             o.title = Dialog.getMessage('dialog_pleasewait');
             o.style = [Dialog.CRITICAL];
@@ -110,9 +110,9 @@ Object.assign(Dialog.prototype, {
         if (o.html) this.setHtml(o.html);
         else this.setText(o.text);
 
-        var element = this.element;
-        var elements = [];
-        for (let tagName of ['BUTTON', 'INPUT', 'TEXTAREA']) elements = elements.concat(Array.from(element.getElementsByTagName(tagName)));
+        let element = this.element;
+        let elements = [];
+        for (const tagName of ['BUTTON', 'INPUT', 'TEXTAREA']) elements = elements.concat(Array.from(element.getElementsByTagName(tagName)));
         element = elements.find(el => o.defaultButton == (el.tagName == 'BUTTON' ? el.value.toLowerCase() : el.name));
         if (element) setTimeout(() => element.focus(), 100);
         if (this.mode === Dialog.TOAST) {
@@ -130,8 +130,8 @@ Object.assign(Dialog.prototype, {
         return this;
     },
     runCallback: function (method, input, flagNoHide) {
-        let dialog = this;
-        let params = dialog.getParams(method);
+        const dialog = this;
+        const params = dialog.getParams(method);
         if (input) params.input = input;
         if (!flagNoHide) dialog.hide();
         if (dialog.callback) setTimeout(() => dialog.callback(method, dialog.getParams(method)), flagNoHide ? 0 : 100);
@@ -141,7 +141,7 @@ Object.assign(Dialog.prototype, {
         return this;
     },
     setTitle: function (title) {
-        var el = this.create().element.getElementsByClassName('DAF-md-title')[0];
+        const el = this.create().element.getElementsByClassName('DAF-md-title')[0];
         if (el) {
             Dialog.htmlToDOM(el, Dialog.htmlEncodeBr(title));
             el.style.display = title ? '' : 'none';
@@ -149,7 +149,7 @@ Object.assign(Dialog.prototype, {
         return this;
     },
     setHtml: function (html) {
-        var el = this.create().element.getElementsByClassName('DAF-md-body')[0];
+        const el = this.create().element.getElementsByClassName('DAF-md-body')[0];
         if (el) {
             Dialog.htmlToDOM(el, html);
             el.style.display = el.firstChild ? '' : 'none';
@@ -167,15 +167,15 @@ Object.assign(Dialog.prototype, {
         if (style === null || style === undefined) style = this.lastStyle;
         style = this.lastStyle = style instanceof Array ? style : String(style).split(/,|\s/);
         style = style.map(method => method.toLowerCase());
-        for (let tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
-        let dialog = this;
-        for (let input of this.element.querySelectorAll('button,[data-method]')) {
-            let isInput = input.getAttribute('data-method');
-            let method = isInput ? input.getAttribute('data-method') : input.value.toLowerCase();
+        for (const tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
+        const dialog = this;
+        for (const input of this.element.querySelectorAll('button,[data-method]')) {
+            const isInput = input.getAttribute('data-method');
+            const method = isInput ? input.getAttribute('data-method') : input.value.toLowerCase();
             input.style.display = isInput || style.includes(method) ? '' : 'none';
             if (!input.getAttribute('hasListener')) {
                 input.setAttribute('hasListener', '1');
-                let eventName = input.tagName == 'BUTTON' || input.getAttribute('type') == 'button' ? 'click' : 'input';
+                const eventName = input.tagName == 'BUTTON' || input.getAttribute('type') == 'button' ? 'click' : 'input';
                 input.addEventListener(eventName, function (event) {
                     event.stopPropagation();
                     event.preventDefault();
@@ -186,20 +186,20 @@ Object.assign(Dialog.prototype, {
         return this;
     },
     getParams: function (method) {
-        var params = {};
+        const params = {};
         if (method) params.method = method;
 
         function add(name, value) {
             if (name in params) {
-                var prev = params[name];
+                const prev = params[name];
                 if (Array.isArray(prev)) prev.push(value);
                 else params[name] = [prev, value];
             } else params[name] = value;
         }
         Array.from(this.form.elements).forEach(e => {
-            var name = e.name;
-            var value = e.value;
-            var type = e.tagName == 'INPUT' ? e.type.toUpperCase() : e.tagName;
+            const name = e.name;
+            let value = e.value;
+            const type = e.tagName == 'INPUT' ? e.type.toUpperCase() : e.tagName;
             switch (type) {
                 case 'TEXT':
                 case 'TEXTAREA':

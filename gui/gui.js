@@ -1,9 +1,9 @@
 /*global chrome Locale Dialog UrlInfo Html Tooltip imported_tabs*/
-let bgp = chrome.extension.getBackgroundPage();
+const bgp = chrome.extension.getBackgroundPage();
 
 let currentTab = null;
-let tabs = (function () {
-    let tabs = {};
+const tabs = (function () {
+    const tabs = {};
 
     function addTab(id, enabled = true) {
         tabs[id] = {
@@ -38,7 +38,7 @@ let tabs = (function () {
     return tabs;
 })();
 
-let gui = {
+const gui = {
     dialog: Dialog(),
     wait: Dialog(Dialog.WAIT),
     toast: Dialog(Dialog.TOAST),
@@ -52,7 +52,7 @@ let gui = {
         return bgp.Data.generator;
     },
     hasValidGenerator: function () {
-        var generator = gui.getGenerator();
+        const generator = gui.getGenerator();
         return generator && generator.player_id;
     },
     getFile: function (name) {
@@ -79,7 +79,7 @@ let gui = {
             let s = '';
             let c = 0;
             for (let p of text.split(/\s+/)) {
-                let l = p.length;
+                const l = p.length;
                 if (!l) continue;
                 if (c > 0) {
                     if (c + l > max) {
@@ -97,7 +97,7 @@ let gui = {
         }).join('\n');
     },
     getPlayerNameFull: function (pal) {
-        var name = pal.name || 'Player ' + pal.id;
+        const name = pal.name || 'Player ' + pal.id;
         return pal.surname ? name + ' ' + pal.surname : name;
     },
     FB_ANON_MALE_IMG: 'data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBwCdASoyADIAPm0qkUWkIqGYDf2AQAbEtIBp7Ay0G/WSUM7JlLizCyxMfDWO4GTZsZ3rW/OD7o4ZrD5+BT08hIdEQYAA/voQZ4IvItpppdVXQWuubgHZ7Hz5ClT98CfXGkCeTZrhstMPkFiBPgl23Ssn29LDaI8GTQEsEUH2eeI8S7rLcNeX3hT74sAvZ2QAc9yDKh3vCDZXO6AcSFxINezC50AA',
@@ -138,7 +138,7 @@ let gui = {
             }
         }
         if (options.includes('desc')) {
-            let desc = bgp.Data.getObjectDesc(type, id);
+            const desc = bgp.Data.getObjectDesc(type, id);
             if (desc) name += '\n' + gui.getWrappedText(desc);
         }
         return name;
@@ -147,10 +147,10 @@ let gui = {
         return bgp.Data.getObjectImage(type, id, small);
     },
     getObjectImg: function (type, id, displaySize = 32, small = false, options = '') {
-        let url = bgp.Data.getObjectImage(type, id, small);
+        const url = bgp.Data.getObjectImage(type, id, small);
         if (!url) return '';
-        let title = options != 'none' ? Html` title="${gui.getObjectName(type, id, options)}"` : '';
-        let size = displaySize ? Html` height="${displaySize}"` : '';
+        const title = options != 'none' ? Html` title="${gui.getObjectName(type, id, options)}"` : '';
+        const size = displaySize ? Html` height="${displaySize}"` : '';
         return Html`<img src="${url}"${size}${title}>`;
     },
     getRegionImg: function (rid, forceEgypt = false, size = 32) {
@@ -165,7 +165,7 @@ let gui = {
         return bgp.Data.getSkinFromRegion(region);
     },
     getSkinImg: function (skin, size = 32) {
-        var rid = bgp.Data.getRegionFromSkin(skin);
+        const rid = bgp.Data.getRegionFromSkin(skin);
         return rid > 0 ? this.getRegionImg(rid, false, size) : Html.br`<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
     },
     getLocationImg: function (location) {
@@ -200,7 +200,7 @@ let gui = {
                 dd = 0;
             }
         }
-        let list = [];
+        const list = [];
         if (dd > 0) list.push(Locale.formatNumber(dd) + 'd');
         if (hh > 0) list.push(Locale.formatNumber(hh) + 'h');
         if (mm > 0 || (list.length == 0 && ss == 0)) list.push(Locale.formatNumber(mm) + 'm');
@@ -214,13 +214,13 @@ let gui = {
         return String(value || '').split(',').map(o => parseInt(o)).filter(n => isFinite(n));
     },
     getChildrenMax: function (realNeighbours) {
-        var max = Math.floor(Math.sqrt(realNeighbours)) + 3;
+        const max = Math.floor(Math.sqrt(realNeighbours)) + 3;
         return max > realNeighbours ? realNeighbours : max;
     },
     getChildrenNext: function (realNeighbours) {
         if (realNeighbours < 5) return 1;
-        var next = Math.floor(Math.sqrt(realNeighbours)) + 1;
-        var goal = next * next;
+        const next = Math.floor(Math.sqrt(realNeighbours)) + 1;
+        const goal = next * next;
         // Facebook hard limit of 5000 friends
         return goal > 5000 ? 0 : goal - realNeighbours;
     },
@@ -281,13 +281,13 @@ let gui = {
         gui.lazyElementsTimeout = 0;
         let maxItemsAtOnce = 20;
         while (maxItemsAtOnce-- && gui.lazyElements.length) {
-            let element = gui.lazyElements.pop();
+            const element = gui.lazyElements.pop();
             if (element.hasAttribute('lazy-src')) {
                 element.setAttribute('src', element.getAttribute('lazy-src'));
                 element.removeAttribute('lazy-src');
             }
             if (element.hasAttribute('lazy-render')) {
-                var event = new Event('render', {
+                const event = new Event('render', {
                     bubbles: true
                 });
                 element.dispatchEvent(event);
@@ -297,9 +297,9 @@ let gui = {
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     },
     lazyObserver: new IntersectionObserver(function (entries) {
-        for (let entry of entries) {
+        for (const entry of entries) {
             if (entry.intersectionRatio <= 0 && !entry.isIntersecting) continue;
-            let element = entry.target;
+            const element = entry.target;
             gui.lazyElements.push(element);
             gui.lazyObserver.unobserve(element);
         }
@@ -316,12 +316,12 @@ let gui = {
     },
     updateTabState: function (tab) {
         if (tab.isLoaded && typeof tab.getState == 'function') tab.state = tab.getState();
-        var text = JSON.stringify(tab.state);
+        const text = JSON.stringify(tab.state);
         if (text != 'null' && text != '{}') localStorage.setItem('state_' + tab.id, text);
         if (tab !== currentTab) return;
-        var location = '?tab=' + encodeURIComponent(tab.id);
+        let location = '?tab=' + encodeURIComponent(tab.id);
         if (tab.state) Object.keys(tab.state).forEach(key => {
-            var value = tab.state[key];
+            const value = tab.state[key];
             if (value === undefined || value === null || value === '' || value === false) return;
             if (value === true) location += '&' + encodeURIComponent(key);
             else location += '&' + encodeURIComponent(key) + '=' + String(value).split(',').map(t => encodeURIComponent(t)).join(',');
@@ -343,16 +343,16 @@ let gui = {
     },
     setSortState: function (value, smartTable, defaultSort, defaultSortSub) {
         if (!smartTable) return;
-        let arr = String(value || '').split(',');
+        const arr = String(value || '').split(',');
         smartTable.sort = smartTable.sort || {};
         smartTable.sortSub = smartTable.sortSub || {};
         for (let i = 0; i < 2; i++) {
-            let sortInfo = i == 0 ? smartTable.sort : smartTable.sortSub;
+            const sortInfo = i == 0 ? smartTable.sort : smartTable.sortSub;
             sortInfo.name = i == 0 ? defaultSort : defaultSortSub;
             sortInfo.ascending = true;
             let name = i < arr.length ? arr[i] : '';
             let ascending = true;
-            let j = name.lastIndexOf('(');
+            const j = name.lastIndexOf('(');
             if (j >= 0) {
                 ascending = name.substr(j) != '(desc)';
                 name = name.substr(0, j);
@@ -365,7 +365,7 @@ let gui = {
         smartTable.setSortInfo();
     },
     getNaturalComparer: function () {
-        let collator = new Intl.Collator(undefined, {
+        const collator = new Intl.Collator(undefined, {
             numeric: true,
             sensitivity: 'base'
         });
@@ -380,12 +380,12 @@ let gui = {
         return isNaN(b) ? -1 : a - b;
     },
     getSortFunction: function (getSortValueFunctions, smartTable, defaultSortName) {
-        let arr = [];
+        const arr = [];
 
         function addSortBy(sortInfo) {
             if (!sortInfo || !sortInfo.name) return;
-            let name = sortInfo.name;
-            let fn = getSortValueFunctions ? getSortValueFunctions[name] : (item => item[name]);
+            const name = sortInfo.name;
+            const fn = getSortValueFunctions ? getSortValueFunctions[name] : (item => item[name]);
             if (!fn) return;
             arr.push({
                 fn: fn,
@@ -399,8 +399,8 @@ let gui = {
             ascending: true
         });
         if (arr.length > 2) arr.length = 2;
-        let fn1 = arr[0] && arr[0].fn;
-        let fn2 = (arr[1] && arr[1].fn) || (() => 0);
+        const fn1 = arr[0] && arr[0].fn;
+        const fn2 = (arr[1] && arr[1].fn) || (() => 0);
 
         function sortTextDescending(a, b) {
             if (a === null) return b === null ? 0 : 1;
@@ -414,16 +414,16 @@ let gui = {
 
         return function (items) {
             function getSortFn(index) {
-                let sample = items[0][index];
-                let isAscending = arr[index - 1] && arr[index - 1].ascending;
+                const sample = items[0][index];
+                const isAscending = arr[index - 1] && arr[index - 1].ascending;
                 if (sample === null || typeof sample == 'string') return isAscending ? gui.sortTextAscending : sortTextDescending;
                 return isAscending ? gui.sortNumberAscending : sortNumberDescending;
             }
             if (items.length) {
                 items = items.map(item => [item, fn1(item), fn2(item)]);
-                let sort1 = getSortFn(1);
-                let sort2 = getSortFn(2) || (() => 0);
-                let sort = (a, b) => sort1(a[1], b[1]) || sort2(a[2], b[2]);
+                const sort1 = getSortFn(1);
+                const sort2 = getSortFn(2) || (() => 0);
+                const sort = (a, b) => sort1(a[1], b[1]) || sort2(a[2], b[2]);
                 items = items.sort(sort).map(item => item[0]);
             }
             return items;
@@ -438,7 +438,7 @@ let gui = {
     },
     getActiveSpecialWeeks: function () {
         // requires special_weeks
-        let result = {};
+        const result = {};
         result.items = [];
         result.types = {};
         // Drop in repeatables  :   refresh_drop (multiplier = coeficient)
@@ -458,14 +458,14 @@ let gui = {
         // Double usable offer  :   double_usable_so (shows badge)
         // camp_particle_effect
         // camp_snow_skin
-        let now = gui.getUnixTime();
-        for (let sw of Object.values(gui.getFile('special_weeks'))) {
-            let start = +sw.start;
-            let finish = +sw.finish;
-            let isActive = start <= now && now <= finish;
+        const now = gui.getUnixTime();
+        for (const sw of Object.values(gui.getFile('special_weeks'))) {
+            const start = +sw.start;
+            const finish = +sw.finish;
+            const isActive = start <= now && now <= finish;
             // if ([154, 156, 158, 162, 170, 174, 175, 176, 177].includes(+sw.def_id)) isActive = true;
             if (isActive) {
-                let item = {
+                const item = {
                     id: sw.def_id,
                     type: sw.type,
                     coeficient: +sw.coeficient,
@@ -498,7 +498,7 @@ let gui = {
                 if (item.type == 'debris_discount') {
                     // the coeficient may be right, but the game uses this fixed value
                     item.coeficient = 0.8;
-                    let percent = 100 - Math.round(item.coeficient * 100);
+                    const percent = 100 - Math.round(item.coeficient * 100);
                     item.name = gui.getMessage('specialweek_' + item.type, percent);
                 } else if (item.type == 'refresh_drop') {
                     item.name = `${gui.getMessage('specialweek_double_drop')} (${gui.getMessage('gui_loot')} \xd7 ${Locale.formatNumber(item.coeficient)})`;
@@ -549,12 +549,12 @@ let gui = {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
         if (!fileName.endsWith('.png')) fileName += '.png';
-        let shot = document.createElement('img');
+        const shot = document.createElement('img');
         shot.src = '/img/gui/screenshot.png';
         shot.className = 'shot';
         shot.title = gui.getMessage('gui_screenshot_shot');
         screenshot.appendChild(shot);
-        let target = document.createElement('img');
+        const target = document.createElement('img');
         target.className = 'target';
         target.title = gui.getMessage('gui_screenshot_target');
         screenshot.appendChild(target);
@@ -581,10 +581,10 @@ let gui = {
         });
         target.addEventListener('click', function () {
             if (!target.classList.contains('ready')) return;
-            let canvas = document.createElement('canvas');
+            const canvas = document.createElement('canvas');
             canvas.width = target.naturalWidth;
             canvas.height = target.naturalHeight;
-            let ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d');
             ctx.drawImage(target, 0, 0);
             canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
         });
@@ -616,7 +616,7 @@ let gui = {
     },
     captureElement: function (element) {
         return new Promise(function (resolve, reject) {
-            let rect = element.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
             chrome.runtime.sendMessage({
                 action: 'capture'
             }, function (dataUrl) {
@@ -625,19 +625,19 @@ let gui = {
                     return;
                 }
                 if (!dataUrl) return resolve(dataUrl);
-                let image = new Image();
+                const image = new Image();
                 image.setAttribute('crossOrigin', 'anonymous');
                 image.src = dataUrl;
                 image.onload = function () {
-                    let ratio = window.devicePixelRatio;
-                    let sx = Math.floor(rect.left * ratio);
-                    let sy = Math.floor(rect.top * ratio);
-                    let sw = Math.ceil(rect.width * ratio);
-                    let sh = Math.ceil(rect.height * ratio);
-                    let canvas = document.createElement('canvas');
+                    const ratio = window.devicePixelRatio;
+                    const sx = Math.floor(rect.left * ratio);
+                    const sy = Math.floor(rect.top * ratio);
+                    const sw = Math.ceil(rect.width * ratio);
+                    const sh = Math.ceil(rect.height * ratio);
+                    const canvas = document.createElement('canvas');
                     canvas.width = sw;
                     canvas.height = sh;
-                    let ctx = canvas.getContext('2d');
+                    const ctx = canvas.getContext('2d');
                     ctx.drawImage(image, sx, sy, sw, sh, 0, 0, sw, sh);
                     dataUrl = canvas.toDataURL('image/png');
                     resolve(dataUrl);
@@ -655,19 +655,19 @@ function notifyVisibility(tab, visible) {
 
 function onLoad() {
     gui.isFirefox = getComputedStyle(document.body.querySelector('.mozTest')).textDecorationStyle === 'wavy';
-    let currentLanguage = gui.getPreference('language');
-    let currentLocale = gui.getPreference('locale');
+    const currentLanguage = gui.getPreference('language');
+    const currentLocale = gui.getPreference('locale');
     Dialog.language = currentLanguage;
     Locale.setLocale(currentLocale ? currentLanguage + '-' + currentLocale : chrome.i18n.getUILanguage());
     let htm = '';
-    let hasValidGenerator = gui.hasValidGenerator();
-    for (let tab of Object.values(tabs)) {
-        var text = gui.getMessage('tab_' + tab.id) || tab.id;
-        var disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
+    const hasValidGenerator = gui.hasValidGenerator();
+    for (const tab of Object.values(tabs)) {
+        const text = gui.getMessage('tab_' + tab.id) || tab.id;
+        const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
         htm += Html`<li title="${text + (tab.enabled ? '' : '\nNOT YET IMPLEMENTED!')}" style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
     }
     htm += Html`<li class="last"></li>`;
-    var div = document.querySelector('.vertical-menu');
+    let div = document.querySelector('.vertical-menu');
     Dialog.htmlToDOM(div, htm);
     div.addEventListener('click', clickMenu, true);
 
@@ -676,14 +676,14 @@ function onLoad() {
     }, true);
 
     chrome.runtime.onMessage.addListener(function onMessage(request, _sender, _sendResponse) {
-        var action = request.action;
-        var data = request.data;
+        const action = request.action;
+        const data = request.data;
         if (action == 'generator') {
-            let hasValidGenerator = gui.hasValidGenerator();
-            for (let tab of Object.values(tabs)) {
+            const hasValidGenerator = gui.hasValidGenerator();
+            for (const tab of Object.values(tabs)) {
                 tab.mustBeUpdated = true;
-                var div = gui.getTabMenuItem(tab.id);
-                var disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
+                const div = gui.getTabMenuItem(tab.id);
+                const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
                 div.classList.toggle('disabled', disabled);
             }
             updateCurrentTab();
@@ -691,7 +691,7 @@ function onLoad() {
             tabs.about.mustBeUpdated = true;
             setCurrentTab('about');
         } else {
-            for (let tab of Object.values(tabs)) {
+            for (const tab of Object.values(tabs)) {
                 if (tab.isLoaded && tab.actions && action in tab.actions) {
                     try {
                         tab.actions[action](data);
@@ -705,7 +705,7 @@ function onLoad() {
 
     chrome.storage.onChanged.addListener(function onStorageChanged(changes, area) {
         if (area != 'local') return;
-        for (var tab of Object.values(tabs)) {
+        for (const tab of Object.values(tabs)) {
             if (tab.isLoaded && typeof tab.onPrefChange == 'function') {
                 try {
                     tab.onPrefChange(changes);
@@ -716,12 +716,12 @@ function onLoad() {
 
     document.addEventListener('visibilitychange', () => notifyVisibility(currentTab, true));
 
-    var urlInfo = new UrlInfo(location.href);
-    var tabId = urlInfo.parameters.tab;
+    const urlInfo = new UrlInfo(location.href);
+    let tabId = urlInfo.parameters.tab;
     if (tabId == 'game') tabId = 'about';
     div = gui.getTabMenuItem(tabId);
     if (div && !div.classList.contains('disabled')) {
-        var state = Object.assign({}, urlInfo.parameters);
+        const state = Object.assign({}, urlInfo.parameters);
         delete state.tab;
         localStorage.setItem('state_' + tabId, JSON.stringify(state));
     } else {
@@ -733,7 +733,7 @@ function onLoad() {
 }
 
 async function loadTab(tab) {
-    var container = tab.container;
+    const container = tab.container;
     try {
         tab.state = JSON.parse(localStorage.getItem('state_' + tab.id));
     } catch (e) {
@@ -741,29 +741,29 @@ async function loadTab(tab) {
     }
     let resource_count = 0;
     let resource_value = 0;
-    let advanceProgress = () => gui.wait.show({
+    const advanceProgress = () => gui.wait.show({
         text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count)
     });
     try {
         container.style.display = 'none';
-        var tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
+        const tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
         Object.assign(tab, imported_tabs[tab.id]);
         if (tab.hasCSS) {
-            let link = document.createElement('link');
+            const link = document.createElement('link');
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.setAttribute('href', tabBasePath + '.css');
             document.head.appendChild(link);
         }
-        let requires = (tab.requires || []).filter(name => {
-            let file = bgp.Data.checkFile(name);
+        const requires = (tab.requires || []).filter(name => {
+            const file = bgp.Data.checkFile(name);
             return !file.data;
         });
         resource_count += requires.length;
-        var response = await fetch(tabBasePath + '.html');
-        var text = await response.text();
+        const response = await fetch(tabBasePath + '.html');
+        const text = await response.text();
         Dialog.htmlToDOM(container, text);
-        for (var name of requires) {
+        for (const name of requires) {
             advanceProgress();
             await bgp.Data.getFile(name);
         }
@@ -781,12 +781,11 @@ async function loadTab(tab) {
 }
 
 function clickMenu(e) {
-    var li = null;
-    var el, tabId;
-    for (el = e.target; el.tagName != 'UL'; el = el.parentNode)
+    let li = null;
+    for (let el = e.target; el.tagName != 'UL'; el = el.parentNode)
         if (el.tagName == 'LI') li = el;
     if (!li || li.classList.contains('selected') || li.classList.contains('disabled') || li.classList.contains('last')) return;
-    tabId = li.getAttribute('data-tabid');
+    const tabId = li.getAttribute('data-tabid');
     setCurrentTab(tabId);
 }
 
@@ -836,14 +835,14 @@ function translate(parent) {
 const WIKI_URL = 'https://wiki.diggysadventure.com/index.php';
 
 function openWiki(page) {
-    var url = page && page.indexOf('://') > 0 ? page : WIKI_URL + (page ? '?title=' + page : '');
-    var urlInfo = new UrlInfo(url);
+    const url = page && page.indexOf('://') > 0 ? page : WIKI_URL + (page ? '?title=' + page : '');
+    const urlInfo = new UrlInfo(url);
 
     chrome.tabs.query({}, function (tabs) {
-        var tabId = 0,
+        let tabId = 0,
             windowId = 0;
         tabs.forEach(function (tab) {
-            var tabInfo = new UrlInfo(tab.url);
+            const tabInfo = new UrlInfo(tab.url);
             if (tab.url == url || (!tabId && tabInfo.hostname == urlInfo.hostName)) {
                 windowId = tab.windowId;
                 tabId = tab.id;
@@ -860,10 +859,10 @@ function openWiki(page) {
                 active: true
             });
         } else {
-            var width = Math.round(window.screen.availWidth * 0.72);
-            var height = Math.round(window.screen.availHeight * 0.80);
-            var top = Math.round((window.screen.availHeight - height) / 2);
-            var left = Math.round((window.screen.availWidth - width) / 2);
+            const width = Math.round(window.screen.availWidth * 0.72);
+            const height = Math.round(window.screen.availHeight * 0.80);
+            const top = Math.round((window.screen.availHeight - height) / 2);
+            const left = Math.round((window.screen.availWidth - width) / 2);
             chrome.windows.create({
                 url: url,
                 left: left,
@@ -884,17 +883,17 @@ async function processLanguages() {
     result.ext_title = result.ext_name = {
         message: ''
     };
-    for (let lang of bgp.Data.guiLanguages) {
-        let url = chrome.extension.getURL('/._locales/' + lang + '/messages.json');
-        let response = await fetch(url);
-        let text = await response.text();
-        let items = JSON.parse(text);
-        for (let [key, item] of Object.entries(items)) {
+    for (const lang of bgp.Data.guiLanguages) {
+        const url = chrome.extension.getURL('/._locales/' + lang + '/messages.json');
+        const response = await fetch(url);
+        const text = await response.text();
+        const items = JSON.parse(text);
+        for (const [key, item] of Object.entries(items)) {
             let message = item.message;
-            let placeholders = item.placeholders;
+            const placeholders = item.placeholders;
             if (placeholders) {
-                let hash = {};
-                for (let [key, item] of Object.entries(placeholders)) hash[key.toLowerCase()] = item.content;
+                const hash = {};
+                for (const [key, item] of Object.entries(placeholders)) hash[key.toLowerCase()] = item.content;
                 message = message.replace(/\$([a-z][a-z0-9_]*)\$/gi, (t, name) => hash[name.toLowerCase()]);
             }
             result[lang + '@' + key.toLowerCase()] = {

@@ -1,19 +1,22 @@
 /*global chrome Dialog*/
-var language = 'en';
-var collectMethod = 'standard';
+/*eslint-disable prefer-const*/
+let language = 'en';
+let collectMethod = 'standard';
 // eslint-disable-next-line no-unused-vars
-var removeGhosts = 0;
-var unmatched = '';
-var confirmCollection = false;
-var wait = Dialog(Dialog.WAIT);
-var dialog = Dialog();
-var retries = 10;
-var hashById = {};
-var friends = [];
-var ulInactiveParent = null;
-var ulInactive = null;
-var liInactive = [];
-var container, captureOneBlock, unmatchedList;
+let removeGhosts = 0;
+let unmatched = '';
+let confirmCollection = false;
+/*eslint-enable prefer-const*/
+
+const wait = Dialog(Dialog.WAIT);
+const dialog = Dialog();
+let retries = 10;
+const hashById = {};
+const friends = [];
+let ulInactiveParent = null;
+let ulInactive = null;
+const liInactive = [];
+let container, captureOneBlock, unmatchedList;
 
 console.log('Collection start', new Date());
 
@@ -24,7 +27,7 @@ function getMessage(id, ...args) {
 }
 
 function addFriend(friend) {
-    var old = hashById[friend.id];
+    const old = hashById[friend.id];
     if (old) {
         if (friend.uri) old.uri = friend.uri;
         if (friend.disabled) old.disabled = true;
@@ -129,7 +132,7 @@ function getFriendIdFromUri(uri) {
 
 function captureOneBlockOld() {
     let count = 0;
-    let ul = container && container.getElementsByClassName('uiList')[0];
+    const ul = container && container.getElementsByClassName('uiList')[0];
     if (!ul) return -1;
     for (const li of Array.from(ul.getElementsByTagName('li'))) {
         for (const item of Array.from(li.getElementsByTagName('a'))) {

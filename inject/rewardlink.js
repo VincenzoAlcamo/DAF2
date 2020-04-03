@@ -55,7 +55,7 @@ if (data) {
 
     div = document.getElementsByClassName('da-receiving-text')[0];
     if (div) {
-        let text = div.textContent;
+        const text = div.textContent;
         if ((match = reWait.exec(text))) {
             // All links collected, retry in xxh yym
             data.cmt = -3;
@@ -79,7 +79,7 @@ if (data) {
         action: 'collectRewardLink',
         reward: data
     }, function (htm) {
-        var div = document.getElementsByClassName('playerIdInfo')[0];
+        const div = document.getElementsByClassName('playerIdInfo')[0];
         if (!chrome.runtime.lastError && div && htm) {
             const p = div.ownerDocument.importNode((new DOMParser()).parseFromString(`<div>${htm}</div>`, 'text/html').body.querySelector('div'), true);
             div.parentNode.insertBefore(p, div);

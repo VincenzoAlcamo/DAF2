@@ -2,8 +2,8 @@
 export default kitchenFoundry;
 
 function kitchenFoundry(type) {
-    var tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom;
-    var swDoubleProduction, swHalfTimeProduction;
+    let tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom;
+    let swDoubleProduction, swHalfTimeProduction;
 
     function init() {
         tab = this;
@@ -39,13 +39,13 @@ function kitchenFoundry(type) {
     }
 
     function update() {
-        let specialWeeks = gui.getActiveSpecialWeeks();
+        const specialWeeks = gui.getActiveSpecialWeeks();
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
-        let htm = [];
+        const htm = [];
         if (swDoubleProduction) htm.push(Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`);
         if (swHalfTimeProduction) htm.push(Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`);
-        let divWeeks = container.querySelector('.toolbar .weeks');
+        const divWeeks = container.querySelector('.toolbar .weeks');
         Dialog.htmlToDOM(divWeeks, htm.join(''));
         divWeeks.style.display = htm.length ? '' : 'none';
         for (const el of Array.from(container.querySelectorAll('[sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
@@ -61,7 +61,7 @@ function kitchenFoundry(type) {
     }
 
     function getNumSlots() {
-        var generator = gui.getGenerator();
+        const generator = gui.getGenerator();
         if (type == 'recipe') return (generator.pots && generator.pots.length) || 4;
         if (type == 'alloy') return (generator.anvils && generator.anvils.length) || 1;
         return 4;
@@ -95,11 +95,11 @@ function kitchenFoundry(type) {
             return +item.unlocked == 1 || unlocked.includes(+item.def_id);
         });
 
-        var result = [];
-        for (var item of productions) {
-            var cargo = item.cargo.find(item => item.type == 'usable' || item.type == 'material' || (item.type == 'token' && tokens[item.object_id].name_loc != ''));
+        let result = [];
+        for (const item of productions) {
+            const cargo = item.cargo.find(item => item.type == 'usable' || item.type == 'material' || (item.type == 'token' && tokens[item.object_id].name_loc != ''));
             if (!cargo) continue;
-            var p = {};
+            const p = {};
             p.id = item.def_id;
             p.level = Math.max(+item.req_level, 1);
             p.region = Math.max(+item.region_id, 1);
@@ -110,7 +110,7 @@ function kitchenFoundry(type) {
             p.qty = +cargo.max || 1;
             // Tokens are not doubles (Jade/Obsidian key)
             if (swDoubleProduction && cargo.type != 'token') p.qty *= 2;
-            var c = null;
+            let c = null;
             if (cargo.type == 'usable') c = usables[cargo.object_id];
             else if (cargo.type == 'material') c = materials[cargo.object_id];
             else if (cargo.type == 'token') c = tokens[cargo.object_id];
@@ -119,19 +119,19 @@ function kitchenFoundry(type) {
             p.cimg = gui.getObjectImage(cargo.type, cargo.object_id, true);
             p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || 0;
             p.eid = +item.event_id;
-            var event = p.eid ? events && events[p.eid] : null;
+            const event = p.eid ? events && events[p.eid] : null;
             p.ename = (event && gui.getString(event.name_loc)) || '';
             p.eimg = event && gui.getObjectImage('event', p.eid);
             p.time = +item.duration;
             if (swHalfTimeProduction) p.time *= swHalfTimeProduction.coeficient;
             p.energy_per_hour = p.time ? Math.round(p.energy / p.time * 3600) : 0;
             p.ingredients = [];
-            var numProd = 0,
+            let numProd = 0,
                 maxProd = 0;
-            for (var req of item.requirements) {
-                var matId = req.material_id;
-                var mat = materials[matId];
-                var ingredient = {
+            for (const req of item.requirements) {
+                const matId = req.material_id;
+                const mat = materials[matId];
+                const ingredient = {
                     id: matId,
                     img: mat && gui.getObjectImage('material', matId, true),
                     dsc: (mat && mat.desc && gui.getString(mat.desc)) || '',
@@ -151,8 +151,8 @@ function kitchenFoundry(type) {
         }
 
         // For each production, register the maximum region associated with that production's name
-        var hash = {};
-        for (let item of result) {
+        const hash = {};
+        for (const item of result) {
             if (item.eid > 0 && item.region > generator.events_region[item.eid]) continue;
             hash[item.name] = Math.max(hash[item.name] || 1, item.region);
         }
@@ -163,25 +163,25 @@ function kitchenFoundry(type) {
     }
 
     function recreateRows() {
-        var hasQty = type == 'alloy';
-        var hasEnergy = type == 'recipe';
-        var hasEvent = type == 'recipe';
+        const hasQty = type == 'alloy';
+        const hasEnergy = type == 'recipe';
+        const hasEvent = type == 'recipe';
 
         function getIngredient(ingredient) {
             return Html.br`<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
-        for (let p of productions) {
-            var rspan = p.ingredients.length;
-            var title = p.cname;
+        for (const p of productions) {
+            const rspan = p.ingredients.length;
+            let title = p.cname;
             if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
             let htm = '';
             htm += Html.br`<td rowspan="${rspan}"><img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/></td>`;
             htm += Html.br`<td rowspan="${rspan}">${p.name}</td>`;
             htm += Html.br`<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;
             if (hasEvent) {
-                var eimage = '';
+                let eimage = '';
                 if (p.eid != 0) {
-                    var wikiPage = ''; // wikiEvents[p.eid]
+                    const wikiPage = ''; // wikiEvents[p.eid]
                     eimage = Html.br`<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
                 }
                 htm += Html.br`<td rowspan="${rspan}">${eimage}</td>`;
@@ -201,12 +201,12 @@ function kitchenFoundry(type) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
             }
             htm += Html.br`<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
-            let row = document.createElement('tr');
+            const row = document.createElement('tr');
             row.setAttribute('data-id', p.id);
             Dialog.htmlToDOM(row, htm);
             p.rows = [row];
             for (let i = 1; i < p.ingredients.length; i++) {
-                let row = document.createElement('tr');
+                const row = document.createElement('tr');
                 row.classList.add('ingredient');
                 Dialog.htmlToDOM(row, getIngredient(p.ingredients[i]));
                 p.rows.push(row);
@@ -215,21 +215,21 @@ function kitchenFoundry(type) {
     }
 
     function refresh() {
-        var flagRecreate = false;
-        var sort;
+        let flagRecreate = false;
+        let sort;
 
         triggerSearchHandler(false);
         gui.updateTabState(tab);
-        let state = getState();
+        const state = getState();
         state.search = (state.search || '').toUpperCase();
-        let fnSearch = gui.getSearchFilter(state.search);
+        const fnSearch = gui.getSearchFilter(state.search);
 
         smartTable.showFixed(false);
 
         sort = gui.getSortInfoText(smartTable.sort);
         if (sort != oldState.sort) {
             oldState.sort = sort;
-            let name = smartTable.sort.name;
+            const name = smartTable.sort.name;
             if (smartTable.sort.ascending) productions.sort((a, b) => (name != 'name' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
             else productions.sort((a, b) => (name != 'name' ? b[name] - a[name] : 0) || a.name.localeCompare(b.name));
         }
@@ -237,7 +237,7 @@ function kitchenFoundry(type) {
         sort = gui.getSortInfoText(smartTable.sortSub);
         if (sort && sort != oldState.sortSub) {
             oldState.sortSub = sort;
-            let name = smartTable.sortSub.name;
+            const name = smartTable.sortSub.name;
             productions.forEach(p => {
                 p.ingredients.sort((a, b) => (name != 'ingredient' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
                 if (!smartTable.sortSub.ascending) p.ingredients.reverse();
@@ -248,9 +248,9 @@ function kitchenFoundry(type) {
         if (productions[0] && !productions[0].rows) flagRecreate = true;
         if (flagRecreate) recreateRows();
 
-        var generator = gui.getGenerator();
-        var level = +generator.level;
-        var region = +generator.region;
+        const generator = gui.getGenerator();
+        const level = +generator.level;
+        const region = +generator.region;
 
         function isVisible(p) {
             if (state.show == 'possible' && (p.output == 0 || level < p.level || region < p.region)) return false;
@@ -260,15 +260,15 @@ function kitchenFoundry(type) {
             return true;
         }
 
-        var isOdd = false;
-        var tbody = smartTable.tbody[0];
+        let isOdd = false;
+        const tbody = smartTable.tbody[0];
         Dialog.htmlToDOM(tbody, '');
-        let total = productions.length;
-        let items = productions.filter(isVisible);
-        for (let p of items) {
+        const total = productions.length;
+        const items = productions.filter(isVisible);
+        for (const p of items) {
             isOdd = !isOdd;
-            let toggleOdd = isOdd != p.rows[0].classList.contains('odd');
-            for (let row of p.rows) {
+            const toggleOdd = isOdd != p.rows[0].classList.contains('odd');
+            for (const row of p.rows) {
                 if (toggleOdd) row.classList.toggle('odd', isOdd);
                 tbody.appendChild(row);
             }

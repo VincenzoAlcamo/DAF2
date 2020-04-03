@@ -33,19 +33,19 @@ function init() {
 }
 
 function update() {
-    let pillarsInfo = bgp.Data.getPillarsInfo();
+    const pillarsInfo = bgp.Data.getPillarsInfo();
 
-    let sales = gui.getFile('sales');
-    let decorations = gui.getFile('decorations');
-    let materialInventory = gui.getGenerator().materials;
+    const sales = gui.getFile('sales');
+    const decorations = gui.getFile('decorations');
+    const materialInventory = gui.getGenerator().materials;
     pillars = [];
-    for (let saleId of pillarsInfo.sales) {
-        let sale = sales[saleId];
-        let decoration = decorations[sale.object_id];
-        let req = sale.requirements[0];
+    for (const saleId of pillarsInfo.sales) {
+        const sale = sales[saleId];
+        const decoration = decorations[sale.object_id];
+        const req = sale.requirements[0];
         if (decoration && req) {
-            let matId = req.material_id;
-            let pillar = {};
+            const matId = req.material_id;
+            const pillar = {};
             pillar.did = +decoration.def_id;
             pillar.img = gui.getObjectImage('decoration', pillar.did);
             pillar.excluded = pillarsExcluded.includes(pillar.did);
@@ -96,21 +96,21 @@ function setState(state) {
 
 function toggleCap() {
     gui.updateTabState(tab);
-    let state = getState();
+    const state = getState();
     pillars.forEach(pillar => updateQty(pillar, state));
     refreshTotals();
 }
 
 function updatePillar(e) {
-    let el = e.target;
-    let td = el.parentNode;
-    let did = parseInt(td.getAttribute('did'));
-    let pillar = pillars.find(pillar => pillar.did == did);
+    const el = e.target;
+    const td = el.parentNode;
+    const did = parseInt(td.getAttribute('did'));
+    const pillar = pillars.find(pillar => pillar.did == did);
     if (el.type == 'checkbox') {
         if (e.ctrlKey) {
             e.preventDefault();
-            let setAsMax = pillar.qty == 0;
-            for (let pillar of pillars) {
+            const setAsMax = pillar.qty == 0;
+            for (const pillar of pillars) {
                 pillar.qty = setAsMax ? pillar.possible : 0;
                 updateQty(pillar);
             }
@@ -131,15 +131,15 @@ function updatePillar(e) {
 
 function updateQty(pillar, state) {
     state = state || getState();
-    let max = state.uncapped ? 999 : pillar.possible;
+    const max = state.uncapped ? 999 : pillar.possible;
     pillar.qty = Math.min(Math.max(pillar.qty, 0), max);
     pillar.predicted_xp = pillar.qty * pillar.xp;
     pillar.predicted_coins = pillar.qty * pillar.coins;
-    let input = container.querySelector('td[did="' + pillar.did + '"] input[type=number]');
+    const input = container.querySelector('td[did="' + pillar.did + '"] input[type=number]');
     if (input) {
         input.value = pillar.qty;
         input.max = max;
-        let td = input.parentNode;
+        const td = input.parentNode;
         if (!td.classList.contains('grid')) {
             td.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_xp);
             td.nextElementSibling.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_coins);
@@ -148,11 +148,11 @@ function updateQty(pillar, state) {
 }
 
 function refreshTotals() {
-    let levelups = gui.getFile('levelups');
+    const levelups = gui.getFile('levelups');
 
     function setProgress(className, level, xp) {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
-            let levelup = levelups[level - 1];
+            const levelup = levelups[level - 1];
             let div = parent.querySelectorAll('div');
             Dialog.htmlToDOM(div[1], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`);
             Dialog.htmlToDOM(div[2], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`);
@@ -162,7 +162,7 @@ function refreshTotals() {
             div.setAttribute('max', levelup.xp);
         });
     }
-    let tot, qty, xp, coins, maxXp, maxCoins, maxBoost, level, exp, nextLevel, nextExp, boost, totalExp, food, maxFood, maxLevel, coins2, maxCoins2;
+    let tot, qty, xp, coins, maxXp, maxCoins, maxBoost, nextLevel, nextExp, boost, totalExp, food, maxFood, maxLevel, coins2, maxCoins2;
     tot = qty = xp = coins = boost = maxXp = maxCoins = maxBoost = food = maxFood = coins2 = maxCoins2 = 0;
     pillars.forEach(pillar => {
         tot += pillar.possible;
@@ -172,12 +172,12 @@ function refreshTotals() {
         maxXp += pillar.possible * pillar.xp;
         maxCoins += pillar.possible * pillar.coins;
     });
-    let generator = gui.getGenerator();
-    level = nextLevel = maxLevel = +generator.level;
-    exp = +generator.exp;
+    const generator = gui.getGenerator();
+    const level = nextLevel = maxLevel = +generator.level;
+    const exp = +generator.exp;
     nextExp = exp + xp;
     totalExp = exp + maxXp;
-    for (let levelup of levelups) {
+    for (const levelup of levelups) {
         if (levelup.def_id < level) continue;
         let thisFood = 0;
         for (const reward of levelup.reward) {
@@ -232,11 +232,11 @@ function refresh() {
     smartTable.showFixed(false);
     Dialog.htmlToDOM(smartTable.tbody[0], '');
 
-    let state = getState();
-    let generator = gui.getGenerator();
-    let level = +generator.level;
-    let region = +generator.region;
-    let fnSearch = gui.getSearchFilter(state.search);
+    const state = getState();
+    const generator = gui.getGenerator();
+    const level = +generator.level;
+    const region = +generator.region;
+    const fnSearch = gui.getSearchFilter(state.search);
 
     function isVisible(p) {
         if (state.show == 'possible' && (p.possible == 0 || level < p.level || region < p.region)) return false;
@@ -244,7 +244,7 @@ function refresh() {
         return true;
     }
 
-    let sort = gui.getSortFunction(null, smartTable, 'name');
+    const sort = gui.getSortFunction(null, smartTable, 'name');
     pillars = sort(pillars);
 
     Array.from(container.querySelectorAll('.pillars thead th')).forEach(th => {
@@ -265,10 +265,10 @@ function refresh() {
 
     let htm = '';
     let isOdd = false;
-    let titleIgnore = gui.getMessage('pillars_ignore');
+    const titleIgnore = gui.getMessage('pillars_ignore');
     let index = 0;
-    for (let pillar of pillars.filter(isVisible)) {
-        let htmInputs = Html.br`<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
+    for (const pillar of pillars.filter(isVisible)) {
+        const htmInputs = Html.br`<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
         if (state.grid) {
             index++;
             if (index == 9) {
@@ -312,10 +312,10 @@ function refresh() {
 }
 
 function onTooltip(event) {
-    let element = event.target;
+    const element = event.target;
     element.removeAttribute('title');
-    let did = parseInt(element.parentNode.getAttribute('did'));
-    let pillar = pillars.find(pillar => pillar.did == did);
-    let htm = Html.br`<div class="pillars-tooltip"><img src="${pillar.img}"}" class="outlined"/><span>${pillar.name}</span></div>`;
+    const did = parseInt(element.parentNode.getAttribute('did'));
+    const pillar = pillars.find(pillar => pillar.did == did);
+    const htm = Html.br`<div class="pillars-tooltip"><img src="${pillar.img}"}" class="outlined"/><span>${pillar.name}</span></div>`;
     Tooltip.show(element, htm);
 }

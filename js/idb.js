@@ -22,13 +22,13 @@ Source  : https://github.com/jakearchibald/idb
 Notes   : Retrieved on 2018-04-15 and later modified by Vincenzo Alcamo
 */
 // eslint-disable-next-line no-unused-vars
-let idb = (function () {
+const idb = (function () {
     'use strict';
 
     // This function can be called with one parameter (request) or three parameters
     function promisifyRequest(obj, method, args) {
-        var request = arguments.length == 1 ? obj : null;
-        var p = new Promise(function (resolve, reject) {
+        let request = arguments.length == 1 ? obj : null;
+        const p = new Promise(function (resolve, reject) {
             // we call the method here, so the Promise constructor can catch an eventual exception
             request = request || obj[method].apply(obj, args);
             request.onsuccess = function () {
@@ -43,7 +43,7 @@ let idb = (function () {
     }
 
     function proxify(ProxyClass, Constructor, options) {
-        var prototype = Constructor.prototype;
+        const prototype = Constructor.prototype;
         if (options.properties) options.properties.forEach(function (name) {
             Object.defineProperty(ProxyClass.prototype, name, {
                 get: function () {
@@ -66,7 +66,7 @@ let idb = (function () {
         });
         if (options.cursorRequestMethods) options.cursorRequestMethods.forEach(function (name) {
             if (name in prototype) ProxyClass.prototype[name] = function () {
-                var p = promisifyRequest(this._native, name, arguments);
+                const p = promisifyRequest(this._native, name, arguments);
                 return p.then(function (value) {
                     return value && new Cursor(value, p.request);
                 });
@@ -97,7 +97,7 @@ let idb = (function () {
     // proxy 'next' methods
     ['advance', 'continue', 'continuePrimaryKey'].forEach(function (name) {
         if (name in IDBCursor.prototype) Cursor.prototype[name] = function () {
-            var cursor = this,
+            const cursor = this,
                 args = arguments;
             return Promise.resolve().then(function () {
                 cursor._native[name].apply(cursor._native, args);
@@ -122,29 +122,29 @@ let idb = (function () {
 
     // Bulk add / put
     ['bulkAdd', 'bulkPut'].forEach(function (methodName) {
-        var name = methodName.substr(4).toLowerCase();
+        const name = methodName.substr(4).toLowerCase();
         ObjectStore.prototype[methodName] = function (items) {
-            var store = this._native;
+            const store = this._native;
             return new Promise(function (resolve, reject) {
-                var array = Array.isArray(items) ? items : [items],
-                    len = array.length,
-                    fired = false,
-                    count = 0,
-                    success = function () {
-                        count += 1;
-                        if (count == len && !fired) {
-                            fired = true;
-                            resolve(this.result);
-                        }
-                    },
-                    error = function () {
-                        if (!fired) {
-                            fired = true;
-                            reject(this.error);
-                        }
-                    };
-                for (var i = 0; i < len; i++) {
-                    var request = store[name](array[i]);
+                const array = Array.isArray(items) ? items : [items];
+                const len = array.length;
+                let fired = false;
+                let count = 0;
+                const success = function () {
+                    count += 1;
+                    if (count == len && !fired) {
+                        fired = true;
+                        resolve(this.result);
+                    }
+                };
+                const error = function () {
+                    if (!fired) {
+                        fired = true;
+                        reject(this.error);
+                    }
+                };
+                for (let i = 0; i < len; i++) {
+                    const request = store[name](array[i]);
                     request.onsuccess = success;
                     request.onerror = error;
                 }
@@ -213,10 +213,10 @@ let idb = (function () {
     ['openCursor', 'openKeyCursor'].forEach(function (funcName) {
         [ObjectStore, Index].forEach(function (Constructor) {
             Constructor.prototype[funcName.replace('open', 'iterate')] = function () {
-                var args = Array.from(arguments);
-                var callback = args[args.length - 1];
-                var nativeObject = this._native;
-                var request = nativeObject[funcName].apply(nativeObject, args.slice(0, -1));
+                const args = Array.from(arguments);
+                const callback = args[args.length - 1];
+                const nativeObject = this._native;
+                const request = nativeObject[funcName].apply(nativeObject, args.slice(0, -1));
                 request.onsuccess = function () {
                     callback(request.result);
                 };
@@ -226,7 +226,7 @@ let idb = (function () {
 
     return {
         open: function (name, version, upgradeCallback) {
-            var p = promisifyRequest(indexedDB, 'open', [name, version]);
+            const p = promisifyRequest(indexedDB, 'open', [name, version]);
             p.request.onupgradeneeded = function (event) {
                 if (upgradeCallback) {
                     upgradeCallback(new UpgradeDB(event.target.result, event.oldVersion, event.target.transaction));

@@ -1,10 +1,12 @@
 /*global chrome Dialog*/
 
+/*eslint-disable prefer-const*/
 let linkGrabButton = 2;
 let linkGrabKey = 0;
 let linkGrabSort = 1;
 let linkGrabConvert = 0;
 let language = 'en';
+/*eslint-enable prefer-const*/
 
 const LEFT_BUTTON = 0;
 const KEY_ESC = 27;
@@ -56,7 +58,7 @@ function removeListeners(obj, _args) {
 // eslint-disable-next-line no-unused-vars
 function initialize() {
     Dialog.language = language;
-    var link = document.createElement('link');
+    const link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = chrome.extension.getURL('inject/linkgrabber.css');
@@ -82,7 +84,7 @@ function setPosition(el, x, y, width, height) {
 }
 
 function mousedown(event) {
-    var key = keyPressed;
+    const key = keyPressed;
     // stop will reset keyPressed
     stop();
     keyPressed = key;
@@ -126,7 +128,7 @@ function mousemove(event) {
     if (flagBox || allowSelection()) {
         mouseX = event.clientX, mouseY = event.clientY;
 
-        var el = document.elementsFromPoint(mouseX, mouseY).find(el => el !== box && el !== countLabel);
+        let el = document.elementsFromPoint(mouseX, mouseY).find(el => el !== box && el !== countLabel);
         if (!el || !el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/)) el = null;
         if (autoOpenElement !== el) {
             if (autoOpenElement && autoOpenCount <= 0) {
@@ -143,10 +145,10 @@ function mousemove(event) {
 }
 
 function updateBox() {
-    var x = mouseX + window.scrollX;
-    var y = mouseY + window.scrollY;
-    var width = Math.max(document.documentElement['clientWidth'], document.body['scrollWidth'], document.documentElement['scrollWidth'], document.body['offsetWidth'], document.documentElement['offsetWidth']);
-    var height = Math.max(document.documentElement['clientHeight'], document.body['scrollHeight'], document.documentElement['scrollHeight'], document.body['offsetHeight'], document.documentElement['offsetHeight']);
+    let x = mouseX + window.scrollX;
+    let y = mouseY + window.scrollY;
+    const width = Math.max(document.documentElement['clientWidth'], document.body['scrollWidth'], document.documentElement['scrollWidth'], document.body['offsetWidth'], document.documentElement['offsetWidth']);
+    const height = Math.max(document.documentElement['clientHeight'], document.body['scrollHeight'], document.documentElement['scrollHeight'], document.body['offsetHeight'], document.documentElement['offsetHeight']);
     x = Math.min(x, width - 7);
     y = Math.min(y, height - 7);
 
@@ -156,7 +158,7 @@ function updateBox() {
     box.y2 = Math.max(startY, y);
     setPosition(box, box.x1, box.y1, box.x2 - box.x1, box.y2 - box.y1);
 
-    var cx = x;
+    let cx = x;
     if (y <= startY) cx -= Math.floor(countLabel.offsetWidth / 2);
     else if (x <= startX) cx -= countLabel.offsetWidth;
     setPosition(countLabel, cx, y - countLabel.offsetHeight);
@@ -195,16 +197,16 @@ function start() {
 
     links = document.links;
     linkCount = links.length;
-    var offsetLeft = window.scrollX;
-    var offsetTop = window.scrollY;
+    const offsetLeft = window.scrollX;
+    const offsetTop = window.scrollY;
     links = Array.from(links).filter(a => {
         if (a.href.indexOf('diggysadventure') < 0) return false;
 
-        var rect = a.getBoundingClientRect();
+        const rect = a.getBoundingClientRect();
         if (rect.height > 0) {
-            var left = offsetLeft + rect.left;
-            var top = offsetTop + rect.top;
-            var daf = {
+            const left = offsetLeft + rect.left;
+            const top = offsetTop + rect.top;
+            const daf = {
                 x1: Math.floor(left),
                 y1: Math.floor(top),
                 x2: Math.floor(left + rect.width),
@@ -235,7 +237,7 @@ function stop() {
     flagBox = false;
 
     // remove the link boxes
-    for (let a of Array.from(document.links)) {
+    for (const a of Array.from(document.links)) {
         if (a && a.daf) {
             if (a.daf.box) a.daf.box.parentNode.removeChild(a.daf.box);
             delete a.daf;
@@ -249,11 +251,11 @@ function stop() {
 }
 
 function scroll() {
-    var y = mouseY;
-    var win_height = window.innerHeight;
+    const y = mouseY;
+    const win_height = window.innerHeight;
 
     function scrollPage(speed, direction) {
-        var value = (speed < 2 ? 60 : (speed < 10 ? 30 : 10)) * direction;
+        const value = (speed < 2 ? 60 : (speed < 10 ? 30 : 10)) * direction;
         window.scrollBy(0, value);
         updateBox();
         detect();
@@ -277,17 +279,17 @@ function detect() {
 
     if (!scrollHandle) scrollHandle = setInterval(scroll, 100);
 
-    var count = 0;
-    var total = 0;
-    var hash = {};
-    for (let a of links) {
-        var daf = a.daf;
+    let count = 0;
+    let total = 0;
+    const hash = {};
+    for (const a of links) {
+        const daf = a.daf;
         let selected = false;
         if (daf.y1 <= box.y2 && daf.y2 >= box.y1 && daf.x1 <= box.x2 && daf.x2 >= box.x1) {
             if (!('data' in daf)) {
-                var href = a.href;
+                let href = a.href;
                 if (href.endsWith('/diggysadventure/?hc_location=ufi')) href = a.textContent;
-                let result = LinkData.getLinkData(href);
+                const result = LinkData.getLinkData(href);
                 daf.data = result.length ? result[0] : null;
             }
             if (daf.data) {
@@ -315,7 +317,7 @@ function detect() {
         return '\n' + key + ' = ' + getMessage(messageId);
     }
 
-    var text = getMessage('linkgrabber_selected', count, total);
+    let text = getMessage('linkgrabber_selected', count, total);
     if (count > 0) {
         text += addFn('C/F/P', 'linkgrabber_fn_copy');
         text += addFn('S', 'linkgrabber_fn_send');
@@ -331,7 +333,7 @@ function detect() {
     if (text != oldLabel) countLabel.innerText = oldLabel = text;
 }
 
-var fnHandlers = {
+const fnHandlers = {
     [KEY_ESC]: (_event) => stop(),
     [KEY_R]: (_event) => start() + detect(),
     [KEY_I]: (_event) => document.body.classList.toggle('DAF-show-id'),
@@ -341,7 +343,7 @@ var fnHandlers = {
     [KEY_T]: (_event) => { stop(); collect(false); },
     [KEY_Y]: (_event) => { stop(); collect(true); },
     [KEY_S]: (_event) => {
-        var values = collectData(true);
+        const values = collectData(true);
         stop();
         if (values.length) {
             chrome.runtime.sendMessage({
@@ -396,8 +398,8 @@ const LinkData = (function () {
     const rePortal = /https?:\/\/portal\.pixelfederation\.com\/(([^/]+\/)?gift|wallpost)\/diggysadventure\?params=(([0-9a-zA-Z\-_]|%2B|%2F)+(%3D){0,2})/g;
 
     function getLinkData(href) {
-        let result = [];
-        let hash = {};
+        const result = [];
+        const hash = {};
         let match, data;
 
         function getObj(id, typ, sig) {
@@ -428,9 +430,9 @@ const LinkData = (function () {
             rePortal.lastIndex = 0;
             while ((match = rePortal.exec(href))) {
                 try {
-                    let params = decodeURIComponent(match[3]).replace(/-/g, '+').replace(/_/g, '/');
-                    let payload = atob(params);
-                    let json = JSON.parse(payload);
+                    const params = decodeURIComponent(match[3]).replace(/-/g, '+').replace(/_/g, '/');
+                    const payload = atob(params);
+                    const json = JSON.parse(payload);
                     if (json.wp_id && json.fb_type && json.wp_sig) {
                         data = getObj(json.wp_id, json.fb_type, json.wp_sig);
                         if (data) result.push(data);
@@ -443,7 +445,7 @@ const LinkData = (function () {
 
     function getLink(data, convert = 0) {
         if ((data.typ == 'portal' && convert == 0) || convert == 2) {
-            var json = JSON.stringify({
+            const json = JSON.stringify({
                 action: 'wallpost',
                 wp_id: data.id,
                 fb_type: data.typ,
@@ -451,7 +453,7 @@ const LinkData = (function () {
             });
             return 'https://portal.pixelfederation.com/wallpost/diggysadventure?params=' + encodeURIComponent(btoa(json));
         }
-        let url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
+        const url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
         return convert == 3 ? 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url) : url;
     }
 
@@ -463,22 +465,22 @@ const LinkData = (function () {
 //#endregion
 
 function collectData(flagGetUserData) {
-    let values = [];
-    let hash = {};
-    let reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
+    const values = [];
+    const hash = {};
+    const reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
     let cid, cnm;
 
     function getActor(actors) {
         cid = cnm = undefined;
         let invalid = false;
-        for (let actor of actors) {
-            let hovercard = actor.getAttribute('data-hovercard');
+        for (const actor of actors) {
+            const hovercard = actor.getAttribute('data-hovercard');
             if (!hovercard) continue;
-            let match = hovercard.match(reCid);
+            const match = hovercard.match(reCid);
             if (!match) continue;
             cid = match[2];
-            for (var node = actor.firstChild; node; node = node.nextSibling) {
-                let text = node.nodeType == Node.TEXT_NODE ? node.textContent.trim() : '';
+            for (let node = actor.firstChild; node; node = node.nextSibling) {
+                const text = node.nodeType == Node.TEXT_NODE ? node.textContent.trim() : '';
                 if (text != '') {
                     if (text.indexOf('://') >= 0) invalid = true;
                     else {
@@ -495,12 +497,12 @@ function collectData(flagGetUserData) {
             if (cnm) break;
         }
     }
-    for (let a of links) {
-        var data = a.daf && a.daf.selected && a.daf.data;
+    for (const a of links) {
+        const data = a.daf && a.daf.selected && a.daf.data;
         if (data && !(data.id in hash)) {
             if (flagGetUserData) {
-                var parent = a.parentNode;
-                for (var depth = 12; parent && depth > 0; depth--) {
+                let parent = a.parentNode;
+                for (let depth = 12; parent && depth > 0; depth--) {
                     getActor(parent.querySelectorAll('[data-hovercard]:not(.DAF-invalid)'));
                     if (cid && (!data.cid || data.cid == cid)) {
                         data.cid = cid;
@@ -518,7 +520,7 @@ function collectData(flagGetUserData) {
 }
 
 function collectLinks(convert) {
-    var values = collectData();
+    let values = collectData();
     if (convert === undefined) convert = linkGrabConvert;
     if (convert != 1 && convert != 2 && convert != 3) convert = 0;
     if (linkGrabSort) values.sort((a, b) => a.id - b.id);
@@ -528,10 +530,10 @@ function collectLinks(convert) {
 }
 
 function copyLinksToClipboard(convert) {
-    var values = collectLinks(convert);
+    const values = collectLinks(convert);
     stop();
     if (values.length) {
-        var text = values.join('\n') + '\n';
+        const text = values.join('\n') + '\n';
         copyToClipboard(text);
         Dialog(Dialog.TOAST).show({
             text: getMessage('linkgrabber_copied', values.length)
@@ -551,13 +553,14 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 
 function collect(confirmCollection) {
     const autoClose = false;
-    let collectMethod = 'standard';
-    let unmatched = '';
+    const collectMethod = 'standard';
+    const unmatched = '';
     const wait = Dialog(Dialog.WAIT);
     const dialog = Dialog();
     let retries = 10;
     const friends = [];
-    let ulInactiveParent = null, ulInactive = null, liInactive = [];
+    let ulInactiveParent = null, ulInactive = null;
+    const liInactive = [];
     let container, captureOneBlock, unmatchedList;
 
     function addFriend(friend) {
@@ -661,7 +664,7 @@ function collect(confirmCollection) {
 
     function captureOneBlockOld() {
         let count = 0;
-        let ul = container && container.getElementsByClassName('uiList')[0];
+        const ul = container && container.getElementsByClassName('uiList')[0];
         if (!ul) return -1;
         for (const li of Array.from(ul.getElementsByTagName('li'))) {
             for (const item of Array.from(li.getElementsByTagName('a'))) {

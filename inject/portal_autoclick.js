@@ -7,7 +7,7 @@
     let count = 10;
 
     function detect(element) {
-        let form = element.form;
+        const form = element.form;
         if (!form) return 'no-form';
         // guard against payments
         if (element.getAttribute('data-testid') == 'pay_button') return 'is-pay';
@@ -28,7 +28,7 @@
         element = document.querySelector('.layerConfirm[name=__CONFIRM__]');
         console.log(count, timeout, element);
         if (element) {
-            let exception = detect(element);
+            const exception = detect(element);
             if (exception) {
                 console.log(exception);
                 return;

@@ -7,7 +7,7 @@ export default {
     setState: setState,
     visibilityChange: visibilityChange,
     requires: (function () {
-        var requires = ['materials', 'map_filters', 'events', 'special_weeks'];
+        const requires = ['materials', 'map_filters', 'events', 'special_weeks'];
         for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
         return requires;
     })()
@@ -51,17 +51,17 @@ function update() {
     repeatables = {};
 
     // Find active events
-    let activeEvents = {};
-    let events = gui.getFile('events');
-    let generator = gui.getGenerator();
-    let eventData = generator.events || {};
-    let eventsRegion = generator.events_region || {};
-    let region = +generator.region;
-    let now = gui.getUnixTime();
-    for (let event of Object.values(events)) {
+    const activeEvents = {};
+    const events = gui.getFile('events');
+    const generator = gui.getGenerator();
+    const eventData = generator.events || {};
+    const eventsRegion = generator.events_region || {};
+    const region = +generator.region;
+    const now = gui.getUnixTime();
+    for (const event of Object.values(events)) {
         if (!event.name_loc) continue;
-        let eid = event.def_id;
-        let edata = eventData[eid];
+        const eid = event.def_id;
+        const edata = eventData[eid];
         let end = +event.end || 0;
         end = (edata && +edata.finished) || end;
         if (end > now) activeEvents[eid] = end;
@@ -70,10 +70,10 @@ function update() {
     // This will refresh the background page Repeatables
     const allRepeatables = gui.getRepeatables();
 
-    let filters = Object.values(gui.getFile('map_filters')).filter(f => f.mobile_asset == 'materials').map(o => o.filter);
+    const filters = Object.values(gui.getFile('map_filters')).filter(f => f.mobile_asset == 'materials').map(o => o.filter);
     for (let rid = region; rid >= 0; rid--) {
-        let locations = Object.values(gui.getFile('locations_' + rid));
-        for (let loc of locations) {
+        const locations = Object.values(gui.getFile('locations_' + rid));
+        for (const loc of locations) {
             const lid = +loc.def_id;
             if (!(lid in allRepeatables)) continue;
             let expire = 0;
@@ -85,7 +85,7 @@ function update() {
                 expire = activeEvents[eid];
                 if (!expire) continue;
             }
-            let item = {};
+            const item = {};
             item.id = lid;
             item.name = gui.getString(loc.name_loc);
             item.rid = rid;
@@ -99,7 +99,7 @@ function update() {
                 let rid = region;
                 if (eid in eventsRegion) rid = +eventsRegion[eid];
                 if (rid > region) rid = region;
-                for (let ovr of loc.overrides) {
+                for (const ovr of loc.overrides) {
                     if (+ovr.region_id == region) item.xp = +ovr.override_reward_exp;
                 }
             }
@@ -108,8 +108,8 @@ function update() {
             item.mobile_asset = loc.mobile_asset;
             item.name_loc = loc.name_loc;
             item.rotation = [];
-            for (let rot of loc.rotation) {
-                let copy = {};
+            for (const rot of loc.rotation) {
+                const copy = {};
                 copy.level = +rot.level;
                 copy.progress = +rot.progress;
                 copy.chance = +rot.chance;
@@ -118,7 +118,7 @@ function update() {
             if (item.rotation.length) repeatables[item.id] = item;
         }
     }
-    let specialWeeks = gui.getActiveSpecialWeeks();
+    const specialWeeks = gui.getActiveSpecialWeeks();
     swPostcards = specialWeeks.postcards;
     showSpecialWeeks([specialWeeks.doubleDrop, specialWeeks.postcards]);
     setState(getState());
@@ -129,11 +129,11 @@ function showSpecialWeeks(items) {
     if (!Array.isArray(items)) {
         items = gui.getActiveSpecialWeeks().items;
     }
-    let htm = [];
-    for (let sw of items) {
+    const htm = [];
+    for (const sw of items) {
         if (sw && sw.name) htm.push(Html.br`${sw.name}: ${sw.ends}`);
     }
-    let divWarning = container.querySelector('.toolbar .warning');
+    const divWarning = container.querySelector('.toolbar .warning');
     Dialog.htmlToDOM(divWarning, htm.join('<br>'));
     divWarning.style.display = htm.length ? '' : 'none';
 }
@@ -154,7 +154,7 @@ function setState(state) {
     searchInput.value = state.search || '';
     selected = gui.getArrayOfInt(state.selected);
     if (repeatables) {
-        for (let item of Object.values(repeatables)) item.selected = false;
+        for (const item of Object.values(repeatables)) item.selected = false;
         selected = selected.filter(id => (id in repeatables) ? repeatables[id].selected = true : false);
     }
     gui.setSortState(state.sort, smartTable, 'name');
@@ -168,11 +168,11 @@ function triggerSearchHandler(flag) {
 function refresh() {
     gui.updateTabState(tab);
 
-    let state = getState();
-    let show = state.show;
-    let not_ready = state.ready ? state.ready == 'no' : NaN;
-    let fnSearch = gui.getSearchFilter(state.search);
-    let now = gui.getUnixTime();
+    const state = getState();
+    const show = state.show;
+    const not_ready = state.ready ? state.ready == 'no' : NaN;
+    const fnSearch = gui.getSearchFilter(state.search);
+    const now = gui.getUnixTime();
     calculateItem();
 
     function isVisible(item) {
@@ -183,18 +183,18 @@ function refresh() {
     }
 
     let items = Object.values(repeatables);
-    let total = items.length;
+    const total = items.length;
     items = items.filter(isVisible);
     Array.from(container.querySelectorAll('.repeat tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(total));
     });
 
-    let sort = gui.getSortFunction(null, smartTable, 'name');
+    const sort = gui.getSortFunction(null, smartTable, 'name');
     items = sort(items);
 
-    let tbody = smartTable.tbody[0];
+    const tbody = smartTable.tbody[0];
     Dialog.htmlToDOM(tbody, '');
-    for (let item of items) {
+    for (const item of items) {
         let row = item.row;
         if (!row) {
             row = item.row = document.createElement('tr');
@@ -226,14 +226,14 @@ function refreshItems() {
     // Update items only when this is the current tab and the document is visible
     if (gui.getCurrentTab() !== tab) return;
     if (document.visibilityState != 'visible') return;
-    let changedState = calculateItem(null, true);
+    const changedState = calculateItem(null, true);
     // Refresh table if at least one item changed state and (filter is on Ready? or table is sorted by time)
     if (changedState && (getState().ready != '' || smartTable.sort.name == 'time' || smartTable.sortSub.name == 'time')) refresh();
 }
 
 function updateRow(row) {
-    let id = +row.getAttribute('data-id');
-    let item = repeatables[id];
+    const id = +row.getAttribute('data-id');
+    const item = repeatables[id];
     let htm = '';
     htm += Html.br`<td><input type="checkbox"${item.selected ? Html(' checked') : ''}></td>`;
     htm += Html.br`<td>${gui.getLocationImg(item)}</td>`;
@@ -241,7 +241,7 @@ function updateRow(row) {
     htm += Html.br`<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, 'desc') : gui.getObjectImg('region', item.rid, 32, false, 'desc')}</td>`;
     htm += Html.br`<td>${gui.getDuration(item.cooldown, true)}</td>`;
     htm += Html.br`<td class="reset_gems">${Locale.formatNumber(item.reset)}${gui.getObjectImg('material', 2, 18, true)}</td>`;
-    let xp = swPostcards ? item.xp * 10 : item.xp;
+    const xp = swPostcards ? item.xp * 10 : item.xp;
     htm += Html.br`<td class="bonus">${Locale.formatNumber(xp)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
     htm += Html.br`<td class="progress add_slash"></td>`;
     htm += Html.br`<td class="total"></td>`;
@@ -254,16 +254,16 @@ function updateRow(row) {
 }
 
 function calculateItem(item, flagRefreshRow) {
-    let generator = gui.getGenerator();
-    let loc_prog = generator.loc_prog || {};
-    let items = item ? [item] : Object.values(repeatables);
-    let now = gui.getUnixTime();
+    const generator = gui.getGenerator();
+    const loc_prog = generator.loc_prog || {};
+    const items = item ? [item] : Object.values(repeatables);
+    const now = gui.getUnixTime();
     let changedState = false;
-    for (let item of items) {
-        let id = item.id;
-        let prog = loc_prog[id] || {};
-        let level = +prog.lvl;
-        let rotation = item.rotation.find(rotation => rotation.level == level);
+    for (const item of items) {
+        const id = item.id;
+        const prog = loc_prog[id] || {};
+        const level = +prog.lvl;
+        const rotation = item.rotation.find(rotation => rotation.level == level);
         item.progress = +prog.prog || 0;
         item.total = rotation ? rotation.progress : 0;
         // Progress has reached total and complete time is not set
@@ -279,14 +279,14 @@ function calculateItem(item, flagRefreshRow) {
         }
         item.time = end;
         item.ready = item.time <= now;
-        let readyHasChanged = item.ready !== item._ready;
+        const readyHasChanged = item.ready !== item._ready;
         if (readyHasChanged) {
             item._ready = item.ready;
             changedState = true;
         }
         item.postcard = item.progress == item.total - 1 ? 1 : 0;
         if (flagRefreshRow && item.row && item.row.firstChild) {
-            let row = item.row;
+            const row = item.row;
             if (item._progress !== item.progress) {
                 item._progress = item.progress;
                 row.querySelector('td.progress').innerText = Locale.formatNumber(item.progress);
@@ -301,7 +301,7 @@ function calculateItem(item, flagRefreshRow) {
             }
             if (readyHasChanged || !item.ready) {
                 if (readyHasChanged) row.classList.toggle('ready', item.ready);
-                let text = item.ready ? gui.getMessage('repeat_ready') : gui.getDuration(item.time - now, true);
+                const text = item.ready ? gui.getMessage('repeat_ready') : gui.getDuration(item.time - now, true);
                 if (item._readyText !== text) {
                     row.querySelector('td.time').innerText = item._readyText = text;
                 }
@@ -330,12 +330,12 @@ function toggleSelected(id, flag) {
 }
 
 function onClickTable(event) {
-    let target = event.target;
+    const target = event.target;
     if (!target) return true;
     if (target.tagName == 'INPUT') {
-        let row = target.parentNode.parentNode;
-        let id = +row.getAttribute('data-id');
-        let flag = target.checked;
+        const row = target.parentNode.parentNode;
+        const id = +row.getAttribute('data-id');
+        const flag = target.checked;
         if (event.ctrlKey) {
             // apply to all
             for (const row of smartTable.table.querySelectorAll('tr[data-id]')) {

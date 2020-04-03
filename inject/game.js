@@ -1,15 +1,15 @@
 /*global chrome*/
-var prefs, handlers, msgHandlers, isFacebook, miner, isWebGL, originalHeight, header;
+let prefs, handlers, msgHandlers, isFacebook, miner, isWebGL, originalHeight, header;
 // var autoClickAttached, autoClickStyle;
-var gcTable, gcTableStyle;
-var menu, textOn, textOff;
-var loadCompleted, styleLoaded;
-var lastFullWindow = false;
+let gcTable, gcTableStyle;
+let menu, textOn, textOff;
+let loadCompleted, styleLoaded;
+let lastFullWindow = false;
 
 function sendMinerPosition() {
     // Send some values to the top window
-    var name = '@bodyHeight';
-    var value = Math.floor(document.getElementById('footer').getBoundingClientRect().bottom);
+    const name = '@bodyHeight';
+    const value = Math.floor(document.getElementById('footer').getBoundingClientRect().bottom);
     if (prefs[name] !== value && value > 0) sendValue(name, value);
 }
 
@@ -34,7 +34,7 @@ function forceResize(delay = 0) {
 }
 
 function addStylesheet(href, onLoad) {
-    var link = document.createElement('link');
+    const link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = href;
@@ -47,7 +47,7 @@ function htmlEncodeBr(text) {
 }
 
 function getMessage(id, ...args) {
-    let language = prefs.language || 'en';
+    const language = prefs.language || 'en';
     let text = chrome.i18n.getMessage(language + '@' + id, args);
     if (text == '' && language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
     return text;
@@ -61,9 +61,9 @@ let resizeCount = 2;
 let resizeHandler = 0;
 
 function onResize() {
-    var fullWindow = getFullWindow();
-    var headerHeight = header ? header.getBoundingClientRect().height : 0;
-    var gcTableHeight = gcTable ? gcTable.offsetHeight : 0;
+    const fullWindow = getFullWindow();
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    const gcTableHeight = gcTable ? gcTable.offsetHeight : 0;
     if (resizeHandler) clearTimeout(resizeHandler);
     resizeHandler = 0;
     if (miner) {
@@ -72,8 +72,8 @@ function onResize() {
             gcTable.style.width = fullWindow ? window.innerWidth : '100%';
         }
         if (!isWebGL) {
-            let height = fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight + 'px';
-            let width = (fullWindow || prefs.fullWindowSide) ? window.innerWidth : '100%';
+            const height = fullWindow ? (gcTableHeight > 0 ? 'calc(100% - ' + gcTableHeight + 'px)' : '100%') : originalHeight + 'px';
+            const width = (fullWindow || prefs.fullWindowSide) ? window.innerWidth : '100%';
             if (height != miner.style.height) miner.style.height = height;
             // Please note: we must set the width for zoomed out view (for example, at 50%)
             // otherwise the element will be clipped horizontally
@@ -109,9 +109,9 @@ function createScript(code) {
 }
 
 function onFullWindow() {
-    var fullWindow = getFullWindow();
-    var flagHide = fullWindow;
-    var fn = el => el && (el.style.display = flagHide ? 'none' : '');
+    const fullWindow = getFullWindow();
+    let flagHide = fullWindow;
+    const fn = el => el && (el.style.display = flagHide ? 'none' : '');
     if (miner) {
         if (fullWindow != lastFullWindow) {
             lastFullWindow = fullWindow;
@@ -183,12 +183,12 @@ function gcTable_isEmpty() {
 
 function gcTable_remove(div) {
     if (!gcTable) return;
-    var fullWindow = getFullWindow();
-    var heightBefore = gcTable.offsetHeight;
+    const fullWindow = getFullWindow();
+    const heightBefore = gcTable.offsetHeight;
     if (div) {
         div.parentNode.removeChild(div);
         gcTable.firstChild.firstChild.textContent = gcTable.childNodes.length - 1;
-        var heightAfter = gcTable.offsetHeight;
+        const heightAfter = gcTable.offsetHeight;
         // scrollbar was hidden and we are in full window?
         if (heightBefore > heightAfter && fullWindow) {
             // Force Resize is currently disabled because it causes the game's neighbour list to reset position
@@ -206,7 +206,7 @@ function gcTable_remove(div) {
 }
 
 function ongcTable(forceRefresh = false, simulate = 0) {
-    var show = prefs.gcTable;
+    const show = prefs.gcTable;
     // If table is present, we just show/hide it
     if (gcTable && gcTable_isEmpty() && !forceRefresh) {
         // handle case where the table is empty
@@ -221,33 +221,33 @@ function ongcTable(forceRefresh = false, simulate = 0) {
             simulate: simulate
         }, function updateGCTable(result) {
             if (gcTable) while (gcTable.firstChild) gcTable.firstChild.remove();
-            var list = (result && result.list) || [];
-            var max = (result && result.max) || 0;
-            var regions = (result && result.regions) || {};
+            const list = (result && result.list) || [];
+            const max = (result && result.max) || 0;
+            const regions = (result && result.regions) || {};
             if (!gcTable) {
                 gcTable = miner.parentNode.insertBefore(document.createElement('div'), miner.nextSibling);
                 gcTable.className = 'DAF-gc-bar DAF-gc-flipped';
                 gcTable.style.display = 'none';
                 gcTable.addEventListener('click', function (e) {
-                    for (var div = e.ctrlKey && e.srcElement; div && div !== gcTable; div = div.parentNode)
+                    for (let div = e.ctrlKey && e.srcElement; div && div !== gcTable; div = div.parentNode)
                         if (div.id && div.id.startsWith('DAF-gc_')) return gcTable_remove(div);
                 });
             }
-            var counter = gcTable.appendChild(document.createElement('div'));
+            const counter = gcTable.appendChild(document.createElement('div'));
             counter.className = 'DAF-gc-count';
             counter.appendChild(document.createElement('div')).textContent = list.length;
             counter.appendChild(document.createElement('div')).textContent = '/';
             counter.appendChild(document.createElement('div')).textContent = max;
             setgcTableOptions();
             list.forEach(item => {
-                var div = gcTable.appendChild(document.createElement('div'));
+                const div = gcTable.appendChild(document.createElement('div'));
                 div.id = 'DAF-gc_' + item.id;
                 div.className = 'DAF-gc-pal DAF-gc-reg' + item.region;
                 div.style.backgroundImage = 'url(' + (item.id == 1 ? item.pic : 'https://graph.facebook.com/v2.8/' + item.fb_id + '/picture') + ')';
-                var fullName = item.name;
+                let fullName = item.name;
                 if (item.surname) fullName += ' ' + item.surname;
                 div.title = fullName + '\n' + getMessage('gui_region') + ': ' + (regions[item.region] || item.region);
-                var d = div.appendChild(document.createElement('div'));
+                const d = div.appendChild(document.createElement('div'));
                 d.textContent = item.level;
                 if (item.id == 1) d.style.visibility = 'hidden';
                 div.appendChild(document.createElement('div')).textContent = item.name;
@@ -288,7 +288,7 @@ function createMenu() {
     }
     textOn = getMessage('menu_on');
     textOff = getMessage('menu_off');
-    var html = `
+    let html = `
 <ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
 <li data-action="about"><b>&nbsp;</b>
     <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
@@ -338,10 +338,10 @@ function createMenu() {
     menu = document.createElement('div');
     menu.classList.add('DAF-menu-container');
     menu.style.display = 'none';
-    for(let node = (new DOMParser()).parseFromString(html, 'text/html').body.firstChild; node; node = node.nextSibling) menu.appendChild(menu.ownerDocument.importNode(node, true));
+    for (let node = (new DOMParser()).parseFromString(html, 'text/html').body.firstChild; node; node = node.nextSibling) menu.appendChild(menu.ownerDocument.importNode(node, true));
     document.body.appendChild(menu);
-    for (let el of Array.from(menu.querySelectorAll('[data-pref]'))) {
-        let prefName = el.getAttribute('data-pref');
+    for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
+        const prefName = el.getAttribute('data-pref');
         el.title = getMessage('options_' + prefName.toLowerCase());
     }
     menu.addEventListener('click', onMenuClick);
@@ -353,19 +353,19 @@ function showMenu() {
 
 function updateMenu(prefName) {
     if (!menu) return;
-    for (let el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
+    for (const el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
         prefName = el.getAttribute('data-pref');
-        let isOn = !!prefs[prefName];
+        const isOn = !!prefs[prefName];
         el.classList.toggle('DAF-on', isOn);
         if (el.tagName == 'I' && (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick' || prefName == 'noGCPopup')) el.textContent = isOn ? textOn : textOff;
     }
 }
 
 function onMenuClick(e) {
-    var target = e.target;
+    const target = e.target;
     if (!target || target.tagName == 'DIV') return;
-    var action = null;
-    var parent = target;
+    let action = null;
+    let parent = target;
     while (parent && parent !== menu && !(action = parent.getAttribute('data-action')))
         parent = parent.parentNode;
     switch (action) {
@@ -377,19 +377,21 @@ function onMenuClick(e) {
         case 'fullWindow':
         case 'gcTable':
         case 'autoClick':
-        case 'noGCPopup':
-            var name = target.getAttribute('data-pref') || action;
+        case 'noGCPopup': {
+            const name = target.getAttribute('data-pref') || action;
             sendPreference(name, !prefs[name]);
             break;
-        case 'reloadGame':
-            var value = target.getAttribute('data-value');
-            var facebook = (isFacebook ^ (value === 'switch'));
+        }
+        case 'reloadGame': {
+            let value = target.getAttribute('data-value');
+            const facebook = (isFacebook ^ (value === 'switch'));
             value += ' ' + (facebook ? 'facebook' : 'portal');
             chrome.runtime.sendMessage({
                 action: 'reloadGame',
                 value: value
             });
             break;
+        }
     }
 }
 
@@ -450,7 +452,7 @@ function init() {
         });
         if (isWebGL) interceptData();
     } else {
-        for (var item of String(location.search).substr(1).split('&'))
+        for (const item of String(location.search).substr(1).split('&'))
             if (item.split('=')[0] == 'flash') isWebGL = false;
         if (document.getElementById('pagelet_bluebar')) {
             isFacebook = true;
@@ -464,7 +466,7 @@ function init() {
     handlers = {};
     msgHandlers = {};
     prefs = {};
-    let addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
+    const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
 
@@ -488,13 +490,13 @@ function init() {
         // track preference changes
         chrome.storage.onChanged.addListener(function (changes, area) {
             if (area != 'local') return;
-            for (var name in changes) setPref(name, changes[name].newValue);
+            for (const name in changes) setPref(name, changes[name].newValue);
         });
 
         chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             try {
-                var fn = request && request.action && msgHandlers[request.action];
-                var response = fn ? fn(request, sender) : undefined;
+                const fn = request && request.action && msgHandlers[request.action];
+                const response = fn ? fn(request, sender) : undefined;
                 if (response !== undefined) sendResponse(response);
             } catch (e) {
                 console.error('onMessage', e, request, sender);
@@ -525,7 +527,7 @@ function init() {
             }
             if (!getFullWindow() && !miner && prefs.fullWindowTimeout > 0) {
                 let eventAttached = false;
-                let check = () => {
+                const check = () => {
                     // Better wait until the document is visible
                     if (document.hidden) {
                         if (!eventAttached) document.addEventListener('visibilitychange', check);
@@ -553,12 +555,12 @@ function init() {
         if (miner) {
             handlers['noGCPopup'] = onNoGCPopup;
             onNoGCPopup();
-            let key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
+            const key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
             window.addEventListener('message', function (event) {
                 if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
-            let fixes = String(prefs.fixes || '').toUpperCase().split(/\W+/).reduce((v, k) => (v[k] = true, v), {});
+            const fixes = String(prefs.fixes || '').toUpperCase().split(/\W+/).reduce((v, k) => (v[k] = true, v), {});
             if (isWebGL) {
                 let code = '';
                 code += `

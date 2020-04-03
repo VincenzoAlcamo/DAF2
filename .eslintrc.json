@@ -51,6 +51,8 @@
             {
                 "allowEmptyCatch": true
             }
-        ]
+        ],
+        "prefer-const": ["warn"],
+        "no-var": ["error"]
     }
 }

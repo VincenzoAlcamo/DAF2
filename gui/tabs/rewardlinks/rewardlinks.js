@@ -19,8 +19,8 @@ const TAG_CLICKANYWAY = 'clickanyway';
 const TAG_AUTOCLICKED = 'autoclicked';
 
 let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert, checkBackground;
-let materialImageCache = {};
-let clicked = {};
+const materialImageCache = {};
+const clicked = {};
 let firstTime = true;
 let autoClick = false;
 
@@ -32,8 +32,8 @@ const LinkData = (function () {
     const rePortal = /https?:\/\/portal\.pixelfederation\.com\/(([^/]+\/)?gift|wallpost)\/diggysadventure\?params=(([0-9a-zA-Z\-_]|%2B|%2F)+(%3D){0,2})/g;
 
     function getLinkData(href) {
-        let result = [];
-        let hash = {};
+        const result = [];
+        const hash = {};
         let match, data;
 
         function getObj(id, typ, sig) {
@@ -64,9 +64,9 @@ const LinkData = (function () {
             rePortal.lastIndex = 0;
             while ((match = rePortal.exec(href))) {
                 try {
-                    let params = decodeURIComponent(match[3]).replace(/-/g, '+').replace(/_/g, '/');
-                    let payload = atob(params);
-                    let json = JSON.parse(payload);
+                    const params = decodeURIComponent(match[3]).replace(/-/g, '+').replace(/_/g, '/');
+                    const payload = atob(params);
+                    const json = JSON.parse(payload);
                     if (json.wp_id && json.fb_type && json.wp_sig) {
                         data = getObj(json.wp_id, json.fb_type, json.wp_sig);
                         if (data) result.push(data);
@@ -79,7 +79,7 @@ const LinkData = (function () {
 
     function getLink(data, convert = 0) {
         if ((data.typ == 'portal' && convert == 0) || convert == 2) {
-            var json = JSON.stringify({
+            const json = JSON.stringify({
                 action: 'wallpost',
                 wp_id: data.id,
                 fb_type: data.typ,
@@ -87,7 +87,7 @@ const LinkData = (function () {
             });
             return 'https://portal.pixelfederation.com/wallpost/diggysadventure?params=' + encodeURIComponent(btoa(json));
         }
-        let url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
+        const url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
         return convert == 3 ? 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url) : url;
     }
 
@@ -112,7 +112,7 @@ function init() {
     checkBackground = container.querySelector('[name=background]');
     checkBackground.addEventListener('click', saveState);
 
-    for (let button of container.querySelectorAll('.toolbar button')) {
+    for (const button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClickButton);
     }
 }
@@ -137,7 +137,7 @@ function saveState() {
 }
 
 function onClickButton() {
-    let action = this.getAttribute('data-action');
+    const action = this.getAttribute('data-action');
     if (action == 'add') {
         gui.dialog.show({
             title: gui.getMessage('rewardlinks_addlinks'),
@@ -146,9 +146,9 @@ function onClickButton() {
             style: [Dialog.CONFIRM, Dialog.CANCEL]
         }, function (method, params) {
             if (method == Dialog.CONFIRM) {
-                let arr = LinkData.getLinkData(params.links);
-                let numTotal = arr.length;
-                let numAdded = numTotal && bgp.Data.addRewardLinks(arr);
+                const arr = LinkData.getLinkData(params.links);
+                const numTotal = arr.length;
+                const numAdded = numTotal && bgp.Data.addRewardLinks(arr);
                 if (numAdded == 0)
                     gui.toast.show({
                         text: gui.getMessage('rewardlinks_nolinksadded')
@@ -171,16 +171,16 @@ ${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="conve
             style: [Dialog.OK, Dialog.WIDEST]
         }, function (method, params) {
             if (method == 'input') {
-                let arr = LinkData.getLinkData(params.links);
-                let text = arr.map(item => LinkData.getLink(item, params.convert)).join('\n');
+                const arr = LinkData.getLinkData(params.links);
+                const text = arr.map(item => LinkData.getLink(item, params.convert)).join('\n');
                 gui.dialog.element.querySelector('[name=result]').value = text;
             }
         });
     } else if (action == 'remove') {
-        let rewards = Object.values(items).filter(item => item.row.classList.contains('selected'));
+        const rewards = Object.values(items).filter(item => item.row.classList.contains('selected'));
         removeLinks(gui.getMessage('rewardlinks_removeselected'), rewards);
     } else if (action == 'removeold') {
-        let title = gui.getMessage('rewardlinks_removelinks');
+        const title = gui.getMessage('rewardlinks_removelinks');
         let days = parseInt(gui.getPreference('rewardsRemoveDays'));
         days = Math.max(0, Math.min(bgp.Data.REWARDLINKS_REMOVE_DAYS - 1, isFinite(days) ? days : bgp.Data.REWARDLINKS_VALIDITY_DAYS));
         let htm = '';
@@ -196,12 +196,12 @@ ${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="conve
             style: [Dialog.CONFIRM, Dialog.CANCEL]
         }, function (method, params) {
             if (method != Dialog.CONFIRM) return;
-            let days = parseInt(params.days);
+            const days = parseInt(params.days);
             if (days >= 0) {
                 gui.setPreference('rewardsRemoveDays', days);
-                let now = gui.getUnixTime();
-                let expiryThreshold = now - bgp.Data.REWARDLINKS_VALIDITY_DAYS * SECONDS_IN_A_DAY;
-                let checkThreshold = now - days * SECONDS_IN_A_DAY;
+                const now = gui.getUnixTime();
+                const expiryThreshold = now - bgp.Data.REWARDLINKS_VALIDITY_DAYS * SECONDS_IN_A_DAY;
+                const checkThreshold = now - days * SECONDS_IN_A_DAY;
                 let rewards = Object.values(items);
                 rewards = rewards.filter(reward => Math.max(reward.adt, reward.cdt || 0) <= checkThreshold && (reward.adt <= expiryThreshold || (reward.cmt || 0) != 0));
                 removeLinks(title, rewards);
@@ -237,7 +237,7 @@ function removeLinks(title, rewards) {
 }
 
 function onClickTable(event) {
-    let target = event.target;
+    const target = event.target;
     if (!target) return true;
 
     if (target.tagName == 'INPUT') {
@@ -255,14 +255,14 @@ function onClickTable(event) {
     }
     if (!target.classList.contains('reward')) return true;
 
-    let reasons = [];
+    const reasons = [];
 
     function pushReason(title, text, action, critical = false) {
         reasons.push({ title, text, critical, action });
     }
 
     function showNextReason() {
-        let reason = reasons.shift();
+        const reason = reasons.shift();
         if (!reason) {
             target.setAttribute(TAG_CLICKANYWAY, '1');
             target.click();
@@ -281,7 +281,7 @@ function onClickTable(event) {
             style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL, 'RESET']
         }, function (method, _params) {
             if (method == 'reset') {
-                let rewardLinksData = bgp.Data.rewardLinksData;
+                const rewardLinksData = bgp.Data.rewardLinksData;
                 if (reason.action == 'resetcount') rewardLinksData.count = rewardLinksData.next = 0;
                 if (reason.action == 'resetexpired') rewardLinksData.expired = 0;
                 bgp.Data.saveRewardLink(rewardLinksData);
@@ -353,7 +353,7 @@ function onClickTable(event) {
 function materialHTML(materialId) {
     if (!(materialId in materialImageCache)) {
         if (materialId > 0) {
-            let url = gui.getObjectImage('material', materialId, true);
+            const url = gui.getObjectImage('material', materialId, true);
             return materialImageCache[materialId] = Html.br`<img src="${url}" width="32" height="32" class="outlined">${gui.getObjectName('material', materialId)}`;
         }
         let text;
@@ -394,21 +394,21 @@ function clickNextButton() {
 function update() {
     gui.updateTabState(tab);
 
-    let tbody = smartTable.tbody[0];
-    let now = gui.getUnixTime();
-    let state = getState();
-    let conversion = state.convert == 'facebook' ? 1 : (state.convert == 'portal' ? 2 : 0);
+    const tbody = smartTable.tbody[0];
+    const now = gui.getUnixTime();
+    const state = getState();
+    const conversion = state.convert == 'facebook' ? 1 : (state.convert == 'portal' ? 2 : 0);
     let numInserted = 0;
     let numUpdated = 0;
-    let rewardLinksRecent = bgp.Data.rewardLinksRecent;
+    const rewardLinksRecent = bgp.Data.rewardLinksRecent;
 
     numTotal = numToCollect = 0;
 
     if (!items) items = {};
-    let oldItems = items;
+    const oldItems = items;
     items = {};
-    let expiredId = bgp.Data.rewardLinksData.expired || 0;
-    for (let rewardLink of Object.values(bgp.Data.getRewardLinks())) {
+    const expiredId = bgp.Data.rewardLinksData.expired || 0;
+    for (const rewardLink of Object.values(bgp.Data.getRewardLinks())) {
         if (!rewardLink.cmt && rewardLink.id <= expiredId) rewardLink.cmt = -6;
         if (rewardLink.id in rewardLinksRecent) {
             delete clicked[rewardLink.id];
@@ -471,9 +471,9 @@ function update() {
         numTotal++;
         if (!item.cmt && !item.cdt) numToCollect++;
     }
-    for (let item of Object.values(oldItems)) item.row.parentNode.removeChild(item.row);
+    for (const item of Object.values(oldItems)) item.row.parentNode.removeChild(item.row);
 
-    let getSortValueFunctions = {
+    const getSortValueFunctions = {
         'owner': a => a.cnm || '',
         'insert': a => a.adt,
         'collect': a => a.cdt || 0,
@@ -481,9 +481,9 @@ function update() {
         'select': a => +a.row.classList.contains('selected'),
         'id': a => a.id
     };
-    let sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'id');
-    let values = sort(Object.values(items));
-    for (let item of values) {
+    const sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'id');
+    const values = sort(Object.values(items));
+    for (const item of values) {
         tbody.appendChild(item.row);
     }
 
@@ -492,7 +492,7 @@ function update() {
     smartTable.syncLater();
     firstTime = false;
 
-    var text = [];
+    const text = [];
     if (numInserted) text.push(gui.getMessage('rewardlinks_linksadded', numInserted));
     if (numUpdated) text.push(gui.getMessage('rewardlinks_linksupdated', numUpdated));
     if (text.length) {
@@ -505,8 +505,8 @@ function update() {
 
 function clearStatus() {
     let count = 0;
-    let threshold = gui.getUnixTime() - 10;
-    for (let item of Object.values(items)) {
+    const threshold = gui.getUnixTime() - 10;
+    for (const item of Object.values(items)) {
         if (item.time) {
             if (item.time <= threshold) {
                 delete item.status;
@@ -524,10 +524,10 @@ function clearStatus() {
 }
 
 function showStats() {
-    let now = gui.getUnixTime();
+    const now = gui.getUnixTime();
     let next = bgp.Data.rewardLinksData.next;
-    let flagNext = next > now;
-    let textNext, text;
+    const flagNext = next > now;
+    let text;
     if (flagNext) {
         text = gui.getMessage('rewardlinks_allcollected') + ' ';
     } else {
@@ -535,8 +535,8 @@ function showStats() {
         next = bgp.Data.rewardLinksData.first;
         if (next) next += bgp.Data.REWARDLINKS_REFRESH_HOURS * 3600;
     }
-    textNext = next > now ? gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(next)) : '';
-    let element = container.querySelector('.stats');
+    const textNext = next > now ? gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(next)) : '';
+    const element = container.querySelector('.stats');
     element.textContent = text + (flagNext ? textNext : '');
     element.classList.toggle('wait', flagNext);
     Dialog.htmlToDOM(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));

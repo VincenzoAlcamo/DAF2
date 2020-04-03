@@ -35,7 +35,7 @@ function refresh() {
     if (!reward) return;
     const group = reward.group;
     const visibleRewards = dailyRewards.filter(dr => dr.group == group).sort((a, b) => +a.order_id - +b.order_id);
-    let nextId = (generator.dr_data && +generator.dr_data.def_id) || 0;
+    const nextId = (generator.dr_data && +generator.dr_data.def_id) || 0;
     // if (!nextId) {
     //     const index = (visibleRewards.indexOf(reward) + 1) % visibleRewards.length;
     //     nextId = visibleRewards[index].def_id;

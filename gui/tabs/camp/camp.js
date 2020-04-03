@@ -13,7 +13,7 @@ export default {
 
 const NUM_SLOTS = 24;
 
-var tab, container, checkNeighbor, selectShow;
+let tab, container, checkNeighbor, selectShow;
 
 function init() {
     tab = this;
@@ -28,12 +28,12 @@ function init() {
     });
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
-        var div = tab.container.querySelector('.' + className);
+        let div = tab.container.querySelector('.' + className);
         div.addEventListener('render', function (_event) {
             updateCamp(this);
         });
 
-        var input = div.querySelector('input');
+        const input = div.querySelector('input');
         input.addEventListener('click', () => gui.updateTabState(tab));
 
         div = div.querySelector('div');
@@ -48,10 +48,10 @@ function init() {
 function update() {
     markToBeRendered(container.querySelector('.camp-player'));
     markToBeRendered(container.querySelector('.camp-neighbor'));
-    let divWeeks = container.querySelector('.toolbar .weeks');
-    let specialWeeks = gui.getActiveSpecialWeeks();
-    let htm = [];
-    for (let sw of specialWeeks.items) {
+    const divWeeks = container.querySelector('.toolbar .weeks');
+    const specialWeeks = gui.getActiveSpecialWeeks();
+    const htm = [];
+    for (const sw of specialWeeks.items) {
         if (sw.name) htm.push(Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
     }
     Dialog.htmlToDOM(divWeeks, htm.join(''));
@@ -68,7 +68,7 @@ function markToBeRendered(div) {
 }
 
 function getState() {
-    var getCheck = (id, c) => document.getElementById(id).checked ? c : '';
+    const getCheck = (id, c) => document.getElementById(id).checked ? c : '';
     return {
         'show': selectShow.value,
         'no-neighbour': !checkNeighbor.checked,
@@ -77,8 +77,8 @@ function getState() {
 }
 
 function setState(state) {
-    var h = String(state.h || '').toLowerCase();
-    var setCheck = (id, c) => document.getElementById(id).checked = h.indexOf(c) >= 0;
+    const h = String(state.h || '').toLowerCase();
+    const setCheck = (id, c) => document.getElementById(id).checked = h.indexOf(c) >= 0;
     setCheck('camp_player', 'p');
     setCheck('camp_neighbor', 'n');
     checkNeighbor.checked = !state['no-neighbour'];
@@ -92,14 +92,14 @@ function toggleNeighbor() {
 }
 
 function onmousemove(event) {
-    var el = event.target;
-    var bid = [];
+    let el = event.target;
+    let bid = [];
     while (!el.classList.contains('card')) {
         if (el.hasAttribute('bid')) bid = el.getAttribute('bid').split(',');
         el = el.parentNode;
     }
     el.querySelectorAll('.item.building').forEach(el => {
-        var flag = bid.includes(el.getAttribute('bid'));
+        const flag = bid.includes(el.getAttribute('bid'));
         el.classList.toggle('selected', flag);
         el.classList.toggle('selected-first', flag && (!el.previousElementSibling || !bid.includes(el.previousElementSibling.getAttribute('bid'))));
         el.classList.toggle('selected-last', flag && (!el.nextElementSibling || !bid.includes(el.nextElementSibling.getAttribute('bid'))));
@@ -146,7 +146,7 @@ function updateCamp(div, flagHeaderOnly = false) {
     let htm = '';
 
     if (isPlayer) {
-        var campResult2 = calculateCamp(camp, false);
+        const campResult2 = calculateCamp(camp, false);
         if (campResult2.reg_base != campResult2.reg_tot || campResult2.cap_base != campResult2.cap_tot) {
             camps.push(campResult2);
             if (campResult2.reg_tot > campResult.reg_tot) camps.reverse();
@@ -186,7 +186,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 
         // table Regeneration
         htm += Html.br`<td><table class="camp-data row-coloring">`;
-        var caption = camps.length == 1 ? '' : gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode');
+        const caption = camps.length == 1 ? '' : gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode');
         htm += Html.br`<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
         htm += Html.br`<tbody>`;
         htm += Html.br`<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
@@ -224,13 +224,13 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += Html.br`</table></td>`;
 
     if (campResult.blocks[2].blocked || campResult.blocks[3].blocked || campResult.blocks[4].blocked) {
-        let swDiscount = gui.getActiveSpecialWeeks().debrisDiscount;
-        let mat = {};
-        let matDiscount = {};
+        const swDiscount = gui.getActiveSpecialWeeks().debrisDiscount;
+        const mat = {};
+        const matDiscount = {};
         Object.values(campResult.blocks).forEach(block => {
-            for (var i = NUM_SLOTS * 2 - block.blocked; i < NUM_SLOTS * 2; i++) {
-                for (var req of (block.slots[i] && block.slots[i].requirements)) {
-                    let matId = req.material_id;
+            for (let i = NUM_SLOTS * 2 - block.blocked; i < NUM_SLOTS * 2; i++) {
+                for (const req of (block.slots[i] && block.slots[i].requirements)) {
+                    const matId = req.material_id;
                     mat[matId] = (mat[matId] || 0) + +req.amount;
                     if (swDiscount) matDiscount[matId] = (matDiscount[matId] || 0) + Math.ceil(+req.amount * swDiscount.coeficient);
                 }
@@ -241,12 +241,12 @@ function updateCamp(div, flagHeaderOnly = false) {
         if (swDiscount) htm += Html.br`<th>${gui.getMessage('camp_discounted')}</th>`;
         htm += Html.br`</tr></thead>`;
 
-        var materials = gui.getFile('materials');
+        const materials = gui.getFile('materials');
 
         // Show materials
-        for (var matId of [1, 7, 22, 32, 8]) {
-            var material = materials[matId];
-            var img = material ? gui.getObjectImg('material', matId, 24, true) : '';
+        for (const matId of [1, 7, 22, 32, 8]) {
+            const material = materials[matId];
+            const img = material ? gui.getObjectImg('material', matId, 24, true) : '';
             if (matId in mat) {
                 htm += Html.br`<tr class="material"><td>${img}</td><td>${gui.getObjectName('material', matId)}</td><td>${Locale.formatNumber(mat[matId])}</td>`;
                 if (swDiscount) htm += Html.br`<td>${Locale.formatNumber(matDiscount[matId])}</td>`;
@@ -277,12 +277,12 @@ function updateCamp(div, flagHeaderOnly = false) {
 }
 
 function calculateCamp(camp, current = true) {
-    var lines_ids = gui.getArrayOfInt(camp.lines_ids);
-    var lines_blocked = gui.getArrayOfInt(camp.lines_blocked);
-    var buildings = gui.getFile('buildings');
-    var lines = {};
-    var blocks = {};
-    var reg_min, reg_max, reg_cnt, reg_avg, cap_min, cap_max, cap_cnt, cap_avg, reg_tot, cap_tot, reg_base, cap_base;
+    const lines_ids = gui.getArrayOfInt(camp.lines_ids);
+    const lines_blocked = gui.getArrayOfInt(camp.lines_blocked);
+    const buildings = gui.getFile('buildings');
+    const lines = {};
+    const blocks = {};
+    let reg_min, reg_max, reg_cnt, cap_min, cap_max, cap_cnt, reg_tot, cap_tot;
 
     // setup blocks
     [2, 3, 4].forEach(height => {
@@ -292,34 +292,33 @@ function calculateCamp(camp, current = true) {
         };
     });
     Object.values(gui.getFile('lines')).forEach(line => {
-        var height = +line.height;
-        var order = +line.order + (height == 2 ? 3 : 0);
+        const height = +line.height;
+        const order = +line.order + (height == 2 ? 3 : 0);
         if (height >= 2 && height <= 4 && order >= 1 && order <= NUM_SLOTS * 2)
             blocks[height].slots[order - 1] = line;
     });
 
     // setup lines
     [1, 2, 3, 5, 7, 9].forEach((lid, index) => {
-        var height = Math.floor(index / 2) + 2;
-        var slots = [];
-        var emptySlot = {
+        const height = Math.floor(index / 2) + 2;
+        const slots = [];
+        const emptySlot = {
             kind: 'empty',
             title: gui.getMessage('camp_slot_empty'),
             width: 1,
             height: height
         };
-        var blocked, i;
-        i = lines_ids.indexOf(lid);
-        blocked = i >= 0 ? parseInt(lines_blocked[i]) || 0 : NUM_SLOTS;
-        for (i = 0; i < NUM_SLOTS; i++) slots[i] = emptySlot;
+        const pos = lines_ids.indexOf(lid);
+        const blocked = pos >= 0 ? parseInt(lines_blocked[pos]) || 0 : NUM_SLOTS;
+        for (let i = 0; i < NUM_SLOTS; i++) slots[i] = emptySlot;
         if (blocked > 0) {
-            var slot = {
+            const slot = {
                 kind: 'block',
                 title: gui.getMessage('camp_slot_blocked'),
                 width: blocked,
                 height: height
             };
-            for (i = 0; i < blocked; i++) slots[index % 2 ? NUM_SLOTS - 1 - i : i] = slot;
+            for (let i = 0; i < blocked; i++) slots[index % 2 ? NUM_SLOTS - 1 - i : i] = slot;
         }
         lines[lid] = {
             lid: lid,
@@ -330,8 +329,8 @@ function calculateCamp(camp, current = true) {
         blocks[height].blocked += blocked;
     });
 
-    reg_base = bgp.Data.getConfigValue('stamina_reg', 60) + Math.min((camp.windmills && camp.windmills.length) || 0, camp.windmill_limit || 5) * (parseInt(camp.windmill_reg) || 5);
-    cap_base = bgp.Data.getConfigValue('starting_stamina', 200);
+    const reg_base = bgp.Data.getConfigValue('stamina_reg', 60) + Math.min((camp.windmills && camp.windmills.length) || 0, camp.windmill_limit || 5) * (parseInt(camp.windmill_reg) || 5);
+    const cap_base = bgp.Data.getConfigValue('starting_stamina', 200);
 
     // position buildings
     reg_min = reg_max = cap_min = cap_max = reg_tot = cap_tot = reg_cnt = cap_cnt = 0;
@@ -340,20 +339,20 @@ function calculateCamp(camp, current = true) {
     stat.cap = {};
     stat.reg = {};
 
-    var blds = current ? camp.buildings : camp.inactive_b;
+    let blds = current ? camp.buildings : camp.inactive_b;
     blds = blds ? (Array.isArray(blds) ? blds : [blds]) : [];
     blds.forEach(building => {
-        var lid = building.line_id;
-        var line = lines[lid];
+        const lid = building.line_id;
+        const line = lines[lid];
         if (line) {
-            var bid = +building.def_id;
-            var slot = +building.slot;
+            const bid = +building.def_id;
+            const slot = +building.slot;
             building = buildings[bid];
             if (building) {
-                var regen = +building.stamina_reg;
-                var capacity = +building.max_stamina;
-                var width = +building.columns;
-                var value = Math.floor((regen || capacity) / width);
+                const regen = +building.stamina_reg;
+                const capacity = +building.max_stamina;
+                const width = +building.columns;
+                const value = Math.floor((regen || capacity) / width);
                 if (capacity > 0) {
                     if (cap_min == 0 || value < cap_min) {
                         cap_min = value;
@@ -386,7 +385,7 @@ function calculateCamp(camp, current = true) {
                     reg_tot += regen;
                     reg_cnt += width;
                 }
-                var data = {
+                const data = {
                     kind: 'building',
                     bid: bid,
                     capacity: capacity,
@@ -402,8 +401,8 @@ function calculateCamp(camp, current = true) {
         }
     });
 
-    reg_avg = reg_cnt && Math.floor(reg_tot / reg_cnt);
-    cap_avg = cap_cnt && Math.floor(cap_tot / cap_cnt);
+    const reg_avg = reg_cnt && Math.floor(reg_tot / reg_cnt);
+    const cap_avg = cap_cnt && Math.floor(cap_tot / cap_cnt);
     reg_tot += reg_base;
     cap_tot += cap_base;
 
@@ -425,7 +424,7 @@ function calculateCamp(camp, current = true) {
 }
 
 function renderCamp(campResult) {
-    var {
+    const {
         lines,
         blocks,
         reg_min,
@@ -435,11 +434,11 @@ function renderCamp(campResult) {
     } = campResult;
 
     // render the camp and calculate some values
-    var reg_range = reg_max - reg_min;
-    var cap_range = cap_max - cap_min;
-    var opacity_min = 0.4;
-    var opacity_range = 1 - opacity_min;
-    var htm = '';
+    const reg_range = reg_max - reg_min;
+    const cap_range = cap_max - cap_min;
+    const opacity_min = 0.4;
+    const opacity_range = 1 - opacity_min;
+    let htm = '';
 
     htm += Html.br`<div class="camp public">`;
 
@@ -447,30 +446,30 @@ function renderCamp(campResult) {
         return range ? (value - min) / range * opacity_range + opacity_min : 1;
     }
     [1, 2, 3, 5, 7, 9].forEach((lid, index) => {
-        var line = lines[lid];
-        var slots = line.slots;
+        const line = lines[lid];
+        const slots = line.slots;
         htm += Html.br`<div class="line" style="--lw:24;--lh:${line.height}">`;
-        var isReversed = (index % 2) == 0;
-        var getSlot = function (index) {
+        const isReversed = (index % 2) == 0;
+        const getSlot = function (index) {
             return slots[isReversed ? NUM_SLOTS - 1 - index : index];
         };
-        for (var i = 0; i < NUM_SLOTS;) {
-            var slot = getSlot(i);
-            var title = slot.title;
-            var width = slot.width;
-            var kind = slot.kind;
-            var colValues = '';
-            var strength = 0;
-            var bid = 0;
-            var exStyle = '';
+        for (let i = 0; i < NUM_SLOTS;) {
+            const slot = getSlot(i);
+            let title = slot.title;
+            let width = slot.width;
+            let kind = slot.kind;
+            let colValues = '';
+            let strength = 0;
+            let bid = 0;
+            let exStyle = '';
             while (kind == 'empty' && i + width < NUM_SLOTS && getSlot(i + width).kind == kind) width++;
             if (width > 1 && (kind == 'empty' || kind == 'block')) title += ' \xd7 ' + width;
             if (kind == 'block') {
-                var block = blocks[line.height].slots[NUM_SLOTS * 2 - blocks[line.height].blocked];
+                const block = blocks[line.height].slots[NUM_SLOTS * 2 - blocks[line.height].blocked];
                 if (block) {
                     title += '\n' + gui.getMessage('camp_unlock_one', Locale.formatNumber(+block.exp));
                     title += '\n' + gui.getMessage('camp_unlock_cost', Locale.formatNumber(+block.gems));
-                    for (var req of block.requirements) {
+                    for (const req of block.requirements) {
                         title += '\n    ' + gui.getObjectName('material', req.material_id) + ' \xd7 ' + Locale.formatNumber(+req.amount);
                     }
                 }
@@ -478,7 +477,7 @@ function renderCamp(campResult) {
             if (kind == 'building') {
                 title += ' (' + width + '\xd7' + slot.height + ')';
                 bid = slot.bid;
-                var url = gui.getObjectImage('building', bid);
+                const url = gui.getObjectImage('building', bid);
                 if (url) {
                     kind += ' img tooltip-event';
                     exStyle = ';background-image:url(' + url + ')';
@@ -512,8 +511,8 @@ function renderCamp(campResult) {
 }
 
 function onTooltip(event) {
-    let element = event.target;
-    let bid = parseInt(element.getAttribute('bid'));
-    let htm = Html.br`<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/></div>`;
+    const element = event.target;
+    const bid = parseInt(element.getAttribute('bid'));
+    const htm = Html.br`<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/></div>`;
     Tooltip.show(element, htm, 'bb');
 }

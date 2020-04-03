@@ -1,8 +1,7 @@
-/*global ResizeObserver*/
-var resizeObserver = new ResizeObserver(function (entries) {
-    for (let entry of entries) {
-        var element = entry.target;
-        var event = new Event('resized', {
+const resizeObserver = new ResizeObserver(function (entries) {
+    for (const entry of entries) {
+        const element = entry.target;
+        const event = new Event('resized', {
             bubbles: true
         });
         element.dispatchEvent(event);
@@ -11,7 +10,7 @@ var resizeObserver = new ResizeObserver(function (entries) {
 
 function SmartTable(table) {
     this.table = table;
-    let parent = this.table.parentNode;
+    const parent = this.table.parentNode;
     this.container = parent.insertBefore(document.createElement('div'), this.table);
     this.container.className = 'sticky-container';
     this.sort = {};
@@ -65,20 +64,19 @@ Object.assign(SmartTable.prototype, {
 
         function process(thead1, thead2) {
             if (!thead1) return;
-            var a = Array.from(thead1.querySelectorAll('th,td')),
-                b = Array.from(thead2.querySelectorAll('th,td'));
+            const a = Array.from(thead1.querySelectorAll('th,td'));
+            const b = Array.from(thead2.querySelectorAll('th,td'));
             a.forEach((el, index) => {
                 if (index < b.length) b[index].width = el.offsetWidth;
             });
-            var table = thead2.parentNode;
+            const table = thead2.parentNode;
             table.style.width = thead1.parentNode.offsetWidth + 'px';
             setTimeout(() => {
-                let height = thead1.offsetHeight;
+                const height = thead1.offsetHeight;
                 if (thead1.tagName == 'THEAD') {
                     // table.style.marginBottom = (height ? -height - 2 : 0) + 'px';
                     table.style.marginBottom = (-table.offsetHeight) + 'px';
-                }
-                else table.style.marginTop = (height ? -height - 1 : 0) + 'px';
+                } else table.style.marginTop = (height ? -height - 1 : 0) + 'px';
             }, 0);
         }
         process(this.header, this.fixedHeader);
@@ -93,10 +91,10 @@ Object.assign(SmartTable.prototype, {
         for (el = e.target; el && el.tagName != 'TABLE'; el = el.parentNode)
             if (el.tagName == 'TH') break;
         if (!el || el.tagName != 'TH' || !(el.classList.contains('sortable') || el.classList.contains('sortable-sub'))) return;
-        let name = el.getAttribute('sort-name');
+        const name = el.getAttribute('sort-name');
         if (!name) return;
         if (this.hasSortableSub) {
-            let sortInfo = el.classList.contains('sortable-sub') ? this.sortSub : this.sort;
+            const sortInfo = el.classList.contains('sortable-sub') ? this.sortSub : this.sort;
             sortInfo.ascending = sortInfo.name != name || !sortInfo.ascending;
             sortInfo.name = name;
         } else if (!e.ctrlKey) {
@@ -115,7 +113,7 @@ Object.assign(SmartTable.prototype, {
     },
     isValidSortName: function (name, isSub) {
         if (!this.header || !name) return false;
-        for (let el of this.header.querySelectorAll(this.hasSortableSub && isSub ? 'th.sortable-sub' : 'th.sortable')) {
+        for (const el of this.header.querySelectorAll(this.hasSortableSub && isSub ? 'th.sortable-sub' : 'th.sortable')) {
             if (el.getAttribute('sort-name') == name) return true;
         }
         return false;
@@ -133,10 +131,10 @@ Object.assign(SmartTable.prototype, {
             this.sort = this.sortSub;
             delete this.sortSub.name;
         }
-        for (let thead of [this.header, this.fixedHeader]) {
+        for (const thead of [this.header, this.fixedHeader]) {
             if (!thead) continue;
-            for (let el of thead.querySelectorAll('th.sortable-sub,th.sortable')) {
-                let name = el.getAttribute('sort-name');
+            for (const el of thead.querySelectorAll('th.sortable-sub,th.sortable')) {
+                const name = el.getAttribute('sort-name');
                 let isSub = false;
                 let sortInfo = null;
                 if (name == this.sort.name) {

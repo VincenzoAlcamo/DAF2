@@ -56,7 +56,7 @@ function init() {
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
-    let button = container.querySelector('.toolbar button.advanced');
+    const button = container.querySelector('.toolbar button.advanced');
     button.addEventListener('click', onClickAdvanced);
 
     btnPack = container.querySelector('[name=pack]');
@@ -79,7 +79,7 @@ function init() {
 
 function getItemFromBuilding(building, owned, active) {
     if (!building) return null;
-    let item = {};
+    const item = {};
     item.oid = building.def_id;
     item.id = 'b' + item.oid;
     item.owned = (owned && owned[item.oid]) || 0;
@@ -93,8 +93,8 @@ function getItemFromBuilding(building, owned, active) {
     item.width = Math.max(+building.columns || 0, 1);
     item.height = Math.max(+building.rows || 0, 1);
     item.sell = +building.sell_price || 0;
-    let cap = +building.max_stamina || 0;
-    let reg = +building.stamina_reg || 0;
+    const cap = +building.max_stamina || 0;
+    const reg = +building.stamina_reg || 0;
     if (cap > 0) {
         item.type = 'capacity';
         item.value = cap;
@@ -113,7 +113,7 @@ function getItemFromBuilding(building, owned, active) {
 
 function getBoughtSkins() {
     const skins = {};
-    for (let skin of gui.getArrayOfInt(gui.getGenerator().skins)) skins[skin] = true;
+    for (const skin of gui.getArrayOfInt(gui.getGenerator().skins)) skins[skin] = true;
     return skins;
 }
 
@@ -129,7 +129,7 @@ function computeItem(item, level, skins) {
 }
 function getRequirements(requirements, backpack) {
     return Array.isArray(requirements) ? requirements.map(req => {
-        let result = {};
+        const result = {};
         result.material_id = +req.material_id;
         result.amount = +req.amount;
         result.stored = backpack[result.material_id] || 0;
@@ -152,13 +152,13 @@ function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
 
 function getOwnedActive(stored, placed, placed2) {
     function collect(list) {
-        let result = {};
-        for (let item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
+        const result = {};
+        for (const item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
         return result;
     }
-    let owned = Object.assign({}, stored);
-    let active = collect(placed);
-    let inactive = collect(placed2);
+    const owned = Object.assign({}, stored);
+    const active = collect(placed);
+    const inactive = collect(placed2);
     Object.keys(inactive).forEach(id => active[id] = Math.max(active[id] || 0, inactive[id]));
     Object.keys(active).forEach(id => owned[id] = (owned[id] || 0) + active[id]);
     return {
@@ -182,25 +182,25 @@ function getEventInfo(event) {
 function update() {
     bgp.Data.getPillarsInfo();
     const state = getState();
-    let generator = gui.getGenerator();
-    let backpack = generator.materials || {};
-    let region = +generator.region;
-    let level = +generator.level;
+    const generator = gui.getGenerator();
+    const backpack = generator.materials || {};
+    const region = +generator.region;
+    const level = +generator.level;
     currency = generator.currency;
     updateTime = gui.getUnixTime();
     matCache = {};
     minCapacity = minRegen = Infinity;
 
-    let packs = {};
+    const packs = {};
     packsViewed = {};
     lastPack = 0;
     let lastPackDate = 0;
-    for (let pack of gui.getArrayOfInt(generator.packs_b)) {
+    for (const pack of gui.getArrayOfInt(generator.packs_b)) {
         if (pack) packs[pack] = true;
     }
-    for (let pack of gui.getArray(generator.packs_v)) {
+    for (const pack of gui.getArray(generator.packs_v)) {
         if (pack) {
-            let dt = +pack.viewed;
+            const dt = +pack.viewed;
             packs[pack.def_id] = true;
             packsViewed[pack.def_id] = dt;
             if (dt > lastPackDate) {
@@ -211,7 +211,7 @@ function update() {
     }
 
     const now = gui.getUnixTime();
-    let currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
+    const currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
     lastOffer = currentOffer ? currentOffer.def_id : 0;
 
     const {
@@ -220,22 +220,22 @@ function update() {
     } = getOwnedActive(generator.stored_buildings, generator.camp.buildings, generator.camp.inactive_b);
 
     // Determine events
-    let events = {};
-    for (let event of Object.values(generator.events)) {
-        let finished = +event.finished;
+    const events = {};
+    for (const event of Object.values(generator.events)) {
+        const finished = +event.finished;
         // Shop is open for 7 days after the event ends
-        let shopLimit = finished + 86400 * 7;
-        let eid = event.def_id;
+        const shopLimit = finished + 86400 * 7;
+        const eid = event.def_id;
         if (shopLimit > updateTime) {
             events[eid] = generator.events_region[eid] || 0;
         }
     }
     allEvents = {};
-    for (let event of Object.values(gui.getFile('events'))) {
-        let finished = +event.end;
+    for (const event of Object.values(gui.getFile('events'))) {
+        const finished = +event.end;
         // Shop is open for 7 days after the event ends
-        let shopLimit = finished + 86400 * 7;
-        let eid = event.def_id;
+        const shopLimit = finished + 86400 * 7;
+        const eid = event.def_id;
         if (shopLimit > updateTime && !(eid in events)) {
             events[eid] = region;
         }
@@ -259,7 +259,7 @@ function update() {
     sales.forEach(sale => sale.def_id = +sale.def_id);
     sales = sales.sort((a, b) => a.def_id - b.def_id).reverse();
     const allSkins = {};
-    for (let sale of sales) {
+    for (const sale of sales) {
         const eid = +sale.event_id || 0;
         const erid = +sale.event_region_id || 0;
         let hide = +sale.hide;
@@ -276,7 +276,7 @@ function update() {
                 allSkins[skin] = skin;
             }
         }
-        let item = allItems['b' + sale.object_id];
+        const item = allItems['b' + sale.object_id];
         if (!item) continue;
         if (eid && (!(eid in events) || (erid != events[eid] && erid != 0))) hide = 1;
         if (hide && (item.sale_id || !item.owned)) continue;
@@ -323,11 +323,11 @@ function update() {
     sales = Object.values(gui.getFile('offers')).filter(sale => sale.type == 'building');
     sales.forEach(sale => sale.def_id = +sale.def_id);
     sales = sales.sort((a, b) => a.def_id - b.def_id).reverse();
-    for (let sale of sales) {
-        let item = allItems['b' + sale.object_id];
+    for (const sale of sales) {
+        const item = allItems['b' + sale.object_id];
         if (!item || item.sale_id) continue;
         // Offers are not specified for events
-        let eid = +sale.event || 0;
+        const eid = +sale.event || 0;
         let erid = +sale.event_region_id || 0;
         for (let region of sale.regions.split(',')) {
             region = +region;
@@ -343,17 +343,17 @@ function update() {
 
     // PACKS
     sales = Object.values(gui.getFile('packs'));
-    for (let sale of sales) {
+    for (const sale of sales) {
         if (!(sale.def_id in packs)) continue;
-        let eid = +sale.event_id || 0;
-        let erid = +sale.region_id || 0;
+        const eid = +sale.event_id || 0;
+        const erid = +sale.region_id || 0;
         let hide = +sale.hide;
-        let start = packsViewed[sale.def_id] || 0;
-        let end = start ? start + (+sale.duration) : 0;
+        const start = packsViewed[sale.def_id] || 0;
+        const end = start ? start + (+sale.duration) : 0;
         if (end <= updateTime) hide = 1;
         if (lastPack && sale.def_id == lastPack && hide) lastPack = 0;
         if (eid && (!(eid in events) || erid != events[eid])) hide = 1;
-        let items = gui.getArray(sale.items);
+        const items = gui.getArray(sale.items);
         for (let item of items) {
             if (item.type != 'building') continue;
             item = allItems['b' + item.object_id];
@@ -365,33 +365,33 @@ function update() {
 
     // TIERED OFFERS
     sales = Object.values(gui.getFile('tiered_offers'));
-    let possibleOffers = [];
-    for (let sale of sales) {
-        let start = +sale.start || 0;
-        let end = +sale.end || 0;
-        let erid = +sale.region_id;
-        let hide = (end <= updateTime || start > updateTime || erid > region || +sale.req_level > level) ? 1 : 0;
+    const possibleOffers = [];
+    for (const sale of sales) {
+        const start = +sale.start || 0;
+        const end = +sale.end || 0;
+        const erid = +sale.region_id;
+        const hide = (end <= updateTime || start > updateTime || erid > region || +sale.req_level > level) ? 1 : 0;
         if (!hide) possibleOffers.push(sale);
     }
-    let viewedOffers = gui.getArrayOfInt(generator.viewed_tiers);
-    let boughtTiers = gui.getArrayOfInt(generator.bought_tiers);
+    const viewedOffers = gui.getArrayOfInt(generator.viewed_tiers);
+    const boughtTiers = gui.getArrayOfInt(generator.bought_tiers);
     // Only one offer at a time, get the first that is viewed / bought (default is the one for the current region)
     let activeOffer = possibleOffers.find(offer => viewedOffers.includes(+offer.def_id));
     activeOffer = activeOffer || possibleOffers.find(offer => gui.getArray(offer.tiers).find(tier => boughtTiers.includes(+tier.def_id)));
     activeOffer = activeOffer || possibleOffers.find(offer => +offer.region_id == region);
     lastTieredOffer = activeOffer ? activeOffer.def_id : 0;
-    for (let sale of sales) {
-        let hide = sale != activeOffer;
-        let eid = 0;
-        let erid = +sale.region_id;
-        let tiers = gui.getArray(sale.tiers);
-        for (let tier of tiers) {
-            let gem = +tier.gem_price;
-            let reqs = [{
+    for (const sale of sales) {
+        const hide = sale != activeOffer;
+        const eid = 0;
+        const erid = +sale.region_id;
+        const tiers = gui.getArray(sale.tiers);
+        for (const tier of tiers) {
+            const gem = +tier.gem_price;
+            const reqs = [{
                 material_id: 2,
                 amount: gem
             }];
-            let items = gui.getArray(tier.items);
+            const items = gui.getArray(tier.items);
             for (let item of items) {
                 if (item.type != 'building') continue;
                 item = allItems['b' + item.object_id];
@@ -409,8 +409,8 @@ function update() {
     listMaterial = {};
     let coins = 0;
     const skins = getBoughtSkins();
-    for (let id of Object.keys(allItems)) {
-        let item = allItems[id];
+    for (const id of Object.keys(allItems)) {
+        const item = allItems[id];
         if (!item.owned && !item.sale_id) {
             delete allItems[id];
             continue;
@@ -427,7 +427,7 @@ function update() {
             item.rskin = gui.getSkinFromRegion(item.region);
             listRegion[item.region] = true;
         }
-        for (let req of item.reqs || []) listMaterial[req.material_id] = true;
+        for (const req of item.reqs || []) listMaterial[req.material_id] = true;
         if (item.placed < item.owned && item.sell) coins += item.sell * (item.owned - item.placed);
         computeItem(item, level, skins);
     }
@@ -436,11 +436,11 @@ function update() {
     listMaterial = Object.keys(listMaterial).map(n => +n).sort(gui.sortNumberAscending);
 
     let coins_deco = 0;
-    let decorations = gui.getFile('decorations');
-    let stored = generator.stored_decorations || {};
-    for (let did in stored) {
-        let qty = +stored[did];
-        let decoration = decorations[did];
+    const decorations = gui.getFile('decorations');
+    const stored = generator.stored_decorations || {};
+    for (const did in stored) {
+        const qty = +stored[did];
+        const decoration = decorations[did];
         if (decoration && qty) coins_deco += qty * +decoration.sell_price;
     }
 
@@ -500,7 +500,7 @@ function setState(state) {
     state.useful = gui.setSelectState(selectUseful, state.useful);
     filterHideMax = !!state.hidemax;
     state.type = gui.setSelectState(selectType, state.type);
-    let level = String(state.level || '').toUpperCase();
+    const level = String(state.level || '').toUpperCase();
     let match = level.match(/[EGL]/);
     filterLevelComparison = match ? match[0] : '';
     match = level.match(/C/);
@@ -515,8 +515,8 @@ function setState(state) {
 }
 
 function updateButton() {
-    let flag = !!(filterSkin || filterMaterial || filterLevelComparison || filterHideMax);
-    let button = container.querySelector('.toolbar button.advanced');
+    const flag = !!(filterSkin || filterMaterial || filterLevelComparison || filterHideMax);
+    const button = container.querySelector('.toolbar button.advanced');
     button.textContent = gui.getMessage(flag ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', flag);
 
@@ -557,14 +557,14 @@ function onClickAdvanced() {
     htm += Html`</tr><tr>`;
     htm += Html`<td><select name="skin" multiple data-method="skin">`;
     htm += Html`<optgroup label="${gui.getMessage('gui_region').toUpperCase()}">`;
-    let list = gui.getArrayOfInt(filterSkin);
-    for (let rid of listRegion) {
-        let id = gui.getSkinFromRegion(rid);
+    const list = gui.getArrayOfInt(filterSkin);
+    for (const rid of listRegion) {
+        const id = gui.getSkinFromRegion(rid);
         htm += `<option ${getValueSelected(id, list.includes(id))}>${gui.getObjectName('region', rid)}</option>`;
     }
     htm += Html`</optgroup>`;
     htm += Html`<optgroup label="${gui.getMessage('gui_theme').toUpperCase()}">`;
-    for (let item of listSkin.map(id => [id, gui.getObjectName('skin', id)]).sort((a, b) => a[1].localeCompare(b[1]))) {
+    for (const item of listSkin.map(id => [id, gui.getObjectName('skin', id)]).sort((a, b) => a[1].localeCompare(b[1]))) {
         htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
     }
     htm += Html`</optgroup>`;
@@ -580,12 +580,12 @@ function onClickAdvanced() {
         const name = 'material' + (isInclude ? 1 : 0);
         htm += Html`<td><select name="${name}" multiple data-method="${name}">`;
         htm += Html`<optgroup label="${gui.getMessage('gui_from_regions').toUpperCase()}">`;
-        for (let item of items.filter(item => item[2] == 0)) {
+        for (const item of items.filter(item => item[2] == 0)) {
             htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
         }
         htm += Html`</optgroup>`;
         htm += Html`<optgroup label="${gui.getMessage('gui_from_events').toUpperCase()}">`;
-        for (let item of items.filter(item => item[2] > 0)) {
+        for (const item of items.filter(item => item[2] > 0)) {
             htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
         }
         htm += Html`</optgroup>`;
@@ -634,7 +634,7 @@ function onClickAdvanced() {
             params[select1.name] = select1.selectedOptions.length > 0;
         }
         if (shouldRefresh) {
-            let setActivated = (lbl, flag) => gui.dialog.element.querySelector('[data-lbl=' + lbl + ']').classList.toggle('equipment-activated', !!flag);
+            const setActivated = (lbl, flag) => gui.dialog.element.querySelector('[data-lbl=' + lbl + ']').classList.toggle('equipment-activated', !!flag);
             setActivated('level', params.levelcomparison);
             setActivated('hidemax', params.hidemax);
             setActivated('skin', params.skin);
@@ -774,19 +774,19 @@ function getCurrentItems(state) {
 
 function refresh() {
     gui.updateTabState(tab);
-    let state = getState();
+    const state = getState();
     updateButton(state);
 
-    let fnSearch = gui.getSearchFilter(state.search);
-    let type = (state.type || '').toLowerCase();
+    const fnSearch = gui.getSearchFilter(state.search);
+    const type = (state.type || '').toLowerCase();
     // We use a negative here and NaN in case no comparison must be checked
     // This works because NaN is never equal to any value, so the "if" is always false.
-    let not_owned = state.owned ? state.owned == 'no' : NaN;
-    let not_shop = state.shop ? state.shop == 'no' : NaN;
-    let from = state.show == '' ? state.from : '';
-    let not_affordable = state.affordable ? state.affordable == 'no' : NaN;
-    let not_useful = state.useful ? state.useful == 'no' : NaN;
-    let hideMax = state.hidemax;
+    const not_owned = state.owned ? state.owned == 'no' : NaN;
+    const not_shop = state.shop ? state.shop == 'no' : NaN;
+    const from = state.show == '' ? state.from : '';
+    const not_affordable = state.affordable ? state.affordable == 'no' : NaN;
+    const not_useful = state.useful ? state.useful == 'no' : NaN;
+    const hideMax = state.hidemax;
 
     let listSkin = gui.getArrayOfInt(filterSkin);
     if (listSkin.length == 0) listSkin = null;
@@ -795,7 +795,7 @@ function refresh() {
     if (listMaterialInclude.length == 0) listMaterialInclude = null;
     if (listMaterialExclude.length == 0) listMaterialExclude = null;
 
-    let level = filterLevelType ? filterLevel : +gui.getGenerator().level;
+    const level = filterLevelType ? filterLevel : +gui.getGenerator().level;
     let fnLevel = null;
     if (filterLevelComparison == 'E') fnLevel = value => value != level;
     if (filterLevelComparison == 'L') fnLevel = value => value > level;
@@ -809,7 +809,7 @@ function refresh() {
         }
         // NaN is never equal to true/false, so this will not trigger
         if (not_owned == (item.owned > 0)) return false;
-        let inShop = item.sale_id > 0 && !item.hide;
+        const inShop = item.sale_id > 0 && !item.hide;
         if (not_shop == inShop) return false;
         if (from == 'offer' && item.sale != 'offer') return false;
         if (from == 'pack' && item.sale != 'pack') return false;
@@ -822,7 +822,7 @@ function refresh() {
         if (hideMax && item.owned >= item.limit) return false;
         if (listSkin && !listSkin.includes(item.rskin)) return false;
         if (listMaterialExclude) {
-            for (let req of item.reqs || []) {
+            for (const req of item.reqs || []) {
                 if (listMaterialExclude.includes(req.material_id)) return false;
             }
         }
@@ -836,18 +836,18 @@ function refresh() {
 
     getCurrentItems(state);
     let items = Object.values(currentItems);
-    let total = items.length;
+    const total = items.length;
     items = items.filter(isVisible);
     Array.from(container.querySelectorAll('.equipment tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(total));
     });
 
-    let sort = gui.getSortFunction(null, smartTable, 'name');
+    const sort = gui.getSortFunction(null, smartTable, 'name');
     items = sort(items);
 
-    var tbody = smartTable.tbody[0];
+    const tbody = smartTable.tbody[0];
     Dialog.htmlToDOM(tbody, '');
-    for (let item of items) {
+    for (const item of items) {
         let row = item.row;
         if (!row) {
             row = item.row = document.createElement('tr');
@@ -864,18 +864,18 @@ function refresh() {
 const lockedClass = Html` class="locked"`;
 
 function getMaterialImg(req) {
-    let id = req.material_id;
+    const id = req.material_id;
     let result = matCache[id];
     if (!result) {
         result = {};
         result.url = gui.getObjectImage('material', id, true);
-        let item = gui.getObject('material', id);
-        let name_loc = item && item.name_loc;
+        const item = gui.getObject('material', id);
+        const name_loc = item && item.name_loc;
         result.name = name_loc ? gui.getString(name_loc) : '#' + id;
         result.title = (item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '');
         matCache[id] = result;
     }
-    let img = result.url ? Html`<img width="18" height="18" src="${result.url}">` : '';
+    const img = result.url ? Html`<img width="18" height="18" src="${result.url}">` : '';
     let title = result.name + ' (' + Locale.formatNumber(req.amount) + ' / ' + Locale.formatNumber(req.stored) + ')';
     const xp = gui.getXp('material', id);
     const totXp = req.amount * xp;
@@ -888,8 +888,8 @@ function getMaterialImg(req) {
 }
 
 function updateRow(row) {
-    let id = row.getAttribute('data-id');
-    let item = currentItems[id];
+    const id = row.getAttribute('data-id');
+    const item = currentItems[id];
     let htm = '';
     const type = item.type == 'capacity' || item.type == 'regen' ? 'building' : item.type;
     htm += Html.br`<td><img class="building tooltip-event" src="${gui.getObjectImage(type, item.oid)}"></td>`;
@@ -898,17 +898,17 @@ function updateRow(row) {
     let end = 0;
     let price;
     if (item.sale == 'offer') {
-        let offer = bgp.Data.files.offers[item.sale_id];
+        const offer = bgp.Data.files.offers[item.sale_id];
         htm += Html.br`<br><div class="offer" data-type="offer" data-id="${offer.def_id}">${gui.getMessage('gui_offer')}</div>`;
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'tier') {
-        let offer = bgp.Data.files.tiered_offers[item.sale_id];
+        const offer = bgp.Data.files.tiered_offers[item.sale_id];
         htm += Html.br`<br><div class="offer" data-type="tier" data-id="${offer.def_id}">${gui.getMessage('gui_tieredoffer')}</div> ${gui.getString(item.tname)}`;
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'pack') {
-        let pack = bgp.Data.files.packs[item.sale_id];
+        const pack = bgp.Data.files.packs[item.sale_id];
         htm += Html.br`<br><div class="offer" data-type="pack" data-id="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
         start = packsViewed[pack.def_id] || 0;
         end = start ? start + (+pack.duration) : 0;
@@ -964,14 +964,14 @@ function updateRow(row) {
     }
     title = title.join('\n');
     htm += Html.br`<td class="${className}"${title ? Html` title="${title}"` : ''}>`;
-    let reqs = gui.getArray(item.reqs);
+    const reqs = gui.getArray(item.reqs);
     if (price) {
         htm += Html.br(price.currency + ' ' + Locale.formatNumber(+price.amount, 2));
     } else if (reqs.length == 1 && reqs[0].amount == 0) {
         htm += Html.br(gui.getMessage('equipment_free'));
     } else {
         let first = true;
-        for (let req of reqs) {
+        for (const req of reqs) {
             if (!first) htm += `<br>`;
             first = false;
             htm += getMaterialImg(req);
@@ -991,7 +991,7 @@ function getOutlinedText(text, extraClass = '') {
 }
 
 function getOfferItem(item) {
-    let copy = {};
+    const copy = {};
     copy.type = copy.kind = item.type;
     copy.oid = +item.object_id;
     copy.amount = +item.amount;
@@ -1001,11 +1001,11 @@ function getOfferItem(item) {
     const backpack = gui.getGenerator().materials || {};
     copy.reqs = getRequirements(item.requirements, backpack);
     copy.limit = +item.limit || 0;
-    let obj = copy.obj = (copy.type == 'building' || copy.type == 'material' || copy.type == 'usable') ? gui.getObject(copy.type, copy.oid) : null;
+    const obj = copy.obj = (copy.type == 'building' || copy.type == 'material' || copy.type == 'usable') ? gui.getObject(copy.type, copy.oid) : null;
     // type can be: "system", "building", "decoration", "usable", "material", "token", "camp_skin"
     if (copy.type == 'building' && obj) {
-        let cap = +obj.max_stamina;
-        let reg = +obj.stamina_reg;
+        const cap = +obj.max_stamina;
+        const reg = +obj.stamina_reg;
         let img = 'camp_capacity';
         if (cap) {
             copy.kind = 'capacity';
@@ -1061,8 +1061,8 @@ function getOfferItem(item) {
 }
 
 function onTooltip(event) {
-    let element = event.target;
-    let htm = Html.br`<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
+    const element = event.target;
+    const htm = Html.br`<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
     Tooltip.show(element, htm);
 }
 
@@ -1166,7 +1166,7 @@ function showOffer(type, id) {
                 if (item.reqs) {
                     htm += Html.br`<div class="cost">`;
                     let first = true;
-                    for (let req of item.reqs) {
+                    for (const req of item.reqs) {
                         if (!first) htm += `<br>`;
                         first = false;
                         htm += getMaterialImg(req);
@@ -1259,8 +1259,8 @@ function getTieredOffers(id) {
     const blocks = [];
     const categories = {};
     for (const offer of related) {
-        let rid = +offer.region_id;
-        let category = gui.getArrayOfInt(offer.payer_category_list)[0] || 0;
+        const rid = +offer.region_id;
+        const category = gui.getArrayOfInt(offer.payer_category_list)[0] || 0;
         categories[category] = true;
         for (const tier of offer.tiers) {
             const items = tier.items.map(item => getOfferItem(item)).filter(item => item);

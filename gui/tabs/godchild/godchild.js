@@ -9,7 +9,7 @@ export default {
     }
 };
 
-var tab, container, gcTable, numNeighbours, maxGC;
+let tab, container, gcTable, numNeighbours, maxGC;
 
 function init() {
     tab = this;
@@ -29,19 +29,19 @@ function setTableRegion() {
 
 function update() {
     Dialog.htmlToDOM(gcTable, '');
-    var neighbours = Object.values(bgp.Data.getNeighbours());
+    const neighbours = Object.values(bgp.Data.getNeighbours());
     numNeighbours = neighbours.length - 1;
     maxGC = gui.getChildrenMax(numNeighbours) + 1;
-    var list = neighbours.filter(pal => pal.spawned);
+    const list = neighbours.filter(pal => pal.spawned);
     list.sort((a, b) => a.index - b.index);
     setTableRegion();
-    for (var pal of list) {
-        var div = gcTable.appendChild(document.createElement('div'));
+    for (const pal of list) {
+        const div = gcTable.appendChild(document.createElement('div'));
         div.setAttribute('data-pal-id', pal.id);
         div.className = 'DAF-gc-pal DAF-gc-reg' + pal.region;
         div.style.backgroundImage = 'url(' + (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) + ')';
         div.title = gui.getPlayerNameFull(pal) + '\n' + gui.getMessageAndValue('camp_region', gui.getObjectName('region', pal.region));
-        var d = div.appendChild(document.createElement('div'));
+        const d = div.appendChild(document.createElement('div'));
         d.textContent = pal.level;
         if (pal.id == 1) d.style.visibility = 'hidden';
         div.appendChild(document.createElement('div')).textContent = pal.name || 'Player ' + pal.id;
@@ -50,7 +50,7 @@ function update() {
 }
 
 function updateStatus() {
-    var num = gcTable.childNodes.length;
+    const num = gcTable.childNodes.length;
     container.querySelector('.godchild_table').style.display = num ? '' : 'none';
     container.querySelector('.toolbar').style.display = !num ? '' : 'none';
     let htm = Html.br`${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
@@ -58,15 +58,15 @@ function updateStatus() {
     if (nextTxt) htm += Html.br`<br>${nextTxt}`;
     for (const div of container.querySelectorAll('.tab_godchild .stats')) Dialog.htmlToDOM(div, htm);
     container.querySelector('.tab_godchild .screenshot .shot').style.display = num > 0 ? '' : 'none';
-    var next = gui.getChildrenNext(numNeighbours);
-    var nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', Locale.formatNumber(next));
-    for (let div of container.querySelectorAll('.tab_godchild .info'))
+    const next = gui.getChildrenNext(numNeighbours);
+    const nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', Locale.formatNumber(next));
+    for (const div of container.querySelectorAll('.tab_godchild .info'))
         div.innerText = gui.getMessage('godchild_info', Locale.formatNumber(numNeighbours), Locale.formatNumber(maxGC)) + ' - ' + nextInfo;
 }
 
 function actionFriendChildCharge(data) {
-    var id = data.id;
-    var div = gcTable.querySelector('[data-pal-id="' + id + '"]');
+    const id = data.id;
+    const div = gcTable.querySelector('[data-pal-id="' + id + '"]');
     if (div) {
         div.parentNode.removeChild(div);
         updateStatus();

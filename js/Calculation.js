@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class Calculation {
     constructor() {
         this.clearConstants();
@@ -76,7 +77,7 @@ class Calculation {
         const values = [];
         const operators = [this._symbols['('].prefix];
         const exec = () => {
-            let op = operators.pop();
+            const op = operators.pop();
             values.push(op);
             return op.precedence;
         };

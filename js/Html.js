@@ -23,7 +23,7 @@ const Html = (function () {
             return (v === null || v === undefined) ? '' : (v instanceof HtmlRaw) ? v.text : (typeof v == 'string' ? v : String(v)).replace(re, replacer);
         }
         return function (strings, ...values) {
-            var len = values.length;
+            const len = values.length;
             // Was called as template function or as plain function
             return new HtmlRaw(Array.isArray(strings) && 'raw' in strings ? strings.map((s, i) => i >= len ? s : s + encode(values[i])).join('') : encode(strings));
         };
