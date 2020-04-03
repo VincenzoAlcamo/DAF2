@@ -352,16 +352,18 @@ function refresh() {
     let items = Object.values(allEvents);
     const total = items.length;
     items = items.filter(isVisible);
-    Array.from(container.querySelectorAll('.events tfoot td')).forEach(cell => {
-        cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(total));
-    });
+    const num = items.length;
 
     const sort = gui.getSortFunction(null, smartTable, 'name');
     items = sort(items);
 
     const tbody = smartTable.tbody[0];
     Dialog.htmlToDOM(tbody, '');
+    const totals = {};
+    const keys = ['tquest', 'cquest', 'cachiev', 'tachiev', 'ccollect', 'tcollect', 'locations', 'repeatables', 'challenges', 'maps'];
+    keys.forEach(key => totals[key] = 0);
     for (const item of items) {
+        keys.forEach(key => totals[key] += item[key]);
         let row = item.row;
         if (!row) {
             row = item.row = document.createElement('tr');
@@ -371,6 +373,11 @@ function refresh() {
         }
         tbody.appendChild(row);
     }
+    Array.from(container.querySelectorAll('.events tfoot td[data-key]')).forEach(cell => {
+        const key = cell.getAttribute('data-key');
+        if (key == 'total') cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(num), Locale.formatNumber(total));
+        else cell.innerText = Locale.formatNumber(totals[key]);
+    });
     gui.collectLazyElements(tbody);
 
     showInfo();
