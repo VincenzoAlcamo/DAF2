@@ -176,7 +176,7 @@ function kitchenFoundry(type) {
             if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
             let htm = '';
             let img = Html.br`<img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/>`;
-            if (p.locked) { img = Html.br`<span class="locked32" title="Locked">${img}</span>`; }
+            if (p.locked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
             htm += Html.br`<td rowspan="${rspan}">${img}</td>`;
             htm += Html.br`<td rowspan="${rspan}">${p.name}</td>`;
             htm += Html.br`<td rowspan="${rspan}">${gui.getRegionImg(p.region)}</td>`;

@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Location"
     },
+    "gui_locked": {
+        "message": "Locked"
+    },
     "dialog_ok": {
         "message": "Ok"
     },

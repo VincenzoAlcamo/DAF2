@@ -1565,6 +1565,7 @@
 "en@gui_filter_invert":{"message":"Invert"},
 "en@gui_advancedfilter":{"message":"Advanced filter"},
 "en@gui_location":{"message":"Location"},
+"en@gui_locked":{"message":"Locked"},
 "en@dialog_ok":{"message":"Ok"},
 "en@dialog_yes":{"message":"Yes"},
 "en@dialog_no":{"message":"No"},
