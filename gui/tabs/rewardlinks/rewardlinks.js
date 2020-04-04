@@ -287,7 +287,8 @@ function onClickTable(event) {
                 bgp.Data.saveRewardLink(rewardLinksData);
                 update();
             }
-            if (method == Dialog.CONFIRM) showNextReason();
+            if (method == Dialog.CONFIRM || method == 'reset') showNextReason();
+            else autoClick = false;
         });
     }
 
