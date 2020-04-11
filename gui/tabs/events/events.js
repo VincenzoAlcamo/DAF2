@@ -8,6 +8,8 @@ export default {
     requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts', 'sales', 'special_weeks']
 };
 
+const MAX_REWARDS_PER_ROW = 6;
+
 const INFOS = ['qst', 'ach', 'tre', 'loc'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
@@ -604,12 +606,12 @@ function showInfo() {
         }
         result.rewards = Object.values(totals);
         // A maximum of 5 rewards per row
-        result.max = Math.min(5, Math.max(result.max, result.rewards.length));
+        result.max = Math.min(MAX_REWARDS_PER_ROW, Math.max(result.max, result.rewards.length));
         return result;
     };
 
     const classesByType = {};
-    ['artifact', 'material', 'token', 'usable', 'decoration', 'system', 'eventpass_xp'].forEach((v, i) => classesByType[v] = i + 10);
+    ['artifact', 'material', 'token', 'usable', 'decoration', 'system', 'eventpass_xp'].forEach((v, i) => classesByType[v] = (i + 1) * 10);
     const RINGS = Object.values(RINGS_BY_EVENT);
     const showRewards = (rewards, maxNumRewards, rows = 1, className = '', raw = false) => {
         let htm = '';
@@ -621,12 +623,12 @@ function showInfo() {
             reward._c = classesByType[type];
             if (type == 'material') {
                 if (item.machiev.includes(id)) reward._c = 0;
-                if (id == 1) reward._c = classesByType['system'], reward._i = 0;
+                if (id == 1) { reward._c = classesByType['system'] - 1; }
                 const gemIndex = GEMS.indexOf(id);
-                if (gemIndex >= 0) reward._c = 2, reward._i = gemIndex;
+                if (gemIndex >= 0) { reward._c = 2; reward._i = gemIndex; }
             } else if (type == 'token') {
                 const ringIndex = RINGS.indexOf(id);
-                if (ringIndex >= 0) reward._c = 1, reward._i = ringIndex;
+                if (ringIndex >= 0) { reward._c = 1; reward._i = ringIndex; }
             }
         }
         rewards.sort((a, b) => (a._c - b._c) || (a._i - b._i));
@@ -651,15 +653,13 @@ function showInfo() {
             reward.amount = Math.floor(reward.amount);
             return reward.amount > 0;
         });
-        const cells = showRewards(rewards, 5, 1, '', true);
+        const cells = showRewards(rewards, MAX_REWARDS_PER_ROW, 1, '', true);
         for (let i = 0; i < cells.length && cell; i++, cell = cell.nextSibling) Dialog.htmlToDOM(cell, cells[i]);
     };
 
     let lootPlaceholder = '';
     if (showLoot) {
-        lootPlaceholder = `<td class="loot no_right_border"></td>`;
-        lootPlaceholder += lootPlaceholder;
-        lootPlaceholder += lootPlaceholder;
+        for (let i = 1; i < MAX_REWARDS_PER_ROW; i++) lootPlaceholder += `<td class="loot no_right_border"></td>`;
         lootPlaceholder += `<td class="loot"></td>`;
     }
 
@@ -837,13 +837,14 @@ function showInfo() {
                 loc.rewards = rewards;
                 return loc;
             });
-            const { max: maxNumRewards, rewards: totalRewards } = getTotalRewards(...locs.map(l => l.rewards));
+            const { max, rewards: totalRewards } = getTotalRewards(...locs.map(l => l.rewards));
+            const maxNumRewards = showLoot ? 1 : max;
             htm += Html.br`<table class="event-subtable event-locations" data-key="${key}">`;
             htm += Html.br`<thead><tr><th>${title}</th>`;
             htm += Html.br`<th colspan="${showProgress ? 3 : 1}">${gui.getMessage('events_tiles')}</th>`;
             if (isRepeatables) htm += Html.br`<th>${gui.getMessage('events_chance')}</th><th>${gui.getMessage('repeat_cooldown')}</th>`;
             htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th>`;
-            if (showLoot) htm += Html.br`<th colspan="5">${gui.getMessage('gui_loot')}</th>`;
+            if (showLoot) htm += Html.br`<th colspan="${MAX_REWARDS_PER_ROW}">${gui.getMessage('gui_loot')}</th>`;
             htm += Html.br`</tr></thead>`;
             htm += Html.br`<tbody class="${isRepeatables ? '' : 'row-coloring'}">`;
             let isOdd = false;
