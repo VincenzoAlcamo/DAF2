@@ -1562,7 +1562,7 @@ var Synchronize = {
             }
         } else {
             if (isSend) return Badge.setText('SYNC').setBackgroundColor('green');
-            Badge.setText('');
+            Badge.setText('').setIcon('green');
             Synchronize.process(parameters.xml, response);
         }
     }
