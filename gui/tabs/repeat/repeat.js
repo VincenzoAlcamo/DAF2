@@ -17,7 +17,7 @@ let tab, container, smartTable, selectShow, selectReady, searchInput, searchHand
 let selected = [];
 let repeatables;
 let swPostcards;
-let refreshInterval = 0;
+let refreshTimer = 0;
 
 const ticked = Html.br`<img width="24" src="/img/gui/ticked.png">`;
 const unticked = Html.br`<img width="24" src="/img/gui/unticked.png">`;
@@ -206,27 +206,25 @@ function refresh() {
     }
     gui.collectLazyElements(tbody);
     smartTable.syncLater();
-    setRefreshTimer();
-}
-
-function setRefreshTimer() {
-    if (!refreshInterval) {
-        refreshInterval = setInterval(refreshItems, 5000);
-    }
+    refreshItems();
 }
 
 function clearRefreshTimer() {
-    if (refreshInterval) {
-        clearInterval(refreshInterval);
-    }
-    refreshInterval = 0;
+    if (refreshTimer) { clearTimeout(refreshTimer); }
+    refreshTimer = 0;
 }
 
 function refreshItems() {
+    clearRefreshTimer();
     // Update items only when this is the current tab and the document is visible
-    if (gui.getCurrentTab() !== tab) return;
-    if (document.visibilityState != 'visible') return;
+    if (gui.getCurrentTab() !== tab || document.visibilityState != 'visible') { return; }
     const changedState = calculateItem(null, true);
+    const now = gui.getUnixTime();
+    const almostReady = Object.values(repeatables).find(item => {
+        const remaining = item.time - now;
+        return remaining >= 0 && remaining <= 65;
+    });
+    refreshTimer = setTimeout(refreshItems, almostReady ? 500 : 5000);
     // Refresh table if at least one item changed state and (filter is on Ready? or table is sorted by time)
     if (changedState && (getState().ready != '' || smartTable.sort.name == 'time' || smartTable.sortSub.name == 'time')) refresh();
 }
@@ -351,7 +349,6 @@ function onClickTable(event) {
 function visibilityChange(visible) {
     if (visible) {
         refreshItems();
-        setRefreshTimer();
     } else {
         clearRefreshTimer();
     }
