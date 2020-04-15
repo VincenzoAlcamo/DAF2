@@ -519,30 +519,42 @@ const gui = {
         return result;
     },
     calculateLoot: function (lootArea, level, swDoubleDrop) {
-        let min = +lootArea.min;
-        let max = +lootArea.max;
-        let coef = +lootArea.coef;
-        if (min > max) {
-            min = max = 1;
-            coef = 0;
+        const min = +lootArea.min || 0;
+        const max = +lootArea.max || 0;
+
+        // If the range is invalid, the amount is fixed to 1
+        if (min > max) return { notRandom: true, coef: 0, min: 1, max: 1, avg: 1 };
+
+        // Value is randomly picked between min and max, but negative values are coerced to 0
+        let minValue = Math.max(0, min);
+        let maxValue = Math.max(0, max);
+        let avgValue = minValue;
+        // If we have a range of values, compute the average
+        if (minValue < maxValue) {
+            // We compute the average value for range [0, max]
+            const avgPositive = (maxValue - minValue) / 2 + minValue;
+            // The cumulative value for the positive range
+            const cumPositive = avgPositive * (maxValue - minValue + 1);
+            // The real average is over the range [min, max]
+            avgValue = cumPositive / (max - min + 1);
         }
-        let minValue = Math.floor(min);
-        let maxValue = Math.floor(max);
+
+        // Loot depends on level by the coef value
+        const coef = +lootArea.coef || 0;
         if (coef) {
             minValue += Math.floor(minValue * coef * level);
             maxValue += Math.floor(maxValue * coef * level);
+            avgValue += Math.floor(avgValue * coef * level);
         }
-        if (swDoubleDrop) {
-            const coeficient = swDoubleDrop.coeficient;
-            minValue = Math.round(minValue * coeficient);
-            maxValue = Math.round(maxValue * coeficient);
-        }
+
+        // The coefficient for double drop special week is applied on the resulting values
+        const doubleDropCoeff = swDoubleDrop ? swDoubleDrop.coeficient : 1;
         return {
             notRandom: min == max,
             coef: coef,
-            min: Math.max(0, minValue),
-            max: Math.max(0, maxValue),
-            avg: Math.max(0, (minValue + maxValue) / 2)
+            min: minValue * doubleDropCoeff,
+            max: maxValue * doubleDropCoeff,
+            avg: avgValue * doubleDropCoeff
         };
     },
     setupScreenshot: function (element, fileName = 'screenshot.png', screenshot) {

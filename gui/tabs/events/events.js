@@ -935,7 +935,9 @@ function showInfo() {
                             const object_id = +lootArea.object_id;
                             if (type == 'artifact' || type == 'decoration') continue;
                             if (type == 'token' && ![32, 1642, 5605, 6844, 7833].includes(object_id)) continue;
-                            const num = typeof lootArea.tiles == 'string' ? lootArea.tiles.split(';').length : 0;
+                            const count = typeof lootArea.tiles == 'string' ? lootArea.tiles.split(';').length : 0;
+                            const random = +lootArea.random;
+                            const num = random > 0 && random < count ? random : count;
                             const amount = num * gui.calculateLoot(lootArea, level, isRepeatables ? swDoubleDrop : null).avg;
                             if (amount > 0) {
                                 const key = type + '\t' + object_id;
