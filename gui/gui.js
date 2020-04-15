@@ -255,15 +255,21 @@ const gui = {
     getSearchFilter: function (terms) {
         if (terms === null || terms === undefined || terms === '') return null;
         const fn = String(terms).toUpperCase().split('|').map(function (term) {
-            return term.split('+').reduce(function (prev, curr) {
-                if (curr == '') return prev;
-                if (!prev) return (value) => value.indexOf(curr) >= 0;
-                return (value) => value.indexOf(curr) >= 0 && prev(value);
+            return term.split('+').reduce(function (prevFn, curr) {
+                if (curr == '') return prevFn;
+                let currFn;
+                if (curr.charAt(0) === '^') {
+                    curr = curr.substring(1);
+                    currFn = (value) => value.indexOf(curr) < 0;
+                } else {
+                    currFn = (value) => value.indexOf(curr) >= 0;
+                }
+                return prevFn ? (value) => currFn(value) && prevFn(value) : currFn;
             }, null);
-        }).reduce(function (prev, curr) {
-            if (!curr) return prev;
-            if (!prev) return curr;
-            return (value) => curr(value) || prev(value);
+        }).reduce(function (prevFn, currFn) {
+            if (!currFn) return prevFn;
+            if (!prevFn) return currFn;
+            return (value) => currFn(value) || prevFn(value);
         }, null);
         return (value) => fn(String(value === null || value === undefined ? '' : value).toUpperCase());
     },
