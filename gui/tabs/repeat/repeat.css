@@ -45,3 +45,13 @@
   background-color: var(--warn-bgcol);
   color: var(--warn-fgcol);
 }
+
+.repeat td.time .relative {
+  display: block;
+}
+
+.repeat td.time .absolute {
+  display: block;
+  font-size: 12px;
+  opacity: 0.8;
+}

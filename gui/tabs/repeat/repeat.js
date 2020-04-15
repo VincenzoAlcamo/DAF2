@@ -244,7 +244,7 @@ function updateRow(row) {
     htm += Html.br`<td class="progress add_slash"></td>`;
     htm += Html.br`<td class="total"></td>`;
     htm += Html.br`<td class="postcard"></td>`;
-    htm += Html.br`<td class="time"></td>`;
+    htm += Html.br`<td class="time"><span class="relative"></span><span class="absolute"></span></td>`;
     row.classList.toggle('selected', item.selected);
     Dialog.htmlToDOM(row, htm);
     item._ready = item._readyText = null;
@@ -301,8 +301,12 @@ function calculateItem(item, flagRefreshRow) {
                 if (readyHasChanged) row.classList.toggle('ready', item.ready);
                 const text = item.ready ? gui.getMessage('repeat_ready') : gui.getDuration(item.time - now, true);
                 if (item._readyText !== text) {
-                    row.querySelector('td.time').innerText = item._readyText = text;
+                    row.querySelector('td.time .relative').innerText = item._readyText = text;
                 }
+            }
+            if (item.time !== item._time) {
+                const text = item.ready ? '' : '(' + Locale.formatTime(item.time) + ')';
+                row.querySelector('td.time .absolute').innerText = text;
             }
         }
     }
