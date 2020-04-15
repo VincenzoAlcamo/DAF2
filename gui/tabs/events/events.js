@@ -938,7 +938,8 @@ function showInfo() {
                             const count = typeof lootArea.tiles == 'string' ? lootArea.tiles.split(';').length : 0;
                             const random = +lootArea.random;
                             const num = random > 0 && random < count ? random : count;
-                            const amount = num * gui.calculateLoot(lootArea, level, isRepeatables ? swDoubleDrop : null).avg;
+                            const loot = gui.calculateLoot(lootArea, showProgress ? level : 0, isRepeatables ? swDoubleDrop : null);
+                            const amount = num * loot.avg;
                             if (amount > 0) {
                                 const key = type + '\t' + object_id;
                                 const reward = rewards[key];

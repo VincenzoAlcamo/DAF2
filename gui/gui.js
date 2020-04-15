@@ -538,7 +538,7 @@ const gui = {
         // If we have a range of values, compute the average
         if (minValue < maxValue) {
             // We compute the average value for range [0, max]
-            const avgPositive = (maxValue - minValue) / 2 + minValue;
+            const avgPositive = (maxValue + minValue) / 2;
             // The cumulative value for the positive range
             const cumPositive = avgPositive * (maxValue - minValue + 1);
             // The real average is over the range [min, max]
