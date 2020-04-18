@@ -97,8 +97,7 @@ const gui = {
         }).join('\n');
     },
     getPlayerNameFull: function (pal) {
-        const name = pal.name || 'Player ' + pal.id;
-        return pal.surname ? name + ' ' + pal.surname : name;
+        return pal.name ? (pal.surname ? pal.name + ' ' + pal.surname : pal.name) : 'Player ' + pal.id;
     },
     FB_ANON_MALE_IMG: 'data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBwCdASoyADIAPm0qkUWkIqGYDf2AQAbEtIBp7Ay0G/WSUM7JlLizCyxMfDWO4GTZsZ3rW/OD7o4ZrD5+BT08hIdEQYAA/voQZ4IvItpppdVXQWuubgHZ7Hz5ClT98CfXGkCeTZrhstMPkFiBPgl23Ssn29LDaI8GTQEsEUH2eeI8S7rLcNeX3hT74sAvZ2QAc9yDKh3vCDZXO6AcSFxINezC50AA',
     FB_ANON_FEMALE_IMG: 'data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBwCdASoyADIAPm0sk0WkIqGYDP0AQAbEtIBpOAqR8vvvO+zCp3M5F/ypDPVcAFo8VaiTamuvfoNQ/F5jaFiClqnYAAD++hBpI/d9yd90D8hRGlQZaLknz1bhjUBHwA03kCUnr+UZrKEK7H/RvtF2vwwgGNTfo5enYKkJ23075Nyi25PsFHIttUiGOfXnjtuOyT6lisDClpVR4YKW7iP+LCUUBF1yzvTUONcxCYqsEAAA',
@@ -438,6 +437,18 @@ const gui = {
     markNeighborsTab: function () {
         tabs.friendship.mustBeUpdated = true;
         tabs.neighbors.mustBeUpdated = true;
+    },
+    updateNeighborFriendName: function (save = false) {
+        const friendsByUid = {};
+        Object.values(bgp.Data.getFriends()).forEach(friend => friendsByUid[friend.uid] = friend);
+        const list = Object.values(bgp.Data.getNeighbours()).filter(pal => {
+            const friend = friendsByUid[pal.id];
+            if (!friend || pal.extra.fn === friend.name) return false;
+            pal.extra.fn = friend.name;
+            return true;
+        });
+        if (save) bgp.Data.saveNeighbour(list);
+        return list;
     },
     getActiveSpecialWeeks: function () {
         // requires special_weeks

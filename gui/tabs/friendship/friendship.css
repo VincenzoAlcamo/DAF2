@@ -104,3 +104,8 @@ table.f-matching tr.f-notmatched td:nth-child(4):after {
   width: 28px;
   height: 18px;
 }
+
+.friendship .friendname {
+  font-style: oblique;
+  opacity: 0.8;
+}

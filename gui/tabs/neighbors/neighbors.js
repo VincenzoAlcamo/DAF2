@@ -298,6 +298,7 @@ function update() {
         }
         giftValues[gift.def_id] = value * +gift.amount;
     }
+    gui.updateNeighborFriendName(true);
     refresh();
 }
 
@@ -318,6 +319,7 @@ function updateRow(row) {
     } else {
         htm += Html.br`<td><a class="no-link">${fullName}</a>`;
         if (friend) htm += Html.br`<br>${anchor}${friend.name}</a>`;
+        else if (pal.extra.fn) htm += Html.br`<br><span class="friendname">${pal.extra.fn}</span>`;
     }
     htm += Html.br`<br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
     htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;
@@ -517,7 +519,7 @@ function refreshDelayed() {
         if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
         else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         const fullname = gui.getPlayerNameFull(pal).toUpperCase();
-        if (fnSearch && !fnSearch(fullname + '\t' + (pal.extra.note || '').toUpperCase() + (friendNames[pal.id] || ''))) continue;
+        if (fnSearch && !fnSearch(fullname + '\t' + (pal.extra.note || '') + '\t' + (friendNames[pal.id] || '') + '\t' + (pal.extra.fn || ''))) continue;
         if (applyGiftFilter) {
             let flag = false;
             for (const palGift of (palGifts[pal.id] || [])) {

@@ -102,6 +102,7 @@ function setState(state) {
 }
 
 function update() {
+    gui.updateNeighborFriendName(true);
     refresh();
 }
 
@@ -278,6 +279,10 @@ function tableClick(event) {
         if (isRowVisible(friend, pal)) updateRow(row);
         else row.parentNode.removeChild(row);
         bgp.Data.saveFriend(friend);
+        if (friend.score == 99 && pal) {
+            pal.extra.fn = friend.name;
+            bgp.Data.saveNeighbour(pal);
+        }
         showStats();
     }
 }
@@ -317,7 +322,8 @@ function collectFriends(method) {
         left: Math.floor((screen.availWidth - width) / 2),
         top: Math.floor((screen.availHeight - height) / 2),
         type: 'popup',
-        url: 'https://www.facebook.com/profile.php?sk=friends'
+        // url: 'https://www.facebook.com/profile.php?sk=friends'
+        url: 'https://www.facebook.com/me/friends'
     }, function (w) {
         const tabId = w.tabs[0].id;
         bgp.Tab.excludeFromInjection(tabId);
@@ -443,7 +449,9 @@ function updateRow(row) {
     if (pal) {
         const anchor = Html.raw('<a class="no-link" translate="no">');
         htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
-        htm += Html.br`<td>${anchor}${gui.getPlayerNameFull(pal)}</a><br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
+        htm += Html.br`<td>${anchor}${gui.getPlayerNameFull(pal)}</a>`;
+        if (pal.extra.fn) htm += Html.br`<br><span class="friendname">${pal.extra.fn}</span>`;
+        htm += Html.br`<br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
         htm += Html.br`<td>${Locale.formatNumber(pal.level)}</td>`;
         htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;
         htm += Html.br`<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDays(pal.extra.timeCreated)}</td>`;
@@ -490,8 +498,8 @@ function getRowVisibilityChecker() {
         if (fnSearch) {
             let text = '';
             if (friend) text += '\t' + friend.name + '\t' + (friend.note || '');
-            if (pal) text += '\t' + gui.getPlayerNameFull(pal) + '\t' + (pal.extra.note || '');
-            if (!fnSearch(text.toUpperCase())) return false;
+            if (pal) text += '\t' + gui.getPlayerNameFull(pal) + '\t' + (pal.extra.note || '') + '\t' + (pal.extra.fn || '');
+            if (!fnSearch(text)) return false;
         }
         return fn(friend, pal);
     };
@@ -715,6 +723,7 @@ function matchStoreAndUpdate() {
             if (getProcessed(friend) == 2) friendsToSave.push(friend);
         }
         bgp.Data.saveFriend(friendsToSave);
+        gui.updateNeighborFriendName(true);
         // store neighbours
         // if (flagStoreNeighbours) bgp.Data.saveNeighbour(Object.values(bgp.Data.getNeighbours()));
         refresh();
@@ -742,7 +751,7 @@ function matchStoreAndUpdate() {
             let key = pal.fb_id;
             hashById[key] = key in hashById ? null : pal;
             // store by full name
-            key = gui.getPlayerNameFull(pal);
+            key = !pal.name && pal.extra.fn ? pal.extra.fn : gui.getPlayerNameFull(pal);
             hashByName[key] = key in hashByName ? null : pal;
         }
 
