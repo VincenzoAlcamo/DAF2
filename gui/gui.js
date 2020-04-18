@@ -203,8 +203,9 @@ const gui = {
         const list = [];
         if (dd > 0) list.push(Locale.formatNumber(dd) + 'd');
         if (hh > 0) list.push(Locale.formatNumber(hh) + 'h');
-        if (mm > 0 || (list.length == 0 && ss == 0)) list.push(Locale.formatNumber(mm) + 'm');
-        if (ss > 0 && list.length == 0) list.push(Locale.formatNumber(ss) + 's');
+        if (list.length == 0 && mm <= 1 && mm * 60 + ss <= 90) { ss += mm * 60; mm = 0; }
+        if (mm > 0) list.push(Locale.formatNumber(mm + Math.round(ss / 60)) + 'm');
+        if (list.length == 0) list.push(Locale.formatNumber(ss) + 's');
         return Locale.formatList(list);
     },
     getArray: function (value) {

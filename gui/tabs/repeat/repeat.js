@@ -220,11 +220,14 @@ function refreshItems() {
     if (gui.getCurrentTab() !== tab || document.visibilityState != 'visible') { return; }
     const changedState = calculateItem(null, true);
     const now = gui.getUnixTime();
-    const almostReady = Object.values(repeatables).find(item => {
+    let timeout = 30000;
+    for (const item of Object.values(repeatables)) {
         const remaining = item.time - now;
-        return remaining >= 0 && remaining <= 65;
-    });
-    refreshTimer = setTimeout(refreshItems, almostReady ? 500 : 5000);
+        if (remaining < 0) continue;
+        if (remaining <= 90) { timeout = 1000; break; }
+        if (remaining <= 120 && timeout > 10000) { timeout = 10000; }
+    }
+    refreshTimer = setTimeout(refreshItems, timeout - Date.now() % timeout);
     // Refresh table if at least one item changed state and (filter is on Ready? or table is sorted by time)
     if (changedState && (getState().ready != '' || smartTable.sort.name == 'time' || smartTable.sortSub.name == 'time')) refresh();
 }
@@ -305,6 +308,7 @@ function calculateItem(item, flagRefreshRow) {
                 }
             }
             if (item.time !== item._time) {
+                item._time = item.time;
                 const text = item.ready ? '' : '(' + Locale.formatTime(item.time) + ')';
                 row.querySelector('td.time .absolute').innerText = text;
             }
