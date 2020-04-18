@@ -40,7 +40,9 @@ function addFriend(friend) {
 function scrollWindow() {
     try {
         document.body.scrollIntoView(true);
-        document.getElementById('pagelet_dock').scrollIntoView();
+        const el = document.getElementById('pagelet_dock');
+        if (el) el.scrollIntoView();
+        container.scrollIntoView(false);
     } catch (e) { }
 }
 
