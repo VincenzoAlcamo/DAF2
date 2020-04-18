@@ -129,7 +129,9 @@ function mousemove(event) {
         mouseX = event.clientX, mouseY = event.clientY;
 
         let el = document.elementsFromPoint(mouseX, mouseY).find(el => el !== box && el !== countLabel);
-        if (!el || !el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/)) el = null;
+        if (el && el.getAttribute('role') == 'button' && el.firstElementChild == null && el.innerText.indexOf('...') >= 0) {
+            // More... button in new layout
+        } else if (!el || !el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/)) el = null;
         if (autoOpenElement !== el) {
             if (autoOpenElement && autoOpenCount <= 0) {
                 flagLinks = true;
