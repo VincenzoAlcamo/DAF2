@@ -256,14 +256,10 @@ const gui = {
         if (terms === null || terms === undefined || terms === '') return null;
         const fn = String(terms).toUpperCase().split('|').map(function (term) {
             return term.split('+').reduce(function (prevFn, curr) {
+                const isExcluding = curr.charAt(0) === '^';
+                if (isExcluding) curr = curr.substring(1);
                 if (curr == '') return prevFn;
-                let currFn;
-                if (curr.charAt(0) === '^') {
-                    curr = curr.substring(1);
-                    currFn = (value) => value.indexOf(curr) < 0;
-                } else {
-                    currFn = (value) => value.indexOf(curr) >= 0;
-                }
+                const currFn = (value) => (value.indexOf(curr) < 0) == isExcluding;
                 return prevFn ? (value) => currFn(value) && prevFn(value) : currFn;
             }, null);
         }).reduce(function (prevFn, currFn) {
