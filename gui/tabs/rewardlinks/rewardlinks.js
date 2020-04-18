@@ -475,7 +475,7 @@ function update() {
     for (const item of Object.values(oldItems)) item.row.parentNode.removeChild(item.row);
 
     const getSortValueFunctions = {
-        'owner': a => a.cnm || '',
+        'owner': a => a.cnm || a.cid || '',
         'insert': a => a.adt,
         'collect': a => a.cdt || 0,
         'reward': a => a.mtx || '',
