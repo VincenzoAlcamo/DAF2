@@ -64,7 +64,7 @@ const Locale = (function () {
                 S: 'second'
             }[c];
             if (name) options[name] = name == 'month' ? 'short' : 'numeric';
-            if (c == 'H' || c == 'M' || c == 'S') options.hour12 = false;
+            // if (c == 'H' || c == 'M' || c == 'S') options.hour12 = false;
         }
         return function (value) {
             value = getDate(value);
