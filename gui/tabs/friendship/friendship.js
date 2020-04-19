@@ -316,14 +316,15 @@ function collectFriends(method) {
     const unmatched = method == 'unmatched' ? getUnmatched().join() : '';
     bgp.Tab.excludeFromInjection(0);
     setTimeout(_ => bgp.Tab.excludeFromInjection(0, false), 20000);
+    const fixes = String(gui.getPreference('fixes') || '').toUpperCase().split(/\W+/).reduce((v, k) => (v[k] = true, v), {});
+    const url = 'OLDFBPAGE' in fixes ? 'https://www.facebook.com/profile.php?sk=friends' : 'https://www.facebook.com/me/friends';
     chrome.windows.create({
         width,
         height,
         left: Math.floor((screen.availWidth - width) / 2),
         top: Math.floor((screen.availHeight - height) / 2),
         type: 'popup',
-        // url: 'https://www.facebook.com/profile.php?sk=friends'
-        url: 'https://www.facebook.com/me/friends'
+        url
     }, function (w) {
         const tabId = w.tabs[0].id;
         bgp.Tab.excludeFromInjection(tabId);
