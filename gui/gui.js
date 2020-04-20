@@ -175,25 +175,25 @@ const gui = {
         return currentTab;
     },
     getDuration: function (drn, flagReduced) {
-        let ss = Math.floor(drn % 60);
-        let mm = Math.floor((drn / 60) % 60);
-        let hh = Math.floor((drn / 3600) % 24);
-        let dd = Math.floor(drn / 86400);
+        drn = Math.floor(drn);
+        if (drn <= 90) return Locale.formatNumber(drn) + 's';
+        // A longer duration will round the seconds
+        const ss = drn % 60;
+        drn += (ss < 30 ? -ss : 60 - ss);
+        drn /= 60;
         // If duration is in days, minutes are ignored (but added to hours)
-        if (dd > 0) {
-            if (mm >= 30) {
-                hh++;
-                if (hh == 24) {
-                    dd++;
-                    hh = 0;
-                }
-            }
-            mm = ss = 0;
+        let mm = drn % 60;
+        if (drn >= 1440) {
+            drn += (mm < 30 ? -mm : 60 - mm);
+            mm = 0;
         }
+        drn = (drn - mm) / 60;
+        let hh = drn % 24;
+        let dd = (drn - hh) / 24;
         if (flagReduced) {
             if (dd >= 3) {
                 if (hh >= 12) dd++;
-                hh = mm = ss = 0;
+                hh = 0;
             } else {
                 hh += dd * 24;
                 dd = 0;
@@ -202,9 +202,7 @@ const gui = {
         const list = [];
         if (dd > 0) list.push(Locale.formatNumber(dd) + 'd');
         if (hh > 0) list.push(Locale.formatNumber(hh) + 'h');
-        if (list.length == 0 && mm <= 1 && mm * 60 + ss <= 90) { ss += mm * 60; mm = 0; }
-        if (mm > 0) list.push(Locale.formatNumber(mm + Math.round(ss / 60)) + 'm');
-        if (list.length == 0) list.push(Locale.formatNumber(ss) + 's');
+        if (mm > 0) list.push(Locale.formatNumber(mm) + 'm');
         return Locale.formatList(list);
     },
     getArray: function (value) {
