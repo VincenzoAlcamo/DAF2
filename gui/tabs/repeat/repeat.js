@@ -309,6 +309,7 @@ function calculateItem(item, flagRefreshRow) {
             }
             if (item.time !== item._time) {
                 item._time = item.time;
+                changedState = true;
                 const text = item.ready ? '' : '(' + Locale.formatTime(item.time) + ')';
                 row.querySelector('td.time .absolute').innerText = text;
             }
