@@ -162,8 +162,8 @@ function refreshTotals() {
             div.setAttribute('max', levelup.xp);
         });
     }
-    let tot, qty, xp, coins, maxXp, maxCoins, maxBoost, nextLevel, nextExp, boost, totalExp, food, maxFood, maxLevel, coins2, maxCoins2;
-    tot = qty = xp = coins = boost = maxXp = maxCoins = maxBoost = food = maxFood = coins2 = maxCoins2 = 0;
+    let tot, qty, xp, coins, maxXp, maxCoins;
+    tot = qty = xp = coins = maxXp = maxCoins = 0;
     pillars.forEach(pillar => {
         tot += pillar.possible;
         qty += pillar.qty;
@@ -173,33 +173,25 @@ function refreshTotals() {
         maxCoins += pillar.possible * pillar.coins;
     });
     const generator = gui.getGenerator();
-    const level = nextLevel = maxLevel = +generator.level;
+    const level = +generator.level;
     const exp = +generator.exp;
-    nextExp = exp + xp;
-    totalExp = exp + maxXp;
-    for (const levelup of levelups) {
-        if (levelup.def_id < level) continue;
-        let thisFood = 0;
-        for (const reward of levelup.reward) {
-            if (reward.type == 'usable') {
-                thisFood += gui.getXp(reward.type, reward.object_id) * reward.amount;
+    function calcGain(level, exp, boost, coins, food) {
+        let nextLevel = level;
+        for (const levelup of levelups) {
+            if (levelup.def_id < level) continue;
+            if (nextLevel > level) {
+                levelup.reward.filter(reward => reward.type == 'usable').forEach(reward => food += gui.getXp(reward.type, reward.object_id) * reward.amount);
+                boost += levelup.boost;
+                coins += levelup.coins;
             }
-        }
-        if (nextExp >= levelup.xp) {
-            boost += levelup.boost;
-            nextExp -= levelup.xp;
-            coins2 += levelup.coins;
-            food += thisFood;
+            if (exp < levelup.xp) break;
+            exp -= levelup.xp;
             nextLevel++;
         }
-        if (totalExp >= levelup.xp) {
-            maxBoost += levelup.boost;
-            totalExp -= levelup.xp;
-            maxCoins2 += levelup.coins;
-            maxFood += thisFood;
-            maxLevel++;
-        }
+        return { nextLevel, exp, boost, coins, food };
     }
+    const gain = calcGain(level, exp + xp, 0, coins, 0);
+    const maxGain = calcGain(level, exp + maxXp, 0, maxCoins, 0);
     Array.from(container.querySelectorAll('.pillars-totals')).forEach(row => {
         row.cells[1].innerText = Locale.formatNumber(tot);
         row.cells[2].innerText = Locale.formatNumber(qty);
@@ -207,20 +199,20 @@ function refreshTotals() {
         row.cells[4].innerText = Locale.formatNumber(coins);
     });
     setProgress('.pillars-progress.pillars-current', level, exp);
-    setProgress('.pillars-progress.pillars-next', nextLevel, nextExp);
+    setProgress('.pillars-progress.pillars-next', gain.nextLevel, gain.exp);
     let gains = [];
-    if (boost) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(boost))}</span>`);
-    if (food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(food))}</span>`);
-    if (coins2) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(coins2))}</span>`);
+    if (gain.boost) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(gain.boost))}</span>`);
+    if (gain.food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(gain.food))}</span>`);
+    if (gain.coins) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(gain.coins))}</span>`);
     gains = gains.join(', ');
     for (const el of Array.from(container.querySelectorAll('.pillars-gain'))) Dialog.htmlToDOM(el, gains);
     gains = [];
     gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('pillars_maxpossible', Locale.formatNumber(tot))}</span>`);
     gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_xp', Locale.formatNumber(maxXp))}</span>`);
-    gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_level', Locale.formatNumber(maxLevel))}</span>`);
-    if (maxBoost) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(maxBoost))}</span>`);
-    if (maxFood) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxFood))}</span>`);
-    if (maxCoins + maxCoins2) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxCoins + maxCoins2))}</span>`);
+    gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_level', Locale.formatNumber(maxGain.level))}</span>`);
+    if (maxGain.boost) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(maxGain.boost))}</span>`);
+    if (maxGain.food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxGain.food))}</span>`);
+    if (maxGain.coins) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxGain.coins))}</span>`);
     gains = gains.join(', ');
     Dialog.htmlToDOM(container.querySelector('.stats'), gains);
 }
