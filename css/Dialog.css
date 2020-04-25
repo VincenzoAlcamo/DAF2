@@ -190,3 +190,7 @@
   background: #c43;
   border-color: #721;
 }
+
+.DAF-dialog button[timer]:after {
+  content: " [" attr(timer) "]";
+}

@@ -37,7 +37,7 @@ Object.assign(Dialog, {
         let container;
         const first3 = html.substring(0, 3).toLowerCase();
         if (first3 == '<td' || first3 == '<th') container = getBody(`<table><tr>${html}</tr></table>`).querySelector('tr');
-        else if(first3 == '<tr') container = getBody(`<table>${html}</table>`).querySelector('tbody');
+        else if (first3 == '<tr') container = getBody(`<table>${html}</table>`).querySelector('tbody');
         else container = getBody(html);
         const owner = parent.ownerDocument;
         for (let node = container.firstChild; node; node = node.nextSibling) parent.appendChild(owner.importNode(node, true));
@@ -126,11 +126,35 @@ Object.assign(Dialog.prototype, {
                 }, 500);
             }, this.delay);
         }
+        this.autoInput = null;
+        if (o.auto) {
+            const autoMethod = o.auto.toLowerCase();
+            this.autoInput = this.inputs[autoMethod];
+            if (this.autoInput) {
+                let timeout = +o.timeout;
+                timeout = isFinite(timeout) && timeout > 0 ? timeout : 10;
+                const fn = () => {
+                    if (timeout > 0) {
+                        this.autoInput.setAttribute('timer', timeout--);
+                        return this.autoTimer = setTimeout(fn, 1000);
+                    }
+                    this.runCallback(autoMethod, this.autoInput, this.autoInput.getAttribute('data-method'));
+                };
+                fn();
+            }
+        }
         if (this.lastStyle.includes(Dialog.AUTORUN)) this.runCallback(Dialog.AUTORUN, null, true);
         return this;
     },
+    clearAuto: function () {
+        if (this.autoInput) this.autoInput.removeAttribute('timer');
+        delete this.autoInput;
+        if (this.autoTimer) clearTimeout(this.autoTimer);
+        delete this.autoTimer;
+    },
     runCallback: function (method, input, flagNoHide) {
         const dialog = this;
+        dialog.clearAuto();
         const params = dialog.getParams(method);
         if (input) params.input = input;
         if (!flagNoHide) dialog.hide();
@@ -169,9 +193,12 @@ Object.assign(Dialog.prototype, {
         style = style.map(method => method.toLowerCase());
         for (const tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
         const dialog = this;
+        dialog.inputs = {};
         for (const input of this.element.querySelectorAll('button,[data-method]')) {
             const isInput = input.getAttribute('data-method');
             const method = isInput ? input.getAttribute('data-method') : input.value.toLowerCase();
+            dialog.inputs[method] = input;
+            input.removeAttribute('timer');
             input.style.display = isInput || style.includes(method) ? '' : 'none';
             if (!input.getAttribute('hasListener')) {
                 input.setAttribute('hasListener', '1');
