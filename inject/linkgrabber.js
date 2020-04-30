@@ -563,7 +563,7 @@ function collect(confirmCollection) {
     const friends = [];
     let ulInactiveParent = null, ulInactive = null;
     const liInactive = [];
-    let container, captureOneBlock, unmatchedList;
+    let container, captureOneBlock, unmatchedList, started;
 
     function addFriend(friend) {
         friends.push(friend);
@@ -592,6 +592,7 @@ function collect(confirmCollection) {
         if (container) {
             clearInterval(handler);
             wait.hide();
+            started = Date.now();
             if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
             return;
         } else if (retries > 0) {
@@ -608,23 +609,31 @@ function collect(confirmCollection) {
         }
     }, 1000);
 
-    function getStatInfo(num, total) {
+    function formatTime(milliseconds) {
+        let val = Math.round(milliseconds / 1000);
+        const ss = val % 60;
+        val = (val - ss) / 60;
+        const mm = val % 60;
+        val = (val - mm) / 60;
+        const hh = val;
+        const n2 = v => v < 10 ? '0' + v : v;
+        return `${n2(hh)}:${n2(mm)}:${n2(ss)}`;
+    }
+
+    function getStatInfo(num, total, addTime) {
         const count = num == total ? total : (num + ' / ' + total);
-        return getMessage('friendship_collectstat', count);
+        return getMessage('friendship_collectstat', count) + (addTime ? '\n(' + formatTime(Date.now() - started) + ')' : '');
     }
 
     function sendFriends() {
-        const viewDisabled = () => ulInactive.firstElementChild.scrollIntoView({ block: 'center' });
-        console.log('Collection end', new Date());
-        document.title = getStatInfo(friends.length, friends.length);
-        wait.setText(document.title);
+        const viewDisabled = () => { try { ulInactive.firstElementChild.scrollIntoView({ block: 'center' }); } catch (e) { } };
+        wait.setText(document.title = getStatInfo(friends.length, friends.length, true));
         const close = autoClose && !ulInactive;
         chrome.runtime.sendMessage({
             action: 'friendsCaptured',
             data: collectMethod == 'unmatched' ? null : friends,
             close
         });
-        wait.hide();
         const showDisabled = () => {
             if (ulInactive) {
                 if (ulInactive !== container) {
@@ -633,6 +642,7 @@ function collect(confirmCollection) {
                 }
                 liInactive.forEach(li => ulInactive.appendChild(li));
                 viewDisabled();
+                wait.hide();
                 dialog.show({
                     text: getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' :
                         'friendship_disabledaccountsdetected') + '\n' + getMessage('friendship_unfriendinfo'),
@@ -641,7 +651,8 @@ function collect(confirmCollection) {
             }
         };
         if (autoClose) return showDisabled();
-        let text = document.title;
+        wait.hide();
+        let text = getStatInfo(friends.length, friends.length);
         text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
         dialog.show({ text, style: [Dialog.OK] }, showDisabled);
     }
@@ -709,7 +720,7 @@ function collect(confirmCollection) {
         const items = Array.from(container.querySelectorAll('a > img[width="80"]:not(.collected)'));
         if (items.length == 0) return -1;
         // Detect if a disabled account exists
-        if (!ulInactive && container.querySelectorAll('div > img[width="80"]')) ulInactive = container;
+        if (!ulInactive && container.querySelector('div > img[width="80"]')) ulInactive = container;
         for (const item of items) {
             item.classList.add('collected');
             let keep = false;
@@ -736,12 +747,12 @@ function collect(confirmCollection) {
         unmatchedList = unmatched.split(',');
         handler = setInterval(capture, 500);
         function capture() {
+            wait.setText(getStatInfo(count, friends.length, true));
             const num = captureOneBlock();
             if (num >= 0) {
                 count += num;
                 countStop = 0;
-                document.title = getStatInfo(count, friends.length);
-                wait.setText(document.title);
+                wait.setText(document.title = getStatInfo(count, friends.length, true));
             } else {
                 countStop++;
                 // if the connection is slow, we may want to try a bit more
@@ -751,6 +762,8 @@ function collect(confirmCollection) {
                         dialog.show({
                             title: getStatInfo(count, friends.length),
                             text: getMessage('friendship_confirmcollect'),
+                            auto: Dialog.NO,
+                            timeout: 30,
                             style: [Dialog.YES, Dialog.NO]
                         }, function (method) {
                             if (method == Dialog.YES) {
