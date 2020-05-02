@@ -278,7 +278,7 @@ function updateGCStatus(data) {
     el.style.display = '';
     const badge = menu.querySelector('.DAF-badge-gc');
     badge.textContent = data.count;
-    badge.title = data.nexttxt;
+    if (data.nexttxt) badge.title = data.nexttxt;
     badge.style.display = data.count ? '' : 'none';
 }
 

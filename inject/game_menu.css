@@ -186,7 +186,7 @@
 }
 
 .DAF-badge-gc {
-  background-image: url(chrome-extension://lpceicijeadkpilnbnhleognnkicioel/img/gui/godchild.png);
+  background-image: url(/img/gui/godchild.png);
   background-position: 1px 0px;
   background-repeat: no-repeat;
   background-size: 18px 18px;
