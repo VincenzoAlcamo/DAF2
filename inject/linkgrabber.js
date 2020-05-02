@@ -68,6 +68,20 @@ function initialize() {
     //     stop();
     //     removeListeners(window, mousedown, keydown, keyup, blur, contextmenu);
     // });
+    // track preference changes
+    chrome.storage.onChanged.addListener(function (changes, area) {
+        if (area != 'local') return;
+        for (const name in changes) {
+            const value = changes[name].newValue;
+            switch (name) {
+                case 'linkGrabButton': linkGrabButton = value; break;
+                case 'linkGrabKey': linkGrabKey = value; break;
+                case 'linkGrabSort': linkGrabSort = value; break;
+                case 'linkGrabConvert': linkGrabConvert = value; break;
+                case 'language': Dialog.language = language = value; break;
+            }
+        }
+    });
 }
 
 function allowSelection() {
