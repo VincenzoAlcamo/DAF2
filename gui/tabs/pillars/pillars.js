@@ -190,7 +190,7 @@ function refreshTotals() {
         }
         return { nextLevel, exp, boost, coins, food };
     }
-    const gain = calcGain(level, exp + xp, 0, coins, 0);
+    const gain = calcGain(level, exp + xp, 0, 0, 0);
     const maxGain = calcGain(level, exp + maxXp, 0, maxCoins, 0);
     Array.from(container.querySelectorAll('.pillars-totals')).forEach(row => {
         row.cells[1].innerText = Locale.formatNumber(tot);
