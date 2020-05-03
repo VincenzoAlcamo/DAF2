@@ -1,12 +1,13 @@
 /*global chrome Dialog*/
 
-/*eslint-disable prefer-const*/
-let linkGrabButton = 2;
-let linkGrabKey = 0;
-let linkGrabSort = 1;
-let linkGrabConvert = 0;
-let language = 'en';
-/*eslint-enable prefer-const*/
+const options = {
+    linkGrabEnabled: true,
+    linkGrabButton: 2,
+    linkGrabKey: 0,
+    linkGrabSort: 1,
+    linkGrabConvert: 0,
+    language: 'en'
+};
 
 const LEFT_BUTTON = 0;
 const KEY_ESC = 27;
@@ -35,57 +36,44 @@ let links = [];
 let linkCount, oldLabel, mouseX, mouseY, startX, startY, autoOpenElement, autoOpenCount, flagLinks;
 
 function getMessage(id, ...args) {
-    let text = chrome.i18n.getMessage(language + '@' + id, args);
-    if (text == '' && language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
+    let text = chrome.i18n.getMessage(options.language + '@' + id, args);
+    if (text == '' && options.language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
     return text;
 }
 
-function addListeners(obj, _args) {
-    [].slice.call(arguments, 1).forEach(fn => obj.addEventListener(fn.name, fn, true));
+function addListeners(obj, ...args) {
+    args.forEach(fn => obj.addEventListener(fn.name, fn, true));
 }
 
-function addPassiveListeners(obj, _args) {
-    [].slice.call(arguments, 1).forEach(fn => obj.addEventListener(fn.name, fn, {
-        passive: true,
-        capture: true
-    }));
+function addPassiveListeners(obj, ...args) {
+    args.forEach(fn => obj.addEventListener(fn.name, fn, { passive: true, capture: true }));
 }
 
-function removeListeners(obj, _args) {
-    [].slice.call(arguments, 1).forEach(fn => obj.removeEventListener(fn.name, fn, true));
+function removeListeners(obj, ...args) {
+    args.forEach(fn => obj.removeEventListener(fn.name, fn, true));
 }
 
 // eslint-disable-next-line no-unused-vars
 function initialize() {
-    Dialog.language = language;
+    Dialog.language = options.language;
     const link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = chrome.extension.getURL('inject/linkgrabber.css');
     document.head.appendChild(link);
     addListeners(window, mousedown, keydown, keyup, blur, contextmenu);
-    // DAF.removeLater(() => {
-    //     stop();
-    //     removeListeners(window, mousedown, keydown, keyup, blur, contextmenu);
-    // });
     // track preference changes
     chrome.storage.onChanged.addListener(function (changes, area) {
         if (area != 'local') return;
         for (const name in changes) {
-            const value = changes[name].newValue;
-            switch (name) {
-                case 'linkGrabButton': linkGrabButton = value; break;
-                case 'linkGrabKey': linkGrabKey = value; break;
-                case 'linkGrabSort': linkGrabSort = value; break;
-                case 'linkGrabConvert': linkGrabConvert = value; break;
-                case 'language': Dialog.language = language = value; break;
-            }
+            options[name] = changes[name].newValue;
+            if (name == 'language') Dialog.language = options.language;
         }
     });
 }
 
 function allowSelection() {
-    return mouseButton == linkGrabButton && keyPressed == linkGrabKey;
+    return options.linkGrabEnabled && mouseButton == options.linkGrabButton && keyPressed == options.linkGrabKey;
 }
 
 function setPosition(el, x, y, width, height) {
@@ -142,10 +130,15 @@ function mousemove(event) {
     if (flagBox || allowSelection()) {
         mouseX = event.clientX, mouseY = event.clientY;
 
-        let el = document.elementsFromPoint(mouseX, mouseY).find(el => el !== box && el !== countLabel);
-        if (el && el.getAttribute('role') == 'button' && el.firstElementChild == null && el.innerText.indexOf('...') >= 0) {
-            // More... button in new layout
-        } else if (!el || !el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/)) el = null;
+        // let el = document.elementsFromPoint(mouseX, mouseY).find(el => el !== box && el !== countLabel);
+        // if (el && el.getAttribute('role') == 'button' && el.firstElementChild == null && el.innerText.indexOf('...') >= 0) {
+        //     // More... button in new layout
+        // } else if (!el || !el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/)) el = null;
+        const el = document.elementsFromPoint(mouseX, mouseY).find(el => {
+            if (el === box || el === countLabel) return false;
+            if (el.getAttribute('role') == 'button' && el.firstElementChild == null && el.innerText.indexOf('...') >= 0) return true;
+            return el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/);
+        });
         if (autoOpenElement !== el) {
             if (autoOpenElement && autoOpenCount <= 0) {
                 flagLinks = true;
@@ -211,6 +204,9 @@ function start() {
     box.style.visibility = countLabel.style.visibility = 'visible';
     flagBox = true;
 
+    const oldBoxes = {};
+    Array.from(document.querySelectorAll('.DAF-box')).forEach(div => oldBoxes[div.textContent] = div);
+
     links = document.links;
     linkCount = links.length;
     const offsetLeft = window.scrollX;
@@ -230,12 +226,17 @@ function start() {
                 box: a.daf && a.daf.box
             };
             a.daf = daf;
-            if (daf.box) setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
+            if (daf.box) {
+                delete oldBoxes[daf.box.textContent];
+                setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
+            }
             return true;
         }
 
         return false;
     });
+
+    Object.values(oldBoxes).forEach(div => div.remove());
 
     // turn off menu for windows so mouse up doesn't trigger context menu
     if (os == OS_WIN) stopMenu = true;
@@ -253,12 +254,8 @@ function stop() {
     flagBox = false;
 
     // remove the link boxes
-    for (const a of Array.from(document.links)) {
-        if (a && a.daf) {
-            if (a.daf.box) a.daf.box.parentNode.removeChild(a.daf.box);
-            delete a.daf;
-        }
-    }
+    Array.from(document.links).filter(a => a && a.daf).forEach(a => delete a.daf);
+    Array.from(document.querySelectorAll('.DAF-box')).forEach(div => div.remove());
     links = [];
 
     flagLinks = false;
@@ -378,7 +375,7 @@ const fnHandlers = {
 
 function keydown(event) {
     keyPressed = event.keyCode;
-    if (os == OS_LINUX && keyPressed == linkGrabKey) stopMenu = true;
+    if (os == OS_LINUX && keyPressed == options.linkGrabKey) stopMenu = true;
     if (!flagActive) return;
     if (keyPressed in fnHandlers) {
         event.keyCode = 0;
@@ -537,10 +534,10 @@ function collectData(flagGetUserData) {
 
 function collectLinks(convert) {
     let values = collectData();
-    if (convert === undefined) convert = linkGrabConvert;
+    if (convert === undefined) convert = options.linkGrabConvert;
     if (convert != 1 && convert != 2 && convert != 3) convert = 0;
-    if (linkGrabSort) values.sort((a, b) => a.id - b.id);
-    if (linkGrabSort == 2) values.reverse();
+    if (options.linkGrabSort) values.sort((a, b) => a.id - b.id);
+    if (options.linkGrabSort == 2) values.reverse();
     values = values.map(data => LinkData.getLink(data, convert));
     return values;
 }
