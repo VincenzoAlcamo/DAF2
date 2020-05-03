@@ -143,6 +143,13 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     const campResult = calculateCamp(camp, true);
     const camps = [campResult];
+
+    const addons = calculateAddons(camp, isPlayer ? generator : null);
+    let slots = [];
+    Object.values(campResult.lines).forEach(line => slots = slots.concat(line.slots));
+    addons.empty = slots.filter(slot => slot.kind === 'empty').length;
+    addons.blocked = slots.filter(slot => slot.kind === 'block').length;
+
     let htm = '';
 
     if (isPlayer) {
@@ -261,6 +268,49 @@ function updateCamp(div, flagHeaderOnly = false) {
     }
 
     htm += Html.br`</tr></table>`;
+
+    const addonsMeta = [
+        { name: 'golem', title: 'EXT06', desc: 'EXT07' },
+        { name: 'professor_switch', title: 'EXT11', desc: 'EXT12' },
+        { name: 'gc_one_click', title: 'EXT20', desc: 'EXT21' },
+        { name: 'last_tile_finder', title: 'EXT56', desc: 'EXT58' },
+        { name: 'hollander', title: 'ABNA004', desc: 'EXT09' },
+        { name: 'rotor', title: 'ABNA005', desc: ['EXT18', 'EXT08', 'EXT23', 'EXT25', 'EXT27', 'EXT29', 'EXT31', 'EXT33', 'EXT35', 'EXT37', 'EXT39', 'EXT41', 'EXT43', 'EXT45', 'EXT47', 'EXT49'] },
+        { name: 'potion_double_exp', title: 'EXT81', desc: ['EXT61', 'EXT61', 'EXT62', 'EXT63', 'EXT64', 'EXT65', 'EXT66', 'EXT67', 'EXT68', 'EXT69', 'EXT70'] },
+        { name: 'potion_energy_back', title: 'EXT82', desc: ['EXT71', 'EXT71', 'EXT72', 'EXT73', 'EXT74', 'EXT75', 'EXT76', 'EXT77', 'EXT78', 'EXT79', 'EXT80'] },
+    ];
+
+    if (Object.keys(addons).length > 0) {
+        htm += Html`<div class="camp_addons">`;
+        for (const addon of addonsMeta) {
+            const name = addon.name;
+            if (name in addons) {
+                const value = addons[name];
+                let title = gui.getString(addon.title);
+                if (addon.desc) {
+                    const msg = Array.isArray(addon.desc) ? addon.desc[value] : addon.desc;
+                    if (msg) title += '\n' + gui.getString(msg);
+                }
+                htm += Html`<div class="camp_addon ${value ? 'camp_addon_on' : ''}" title="${title}">`;
+                htm += Html`<div class="camp_addon_img"><img src="/img/gui/${name}.png"></div>`;
+                if (typeof value === 'number') htm += Html.br`<div class="camp_addon_level">${Locale.formatNumber(value)}</div>`;
+                htm += Html`</div>`;
+            }
+        }
+        if (addons.empty) {
+            htm += Html`<div class="camp_addon camp_addon_empty" title="${gui.getMessage('camp_slot_empty')}">`;
+            htm += Html`<div class="camp_addon_img"><img src="/img/gui/mill.png"></div>`;
+            htm += Html.br`<div class="camp_addon_level">${Locale.formatNumber(addons.empty)}</div>`;
+            htm += Html`</div>`;
+        }
+        if (addons.blocked) {
+            htm += Html`<div class="camp_addon camp_addon_blocked" title="${gui.getMessage('camp_slot_blocked')}">`;
+            htm += Html`<div class="camp_addon_img"><img src="/img/gui/bomb.png"></div>`;
+            htm += Html.br`<div class="camp_addon_level">${Locale.formatNumber(addons.blocked)}</div>`;
+            htm += Html`</div>`;
+        }
+        htm += Html`</div>`;
+    }
 
     camps.forEach(function (campResult, index) {
         if (isPlayer && ![showDay, showNight][index]) return;
@@ -421,6 +471,32 @@ function calculateCamp(camp, current = true) {
         reg_tot,
         cap_tot
     };
+}
+
+function calculateAddons(camp, generator) {
+    const addons = {};
+    const getItems = (arr, map) => {
+        const items = {};
+        arr && arr.filter(o => o).map(map).forEach(o => items[o.id] = o);
+        return items;
+    };
+    if (camp.addon_buildings) {
+        const items = getItems(camp.addon_buildings, o => { return { id: +o.def_id, level: +o.level }; });
+        addons.hollander = items[6] ? 8 : 5;
+        addons.rotor = items[7] ? items[7].level : 0;
+    }
+    if (generator) {
+        const items = getItems([].concat(generator.passive_effect_extension && generator.passive_effect_extension.item), o => { return { id: +o.extension_def_id, level: +o.extension_level }; });
+        addons.potion_double_exp = items[1] ? items[1].level : 0;
+        addons.potion_energy_back = items[2] ? items[2].level : 0;
+
+        const ext = getItems(generator.extensions.split(','), o => { return { id: o }; });
+        addons.golem = !!ext[1];
+        addons.professor_switch = !!ext[2];
+        addons.gc_one_click = !!ext[3];
+        addons.last_tile_finder = !!ext[4];
+    }
+    return addons;
 }
 
 function renderCamp(campResult) {

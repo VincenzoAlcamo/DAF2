@@ -1,5 +1,6 @@
 .camp-tables {
   border: 0;
+  margin-bottom: 6px;
 }
 
 .camp-tables>tbody>tr {
@@ -9,7 +10,7 @@
 .camp-tables>tbody>tr>td {
   border: 0;
   vertical-align: top;
-  padding: 0 6px 12px;
+  padding: 0 6px;
 }
 
 .camp-tables table tbody {
@@ -311,4 +312,72 @@
 
 .camp-new .camp .line {
   float: none;
+}
+
+.camp_addons {
+  margin-bottom: 6px;
+}
+
+.camp_addon {
+  --size: 40px;
+  --padding: 4px;
+  --brcol: var(--tb-brcol);
+  border: 2px solid var(--brcol);
+  box-sizing: content-box;
+  display: inline-block;
+  height: calc(var(--size));
+  border-radius: calc(var(--size) / 2);
+  background-color: var(--tb-brcol);
+  margin: 0px 2px;
+}
+
+.camp_addon div {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.camp_addon_img {
+  border: 2px solid var(--brcol);
+  border-radius: calc(var(--size) / 2);
+  box-sizing: content-box;
+  background-color: var(--tb-brcol);
+  margin: -2px -2px 0;
+  padding: var(--padding);
+  min-width: calc(var(--size) - var(--padding) * 2);
+}
+
+.camp_addon.camp_addon_on .camp_addon_img {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.camp_addon.camp_addon_warn_border,
+.camp_addon.camp_addon_empty,
+.camp_addon.camp_addon_blocked {
+  --brcol: #600;
+}
+
+.camp_addon.camp_addon_warn_inner,
+.camp_addon.camp_addon_empty {
+  background-color: #F00;
+}
+
+.camp_addon.camp_addon_warn_inner .camp_addon_img,
+.camp_addon.camp_addon_empty .camp_addon_img {
+  background-color: #B00;
+}
+
+.camp_addon.camp_addon_blocked .camp_addon_img {
+  background-color: #B6B;
+}
+
+.camp_addon_img img {
+  max-width: calc(var(--size) * 2 - var(--padding) * 2);
+  height: calc(var(--size) - var(--padding) * 2);
+}
+
+.camp_addon_level {
+  color: var(--th-fgcol);
+  font-size: calc(var(--size) - 12px);
+  padding: 4px 6px 4px 4px;
+  height: calc(var(--size) + 2px);
 }
