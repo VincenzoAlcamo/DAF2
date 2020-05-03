@@ -8,7 +8,7 @@ export default {
     actions: {
         'visit_camp': actionVisitCamp
     },
-    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks']
+    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales']
 };
 
 const NUM_SLOTS = 24;
