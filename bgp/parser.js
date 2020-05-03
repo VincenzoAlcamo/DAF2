@@ -5,6 +5,7 @@ const FORMATS = {
     TEXT: 'TEXT'
 };
 
+// eslint-disable-next-line no-var
 var Parser = {
     detectFormat: function (text) {
         switch (text && text.charAt(0)) {
@@ -17,11 +18,11 @@ var Parser = {
         }
     },
     parse: function (kind, text) {
-        var data;
+        let data;
         try {
-            var fn = Parser['parse_' + kind];
+            const fn = Parser['parse_' + kind];
             if (typeof fn != 'function') throw Error('Parser function not found for "' + kind + '"');
-            var format = Parser.detectFormat(text);
+            const format = Parser.detectFormat(text);
             data = fn(text, format);
             if (!data) throw Error('Format not supported "' + format + '"');
         } catch (e) {
@@ -31,9 +32,9 @@ var Parser = {
     },
     isXmlElement: function (value) {
         if (!value) return false;
-        var nodeType = value.nodeType;
+        const nodeType = value.nodeType;
         if (nodeType !== 1 && nodeType !== 9) return false;
-        var kind = Object.prototype.toString.call(value);
+        const kind = Object.prototype.toString.call(value);
         return kind == '[object XMLDocument]' || kind == '[object Element]';
     },
     parseXml: function (str) {
@@ -41,21 +42,21 @@ var Parser = {
         return str ? (Parser.isXmlElement(str) ? str : Parser.parserXml.parseFromString(str, 'text/xml')) : null;
     },
     parse_xml: function (source) {
-        var root = Parser.parseXml(source);
+        let root = Parser.parseXml(source);
         if (root && root.nodeType == 9) root = root.documentElement;
         return parse(root);
 
         function parse(parent) {
-            var item = {};
+            const item = {};
 
             function add(name, value) {
                 if (name in item) {
-                    var old = item[name];
+                    const old = item[name];
                     if (Array.isArray(old)) old.push(value);
                     else item[name] = [old, value];
                 } else item[name] = value;
             }
-            for (var child = parent.firstElementChild; child; child = child.nextElementSibling) {
+            for (let child = parent.firstElementChild; child; child = child.nextElementSibling) {
                 add(child.nodeName, child.firstElementChild ? parse(child) : child.textContent);
             }
             return item;
@@ -66,22 +67,22 @@ var Parser = {
         if (format == FORMATS.XML) return Parser.parse_xml(text);
     },
     parse_generator: function (text, format) {
-        var data = Parser.parse_any(text, format);
+        const data = Parser.parse_any(text, format);
         if (!data) return;
 
         // Neighbours
         let arr = (data.neighbours && data.neighbours.item) || [];
         delete data.neighbours;
-        let neighbours = {};
-        let time = +data.time;
-        let oldNeighbours = Data.neighbours || {};
-        let reFBId = /\/(\d+)\/picture/;
+        const neighbours = {};
+        const time = +data.time;
+        const oldNeighbours = Data.neighbours || {};
+        const reFBId = /\/(\d+)\/picture/;
         let spawned = false;
         let countMismatch = 0;
         arr = arr.map((o, index) => {
-            var id = o.uid;
+            const id = o.uid;
             // Keep only the needed data
-            var pal = {};
+            const pal = {};
             pal.id = id;
             pal.index = index;
             pal.spawned = +o.spawned || 0;
@@ -91,9 +92,9 @@ var Parser = {
             pal.surname = String(o.surname || '').trim();
             pal.c_list = +o.c_list || 0;
             // Detect the correct Facebook ID to use
-            var match = o.pic_square.match(reFBId);
+            const match = o.pic_square.match(reFBId);
             if (match) {
-                var fb_id = match[1];
+                const fb_id = match[1];
                 if (o.escaped_fb_id && o.escaped_fb_id != '#' + fb_id) {
                     countMismatch++;
                     if (countMismatch <= 10) console.log('mismatch', o.escaped_fb_id, fb_id);
@@ -103,7 +104,7 @@ var Parser = {
                 pal.pic_square = o.pic_square;
             }
             // Retrieve extra info for neighbor
-            var old = oldNeighbours[id];
+            const old = oldNeighbours[id];
             pal.extra = (old && old.extra) || {};
             if (old && old.level != pal.level) {
                 pal.extra.lastLevel = old.level;
@@ -116,10 +117,10 @@ var Parser = {
         });
         if (countMismatch) console.log('Total number mismatched id is', countMismatch);
         data.neighbours = neighbours;
-        let pal = neighbours[1];
+        const pal = neighbours[1];
         if (pal) {
             // Store spawn time on Mr.Bill
-            let old = oldNeighbours[pal.id];
+            const old = oldNeighbours[pal.id];
             pal.spawn_time = spawned ? time : (old && +old.spawn_time) || 0;
         }
 
@@ -130,12 +131,12 @@ var Parser = {
             arr = [];
             console.error('File changes parsing error', e);
         }
-        var file_changes = {};
-        let reNonDigits = /[^\d]+/g;
+        const file_changes = {};
+        const reNonDigits = /[^\d]+/g;
         arr.forEach(item => {
-            var path = item.file_path;
-            var i = path.lastIndexOf('.');
-            var ext = i >= 0 ? path.substr(i + 1) : '';
+            const path = item.file_path;
+            const i = path.lastIndexOf('.');
+            const ext = i >= 0 ? path.substr(i + 1) : '';
             if (ext == 'json' || ext == 'erik' || ext == 'csv' || ext == 'xml') {
                 file_changes[path] = item.file_modified.replace(reNonDigits, '');
             }
@@ -143,12 +144,12 @@ var Parser = {
         data.file_changes = file_changes;
 
         let accumulator = {};
-        let accumulate = (array, fn) => {
+        const accumulate = (array, fn) => {
             accumulator = {};
             Array.isArray(array) && array.forEach(fn);
             return accumulator;
         };
-        for (let key of ['materials', 'tokens', 'usables', 'stored_buildings', 'stored_decorations', 'stored_windmills']) {
+        for (const key of ['materials', 'tokens', 'usables', 'stored_buildings', 'stored_decorations', 'stored_windmills']) {
             data[key] = accumulate(data[key] && data[key].item, item => accumulator[item.def_id] = +item.amount);
         }
         data.events_region = accumulate(data.events_region && data.events_region.item, item => accumulator[item.event_id] = +item.region_id);
@@ -158,10 +159,11 @@ var Parser = {
 
         return data;
     },
-    parse_localization_revision: 5,
+    parse_localization_revision: 6,
     parse_localization: function (text, format) {
-        var wanted = {
-            //'ABNA': '',
+        const wanted = {
+            'ABNA': 'Addon building',
+            'EXT': 'Extension',
             'ACNA': 'Achievement',
             'BUNA': 'Building',
             //'CAOV': 'Caravan',
@@ -191,37 +193,38 @@ var Parser = {
         };
 
         function getFirstAlpha(s) {
-            for (var i = 0; i < 4; i++) {
-                var c = s.charAt(i);
+            let i = 0;
+            for (; i < 4; i++) {
+                const c = s.charAt(i);
                 if (c < 'A' || c > 'Z') break;
             }
             return s.substr(0, i);
         }
-        var data = {};
-        var reNewline = /@@@/g;
+        const data = {};
+        const reNewline = /@@@/g;
         if (format == FORMATS.TEXT) {
-            var arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
+            const arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
             arr.forEach(s => {
-                var i = s.indexOf('*#*');
+                const i = s.indexOf('*#*');
                 if (i < 0) return;
-                var key = getFirstAlpha(s);
+                const key = getFirstAlpha(s);
                 if (key in wanted) {
-                    var name = s.substr(0, i);
-                    var value = s.substr(i + 3);
+                    const name = s.substr(0, i);
+                    let value = s.substr(i + 3);
                     value = value.replace(reNewline, '\n');
                     data[name] = value;
                 }
             });
             return data;
         } else if (format == FORMATS.XML) {
-            var root = Parser.parseXml(text);
-            for (var parent of root.getElementsByTagName('category')) {
-                var child = parent.firstElementChild,
-                    s = (child && child.getAttribute('index')) || '',
-                    key = getFirstAlpha(s);
+            const root = Parser.parseXml(text);
+            for (const parent of root.getElementsByTagName('category')) {
+                let child = parent.firstElementChild;
+                const s = (child && child.getAttribute('index')) || '';
+                const key = getFirstAlpha(s);
                 if (!(key in wanted)) continue;
                 for (; child; child = child.nextElementSibling) {
-                    var name = child.getAttribute('index');
+                    const name = child.getAttribute('index');
                     if (name) data[name] = child.textContent.replace(reNewline, '\n');
                 }
             }
@@ -230,21 +233,21 @@ var Parser = {
     },
     parse_json: function (text, format) {
         if (format != FORMATS.JSON) return;
-        var result = JSON.parse(text);
+        const result = JSON.parse(text);
         return result;
     },
     parse_erik: function (text, format) {
         if (format != FORMATS.TEXT) return;
-        var arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
-        var keys = arr.length > 0 ? arr.shift().split(/\|/) : [];
-        var id = keys.indexOf('def_id') >= 0 ? 'def_id' : (keys.indexOf('override_id') >= 0 ? 'override_id' : null);
-        var result = id ? {} : [];
+        const arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
+        const keys = arr.length > 0 ? arr.shift().split(/\|/) : [];
+        const id = keys.indexOf('def_id') >= 0 ? 'def_id' : (keys.indexOf('override_id') >= 0 ? 'override_id' : null);
+        const result = id ? {} : [];
         arr.forEach(s => {
             if (s == '') return;
-            var t = s.split(/\|/);
-            var o = {};
-            var len = Math.min(keys.length, t.length);
-            for (var i = 0; i < len; i++) {
+            const t = s.split(/\|/);
+            const o = {};
+            const len = Math.min(keys.length, t.length);
+            for (let i = 0; i < len; i++) {
                 o[keys[i]] = t[i];
             }
             if (id) result[o[id]] = o;
@@ -254,17 +257,17 @@ var Parser = {
         return result;
     },
     fix_buildings: function (data) {
-        var regPrefixes = ['eg|egy|egypt', 'val|valhalla', 'ch|chi|china', 'atl|alt', 'gre', 'nwo'],
+        const regPrefixes = ['eg|egy|egypt', 'val|valhalla', 'ch|chi|china', 'atl|alt', 'gre', 'nwo'],
             reRegion = new RegExp('_(' + regPrefixes.join('|') + ')([12]?|_(L|reg|stor)?\\d|_(strong|stor|mid|weak))$', 'i'),
             regions = {},
             dictByNId = {};
         regPrefixes.forEach((list, index) => list.split('|').forEach(prefix => regions[prefix] = index + 1));
-        for (var building of Object.values(data)) {
-            var nid = building.name_loc;
+        for (const building of Object.values(data)) {
+            const nid = building.name_loc;
             if (!nid) continue;
-            var old = dictByNId[nid];
-            var match;
+            const old = dictByNId[nid];
             if (old) {
+                let match;
                 // multiple instances of the same name
                 if (old[1]) {
                     if ((match = old[0].match(reRegion))) old[1].region_id = regions[match[1].toLowerCase()];
@@ -275,12 +278,12 @@ var Parser = {
         }
     },
     fix_levelups: function (data) {
-        var levelups = Object.values(data);
-        for (var levelup of levelups) {
+        const levelups = Object.values(data);
+        for (const levelup of levelups) {
             levelup.def_id = +levelup.def_id;
             levelup.xp = +levelup.xp;
             levelup.boost = levelup.coins = 0;
-            for (var reward of levelup.reward) {
+            for (const reward of levelup.reward) {
                 reward.amount = +reward.amount;
                 if (reward.type == 'system' && reward.object_id == 2) levelup.boost += reward.amount;
                 if (reward.type == 'material' && reward.object_id == 1) levelup.coins += reward.amount;
