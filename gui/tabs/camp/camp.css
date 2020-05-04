@@ -26,7 +26,7 @@
   text-align: left !important;
 }
 
-.camp-player tr td:nth-child(2),
+.camp-player-info tr td:nth-child(2),
 .camp-data td[colspan="2"] {
   text-align: center !important;
 }
@@ -319,7 +319,7 @@
 }
 
 .camp_addon {
-  --size: 40px;
+  --size: 32px;
   --padding: 4px;
   --brcol: var(--tb-brcol);
   border: 2px solid var(--brcol);
@@ -380,4 +380,8 @@
   font-size: calc(var(--size) - 12px);
   padding: 4px 6px 4px 4px;
   height: calc(var(--size) + 2px);
+}
+
+.camp-player.no-addons .camp_addons {
+  display: none;
 }

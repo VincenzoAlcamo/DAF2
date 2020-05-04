@@ -590,6 +590,9 @@
     "camp_neighbor": {
         "message": "Show neighbour's camp"
     },
+    "camp_show_addons": {
+        "message": "Show addons"
+    },
     "pillars_all": {
         "message": "All pillars"
     },

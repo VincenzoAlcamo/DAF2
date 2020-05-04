@@ -13,7 +13,7 @@ export default {
 
 const NUM_SLOTS = 24;
 
-let tab, container, checkNeighbor, selectShow;
+let tab, container, checkNeighbor, selectShow, checkAddons;
 
 const addonsMeta = [
     { name: 'golem', title: 'EXT06', type: 'extension', id: 1, desc: 'EXT07' },
@@ -30,7 +30,10 @@ function init() {
     tab = this;
     container = tab.container;
     checkNeighbor = container.querySelector('[name=neighbor]');
-    checkNeighbor.addEventListener('click', toggleNeighbor);
+    checkNeighbor.addEventListener('click', toggleFlags);
+
+    checkAddons = container.querySelector('[name=addons]');
+    checkAddons.addEventListener('click', toggleFlags);
 
     selectShow = container.querySelector('[name=show]');
     selectShow.addEventListener('change', () => {
@@ -83,6 +86,7 @@ function getState() {
     return {
         'show': selectShow.value,
         'no-neighbour': !checkNeighbor.checked,
+        'no-addons': !checkAddons.checked,
         h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('')
     };
 }
@@ -93,11 +97,13 @@ function setState(state) {
     setCheck('camp_player', 'p');
     setCheck('camp_neighbor', 'n');
     checkNeighbor.checked = !state['no-neighbour'];
+    checkAddons.checked = !state['no-addons'];
     state.show = gui.setSelectState(selectShow, state.show);
     container.querySelector('.camp-neighbor').style.display = checkNeighbor.checked ? '' : 'none';
+    container.querySelector('.camp-player').classList.toggle('no-addons', !checkAddons.checked);
 }
 
-function toggleNeighbor() {
+function toggleFlags() {
     gui.updateTabState(tab);
     setState(getState());
 }
@@ -174,7 +180,7 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += Html.br`<table class="camp-tables"><tr>`;
 
     // table Player
-    htm += Html.br`<td><table class="camp-data camp-player row-coloring">`;
+    htm += Html.br`<td><table class="camp-data camp-player-info row-coloring">`;
     htm += Html.br`<thead><tr><th colspan="2">${gui.getMessage('camp_player')}</th></tr></thead>`;
     htm += Html.br`<tbody>`;
     htm += Html.br`<tr><td>${gui.getMessage('gui_level')}</td><td>${Locale.formatNumber(level)}</td></tr>`;
