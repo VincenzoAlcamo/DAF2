@@ -45,6 +45,7 @@ function kitchenFoundry(type) {
         const htm = [];
         if (swDoubleProduction) htm.push(Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`);
         if (swHalfTimeProduction) htm.push(Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`);
+        smartTable.table.classList.toggle('dpw', !!swDoubleProduction);
         const divWeeks = container.querySelector('.toolbar .weeks');
         Dialog.htmlToDOM(divWeeks, htm.join(''));
         divWeeks.style.display = htm.length ? '' : 'none';
@@ -106,7 +107,8 @@ function kitchenFoundry(type) {
             p.name = gui.getString(item.name_loc);
             // qty is not specified for usables, and it has equal min/max for other types
             // we just get the max, assuming that either it is equal to min or it is undefined
-            p.qty = +cargo.max || 1;
+            const normalQuantity = +cargo.max || 1;
+            p.qty = normalQuantity;
             // Tokens are not doubles (Jade/Obsidian key)
             if (swDoubleProduction && cargo.type != 'token') p.qty *= 2;
             let c = null;
@@ -126,8 +128,9 @@ function kitchenFoundry(type) {
             if (swHalfTimeProduction) p.time *= swHalfTimeProduction.coeficient;
             p.energy_per_hour = p.time ? Math.round(p.energy / p.time * 3600) : 0;
             p.ingredients = [];
-            let numProd = 0,
-                maxProd = 0;
+            let numProd = 0;
+            let maxProd = 0;
+            p.xp_spent = 0;
             for (const req of item.requirements) {
                 const matId = req.material_id;
                 const mat = materials[matId];
@@ -142,7 +145,14 @@ function kitchenFoundry(type) {
                 ingredient.qty = Math.floor(ingredient.available / ingredient.required);
                 maxProd = Math.max(maxProd, ingredient.qty);
                 numProd = p.ingredients.length == 0 ? ingredient.qty : Math.min(numProd, ingredient.qty);
+                p.xp_spent += ((ingredient.required * gui.getXp('material', ingredient.id)) || NaN);
                 p.ingredients.push(ingredient);
+            }
+            p.xp_gained = normalQuantity * gui.getXp(p.cargo.type, p.cargo.object_id);
+            p.uplift = p.uplift2 = NaN;
+            if (p.xp_spent > 0 && p.xp_gained > 0) {
+                p.uplift = (p.xp_gained - p.xp_spent) / (p.time / 3600);
+                p.uplift2 = (p.xp_gained * 2 - p.xp_spent) / (p.time / 3600);
             }
             p.output = numProd * p.qty;
             p.total_energy = p.energy * p.output;
@@ -166,6 +176,7 @@ function kitchenFoundry(type) {
         const hasQty = type == 'alloy';
         const hasEnergy = type == 'recipe';
         const hasEvent = type == 'recipe';
+        const hasUplift = type == 'alloy';
 
         function getIngredient(ingredient) {
             return Html.br`<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
@@ -203,6 +214,10 @@ function kitchenFoundry(type) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
             }
             htm += Html.br`<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
+            if (hasUplift) {
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift)}</td>`;
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift2)}</td>`;
+            }
             const row = document.createElement('tr');
             row.setAttribute('data-id', p.id);
             Dialog.htmlToDOM(row, htm);
@@ -232,8 +247,8 @@ function kitchenFoundry(type) {
         if (sort != oldState.sort) {
             oldState.sort = sort;
             const name = smartTable.sort.name;
-            if (smartTable.sort.ascending) productions.sort((a, b) => (name != 'name' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
-            else productions.sort((a, b) => (name != 'name' ? b[name] - a[name] : 0) || a.name.localeCompare(b.name));
+            const sortFn = gui.getSortFunctionBySample(name == 'name' ? '' : 0, smartTable.sort.ascending);
+            productions.sort((a, b) => sortFn(a[name], b[name]));
         }
 
         sort = gui.getSortInfoText(smartTable.sortSub);

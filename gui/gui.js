@@ -375,9 +375,21 @@ const gui = {
         if (a === null) return b === null ? 0 : 1;
         return b === null ? -1 : a.localeCompare(b);
     },
+    sortTextDescending: function (a, b) {
+        if (a === null) return b === null ? 0 : 1;
+        return b === null ? -1 : -a.localeCompare(b);
+    },
     sortNumberAscending: function (a, b) {
         if (isNaN(a)) return isNaN(b) ? 0 : 1;
         return isNaN(b) ? -1 : a - b;
+    },
+    sortNumberDescending: function (a, b) {
+        if (isNaN(a)) return isNaN(b) ? 0 : 1;
+        return isNaN(b) ? -1 : b - a;
+    },
+    getSortFunctionBySample(sample, isAscending) {
+        if (sample === null || typeof sample == 'string') return isAscending ? gui.sortTextAscending : gui.sortTextDescending;
+        return isAscending ? gui.sortNumberAscending : gui.sortNumberDescending;
     },
     getSortFunction: function (getSortValueFunctions, smartTable, defaultSortName) {
         const arr = [];
@@ -402,22 +414,11 @@ const gui = {
         const fn1 = arr[0] && arr[0].fn;
         const fn2 = (arr[1] && arr[1].fn) || (() => 0);
 
-        function sortTextDescending(a, b) {
-            if (a === null) return b === null ? 0 : 1;
-            return b === null ? -1 : -a.localeCompare(b);
-        }
-
-        function sortNumberDescending(a, b) {
-            if (isNaN(a)) return isNaN(b) ? 0 : 1;
-            return isNaN(b) ? -1 : b - a;
-        }
-
         return function (items) {
             function getSortFn(index) {
                 const sample = items[0][index];
                 const isAscending = arr[index - 1] && arr[index - 1].ascending;
-                if (sample === null || typeof sample == 'string') return isAscending ? gui.sortTextAscending : sortTextDescending;
-                return isAscending ? gui.sortNumberAscending : sortNumberDescending;
+                return gui.getSortFunctionBySample(sample, isAscending);
             }
             if (items.length) {
                 items = items.map(item => [item, fn1(item), fn2(item)]);

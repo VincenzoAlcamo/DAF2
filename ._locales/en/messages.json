@@ -481,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Uplift (XP/h)"
+    },
+    "foundry_uplift_info": {
+        "message": "Xp gained by a single anvil in an hour,\nbased on the values obtained from pillars."
+    },
     "camp_your_camp": {
         "message": "Your camp"
     },
