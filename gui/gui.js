@@ -254,10 +254,23 @@ const gui = {
         if (terms === null || terms === undefined || terms === '') return null;
         const fn = String(terms).toUpperCase().split('|').map(function (term) {
             return term.split('+').reduce(function (prevFn, curr) {
+                const searchNotes = curr.charAt(0) === ':';
+                if (searchNotes) curr = curr.substring(1);
                 const isExcluding = curr.charAt(0) === '^';
                 if (isExcluding) curr = curr.substring(1);
-                if (curr == '') return prevFn;
-                const currFn = (value) => (value.indexOf(curr) < 0) == isExcluding;
+                if (curr == '' && !searchNotes) return prevFn;
+                let currFn = (value) => (value.indexOf(curr) < 0) == isExcluding;
+                if (searchNotes) {
+                    currFn = (value) => {
+                        let note = '';
+                        const i = value.indexOf('\n') + 1;
+                        if (i > 0) {
+                            const j = value.indexOf('\t', i);
+                            note = j > 0 ? value.substring(i, j) : value.substring(i);
+                        }
+                        return curr == '' ? (note == '') == isExcluding : (note.indexOf(curr) < 0) == isExcluding && note != '';
+                    };
+                }
                 return prevFn ? (value) => currFn(value) && prevFn(value) : currFn;
             }, null);
         }).reduce(function (prevFn, currFn) {

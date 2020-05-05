@@ -519,7 +519,7 @@ function refreshDelayed() {
         if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
         else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         const fullname = gui.getPlayerNameFull(pal).toUpperCase();
-        if (fnSearch && !fnSearch(fullname + '\t' + (pal.extra.note || '') + '\t' + (friendNames[pal.id] || '') + '\t' + (pal.extra.fn || ''))) continue;
+        if (fnSearch && !fnSearch(fullname + '\t\n' + (pal.extra.note || '') + '\t' + (friendNames[pal.id] || '') + '\t' + (pal.extra.fn || ''))) continue;
         if (applyGiftFilter) {
             let flag = false;
             for (const palGift of (palGifts[pal.id] || [])) {
