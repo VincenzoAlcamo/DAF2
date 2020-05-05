@@ -316,17 +316,18 @@
 
 .camp_addons {
   margin-bottom: 6px;
-}
-
-.camp_addon {
   --size: 32px;
   --padding: 4px;
   --brcol: var(--tb-brcol);
+  --radius: calc(var(--size) / 2 + 2px);
+}
+
+.camp_addon {
   border: 2px solid var(--brcol);
   box-sizing: content-box;
   display: inline-block;
   height: calc(var(--size));
-  border-radius: calc(var(--size) / 2);
+  border-radius: var(--radius);
   background-color: var(--tb-brcol);
   margin: 0px 2px;
 }
@@ -338,7 +339,7 @@
 
 .camp_addon_img {
   border: 2px solid var(--brcol);
-  border-radius: calc(var(--size) / 2);
+  border-radius: var(--radius);
   box-sizing: content-box;
   background-color: var(--tb-brcol);
   margin: -2px -2px 0;
