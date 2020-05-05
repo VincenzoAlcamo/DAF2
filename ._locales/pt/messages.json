@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Localização"
     },
+    "gui_locked": {
+        "message": "Bloqueado"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Ganho (XP/hora)"
+    },
+    "foundry_uplift_info": {
+        "message": "XP ganho por uma única bigorna em uma hora,\ncom base nos valores obtidos dos pilares."
+    },
     "camp_your_camp": {
         "message": "O teu acampamento"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Mostrar o acampamento do vizinho"
+    },
+    "camp_show_addons": {
+        "message": "Mostrar addons"
     },
     "pillars_all": {
         "message": "Todos os Pilares"

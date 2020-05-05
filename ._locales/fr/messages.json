@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Location"
     },
+    "gui_locked": {
+        "message": "Fermé"
+    },
     "dialog_ok": {
         "message": "D'accord"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Amélioré (XP/h)"
+    },
+    "foundry_uplift_info": {
+        "message": "Expérience acquise par une seule enclume en une heure,\nsur la base des valeurs obtenues à partir des piliers."
+    },
     "camp_your_camp": {
         "message": "Votre camp"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Afficher le camp du voisin"
+    },
+    "camp_show_addons": {
+        "message": "Afficher les extensions"
     },
     "pillars_all": {
         "message": "Tous les piliers"
@@ -1228,7 +1240,7 @@
         "message": "Connaissance de base?"
     },
     "rewardlinks_addlinks": {
-        "message": "Ajouter des liens"
+        "message": "Ajouter"
     },
     "rewardlinks_pasteAdd": {
         "message": "Collez des liens ajoutés ici, puis appuyez sur le bouton \"$CONFIRM$\"",
@@ -1317,10 +1329,10 @@
         "message": "Ce lien a probablement expiré.\nLes identifiants de lien sont générés en séquence et l'identifiant de cette récompense est inférieur à celui d'une récompense expirée."
     },
     "rewardlinks_removelinks": {
-        "message": "Supprimer vos anciens liens"
+        "message": "Supprimer tous"
     },
     "rewardlinks_removeselected": {
-        "message": "Supprimer vos liens"
+        "message": "Supprimer"
     },
     "rewardlinks_removelinksdays": {
         "message": "Supprimer les liens de récompense non collectables depuis plus de  @DAYS@ jours.\nCela inclut les liens expirés et les liens déjà collectés..\nLes liens de plus de $NUM$ jours sont supprimés périodiquement.",
@@ -1365,7 +1377,7 @@
         "message": "Pas de conversion"
     },
     "rewardlinks_shortenlinks": {
-        "message": "Convertir des liens"
+        "message": "Convertir"
     },
     "rewardlinks_shortenlinks_info1": {
         "message": "Collez des liens pour convertir ici."
@@ -1564,7 +1576,7 @@
         "message": "Récompense finale"
     },
     "events_notsegmented": {
-        "message": "Non segmenté"
+        "message": "Aucun  segmenté"
     },
     "events_tiles": {
         "message": "Tuiles"

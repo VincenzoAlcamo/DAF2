@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Lokacja"
     },
+    "gui_locked": {
+        "message": "Zablokowany"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Wzrost (XP/h)"
+    },
+    "foundry_uplift_info": {
+        "message": "Xp uzyskane przez jedno kowadło na godzinę,\nw oparciu o wartości uzyskane z kolumn."
+    },
     "camp_your_camp": {
         "message": "Twój obóz"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Pokaż obóz sąsiada"
+    },
+    "camp_show_addons": {
+        "message": "Pokaż dodatki"
     },
     "pillars_all": {
         "message": "Wszystkie kolumny"

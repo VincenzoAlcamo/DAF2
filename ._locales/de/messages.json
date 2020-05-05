@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Örtlichkeit"
     },
+    "gui_locked": {
+        "message": "Gesperrt"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Anstieg (XP/h)"
+    },
+    "foundry_uplift_info": {
+        "message": "XP durch einen einzigen Amboss in einer Stunde gewonnen,\nauf der Grundlage der aus den Säulen gewonnenen Werte."
+    },
     "camp_your_camp": {
         "message": "Dein Camp"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Nachbarcamp anzeigen"
+    },
+    "camp_show_addons": {
+        "message": "Zusätze anzeigen"
     },
     "pillars_all": {
         "message": "Alle Säulen"

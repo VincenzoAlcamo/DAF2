@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Ubicacion"
     },
+    "gui_locked": {
+        "message": "Bloqueado"
+    },
     "dialog_ok": {
         "message": "OK"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Ganancia (XP / h)"
+    },
+    "foundry_uplift_info": {
+        "message": "Xp ganó por un solo yunque en una hora,\nbasado en los valores obtenidos de pilares."
+    },
     "camp_your_camp": {
         "message": "Tu campamento"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Mostrar campamento de vecinos"
+    },
+    "camp_show_addons": {
+        "message": "Mostrar complementos"
     },
     "pillars_all": {
         "message": "Todos los pilares"

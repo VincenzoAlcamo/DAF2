@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Bane"
     },
+    "gui_locked": {
+        "message": "Låst"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Forøgelse (XP/t)"
+    },
+    "foundry_uplift_info": {
+        "message": "Xp opnået af en enkelt ambolt på en time,\nbaseret på værdierne opnået fra søjler."
+    },
     "camp_your_camp": {
         "message": "Din lejr"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Vis nabo's lejr"
+    },
+    "camp_show_addons": {
+        "message": "Vis tilføjelser"
     },
     "pillars_all": {
         "message": "Alle søjler"

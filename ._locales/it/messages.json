@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Luogo"
     },
+    "gui_locked": {
+        "message": "Bloccato"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Guadagno (XP/ora)"
+    },
+    "foundry_uplift_info": {
+        "message": "Xp guadagnati da una singola incudine in un'ora,\nbasato sui valori ottenuti dai pilastri."
+    },
     "camp_your_camp": {
         "message": "Il tuo campo"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Mostra il campo del vicino"
+    },
+    "camp_show_addons": {
+        "message": "Mostra addons"
     },
     "pillars_all": {
         "message": "Tutti i pilastri"
