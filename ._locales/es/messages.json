@@ -482,10 +482,10 @@
         }
     },
     "foundry_uplift": {
-        "message": "Ganancia (XP / h)"
+        "message": "Ganancia (XP/h)"
     },
     "foundry_uplift_info": {
-        "message": "Xp ganó por un solo yunque en una hora,\nbasado en los valores obtenidos de pilares."
+        "message": "XP ganada por un solo yunque en una hora,\nbasado en los valores obtenidos de los pilares."
     },
     "camp_your_camp": {
         "message": "Tu campamento"

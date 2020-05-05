@@ -279,6 +279,9 @@
     "gui_location": {
         "message": "Τοποθεσία"
     },
+    "gui_locked": {
+        "message": "Κλειδωμένο"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },
@@ -478,6 +481,12 @@
             }
         }
     },
+    "foundry_uplift": {
+        "message": "Ανύψωση (Εμπειρία/Ώρα)"
+    },
+    "foundry_uplift_info": {
+        "message": "Εμπειρία από ένα αμόνι την ώρα,\nβασισμένο στις τιμές των πυλώνων."
+    },
     "camp_your_camp": {
         "message": "Η βάση σας"
     },
@@ -586,6 +595,9 @@
     },
     "camp_neighbor": {
         "message": "Εμφάνιση βάσης γείτονα"
+    },
+    "camp_show_addons": {
+        "message": "Εμφάνιση πρόσθετων"
     },
     "pillars_all": {
         "message": "Όλοι οι κίονες"
