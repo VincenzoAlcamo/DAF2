@@ -498,7 +498,7 @@ function calculateAddons(camp, generator) {
         addons.potion_double_exp = items[1] ? items[1].level : 0;
         addons.potion_energy_back = items[2] ? items[2].level : 0;
 
-        const ext = getItems(generator.extensions.split(','), o => { return { id: o }; });
+        const ext = getItems(gui.getArrayOfInt(generator.extensions), o => { return { id: o }; });
         addons.golem = !!ext[1];
         addons.professor_switch = !!ext[2];
         addons.gc_one_click = !!ext[3];
