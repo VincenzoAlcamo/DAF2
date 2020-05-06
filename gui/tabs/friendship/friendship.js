@@ -102,7 +102,7 @@ function setState(state) {
 }
 
 function update() {
-    gui.updateNeighborFriendName(true);
+    gui.updateNeighborFriendNames(true);
     refresh();
 }
 
@@ -280,7 +280,7 @@ function tableClick(event) {
         else row.parentNode.removeChild(row);
         bgp.Data.saveFriend(friend);
         if (friend.score == 99 && pal) {
-            pal.extra.fn = friend.name;
+            gui.updateNeighborFriendName(pal, friend);
             bgp.Data.saveNeighbour(pal);
         }
         showStats();
@@ -450,8 +450,9 @@ function updateRow(row) {
     if (pal) {
         const anchor = Html.raw('<a class="no-link" translate="no">');
         htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
-        htm += Html.br`<td>${anchor}${gui.getPlayerNameFull(pal)}</a>`;
-        if (pal.extra.fn) htm += Html.br`<br><span class="friendname">${pal.extra.fn}</span>`;
+        const fullName = gui.getPlayerNameFull(pal);
+        htm += Html.br`<td>${anchor}${fullName}</a>`;
+        if (pal.extra.fn && pal.extra.fn != fullName) htm += Html.br`<br><span class="friendname">${pal.extra.fn}</span>`;
         htm += Html.br`<br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
         htm += Html.br`<td>${Locale.formatNumber(pal.level)}</td>`;
         htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;

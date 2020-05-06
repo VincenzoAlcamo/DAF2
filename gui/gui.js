@@ -450,13 +450,16 @@ const gui = {
         tabs.friendship.mustBeUpdated = true;
         tabs.neighbors.mustBeUpdated = true;
     },
-    updateNeighborFriendName: function (save = false) {
+    updateNeighborFriendName: function (pal, friend) {
+        pal.extra.fn = friend.name.replace(/\s+/g, ' ');
+    },
+    updateNeighborFriendNames: function (save = false) {
         const friendsByUid = {};
         Object.values(bgp.Data.getFriends()).forEach(friend => friendsByUid[friend.uid] = friend);
         const list = Object.values(bgp.Data.getNeighbours()).filter(pal => {
             const friend = friendsByUid[pal.id];
             if (!friend || pal.extra.fn === friend.name) return false;
-            pal.extra.fn = friend.name;
+            gui.updateNeighborFriendName(pal, friend);
             return true;
         });
         if (save) bgp.Data.saveNeighbour(list);

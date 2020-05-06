@@ -106,6 +106,10 @@ var Parser = {
             // Retrieve extra info for neighbor
             const old = oldNeighbours[id];
             pal.extra = (old && old.extra) || {};
+            if (old && old.name && !pal.name) {
+                pal.name = old.name;
+                pal.surname = old.surname;
+            }
             if (old && old.level != pal.level) {
                 pal.extra.lastLevel = old.level;
                 pal.extra.timeLevel = time;

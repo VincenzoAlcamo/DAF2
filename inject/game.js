@@ -413,9 +413,11 @@ function interceptData() {
             return open.apply(this, arguments);
         }
         XHR.send = function() {
-            const match = this.url.match(/\\/(generator|synchronize)\\.php/);
-            if(match) {
-                const kind = match[1];
+            let kind;
+            if (this.url.indexOf('/graph.facebook.com') > 0) this.addEventListener('load', () => dispatch('ok', 'graph', null, this.response));
+            else if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
+            else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
+            if (kind) {
                 const request = arguments[0];
                 const error = () => dispatch('error', kind, null, null);
                 dispatch('send', kind, request, null);
@@ -450,7 +452,6 @@ function init() {
         addStylesheet(chrome.extension.getURL('inject/game_gctable.css'), function () {
             gcTableStyle = true;
         });
-        if (isWebGL) interceptData();
     } else {
         for (const item of String(location.search).substr(1).split('&'))
             if (item.split('=')[0] == 'flash') isWebGL = false;
@@ -462,6 +463,7 @@ function init() {
             header = document.getElementById('header');
         } else return;
     }
+    if (isWebGL) interceptData();
 
     handlers = {};
     msgHandlers = {};

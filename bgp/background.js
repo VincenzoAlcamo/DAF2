@@ -724,7 +724,7 @@ var Data = {
         Data.store(file);
     },
     store: function (file) {
-        console.log('Would store', file);
+        // console.log('Would store', file);
         if (!file.data) return;
         let tx;
         if (file.id == 'generator') {
@@ -1349,7 +1349,7 @@ var Synchronize = {
         let taskIndex = 0;
         for (const task of tasks) {
             const action = task.action;
-            console.log('Action "' + action + '"');
+            // console.log('Action "' + action + '"');
             const fn = Synchronize.handlers[action];
             if (fn instanceof Function) {
                 const taskName = 'task_' + taskIndex;
@@ -1515,8 +1515,33 @@ var Synchronize = {
         }
         return Object.values(changed);
     },
+    processGraph: function (result) {
+        try {
+            const json = JSON.parse(result);
+            if (json.id) {
+                const pals = Object.values(Data.neighbours).filter(pal => pal.fb_id === json.id).filter(pal => {
+                    let modified = false;
+                    if (json.name && !pal.extra.fn) {
+                        pal.extra.fn = json.name.replace(/\s+/g, ' ');
+                        modified = true;
+                    }
+                    if (json.first_name && pal.name !== json.first_name) {
+                        pal.name = json.first_name;
+                        modified = true;
+                    }
+                    if (json.last_name && pal.surname !== json.last_name) {
+                        pal.surname = json.last_name;
+                        modified = true;
+                    }
+                    return modified;
+                });
+                if (pals.length) Data.saveNeighbour(pals);
+            }
+        } catch (e) { }
+    },
     processXhr: function (detail) {
         const { type, kind, site, lang, request, response } = detail;
+        if (kind == 'graph') return this.processGraph(response);
         const isError = type == 'error';
         if (isError) return Badge.setIcon('red').setBackgroundColor('red');
         const isSend = type == 'send', isOk = type == 'ok';
