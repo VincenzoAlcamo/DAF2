@@ -427,27 +427,39 @@ input[type=range]:hover::-webkit-slider-thumb {
 
 /*#region TABLE*/
 
+table.daf-table,
 table {
   font-weight: normal;
   color: var(--tb-fgcol);
   margin: 0px auto;
-  border-color: var(--tb-brcol);
   border-collapse: collapse;
   border-spacing: 0;
-  border-style: solid;
-  border-width: 2px;
+  border: 2px solid var(--tb-brcol);
 }
 
+table.daf-table {
+  border: 2px solid var(--tb-brcol) !important;
+
+}
+
+table.daf-table td {
+  color: var(--tb-fgcol);
+}
+
+table.daf-table thead,
 thead {
   color: var(--th-fgcol);
   background: var(--th-bgcol);
 }
 
+table.daf-table tfoot,
 tfoot {
   color: var(--th-fgcol);
   background: var(--th-bgcol);
 }
 
+table.daf-table thead,
+table.daf-table tfoot,
 thead,
 tfoot {
   font-weight: bold;
@@ -456,6 +468,8 @@ tfoot {
   border: 2px solid var(--tb-brcol);
 }
 
+table.daf-table th,
+table.daf-table td,
 th,
 td {
   padding: 3px 5px;
@@ -923,7 +937,7 @@ td.dot.dot2 {
   font-weight: bold;
 }
 
-.rings.card table td.material {
+.rings td.material {
   text-align: left;
   background-size: 22px 22px;
   background-repeat: no-repeat;
@@ -949,7 +963,7 @@ td.dot.dot2 {
 
 .rings.card .no-minmax,
 .rings-no-level .rings.card .level,
-.rings-no-xp .rings.card .xp,
+.rings-no-xp .rings.card div.xp,
 .rings-no-minmax .rings.card th.minmax,
 .rings-no-minmax .rings.card .min,
 .rings-no-minmax .rings.card .max {
@@ -977,6 +991,31 @@ td.dot.dot2 {
 
 .rings input[type=checkbox].xp {
   vertical-align: middle;
+}
+
+.rings button.loot {
+  border: 1px solid var(--tb-brcol);
+  color: var(--th-fgcol);
+  background-color: var(--th-bgcol);
+  padding: 4px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.rings button.loot:hover {
+  color: var(--tt-button-fgcol);
+  background-color: var(--tt-button-bgcol);
+  border-color: var(--tt-input-brcol);
+}
+
+.rings.daf-table td:not(:first-of-type),
+.rings.daf-table th.avg {
+  text-align: right;
+}
+
+.rings.daf-table div.title {
+  font-size: 20px;
 }
 
 /*#endregion*/

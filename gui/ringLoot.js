@@ -316,7 +316,7 @@ function ringLoot(kind) {
         htm += Html.br`<table><thead><tr>`;
         if (kind == 'christmas') {
             htm += Html.br`<th><img src="/img/gui/chest.png"/></th>`;
-            htm += Html.br`<th>${gui.getMessage('gui_loot')}</th>`;
+            htm += Html.br`<th><button class="loot">${gui.getMessage('gui_loot')}</button></th>`;
             htm += Html.br`<th class="minmax"><img src="/img/gui/min.png" title="${gui.getMessage('gui_minimum')}"/></th>`;
             htm += Html.br`<th class="minmax"><img src="/img/gui/avg.png" title="${gui.getMessage('gui_average')}"/></th>`;
             htm += Html.br`<th class="minmax"><img src="/img/gui/max.png" title="${gui.getMessage('gui_maximum')}"/></th>`;
@@ -324,7 +324,7 @@ function ringLoot(kind) {
             htm += Html.br`<th class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
         } else {
             htm += Html.br`<th rowspan="2"><img src="/img/gui/chest.png"/></th>`;
-            htm += Html.br`<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
+            htm += Html.br`<th><button class="loot">${gui.getMessage('gui_loot')}</button></th>`;
             htm += Html.br`<th colspan="3" class="minmax">${gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level)}</th>`;
             htm += Html.br`<th rowspan="2" class="no-minmax">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(level) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
             htm += Html.br`<th rowspan="2" class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
@@ -431,9 +431,85 @@ function ringLoot(kind) {
         htm += Html.br`</table>`;
         parent = parent.parentNode.querySelector('div');
         Dialog.htmlToDOM(parent, htm);
-        for (const input of parent.querySelectorAll('input[type=checkbox].xp')) {
+        for (const input of parent.querySelectorAll('input[type=checkbox].xp,button.loot')) {
             input.addEventListener('click', onChestClick);
         }
+    }
+
+    function showDetailedLoot(lid) {
+        const data = floorData[lid];
+        const level = +gui.getGenerator().level;
+        let totals = {};
+        const chests = {};
+        const lootAreas = data.curLoots.filter(lootArea => {
+            if (lootArea.tle.startsWith('z')) return true;
+            if (lootArea.checked) chests[lootArea.chest] = true;
+            return lootArea.checked;
+        });
+        for (const lootArea of lootAreas) {
+            const loot = gui.calculateLoot(lootArea, level, swDoubleDrop);
+            const type = lootArea.type;
+            const oid = lootArea.object_id;
+            const key = type + '_' + oid;
+            let total = totals[key];
+            if (!total) totals[key] = total = { type, oid, avg: 0, xp: gui.getXp(type, oid) };
+            total.avg += loot.avg;
+        }
+        totals = Object.values(totals);
+        for (const total of totals) {
+            total.avg = Math.floor(total.avg);
+            total.txp = total.avg * total.xp;
+        }
+        totals.sort((a, b) => b.txp - a.txp);
+        totals.push({ type: 'system', oid: 1, txp: +data.mine.reward_exp, name: gui.getMessage('events_clearbonus').toUpperCase() });
+        let rings = 0;
+        if (tokenId) rings = gui.getGenerator().tokens[tokenId] || 0;
+        if (kind == 'christmas') {
+            const tokenId = christmasMines[lid];
+            rings = gui.getGenerator().tokens[tokenId] || 0;
+        }
+        const numChests = Object.keys(chests).length;
+        const max = Math.floor(rings / numChests);
+        let htm = '';
+        htm += Html.br`<table class="rings daf-table">`;
+        htm += Html.br`<thead>`;
+        htm += Html.br`<tr>`;
+        htm += Html.br`<th colspan="${max > 1 ? 5 : 3}"><div class="title">${gui.getString(data.mine.name_loc)}</div>`;
+        htm += Html.br`${gui.getMessage('gui_level')} ${Locale.formatNumber(level)} (${gui.getMessage('gui_average')})</th>`;
+        htm += Html.br`</tr>`;
+        htm += Html.br`<tr>`;
+        htm += Html.br`<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
+        htm += Html.br`<th colspan="2">1 &times; (${gui.getMessageAndValue('rings_rings', Locale.formatNumber(numChests))})</th>`;
+        if (max > 1) htm += Html.br`<th colspan="2">${Locale.formatNumber(max)} &times; (${gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests))})</th>`;
+        htm += Html.br`</tr>`;
+        htm += Html.br`<tr>`;
+        htm += Html.br`<th>${gui.getMessage('gui_qty')}</th>`;
+        htm += Html.br`<th>${gui.getMessage('gui_xp')}</th>`;
+        if (max > 1) {
+            htm += Html.br`<th>${gui.getMessage('gui_qty')}</th>`;
+            htm += Html.br`<th>${gui.getMessage('gui_xp')}</th>`;
+        }
+        htm += Html.br`</tr>`;
+        htm += Html.br`</thead>`;
+        htm += Html.br`<tbody class="row-coloring">`;
+        let totalXp = 0;
+        for (const total of totals) {
+            htm += Html.br`<td class="material" style="background-image:url(${gui.getObjectImage(total.type, total.oid, true)})">${total.name ? total.name : gui.getObjectName(total.type, total.oid)}</td>`;
+            htm += Html.br`<td class="avg">${Locale.formatNumber(total.avg)}</td>`;
+            htm += Html.br`<td class="avg">${total.txp ? Locale.formatNumber(total.txp) : ''}</td>`;
+            if (max > 1) {
+                htm += Html.br`<td class="avg">${Locale.formatNumber(max * total.avg)}</td>`;
+                htm += Html.br`<td class="avg">${total.txp ? Locale.formatNumber(max * total.txp) : ''}</td>`;
+            }
+            htm += Html.br`</tr>`;
+            totalXp += total.txp;
+        }
+        htm += Html.br`</tbody>`;
+        htm += Html.br`<tfoot><tr><th>${gui.getMessage('events_total')}</td>`;
+        htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(totalXp)}</td>`;
+        if (max > 1) htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(max * totalXp)}</td>`;
+        htm += Html.br`</table>`;
+        gui.dialog.show({ html: htm });
     }
 
     function onChestClick(event) {
@@ -444,6 +520,7 @@ function ringLoot(kind) {
         const lid = toggler.id.substr(5);
         const data = floorData[lid];
         if (!data) return;
+        if (input.classList.contains('loot')) return showDetailedLoot(lid);
         const checked = input.checked;
         const chestId = parseInt(input.getAttribute('data-chest-id'));
         for (const lootArea of data.curLoots) {
