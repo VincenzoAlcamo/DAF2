@@ -499,8 +499,13 @@ function getRowVisibilityChecker() {
     return function isRowVisible(friend, pal) {
         if (fnSearch) {
             let text = '';
-            if (friend) text += '\t' + friend.name + '\t\n' + (friend.note || '');
-            if (pal) text += '\t' + gui.getPlayerNameFull(pal) + '\t' + (pal.extra.note || '') + '\t' + (pal.extra.fn || '');
+            if (friend) text += '\t' + friend.name;
+            if (pal) text += '\t' + gui.getPlayerNameFull(pal) + '\t' + (pal.extra.fn || '');
+            // Notes must be contiguous
+            let notes = '';
+            if (friend && friend.note) notes += '\n' + friend.note;
+            if (pal && pal.extra.note) notes += '\n' + pal.extra.note;
+            if (notes) text += '\t' + notes;
             if (!fnSearch(text)) return false;
         }
         return fn(friend, pal);
