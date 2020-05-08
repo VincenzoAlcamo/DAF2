@@ -11,6 +11,14 @@
             <option value="event" data-i18n-text="gui_from_events"></option>
         </select>
     </label>
+    <label data-i18n-title="specialweek_production">
+        <span>DPW</span>
+        <select name="dpw">
+            <option value=""></option>
+            <option value="yes" data-i18n-text="dialog_yes"></option>
+            <option value="no" data-i18n-text="dialog_no"></option>
+        </select>
+    </label>
     <label>
         <span data-i18n-text="gui_search"></span>
         <input name="search" type="text" maxlength="40">
@@ -29,6 +37,7 @@
                 <th rowspan="2" class="sortable only-image" sort-name="qty"><img data-i18n-title="foundry_qty" src="/img/gui/anvil.png" /></th>
                 <th colspan="3" data-i18n-text="gui_ingredients"></th>
                 <th rowspan="2" class="sortable" sort-name="output" data-i18n-text="foundry_possible_alloys"></th>
+                <th rowspan="2" class="sortable" sort-name="total_xp" data-i18n-text="gui_xp"></th>
                 <th rowspan="2" class="sortable" sort-name="total_time" data-i18n-text="foundry_total_time"></th>
                 <th colspan="2" data-i18n-title="foundry_uplift_info" data-i18n-text="foundry_uplift"></th>
             </tr>

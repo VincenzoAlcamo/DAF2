@@ -35,3 +35,9 @@
 .kitchen tr:not(.odd)+tr.odd td {
   border-top-width: 2px;
 }
+
+.kitchen.dpw tr td:nth-child(8),
+.kitchen.dpw tr td:nth-child(12),
+.kitchen.dpw tr td:nth-child(13) {
+  background-color: rgba(255, 255, 0, 0.1);
+}

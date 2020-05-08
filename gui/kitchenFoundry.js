@@ -2,8 +2,14 @@
 export default kitchenFoundry;
 
 function kitchenFoundry(type) {
-    let tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom;
+    let tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom, selectDPW;
     let swDoubleProduction, swHalfTimeProduction;
+
+    const hasQty = type == 'alloy';
+    const hasEnergy = type == 'recipe';
+    const hasEvent = type == 'recipe';
+    const hasUplift = type == 'alloy';
+    const hasXp = type == 'alloy';
 
     function init() {
         tab = this;
@@ -13,6 +19,8 @@ function kitchenFoundry(type) {
         selectShow.addEventListener('change', refresh);
         selectFrom = container.querySelector('[name=from]');
         selectFrom.addEventListener('change', refresh);
+        selectDPW = container.querySelector('[name=dpw]');
+        selectDPW.addEventListener('change', refresh);
         searchInput = container.querySelector('[name=search]');
         searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
@@ -26,6 +34,7 @@ function kitchenFoundry(type) {
         return {
             show: selectShow.value,
             from: selectFrom.style.display == 'none' ? '' : selectFrom.value,
+            dpw: selectDPW.value,
             search: searchInput.value,
             sort: gui.getSortState(smartTable, 'name', 'ingredient')
         };
@@ -35,6 +44,7 @@ function kitchenFoundry(type) {
         searchInput.value = state.search || '';
         selectShow.value = state.show == 'possible' ? state.show : '';
         selectFrom.value = state.from == 'region' || state.from == 'event' ? state.from : '';
+        state.dpw = gui.setSelectState(selectDPW, state.dpw);
         gui.setSortState(state.sort, smartTable, 'name', 'ingredient');
     }
 
@@ -42,10 +52,10 @@ function kitchenFoundry(type) {
         const specialWeeks = gui.getActiveSpecialWeeks();
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
+        selectDPW.querySelector('option[value=""]').textContent = '(' + gui.getMessage(swDoubleProduction ? 'dialog_yes' : 'dialog_no').toLowerCase() + ')';
         const htm = [];
         if (swDoubleProduction) htm.push(Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`);
         if (swHalfTimeProduction) htm.push(Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`);
-        smartTable.table.classList.toggle('dpw', !!swDoubleProduction);
         const divWeeks = container.querySelector('.toolbar .weeks');
         Dialog.htmlToDOM(divWeeks, htm.join(''));
         divWeeks.style.display = htm.length ? '' : 'none';
@@ -107,10 +117,9 @@ function kitchenFoundry(type) {
             p.name = gui.getString(item.name_loc);
             // qty is not specified for usables, and it has equal min/max for other types
             // we just get the max, assuming that either it is equal to min or it is undefined
-            const normalQuantity = +cargo.max || 1;
-            p.qty = normalQuantity;
-            // Tokens are not doubles (Jade/Obsidian key)
-            if (swDoubleProduction && cargo.type != 'token') p.qty *= 2;
+            p.qty1 = p.qty2 = +cargo.max || 1;
+            // Tokens are not doubled (Jade/Obsidian key)
+            if (cargo.type != 'token') p.qty2 *= 2;
             let c = null;
             if (cargo.type == 'usable') c = usables[cargo.object_id];
             else if (cargo.type == 'material') c = materials[cargo.object_id];
@@ -126,7 +135,6 @@ function kitchenFoundry(type) {
             p.eimg = event && gui.getObjectImage('event', p.eid);
             p.time = +item.duration;
             if (swHalfTimeProduction) p.time *= swHalfTimeProduction.coeficient;
-            p.energy_per_hour = p.time ? Math.round(p.energy / p.time * 3600) : 0;
             p.ingredients = [];
             let numProd = 0;
             let maxProd = 0;
@@ -148,14 +156,13 @@ function kitchenFoundry(type) {
                 p.xp_spent += ((ingredient.required * gui.getXp('material', ingredient.id)) || NaN);
                 p.ingredients.push(ingredient);
             }
-            p.xp_gained = normalQuantity * gui.getXp(p.cargo.type, p.cargo.object_id);
+            p.xp = gui.getXp(p.cargo.type, p.cargo.object_id);
             p.uplift = p.uplift2 = NaN;
-            if (p.xp_spent > 0 && p.xp_gained > 0) {
-                p.uplift = (p.xp_gained - p.xp_spent) / (p.time / 3600);
-                p.uplift2 = (p.xp_gained * 2 - p.xp_spent) / (p.time / 3600);
+            if (p.xp_spent > 0 && p.xp > 0) {
+                p.uplift = (p.xp * p.qty1 - p.xp_spent) / (p.time / 3600);
+                p.uplift2 = (p.xp * p.qty2 - p.xp_spent) / (p.time / 3600);
             }
-            p.output = numProd * p.qty;
-            p.total_energy = p.energy * p.output;
+            p.numprod = numProd;
             p.total_time = p.time * Math.floor((numProd + slots - 1) / slots);
             result.push(p);
         }
@@ -172,16 +179,11 @@ function kitchenFoundry(type) {
         return result;
     }
 
-    function recreateRows() {
-        const hasQty = type == 'alloy';
-        const hasEnergy = type == 'recipe';
-        const hasEvent = type == 'recipe';
-        const hasUplift = type == 'alloy';
-
+    function recreateRowsIfNecessary() {
         function getIngredient(ingredient) {
             return Html.br`<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
-        for (const p of productions) {
+        for (const p of productions.filter(p => !p.rows)) {
             const rspan = p.ingredients.length;
             let title = p.cname;
             if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
@@ -213,6 +215,9 @@ function kitchenFoundry(type) {
             if (hasEnergy) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.total_energy)}</td>`;
             }
+            if (hasXp) {
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.total_xp)}</td>`;
+            }
             htm += Html.br`<td rowspan="${rspan}">${gui.getDuration(p.total_time)}</td>`;
             if (hasUplift) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift)}</td>`;
@@ -241,6 +246,18 @@ function kitchenFoundry(type) {
         state.search = (state.search || '').toUpperCase();
         const fnSearch = gui.getSearchFilter(state.search);
 
+        const isDPW = state.dpw ? state.dpw === 'yes' : !!swDoubleProduction;
+        smartTable.table.classList.toggle('dpw', isDPW);
+        for (const p of productions) {
+            const oldQty = p.qty;
+            p.qty = isDPW ? p.qty2 : p.qty1;
+            if (p.qty !== oldQty) delete p.rows;
+            p.output = p.numprod * p.qty;
+            p.total_energy = p.energy * p.output;
+            p.energy_per_hour = p.time ? Math.round(p.energy * p.qty / p.time * 3600) : 0;
+            p.total_xp = p.xp ? p.xp * p.output : null;
+        }
+
         smartTable.showFixed(false);
 
         sort = gui.getSortInfoText(smartTable.sort);
@@ -263,7 +280,7 @@ function kitchenFoundry(type) {
         }
 
         if (productions[0] && !productions[0].rows) flagRecreate = true;
-        if (flagRecreate) recreateRows();
+        if (flagRecreate) for (const p of productions) delete p.rows;
 
         function isVisible(p) {
             if (state.show == 'possible' && (p.output == 0 || p.locked)) return false;
@@ -278,6 +295,7 @@ function kitchenFoundry(type) {
         Dialog.htmlToDOM(tbody, '');
         const total = productions.length;
         const items = productions.filter(isVisible);
+        recreateRowsIfNecessary();
         for (const p of items) {
             isOdd = !isOdd;
             const toggleOdd = isOdd != p.rows[0].classList.contains('odd');
@@ -307,6 +325,6 @@ function kitchenFoundry(type) {
         update,
         getState,
         setState,
-        requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks']
+        requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks', type == 'alloy' ? 'xp' : '']
     };
 }

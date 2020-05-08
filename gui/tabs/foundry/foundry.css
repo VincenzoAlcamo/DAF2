@@ -4,7 +4,7 @@
 .foundry tr td:nth-child(5),
 .foundry tr td:nth-child(6),
 .foundry tr td:nth-child(7),
-.foundry tr td:nth-child(11),
+.foundry tr td:nth-child(12),
 .foundry tr.ingredient td:nth-child(1) {
   text-align: center;
 }
@@ -17,8 +17,9 @@
 
 .foundry tr td:nth-child(9),
 .foundry tr td:nth-child(10),
-.foundry tr td:nth-child(12),
+.foundry tr td:nth-child(11),
 .foundry tr td:nth-child(13),
+.foundry tr td:nth-child(14),
 .foundry tr.ingredient td:nth-child(3) {
   text-align: right;
 }
@@ -36,7 +37,9 @@
   border-top-width: 2px;
 }
 
-.foundry:not(.dpw) tr td:nth-child(12),
-.foundry.dpw tr td:nth-child(13) {
+.foundry.dpw tr td:nth-child(6),
+.foundry.dpw tr td:nth-child(10),
+.foundry.dpw tr td:nth-child(11),
+.foundry tr td:nth-child(14) {
   background-color: rgba(255, 255, 0, 0.1);
 }
