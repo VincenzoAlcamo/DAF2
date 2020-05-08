@@ -19,3 +19,7 @@
 .godchild_table thead .outlined {
   color: var(--tt-outlined-fgcol);
 }
+
+.godchild_table .DAF-gc-pal.grayed {
+  opacity: 0.3;
+}

@@ -78,6 +78,7 @@ var Parser = {
         const oldNeighbours = Data.neighbours || {};
         const reFBId = /\/(\d+)\/picture/;
         let spawned = false;
+        const spawnList = [];
         let countMismatch = 0;
         arr = arr.map((o, index) => {
             const id = o.uid;
@@ -114,7 +115,10 @@ var Parser = {
                 pal.extra.lastLevel = old.level;
                 pal.extra.timeLevel = time;
             }
-            if (pal.spawned && !spawned && (!old || !old.spawned)) spawned = true;
+            if (pal.spawned) {
+                spawnList.push(pal.id);
+                if (!old || !old.spawned) spawned = true;
+            }
             pal.extra.timeCreated = +pal.extra.timeCreated || time;
             pal.extra.lastGift = Math.max(+pal.extra.lastGift || 0, +o.rec_gift || 0);
             neighbours[id] = pal;
@@ -126,6 +130,7 @@ var Parser = {
             // Store spawn time on Mr.Bill
             const old = oldNeighbours[pal.id];
             pal.spawn_time = spawned ? time : (old && +old.spawn_time) || 0;
+            pal.spawn_list = spawned ? spawnList : (old && old.spawn_list) || [];
         }
 
         // File changes
