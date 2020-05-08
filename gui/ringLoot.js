@@ -28,7 +28,7 @@ function ringLoot(kind) {
     } else throw 'Invalid kind "' + kind + '"';
     requires = requires.concat(locations);
 
-    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel, checkXp, selectRegion;
+    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel, checkXp, selectRegion, selectDMW;
     let checkState = {};
     let selectState = [];
 
@@ -53,6 +53,9 @@ function ringLoot(kind) {
 
         checkXp = container.querySelector('[name=xp]');
         checkXp.addEventListener('click', onInput);
+
+        selectDMW = container.querySelector('[name=dmw]');
+        if (selectDMW) selectDMW.addEventListener('change', refresh);
 
         inputLevel = container.querySelector('[name=level]');
         if (inputLevel) {
@@ -82,7 +85,7 @@ function ringLoot(kind) {
             region: selectRegion ? selectRegion.value : '',
             minmax: checkMinMax.checked,
             xp: checkXp.checked,
-
+            dmw: selectDMW ? selectDMW.value : undefined,
             h: Object.keys(checkState).join(','),
             selected
         };
@@ -106,6 +109,7 @@ function ringLoot(kind) {
             state.region = gui.setSelectState(selectRegion, state.region);
         }
         checkXp.checked = !!state.xp;
+        state.dmw = selectDMW ? gui.setSelectState(selectDMW, state.dmw) : undefined;
         if (checkLevel) {
             checkLevel.checked = 'level' in state;
             const level = parseInt(state.level || state['no-level']) || 0;
@@ -149,6 +153,7 @@ function ringLoot(kind) {
         } else {
             divWarning.style.display = 'none';
         }
+        if (selectDMW) selectDMW.querySelector('option[value=""]').textContent = '(' + gui.getMessage(swDoubleDrop ? 'dialog_yes' : 'dialog_no').toLowerCase() + ')';
 
         const seconds = (kind == 'green' ? 168 : 2) * 3600;
         const eid = kind == 'green' ? 0 : 20;
@@ -305,6 +310,9 @@ function ringLoot(kind) {
     }
 
     function showLoot(otherLevel, lid, rid) {
+        const state = getState();
+        const isDMW = state.dmw ? state.dmw === 'yes' : !!swDoubleDrop;
+        const doubleDrop = isDMW ? swDoubleDrop || { coeficient: 2 } : null;
         let parent = container.querySelector('#loot_' + lid);
         const data = floorData[lid];
         if (!parent || !data) return;
@@ -368,10 +376,10 @@ function ringLoot(kind) {
         floorData[lid].curLoots = loots;
 
         const calculateLoot = (lootArea, level) => {
-            const loot = gui.calculateLoot(lootArea, level, swDoubleDrop);
+            const loot = gui.calculateLoot(lootArea, level, doubleDrop);
             if (lootArea.additional) {
                 for (const lootArea2 of lootArea.additional) {
-                    const loot2 = gui.calculateLoot(lootArea2, level, swDoubleDrop);
+                    const loot2 = gui.calculateLoot(lootArea2, level, doubleDrop);
                     loot.notRandom = loot.notRandom && loot2.notRandom;
                     loot.coef = loot.coef || loot2.coef;
                     loot.min += loot2.min;
@@ -435,7 +443,10 @@ function ringLoot(kind) {
         }
     }
 
-    function showDetailedLoot(lid) {
+    function showDetailedLoot(lid, forceDMW = false) {
+        const state = getState();
+        const isDMW = (state.dmw ? state.dmw === 'yes' : !!swDoubleDrop) || forceDMW;
+        const doubleDrop = isDMW ? swDoubleDrop || { coeficient: 2 } : null;
         const data = floorData[lid];
         const level = +gui.getGenerator().level;
         let totals = {};
@@ -446,7 +457,7 @@ function ringLoot(kind) {
             return lootArea.checked;
         });
         for (const lootArea of lootAreas) {
-            const loot = gui.calculateLoot(lootArea, level, swDoubleDrop);
+            const loot = gui.calculateLoot(lootArea, level, doubleDrop);
             const type = lootArea.type;
             const oid = lootArea.object_id;
             const key = type + '_' + oid;
@@ -460,7 +471,9 @@ function ringLoot(kind) {
             total.txp = total.avg * total.xp;
         }
         totals.sort((a, b) => b.txp - a.txp);
-        totals.push({ type: 'system', oid: 1, txp: +data.mine.reward_exp, name: gui.getMessage('events_clearbonus').toUpperCase() });
+        let txp = +data.mine.reward_exp || 0;
+        if (gui.getActiveSpecialWeeks().postcards) txp *= 10;
+        totals.push({ type: 'system', oid: 1, txp, name: gui.getMessage('events_clearbonus').toUpperCase() });
         let rings = 0;
         if (tokenId) rings = gui.getGenerator().tokens[tokenId] || 0;
         if (kind == 'christmas') {
@@ -470,6 +483,9 @@ function ringLoot(kind) {
         const numChests = Object.keys(chests).length;
         const max = Math.floor(rings / numChests);
         let htm = '';
+        if (selectDMW) {
+            htm += Html`<label style="display:block;margin-bottom:8px;" for="r_dmw"><b>${gui.getMessage('specialweek_double_drop')}</b> <input id="r_dmw" name="dmw" type="checkbox" style="vertical-align:middle" ${isDMW ? 'checked' : ''} data-method="dmw"></label>`;
+        }
         htm += Html.br`<table class="rings daf-table">`;
         htm += Html.br`<thead>`;
         htm += Html.br`<tr>`;
@@ -508,7 +524,11 @@ function ringLoot(kind) {
         htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(totalXp)}</td>`;
         if (max > 1) htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(max * totalXp)}</td>`;
         htm += Html.br`</table>`;
-        gui.dialog.show({ html: htm });
+        gui.dialog.show({ html: htm }, (method, params) => {
+            if (method === 'dmw') {
+                showDetailedLoot(lid, params.dmw);
+            }
+        });
     }
 
     function onChestClick(event) {
