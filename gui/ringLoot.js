@@ -5,7 +5,7 @@ export default ringLoot;
 function ringLoot(kind) {
 
     let tokenId, locations;
-    let requires = ['materials', 'usables', 'tokens', 'sales'];
+    let requires = ['materials', 'usables', 'tokens', 'xp'];
     const christmasMines = {
         1987: 5605,
         2284: 6844,
@@ -132,7 +132,6 @@ function ringLoot(kind) {
     }
 
     async function update() {
-        bgp.Data.getPillarsInfo();
         if (tokenId) {
             const img = gui.getObjectImg('token', tokenId, 24, true);
             const qty = gui.getGenerator().tokens[tokenId] || 0;

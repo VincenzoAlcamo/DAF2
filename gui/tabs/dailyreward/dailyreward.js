@@ -3,7 +3,7 @@ export default {
     hasCSS: true,
     init,
     update,
-    requires: ['daily_rewards', 'materials', 'buildings', 'tokens', 'usables']
+    requires: ['daily_rewards', 'materials', 'buildings', 'tokens', 'usables', 'xp']
 };
 
 let tab, container, divRewards, divStats;

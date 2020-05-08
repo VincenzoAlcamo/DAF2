@@ -58,6 +58,9 @@ const gui = {
     getFile: function (name) {
         return bgp.Data.files[name];
     },
+    getPillarsInfo: function () {
+        return bgp.Data.getPillarsInfo();
+    },
     getString: function (id) {
         return bgp.Data.getString(id);
     },
@@ -796,6 +799,9 @@ async function loadTab(tab) {
             link.setAttribute('href', tabBasePath + '.css');
             document.head.appendChild(link);
         }
+        tab.requires = tab.requires || [];
+        if (tab.requires.includes('xp') && !tab.requires.includes('sales')) tab.requires.push('sales');
+        tab.requires = tab.requires.filter(name => name && name != 'xp');
         const requires = (tab.requires || []).filter(name => {
             const file = bgp.Data.checkFile(name);
             return !file.data;
@@ -808,6 +814,7 @@ async function loadTab(tab) {
             advanceProgress();
             await bgp.Data.getFile(name);
         }
+        if (tab.requires.includes('sales')) gui.getPillarsInfo();
         tab.init();
         tab.isLoaded = true;
         tab.mustBeUpdated = true;

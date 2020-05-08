@@ -1,11 +1,11 @@
-/*global bgp gui SmartTable Locale Html Tooltip Dialog*/
+/*global gui SmartTable Locale Html Tooltip Dialog*/
 export default {
     hasCSS: true,
     init: init,
     update: update,
     getState: getState,
     setState: setState,
-    requires: ['materials', 'decorations', 'levelups', 'sales', 'usables']
+    requires: ['materials', 'decorations', 'levelups', 'sales', 'usables', 'xp']
 };
 
 let tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
@@ -33,8 +33,7 @@ function init() {
 }
 
 function update() {
-    const pillarsInfo = bgp.Data.getPillarsInfo();
-
+    const pillarsInfo = gui.getPillarsInfo();
     const sales = gui.getFile('sales');
     const decorations = gui.getFile('decorations');
     const materialInventory = gui.getGenerator().materials;

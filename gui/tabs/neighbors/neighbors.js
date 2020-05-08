@@ -10,7 +10,7 @@ export default {
         'visit_camp': markNeighbor,
         'place_windmill': markNeighbor
     },
-    requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'sales']
+    requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'xp']
 };
 
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
@@ -261,7 +261,6 @@ function onClick(e) {
 }
 
 function update() {
-    bgp.Data.getPillarsInfo();
     lastGiftDays = 0;
     palRows = {};
     palDays = {};

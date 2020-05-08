@@ -5,7 +5,7 @@ export default {
     update,
     getState,
     setState,
-    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens']
+    requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens', 'xp']
 };
 
 let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectShopFrom, selectAffordable, selectUseful, selectType, searchInput, searchHandler;
@@ -180,7 +180,6 @@ function getEventInfo(event) {
 }
 
 function update() {
-    bgp.Data.getPillarsInfo();
     const state = getState();
     const generator = gui.getGenerator();
     const backpack = generator.materials || {};

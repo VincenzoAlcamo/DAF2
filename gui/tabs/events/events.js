@@ -5,7 +5,7 @@ export default {
     update,
     getState,
     setState,
-    requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts', 'sales', 'special_weeks']
+    requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts', 'xp', 'special_weeks']
 };
 
 const MAX_REWARDS_PER_ROW = 6;
@@ -132,8 +132,6 @@ function addOption(select, value, text) {
 }
 
 function update() {
-    bgp.Data.getPillarsInfo();
-
     swDoubleDrop = gui.getActiveSpecialWeeks().doubleDrop;
     const divWarning = container.querySelector('.toolbar .warning');
     if (swDoubleDrop) {
