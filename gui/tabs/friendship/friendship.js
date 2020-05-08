@@ -14,7 +14,7 @@ let tab, container, selectShow, searchInput, smartTable, searchHandler;
 let buttonUnlink, buttonIgnore, buttonRegard, buttonManual, friendDisabled;
 let divMatch, matchingId;
 
-let firstTimeManualHelp = true;
+let firstTimeManualHelp = localStorage.getItem('manual_match') != '1';
 let firstTimeCollectPopup = true;
 let numFriends = 0;
 let numDisabled = 0;
@@ -268,6 +268,7 @@ function tableClick(event) {
             matchingId = pal.id;
             if (firstTimeManualHelp) {
                 firstTimeManualHelp = false;
+                localStorage.setItem('manual_match', '1');
                 gui.dialog.show({
                     text: gui.getMessage('friendship_manualmatchhelp'),
                     style: [Dialog.OK]
