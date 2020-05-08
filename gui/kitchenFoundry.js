@@ -163,7 +163,7 @@ function kitchenFoundry(type) {
                 p.uplift2 = (p.xp * p.qty2 - p.xp_spent) / (p.time / 3600);
             }
             p.numprod = numProd;
-            p.total_time = p.time * Math.floor((numProd + slots - 1) / slots);
+            p.total_time = p.time * Math.floor((numProd + slots - 1) / slots) || NaN;
             result.push(p);
         }
 
@@ -255,7 +255,7 @@ function kitchenFoundry(type) {
             p.output = p.numprod * p.qty;
             p.total_energy = p.energy * p.output;
             p.energy_per_hour = p.time ? Math.round(p.energy * p.qty / p.time * 3600) : 0;
-            p.total_xp = p.xp ? p.xp * p.output : null;
+            p.total_xp = p.xp ? p.xp * p.output : NaN;
         }
 
         smartTable.showFixed(false);
