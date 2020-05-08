@@ -124,7 +124,7 @@ function getNeighboursAsNotMatched() {
 }
 
 function getUnmatched() {
-    return Object.values(bgp.Data.friends).filter(friend => friend.score == 0).map(friend => friend.id);
+    return Object.values(bgp.Data.friends).filter(friend => (friend.score || 0) == 0).map(friend => friend.id);
 }
 
 function showCollectDialog() {
@@ -227,14 +227,15 @@ function tableClick(event) {
     let flagModified = false;
     const isRowVisible = getRowVisibilityChecker();
     let action = el.tagName == 'BUTTON' ? el.getAttribute('data-action') : null;
-    if (el.tagName == 'TD' && el.cellIndex == 3 && smartTable.table.classList.contains('f-matching') && matchingId && friend && friend.score <= 0) action = 'match';
+    if (el.tagName == 'TD' && el.cellIndex == 3 && smartTable.table.classList.contains('f-matching') && matchingId && friend && (friend.score || 0) <= 0) action = 'match';
 
     if (action == 'match') {
         // MANUAL MATCH
         pal = bgp.Data.getNeighbour(matchingId);
         const row2 = container.querySelector('tr[data-pal-id="' + pal.id + '"]');
-        if (row2) row2.parentNode.removeChild(row2);
+        if (row2) row2.remove();
         matchFriendBase(friend, pal, 99);
+        row.setAttribute('data-pal-id', pal.id);
         flagModified = true;
         cancelMatch();
     } else if (action == 'unlink' && friend && pal) {
@@ -242,6 +243,7 @@ function tableClick(event) {
         numMatched--;
         delete friend.uid;
         delete friend.score;
+        row.removeAttribute('data-pal-id');
         flagModified = true;
         if (isRowVisible(null, pal)) {
             const row2 = row.parentNode.appendChild(document.createElement('tr'));
@@ -492,10 +494,10 @@ function getRowVisibilityChecker() {
         'g': (friend, pal) => friend && pal && friend.score == 95,
         'h': (friend, pal) => friend && pal && friend.score == 99,
         'i': (friend, _pal) => friend && friend.score == -1,
-        'f': (friend, _pal) => friend && friend.score == 0,
+        'f': (friend, _pal) => friend && (friend.score || 0) == 0,
         'u': (friend, pal) => friend && !pal,
         'n': (friend, pal) => pal && !friend,
-        's': (friend, pal) => friend ? friend.score == 0 : pal,
+        's': (friend, pal) => friend ? (friend.score || 0) == 0 : pal,
     }[show] || (() => false);
     return function isRowVisible(friend, pal) {
         if (fnSearch) {
@@ -731,7 +733,7 @@ function matchStoreAndUpdate() {
             if (getProcessed(friend) == 2) friendsToSave.push(friend);
         }
         bgp.Data.saveFriend(friendsToSave);
-        gui.updateNeighborFriendName(true);
+        gui.updateNeighborFriendNames(true);
         // store neighbours
         // if (flagStoreNeighbours) bgp.Data.saveNeighbour(Object.values(bgp.Data.getNeighbours()));
         refresh();
