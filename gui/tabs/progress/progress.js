@@ -66,6 +66,7 @@ function init() {
         });
 
     smartTable = new SmartTable(container.querySelector('.progress_table'));
+    smartTable.onSort = refresh;
     gui.setupScreenshot(smartTable.container, gui.getMessage('tab_progress'), container.querySelector('.screenshot'));
 }
 
@@ -75,7 +76,8 @@ function getState() {
         groups: checkGroups.checked,
         dates: checkDates.checked,
         energy: checkEnergy.checked,
-        show: show
+        show: show,
+        sort: gui.getSortState(smartTable)
     };
 }
 
@@ -87,6 +89,7 @@ function setState(state) {
     show = state.show;
     const showInfo = getShowInfo(show);
     if (!progress.find(item => item.id == showInfo.id)) show = '';
+    gui.setSortState(state.sort, smartTable, 'index');
 }
 
 function toggles() {
@@ -132,7 +135,7 @@ function update() {
 
 function getProgress(value, max, energy) {
     if (max == 0) {
-        return Html.br`<td></td><td></td><td></td><td></td><td></td>`;
+        return Html.br`<td></td><td></td><td></td><td></td><td class="energy"></td><td></td>`;
     }
     let htm = '';
     const percent = max > 0 ? (value / max * 100) : 0;
@@ -140,7 +143,7 @@ function getProgress(value, max, energy) {
     htm += Html.br`<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) + '%'}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(value)}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(max)}</td>`;
-    htm += Html.br`<td>${Locale.formatNumber(max - value)}</td>`;
+    htm += Html.br`<td>${Locale.formatNumber((max - value) || NaN)}</td>`;
     htm += Html.br`<td class="energy">${energy ? Locale.formatNumber(energy) : ''}</td>`;
     htm += Html.br`<td><progress value="${value}" max="${max}"></progress></td>`;
     return htm;
@@ -159,6 +162,7 @@ function getTimes(isCompleted, bt, et) {
 }
 
 function refresh() {
+    gui.updateTabState(tab);
     const state = getState();
     let total = 0;
     let htm = '';
@@ -291,7 +295,30 @@ function showDetail(show) {
     const group = {};
     initGroupTotals(group.grandtotal = {});
     const url = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_filters/';
+    let rows = [];
+    let sublist = [];
+    let lastSub = null;
+    const sort = gui.getSortFunction(null, smartTable, 'index');
     for (const sub of item.rows) {
+        const { value, max } = sub;
+        sub.goal = max || NaN;
+        sub.attained = max ? value : NaN;
+        sub.remaining = (max - value) || NaN;
+        sub.progress = max > 0 ? (value / max * 100) : NaN;
+        sub.energy = sub.energy || NaN;
+        sub.start = sub.bt || NaN;
+        sub.end = sub.et || NaN;
+        sub.duration = sub.end - sub.start;
+        if (sub.gname && lastSub && sub.gname != lastSub.gname) {
+            rows = rows.concat(sort(sublist));
+            sublist = [];
+        }
+        sublist.push(sub);
+        sub.index = sublist.length;
+        lastSub = sub;
+    }
+    rows = rows.concat(sort(sublist));
+    for (const sub of rows) {
         if (level == 1 && sub.seq != showInfo.subId) continue;
         const isCompleted = sub.value == sub.max;
         const visible = hideCompleted ? !isCompleted : true;
