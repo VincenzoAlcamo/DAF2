@@ -586,14 +586,6 @@ window.userRequest = function(recipients, req_type) {
     if (cur_recipients) userRequestResult({ request: true });
 };
 `;
-                if ('GEMCONFIRMATION' in fixes || 'FBSHARING' in fixes) {
-                    code += `
-window.setCookie = (name, value) => document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + (new Date(Date.now() + 2592000000)).toGMTString();
-`;
-                }
-                if ('GEMCONFIRMATION' in fixes) code += `setCookie('settings_gem_confirmation', '1');`;
-                if ('FBSHARING' in fixes) code += `setCookie('fb_sharing', '1');`;
-                // appendScript(code);
                 document.head.appendChild(createScript(code));
             }
         } else {
