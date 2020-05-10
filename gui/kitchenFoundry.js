@@ -127,7 +127,7 @@ function kitchenFoundry(type) {
             p.cname = (c && c.name_loc && gui.getString(c.name_loc)) || '';
             p.cdsc = (c && c.desc && gui.getString(c.desc)) || '';
             p.cimg = gui.getObjectImage(cargo.type, cargo.object_id, true);
-            p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || 0;
+            p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || NaN;
             p.eid = +item.event_id;
             p.locked = p.level > level || (p.eid == 0 && p.region > region);
             const event = p.eid ? events && events[p.eid] : null;
