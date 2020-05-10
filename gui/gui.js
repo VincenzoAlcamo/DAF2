@@ -281,7 +281,7 @@ const gui = {
             if (!prevFn) return currFn;
             return (value) => currFn(value) || prevFn(value);
         }, null);
-        return (value) => fn(String(value === null || value === undefined ? '' : value).toUpperCase());
+        return fn ? (value) => fn(String(value === null || value === undefined ? '' : value).toUpperCase()) : null;
     },
     setSelectState: function (select, value, defaultIndex) {
         select.value = value || '';
