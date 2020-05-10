@@ -65,6 +65,7 @@ function init() {
     btnOffer.addEventListener('click', () => showOffer('offer', lastOffer));
     btnTieredOffer = container.querySelector('[name=tieredoffer]');
     btnTieredOffer.addEventListener('click', () => showOffer('tier', lastTieredOffer));
+    container.querySelector('[name=showany]').addEventListener('click', () => showAny(lastPack, lastOffer, lastTieredOffer));
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -1065,7 +1066,7 @@ function onTooltip(event) {
     Tooltip.show(element, htm);
 }
 
-function showOffer(type, id) {
+function showOffer(type, id, callback) {
     let blocks = [];
     let title = '';
     if (type == 'pack') {
@@ -1091,6 +1092,7 @@ function showOffer(type, id) {
             current[method] = +params[method];
             gui.dialog.setHtml(getDetails());
         }
+        if (method == Dialog.CLOSE && callback) callback();
     });
 
     function getSelection(current) {
@@ -1365,4 +1367,36 @@ function getOffersBase(id) {
         block.items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
     }
     return blocks;
+}
+
+function showAny(lastPack, lastOffer, lastTieredOffer) {
+    let htm = '';
+    const addItem = (kind, current, sales) => {
+        const messageId = 'gui_' + (kind == 'tier' ? 'tieredoffer' : kind);
+        let min = +Infinity;
+        let max = -Infinity;
+        for (const sale of Object.values(sales).filter(sale => (+sale.hide || 0) == 0)) {
+            min = Math.min(min, +sale.def_id);
+            max = Math.max(max, +sale.def_id);
+        }
+        if (current < min || current > max) current = max;
+        htm += Html.br`<tr><td style="text-align:right">${gui.getMessage(messageId)}</td>`;
+        htm += Html.br`<td><input name="${kind}" type="number" value="${current}" min="${min}" max="${max}" style="width:80px"></td>`;
+        htm += Html.br`<td><button data-method="${kind}">${gui.getMessage('gui_show')}</td></tr>`;
+    };
+    htm += Html.br`<table>`;
+    addItem('pack', lastPack, gui.getFile('packs'));
+    addItem('offer', lastOffer, gui.getFile('offers'));
+    addItem('tier', lastTieredOffer, gui.getFile('tiered_offers'));
+    htm += Html.br`</table>`;
+    gui.dialog.show({
+        html: htm,
+        style: [Dialog.CLOSE]
+    }, (method, params) => {
+        if (method == 'pack' || method == 'offer' || method == 'tier') {
+            try {
+                showOffer(method, params[method], () => showAny(params.pack, params.offer, params.tier));
+            } catch (e) { }
+        }
+    });
 }
