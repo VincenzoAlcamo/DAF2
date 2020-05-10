@@ -23,12 +23,6 @@ function init() {
 
     selectShow = container.querySelector('[name=show]');
     selectShow.addEventListener('change', refresh);
-    for (const days of [7, 14, 21, 28, 35, 42]) {
-        const option = document.createElement('option');
-        option.value = 'nogift' + days;
-        option.innerText = gui.getMessage('neighbors_nogift', days);
-        selectShow.appendChild(option);
-    }
 
     let htm = Html.br(gui.getMessage('neighbors_gifts'));
     htm = String(htm).replace('@DAYS@', getSelectDays(0));
@@ -86,6 +80,12 @@ function getState() {
 }
 
 function setState(state) {
+    const s = String(state.show || '').toLowerCase();
+    if (s.length > 6 && s.startsWith('nogift')) {
+        const n = +(s.substr(6)) || 0;
+        if (n >= 7 && n <= 50) state.days = n;
+        state.show = 'nogift';
+    }
     state.show = gui.setSelectState(selectShow, state.show);
     state.days = gui.setSelectState(selectDays, state.days, 21);
     searchInput.value = state.search || '';
@@ -423,6 +423,7 @@ function getCalculator(expression, getValueFunctions) {
 function refreshDelayed() {
     scheduledRefresh = 0;
     const state = getState();
+    selectShow.querySelector('option[value="nogift"]').textContent = gui.getMessage('neighbors_nogift', Locale.formatNumber(+state.days));
 
     const getSortValueFunctions = {
         name: pal => palNames[pal.id] || '',
@@ -446,10 +447,9 @@ function refreshDelayed() {
     if (show == 'inlist' || show == 'notinlist') {
         list = show == 'inlist' ? 0 : 1;
         show = 'list';
-    } else if (show.startsWith('nogift')) {
-        days = +(show.substr(6)) || 0;
-        show = days > 0 ? 'days' : '';
-        if (days) days = getDateAgo(days);
+    } else if (show == 'nogift') {
+        days = +state.days || 0;
+        if (days) days = getDateAgo(days); else show = '';
     }
 
     let neighbors = Object.assign({}, bgp.Data.getNeighbours());
@@ -516,7 +516,7 @@ function refreshDelayed() {
         if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
         if (show == 'unknownblocks' && pal.extra.blocks !== undefined) continue;
         if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
-        else if (show == 'days' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
+        else if (show == 'nogift' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         const fullname = gui.getPlayerNameFull(pal).toUpperCase();
         if (fnSearch && !fnSearch(fullname + '\t\n' + (pal.extra.note || '') + '\t' + (friendNames[pal.id] || '') + '\t' + (pal.extra.fn || ''))) continue;
         if (applyGiftFilter) {
