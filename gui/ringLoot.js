@@ -524,7 +524,7 @@ function ringLoot(kind) {
         htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(totalXp)}</td>`;
         if (max > 1) htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(max * totalXp)}</td>`;
         htm += Html.br`</table>`;
-        gui.dialog.show({ html: htm }, (method, params) => {
+        gui.dialog.show({ html: htm, style: [Dialog.CLOSE] }, (method, params) => {
             if (method === 'dmw') {
                 showDetailedLoot(lid, params.dmw);
             }
