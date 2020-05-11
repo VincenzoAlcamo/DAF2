@@ -331,7 +331,7 @@ function ringLoot(kind) {
             htm += Html.br`<th class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
         } else {
             htm += Html.br`<th rowspan="2"><img src="/img/gui/chest.png"/></th>`;
-            htm += Html.br`<th><button class="loot">${gui.getMessage('gui_loot')}</button></th>`;
+            htm += Html.br`<th rowspan="2"><button class="loot">${gui.getMessage('gui_loot')}</button></th>`;
             htm += Html.br`<th colspan="3" class="minmax">${gui.getMessage('gui_level') + ' ' + Locale.formatNumber(level)}</th>`;
             htm += Html.br`<th rowspan="2" class="no-minmax">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(level) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
             htm += Html.br`<th rowspan="2" class="level">${gui.getMessage('gui_level') + '\n' + Locale.formatNumber(otherLevel) + '\n(' + gui.getMessage('gui_average') + ')'}</th>`;
