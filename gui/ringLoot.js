@@ -443,9 +443,7 @@ function ringLoot(kind) {
         }
     }
 
-    function showDetailedLoot(lid, forceDMW = false) {
-        const state = getState();
-        const isDMW = (state.dmw ? state.dmw === 'yes' : !!swDoubleDrop) || forceDMW;
+    function showDetailedLoot(lid, isDMW) {
         const doubleDrop = isDMW ? swDoubleDrop || { coeficient: 2 } : null;
         const data = floorData[lid];
         const level = +gui.getGenerator().level;
@@ -539,7 +537,10 @@ function ringLoot(kind) {
         const lid = toggler.id.substr(5);
         const data = floorData[lid];
         if (!data) return;
-        if (input.classList.contains('loot')) return showDetailedLoot(lid);
+        if (input.classList.contains('loot')) {
+            const state = getState();
+            return showDetailedLoot(lid, state.dmw ? state.dmw === 'yes' : !!swDoubleDrop);
+        }
         const checked = input.checked;
         const chestId = parseInt(input.getAttribute('data-chest-id'));
         for (const lootArea of data.curLoots) {
