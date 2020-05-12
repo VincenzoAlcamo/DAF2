@@ -426,6 +426,7 @@ function infoLevel(row) {
         }
         for (let i = 1; i < levelSums.length; i++) levelSums[i] += levelSums[i - 1];
     }
+    const maxLevel = levelSums.length - 1;
 
     const nextRow = row.nextSibling;
     const parent = row.parentNode;
@@ -443,10 +444,10 @@ function infoLevel(row) {
     rowSlider.className = 'slider';
     let htm = '';
     htm += Html.br`<td colspan="6">`;
-    htm += Html.br`<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${levelSums.length}">`;
+    htm += Html.br`<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${maxLevel}">`;
     htm += Html.br`<span class="slider-step slider-min">${Locale.formatNumber(level + 1)}</span>`;
     htm += Html.br`<span class="slider-step slider-val">${Locale.formatNumber(sliderLevel)}</span>`;
-    htm += Html.br`<span class="slider-step slider-max">${Locale.formatNumber(levelSums.length)}</span>`;
+    htm += Html.br`<span class="slider-step slider-max">${Locale.formatNumber(maxLevel)}</span>`;
     htm += Html.br`</td>`;
     htm += Html.br`<td class="energy"></td><td></td>`;
     htm += getTimes(false, 0, 0);
