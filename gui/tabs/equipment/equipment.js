@@ -896,23 +896,28 @@ function updateRow(row) {
     htm += Html.br`<td>${item.name}`;
     let start = 0;
     let end = 0;
-    let price;
+    let price, saleMessageId, saleExtras;
     if (item.sale == 'offer') {
         const offer = bgp.Data.files.offers[item.sale_id];
-        htm += Html.br`<br><div class="offer" data-type="offer" data-id="${offer.def_id}">${gui.getMessage('gui_offer')}</div>`;
+        saleMessageId = 'gui_offer';
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'tier') {
         const offer = bgp.Data.files.tiered_offers[item.sale_id];
-        htm += Html.br`<br><div class="offer" data-type="tier" data-id="${offer.def_id}">${gui.getMessage('gui_tieredoffer')}</div> ${gui.getString(item.tname)}`;
+        saleMessageId = 'gui_tieredoffer';
+        saleExtras = gui.getString(item.tname);
         start = +offer.start;
         end = +offer.end;
     } else if (item.sale == 'pack') {
         const pack = bgp.Data.files.packs[item.sale_id];
-        htm += Html.br`<br><div class="offer" data-type="pack" data-id="${pack.def_id}">${gui.getMessage('gui_pack')}</div> ${gui.getString(pack.name_loc)}`;
+        saleMessageId = 'gui_pack';
+        saleExtras = gui.getString(pack.name_loc);
         start = packsViewed[pack.def_id] || 0;
         end = start ? start + (+pack.duration) : 0;
         price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
+    }
+    if(saleMessageId) {
+        htm += Html.br`<br><div class="offer" data-type="${item.sale}" data-id="${item.sale_id}" title="${gui.getMessageAndValue(saleMessageId, item.sale_id)}">${gui.getMessage(saleMessageId)}</div>${saleExtras}`;
     }
     if (start || end) {
         if (end < start) end = start;
