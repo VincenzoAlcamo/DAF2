@@ -867,7 +867,7 @@ function showInfo() {
                     chance = floors.length;
                     for (const floor of floors) floor.chance = 1;
                 }
-                floors = floors.filter(floor => floor.chance > 0 || chance);
+                floors = floors.filter(floor => floor.chance > 0);
                 // Compute chance
                 let remainingChances = 1000;
                 for (const floor of floors) {
