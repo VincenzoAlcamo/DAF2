@@ -15,7 +15,8 @@ export default {
 
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
-let filterGifts = '', filterExpression = '';
+let filterGifts = '', filterExp = 0;
+const filterExpressions = ['', '', ''];
 
 function init() {
     tab = this;
@@ -68,15 +69,21 @@ function triggerSearchHandler(flag) {
     searchHandler = flag ? setTimeout(refresh, 500) : 0;
 }
 
+function getFilterExpression() {
+    return String(filterExpressions[(+filterExp || 0) - 1] || '').trim();
+}
+
 function getState() {
-    return {
+    const state = {
         show: selectShow.value,
         days: selectDays.value,
         search: searchInput.value,
         gift: filterGifts,
-        filter: filterExpression,
+        exp: filterExp || undefined,
         sort: gui.getSortState(smartTable)
     };
+    filterExpressions.forEach((value, index) => state['exp' + (index + 1)] = value.trim());
+    return state;
 }
 
 function setState(state) {
@@ -90,12 +97,19 @@ function setState(state) {
     state.days = gui.setSelectState(selectDays, state.days, 21);
     searchInput.value = state.search || '';
     filterGifts = state.gift || '';
-    filterExpression = state.filter || '';
+    if (state.filter) {
+        state.exp = 1;
+        state.exp1 = state.filter;
+        delete state.filter;
+    }
+    filterExp = Math.max(0, Math.min(filterExpressions.length, +state.exp || 0)) || undefined;
+    filterExpressions.forEach((value, index) => filterExpressions[index] = String(state['exp' + (index + 1)] || '').trim());
     gui.setSortState(state.sort, smartTable, 'name');
     updateButton();
 }
 
 function updateButton() {
+    const filterExpression = getFilterExpression();
     const isActive = filterGifts != '' || filterExpression != '';
     const button = container.querySelector('.toolbar button.advanced');
     button.textContent = gui.getMessage('gui_advancedfilter') + ': ' + gui.getMessage(isActive ? 'menu_on' : 'menu_off');
@@ -136,10 +150,18 @@ function onClickAdvanced() {
         }
         return htm;
     }
+    filterExp = Math.max(0, Math.min(3, +filterExp || 0));
+    const expressions = [''].concat(filterExpressions);
     let htm = '';
-    htm += Html.br`<table class="neighbors-advanced-table"><tr><td>`;
-    htm += Html.br`${gui.getMessage('neighbors_expression')}:
-<br><textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3">${Html(filterExpression)}</textarea>
+    htm += Html.br`<table class="neighbors-advanced-table"><tr><td style="text-align:left">`;
+    htm += Html.br`${gui.getMessage('neighbors_expression')}:`;
+    expressions.forEach((value, index) => {
+        htm += Html.br`<br><label for="exp${index}"><input type="radio" id="exp${index}" name="exp" data-method="exp" value="${index}" ${filterExp == index ? 'checked' : ''}>`;
+        htm += Html.br` <b>${index ? index + ':' : gui.getMessage('neighbors_clearfilter')}</b>`;
+        htm += Html`  <span class="neighbors-expression">${String(expressions[index] || '').trim()}</span>`;
+        htm += Html.br`</label>`;
+    });
+    htm += Html.br`<br><textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3"></textarea>
 <br><div class="expression-error"></div>
 <table class="expression-help"><tr><th colspan="3">${gui.getMessage('calc_operators')}</th></tr>
 <tr><th>${gui.getMessage('calc_arithmetic')}</th><th>${gui.getMessage('calc_comparison')}</th><th>${gui.getMessage('calc_logical')}</th></tr>
@@ -166,7 +188,7 @@ blocks>20 or (region=1 and level<100)
     htm += Html.br`<option value="2">${gui.getMessage('gui_day')}</option>`;
     htm += Html.br`</select>`;
     htm += Html.br` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
-    htm += Html.br`<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px;width:100%">`;
+    htm += Html.br`<select name="gifts" multiple size="${Math.min(18, items.length)}" style="margin:3px;width:100%">`;
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
     htm += Html.br`</select>`;
     htm += Html.br`</td></tr></table>`;
@@ -184,8 +206,18 @@ blocks>20 or (region=1 and level<100)
             Dialog.htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
             return;
         }
-        if (method == 'expression' || method == Dialog.AUTORUN) {
-            const expression = params.expression;
+        if (method == 'exp' || method == Dialog.AUTORUN) {
+            params.expression = params.exp ? expressions[params.exp] : '';
+            const textarea = gui.dialog.element.querySelector('[name=expression]');
+            textarea.value = params.expression;
+            textarea.disabled = +params.exp == 0;
+            textarea.style.opacity = +params.exp ? 1 : 0.3;
+            method = 'expression';
+        }
+        if (method == 'expression') {
+            const expression = +params.exp ? params.expression : '';
+            expressions[params.exp] = expression.trim();
+            gui.dialog.element.querySelector(`label[for=exp${params.exp}] span`).textContent = params.expression;
             const calculator = getCalculator(expression, {});
             let htm = '';
             if (calculator.errorCode) {
@@ -197,12 +229,13 @@ blocks>20 or (region=1 and level<100)
                 if (post.length > 15) post = post.substring(0, 15) + '\u2025';
                 htm = Html`<b>${message}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
             }
-            Dialog.htmlToDOM(gui.dialog.element.querySelector(`.expression-error`), htm);
+            Dialog.htmlToDOM(gui.dialog.element.querySelector('.expression-error'), htm);
             return;
         }
         if (method == Dialog.CANCEL) return;
         filterGifts = list;
-        filterExpression = params.expression;
+        filterExp = params.exp;
+        filterExpressions.forEach((value, index) => filterExpressions[index] = expressions[index + 1]);
         selectDays.value = params.days;
         refresh();
     });
@@ -508,6 +541,7 @@ function refreshDelayed() {
     const sort = gui.getSortFunction(getSortValueFunctions, smartTable, 'name');
     const now = gui.getUnixTime();
     let items = [];
+    const filterExpression = getFilterExpression();
     const calculator = getCalculator(filterExpression, getSortValueFunctions);
     const friendNames = {};
     for (const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();

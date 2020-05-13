@@ -160,3 +160,12 @@
   font-style: oblique;
   opacity: 0.8;
 }
+
+.neighbors-expression {
+  display: inline-block;
+  overflow: hidden;
+  width: calc(100% - 40px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
