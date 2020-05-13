@@ -166,7 +166,7 @@ blocks>20 or (region=1 and level<100)
     htm += Html.br`<option value="2">${gui.getMessage('gui_day')}</option>`;
     htm += Html.br`</select>`;
     htm += Html.br` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
-    htm += Html.br`<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px">`;
+    htm += Html.br`<select name="gifts" multiple size="${Math.min(15, items.length)}" style="margin:3px;width:100%">`;
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
     htm += Html.br`</select>`;
     htm += Html.br`</td></tr></table>`;
