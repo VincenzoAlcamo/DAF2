@@ -16,7 +16,7 @@ export default {
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '', filterExp = 0;
-const filterExpressions = ['', '', ''];
+const filterExpressions = ','.repeat(4).split(',');
 
 function init() {
     tab = this;
@@ -156,12 +156,12 @@ function onClickAdvanced() {
     htm += Html.br`<table class="neighbors-advanced-table"><tr><td style="text-align:left">`;
     htm += Html.br`${gui.getMessage('neighbors_expression')}:`;
     expressions.forEach((value, index) => {
-        htm += Html.br`<br><label for="exp${index}"><input type="radio" id="exp${index}" name="exp" data-method="exp" value="${index}" ${filterExp == index ? 'checked' : ''}>`;
+        htm += Html.br`<label for="exp${index}" class="expression-item"><input type="radio" id="exp${index}" name="exp" data-method="exp" value="${index}" ${filterExp == index ? 'checked' : ''}>`;
         htm += Html.br` <b>${index ? index + ':' : gui.getMessage('neighbors_clearfilter')}</b>`;
         htm += Html`  <span class="neighbors-expression">${String(expressions[index] || '').trim()}</span>`;
         htm += Html.br`</label>`;
     });
-    htm += Html.br`<br><textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3"></textarea>
+    htm += Html.br`<textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3"></textarea>
 <br><div class="expression-error"></div>
 <table class="expression-help"><tr><th colspan="3">${gui.getMessage('calc_operators')}</th></tr>
 <tr><th>${gui.getMessage('calc_arithmetic')}</th><th>${gui.getMessage('calc_comparison')}</th><th>${gui.getMessage('calc_logical')}</th></tr>
@@ -182,13 +182,13 @@ blocks>20 or (region=1 and level<100)
 </div>`;
     htm += Html.br`</td><td>`;
     const info = Html.raw(String(Html.br(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
-    htm += Html.br`${info}<br>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
+    htm += Html.br`<div class="gift-info">${info}</div>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
     htm += Html.br`<option value="0">${gui.getMessage('gui_gift')}</option>`;
     htm += Html.br`<option value="1">${gui.getMessage('gui_xp')}</option>`;
     htm += Html.br`<option value="2">${gui.getMessage('gui_day')}</option>`;
     htm += Html.br`</select>`;
     htm += Html.br` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
-    htm += Html.br`<select name="gifts" multiple size="${Math.min(18, items.length)}" style="margin:3px;width:100%">`;
+    htm += Html.br`<select name="gifts" data-method="gifts" multiple size="${Math.min(18, items.length)}" style="margin:3px;width:100%">`;
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
     htm += Html.br`</select>`;
     htm += Html.br`</td></tr></table>`;
@@ -198,13 +198,15 @@ blocks>20 or (region=1 and level<100)
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
     }, function (method, params) {
         const list = gui.getArrayOfInt(params.gifts).sort(gui.sortNumberAscending).join(',');
-        if (method == 'clear') {
-            for (const option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
-            return;
+        if (method == 'clear' || method == 'gifts' || method == Dialog.AUTORUN) {
+            if (method == 'clear') {
+                for (const option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
+                delete params.gifts;
+            }
+            gui.dialog.element.querySelector('.gift-info').classList.toggle('activated', !!params.gifts);
         }
         if (method == 'sort') {
             Dialog.htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
-            return;
         }
         if (method == 'exp' || method == Dialog.AUTORUN) {
             params.expression = params.exp ? expressions[params.exp] : '';
@@ -212,6 +214,7 @@ blocks>20 or (region=1 and level<100)
             textarea.value = params.expression;
             textarea.disabled = +params.exp == 0;
             textarea.style.opacity = +params.exp ? 1 : 0.3;
+            for (let i = filterExpressions.length; i > 0; i--) gui.dialog.element.querySelector(`label[for=exp${i}]`).classList.toggle('activated', i == params.exp);
             method = 'expression';
         }
         if (method == 'expression') {
@@ -230,9 +233,8 @@ blocks>20 or (region=1 and level<100)
                 htm = Html`<b>${message}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
             }
             Dialog.htmlToDOM(gui.dialog.element.querySelector('.expression-error'), htm);
-            return;
         }
-        if (method == Dialog.CANCEL) return;
+        if (method != Dialog.CONFIRM) return;
         filterGifts = list;
         filterExp = params.exp;
         filterExpressions.forEach((value, index) => filterExpressions[index] = expressions[index + 1]);

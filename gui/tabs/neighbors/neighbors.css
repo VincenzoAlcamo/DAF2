@@ -96,6 +96,11 @@
   vertical-align: middle;
 }
 
+.neighbors .friendname {
+  font-style: oblique;
+  opacity: 0.8;
+}
+
 .neighbors .camp_blocks {
   display: inline-block;
   width: 30;
@@ -124,31 +129,31 @@
   width: 100% !important;
 }
 
-.expression-error {
+.neighbors-advanced-table .expression-error {
   color: #FD9;
   height: 2.2em;
   white-space: nowrap;
 }
 
-.expression-error .culprit {
+.neighbors-advanced-table .expression-error .culprit {
   background-color: red;
   color: white;
   padding: 0px 2px 2px;
 }
 
-.expression-help {
+.neighbors-advanced-table .expression-help {
   width: 100%;
   margin-top: 6px;
 }
 
-.expression-help td {
+.neighbors-advanced-table .expression-help td {
   width: 33%;
   padding: 2px;
   border: 1px solid #FFF;
   font-size: smaller;
 }
 
-.expression-help th {
+.neighbors-advanced-table .expression-help th {
   color: #333;
   background-color: #99E;
   border: 1px solid #FFF;
@@ -156,16 +161,26 @@
   padding: 1px;
 }
 
-.neighbors .friendname {
-  font-style: oblique;
-  opacity: 0.8;
+.neighbors-advanced-table .expression-item {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  flex-direction: row;
+  align-items: center;
 }
 
-.neighbors-expression {
-  display: inline-block;
+.neighbors-advanced-table .expression-item * {
+  margin: 0 2px;
+}
+
+.neighbors-advanced-table .expression-item span {
   overflow: hidden;
-  width: calc(100% - 40px);
-  text-overflow: ellipsis;
   white-space: nowrap;
-  vertical-align: middle;
+  text-overflow: ellipsis;
+}
+
+.neighbors-advanced-table .activated {
+  background-color: var(--tt-button-hlcol);
+  color: var(--tt-button-fgcol);
+  border-radius: 4px;
 }
