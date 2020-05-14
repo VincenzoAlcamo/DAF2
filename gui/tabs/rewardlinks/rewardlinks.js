@@ -463,7 +463,7 @@ function update() {
         }
         if (status && status != item.status) {
             item.status = status;
-            item.time = now;
+            item.time = item.time || now;
             item.row.setAttribute('data-status', item.status);
         }
         if (item.status == 2) numInserted++;
