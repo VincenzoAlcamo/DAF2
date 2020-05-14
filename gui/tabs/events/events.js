@@ -917,12 +917,12 @@ function showInfo() {
                 htm += Html.br`</tr>`;
                 htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}" data-loc="${lid}" data-floor="${floor.level}">${Html.raw(floor.htm + lootPlaceholder)}</tr>`).join('');
                 if (showLoot) bgp.Data.getFile('floors_' + lid).then(data => {
+                    const level = +generator.level;
                     data = Object.assign({}, data);
                     data.floor = data.floor.map(floor => Object.assign({}, floor));
                     const levels = isRepeatables ? floorLevels : [0];
                     const locLoot = {};
                     for (const floor of data.floor) {
-                        const level = +floor.def_id;
                         let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
                         lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
                         const rewards = {};
