@@ -168,7 +168,7 @@ var Parser = {
 
         return data;
     },
-    parse_localization_revision: 6,
+    parse_localization_revision: 7,
     parse_localization: function (text, format) {
         const wanted = {
             'ABNA': 'Addon building',
@@ -191,6 +191,7 @@ var Parser = {
             'USNA': 'Usable',
             'WINA': 'Windmill',
             'CT': 'Theme',
+            'DC': 'Diggy Costumes',
             'SPP': 'Special Packs',
             'ACDE': 'Achievement description',
             'MADE': 'Material description',

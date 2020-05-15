@@ -8,7 +8,7 @@ export default {
     actions: {
         'visit_camp': actionVisitCamp
     },
-    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales']
+    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins']
 };
 
 const NUM_SLOTS = 24;
@@ -16,6 +16,7 @@ const NUM_SLOTS = 24;
 let tab, container, checkNeighbor, selectShow, checkAddons;
 
 const addonsMeta = [
+    { name: 'diggy_skin', title: 'GUI3178', type: '', id: 0, desc: '' },
     { name: 'golem', title: 'EXT06', type: 'extension', id: 1, desc: 'EXT07' },
     { name: 'professor_switch', title: 'EXT11', type: 'extension', id: 2, desc: 'EXT12' },
     { name: 'gc_one_click', title: 'EXT20', type: 'extension', id: 3, desc: 'EXT21' },
@@ -299,8 +300,15 @@ function updateCamp(div, flagHeaderOnly = false) {
                 }
                 const cost = getCostForAddon(name, value);
                 if (cost) title += `\n${cost}`;
+                let img = `/img/gui/${name}.png`;
+                let extraClass = '';
+                if (addon.name == 'diggy_skin') {
+                    extraClass = 'costume';
+                    img = gui.getObjectImage('diggy_skin', addons.costume.def_id);
+                    title += `\n${gui.getString(addons.costume.name_loc)}`;
+                }
                 htm += Html`<div class="camp_addon ${value ? 'camp_addon_on' : ''}" title="${title}">`;
-                htm += Html`<div class="camp_addon_img"><img src="/img/gui/${name}.png"></div>`;
+                htm += Html`<div class="camp_addon_img ${extraClass}"><img src="${img}"></div>`;
                 if (typeof value === 'number') htm += Html.br`<div class="camp_addon_level">${Locale.formatNumber(value)}</div>`;
                 htm += Html`</div>`;
             }
@@ -503,6 +511,10 @@ function calculateAddons(camp, generator) {
         addons.professor_switch = !!ext[2];
         addons.gc_one_click = !!ext[3];
         addons.last_tile_finder = !!ext[4];
+
+        const costumes = Object.values(gui.getFile('diggy_skins'));
+        addons.diggy_skin = gui.getArrayOfInt(generator.diggy_skins).length + costumes.filter(c => +c.free).length;
+        addons.costume = costumes.find(c => +c.def_id == +generator.diggy_skins_active) || costumes[0];
     }
     return addons;
 }
@@ -515,7 +527,7 @@ function getCostForAddon(name, value) {
     let cost = '';
     let sales;
     const addon = addonsMeta.find(o => o.name == name);
-    if (addon) {
+    if (addon && addon.type) {
         sales = findSales(addon.type, addon.id);
         if (name == 'rotor') {
             if (sales.length && value != +sales[sales.length - 1].object_level) value++;
