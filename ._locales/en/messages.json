@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Clear bonus"
     },
+    "events_gemstones": {
+        "message": "Gemstones"
+    },
     "repeat_name": {
         "message": "Name"
     },

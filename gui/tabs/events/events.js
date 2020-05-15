@@ -14,7 +14,7 @@ const INFOS = ['qst', 'ach', 'tre', 'loc'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
 // GEM, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST
-const GEMS = [2, 235, 197, 143, 149, 92, 47];
+const GEMS = [235, 197, 143, 149, 92, 47, 2];
 //
 const RINGS_BY_EVENT = {
     0: 32,      // Green ring
@@ -26,7 +26,7 @@ const RINGS_BY_EVENT = {
 // Red Ring
 
 
-let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectLoot, selectType;
+let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectLoot, selectType, checkTotals;
 let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop;
 let selectedRegion, selectedInfo, selectedEventId;
 
@@ -54,6 +54,9 @@ function init() {
 
     selectLoot = container.querySelector('[name=loot]');
     selectLoot.addEventListener('change', refreshRegion);
+
+    checkTotals = container.querySelector('[name=totals]');
+    checkTotals.addEventListener('click', refreshRegion);
 
     trRegion = container.querySelector('.trRegion');
 
@@ -298,6 +301,7 @@ function getState() {
         info: selectedInfo,
         search: searchInput.value,
         loot: selectLoot.value,
+        totals: checkTotals.checked,
         sort: gui.getSortState(smartTable)
     };
 }
@@ -315,6 +319,7 @@ function setState(state) {
     if (!INFOS.includes(info)) info = '';
     state.info = selectedInfo = info;
     state.loot = gui.setSelectState(selectLoot, state.loot);
+    checkTotals.checked = !!state.totals;
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
 }
@@ -537,7 +542,7 @@ function showInfo() {
 
     const state = getState();
     const showLoot = state.loot;
-    const showTotalLoot = state.loot == 'total';
+    const showTotalLoot = !!state.totals;
 
     if (row.getAttribute('lazy-render') !== null) {
         row.removeAttribute('lazy-render');
@@ -609,9 +614,10 @@ function showInfo() {
     };
 
     const classesByType = {};
-    ['artifact', 'material', 'token', 'usable', 'decoration', 'system', 'eventpass_xp'].forEach((v, i) => classesByType[v] = (i + 1) * 10);
+    ['ACHIEV', 'RING', 'GEMSTONE', 'artifact', 'material', 'token', 'usable', 'decoration', 'COIN', 'system', 'eventpass_xp'].forEach((v, i) => classesByType[v] = i);
     const RINGS = Object.values(RINGS_BY_EVENT);
-    const showRewards = (rewards, maxNumRewards, rows = 1, className = '', raw = false) => {
+    const showRewards = (rewards, maxNumRewards, options) => {
+        const { rows = 1, className = '', raw = false, filter = false } = options || {};
         let htm = '';
         for (const reward of rewards) {
             const type = reward.type;
@@ -621,13 +627,17 @@ function showInfo() {
             reward._c = classesByType[type];
             if (type == 'material') {
                 if (item.machiev.includes(id)) reward._c = 0;
-                if (id == 1) { reward._c = classesByType['system'] - 1; }
+                if (id == 1) { reward._c = classesByType.COIN; }
                 const gemIndex = GEMS.indexOf(id);
-                if (gemIndex >= 0) { reward._c = 2; reward._i = gemIndex; }
+                if (gemIndex >= 0) { reward._c = classesByType.GEMSTONE; reward._i = gemIndex; }
             } else if (type == 'token') {
                 const ringIndex = RINGS.indexOf(id);
-                if (ringIndex >= 0) { reward._c = 1; reward._i = ringIndex; }
+                if (ringIndex >= 0) { reward._c = classesByType.RING; reward._i = ringIndex; }
             }
+        }
+        if (filter) {
+            if (showLoot == 'gems') rewards = rewards.filter(r => r._c == classesByType.GEMSTONE);
+            if (showLoot == 'achiev') rewards = rewards.filter(r => r._c == classesByType.ACHIEV);
         }
         rewards.sort((a, b) => (a._c - b._c) || (a._i - b._i));
         const cells = [];
@@ -651,7 +661,7 @@ function showInfo() {
             reward.amount = Math.floor(reward.amount);
             return reward.amount > 0;
         });
-        const cells = showRewards(rewards, MAX_REWARDS_PER_ROW, 1, '', true);
+        const cells = showRewards(rewards, MAX_REWARDS_PER_ROW, { raw: true, filter: true });
         for (let i = 0; i < cells.length && cell; i++, cell = cell.nextSibling) Dialog.htmlToDOM(cell, cells[i]);
     };
 
@@ -670,7 +680,7 @@ function showInfo() {
         if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
         if (showTotal) htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(total)}</td>`;
         if (showProgress) htm += Html.br`<td>${progress >= total ? ticked : unticked}</td>`;
-        htm += showRewards(totalRewards, maxNumRewards, 1, className);
+        htm += showRewards(totalRewards, maxNumRewards, { className, filter: true });
         if (addLoot) { htm += lootPlaceholder; }
         htm += Html.br`</tr>`;
         htm += Html.br`</tfoot>`;
@@ -912,7 +922,7 @@ function showInfo() {
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
                 }
-                htm += showRewards(loc.rewards, maxNumRewards, rows, 'clear');
+                htm += showRewards(loc.rewards, maxNumRewards, { rows, className: 'clear' });
                 htm += lootPlaceholder;
                 htm += Html.br`</tr>`;
                 htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}" data-loc="${lid}" data-floor="${floor.level}">${Html.raw(floor.htm + lootPlaceholder)}</tr>`).join('');

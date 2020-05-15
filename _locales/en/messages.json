@@ -1892,6 +1892,7 @@
 "en@events_tiles":{"message":"Tiles"},
 "en@events_chance":{"message":"Chance"},
 "en@events_clearbonus":{"message":"Clear bonus"},
+"en@events_gemstones":{"message":"Gemstones"},
 "en@repeat_name":{"message":"Name"},
 "en@repeat_region_event":{"message":"Region / Event"},
 "en@repeat_cooldown":{"message":"Cooldown"},
