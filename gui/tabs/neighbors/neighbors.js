@@ -137,7 +137,7 @@ function onClickAdvanced() {
         const gift = gifts[gid];
         const amount = +gift.amount;
         let name = gui.getObjectName(gift.type, gift.object_id);
-        if (amount > 1) name += ' x ' + Locale.formatNumber(amount);
+        if (amount > 1) name += ' \xd7 ' + Locale.formatNumber(amount);
         items.push([+gid, gui.getMessage('neighbors_gift', name, Locale.formatNumber(giftValues[gift.def_id]), weekdayNames[gift.day]), giftValues[gift.def_id], gift.day]);
     }
 
@@ -283,7 +283,7 @@ function onClick(e) {
                 const t_xp = Locale.formatNumber(xp);
                 const t_amount = Locale.formatNumber(amount);
                 let name = gui.getObjectName(gift.type, gift.object_id);
-                if (amount > 1) name += ' x ' + t_amount;
+                if (amount > 1) name += ' \xd7 ' + t_amount;
                 piece += Html.br`<div title="${Html(gui.getMessage('neighbors_gifttip', name, t_xp, weekdayNames[gift.day]))}"><img src="${gui.getObjectImage(gift.type, gift.object_id)}">`;
                 piece += Html.br`<i>${xp}</i><b>${Locale.formatNumber(amount)}</b>`;
             }
