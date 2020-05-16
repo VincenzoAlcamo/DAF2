@@ -12,7 +12,7 @@
   z-index: 2147483647;
   background-color: #600;
   color: #fff;
-  font: 10pt sans-serif;
+  font: 10pt sans-serif !important;
   padding: 2px 4px;
   text-align: left;
   white-space: pre;
@@ -25,7 +25,7 @@
   border: 1px solid #060;
   background-color: rgba(0, 255, 0, 0.8);
   color: #000;
-  font: bold 10pt sans-serif;
+  font: bold 10pt sans-serif !important;
   overflow: hidden;
 }
 
