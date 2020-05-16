@@ -1192,6 +1192,7 @@ var Data = {
         else if (type == 'windmill') return Data.files.windmills;
         else if (type == 'collection') return Data.files.collections;
         else if (type == 'artifact') return Data.files.artifacts;
+        else if (type == 'diggy_skin') return Data.files.diggy_skins;
         return null;
     },
     getObject: function (type, id) {
@@ -1207,6 +1208,7 @@ var Data = {
         if (!asset) return '';
         if (asset[0] == '/') return asset;
         if (type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
+        if (type == 'diggy_skin') return Data.generator.cdn_root + 'mobile/graphics/gui/diggy_skin/' + asset + '.png';
         if (small && !(type == 'material' || type == 'usable' || type == 'token')) small = false;
         return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
     },
