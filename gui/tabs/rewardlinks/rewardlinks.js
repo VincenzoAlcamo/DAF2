@@ -436,10 +436,11 @@ function update() {
                 item.mtx = item.row.cells[4].textContent;
                 if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             }
-            if (item.cid != rewardLink.cid || item.cnm != (rewardLink.cnm || '')) {
+            const cnm = rewardLink.cnm || '';
+            if (item.cid != rewardLink.cid || item.cnm != cnm) {
                 flagUpdated = true;
                 item.cid = rewardLink.cid;
-                item.cnm = rewardLink.cnm;
+                item.cnm = cnm;
                 Dialog.htmlToDOM(item.row.cells[5], item.cid ? Html.br`<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
             }
             if (flagUpdated) status = 3;
