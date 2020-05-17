@@ -219,28 +219,6 @@ var Tab = {
         };
         chrome.webNavigation.onCompleted.addListener(Tab.onAutoLoginCompleted, autoLoginFilters);
 
-        //         // Facebook dialog interceptor
-        //         const dialogFilters = {
-        //             url: [{
-        //                 hostEquals: 'www.facebook.com',
-        //                 pathContains: 'dialog/apprequests',
-        //                 queryContains: 'app_id=470178856367913'
-        //             }, {
-        //                 hostEquals: 'www.facebook.com',
-        //                 pathContains: 'dialog/apprequests',
-        //                 queryContains: 'app_id=146595778757295'
-        //             }, {
-        //                 hostEquals: 'web.facebook.com',
-        //                 pathContains: 'dialog/apprequests',
-        //                 queryContains: 'app_id=470178856367913'
-        //             }, {
-        //                 hostEquals: 'web.facebook.com',
-        //                 pathContains: 'dialog/apprequests',
-        //                 queryContains: 'app_id=146595778757295'
-        //             }]
-        //         };
-        //         chrome.webNavigation.onCompleted.addListener(Tab.onDialogCompleted, dialogFilters);
-
         // Add Link Grabber script to Facebook pages
         const fbFilters = {
             url: [
@@ -265,17 +243,6 @@ var Tab = {
 
         return Tab.detectAll();
     },
-    //     onDialogCompleted: function (details) {
-    //         console.log('onDialogCompleted', details);
-    //         if (!Preferences.getValue('autoClick')) return;
-    //         Tab.focus(Tab.gameTabId, true);
-    //         chrome.tabs.executeScript(details.tabId, {
-    //             file: '/inject/portal_autoclick.js',
-    //             runAt: 'document_end',
-    //             allFrames: false,
-    //             frameId: details.frameId
-    //         });
-    //     },
     onAutoLoginCompleted: function (details) {
         if (!Preferences.getValue('autoLogin')) return;
         console.log('injecting auto portal login');
@@ -427,36 +394,6 @@ if (loginButton) {
         chrome.tabs.create({
             url: url,
             active: !background
-        });
-    },
-    injectGame: function (tabId) {
-        if (!Preferences.getValue('injectGame')) return;
-        if (Preferences.getValue('resetFullWindow')) {
-            Preferences.setValues({
-                fullWindow: false,
-                fullWindowSide: false
-            });
-        }
-        chrome.webNavigation.getAllFrames({
-            tabId: tabId
-        }, function (frames) {
-            const frame = frames.find(frame => frame.parentFrameId == 0 && frame.url.includes('/miner/'));
-            if (!frame) return;
-            const details = {
-                file: '/inject/game.js',
-                allFrames: false,
-                frameId: 0
-            };
-            console.log('Inject game page');
-            Badge.setIcon('grey').setText('').setBackgroundColor('green');
-            chrome.tabs.executeScript(tabId, details, function () {
-                if (hasRuntimeError()) return Badge.setIcon('red').setBackgroundColor('red');
-                details.frameId = frame.frameId;
-                console.log('Inject iframe page');
-                chrome.tabs.executeScript(tabId, details, function () {
-                    if (hasRuntimeError()) return Badge.setIcon('red').setBackgroundColor('red');
-                });
-            });
         });
     }
 };
