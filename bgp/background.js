@@ -243,11 +243,10 @@ var Tab = {
 
         // Add Link Grabber script to Facebook pages
         const fbFilters = {
-            url: [{
-                hostEquals: 'www.facebook.com'
-            }, {
-                hostEquals: 'web.facebook.com'
-            }]
+            url: [
+                { hostEquals: 'www.facebook.com' },
+                { hostEquals: 'web.facebook.com' }
+            ]
         };
         chrome.webNavigation.onDOMContentLoaded.addListener(Tab.onFBNavigation, fbFilters);
 
@@ -1000,9 +999,7 @@ var Data = {
         Data.friends = friends;
         Data.friendsCollectDate = now;
         Preferences.setValue('friendsCollectDate', now);
-        chrome.runtime.sendMessage({
-            action: 'friends_analyze'
-        }, hasRuntimeError);
+        chrome.runtime.sendMessage({ action: 'friends_analyze' }, hasRuntimeError);
     },
     //#endregion
     //#region RewardLinks
@@ -1174,9 +1171,7 @@ var Data = {
             Data.saveRewardLink(save);
         }
         if (flagRefresh) {
-            chrome.runtime.sendMessage({
-                action: 'rewards_update'
-            }, hasRuntimeError);
+            chrome.runtime.sendMessage({ action: 'rewards_update' }, hasRuntimeError);
         }
         return count;
     },
