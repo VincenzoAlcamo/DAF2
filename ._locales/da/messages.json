@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Alt ryddet bonus"
     },
+    "events_gemstones": {
+        "message": "Juveler"
+    },
     "repeat_name": {
         "message": "Navn"
     },

@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Bonus za wyczyszczenie"
     },
+    "events_gemstones": {
+        "message": "Klejnoty"
+    },
     "repeat_name": {
         "message": "Nazwa"
     },

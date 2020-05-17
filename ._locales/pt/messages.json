@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Bónus de Limpeza"
     },
+    "events_gemstones": {
+        "message": "Pedras Preciosas"
+    },
     "repeat_name": {
         "message": "Nome"
     },

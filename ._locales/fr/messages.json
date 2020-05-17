@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Bonus de nettoyage"
     },
+    "events_gemstones": {
+        "message": "Gemmes"
+    },
     "repeat_name": {
         "message": "Mines"
     },

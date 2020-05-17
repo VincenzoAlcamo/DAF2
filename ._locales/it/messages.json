@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Bonus pulizia"
     },
+    "events_gemstones": {
+        "message": "Preziosi"
+    },
     "repeat_name": {
         "message": "Nome"
     },

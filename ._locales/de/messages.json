@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Bonus für's Aufräumen"
     },
+    "events_gemstones": {
+        "message": "Edelsteine"
+    },
     "repeat_name": {
         "message": "Name"
     },

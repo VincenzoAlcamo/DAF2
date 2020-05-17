@@ -1522,7 +1522,7 @@
         "message": "Logros"
     },
     "events_pieces": {
-        "message": "piezas del evento"
+        "message": "Piezas del evento"
     },
     "events_locations": {
         "message": "Ubicaciones"
@@ -1555,7 +1555,7 @@
         "message": "Lanzamiento del evento"
     },
     "events_complete": {
-        "message": " Completo"
+        "message": "Completo"
     },
     "events_incomplete": {
         "message": "Incompleto"
@@ -1586,6 +1586,9 @@
     },
     "events_clearbonus": {
         "message": "Recompensa por llimpiar toda la mina"
+    },
+    "events_gemstones": {
+        "message": "Gemas"
     },
     "repeat_name": {
         "message": "Nombre"

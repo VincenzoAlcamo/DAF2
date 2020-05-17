@@ -1587,6 +1587,9 @@
     "events_clearbonus": {
         "message": "Μπόνους ολοκλήρωσης"
     },
+    "events_gemstones": {
+        "message": "Πολύτιμοι Λίθοι"
+    },
     "repeat_name": {
         "message": "Όνομα"
     },
