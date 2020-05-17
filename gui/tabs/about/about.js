@@ -81,7 +81,8 @@ async function updateBg() {
             urls[i] = urls[index];
             urls[index] = a;
         }
-        const index = Math.floor(gui.getUnixTime()) % urls.length;
+        const timesInADay = 2; // How many times in a day the background changes
+        const index = Math.floor(gui.getUnixTime() / (86400 / timesInADay)) % urls.length;
         container.classList.add('bg');
         container.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/${urls[index]}.png)`;
     }
