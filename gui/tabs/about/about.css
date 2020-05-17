@@ -1,5 +1,11 @@
 .about_logo {
   margin-top: 40px;
+  position: relative;
+}
+
+.about_logo .border {
+  position: absolute;
+  height: 120px;
 }
 
 .about_title {
