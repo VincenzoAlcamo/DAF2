@@ -5,7 +5,15 @@ export default {
     update: update
 };
 
-function init() { }
+let container;
+
+function init() {
+    container = this.container;
+    // Set the styles here, so the background image is immediately displayed correctly
+    container.style.backgroundSize = 'cover';
+    container.style.backgroundRepeat = 'no-repeat';
+    container.style.backgroundPosition = '50% 50%';
+}
 
 function update() {
     this.container.querySelector('.about_version').innerText = gui.getMessage('about_version', bgp.Data.version);
@@ -37,7 +45,61 @@ function update() {
 
     const button = this.container.querySelector('.about_reset button');
     if (button) button.addEventListener('click', resetAccount);
+
+    updateBg();
 }
+
+async function updateBg() {
+    const urls = [];
+    let cdn_root = 'https://cdn.diggysadventure.com/1/';
+    const generator = gui.getGenerator();
+    if (generator) {
+        rnd.seed = +generator.player_id;
+        cdn_root = generator.cdn_root;
+        await bgp.Data.getFile('events');
+        let events = gui.getFile('events');
+        if (events) {
+            events = Object.values(events).filter(event => !!event.shelf_graphics);
+            const now = gui.getUnixTime();
+            const eventData = generator.events;
+            let items = events.filter(event => {
+                const eid = event.def_id;
+                const edata = eventData[eid];
+                const end = (edata && +edata.finished) || +event.end || 0;
+                return end > now;
+            });
+            if (!items.length) items = events;
+            items.forEach(event => urls.push('webgl_events/' + event.shelf_graphics));
+        }
+    }
+    if (!urls.length) urls.push('map_bg_egypt', 'map_bg_scand', 'map_bg_china', 'map_bg_atlantis', 'map_bg_greece', 'map_bg_america');
+    if (urls.length) {
+        // Randomize items
+        for (let i = 0; i < urls.length; i++) {
+            const index = rnd() % (urls.length - i);
+            const a = urls[i];
+            urls[i] = urls[index];
+            urls[index] = a;
+        }
+        console.log(urls);
+        const index = Math.floor(gui.getUnixTime()) % urls.length;
+        container.classList.add('bg');
+        container.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/${urls[index]}.png)`;
+    }
+}
+
+function rnd() {
+    let p1 = rnd.seed % 28603;
+    let p2 = rnd.seed % 37397;
+    for (let i = 0; i < 10; i++) {
+        const pp1 = p1 * p2 + 15767;
+        const pp2 = p1 * p2 + 51803;
+        p1 = pp1 % 28603;
+        p2 = pp2 % 37397;
+    }
+    return rnd.seed = p1 * 28603 + p2;
+}
+rnd.seed = Date.now();
 
 function setHtml(div, html) {
     Dialog.htmlToDOM(div, html || '');

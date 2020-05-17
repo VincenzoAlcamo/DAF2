@@ -155,3 +155,47 @@
 .about_launcher div:hover>button {
   opacity: 1;
 }
+
+.tab_about {
+  cursor: default;
+}
+
+.tab_about.bg .scrollable-content {
+  backdrop-filter: brightness(50%);
+  margin-left: 0px;
+  padding-left: 12px;
+}
+
+.tab_about.bg .about_version,
+.tab_about.bg .about_data,
+.tab_about.bg .about_visit,
+.tab_about.bg .about_translators,
+.tab_about.bg .about_disclaimer {
+  /* text-shadow: -1px -1px #000, -1px 0px #000, -1px 1px #000, 0px -1px #000, 0px 1px #000, 1px -1px #000, 1px 0 #000, 1px 1px #000; */
+  filter: drop-shadow(0px 1px 0px #000) drop-shadow(0px -1px 0px #000) drop-shadow(1px 0px 0px #000) drop-shadow(-1px 0px 0px #000);
+  color: #FFF;
+}
+
+.tab_about.bg .about_visit a {
+  color: #FFF;
+}
+
+.tab_about.bg .about_visit a:hover {
+  color: var(--vm-item-sel-fgcol);
+}
+
+.about_version,
+.about_data,
+.about_translators,
+.about_disclaimer {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.tab_about.bg .about_version:hover,
+.tab_about.bg .about_data:hover,
+.tab_about.bg .about_translators:hover,
+.tab_about.bg .about_disclaimer:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
