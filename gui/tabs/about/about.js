@@ -81,7 +81,6 @@ async function updateBg() {
             urls[i] = urls[index];
             urls[index] = a;
         }
-        console.log(urls);
         const index = Math.floor(gui.getUnixTime()) % urls.length;
         container.classList.add('bg');
         container.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/${urls[index]}.png)`;
