@@ -1094,6 +1094,7 @@ var Data = {
             if (rewardLinksRecent[id] < removeThreshold) delete rewardLinksRecent[id];
         }
         const expiredId = Data.rewardLinksData.expired || 0;
+        const neighbours = Object.values(Data.neighbours || {});
         for (const reward of arr) {
             if (!reward || !reward.id) return;
             // do not process old links, except when collection was successful
@@ -1105,6 +1106,14 @@ var Data = {
                 if (reward.cdt && reward.cmt > 0 && !rewardLinksData.first) {
                     rewardLinksData.first = reward.cdt;
                     flagStoreData = true;
+                }
+                // Find name (if possible)
+                if (!reward.cnm && reward.cid && (!existingReward || !existingReward.cnm)) {
+                    const pal = neighbours.find(pal => pal.fb_id == reward.cid);
+                    if (pal) {
+                        if (pal.name) reward.cnm = pal.name + ' ' + pal.surname;
+                        else if (pal.extra.fn) reward.cnm = pal.extra.fn;
+                    }
                 }
                 // We will add the reward if any one of these conditions is true:
                 // - reward has a material, meaning it has been correctly collected
