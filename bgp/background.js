@@ -1002,7 +1002,7 @@ var Data = {
         Preferences.setValue('friendsCollectDate', now);
         chrome.runtime.sendMessage({
             action: 'friends_analyze'
-        });
+        }, hasRuntimeError);
     },
     //#endregion
     //#region RewardLinks
@@ -1176,7 +1176,7 @@ var Data = {
         if (flagRefresh) {
             chrome.runtime.sendMessage({
                 action: 'rewards_update'
-            });
+            }, hasRuntimeError);
         }
         return count;
     },
@@ -1337,8 +1337,8 @@ var Synchronize = {
             if (data) message.data = data;
         }
         if (delayed) return Synchronize.delayedSignals.push(message);
-        chrome.runtime.sendMessage(message);
-        chrome.tabs.sendMessage(Tab.gameTabId, message);
+        chrome.runtime.sendMessage(message, hasRuntimeError);
+        chrome.tabs.sendMessage(Tab.gameTabId, message, hasRuntimeError);
     },
     process: function (postedXml, responseText) {
         const posted = Parser.parse('any', postedXml);
@@ -1626,7 +1626,7 @@ async function init() {
             Synchronize.processXhr(request.detail);
         },
         sendValue: function (request, sender) {
-            chrome.tabs.sendMessage(sender.tab.id, request);
+            chrome.tabs.sendMessage(sender.tab.id, request, hasRuntimeError);
         },
         getPrefs: function (request) {
             return Preferences.getValues(request.keys);
