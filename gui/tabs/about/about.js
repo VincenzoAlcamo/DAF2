@@ -13,6 +13,10 @@ function init() {
     container.style.backgroundSize = 'cover';
     container.style.backgroundRepeat = 'no-repeat';
     container.style.backgroundPosition = '50% 50%';
+
+    const div = container.querySelector('.about_logo');
+    div.addEventListener('mouseenter', () => container.classList.add('overlogo'));
+    div.addEventListener('mouseleave', () => container.classList.remove('overlogo'));
 }
 
 function update() {
@@ -52,8 +56,9 @@ function update() {
 async function updateBg() {
     const urls = [];
     let cdn_root = 'https://cdn.diggysadventure.com/1/';
-    const generator = gui.getGenerator();
-    if (generator) {
+    rnd.seed = 0;
+    if (gui.hasValidGenerator()) {
+        const generator = gui.getGenerator();
         rnd.seed = +generator.player_id;
         cdn_root = generator.cdn_root;
         await bgp.Data.getFile('events');

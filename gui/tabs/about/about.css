@@ -1,6 +1,7 @@
 .about_logo {
   margin-top: 40px;
   position: relative;
+  display: inline-block;
 }
 
 .about_logo .border {
@@ -164,6 +165,11 @@
   backdrop-filter: brightness(50%);
   margin-left: 0px;
   padding-left: 12px;
+  transition: opacity 1s;
+}
+
+.tab_about.bg.overlogo .scrollable-content {
+  opacity: 0.05;
 }
 
 .tab_about.bg .about_version,
