@@ -20,7 +20,7 @@
         "storage",
         "tabs",
         "webNavigation",
-        "*://apps.facebook.com/*",
+        "*://apps.facebook.com/diggysadventure/*",
         "*://cdn.diggysadventure.com/*",
         "*://static.diggysadventure.com/*",
         "*://diggysadventure.com/*",
