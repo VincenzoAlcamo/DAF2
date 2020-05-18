@@ -356,8 +356,6 @@
 
 .camp_addon_img.costume img {
   position: relative;
-  /* height: calc((var(--size) - var(--padding) * 2)*1.5);
-  top: -8px; */
   height: calc(var(--size) *1.4);
   top: -40%;
   transition: transform 1s;
@@ -368,8 +366,10 @@
 }
 
 .camp_addon:hover .camp_addon_img.costume img {
-  transform: scale(2);
-  filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color)) drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
+  transform: scale(4);
+  background-color: #FFFC;
+  border: 1px solid var(--tb-brcol);
+  border-radius: 8px;
 }
 
 .camp_addon.camp_addon_warn_border,
