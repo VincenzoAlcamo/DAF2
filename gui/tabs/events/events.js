@@ -680,7 +680,7 @@ function showInfo() {
         if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
         if (showTotal) htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(total)}</td>`;
         if (showProgress) htm += Html.br`<td>${progress >= total ? ticked : unticked}</td>`;
-        htm += showRewards(totalRewards, maxNumRewards, { className, filter: true });
+        htm += showRewards(totalRewards, maxNumRewards, { className });
         if (addLoot) { htm += lootPlaceholder; }
         htm += Html.br`</tr>`;
         htm += Html.br`</tfoot>`;
