@@ -916,7 +916,7 @@ function updateRow(row) {
         end = start ? start + (+pack.duration) : 0;
         price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
     }
-    if(saleMessageId) {
+    if (saleMessageId) {
         htm += Html.br`<br><div class="offer" data-type="${item.sale}" data-id="${item.sale_id}" title="${gui.getMessageAndValue(saleMessageId, item.sale_id)}">${gui.getMessage(saleMessageId)}</div>${saleExtras}`;
     }
     if (start || end) {
@@ -1189,9 +1189,11 @@ function showOffer(type, id, callback) {
         const len = result.length;
         let rows = len || 1;
         let columns = 1;
+        const isDivisibleBy5 = len % 5 == 0;
         if (len > 5 && type == 'tier') {
-            columns = (len % 3 == 0) ? 3 : 2;
+            columns = len >= 15 ? 3 : 2;
             rows = Math.ceil(rows / columns);
+            if (isDivisibleBy5) rows = Math.floor((len + columns * 5 - 1) / (columns * 5)) * 5;
         } else if (len > 6 || (len > 5 && type == 'offer')) {
             columns = 2;
             rows = Math.ceil(rows / 2);
@@ -1200,7 +1202,10 @@ function showOffer(type, id, callback) {
         for (let row = 0; row < rows; row++) {
             htm += `<tr>`;
             for (let col = 0; col < columns; col++) {
-                const index = col * rows + row;
+                let index = col * rows + row;
+                if (type == 'tier' && isDivisibleBy5) {
+                    index = Math.floor(row / 5) * 5 * columns + col * 5;
+                }
                 htm += `<td${col > 0 ? ' class="additional"' : ''}>${index >= len ? '' : result[index]}</td>`;
             }
             htm += `</tr>`;
