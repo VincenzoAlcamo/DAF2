@@ -115,6 +115,10 @@ function getConfirmCollection() {
     return !!gui.getPreference('confirmCollection');
 }
 
+function getFbFriendsPage() {
+    return gui.getPreference('fbFriendsPage');
+}
+
 function getNeighboursAsNotMatched() {
     const neighbours = bgp.Data.getNeighbours();
     const notmatched = Object.assign({}, neighbours);
@@ -130,6 +134,7 @@ function getUnmatched() {
 function showCollectDialog() {
     let ghost = getRemoveGhosts();
     let confirmCollection = getConfirmCollection();
+    let fbFriendsPage = getFbFriendsPage();
     const numUnmatched = getUnmatched().length;
 
     function addAlternateSettings() {
@@ -142,7 +147,12 @@ function showCollectDialog() {
 
     function addStandardSettings() {
         const extra = Html.br`<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
-        <input style="vertical-align:middle" type="checkbox" id="f_cc" name="confirmcollection" value="1" ${confirmCollection ? ' checked' : ''}>`;
+        <input style="vertical-align:middle" type="checkbox" id="f_cc" name="confirmcollection" value="1" ${confirmCollection ? ' checked' : ''}>
+        <br><label for="f_fv">${gui.getMessage('friendship_facebookversion')}</label>
+        <select id="f_fv" name="fbFriendsPage">
+        <option value="0" ${fbFriendsPage == 0 ? 'selected' : ''}>${gui.getMessage('friendship_fv_new')}</option>
+        <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>${gui.getMessage('friendship_fv_old')}</option>
+        </select>`;
         return Html.raw(extra);
     }
 
@@ -160,20 +170,18 @@ ${method == 'standard' ? addStandardSettings() : ''}
         return htm;
     }
 
-    function setNewGhost(params) {
-        const newGhost = parseInt(params.ghost) || 0;
-        if (ghost != newGhost) {
-            gui.setPreference('removeGhosts', newGhost);
-            ghost = newGhost;
-        }
+    function setNewValue(prefName, oldValue, newValue) {
+        if (oldValue != newValue) gui.setPreference(prefName, newValue);
+        return newValue;
     }
 
-    function setNewConfirmCollection(params) {
-        const newConfirmCollection = !!(parseInt(params.confirmcollection));
-        if (confirmCollection != newConfirmCollection) {
-            gui.setPreference('confirmCollection', newConfirmCollection);
-            confirmCollection = newConfirmCollection;
-        }
+    function setAlternateOptions(params) {
+        ghost = setNewValue('removeGhosts', ghost, parseInt(params.ghost) || 0);
+    }
+
+    function setStandardOptions(params) {
+        confirmCollection = setNewValue('confirmCollection', confirmCollection, !!(parseInt(params.confirmcollection)));
+        fbFriendsPage = setNewValue('fbFriendsPage', fbFriendsPage, parseInt(params.fbFriendsPage) || 0);
     }
 
     gui.dialog.show({
@@ -186,8 +194,8 @@ ${numFriends > 0 ? button('match') : ''}
 </table>`,
         style: ['standard', 'unmatched', 'alternate', 'both', 'match', Dialog.CANCEL]
     }, function (method, params) {
-        setNewGhost(params);
-        setNewConfirmCollection(params);
+        setAlternateOptions(params);
+        setStandardOptions(params);
         if (method == 'standard' || method == 'unmatched' || method == 'alternate' || method == 'both' || method == 'match') {
             gui.dialog.show({
                 title: gui.getMessage('friendship_collectfriends'),
@@ -201,8 +209,8 @@ ${method == 'both' || method == 'standard' || method == 'unmatched' ? addStandar
 <br><br>${gui.getMessage('friendship_confirmwarning')}`,
                 style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
             }, function (confirmation, params) {
-                if (method == 'alternate' || method == 'both') setNewGhost(params);
-                if (method == 'standard' || method == 'unmatched' || method == 'both') setNewConfirmCollection(params);
+                if (method == 'alternate' || method == 'both') setAlternateOptions(params);
+                if (method == 'standard' || method == 'unmatched' || method == 'both') setStandardOptions(params);
                 if (confirmation != Dialog.CONFIRM) return;
                 if (method == 'standard' || method == 'alternate' || method == 'both' || method == 'unmatched') collectFriends(method);
                 else if (method == 'match') matchStoreAndUpdate();
@@ -319,8 +327,8 @@ function collectFriends(method) {
     const unmatched = method == 'unmatched' ? getUnmatched().join() : '';
     bgp.Tab.excludeFromInjection(0);
     setTimeout(_ => bgp.Tab.excludeFromInjection(0, false), 20000);
-    const fixes = String(gui.getPreference('fixes') || '').toUpperCase().split(/\W+/).reduce((v, k) => (v[k] = true, v), {});
-    const url = 'OLDFBPAGE' in fixes ? 'https://www.facebook.com/profile.php?sk=friends' : 'https://www.facebook.com/me/friends';
+    const fbFriendsPage = getFbFriendsPage();
+    const url = fbFriendsPage == 1 ? 'https://www.facebook.com/profile.php?sk=friends' : 'https://www.facebook.com/me/friends';
     chrome.windows.create({
         width,
         height,

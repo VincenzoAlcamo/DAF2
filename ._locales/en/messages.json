@@ -854,6 +854,15 @@
     "friendship_confirmcollect": {
         "message": "Press YES to confirm, NO to try further.\n\nYou can close this window at any time\nto cancel the operation."
     },
+    "friendship_facebookversion": {
+        "message": "Facebook version?"
+    },
+    "friendship_fv_new": {
+        "message": "New"
+    },
+    "friendship_fv_old": {
+        "message": "Old"
+    },
     "friendship_filter_a": {
         "message": "Friends: $FRIENDS$, Neighbours: $NEIGHBOURS$",
         "placeholders": {
