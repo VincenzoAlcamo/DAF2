@@ -1146,17 +1146,18 @@ function showOffer(type, id, callback) {
             let htm = '';
             let pre = '';
             if (current.date == -1) {
-                pre += Html.br`<span class="date outlined-text">${Locale.formatDate(block.date)}</span>`;
+                pre += Html.br`${getOutlinedText(Locale.formatDate(block.date), 'date')}</span>`;
             }
             if (current.rid == -1) {
                 pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, 'desc')}<br>${getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
             }
             if (current.price == -1) {
-                pre += Html.br`${getOutlinedText(block.priceText)}`;
+                pre += Html.br`${getOutlinedText(block.priceText, 'price')}`;
             }
             if (type == 'tier') {
-                pre += Html.br`<span><span class="outlined-text">${gui.getString(block.name_loc)}</span><br>`;
+                pre += Html.br`<span>${getOutlinedText(gui.getString(block.name_loc))}<br>`;
                 pre += Html.br`<span class="tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.gems)}${gui.getObjectImg('material', 2, 28, false)}</span></span>`;
+                if (block.tier == 5) pre += Html.br`<span class="tier_total tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.tgems)}${gui.getObjectImg('material', 2, 28, false)}</span>`;
             }
             if (pre) {
                 pre = `<td class="td-section"><div class="item section">${pre}</div></td>`;
@@ -1189,23 +1190,21 @@ function showOffer(type, id, callback) {
         const len = result.length;
         let rows = len || 1;
         let columns = 1;
-        const isDivisibleBy5 = len % 5 == 0;
+        let isTier5 = false;
         if (len > 5 && type == 'tier') {
             columns = len >= 15 ? 3 : 2;
-            rows = Math.ceil(rows / columns);
-            if (isDivisibleBy5) rows = Math.floor((len + columns * 5 - 1) / (columns * 5)) * 5;
+            isTier5 = len % 5 == 0;
+            rows = isTier5 ? Math.floor((len + columns * 5 - 1) / (columns * 5)) * 5 : Math.ceil(rows / columns);
         } else if (len > 6 || (len > 5 && type == 'offer')) {
             columns = 2;
             rows = Math.ceil(rows / 2);
         }
-        htm += `<div class="equipment_pack${columns > 1 ? ' zoomed mini' : (len > 3 ? ' zoomed compact' : '')}" data-type="${type}"><table>`;
+        htm += `<div class="equipment_pack ${columns > 1 ? 'zoomed mini' : (len > 3 ? 'zoomed compact' : '')} ${isTier5 ? 'tier5' : ''}" data-type="${type}"><table>`;
+        const getIndex = (row, col) => isTier5 ? Math.floor(row / 5) * 5 * columns + col * 5 + row % 5 : col * rows + row;
         for (let row = 0; row < rows; row++) {
             htm += `<tr>`;
             for (let col = 0; col < columns; col++) {
-                let index = col * rows + row;
-                if (type == 'tier' && isDivisibleBy5) {
-                    index = Math.floor(row / 5) * 5 * columns + col * 5;
-                }
+                const index = getIndex(row, col);
                 htm += `<td${col > 0 ? ' class="additional"' : ''}>${index >= len ? '' : result[index]}</td>`;
             }
             htm += `</tr>`;
@@ -1273,9 +1272,11 @@ function getTieredOffers(id) {
         const rid = +offer.region_id;
         const category = gui.getArrayOfInt(offer.payer_category_list)[0] || 0;
         categories[category] = true;
+        let tgems = 0;
         for (const tier of offer.tiers) {
             const items = tier.items.map(item => getOfferItem(item)).filter(item => item);
             items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
+            tgems += +tier.gem_price;
             const block = {
                 id: offer.def_id,
                 tier: +tier.order_id,
@@ -1283,6 +1284,7 @@ function getTieredOffers(id) {
                 date: 0,
                 price: 0,
                 gems: +tier.gem_price,
+                tgems,
                 category,
                 items,
                 name_loc: tier.name_loc

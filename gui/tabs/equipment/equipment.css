@@ -406,3 +406,28 @@ div.equipment_mask {
 .equipment_pack .caption .with-deco {
   background-image: url(/img/gui/deco.png);
 }
+
+.equipment_pack.mini.tier5 td.td-section {
+  height: 108px;
+}
+
+.equipment_pack.mini.tier5 tr:nth-child(5n) tr td.td-section {
+  height: 111px;
+}
+
+.equipment_pack.mini.tier5 td.td-section .price {
+  display: none;
+}
+
+.equipment_pack .tier_total,
+.equipment_pack.mini.tier5 tr:nth-child(5n+1) tr td.td-section .price {
+  display: block;
+  padding: 2px;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.equipment_pack .tier_total {
+  bottom: 0;
+}
