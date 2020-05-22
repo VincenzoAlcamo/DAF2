@@ -650,7 +650,27 @@ thead .stats {
 input[type=checkbox] {
   width: 20px !important;
   height: 20px !important;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--tt-input-bgcol);
+  border: 1px solid var(--tt-input-brcol);
+  border-radius: 4px;
 }
+
+input[type=checkbox]:checked {
+  background-color: var(--tt-button-hlcol);
+}
+
+input[type=checkbox]:checked:before {
+  color: var(--tt-input-brcol);
+  content: '\002714';
+  font-weight: bold;
+  font-size: 18px;
+  position: absolute;
+  margin-top: -3px;
+  margin-left: 1px;
+}
+
 
 .toolbar input[type=checkbox] {
   vertical-align: middle;
@@ -1069,10 +1089,6 @@ div.location_icon img {
 
   .vertical-menu li {
     padding-right: 0;
-  }
-
-  input[type=checkbox] {
-    transform: scale(1.5);
   }
 
   progress::-moz-progress-bar {
