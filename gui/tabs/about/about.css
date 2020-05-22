@@ -2,6 +2,7 @@
   margin-top: 40px;
   position: relative;
   display: inline-block;
+  animation: rotate-hue 30s infinite;
 }
 
 .about_logo .border {
@@ -204,4 +205,14 @@
 .tab_about.bg .about_translators:hover,
 .tab_about.bg .about_disclaimer:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+@keyframes rotate-hue {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
