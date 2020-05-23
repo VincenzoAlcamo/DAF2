@@ -86,7 +86,7 @@ async function updateBg() {
             urls[i] = urls[index];
             urls[index] = a;
         }
-        const timesInADay = 2; // How many times in a day the background changes
+        const timesInADay = 6; // How many times in a day the background changes
         const index = Math.floor(gui.getUnixTime() / (86400 / timesInADay)) % urls.length;
         const img = new Image();
         img.onload = () => {
