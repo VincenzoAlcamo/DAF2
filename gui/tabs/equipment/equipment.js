@@ -1114,30 +1114,29 @@ function showOffer(type, id, callback) {
     function getDetails() {
         let htm = '';
 
+        htm += Html.br`<table><tr>`;
         if (type == 'offer') {
             const dates = getDistincts(getSelection(Object.assign({}, current, { date: -1 })).map(block => block.date));
-            htm += Html.br`${gui.getMessage('gui_offer')} <select name="date" data-method="date" style="margin-bottom:2px">`;
+            htm += Html.br`<td>${gui.getMessage('gui_offer')} <select name="date" data-method="date" style="margin-bottom:2px">`;
             if (dates.length > 1) htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.date);
             for (const date of dates) htm += optionHtml(date, Locale.formatDateTime(date), current.date);
-            htm += Html.br`</select>`;
-            htm += Html.br`<br>`;
+            htm += Html.br`</select></td>`;
         }
         const regions = getDistincts(getSelection(Object.assign({}, current, { rid: -1 })).map(block => block.rid));
         if (regions.length > 1) {
-            htm += Html.br`${gui.getMessage('gui_region')} <select name="rid" data-method="rid" style="margin-bottom:2px">`;
+            htm += Html.br`<td>${gui.getMessage('gui_region')} <select name="rid" data-method="rid" style="margin-bottom:2px">`;
             if (type != 'tier') htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.rid);
             for (const rid of regions) htm += optionHtml(rid, gui.getObjectName('region', rid), current.rid);
-            htm += Html.br`</select>`;
-            htm += Html.br`<br>`;
+            htm += Html.br`</select></td>`;
         }
         const prices = getDistincts(getSelection(Object.assign({}, current, { price: -1 })).map(block => block.price));
         if (prices.length > 1) {
-            htm += Html.br`${gui.getMessage('gui_cost')} <select name="price" data-method="price" style="margin-bottom:2px">`;
+            htm += Html.br`<td>${gui.getMessage('gui_cost')} <select name="price" data-method="price" style="margin-bottom:2px">`;
             htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.price);
             for (const price of prices) htm += optionHtml(price, blocks.find(block => block.price == price).priceText, current.price);
-            htm += Html.br`</select>`;
-            htm += Html.br`<br>`;
+            htm += Html.br`</select></td>`;
         }
+        htm += Html.br`</tr></table>`;
 
         const selection = getSelection(current);
         const result = [];
