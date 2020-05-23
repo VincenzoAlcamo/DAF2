@@ -135,7 +135,7 @@
         "message": "Oferta"
     },
     "gui_tieredoffer": {
-        "message": "Oferta em camadas"
+        "message": "Oferta Progressiva"
     },
     "gui_pack": {
         "message": "Pacote especial"
@@ -853,6 +853,15 @@
     },
     "friendship_confirmcollect": {
         "message": "Pressione YES para confirmar, NO para tentar mais.\n\nPode fechar esta janela a qualquer momento\npara cancelar a operação ."
+    },
+    "friendship_facebookversion": {
+        "message": "Versão do Facebook?"
+    },
+    "friendship_fv_new": {
+        "message": "Novo"
+    },
+    "friendship_fv_old": {
+        "message": "Antigo"
     },
     "friendship_filter_a": {
         "message": "Amigos: $FRIENDS$, Vizinhos: $NEIGHBOURS$",

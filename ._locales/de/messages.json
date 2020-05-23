@@ -854,6 +854,15 @@
     "friendship_confirmcollect": {
         "message": "Klicke Sie JA zur Bestätigung, NEIN zum weiteren Versuch.\n\nDu kannst dieses Fenster jederzeit schließen,\num den Vorgang abzubrechen."
     },
+    "friendship_facebookversion": {
+        "message": "Facebook-Version?"
+    },
+    "friendship_fv_new": {
+        "message": "Neu"
+    },
+    "friendship_fv_old": {
+        "message": "Alt"
+    },
     "friendship_filter_a": {
         "message": "Freunde: $FRIENDS$, Nachbarn: $NEIGHBOURS$",
         "placeholders": {

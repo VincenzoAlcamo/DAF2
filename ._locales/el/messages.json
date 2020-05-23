@@ -854,6 +854,15 @@
     "friendship_confirmcollect": {
         "message": "Πατήστε ΝΑΙ για επιβεβαίωση, ΟΧΙ για περαιτέρω εύρεση\n\nΜπορείτε να κλείσετε αυτό το παράθυρο όποτε\nθέλετε για να ακυρώσετε τη διαδικασία."
     },
+    "friendship_facebookversion": {
+        "message": "Έκδοση Facebook;"
+    },
+    "friendship_fv_new": {
+        "message": "Νέα"
+    },
+    "friendship_fv_old": {
+        "message": "Παλιά"
+    },
     "friendship_filter_a": {
         "message": "Φίλοι: $FRIENDS$, Γείτονες: $NEIGHBOURS$",
         "placeholders": {

@@ -854,6 +854,15 @@
     "friendship_confirmcollect": {
         "message": "Tryk JA for at bekræfte, NEJ for at prøve igen.\n\nDu kan lukke dette vindue på et hvert tidspunkt\nfor at afbryde handlingen."
     },
+    "friendship_facebookversion": {
+        "message": "Facebook version?"
+    },
+    "friendship_fv_new": {
+        "message": "Ny"
+    },
+    "friendship_fv_old": {
+        "message": "Gammel"
+    },
     "friendship_filter_a": {
         "message": "Venner: $FRIENDS$, Naboer: $NEIGHBOURS$",
         "placeholders": {

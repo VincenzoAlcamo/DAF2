@@ -854,6 +854,15 @@
     "friendship_confirmcollect": {
         "message": "Appuyez sur OUI pour confirmer, sur NON pour essayer plus loin.\n\nVous pouvez fermer cette fenêtre à tout moment\npour annuler l'opération."
     },
+    "friendship_facebookversion": {
+        "message": "Version Facebook?"
+    },
+    "friendship_fv_new": {
+        "message": "Nouvelle"
+    },
+    "friendship_fv_old": {
+        "message": "Ancienne"
+    },
     "friendship_filter_a": {
         "message": "Amis: $FRIENDS$, Voisins: $NEIGHBOURS$",
         "placeholders": {
@@ -1588,7 +1597,7 @@
         "message": "Bonus de nettoyage"
     },
     "events_gemstones": {
-        "message": "Gemmes"
+        "message": "Pierres précieuses"
     },
     "repeat_name": {
         "message": "Mines"
