@@ -661,16 +661,19 @@ input[type=checkbox]:checked {
   background-color: var(--tt-button-hlcol);
 }
 
-input[type=checkbox]:checked:before {
+input[type=checkbox]:before {
   color: var(--tt-input-brcol);
-  content: '\002714';
+  content: ' ';
   font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
   display: block;
-  margin-top: -3px;
-  margin-left: 1px;
+  margin-top: -1px;
+  margin-left: 2px;
 }
 
+input[type=checkbox]:checked:before {
+  content: '\002714';
+}
 
 .toolbar input[type=checkbox] {
   vertical-align: middle;
