@@ -666,7 +666,7 @@ input[type=checkbox]:checked:before {
   content: '\002714';
   font-weight: bold;
   font-size: 18px;
-  position: absolute;
+  display: block;
   margin-top: -3px;
   margin-left: 1px;
 }
