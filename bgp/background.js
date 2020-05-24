@@ -62,6 +62,7 @@ var Preferences = {
             language: '',
             gameLanguage: '',
             locale: '',
+            locales: '',
             fixes: '',
             disableAltGuard: false,
             injectGame: true,

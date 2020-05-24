@@ -1,4 +1,4 @@
-/*global bgp chrome gui Html Dialog*/
+/*global bgp chrome gui Html Dialog Locale*/
 export default {
     hasCSS: true,
     init: init,
@@ -41,7 +41,7 @@ function init() {
         htm += Html.br`</tbody></table></div>`;
     }
 
-    function option(prefName, features, options) {
+    function option(prefName, features, options, extraHtml) {
         const messageId = 'options_' + prefName.toLowerCase();
         const text = prefName == 'fixes' ? 'Special settings' : gui.getMessage(messageId);
         const i = text.indexOf('\n');
@@ -62,18 +62,20 @@ function init() {
         const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
 
         htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
-        htm += Html.br`<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>${warning ? Html.br`<div class="warning">${warning}</div>` : ''}`;
+        htm += Html.br`<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>`;
         if (type == SELECT) {
             htm += Html.br`<select data-pref="${prefName}">`;
             for (const option of options) {
                 htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
             }
-            htm += Html.br`</select></td></tr>`;
+            htm += Html.br`</select>`;
         } else if (type == TEXT) {
-            htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td></tr>`;
-        } else {
-            htm += Html.br`</td><td><input data-pref="${prefName}" type="checkbox"></td></tr>`;
+            htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td>`;
         }
+        if (warning) htm += Html.br`<div class="warning">${warning}</div>`;
+        htm += Html.br`${extraHtml}</td>`;
+        if (type == CHECKBOX) htm += Html.br`<td><input data-pref="${prefName}" type="checkbox"></td>`;
+        htm += Html.br`</tr>`;
     }
 
     function determineLocales(currentLanguage) {
@@ -82,9 +84,19 @@ function init() {
         locales.push(['', gui.getMessage('options_locale_browser')]);
         for (const item of bgp.Data.languages) {
             if (item.id == currentLanguage) {
-                if (currentLocale && !item.locales.includes(currentLocale)) {
-                    gui.setPreference('locale', currentLocale = item.preferredLocale);
+                let newLocale = currentLocale;
+                const pLocales = gui.getPreference('locales') || '';
+                const arr = pLocales.split(',').filter(l => !!l);
+                const index = arr.findIndex(l => l.startsWith(currentLanguage + '-'));
+                if (index >= 0) newLocale = arr[index].substring(currentLanguage.length + 1);
+                if (newLocale && !item.locales.includes(newLocale)) newLocale = item.preferredLocale;
+                if (newLocale != currentLocale) {
+                    currentLocale = newLocale;
+                    gui.setPreference('locale', currentLocale);
                 }
+                const fullLocale = currentLanguage + '-' + currentLocale;
+                if (index >= 0) arr[index] = fullLocale; else arr.push(currentLanguage + '-' + currentLocale);
+                if (arr.join(',') != pLocales) gui.setPreference('locales', arr.join(','));
                 locales = locales.concat(item.locales.map(v => [v, v]));
             }
         }
@@ -96,7 +108,14 @@ function init() {
     languages.sort((a, b) => a.name.localeCompare(b.name));
     const guiLanguages = languages.filter(item => bgp.Data.guiLanguages.includes(item.id)).map(item => [item.id, item.name + ' - ' + item.nameLocal]);
     option('language', CRITICAL + WITHSUBOPTIONS, guiLanguages);
-    option('locale', SUBOPTION, determineLocales(gui.getPreference('language')));
+    const optionLocales = determineLocales(gui.getPreference('language'));
+    let extra = '';
+    extra += Html`<ul style="margin-left:24px">`;
+    extra += Html`<li>${Locale.formatNumber(123456.78)}`;
+    extra += Html`<li>${Locale.formatDateTimeFull(gui.getUnixTime())}`;
+    extra += Html`<li>${Locale.formatList([Locale.formatDaysNum(1), Locale.formatDaysNum(-1), Locale.formatDaysNum(-3)])}`;
+    extra += Html`</ul>`;
+    option('locale', SUBOPTION, optionLocales, Html.raw(extra));
     const gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
@@ -185,6 +204,13 @@ function init() {
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, 500);
         changes[name] = value;
+        if (name == 'locale') {
+            const currentLanguage = gui.getPreference('language');
+            const pLocales = gui.getPreference('locales') || '';
+            const arr = pLocales.split(',').filter(l => l && !l.startsWith(currentLanguage + '-'));
+            arr.push(currentLanguage + '-' + value);
+            changes['locales'] = arr.join(',');
+        }
         if (name == 'language' || name == 'locale') {
             applyChanges();
             determineLocales();
