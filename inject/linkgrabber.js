@@ -374,6 +374,7 @@ const fnHandlers = {
 };
 
 function keydown(event) {
+    if (keyPressed == event.keyCode) return;
     keyPressed = event.keyCode;
     if (os == OS_LINUX && keyPressed == options.linkGrabKey) stopMenu = true;
     if (!flagActive) return;
