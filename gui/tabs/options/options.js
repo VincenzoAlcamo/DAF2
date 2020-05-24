@@ -78,7 +78,8 @@ function init() {
         htm += Html.br`</tr>`;
     }
 
-    function determineLocales(currentLanguage) {
+    function determineLocales() {
+        const currentLanguage = gui.getPreference('language');
         let currentLocale = gui.getPreference('locale');
         let locales = [];
         locales.push(['', gui.getMessage('options_locale_browser')]);
@@ -108,7 +109,7 @@ function init() {
     languages.sort((a, b) => a.name.localeCompare(b.name));
     const guiLanguages = languages.filter(item => bgp.Data.guiLanguages.includes(item.id)).map(item => [item.id, item.name + ' - ' + item.nameLocal]);
     option('language', CRITICAL + WITHSUBOPTIONS, guiLanguages);
-    const optionLocales = determineLocales(gui.getPreference('language'));
+    const optionLocales = determineLocales();
     let extra = '';
     extra += Html`<ul style="margin-left:24px">`;
     extra += Html`<li>${Locale.formatNumber(123456.78)}`;
