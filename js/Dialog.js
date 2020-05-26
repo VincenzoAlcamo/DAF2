@@ -126,7 +126,7 @@ Object.assign(Dialog.prototype, {
                 }, 500);
             }, this.delay);
         }
-        this.autoInput = null;
+        this.clearAuto();
         if (o.auto) {
             const autoMethod = o.auto.toLowerCase();
             this.autoInput = this.inputs[autoMethod];
@@ -136,6 +136,7 @@ Object.assign(Dialog.prototype, {
                 const fn = () => {
                     if (timeout > 0) {
                         this.autoInput.setAttribute('timer', timeout--);
+                        if (this.autoTimer) clearTimeout(this.autoTimer);
                         return this.autoTimer = setTimeout(fn, 1000);
                     }
                     this.runCallback(autoMethod, this.autoInput, this.autoInput.getAttribute('data-method'));
