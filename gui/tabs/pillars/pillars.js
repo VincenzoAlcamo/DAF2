@@ -8,6 +8,8 @@ export default {
     requires: ['materials', 'decorations', 'levelups', 'sales', 'usables', 'xp']
 };
 
+const GRID_COLUMNS = 10;
+
 let tab, container, smartTable, pillars, selectShow, searchInput, searchHandler, checkCap, checkGrid;
 let pillarsExcluded = [];
 
@@ -240,7 +242,7 @@ function refresh() {
 
     Array.from(container.querySelectorAll('.pillars thead th')).forEach(th => {
         const isFirstCol = th.classList.contains('firstcol');
-        th.colSpan = state.grid && isFirstCol ? 8 : (th.classList.contains('colspan3') ? 3 : 1);
+        th.colSpan = state.grid && isFirstCol ? GRID_COLUMNS : (th.classList.contains('colspan3') ? 3 : 1);
         th.style.display = state.grid && !isFirstCol ? 'none' : '';
     });
     Array.from(container.querySelectorAll('.pillars tfoot tr')).forEach(tr => {
@@ -249,7 +251,7 @@ function refresh() {
                 tr.style.display = state.grid ? 'none' : '';
                 break;
             case '2':
-                tr.cells[0].colSpan = state.grid ? 8 : 13;
+                tr.cells[0].colSpan = state.grid ? GRID_COLUMNS : 13;
                 break;
         }
     });
@@ -262,7 +264,7 @@ function refresh() {
         const htmInputs = Html.br`<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
         if (state.grid) {
             index++;
-            if (index == 9) {
+            if (index > GRID_COLUMNS) {
                 htm += `</tr><tr>`;
                 index = 1;
             }
@@ -287,7 +289,7 @@ function refresh() {
         }
     }
     if (state.grid && index > 0) {
-        while (index++ < 8) htm += `<td class="grid"></td>`;
+        while (index++ < GRID_COLUMNS) htm += `<td class="grid"></td>`;
         htm = `<tr>` + htm + `</tr>`;
     }
     Dialog.htmlToDOM(smartTable.tbody[0], htm);
