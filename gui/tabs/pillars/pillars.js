@@ -108,7 +108,18 @@ function updatePillar(e) {
     const did = parseInt(td.getAttribute('did'));
     const pillar = pillars.find(pillar => pillar.did == did);
     if (el.type == 'checkbox') {
-        if (e.altKey) {
+        if (e.ctrlKey) {
+            // e.preventDefault();
+            const flag = el.checked;
+            const state = getState();
+            for (const pillar of pillars) {
+                pillar.excluded = !flag;
+                pillar.qty = pillar.excluded ? 0 : pillar.possible;
+                updateQty(pillar, state);
+            }
+            pillarsExcluded = pillars.filter(pillar => pillar.excluded).map(pillar => pillar.did);
+            gui.updateTabState(tab);
+        } else if (e.altKey) {
             e.preventDefault();
             const setAsMax = pillar.qty == 0;
             for (const pillar of pillars) {
@@ -120,7 +131,6 @@ function updatePillar(e) {
             pillarsExcluded = pillarsExcluded.filter(id => id != pillar.did);
             if (pillar.excluded) pillarsExcluded.push(pillar.did);
             gui.updateTabState(tab);
-            (td.classList.contains('grid') ? td : td.parentNode).classList.toggle('excluded', pillar.excluded);
             pillar.qty = pillar.excluded ? 0 : pillar.possible;
         }
     } else {
@@ -145,6 +155,8 @@ function updateQty(pillar, state) {
             td.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_xp);
             td.nextElementSibling.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_coins);
         }
+        td.querySelector('input[type=checkbox]').checked = !pillar.excluded;
+        (td.classList.contains('grid') ? td : td.parentNode).classList.toggle('excluded', pillar.excluded);
     }
 }
 
