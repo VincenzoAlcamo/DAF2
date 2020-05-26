@@ -108,7 +108,7 @@ function updatePillar(e) {
     const did = parseInt(td.getAttribute('did'));
     const pillar = pillars.find(pillar => pillar.did == did);
     if (el.type == 'checkbox') {
-        if (e.ctrlKey) {
+        if (e.altKey) {
             e.preventDefault();
             const setAsMax = pillar.qty == 0;
             for (const pillar of pillars) {
