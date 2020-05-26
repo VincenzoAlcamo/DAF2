@@ -40,6 +40,7 @@ function update() {
     const decorations = gui.getFile('decorations');
     const materialInventory = gui.getGenerator().materials;
     pillars = [];
+    const pillarsByMaterial = {};
     for (const saleId of pillarsInfo.sales) {
         const sale = sales[saleId];
         const decoration = decorations[sale.object_id];
@@ -47,6 +48,7 @@ function update() {
         if (decoration && req) {
             const matId = req.material_id;
             const pillar = {};
+            pillar.mid = matId;
             pillar.did = +decoration.def_id;
             pillar.img = gui.getObjectImage('decoration', pillar.did);
             pillar.excluded = pillarsExcluded.includes(pillar.did);
@@ -58,16 +60,32 @@ function update() {
             pillar.available = materialInventory[matId] || 0;
             pillar.matimg = gui.getObjectImage('material', matId, true);
             pillar.possible = Math.floor(pillar.available / pillar.required);
-            pillar.perc_next = (pillar.available - (pillar.possible * pillar.required)) / pillar.required * 100;
-            pillar.qty = pillar.excluded ? 0 : pillar.possible;
-            pillar.predicted_xp = pillar.qty * pillar.xp;
-            pillar.predicted_coins = pillar.qty * pillar.coins;
+            pillar.perc_next = (pillar.available % pillar.required) / pillar.required * 100;
             pillar.level = +sale.level;
             pillar.region = (sale.req_type == 'camp_skin' ? gui.getRegionFromSkin(+sale.req_object) : 0) || 1;
+            pillar.ratio = pillar.xp / pillar.required;
             pillars.push(pillar);
+            if (!(matId in pillarsByMaterial)) pillarsByMaterial[matId] = [];
+            pillarsByMaterial[matId].push(pillar);
         }
     }
+    for (const items of Object.values(pillarsByMaterial)) {
+        let available = items[0].available;
+        // Sort by ratio descending, then required ascending
+        items.sort((a, b) => (b.ratio - a.ratio) || (a.required - b.required));
+        items.forEach(pillar => {
+            pillar.max_possible = Math.floor(available / pillar.required);
+            available -= (pillar.max_possible * pillar.required);
+            setQty(pillar, pillar.max_possible);
+        });
+    }
     refresh();
+}
+
+function setQty(pillar, qty) {
+    pillar.qty = pillar.excluded ? 0 : qty;
+    pillar.predicted_xp = pillar.qty * pillar.xp;
+    pillar.predicted_coins = pillar.qty * pillar.coins;
 }
 
 function triggerSearchHandler(flag) {
@@ -98,7 +116,16 @@ function setState(state) {
 function toggleCap() {
     gui.updateTabState(tab);
     const state = getState();
-    pillars.forEach(pillar => updateQty(pillar, state));
+    if (state.uncapped) pillars.forEach(pillar => updateQty(pillar, state));
+    else {
+        const pillarsByMaterial = {};
+        pillars.forEach(pillar => {
+            const matId = pillar.mid;
+            if (!(matId in pillarsByMaterial)) pillarsByMaterial[matId] = [];
+            pillarsByMaterial[matId].push(pillar);
+        });
+        for (const matId of Object.keys(pillarsByMaterial)) recalcPillars(matId, null);
+    }
     refreshTotals();
 }
 
@@ -107,14 +134,15 @@ function updatePillar(e) {
     const td = el.parentNode;
     const did = parseInt(td.getAttribute('did'));
     const pillar = pillars.find(pillar => pillar.did == did);
+    const state = getState();
+    let recalcOthers = false;
     if (el.type == 'checkbox') {
         if (e.ctrlKey) {
             // e.preventDefault();
             const flag = el.checked;
-            const state = getState();
             for (const pillar of pillars) {
                 pillar.excluded = !flag;
-                pillar.qty = pillar.excluded ? 0 : pillar.possible;
+                pillar.qty = pillar.excluded ? 0 : pillar.max_possible;
                 updateQty(pillar, state);
             }
             pillarsExcluded = pillars.filter(pillar => pillar.excluded).map(pillar => pillar.did);
@@ -123,29 +151,47 @@ function updatePillar(e) {
             e.preventDefault();
             const setAsMax = pillar.qty == 0;
             for (const pillar of pillars) {
-                pillar.qty = setAsMax ? pillar.possible : 0;
-                updateQty(pillar);
+                pillar.qty = setAsMax ? pillar.max_possible : 0;
+                updateQty(pillar, state);
             }
         } else {
             pillar.excluded = !el.checked;
             pillarsExcluded = pillarsExcluded.filter(id => id != pillar.did);
             if (pillar.excluded) pillarsExcluded.push(pillar.did);
             gui.updateTabState(tab);
-            pillar.qty = pillar.excluded ? 0 : pillar.possible;
+            setQty(pillar, pillar.max_possible);
+            recalcOthers = true;
         }
     } else {
-        pillar.qty = +el.value;
+        setQty(pillar, +el.value);
+        recalcOthers = !getState().uncapped;
     }
-    updateQty(pillar);
+    updateQty(pillar, state);
+    if (recalcOthers) recalcPillars(pillar.mid, pillar);
     refreshTotals();
+}
+
+function recalcPillars(matId, pillar) {
+    const items = pillars.filter(p => p.mid == matId && p !== pillar);
+    if (items.length == 0) return;
+    let available = (pillar || items[0]).available;
+    if (pillar) available -= (pillar.qty * pillar.required);
+    const recalcQty = !!pillar;
+    // Sort by ratio descending, then required ascending
+    items.sort((a, b) => (b.ratio - a.ratio) || (a.required - b.required));
+    const state = getState();
+    items.forEach(pillar => {
+        const qty = Math.floor(available / pillar.required);
+        if (recalcQty || qty < pillar.qty) setQty(pillar, qty);
+        updateQty(pillar, state);
+        available -= (pillar.qty * pillar.required);
+    });
 }
 
 function updateQty(pillar, state) {
     state = state || getState();
     const max = state.uncapped ? 999 : pillar.possible;
-    pillar.qty = Math.min(Math.max(pillar.qty, 0), max);
-    pillar.predicted_xp = pillar.qty * pillar.xp;
-    pillar.predicted_coins = pillar.qty * pillar.coins;
+    setQty(pillar, Math.min(Math.max(pillar.qty, 0), max));
     const input = container.querySelector('td[did="' + pillar.did + '"] input[type=number]');
     if (input) {
         input.value = pillar.qty;
@@ -178,12 +224,12 @@ function refreshTotals() {
     let tot, qty, xp, coins, maxXp, maxCoins;
     tot = qty = xp = coins = maxXp = maxCoins = 0;
     pillars.forEach(pillar => {
-        tot += pillar.possible;
+        tot += pillar.max_possible;
         qty += pillar.qty;
         xp += pillar.predicted_xp;
         coins += pillar.predicted_coins;
-        maxXp += pillar.possible * pillar.xp;
-        maxCoins += pillar.possible * pillar.coins;
+        maxXp += pillar.max_possible * pillar.xp;
+        maxCoins += pillar.max_possible * pillar.coins;
     });
     const generator = gui.getGenerator();
     const level = +generator.level;
