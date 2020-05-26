@@ -791,31 +791,27 @@ var Data = {
         const time = (Data.generator && Data.generator.time) || 0;
         if (time != Data.pillars.time) {
             /* New logic using heuristic */
-            // Get all sales: decoration, non hidden, non-event with only one requirements
-            const sales = Object.values(Data.files['sales']).filter(sale => sale.type == 'decoration' && sale.hide != 1 && +sale.event_id == 0 && sale.requirements.length == 1);
-            // sort descending by id (newer first)
-            sales.sort((a, b) => +b.def_id - +a.def_id);
             const expByMaterial = {};
-            const saleByMaterial = {};
-            const setSale = (sale) => {
-                if (!sale) return;
-                const materialId = sale.requirements[0].material_id;
+            const sales = Object.values(Data.files['sales']).filter(sale => {
+                // Must be a sale for decoration, non hidden, non-event with only one requirements
+                if (sale.type != 'decoration' || +sale.hide != 0 || +sale.event_id != 0 || sale.requirements.length != 1) return false;
+                const materialId = +sale.requirements[0].material_id;
                 // Gem requirement is skipped
-                if (materialId == 2) return;
+                if (materialId == 2) return false;
+                // Use only the coin pillars (exclude Abu Simbel, etc)
+                if (materialId == 1 && ![867, 1177].includes(+sale.object_id)) return false;
+                // At least 100000 xp
+                if (+sale.exp < 100000) return false;
                 // Calculate experience for one unit of material
                 const exp = +sale.exp / +sale.requirements[0].amount;
-                // If a sale was already detected, check that it has a bigger XP return
-                if (materialId in expByMaterial && expByMaterial[materialId] >= exp) return;
-                expByMaterial[materialId] = exp;
-                saleByMaterial[materialId] = sale;
-            };
-            // Force the COIN PILLARS (decoration id = 867) in case other decoration (like ABU SIMBEL) are added in the future
-            setSale(sales.find(sale => sale.object_id == 867));
-            sales.forEach(setSale);
+                // Store the biggest XP return
+                expByMaterial[materialId] = Math.max(exp, expByMaterial[materialId] || 0);
+                return true;
+            }).map(sale => +sale.def_id);
+            // sort descending by id (newer first)
+            sales.sort((a, b) => a - b);
             if (JSON.stringify(Data.pillars.expByMaterial) !== JSON.stringify(expByMaterial)) Data.storeSimple('expByMaterial', expByMaterial);
-            Data.pillars.time = time;
-            Data.pillars.expByMaterial = expByMaterial;
-            Data.pillars.sales = Object.values(saleByMaterial).map(sale => +sale.def_id);
+            Object.assign(Data.pillars, { time, expByMaterial, sales });
         }
         return Data.pillars;
     },
