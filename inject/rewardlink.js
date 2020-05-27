@@ -1,6 +1,6 @@
 /*global chrome*/
-const reFacebook = /https?:\/\/diggysadventure\.com\/miner\/wallpost.php\?wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
-const rePortal = /https?:\/\/portal\.pixelfederation\.com\/_da\/miner\/wallpost.php\?.+&wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
+const reFacebook = /https?:\/\/diggysadventure\.com\/miner\/wallpost.php\?.+wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
+const rePortal = /https?:\/\/portal\.pixelfederation\.com\/_da\/miner\/wallpost.php\?.+wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
 const reMaterial = /material_([0-9]+)\.png/;
 const reFriend = /https?:\/\/graph\.facebook\.com(\/v[^/]+)?\/(\d+)\/picture/;
 const reExpired = /\W(expired|изтече|vypršel|abgelaufen|udløbet|expirado|vanhentunut|expiré|λήξει|lejárt|scaduto|verlopen|expirou|expirat|ute|vypršal|doldu|nieaktualny)\W/i;
