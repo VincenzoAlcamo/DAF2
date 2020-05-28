@@ -185,15 +185,24 @@
   cursor: default;
 }
 
-.DAF-badge-gc {
-  background-image: url(/img/gui/godchild.png);
+.DAF-badges .DAF-badge-img {
   background-position: 1px 0px;
   background-repeat: no-repeat;
   background-size: 18px 18px;
   padding: 0px 5px 0 20px;
+}
+
+.DAF-badges .DAF-badge-gc {
+  background-image: url(/img/gui/godchild.png);
   background-color: #0FF;
 }
 
+.DAF-badges .DAF-badge-gc-energy {
+  background-image: url(/img/gui/energy.png);
+  background-color: #0F0;
+}
+
+.DAF-gc-show-counter .DAF-badge-gc-energy,
 .DAF-gc-show-counter .DAF-badge-gc {
   display: inline-block;
 }

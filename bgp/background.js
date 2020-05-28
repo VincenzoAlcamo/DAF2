@@ -686,6 +686,9 @@ var Data = {
                 Data.checkLocalization('', file.data.game_language);
                 Tab.detectAll().then(() => Synchronize.signal('generator'));
             });
+            // Pre-load childs
+            Synchronize.energy = 0;
+            Data.getFile('childs');
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
             tx = Data.db.transaction('Files', 'readwrite');
@@ -1270,6 +1273,13 @@ var Synchronize = {
         chrome.runtime.sendMessage(message, hasRuntimeError);
         chrome.tabs.sendMessage(Tab.gameTabId, message, hasRuntimeError);
     },
+    energy: 0,
+    signalEnergy(energy) {
+        if (energy != Synchronize.energy) {
+            Synchronize.energy = energy;
+            Synchronize.signal('gc-energy', energy);
+        }
+    },
     process: function (postedXml, responseText) {
         const posted = Parser.parse('any', postedXml);
         // eslint-disable-next-line no-unused-vars
@@ -1336,6 +1346,21 @@ var Synchronize = {
             camp.time = Synchronize.time;
             const pal = Data.getNeighbour(neighbourId);
             if (pal) {
+                let energy = 0;
+                if (camp && camp.children) {
+                    const childrens = {};
+                    let total = 0;
+                    const childs = Data.files.childs;
+                    [].concat(camp.children).forEach(child => {
+                        const id = child.def_id;
+                        const qty = +child.amount;
+                        total += qty;
+                        childrens[id] = (childrens[id] || 0) + qty;
+                        if (childs && id in childs) energy += (qty * +childs[id].friend_stamina);
+                    });
+                    if (total == 5) pal.extra.gc = childrens;
+                }
+                Synchronize.signalEnergy(energy);
                 pal.extra.lastVisit = Synchronize.time;
                 let blocks = 144;
                 for (let n of String(camp.lines_blocked || '').split(',')) {
@@ -1369,6 +1394,7 @@ var Synchronize = {
             }
         },
         enter_mine: function (_action, task, taskResponse, _response) {
+            Synchronize.signalEnergy(0);
             const loc_id = +task.loc_id || 0;
             const prog = Synchronize.setLastLocation(loc_id);
             if (prog && taskResponse) {

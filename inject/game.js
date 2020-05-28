@@ -326,7 +326,8 @@ function createMenu() {
 </li>
 </ul>
 <div class="DAF-badges">
-    <b class="DAF-badge-gc"></b>
+    <b class="DAF-badge-gc DAF-badge-img"></b>
+    <b class="DAF-badge-gc-energy DAF-badge-img" style="display:none" title="${gm('gui_energy')}"></b>
 </div>
 `;
     // remove spaces
@@ -546,6 +547,14 @@ function init() {
         msgHandlers['friend_child_charge'] = (request) => {
             updateGCStatus(request.data);
             if (miner) gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
+        };
+        msgHandlers['gc-energy'] = (request) => {
+            const energy = +request.data || 0;
+            const badge = menu.querySelector('.DAF-badge-gc-energy');
+            if (badge) {
+                badge.textContent = energy;
+                badge.style.display = energy ? '' : 'none';
+            }
         };
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();
