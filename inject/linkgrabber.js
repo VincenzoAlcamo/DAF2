@@ -355,9 +355,9 @@ const fnHandlers = {
     [KEY_P]: (_event) => copyLinksToClipboard(2),
     [KEY_T]: (_event) => { stop(); collect(false); },
     [KEY_Y]: (_event) => { stop(); collect(true); },
-    [KEY_S]: (_event) => {
+    [KEY_S]: (event) => {
         const values = collectData(true);
-        stop();
+        if (!event.shiftKey) stop();
         if (values.length) {
             chrome.runtime.sendMessage({
                 action: 'addRewardLinks',
