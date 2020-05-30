@@ -646,6 +646,7 @@ function collect(confirmCollection) {
             data: collectMethod == 'unmatched' ? null : friends,
             close
         });
+        Array.from(container.querySelectorAll('.to-be-removed')).forEach(el => el.remove());
         const showDisabled = () => {
             if (ulInactive) {
                 if (ulInactive !== container) {
@@ -744,11 +745,11 @@ function collect(confirmCollection) {
             addFriend({ id, name, uri, img });
             keep = unmatchedList.includes(id);
             const node = item.parentElement.parentElement.parentElement;
-            node.remove();
+            // node.remove();
             if (keep) {
                 ulInactive = container;
-                liInactive.push(node);
-            }
+                // liInactive.push(node);
+            } else node.classList.add('to-be-removed');
         }
         return count;
     }
