@@ -14,11 +14,7 @@ function sendMinerPosition() {
 }
 
 function sendValue(name, value) {
-    chrome.runtime.sendMessage({
-        action: 'sendValue',
-        name: name,
-        value: prefs[name] = value
-    });
+    chrome.runtime.sendMessage({ action: 'sendValue', name: name, value: prefs[name] = value });
 }
 
 function sendPreference(name, value) {
@@ -216,10 +212,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
         if (getFullWindow()) forceResize();
         // If table is not present and we need to show it, we must retrieve the neighbours first
     } else if (show) {
-        chrome.runtime.sendMessage({
-            action: 'getGCList',
-            simulate: simulate
-        }, function updateGCTable(result) {
+        chrome.runtime.sendMessage({ action: 'getGCList', simulate: simulate }, function updateGCTable(result) {
             if (gcTable) while (gcTable.firstChild) gcTable.firstChild.remove();
             const list = (result && result.list) || [];
             const max = (result && result.max) || 0;
@@ -371,9 +364,7 @@ function onMenuClick(e) {
         parent = parent.parentNode;
     switch (action) {
         case 'about':
-            chrome.runtime.sendMessage({
-                action: e.ctrlKey ? 'debug' : 'showGUI'
-            });
+            chrome.runtime.sendMessage({ action: 'showGUI' });
             break;
         case 'fullWindow':
         case 'gcTable':
@@ -387,10 +378,7 @@ function onMenuClick(e) {
             let value = target.getAttribute('data-value');
             const facebook = (isFacebook ^ (value === 'switch'));
             value += ' ' + (facebook ? 'facebook' : 'portal');
-            chrome.runtime.sendMessage({
-                action: 'reloadGame',
-                value: value
-            });
+            chrome.runtime.sendMessage({ action: 'reloadGame', value: value });
             break;
         }
     }
@@ -402,11 +390,10 @@ function interceptData() {
         const XHR = XMLHttpRequest.prototype;
         const send = XHR.send;
         const open = XHR.open;
-        const site = location.host.startsWith('portal.') ? 'Portal' : 'Facebook';
         function dispatch(type, kind, request, response) {
             let lang;
             try { lang = gamevars.lang; } catch(e) { }
-            const event = new CustomEvent('daf_xhr', { detail: { type, kind, site, lang, request, response } });
+            const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, request, response } });
             document.dispatchEvent(event);
         }
         XHR.open = function(method, url) {
@@ -433,10 +420,7 @@ function interceptData() {
     `;
     document.head.prepend(createScript(code));
     document.addEventListener('daf_xhr', function (event) {
-        chrome.runtime.sendMessage({
-            action: 'daf_xhr',
-            detail: event.detail
-        });
+        chrome.runtime.sendMessage({ action: 'daf_xhr', detail: event.detail });
     });
 }
 
@@ -463,6 +447,7 @@ function init() {
             isFacebook = false;
             header = document.getElementById('header');
         } else return;
+        chrome.runtime.sendMessage({ action: 'gameStarted', site: isFacebook ? 'Facebook' : 'Portal' });
     }
     if (isWebGL) interceptData();
 
@@ -480,10 +465,7 @@ function init() {
         updateMenu(name);
     }
 
-    chrome.runtime.sendMessage({
-        action: 'getPrefs',
-        keys: Object.keys(prefs)
-    }, function (response) {
+    chrome.runtime.sendMessage({ action: 'getPrefs', keys: Object.keys(prefs) }, function (response) {
         if (chrome.runtime.lastError) {
             console.error('Error retrieving preferences');
             return;

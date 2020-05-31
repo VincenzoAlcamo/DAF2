@@ -1507,7 +1507,7 @@ var Synchronize = {
         } catch (e) { }
     },
     processXhr: function (detail) {
-        const { type, kind, site, lang, request, response } = detail;
+        const { type, kind, lang, request, response } = detail;
         if (kind == 'graph') return this.processGraph(response);
         const isError = type == 'error';
         if (isError) return Badge.setIcon('red').setBackgroundColor('red');
@@ -1544,7 +1544,7 @@ var Synchronize = {
             file.data = Parser.parse(kind, response);
             if (file.data && file.data.neighbours) {
                 file.data.player_id = parameters.player_id;
-                file.data.game_site = site;
+                file.data.game_site = Data.lastSite || 'Portal';
                 file.data.game_platform = 'WebGL';
                 file.data.game_language = lang;
                 Data.store(file);
@@ -1589,6 +1589,9 @@ async function init() {
         },
         showGUI: function () {
             Tab.showGUI();
+        },
+        gameStarted: function (request) {
+            Data.lastSite = request.site;
         },
         getGCInfo: function () {
             return Data.getGCInfo();
