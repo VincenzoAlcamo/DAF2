@@ -1781,6 +1781,7 @@
 "en@godchild_next":{"message":"To get an additional GC, you have to add $1 more neighbours"},
 "en@godchild_next0":{"message":"You have reached the maximum possible number of GC"},
 "en@godchild_next1":{"message":"To get an additional GC, you have to add just one more neighbour"},
+"en@godchild_estimatedenergy":{"message":"Estimated energy"},
 "en@progress_measure":{"message":"Measure"},
 "en@progress_attained":{"message":"Attained"},
 "en@progress_goal":{"message":"Goal"},

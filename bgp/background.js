@@ -1348,17 +1348,15 @@ var Synchronize = {
             if (pal) {
                 let energy = 0;
                 if (camp && camp.children) {
-                    const childrens = {};
                     let total = 0;
                     const childs = Data.files.childs;
                     [].concat(camp.children).forEach(child => {
                         const id = child.def_id;
                         const qty = +child.amount;
                         total += qty;
-                        childrens[id] = (childrens[id] || 0) + qty;
-                        if (childs && id in childs) energy += (qty * +childs[id].friend_stamina);
+                        if (childs && id in childs) energy += (qty * (+childs[id].friend_stamina || 0));
                     });
-                    if (total == 5) pal.extra.gc = childrens;
+                    if (total == 5) pal.extra.gc = energy;
                 }
                 Synchronize.signalEnergy(energy);
                 pal.extra.lastVisit = Synchronize.time;

@@ -4,7 +4,9 @@ export default {
     init: init,
     onPrefChange: prefChange,
     update: update,
+    requires: ['childs'],
     actions: {
+        'visit_camp': actionVisitCamp,
         'friend_child_charge': actionFriendChildCharge
     }
 };
@@ -46,21 +48,58 @@ function update() {
         div.setAttribute('data-pal-id', pal.id);
         div.className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' grayed');
         div.style.backgroundImage = isValid ? 'url(' + (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) + ')' : 'url(/img/gui/anon.png)';
-        div.title = gui.getPlayerNameFull(pal) + (isValid ? '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', pal.region)) : '');
         const d = div.appendChild(document.createElement('div'));
         d.textContent = pal.level || 0;
         if (pal.id == 1 || !isValid) d.style.visibility = 'hidden';
-        div.appendChild(document.createElement('div')).textContent = pal.name || 'Player ' + pal.id;
+        const elName = document.createElement('div');
+        elName.textContent = pal.name || 'Player ' + pal.id;
+        elName.appendChild(document.createElement('br'));
+        elName.appendChild(document.createElement('b'));
+        div.appendChild(elName);
+        updateEnergy(pal.id);
     }
     updateStatus();
 }
 
+function updateEnergy(id) {
+    const div = gcTable.querySelector(`div[data-pal-id="${id}"]`);
+    if (!div) return;
+    const pal = bgp.Data.getNeighbour(id) || { id };
+    const gc = pal && pal.extra && pal.extra.gc;
+    let energy = +gc || 0;
+    if (gc && typeof gc == 'object') {
+        const childs = gui.getFile('childs');
+        for (const [id, qty] of Object.entries(gc)) {
+            const child = childs[id];
+            energy += child ? +child.friend_stamina * qty : 0;
+        }
+    }
+    const elEnergy = div.querySelector('b');
+    elEnergy.classList.toggle('energy', energy > 0);
+    elEnergy.textContent = energy ? Locale.formatNumber(energy) : '';
+    const isValid = pal.region;
+    let title = gui.getPlayerNameFull(pal);
+    if (isValid) title += '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', pal.region));
+    if (energy) title += '\n' + gui.getMessageAndValue('gui_energy', Locale.formatNumber(energy));
+    div.title = title;
+    div.setAttribute('data-energy', energy);
+}
+
 function updateStatus() {
-    const tot = gcTable.querySelectorAll('.DAF-gc-pal').length;
+    const divs = gcTable.querySelectorAll('.DAF-gc-pal');
+    const tot = divs.length;
     const num = gcTable.querySelectorAll('.DAF-gc-pal:not(.grayed)').length;
+    let totEnergy = 0;
+    let isPrecise = num == 0;
+    for (const div of divs) {
+        const energy = +div.getAttribute('data-energy') || 0;
+        totEnergy += energy;
+        if (!energy) isPrecise = false;
+    }
     container.querySelector('.godchild_table').style.display = tot ? '' : 'none';
     container.querySelector('.toolbar').style.display = !tot ? '' : 'none';
     let htm = Html.br`${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
+    if (totEnergy) htm += Html.br` &mdash; ${gui.getMessageAndValue(isPrecise ? 'gui_energy' : 'godchild_estimatedenergy', Locale.formatNumber(totEnergy))}`;
     const nextTxt = bgp.Data.getGCInfo().nexttxt;
     if (nextTxt) htm += Html.br`<br>${nextTxt}`;
     for (const div of container.querySelectorAll('.tab_godchild .stats')) Dialog.htmlToDOM(div, htm);
@@ -77,6 +116,11 @@ function actionFriendChildCharge(data) {
     if (div) {
         // div.remove();
         div.classList.add('grayed');
+        updateEnergy(id);
         updateStatus();
     }
+}
+
+function actionVisitCamp() {
+    updateEnergy(bgp.Data.lastVisitedCamp.neigh_id);
 }

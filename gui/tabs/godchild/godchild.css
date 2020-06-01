@@ -9,17 +9,26 @@
 .tab_godchild .DAF-gc-pal {
   margin-top: 4px;
   margin-left: 4px;
+  height: 100px;
 }
 
 .tab_godchild .DAF-gc-pal div:last-child {
   margin-top: 47px;
   position: unset;
+  height: 36px;
 }
 
 .godchild_table thead .outlined {
   color: var(--tt-outlined-fgcol);
 }
 
-.godchild_table .DAF-gc-pal.grayed {
+.godchild_table .DAF-gc-pal.grayed:not(:hover) {
   opacity: 0.3;
+}
+
+.godchild_table .DAF-gc-pal b.energy {
+  padding-left: 16px;
+  background-image: url(/img/gui/energy.png);
+  background-size: 16px;
+  background-repeat: no-repeat;
 }

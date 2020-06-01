@@ -1122,6 +1122,9 @@
     "godchild_next1": {
         "message": "To get an additional GC, you have to add just one more neighbour"
     },
+    "godchild_estimatedenergy": {
+        "message": "Estimated energy"
+    },
     "progress_measure": {
         "message": "Measure"
     },
