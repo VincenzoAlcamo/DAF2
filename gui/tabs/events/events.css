@@ -142,6 +142,7 @@
 }
 
 .events .event-achievement tr td.reached,
+.events .event-locations tr td.energy,
 .events .event-locations tr td.reached {
   text-align: right;
 }

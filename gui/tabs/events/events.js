@@ -572,6 +572,7 @@ function showInfo() {
     const isSegmented = item.issegmented;
     let region = selectedRegion || 0;
     const showProgress = region == 0;
+    const flagClearBonus10X = item.start > 0;
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
@@ -671,7 +672,7 @@ function showInfo() {
         lootPlaceholder += `<td class="loot"></td>`;
     }
 
-    const showTotalRewards = (totalRewards, maxNumRewards, colSpan, className, addLoot, showProgress, progress, total) => {
+    const showTotalRewards = ({ totalRewards, maxNumRewards, colSpan, className, addLoot, showProgress, progress, total, totalEnergy }) => {
         const showTotal = total !== undefined;
         colSpan -= (showProgress ? 2 : 0) + (showTotal ? 1 : 0);
         let htm = '';
@@ -680,6 +681,7 @@ function showInfo() {
         if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
         if (showTotal) htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(total)}</td>`;
         if (showProgress) htm += Html.br`<td>${progress >= total ? ticked : unticked}</td>`;
+        if (isFinite(totalEnergy)) htm += Html.br`<td class="energy">${Locale.formatNumber(totalEnergy)}</td>`;
         htm += showRewards(totalRewards, maxNumRewards, { className });
         if (addLoot) { htm += lootPlaceholder; }
         htm += Html.br`</tr>`;
@@ -723,7 +725,7 @@ function showInfo() {
             htm += showRewards(rewards, maxNumRewards);
             htm += Html.br`</tr>`;
             htm += Html.br`</tbody>`;
-            htm += showTotalRewards(totalRewards, maxNumRewards, 2 + (showProgress ? 1 : 0));
+            htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 2 + (showProgress ? 1 : 0) });
             htm += Html.br`</table>`;
         }
     }
@@ -773,7 +775,7 @@ function showInfo() {
                 htm += Html.br`</tr>`;
             }
             htm += Html.br`</tbody>`;
-            htm += showTotalRewards(totalRewards, maxNumRewards, 3 + (showProgress ? 2 : 0), undefined, undefined, showProgress, totalAchieved, totalRequired);
+            htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 3 + (showProgress ? 2 : 0), showProgress, progress: totalAchieved, total: totalRequired });
             htm += Html.br`</table>`;
         }
     }
@@ -843,6 +845,7 @@ function showInfo() {
                 if (eventpassXp) rewards.push({ type: 'eventpass_xp', object_id: 1, amount: eventpassXp });
                 const loc = Object.assign({}, location);
                 loc.rewards = rewards;
+                loc.clearXp = clearXp;
                 return loc;
             });
             const { max, rewards: totalRewards } = getTotalRewards(...locs.map(l => l.rewards));
@@ -850,6 +853,7 @@ function showInfo() {
             htm += Html.br`<table class="event-subtable event-locations" data-key="${key}">`;
             htm += Html.br`<thead><tr><th>${title}</th>`;
             htm += Html.br`<th colspan="${showProgress ? 3 : 1}">${gui.getMessage('events_tiles')}</th>`;
+            if (showProgress && !isRepeatables) htm += Html.br`<th title="${Html(gui.getMessage('progress_energyinfo'))}">${gui.getMessage('progress_energy')}</th>`;
             if (isRepeatables) htm += Html.br`<th>${gui.getMessage('events_chance')}</th><th>${gui.getMessage('repeat_cooldown')}</th>`;
             htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th>`;
             if (showLoot) htm += Html.br`<th colspan="${MAX_REWARDS_PER_ROW}">${gui.getMessage('gui_loot')}</th>`;
@@ -858,6 +862,7 @@ function showInfo() {
             let isOdd = false;
             const totalLoot = {};
             let numLootLoaded = 0;
+            let totalEnergy = isRepeatables ? NaN : 0;
             for (const loc of locs) {
                 const lid = loc.def_id;
                 const tiles = +loc.progress;
@@ -921,6 +926,11 @@ function showInfo() {
                     if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(mined)}</td>`;
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
+                    if (showProgress) {
+                        const energy = tiles > 0 ? Math.round(loc.clearXp * (flagClearBonus10X ? 1 : 10) * (tiles - mined) / tiles) : 0;
+                        htm += Html.br`<td class="energy">${Locale.formatNumber(energy)}</td>`;
+                        totalEnergy += energy;
+                    }
                 }
                 htm += showRewards(loc.rewards, maxNumRewards, { rows, className: 'clear' });
                 htm += lootPlaceholder;
@@ -970,7 +980,7 @@ function showInfo() {
                 });
             }
             htm += Html.br`</tbody>`;
-            if (!isRepeatables) htm += showTotalRewards(totalRewards, maxNumRewards, 2 + (showProgress ? 2 : 0), 'clear', true);
+            if (!isRepeatables) htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 2 + (showProgress ? 2 : 0), className: 'clear', addLoot: true, totalEnergy });
             htm += Html.br`</table>`;
         };
         showLocations(item.loc_qst, 'story_maps');
