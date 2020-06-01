@@ -1122,6 +1122,9 @@
     "godchild_next1": {
         "message": "Para adicionar mais FDD, só terá de adicionar apenas um vizinho"
     },
+    "godchild_estimatedenergy": {
+        "message": "Energia estimada"
+    },
     "progress_measure": {
         "message": "Medida"
     },

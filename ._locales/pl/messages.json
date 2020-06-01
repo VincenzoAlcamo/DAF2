@@ -1122,6 +1122,9 @@
     "godchild_next1": {
         "message": "Aby  zdobyć dodatkowe BD musisz dodać jeszcze jednego sąsiada."
     },
+    "godchild_estimatedenergy": {
+        "message": "Szacowana energia"
+    },
     "progress_measure": {
         "message": "Aspekt gry"
     },

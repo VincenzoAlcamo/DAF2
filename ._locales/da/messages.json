@@ -1122,6 +1122,9 @@
     "godchild_next1": {
         "message": "For at få et ekstra Gudebarn, skal du kun tilføje en nabo mere"
     },
+    "godchild_estimatedenergy": {
+        "message": "Estimeret energi"
+    },
     "progress_measure": {
         "message": "Måling"
     },

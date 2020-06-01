@@ -1122,6 +1122,9 @@
     "godchild_next1": {
         "message": "Um einen zusätzlichen Götterkind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
     },
+    "godchild_estimatedenergy": {
+        "message": "Geschätzte Energie"
+    },
     "progress_measure": {
         "message": "Messung"
     },

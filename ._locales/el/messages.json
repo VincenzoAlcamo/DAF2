@@ -1122,6 +1122,9 @@
     "godchild_next1": {
         "message": "Για να πάρετε ένα επιπλέον Παιδί Θεών, πρέπει να κάνετε προσθήκη μόνο έναν ακόμα γείτονα."
     },
+    "godchild_estimatedenergy": {
+        "message": "Εκτιμώμενη ενέργεια"
+    },
     "progress_measure": {
         "message": "Μέτρο"
     },
