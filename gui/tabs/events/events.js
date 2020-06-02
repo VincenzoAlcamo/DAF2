@@ -144,6 +144,9 @@ function update() {
         divWarning.style.display = 'none';
     }
 
+    const specialWeeks = gui.getFile('special_weeks');
+    const eventsGifted = Object.values(specialWeeks).filter(sw => sw.type == 'free_premium_event').map(sw => +sw.info);
+
     const state = getState();
     const achievements = gui.getFile('achievements');
     const achievementsByEvent = byEvent(Object.values(achievements));
@@ -174,6 +177,7 @@ function update() {
         item.end = (edata && +edata.finished) || info.end;
         item.year = info.year;
         item.yeartxt = Locale.formatYear(info.year);
+        item.gifted = eventsGifted.includes(+item.id);
 
         const quests = getQuests(event);
         if (!quests.length) continue;
@@ -572,7 +576,7 @@ function showInfo() {
     const isSegmented = item.issegmented;
     let region = selectedRegion || 0;
     const showProgress = region == 0;
-    const flagClearBonus10X = item.start > 0 || item.gems > 0;
+    const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted;
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
