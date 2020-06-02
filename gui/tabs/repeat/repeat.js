@@ -1,4 +1,4 @@
-/*global gui SmartTable Html Locale Dialog*/
+/*global bgp gui SmartTable Html Locale Dialog*/
 export default {
     hasCSS: true,
     init: init,
@@ -262,7 +262,7 @@ function calculateItem(item, flagRefreshRow) {
     let changedState = false;
     for (const item of items) {
         const id = item.id;
-        const prog = loc_prog[id] || {};
+        const prog = bgp.Data.loc_prog[id] || loc_prog[id] || {};
         const level = +prog.lvl;
         const rotation = item.rotation.find(rotation => rotation.level == level);
         item.progress = +prog.prog || 0;

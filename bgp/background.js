@@ -507,6 +507,7 @@ var Data = {
         Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
         Data.repeatables = {};
         Data.pillars = {};
+        Data.loc_prog = {};
         tx.objectStore('Files').getAll().then(values => {
             for (const file of values) {
                 if (file.id == 'generator') Data.generator = file.data || {};
@@ -514,6 +515,7 @@ var Data = {
                 if (file.id == 'gcInfo') Data.removegcInfo();
                 if (file.id == 'repeatables') Data.repeatables = file.data || {};
                 if (file.id == 'expByMaterial') Data.pillars.expByMaterial = file.data;
+                if (file.id == 'loc_prog') Data.loc_prog = file.data;
             }
         });
         tx.objectStore('Neighbours').getAll().then(values => {
@@ -679,6 +681,7 @@ var Data = {
             delete neighbours[file.data.player_id];
             Data.neighbours = neighbours;
             Data.generator = file.data;
+            Data.loc_prog = {};
             const store = tx.objectStore('Neighbours');
             // We don't need to wait for the operation to be completed
             store.clear().then(() => store.bulkPut(Object.values(neighbours)));
@@ -818,6 +821,25 @@ var Data = {
         }
         return Data.pillars;
     },
+    //#region loc_prog
+    getLocProg: function (lid) {
+        let prog = Data.loc_prog[lid];
+        if (!prog) {
+            prog = { id: lid, prog: 0 };
+            prog = Object.assign(prog, Data.generator && Data.generator.loc_prog && Data.generator.loc_prog[lid]);
+            Data.loc_prog[lid] = prog;
+        }
+        return prog;
+    },
+    storeLocProgHandler: 0,
+    storeLocProg: function () {
+        if (Data.storeLocProgHandler) clearTimeout(Data.storeLocProgHandler);
+        Data.storeLocProgHandler = setTimeout(() => {
+            Data.storeLocProgHandler = 0;
+            Data.storeSimple('loc_prog', Data.loc_prog);
+        }, 5000);
+    },
+    //#endregion
     //#region Neighbors
     getNeighbour: function (id) {
         return Data.neighbours[id];
@@ -1335,15 +1357,7 @@ var Synchronize = {
     setLastLocation: function (lid) {
         if (lid <= 0) return null;
         this.last_lid = lid;
-        const loc_prog = Data.generator && Data.generator.loc_prog;
-        if (!loc_prog) return null;
-        let prog = loc_prog[lid];
-        if (!prog) {
-            prog = loc_prog[lid] = {};
-            prog.id = lid;
-            prog.prog = 0;
-        }
-        return prog;
+        return Data.getLocProg(lid);
     },
     handlers: {
         visit_camp: function (action, _task, taskResponse, _response) {
@@ -1426,12 +1440,16 @@ var Synchronize = {
                         prog.prog = 0;
                     }
                 }
+                Data.storeLocProg();
             }
         },
         speedup_reset: function (_action, task, _taskResponse, _response) {
             const loc_id = +task.loc_id || 0;
             const prog = Synchronize.setLastLocation(loc_id);
-            if (prog) prog.prog = 0;
+            if (prog) {
+                prog.prog = 0;
+                Data.storeLocProg();
+            }
         },
         mine: function (_action, _task, _taskResponse, _response) {
             Synchronize.lastTimeMined = Synchronize.time;
@@ -1440,6 +1458,7 @@ var Synchronize = {
             if (prog) {
                 prog.prog = (+prog.prog || 0) + 1;
                 prog.time = Synchronize.time;
+                Data.storeLocProg();
             }
         },
         friend_child_charge: function (action, task, _taskResponse, _response) {
