@@ -1165,7 +1165,10 @@
         "message": "Energy"
     },
     "progress_energyinfo": {
-        "message": "The energy shown here is estimated by multiplying the number of remaining tiles by the average tile cost.\nThe average tile cost is: completion bonus x 10 / total number of tiles"
+        "message": "The energy shown here is estimated by multiplying the number of remaining tiles by the average tile cost.\nThe average tile cost is based on the completion bonus and the total number of tiles."
+    },
+    "progress_averagetilecost": {
+        "message": "Average tile cost"
     },
     "progress_achievementnextstep": {
         "message": "To next step = $NEXT$",

@@ -133,7 +133,7 @@ function update() {
     refresh();
 }
 
-function getProgress(value, max, energy) {
+function getProgress(value, max, energy, bonus) {
     if (max == 0) {
         return Html.br`<td></td><td></td><td></td><td></td><td class="energy"></td><td></td>`;
     }
@@ -144,7 +144,9 @@ function getProgress(value, max, energy) {
     htm += Html.br`<td>${Locale.formatNumber(value)}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(max)}</td>`;
     htm += Html.br`<td>${Locale.formatNumber((max - value) || NaN)}</td>`;
-    htm += Html.br`<td class="energy">${energy ? Locale.formatNumber(energy) : ''}</td>`;
+    const tileCost = max > 0 && bonus > 0 ? Math.round(bonus / max) : 0;
+    const title = tileCost ? gui.getMessageAndValue('progress_averagetilecost', Locale.formatNumber(tileCost)) : '';
+    htm += Html.br`<td class="energy"${title ? Html.br` title="${title}"` : ''}>${energy ? Locale.formatNumber(energy) : ''}</td>`;
     htm += Html.br`<td><progress value="${value}" max="${max}"></progress></td>`;
     return htm;
 }
@@ -173,7 +175,7 @@ function refresh() {
         if (item.isLocked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
         htm += Html.br`<td>${img}</td>`;
         htm += Html.br`<td>${item.label.toUpperCase()}</td>`;
-        htm += getProgress(item.value, item.max, item.energy);
+        htm += getProgress(item.value, item.max, item.energy, item.bonus);
         htm += getTimes(item.isCompleted, item.bt, item.et);
         htm += Html.br`</tr>`;
     }
@@ -306,6 +308,7 @@ function showDetail(show) {
         sub.remaining = (max - value) || NaN;
         sub.progress = max > 0 ? (value / max * 100) : NaN;
         sub.energy = sub.energy || NaN;
+        sub.bonus = sub.bonus || 0;
         sub.start = sub.bt || NaN;
         sub.end = sub.et || NaN;
         sub.duration = sub.end - sub.start;
@@ -354,7 +357,7 @@ function showDetail(show) {
             const info = sub.info ? Html`<div>${sub.info}</div>` : '';
             let htm = '';
             if (!sub.name) sub.name = gui.getString(sub.name_loc);
-            htm += Html`<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max, sub.energy);
+            htm += Html`<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub.value, sub.max, sub.energy, sub.bonus);
             htm += getTimes(isCompleted, sub.bt, sub.et);
             sub.row = document.createElement('tr');
             if (sub.id) sub.row.setAttribute('data-id', sub.id);
@@ -369,13 +372,14 @@ function showDetail(show) {
     if (group.row && !state.groups) updateGroupSubTotal(group, true);
 
     function initGroupTotals(total) {
-        total.qty = total.value = total.max = total.bt = total.et = total.energy = 0;
+        total.qty = total.value = total.max = total.bt = total.et = total.energy = total.bonus = 0;
     }
 
     function addGroupTotal(total, sub) {
         total.qty++;
         total.value += sub.value;
         total.max += sub.max;
+        total.bonus += sub.bonus;
         if (sub.energy) total.energy = (total.energy || 0) + sub.energy;
         if (sub.bt && (sub.bt < total.bt || total.bt == 0)) total.bt = sub.bt;
         if (sub.et && sub.et > total.et) total.et = sub.et;
@@ -386,7 +390,7 @@ function showDetail(show) {
             const total = group.total;
             const isCompleted = total.value == total.max;
             let htm = '';
-            htm += Html`<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy);
+            htm += Html`<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total.value, total.max, total.energy, total.bonus);
             htm += getTimes(isCompleted, total.bt, total.et);
             Dialog.htmlToDOM(group.row, htm);
             group.row.classList.toggle('inspect', (!state.hidecompleted || !isCompleted) && state.groups);
@@ -404,7 +408,7 @@ function showDetail(show) {
         const isCompleted = total.value == total.max;
         let htm = '';
         const caption = gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal');
-        htm += Html`<td></td><td>${caption} (${gui.getMessageAndValue('events_locations', Locale.formatNumber(total.qty))})</td>` + getProgress(total.value, total.max, total.energy);
+        htm += Html`<td></td><td>${caption} (${gui.getMessageAndValue('events_locations', Locale.formatNumber(total.qty))})</td>` + getProgress(total.value, total.max, total.energy, total.bonus);
         htm += getTimes(isCompleted, total.bt, total.et);
         Dialog.htmlToDOM(row, htm);
         parent.insertBefore(row, nextRow);
@@ -469,7 +473,7 @@ function infoLevel(row) {
         const value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
         const max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
         let htm = '';
-        htm += Html`<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0);
+        htm += Html`<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress(value, max, 0, 0);
         htm += getTimes(false, 0, 0);
         Dialog.htmlToDOM(row, htm);
     }
@@ -580,7 +584,7 @@ function calcCollection(item) {
 }
 
 function calcRegion(item) {
-    item.max = item.value = item.crtd = item.cmpl = item.energy = 0;
+    item.max = item.value = item.crtd = item.cmpl = item.energy = item.bonus = 0;
     const locations = gui.getFile('locations_' + item.rid);
     const loc_prog = Object.assign({}, gui.getGenerator().loc_prog, bgp.Data.loc_prog);
     const excluded = {};
@@ -657,10 +661,12 @@ function calcRegion(item) {
                 }
             }
             uPrg = Math.min(mPrg, uPrg);
-            const energy = mPrg > 0 ? Math.round(+mine.reward_exp * 10 * (mPrg - uPrg) / mPrg) : 0;
+            const bonus = +mine.reward_exp * 10;
+            const energy = mPrg > 0 ? Math.round(bonus * (mPrg - uPrg) / mPrg) : 0;
             item.max += mPrg;
             item.value += uPrg;
             item.energy += energy;
+            item.bonus += bonus;
 
             let imgUrl;
             if (mine.def_id in mapTutorials) {
@@ -680,14 +686,15 @@ function calcRegion(item) {
                 // name: gui.getString(mine.name_loc) + ' (' + lid + ')',
                 value: uPrg,
                 max: mPrg,
+                bonus,
                 gname: filter.name,
                 seq: filter.order_id,
                 ma: filter.ma,
                 group_id: mine.group_id,
                 order_id: mine.order_id,
                 energy: energy,
-                bt: bt,
-                et: et
+                bt,
+                et
             });
         }
     }

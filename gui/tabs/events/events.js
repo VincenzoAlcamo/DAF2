@@ -572,7 +572,7 @@ function showInfo() {
     const isSegmented = item.issegmented;
     let region = selectedRegion || 0;
     const showProgress = region == 0;
-    const flagClearBonus10X = item.start > 0;
+    const flagClearBonus10X = item.start > 0 || item.gems > 0;
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
@@ -926,8 +926,10 @@ function showInfo() {
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
                     if (showProgress) {
-                        const energy = tiles > 0 ? Math.round(loc.clearXp * (flagClearBonus10X ? 1 : 10) * (tiles - mined) / tiles) : 0;
-                        htm += Html.br`<td class="energy">${Locale.formatNumber(energy)}</td>`;
+                        const tileCost = tiles > 0 ? loc.clearXp * (flagClearBonus10X ? 1 : 10) / tiles : 0;
+                        const energy = Math.floor(tileCost * (tiles - mined));
+                        const title = tileCost ? gui.getMessageAndValue('progress_averagetilecost', Locale.formatNumber(Math.round(tileCost))) : '';
+                        htm += Html.br`<td class="energy"${title ? Html.br` title="${title}"` : ''}>${Locale.formatNumber(energy)}</td>`;
                         totalEnergy += energy;
                     }
                 }
