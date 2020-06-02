@@ -816,7 +816,7 @@ function refresh() {
         if (from == 'tier' && item.sale != 'tier') return false;
         if (from == 'event' && isNaN(item.event)) return false;
         if (from == 'theme' && (item.event > 0 || item.region >= 1)) return false;
-        if (from == 'region' && (item.event > 0 || item.region < 1)) return false;
+        if (from == 'region' && (item.event > 0 || item.region < 1 || item.sale != 'sale')) return false;
         if (not_affordable == (item.locked == 0)) return false;
         if (not_useful == (item.gain > 0)) return false;
         if (hideMax && item.owned >= item.limit) return false;
