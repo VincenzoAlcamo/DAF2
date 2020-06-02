@@ -1852,6 +1852,15 @@
     "options_gamelanguage": {
         "message": "Game Language\nLanguage for game's messages"
     },
+    "options_section_badges": {
+        "message": "Badges"
+    },
+    "options_badgegccounter": {
+        "message": "GC Counter\nShow a badge with the remaining number of GC to collect"
+    },
+    "options_badgegcenergy": {
+        "message": "GC Energy\nShow a badge with the energy from a neighbor's GC"
+    },
     "calc_operators": {
         "message": "Operators"
     },

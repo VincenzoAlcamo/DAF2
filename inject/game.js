@@ -258,9 +258,14 @@ function setgcTableOptions() {
     if (gcTable) {
         gcTable.classList.toggle('DAF-gc-show-region', !!prefs.gcTableRegion);
     }
-    if (menu) {
-        menu.classList.toggle('DAF-gc-show-counter', !!prefs.gcTableCounter);
-    }
+}
+
+function setBadge({ selector, text, title, active }) {
+    const badge = menu.querySelector(selector);
+    if (!badge) return;
+    badge.textContent = text || '';
+    badge.title = title || '';
+    badge.classList.toggle('DAF-badge-on', !!active);
 }
 
 function updateGCStatus(data) {
@@ -269,16 +274,12 @@ function updateGCStatus(data) {
     el.textContent = data.count ? getMessage('godchild_stat', data.count, data.max) : el.textContent = getMessage('menu_gccollected');
     el.title = data.nexttxt || '';
     el.style.display = '';
-    const badge = menu.querySelector('.DAF-badge-gc');
-    badge.textContent = data.count;
-    if (data.nexttxt) badge.title = data.nexttxt;
-    badge.style.display = data.count ? '' : 'none';
+    setBadge({ selector: '.DAF-badge-gc-counter', text: data.count, title: data.nexttxt, active: data.count > 0 });
 }
 
 function createMenu() {
-    function gm(id) {
-        return htmlEncodeBr(getMessage(id));
-    }
+    const gm = (id) => htmlEncodeBr(getMessage(id));
+    const gm1 = (id) => htmlEncodeBr(getMessage(id).split('\n')[0]);
     textOn = getMessage('menu_on');
     textOff = getMessage('menu_off');
     let html = `
@@ -301,6 +302,12 @@ function createMenu() {
     <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
     </div>
 </li>
+<li data-action="badges"><b>&nbsp;</b>
+    <div><span>${gm('options_section_badges')}</span><br>
+    <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
+    <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
+    </div>
+</li>
 <!--
 <li data-action="autoClick"><b data-pref="autoClick">&nbsp;</b>
     <div><span>${gm('menu_autoclick')}</span><br>
@@ -319,8 +326,8 @@ function createMenu() {
 </li>
 </ul>
 <div class="DAF-badges">
-    <b class="DAF-badge-gc DAF-badge-img"></b>
-    <b class="DAF-badge-gc-energy DAF-badge-img" style="display:none" title="${gm('gui_energy')}"></b>
+    <b class="DAF-badge-gc-counter DAF-badge-img"></b>
+    <b class="DAF-badge-gc-energy DAF-badge-img"></b>
 </div>
 `;
     // remove spaces
@@ -348,11 +355,14 @@ function showMenu() {
 function updateMenu(prefName) {
     if (!menu) return;
     for (const el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
-        prefName = el.getAttribute('data-pref');
+        const prefName = el.getAttribute('data-pref');
         const isOn = !!prefs[prefName];
         el.classList.toggle('DAF-on', isOn);
         if (el.tagName == 'I' && (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick' || prefName == 'noGCPopup')) el.textContent = isOn ? textOn : textOff;
     }
+    const divBadges = menu.querySelector('.DAF-badges');
+    const names = prefName ? [prefName] : Object.keys(prefs);
+    names.filter(prefName => prefName.startsWith('badge')).forEach(prefName => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!prefs[prefName]));
 }
 
 function onMenuClick(e) {
@@ -372,6 +382,11 @@ function onMenuClick(e) {
         case 'noGCPopup': {
             const name = target.getAttribute('data-pref') || action;
             sendPreference(name, !prefs[name]);
+            break;
+        }
+        case 'badges': {
+            const name = target.getAttribute('data-pref');
+            if (name) sendPreference(name, !prefs[name]);
             break;
         }
         case 'reloadGame': {
@@ -457,6 +472,7 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
+    addPrefs('badgeGcCounter,badgeGcEnergy');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;
@@ -532,13 +548,7 @@ function init() {
         };
         msgHandlers['gc-energy'] = (request) => {
             const energy = (request.data && +request.data.energy) || 0;
-            const badge = menu.querySelector('.DAF-badge-gc-energy');
-            if (badge) {
-                const title = (request.data && request.data.title) || getMessage('gui_energy');
-                badge.textContent = energy;
-                badge.title = title;
-                badge.style.display = energy ? '' : 'none';
-            }
+            setBadge({ selector: '.DAF-badge-gc-energy', text: energy, title: (request.data && request.data.title) || getMessage('gui_energy'), active: energy > 0 });
         };
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();

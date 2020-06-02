@@ -78,6 +78,8 @@ var Preferences = {
             gcTable: false,
             gcTableCounter: true,
             gcTableRegion: true,
+            badgeGcCounter: true,
+            badgeGcEnergy: true,
             keepDebugging: false,
             removeGhosts: 0,
             confirmCollection: false,

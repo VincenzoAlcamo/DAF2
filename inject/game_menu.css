@@ -158,6 +158,10 @@
   background-position: 0px 0px;
 }
 
+.DAF-menu li[data-action="badges"] b {
+  background-image: url("/img/gui/badge.png");
+}
+
 .DAF-menu:not(.DAF-facebook) i[data-pref="fullWindowSide"] {
   display: none;
 }
@@ -192,7 +196,7 @@
   padding: 0px 5px 0 20px;
 }
 
-.DAF-badges .DAF-badge-gc {
+.DAF-badges .DAF-badge-gc-counter {
   background-image: url(/img/gui/godchild.png);
   background-color: #0FF;
 }
@@ -202,8 +206,8 @@
   background-color: #0F0;
 }
 
-.DAF-gc-show-counter .DAF-badge-gc-energy,
-.DAF-gc-show-counter .DAF-badge-gc {
+.DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
+.DAF-badges.DAF-badgegcenergy .DAF-badge-gc-energy.DAF-badge-on {
   display: inline-block;
 }
 

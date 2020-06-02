@@ -37,6 +37,18 @@ function init() {
 `;
     }
 
+    function continueSection(id) {
+        htm += Html.br`
+        </tbody>
+        <thead>
+            <tr>
+                <td colspan="2">${gui.getMessage('options_section_' + id)}</td>
+            </tr>
+        </thead>
+        <tbody class="row-coloring">
+`;
+    }
+
     function endSection() {
         htm += Html.br`</tbody></table></div>`;
     }
@@ -121,7 +133,10 @@ function init() {
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
     option('disableAltGuard', WARNING);
-    option('fixes', TEXT);
+    if (gui.getPreference('fixes')) option('fixes', TEXT);
+    continueSection('badges');
+    option('badgeGcCounter');
+    option('badgeGcEnergy');
     endSection();
     beginSection('ingame');
     option('fullWindow', WITHSUBOPTIONS);
