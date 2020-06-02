@@ -582,7 +582,7 @@ function calcCollection(item) {
 function calcRegion(item) {
     item.max = item.value = item.crtd = item.cmpl = item.energy = 0;
     const locations = gui.getFile('locations_' + item.rid);
-    const loc_prog = gui.getGenerator().loc_prog;
+    const loc_prog = Object.assign({}, gui.getGenerator().loc_prog, bgp.Data.loc_prog);
     const excluded = {};
     // There should be only one map for each tuple <filter, group_id, order_id>
     // otherwise this means that Pixel replaced an old map and we have to get the correct one

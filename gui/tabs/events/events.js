@@ -831,7 +831,6 @@ function showInfo() {
     // Locations
     if (selectedInfo == 'loc') {
         const locations = gui.getFile('locations_0');
-        const loc_prog = generator.loc_prog || {};
         const showLocations = (locs, key) => {
             if (!locs.length) return;
             const title = gui.getMessage('events_' + key);
@@ -866,7 +865,7 @@ function showInfo() {
             for (const loc of locs) {
                 const lid = loc.def_id;
                 const tiles = +loc.progress;
-                const prog = loc_prog[lid];
+                const prog = gui.getLocProg(lid);
                 const mined = (prog && +prog.prog) || 0;
                 const lastFloorLevel = (prog && +prog.lvl) || 0;
                 let completed = mined >= tiles;

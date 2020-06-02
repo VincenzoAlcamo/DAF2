@@ -174,6 +174,12 @@ const gui = {
         const img = `${gui.getGenerator().cdn_root}mobile/graphics/map/${location.mobile_asset}.png`;
         return Html.br`<div class="location_icon"><img src="${img}" title="${Html(gui.getString(location.name_loc))}"></div>`;
     },
+    getLocProg: function (lid) {
+        const prog = bgp.Data.loc_prog[lid];
+        if (prog) return prog;
+        const generator = gui.getGenerator();
+        return generator && generator.loc_prog && generator.loc_prog[lid];
+    },
     getCurrentTab: function () {
         return currentTab;
     },
