@@ -267,7 +267,7 @@ function updateGCStatus(data) {
     if (!menu) return;
     const el = menu.querySelector('[data-value=status]');
     el.textContent = data.count ? getMessage('godchild_stat', data.count, data.max) : el.textContent = getMessage('menu_gccollected');
-    el.title = data.nexttxt;
+    el.title = data.nexttxt || '';
     el.style.display = '';
     const badge = menu.querySelector('.DAF-badge-gc');
     badge.textContent = data.count;
@@ -531,10 +531,12 @@ function init() {
             if (miner) gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
         };
         msgHandlers['gc-energy'] = (request) => {
-            const energy = +request.data || 0;
+            const energy = (request.data && +request.data.energy) || 0;
             const badge = menu.querySelector('.DAF-badge-gc-energy');
             if (badge) {
+                const title = (request.data && request.data.title) || getMessage('gui_energy');
                 badge.textContent = energy;
+                badge.title = title;
                 badge.style.display = energy ? '' : 'none';
             }
         };

@@ -687,7 +687,7 @@ var Data = {
                 Tab.detectAll().then(() => Synchronize.signal('generator'));
             });
             // Pre-load childs
-            Synchronize.energy = 0;
+            Synchronize.energyId = 0;
             Data.getFile('childs');
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
@@ -1273,11 +1273,19 @@ var Synchronize = {
         chrome.runtime.sendMessage(message, hasRuntimeError);
         chrome.tabs.sendMessage(Tab.gameTabId, message, hasRuntimeError);
     },
-    energy: 0,
-    signalEnergy(energy) {
-        if (energy != Synchronize.energy) {
-            Synchronize.energy = energy;
-            Synchronize.signal('gc-energy', energy);
+    energyId: 0,
+    signalEnergy(energy, pal) {
+        const energyId = pal ? pal.id : 0;
+        if (energyId != Synchronize.energyId) {
+            Synchronize.energyId = energyId;
+            let title = '';
+            if (pal) {
+                title += pal.name ? pal.name + ' ' + pal.surname : pal.extra.fn || 'Player ' + pal.id;
+                title += `\n${getMessage('gui_level')}: ${Locale.formatNumber(pal.level)}`;
+                title += `\n${getMessage('gui_region')}: ${Data.getObjectName('region', pal.region)}`;
+                title += `\n${getMessage('gui_energy')}: ${Locale.formatNumber(energy)}`;
+            }
+            Synchronize.signal('gc-energy', { energy, title });
         }
     },
     process: function (postedXml, responseText) {
@@ -1358,7 +1366,7 @@ var Synchronize = {
                     });
                     if (total == 5) pal.extra.gc = energy;
                 }
-                Synchronize.signalEnergy(energy);
+                Synchronize.signalEnergy(energy, pal);
                 pal.extra.lastVisit = Synchronize.time;
                 let blocks = 144;
                 for (let n of String(camp.lines_blocked || '').split(',')) {
