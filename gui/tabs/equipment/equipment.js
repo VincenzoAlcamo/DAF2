@@ -21,7 +21,10 @@ function init() {
     container = tab.container;
 
     selectShow = container.querySelector('[name=show]');
-    selectShow.addEventListener('change', refresh);
+    selectShow.addEventListener('change', () => {
+        setState(getState());
+        refresh();
+    });
 
     selectFrom = container.querySelector('[name=from]');
     selectFrom.addEventListener('change', refresh);
@@ -486,6 +489,7 @@ function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
     state.from = gui.setSelectState(selectFrom, state.from);
     state.shop_from = gui.setSelectState(selectShopFrom, state.shop_from);
+    for (const option of selectType.querySelectorAll('option:not([value=""]):not([value="regen"]):not([value="capacity"])')) option.disabled = state.show == '';
     if (allEvents) {
         state.event = gui.setSelectState(selectEvent, state.event);
         state.region = gui.setSelectState(selectRegion, state.region);

@@ -291,7 +291,7 @@ const gui = {
     },
     setSelectState: function (select, value, defaultIndex) {
         select.value = value || '';
-        if (select.selectedIndex < 0) {
+        if (select.selectedIndex < 0 || select.options[select.selectedIndex].disabled) {
             select.selectedIndex = defaultIndex || 0;
         }
         return select.value;
