@@ -985,7 +985,7 @@ function showInfo() {
                 });
             }
             htm += Html.br`</tbody>`;
-            if (!isRepeatables) htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 2 + (showProgress ? 2 : 0), className: 'clear', addLoot: true, totalEnergy });
+            if (!isRepeatables) htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 2 + (showProgress ? 2 : 0), className: 'clear', addLoot: true, totalEnergy: showProgress ? totalEnergy : NaN });
             htm += Html.br`</table>`;
         };
         showLocations(item.loc_qst, 'story_maps');
