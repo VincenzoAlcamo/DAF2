@@ -764,7 +764,7 @@ var Data = {
             const locations = Data.files['locations_' + rid];
             if (!locations) return {};
             for (const loc of Object.values(locations)) {
-                if (+loc.reset_cd <= 0) continue;
+                if (+loc.reset_cd <= 0 || ![].concat(loc.rotation).length) continue;
                 if (+loc.test || !+loc.order_id) continue;
                 // Additional checks
                 if (+loc.req_quest_a == 1) continue;
@@ -774,18 +774,12 @@ var Data = {
                     if (!event) continue;
                     if ((',' + event.locations + ',' + event.extended_locations + ',').indexOf(',' + loc.def_id + ',') < 0) continue;
                 }
-                const item = {};
-                item.id = +loc.def_id;
-                item.cooldown = +loc.reset_cd;
-                item.rotation = [];
+                const item = { id: +loc.def_id, cooldown: +loc.reset_cd, rotation: {} };
+                repeatables[item.id] = item;
                 for (const rot of loc.rotation) {
-                    const copy = {};
-                    copy.level = +rot.level;
-                    copy.progress = +rot.progress;
-                    copy.chance = +rot.chance;
-                    item.rotation.push(copy);
+                    const copy = { level: +rot.level, progress: +rot.progress, chance: +rot.chance };
+                    item.rotation[copy.level] = copy;
                 }
-                if (item.rotation.length) repeatables[item.id] = item;
             }
         }
         // If something is changed, store the new value

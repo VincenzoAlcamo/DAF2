@@ -107,15 +107,8 @@ function update() {
             item.gr_clip = loc.gr_clip;
             item.mobile_asset = loc.mobile_asset;
             item.name_loc = loc.name_loc;
-            item.rotation = [];
-            for (const rot of loc.rotation) {
-                const copy = {};
-                copy.level = +rot.level;
-                copy.progress = +rot.progress;
-                copy.chance = +rot.chance;
-                item.rotation.push(copy);
-            }
-            if (item.rotation.length) repeatables[item.id] = item;
+            item.rotation = allRepeatables[lid].rotation;
+            repeatables[item.id] = item;
         }
     }
     const specialWeeks = gui.getActiveSpecialWeeks();
@@ -262,7 +255,7 @@ function calculateItem(item, flagRefreshRow) {
         const id = item.id;
         const prog = gui.getLocProg(id) || {};
         const level = +prog.lvl;
-        const rotation = item.rotation.find(rotation => rotation.level == level);
+        const rotation = item.rotation[level];
         item.progress = +prog.prog || 0;
         item.total = rotation ? rotation.progress : 0;
         // Progress has reached total and complete time is not set
