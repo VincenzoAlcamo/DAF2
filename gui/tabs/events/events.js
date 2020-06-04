@@ -26,7 +26,7 @@ const RINGS_BY_EVENT = {
 // Red Ring
 
 
-let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectLoot, selectType, checkTotals;
+let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectLoot, selectType, checkTotals, checkEnergy;
 let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop;
 let selectedRegion, selectedInfo, selectedEventId;
 
@@ -57,6 +57,9 @@ function init() {
 
     checkTotals = container.querySelector('[name=totals]');
     checkTotals.addEventListener('click', refreshRegion);
+
+    checkEnergy = container.querySelector('[name=energy]');
+    checkEnergy.addEventListener('click', refreshRegion);
 
     trRegion = container.querySelector('.trRegion');
 
@@ -306,6 +309,7 @@ function getState() {
         search: searchInput.value,
         loot: selectLoot.value,
         totals: checkTotals.checked,
+        energy: checkEnergy.checked,
         sort: gui.getSortState(smartTable)
     };
 }
@@ -324,6 +328,7 @@ function setState(state) {
     state.info = selectedInfo = info;
     state.loot = gui.setSelectState(selectLoot, state.loot);
     checkTotals.checked = !!state.totals;
+    checkEnergy.checked = !!state.energy;
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
 }
@@ -547,6 +552,7 @@ function showInfo() {
     const state = getState();
     const showLoot = state.loot;
     const showTotalLoot = !!state.totals;
+    const showEnergy = !!state.energy;
 
     if (row.getAttribute('lazy-render') !== null) {
         row.removeAttribute('lazy-render');
@@ -577,6 +583,10 @@ function showInfo() {
     let region = selectedRegion || 0;
     const showProgress = region == 0;
     const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted;
+
+    selectLoot.parentNode.style.visibility = selectedInfo == 'loc' ? '' : 'hidden';
+    checkTotals.parentNode.style.visibility = selectedInfo == 'loc' ? '' : 'hidden';
+    checkEnergy.parentNode.style.visibility = selectedInfo == 'loc' && showProgress ? '' : 'hidden';
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
@@ -685,7 +695,7 @@ function showInfo() {
         if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(progress)}</td>`;
         if (showTotal) htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(total)}</td>`;
         if (showProgress) htm += Html.br`<td>${progress >= total ? ticked : unticked}</td>`;
-        if (isFinite(totalEnergy)) htm += Html.br`<td class="energy">${Locale.formatNumber(totalEnergy)}</td>`;
+        if (isFinite(totalEnergy) && showEnergy) htm += Html.br`<td class="energy">${Locale.formatNumber(totalEnergy)}</td>`;
         htm += showRewards(totalRewards, maxNumRewards, { className });
         if (addLoot) { htm += lootPlaceholder; }
         htm += Html.br`</tr>`;
@@ -856,7 +866,7 @@ function showInfo() {
             htm += Html.br`<table class="event-subtable event-locations" data-key="${key}">`;
             htm += Html.br`<thead><tr><th>${title}</th>`;
             htm += Html.br`<th colspan="${showProgress ? 3 : 1}">${gui.getMessage('events_tiles')}</th>`;
-            if (showProgress && !isRepeatables) htm += Html.br`<th title="${Html(gui.getMessage('progress_energyinfo'))}">${gui.getMessage('gui_energy')}</th>`;
+            if (showProgress && !isRepeatables && showEnergy) htm += Html.br`<th title="${Html(gui.getMessage('progress_energyinfo'))}">${gui.getMessage('gui_energy')}</th>`;
             if (isRepeatables) htm += Html.br`<th>${gui.getMessage('events_chance')}</th><th>${gui.getMessage('repeat_cooldown')}</th>`;
             htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th>`;
             if (showLoot) htm += Html.br`<th colspan="${MAX_REWARDS_PER_ROW}">${gui.getMessage('gui_loot')}</th>`;
@@ -929,7 +939,7 @@ function showInfo() {
                     if (showProgress) htm += Html.br`<td class="reached add_slash">${Locale.formatNumber(mined)}</td>`;
                     htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
                     if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
-                    if (showProgress) {
+                    if (showProgress && showEnergy) {
                         const tileCost = tiles > 0 ? loc.clearXp * (flagClearBonus10X ? 1 : 10) / tiles : 0;
                         const energy = Math.floor(tileCost * (tiles - mined));
                         const title = tileCost ? gui.getMessageAndValue('progress_averagetilecost', Locale.formatNumber(Math.round(tileCost))) : '';
