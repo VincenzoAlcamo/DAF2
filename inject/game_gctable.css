@@ -109,27 +109,27 @@
 
 /* REGION COLOR */
 .DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg1 div:last-child {
-  background-color: #EBD4A5;
+  background-color: #F9F995;
 }
 
 .DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg2 div:last-child {
-  background-color: #A7D6E9;
+  background-color: #9595F9;
 }
 
 .DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg3 div:last-child {
-  background-color: #EAA6A6;
+  background-color: #F99595;
 }
 
 .DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg4 div:last-child {
-  background-color: #97F9F4;
+  background-color: #95F9F9;
 }
 
 .DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg5 div:last-child {
-  background-color: #A7E9AD;
+  background-color: #95F995;
 }
 
 .DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg6 div:last-child {
-  background-color: #FFFF91;
+  background-color: #F995F9;
 }
 
 /* Scrollbars on top */
