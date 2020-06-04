@@ -89,6 +89,9 @@
     "gui_energy": {
         "message": "Energia"
     },
+    "gui_estimatedenergy": {
+        "message": "Energía estimada"
+    },
     "gui_food": {
         "message": "Comida"
     },
@@ -1155,14 +1158,11 @@
     "progress_showdates": {
         "message": "Mostrar fechas de ubicación"
     },
-    "progress_showenergy": {
-        "message": "Mostrar energía estimada"
-    },
-    "progress_energy": {
-        "message": "Energia"
-    },
     "progress_energyinfo": {
-        "message": "La energía que se muestra aquí se calcula multiplicando el número de baldosas restantes por el costo promedio de las baldosas.\nEl costo promedio de las baldosas es: bono de finalización x 10 / número total de baldosas."
+        "message": "La energía que se muestra aquí se calcula multiplicando el número de baldosas restantes por el costo promedio de las baldosas.\nEl costo promedio de los baldosas se basa en el bono de finalización y el número total de mosaicos."
+    },
+    "progress_averagetilecost": {
+        "message": "Costo estimado de cada baldosa"
     },
     "progress_achievementnextstep": {
         "message": "Al siguiente paso = $NEXT$",
@@ -1848,6 +1848,15 @@
     },
     "options_gamelanguage": {
         "message": "Idioma del juego\nIdioma para los mensajes del juego"
+    },
+    "options_section_badges": {
+        "message": "Insignias"
+    },
+    "options_badgegccounter": {
+        "message": "Contador niños dioses .Muestra una insignia con el numero restante de niños dioses para recolectar"
+    },
+    "options_badgegcenergy": {
+        "message": "Energia niños dioses .Muestra una insignia con la energia de los niños dioses de los vecinos ."
     },
     "calc_operators": {
         "message": "Operadores"

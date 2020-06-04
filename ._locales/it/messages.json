@@ -89,6 +89,9 @@
     "gui_energy": {
         "message": "Energia"
     },
+    "gui_estimatedenergy": {
+        "message": "Energia stimata"
+    },
     "gui_food": {
         "message": "Cibo"
     },
@@ -1122,9 +1125,6 @@
     "godchild_next1": {
         "message": "Per ottenere un ulteriore Bimbo, ti basta aggiungere un altro vicino"
     },
-    "godchild_estimatedenergy": {
-        "message": "Energia stimata"
-    },
     "progress_measure": {
         "message": "Grandezza misurata"
     },
@@ -1156,16 +1156,13 @@
         "message": "Raggruppa le locazioni"
     },
     "progress_showdates": {
-        "message": "Mostra le date"
-    },
-    "progress_showenergy": {
-        "message": "Mostra l'energia stimata"
-    },
-    "progress_energy": {
-        "message": "Energia"
+        "message": "Date delle locazioni"
     },
     "progress_energyinfo": {
-        "message": "L'energia mostrata qui è stimata moltiplicando il numero di mattonelle rimanenti per il costo medio a mattonella.\nIl costo medio a mattonella è: bonus pulizia x 10 / numero totale delle mattonelle"
+        "message": "L'energia mostrata qui è stimata moltiplicando il numero di mattonelle rimanenti per il costo medio a mattonella.\nIl costo medio a mattonella è basato sul bonus pulizia e sul numero totale delle mattonelle."
+    },
+    "progress_averagetilecost": {
+        "message": "Costo medio a mattonella"
     },
     "progress_achievementnextstep": {
         "message": "Al prossimo passo = $NEXT$",
@@ -1851,6 +1848,15 @@
     },
     "options_gamelanguage": {
         "message": "Lingua del gioco\nLingua per i messaggi del gioco"
+    },
+    "options_section_badges": {
+        "message": "Segnalini"
+    },
+    "options_badgegccounter": {
+        "message": "Contatore Bimbi\nMostra un segnalino con il numero dei bimbi ancora da raccogliere"
+    },
+    "options_badgegcenergy": {
+        "message": "Energia Bimbi\nMostra un segnalino con l'energia ottenuta dai bimbi del vicino"
     },
     "calc_operators": {
         "message": "Operatori"

@@ -856,7 +856,7 @@ function showInfo() {
             htm += Html.br`<table class="event-subtable event-locations" data-key="${key}">`;
             htm += Html.br`<thead><tr><th>${title}</th>`;
             htm += Html.br`<th colspan="${showProgress ? 3 : 1}">${gui.getMessage('events_tiles')}</th>`;
-            if (showProgress && !isRepeatables) htm += Html.br`<th title="${Html(gui.getMessage('progress_energyinfo'))}">${gui.getMessage('progress_energy')}</th>`;
+            if (showProgress && !isRepeatables) htm += Html.br`<th title="${Html(gui.getMessage('progress_energyinfo'))}">${gui.getMessage('gui_energy')}</th>`;
             if (isRepeatables) htm += Html.br`<th>${gui.getMessage('events_chance')}</th><th>${gui.getMessage('repeat_cooldown')}</th>`;
             htm += Html.br`<th colspan="${maxNumRewards}">${gui.getMessage('events_clearbonus')}</th>`;
             if (showLoot) htm += Html.br`<th colspan="${MAX_REWARDS_PER_ROW}">${gui.getMessage('gui_loot')}</th>`;

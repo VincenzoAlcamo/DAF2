@@ -89,6 +89,9 @@
     "gui_energy": {
         "message": "Energia"
     },
+    "gui_estimatedenergy": {
+        "message": "Energia estimada"
+    },
     "gui_food": {
         "message": "Comida"
     },
@@ -1122,9 +1125,6 @@
     "godchild_next1": {
         "message": "Para adicionar mais FDD, só terá de adicionar apenas um vizinho"
     },
-    "godchild_estimatedenergy": {
-        "message": "Energia estimada"
-    },
     "progress_measure": {
         "message": "Medida"
     },
@@ -1158,14 +1158,11 @@
     "progress_showdates": {
         "message": "Mostrar datas da localização"
     },
-    "progress_showenergy": {
-        "message": "Mostrar energia estimada"
-    },
-    "progress_energy": {
-        "message": "Energia"
-    },
     "progress_energyinfo": {
-        "message": "A energia mostrada aqui é estimada multiplicando o número de blocos restantes pelo custo médio.\nO custo médio dos blocos é: bónos de conclusão x 10 / número total de blocos"
+        "message": "A energia mostrada aqui é estimada multiplicando o número de blocos restantes pelo custo médio.\nO custo médio dos blocos é baseado no bónus de conclusão e no número total de blocos."
+    },
+    "progress_averagetilecost": {
+        "message": "Custo médio do bloco"
     },
     "progress_achievementnextstep": {
         "message": "Para o próximo passo = $NEXT$",
@@ -1851,6 +1848,15 @@
     },
     "options_gamelanguage": {
         "message": "Idioma do jogo\nIdioma para mensagens do jogo"
+    },
+    "options_section_badges": {
+        "message": "Marcadores"
+    },
+    "options_badgegccounter": {
+        "message": "Contador de Afilhados\nMostre um marcador com o número restante de afilhados para coletar"
+    },
+    "options_badgegcenergy": {
+        "message": "Energiade afilhados\nMostrar um crachá com a energia dos afilhados de um vizinho"
     },
     "calc_operators": {
         "message": "Operadoras"

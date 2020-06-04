@@ -89,6 +89,9 @@
     "gui_energy": {
         "message": "Energy"
     },
+    "gui_estimatedenergy": {
+        "message": "Estimated energy"
+    },
     "gui_food": {
         "message": "Food"
     },
@@ -1122,9 +1125,6 @@
     "godchild_next1": {
         "message": "To get an additional GC, you have to add just one more neighbour"
     },
-    "godchild_estimatedenergy": {
-        "message": "Estimated energy"
-    },
     "progress_measure": {
         "message": "Measure"
     },
@@ -1156,13 +1156,7 @@
         "message": "Group locations"
     },
     "progress_showdates": {
-        "message": "Show location dates"
-    },
-    "progress_showenergy": {
-        "message": "Show estimated energy"
-    },
-    "progress_energy": {
-        "message": "Energy"
+        "message": "Location dates"
     },
     "progress_energyinfo": {
         "message": "The energy shown here is estimated by multiplying the number of remaining tiles by the average tile cost.\nThe average tile cost is based on the completion bonus and the total number of tiles."

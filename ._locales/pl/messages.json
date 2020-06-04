@@ -89,6 +89,9 @@
     "gui_energy": {
         "message": "Energia"
     },
+    "gui_estimatedenergy": {
+        "message": "Szacowana energia"
+    },
     "gui_food": {
         "message": "Jedzenie"
     },
@@ -1122,9 +1125,6 @@
     "godchild_next1": {
         "message": "Aby  zdobyć dodatkowe BD musisz dodać jeszcze jednego sąsiada."
     },
-    "godchild_estimatedenergy": {
-        "message": "Szacowana energia"
-    },
     "progress_measure": {
         "message": "Aspekt gry"
     },
@@ -1158,14 +1158,11 @@
     "progress_showdates": {
         "message": "Pokaż datę lokacji"
     },
-    "progress_showenergy": {
-        "message": "Pokaż szacowaną energię"
-    },
-    "progress_energy": {
-        "message": "Energia"
-    },
     "progress_energyinfo": {
-        "message": "Przedstawiona energia jest szacowana przez pomnożenie liczby pozostałych\nkostek przez średni koszt kostek.\nŚredni koszt kostek to: premia za ukończenie x10 / całkowita liczba płytek"
+        "message": "Przedstawiona energia jest szacowana przez pomnożenie liczby pozostałych kostek przez średni koszt kostek.\nŚredni koszt kostek jest oparty na premii za ukończenie czyszczenia i łącznej liczbie kostek."
+    },
+    "progress_averagetilecost": {
+        "message": "Średni koszt kostek"
     },
     "progress_achievementnextstep": {
         "message": "Do następnego kroku = $NEXT$",
@@ -1851,6 +1848,15 @@
     },
     "options_gamelanguage": {
         "message": "Język gry\nJęzyk komunikatów gry"
+    },
+    "options_section_badges": {
+        "message": "Odznaki"
+    },
+    "options_badgegccounter": {
+        "message": "Licznik BD\nPokazuje odznakę z pozostałą liczbą BD do zebrania"
+    },
+    "options_badgegcenergy": {
+        "message": "Energia BD\nPokazuje odznakę energii zbieraną z BD od sąsiadów"
     },
     "calc_operators": {
         "message": "Użytkownicy"

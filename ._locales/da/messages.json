@@ -89,6 +89,9 @@
     "gui_energy": {
         "message": "Energy"
     },
+    "gui_estimatedenergy": {
+        "message": "Estimeret energi"
+    },
     "gui_food": {
         "message": "Mad"
     },
@@ -1122,9 +1125,6 @@
     "godchild_next1": {
         "message": "For at få et ekstra Gudebarn, skal du kun tilføje en nabo mere"
     },
-    "godchild_estimatedenergy": {
-        "message": "Estimeret energi"
-    },
     "progress_measure": {
         "message": "Måling"
     },
@@ -1157,12 +1157,6 @@
     },
     "progress_showdates": {
         "message": "Vis lokations datoer"
-    },
-    "progress_showenergy": {
-        "message": "Vis estimeret energi"
-    },
-    "progress_energy": {
-        "message": "Energi"
     },
     "progress_energyinfo": {
         "message": "Den viste energi er estimeret ved at gange antal af rest felter med gennemsnit felt 'pris'.\nDet gennemsnitlige felt koster: færdiggørelses bonus x 10 / total antal af felter"

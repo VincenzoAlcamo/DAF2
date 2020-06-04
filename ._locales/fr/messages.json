@@ -1155,12 +1155,6 @@
     "progress_showdates": {
         "message": "Afficher les dates"
     },
-    "progress_showenergy": {
-        "message": "Afficher les énergies"
-    },
-    "progress_energy": {
-        "message": "Énergie"
-    },
     "progress_energyinfo": {
         "message": "L'énergie présentée ici est estimée en multipliant le nombre de tuiles restantes par le coût moyen par tuile.\nLe coût moyen par tuile est le suivant: bonus de nettoyage x 10 / nombre total de tuiles"
     },

@@ -36,7 +36,7 @@
         "message": "Automatisches Klicken auf das Popup von Facebook"
     },
     "menu_nogcpopup": {
-        "message": "Keine Popups beim Sammeln von GC"
+        "message": "Keine Popups beim Sammeln von GK"
     },
     "menu_reloadgame": {
         "message": "Lädt das Spiel neu und erzwingt eine neue Datenerfassung."
@@ -88,6 +88,9 @@
     },
     "gui_energy": {
         "message": "Energie"
+    },
+    "gui_estimatedenergy": {
+        "message": "Geschätzte Energie"
     },
     "gui_food": {
         "message": "Nahrung"
@@ -1122,9 +1125,6 @@
     "godchild_next1": {
         "message": "Um einen zusätzlichen Götterkind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
     },
-    "godchild_estimatedenergy": {
-        "message": "Geschätzte Energie"
-    },
     "progress_measure": {
         "message": "Messung"
     },
@@ -1158,14 +1158,11 @@
     "progress_showdates": {
         "message": "Standortdaten anzeigen"
     },
-    "progress_showenergy": {
-        "message": "Geschätzte Energie anzeigen"
-    },
-    "progress_energy": {
-        "message": "Energie"
-    },
     "progress_energyinfo": {
-        "message": "Die angegebene Energie wird geschätzt, indem die Anzahl der verbleibenden Steine mit den durchschnittlichen Steinkosten multipliziert wird.\nDie durchschnittlichen Steinkosten betragen: Fertigstellungsbonus x 10 / Gesamtzahl der Steine."
+        "message": "Die hier gezeigte Energie wird durch Multiplikation der Anzahl der verbleibenden Kacheln mit den durchschnittlichen Kachelkosten geschätzt.\nDie durchschnittlichen Kachelkosten basieren auf dem Fertigstellungsbonus und der Gesamtanzahl der Kacheln."
+    },
+    "progress_averagetilecost": {
+        "message": "Durchschnittliche Kachelkosten"
     },
     "progress_achievementnextstep": {
         "message": "Zum nächsten Schritt = $NEXT$",
@@ -1760,7 +1757,7 @@
         "message": "Autoklick\nPopups von Facebook automatisch bestätigen."
     },
     "options_nogcpopup": {
-        "message": "Keine GC-Popups\nKeine Popups beim Sammeln von GC"
+        "message": "Keine GK-Popups\nKeine Popups beim Sammeln von GK"
     },
     "options_section_general": {
         "message": "Allgemeine Einstellungen"
@@ -1851,6 +1848,15 @@
     },
     "options_gamelanguage": {
         "message": "Spielsprache\nSprache für die Nachrichten des Spiels"
+    },
+    "options_section_badges": {
+        "message": "Abzeichen"
+    },
+    "options_badgegccounter": {
+        "message": "GK-Zähler\nZeigt ein Abzeichen mit der verbleibenden Anzahl der einzusammelnden GK"
+    },
+    "options_badgegcenergy": {
+        "message": "GK Energie\nZeigt ein Abzeichen mit der Energie aus dem GK eines Nachbarn"
     },
     "calc_operators": {
         "message": "Operatoren"

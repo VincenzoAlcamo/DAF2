@@ -165,7 +165,7 @@ function getTitle({ name, max, bonus }) {
     const tileCost = max > 0 && bonus > 0 ? Math.round(bonus / max) : 0;
     const titles = [];
     if (name) titles.push(name);
-    if (bonus) titles.push(gui.getMessageAndValue('godchild_estimatedenergy', Locale.formatNumber(bonus)));
+    if (bonus) titles.push(gui.getMessageAndValue('gui_estimatedenergy', Locale.formatNumber(bonus)));
     if (tileCost) titles.push(gui.getMessageAndValue('progress_averagetilecost', Locale.formatNumber(tileCost)));
     return titles.join('\n');
 }
