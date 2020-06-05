@@ -87,13 +87,13 @@
                         <select name="region"></select>
                     </label>
                     <label>
-                        <span data-i18n-text="gui_loot"></span>
-                        <select name="loot">
-                            <option value="" data-i18n-text="dialog_no"></option>
-                            <option value="yes" data-i18n-text="dialog_yes"></option>
-                            <option value="gems" data-i18n-text="events_gemstones"></option>
-                            <option value="achiev" data-i18n-text="events_achievements"></option>
-                        </select>
+                        <label>
+                            <span data-i18n-text="gui_loot"></span>
+                            <input type="checkbox" name="loot_flag">
+                        </label>
+                        <input type="checkbox" class="lootflag" name="loot_achiev" data-i18n-title="gui_loot+events_achievements">
+                        <input type="checkbox" class="lootflag" name="loot_gems" data-i18n-title="gui_loot+events_gemstones">
+                        <input type="checkbox" class="lootflag" name="loot_xp" data-i18n-title="gui_loot+gui_xp">
                     </label>
                     <label>
                         <span data-i18n-text="pillars_totals"></span>

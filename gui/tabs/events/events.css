@@ -218,3 +218,34 @@
 .events .completed div.location_icon {
   border-color: #096;
 }
+
+.events .lootflag {
+  background-size: cover;
+  margin-right: -2px;
+  border: 0;
+}
+
+.events .lootflag:not(:checked) {
+  opacity: 0.7;
+  filter: grayscale(0.8);
+}
+
+.events .lootflag:not(:checked):hover {
+  opacity: 1;
+}
+
+.events .lootflag:checked:before {
+  content: "";
+}
+
+.events .lootflag[name="loot_gems"] {
+  background-image: url(/img/gui/rewardlinks.png);
+}
+
+.events .lootflag[name="loot_achiev"] {
+  background-image: url(/img/gui/achiev_ok.png);
+}
+
+.events .lootflag[name="loot_xp"] {
+  background-image: url(/img/gui/xp.png);
+}

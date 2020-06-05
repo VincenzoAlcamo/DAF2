@@ -26,9 +26,10 @@ const RINGS_BY_EVENT = {
 // Red Ring
 
 
-let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectLoot, selectType, checkTotals, checkEnergy;
+let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectType, checkTotals, checkEnergy;
 let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop;
 let selectedRegion, selectedInfo, selectedEventId;
+let lootChecks;
 
 function init() {
     tab = this;
@@ -52,14 +53,14 @@ function init() {
     selectRegion = container.querySelector('[name=region]');
     selectRegion.addEventListener('change', refreshRegion);
 
-    selectLoot = container.querySelector('[name=loot]');
-    selectLoot.addEventListener('change', refreshRegion);
-
     checkTotals = container.querySelector('[name=totals]');
     checkTotals.addEventListener('click', refreshRegion);
 
     checkEnergy = container.querySelector('[name=energy]');
     checkEnergy.addEventListener('click', refreshRegion);
+
+    lootChecks = Array.from(container.querySelectorAll('input[type=checkbox][name^=loot_]'));
+    lootChecks.forEach(el => el.addEventListener('click', refreshRegion));
 
     trRegion = container.querySelector('.trRegion');
 
@@ -297,7 +298,7 @@ function update() {
 }
 
 function getState() {
-    return {
+    return assignLootState({
         show: selectShow.value,
         type: selectType.value,
         year: allEvents ? selectYear.value : selectYear.getAttribute('data-value'),
@@ -307,11 +308,25 @@ function getState() {
         event: selectedEventId || null,
         info: selectedInfo,
         search: searchInput.value,
-        loot: selectLoot.value,
+        loot: '',
+        'no-loot': '',
         totals: checkTotals.checked,
         energy: checkEnergy.checked,
         sort: gui.getSortState(smartTable)
-    };
+    });
+}
+
+function assignLootState(state) {
+    const hasLoot = lootChecks.find(el => el.name == 'loot_flag').checked;
+    const lootValue = lootChecks.map(el => el.name != 'loot_flag' && el.checked ? el.name.substr(5) : '').filter(s => s).join(',');
+    if (hasLoot) {
+        delete state['no-loot'];
+        state.loot = lootValue || 'yes';
+    } else {
+        delete state.loot;
+        state['no-loot'] = lootValue;
+    }
+    return state;
 }
 
 function setState(state) {
@@ -326,9 +341,11 @@ function setState(state) {
     let info = (state.info || '').toLowerCase();
     if (!INFOS.includes(info)) info = '';
     state.info = selectedInfo = info;
-    state.loot = gui.setSelectState(selectLoot, state.loot);
     checkTotals.checked = !!state.totals;
     checkEnergy.checked = !!state.energy;
+    const lootFlags = (state.loot ? 'flag,' + state.loot : '' + state['no-loot']).toLowerCase().split(',');
+    lootChecks.forEach(chk => chk.checked = lootFlags.includes(chk.name.substring(5)));
+    assignLootState(state);
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'name');
 }
@@ -584,7 +601,7 @@ function showInfo() {
     const showProgress = region == 0;
     const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted;
 
-    selectLoot.parentNode.style.visibility = selectedInfo == 'loc' ? '' : 'hidden';
+    container.querySelector('[name=loot_flag]').parentNode.parentNode.style.visibility = selectedInfo == 'loc' ? '' : 'hidden';
     checkTotals.parentNode.style.visibility = selectedInfo == 'loc' ? '' : 'hidden';
     checkEnergy.parentNode.style.visibility = selectedInfo == 'loc' && showProgress ? '' : 'hidden';
 
@@ -629,7 +646,7 @@ function showInfo() {
     };
 
     const classesByType = {};
-    ['ACHIEV', 'RING', 'GEMSTONE', 'artifact', 'material', 'token', 'usable', 'decoration', 'COIN', 'system', 'eventpass_xp'].forEach((v, i) => classesByType[v] = i);
+    ['ACHIEV', 'RING', 'GEMSTONE', 'artifact', 'material', 'token', 'usable', 'decoration', 'COIN', 'system', 'XP', 'eventpass_xp'].forEach((v, i) => classesByType[v] = i);
     const RINGS = Object.values(RINGS_BY_EVENT);
     const showRewards = (rewards, maxNumRewards, options) => {
         const { rows = 1, className = '', raw = false, filter = false } = options || {};
@@ -648,11 +665,16 @@ function showInfo() {
             } else if (type == 'token') {
                 const ringIndex = RINGS.indexOf(id);
                 if (ringIndex >= 0) { reward._c = classesByType.RING; reward._i = ringIndex; }
+            } else if (type == 'system' && id == 1) {
+                reward._c = classesByType.XP;
             }
         }
-        if (filter) {
-            if (showLoot == 'gems') rewards = rewards.filter(r => r._c == classesByType.GEMSTONE);
-            if (showLoot == 'achiev') rewards = rewards.filter(r => r._c == classesByType.ACHIEV);
+        if (filter && showLoot != 'yes') {
+            const types = [];
+            if (showLoot.includes('gems')) types.push(classesByType.GEMSTONE);
+            if (showLoot.includes('achiev')) types.push(classesByType.ACHIEV);
+            if (showLoot.includes('xp')) types.push(classesByType.XP);
+            rewards = rewards.filter(r => types.includes(r._c));
         }
         rewards.sort((a, b) => (a._c - b._c) || (a._i - b._i));
         const cells = [];
