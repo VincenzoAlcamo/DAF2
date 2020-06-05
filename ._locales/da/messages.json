@@ -1156,10 +1156,13 @@
         "message": "Gruppe lokationer"
     },
     "progress_showdates": {
-        "message": "Vis lokations datoer"
+        "message": "Lokations datoer"
     },
     "progress_energyinfo": {
-        "message": "Den viste energi er estimeret ved at gange antal af rest felter med gennemsnit felt 'pris'.\nDet gennemsnitlige felt koster: færdiggørelses bonus x 10 / total antal af felter"
+        "message": "Den viste energi her er estimeret ved at gange antal af rest felter med gennemsnit felt 'pris'.\nDet gennemsnitlige felt pris er baseret på færdiggørelses bonus og det totale antal af felter"
+    },
+    "progress_averagetilecost": {
+        "message": "Gennemsnitlig felt pris"
     },
     "progress_achievementnextstep": {
         "message": "Til næste trin = $NEXT$",
@@ -1845,6 +1848,15 @@
     },
     "options_gamelanguage": {
         "message": "Spil sprog\nSprog til spillets beskeder"
+    },
+    "options_section_badges": {
+        "message": "Skilt"
+    },
+    "options_badgegccounter": {
+        "message": "GC Tæller\nVis et skilt med det tilbageværende antal af GC der kan samles"
+    },
+    "options_badgegcenergy": {
+        "message": "GC Energi\nVi et skilt med energien fra en nabos GC"
     },
     "calc_operators": {
         "message": "Aktører"

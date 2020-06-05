@@ -89,6 +89,9 @@
     "gui_energy": {
         "message": "Énergie"
     },
+    "gui_estimatedenergy": {
+        "message": "Énergie estimée"
+    },
     "gui_food": {
         "message": "Nourriture"
     },
@@ -1153,10 +1156,13 @@
         "message": "Cacher les mines"
     },
     "progress_showdates": {
-        "message": "Afficher les dates"
+        "message": "Date de localisation"
     },
     "progress_energyinfo": {
-        "message": "L'énergie présentée ici est estimée en multipliant le nombre de tuiles restantes par le coût moyen par tuile.\nLe coût moyen par tuile est le suivant: bonus de nettoyage x 10 / nombre total de tuiles"
+        "message": "L'énergie indiquée ici est estimée en multipliant le nombre de tuiles restantes par le coût moyen des tuiles.\nLe coût moyen des tuiles est basé sur le bonus d'achèvement et le nombre total de tuiles."
+    },
+    "progress_averagetilecost": {
+        "message": "Coût moyen des tuiles"
     },
     "progress_achievementnextstep": {
         "message": "À l'étape suivante = $NEXT$",
@@ -1842,6 +1848,15 @@
     },
     "options_gamelanguage": {
         "message": "Langue du jeu\nLangue pour les messages de jeu."
+    },
+    "options_section_badges": {
+        "message": "Badges"
+    },
+    "options_badgegccounter": {
+        "message": "Comptoir des filleuls\nMontrez un badge avec le nombre restant de filleuls à collecter"
+    },
+    "options_badgegcenergy": {
+        "message": "L'énergie des filleuls\nMontrez un badge avec l'énergie des filleuls d'un voisin"
     },
     "calc_operators": {
         "message": "Les opérateurs"

@@ -1156,7 +1156,7 @@
         "message": "Pogrupuj lokacje"
     },
     "progress_showdates": {
-        "message": "Pokaż datę lokacji"
+        "message": "Data lokacji"
     },
     "progress_energyinfo": {
         "message": "Przedstawiona energia jest szacowana przez pomnożenie liczby pozostałych kostek przez średni koszt kostek.\nŚredni koszt kostek jest oparty na premii za ukończenie czyszczenia i łącznej liczbie kostek."

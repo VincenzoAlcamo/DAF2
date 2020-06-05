@@ -1156,7 +1156,7 @@
         "message": "Ubicaciones de grupos"
     },
     "progress_showdates": {
-        "message": "Mostrar fechas de ubicación"
+        "message": "Fechas de ubicación"
     },
     "progress_energyinfo": {
         "message": "La energía que se muestra aquí se calcula multiplicando el número de baldosas restantes por el costo promedio de las baldosas.\nEl costo promedio de los baldosas se basa en el bono de finalización y el número total de mosaicos."

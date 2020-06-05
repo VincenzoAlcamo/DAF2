@@ -1156,7 +1156,7 @@
         "message": "Standorte gruppieren"
     },
     "progress_showdates": {
-        "message": "Standortdaten anzeigen"
+        "message": "Standortdaten"
     },
     "progress_energyinfo": {
         "message": "Die hier gezeigte Energie wird durch Multiplikation der Anzahl der verbleibenden Kacheln mit den durchschnittlichen Kachelkosten geschätzt.\nDie durchschnittlichen Kachelkosten basieren auf dem Fertigstellungsbonus und der Gesamtanzahl der Kacheln."

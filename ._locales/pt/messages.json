@@ -1156,7 +1156,7 @@
         "message": "Localizações do grupo"
     },
     "progress_showdates": {
-        "message": "Mostrar datas da localização"
+        "message": "Datas da localização"
     },
     "progress_energyinfo": {
         "message": "A energia mostrada aqui é estimada multiplicando o número de blocos restantes pelo custo médio.\nO custo médio dos blocos é baseado no bónus de conclusão e no número total de blocos."
