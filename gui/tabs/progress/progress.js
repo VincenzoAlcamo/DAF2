@@ -556,6 +556,7 @@ function calcAchievements(item) {
                     if (key in achievementImages) imgUrl = '/img/gui/' + achievementImages[key];
                 }
                 title += (title ? '\n' : '') + gui.getString(achievement.desc);
+                // imgUrl = `${gui.getGenerator().cdn_root}mobile/img/wallposts/achievements/achiev_${achiev.def_id}_${value}.png`;
                 item.rows.push({
                     img: Html`<img height="24" src="${imgUrl}" title="${title}">`,
                     sort: (+achievement.region_id || 1) * 10 + value,
