@@ -150,7 +150,7 @@ function onClickAdvanced() {
         }
         return htm;
     }
-    filterExp = Math.max(0, Math.min(3, +filterExp || 0));
+    filterExp = Math.max(0, Math.min(filterExpressions.length, +filterExp || 0));
     const expressions = [''].concat(filterExpressions);
     let htm = '';
     htm += Html.br`<table class="neighbors-advanced-table"><tr><td style="text-align:left">`;
