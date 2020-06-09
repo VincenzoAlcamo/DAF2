@@ -44,6 +44,7 @@ function init() {
     });
     smartTable.table.addEventListener('click', onClickTable, true);
 
+    selected = gui.getArrayOfInt(gui.getPreference('repeatables'));
     // container.addEventListener('tooltip', onTooltip);
 }
 
@@ -114,7 +115,7 @@ function update() {
     const specialWeeks = gui.getActiveSpecialWeeks();
     swPostcards = specialWeeks.postcards;
     showSpecialWeeks([specialWeeks.doubleDrop, specialWeeks.postcards]);
-    setState(getState());
+    storeSelected();
     refresh();
 }
 
@@ -136,7 +137,6 @@ function getState() {
         show: selectShow.value,
         ready: selectReady.value,
         search: searchInput.value,
-        selected: selected.join(','),
         sort: gui.getSortState(smartTable)
     };
 }
@@ -145,10 +145,9 @@ function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
     state.ready = gui.setSelectState(selectReady, state.ready);
     searchInput.value = state.search || '';
-    selected = gui.getArrayOfInt(state.selected);
-    if (repeatables) {
-        for (const item of Object.values(repeatables)) item.selected = false;
-        selected = selected.filter(id => (id in repeatables) ? repeatables[id].selected = true : false);
+    if (state.selected) {
+        selected = gui.getArrayOfInt(state.selected);
+        storeSelected();
     }
     gui.setSortState(state.sort, smartTable, 'name');
 }
@@ -250,6 +249,7 @@ function updateRow(row) {
 function calculateItem(item, flagRefreshRow) {
     const items = item ? [item] : Object.values(repeatables);
     const now = gui.getUnixTime();
+    const offset = gui.getSyncOffset();
     let changedState = false;
     for (const item of items) {
         const id = item.id;
@@ -258,18 +258,9 @@ function calculateItem(item, flagRefreshRow) {
         const rotation = item.rotation[level];
         item.progress = +prog.prog || 0;
         item.total = rotation ? rotation.progress : 0;
-        // Progress has reached total and complete time is not set
-        // We can mark as completed if we have the time of last tile mined
-        let cmpl = +prog.cmpl || 0;
-        if (item.progress >= item.total && prog.time && (!cmpl || cmpl < prog.time)) {
-            cmpl = item.cmpl = prog.time;
-        }
-        let end = 0;
-        if (cmpl > 0) {
-            end = cmpl + item.cooldown;
-            if (end <= now) end = 0;
-        }
-        item.time = end;
+        const cmpl = +prog.cmpl || 0;
+        const end = cmpl > 0 ? cmpl + item.cooldown - offset: 0;
+        item.time = end <= now ? 0 : end;
         item.ready = item.time <= now;
         const readyHasChanged = item.ready !== item._ready;
         if (readyHasChanged) {
@@ -301,7 +292,7 @@ function calculateItem(item, flagRefreshRow) {
             if (item.time !== item._time) {
                 item._time = item.time;
                 changedState = true;
-                const text = item.ready ? '' : '(' + Locale.formatTime(item.time) + ')';
+                const text = item.ready ? '' : '(' + Locale.formatTimeFull(item.time) + ')';
                 row.querySelector('td.time .absolute').innerText = text;
             }
         }
@@ -342,8 +333,19 @@ function onClickTable(event) {
         } else {
             toggleSelected(id, flag);
         }
-        return gui.updateTabState(tab);
+        storeSelected();
+        return;
     }
+}
+
+function storeSelected() {
+    if (repeatables) {
+        for (const item of Object.values(repeatables)) item.selected = selected.includes(item.id);
+        selected = selected.filter(id => id in repeatables);
+    }
+    selected.sort(gui.sortNumberAscending);
+    const value = selected.join(',');
+    if (value != gui.getPreference('repeatables')) gui.setPreference('repeatables', value);
 }
 
 function visibilityChange(visible) {

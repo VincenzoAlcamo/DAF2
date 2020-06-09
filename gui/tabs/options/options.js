@@ -40,6 +40,8 @@ function init() {
     function continueSection(id) {
         htm += Html.br`
         </tbody>
+    </table>
+    <table style="margin-top:4px">
         <thead>
             <tr>
                 <td colspan="2">${gui.getMessage('options_section_' + id)}</td>
@@ -82,7 +84,11 @@ function init() {
             }
             htm += Html.br`</select>`;
         } else if (type == TEXT) {
-            htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td>`;
+            if (options && typeof options == 'object' && (options.min || options.max)) {
+                htm += Html.br`<input data-pref="${prefName}" type="number" min="${options.min}" max="${options.max}"></td>`;
+            } else {
+                htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td>`;
+            }
         }
         if (warning) htm += Html.br`<div class="warning">${warning}</div>`;
         htm += Html.br`${extraHtml}</td>`;
@@ -137,6 +143,8 @@ function init() {
     continueSection('badges');
     option('badgeGcCounter');
     option('badgeGcEnergy');
+    option('badgeRepeatables', WITHSUBOPTIONS);
+    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: -60, max: 60 });
     endSection();
     beginSection('ingame');
     option('fullWindow', WITHSUBOPTIONS);
@@ -216,7 +224,13 @@ function init() {
     function onInput() {
         const input = this;
         const name = input.getAttribute('data-pref');
-        const value = input.type == 'checkbox' ? input.checked : input.value;
+        let value = input.type == 'checkbox' ? input.checked : input.value;
+        if (input.type == 'number') {
+            const min = parseInt(input.min, 10) || 0;
+            const max = parseInt(input.max, 10) || 0;
+            value = parseInt(value, 10) || 0;
+            value = String(Math.max(min, Math.min(max, value)));
+        }
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, 500);
         changes[name] = value;
@@ -245,7 +259,7 @@ function init() {
     for (const input of container.querySelectorAll('[data-pref]')) {
         if (input.tagName == 'SELECT') {
             input.addEventListener('input', onInput);
-        } else if (input.type == 'text') {
+        } else if (input.type == 'text' || input.type == 'number') {
             input.addEventListener('input', onInput);
         } else if (input.type == 'checkbox') {
             input.addEventListener('click', onInput);
@@ -287,7 +301,7 @@ function refresh() {
         const name = input.getAttribute('data-pref');
         const value = gui.getPreference(name);
         if (value !== undefined) {
-            if (input.tagName == 'SELECT' || input.type == 'text') input.value = value;
+            if (input.tagName == 'SELECT' || input.type == 'text' || input.type == 'number') input.value = value;
             if (input.type == 'checkbox') input.checked = value === true;
         }
     }

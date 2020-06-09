@@ -180,6 +180,9 @@ const gui = {
         const generator = gui.getGenerator();
         return generator && generator.loc_prog && generator.loc_prog[lid];
     },
+    getSyncOffset: function() {
+        return bgp.Synchronize.offset;
+    },
     getCurrentTab: function () {
         return currentTab;
     },

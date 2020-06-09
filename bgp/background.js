@@ -80,6 +80,8 @@ var Preferences = {
             gcTableRegion: true,
             badgeGcCounter: true,
             badgeGcEnergy: true,
+            badgeRepeatables: true,
+            badgeRepeatablesOffset: 0,
             keepDebugging: false,
             removeGhosts: 0,
             confirmCollection: false,
@@ -94,6 +96,7 @@ var Preferences = {
             rewardsSummary: true,
             rewardsCloseExceptGems: true,
             rewardsCloseExceptErrors: true,
+            repeatables: '',
             friendsCollectDate: 0
         };
     },
@@ -689,10 +692,14 @@ var Data = {
             store.clear().then(() => store.bulkPut(Object.values(neighbours)));
             tx.objectStore('Files').put(file).then(() => {
                 Data.checkLocalization('', file.data.game_language);
-                Tab.detectAll().then(() => Synchronize.signal('generator'));
+                Tab.detectAll().then(() => {
+                    Synchronize.signal('generator');
+                    Data.checkRepeatablesStatus();
+                });
             });
-            // Pre-load childs
+            // Reset some values and pre-load childs
             Synchronize.energyId = 0;
+            Synchronize.repeatables = '';
             Data.getFile('childs');
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
@@ -769,12 +776,14 @@ var Data = {
                 // Additional checks
                 if (+loc.req_quest_a == 1) continue;
                 const eid = +loc.event_id || 0;
+                const item = { id: +loc.def_id, cooldown: +loc.reset_cd, name: loc.name_loc, rid, image: loc.mobile_asset, rotation: {} };
                 if (eid) {
                     const event = events[eid];
                     if (!event) continue;
                     if ((',' + event.locations + ',' + event.extended_locations + ',').indexOf(',' + loc.def_id + ',') < 0) continue;
+                    item.eid = eid;
+                    item.ename = event.name_loc;
                 }
-                const item = { id: +loc.def_id, cooldown: +loc.reset_cd, rotation: {} };
                 repeatables[item.id] = item;
                 for (const rot of loc.rotation) {
                     const copy = { level: +rot.level, progress: +rot.progress, chance: +rot.chance };
@@ -786,6 +795,47 @@ var Data = {
         if (JSON.stringify(Data.repeatables) !== JSON.stringify(repeatables)) Data.storeSimple('repeatables', repeatables);
         Data.repeatables = repeatables;
         return repeatables;
+    },
+    nextCheckRepeatablesStatus: 0,
+    checkRepeatablesStatus: function () {
+        let now = getUnixTime();
+        console.log('CHECK', Locale.formatDateTimeFull(now), Synchronize.offset);
+        now += Synchronize.offset;
+        console.log('CHECK', Locale.formatDateTimeFull(now), Synchronize.offset);
+        const generator = Data.generator;
+        const offset = parseInt(Preferences.getValue('badgeRepeatablesOffset'), 10) || 0;
+        let time = +Infinity;
+        const list = [];
+        if (generator) String(Preferences.getValue('repeatables') || '').split(',').forEach(lid => {
+            const rep = Data.repeatables[lid];
+            if (!rep) return;
+            const prog = Data.loc_prog[lid] || generator.loc_prog && generator.loc_prog[lid];
+            if (!prog) return;
+            const end = (+prog.cmpl || 0) + rep.cooldown - offset;
+            console.log('MINE', lid, end);
+            if (end <= now) {
+                const rep = Data.repeatables[lid];
+                list.push({
+                    lid, rid: rep.rid, rname: rep.rid ? Data.getObjectName('region', rep.rid) : Data.getString(rep.ename),
+                    name: Data.getString(rep.name), image: `${generator.cdn_root}mobile/graphics/map/${rep.image}.png`
+                });
+                return;
+            }
+            if (end < time) time = end;
+        });
+        if (Data.nextCheckRepeatablesStatus) {
+            clearTimeout(Data.nextCheckRepeatablesStatus);
+            Data.nextCheckRepeatablesStatus = 0;
+        }
+        if (isFinite(time)) {
+            const interval = time - now;
+            console.log('READY=%s, SCHEDULE=%s', Locale.formatDateTimeFull(time), Locale.formatDateTimeFull(getUnixTime() + interval));
+            Data.nextCheckRepeatablesStatusNow = now;
+            Data.nextCheckRepeatablesStatusEnd = time;
+            Data.nextCheckRepeatablesStatusInterval = interval;
+            Data.nextCheckRepeatablesStatus = setTimeout(Data.checkRepeatablesStatus, interval * 1000);
+        }
+        Synchronize.signalRepeatables(list);
     },
     getPillarsInfo: function () {
         // Collect all pillars in the game and compute XP by material
@@ -1276,6 +1326,8 @@ var Data = {
 //#region SYNCHRONIZE
 // eslint-disable-next-line no-var
 var Synchronize = {
+    time: 0,
+    offset: 0,
     init: async function () {
         //
     },
@@ -1306,6 +1358,14 @@ var Synchronize = {
             Synchronize.signal('gc-energy', { energy, title });
         }
     },
+    repeatables: '',
+    signalRepeatables(list) {
+        const repeatables = list.map(o => o.lid).join(',');
+        if (repeatables != Synchronize.repeatables) {
+            Synchronize.repeatables = repeatables;
+            Synchronize.signal('repeatables', list);
+        }
+    },
     process: function (postedXml, responseText) {
         const posted = Parser.parse('any', postedXml);
         // eslint-disable-next-line no-unused-vars
@@ -1313,6 +1373,8 @@ var Synchronize = {
 
         const response = responseText && Parser.parse('any', responseText);
         Synchronize.time = Math.floor(response ? +response.time : +posted.client_time);
+        Synchronize.offset = Synchronize.time - getUnixTime();
+        console.log('OFFSET = %s', Synchronize.offset);
 
         Synchronize.delayedSignals = [];
 
@@ -1347,7 +1409,6 @@ var Synchronize = {
             }
         }
     },
-    time: 0,
     lastTimeMined: 0,
     last_lid: 0,
     setLastLocation: function (lid) {
@@ -1426,17 +1487,19 @@ var Synchronize = {
                     if (Array.isArray(fp)) floor = fp.find(t => +t.floor == prog.lvl);
                     else if (fp && +fp.floor == prog.lvl) floor = fp;
                     prog.prog = floor ? +floor.progress : 0;
+                    console.log('REPEATABLE #%s progress %s', loc_id, prog.prog);
                 } else {
                     // No repeatable info => alternative method
                     // The reset count will increase when entering a refreshed repeatable
                     const reset = +taskResponse.reset_count;
-                    if (reset > prog.reset) {
+                    if (reset > +prog.reset) {
                         prog.reset = reset;
                         prog.cmpl = 0;
                         prog.prog = 0;
                     }
                 }
                 Data.storeLocProg();
+                Data.checkRepeatablesStatus();
             }
         },
         speedup_reset: function (_action, task, _taskResponse, _response) {
@@ -1444,7 +1507,12 @@ var Synchronize = {
             const prog = Synchronize.setLastLocation(loc_id);
             if (prog) {
                 prog.prog = 0;
+                const rep = Data.repeatables && Data.repeatables[loc_id];
+                if (rep) {
+                    prog.cmpl = 0;
+                }
                 Data.storeLocProg();
+                Data.checkRepeatablesStatus();
             }
         },
         mine: function (_action, _task, _taskResponse, _response) {
@@ -1453,7 +1521,13 @@ var Synchronize = {
             const prog = Synchronize.setLastLocation(loc_id);
             if (prog) {
                 prog.prog = (+prog.prog || 0) + 1;
-                prog.time = Synchronize.time;
+                console.log('MINE #%s progress %s', loc_id, prog.prog);
+                const rep = Data.repeatables && Data.repeatables[loc_id];
+                const rotation = rep && rep.rotation[prog.lvl];
+                if (rotation && prog.prog >= rotation.progress) {
+                    prog.cmpl = Synchronize.time;
+                    Data.checkRepeatablesStatus();
+                }
                 Data.storeLocProg();
             }
         },
@@ -1564,6 +1638,8 @@ var Synchronize = {
             file.time = getUnixTime();
             file.data = Parser.parse(kind, response);
             if (file.data && file.data.neighbours) {
+                Synchronize.time = +file.data.time;
+                Synchronize.offset = Synchronize.time - file.time;
                 file.data.player_id = parameters.player_id;
                 file.data.game_site = Data.lastSite || 'Portal';
                 file.data.game_platform = 'WebGL';
@@ -1686,7 +1762,9 @@ async function init() {
 
     Object.entries({
         language: value => languageId = value,
-        locale: changeLocale
+        locale: changeLocale,
+        repeatables: Data.checkRepeatablesStatus,
+        badgeRepeatablesOffset: Data.checkRepeatablesStatus
     }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
 
     if (Data.generator && Data.generator.player_id) {

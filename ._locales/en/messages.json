@@ -1858,6 +1858,12 @@
     "options_badgegcenergy": {
         "message": "GC Energy\nShow a badge with the energy from a neighbor's GC"
     },
+    "options_badgerepeatables": {
+        "message": "Repeatables\nShow a badge when any selected repeatable is ready"
+    },
+    "options_badgerepeatablesOffset": {
+        "message": "Time offset\nThe repeatable badge will be shown in advance by this amount of seconds."
+    },
     "calc_operators": {
         "message": "Operators"
     },

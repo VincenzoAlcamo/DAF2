@@ -167,7 +167,7 @@
 }
 
 .DAF-badges {
-  display: inline-block;
+  display: flex;
   position: fixed;
   left: 22px;
   top: 34px;
@@ -206,9 +206,58 @@
   background-color: #0F0;
 }
 
+.DAF-badges .DAF-badge-rep {
+  background-color: #A00;
+  border-color: #A00;
+  height: 25px;
+  margin-top: -1px;
+}
+
+.DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
 .DAF-badges.DAF-badgegcenergy .DAF-badge-gc-energy.DAF-badge-on {
   display: inline-block;
+}
+
+.DAF-badge-rep div {
+  width: 23px;
+  height: 23px;
+  border-radius: 11px;
+  display: inline-block;
+  background-size: 27px;
+  vertical-align: top;
+  margin: -1px;
+  background-position: -2px -2px;
+  transition: all 0.5s;
+}
+
+.DAF-badge-rep div+div {
+  display: none;
+  margin-left: 4px;
+}
+
+.DAF-badge-rep:hover div+div {
+  display: inline-block;
+}
+
+.DAF-badge-rep:hover span {
+  display: none;
+}
+
+.DAF-badge-rep div:hover {
+  transform: scale(1.8);
+  width: 27px;
+  height: 27px;
+  background-position: 0 0;
+}
+
+.DAF-badge-rep span {
+  padding: 0 4px 0 2px;
+  display: inline-block;
+  border-radius: 11px;
+  height: 19px;
+  color: #FFF;
+  margin-left: 2px;
 }
 
 /*#endregion*/

@@ -261,11 +261,13 @@ function setgcTableOptions() {
 }
 
 function setBadge({ selector, text, title, active }) {
-    const badge = menu.querySelector(selector);
-    if (!badge) return;
-    badge.textContent = text || '';
-    badge.title = title || '';
-    badge.classList.toggle('DAF-badge-on', !!active);
+    const badge = menu && menu.querySelector(selector);
+    if (badge) {
+        badge.textContent = text || '';
+        badge.title = title || '';
+        badge.classList.toggle('DAF-badge-on', !!active);
+    }
+    return badge;
 }
 
 function updateGCStatus(data) {
@@ -306,6 +308,7 @@ function createMenu() {
     <div><span>${gm('options_section_badges')}</span><br>
     <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
     <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
+    <i data-pref="badgeRepeatables">${gm1('options_badgerepeatables')}</i>
     </div>
 </li>
 <!--
@@ -328,6 +331,7 @@ function createMenu() {
 <div class="DAF-badges">
     <b class="DAF-badge-gc-counter DAF-badge-img"></b>
     <b class="DAF-badge-gc-energy DAF-badge-img"></b>
+    <b class="DAF-badge-rep"></b>
 </div>
 `;
     // remove spaces
@@ -472,7 +476,7 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
-    addPrefs('badgeGcCounter,badgeGcEnergy');
+    addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;
@@ -546,9 +550,22 @@ function init() {
             updateGCStatus(request.data);
             if (miner) gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
         };
-        msgHandlers['gc-energy'] = (request) => {
+        if (!miner) msgHandlers['gc-energy'] = (request) => {
             const energy = (request.data && +request.data.energy) || 0;
             setBadge({ selector: '.DAF-badge-gc-energy', text: energy, title: (request.data && request.data.title) || getMessage('gui_energy'), active: energy > 0 });
+        };
+        if (!miner) msgHandlers['repeatables'] = (request) => {
+            const list = request.data;
+            const active = list && list.length;
+            const badge = setBadge({ selector: '.DAF-badge-rep', active });
+            if (active && badge) {
+                list.forEach(data => {
+                    const div = badge.appendChild(document.createElement('div'));
+                    div.title = `${data.name}\n${getMessage(data.rid ? 'gui_region' : 'gui_event')}: ${data.rname}`;
+                    div.style.backgroundImage = 'url(' + data.image + ')';
+                });
+                if (list.length > 1) badge.appendChild(document.createElement('span')).textContent = '+' + (list.length - 1);
+            }
         };
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();

@@ -1858,6 +1858,12 @@
     "options_badgegcenergy": {
         "message": "Energia Bimbi\nMostra un segnalino con l'energia ottenuta dai bimbi del vicino"
     },
+    "options_badgerepeatables": {
+        "message": "Ripetibili\nMostra un segnalino quando una qualsiasi ripetibile selezionata è pronta"
+    },
+    "options_badgerepeatablesOffset": {
+        "message": "Compensazione tempo\nIl segnalino ripetibili sarà mostrato in anticipo di questo numero di secondi."
+    },
     "calc_operators": {
         "message": "Operatori"
     },
