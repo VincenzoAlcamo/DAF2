@@ -40,6 +40,7 @@
 .godchild_table .DAF-gc-pal b.energy {
   padding-left: 16px;
   background-image: url(/img/gui/energy.png);
-  background-size: 16px;
   background-repeat: no-repeat;
+  background-size: 19px;
+  background-position: 0px -2px;
 }
