@@ -402,8 +402,8 @@ function calculateCamp(camp, current = true) {
     reg_min = reg_max = cap_min = cap_max = reg_tot = cap_tot = reg_cnt = cap_cnt = 0;
 
     const stat = {};
-    stat.cap = {};
-    stat.reg = {};
+    stat.cap = { min: [], max: [] };
+    stat.reg = { min: [], max: [] };
 
     let blds = current ? camp.buildings : camp.inactive_b;
     blds = blds ? (Array.isArray(blds) ? blds : [blds]) : [];
