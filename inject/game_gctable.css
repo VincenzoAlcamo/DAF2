@@ -22,6 +22,7 @@
   height: 69px;
   background-size: 50px 50px;
   box-sizing: content-box;
+  background-repeat: no-repeat;
 }
 
 .DAF-gc-count {
@@ -108,28 +109,32 @@
 }
 
 /* REGION COLOR */
-.DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg1 div:last-child {
-  background-color: #F9F995;
+.DAF-gc-reg1 {
+  --rg-col: #F9F995;
 }
 
-.DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg2 div:last-child {
-  background-color: #9595F9;
+.DAF-gc-reg2 {
+  --rg-col: #9595F9;
 }
 
-.DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg3 div:last-child {
-  background-color: #F99595;
+.DAF-gc-reg3 {
+  --rg-col: #F99595;
 }
 
-.DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg4 div:last-child {
-  background-color: #95F9F9;
+.DAF-gc-reg4 {
+  --rg-col: #95F9F9;
 }
 
-.DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg5 div:last-child {
-  background-color: #95F995;
+.DAF-gc-reg5 {
+  --rg-col: #95F995;
 }
 
-.DAF-gc-show-region .DAF-gc-pal.DAF-gc-reg6 div:last-child {
-  background-color: #F995F9;
+.DAF-gc-reg6 {
+  --rg-col: #F995F9;
+}
+
+.DAF-gc-show-region .DAF-gc-pal div:last-child {
+  background-color: var(--rg-col);
 }
 
 /* Scrollbars on top */
