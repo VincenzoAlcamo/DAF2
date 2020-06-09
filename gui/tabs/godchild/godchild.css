@@ -10,20 +10,31 @@
   margin-top: 4px;
   margin-left: 4px;
   height: 100px;
+  background-color: #FFF;
+  border-color: #0008;
 }
 
 .tab_godchild .DAF-gc-pal div:last-child {
   margin-top: 47px;
   position: unset;
   height: 36px;
+  background-color: transparent;
+}
+
+.DAF-gc-show-region .DAF-gc-pal {
+  background-color: var(--rg-col);
 }
 
 .godchild_table thead .outlined {
   color: var(--tt-outlined-fgcol);
 }
 
-.godchild_table .DAF-gc-pal.grayed:not(:hover) {
+.godchild_table:not(.complete):not(:hover) .DAF-gc-pal.collected {
   opacity: 0.3;
+}
+
+.godchild_table.complete thead tr {
+  background-color: var(--tb-brcol);
 }
 
 .godchild_table .DAF-gc-pal b.energy {

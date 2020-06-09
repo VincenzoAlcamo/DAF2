@@ -46,7 +46,7 @@ function update() {
         const isValid = pal.region;
         const div = gcTable.appendChild(document.createElement('div'));
         div.setAttribute('data-pal-id', pal.id);
-        div.className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' grayed');
+        div.className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' collected');
         div.style.backgroundImage = isValid ? 'url(' + (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) + ')' : 'url(/img/gui/anon.png)';
         const d = div.appendChild(document.createElement('div'));
         d.textContent = pal.level || 0;
@@ -54,7 +54,7 @@ function update() {
         const elName = document.createElement('div');
         elName.textContent = pal.name || 'Player ' + pal.id;
         elName.appendChild(document.createElement('br'));
-        elName.appendChild(document.createElement('b'));
+        elName.appendChild(document.createElement('b')).classList.add('energy');
         div.appendChild(elName);
         updateEnergy(pal.id);
     }
@@ -74,9 +74,7 @@ function updateEnergy(id) {
             energy += child ? +child.friend_stamina * qty : 0;
         }
     }
-    const elEnergy = div.querySelector('b');
-    elEnergy.classList.toggle('energy', energy > 0);
-    elEnergy.textContent = energy ? Locale.formatNumber(energy) : '';
+    div.querySelector('b').textContent = energy ? Locale.formatNumber(energy) : '?';
     const isValid = pal.region;
     let title = gui.getPlayerNameFull(pal);
     if (isValid) title += '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', pal.region));
@@ -88,7 +86,7 @@ function updateEnergy(id) {
 function updateStatus() {
     const divs = gcTable.querySelectorAll('.DAF-gc-pal');
     const tot = divs.length;
-    const num = gcTable.querySelectorAll('.DAF-gc-pal:not(.grayed)').length;
+    const num = gcTable.querySelectorAll('.DAF-gc-pal:not(.collected)').length;
     let totEnergy = 0;
     let isPrecise = num == 0;
     for (const div of divs) {
@@ -96,6 +94,7 @@ function updateStatus() {
         totEnergy += energy;
         if (!energy) isPrecise = false;
     }
+    container.querySelector('.godchild_table').classList.toggle('complete', num == 0);
     container.querySelector('.godchild_table').style.display = tot ? '' : 'none';
     container.querySelector('.toolbar').style.display = !tot ? '' : 'none';
     let htm = Html.br`${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
@@ -115,7 +114,7 @@ function actionFriendChildCharge(data) {
     const div = gcTable.querySelector('[data-pal-id="' + id + '"]');
     if (div) {
         // div.remove();
-        div.classList.add('grayed');
+        div.classList.add('collected');
         updateEnergy(id);
         updateStatus();
     }
