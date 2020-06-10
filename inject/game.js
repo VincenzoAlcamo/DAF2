@@ -262,12 +262,53 @@ function setgcTableOptions() {
 
 function setBadge({ selector, text, title, active }) {
     const badge = menu && menu.querySelector(selector);
-    if (badge) {
-        badge.textContent = text || '';
-        badge.title = title || '';
-        badge.classList.toggle('DAF-badge-on', !!active);
+    if (!badge) return;
+    badge.textContent = text || '';
+    badge.title = title || '';
+    badge.classList.toggle('DAF-badge-on', !!active);
+}
+
+let badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
+function setBadgeRep(list) {
+    list = Array.isArray(list) ? list : [];
+    const badge = menu && menu.querySelector('.DAF-badge-rep');
+    if (!badge) return;
+    if (!badgeRepCounter1) {
+        badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
+        badgeRepCounter1 = badge.appendChild(document.createElement('span'));
+        badgeRepCounter1.classList.add('no-hover');
+        badgeRepCounter2 = badge.appendChild(document.createElement('span'));
+        badgeRepCounter2.classList.add('on-hover');
     }
-    return badge;
+    badge.classList.toggle('DAF-badge-on', list.length > 0);
+    const setCounter = (el, num, addTitle) => {
+        const rest = list.slice(num);
+        const flag = rest.length > 0;
+        el.style.display = flag ? '' : 'none';
+        el.textContent = flag ? '+' + rest.length : '';
+        el.title = flag && addTitle ? rest.map(data => `${data.name} (${data.rname})`).join('\n') : '';
+    };
+    const numVisible = list.length > 3 ? 1 : list.length;
+    setCounter(badgeRepCounter1, numVisible);
+    setCounter(badgeRepCounter2, 8, true);
+    const newBadgeRepDivs = {};
+    list.forEach(item => {
+        let el = badgeRepDivs[item.lid];
+        if (!el) {
+            badge.classList.add('animate');
+            el = badge.insertBefore(document.createElement('div'), badge.firstChild);
+            el.title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
+            el.style.backgroundImage = 'url(' + item.image + ')';
+        }
+        delete badgeRepDivs[item.lid];
+        newBadgeRepDivs[item.lid] = el;
+    });
+    Object.values(badgeRepDivs).forEach(el => el.remove());
+    badgeRepDivs = newBadgeRepDivs;
+    badge.querySelectorAll('div').forEach((el, index) => {
+        el.style.display = index >= 10 ? 'none' : '';
+        el.classList.toggle('on-hover', index >= numVisible);
+    });
 }
 
 function updateGCStatus(data) {
@@ -555,38 +596,7 @@ function init() {
             const energy = (request.data && +request.data.energy) || 0;
             setBadge({ selector: '.DAF-badge-gc-energy', text: energy, title: (request.data && request.data.title) || getMessage('gui_energy'), active: energy > 0 });
         };
-        if (!miner) msgHandlers['repeatables'] = (request) => {
-            const list = request.data;
-            const active = list && list.length;
-            const badge = setBadge({ selector: '.DAF-badge-rep', active });
-            if (active && badge) {
-                badge.classList.add('animate');
-                if (!badge.initialized) {
-                    badge.initialized = true;
-                    badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
-                }
-                const MAX = 10;
-                const MIN = list.length > 2 ? 1 : 2;
-                const addCounter = (num) => {
-                    const rest = list.slice(num);
-                    if (!rest.length) return;
-                    const el = badge.appendChild(document.createElement('span'));
-                    el.className = num == MIN ? 'no-hover' : 'on-hover';
-                    if (num == MAX) el.title = rest.map(data => `${data.name} (${data.rname})`).join('\n');
-                    el.textContent = '+' + rest.length;
-                };
-                let count = 0;
-                list.forEach(data => {
-                    if (++count > MAX) return;
-                    const div = badge.appendChild(document.createElement('div'));
-                    if (count > MIN) div.className = 'on-hover';
-                    div.title = `${data.name}\n${getMessage(data.rid ? 'gui_region' : 'gui_event')}: ${data.rname}`;
-                    div.style.backgroundImage = 'url(' + data.image + ')';
-                });
-                addCounter(MIN);
-                addCounter(MAX);
-            }
-        };
+        if (!miner) msgHandlers['repeatables'] = (request) => setBadgeRep(request.data);
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();
         onFullWindow();
