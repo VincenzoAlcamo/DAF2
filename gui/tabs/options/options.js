@@ -144,7 +144,7 @@ function init() {
     option('badgeGcCounter');
     option('badgeGcEnergy');
     option('badgeRepeatables', WITHSUBOPTIONS);
-    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: 0, max: 99 });
+    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: 0, max: 9999 });
     endSection();
     beginSection('ingame');
     option('fullWindow', WITHSUBOPTIONS);
@@ -219,6 +219,7 @@ function init() {
         handler = null;
         for (const [name, value] of Object.entries(changes)) gui.setPreference(name, value);
         changes = {};
+        refresh();
     }
 
     function onInput() {
