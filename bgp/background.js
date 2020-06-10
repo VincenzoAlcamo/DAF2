@@ -817,7 +817,7 @@ var Data = {
                 const rep = Data.repeatables[lid];
                 list.push({
                     lid, rid: rep.rid, rname: rep.rid ? Data.getObjectName('region', rep.rid) : Data.getString(rep.ename),
-                    name: Data.getString(rep.name), image: `${generator.cdn_root}mobile/graphics/map/${rep.image}.png`
+                    name: Data.getString(rep.name).replace(/\n/g, ' '), image: `${generator.cdn_root}mobile/graphics/map/${rep.image}.png`
                 });
                 return;
             }
