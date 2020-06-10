@@ -799,9 +799,7 @@ var Data = {
     nextCheckRepeatablesStatus: 0,
     checkRepeatablesStatus: function () {
         let now = getUnixTime();
-        console.log('CHECK', Locale.formatDateTimeFull(now), Synchronize.offset);
         now += Synchronize.offset;
-        console.log('CHECK', Locale.formatDateTimeFull(now), Synchronize.offset);
         const generator = Data.generator;
         const offset = parseInt(Preferences.getValue('badgeRepeatablesOffset'), 10) || 0;
         let time = +Infinity;
@@ -812,7 +810,6 @@ var Data = {
             const prog = Data.loc_prog[lid] || generator.loc_prog && generator.loc_prog[lid];
             if (!prog) return;
             const end = (+prog.cmpl || 0) + rep.cooldown - offset;
-            console.log('MINE', lid, end);
             if (end <= now) {
                 const rep = Data.repeatables[lid];
                 list.push({
@@ -829,10 +826,6 @@ var Data = {
         }
         if (isFinite(time)) {
             const interval = time - now;
-            console.log('READY=%s, SCHEDULE=%s', Locale.formatDateTimeFull(time), Locale.formatDateTimeFull(getUnixTime() + interval));
-            Data.nextCheckRepeatablesStatusNow = now;
-            Data.nextCheckRepeatablesStatusEnd = time;
-            Data.nextCheckRepeatablesStatusInterval = interval;
             Data.nextCheckRepeatablesStatus = setTimeout(Data.checkRepeatablesStatus, interval * 1000);
         }
         Synchronize.signalRepeatables(list);
@@ -1374,7 +1367,6 @@ var Synchronize = {
         const response = responseText && Parser.parse('any', responseText);
         Synchronize.time = Math.floor(response ? +response.time : +posted.client_time);
         Synchronize.offset = Synchronize.time - getUnixTime();
-        console.log('OFFSET = %s', Synchronize.offset);
 
         Synchronize.delayedSignals = [];
 
@@ -1487,7 +1479,6 @@ var Synchronize = {
                     if (Array.isArray(fp)) floor = fp.find(t => +t.floor == prog.lvl);
                     else if (fp && +fp.floor == prog.lvl) floor = fp;
                     prog.prog = floor ? +floor.progress : 0;
-                    console.log('REPEATABLE #%s progress %s', loc_id, prog.prog);
                 } else {
                     // No repeatable info => alternative method
                     // The reset count will increase when entering a refreshed repeatable
@@ -1521,7 +1512,6 @@ var Synchronize = {
             const prog = Synchronize.setLastLocation(loc_id);
             if (prog) {
                 prog.prog = (+prog.prog || 0) + 1;
-                console.log('MINE #%s progress %s', loc_id, prog.prog);
                 const rep = Data.repeatables && Data.repeatables[loc_id];
                 const rotation = rep && rep.rotation[prog.lvl];
                 if (rotation && prog.prog >= rotation.progress) {
