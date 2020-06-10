@@ -308,6 +308,7 @@ function createMenu() {
     <div><span>${gm('options_section_badges')}</span><br>
     <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
     <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
+    <br>
     <i data-pref="badgeRepeatables">${gm1('options_badgerepeatables')}</i>
     </div>
 </li>
@@ -559,12 +560,26 @@ function init() {
             const active = list && list.length;
             const badge = setBadge({ selector: '.DAF-badge-rep', active });
             if (active && badge) {
+                const MAX = 10;
+                const MIN = list.length > 2 ? 1 : 2;
+                const addCounter = (num) => {
+                    const rest = list.slice(num);
+                    if (!rest.length) return;
+                    const el = badge.appendChild(document.createElement('span'));
+                    el.className = num == MIN ? 'no-hover' : 'on-hover';
+                    if (num == MAX) el.title = rest.map(data => `${data.name} (${data.rname})`).join('\n');
+                    el.textContent = '+' + rest.length;
+                };
+                let count = 0;
                 list.forEach(data => {
+                    if (++count > MAX) return;
                     const div = badge.appendChild(document.createElement('div'));
+                    if (count > MIN) div.className = 'on-hover';
                     div.title = `${data.name}\n${getMessage(data.rid ? 'gui_region' : 'gui_event')}: ${data.rname}`;
                     div.style.backgroundImage = 'url(' + data.image + ')';
                 });
-                if (list.length > 1) badge.appendChild(document.createElement('span')).textContent = '+' + (list.length - 1);
+                addCounter(MIN);
+                addCounter(MAX);
             }
         };
         window.addEventListener('resize', onResize);

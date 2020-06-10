@@ -232,15 +232,11 @@
 }
 
 .DAF-badge-rep div+div {
-  display: none;
   margin-left: 4px;
 }
 
-.DAF-badge-rep:hover div+div {
-  display: inline-block;
-}
-
-.DAF-badge-rep:hover span {
+.DAF-badge-rep:not(:hover) .on-hover,
+.DAF-badge-rep:hover .no-hover {
   display: none;
 }
 
@@ -249,6 +245,7 @@
   width: 27px;
   height: 27px;
   background-position: 0 0;
+  margin-right: -5px;
 }
 
 .DAF-badge-rep span {
