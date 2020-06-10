@@ -1853,10 +1853,16 @@
         "message": "Insignias"
     },
     "options_badgegccounter": {
-        "message": "Contador niños dioses .Muestra una insignia con el numero restante de niños dioses para recolectar"
+        "message": "Contador niños dioses.\nMuestra una insignia con el numero restante de niños dioses para recolectar"
     },
     "options_badgegcenergy": {
-        "message": "Energia niños dioses .Muestra una insignia con la energia de los niños dioses de los vecinos ."
+        "message": "Energia niños dioses.\nMuestra una insignia con la energia de los niños dioses de los vecinos ."
+    },
+    "options_badgerepeatables": {
+        "message": "Repeatables\nMostrar una insignia cuando cualquiera repetible seleccionada está lista"
+    },
+    "options_badgerepeatablesOffset": {
+        "message": "Desplazamiento de tiempo\nLa insignia repetible será mostrado previamente por esta cantidad de segundos."
     },
     "calc_operators": {
         "message": "Operadores"

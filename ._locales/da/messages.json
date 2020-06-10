@@ -1858,6 +1858,12 @@
     "options_badgegcenergy": {
         "message": "GC Energi\nVi et skilt med energien fra en nabos GC"
     },
+    "options_badgerepeatables": {
+        "message": "Gentagelige\nVis et skilt når en valgt gentagelig er klar"
+    },
+    "options_badgerepeatablesOffset": {
+        "message": "Tidsforskydning\nDet gentagelige skilt vil blive vist forlods med dette antalt sekunder"
+    },
     "calc_operators": {
         "message": "Aktører"
     },

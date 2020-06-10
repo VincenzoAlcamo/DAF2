@@ -1858,6 +1858,12 @@
     "options_badgegcenergy": {
         "message": "L'énergie des filleuls\nMontrez un badge avec l'énergie des filleuls d'un voisin"
     },
+    "options_badgerepeatables": {
+        "message": "Répétables\nAfficher un badge lorsque tout répétable sélectionné est prêt."
+    },
+    "options_badgerepeatablesOffset": {
+        "message": "Décalage horaire\nLe badge répétable sera affiché à l'avance par ce nombre de secondes."
+    },
     "calc_operators": {
         "message": "Les opérateurs"
     },
