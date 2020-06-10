@@ -144,7 +144,7 @@ function init() {
     option('badgeGcCounter');
     option('badgeGcEnergy');
     option('badgeRepeatables', WITHSUBOPTIONS);
-    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: -60, max: 60 });
+    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: 0, max: 99 });
     endSection();
     beginSection('ingame');
     option('fullWindow', WITHSUBOPTIONS);
