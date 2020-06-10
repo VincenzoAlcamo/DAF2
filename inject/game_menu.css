@@ -213,6 +213,10 @@
   margin-top: -1px;
 }
 
+.DAF-badges .DAF-badge-rep.animate {
+  animation: DAF_flash infinite 2s alternate;
+}
+
 .DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
 .DAF-badges.DAF-badgegcenergy .DAF-badge-gc-energy.DAF-badge-on {
@@ -255,6 +259,17 @@
   height: 19px;
   color: #FFF;
   margin-left: 2px;
+}
+
+@keyframes DAF_flash {
+  from {
+    filter: contrast(1);
+  }
+
+  to {
+    filter: contrast(3);
+    transform: scale(1.3);
+  }
 }
 
 /*#endregion*/

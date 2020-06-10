@@ -560,6 +560,11 @@ function init() {
             const active = list && list.length;
             const badge = setBadge({ selector: '.DAF-badge-rep', active });
             if (active && badge) {
+                badge.classList.add('animate');
+                if (!badge.initialized) {
+                    badge.initialized = true;
+                    badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
+                }
                 const MAX = 10;
                 const MIN = list.length > 2 ? 1 : 2;
                 const addCounter = (num) => {
