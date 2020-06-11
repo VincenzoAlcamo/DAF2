@@ -101,7 +101,7 @@ function update() {
                 if (eid in eventsRegion) rid = +eventsRegion[eid];
                 if (rid > region) rid = region;
                 for (const ovr of loc.overrides) {
-                    if (+ovr.region_id == region) item.xp = +ovr.override_reward_exp;
+                    if (+ovr.region_id == rid) item.xp = +ovr.override_reward_exp;
                 }
             }
             item.gr_library = loc.gr_library;
