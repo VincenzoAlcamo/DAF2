@@ -145,6 +145,109 @@ function init() {
     option('badgeGcEnergy');
     option('badgeRepeatables', WITHSUBOPTIONS);
     option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: 0, max: 9999 });
+    const sounds = `
+ui_button
+ui_tab
+ui_button_2
+ui_pop
+mirror_rotate
+snd_beacon
+ui_celebrate
+ui_construction
+ui_usable_eat
+ui_buy
+tele_in
+tele_out
+ui_map
+tile_basic
+walk_solid
+museum_enter
+museum_done
+kitchen_enter
+caravan_enter
+workshop_enter
+ui_claim
+ui_level
+caravan_done
+kitchen_done
+workshop_done
+ui_buy_gems
+enter_location
+whoosh
+puzzle_done
+Idle_idle_normal_01
+Idle_idle_normal_02
+Idle_idle_normal_03
+Idle_idle_normal_01
+idle_tired_01
+idle_tired_02
+idle_tired_01
+diggy_drill_01
+diggy_ladder_01
+diggy_pick_axe_01
+diggy_pick_axe_02
+diggy_pick_axe_03
+diggy_showel_01
+diggy_showel_02
+diggy_showel_03
+diggy_use_01
+diggy_use_02
+UI_buy_01
+UI_buy_02
+UI_claim_item_01
+UI_claim_item_02
+UI_confirm
+UI_consume_potion_01
+UI_consume_potion_02
+UI_foundry_sound_01
+UI_foundry_sound_02
+UI_hover_01
+UI_hover_02
+UI_journal_01
+UI_journal_02
+UI_journal_03
+UI_kitchen_sound_01
+UI_kitchen_sound_02
+UI_negative_feedback_01
+UI_next_page_01
+UI_next_page_02
+UI_next_tab_01
+UI_next_tab_02
+UI_out_of_energy_popup
+UI_place_building_energy_cave_01
+UI_place_building_energy_cave_02
+UI_place_decoration_01
+UI_place_decoration_02
+UI_put_item_in_inventory_01
+UI_put_item_in_inventory_02
+UI_quest_finished
+UI_quest_start_01
+UI_quest_start_02
+UI_sell_item_01
+UI_sell_item_02
+UI_speed_up_production_01
+UI_speed_up_production_02
+UI_swipe_shop_inventory_01
+UI_swipe_shop_inventory_02
+UI_unlock_equipment_slot_01
+UI_unlock_equipment_slot_02
+UI_unlock_equipment_slot_03
+UI_use_eat_item_01
+UI_use_eat_item_02
+UI_gods_hover
+UI_map_manager_level_enter
+UI_claim_coin_multiple_fast_01
+UI_claim_coin_multiple_fast_02
+UI_claim_coin_multiple_fast_03
+UI_claim_coin_multiple_slow_01
+UI_claim_coin_multiple_slow_02
+UI_claim_coin_multiple_slow_03
+UI_claim_coin_single_fast_01
+UI_claim_coin_single_fast_02
+UI_claim_coin_single_slow_01
+UI_claim_coin_single_slow_02`;
+    option('badgeRepeatablesSound', SUBOPTION, sounds.split('\n').sort(gui.sortTextAscending).map(n => [n, n.toLowerCase()]));
+    option('badgeRepeatablesVolume', TEXT + SUBOPTION, { min: 0, max: 100 });
     endSection();
     beginSection('ingame');
     option('fullWindow', WITHSUBOPTIONS);
@@ -222,6 +325,11 @@ function init() {
         refresh();
     }
 
+    function getPrefInChanges(name) {
+        return name in changes ? changes[name] : gui.getPreference(name);
+    }
+
+    let audio, delayedAudio;
     function onInput() {
         const input = this;
         const name = input.getAttribute('data-pref');
@@ -235,6 +343,19 @@ function init() {
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, 500);
         changes[name] = value;
+        if (name == 'badgeRepeatablesSound' || name == 'badgeRepeatablesVolume') {
+            if (audio) audio.pause();
+            if (delayedAudio) clearTimeout(delayedAudio);
+            delayedAudio = audio = null;
+            const name = getPrefInChanges('badgeRepeatablesSound');
+            const volume = parseInt(getPrefInChanges('badgeRepeatablesVolume'));
+            const sound = bgp.Data.getSound(name);
+            if (sound && volume) delayedAudio = setTimeout(function () {
+                audio = new Audio(sound);
+                audio.volume = volume / 100;
+                audio.play();
+            }, 100);
+        }
         if (name == 'locale') {
             const currentLanguage = gui.getPreference('language');
             const pLocales = gui.getPreference('locales') || '';

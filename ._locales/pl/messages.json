@@ -1861,7 +1861,7 @@
     "options_badgerepeatables": {
         "message": "Odnawialne\nPokaż odznakę, gdy zaznaczona odnawialna jest gotowa"
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Przesunięcie czasowe\nPowtarzalna odznaka zostanie pokazana z wyprzedzeniem o kilka sekund."
     },
     "calc_operators": {

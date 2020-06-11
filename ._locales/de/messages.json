@@ -1859,9 +1859,9 @@
         "message": "GK Energie\nZeigt ein Abzeichen mit der Energie aus dem GK eines Nachbarn"
     },
     "options_badgerepeatables": {
-        "message": "Wiederholungen\nAnzeigen eines Abzeichens, wenn eine ausgewählte Wiederholfunktion bereit ist"
+        "message": "Wiederholbare\nAnzeigen eines Abzeichens, wenn eine ausgewählte Wiederholbare bereit ist"
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Zeitversatz\nDas wiederholbare Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."
     },
     "calc_operators": {

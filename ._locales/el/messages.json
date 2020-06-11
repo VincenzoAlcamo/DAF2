@@ -1861,7 +1861,7 @@
     "options_badgerepeatables": {
         "message": "Επαναλαμβανόμενα\nΕμφάνιση σήματος όταν οποιοδήποτε επαναλαμβανόμενο είναι έτοιμο"
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Αντιστάθμιση χρόνου\nΤο σήμα επαναλαμβανόμενων θα εμφανιστεί εκ των προτέρων κατά αυτό τον αριθμό δευτερολέπτων"
     },
     "calc_operators": {

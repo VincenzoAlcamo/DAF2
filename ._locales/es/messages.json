@@ -1861,7 +1861,7 @@
     "options_badgerepeatables": {
         "message": "Repeatables\nMostrar una insignia cuando cualquiera repetible seleccionada está lista"
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Desplazamiento de tiempo\nLa insignia repetible será mostrado previamente por esta cantidad de segundos."
     },
     "calc_operators": {

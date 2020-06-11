@@ -1861,7 +1861,7 @@
     "options_badgerepeatables": {
         "message": "Renovaveis\nMostrar um crachá quando qualquer renovável selecionada estiver pronta"
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Deslocamento de tempo\nO crachá da renovável será mostrado antecipadamente por esse período de segundos."
     },
     "calc_operators": {

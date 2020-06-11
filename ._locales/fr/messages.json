@@ -1861,7 +1861,7 @@
     "options_badgerepeatables": {
         "message": "Répétables\nAfficher un badge lorsque tout répétable sélectionné est prêt."
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Décalage horaire\nLe badge répétable sera affiché à l'avance par ce nombre de secondes."
     },
     "calc_operators": {

@@ -1861,8 +1861,14 @@
     "options_badgerepeatables": {
         "message": "Ripetibili\nMostra un segnalino quando una qualsiasi ripetibile selezionata è pronta"
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Compensazione tempo\nIl segnalino ripetibili sarà mostrato in anticipo di questo numero di secondi."
+    },
+    "options_badgerepeatablessound": {
+        "message": "Effetto sonoro\nL'effetto sonoro da suonare quando una ripetibile è pronta."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Volume\nIl volume dell'effetto sonoro."
     },
     "calc_operators": {
         "message": "Operatori"

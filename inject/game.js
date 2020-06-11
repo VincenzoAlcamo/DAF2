@@ -269,7 +269,7 @@ function setBadge({ selector, text, title, active }) {
 }
 
 let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
-function setBadgeRep(list) {
+function setBadgeRep({ list, sound, volume }) {
     list = Array.isArray(list) ? list : [];
     const badge = menu && menu.querySelector('.DAF-badge-rep');
     if (!badge) return;
@@ -293,10 +293,11 @@ function setBadgeRep(list) {
     setCounter(badgeRepCounter1, numVisible);
     setCounter(badgeRepCounter2, 8, true);
     const newBadgeRepDivs = {};
+    let isNew = false;
     list.forEach(item => {
         let el = badgeRepDivs[item.lid];
         if (!el) {
-            badge.classList.add('animate');
+            isNew = true;
             el = badgeRepContainer.insertBefore(document.createElement('div'), badgeRepContainer.firstChild);
             el.title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
             el.style.backgroundImage = 'url(' + item.image + ')';
@@ -310,6 +311,14 @@ function setBadgeRep(list) {
         el.style.display = index >= 10 ? 'none' : '';
         el.classList.toggle('on-hover', index >= numVisible);
     });
+    if (isNew) {
+        badge.classList.add('animate');
+        if (sound && volume) {
+            const audio = new Audio(sound);
+            audio.volume = +volume / 100;
+            audio.play();
+        }
+    }
 }
 
 function updateGCStatus(data) {

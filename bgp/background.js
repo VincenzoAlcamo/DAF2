@@ -82,6 +82,8 @@ var Preferences = {
             badgeGcEnergy: true,
             badgeRepeatables: true,
             badgeRepeatablesOffset: 0,
+            badgeRepeatablesSound: '',
+            badgeRepeatablesVolume: 100,
             keepDebugging: false,
             removeGhosts: 0,
             confirmCollection: false,
@@ -1234,6 +1236,9 @@ var Data = {
     getMaxRegion: function () {
         return 6;
     },
+    getSound: function (name) {
+        return name && Data.generator && Data.generator.cdn_root + 'webgl_client/embedded_assets/sounds/' + name + '.mp3';
+    },
     //#endregion
     //#region FILES
     unusedFiles: {
@@ -1356,7 +1361,9 @@ var Synchronize = {
         const repeatables = list.map(o => o.lid).join(',');
         if (repeatables != Synchronize.repeatables) {
             Synchronize.repeatables = repeatables;
-            Synchronize.signal('repeatables', list);
+            const volume = parseInt(Preferences.getValue('badgeRepeatablesVolume')) || 0;
+            const sound = volume ? Data.getSound(Preferences.getValue('badgeRepeatablesSound')) : '';
+            Synchronize.signal('repeatables', { list, sound, volume });
         }
     },
     process: function (postedXml, responseText) {

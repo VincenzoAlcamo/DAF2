@@ -1861,7 +1861,7 @@
     "options_badgerepeatables": {
         "message": "Gentagelige\nVis et skilt når en valgt gentagelig er klar"
     },
-    "options_badgerepeatablesOffset": {
+    "options_badgerepeatablesoffset": {
         "message": "Tidsforskydning\nDet gentagelige skilt vil blive vist forlods med dette antalt sekunder"
     },
     "calc_operators": {
