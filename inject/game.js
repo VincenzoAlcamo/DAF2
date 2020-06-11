@@ -268,16 +268,17 @@ function setBadge({ selector, text, title, active }) {
     badge.classList.toggle('DAF-badge-on', !!active);
 }
 
-let badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
+let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
 function setBadgeRep(list) {
     list = Array.isArray(list) ? list : [];
     const badge = menu && menu.querySelector('.DAF-badge-rep');
     if (!badge) return;
-    if (!badgeRepCounter1) {
+    if (!badgeRepContainer) {
+        badgeRepContainer = badge.appendChild(document.createElement('b'));
         badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
-        badgeRepCounter1 = badge.appendChild(document.createElement('span'));
+        badgeRepCounter1 = badgeRepContainer.appendChild(document.createElement('span'));
         badgeRepCounter1.classList.add('no-hover');
-        badgeRepCounter2 = badge.appendChild(document.createElement('span'));
+        badgeRepCounter2 = badgeRepContainer.appendChild(document.createElement('span'));
         badgeRepCounter2.classList.add('on-hover');
     }
     badge.classList.toggle('DAF-badge-on', list.length > 0);
@@ -296,7 +297,7 @@ function setBadgeRep(list) {
         let el = badgeRepDivs[item.lid];
         if (!el) {
             badge.classList.add('animate');
-            el = badge.insertBefore(document.createElement('div'), badge.firstChild);
+            el = badgeRepContainer.insertBefore(document.createElement('div'), badgeRepContainer.firstChild);
             el.title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
             el.style.backgroundImage = 'url(' + item.image + ')';
         }
@@ -305,7 +306,7 @@ function setBadgeRep(list) {
     });
     Object.values(badgeRepDivs).forEach(el => el.remove());
     badgeRepDivs = newBadgeRepDivs;
-    badge.querySelectorAll('div').forEach((el, index) => {
+    badgeRepContainer.querySelectorAll('div').forEach((el, index) => {
         el.style.display = index >= 10 ? 'none' : '';
         el.classList.toggle('on-hover', index >= numVisible);
     });
@@ -373,7 +374,7 @@ function createMenu() {
 <div class="DAF-badges">
     <b class="DAF-badge-gc-counter DAF-badge-img"></b>
     <b class="DAF-badge-gc-energy DAF-badge-img"></b>
-    <b class="DAF-badge-rep"></b>
+    <div class="DAF-badge-rep"></div>
 </div>
 `;
     // remove spaces

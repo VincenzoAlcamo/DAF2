@@ -178,7 +178,6 @@
 }
 
 .DAF-badges b {
-  display: none;
   border: 2px solid #000;
   height: 23px;
   border-radius: 1em;
@@ -187,6 +186,10 @@
   font-style: normal;
   font-size: 14px;
   cursor: default;
+}
+
+.DAF-badges>* {
+  display: none;
 }
 
 .DAF-badges .DAF-badge-img {
@@ -206,14 +209,15 @@
   background-color: #0F0;
 }
 
-.DAF-badges .DAF-badge-rep {
+.DAF-badges .DAF-badge-rep b {
   background-color: #A00;
   border-color: #A00;
   height: 25px;
   margin-top: -1px;
+  display: inline-block;
 }
 
-.DAF-badges .DAF-badge-rep.animate {
+.DAF-badges .DAF-badge-rep.animate b {
   animation: DAF_flash infinite 2s alternate;
 }
 
@@ -242,6 +246,11 @@
 .DAF-badge-rep:not(:hover) .on-hover,
 .DAF-badge-rep:hover .no-hover {
   display: none;
+}
+
+.DAF-badge-rep:hover {
+  border: 20px solid transparent;
+  margin: -20px;
 }
 
 .DAF-badge-rep div:hover {
