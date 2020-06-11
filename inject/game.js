@@ -313,7 +313,7 @@ function setBadgeRep({ list, sound, volume }) {
     });
     if (isNew) {
         badge.classList.add('animate');
-        if (sound && volume) {
+        if (sound && volume && prefs.badgeRepeatables) {
             const audio = new Audio(sound);
             audio.volume = +volume / 100;
             audio.play();
