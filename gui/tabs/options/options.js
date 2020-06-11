@@ -354,7 +354,7 @@ UI_claim_coin_single_slow_02`;
                 audio = new Audio(sound);
                 audio.volume = volume / 100;
                 audio.play();
-            }, 100);
+            }, 300);
         }
         if (name == 'locale') {
             const currentLanguage = gui.getPreference('language');
