@@ -85,9 +85,11 @@ function init() {
             htm += Html.br`</select>`;
         } else if (type == TEXT) {
             if (options && typeof options == 'object' && (options.min || options.max)) {
-                htm += Html.br`<input data-pref="${prefName}" type="number" min="${options.min}" max="${options.max}"></td>`;
+                if (options.type == 'range') htm += Html.br`<label>`;
+                htm += Html.br`<input data-pref="${prefName}" type="${options.type || 'number'}" min="${options.min}" max="${options.max}" class="${options.class}">`;
+                if (options.type == 'range') htm += Html.br`<span></span></label>`;
             } else {
-                htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%"></td>`;
+                htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%">`;
             }
         }
         if (warning) htm += Html.br`<div class="warning">${warning}</div>`;
@@ -246,8 +248,8 @@ UI_claim_coin_single_fast_01
 UI_claim_coin_single_fast_02
 UI_claim_coin_single_slow_01
 UI_claim_coin_single_slow_02`;
-    option('badgeRepeatablesSound', SUBOPTION, sounds.split('\n').sort(gui.sortTextAscending).map(n => [n, n.toLowerCase()]));
-    option('badgeRepeatablesVolume', TEXT + SUBOPTION, { min: 0, max: 100 });
+    option('badgeRepeatablesSound', SUBOPTION, sounds.split('\n').sort(gui.sortTextAscending).map(n => [n, n.toLowerCase()]), Html.raw('<button class="play_sound">\u25B6</button>'));
+    option('badgeRepeatablesVolume', TEXT + SUBOPTION, { min: 0, max: 100, type: 'range', class: 'percent' });
     endSection();
     beginSection('ingame');
     option('fullWindow', WITHSUBOPTIONS);
@@ -302,6 +304,8 @@ UI_claim_coin_single_slow_02`;
 
     Dialog.htmlToDOM(container.querySelector('.scrollable-content'), htm);
 
+    container.querySelector('.play_sound').addEventListener('click', playSound);
+
     for (const item of container.querySelectorAll('.open_href')) {
         item.addEventListener('click', function (event) {
             event.preventDefault();
@@ -329,34 +333,42 @@ UI_claim_coin_single_slow_02`;
         return name in changes ? changes[name] : gui.getPreference(name);
     }
 
-    let audio, delayedAudio;
+    let audio;
+    function stopSound() {
+        if (audio) try { audio.pause(); } catch (e) { }
+        audio = null;
+    }
+    function playSound() {
+        stopSound();
+        const name = getPrefInChanges('badgeRepeatablesSound');
+        const volume = parseInt(getPrefInChanges('badgeRepeatablesVolume'));
+        const sound = bgp.Data.getSound(name);
+        if (sound && volume) {
+            audio = new Audio(sound);
+            audio.volume = volume / 100;
+            audio.play().then(_ => 0);
+        }
+    }
+
+    let delayedAudio;
     function onInput() {
         const input = this;
         const name = input.getAttribute('data-pref');
         let value = input.type == 'checkbox' ? input.checked : input.value;
-        if (input.type == 'number') {
+        if (input.type == 'number' || input.type == 'range') {
             const min = parseInt(input.min, 10) || 0;
             const max = parseInt(input.max, 10) || 0;
             value = parseInt(value, 10) || 0;
             value = String(Math.max(min, Math.min(max, value)));
         }
+        if (input.type == 'range') input.nextElementSibling.textContent = Locale.formatNumber(value);
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, 500);
         changes[name] = value;
         if (name == 'badgeRepeatablesSound' || name == 'badgeRepeatablesVolume') {
-            if (audio) try { audio.pause(); } catch (e) { }
+            stopSound();
             if (delayedAudio) clearTimeout(delayedAudio);
-            delayedAudio = audio = null;
-            const name = getPrefInChanges('badgeRepeatablesSound');
-            const volume = parseInt(getPrefInChanges('badgeRepeatablesVolume'));
-            const sound = bgp.Data.getSound(name);
-            if (sound && volume) delayedAudio = setTimeout(function () {
-                try {
-                    audio = new Audio(sound);
-                    audio.volume = volume / 100;
-                    audio.play();
-                } catch (e) { }
-            }, 300);
+            delayedAudio = setTimeout(playSound, 300);
         }
         if (name == 'locale') {
             const currentLanguage = gui.getPreference('language');
@@ -383,7 +395,7 @@ UI_claim_coin_single_slow_02`;
     for (const input of container.querySelectorAll('[data-pref]')) {
         if (input.tagName == 'SELECT') {
             input.addEventListener('input', onInput);
-        } else if (input.type == 'text' || input.type == 'number') {
+        } else if (input.type == 'text' || input.type == 'number' || input.type == 'range') {
             input.addEventListener('input', onInput);
         } else if (input.type == 'checkbox') {
             input.addEventListener('click', onInput);
@@ -427,6 +439,10 @@ function refresh() {
         if (value !== undefined) {
             if (input.tagName == 'SELECT' || input.type == 'text' || input.type == 'number') input.value = value;
             if (input.type == 'checkbox') input.checked = value === true;
+            if (input.type == 'range') {
+                input.value = value;
+                input.nextElementSibling.textContent = Locale.formatNumber(value);
+            }
         }
     }
 }

@@ -48,3 +48,23 @@
 .options a:hover {
   background-color: var(--tb-hlcol);
 }
+
+.options .play_sound {
+  padding: 0 4px;
+}
+
+.options input[type=range] {
+  width: 50%;
+  margin-bottom: 12px;
+}
+
+.options input[type=range]+span {
+  display: inline-block;
+  line-height: 24px;
+  padding-left: 6px;
+  vertical-align: top;
+}
+
+.options input[type=range].percent+span:after {
+  content: "%";
+}

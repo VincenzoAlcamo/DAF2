@@ -269,11 +269,11 @@ function setBadge({ selector, text, title, active }) {
 }
 
 function playSound(sound, volume = 100) {
-    if (sound && volume) try {
+    if (sound && volume) {
         const audio = new Audio(sound);
         audio.volume = +volume / 100;
-        audio.play();
-    } catch (e) { }
+        audio.play().then(_ => 0);
+    }
 }
 
 let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
