@@ -268,6 +268,14 @@ function setBadge({ selector, text, title, active }) {
     badge.classList.toggle('DAF-badge-on', !!active);
 }
 
+function playSound(sound, volume = 100) {
+    if (sound && volume) try {
+        const audio = new Audio(sound);
+        audio.volume = +volume / 100;
+        audio.play();
+    } catch (e) { }
+}
+
 let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
 function setBadgeRep({ list, sound, volume }) {
     list = Array.isArray(list) ? list : [];
@@ -275,7 +283,10 @@ function setBadgeRep({ list, sound, volume }) {
     if (!badge) return;
     if (!badgeRepContainer) {
         badgeRepContainer = badge.appendChild(document.createElement('b'));
-        badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
+        badge.addEventListener('mouseenter', () => {
+            badge.classList.remove('animate');
+            badge.querySelectorAll('.new').forEach(el => el.classList.remove('new'));
+        });
         badgeRepCounter1 = badgeRepContainer.appendChild(document.createElement('span'));
         badgeRepCounter1.classList.add('no-hover');
         badgeRepCounter2 = badgeRepContainer.appendChild(document.createElement('span'));
@@ -299,6 +310,7 @@ function setBadgeRep({ list, sound, volume }) {
         if (!el) {
             isNew = true;
             el = badgeRepContainer.insertBefore(document.createElement('div'), badgeRepContainer.firstChild);
+            el.classList.add('new');
             el.title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
             el.style.backgroundImage = 'url(' + item.image + ')';
         }
@@ -311,14 +323,8 @@ function setBadgeRep({ list, sound, volume }) {
         el.style.display = index >= 10 ? 'none' : '';
         el.classList.toggle('on-hover', index >= numVisible);
     });
-    if (isNew) {
-        badge.classList.add('animate');
-        if (sound && volume && prefs.badgeRepeatables) {
-            const audio = new Audio(sound);
-            audio.volume = +volume / 100;
-            audio.play();
-        }
-    }
+    if (isNew && prefs.badgeRepeatables) playSound(sound, volume);
+    badge.classList.toggle('animate', isNew || !!badge.querySelector('.new'));
 }
 
 function updateGCStatus(data) {

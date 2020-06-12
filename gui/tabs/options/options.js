@@ -344,16 +344,18 @@ UI_claim_coin_single_slow_02`;
         handler = setTimeout(applyChanges, 500);
         changes[name] = value;
         if (name == 'badgeRepeatablesSound' || name == 'badgeRepeatablesVolume') {
-            if (audio) audio.pause();
+            if (audio) try { audio.pause(); } catch (e) { }
             if (delayedAudio) clearTimeout(delayedAudio);
             delayedAudio = audio = null;
             const name = getPrefInChanges('badgeRepeatablesSound');
             const volume = parseInt(getPrefInChanges('badgeRepeatablesVolume'));
             const sound = bgp.Data.getSound(name);
             if (sound && volume) delayedAudio = setTimeout(function () {
-                audio = new Audio(sound);
-                audio.volume = volume / 100;
-                audio.play();
+                try {
+                    audio = new Audio(sound);
+                    audio.volume = volume / 100;
+                    audio.play();
+                } catch (e) { }
             }, 300);
         }
         if (name == 'locale') {
