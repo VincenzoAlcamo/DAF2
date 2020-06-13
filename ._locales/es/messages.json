@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "Desactivado"
     },
+    "gui_timeparts": {
+        "message": "d,h,m,s"
+    },
     "gui_card_clicker": {
         "message": "Haga clic para contraer o expandir esta seccion"
     },
@@ -1859,10 +1862,16 @@
         "message": "Energia niños dioses.\nMuestra una insignia con la energia de los niños dioses de los vecinos ."
     },
     "options_badgerepeatables": {
-        "message": "Repeatables\nMostrar una insignia cuando cualquiera repetible seleccionada está lista"
+        "message": "Repetibles\nMostrar una insignia cuando cualquier repetible seleccionado esté listo"
     },
     "options_badgerepeatablesoffset": {
-        "message": "Desplazamiento de tiempo\nLa insignia repetible será mostrado previamente por esta cantidad de segundos."
+        "message": "Desplazamiento de tiempo\nLa insignia repetible se mostrará de antemano por esta cantidad de segundos."
+    },
+    "options_badgerepeatablessound": {
+        "message": "Efecto de sonido\nEl efecto de sonido se reproduce cuando un repetible está listo."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Volumen\nVolumen del efecto de sonido"
     },
     "calc_operators": {
         "message": "Operadores"

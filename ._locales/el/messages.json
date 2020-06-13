@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "ΚΛΕΙΣΤΟ"
     },
+    "gui_timeparts": {
+        "message": "η,ώ,λ,δ"
+    },
     "gui_card_clicker": {
         "message": "Πατήστε για κατάρρευση/μεγέθυνση τομέα"
     },
@@ -1863,6 +1866,12 @@
     },
     "options_badgerepeatablesoffset": {
         "message": "Αντιστάθμιση χρόνου\nΤο σήμα επαναλαμβανόμενων θα εμφανιστεί εκ των προτέρων κατά αυτό τον αριθμό δευτερολέπτων"
+    },
+    "options_badgerepeatablessound": {
+        "message": "Εφέ ήχου\nΝα ακούγεται ένας ήχος όταν ένα επαναλαμβανόμενο είναι έτοιμο."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Ένταση\nΗ ένταση του ήχου"
     },
     "calc_operators": {
         "message": "Τελεστές"

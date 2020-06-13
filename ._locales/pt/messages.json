@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "Desligado"
     },
+    "gui_timeparts": {
+        "message": "d,h,m,s"
+    },
     "gui_card_clicker": {
         "message": "Clique para contrair / expandir esta seção"
     },
@@ -1863,6 +1866,12 @@
     },
     "options_badgerepeatablesoffset": {
         "message": "Deslocamento de tempo\nO crachá da renovável será mostrado antecipadamente por esse período de segundos."
+    },
+    "options_badgerepeatablessound": {
+        "message": "Efeito Sonoro\nO efeito sonoro a ser reproduzido quando uma repetição estiver pronta."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Volume\nO volume do efeito sonoro."
     },
     "calc_operators": {
         "message": "Operadoras"

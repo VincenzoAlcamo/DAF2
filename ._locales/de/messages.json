@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "Aus"
     },
+    "gui_timeparts": {
+        "message": "T,S,m,s"
+    },
     "gui_card_clicker": {
         "message": "Diesen Abschnitt aus- / einblenden."
     },
@@ -1594,7 +1597,7 @@
         "message": "Wahrscheinlichkeit"
     },
     "events_clearbonus": {
-        "message": "Bonus für's Aufräumen"
+        "message": "Fertigstellungsbonus"
     },
     "events_gemstones": {
         "message": "Edelsteine"
@@ -1863,6 +1866,12 @@
     },
     "options_badgerepeatablesoffset": {
         "message": "Zeitversatz\nDas wiederholbare Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."
+    },
+    "options_badgerepeatablessound": {
+        "message": "Klang-Effekt\nDer Klang-Effekt wird abgespielt, wenn eine Wiederholfunktion bereit ist."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Lautstärke\nDie Lautstärke des Klangeffekts."
     },
     "calc_operators": {
         "message": "Operatoren"

@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "WYŁĄCZ"
     },
+    "gui_timeparts": {
+        "message": "d,g,m,s"
+    },
     "gui_card_clicker": {
         "message": "Kliknij aby zmniejszyć/rozszerzyć tą sekcję"
     },
@@ -1863,6 +1866,12 @@
     },
     "options_badgerepeatablesoffset": {
         "message": "Przesunięcie czasowe\nPowtarzalna odznaka zostanie pokazana z wyprzedzeniem o kilka sekund."
+    },
+    "options_badgerepeatablessound": {
+        "message": "Efekt dźwiękowy\nDźwięk odtwarzany kiedy odnawialna jest gotowa."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Głośność\nGłośność efektów dźwiękowych."
     },
     "calc_operators": {
         "message": "Użytkownicy"

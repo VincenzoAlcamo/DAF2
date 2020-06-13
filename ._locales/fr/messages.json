@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "ARRÊT"
     },
+    "gui_timeparts": {
+        "message": "j,h,m,s"
+    },
     "gui_card_clicker": {
         "message": "Cliquez pour réduire ou agrandir cette section"
     },
@@ -1576,7 +1579,7 @@
         "message": "Avec segmenté"
     },
     "events_yourprogress": {
-        "message": "Vos progrès"
+        "message": "Ta région"
     },
     "events_rewards": {
         "message": "Récompenses"
@@ -1863,6 +1866,12 @@
     },
     "options_badgerepeatablesoffset": {
         "message": "Décalage horaire\nLe badge répétable sera affiché à l'avance par ce nombre de secondes."
+    },
+    "options_badgerepeatablessound": {
+        "message": "Effet sonore\nL'effet sonore à jouer quand une répétable est prête."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Le volume\nLe volume de l'effet sonore."
     },
     "calc_operators": {
         "message": "Les opérateurs"

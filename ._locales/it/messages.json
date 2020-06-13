@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "Non Attivato"
     },
+    "gui_timeparts": {
+        "message": "g,o,m,s"
+    },
     "gui_card_clicker": {
         "message": "Clicca per ridurre/espandere questa sezione"
     },

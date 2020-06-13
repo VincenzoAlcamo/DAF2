@@ -134,6 +134,7 @@ function init() {
     extra += Html`<ul style="margin-left:24px">`;
     extra += Html`<li>${Locale.formatNumber(123456.78)}`;
     extra += Html`<li>${Locale.formatDateTimeFull(gui.getUnixTime())}`;
+    extra += Html`<li>${gui.getDuration(1 * 86400 + 2 * 3600 + 3 * 60 + 4, 2)}`;
     extra += Html`<li>${Locale.formatList([Locale.formatDaysNum(1), Locale.formatDaysNum(-1), Locale.formatDaysNum(-3)])}`;
     extra += Html`</ul>`;
     option('locale', SUBOPTION, optionLocales, Html.raw(extra));

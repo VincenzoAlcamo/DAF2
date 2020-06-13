@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "OFF"
     },
+    "gui_timeparts": {
+        "message": "d,h,m,s"
+    },
     "gui_card_clicker": {
         "message": "Click to collapse/expand this section"
     },

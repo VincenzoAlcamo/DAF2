@@ -188,21 +188,24 @@ const gui = {
     },
     getDuration: function (drn, flagReduced) {
         drn = Math.floor(drn);
-        if (drn <= 90) return Locale.formatNumber(drn) + 's';
+        if (drn <= 90) return Locale.formatNumber(drn) + gui.timeParts[3];
         // A longer duration will round the seconds
-        const ss = drn % 60;
-        drn += (ss < 30 ? -ss : 60 - ss);
-        drn /= 60;
+        let ss = drn % 60;
+        if (flagReduced != 2) {
+            drn += (ss >= 30 ? 60 : 0) - ss;
+            ss = 0;
+        }
+        drn = (drn - ss) / 60;
         // If duration is in days, minutes are ignored (but added to hours)
         let mm = drn % 60;
-        if (drn >= 1440) {
+        if (drn >= 1440 && flagReduced != 2) {
             drn += (mm < 30 ? -mm : 60 - mm);
             mm = 0;
         }
         drn = (drn - mm) / 60;
         let hh = drn % 24;
         let dd = (drn - hh) / 24;
-        if (flagReduced) {
+        if (flagReduced != 2) {
             if (dd >= 3) {
                 if (hh >= 12) dd++;
                 hh = 0;
@@ -212,9 +215,10 @@ const gui = {
             }
         }
         const list = [];
-        if (dd > 0) list.push(Locale.formatNumber(dd) + 'd');
-        if (hh > 0) list.push(Locale.formatNumber(hh) + 'h');
-        if (mm > 0) list.push(Locale.formatNumber(mm) + 'm');
+        if (dd > 0) list.push(Locale.formatNumber(dd) + gui.timeParts[0]);
+        if (hh > 0) list.push(Locale.formatNumber(hh) + gui.timeParts[1]);
+        if (mm > 0) list.push(Locale.formatNumber(mm) + gui.timeParts[2]);
+        if (ss > 0) list.push(Locale.formatNumber(ss) + gui.timeParts[3]);
         return Locale.formatList(list);
     },
     getArray: function (value) {
@@ -710,6 +714,7 @@ function onLoad() {
     gui.isFirefox = getComputedStyle(document.body.querySelector('.mozTest')).textDecorationStyle === 'wavy';
     const currentLanguage = gui.getPreference('language');
     const currentLocale = gui.getPreference('locale');
+    gui.timeParts = gui.getMessage('gui_timeparts').split(',');
     Dialog.language = currentLanguage;
     Locale.setLocale(currentLocale ? currentLanguage + '-' + currentLocale : chrome.i18n.getUILanguage());
     let htm = '';

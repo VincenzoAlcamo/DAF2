@@ -53,6 +53,9 @@
     "menu_off": {
         "message": "OFF"
     },
+    "gui_timeparts": {
+        "message": "d,t,m,s"
+    },
     "gui_card_clicker": {
         "message": "Klik for at mindske/ udvide denne del"
     },
@@ -1863,6 +1866,12 @@
     },
     "options_badgerepeatablesoffset": {
         "message": "Tidsforskydning\nDet gentagelige skilt vil blive vist forlods med dette antalt sekunder"
+    },
+    "options_badgerepeatablessound": {
+        "message": "Lyd Effekt\nDen lyd effekt der afspilles når en gentagelig er klar."
+    },
+    "options_badgerepeatablesvolume": {
+        "message": "Lydstyrke\nLyd effektens lydstyrke."
     },
     "calc_operators": {
         "message": "Aktører"
