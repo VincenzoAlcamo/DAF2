@@ -525,7 +525,7 @@
 "de@menu_switchfacebook":{"message":"Zu Facebook wechseln"},
 "de@menu_on":{"message":"Ein"},
 "de@menu_off":{"message":"Aus"},
-"de@gui_timeparts":{"message":"T,S,m,s"},
+"de@gui_timeparts":{"message":"Tag,Std.,m,s"},
 "de@gui_card_clicker":{"message":"Diesen Abschnitt aus- / einblenden."},
 "de@gui_show":{"message":"Anzeigen"},
 "de@gui_all":{"message":"Alle"},

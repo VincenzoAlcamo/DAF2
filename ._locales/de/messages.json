@@ -54,7 +54,7 @@
         "message": "Aus"
     },
     "gui_timeparts": {
-        "message": "T,S,m,s"
+        "message": "Tag,Std.,m,s"
     },
     "gui_card_clicker": {
         "message": "Diesen Abschnitt aus- / einblenden."
