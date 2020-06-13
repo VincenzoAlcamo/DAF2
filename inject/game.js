@@ -367,6 +367,7 @@ function createMenu() {
     <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
     <br>
     <i data-pref="badgeRepeatables">${gm1('options_badgerepeatables')}</i>
+    <i data-pref="badgeRepeatablesSound">${gm1('options_badgerepeatablessound')}</i>
     </div>
 </li>
 <!--
@@ -534,7 +535,7 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
-    addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables');
+    addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables,badgeRepeatablesSound');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;

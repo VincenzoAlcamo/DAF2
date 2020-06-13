@@ -248,8 +248,12 @@ UI_claim_coin_multiple_slow_03
 UI_claim_coin_single_fast_01
 UI_claim_coin_single_fast_02
 UI_claim_coin_single_slow_01
-UI_claim_coin_single_slow_02`;
-    option('badgeRepeatablesSound', SUBOPTION, sounds.split('\n').sort(gui.sortTextAscending).map(n => [n, n.toLowerCase()]), Html.raw('<button class="play_sound">\u25B6</button>'));
+UI_claim_coin_single_slow_02
+`;
+    extra = Html.br`<select data-pref="badgeRepeatablesSoundName">`;
+    extra += sounds.split('\n').sort(gui.sortTextAscending).map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join('');
+    extra += Html.br`</select><button class="play_sound">\u25B6</button>`;
+    option('badgeRepeatablesSound', SUBOPTION, null, Html.raw(extra));
     option('badgeRepeatablesVolume', TEXT + SUBOPTION, { min: 0, max: 100, type: 'range', class: 'percent' });
     endSection();
     beginSection('ingame');
@@ -341,7 +345,7 @@ UI_claim_coin_single_slow_02`;
     }
     function playSound() {
         stopSound();
-        const name = getPrefInChanges('badgeRepeatablesSound');
+        const name = getPrefInChanges('badgeRepeatablesSoundName');
         const volume = parseInt(getPrefInChanges('badgeRepeatablesVolume'));
         const sound = bgp.Data.getSound(name);
         if (sound && volume) {
@@ -366,7 +370,7 @@ UI_claim_coin_single_slow_02`;
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, 500);
         changes[name] = value;
-        if (name == 'badgeRepeatablesSound' || name == 'badgeRepeatablesVolume') {
+        if ((name == 'badgeRepeatablesSound' && value) || name == 'badgeRepeatablesVolume' || name == 'badgeRepeatablesSoundName') {
             stopSound();
             if (delayedAudio) clearTimeout(delayedAudio);
             delayedAudio = setTimeout(playSound, 300);

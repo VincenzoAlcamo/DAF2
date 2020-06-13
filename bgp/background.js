@@ -82,7 +82,8 @@ var Preferences = {
             badgeGcEnergy: true,
             badgeRepeatables: true,
             badgeRepeatablesOffset: 0,
-            badgeRepeatablesSound: '',
+            badgeRepeatablesSound: true,
+            badgeRepeatablesSoundName: 'ui_celebrate',
             badgeRepeatablesVolume: 100,
             keepDebugging: false,
             removeGhosts: 0,
@@ -1361,8 +1362,8 @@ var Synchronize = {
         const repeatables = list.map(o => o.lid).join(',');
         if (repeatables != Synchronize.repeatables) {
             Synchronize.repeatables = repeatables;
-            const volume = parseInt(Preferences.getValue('badgeRepeatablesVolume')) || 0;
-            const sound = volume ? Data.getSound(Preferences.getValue('badgeRepeatablesSound')) : '';
+            const volume = Preferences.getValue('badgeRepeatablesSound') ? parseInt(Preferences.getValue('badgeRepeatablesVolume')) || 0 : 0;
+            const sound = volume ? Data.getSound(Preferences.getValue('badgeRepeatablesSoundName')) : '';
             Synchronize.signal('repeatables', { list, sound, volume });
         }
     },
