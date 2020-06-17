@@ -313,6 +313,7 @@
 .DAF-menu li[data-action="search"] th,
 .DAF-menu li[data-action="search"] td {
   padding: 2px;
+  border: 1px solid #88A6;
 }
 
 .DAF-menu li[data-action="search"] thead td:nth-child(2),
