@@ -288,6 +288,12 @@
     "gui_locked": {
         "message": "Κλειδωμένο"
     },
+    "gui_noresults": {
+        "message": "Κανένα αποτέλεσμα"
+    },
+    "gui_toomanyresults": {
+        "message": "Υπερβολικά πολλά αποτελέσματα"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },

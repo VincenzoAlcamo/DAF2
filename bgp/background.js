@@ -1752,6 +1752,30 @@ async function init() {
         closeWindow: function (_request, sender) {
             chrome.tabs.remove(sender.tab.id);
         },
+        searchNeighbor: function (request, _sender) {
+            const text = String(request.text || '').toUpperCase();
+            const isNumeric = !!text.match(/^\d+$/);
+            const result = Object.values(Data.neighbours).filter(pal => {
+                if (pal.id == 1) return false;
+                if ((pal.name + ' ' + pal.surname).toUpperCase().indexOf(text) >= 0) return true;
+                if (pal.extra.fn && pal.extra.fn.toUpperCase().indexOf(text) >= 0) return true;
+                return isNumeric && String(pal.id).indexOf(text) >= 0;
+            });
+            const list = result.slice(0, 10).sort((a, b) => (a.level - b.level) || (a.region - b.region) || (a.index - b.index)).map(pal => {
+                const friend = Object.values(Data.getFriends()).find(friend => friend.uid == pal.id);
+                return {
+                    id: pal.id,
+                    fb_id: pal.fb_id,
+                    name: pal.name ? pal.name + ' ' + pal.surname : 'Player ' + pal.id,
+                    furl: friend && friend.uri,
+                    fn: pal.extra.fn,
+                    rimage: Data.getObjectImage('region', pal.region),
+                    rname: Data.getObjectName('region', pal.region),
+                    level: Locale.formatNumber(pal.level)
+                };
+            });
+            return { count: result.length, list };
+        },
         friendsCaptured: function (request, sender) {
             if (request.data) Data.friendsCaptured(request.data);
             if (request.close) chrome.tabs.remove(sender.tab.id);

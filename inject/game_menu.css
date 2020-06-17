@@ -46,6 +46,7 @@
   background-size: 16px 16px;
 }
 
+.DAF-menu:focus-within,
 .DAF-menu:hover {
   height: auto;
   border-color: transparent;
@@ -66,6 +67,7 @@
   cursor: default;
 }
 
+.DAF-menu:focus-within li,
 .DAF-menu:hover li {
   display: inline-block;
 }
@@ -88,7 +90,6 @@
 
 .DAF-menu span,
 .DAF-menu i {
-  display: none;
   border: 2px solid #202020;
   margin: -2px 2px 2px 0px;
   padding: 2px 4px 1px 4px;
@@ -96,7 +97,8 @@
   cursor: pointer;
 }
 
-.DAF-menu li:hover * {
+.DAF-menu li:focus-within>*,
+.DAF-menu li:hover>* {
   display: inline-block;
 }
 
@@ -104,6 +106,7 @@
   background-color: #0FF;
 }
 
+.DAF-menu li:focus-within b,
 .DAF-menu li:hover b {
   background-color: #FF0;
   color: #00F;
@@ -162,6 +165,10 @@
   background-image: url("/img/gui/badge.png");
 }
 
+.DAF-menu li[data-action="search"] b {
+  background-image: url("/img/gui/friendship.png");
+}
+
 .DAF-menu:not(.DAF-facebook) i[data-pref="fullWindowSide"] {
   display: none;
 }
@@ -173,6 +180,7 @@
   top: 34px;
 }
 
+.DAF-menu:focus-within+.DAF-badges,
 .DAF-menu:hover+.DAF-badges {
   display: none;
 }
@@ -251,6 +259,8 @@
 .DAF-badge-rep:hover {
   border: 20px solid transparent;
   margin: -20px;
+  border-left-width: 6px;
+  margin-left: -6px;
 }
 
 .DAF-badge-rep div:hover {
@@ -279,6 +289,81 @@
     filter: contrast(3);
     transform: scale(1.3);
   }
+}
+
+.DAF-menu li[data-action="search"] table {
+  border: 2px solid #36648B;
+}
+
+.DAF-menu li[data-action="search"] thead tr,
+.DAF-menu li[data-action="search"] tfoot tr {
+  background-color: #2281C0;
+  color: #FFFFFF;
+}
+
+.DAF-menu li[data-action="search"] tbody tr {
+  color: #000000;
+  background-color: #F5F5F5;
+}
+
+.DAF-menu li[data-action="search"] tbody tr:nth-child(odd) {
+  background-color: #E7E7E7;
+}
+
+.DAF-menu li[data-action="search"] th,
+.DAF-menu li[data-action="search"] td {
+  padding: 2px;
+}
+
+.DAF-menu li[data-action="search"] thead td:nth-child(2),
+.DAF-menu li[data-action="search"] thead td:nth-child(3),
+.DAF-menu li[data-action="search"] td:nth-child(3) {
+  text-align: center;
+}
+
+.DAF-menu li[data-action="search"] tbody td:nth-child(2) {
+  min-width: 180px;
+}
+
+.DAF-menu li[data-action="search"] tfoot th:first-child {
+  min-width: 220px;
+}
+
+.DAF-menu li[data-action="search"] td:nth-child(4) {
+  text-align: right;
+  padding-right: 4px;
+}
+
+.DAF-menu li[data-action="search"] td a {
+  color: #2281C0;
+  text-decoration: underline;
+}
+
+.DAF-menu li[data-action="search"] td i {
+  border: 0;
+  background-color: transparent;
+  color: #999;
+  padding: 0;
+  font-style: oblique;
+  cursor: default;
+}
+
+.DAF-menu li[data-action="search"]>div>span {
+  border-right-width: 0px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  margin-right: 0px;
+  padding: 4px 4px 3px 6px;
+}
+
+.DAF-menu li[data-action="search"]>div>input {
+  border: 2px solid #000;
+  width: 160px;
+}
+
+.DAF-menu li[data-action="search"]>div>input:not(:focus) {
+  border-bottom-right-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
 /*#endregion*/

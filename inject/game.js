@@ -18,11 +18,7 @@ function sendValue(name, value) {
 }
 
 function sendPreference(name, value) {
-    if (name in prefs) {
-        chrome.storage.local.set({
-            [name]: value
-        });
-    }
+    if (name in prefs) chrome.storage.local.set({ [name]: value });
 }
 
 function forceResize(delay = 0) {
@@ -336,6 +332,53 @@ function updateGCStatus(data) {
     setBadge({ selector: '.DAF-badge-gc-counter', text: data.count, title: data.nexttxt, active: data.count > 0 });
 }
 
+let searchHandler, searchInput;
+function search() {
+    if (searchHandler) clearTimeout(searchHandler);
+    searchHandler = setTimeout(() => {
+        const table = menu.querySelector('[data-action="search"] table');
+        table.style.display = 'none';
+        const tbody = table.tBodies[0];
+        while (tbody.firstElementChild) tbody.firstElementChild.remove();
+        const text = searchInput.value.trim();
+        if (text) chrome.runtime.sendMessage({ action: 'searchNeighbor', text }, ({ count, list }) => {
+            if (chrome.runtime.lastError) return;
+            table.style.display = '';
+            table.tHead.style.display = list.length ? '' : 'none';
+            list.forEach(pal => {
+                const row = tbody.appendChild(document.createElement('tr'));
+                let td, img;
+                td = row.appendChild(document.createElement('td'));
+                img = td.appendChild(document.createElement('img'));
+                img.src = `https://graph.facebook.com/v2.8/${pal.fb_id}/picture`;
+                td = row.appendChild(document.createElement('td'));
+                if (!pal.furl || pal.fn != pal.name) {
+                    td.textContent = pal.name;
+                    if (pal.fn) {
+                        td.appendChild(document.createElement('br'));
+                        if (!pal.furl) td.appendChild(document.createElement('i')).textContent = pal.fn;
+                    }
+                }
+                if (pal.furl && pal.fn) {
+                    const a = td.appendChild(document.createElement('a'));
+                    a.target = '_blank';
+                    a.href = pal.furl;
+                    a.textContent = pal.fn;
+                }
+                td = row.appendChild(document.createElement('td'));
+                img = td.appendChild(document.createElement('img'));
+                img.src = chrome.runtime.getURL(pal.rimage);
+                img.title = pal.rname;
+                td = row.appendChild(document.createElement('td'));
+                td.textContent = pal.level;
+            });
+            table.tFoot.style.display = count === 0 || count - list.length > 0 ? '' : 'none';
+            table.tFoot.firstElementChild.firstElementChild.textContent = count == 0 ? getMessage('gui_noresults') : `${getMessage('gui_toomanyresults')} (${count})`;
+        });
+    }, 500);
+}
+
+
 function createMenu() {
     const gm = (id) => htmlEncodeBr(getMessage(id));
     const gm1 = (id) => htmlEncodeBr(getMessage(id).split('\n')[0]);
@@ -345,6 +388,17 @@ function createMenu() {
 <ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
 <li data-action="about"><b>&nbsp;</b>
     <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
+</li>
+<li data-action="search"><b>&nbsp;</b>
+    <div><span>${gm('gui_search')}</span><input type="text">
+    <br><table style="display:none">
+    <thead><tr><td colspan="2">${gm('gui_neighbour')}</td>
+    <td><img src="${chrome.runtime.getURL('/img/gui/map.png')}" title="${gm('gui_region')}" height="20"></td>
+    <td><img src="${chrome.runtime.getURL('/img/gui/level.png')}" title="${gm('gui_level')}" height="20"></td></tr></thead>
+    <tbody></tbody>
+    <tfoot><tr><th colspan="4"></th></tr></tfoot>
+    </table>
+    </div>
 </li>
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
     <div><span>${gm('menu_fullwindow')}</span><i data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i><br>
@@ -408,6 +462,11 @@ function createMenu() {
         const prefName = el.getAttribute('data-pref');
         el.title = getMessage('options_' + prefName.toLowerCase());
     }
+    searchInput = menu.querySelector('[data-action="search"] input');
+    searchInput.addEventListener('input', search);
+    searchInput.addEventListener('keydown', event => {
+        if (event.which == 27) document.activeElement.blur();
+    });
     menu.addEventListener('click', onMenuClick);
 }
 
