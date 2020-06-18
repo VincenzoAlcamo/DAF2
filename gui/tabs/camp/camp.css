@@ -361,6 +361,10 @@
   transition: transform 1s;
 }
 
+.camp_addon_img.diggy_skin {
+  width: 32px;
+}
+
 .camp_addon:hover .camp_addon_img.diggy_skin {
   overflow: unset;
 }
