@@ -154,23 +154,6 @@ function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
     if (!affordable) item.locked |= 8;
 }
 
-function getOwnedActive(stored, placed, placed2) {
-    function collect(list) {
-        const result = {};
-        for (const item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
-        return result;
-    }
-    const owned = Object.assign({}, stored);
-    const active = collect(placed);
-    const inactive = collect(placed2);
-    Object.keys(inactive).forEach(id => active[id] = Math.max(active[id] || 0, inactive[id]));
-    Object.keys(active).forEach(id => owned[id] = (owned[id] || 0) + active[id]);
-    return {
-        owned,
-        active
-    };
-}
-
 function getEventInfo(event) {
     const eid = +event.def_id;
     let end = +event.end || 0;
@@ -217,10 +200,7 @@ function update() {
     const currentOffer = Object.values(gui.getFile('offers')).find(offer => +offer.start <= now && +offer.end > now && gui.getArrayOfInt(offer.regions).includes(region));
     lastOffer = currentOffer ? currentOffer.def_id : 0;
 
-    const {
-        owned,
-        active
-    } = getOwnedActive(generator.stored_buildings, generator.camp.buildings, generator.camp.inactive_b);
+    const { owned, active } = gui.getOwnedActive('building');
 
     // Determine events
     const events = {};
@@ -687,14 +667,8 @@ function getCurrentItems(state) {
         const level = +generator.level;
         const skins = getBoughtSkins();
         const backpack = generator.materials || {};
-        const {
-            owned,
-            active
-        } = getOwnedActive(generator.stored_buildings, generator.camp.buildings, generator.camp.inactive_b);
-        const {
-            owned: decoOwned,
-            active: decoActive
-        } = getOwnedActive(generator.stored_decorations, generator.camp.decorations);
+        const { owned, active } = gui.getOwnedActive('building');
+        const { owned: decoOwned, active: decoActive } = gui.getOwnedActive('decoration');
         const usaOwned = generator.usables;
         const tokOwned = generator.tokens;
         const matOwned = generator.materials;

@@ -69,26 +69,17 @@ function exportInventory() {
         data.push('W' + key + '\t' + gui.getObjectName('windmill', key) + '\t' + generator.stored_windmills[key]);
     });
 
-    function inventory(prefix, in_use, not_in_use, stored, type) {
-        function collect(list) {
-            const result = {};
-            (list ? [].concat(list) : []).forEach(item => result[item.def_id] = (result[item.def_id] || 0) + 1);
-            return result;
-        }
-        const list = Object.assign({}, stored);
-        const active = collect(in_use);
-        const inactive = collect(not_in_use);
-        Object.keys(inactive).forEach(id => active[id] = Math.max(active[id] || 0, inactive[id]));
-        Object.keys(active).forEach(id => list[id] = (list[id] || 0) + active[id]);
-        Object.keys(list).forEach(key => {
+    function inventory(prefix, type) {
+        const { owned } = gui.getOwnedActive(type);
+        Object.keys(owned).forEach(key => {
             const id = prefix + key;
             const item = gui.getObject(type, key);
             const name = (item && gui.getString(item.name_loc)) || id;
-            data.push(id + '\t' + name + '\t' + list[key]);
+            data.push(id + '\t' + name + '\t' + owned[key]);
         });
     }
-    inventory('D', generator.camp.decorations, null, generator.stored_decorations, 'decoration');
-    inventory('B', generator.camp.buildings, generator.camp.inactive_b, generator.stored_buildings, 'building');
+    inventory('D', 'decoration');
+    inventory('B', 'building');
 
     data = data.join('\n');
     gui.downloadData(data, 'DAF_inventory.csv');

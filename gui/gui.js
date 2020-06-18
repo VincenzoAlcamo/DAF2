@@ -180,7 +180,7 @@ const gui = {
         const generator = gui.getGenerator();
         return generator && generator.loc_prog && generator.loc_prog[lid];
     },
-    getSyncOffset: function() {
+    getSyncOffset: function () {
         return bgp.Synchronize.offset;
     },
     getCurrentTab: function () {
@@ -240,6 +240,22 @@ const gui = {
     },
     getMaxRegion: function () {
         return bgp.Data.getMaxRegion();
+    },
+    getOwnedActive: function (stored, placed, placed2) {
+        const generator = gui.getGenerator();
+        if (stored == 'building') [stored, placed, placed2] = [generator.stored_buildings, generator.camp.buildings, generator.camp.inactive_b];
+        if (stored == 'decoration') [stored, placed, placed2] = [generator.stored_decorations, generator.camp.decorations, null];
+        function collect(list) {
+            const result = {};
+            for (const item of gui.getArray(list)) result[item.def_id] = (result[item.def_id] || 0) + 1;
+            return result;
+        }
+        const owned = Object.assign({}, stored);
+        const active = collect(placed);
+        const inactive = collect(placed2);
+        Object.keys(inactive).forEach(id => active[id] = Math.max(active[id] || 0, inactive[id]));
+        Object.keys(active).forEach(id => owned[id] = (owned[id] || 0) + active[id]);
+        return { owned, active };
     },
     getXp: function (type, oid) {
         const expByMaterial = bgp.Data.pillars.expByMaterial;
