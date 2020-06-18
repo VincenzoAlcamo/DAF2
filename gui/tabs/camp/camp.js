@@ -8,7 +8,7 @@ export default {
     actions: {
         'visit_camp': actionVisitCamp
     },
-    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins']
+    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables']
 };
 
 const NUM_SLOTS = 24;
@@ -25,6 +25,7 @@ const addonsMeta = [
     { name: 'rotor', title: 'ABNA005', type: 'addon_building', id: 7, desc: ['EXT18', 'EXT08', 'EXT23', 'EXT25', 'EXT27', 'EXT29', 'EXT31', 'EXT33', 'EXT35', 'EXT37', 'EXT39', 'EXT41', 'EXT43', 'EXT45', 'EXT47', 'EXT49'] },
     { name: 'potion_double_exp', title: 'EXT81', type: 'passive_effect_extension', id: 1, desc: ['EXT61', 'EXT61', 'EXT62', 'EXT63', 'EXT64', 'EXT65', 'EXT66', 'EXT67', 'EXT68', 'EXT69', 'EXT70'] },
     { name: 'potion_energy_back', title: 'EXT82', type: 'passive_effect_extension', id: 2, desc: ['EXT71', 'EXT71', 'EXT72', 'EXT73', 'EXT74', 'EXT75', 'EXT76', 'EXT77', 'EXT78', 'EXT79', 'EXT80'] },
+    { name: 'speedpotion', title: 'USNA025', type: '', id: 0, desc: '' },
 ];
 
 function init() {
@@ -292,7 +293,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         for (const addon of addonsMeta) {
             const name = addon.name;
             if (name in addons) {
-                const value = addons[name];
+                let value = addons[name];
                 let title = gui.getString(addon.title);
                 if (addon.desc) {
                     const msg = Array.isArray(addon.desc) ? addon.desc[value] : addon.desc;
@@ -303,13 +304,19 @@ function updateCamp(div, flagHeaderOnly = false) {
                 let img = `/img/gui/${name}.png`;
                 let extraClass = '';
                 if (addon.name == 'diggy_skin') {
-                    extraClass = 'costume';
+                    extraClass = addon.name;
                     img = gui.getObjectImage('diggy_skin', addons.costume.def_id);
                     title += `\n${gui.getString(addons.costume.name_loc)}`;
                 }
+                if (addon.name == 'speedpotion') {
+                    extraClass = addon.name;
+                    title += addons.speedpotion_title;
+                    img = addons.speedpotion_img;
+                }
                 htm += Html`<div class="camp_addon ${value ? 'camp_addon_on' : ''}" title="${title}">`;
                 htm += Html`<div class="camp_addon_img ${extraClass}"><img src="${img}"></div>`;
-                if (typeof value === 'number') htm += Html.br`<div class="camp_addon_level">${Locale.formatNumber(value)}</div>`;
+                if (typeof value === 'number') value = Locale.formatNumber(value);
+                if (typeof value === 'string' && value != '') htm += Html.br`<div class="camp_addon_level">${value}</div>`;
                 htm += Html`</div>`;
             }
         }
@@ -515,6 +522,27 @@ function calculateAddons(camp, generator) {
         const costumes = Object.values(gui.getFile('diggy_skins'));
         addons.diggy_skin = gui.getArrayOfInt(generator.diggy_skins).length + costumes.filter(c => +c.free).length;
         addons.costume = costumes.find(c => +c.def_id == +generator.diggy_skins_active) || costumes[0];
+
+        const usables = gui.getFile('usables');
+        const potions = [];
+        let total = 0;
+        for (const [id, qty] of Object.entries(generator.usables)) {
+            const usable = usables[id];
+            if (usable && usable.action == 'speedup_ctrl') {
+                const value = +usable.value;
+                const tot = qty * value;
+                total += tot;
+                potions.push({ id, qty, value, tot });
+            }
+        }
+        if (potions.length) {
+            addons.speedpotion = gui.getDuration(total);
+            potions.sort((a, b) => b.tot - a.tot);
+            addons.speedpotion_img = gui.getObjectImage('usable', potions[0].id, true);
+            addons.speedpotion_title = '\n' + potions.map(p => `${gui.getObjectName('usable', p.id)} \xd7 ${Locale.formatNumber(p.qty)} = ${gui.getDuration(p.tot, 2)}`).join('\n');
+            addons.speedpotion_title += '\n' + gui.getMessageAndValue('camp_total', gui.getDuration(total, 2));
+        }
+
     }
     return addons;
 }

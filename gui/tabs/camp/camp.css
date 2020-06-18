@@ -354,22 +354,26 @@
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-.camp_addon_img.costume img {
+.camp_addon_img.diggy_skin img {
   position: relative;
   height: calc(var(--size) *1.4);
   top: -40%;
   transition: transform 1s;
 }
 
-.camp_addon:hover .camp_addon_img.costume {
+.camp_addon:hover .camp_addon_img.diggy_skin {
   overflow: unset;
 }
 
-.camp_addon:hover .camp_addon_img.costume img {
+.camp_addon:hover .camp_addon_img.diggy_skin img {
   transform: scale(4);
   background-color: #FFFC;
   border: 1px solid var(--tb-brcol);
   border-radius: 8px;
+}
+
+.camp_addon .camp_addon_img.speedpotion img {
+  transform: scale(1.25);
 }
 
 .camp_addon.camp_addon_warn_border,
