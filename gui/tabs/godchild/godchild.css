@@ -34,7 +34,9 @@
 }
 
 .godchild_table.complete thead tr {
-  background-color: var(--tb-brcol);
+  animation: rotate-hue 10s infinite;
+  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.4), rgba(255, 255, 128, 0.4));
+  background-image: linear-gradient(top left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.4), rgba(255, 255, 128, 0.4));
 }
 
 .godchild_table .DAF-gc-pal b.energy {
