@@ -140,6 +140,16 @@ span.locked32::after {
   background-size: 16px;
 }
 
+@keyframes rotate-hue {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
 /*#endregion*/
 
 /*#region GUI ELEMENTS*/
