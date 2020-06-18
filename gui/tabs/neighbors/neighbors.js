@@ -171,7 +171,7 @@ function onClickAdvanced() {
 <br>if(expression, trueValue, falseValue)
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_variables')}</th></tr><td colspan="3">
-now region level levelup lastgift list blocks wmtime visit recorded gifts efficiency value
+now today region level levelup lastgift list blocks wmtime visit recorded gifts efficiency value
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_examples')}</th></tr>
 <tr><td colspan="3">
@@ -431,6 +431,7 @@ function getCalculator(expression, getValueFunctions) {
     if (expression) {
         const calculation = new Calculation();
         calculation.defineConstant('now', gui.getUnixTime());
+        calculation.defineConstant('today', Math.floor((new Date()).setHours(0, 0, 0, 0) / 1000));
         calculation.defineConstant('day', 86400);
         const rpn = calculation.parse(expression);
         calculator.errorCode = calculation.errorCode;
