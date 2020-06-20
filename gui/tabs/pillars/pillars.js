@@ -1,4 +1,4 @@
-/*global gui SmartTable Locale Html Tooltip Dialog*/
+/*global bgp gui SmartTable Locale Html Tooltip Dialog*/
 export default {
     hasCSS: true,
     init: init,
@@ -25,6 +25,9 @@ function init() {
     checkCap.addEventListener('click', toggleCap);
     checkGrid = container.querySelector('[name=grid]');
     checkGrid.addEventListener('click', refresh);
+
+    const button = container.querySelector('.toolbar button.ultimate');
+    button.addEventListener('click', calcUltimateLevel);
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -369,4 +372,273 @@ function onTooltip(event) {
     const pillar = pillars.find(pillar => pillar.did == did);
     const htm = Html.br`<div class="pillars-tooltip"><img src="${pillar.img}"}" class="outlined"/><span>${pillar.name}</span></div>`;
     Tooltip.show(element, htm);
+}
+
+
+async function calcUltimateLevel() {
+    const generator = gui.getGenerator();
+
+    // Find the green ring mine for the player
+    let grMine, grFloors;
+    for (let rid = +generator.region; rid > 0 && !grMine; rid--) {
+        const name = 'locations_' + rid;
+        const locations = await bgp.Data.getFile(name);
+        grMine = Object.values(locations).find(mine => +mine.test == 0 && +mine.event_id == 0 && +mine.reset_cd == 168 * 3600);
+    }
+    if (grMine) grFloors = await bgp.Data.getFile('floors_' + grMine.def_id);
+
+    // Buildings are required
+    const buildings = await bgp.Data.getFile('buildings');
+    const decorations = gui.getFile('decorations');
+    const usables = gui.getFile('usables');
+    const levelups = gui.getFile('levelups');
+
+    // INVENTORY
+    const getSpare = (type) => {
+        const { owned, active } = gui.getOwnedActive(type);
+        const spare = {};
+        Object.keys(owned).forEach(id => {
+            const qty = owned[id] - (active[id] || 0);
+            if (qty > 0) spare[id] = qty;
+        });
+        return spare;
+    };
+    const colBuildings = getSpare('building');
+    const colDecorations = getSpare('decoration');
+    const colMaterials = Object.assign({}, generator.materials);
+    const colUsables = Object.assign({}, generator.usables);
+    const colTokens = Object.assign({}, generator.tokens);
+
+    const addToCol = (col, id, qty) => col[id] = (col[id] || 0) + qty;
+    const sellAmount = (col, items) => {
+        let value = 0;
+        for (const id of Object.keys(col)) {
+            const qty = col[id];
+            delete col[id];
+            const item = items[id];
+            const price = (item && +item.sell_price) || 0;
+            value += price * qty;
+        }
+        return value;
+    };
+    const addLoot = (type, id, qty) => {
+        if (type == 'usable') addToCol(colUsables, id, qty);
+        if (type == 'material') addToCol(colMaterials, id, qty);
+        if (type == 'building') addToCol(colBuildings, id, qty);
+        if (type == 'decoration') addToCol(colDecorations, id, qty);
+        if (type == 'token') addToCol(colTokens, id, qty);
+    };
+
+    // PILLARS
+    const pillarsByMaterial = {};
+    for (const pillar of pillars) {
+        const matId = pillar.mid;
+        if (!(matId in pillarsByMaterial)) pillarsByMaterial[matId] = [];
+        pillarsByMaterial[matId].push(pillar);
+    }
+    // Sort by ratio descending, then required ascending
+    for (const items of Object.values(pillarsByMaterial)) items.sort((a, b) => (b.ratio - a.ratio) || (a.required - b.required));
+
+    // PASSIVE EFFECTS
+    const extensions = await bgp.Data.getFile('extensions');
+    const getFactor = (id, level) => {
+        let chance = 0;
+        let bonus = 0;
+        const ext = extensions && extensions[id];
+        const l = Array.isArray(ext && ext.levels) && ext.levels.find(o => +o.level == level);
+        if (Array.isArray(l && l.attributes)) l.attributes.forEach(a => {
+            if (a && a.attribute_type == 'chance') chance = +a.attribute_value;
+            if (a && a.attribute_type == 'bonus_in_percent') bonus = +a.attribute_value;
+        });
+        return chance * bonus / 10000;
+    };
+    let pXpFactor = 0;
+    let pEnergyFactor = 0;
+    [].concat(generator.passive_effect_extension && generator.passive_effect_extension.item).forEach(o => {
+        if (o && o.extension_def_id == 1) pXpFactor = getFactor(1, +o.extension_level);
+        if (o && o.extension_def_id == 2) pEnergyFactor = getFactor(2, +o.extension_level);
+    });
+
+    // Windmills
+    const windmills = await bgp.Data.getFile('windmills');
+    let windmillCoins = 0;
+    for (const [id, qty] of Object.entries(Object.assign({}, generator.stored_windmills))) {
+        const windmill = windmills[id];
+        if (windmill) windmillCoins += +qty * +windmill.sell_price;
+    }
+
+    let level = +generator.level;
+    let exp = +generator.exp;
+    let energy = 0;
+
+    let htm = '';
+    htm += `<div class="pillars-u-level outlined">@LEVEL@</div>`;
+    htm += `<button data-method="details">${gui.getMessage('gui_show')}</button>`;
+    htm += `<div class="pillars-u-table" style="display:none">`;
+    htm += `<table class="daf-table">`;
+    htm += `<thead><tr><th></th><th>${gui.getMessage('gui_xp')}</th><th>${gui.getMessage('gui_energy')}</th></tr></thead>`;
+    htm += `<tbody class="row-coloring">`;
+
+    const number = value => Locale.formatNumber(value);
+    const format = value => value ? (typeof value == 'string' ? value : (value < 0 ? '' : '+') + number(value)) : '';
+    const addRow = (img, text, xp, energy) => {
+        htm += Html`<tr><td${img ? Html` style="background-image:url(${img})"` : ''}>${text}</td>`;
+        htm += `<td>${format(xp)}</td><td>${format(energy)}</td>`;
+        htm += Html`</tr>`;
+    };
+
+    addRow('/img/gui/trophy.png', gui.getMessageAndValue('gui_level', number(level)), number(exp), number(energy));
+
+    for (; ;) {
+        let sellValue;
+        // SELL WINDMILLS
+        sellValue = windmillCoins;
+        if (sellValue) {
+            windmillCoins = 0;
+            addToCol(colMaterials, 1, sellValue);
+            addRow('/img/gui/shop.png', `${gui.getString('GUI0054')}:  ${gui.getMessage('camp_windmills')}`, `(${number(sellValue)})`);
+            continue;
+        }
+
+        // SELL BUILDINGS
+        sellValue = sellAmount(colBuildings, buildings);
+        if (sellValue) {
+            addToCol(colMaterials, 1, sellValue);
+            addRow('/img/gui/shop.png', `${gui.getString('GUI0054')}:  ${gui.getMessage('gui_equipment')}`, `(${number(sellValue)})`);
+            continue;
+        }
+        // SELL DECORATIONS
+        sellValue = sellAmount(colDecorations, decorations);
+        if (sellValue) {
+            addToCol(colMaterials, 1, sellValue);
+            addRow('/img/gui/shop.png', `${gui.getString('GUI0054')}:  ${gui.getMessage('gui_decoration')}`, `(${number(sellValue)})`);
+            continue;
+        }
+        // BUYING PILLARS
+        let pillarExp = 0;
+        // let pillarNum = 0;
+        for (const items of Object.values(pillarsByMaterial)) {
+            const mid = items[0].mid;
+            items.forEach(pillar => {
+                const qty = Math.floor(colMaterials[mid] / pillar.required);
+                if (qty) {
+                    addRow(gui.getObjectImage('material', mid), `${pillar.name} \xd7 ${number(qty)}`, qty * pillar.xp);
+                    addToCol(colMaterials, mid, -qty * pillar.required);
+                    addToCol(colDecorations, pillar.did, qty);
+                    pillarExp += qty * pillar.xp;
+                    // pillarNum += qty;
+                }
+            });
+        }
+        if (pillarExp) {
+            // console.log('Buying pillars', pillarExp, pillarNum);
+            exp += pillarExp;
+            continue;
+        }
+        // LEVEL UP
+        let nextLevel = level;
+        let gainEnergy = 0;
+        for (const levelup of levelups) {
+            if (levelup.def_id < level) continue;
+            if (nextLevel > level) {
+                gainEnergy += levelup.boost;
+                for (const reward of levelup.reward) addLoot(reward.type, reward.object_id, reward.amount);
+            }
+            if (exp < levelup.xp) break;
+            exp -= levelup.xp;
+            nextLevel++;
+        }
+        if (nextLevel != level) {
+            energy += gainEnergy;
+            level = nextLevel;
+            addRow('/img/gui/level.png', gui.getMessageAndValue('gui_level', number(level)), number(exp), gainEnergy);
+            continue;
+        }
+        // USE FOOD
+        let food = 0;
+        for (const [id, qty] of Object.entries(colUsables)) {
+            const usable = usables[id];
+            if (usable && usable.action == 'add_stamina') {
+                food += +usable.value * qty;
+                delete colUsables[id];
+            }
+        }
+        if (food) {
+            energy += food;
+            addRow('/img/gui/usable.png', `${gui.getMessage('gui_food')} \u2192 ${gui.getMessage('gui_energy')}`, null, food);
+            continue;
+        }
+        // ENERGY -> XP
+        const startingEnergy = energy;
+        let gainExp = 0;
+        while (energy) {
+            gainExp += energy + Math.floor(energy * pXpFactor);
+            energy = Math.floor(energy * pEnergyFactor);
+        }
+        if (gainExp) {
+            exp += gainExp;
+            addRow('/img/gui/energy.png', `${gui.getMessage('gui_energy')} \u2192 ${gui.getMessage('gui_xp')}`, gainExp, -startingEnergy);
+            continue;
+        }
+        // USE GREEN RINGS (32 = GREEN RING, 17 = number of chests)
+        if (colTokens[32] >= 17 && grFloors) {
+            addToCol(colTokens, 32, -17);
+            let xp = 0;
+            for (const floor of grFloors.floor) {
+                let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
+                lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
+                for (const lootArea of lootAreas) {
+                    const count = typeof lootArea.tiles == 'string' ? lootArea.tiles.split(';').length : 0;
+                    const random = +lootArea.random;
+                    const num = random > 0 && random < count ? random : count;
+                    const loot = gui.calculateLoot(lootArea, level, { coeficient: 2 });
+                    xp += num * loot.avg * gui.getXp(lootArea.type, lootArea.object_id);
+                    addLoot(lootArea.type, lootArea.object_id, num * loot.avg);
+                }
+            }
+            addRow(gui.getObjectImage('token', 32), `${gui.getObjectName('token', 32)} \xd7 17 (DMW)`, `(+${number(xp)})`);
+            continue;
+        }
+        // ADDING MATERIAL XP
+        gainExp = 0;
+        for (const [id, qty] of Object.entries(colMaterials)) {
+            const matXp = qty * gui.getXp('material', id);
+            if (matXp) {
+                delete colMaterials[id];
+                gainExp += matXp;
+            }
+        }
+        if (gainExp) {
+            exp += gainExp;
+            addRow('/img/gui/xp.png', `${gui.getMessage('gui_material')} \u2192 ${gui.getMessage('gui_xp')}`, gainExp);
+            continue;
+        }
+        break;
+    }
+    addRow('/img/gui/trophy.png', gui.getMessageAndValue('gui_level', number(level)), number(exp), number(energy));
+
+    htm += `</tbody>`;
+    htm += `</table>`;
+    htm += `</div>`;
+
+    htm = htm.replace('@LEVEL@', Locale.formatNumber(level));
+
+    gui.dialog.show({
+        title: gui.getMessage('gui_maximum'),
+        html: htm,
+        style: [Dialog.OK, Dialog.AUTORUN],
+    }, function (method) {
+        const button = gui.dialog.element.querySelector('[data-method="details"]');
+        if (method == Dialog.AUTORUN) {
+            const parent = gui.dialog.element.querySelector('.DAF-md-footer');
+            parent.insertBefore(button, parent.firstChild);
+            return;
+        }
+        if (method == 'details') {
+            const table = gui.dialog.element.querySelector('.pillars-u-table');
+            table.style.display = table.style.display == 'none' ? '' : 'none';
+            return;
+        }
+        button.remove();
+    });
 }

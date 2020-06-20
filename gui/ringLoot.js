@@ -196,8 +196,8 @@ function ringLoot(kind) {
                             t[0] = 99 - t[0];
                         }
                         t = t.map(n => String(n).padStart(3, '0')).join(',');
-                        // skip spurious Orichalcum in "Temple of Fortune"
-                        if (lid == 2193 && t.substr(0, 3) == '30,' && lootArea.type == 'material' && lootArea.object_id == 148) continue;
+                        // skip spurious Orichalcum in "Temple of Fortune" (no more necessary as the file has been fixed)
+                        if (lid == 2193 && t.substr(0, 3) == '030,' && lootArea.type == 'material' && lootArea.object_id == 148) continue;
                         const copy = Object.assign({}, lootArea);
                         copy.tle = t;
                         const type = copy.type;

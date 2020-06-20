@@ -93,6 +93,7 @@
 .pillars-next progress::-webkit-progress-value {
   background-color: var(--pb-fgcol2);
 }
+
 @-moz-document url-prefix() {
   .pillars-next progress::-moz-progress-bar {
     background-color: var(--pb-fgcol2);
@@ -138,4 +139,25 @@
 
 .pillars-gain {
   text-align: left;
+}
+
+.pillars-u-level {
+  font-size: 64px;
+}
+
+.pillars-u-table {
+  margin-top: 16px !important;
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+.pillars-u-table tr td:first-child {
+  background-size: 22px;
+  background-repeat: no-repeat;
+  padding-left: 28px;
+}
+
+.pillars-u-table tr td:nth-child(2),
+.pillars-u-table tr td:nth-child(3) {
+  text-align: right;
 }
