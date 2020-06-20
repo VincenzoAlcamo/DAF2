@@ -810,6 +810,8 @@ var Data = {
         if (generator) String(Preferences.getValue('repeatables') || '').split(',').forEach(lid => {
             const rep = Data.repeatables[lid];
             if (!rep) return;
+            const eid = rep.eid;
+            if (eid > 0 && eid in generator.events && +generator.events[eid].finished <= now) return;
             const prog = Data.loc_prog[lid] || generator.loc_prog && generator.loc_prog[lid];
             if (!prog) return;
             const end = (+prog.cmpl || 0) + rep.cooldown - offset;
