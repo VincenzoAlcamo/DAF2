@@ -288,6 +288,12 @@
     "gui_locked": {
         "message": "Fermé"
     },
+    "gui_noresults": {
+        "message": "Aucun résultat"
+    },
+    "gui_toomanyresults": {
+        "message": "Trop de résultats"
+    },
     "dialog_ok": {
         "message": "D'accord"
     },
