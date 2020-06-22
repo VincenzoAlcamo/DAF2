@@ -379,6 +379,7 @@ async function calcUltimateLevel() {
     const generator = gui.getGenerator();
 
     // Find the green ring mine for the player
+    await bgp.Data.getFile('tokens');
     let grMine, grFloors;
     for (let rid = +generator.region; rid > 0 && !grMine; rid--) {
         const name = 'locations_' + rid;
@@ -482,8 +483,8 @@ async function calcUltimateLevel() {
     const number = value => Locale.formatNumber(value);
     const format = value => value ? (typeof value == 'string' ? value : (value < 0 ? '' : '+') + number(value)) : '';
     const addRow = (img, text, xp, energy) => {
-        htm += Html`<tr><td${img ? Html` style="background-image:url(${img})"` : ''}>${text}</td>`;
-        htm += `<td>${format(xp)}</td><td>${format(energy)}</td>`;
+        htm += Html.br`<tr><td${img ? Html` style="background-image:url(${img})"` : ''}>${text}</td>`;
+        htm += Html.br`<td>${format(xp)}</td><td>${format(energy)}</td>`;
         htm += Html`</tr>`;
     };
 
@@ -596,7 +597,9 @@ async function calcUltimateLevel() {
                     addLoot(lootArea.type, lootArea.object_id, num * loot.avg);
                 }
             }
-            addRow(gui.getObjectImage('token', 32), `${gui.getObjectName('token', 32)} \xd7 17 (DMW)`, `(+${number(xp)})`);
+            const clearBonus = +grMine.reward_exp;
+            exp += clearBonus;
+            addRow(gui.getObjectImage('token', 32), `${gui.getString(grMine.name_loc)}\n${gui.getObjectName('token', 32)} \xd7 17 (DMW)`, `${number(clearBonus)}\n(+${number(xp)})`);
             continue;
         }
         // ADDING MATERIAL XP
