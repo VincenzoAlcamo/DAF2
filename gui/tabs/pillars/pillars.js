@@ -42,6 +42,9 @@ function update() {
     const sales = gui.getFile('sales');
     const decorations = gui.getFile('decorations');
     const materialInventory = gui.getGenerator().materials;
+    const generator = gui.getGenerator();
+    const level = +generator.level;
+    const region = +generator.region;
     pillars = [];
     const pillarsByMaterial = {};
     for (const saleId of pillarsInfo.sales) {
@@ -62,10 +65,10 @@ function update() {
             pillar.required = +req.amount;
             pillar.available = materialInventory[matId] || 0;
             pillar.matimg = gui.getObjectImage('material', matId, true);
-            pillar.possible = Math.floor(pillar.available / pillar.required);
             pillar.perc_next = (pillar.available % pillar.required) / pillar.required * 100;
             pillar.level = +sale.level;
             pillar.region = (sale.req_type == 'camp_skin' ? gui.getRegionFromSkin(+sale.req_object) : 0) || 1;
+            pillar.possible = level < pillar.level || region < pillar.region ? 0 : Math.floor(pillar.available / pillar.required);
             pillar.ratio = pillar.xp / pillar.required;
             pillars.push(pillar);
             if (!(matId in pillarsByMaterial)) pillarsByMaterial[matId] = [];
@@ -77,7 +80,7 @@ function update() {
         // Sort by ratio descending, then required ascending
         items.sort((a, b) => (b.ratio - a.ratio) || (a.required - b.required));
         items.forEach(pillar => {
-            pillar.max_possible = Math.floor(available / pillar.required);
+            pillar.max_possible = level < pillar.level || region < pillar.region ? 0 : Math.floor(available / pillar.required);
             available -= (pillar.max_possible * pillar.required);
             setQty(pillar, pillar.max_possible);
         });
