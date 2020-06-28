@@ -672,6 +672,10 @@ const gui = {
         document.removeEventListener('copy', oncopy);
     },
     downloadData: function (data, fileName) {
+        const p2 = n => n.toString().padStart(2, '0');
+        const dt = new Date();
+        if (fileName.indexOf('%date%')) fileName = fileName.replace(/%date%/g, `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}-${p2(dt.getDate())}`);
+        if (fileName.indexOf('%time%')) fileName = fileName.replace(/%time%/g, `${p2(dt.getHours())}${p2(dt.getMinutes())}${p2(dt.getSeconds())}`);
         const a = document.createElement('a');
         a.style.display = 'none';
         document.body.appendChild(a);

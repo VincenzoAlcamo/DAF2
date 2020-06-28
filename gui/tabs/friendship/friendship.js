@@ -963,5 +963,5 @@ function exportData() {
     data.unshift(['FB_ID', 'FB_NAME', 'FB_PAGE', 'RECORDED', 'SCORE', 'NEIGHBOUR', 'LEVEL', 'REGION', 'LAST_GIFT']);
     data = data.map(line => line.join('\t'));
     data = data.join('\n');
-    gui.downloadData(data, 'DAF_friends ' + Locale.formatDateTime(gui.getUnixTime()) + '.csv');
+    gui.downloadData(data, 'DAF_friends_%date%_%time%.csv');
 }
