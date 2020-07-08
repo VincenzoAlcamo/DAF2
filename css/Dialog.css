@@ -1,6 +1,10 @@
+.DAF-dialog {
+  font-size: 12pt;
+}
+
 .DAF-dialog * {
   font-family: sans-serif;
-  font-size: 12pt;
+  font-size: inherit;
 }
 
 .DAF-dialog {
