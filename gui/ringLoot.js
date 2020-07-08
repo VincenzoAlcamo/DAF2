@@ -444,34 +444,14 @@ function ringLoot(kind) {
     }
 
     function showDetailedLoot(lid, isDMW) {
-        const doubleDrop = isDMW ? swDoubleDrop || { coeficient: 2 } : null;
         const data = floorData[lid];
         const level = +gui.getGenerator().level;
-        let totals = {};
         const chests = {};
         const lootAreas = data.curLoots.filter(lootArea => {
             if (lootArea.tle.startsWith('z')) return true;
             if (lootArea.checked) chests[lootArea.chest] = true;
             return lootArea.checked;
         });
-        for (const lootArea of lootAreas) {
-            const loot = gui.calculateLoot(lootArea, level, doubleDrop);
-            const type = lootArea.type;
-            const oid = lootArea.object_id;
-            const key = type + '_' + oid;
-            let total = totals[key];
-            if (!total) totals[key] = total = { type, oid, avg: 0, xp: gui.getXp(type, oid) };
-            total.avg += loot.avg;
-        }
-        totals = Object.values(totals);
-        for (const total of totals) {
-            total.avg = Math.floor(total.avg);
-            total.txp = total.avg * total.xp;
-        }
-        totals.sort((a, b) => b.txp - a.txp);
-        let txp = +data.mine.reward_exp || 0;
-        if (gui.getActiveSpecialWeeks().postcards) txp *= 10;
-        totals.push({ type: 'system', oid: 1, txp, name: gui.getMessage('events_clearbonus').toUpperCase() });
         let rings = 0;
         if (tokenId) rings = gui.getGenerator().tokens[tokenId] || 0;
         if (kind == 'christmas') {
@@ -479,7 +459,48 @@ function ringLoot(kind) {
             rings = gui.getGenerator().tokens[tokenId] || 0;
         }
         const numChests = Object.keys(chests).length;
-        const max = Math.floor(rings / numChests);
+        let max = Math.floor(rings / numChests);
+
+        let totals, totalXp;
+        const recomputeTotals = () => {
+            const doubleDrop = isDMW ? swDoubleDrop || { coeficient: 2 } : null;
+            totals = {};
+            for (const lootArea of lootAreas) {
+                const loot = gui.calculateLoot(lootArea, level, doubleDrop);
+                const type = lootArea.type;
+                const oid = lootArea.object_id;
+                const key = type + '_' + oid;
+                let total = totals[key];
+                if (!total) totals[key] = total = { type, oid, avg: 0, xp: gui.getXp(type, oid) };
+                total.avg += loot.avg;
+            }
+            totals = Object.values(totals);
+            for (const total of totals) {
+                total.avg = Math.floor(total.avg);
+                total.txp = total.avg * total.xp;
+            }
+            totals.sort((a, b) => b.txp - a.txp);
+            let txp = +data.mine.reward_exp || 0;
+            if (gui.getActiveSpecialWeeks().postcards) txp *= 10;
+            totals.push({ type: 'system', oid: 1, txp, name: gui.getMessage('events_clearbonus').toUpperCase() });
+            totalXp = 0;
+            for (const total of totals) totalXp += total.txp;
+        };
+
+        const getTBody = () => {
+            let htm = '';
+            for (const total of totals) {
+                htm += Html.br`<tr>`;
+                htm += Html.br`<td class="material" style="background-image:url(${gui.getObjectImage(total.type, total.oid, true)})">${total.name ? total.name : gui.getObjectName(total.type, total.oid)}</td>`;
+                htm += Html.br`<td class="avg">${Locale.formatNumber(total.avg)}</td>`;
+                htm += Html.br`<td class="avg">${total.txp ? Locale.formatNumber(total.txp) : ''}</td>`;
+                htm += Html.br`<td class="avg">${Locale.formatNumber(max * total.avg)}</td>`;
+                htm += Html.br`<td class="avg">${total.txp ? Locale.formatNumber(max * total.txp) : ''}</td>`;
+                htm += Html.br`</tr>`;
+            }
+            return htm;
+        };
+
         let htm = '';
         if (selectDMW) {
             htm += Html`<label style="display:block;margin-bottom:8px;" for="r_dmw"><b>${gui.getMessage('specialweek_double_drop')}</b> <input id="r_dmw" name="dmw" type="checkbox" style="vertical-align:middle" ${isDMW ? 'checked' : ''} data-method="dmw"></label>`;
@@ -487,44 +508,38 @@ function ringLoot(kind) {
         htm += Html.br`<table class="rings daf-table">`;
         htm += Html.br`<thead>`;
         htm += Html.br`<tr>`;
-        htm += Html.br`<th colspan="${max > 1 ? 5 : 3}"><div class="title">${gui.getString(data.mine.name_loc)}</div>`;
+        htm += Html.br`<th colspan="5"><div class="title">${gui.getString(data.mine.name_loc)}</div>`;
         htm += Html.br`${gui.getMessage('gui_level')} ${Locale.formatNumber(level)} (${gui.getMessage('gui_average')})</th>`;
         htm += Html.br`</tr>`;
         htm += Html.br`<tr>`;
         htm += Html.br`<th rowspan="2">${gui.getMessage('gui_loot')}</th>`;
         htm += Html.br`<th colspan="2">1 &times; (${gui.getMessageAndValue('rings_rings', Locale.formatNumber(numChests))})</th>`;
-        if (max > 1) htm += Html.br`<th colspan="2">${Locale.formatNumber(max)} &times; (${gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests))})</th>`;
+        htm += Html.br`<th colspan="2"><input type="number" name="max" value="${Locale.formatNumber(max)}" data-method="max" style="width:60px" min="1" max="9999"> &times; (<span class="num-rings">${gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests))}</span>)</th>`;
         htm += Html.br`</tr>`;
         htm += Html.br`<tr>`;
         htm += Html.br`<th>${gui.getMessage('gui_qty')}</th>`;
         htm += Html.br`<th>${gui.getMessage('gui_xp')}</th>`;
-        if (max > 1) {
-            htm += Html.br`<th>${gui.getMessage('gui_qty')}</th>`;
-            htm += Html.br`<th>${gui.getMessage('gui_xp')}</th>`;
-        }
+        htm += Html.br`<th>${gui.getMessage('gui_qty')}</th>`;
+        htm += Html.br`<th>${gui.getMessage('gui_xp')}</th>`;
         htm += Html.br`</tr>`;
         htm += Html.br`</thead>`;
-        htm += Html.br`<tbody class="row-coloring">`;
-        let totalXp = 0;
-        for (const total of totals) {
-            htm += Html.br`<td class="material" style="background-image:url(${gui.getObjectImage(total.type, total.oid, true)})">${total.name ? total.name : gui.getObjectName(total.type, total.oid)}</td>`;
-            htm += Html.br`<td class="avg">${Locale.formatNumber(total.avg)}</td>`;
-            htm += Html.br`<td class="avg">${total.txp ? Locale.formatNumber(total.txp) : ''}</td>`;
-            if (max > 1) {
-                htm += Html.br`<td class="avg">${Locale.formatNumber(max * total.avg)}</td>`;
-                htm += Html.br`<td class="avg">${total.txp ? Locale.formatNumber(max * total.txp) : ''}</td>`;
-            }
-            htm += Html.br`</tr>`;
-            totalXp += total.txp;
-        }
+        htm += Html.br`<tbody class="row-coloring loot-data">`;
         htm += Html.br`</tbody>`;
         htm += Html.br`<tfoot><tr><th>${gui.getMessage('events_total')}</td>`;
-        htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(totalXp)}</td>`;
-        if (max > 1) htm += Html.br`<th colspan="2" class="avg">${Locale.formatNumber(max * totalXp)}</td>`;
+        htm += Html.br`<th colspan="2" class="avg total1"></td>`;
+        htm += Html.br`<th colspan="2" class="avg total2"></td>`;
         htm += Html.br`</table>`;
-        gui.dialog.show({ html: htm, style: [Dialog.CLOSE] }, (method, params) => {
-            if (method === 'dmw') {
-                showDetailedLoot(lid, params.dmw);
+        gui.dialog.show({ html: htm, style: [Dialog.CLOSE, Dialog.AUTORUN] }, (method, params) => {
+            if (method === 'dmw' || method === 'max' || method == Dialog.AUTORUN) {
+                isDMW = params.dmw == 'on';
+                max = Math.max(1, Math.min(9999, params.max));
+                if (max != params.max) gui.dialog.element.querySelector('[name=max]').value = max;
+                recomputeTotals();
+                Dialog.htmlToDOM(gui.dialog.element.querySelector('.loot-data'), getTBody());
+                gui.dialog.element.querySelector('.num-rings').textContent = gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests));
+                gui.dialog.element.querySelector('.total1').textContent = Locale.formatNumber(totalXp);
+                gui.dialog.element.querySelector('.total2').textContent = Locale.formatNumber(max * totalXp);
+                // showDetailedLoot(lid, params.dmw);
             }
         });
     }
