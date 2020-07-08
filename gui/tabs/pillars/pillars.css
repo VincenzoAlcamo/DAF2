@@ -161,3 +161,7 @@
 .pillars-u-table tr td:nth-child(3) {
   text-align: right;
 }
+
+.pillars-u-table tbody.row-coloring tr.milestone {
+  background-color: var(--tb-hlcol);
+}

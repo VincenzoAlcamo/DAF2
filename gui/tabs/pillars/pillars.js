@@ -485,14 +485,25 @@ async function calcUltimateLevel() {
 
     const number = value => Locale.formatNumber(value);
     const format = value => value ? (typeof value == 'string' ? value : (value < 0 ? '' : '+') + number(value)) : '';
-    const addRow = (img, text, xp, energy) => {
-        htm += Html.br`<tr><td${img ? Html` style="background-image:url(${img})"` : ''}>${text}</td>`;
-        htm += Html.br`<td>${format(xp)}</td><td>${format(energy)}</td>`;
+    const MILESTONE = 'MILESTONE';
+    const addRow = (img, text, expText, energyText) => {
+        let cls = '';
+        if (img === MILESTONE) {
+            img = '/img/gui/trophy.png';
+            text = gui.getMessageAndValue('gui_level', number(level));
+            expText = number(exp);
+            energyText = number(energy);
+            cls = Html.raw(' class="milestone"');
+        }
+        htm += Html.br`<tr${cls}><td${img ? Html` style="background-image:url(${img})"` : ''}>${text}</td>`;
+        htm += Html.br`<td>${format(expText)}</td><td>${format(energyText)}</td>`;
         htm += Html`</tr>`;
     };
 
-    addRow('/img/gui/trophy.png', gui.getMessageAndValue('gui_level', number(level)), number(exp), number(energy));
+    addRow(MILESTONE);
 
+    let showLevelBeforeRings = true;
+    let showLevelBeforeMaterial = true;
     for (; ;) {
         let sellValue;
         // SELL WINDMILLS
@@ -586,6 +597,10 @@ async function calcUltimateLevel() {
         }
         // USE GREEN RINGS (32 = GREEN RING, 17 = number of chests)
         if (colTokens[32] >= 17 && grFloors) {
+            if (showLevelBeforeRings) {
+                showLevelBeforeRings = false;
+                addRow(MILESTONE);
+            }
             addToCol(colTokens, 32, -17);
             let xp = 0;
             for (const floor of grFloors.floor) {
@@ -615,13 +630,17 @@ async function calcUltimateLevel() {
             }
         }
         if (gainExp) {
+            if (showLevelBeforeRings || showLevelBeforeMaterial) {
+                showLevelBeforeRings = showLevelBeforeMaterial = false;
+                addRow(MILESTONE);
+            }
             exp += gainExp;
             addRow('/img/gui/xp.png', `${gui.getMessage('gui_material')} \u2192 ${gui.getMessage('gui_xp')}`, gainExp);
             continue;
         }
         break;
     }
-    addRow('/img/gui/trophy.png', gui.getMessageAndValue('gui_level', number(level)), number(exp), number(energy));
+    addRow(MILESTONE);
 
     htm += `</tbody>`;
     htm += `</table>`;
