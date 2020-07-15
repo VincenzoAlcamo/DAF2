@@ -97,8 +97,9 @@ function updateStatus() {
     container.querySelector('.godchild_table').classList.toggle('complete', num == 0);
     container.querySelector('.godchild_table').style.display = tot ? '' : 'none';
     container.querySelector('.toolbar').style.display = !tot ? '' : 'none';
-    let htm = Html.br`${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
+    let htm = Html.br`<span>${num ? gui.getMessage('godchild_stat', Locale.formatNumber(num), Locale.formatNumber(maxGC)) : gui.getMessage('menu_gccollected')}`;
     if (totEnergy) htm += Html.br` &mdash; ${gui.getMessageAndValue(isPrecise ? 'gui_energy' : 'gui_estimatedenergy', Locale.formatNumber(totEnergy))}`;
+    htm += Html.br`</span>`;
     const nextTxt = bgp.Data.getGCInfo().nexttxt;
     if (nextTxt) htm += Html.br`<br>${nextTxt}`;
     for (const div of container.querySelectorAll('.tab_godchild .stats')) Dialog.htmlToDOM(div, htm);

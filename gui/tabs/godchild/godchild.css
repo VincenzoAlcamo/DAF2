@@ -34,9 +34,11 @@
 }
 
 .godchild_table.complete thead tr {
-  animation: rotate-hue 10s infinite;
-  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.4), rgba(255, 255, 128, 0.4));
-  background-image: linear-gradient(top left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.4), rgba(255, 255, 128, 0.4));
+  background-color: var(--tb-brcol);
+}
+
+.godchild_table.complete thead tr span span {
+  animation: rotate-hue 5s infinite, letter-spacing 3s ease-in-out alternate infinite;
 }
 
 .godchild_table .DAF-gc-pal b.energy {
@@ -45,4 +47,14 @@
   background-repeat: no-repeat;
   background-size: 19px;
   background-position: 0px -2px;
+}
+
+@keyframes letter-spacing {
+  0% {
+    letter-spacing: 0px;
+  }
+
+  100% {
+    letter-spacing: 2px;
+  }
 }
