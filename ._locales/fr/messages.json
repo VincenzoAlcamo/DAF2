@@ -1768,6 +1768,9 @@
     "options_nogcpopup": {
         "message": "Pas de popups de filleuls\nPas de popups lors de la collecte des filleuls"
     },
+    "options_autogc": {
+        "message": "Camp de changement de filleuls auto\nChanger automatiquement de camp après avoir récupéré les filleuls."
+    },
     "options_section_general": {
         "message": "Options générales"
     },

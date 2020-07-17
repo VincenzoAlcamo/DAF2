@@ -288,6 +288,12 @@
     "gui_locked": {
         "message": "Bloqueado"
     },
+    "gui_noresults": {
+        "message": "Sem resultados"
+    },
+    "gui_toomanyresults": {
+        "message": "Demasiados resultados"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1761,6 +1767,9 @@
     },
     "options_nogcpopup": {
         "message": "Nenhum pop-up dos Afilhados\nNão há pop-ups ao coletar os Afilhados"
+    },
+    "options_autogc": {
+        "message": "Campo de troca automática de Afilhados\nMudar automaticamente de campo depois de coletar os afilhados"
     },
     "options_section_general": {
         "message": "Opções gerais"

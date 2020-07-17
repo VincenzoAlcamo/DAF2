@@ -74,6 +74,7 @@ var Preferences = {
             fullWindowTimeout: 0,
             autoClick: false,
             noGCPopup: false,
+            autoGC: false,
             autoLogin: false,
             gcTable: false,
             gcTableCounter: true,
@@ -1542,6 +1543,9 @@ var Synchronize = {
                     delete neighbour.extra.gcCount;
                     const data = Data.getGCInfo();
                     data.id = neighbourId;
+                    const camp = Data.lastVisitedCamp;
+                    // We can autoskip if Mr.Bill or the camp does not need windmills
+                    data.skip = neighbourId == 1 || !(camp && camp.neigh_id == neighbourId && Data.getCampWindmillTime(camp) == 0);
                     Synchronize.signal(action, data);
                 }
                 Data.saveNeighbour(neighbour);

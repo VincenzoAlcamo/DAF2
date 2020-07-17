@@ -6,9 +6,10 @@ const tabs = (function () {
     const tabs = {};
 
     function addTab(id, enabled = true) {
+        const icon = id == 'godchild' ? 'gc' : id;
         tabs[id] = {
             id: id,
-            icon: '/img/gui/' + id + '.png',
+            icon: '/img/gui/' + icon + '.png',
             generator: id != 'about' && id != 'options' && id != 'game',
             enabled: enabled
         };

@@ -147,7 +147,11 @@
 }
 
 .DAF-menu li[data-action="gcTable"] b {
-  background-image: url("/img/gui/godchild.png");
+  background-image: url("/img/gui/gc.png");
+}
+
+.DAF-menu li[data-action="autoGC"] b {
+  background-image: url("/img/gui/autogc.png");
 }
 
 .DAF-menu li[data-action="noGCPopup"] b,
@@ -208,7 +212,7 @@
 }
 
 .DAF-badges .DAF-badge-gc-counter {
-  background-image: url(/img/gui/godchild.png);
+  background-image: url(/img/gui/gc.png);
   background-color: #0FF;
 }
 

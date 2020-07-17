@@ -1768,6 +1768,9 @@
     "options_nogcpopup": {
         "message": "No GC popups\nNo popups when collecting GC"
     },
+    "options_autogc": {
+        "message": "Auto GC switch camp\nAutomatically switch camp after collecting GC"
+    },
     "options_section_general": {
         "message": "General options"
     },

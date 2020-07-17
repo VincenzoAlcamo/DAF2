@@ -289,7 +289,7 @@
         "message": "Bloqueado"
     },
     "gui_noresults": {
-        "message": "No hay resultados"
+        "message": "Sin resultados"
     },
     "gui_toomanyresults": {
         "message": "Demasiados resultados"
@@ -1767,6 +1767,9 @@
     },
     "options_nogcpopup": {
         "message": "No niños dioses ventana emergente\nNo a la ventan emergente al recolectar niños dioses"
+    },
+    "options_autogc": {
+        "message": "Cambio automático de campamento Niños Dioses.\nAutomaticamente cambia de campamento luego de recolectar Niños Dioses"
     },
     "options_section_general": {
         "message": "Opciones generales."

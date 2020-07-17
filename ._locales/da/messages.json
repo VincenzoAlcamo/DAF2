@@ -288,6 +288,12 @@
     "gui_locked": {
         "message": "Låst"
     },
+    "gui_noresults": {
+        "message": "Intet resultat"
+    },
+    "gui_toomanyresults": {
+        "message": "For mange resultater"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1761,6 +1767,9 @@
     },
     "options_nogcpopup": {
         "message": "Ingen Gudebørn pop-ups\nIngen pop-ups når du samler Gudebørn"
+    },
+    "options_autogc": {
+        "message": "Auto Gudebørn skifte lejr\nSkifter automatiske til næste lejr efter indsamling af Gudebørn"
     },
     "options_section_general": {
         "message": "Generelle instillinger"

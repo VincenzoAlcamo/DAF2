@@ -288,6 +288,12 @@
     "gui_locked": {
         "message": "Zablokowany"
     },
+    "gui_noresults": {
+        "message": "Brak wyników"
+    },
+    "gui_toomanyresults": {
+        "message": "Za dużo wyników"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1761,6 +1767,9 @@
     },
     "options_nogcpopup": {
         "message": "Brak wyskakujących okienek BD\nBrak wyskakującyhc okienek podczas zbierania BD"
+    },
+    "options_autogc": {
+        "message": "Auto BD przełączenie obozu\nAutomatyczne przełączanie obozu po zebraniu BD"
     },
     "options_section_general": {
         "message": "Opcje ogólne"

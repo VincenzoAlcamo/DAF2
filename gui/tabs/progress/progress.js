@@ -498,7 +498,7 @@ function isValidItem(item) {
 const achievementImages = {
     'refresh_mine': 'repeat.png',
     'collection': 'chest.png',
-    'friend_child': 'godchild.png',
+    'friend_child': 'gc.png',
     'buy_building': 'equipment.png',
     'building': 'camp.png',
     'dig': 'dig.png',

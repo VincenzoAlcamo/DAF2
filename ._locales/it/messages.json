@@ -1768,6 +1768,9 @@
     "options_nogcpopup": {
         "message": "Nessun popup dei Bimbi\nNessun popup quando si raccolgono i Bimbi"
     },
+    "options_autogc": {
+        "message": "Cambia campo Bimbi\nCambia campo automaticamente dopo aver raccolto i Bimbi"
+    },
     "options_section_general": {
         "message": "Opzioni generali"
     },

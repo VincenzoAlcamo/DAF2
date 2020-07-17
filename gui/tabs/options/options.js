@@ -273,6 +273,7 @@ UI_claim_coin_single_slow_02
     option('gcTableRegion', SUBOPTION);
     // option('autoClick');
     option('noGCPopup');
+    option('autoGC');
     endSection();
     beginSection('rewardlinks');
     option('rewardsClose', WITHSUBOPTIONS);

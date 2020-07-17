@@ -54,7 +54,7 @@
         "message": "Aus"
     },
     "gui_timeparts": {
-        "message": "Tag,Std.,m,s"
+        "message": "Tage,Std.,m,s"
     },
     "gui_card_clicker": {
         "message": "Diesen Abschnitt aus- / einblenden."
@@ -1767,6 +1767,9 @@
     },
     "options_nogcpopup": {
         "message": "Keine GK-Popups\nKeine Popups beim Sammeln von GK"
+    },
+    "options_autogc": {
+        "message": "Automatisches GC-Camp-Umschalter\nAutomatisches Wechseln des Camps nach dem Einsammeln von GC"
     },
     "options_section_general": {
         "message": "Allgemeine Einstellungen"

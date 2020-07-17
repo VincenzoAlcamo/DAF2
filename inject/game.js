@@ -415,6 +415,16 @@ function createMenu() {
     <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
     </div>
 </li>
+<li data-action="autoGC"><b data-pref="autoGC">&nbsp;</b>
+    <div><span>${gm1('options_autogc')}</span><br>
+    <i data-pref="autoGC"></i>
+    </div>
+</li>
+<li data-action="noGCPopup"><b data-pref="noGCPopup">&nbsp;</b>
+    <div><span>${gm1('options_nogcpopup')}</span><br>
+    <i data-pref="noGCPopup"></i>
+    </div>
+</li>
 <li data-action="badges"><b>&nbsp;</b>
     <div><span>${gm('options_section_badges')}</span><br>
     <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
@@ -422,18 +432,6 @@ function createMenu() {
     <br>
     <i data-pref="badgeRepeatables">${gm1('options_badgerepeatables')}</i>
     <i data-pref="badgeRepeatablesSound">${gm1('options_badgerepeatablessound')}</i>
-    </div>
-</li>
-<!--
-<li data-action="autoClick"><b data-pref="autoClick">&nbsp;</b>
-    <div><span>${gm('menu_autoclick')}</span><br>
-    <i data-pref="autoClick"></i>
-    </div>
-</li>
--->
-<li data-action="noGCPopup"><b data-pref="noGCPopup">&nbsp;</b>
-    <div><span>${gm('menu_nogcpopup')}</span><br>
-    <i data-pref="noGCPopup"></i>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -480,7 +478,7 @@ function updateMenu(prefName) {
         const prefName = el.getAttribute('data-pref');
         const isOn = !!prefs[prefName];
         el.classList.toggle('DAF-on', isOn);
-        if (el.tagName == 'I' && (prefName == 'fullWindow' || prefName == 'gcTable' || prefName == 'autoClick' || prefName == 'noGCPopup')) el.textContent = isOn ? textOn : textOff;
+        if (el.tagName == 'I' && ['fullWindow', 'gcTable', 'autoClick', 'autoGC', 'noGCPopup'].indexOf(prefName) >= 0) el.textContent = isOn ? textOn : textOff;
     }
     const divBadges = menu.querySelector('.DAF-badges');
     const names = prefName ? [prefName] : Object.keys(prefs);
@@ -501,6 +499,7 @@ function onMenuClick(e) {
         case 'fullWindow':
         case 'gcTable':
         case 'autoClick':
+        case 'autoGC':
         case 'noGCPopup': {
             const name = target.getAttribute('data-pref') || action;
             sendPreference(name, !prefs[name]);
@@ -593,7 +592,7 @@ function init() {
     prefs = {};
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
-    addPrefs('autoClick,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
+    addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
     addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables,badgeRepeatablesSound');
 
     function setPref(name, value) {
@@ -666,7 +665,14 @@ function init() {
         };
         msgHandlers['friend_child_charge'] = (request) => {
             updateGCStatus(request.data);
-            if (miner) gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
+            if (miner) {
+                gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
+                if (prefs.autoGC && request.data.skip) {
+                    const eventConfig = { clientX: 35, clientY: Math.floor(miner.offsetHeight / 2 + miner.offsetTop), buttons: 1 };
+                    miner.dispatchEvent(new MouseEvent('mousedown', eventConfig));
+                    setTimeout(() => miner.dispatchEvent(new MouseEvent('mouseup', eventConfig)), 250);
+                }
+            }
         };
         if (!miner) msgHandlers['gc-energy'] = (request) => {
             const energy = (request.data && +request.data.energy) || 0;
