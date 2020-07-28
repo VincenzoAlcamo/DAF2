@@ -1543,9 +1543,11 @@ var Synchronize = {
                     delete neighbour.extra.gcCount;
                     const data = Data.getGCInfo();
                     data.id = neighbourId;
-                    const camp = Data.lastVisitedCamp;
-                    // We can autoskip if Mr.Bill or the camp does not need windmills
-                    data.skip = neighbourId == 1 || !(camp && camp.neigh_id == neighbourId && Data.getCampWindmillTime(camp) == 0);
+                    // We can autoskip if Mr.Bill or the neighbor does not need windmills
+                    // const camp = Data.lastVisitedCamp;
+                    // const needsWindmills = camp && camp.neigh_id == neighbourId && Data.getCampWindmillTime(camp) == 0;
+                    const needsWindmills = neighbour.extra.wmtime === 0;
+                    data.skip = neighbourId == 1 || !needsWindmills;
                     Synchronize.signal(action, data);
                 }
                 Data.saveNeighbour(neighbour);
