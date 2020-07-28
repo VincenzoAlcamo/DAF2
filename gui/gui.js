@@ -610,7 +610,7 @@ const gui = {
         }
 
         // The coefficient for double drop special week is applied on the resulting values
-        const doubleDropCoeff = swDoubleDrop ? swDoubleDrop.coeficient : 1;
+        const doubleDropCoeff = lootArea.type === 'material' && swDoubleDrop ? swDoubleDrop.coeficient : 1;
         return {
             notRandom: min == max,
             coef: coef,
