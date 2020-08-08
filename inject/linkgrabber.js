@@ -771,6 +771,8 @@ function collect(confirmCollection) {
                 // if the connection is slow, we may want to try a bit more
                 if (countStop > 20) {
                     clearInterval(handler);
+                    // If reached the end of the page, confirm is unnecessary
+                    if (document.getElementById('pagelet_timeline_medley_photos')) confirmCollection = false;
                     if (confirmCollection) {
                         dialog.show({
                             title: getStatInfo(count, friends.length),
