@@ -382,8 +382,6 @@ function search() {
 function createMenu() {
     const gm = (id) => htmlEncodeBr(getMessage(id));
     const gm1 = (id) => htmlEncodeBr(getMessage(id).split('\n')[0]);
-    textOn = getMessage('menu_on');
-    textOff = getMessage('menu_off');
     let html = `
 <ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
 <li data-action="about"><b>&nbsp;</b>
@@ -401,42 +399,44 @@ function createMenu() {
     </div>
 </li>
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
-    <div><span>${gm('menu_fullwindow')}</span><i data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i><br>
-    <i data-pref="fullWindow"></i>
-    <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
-    <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
-    <i data-pref="fullWindowLock">${gm('menu_fullwindowlock')}</i>
+    <div>
+        <i data-pref="fullWindow">${gm('menu_fullwindow')}</i>
+        <i data-pref="fullWindowLock">${gm('menu_fullwindowlock')}</i>
+        <br>
+        <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
+        <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
+        <i data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i>
     </div>
 </li>
-<li data-action="gcTable"><b data-pref="gcTable">&nbsp;</b>
-    <div><span>${gm('menu_gctable')}</span><span data-value="status" style="display:none"></span><br>
-    <i data-pref="gcTable"></i>
-    <i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
-    <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
-    </div>
-</li>
-<li data-action="autoGC"><b data-pref="autoGC">&nbsp;</b>
-    <div><span>${gm1('options_autogc')}</span><br>
-    <i data-pref="autoGC"></i>
-    </div>
-</li>
-<li data-action="noGCPopup"><b data-pref="noGCPopup">&nbsp;</b>
-    <div><span>${gm1('options_nogcpopup')}</span><br>
-    <i data-pref="noGCPopup"></i>
+<li data-action="gc"><b>&nbsp;</b>
+    <div>
+        <span data-value="status" style="display:none"></span>
+        <br>
+        <i data-pref="gcTable">${gm('menu_gctable')}</i>
+        <i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
+        <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
+        <br>
+        <i data-pref="autoGC">${gm1('options_autogc')}</i>
+        <br>
+        <i data-pref="noGCPopup">${gm1('options_nogcpopup')}</i>
     </div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
-    <div><span>${gm('options_section_badges')}</span><br>
-    <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
-    <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
-    <br>
-    <i data-pref="badgeRepeatables">${gm1('options_badgerepeatables')}</i>
-    <i data-pref="badgeRepeatablesSound">${gm1('options_badgerepeatablessound')}</i>
+    <div>
+        <span>${gm('options_section_badges')}</span><br>
+        <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
+        <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
+        <br>
+        <i data-pref="badgeRepeatables">${gm1('options_badgerepeatables')}</i>
+        <i data-pref="badgeRepeatablesSound">${gm1('options_badgerepeatablessound')}</i>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
-    <div><span>${gm('menu_reloadgame')}</span><br>
-    <i data-value="switch">${gm(isFacebook ? 'menu_switchportal' : 'menu_switchfacebook')}</i></div>
+    <div>
+        <span>${gm('menu_reloadgame')}</span>
+        <br>
+        <i data-value="switch">${gm(isFacebook ? 'menu_switchportal' : 'menu_switchfacebook')}</i>
+    </div>
 </li>
 </ul>
 <div class="DAF-badges">
@@ -458,7 +458,7 @@ function createMenu() {
     document.body.appendChild(menu);
     for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
         const prefName = el.getAttribute('data-pref');
-        el.title = getMessage('options_' + prefName.toLowerCase());
+        el.title = getMessage('options_' + prefName.toLowerCase()).split('\n')[1];
     }
     searchInput = menu.querySelector('[data-action="search"] input');
     searchInput.addEventListener('input', search);
@@ -478,7 +478,6 @@ function updateMenu(prefName) {
         const prefName = el.getAttribute('data-pref');
         const isOn = !!prefs[prefName];
         el.classList.toggle('DAF-on', isOn);
-        if (el.tagName == 'I' && ['fullWindow', 'gcTable', 'autoClick', 'autoGC', 'noGCPopup'].indexOf(prefName) >= 0) el.textContent = isOn ? textOn : textOff;
     }
     const divBadges = menu.querySelector('.DAF-badges');
     const names = prefName ? [prefName] : Object.keys(prefs);
@@ -497,10 +496,7 @@ function onMenuClick(e) {
             chrome.runtime.sendMessage({ action: 'showGUI' });
             break;
         case 'fullWindow':
-        case 'gcTable':
-        case 'autoClick':
-        case 'autoGC':
-        case 'noGCPopup': {
+        case 'gc': {
             const name = target.getAttribute('data-pref') || action;
             sendPreference(name, !prefs[name]);
             break;

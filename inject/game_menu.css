@@ -146,17 +146,8 @@
   background-image: url("/img/gui/zoom.png");
 }
 
-.DAF-menu li[data-action="gcTable"] b {
+.DAF-menu li[data-action="gc"] b {
   background-image: url("/img/gui/gc.png");
-}
-
-.DAF-menu li[data-action="autoGC"] b {
-  background-image: url("/img/gui/autogc.png");
-}
-
-.DAF-menu li[data-action="noGCPopup"] b,
-.DAF-menu li[data-action="autoClick"] b {
-  background-image: url("/img/gui/facebook.png");
 }
 
 .DAF-menu li[data-action="reloadGame"] b {
