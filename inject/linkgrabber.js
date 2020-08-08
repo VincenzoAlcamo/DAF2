@@ -480,7 +480,6 @@ const LinkData = (function () {
 
 function collectData(flagGetUserData) {
     const values = [];
-    const hash = {};
     const reCid = /hovercard(\/user)?\.php\?id=(\d+)/;
     let cid, cnm;
 
@@ -511,23 +510,26 @@ function collectData(flagGetUserData) {
             if (cnm) break;
         }
     }
+    const hash = {};
     for (const a of links) {
-        const data = a.daf && a.daf.selected && a.daf.data;
-        if (data && !(data.id in hash)) {
-            if (flagGetUserData) {
-                let parent = a.parentNode;
-                for (let depth = 12; parent && depth > 0; depth--) {
-                    getActor(parent.querySelectorAll('[data-hovercard]:not(.DAF-invalid)'));
-                    if (cid && (!data.cid || data.cid == cid)) {
-                        data.cid = cid;
-                        if (cnm) data.cnm = cnm;
-                    }
-                    if (data.cnm) break;
-                    parent = parent.parentNode;
+        let data = a.daf && a.daf.selected && a.daf.data;
+        if (!data) continue;
+        const existing = hash[data.id];
+        if (existing && (!flagGetUserData || existing.cid)) continue;
+        data = existing || data;
+        hash[data.id] = data;
+        if (!existing) values.push(data);
+        if (flagGetUserData) {
+            let parent = a.parentNode;
+            for (let depth = 12; parent && depth > 0; depth--) {
+                getActor(parent.querySelectorAll('[data-hovercard]:not(.DAF-invalid)'));
+                if (cid && (!data.cid || data.cid == cid)) {
+                    data.cid = cid;
+                    if (cnm) data.cnm = cnm;
                 }
+                if (data.cnm) break;
+                parent = parent.parentNode;
             }
-            hash[data.id] = true;
-            values.push(data);
         }
     }
     return values;
