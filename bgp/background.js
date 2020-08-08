@@ -4,10 +4,10 @@
 //#region MISCELLANEOUS
 const SECONDS_IN_A_DAY = 86400;
 
-function hasRuntimeError() {
+function hasRuntimeError(info) {
     // This is necessary to avoid unchecked runtime errors from Chrome
     const hasError = !!chrome.runtime.lastError;
-    if (hasError) console.log('RUNTIME error: "' + chrome.runtime.lastError.message + '"');
+    if (hasError) console.log(`[${info}] RUNTIME error: "${chrome.runtime.lastError.message}"`);
     return hasError;
 }
 
@@ -110,7 +110,7 @@ var Preferences = {
             const keysToRemove = [];
             const valuesToSet = Object.assign({}, Preferences.values);
             chrome.storage.local.get(null, function (values) {
-                hasRuntimeError();
+                hasRuntimeError('PREF1');
                 for (const key of Object.keys(values)) {
                     if (key in valuesToSet) {
                         delete valuesToSet[key];
@@ -121,7 +121,7 @@ var Preferences = {
                 }
                 if (keysToRemove.length) chrome.storage.local.remove(keysToRemove);
                 if (Object.keys(valuesToSet).length) chrome.storage.local.set(valuesToSet, function () {
-                    hasRuntimeError();
+                    hasRuntimeError('PREF2');
                     resolve();
                 });
                 else resolve();
@@ -191,7 +191,7 @@ var Message = {
     onMessage: function (request, sender, sendResponse) {
         if (request && request.action == 'capture') {
             chrome.tabs.captureVisibleTab(function (dataUrl) {
-                sendResponse(hasRuntimeError() ? '' : dataUrl);
+                sendResponse(hasRuntimeError('MESSAGE') ? '' : dataUrl);
             });
             return true;
         }
@@ -467,7 +467,7 @@ var Data = {
     init: async function () {
         await new Promise(function (resolve, _reject) {
             chrome.i18n.getAcceptLanguages(items => {
-                if (!hasRuntimeError()) Data.acceptedLanguages = items;
+                if (!hasRuntimeError('DATA.INIT')) Data.acceptedLanguages = items;
                 resolve();
             });
         });
@@ -1004,7 +1004,7 @@ var Data = {
         Data.friends = friends;
         Data.friendsCollectDate = now;
         Preferences.setValue('friendsCollectDate', now);
-        chrome.runtime.sendMessage({ action: 'friends_analyze' }, hasRuntimeError);
+        chrome.runtime.sendMessage({ action: 'friends_analyze' }, () => hasRuntimeError('FRIENDSCAPTURED'));
     },
     //#endregion
     //#region RewardLinks
@@ -1176,7 +1176,7 @@ var Data = {
             Data.saveRewardLink(save);
         }
         if (flagRefresh) {
-            chrome.runtime.sendMessage({ action: 'rewards_update' }, hasRuntimeError);
+            chrome.runtime.sendMessage({ action: 'rewards_update' }, () => hasRuntimeError('ADDREWARDLINKS'));
         }
         return count;
     },
@@ -1342,8 +1342,8 @@ var Synchronize = {
             if (data) message.data = data;
         }
         if (delayed) return Synchronize.delayedSignals.push(message);
-        chrome.runtime.sendMessage(message, hasRuntimeError);
-        chrome.tabs.sendMessage(Tab.gameTabId, message, hasRuntimeError);
+        chrome.runtime.sendMessage(message, () => hasRuntimeError('SYNC1'));
+        chrome.tabs.sendMessage(Tab.gameTabId, message, () => hasRuntimeError('SYNC2'));
     },
     energyId: 0,
     signalEnergy(energy, pal) {
@@ -1685,7 +1685,7 @@ async function init() {
             Synchronize.processXhr(request.detail);
         },
         sendValue: function (request, sender) {
-            chrome.tabs.sendMessage(sender.tab.id, request, hasRuntimeError);
+            chrome.tabs.sendMessage(sender.tab.id, request, () => hasRuntimeError('SENDVALUE'));
         },
         getPrefs: function (request) {
             return Preferences.getValues(request.keys);
