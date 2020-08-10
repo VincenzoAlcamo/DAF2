@@ -57,7 +57,7 @@ function init() {
 
     function option(prefName, features, options, extraHtml) {
         const messageId = 'options_' + prefName.toLowerCase();
-        const text = prefName == 'fixes' ? 'Special settings' : gui.getMessage(messageId);
+        const text = gui.getMessage(messageId);
         const i = text.indexOf('\n');
         const title = i >= 0 ? text.substr(0, i) : text;
         let info = i >= 0 ? text.substr(i + 1) : '';
@@ -142,7 +142,6 @@ function init() {
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('autoLogin');
     option('disableAltGuard', WARNING);
-    if (gui.getPreference('fixes')) option('fixes', TEXT);
     continueSection('badges');
     option('badgeGcCounter');
     option('badgeGcEnergy');

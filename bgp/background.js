@@ -63,7 +63,6 @@ var Preferences = {
             gameLanguage: '',
             locale: '',
             locales: '',
-            fixes: '',
             disableAltGuard: false,
             injectGame: true,
             resetFullWindow: true,

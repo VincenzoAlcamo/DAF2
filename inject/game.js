@@ -588,7 +588,7 @@ function init() {
     prefs = {};
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
-    addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,fixes,@bodyHeight');
+    addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
     addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables,badgeRepeatablesSound');
 
     function setPref(name, value) {
@@ -690,7 +690,6 @@ function init() {
                 if (event.source != window || !event.data || event.data.key != key) return;
                 if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
             });
-            const fixes = String(prefs.fixes || '').toUpperCase().split(/\W+/).reduce((v, k) => (v[k] = true, v), {});
             if (isWebGL) {
                 let code = '';
                 code += `
@@ -703,7 +702,6 @@ window.exitFullscreen = function() {
     window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
 };
 `;
-                if ('FBENABLED' in fixes) code += `gamevars.fb_enabled = 1;`;
                 code += `
 window.isBypassGCPopup = function() { return document.body.getAttribute('daf_nogc') == '1'; };
 window.original_userRequest = window.userRequest;
