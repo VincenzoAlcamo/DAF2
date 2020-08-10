@@ -813,11 +813,9 @@ function onLoad() {
 
 async function loadTab(tab) {
     const container = tab.container;
-    try {
-        tab.state = JSON.parse(localStorage.getItem('state_' + tab.id));
-    } catch (e) {
-        tab.state = null;
-    }
+    let state = null;
+    try { state = JSON.parse(localStorage.getItem('state_' + tab.id)); } catch (e) { }
+    tab.state = state && typeof state === 'object' ? state : {};
     let resource_count = 0;
     let resource_value = 0;
     const advanceProgress = () => gui.wait.show({
