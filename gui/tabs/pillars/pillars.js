@@ -113,7 +113,7 @@ function getState() {
 function setState(state) {
     searchInput.value = state.search || '';
     selectShow.value = state.show == 'possible' ? state.show : '';
-    checkCap.checked = !('uncapped' in state);
+    checkCap.checked = !state.uncapped;
     checkGrid.checked = !!state.grid;
     pillarsExcluded = gui.getArrayOfInt(state.excluded);
     gui.setSortState(state.sort, smartTable, 'name');
