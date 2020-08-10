@@ -2,7 +2,7 @@
 let prefs, handlers, msgHandlers, isFacebook, miner, isWebGL, originalHeight, header;
 // var autoClickAttached, autoClickStyle;
 let gcTable, gcTableStyle;
-let menu, textOn, textOff;
+let menu;
 let loadCompleted, styleLoaded;
 let lastFullWindow = false;
 
