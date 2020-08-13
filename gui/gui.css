@@ -179,6 +179,10 @@ span.locked32::after {
   text-align: center;
 }
 
+.no-overflow {
+  overflow: hidden;
+}
+
 .sticky-header {
   position: sticky;
   top: -12px;
