@@ -163,6 +163,7 @@ function onClickAdvanced() {
         htm += Html`  <span class="neighbors-expression">${String(expressions[index] || '').trim()}</span>`;
         htm += Html.br`</label>`;
     });
+    const unknown = Html.raw('\nNaN=this information is unknown');
     htm += Html.br`<textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3"></textarea>
 <br><div class="expression-error"></div>
 <table class="expression-help"><tr><th colspan="3">${gui.getMessage('calc_operators')}</th></tr>
@@ -170,10 +171,24 @@ function onClickAdvanced() {
 <tr><td>- + * / % ** ^</td><td>= == <> != > >= < <=</td><td>&& and || or ! not</td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_functions')}</th></tr>
 <tr><td colspan="3">${Object.getOwnPropertyNames(Math).filter(n => typeof Math[n] == 'function').sort().join(' ')}
-<br>if(expression, trueValue, falseValue)
+<span title="Return true if the &quot;value&quot; is NaN (Not a Number)\nThis is the correct way to check for a NaN value">isNaN(value)</span>
+<span title="Returns &quot;trueValue&quot; if &quot;expression&quot; is truthy, otherwise returns &quot;falseValue&quot;">if(expression, trueValue, falseValue)</span>
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_variables')}</th></tr><td colspan="3">
-now today region level levelup lastgift list blocks wmtime visit recorded gifts efficiency value
+<span title="The current date and time">now</span>
+<span title="The current date (time is 00:00)">today</span>
+<span title="The player's region\n1=Egypt\n2=Scandinavia\n3=China\n4=Atlantis\n5=Greece\n6=New World">region</span>
+<span title="The player's level">level</span>
+<span title="The last time that player has leveled up">levelup</span>
+<span title="The last time that player has gifted you">lastgift</span>
+<span title="If that player is in your custom list\n0=NO\n1=YES">list</span>
+<span title="The number of blocks to clear in the underground camp${unknown}">blocks</span>
+<span title="The time when the windmills will expire\n0=the camp need windmills${unknown}">wmtime</span>
+<span title="The last time you visited that player's camp">visit</span>
+<span title="The time that neighbor has been first registered">recorded</span>
+<span title="The number of gifts received${unknown}">gifts</span>
+<span title="The gift efficiency (0-100)${unknown}">efficiency</span>
+<span title="The total gift value${unknown}">value</span>
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_examples')}</th></tr>
 <tr><td colspan="3">
