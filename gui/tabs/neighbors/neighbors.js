@@ -7,6 +7,8 @@ export default {
     getState: getState,
     setState: setState,
     actions: {
+        'cl_add': markNeighbor,
+        'cl_remove': markNeighbor,
         'visit_camp': markNeighbor,
         'place_windmill': markNeighbor
     },

@@ -1418,6 +1418,17 @@ var Synchronize = {
         this.last_lid = lid;
         return Data.getLocProg(lid);
     },
+    setCustomList: function (action, task, taskResponse) {
+        const neighbourId = task.neighbour_id;
+        if (taskResponse.result == 'OK') {
+            const c_list = action === 'cl_add' ? 1 : 0;
+            const neighbour = Data.getNeighbour(neighbourId);
+            if (!neighbour || neighbour.c_list === c_list) return;
+            neighbour.c_list = c_list;
+            Data.saveNeighbour(neighbour);
+            Synchronize.signal(action, neighbourId);
+        }
+    },
     handlers: {
         visit_camp: function (action, _task, taskResponse, _response) {
             if (!taskResponse || !taskResponse.camp) return;
@@ -1530,6 +1541,12 @@ var Synchronize = {
                 }
                 Data.storeLocProg();
             }
+        },
+        cl_add: function (action, task, taskResponse, _response) {
+            Synchronize.setCustomList(action, task, taskResponse);
+        },
+        cl_remove: function (action, task, taskResponse, _response) {
+            Synchronize.setCustomList(action, task, taskResponse);
         },
         friend_child_charge: function (action, task, _taskResponse, _response) {
             const neighbourId = task.neigh_id;
