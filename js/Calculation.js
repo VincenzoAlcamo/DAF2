@@ -26,6 +26,7 @@ class Calculation {
         this.defineOperator(['<>', '!='], (a, b) => a != b, 'infix', 112);
         this.defineOperator(['&&', 'and'], (a, b) => a && b, 'infix', 106);
         this.defineOperator(['||', 'or'], (a, b) => a || b, 'infix', 105);
+        this.defineOperator('isNaN', Number.isNaN);
         // All functions and constants defined in Math
         Object.getOwnPropertyNames(Math).forEach(n => {
             const v = Math[n];
