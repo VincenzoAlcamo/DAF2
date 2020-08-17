@@ -148,10 +148,10 @@ function showCollectDialog() {
     function addStandardSettings() {
         const extra = Html.br`<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
         <input style="vertical-align:middle" type="checkbox" id="f_cc" name="confirmcollection" value="1" ${confirmCollection ? ' checked' : ''}>
-        <br><label for="f_fv">${gui.getMessage('friendship_facebookversion')}</label>
+        <br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
-        <option value="0" ${fbFriendsPage == 0 ? 'selected' : ''}>${gui.getMessage('friendship_fv_new')}</option>
-        <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>${gui.getMessage('friendship_fv_old')}</option>
+        <option value="0" ${fbFriendsPage == 0 ? 'selected' : ''}>A</option>
+        <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B</option>
         </select>`;
         return Html.raw(extra);
     }
