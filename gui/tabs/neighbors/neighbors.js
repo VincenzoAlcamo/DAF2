@@ -175,16 +175,17 @@ function onClickAdvanced() {
 <span title="Returns &quot;trueValue&quot; if &quot;expression&quot; is truthy, otherwise returns &quot;falseValue&quot;">if(expression, trueValue, falseValue)</span>
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_variables')}</th></tr><td colspan="3">
-<span title="The current date and time">now</span>
-<span title="The current date (time is 00:00)">today</span>
+<span title="The current date and time as the number of seconds from 1st January 1970">now</span>
+<span title="The current date (time is 00:00) as the number of seconds from 1st January 1970">today</span>
+<span title="The number of seconds in a day (86400)\nThis can be helpful for date comparisons: lastgift > today - 7 * day">day</span>
 <span title="The player's region\n1=Egypt\n2=Scandinavia\n3=China\n4=Atlantis\n5=Greece\n6=New World">region</span>
 <span title="The player's level">level</span>
-<span title="The last time that player has leveled up">levelup</span>
-<span title="The last time that player has gifted you">lastgift</span>
+<span title="The last time that player has leveled up${unknown}">levelup</span>
+<span title="The last time that player has gifted you${unknown}">lastgift</span>
 <span title="If that player is in your custom list\n0=NO\n1=YES">list</span>
 <span title="The number of blocks to clear in the underground camp${unknown}">blocks</span>
-<span title="The time when the windmills will expire\n0=the camp need windmills${unknown}">wmtime</span>
-<span title="The last time you visited that player's camp">visit</span>
+<span title="The time when the first windmills will expire\n0=the camp need windmills${unknown}">wmtime</span>
+<span title="The last time you visited that player's camp${unknown}">visit</span>
 <span title="The time that neighbor has been first registered">recorded</span>
 <span title="The number of gifts received${unknown}">gifts</span>
 <span title="The gift efficiency (0-100)${unknown}">efficiency</span>
@@ -493,6 +494,11 @@ function refreshDelayed() {
         efficiency: pal => palEfficiency[pal.id],
         value: pal => palGifts[pal.id]._value
     };
+    const getCalculatorValueFunctions = Object.assign({}, getSortValueFunctions, {
+        lastgift: pal => pal.extra.lastGift || NaN,
+        levelup: pal => (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? pal.extra.timeLevel : NaN,
+        list: pal => +pal.c_list ? 1 : 0,
+    });
 
     const fnSearch = gui.getSearchFilter(state.search);
     let show = state.show;
@@ -562,7 +568,7 @@ function refreshDelayed() {
     const now = gui.getUnixTime();
     let items = [];
     const filterExpression = getFilterExpression();
-    const calculator = getCalculator(filterExpression, getSortValueFunctions);
+    const calculator = getCalculator(filterExpression, getCalculatorValueFunctions);
     const friendNames = {};
     for (const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();
     for (const pal of neighbors) {
