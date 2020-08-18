@@ -981,24 +981,27 @@ var Data = {
         if (!data) return;
         const newFriends = [].concat(data);
         if (newFriends.length == 0) return;
-        const oldFriends = Object.assign({}, Data.getFriends());
+        const oldFriendsById = Object.assign({}, Data.getFriends());
+        const oldFriendsByUri = {};
+        Object.values(oldFriendsById).forEach(friend => oldFriendsByUri[friend.uri] = friend);
         const friends = {};
         const now = getUnixTime();
         // We retain the old association (score and uid)
         for (const friend of newFriends) {
             friend.tc = now;
-            const oldFriend = oldFriends[friend.id];
+            const oldFriend = oldFriendsById[friend.id] || oldFriendsByUri[friend.uri];
             if (oldFriend) {
-                friend.score = oldFriend.score;
-                friend.uid = oldFriend.uid;
+                if (oldFriend.score) friend.score = oldFriend.score;
+                if (oldFriend.uid) friend.uid = oldFriend.uid;
                 if (oldFriend.tc) friend.tc = oldFriend.tc;
                 if (oldFriend.note) friend.note = oldFriend.note;
+                delete oldFriendsById[oldFriend.id];
+                delete oldFriendsByUri[oldFriend.uri];
             }
-            delete oldFriends[friend.id];
             friends[friend.id] = friend;
         }
         // We remove all old friends
-        Data.removeFriend(Object.values(oldFriends));
+        Data.removeFriend(Object.values(oldFriendsById));
         Data.saveFriend(Object.values(friends));
         Data.friends = friends;
         Data.friendsCollectDate = now;
