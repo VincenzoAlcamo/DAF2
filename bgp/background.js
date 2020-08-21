@@ -998,6 +998,7 @@ var Data = {
                 delete oldFriendsById[oldFriend.id];
                 delete oldFriendsByUri[oldFriend.uri];
             }
+            delete oldFriendsByUri[friend.uri];
             friends[friend.id] = friend;
         }
         // We remove all old friends
