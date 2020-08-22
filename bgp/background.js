@@ -989,13 +989,17 @@ var Data = {
         // We retain the old association (score and uid)
         for (const friend of newFriends) {
             friend.tc = now;
-            const oldFriend = oldFriendsById[friend.id] || oldFriendsByUri[friend.uri];
+            let oldFriend = oldFriendsById[friend.id];
+            if (oldFriend) {
+                delete oldFriendsById[oldFriend.id];
+            } else {
+                oldFriend = oldFriendsByUri[friend.uri];
+            }
             if (oldFriend) {
                 if (oldFriend.score) friend.score = oldFriend.score;
                 if (oldFriend.uid) friend.uid = oldFriend.uid;
                 if (oldFriend.tc) friend.tc = oldFriend.tc;
                 if (oldFriend.note) friend.note = oldFriend.note;
-                delete oldFriendsById[oldFriend.id];
                 delete oldFriendsByUri[oldFriend.uri];
             }
             delete oldFriendsByUri[friend.uri];
