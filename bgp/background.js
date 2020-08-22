@@ -88,6 +88,7 @@ var Preferences = {
             keepDebugging: false,
             removeGhosts: 0,
             confirmCollection: false,
+            speedupCollection: 0,
             fbFriendsPage: 0,
             linkGrabEnabled: false,
             linkGrabButton: 2,

@@ -353,8 +353,8 @@ const fnHandlers = {
     [KEY_C]: (_event) => copyLinksToClipboard(),
     [KEY_F]: (_event) => copyLinksToClipboard(3),
     [KEY_P]: (_event) => copyLinksToClipboard(2),
-    [KEY_T]: (_event) => { stop(); collect(false); },
-    [KEY_Y]: (_event) => { stop(); collect(true); },
+    [KEY_T]: (_event) => { stop(); collect(false, 4); },
+    [KEY_Y]: (_event) => { stop(); collect(true, 4); },
     [KEY_S]: (event) => {
         const values = collectData(true);
         if (!event.shiftKey) stop();
@@ -567,7 +567,7 @@ function copyToClipboard(str, mimeType = 'text/plain') {
     document.removeEventListener('copy', oncopy);
 }
 
-function collect(confirmCollection) {
+function collect(confirmCollection, speedupCollection) {
     const autoClose = false;
     const collectMethod = 'standard';
     const unmatched = '';
@@ -575,9 +575,11 @@ function collect(confirmCollection) {
     const dialog = Dialog();
     let retries = 10;
     const friends = [];
-    let ulInactiveParent = null, ulInactive = null;
+    let ulInactiveParent = null;
+    let ulInactive = null;
     const liInactive = [];
-    let container, captureOneBlock, unmatchedList, started;
+    let isNew = false;
+    let container, unmatchedList, started, countPhotos;
 
     function addFriend(friend) {
         friends.push(friend);
@@ -592,21 +594,55 @@ function collect(confirmCollection) {
         } catch (e) { }
     }
 
+    function interceptData() {
+        const code = `
+        (function() {
+            const XHR = XMLHttpRequest.prototype;
+            const send = XHR.send;
+            const open = XHR.open;
+            XHR.open = function(method, url) {
+                this.url = url;
+                return open.apply(this, arguments);
+            }
+            XHR.send = function(e) {
+                if(e && this.url.indexOf('/graphql/') >= 0 && e.indexOf('variables') >= 0 && e.indexOf('count%22%3A8') >= 0) {
+                    e = e.replace('count%22%3A8', 'count%22%3A${speedupCollection * 8}');
+                    return send.call(this, e);
+                }
+                return send.apply(this, arguments);
+            };
+        })();
+        `;
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.appendChild(document.createTextNode(code));
+        document.head.prepend(script);
+        document.addEventListener('daf_xhr', function (event) {
+            chrome.runtime.sendMessage({ action: 'daf_xhr', detail: event.detail });
+        });
+    }
+
+    function getCountPhotos() {
+        return document.querySelectorAll('a[href$="photos"]').length;
+    }
+
     wait.show();
     const handler = setInterval(function () {
         container = document.getElementById('pagelet_timeline_medley_friends');
-        captureOneBlock = captureOneBlockOld;
+        isNew = false;
         if (!container) {
             const img = document.querySelector('a > img[width="80"]');
             if (img) {
                 container = img.parentElement.parentElement.parentElement.parentElement;
-                captureOneBlock = captureOneBlockNew;
+                isNew = true;
             }
         }
         if (container) {
+            if (isNew && speedupCollection > 1) interceptData();
             clearInterval(handler);
             wait.hide();
             started = Date.now();
+            countPhotos = getCountPhotos();
             if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
             return;
         } else if (retries > 0) {
@@ -763,7 +799,7 @@ function collect(confirmCollection) {
         handler = setInterval(capture, 500);
         function capture() {
             wait.setText(getStatInfo(count, friends.length, true));
-            const num = captureOneBlock();
+            const num = isNew ? captureOneBlockNew() : captureOneBlockOld();
             if (num >= 0) {
                 count += num;
                 countStop = 0;
@@ -774,8 +810,8 @@ function collect(confirmCollection) {
                 if (countStop > 20) {
                     clearInterval(handler);
                     // If reached the end of the page, confirm is unnecessary
-                    if (document.getElementById('pagelet_timeline_medley_photos')) confirmCollection = false;
-                    if (confirmCollection) {
+                    const endReached = isNew ? getCountPhotos() > countPhotos : document.getElementById('pagelet_timeline_medley_photos');
+                    if (confirmCollection || !endReached) {
                         dialog.show({
                             title: getStatInfo(count, friends.length),
                             text: getMessage('friendship_confirmcollect'),

@@ -6,6 +6,7 @@ let collectMethod = 'standard';
 let removeGhosts = 0;
 let unmatched = '';
 let confirmCollection = false;
+let speedupCollection = 0;
 /*eslint-enable prefer-const*/
 
 const autoClose = true;
@@ -17,7 +18,8 @@ const friends = [];
 let ulInactiveParent = null;
 let ulInactive = null;
 const liInactive = [];
-let container, captureOneBlock, unmatchedList, started;
+let isNew = false;
+let container, unmatchedList, started, countPhotos;
 
 function getMessage(id, ...args) {
     let text = chrome.i18n.getMessage(language + '@' + id, args);
@@ -45,24 +47,58 @@ function scrollWindow() {
     } catch (e) { }
 }
 
+function interceptData() {
+    const code = `
+    (function() {
+        const XHR = XMLHttpRequest.prototype;
+        const send = XHR.send;
+        const open = XHR.open;
+        XHR.open = function(method, url) {
+            this.url = url;
+            return open.apply(this, arguments);
+        }
+        XHR.send = function(e) {
+            if(e && this.url.indexOf('/graphql/') >= 0 && e.indexOf('variables') >= 0 && e.indexOf('count%22%3A8') >= 0) {
+                e = e.replace('count%22%3A8', 'count%22%3A${speedupCollection * 8}');
+                return send.call(this, e);
+            }
+            return send.apply(this, arguments);
+        };
+    })();
+    `;
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.appendChild(document.createTextNode(code));
+    document.head.prepend(script);
+    document.addEventListener('daf_xhr', function (event) {
+        chrome.runtime.sendMessage({ action: 'daf_xhr', detail: event.detail });
+    });
+}
+
+function getCountPhotos() {
+    return document.querySelectorAll('a[href$="photos"]').length;
+}
+
 // eslint-disable-next-line no-unused-vars
 function collect() {
     Dialog.language = language;
     wait.show();
     const handler = setInterval(function () {
         container = document.getElementById('pagelet_timeline_medley_friends');
-        captureOneBlock = captureOneBlockOld;
+        isNew = false;
         if (!container) {
             const img = document.querySelector('a > img[width="80"]');
             if (img) {
                 container = img.parentElement.parentElement.parentElement.parentElement;
-                captureOneBlock = captureOneBlockNew;
+                isNew = true;
             }
         }
         if (container) {
+            if (isNew && speedupCollection > 1) interceptData();
             clearInterval(handler);
             wait.hide();
             started = Date.now();
+            countPhotos = getCountPhotos();
             if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
             // if (collectMethod == 'alternate' || collectMethod == 'both') collectAlternate();
             return;
@@ -221,7 +257,7 @@ function collectStandard() {
     handler = setInterval(capture, 500);
     function capture() {
         wait.setText(getStatInfo(count, friends.length, true));
-        const num = captureOneBlock();
+        const num = isNew ? captureOneBlockNew() : captureOneBlockOld();
         if (num >= 0) {
             count += num;
             countStop = 0;
@@ -232,8 +268,8 @@ function collectStandard() {
             if (countStop > 20) {
                 clearInterval(handler);
                 // If reached the end of the page, confirm is unnecessary
-                if (document.getElementById('pagelet_timeline_medley_photos')) confirmCollection = false;
-                if (confirmCollection) {
+                const endReached = isNew ? getCountPhotos() > countPhotos : document.getElementById('pagelet_timeline_medley_photos');
+                if (confirmCollection || !endReached) {
                     dialog.show({
                         title: getStatInfo(count, friends.length),
                         text: getMessage('friendship_confirmcollect'),

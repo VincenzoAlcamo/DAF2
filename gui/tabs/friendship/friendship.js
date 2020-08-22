@@ -115,6 +115,11 @@ function getConfirmCollection() {
     return !!gui.getPreference('confirmCollection');
 }
 
+function getSpeedupCollection() {
+    const result = parseInt(gui.getPreference('speedupCollection'));
+    return result >= 0 && result <= 8 ? result : 0;
+}
+
 function getFbFriendsPage() {
     return gui.getPreference('fbFriendsPage');
 }
@@ -134,6 +139,7 @@ function getUnmatched() {
 function showCollectDialog() {
     let ghost = getRemoveGhosts();
     let confirmCollection = getConfirmCollection();
+    let speedupCollection = getSpeedupCollection();
     let fbFriendsPage = getFbFriendsPage();
     const numUnmatched = getUnmatched().length;
 
@@ -146,8 +152,18 @@ function showCollectDialog() {
     }
 
     function addStandardSettings() {
-        const extra = Html.br`<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
-        <input style="vertical-align:middle" type="checkbox" id="f_cc" name="confirmcollection" value="1" ${confirmCollection ? ' checked' : ''}>
+        let extra = Html.br`<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
+        <select id="f_cc" name="confirmCollection">
+        <option value="0" ${!confirmCollection ? 'selected' : ''}>${gui.getMessage('friendship_cc_maybe')}</option>
+        <option value="1" ${confirmCollection ? 'selected' : ''}>${gui.getMessage('dialog_yes')}</option>
+        </select>
+        <br><label for="f_sc">${gui.getMessage('friendship_speedupcollect')}</label>
+        <select id="f_sc" name="speedupCollection">
+        <option value="0" ${speedupCollection == 0 ? 'selected' : ''}>${gui.getMessage('dialog_no')}</option>`;
+        for(let i = 2; i <= 8; i++) {
+            extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
+        }
+        extra += `</select>
         <br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
         <option value="0" ${fbFriendsPage == 0 ? 'selected' : ''}>A</option>
@@ -180,7 +196,8 @@ ${method == 'standard' ? addStandardSettings() : ''}
     }
 
     function setStandardOptions(params) {
-        confirmCollection = setNewValue('confirmCollection', confirmCollection, !!(parseInt(params.confirmcollection)));
+        confirmCollection = setNewValue('confirmCollection', confirmCollection, !!(parseInt(params.confirmCollection)));
+        speedupCollection = setNewValue('speedupCollection', confirmCollection, parseInt(params.speedupCollection));
         fbFriendsPage = setNewValue('fbFriendsPage', fbFriendsPage, parseInt(params.fbFriendsPage) || 0);
     }
 
@@ -362,6 +379,7 @@ function collectFriends(method) {
                         addVar('collectMethod', method);
                         addVar('removeGhosts', getRemoveGhosts());
                         addVar('confirmCollection', getConfirmCollection());
+                        addVar('speedupCollection', getSpeedupCollection());
                         details.code = code + 'collect();';
                         chrome.tabs.executeScript(tabId, details, function () {
                             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
