@@ -160,7 +160,8 @@ function showCollectDialog() {
         <br><label for="f_sc">${gui.getMessage('friendship_speedupcollect')}</label>
         <select id="f_sc" name="speedupCollection">
         <option value="0" ${speedupCollection == 0 ? 'selected' : ''}>${gui.getMessage('dialog_no')}</option>`;
-        for(let i = 2; i <= 8; i++) {
+        for (let p = 1; p <= 3; p++) {
+            const i = 2 ** p;
             extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
         }
         extra += `</select>
