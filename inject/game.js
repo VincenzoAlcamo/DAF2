@@ -417,8 +417,10 @@ function createMenu() {
         <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
         <br>
         <i data-pref="autoGC">${gm1('options_autogc')}</i>
+        <!--
         <br>
         <i data-pref="noGCPopup">${gm1('options_nogcpopup')}</i>
+        -->
     </div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
@@ -702,7 +704,7 @@ window.exitFullscreen = function() {
     window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
 };
 `;
-                code += `
+                /* code += `
 window.isBypassGCPopup = function() { return document.body.getAttribute('daf_nogc') == '1'; };
 window.original_userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
@@ -711,7 +713,7 @@ window.userRequest = function(recipients, req_type) {
     cur_recipients = String(recipients).split(',').filter(id => id > 0).join(',');
     if (cur_recipients) userRequestResult({ request: true });
 };
-`;
+`;*/
                 document.head.appendChild(createScript(code));
             }
         } else {
