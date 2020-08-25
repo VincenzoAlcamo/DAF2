@@ -136,7 +136,15 @@ function mousemove(event) {
         // } else if (!el || !el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/)) el = null;
         const el = document.elementsFromPoint(mouseX, mouseY).find(el => {
             if (el === box || el === countLabel) return false;
-            if (el.getAttribute('role') == 'button' && el.firstElementChild == null && el.innerText.indexOf('...') >= 0) return true;
+            if (el.getAttribute('role') == 'button' && el.firstElementChild == null) {
+                if (el.innerText.indexOf('...') >= 0) return true;
+                let prev = el.previousSibling;
+                let max = 3;
+                while (prev && prev.nodeType == Node.TEXT_NODE && max-- > 0) {
+                    if (prev.textContent.indexOf('\u2026') >= 0) return true;
+                    prev = prev.previousSibling;
+                }
+            }
             return el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/);
         });
         if (autoOpenElement !== el) {
