@@ -438,12 +438,12 @@ div.equipment_mask {
 
 .equipment_limited {
   max-width: 600px;
-  padding-left: 40px;
+  padding: 2px 4px 2px 48px;
   background-image: url(/img/gui/q-hard.png);
   background-repeat: no-repeat;
   background-color: #620;
   color: #FFF;
-  background-position: 4px 50%;
+  background-position: 8px 50%;
   border: 2px solid #C00;
   border-radius: 8px;
   text-align: left;
