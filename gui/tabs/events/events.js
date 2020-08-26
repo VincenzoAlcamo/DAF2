@@ -994,7 +994,9 @@ function showInfo() {
                             const random = +lootArea.random;
                             const num = random > 0 && random < count ? random : count;
                             const loot = gui.calculateLoot(lootArea, showProgress ? level : 0, isRepeatables ? swDoubleDrop : null);
-                            const amount = num * loot.avg;
+                            let amount = num * loot.avg;
+                            // PARRY HOTTER: hack for SORTING BOOTS' CEREMONY count for SILVER SNITCH
+                            if (lid == 2211 && object_id == 254 && type == 'material') amount = Math.floor(amount / 2);
                             if (amount > 0) {
                                 const key = type + '\t' + object_id;
                                 const reward = rewards[key];
