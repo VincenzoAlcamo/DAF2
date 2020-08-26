@@ -1916,6 +1916,7 @@
 "en@equipment_include_material":{"message":"Include these materials"},
 "en@equipment_exclude_material":{"message":"Exclude these materials"},
 "en@equipment_current":{"message":"Current"},
+"en@equipment_pfdisclaimer":{"message":"Please note that if you purchased a special pack in your game for this price in the past, it is not possible to purchase any next pack for this price.\nIn this case, the lowest price level available is approximately 5.5 USD."},
 "en@events_year":{"message":"Year"},
 "en@events_end":{"message":"End"},
 "en@events_quests":{"message":"Quests"},

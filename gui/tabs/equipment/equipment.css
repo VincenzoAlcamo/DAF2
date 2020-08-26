@@ -101,6 +101,10 @@ div.equipment_mask {
   margin: 0;
 }
 
+.equipment_pack table {
+  margin: 0 auto;
+}
+
 .equipment_pack td.additional {
   padding-left: 16px;
 }
@@ -430,4 +434,18 @@ div.equipment_mask {
 
 .equipment_pack .tier_total {
   bottom: 0;
+}
+
+.equipment_limited {
+  max-width: 600px;
+  padding-left: 40px;
+  background-image: url(/img/gui/q-hard.png);
+  background-repeat: no-repeat;
+  background-color: #620;
+  color: #FFF;
+  background-position: 4px 50%;
+  border: 2px solid #C00;
+  border-radius: 8px;
+  text-align: left;
+  margin: 0 auto 4px;
 }

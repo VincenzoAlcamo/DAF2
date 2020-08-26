@@ -1119,6 +1119,7 @@ function showOffer(type, id, callback) {
         const selection = getSelection(current);
         const result = [];
         const prev = {};
+        const allLimited = selection.length == selection.filter(p => p.limited).length;
         for (const block of selection) {
             let htm = '';
             let pre = '';
@@ -1129,7 +1130,9 @@ function showOffer(type, id, callback) {
                 pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, 'desc')}<br>${getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
             }
             if (current.price == -1) {
-                pre += Html.br`${getOutlinedText(block.priceText, 'price')}`;
+                pre += Html.br`<span class="outlined-text price">${block.priceText}`;
+                if (!allLimited && block.limited) pre += Html.br`<br><img src="/img/gui/q-hard.png" title="${Html(gui.getMessage('equipment_pfdisclaimer'))}">`;
+                pre += Html.br`</span>`;
             }
             if (type == 'tier') {
                 pre += Html.br`<span>${getOutlinedText(gui.getString(block.name_loc))}<br>`;
@@ -1176,7 +1179,9 @@ function showOffer(type, id, callback) {
             columns = 2;
             rows = Math.ceil(rows / 2);
         }
-        htm += `<div class="equipment_pack ${columns > 1 ? 'zoomed mini' : (len > 3 ? 'zoomed compact' : '')} ${isTier5 ? 'tier5' : ''}" data-type="${type}"><table>`;
+        htm += `<div class="equipment_pack ${columns > 1 ? 'zoomed mini' : (len > 3 ? 'zoomed compact' : '')} ${isTier5 ? 'tier5' : ''}" data-type="${type}">`;
+        if (allLimited) htm += Html.br`<div class="equipment_limited">${gui.getMessage('equipment_pfdisclaimer')}</div>`;
+        htm += `<table>`;
         const getIndex = (row, col) => isTier5 ? Math.floor(row / 5) * 5 * columns + col * 5 + row % 5 : col * rows + row;
         for (let row = 0; row < rows; row++) {
             htm += `<tr>`;
@@ -1220,6 +1225,7 @@ function getPacks(id) {
             }
         }
         const price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
+        const limited = !!pack.prices.find(p => +p.amount < 4 && (p.currency == 'EUR' || p.currency == 'USD'));
         const items = pack.items.map(item => getOfferItem(item)).filter(item => item);
         items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
 
@@ -1230,6 +1236,7 @@ function getPacks(id) {
             price: +price.amount,
             priceText: price.currency + ' ' + Locale.formatNumber(+price.amount, 2),
             items,
+            limited,
             name_loc: pack.name_loc
         };
         blocks.push(block);

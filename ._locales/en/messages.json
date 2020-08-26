@@ -1524,6 +1524,9 @@
     "equipment_current": {
         "message": "Current"
     },
+    "equipment_pfdisclaimer": {
+        "message": "Please note that if you purchased a special pack in your game for this price in the past, it is not possible to purchase any next pack for this price.\nIn this case, the lowest price level available is approximately 5.5 USD."
+    },
     "events_year": {
         "message": "Year"
     },
