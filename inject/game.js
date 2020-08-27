@@ -417,10 +417,8 @@ function createMenu() {
         <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
         <br>
         <i data-pref="autoGC">${gm1('options_autogc')}</i>
-        <!--
         <br>
         <i data-pref="noGCPopup">${gm1('options_nogcpopup')}</i>
-        -->
     </div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
@@ -704,16 +702,22 @@ window.exitFullscreen = function() {
     window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
 };
 `;
-                /* code += `
-window.isBypassGCPopup = function() { return document.body.getAttribute('daf_nogc') == '1'; };
+                code += `
+window.bypassFB = false;
+window.original_getFBApi = window.getFBApi;
+window.getFBApi = function() {
+    const result = window.bypassFB ? { ui: function() {} } : window.original_getFBApi();
+    window.bypassFB = false;
+    return result;
+};
 window.original_userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
-    if (!window.isBypassGCPopup()) return window.original_userRequest(recipients, req_type);
-    cur_req_type = req_type;
-    cur_recipients = String(recipients).split(',').filter(id => id > 0).join(',');
-    if (cur_recipients) userRequestResult({ request: true });
+    window.bypassFB = document.body.getAttribute('daf_nogc') == '1';
+    const result = window.original_userRequest(recipients, req_type);
+    window.bypassFB = false;
+    return result;
 };
-`;*/
+`;
                 document.head.appendChild(createScript(code));
             }
         } else {
