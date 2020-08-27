@@ -151,7 +151,6 @@ function sendFriends() {
             }
             liInactive.forEach(li => ulInactive.appendChild(li));
             viewDisabled();
-            wait.hide();
             dialog.show({
                 text: getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' :
                     'friendship_disabledaccountsdetected') + '\n' + getMessage('friendship_unfriendinfo'),
@@ -159,8 +158,8 @@ function sendFriends() {
             }, viewDisabled);
         }
     };
-    if (autoClose) return showDisabled();
     wait.hide();
+    if (autoClose) return showDisabled();
     let text = getStatInfo(friends.length, friends.length);
     text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
     dialog.show({ text, style: [Dialog.OK] }, showDisabled);
