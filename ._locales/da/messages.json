@@ -866,14 +866,8 @@
     "friendship_confirmcollect": {
         "message": "Tryk JA for at bekræfte, NEJ for at prøve igen.\n\nDu kan lukke dette vindue på et hvert tidspunkt\nfor at afbryde handlingen."
     },
-    "friendship_facebookversion": {
-        "message": "Facebook version?"
-    },
-    "friendship_fv_new": {
-        "message": "Ny"
-    },
-    "friendship_fv_old": {
-        "message": "Gammel"
+    "friendship_speedupcollect": {
+        "message": "Øg hastigheden på indsamling?"
     },
     "friendship_filter_a": {
         "message": "Venner: $FRIENDS$, Naboer: $NEIGHBOURS$",
@@ -1014,6 +1008,9 @@
     },
     "friendship_confirmcollection": {
         "message": "Bekræft indsamlings resultat?"
+    },
+    "friendship_cc_maybe": {
+        "message": "Hvis usikker"
     },
     "friendship_collecterror": {
         "message": "Noget gik galt."
@@ -1526,6 +1523,9 @@
     },
     "equipment_current": {
         "message": "Nuværende"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Bemærk venligst at hvis du har købt en special pakke i dit spil til denne pris før, er det ikke muligt at købe endnu en pakke til denne pris.\nI det tilfælde vil det laveste tilgængelige pris niveau være ca. 5.5 USD."
     },
     "events_year": {
         "message": "År"

@@ -1524,6 +1524,9 @@
     "equipment_current": {
         "message": "Attuale"
     },
+    "equipment_pfdisclaimer": {
+        "message": "Attenzione: se hai già acquistato in passato un pacchetto speciale nel tuo gioco a questo prezzo, non è più possibile acquistare un altro pacchetto a questo prezzo.\nIn questo caso, il livello di prezzo più basso disponibile è di circa 5,5 USD."
+    },
     "events_year": {
         "message": "Anno"
     },

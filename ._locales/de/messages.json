@@ -866,14 +866,8 @@
     "friendship_confirmcollect": {
         "message": "Klicke Sie JA zur Bestätigung, NEIN zum weiteren Versuch.\n\nDu kannst dieses Fenster jederzeit schließen,\num den Vorgang abzubrechen."
     },
-    "friendship_facebookversion": {
-        "message": "Facebook-Version?"
-    },
-    "friendship_fv_new": {
-        "message": "Neu"
-    },
-    "friendship_fv_old": {
-        "message": "Alt"
+    "friendship_speedupcollect": {
+        "message": "Beschleunigung der Sammlung?"
     },
     "friendship_filter_a": {
         "message": "Freunde: $FRIENDS$, Nachbarn: $NEIGHBOURS$",
@@ -1014,6 +1008,9 @@
     },
     "friendship_confirmcollection": {
         "message": "Abholergebnis bestätigen?"
+    },
+    "friendship_cc_maybe": {
+        "message": "Falls unsicher"
     },
     "friendship_collecterror": {
         "message": "Etwas ist schiefgegangen."
@@ -1527,6 +1524,9 @@
     "equipment_current": {
         "message": "Aktuell"
     },
+    "equipment_pfdisclaimer": {
+        "message": "Bitte beachten, dass, wenn in der Vergangenheit ein spezielles Paket im Spiel zu diesem Preis gekauft wurde, es nicht möglich ist, ein nächstes Paket zu diesem Preis zu erwerben.\nIn diesem Fall liegt die niedrigste verfügbare Preisstufe bei etwa 5,50 USD."
+    },
     "events_year": {
         "message": "Jahr"
     },
@@ -1754,7 +1754,7 @@
         }
     },
     "options_gctable": {
-        "message": "Götterkinder-Tabelle\nZeige alle Nachbarn mit Götterkindern unter dem Spiel."
+        "message": "Götterkinder-Tabelle\nZeigt alle Nachbarn mit Götterkindern unter dem Spiel."
     },
     "options_gctablecounter": {
         "message": "Zähler / Anzahl\nDen Zähler / Anzahl anzeigen"
@@ -1769,7 +1769,7 @@
         "message": "Keine GK-Popups\nKeine Popups beim Sammeln von GK"
     },
     "options_autogc": {
-        "message": "Automatisches GC-Camp-Umschalter\nAutomatisches Wechseln des Camps nach dem Einsammeln von GC"
+        "message": "Automatischer GK-Camp-Umschalter\nAutomatisches Wechseln des Camps nach dem Einsammeln von GK's"
     },
     "options_section_general": {
         "message": "Allgemeine Einstellungen"
@@ -1865,10 +1865,10 @@
         "message": "Abzeichen"
     },
     "options_badgegccounter": {
-        "message": "GK-Zähler\nZeigt ein Abzeichen mit der verbleibenden Anzahl der einzusammelnden GK"
+        "message": "GK-Zähler\nZeigt ein Abzeichen mit der verbleibenden Anzahl der einzusammelnden GK's"
     },
     "options_badgegcenergy": {
-        "message": "GK Energie\nZeigt ein Abzeichen mit der Energie aus dem GK eines Nachbarn"
+        "message": "GK Energie\nZeigt ein Abzeichen mit der Energie der GK's eines Nachbarn"
     },
     "options_badgerepeatables": {
         "message": "Wiederholbare\nAnzeigen eines Abzeichens, wenn eine ausgewählte Wiederholbare bereit ist"
@@ -1877,7 +1877,7 @@
         "message": "Zeitversatz\nDas wiederholbare Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."
     },
     "options_badgerepeatablessound": {
-        "message": "Klang-Effekt\nDer Klang-Effekt wird abgespielt, wenn eine Wiederholfunktion bereit ist."
+        "message": "Klangeffekt\nDer Klangeffekt wird abgespielt, wenn eine Wiederholfunktion bereit ist."
     },
     "options_badgerepeatablesvolume": {
         "message": "Lautstärke\nDie Lautstärke des Klangeffekts."
@@ -1907,7 +1907,7 @@
         "message": "Syntax-Fehler"
     },
     "calc_error_2": {
-        "message": "Die Funktion benötigt Klammern."
+        "message": "Diese Funktion benötigt Klammern."
     },
     "calc_error_3": {
         "message": "Fehlende schließende Klammer"
@@ -1927,7 +1927,7 @@
         }
     },
     "linkgrabber_fn_copy": {
-        "message": "In die Zwischenablage kopieren"
+        "message": "In Zwischenablage kopieren"
     },
     "linkgrabber_fn_send": {
         "message": "Senden an DAF"

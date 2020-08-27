@@ -866,14 +866,8 @@
     "friendship_confirmcollect": {
         "message": "Πατήστε ΝΑΙ για επιβεβαίωση, ΟΧΙ για περαιτέρω εύρεση\n\nΜπορείτε να κλείσετε αυτό το παράθυρο όποτε\nθέλετε για να ακυρώσετε τη διαδικασία."
     },
-    "friendship_facebookversion": {
-        "message": "Έκδοση Facebook;"
-    },
-    "friendship_fv_new": {
-        "message": "Νέα"
-    },
-    "friendship_fv_old": {
-        "message": "Παλιά"
+    "friendship_speedupcollect": {
+        "message": "Επιτάχυνση περισυλλογής;"
     },
     "friendship_filter_a": {
         "message": "Φίλοι: $FRIENDS$, Γείτονες: $NEIGHBOURS$",
@@ -1014,6 +1008,9 @@
     },
     "friendship_confirmcollection": {
         "message": "Επιβεβαίωση αποτελέσματος συλλογής;"
+    },
+    "friendship_cc_maybe": {
+        "message": "Με αβεβαιότητα"
     },
     "friendship_collecterror": {
         "message": "Κάτι πήγε λάθος."
@@ -1526,6 +1523,9 @@
     },
     "equipment_current": {
         "message": "Τωρινό"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Αν έχετε αγοράσει ένα σπέσιαλ πακέτο στο παιχνίδι με αυτήν την τιμή στο παρελθόν, δεν είναι δυνατόν να αγοράσετε κάποιο επόμενο πακέτο σε αυτήν την τιμή.\nΣε αυτήν την περίπτωση, η χαμηλότερη διαθέσιμη τιμή είναι περίπου 5.5 USD."
     },
     "events_year": {
         "message": "Έτος"

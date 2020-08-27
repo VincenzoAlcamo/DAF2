@@ -866,15 +866,6 @@
     "friendship_confirmcollect": {
         "message": "Presione SI  para confirmar, NO para intentar más tarde .\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
     },
-    "friendship_facebookversion": {
-        "message": "Version de Facebook?"
-    },
-    "friendship_fv_new": {
-        "message": "Nueva version"
-    },
-    "friendship_fv_old": {
-        "message": "Vieja Version"
-    },
     "friendship_filter_a": {
         "message": "Amigos: $FRIENDS$, Vecinos: $NEIGHBOURS$",
         "placeholders": {

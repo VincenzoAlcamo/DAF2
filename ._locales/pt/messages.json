@@ -866,14 +866,8 @@
     "friendship_confirmcollect": {
         "message": "Pressione YES para confirmar, NO para tentar mais.\n\nPode fechar esta janela a qualquer momento\npara cancelar a operação ."
     },
-    "friendship_facebookversion": {
-        "message": "Versão do Facebook?"
-    },
-    "friendship_fv_new": {
-        "message": "Novo"
-    },
-    "friendship_fv_old": {
-        "message": "Antigo"
+    "friendship_speedupcollect": {
+        "message": "Acelerar a coleta?"
     },
     "friendship_filter_a": {
         "message": "Amigos: $FRIENDS$, Vizinhos: $NEIGHBOURS$",
@@ -1014,6 +1008,9 @@
     },
     "friendship_confirmcollection": {
         "message": "Confirmar resultado da coleção?"
+    },
+    "friendship_cc_maybe": {
+        "message": "Se não tiver certeza"
     },
     "friendship_collecterror": {
         "message": "Algo correu mal."
@@ -1526,6 +1523,9 @@
     },
     "equipment_current": {
         "message": "Actual"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Observe que se você comprou um pacote especial no seu jogo por este preço no passado, não é possível comprar nenhum pacote seguinte por esse preço.\nNesse caso, o nível de preço mais baixo disponível é de aproximadamente 5,5 USD."
     },
     "events_year": {
         "message": "Ano"
