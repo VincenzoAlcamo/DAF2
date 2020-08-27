@@ -165,11 +165,11 @@ function showCollectDialog() {
             extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
         }
         extra += `</select>
-        <br><label for="f_fv">${gui.getMessage('gui_type')}</label>
+        <br><label for="f_fv" title="A = https://www.facebook.com/me/friends&#10;B = https://www.facebook.com/profile.php?sk=friends">${gui.getMessage('gui_type')}
         <select id="f_fv" name="fbFriendsPage">
         <option value="0" ${fbFriendsPage == 0 ? 'selected' : ''}>A</option>
         <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B</option>
-        </select>`;
+        </select></label>`;
         return Html.raw(extra);
     }
 
