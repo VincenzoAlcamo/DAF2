@@ -450,3 +450,14 @@ div.equipment_mask {
   margin: 0 auto 4px;
   font-size: 15px;
 }
+
+table.daf-table.equipment-all td {
+  vertical-align: middle;
+}
+
+table.daf-table.equipment-all button {
+  color: var(--tt-button-fgcol);
+  background-color: var(--tt-button-bgcol);
+  border: 1px solid var(--tt-input-brcol);
+  margin-left: 2px;
+}

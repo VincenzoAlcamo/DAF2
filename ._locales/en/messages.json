@@ -294,6 +294,12 @@
     "gui_toomanyresults": {
         "message": "Too many results"
     },
+    "gui_id": {
+        "message": "Id"
+    },
+    "gui_date": {
+        "message": "Date"
+    },
     "dialog_ok": {
         "message": "Ok"
     },

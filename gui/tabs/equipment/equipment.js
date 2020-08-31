@@ -304,8 +304,7 @@ function update() {
 
     // OFFERS
     sales = Object.values(gui.getFile('offers')).filter(sale => sale.type == 'building');
-    sales.forEach(sale => sale.def_id = +sale.def_id);
-    sales = sales.sort((a, b) => a.def_id - b.def_id).reverse();
+    sales = sales.sort((a, b) => +a.def_id - +b.def_id).reverse();
     for (const sale of sales) {
         const item = allItems['b' + sale.object_id];
         if (!item || item.sale_id) continue;
@@ -1333,14 +1332,14 @@ function getOffersBase(id) {
                 let block = hash[key];
                 if (!block) {
                     block = hash[key] = {
-                        id: offer.def_id,
+                        id: +offer.def_id,
                         rid,
                         date: start,
                         price: 0,
                         items: []
                     };
                 }
-                if (offer.def_id == id) block.id = id;
+                if (+offer.def_id == id) block.id = id;
                 block.items.push(item);
             }
         }
@@ -1350,11 +1349,15 @@ function getOffersBase(id) {
         const block0 = hash[key];
         if (block0) {
             delete hash[key];
-            for (const block of Object.values(hash)) {
+            const blocks = Object.values(hash);
+            let minBlock = null;
+            for (const block of blocks) {
+                minBlock = !minBlock || minBlock.rid > block.rid ? block : minBlock;
                 for (const item of block0.items) {
                     block.items.push(item);
                 }
             }
+            if (block0.id == id) minBlock.id = id;
         }
     }
     const blocks = Object.values(hash);
@@ -1371,28 +1374,70 @@ function showAny(lastPack, lastOffer, lastTieredOffer) {
         const messageId = 'gui_' + (kind == 'tier' ? 'tieredoffer' : kind);
         let min = +Infinity;
         let max = -Infinity;
+        let minDate = +Infinity;
+        let maxDate = -Infinity;
         for (const sale of Object.values(sales).filter(sale => (+sale.hide || 0) == 0)) {
             min = Math.min(min, +sale.def_id);
             max = Math.max(max, +sale.def_id);
+            if (kind == 'offer') {
+                let v = +sale.start;
+                if (v && v < minDate) minDate = v;
+                v = +sale.end;
+                if (v && v > maxDate) maxDate = v;
+            }
         }
         if (current < min || current > max) current = max;
-        htm += Html.br`<tr><td style="text-align:right">${gui.getMessage(messageId)}</td>`;
-        htm += Html.br`<td><input name="${kind}" type="number" value="${current}" min="${min}" max="${max}" style="width:80px"></td>`;
-        htm += Html.br`<td><button data-method="${kind}">${gui.getMessage('gui_show')}</td></tr>`;
+        htm += Html.br`<thead><tr><th colspan="2" style="text-align:left">${gui.getMessage(messageId)}</th></tr></thead>`;
+        htm += Html.br`<tbody class="row-coloring">`;
+        htm += Html.br`<tr><th>${gui.getMessage('gui_id')}</th>`;
+        htm += Html.br`<td><input name="${kind}" type="number" value="${current}" min="${min}" max="${max}" style="width:80px">`;
+        htm += Html.br`<button data-method="${kind}">${gui.getMessage('gui_show')}</td></tr>`;
+        if (kind == 'offer') {
+            const minText = Locale.getDate(minDate).toISOString().replace(/T.+Z/, '');
+            const maxText = Locale.getDate(maxDate).toISOString().replace(/T.+Z/, '');
+            htm += Html.br`<tr><th>${gui.getMessage('gui_date')}</th>`;
+            htm += Html.br`<td><input name="${kind}_date" type="date" min="${minText}" max="${maxText}" value="${(new Date()).toISOString().replace(/T.+Z/, '')}">`;
+            htm += Html.br`<button data-method="${kind}_date">${gui.getMessage('gui_show')}</td></tr>`;
+        }
+        htm += Html.br`</tbody>`;
     };
-    htm += Html.br`<table>`;
+    htm += Html.br`<table class="daf-table equipment-all">`;
     addItem('pack', lastPack, gui.getFile('packs'));
     addItem('offer', lastOffer, gui.getFile('offers'));
     addItem('tier', lastTieredOffer, gui.getFile('tiered_offers'));
     htm += Html.br`</table>`;
-    gui.dialog.show({
+    const dialog = Dialog();
+    dialog.show({
         html: htm,
         style: [Dialog.CLOSE]
     }, (method, params) => {
+        dialog.visible = false;
+        let id = params[method];
+        if (method == 'offer_date') {
+            method = 'offer';
+            if (id) {
+                let d1 = new Date(id);
+                d1.setHours(0, 0, 0, 0);
+                let d2 = new Date(d1.getTime() + 86400000);
+                d1 = d1.getTime() / 1000;
+                d2 = d2.getTime() / 1000;
+                const list = Object.values(gui.getFile('offers')).filter(offer => {
+                    const s = +offer.start;
+                    const e = +offer.end;
+                    return s && e && s < d2 && e > d1;
+                });
+                list.sort((a, b) => (+b.start - +a.start) || (+a.def_id - +b.def_id));
+                id = list.length ? +list[0].def_id : 0;
+            }
+        }
         if (method == 'pack' || method == 'offer' || method == 'tier') {
             try {
-                showOffer(method, params[method], () => showAny(params.pack, params.offer, params.tier));
-            } catch (e) { }
+                showOffer(method, id, () => dialog.visible = true);
+            } catch (e) {
+                dialog.visible = true;
+            }
+        } else {
+            dialog.remove();
         }
     });
 }

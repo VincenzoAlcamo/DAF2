@@ -1627,6 +1627,8 @@
 "en@gui_locked":{"message":"Locked"},
 "en@gui_noresults":{"message":"No results"},
 "en@gui_toomanyresults":{"message":"Too many results"},
+"en@gui_id":{"message":"Id"},
+"en@gui_date":{"message":"Date"},
 "en@dialog_ok":{"message":"Ok"},
 "en@dialog_yes":{"message":"Yes"},
 "en@dialog_no":{"message":"No"},
