@@ -626,7 +626,9 @@ function calcRegion(item) {
         if (list.length == arr.length) {
             // Sort by lid descending and remove the first one (the maximum)
             list.sort((a, b) => b - a);
-            list.shift();
+            let lid = list.shift();
+            // If the next mine id differs less than 10, it is considered good as well
+            while (list.length > 0 && lid - list[0] < 10) lid = list.shift();
         }
         // All the others are excluded
         for (const lid of list) excluded[lid] = 3;
