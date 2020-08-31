@@ -232,6 +232,7 @@ Object.assign(Dialog.prototype, {
                 case 'TEXT':
                 case 'TEXTAREA':
                 case 'NUMBER':
+                case 'DATE':
                     add(name, value);
                     break;
                 case 'RADIO':
