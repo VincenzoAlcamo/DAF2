@@ -1449,6 +1449,7 @@ function showAny(lastPack, lastOffer, lastTieredOffer) {
     htm += Html.br`</table>`;
     const dialog = Dialog();
     dialog.show({
+        title: `${gui.getMessage('gui_pack')} / ${gui.getMessage('gui_offer')} / ${gui.getMessage('gui_tieredoffer')}`,
         html: htm,
         style: [Dialog.CLOSE]
     }, (method, params) => {
