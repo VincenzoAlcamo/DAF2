@@ -1406,6 +1406,12 @@
     "rewardlinks_shortenlinks_info2": {
         "message": "Shortened links are shown below (duplicates are removed)."
     },
+    "rewardlinks_format": {
+        "message": "Format"
+    },
+    "rewardlinks_newline": {
+        "message": "Add newline?"
+    },
     "export_exportdata": {
         "message": "Export data"
     },

@@ -866,6 +866,9 @@
     "friendship_confirmcollect": {
         "message": "Presione SI  para confirmar, NO para intentar más tarde .\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
     },
+    "friendship_speedupcollect": {
+        "message": "Recoleccion acelerada?"
+    },
     "friendship_filter_a": {
         "message": "Amigos: $FRIENDS$, Vecinos: $NEIGHBOURS$",
         "placeholders": {
@@ -1005,6 +1008,9 @@
     },
     "friendship_confirmcollection": {
         "message": "¿Confirmar el resultado de la recolección?"
+    },
+    "friendship_cc_maybe": {
+        "message": "Si no está seguro"
     },
     "friendship_collecterror": {
         "message": "Algo no salió bien"
@@ -1517,6 +1523,9 @@
     },
     "equipment_current": {
         "message": "Actual"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Tenga en cuenta que si compró un paquete especial en el juego por este precio en el pasado, no será  posible comprar ningún otro  paquete  por este precio.\nEn este caso, el  precio más bajo disponible será de aproximadamente 5,5 USD."
     },
     "events_year": {
         "message": "Año del evento"

@@ -1057,10 +1057,12 @@ td.dot.dot2 {
 
 /*#endregion*/
 
+table.daf-table td.no_right_border,
 td.no_right_border {
   border-right: none;
 }
 
+table.daf-table td.no_right_border+td,
 td.no_right_border+td {
   border-left: none;
 }

@@ -23,6 +23,7 @@ const materialImageCache = {};
 const clicked = {};
 let firstTime = true;
 let autoClick = false;
+let shorten;
 
 //#region LINK HELPER FUNCTIONS
 const LinkData = (function () {
@@ -121,6 +122,7 @@ function getState() {
     return {
         convert: selectConvert.value,
         background: checkBackground.checked,
+        shorten,
         sort: gui.getSortState(smartTable, 'id')
     };
 }
@@ -128,8 +130,36 @@ function getState() {
 function setState(state) {
     state.convert = gui.setSelectState(selectConvert, state.convert);
     checkBackground.checked = !!state['background'];
+    shorten = formatShorten(parseShorten(state.shorten));
     gui.setSortState(state.sort, smartTable, 'id');
     smartTable.setSortInfo();
+}
+
+const shortenSeparators = ['.', ')', '-'];
+function formatShorten(obj) {
+    obj = obj || {};
+    let result = '';
+    if (+obj.convert == 3) result += 'f';
+    if (+obj.sort == 1) result += 'a';
+    if (+obj.sort == 2) result += 'd';
+    if (+obj.format == 1) result += '1';
+    if (+obj.format == 2) result += '0';
+    if (+obj.newline) result += 'n';
+    if (shortenSeparators.indexOf(obj.separator) >= 0) result += obj.separator;
+    return result;
+}
+
+function parseShorten(text) {
+    text = String(text || '');
+    const result = { convert: 2, sort: 0, format: 0, separator: '', newline: false };
+    if (text.indexOf('f') >= 0) result.convert = 3;
+    if (text.indexOf('a') >= 0) result.sort = 1;
+    if (text.indexOf('d') >= 0) result.sort = 2;
+    if (text.indexOf('0') >= 0) result.format = 2;
+    if (text.indexOf('1') >= 0) result.format = 1;
+    result.newline = text.indexOf('n') >= 0;
+    result.separator = shortenSeparators.find(s => text.indexOf(s) >= 0) || '';
+    return result;
 }
 
 function saveState() {
@@ -159,21 +189,73 @@ function onClickButton() {
         gui.dialog.show({
             title: gui.getMessage('rewardlinks_shortenlinks'),
             html: Html.br`
-${gui.getMessage('rewardlinks_convert')} <select data-method="input" name="convert">
+<table class="daf-table">
+<thead><tr><th colspan="4">${gui.getMessage('tab_options')}</th></tr></thead>
+<tbody class="row-coloring">
+<tr><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('rewardlinks_convert')}</td><td><select data-method="input" name="convert">
 <option value="2">Portal</option>
 <option value="3">Facebook</option>
-</select>
-<br/>${gui.getMessage('rewardlinks_shortenlinks_info1')}<br/>
-<textarea data-method="input" cols="60" rows="5" name="links"></textarea>
-<br/>${gui.getMessage('rewardlinks_shortenlinks_info2')}<br/>
-<textarea readonly cols="60" rows="6" name="result"></textarea>`,
+</select></td><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('options_linkgrabsort')}</td><td><select data-method="input" name="sort">
+<option value="0">${gui.getMessage('options_sort_none')}</option>
+<option value="1">${gui.getMessage('options_sort_ascending')}</option>
+<option value="2">${gui.getMessage('options_sort_descending')}</option>
+</select></td></tr>
+<tr><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('rewardlinks_format')}</td><td><select data-method="input" name="format">
+<option value="0"></option>
+<option value="1">1</option>
+<option value="2">01</option>
+</select><select data-method="input" name="separator">
+<option value=""></option>
+<option value=".">.</option>
+<option value=")">)</option>
+<option value="-">-</option>
+</select></td>
+<td class="no_right_border">${gui.getMessage('rewardlinks_newline')}</td><td><input type="checkbox" name="newline" data-method="input"></td></tr>
+</tbody></table>
+<table class="daf-table" style="margin-top:2px">
+<thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info1')}</th></tr></thead>
+<tbody class="row-coloring"><tr><td style="text-align:center">
+<textarea data-method="input" cols="60" rows="5" name="links" style="padding:2px"></textarea>
+</td></tr></tbody>
+<thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info2')}</th></tr></thead>
+<tbody class="row-coloring"><tr><td style="text-align:center">
+<textarea readonly cols="60" rows="6" name="result" style="padding:2px"></textarea>
+</td></tr></tbody>
+</table>
+`,
             defaultButton: 'links',
-            style: [Dialog.OK, Dialog.WIDEST]
+            style: [Dialog.OK, Dialog.WIDEST, Dialog.AUTORUN]
         }, function (method, params) {
+            if (method == Dialog.AUTORUN) {
+                params = parseShorten(shorten);
+                gui.dialog.element.querySelector('[name=convert]').value = params.convert;
+                gui.dialog.element.querySelector('[name=sort]').value = params.sort;
+                gui.dialog.element.querySelector('[name=format]').value = params.format;
+                gui.dialog.element.querySelector('[name=separator]').value = params.separator;
+                gui.dialog.element.querySelector('[name=newline]').checked = params.newline;
+            }
             if (method == 'input') {
-                const arr = LinkData.getLinkData(params.links);
-                const text = arr.map(item => LinkData.getLink(item, params.convert)).join('\n');
-                gui.dialog.element.querySelector('[name=result]').value = text;
+                params.newline = params.newline == 'on';
+                const newShorten = formatShorten(params);
+                if (newShorten != shorten) {
+                    shorten = newShorten;
+                    gui.updateTabState(tab);
+                }
+                const options = parseShorten(shorten);
+                let arr = LinkData.getLinkData(params.links);
+                if (options.sort) arr.sort((a, b) => +a.id - +b.id);
+                if (options.sort == 2) arr.reverse();
+                const suffix = params.newline ? '\n' : '';
+                const padLength = options.format == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
+                arr = arr.map((item, index) => {
+                    let prefix = '';
+                    const text = LinkData.getLink(item, options.convert);
+                    if (options.format) prefix += (index + 1).toString().padStart(padLength, '0');
+                    if (options.separator) prefix += options.separator;
+                    if (prefix) prefix += ' ';
+                    return prefix + text + suffix;
+                });
+                gui.dialog.element.querySelector('[name=result]').value = arr.join('\n');
             }
         });
     } else if (action == 'remove') {
