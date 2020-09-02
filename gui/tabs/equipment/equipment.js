@@ -1376,6 +1376,10 @@ function showAny(lastPack, lastOffer, lastTieredOffer) {
         let max = -Infinity;
         let minDate = +Infinity;
         let maxDate = -Infinity;
+        let lastPackName = '';
+        let lastPackYear = 2013;
+        const packsByYear = [];
+        const processedPacks = {};
         for (const sale of Object.values(sales).filter(sale => (+sale.hide || 0) == 0)) {
             min = Math.min(min, +sale.def_id);
             max = Math.max(max, +sale.def_id);
@@ -1385,7 +1389,19 @@ function showAny(lastPack, lastOffer, lastTieredOffer) {
                 v = +sale.end;
                 if (v && v > maxDate) maxDate = v;
             }
+            if (kind == 'pack') {
+                const id = +sale.def_id;
+                const name = sale.name_loc || '';
+                if (!(id in processedPacks) && name != '' && name != lastPackName) {
+                    lastPackName = name;
+                    if (+sale.start > 0) lastPackYear = Locale.getDate(sale.start).getFullYear();
+                    packsByYear.push([lastPackYear, +sale.def_id, name]);
+                    gui.getArrayOfInt(sale.deny_list).forEach(id => processedPacks[id] = true);
+                }
+            }
         }
+        packsByYear.reverse();
+        console.log(packsByYear);
         if (current < min || current > max) current = max;
         htm += Html.br`<thead><tr><th colspan="2" style="text-align:left">${gui.getMessage(messageId)}</th></tr></thead>`;
         htm += Html.br`<tbody class="row-coloring">`;
@@ -1398,6 +1414,21 @@ function showAny(lastPack, lastOffer, lastTieredOffer) {
             htm += Html.br`<tr><th>${gui.getMessage('gui_date')}</th>`;
             htm += Html.br`<td><input name="${kind}_date" type="date" min="${minText}" max="${maxText}" value="${(new Date()).toISOString().replace(/T.+Z/, '')}">`;
             htm += Html.br`<button data-method="${kind}_date">${gui.getMessage('gui_show')}</td></tr>`;
+        }
+        if (kind == 'pack') {
+            htm += Html.br`<tr><th>${gui.getMessage('gui_name')}</th>`;
+            htm += Html.br`<td><select name="${kind}_name">`;
+            for (let index = 0; index < packsByYear.length;) {
+                const year = packsByYear[index][0];
+                htm += Html.br`<optgroup label="${Locale.formatYear(new Date(year, 0, 1))}">`;
+                while (index < packsByYear.length && packsByYear[index][0] == year) {
+                    htm += Html.br`<option value="${packsByYear[index][1]}">${gui.getString(packsByYear[index][2])}</option>`;
+                    index++;
+                }
+                htm += Html.br`</optgroup>`;
+            }
+            htm += Html.br`</select>`;
+            htm += Html.br`<button data-method="${kind}_name">${gui.getMessage('gui_show')}</td></tr>`;
         }
         htm += Html.br`</tbody>`;
     };
@@ -1429,6 +1460,9 @@ function showAny(lastPack, lastOffer, lastTieredOffer) {
                 list.sort((a, b) => (+b.start - +a.start) || (+a.def_id - +b.def_id));
                 id = list.length ? +list[0].def_id : 0;
             }
+        }
+        if (method == 'pack_name') {
+            method = 'pack';
         }
         if (method == 'pack' || method == 'offer' || method == 'tier') {
             try {
