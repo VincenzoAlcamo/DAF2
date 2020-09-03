@@ -1054,6 +1054,10 @@ function showOffer(type, id, callback) {
     if (type == 'pack') {
         blocks = getPacks(id);
         title = gui.getString(blocks[0].name_loc);
+        const pack = gui.getFile('packs')[id];
+        const eid = pack && +pack.event_id;
+        const event = gui.getObject('event', eid);
+        if (event) title += `\v(${gui.getMessageAndValue('gui_event', gui.getObjectName('event', eid))})`;
     } else if (type == 'tier') {
         blocks = getTieredOffers(id);
         title = gui.getMessage('gui_tieredoffer');
@@ -1074,7 +1078,7 @@ function showOffer(type, id, callback) {
             current[method] = +params[method];
             gui.dialog.setHtml(getDetails());
         }
-        if (method == Dialog.CLOSE && callback) callback();
+        if (callback && (method == Dialog.CLOSE || method == Dialog.CANCEL)) callback();
     });
 
     function getSelection(current) {
@@ -1396,7 +1400,7 @@ function showAny(lastPack, lastOffer, lastTieredOffer) {
                 const name = sale.name_loc || '';
                 if (!(id in processedPacks) && name != '' && name != lastPackName) {
                     lastPackName = name;
-                    if (+sale.start > 0) lastPackYear = Locale.getDate(sale.start).getFullYear();
+                    if (+sale.start > 0) lastPackYear = Math.max(lastPackYear, Locale.getDate(sale.start).getFullYear());
                     packsByYear.push([lastPackYear, +sale.def_id, gui.getString(name)]);
                     gui.getArrayOfInt(sale.deny_list).forEach(id => processedPacks[id] = true);
                 }
