@@ -1406,8 +1406,8 @@
     "rewardlinks_shortenlinks_info2": {
         "message": "Shortened links are shown below (duplicates are removed)."
     },
-    "rewardlinks_format": {
-        "message": "Format"
+    "rewardlinks_prefix": {
+        "message": "Prefix"
     },
     "rewardlinks_newline": {
         "message": "Add newline?"

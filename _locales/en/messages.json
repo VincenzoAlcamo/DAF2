@@ -1883,7 +1883,7 @@
 "en@rewardlinks_shortenlinks":{"message":"Shorten/Convert links"},
 "en@rewardlinks_shortenlinks_info1":{"message":"Paste here the links to shorten/convert."},
 "en@rewardlinks_shortenlinks_info2":{"message":"Shortened links are shown below (duplicates are removed)."},
-"en@rewardlinks_format":{"message":"Format"},
+"en@rewardlinks_prefix":{"message":"Prefix"},
 "en@rewardlinks_newline":{"message":"Add newline?"},
 "en@export_exportdata":{"message":"Export data"},
 "en@export_exportinventory":{"message":"Export inventory"},

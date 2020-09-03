@@ -142,8 +142,8 @@ function formatShorten(obj) {
     if (+obj.convert == 3) result += 'f';
     if (+obj.sort == 1) result += 'a';
     if (+obj.sort == 2) result += 'd';
-    if (+obj.format == 1) result += '1';
-    if (+obj.format == 2) result += '0';
+    if (+obj.prefix == 1) result += '1';
+    if (+obj.prefix == 2) result += '0';
     if (+obj.newline) result += 'n';
     if (shortenSeparators.indexOf(obj.separator) >= 0) result += obj.separator;
     return result;
@@ -151,12 +151,12 @@ function formatShorten(obj) {
 
 function parseShorten(text) {
     text = String(text || '');
-    const result = { convert: 2, sort: 0, format: 0, separator: '', newline: false };
+    const result = { convert: 2, sort: 0, prefix: 0, separator: '', newline: false };
     if (text.indexOf('f') >= 0) result.convert = 3;
     if (text.indexOf('a') >= 0) result.sort = 1;
     if (text.indexOf('d') >= 0) result.sort = 2;
-    if (text.indexOf('0') >= 0) result.format = 2;
-    if (text.indexOf('1') >= 0) result.format = 1;
+    if (text.indexOf('0') >= 0) result.prefix = 2;
+    if (text.indexOf('1') >= 0) result.prefix = 1;
     result.newline = text.indexOf('n') >= 0;
     result.separator = shortenSeparators.find(s => text.indexOf(s) >= 0) || '';
     return result;
@@ -200,7 +200,7 @@ function onClickButton() {
 <option value="1">${gui.getMessage('options_sort_ascending')}</option>
 <option value="2">${gui.getMessage('options_sort_descending')}</option>
 </select></td></tr>
-<tr><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('rewardlinks_format')}</td><td><select data-method="input" name="format">
+<tr><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" name="prefix">
 <option value="0"></option>
 <option value="1">1</option>
 <option value="2">01</option>
@@ -230,7 +230,7 @@ function onClickButton() {
                 params = parseShorten(shorten);
                 gui.dialog.element.querySelector('[name=convert]').value = params.convert;
                 gui.dialog.element.querySelector('[name=sort]').value = params.sort;
-                gui.dialog.element.querySelector('[name=format]').value = params.format;
+                gui.dialog.element.querySelector('[name=prefix]').value = params.prefix;
                 gui.dialog.element.querySelector('[name=separator]').value = params.separator;
                 gui.dialog.element.querySelector('[name=newline]').checked = params.newline;
             }
@@ -246,11 +246,11 @@ function onClickButton() {
                 if (options.sort) arr.sort((a, b) => +a.id - +b.id);
                 if (options.sort == 2) arr.reverse();
                 const suffix = params.newline ? '\n' : '';
-                const padLength = options.format == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
+                const padLength = options.prefix == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
                 arr = arr.map((item, index) => {
                     let prefix = '';
                     const text = LinkData.getLink(item, options.convert);
-                    if (options.format) prefix += (index + 1).toString().padStart(padLength, '0');
+                    if (options.prefix) prefix += (index + 1).toString().padStart(padLength, '0');
                     if (options.separator) prefix += options.separator;
                     if (prefix) prefix += ' ';
                     return prefix + text + suffix;
