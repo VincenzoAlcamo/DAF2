@@ -224,7 +224,7 @@ function onClickButton() {
 </table>
 `,
             defaultButton: 'links',
-            style: [Dialog.OK, Dialog.WIDEST, Dialog.AUTORUN]
+            style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN]
         }, function (method, params) {
             if (method == Dialog.AUTORUN) {
                 params = parseShorten(shorten);
