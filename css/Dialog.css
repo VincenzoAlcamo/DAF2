@@ -107,11 +107,21 @@
 
 .DAF-md-title {
   margin: 0;
-  padding: 0.1em;
   text-align: center;
   font-size: 2em;
   font-weight: 300;
   background: rgba(0, 0, 0, 0.2);
+}
+
+.DAF-md-title > div {
+  padding: 0.1em;
+  line-height: 1em;
+}
+
+.DAF-md-title > div sub {
+  display: block;
+  font-size: 20px;
+  line-height: 20px;
 }
 
 .DAF-md-footer {
@@ -197,4 +207,25 @@
 
 .DAF-dialog button[timer]:after {
   content: " [" attr(timer) "]";
+}
+
+.DAF-dialog .DAF-md-title button[value="close"] {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  top: 4px;
+  right: 4px;
+  color: white;
+  background-color: #8008;
+  border-radius: 6px;
+  border: 1px solid #400F;
+  font-size: 32px;
+  line-height: 26px;
+  text-align: center;
+  padding: 0 4px;
+  overflow: hidden;
+}
+
+.DAF-md-close .DAF-md-title > div {
+  margin-right: 32px;
 }

@@ -85,8 +85,8 @@ Object.assign(Dialog.prototype, {
             // We stopped using a CSS transform (that blurs the text)
             const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
             Dialog.htmlToDOM(this.element, `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
-            <div class="DAF-md-title"></div><div class="DAF-md-body"></div>
-            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL, Dialog.CLOSE].map(button).join('')}</div></form></div>`);
+            <div class="DAF-md-title"><button title="${Dialog.getMessage('dialog_close')}" value="${Dialog.CLOSE}">&times;</button><div></div></div><div class="DAF-md-body"></div>
+            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div>`);
             this.form = this.element.getElementsByTagName('form')[0];
             document.body.appendChild(this.element);
         }
@@ -166,9 +166,11 @@ Object.assign(Dialog.prototype, {
         return this;
     },
     setTitle: function (title) {
-        const el = this.create().element.getElementsByClassName('DAF-md-title')[0];
+        const el = this.create().element.querySelector('.DAF-md-title div');
         if (el) {
-            Dialog.htmlToDOM(el, Dialog.htmlEncodeBr(title));
+            const i = title.indexOf('\v');
+            const html = i < 0 ? Dialog.htmlEncodeBr(title) : Dialog.htmlEncodeBr(title.substring(0, i)) + '<sub>' + Dialog.htmlEncodeBr(title.substring(i + 1)) + '</sub>';
+            Dialog.htmlToDOM(el, html);
             el.style.display = title ? '' : 'none';
         }
         return this;
@@ -192,7 +194,7 @@ Object.assign(Dialog.prototype, {
         if (style === null || style === undefined) style = this.lastStyle;
         style = this.lastStyle = style instanceof Array ? style : String(style).split(/,|\s/);
         style = style.map(method => method.toLowerCase());
-        for (const tag of [Dialog.CRITICAL, Dialog.WIDEST]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
+        for (const tag of [Dialog.CRITICAL, Dialog.WIDEST, Dialog.CLOSE]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
         const dialog = this;
         dialog.inputs = {};
         for (const input of this.element.querySelectorAll('button,[data-method]')) {
