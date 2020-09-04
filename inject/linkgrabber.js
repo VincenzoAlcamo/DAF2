@@ -145,7 +145,7 @@ function mousemove(event) {
                     prev = prev.previousSibling;
                 }
             }
-            return el.className.match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/);
+            return String(el.className).match(/\b(UFIPagerLink|fss|see_more_link_inner|UFIReplySocialSentenceLinkText)\b/);
         });
         if (autoOpenElement !== el) {
             if (autoOpenElement && autoOpenCount <= 0) {
