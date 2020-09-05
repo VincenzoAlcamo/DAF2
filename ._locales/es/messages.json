@@ -294,6 +294,12 @@
     "gui_toomanyresults": {
         "message": "Demasiados resultados"
     },
+    "gui_id": {
+        "message": "Id"
+    },
+    "gui_date": {
+        "message": "Fecha"
+    },
     "dialog_ok": {
         "message": "OK"
     },
@@ -1399,6 +1405,12 @@
     },
     "rewardlinks_shortenlinks_info2": {
         "message": "Los enlaces abreviados se muestran a continuación (se eliminan los duplicados)."
+    },
+    "rewardlinks_prefix": {
+        "message": "Prefijo"
+    },
+    "rewardlinks_newline": {
+        "message": "Añadir nueva línea?"
     },
     "export_exportdata": {
         "message": "Exportar datos"

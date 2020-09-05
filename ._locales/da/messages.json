@@ -294,6 +294,12 @@
     "gui_toomanyresults": {
         "message": "For mange resultater"
     },
+    "gui_id": {
+        "message": "Id"
+    },
+    "gui_date": {
+        "message": "Dato"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1399,6 +1405,12 @@
     },
     "rewardlinks_shortenlinks_info2": {
         "message": "Forkortede links er vist herunder (duplikater er fjernet)"
+    },
+    "rewardlinks_prefix": {
+        "message": "Præfiks"
+    },
+    "rewardlinks_newline": {
+        "message": "Tilføj ny linje?"
     },
     "export_exportdata": {
         "message": "Eksport data"
