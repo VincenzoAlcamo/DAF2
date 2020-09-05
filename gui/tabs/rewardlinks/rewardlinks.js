@@ -192,15 +192,15 @@ function onClickButton() {
 <table class="daf-table">
 <thead><tr><th colspan="4">${gui.getMessage('tab_options')}</th></tr></thead>
 <tbody class="row-coloring">
-<tr><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('rewardlinks_convert')}</td><td><select data-method="input" name="convert">
+<tr><td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('rewardlinks_convert')}</td><td><select data-method="input" name="convert">
 <option value="2">Portal</option>
 <option value="3">Facebook</option>
-</select></td><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('options_linkgrabsort')}</td><td><select data-method="input" name="sort">
+</select></td><td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('options_linkgrabsort')}</td><td><select data-method="input" name="sort">
 <option value="0">${gui.getMessage('options_sort_none')}</option>
 <option value="1">${gui.getMessage('options_sort_ascending')}</option>
 <option value="2">${gui.getMessage('options_sort_descending')}</option>
 </select></td></tr>
-<tr><td class="no_right_border" style="white-space:nowrap">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" name="prefix">
+<tr><td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" name="prefix">
 <option value="0"></option>
 <option value="1">1</option>
 <option value="2">01</option>
@@ -210,7 +210,7 @@ function onClickButton() {
 <option value=")">)</option>
 <option value="-">-</option>
 </select></td>
-<td class="no_right_border">${gui.getMessage('rewardlinks_newline')}</td><td><input type="checkbox" name="newline" data-method="input"></td></tr>
+<td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('rewardlinks_newline')}</td><td><input type="checkbox" name="newline" data-method="input"></td></tr>
 </tbody></table>
 <table class="daf-table" style="margin-top:2px">
 <thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info1')}</th></tr></thead>
