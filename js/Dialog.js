@@ -168,9 +168,7 @@ Object.assign(Dialog.prototype, {
     setTitle: function (title) {
         const el = this.create().element.querySelector('.DAF-md-title div');
         if (el) {
-            const html = Dialog.htmlEncodeBr(title);
-            const i = html.indexOf('\v');
-            Dialog.htmlToDOM(el, i < 0 ? html : `${html.substring(0, i)}<sub>${html.substring(i + 1)}</sub>`);
+            Dialog.htmlToDOM(el, Dialog.htmlEncodeBr(title).replace(/\v([^\v]*)/g,'<sub>$1</sub>'));
             el.style.display = title ? '' : 'none';
         }
         return this;
