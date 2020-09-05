@@ -2920,7 +2920,7 @@
 "fr@rewardlinks_reset":{"message":"Réinitialiser"},
 "fr@rewardlinks_resetcount":{"message":"Vous pouvez réinitialiser la date de la prochaine collecte et continuer malgré tout avec ce lien."},
 "fr@rewardlinks_resetexpired":{"message":"Vous pouvez réinitialiser les informations sur les liens probablement expirés et continuer malgré tout avec ce lien."},
-"fr@rewardlinks_convert":{"message":"Type de liens:"},
+"fr@rewardlinks_convert":{"message":"Type de liens"},
 "fr@rewardlinks_noconversion":{"message":"Pas de conversion"},
 "fr@rewardlinks_shortenlinks":{"message":"Convertir"},
 "fr@rewardlinks_shortenlinks_info1":{"message":"Collez des liens pour convertir ici."},

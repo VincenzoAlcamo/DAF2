@@ -1392,7 +1392,7 @@
         "message": "Vous pouvez réinitialiser les informations sur les liens probablement expirés et continuer malgré tout avec ce lien."
     },
     "rewardlinks_convert": {
-        "message": "Type de liens:"
+        "message": "Type de liens"
     },
     "rewardlinks_noconversion": {
         "message": "Pas de conversion"
