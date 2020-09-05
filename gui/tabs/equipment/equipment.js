@@ -1057,7 +1057,7 @@ function showOffer(type, id, callback) {
         const pack = gui.getFile('packs')[id];
         const eid = pack && +pack.event_id;
         const event = gui.getObject('event', eid);
-        if (event) title += `\v(${gui.getMessageAndValue('gui_event', gui.getObjectName('event', eid))})`;
+        if (event) title += `\v${gui.getMessageAndValue('gui_event', gui.getObjectName('event', eid))}`;
     } else if (type == 'tier') {
         blocks = getTieredOffers(id);
         title = gui.getMessage('gui_tieredoffer');
@@ -1068,15 +1068,18 @@ function showOffer(type, id, callback) {
 
     const block = blocks.find(block => block.id == id);
     const current = { rid: block.rid, price: block.price, date: block.date };
+    let subTitle;
 
+    const html = getDetails();
     gui.dialog.show({
-        title: title,
-        html: getDetails(),
+        title: title + subTitle,
+        html,
         style: [Dialog.CLOSE, Dialog.WIDEST]
     }, function (method, params) {
         if (method == 'rid' || method == 'price' || method == 'date') {
             current[method] = +params[method];
             gui.dialog.setHtml(getDetails());
+            gui.dialog.setTitle(title + subTitle);
         }
         if (callback && (method == Dialog.CLOSE || method == Dialog.CANCEL)) callback();
     });
@@ -1123,6 +1126,8 @@ function showOffer(type, id, callback) {
         const result = [];
         const prev = {};
         const allLimited = selection.length == selection.filter(p => p.limited).length;
+
+        subTitle = type == 'pack' && selection.length == 1 ? `\v${gui.getMessageAndValue('gui_pack', selection[0].id)}` : '';
         for (const block of selection) {
             let htm = '';
             let pre = '';
@@ -1213,9 +1218,12 @@ function getPacks(id) {
 
     // Get related packs
     const pack = packs[id];
-    const packId = +pack.def_id;
-    const related = gui.getArrayOfInt(pack.deny_list).map(id => packs[id]).filter(pack => pack && gui.getArrayOfInt(pack.deny_list).includes(packId));
-    related.push(pack);
+    let related = [];
+    if (pack) {
+        const packId = +pack.def_id;
+        related = gui.getArrayOfInt(pack.deny_list).map(id => packs[id]).filter(pack => pack && gui.getArrayOfInt(pack.deny_list).includes(packId));
+        related.push(pack);
+    }
 
     const blocks = [];
     for (const pack of related) {
