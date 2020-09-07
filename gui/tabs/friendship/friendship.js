@@ -124,6 +124,14 @@ function getFbFriendsPage() {
     return gui.getPreference('fbFriendsPage');
 }
 
+function getFbFriendsPageUrl(fbFriendsPage) {
+    switch (fbFriendsPage) {
+        case 1: return 'https://www.facebook.com/profile.php?sk=friends';
+        case 2: return 'https://m.facebook.com/friends/center/friends';
+        default: return 'https://www.facebook.com/me/friends';
+    }
+}
+
 function getNeighboursAsNotMatched() {
     const neighbours = bgp.Data.getNeighbours();
     const notmatched = Object.assign({}, neighbours);
@@ -165,10 +173,11 @@ function showCollectDialog() {
             extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
         }
         extra += `</select>
-        <br><label for="f_fv" title="A = https://www.facebook.com/me/friends&#10;B = https://www.facebook.com/profile.php?sk=friends">${gui.getMessage('gui_type')}
+        <br><label for="f_fv">${gui.getMessage('gui_type')}
         <select id="f_fv" name="fbFriendsPage">
-        <option value="0" ${fbFriendsPage == 0 ? 'selected' : ''}>A</option>
-        <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B</option>
+        <option value="0" ${fbFriendsPage != 1 && fbFriendsPage != 2 ? 'selected' : ''}>A = ${getFbFriendsPageUrl('0')}</option>
+        <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B = ${getFbFriendsPageUrl(1)}</option>
+        <option value="2" ${fbFriendsPage == 2 ? 'selected' : ''}>C = ${getFbFriendsPageUrl(2)}</option>
         </select></label>`;
         return Html.raw(extra);
     }
@@ -346,7 +355,7 @@ function collectFriends(method) {
     bgp.Tab.excludeFromInjection(0);
     setTimeout(_ => bgp.Tab.excludeFromInjection(0, false), 20000);
     const fbFriendsPage = getFbFriendsPage();
-    const url = fbFriendsPage == 1 ? 'https://www.facebook.com/profile.php?sk=friends' : 'https://www.facebook.com/me/friends';
+    const url = getFbFriendsPageUrl(fbFriendsPage);
     chrome.windows.create({
         width,
         height,

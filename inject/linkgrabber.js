@@ -586,8 +586,8 @@ function collect(confirmCollection, speedupCollection) {
     let ulInactiveParent = null;
     let ulInactive = null;
     const liInactive = [];
-    let isNew = false;
-    let container, unmatchedList, started, countPhotos;
+	const FB_OLD = 0, FB_NEW = 1, FB_MOBILE = 2;
+    let fbPage, container, unmatchedList, started, countPhotos, captureOneBlock;
 
     function addFriend(friend) {
         friends.push(friend);
@@ -637,16 +637,24 @@ function collect(confirmCollection, speedupCollection) {
     wait.show();
     const handler = setInterval(function () {
         container = document.getElementById('pagelet_timeline_medley_friends');
-        isNew = false;
+        fbPage = FB_OLD;
+        captureOneBlock = captureOneBlockOld;
         if (!container) {
             const img = document.querySelector('a > img[width="80"]');
             if (img) {
                 container = img.parentElement.parentElement.parentElement.parentElement;
-                isNew = true;
+                fbPage = FB_NEW;
+                captureOneBlock = captureOneBlockNew;
+            }
+            const i = document.querySelector('a > i.profpic');
+            if (i) {
+                container = i.parentElement.parentElement.parentElement.parentElement.parentElement;
+                fbPage = FB_MOBILE;
+                captureOneBlock = captureOneBlockMobile;
             }
         }
         if (container) {
-            if (isNew && speedupCollection > 1) interceptData();
+            if (fbPage == FB_NEW && speedupCollection > 1) interceptData();
             clearInterval(handler);
             wait.hide();
             started = Date.now();
@@ -701,7 +709,6 @@ function collect(confirmCollection, speedupCollection) {
                 }
                 liInactive.forEach(li => ulInactive.appendChild(li));
                 viewDisabled();
-                wait.hide();
                 dialog.show({
                     text: getMessage(collectMethod == 'unmatched' ? 'friendship_unmatchedaccountsdetected' :
                         'friendship_disabledaccountsdetected') + '\n' + getMessage('friendship_unfriendinfo'),
@@ -709,8 +716,8 @@ function collect(confirmCollection, speedupCollection) {
                 }, viewDisabled);
             }
         };
+		wait.hide();
         if (autoClose) return showDisabled();
-        wait.hide();
         let text = getStatInfo(friends.length, friends.length);
         text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
         dialog.show({ text, style: [Dialog.OK] }, showDisabled);
@@ -729,7 +736,7 @@ function collect(confirmCollection, speedupCollection) {
         if ((i = uri.indexOf('profile.php?id=')) >= 0) {
             if ((i = uri.indexOf('&', i)) >= 0) uri = uri.substr(0, i);
         } else if ((i = uri.indexOf('?')) >= 0) uri = uri.substr(0, i);
-        return uri;
+        return uri.replace(/\/\/m./, '//www.');
     }
 
     function getFriendIdFromUri(uri) {
@@ -800,6 +807,32 @@ function collect(confirmCollection, speedupCollection) {
         return count;
     }
 
+	function captureOneBlockMobile() {
+		let count = 0;
+		const items = Array.from(container.querySelectorAll('a > i.profpic:not(.collected)'));
+		if (items.length == 0) return -1;
+		// Detect if a disabled account exists
+		// if (!ulInactive && container.querySelector('div > img[width="80"]')) ulInactive = container;
+		for (const item of items) {
+			item.classList.add('collected');
+			let keep = false;
+			const uri = getFriendUri(item.parentElement.href);
+			const a = item.parentElement.parentElement.nextElementSibling.querySelector('a');
+			const name = a && a.href == item.parentElement.href ? a.textContent : '';
+			const id = getFriendIdFromUri(uri);
+			const img = item.style.backgroundImage.replace(/url\("([^")]+)"\)/, '$1');
+			count++;
+			addFriend({ id, name, uri, img });
+			keep = unmatchedList.includes(id);
+			const node = item.parentElement.parentElement.parentElement;
+			// node.remove();
+			if (keep) {
+				ulInactive = container;
+				// liInactive.push(node);
+			} else node.classList.add('to-be-removed');
+		}
+		return count;
+	}
 
     function collectStandard() {
         let handler = null, countStop = 0, count = 0;
@@ -807,7 +840,7 @@ function collect(confirmCollection, speedupCollection) {
         handler = setInterval(capture, 500);
         function capture() {
             wait.setText(getStatInfo(count, friends.length, true));
-            const num = isNew ? captureOneBlockNew() : captureOneBlockOld();
+            const num = captureOneBlock();
             if (num >= 0) {
                 count += num;
                 countStop = 0;
@@ -818,7 +851,9 @@ function collect(confirmCollection, speedupCollection) {
                 if (countStop > 20) {
                     clearInterval(handler);
                     // If reached the end of the page, confirm is unnecessary
-                    const endReached = isNew ? getCountPhotos() > countPhotos : document.getElementById('pagelet_timeline_medley_photos');
+					let endReached = false;
+					if (fbPage == FB_OLD) endReached = !!document.getElementById('pagelet_timeline_medley_photos');
+					if (fbPage == FB_NEW) endReached = getCountPhotos() > countPhotos;
                     if (confirmCollection || !endReached) {
                         dialog.show({
                             title: getStatInfo(count, friends.length),
