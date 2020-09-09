@@ -96,7 +96,7 @@ function getState() {
 }
 
 function setState(state) {
-    selectShow.value = state.show || '';
+    state.show = gui.setSelectState(selectShow, state.show);
     searchInput.value = state.search || '';
     gui.setSortState(state.sort, smartTable, 'fname');
 }
