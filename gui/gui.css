@@ -302,6 +302,7 @@ progress::-webkit-progress-value {
   user-select: none;
   display: flex;
   flex-direction: column;
+  --scroll-y: -1;
   /*
   box-shadow: inset -10px 0px 28px 0px rgba(0, 0, 0, 0.6);
   --shadow: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) calc(100% - 14px), rgba(0, 0, 0, 0.5));
@@ -379,6 +380,22 @@ progress::-webkit-progress-value {
 @media (max-width: 1366px) {
   .vertical-menu li span {
     display: none;
+  }
+  .vertical-menu li:hover span {
+    display: table-cell;
+    position: absolute;
+    background-color: var(--vm-item-hov-bgcol);
+    margin-left: 39px;
+    line-height: 34px;
+    border: 1px solid var(--vm-brcol);
+    border-left: none;
+    padding: 0 6px 0 2px;
+    height: 36px;
+    margin-top: var(--scroll-y);
+  }
+
+  .vertical-menu li.selected:hover span {
+    background-color: var(--vm-item-sel-bgcol);
   }
 }
 

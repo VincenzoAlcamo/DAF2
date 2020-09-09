@@ -743,12 +743,13 @@ function onLoad() {
     for (const tab of Object.values(tabs)) {
         const text = gui.getMessage('tab_' + tab.id) || tab.id;
         const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
-        htm += Html`<li title="${text + (tab.enabled ? '' : '\nNOT YET IMPLEMENTED!')}" style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
+        htm += Html`<li style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
     }
     htm += Html`<li class="last"></li>`;
     let div = document.querySelector('.vertical-menu');
     Dialog.htmlToDOM(div, htm);
     div.addEventListener('click', clickMenu, true);
+    div.addEventListener('scroll', e => e.target.style.setProperty('--scroll-y', (-e.target.scrollTop - 1)) + 'px', true);
 
     document.body.addEventListener('click', function (e) {
         if (e.target && e.target.hasAttribute('data-wiki-page')) openWiki(e.target.getAttribute('data-wiki-page'));
