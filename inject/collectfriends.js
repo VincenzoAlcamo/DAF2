@@ -135,14 +135,13 @@ function formatTime(milliseconds) {
     return `${n2(hh)}:${n2(mm)}:${n2(ss)}`;
 }
 
-function getStatInfo(num, total, addTime) {
-    const count = num == total ? total : (num + ' / ' + total);
+function getStatInfo(count, addTime) {
     return getMessage('friendship_collectstat', count) + (addTime ? '\n(' + formatTime(Date.now() - started) + ')' : '');
 }
 
 function sendFriends() {
     const viewDisabled = () => { try { ulInactive.firstElementChild.scrollIntoView({ block: 'center' }); } catch (e) { } };
-    wait.setText(document.title = getStatInfo(friends.length, friends.length, true));
+    wait.setText(document.title = getStatInfo(friends.length, true));
     const close = autoClose && !ulInactive;
     chrome.runtime.sendMessage({
         action: 'friendsCaptured',
@@ -167,7 +166,7 @@ function sendFriends() {
     };
     wait.hide();
     if (autoClose) return showDisabled();
-    let text = getStatInfo(friends.length, friends.length);
+    let text = getStatInfo(friends.length);
     text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
     dialog.show({ text, style: [Dialog.OK] }, showDisabled);
 }
@@ -284,16 +283,15 @@ function captureOneBlockMobile() {
 }
 
 function collectStandard() {
-    let handler = null, countStop = 0, count = 0;
+    let handler = null, countStop = 0;
     unmatchedList = unmatched.split(',');
     handler = setInterval(capture, 500);
     function capture() {
-        wait.setText(getStatInfo(count, friends.length, true));
+        wait.setText(getStatInfo(friends.length, true));
         const num = captureOneBlock();
         if (num >= 0) {
-            count += num;
             countStop = 0;
-            wait.setText(document.title = getStatInfo(count, friends.length, true));
+            wait.setText(document.title = getStatInfo(friends.length, true));
         } else {
             countStop++;
             // if the connection is slow, we may want to try a bit more
@@ -305,7 +303,7 @@ function collectStandard() {
                 if (fbPage == FB_NEW) endReached = getCountPhotos() > countPhotos;
                 if (confirmCollection || !endReached) {
                     dialog.show({
-                        title: getStatInfo(count, friends.length),
+                        title: getStatInfo(friends.length),
                         text: getMessage('friendship_confirmcollect'),
                         auto: Dialog.NO,
                         timeout: 30,

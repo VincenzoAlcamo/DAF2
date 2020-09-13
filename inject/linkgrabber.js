@@ -586,7 +586,7 @@ function collect(confirmCollection, speedupCollection) {
     let ulInactiveParent = null;
     let ulInactive = null;
     const liInactive = [];
-	const FB_OLD = 0, FB_NEW = 1, FB_MOBILE = 2;
+    const FB_OLD = 0, FB_NEW = 1, FB_MOBILE = 2;
     let fbPage, container, unmatchedList, started, countPhotos, captureOneBlock;
 
     function addFriend(friend) {
@@ -686,14 +686,13 @@ function collect(confirmCollection, speedupCollection) {
         return `${n2(hh)}:${n2(mm)}:${n2(ss)}`;
     }
 
-    function getStatInfo(num, total, addTime) {
-        const count = num == total ? total : (num + ' / ' + total);
+    function getStatInfo(count, addTime) {
         return getMessage('friendship_collectstat', count) + (addTime ? '\n(' + formatTime(Date.now() - started) + ')' : '');
     }
 
     function sendFriends() {
         const viewDisabled = () => { try { ulInactive.firstElementChild.scrollIntoView({ block: 'center' }); } catch (e) { } };
-        wait.setText(document.title = getStatInfo(friends.length, friends.length, true));
+        wait.setText(document.title = getStatInfo(friends.length, true));
         const close = autoClose && !ulInactive;
         chrome.runtime.sendMessage({
             action: 'friendsCaptured',
@@ -716,9 +715,9 @@ function collect(confirmCollection, speedupCollection) {
                 }, viewDisabled);
             }
         };
-		wait.hide();
+        wait.hide();
         if (autoClose) return showDisabled();
-        let text = getStatInfo(friends.length, friends.length);
+        let text = getStatInfo(friends.length);
         text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
         dialog.show({ text, style: [Dialog.OK] }, showDisabled);
     }
@@ -807,56 +806,55 @@ function collect(confirmCollection, speedupCollection) {
         return count;
     }
 
-	function captureOneBlockMobile() {
-		let count = 0;
-		const items = Array.from(container.querySelectorAll('a > i.profpic:not(.collected)'));
-		if (items.length == 0) return -1;
-		// Detect if a disabled account exists
-		// if (!ulInactive && container.querySelector('div > img[width="80"]')) ulInactive = container;
-		for (const item of items) {
-			item.classList.add('collected');
-			let keep = false;
-			const uri = getFriendUri(item.parentElement.href);
-			const a = item.parentElement.parentElement.nextElementSibling.querySelector('a');
-			const name = a && a.href == item.parentElement.href ? a.textContent : '';
-			const id = getFriendIdFromUri(uri);
-			const img = item.style.backgroundImage.replace(/url\("([^")]+)"\)/, '$1');
-			count++;
-			addFriend({ id, name, uri, img });
-			keep = unmatchedList.includes(id);
-			const node = item.parentElement.parentElement.parentElement;
-			// node.remove();
-			if (keep) {
-				ulInactive = container;
-				// liInactive.push(node);
-			} else node.classList.add('to-be-removed');
-		}
-		return count;
-	}
+    function captureOneBlockMobile() {
+        let count = 0;
+        const items = Array.from(container.querySelectorAll('a > i.profpic:not(.collected)'));
+        if (items.length == 0) return -1;
+        // Detect if a disabled account exists
+        // if (!ulInactive && container.querySelector('div > img[width="80"]')) ulInactive = container;
+        for (const item of items) {
+            item.classList.add('collected');
+            let keep = false;
+            const uri = getFriendUri(item.parentElement.href);
+            const a = item.parentElement.parentElement.nextElementSibling.querySelector('a');
+            const name = a && a.href == item.parentElement.href ? a.textContent : '';
+            const id = getFriendIdFromUri(uri);
+            const img = item.style.backgroundImage.replace(/url\("([^")]+)"\)/, '$1');
+            count++;
+            addFriend({ id, name, uri, img });
+            keep = unmatchedList.includes(id);
+            const node = item.parentElement.parentElement.parentElement;
+            // node.remove();
+            if (keep) {
+                ulInactive = container;
+                // liInactive.push(node);
+            } else node.classList.add('to-be-removed');
+        }
+        return count;
+    }
 
     function collectStandard() {
-        let handler = null, countStop = 0, count = 0;
+        let handler = null, countStop = 0;
         unmatchedList = unmatched.split(',');
         handler = setInterval(capture, 500);
         function capture() {
-            wait.setText(getStatInfo(count, friends.length, true));
+            wait.setText(getStatInfo(friends.length, true));
             const num = captureOneBlock();
             if (num >= 0) {
-                count += num;
                 countStop = 0;
-                wait.setText(document.title = getStatInfo(count, friends.length, true));
+                wait.setText(document.title = getStatInfo(friends.length, true));
             } else {
                 countStop++;
                 // if the connection is slow, we may want to try a bit more
                 if (countStop > 20) {
                     clearInterval(handler);
                     // If reached the end of the page, confirm is unnecessary
-					let endReached = false;
-					if (fbPage == FB_OLD) endReached = !!document.getElementById('pagelet_timeline_medley_photos');
-					if (fbPage == FB_NEW) endReached = getCountPhotos() > countPhotos;
+                    let endReached = false;
+                    if (fbPage == FB_OLD) endReached = !!document.getElementById('pagelet_timeline_medley_photos');
+                    if (fbPage == FB_NEW) endReached = getCountPhotos() > countPhotos;
                     if (confirmCollection || !endReached) {
                         dialog.show({
-                            title: getStatInfo(count, friends.length),
+                            title: getStatInfo(friends.length),
                             text: getMessage('friendship_confirmcollect'),
                             auto: Dialog.NO,
                             timeout: 30,
