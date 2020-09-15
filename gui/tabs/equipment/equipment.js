@@ -69,7 +69,7 @@ function init() {
     btnOffer.addEventListener('click', () => showOffer('offer', lastOffer));
     btnTieredOffer = container.querySelector('[name=tieredoffer]');
     btnTieredOffer.addEventListener('click', () => showOffer('tier', lastTieredOffer));
-    container.querySelector('[name=showany]').addEventListener('click', () => showAny(lastPack, lastOffer, lastTieredOffer));
+    container.querySelector('[name=showany]').addEventListener('click', () => showAny());
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -1142,6 +1142,7 @@ function showOffer(type, id, callback) {
             current[method] = +params[method];
             gui.dialog.setHtml(getDetails());
             gui.dialog.setTitle(title + subTitle);
+            try { gui.dialog.element.querySelector(`[data-method="${method}"`).focus(); } catch (e) { }
         }
         if (callback && (method == Dialog.CLOSE || method == Dialog.CANCEL)) callback();
     });
@@ -1442,7 +1443,7 @@ function getOffersBase(id) {
     return blocks;
 }
 
-function showAny(lastPack, lastOffer, lastTieredOffer) {
+function showAny() {
     let htm = '';
     const addItem = (kind, current, sales) => {
         const messageId = 'gui_' + (kind == 'tier' ? 'tieredoffer' : kind);
