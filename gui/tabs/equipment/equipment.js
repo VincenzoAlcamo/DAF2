@@ -1110,7 +1110,7 @@ function onTooltip(event) {
     Tooltip.show(element, htm);
 }
 
-function showOffer(type, id, callback) {
+function showOffer(type, id, callback, preferredRegion) {
     let blocks = [];
     let title = '';
     if (type == 'pack') {
@@ -1128,7 +1128,14 @@ function showOffer(type, id, callback) {
         title = gui.getMessage('gui_offer');
     }
 
-    const block = blocks.find(block => block.id == id);
+    let block = blocks.find(block => block.id == id);
+    if (preferredRegion !== undefined) {
+        let block2 = null;
+        blocks.forEach(block => {
+            if (!block.limited && block.rid <= preferredRegion && (!block2 || block2.rid < block.rid)) block2 = block;
+        });
+        block = block2 || block;
+    }
     const current = { rid: block.rid, price: block.price, date: block.date };
     let subTitle;
 
@@ -1445,6 +1452,8 @@ function getOffersBase(id) {
 
 function showAny() {
     let htm = '';
+    const generator = gui.getGenerator();
+    const region = +generator.region;
     const addItem = (kind, current, sales) => {
         const messageId = 'gui_' + (kind == 'tier' ? 'tieredoffer' : kind);
         let min = +Infinity;
@@ -1530,6 +1539,7 @@ function showAny() {
     }, (method, params) => {
         dialog.visible = false;
         let id = params[method];
+        const preferRegion = method == 'offer_date' || method == 'pack_name' || method == 'tier_name';
         if (method == 'offer_date') {
             method = 'offer';
             if (id) {
@@ -1551,7 +1561,7 @@ function showAny() {
         if (method == 'tier_name') method = 'tier';
         if (method == 'pack' || method == 'offer' || method == 'tier') {
             try {
-                showOffer(method, id, () => dialog.visible = true);
+                showOffer(method, id, () => dialog.visible = true, preferRegion ? region : undefined);
             } catch (e) {
                 dialog.visible = true;
             }
