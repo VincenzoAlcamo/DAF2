@@ -75,9 +75,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('equipment');
     smartTable.fixedFooter.parentNode.classList.add('equipment');
-    smartTable.tbody[0].addEventListener('render', function (event) {
-        updateRow(event.target);
-    });
+    smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateRow));
 
     container.addEventListener('tooltip', onTooltip);
 }

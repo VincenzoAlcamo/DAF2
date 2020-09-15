@@ -39,9 +39,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('repeat');
     smartTable.fixedFooter.parentNode.classList.add('repeat');
-    smartTable.tbody[0].addEventListener('render', function (event) {
-        updateRow(event.target);
-    });
+    smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateRow));
     smartTable.table.addEventListener('click', onClickTable, true);
 
     selected = gui.getArrayOfInt(gui.getPreference('repeatables'));

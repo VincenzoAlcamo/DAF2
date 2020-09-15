@@ -283,6 +283,19 @@ const gui = {
     getRepeatables: function () {
         return bgp.Data.getRepeatables();
     },
+    getLazyRenderer: function (fn) {
+        const rowsToRender = [];
+        let rendererHandle;
+        const render = () => {
+            rendererHandle = null;
+            for (let i = 0, row; i < 10 && (row = rowsToRender.shift()); i++) fn(row);
+            rendererHandle = rowsToRender.length && setTimeout(render, 0);
+        };
+        return function (event) {
+            rowsToRender.push(event.target);
+            rendererHandle = rendererHandle || setTimeout(render, 0);
+        };
+    },
     getSearchFilter: function (terms) {
         if (terms === null || terms === undefined || terms === '') return null;
         const fn = String(terms).toUpperCase().split('|').map(function (term) {

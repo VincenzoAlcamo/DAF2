@@ -65,7 +65,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('friendship');
     smartTable.fixedFooter.parentNode.classList.add('friendship');
-    smartTable.tbody[0].addEventListener('render', event => updateRow(event.target));
+    smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateRow));
     smartTable.tbody[0].addEventListener('click', tableClick);
 
     container.querySelector('.toolbar button[data-action="collect"]').addEventListener('click', showCollectDialog);

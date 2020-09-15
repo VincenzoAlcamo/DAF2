@@ -47,9 +47,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('neighbors');
     smartTable.fixedFooter.parentNode.classList.add('neighbors');
-    smartTable.tbody[0].addEventListener('render', function (event) {
-        updateRow(event.target);
-    });
+    smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateRow));
     smartTable.tbody[0].addEventListener('click', onClick);
 
     smartTable.table.addEventListener('input', onInput);

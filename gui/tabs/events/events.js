@@ -77,9 +77,7 @@ function init() {
     smartTable.fixedHeader.parentNode.classList.add('events');
     smartTable.fixedFooter.parentNode.classList.add('events');
     const tbody = smartTable.tbody[0];
-    tbody.addEventListener('render', function (event) {
-        updateRow(event.target);
-    });
+    tbody.addEventListener('render', gui.getLazyRenderer(updateRow));
     tbody.addEventListener('click', onClick);
     tbody.addEventListener('mouseover', onmousemove);
     tbody.addEventListener('mouseout', onmousemove);
