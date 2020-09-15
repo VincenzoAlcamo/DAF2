@@ -259,7 +259,7 @@
         "message": "Value"
     },
     "gui_slot_value": {
-        "message": "Slot\nValue"
+        "message": "Slot Value"
     },
     "gui_cost": {
         "message": "Cost"
@@ -1538,6 +1538,9 @@
     },
     "equipment_pfdisclaimer": {
         "message": "Please note that if you purchased a special pack in your game for this price in the past, it is not possible to purchase any next pack for this price.\nIn this case, the lowest price level available is approximately 5.5 USD."
+    },
+    "equipment_slotslower": {
+        "message": "Number of worse slots"
     },
     "events_year": {
         "message": "Year"

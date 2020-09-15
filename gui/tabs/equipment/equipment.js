@@ -15,6 +15,7 @@ let matCache, minRegen, minCapacity, updateTime, packsViewed;
 let currency, lastPack, lastOffer, lastTieredOffer, btnPack, btnOffer, btnTieredOffer;
 let listRegion, listSkin, listMaterial;
 let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
+let campReg, campCap;
 
 function init() {
     tab = this;
@@ -103,12 +104,10 @@ function getItemFromBuilding(building, owned, active) {
         item.type = 'capacity';
         item.value = cap;
         item.slotvalue = Math.floor(item.value / item.width);
-        if (item.placed && item.slotvalue < minCapacity) minCapacity = item.slotvalue;
     } else if (reg > 0) {
         item.type = 'regen';
         item.value = reg;
         item.slotvalue = Math.floor(item.value / item.width);
-        if (item.placed && item.slotvalue < minRegen) minRegen = item.slotvalue;
     } else {
         item.type = 'building';
     }
@@ -121,15 +120,40 @@ function getBoughtSkins() {
     return skins;
 }
 
+function computeItemGain(item) {
+    const title = [];
+    const getGain = (camp) => {
+        const list = item.type == 'capacity' ? camp.capList : camp.regList;
+        let campValue = 0;
+        for (let num = 0; num < item.width; num++) campValue += (list[num] || 0);
+        const gain = Math.max(0, item.value - campValue);
+        const numInferior = list.filter(v => v < item.slotvalue).length;
+        const percInferior = Math.round((list.length ? numInferior / list.length : 0) * 100);
+        return [gain, numInferior, percInferior];
+    };
+    const [gainD, numLessD, percLessD] = getGain(campReg);
+    const [gainN, numLessN, percLessN] = getGain(campCap);
+    if (gainD == 0 && gainN == 0) return '';
+    if (campReg !== campCap) title.push(gui.getMessage('camp_day_mode').toUpperCase());
+    title.push(gui.getMessageAndValue('equipment_gain', gainD));
+    title.push(gui.getMessageAndValue('equipment_slotslower', numLessD + ` (${percLessD}%)`));
+    if (campReg !== campCap) {
+        title.push('');
+        title.push(gui.getMessage('camp_night_mode').toUpperCase());
+        title.push(gui.getMessageAndValue('equipment_gain', gainN));
+        title.push(gui.getMessageAndValue('equipment_slotslower', numLessN + ` (${percLessN}%)`));
+    }
+    return title.join('\n');
+}
+
 function computeItem(item, level, skins) {
     item.event = item.event || NaN;
     if (item.level > level) item.locked |= 1;
     if (item.rskin && !skins[item.rskin]) item.locked |= 2;
     if (item.owned >= item.limit) item.locked |= 4;
     item.gain = 0;
-    if (item.type == 'capacity' || item.type == 'regen') {
-        item.gain = item.width * Math.max(0, item.slotvalue - (item.type == 'capacity' ? minCapacity : minRegen));
-    }
+    if (item.type == 'capacity') item.gain = Math.max(0, item.value - Math.min(campReg.capCum[item.width], campCap.capCum[item.width]));
+    if (item.type == 'regen') item.gain = Math.max(0, item.value - Math.min(campReg.regCum[item.width], campCap.regCum[item.width]));
 }
 function getRequirements(requirements, backpack) {
     return Array.isArray(requirements) ? requirements.map(req => {
@@ -175,7 +199,13 @@ function update() {
     currency = generator.currency;
     updateTime = gui.getUnixTime();
     matCache = {};
-    minCapacity = minRegen = Infinity;
+
+    const camps = [getCampInfo(generator.camp.buildings), getCampInfo(generator.camp.inactive_b)];
+    camps.sort((a, b) => b.regTot - a.regTot);
+    campReg = camps[0];
+    campCap = camps[1].regTot == 0 ? campReg : camps[1];
+    minRegen = Math.min(campReg.regMin, campCap.regMin);
+    minCapacity = Math.min(campReg.capMin, campCap.capMin);
 
     const packs = {};
     packsViewed = {};
@@ -234,8 +264,6 @@ function update() {
         const item = getItemFromBuilding(building, owned, active);
         if (item) allItems[item.id] = item;
     }
-    if (!isFinite(minCapacity)) minCapacity = 0;
-    if (!isFinite(minRegen)) minRegen = 0;
 
     // SALES
     let sales = Object.values(gui.getFile('sales')).filter(sale => sale.type == 'building');
@@ -440,6 +468,40 @@ function update() {
         el.title = title;
     });
     refresh();
+}
+
+function getCampInfo(placed) {
+    const buildings = gui.getFile('buildings');
+    const quantities = {};
+    if (Array.isArray(placed)) placed.forEach(item => quantities[item.def_id] = (quantities[item.def_id] || 0) + 1);
+    const regList = [], capList = [], regCum = [0], capCum = [0];
+    for (const [id, qty] of Object.entries(quantities)) {
+        const building = buildings[id];
+        if (building) {
+            const cols = +building.columns;
+            const reg = +building.stamina_reg;
+            const cap = +building.max_stamina;
+            const value = (reg > 0 ? reg : cap) / cols;
+            const list = reg > 0 ? regList : capList;
+            for (let num = +building.columns * qty; num > 0; num--) list.push(value);
+        }
+    }
+    regList.sort(gui.sortNumberAscending);
+    capList.sort(gui.sortNumberAscending);
+    regList.forEach((v, i) => regCum[i + 1] = regCum[i] + v);
+    capList.forEach((v, i) => capCum[i + 1] = capCum[i] + v);
+    const info = {
+        regList, capList, regCum, capCum,
+        regTot: regList.reduce((prev, curr) => prev + curr, 0),
+        capTot: capList.reduce((prev, curr) => prev + curr, 0),
+        regMin: regList.length ? regList[0] : 0,
+        regMax: regList.length ? regList[regList.length - 1] : 0,
+        capMin: capList.length ? capList[0] : 0,
+        capMax: capList.length ? capList[capList.length - 1] : 0,
+    };
+    info.regAvg = info.regList.length ? info.regTot / info.regList.length : 0;
+    info.capAvg = info.capList.length ? info.capTot / info.regList.length : 0;
+    return info;
 }
 
 function getState() {
@@ -916,11 +978,13 @@ function updateRow(row) {
     htm += Html.br`<td>${Locale.formatNumber(item.owned)}</td>`;
     htm += Html.br`<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
     if (type == 'building') {
+        if (item.gainTitle === undefined) item.gainTitle = computeItemGain(item);
         htm += Html.br`<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
         htm += Html.br`<td>${Locale.formatNumber(item.value)}</td>`;
         htm += Html.br`<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
         htm += Html.br`<td>${Locale.formatNumber(item.slotvalue)}</td>`;
-        htm += Html.br`<td>${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
+        htm += item.gainTitle ? Html.br`<td class="help dot2" title="${Html(item.gainTitle)}">` : Html.br`<td>`;
+        htm += Html.br`${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
     } else if (type == 'decoration') {
         htm += Html.br`<td class="no_right_border"><img src="/img/gui/deco.png" title="${gui.getMessage('gui_decoration')}"></td>`;
         htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
