@@ -16,6 +16,7 @@ let currency, lastPack, lastOffer, lastTieredOffer, btnPack, btnOffer, btnTiered
 let listRegion, listSkin, listMaterial;
 let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
 let campReg, campCap;
+let allOptions;
 
 function init() {
     tab = this;
@@ -1110,7 +1111,8 @@ function onTooltip(event) {
     Tooltip.show(element, htm);
 }
 
-function showOffer(type, id, callback, preferredRegion) {
+function showOffer(type, id, options) {
+    options = options || {};
     let blocks = [];
     let title = '';
     if (type == 'pack') {
@@ -1129,12 +1131,15 @@ function showOffer(type, id, callback, preferredRegion) {
     }
 
     let block = blocks.find(block => block.id == id);
-    if (preferredRegion !== undefined) {
-        let block2 = null;
-        blocks.forEach(block => {
-            if (!block.limited && block.rid <= preferredRegion && (!block2 || block2.rid < block.rid)) block2 = block;
+    if (options.rid !== undefined || options.price !== undefined) {
+        const blocks2 = blocks.filter(block => !block.limited);
+        const getWeight = v => v === null ? 0 : (v ? 50 - v : 100);
+        blocks2.forEach(block => {
+            block.rw = getWeight(options.rid ? block.rid - options.rid : null);
+            block.pw = getWeight(options.price ? (block.price - options.price) / 100 : null);
         });
-        block = block2 || block;
+        blocks2.sort((a, b) => (b.rw - a.rw) || (b.pw - a.pw));
+        block = blocks2[0] || block;
     }
     const current = { rid: block.rid, price: block.price, date: block.date };
     let subTitle;
@@ -1146,12 +1151,12 @@ function showOffer(type, id, callback, preferredRegion) {
         style: [Dialog.CLOSE, Dialog.WIDEST]
     }, function (method, params) {
         if (method == 'rid' || method == 'price' || method == 'date') {
-            current[method] = +params[method];
+            current[method] = options[method] = +params[method];
             gui.dialog.setHtml(getDetails());
             gui.dialog.setTitle(title + subTitle);
             try { gui.dialog.element.querySelector(`[data-method="${method}"`).focus(); } catch (e) { }
         }
-        if (callback && (method == Dialog.CLOSE || method == Dialog.CANCEL)) callback();
+        if (options.callback && (method == Dialog.CLOSE || method == Dialog.CANCEL)) options.callback();
     });
 
     function getSelection(current) {
@@ -1452,8 +1457,6 @@ function getOffersBase(id) {
 
 function showAny() {
     let htm = '';
-    const generator = gui.getGenerator();
-    const region = +generator.region;
     const addItem = (kind, current, sales) => {
         const messageId = 'gui_' + (kind == 'tier' ? 'tieredoffer' : kind);
         let min = +Infinity;
@@ -1532,6 +1535,8 @@ function showAny() {
     addItem('tier', lastTieredOffer, gui.getFile('tiered_offers'));
     htm += Html.br`</table>`;
     const dialog = Dialog();
+    allOptions = allOptions || { rid: +gui.getGenerator().region };
+    allOptions.callback = () => dialog.visible = true;
     dialog.show({
         title: `${gui.getMessage('gui_pack')} / ${gui.getMessage('gui_offer')} / ${gui.getMessage('gui_tieredoffer')}`,
         html: htm,
@@ -1561,7 +1566,7 @@ function showAny() {
         if (method == 'tier_name') method = 'tier';
         if (method == 'pack' || method == 'offer' || method == 'tier') {
             try {
-                showOffer(method, id, () => dialog.visible = true, preferRegion ? region : undefined);
+                showOffer(method, id, preferRegion ? allOptions : { callback: () => dialog.visible = true });
             } catch (e) {
                 dialog.visible = true;
             }
