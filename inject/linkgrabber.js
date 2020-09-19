@@ -849,7 +849,7 @@ function collect(confirmCollection, speedupCollection) {
                 if (countStop > 20) {
                     clearInterval(handler);
                     // If reached the end of the page, confirm is unnecessary
-                    let endReached = fbPage == FB_MOBILE;
+                    let endReached = false;
                     if (fbPage == FB_OLD) endReached = !!document.getElementById('pagelet_timeline_medley_photos');
                     if (fbPage == FB_NEW) endReached = getCountPhotos() > countPhotos;
                     if (confirmCollection || !endReached) {
