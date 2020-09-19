@@ -134,12 +134,12 @@ function computeItemGain(item) {
     const [gainN, gainsN, numLessN, percLessN] = getGain(campCap);
     if (gainD == 0 && gainN == 0) return '';
     if (campReg !== campCap) title.push(gui.getMessage('camp_day_mode').toUpperCase());
-    title.push(gui.getMessageAndValue('equipment_gain', gainD) + (gainsD.length > 1 ? ' (' + gainsD.join(' + ') + ')' : ''));
+    title.push(gui.getMessageAndValue('equipment_gain', gainD) + (gainsD.length > 1 && gainD > 0 ? ' (' + gainsD.join(' + ') + ')' : ''));
     title.push(gui.getMessageAndValue('equipment_slotslower', numLessD + ` (${percLessD}%)`));
     if (campReg !== campCap) {
         title.push('');
         title.push(gui.getMessage('camp_night_mode').toUpperCase());
-        title.push(gui.getMessageAndValue('equipment_gain', gainN) + (gainsN.length > 1 ? ' (' + gainsN.join(' + ') + ')' : ''));
+        title.push(gui.getMessageAndValue('equipment_gain', gainN) + (gainsN.length > 1 && gainN > 0 ? ' (' + gainsN.join(' + ') + ')' : ''));
         title.push(gui.getMessageAndValue('equipment_slotslower', numLessN + ` (${percLessN}%)`));
     }
     return title.join('\n');
