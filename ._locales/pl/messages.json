@@ -259,7 +259,7 @@
         "message": "Wartość"
     },
     "gui_slot_value": {
-        "message": "Miejsce Wartość"
+        "message": "Wartość slotu"
     },
     "gui_cost": {
         "message": "Cena"
@@ -1538,6 +1538,9 @@
     },
     "equipment_pfdisclaimer": {
         "message": "Pamiętaj, że jeśli w przeszłości zakupiłeś pakiet specjalny w swojej grze za tą cenę, nie ma możliwości zakupu kolejnego pakietu w tej samej cenie.\nW tym przypadku najniższy dostępny poziom cenowy wynosi 5,5 USD."
+    },
+    "equipment_slotslower": {
+        "message": "Sloty z mniejszą mocą niż"
     },
     "events_year": {
         "message": "Rok"

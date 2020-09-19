@@ -1539,6 +1539,9 @@
     "equipment_pfdisclaimer": {
         "message": "Observe que se você comprou um pacote especial no seu jogo por este preço no passado, não é possível comprar nenhum pacote seguinte por esse preço.\nNesse caso, o nível de preço mais baixo disponível é de aproximadamente 5,5 USD."
     },
+    "equipment_slotslower": {
+        "message": "Slots com menos energia do que isso"
+    },
     "events_year": {
         "message": "Ano"
     },

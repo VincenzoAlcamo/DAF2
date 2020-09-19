@@ -259,7 +259,7 @@
         "message": "Værdi"
     },
     "gui_slot_value": {
-        "message": "Sted Værdi"
+        "message": "Enheds Værdi"
     },
     "gui_cost": {
         "message": "Pris"
@@ -1538,6 +1538,9 @@
     },
     "equipment_pfdisclaimer": {
         "message": "Bemærk venligst at hvis du har købt en special pakke i dit spil til denne pris før, er det ikke muligt at købe endnu en pakke til denne pris.\nI det tilfælde vil det laveste tilgængelige pris niveau være ca. 5.5 USD."
+    },
+    "equipment_slotslower": {
+        "message": "Enheder med mindre strøm end dette"
     },
     "events_year": {
         "message": "År"

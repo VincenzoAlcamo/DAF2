@@ -1489,7 +1489,7 @@
         "message": "depuis"
     },
     "equipment_affordable": {
-        "message": "Accessible"
+        "message": "Abordable"
     },
     "equipment_useful": {
         "message": "Profit"
@@ -1538,6 +1538,9 @@
     },
     "equipment_pfdisclaimer": {
         "message": "Veuillez noter que si vous avez acheté un pack spécial dans votre jeu pour ce prix dans le passé, il n'est pas possible d'acheter un pack suivant pour ce prix.\nDans ce cas, le niveau de prix le plus bas disponible est d'environ 5,5 USD."
+    },
+    "equipment_slotslower": {
+        "message": "L'emplacement avec moins de puissance que cela"
     },
     "events_year": {
         "message": "Année"

@@ -259,7 +259,7 @@
         "message": "Valor"
     },
     "gui_slot_value": {
-        "message": "Hueco Valor"
+        "message": "Valor Celda"
     },
     "gui_cost": {
         "message": "Costo"
@@ -1410,7 +1410,7 @@
         "message": "Prefijo"
     },
     "rewardlinks_newline": {
-        "message": "Añadir nueva línea?"
+        "message": "Agregar linea?"
     },
     "export_exportdata": {
         "message": "Exportar datos"
@@ -1538,6 +1538,9 @@
     },
     "equipment_pfdisclaimer": {
         "message": "Tenga en cuenta que si compró un paquete especial en el juego por este precio en el pasado, no será  posible comprar ningún otro  paquete  por este precio.\nEn este caso, el  precio más bajo disponible será de aproximadamente 5,5 USD."
+    },
+    "equipment_slotslower": {
+        "message": "Ranuras con menos potencia que esta ."
     },
     "events_year": {
         "message": "Año del evento"

@@ -259,7 +259,7 @@
         "message": "Wert"
     },
     "gui_slot_value": {
-        "message": "Stellplatz Wert"
+        "message": "Stellplatzwert"
     },
     "gui_cost": {
         "message": "Kosten"
@@ -1538,6 +1538,9 @@
     },
     "equipment_pfdisclaimer": {
         "message": "Bitte beachten, dass, wenn in der Vergangenheit ein spezielles Paket im Spiel zu diesem Preis gekauft wurde, es nicht möglich ist, ein nächstes Paket zu diesem Preis zu erwerben.\nIn diesem Fall liegt die niedrigste verfügbare Preisstufe bei etwa 5,50 USD."
+    },
+    "equipment_slotslower": {
+        "message": "Stellplätze mit weniger Leistung als diese"
     },
     "events_year": {
         "message": "Jahr"
