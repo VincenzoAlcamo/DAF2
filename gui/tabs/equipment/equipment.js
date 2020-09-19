@@ -128,18 +128,18 @@ function computeItemGain(item) {
         const gain = Math.max(0, item.value - campValue);
         const numInferior = list.filter(v => v < item.slotvalue).length;
         const percInferior = Math.round((list.length ? numInferior / list.length : 0) * 100);
-        return [gain, numInferior, percInferior];
+        return [gain, list.slice(0, item.width).map(n => item.slotvalue - n), numInferior, percInferior];
     };
-    const [gainD, numLessD, percLessD] = getGain(campReg);
-    const [gainN, numLessN, percLessN] = getGain(campCap);
+    const [gainD, gainsD, numLessD, percLessD] = getGain(campReg);
+    const [gainN, gainsN, numLessN, percLessN] = getGain(campCap);
     if (gainD == 0 && gainN == 0) return '';
     if (campReg !== campCap) title.push(gui.getMessage('camp_day_mode').toUpperCase());
-    title.push(gui.getMessageAndValue('equipment_gain', gainD));
+    title.push(gui.getMessageAndValue('equipment_gain', gainD) + (gainsD.length > 1 ? ' (' + gainsD.join(' + ') + ')' : ''));
     title.push(gui.getMessageAndValue('equipment_slotslower', numLessD + ` (${percLessD}%)`));
     if (campReg !== campCap) {
         title.push('');
         title.push(gui.getMessage('camp_night_mode').toUpperCase());
-        title.push(gui.getMessageAndValue('equipment_gain', gainN));
+        title.push(gui.getMessageAndValue('equipment_gain', gainN) + (gainsN.length > 1 ? ' (' + gainsN.join(' + ') + ')' : ''));
         title.push(gui.getMessageAndValue('equipment_slotslower', numLessN + ` (${percLessN}%)`));
     }
     return title.join('\n');
