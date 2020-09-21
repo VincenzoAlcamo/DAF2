@@ -633,6 +633,8 @@ function init() {
             handlers['gcTableCounter'] = setgcTableOptions;
         }
         msgHandlers['generator'] = () => {
+            if (loadCompleted) return;
+            delete msgHandlers['generator'];
             loadCompleted = true;
             onFullWindow();
             if (miner) ongcTable(true);
@@ -659,6 +661,7 @@ function init() {
                 setTimeout(check, prefs.fullWindowTimeout * 1000);
             }
         };
+        setTimeout(msgHandlers['generator'], 10000);
         msgHandlers['friend_child_charge'] = (request) => {
             updateGCStatus(request.data);
             if (miner) {
