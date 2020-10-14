@@ -605,7 +605,7 @@ function calcRegion(item) {
     // otherwise this means that Pixel replaced an old map and we have to get the correct one
     const byFilterOrderId = {};
     // Patch Egypt: Oasis (#43) and Dry Oasis (#2808) to have the same group_id
-    if (item.rid == 1 && 43 in locations && 2808 in locations) locations[43].group_id = locations[2808].group_id;
+    if (item.rid == 1 && 43 in locations && 2808 in locations) locations[2808].group_id = locations[43].group_id;
     for (const mine of Object.values(locations)) {
         const lid = mine.def_id;
         const filter = mapFilters[mine.filter];
