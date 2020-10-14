@@ -573,10 +573,12 @@ var Data = {
 
         // Skins
         col = {};
-        'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,CT013,CT016,MAP039'.split(',').forEach(function (name_loc, index) {
+        'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,CT013,CT016,MAP039,MAP050'.split(',').forEach(function (name_loc, index) {
             setItem(index + 1, name_loc, '/img/skins/' + (index + 1) + '.png');
         });
         Data.colSkins = col;
+
+        Data.region2Skin = [1, 2, 5, 8, 9, 13, 14];
 
         // Regions
         col = {};
@@ -1240,13 +1242,13 @@ var Data = {
         return desc ? Data.getString(desc) : '';
     },
     getRegionFromSkin: function (id) {
-        return [1, 2, 5, 8, 9, 13].indexOf(id) + 1;
+        return this.region2Skin.indexOf(id) + 1;
     },
     getSkinFromRegion: function (id) {
-        return [1, 2, 5, 8, 9, 13][id - 1] || 0;
+        return this.region2Skin[id - 1] || 0;
     },
     getMaxRegion: function () {
-        return 6;
+        return this.region2Skin.length;
     },
     getSound: function (name) {
         return name && Data.generator && Data.generator.cdn_root + 'webgl_client/embedded_assets/sounds/' + name + '.mp3';

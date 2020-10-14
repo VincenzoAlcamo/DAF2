@@ -57,7 +57,7 @@ function init() {
         calc: calcCollection
     });
     for (let rid = 1; rid <= gui.getMaxRegion(); rid++)
-        progress.push({
+        if (Object.keys(gui.getFile('locations_' + rid)).length) progress.push({
             id: 'region' + rid,
             rid: rid,
             icon: gui.getObjectImage('region', rid),
