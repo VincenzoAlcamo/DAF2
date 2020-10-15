@@ -296,8 +296,9 @@ function refresh() {
     const fnSearch = gui.getSearchFilter(state.search);
 
     function isVisible(p) {
-        if (state.show == 'possible' && (p.possible == 0 || level < p.level || region < p.region)) return false;
-        if (fnSearch && !fnSearch(p.name.toUpperCase())) return false;
+        const isLocked = level < p.level || region < p.region;
+        if (state.show == 'possible' && (p.possible == 0 || isLocked)) return false;
+        if (fnSearch && !fnSearch(p.name.toUpperCase() + (isLocked ? '' : '\t\n\f'))) return false;
         return true;
     }
 
