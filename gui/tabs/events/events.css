@@ -63,7 +63,10 @@
 .events tr.hilight-qst td.qst,
 .events tr.hilight-ach td.ach,
 .events tr.hilight-tre td.tre,
-.events tr.hilight-loc td.loc {
+.events tr.hilight-loc td.loc,
+.events tr.hilight-loc1 td.loc1,
+.events tr.hilight-loc2 td.loc2,
+.events tr.hilight-loc3 td.loc3 {
   background-color: var(--tb-hlcol);
   cursor: zoom-in;
 }
@@ -71,7 +74,10 @@
 .events tr.set-qst td.qst,
 .events tr.set-ach td.ach,
 .events tr.set-tre td.tre,
-.events tr.set-loc td.loc {
+.events tr.set-loc td.loc,
+.events tr.set-loc1 td.loc1,
+.events tr.set-loc2 td.loc2,
+.events tr.set-loc3 td.loc3 {
   background-color: var(--success-bgcol);
   color: var(--success-fgcol);
   cursor: default;

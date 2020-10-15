@@ -10,7 +10,7 @@ export default {
 
 const MAX_REWARDS_PER_ROW = 6;
 
-const INFOS = ['qst', 'ach', 'tre', 'loc'];
+const INFOS = ['qst', 'ach', 'tre', 'loc', 'loc1', 'loc2', 'loc3'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
 // GEM, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST
@@ -461,10 +461,11 @@ function updateRow(row) {
     }
 
     if (item.locations) {
-        htm += Html.br`<td class="loc">${Locale.formatNumber(item.locations)}</td>`;
-        htm += Html.br`<td class="loc">${Locale.formatNumber(item.maps)}</td>`;
-        htm += Html.br`<td class="loc">${Locale.formatNumber(item.challenges)}</td>`;
-        htm += Html.br`<td class="loc">${Locale.formatNumber(item.repeatables)}</td>`;
+        const fn = (info, count) => Html.br`<td class="${count ? info : ''}">${Locale.formatNumber(count)}</td>`;
+        htm += fn('loc', item.locations);
+        htm += fn('loc1', item.maps);
+        htm += fn('loc2', item.challenges);
+        htm += fn('loc3', item.repeatables);
     } else {
         htm += Html.br`<td colspan="4"></td>`;
     }
@@ -599,9 +600,10 @@ function showInfo() {
     const showProgress = region == 0;
     const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted;
 
-    container.querySelector('[name=loot_flag]').parentNode.parentNode.style.visibility = selectedInfo == 'loc' ? '' : 'hidden';
-    checkTotals.parentNode.style.visibility = selectedInfo == 'loc' ? '' : 'hidden';
-    checkEnergy.parentNode.style.visibility = selectedInfo == 'loc' && showProgress ? '' : 'hidden';
+    const isLoc = selectedInfo && selectedInfo.substr(0, 3) == 'loc';
+    container.querySelector('[name=loot_flag]').parentNode.parentNode.style.visibility = isLoc ? '' : 'hidden';
+    checkTotals.parentNode.style.visibility = isLoc ? '' : 'hidden';
+    checkEnergy.parentNode.style.visibility = isLoc && showProgress ? '' : 'hidden';
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
@@ -863,7 +865,7 @@ function showInfo() {
     }
 
     // Locations
-    if (selectedInfo == 'loc') {
+    if (selectedInfo.substr(0, 3) == 'loc') {
         const locations = gui.getFile('locations_0');
         const showLocations = (locs, key) => {
             if (!locs.length) return;
@@ -1020,9 +1022,9 @@ function showInfo() {
             if (!isRepeatables) htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 2 + (showProgress ? 2 : 0), className: 'clear', addLoot: true, totalEnergy: showProgress ? totalEnergy : NaN });
             htm += Html.br`</table>`;
         };
-        showLocations(item.loc_qst, 'story_maps');
-        showLocations(item.loc_xlo, 'challenges');
-        showLocations(item.loc_rep, 'repeatables');
+        if(selectedInfo == 'loc' || selectedInfo == 'loc1') showLocations(item.loc_qst, 'story_maps');
+        if(selectedInfo == 'loc' || selectedInfo == 'loc2') showLocations(item.loc_xlo, 'challenges');
+        if(selectedInfo == 'loc' || selectedInfo == 'loc3') showLocations(item.loc_rep, 'repeatables');
     }
 
     htm += Html.br`</td>`;
