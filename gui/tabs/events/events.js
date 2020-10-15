@@ -602,8 +602,8 @@ function showInfo() {
 
     const isLoc = selectedInfo && selectedInfo.substr(0, 3) == 'loc';
     container.querySelector('[name=loot_flag]').parentNode.parentNode.style.visibility = isLoc ? '' : 'hidden';
-    checkTotals.parentNode.style.visibility = isLoc ? '' : 'hidden';
-    checkEnergy.parentNode.style.visibility = isLoc && showProgress ? '' : 'hidden';
+    checkTotals.parentNode.style.visibility = isLoc && selectedInfo != 'loc3' ? '' : 'hidden';
+    checkEnergy.parentNode.style.visibility = isLoc && selectedInfo != 'loc3' && showProgress ? '' : 'hidden';
 
     Dialog.htmlToDOM(selectRegion, '');
     // Your progress
