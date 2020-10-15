@@ -133,14 +133,14 @@ function update() {
     refresh();
 }
 
-function getProgress({ value, max, energy }) {
+function getProgress({ id, value, max, energy }) {
     if (max == 0) {
         return Html.br`<td></td><td></td><td></td><td></td><td class="energy"></td><td></td>`;
     }
     let htm = '';
     const percent = max > 0 ? (value / max * 100) : 0;
     const isCompleted = value == max;
-    htm += Html.br`<td>${isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) + '%'}</td>`;
+    htm += Html.br`<td>${id == 'level' ? '' : (isCompleted ? imgCompleted : Locale.formatNumber(percent, 2) + '%')}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(value)}</td>`;
     htm += Html.br`<td>${Locale.formatNumber(max)}</td>`;
     htm += Html.br`<td>${Locale.formatNumber((max - value) || NaN)}</td>`;
@@ -176,7 +176,7 @@ function refresh() {
     let total = 0;
     let htm = '';
     for (const item of progress) {
-        total += item.percent;
+        total += item.id == 'level' ? 0 : item.percent;
         item.name = item.label;
         htm += Html.br`<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}" title="${Html(getTitle(item))}">`;
         let img = Html.br`<img src="${item.icon}"/>`;
@@ -191,7 +191,7 @@ function refresh() {
     container.classList.toggle('no-dates', !state.dates);
     container.classList.toggle('no-energy', !state.energy);
 
-    const percent = total / progress.length;
+    const percent = total / (progress.length - 1);
     Array.from(smartTable.container.querySelectorAll('tfoot td:nth-child(2)')).forEach(cell => cell.innerText = Locale.formatNumber(percent, 2) + '%');
     Array.from(smartTable.container.querySelectorAll('tfoot td progress')).forEach(progress => progress.value = percent);
 
