@@ -834,7 +834,7 @@ function collect(confirmCollection, speedupCollection) {
     }
 
     function collectStandard() {
-        let handler = null, countStop = 0;
+        let handler = null, countStop = 0, isConfirming = false;
         unmatchedList = unmatched.split(',');
         handler = setInterval(capture, 500);
         function capture() {
@@ -842,17 +842,18 @@ function collect(confirmCollection, speedupCollection) {
             const num = captureOneBlock();
             if (num >= 0) {
                 countStop = 0;
+                if (isConfirming) dialog.hide();
                 wait.setText(document.title = getStatInfo(friends.length, true));
             } else {
                 countStop++;
                 // if the connection is slow, we may want to try a bit more
-                if (countStop > 20) {
-                    clearInterval(handler);
+                if (countStop > 20 && !isConfirming) {
                     // If reached the end of the page, confirm is unnecessary
                     let endReached = false;
                     if (fbPage == FB_OLD) endReached = !!document.getElementById('pagelet_timeline_medley_photos');
                     if (fbPage == FB_NEW) endReached = getCountPhotos() > countPhotos;
                     if (confirmCollection || !endReached) {
+                        isConfirming = true;
                         dialog.show({
                             title: getStatInfo(friends.length),
                             text: getMessage('friendship_confirmcollect'),
@@ -860,14 +861,16 @@ function collect(confirmCollection, speedupCollection) {
                             timeout: 30,
                             style: [Dialog.YES, Dialog.NO]
                         }, function (method) {
+                            isConfirming = false;
                             if (method == Dialog.YES) {
+                                clearInterval(handler);
                                 sendFriends();
                             } else if (method == Dialog.NO) {
                                 countStop = 0;
-                                handler = setInterval(capture, 500);
                             }
                         });
                     } else {
+                        clearInterval(handler);
                         sendFriends();
                     }
                 }
