@@ -291,7 +291,10 @@ function collectStandard() {
         const num = captureOneBlock();
         if (num >= 0) {
             countStop = 0;
-            if (isConfirming) dialog.hide();
+            if (isConfirming) {
+                isConfirming = false;
+                dialog.hide();
+            }
             wait.setText(document.title = getStatInfo(friends.length, true));
         } else {
             countStop++;
