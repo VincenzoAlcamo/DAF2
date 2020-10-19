@@ -439,7 +439,7 @@ var Data = {
         new Language('fr', 'FR', 'French', 'Fran\u00e7ais', 'FR,BE,CA,CH,LU,MC'),
         new Language('it', 'IT', 'Italian', 'Italiano', 'IT,CH'),
         new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
-        new Language('pt', 'PT', 'Portuguese ', 'Portugu\u00eas', 'PT,BR'),
+        new Language('pt', 'PT', 'Portuguese (BR)', 'Portugu\u00eas (BR)', 'PT,BR'),
         // OTHER (GAME)
         new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */, 'BG'),
         new Language('cs', 'CZ', 'Czech', '\u010ce\u0161tina', 'CZ'),
