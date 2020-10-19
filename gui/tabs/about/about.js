@@ -64,7 +64,7 @@ async function updateBg() {
         await bgp.Data.getFile('events');
         let events = gui.getFile('events');
         if (events) {
-            events = Object.values(events).filter(event => !!event.shelf_graphics);
+            events = Object.values(events).filter(event => !!event.shelf_graphics && event.shelf_graphics != 'map_x_default');
             const now = gui.getUnixTime();
             const eventData = generator.events;
             let items = events.filter(event => {
