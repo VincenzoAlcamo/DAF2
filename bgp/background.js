@@ -424,7 +424,7 @@ function Language(id, gameId, name, nameLocal, locales) {
 // eslint-disable-next-line no-var
 var Data = {
     db: null,
-    REWARDLINKS_DAILY_LIMIT: 100,
+    REWARDLINKS_DAILY_LIMIT: 99,
     REWARDLINKS_VALIDITY_DAYS: 7,
     REWARDLINKS_REFRESH_HOURS: 22,
     REWARDLINKS_REMOVE_DAYS: 10,
