@@ -92,7 +92,7 @@
 
 .progress_table tr.inspect:hover {
   background-color: var(--tb-hlcol);
-  color: var(--tb-fgcol);
+  color: var(--tb-hlfgcol);
 }
 
 .progress_table td div {

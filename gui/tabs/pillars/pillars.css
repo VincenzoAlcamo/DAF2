@@ -165,3 +165,7 @@
 .pillars-u-table tbody.row-coloring tr.milestone {
   background-color: var(--tb-hlcol);
 }
+
+.pillars-u-table tbody.row-coloring tr.milestone td {
+  color: var(--tb-hlfgcol);
+}

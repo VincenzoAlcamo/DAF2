@@ -2,59 +2,82 @@
 
 html {
   /* VERTICAL MENU */
-  --vm-brcol: #000000;
-  --vm-bgcol: #999999;
-  --vm-item-bgcol: #CCCCCC;
-  --vm-item-fgcol: #333333;
-  --vm-item-hov-bgcol: #EEEE99;
-  --vm-item-hov-fgcol: #000066;
+  --vm-brcol: #000;
+  --vm-bgcol: #999;
+  --vm-item-bgcol: #CCC;
+  --vm-item-fgcol: #333;
+  --vm-item-hov-bgcol: #EE9;
+  --vm-item-hov-fgcol: #006;
   --vm-item-sel-bgcol: #E7E7E7;
-  --vm-item-sel-fgcol: #000000;
+  --vm-item-sel-fgcol: #000;
   /* SLICK SCROLLBAR */
   --ssb-size: 10px;
   --ssb-bgcol: var(--vm-bgcol);
   --ssb-thumb-bgcol: var(--vm-item-bgcol);
   --ssb-thumb-brcol: var(--vm-brcol);
-  --ssb-thumb-hov-bgcol: #FFFF00;
+  --ssb-thumb-hov-bgcol: #FF0;
   /* TABLES */
-  --tb-brcol: #36648B;
-  --tb-fgcol: #000000;
-  --tb-hlcol: #FFFF00;
-  --th-fgcol: #FFFFFF;
-  --th-bgcol: #2281C0;
-  --td-brcol: #B3B3B3;
+  --tb-brcol: #368;
+  --tb-fgcol: #000;
+  --tb-hlcol: #FF0;
+  --tb-hlfgcol: #000;
+  --th-fgcol: #FFF;
+  --th-bgcol: #28B;
+  --td-brcol: #AAA;
   --tr-bgcol: #F5F5F5;
   --tr-bgcol2: #E7E7E7;
   /* CARDS */
-  --crd-fgcol: #FFFFFF;
-  --crd-brcol: #777777;
+  --crd-fgcol: #FFF;
+  --crd-brcol: #777;
   --crd-bgcol: #A6A6A6;
-  --crd-bgcol2: #CCCCCC;
-  --crd-bgcol3: #E7E7E7;
+  --crd-bgcol2: #E7E7E7;
   /* TOOLBAR */
-  --tt-fgcol: #FFFFFF;
-  --tt-bgcol: #387b89;
-  --tt-button-bgcol: #99CCEE;
-  --tt-button-fgcol: #000000;
-  --tt-button-hlcol: #44FF44;
-  --tt-outline: #000000;
-  --tt-outlined-fgcol: #FFFFAA;
-  --tt-input-bgcol: #FFFFFF;
-  --tt-input-fgcol: #000000;
-  --tt-input-brcol: #000000;
+  --tt-fgcol: #FFF;
+  --tt-bgcol: #378;
+  --tt-button-bgcol: #9CE;
+  --tt-button-fgcol: #000;
+  --tt-button-hlcol: #4F4;
+  --tt-outline: #000;
+  --tt-outlined-fgcol: #FFA;
+  --tt-input-bgcol: #FFF;
+  --tt-input-fgcol: #000;
+  --tt-input-brcol: #000;
   /* PROGRESS BAR */
-  --pb-brcol: #000000;
-  --pb-bgcol: #667888;
-  --pb-fgcol: #A8E78D;
-  --pb-fgcol2: #E7E78D;
-  --pb-fgcol3: #8DE7E7;
+  --pb-brcol: #000;
+  --pb-bgcol: #678;
+  --pb-fgcol: #AE8;
+  --pb-fgcol2: #EE8;
+  --pb-fgcol3: #8EE;
   /* DEFAULT OUTLINE COLOR */
-  --outline-color: #000000;
+  --outline-color: #000;
   /* WARNING TEXT */
-  --warn-bgcol: #FF4400;
-  --warn-fgcol: #FFFFFF;
-  --success-bgcol: #00AA00;
-  --success-fgcol: #FFFFFF;
+  --warn-bgcol: #F40;
+  --warn-fgcol: #FFF;
+  --success-bgcol: #0A0;
+  --success-fgcol: #FFF;
+}
+
+html.dark {
+  /* VERTICAL MENU */
+  --vm-bgcol: #222;
+  --vm-item-bgcol: #555;
+  --vm-item-fgcol: #CCC;
+  --vm-item-sel-bgcol: #444;
+  --vm-item-sel-fgcol: #FFF;
+  /* TABLES */
+  --tb-brcol: #036;
+  --tb-fgcol: #FFF;
+  --th-bgcol: #247;
+  --td-brcol: #555;
+  --tr-bgcol: #222222;
+  --tr-bgcol2: #2D2D2D;
+  /* CARDS */
+  --crd-brcol: #333;
+  --crd-bgcol: #777;
+  --crd-bgcol2: #444;
+  /* TOOLBAR */
+  --tt-input-bgcol: #555;
+  --tt-input-fgcol: #FFF;
 }
 
 /*#region GENERAL*/
@@ -91,6 +114,14 @@ input[type=number] {
   text-align: right;
 }
 
+input,
+textarea,
+select {
+  color: var(--tt-input-fgcol);
+  background-color: var(--tt-input-bgcol);
+  border-color: var(--tt-input-brcol);
+}
+
 .help,
 .wiki,
 [data-wiki-page] {
@@ -99,6 +130,7 @@ input[type=number] {
 
 a {
   cursor: pointer;
+  color: inherit;
 }
 
 a.no-link {
@@ -783,7 +815,7 @@ input[type=checkbox]:checked:before {
   padding: 0px 8px 0px 8px;
   color: var(--crd-fgcol);
   background-color: var(--crd-bgcol);
-  background-image: -webkit-linear-gradient(top, var(--crd-bgcol), var(--crd-bgcol3));
+  background-image: -webkit-linear-gradient(top, var(--crd-bgcol), var(--crd-bgcol2));
   flex-grow: 1;
   overflow: auto;
 }
@@ -1004,6 +1036,7 @@ td.dot.dot2 {
   font-size: 10px;
   font-weight: bold;
   background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
   padding-left: 2px;
   padding-right: 2px;
   border-radius: 4px;

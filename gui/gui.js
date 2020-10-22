@@ -676,6 +676,9 @@ const gui = {
             canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
         });
     },
+    setTheme: function() {
+        document.firstElementChild.classList.toggle('dark', gui.getPreference('darkTheme'));
+    },
     copyToClipboard: function (str, mimeType = 'text/plain') {
         function oncopy(event) {
             event.clipboardData.setData(mimeType, str);
@@ -808,6 +811,8 @@ function onLoad() {
     });
 
     document.addEventListener('visibilitychange', () => notifyVisibility(currentTab, true));
+
+    gui.setTheme();
 
     const urlInfo = new UrlInfo(location.href);
     let tabId = urlInfo.parameters.tab;

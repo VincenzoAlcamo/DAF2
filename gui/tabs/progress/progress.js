@@ -56,14 +56,16 @@ function init() {
         label: gui.getMessage('progress_treasures'),
         calc: calcCollection
     });
-    for (let rid = 1; rid <= gui.getMaxRegion(); rid++)
-        if (Object.keys(gui.getFile('locations_' + rid)).length) progress.push({
+    for (let rid = 1; rid <= gui.getMaxRegion(); rid++) {
+        const locations = gui.getFile('locations_' + rid);
+        if (locations && Object.keys(locations).length) progress.push({
             id: 'region' + rid,
             rid: rid,
             icon: gui.getObjectImage('region', rid),
             label: gui.getObjectName('region', rid),
             calc: calcRegion
         });
+    }
 
     smartTable = new SmartTable(container.querySelector('.progress_table'));
     smartTable.onSort = refresh;

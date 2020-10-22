@@ -64,7 +64,7 @@
   width: calc(var(--size) * 49);
   height: calc(var(--size) * 9 + 16px);
   margin: auto;
-  background-color: #F5F5F5;
+  background-color: var(--tr-bgcol);
   border: 2px solid var(--tb-brcol);
   padding: 8px;
   margin-bottom: 8px;

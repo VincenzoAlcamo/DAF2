@@ -68,6 +68,7 @@
 .events tr.hilight-loc2 td.loc2,
 .events tr.hilight-loc3 td.loc3 {
   background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
   cursor: zoom-in;
 }
 

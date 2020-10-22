@@ -1792,6 +1792,9 @@
     "options_autologin": {
         "message": "Portal auto-login\nAutomatically logins in Portal"
     },
+    "options_darktheme": {
+        "message": "Dark theme"
+    },
     "options_keepdebugging": {
         "message": "Keep debugging\nUse the debugger even after the game has loaded.\nYou may enable @SILENT@ to get rid of the \"DAF2 is debugging\" message"
     },

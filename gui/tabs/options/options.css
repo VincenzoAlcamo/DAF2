@@ -47,6 +47,7 @@
 
 .options a:hover {
   background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
 }
 
 .options .play_sound {

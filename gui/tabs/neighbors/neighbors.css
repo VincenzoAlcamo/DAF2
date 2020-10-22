@@ -35,6 +35,7 @@
 
 .neighbors td.has-gifts:hover {
   background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
 }
 
 .neighbors .giftrow td {
@@ -187,6 +188,6 @@
 
 .neighbors-advanced-table span[title]:hover {
   background-color: var(--tb-hlcol);
-  color: var(--tb-fgcol);
+  color: var(--tb-hlfgcol);
   cursor: help;
 }

@@ -71,6 +71,7 @@ var Preferences = {
             fullWindowSide: false,
             fullWindowLock: false,
             fullWindowTimeout: 0,
+            darkTheme: false,
             autoClick: false,
             noGCPopup: false,
             autoGC: false,

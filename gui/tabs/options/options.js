@@ -140,6 +140,7 @@ function init() {
     option('locale', SUBOPTION, optionLocales, Html.raw(extra));
     const gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
+    option('darkTheme');
     option('autoLogin');
     option('disableAltGuard', WARNING);
     continueSection('badges');
@@ -329,7 +330,10 @@ UI_claim_coin_single_slow_02
     function applyChanges() {
         if (handler) clearTimeout(handler);
         handler = null;
-        for (const [name, value] of Object.entries(changes)) gui.setPreference(name, value);
+        for (const [name, value] of Object.entries(changes)) {
+            gui.setPreference(name, value);
+            if (name == 'darkTheme') gui.setTheme();
+        }
         changes = {};
         refresh();
     }
@@ -368,7 +372,7 @@ UI_claim_coin_single_slow_02
         }
         if (input.type == 'range') input.nextElementSibling.textContent = Locale.formatNumber(value);
         if (handler) clearTimeout(handler);
-        handler = setTimeout(applyChanges, 500);
+        handler = setTimeout(applyChanges, name == 'darkTheme' ? 0 : 500);
         changes[name] = value;
         if ((name == 'badgeRepeatablesSound' && value) || name == 'badgeRepeatablesVolume' || name == 'badgeRepeatablesSoundName') {
             stopSound();

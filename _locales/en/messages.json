@@ -2011,6 +2011,7 @@
 "en@options_autogc":{"message":"Auto GC switch camp\nAutomatically switch camp after collecting GC"},
 "en@options_section_general":{"message":"General options"},
 "en@options_autologin":{"message":"Portal auto-login\nAutomatically logins in Portal"},
+"en@options_darktheme":{"message":"Dark theme"},
 "en@options_keepdebugging":{"message":"Keep debugging\nUse the debugger even after the game has loaded.\nYou may enable @SILENT@ to get rid of the \"DAF2 is debugging\" message"},
 "en@options_keepdebugging_warning":{"message":"This is necessary to register incoming gifts while playing and to inspect a neighbor's camp."},
 "en@options_disablealtguard":{"message":"Reset on alternate account\nIf you set this option, loading an alternate account will overwrite your current DAF2 data."},
