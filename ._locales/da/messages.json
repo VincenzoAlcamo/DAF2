@@ -1792,6 +1792,9 @@
     "options_autologin": {
         "message": "Auto login til portal\nLogger automatisk på Portalen"
     },
+    "options_darktheme": {
+        "message": "Mørkt tema"
+    },
     "options_keepdebugging": {
         "message": "Fortsæt debug\nBrug debug selv efter spillet er startet.\nDu kan aktivere @SILENT@ for at slippe for \"DAF2 is debugging\" beskeden"
     },

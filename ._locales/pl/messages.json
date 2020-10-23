@@ -1792,6 +1792,9 @@
     "options_autologin": {
         "message": "Autologowanie do portalu\nAutomatycznie loguje w portalu"
     },
+    "options_darktheme": {
+        "message": "Ciemny motyw"
+    },
     "options_keepdebugging": {
         "message": "Debugowanie\nUżyj debugera nawet po załadowaniu gry.\nMożesz włączyć @SILENT@ aby pozbyć się komunikatu \"DAF2 debuguje tę przeglądrkę\""
     },

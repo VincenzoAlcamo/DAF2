@@ -1792,6 +1792,9 @@
     "options_autologin": {
         "message": "Automatische Anmeldung im Portal\nLoggt sich automatisch in das Portal ein."
     },
+    "options_darktheme": {
+        "message": "Dunkles Thema"
+    },
     "options_keepdebugging": {
         "message": "Debugging fortsetzen\nVerwenden Sie den Debugger auch nach dem Laden des Spiels.\nDu kannst @SILENT@ aktivieren, um die Meldung \"DAF2 is debugging\" zu beseitigen."
     },

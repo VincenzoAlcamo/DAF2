@@ -1792,6 +1792,9 @@
     "options_autologin": {
         "message": "Αυτόματη σύνδεση Portal\nΣας συνδέσει αυτόματα στο Portal"
     },
+    "options_darktheme": {
+        "message": "Σκοτεινό θέμα"
+    },
     "options_keepdebugging": {
         "message": "Debug συνέχεια\nΔιόρθωση σφαλμάτων ακόμα και όταν φορτώνετε το παιχνίδι.\nΜπορείτε να ενεργοποιήσετε το @SILENT@ για να μην εμφανίζετε το μήνυμα \"Το DAF2 κάνει debug\""
     },

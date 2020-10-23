@@ -1792,6 +1792,9 @@
     "options_autologin": {
         "message": "Connexion automatique sur le portail\nSe connecter automatiquement au portail."
     },
+    "options_darktheme": {
+        "message": "Thème sombre"
+    },
     "options_keepdebugging": {
         "message": "Le débogage continue\nLe débogueur reste actif même après le chargement du jeu.\nVous pouvez activer l'option @SILENT@ pour supprimer la barre \"DAF2 en cours de débogage\"."
     },

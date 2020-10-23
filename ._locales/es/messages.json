@@ -69,7 +69,7 @@
         "message": "Busqueda"
     },
     "gui_filter": {
-        "message": "filtro"
+        "message": "Filtro"
     },
     "gui_name": {
         "message": "Nombre"
@@ -1791,6 +1791,9 @@
     },
     "options_autologin": {
         "message": "Portal de inicio de sesión automático\nInicia sesión automáticamente en el portal"
+    },
+    "options_darktheme": {
+        "message": "Tema oscuro"
     },
     "options_keepdebugging": {
         "message": "Mantener la depuración\nUsa el depurador incluso después de que el juego se haya cargado.\nPuede habilitar @SILENT@ para deshacerse del mensaje \"DAF2 está depurando\""

@@ -1792,6 +1792,9 @@
     "options_autologin": {
         "message": "Login automático do portal\nEfetua login automaticamente no Portal"
     },
+    "options_darktheme": {
+        "message": "Tema escuro"
+    },
     "options_keepdebugging": {
         "message": "Continue depurando\nUse o depurador mesmo depois que o jogo for carregado.\nVocê pode habilitar @SILENT@ para se livrar da mensagem \"DAF2 is debugging\""
     },

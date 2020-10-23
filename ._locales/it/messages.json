@@ -1539,6 +1539,9 @@
     "equipment_pfdisclaimer": {
         "message": "Attenzione: se hai già acquistato in passato un pacchetto speciale nel tuo gioco a questo prezzo, non è più possibile acquistare un altro pacchetto a questo prezzo.\nIn questo caso, il livello di prezzo più basso disponibile è di circa 5,5 USD."
     },
+    "equipment_slotslower": {
+        "message": "Slot con minor potenza di questo"
+    },
     "events_year": {
         "message": "Anno"
     },
@@ -1788,6 +1791,9 @@
     },
     "options_autologin": {
         "message": "Login automatico su Portale\nEsegue automaticamente il login nel Portale"
+    },
+    "options_darktheme": {
+        "message": "Tema scuro"
     },
     "options_keepdebugging": {
         "message": "Continua il debug\nIl debugger rimane attivo anche dopo che il gioco è stato caricato.\nPuoi abilitare l'opzione @SILENT@ per rimuovere la barra \"DAF2 sta eseguendo il debug\""
