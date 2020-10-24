@@ -90,6 +90,7 @@ var Preferences = {
             removeGhosts: 0,
             confirmCollection: false,
             speedupCollection: 0,
+            matchByImage: true,
             fbFriendsPage: 0,
             linkGrabEnabled: false,
             linkGrabButton: 2,

@@ -1820,6 +1820,7 @@
 "en@friendship_collectghost2":{"message":"Automatically"},
 "en@friendship_collectmatch":{"message":"Match"},
 "en@friendship_collectmatchinfo":{"message":"This will perform the automatic match between your friends and neighbours.\nYour friend list will not be refreshed.\nIgnored friends and friends with a score greater than 90 are not automatically matched.\nMatching will still be performed at the end of your friends collection."},
+"en@friendship_matchbyimage":{"message":"Match by profile image?"},
 "en@friendship_confirmwarning":{"message":"This operation may take several minutes.\n\nPlease confirm that you want to proceed."},
 "en@friendship_confirmcollection":{"message":"Confirm collection result?"},
 "en@friendship_cc_maybe":{"message":"If unsure"},

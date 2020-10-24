@@ -1009,6 +1009,9 @@
     "friendship_collectmatchinfo": {
         "message": "This will perform the automatic match between your friends and neighbours.\nYour friend list will not be refreshed.\nIgnored friends and friends with a score greater than 90 are not automatically matched.\nMatching will still be performed at the end of your friends collection."
     },
+    "friendship_matchbyimage": {
+        "message": "Match by profile image?"
+    },
     "friendship_confirmwarning": {
         "message": "This operation may take several minutes.\n\nPlease confirm that you want to proceed."
     },
