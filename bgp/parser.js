@@ -101,9 +101,8 @@ var Parser = {
                     if (countMismatch <= 10) console.log('mismatch', o.escaped_fb_id, fb_id);
                 }
                 pal.fb_id = fb_id;
-            } else {
-                pal.pic_square = o.pic_square;
             }
+            pal.pic_square = o.pic_square;
             // Retrieve extra info for neighbor
             const old = oldNeighbours[id];
             pal.extra = (old && old.extra) || {};

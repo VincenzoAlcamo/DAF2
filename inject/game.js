@@ -232,7 +232,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
                 const div = gcTable.appendChild(document.createElement('div'));
                 div.id = 'DAF-gc_' + item.id;
                 div.className = 'DAF-gc-pal DAF-gc-reg' + item.region;
-                div.style.backgroundImage = 'url(' + (item.id == 1 ? item.pic : 'https://graph.facebook.com/v2.8/' + item.fb_id + '/picture') + ')';
+                div.style.backgroundImage = 'url(' + (item.pic || 'https://graph.facebook.com/v2.8/' + item.fb_id + '/picture') + ')';
                 let fullName = item.name;
                 if (item.surname) fullName += ' ' + item.surname;
                 div.title = fullName + '\n' + getMessage('gui_region') + ': ' + (regions[item.region] || item.region);

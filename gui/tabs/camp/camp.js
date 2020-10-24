@@ -155,7 +155,7 @@ function updateCamp(div, flagHeaderOnly = false) {
     const showDay = isPlayer && state.show != 'night';
     const showNight = isPlayer && state.show != 'day';
 
-    div.querySelector('img').setAttribute('src', pal ? (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) : '/img/gui/anon.png');
+    div.querySelector('img').setAttribute('src', pal ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png');
     div.querySelector('span').textContent = campName;
     Dialog.htmlToDOM(div.querySelector('div'), '');
     if (flagHeaderOnly || !camp) return;

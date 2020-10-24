@@ -1747,7 +1747,7 @@ async function init() {
                             region: n.region,
                             fb_id: n.fb_id
                         };
-                        if (n.id == 1) result.pic = n.pic_square;
+                        if (n.pic_square) result.pic = n.pic_square;
                         return result;
                     })
             };

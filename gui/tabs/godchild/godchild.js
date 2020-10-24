@@ -47,7 +47,7 @@ function update() {
         const div = gcTable.appendChild(document.createElement('div'));
         div.setAttribute('data-pal-id', pal.id);
         div.className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' collected');
-        div.style.backgroundImage = isValid ? 'url(' + (pal.id == 1 ? pal.pic_square : gui.getFBFriendAvatarUrl(pal.fb_id)) + ')' : 'url(/img/gui/anon.png)';
+        div.style.backgroundImage = isValid ? 'url(' + gui.getNeighborAvatarUrl(pal) + ')' : 'url(/img/gui/anon.png)';
         const d = div.appendChild(document.createElement('div'));
         d.textContent = pal.level || 0;
         if (pal.id == 1 || !isValid) d.style.visibility = 'hidden';

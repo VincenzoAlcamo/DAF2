@@ -362,7 +362,7 @@ function updateRow(row) {
     const friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
     const anchor = friend ? gui.getFriendAnchor(friend) : Html.raw('<a class="no-link">');
     let htm = '';
-    htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
+    htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}" class="tooltip-event"/></a></td>`;
     const fullName = gui.getPlayerNameFull(pal);
     if (friend && friend.name == fullName) {
         htm += Html.br`<td>${anchor}${fullName}</a>`;
@@ -613,9 +613,9 @@ function onTooltip(event) {
     const element = event.target;
     const pal_id = element.parentNode.parentNode.parentNode.getAttribute('data-pal-id');
     const pal = pal_id && bgp.Data.getNeighbour(pal_id);
-    const fb_id = pal && pal.fb_id;
-    if (fb_id) {
-        const htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, null, 108)}"/></div>`;
+    const fb_image = gui.getNeighborAvatarUrl(pal);
+    if (fb_image) {
+        const htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${fb_image}"/></div>`;
         Tooltip.show(element, htm);
     }
 }

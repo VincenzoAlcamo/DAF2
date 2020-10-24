@@ -112,6 +112,9 @@ const gui = {
         }
         return Html.raw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
     },
+    getNeighborAvatarUrl: function(pal) {
+        return pal ? pal.pic_square || gui.getFBFriendAvatarUrl(pal.fb_id) : '';
+    },
     getFBFriendAnchor: function (fb_id, uri) {
         uri = uri || ('https://www.facebook.com/' + fb_id);
         return Html`<a target="_blank" href="${uri}" class="limit-width" translate="no">`;

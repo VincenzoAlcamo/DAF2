@@ -178,7 +178,7 @@ function showCollectDialog() {
             extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
         }
         extra += `</select>
-        <br><label for="f_fv">${gui.getMessage('gui_type')}
+        <br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
         <option value="0" ${fbFriendsPage != 1 && fbFriendsPage != 2 ? 'selected' : ''}>A = ${getFbFriendsPageUrl('0')}</option>
         <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B = ${getFbFriendsPageUrl(1)}</option>
@@ -319,7 +319,7 @@ function tableClick(event) {
         if (matchingId == pal.id) {
             cancelMatch();
         } else {
-            divMatch.style.backgroundImage = 'url(' + gui.getFBFriendAvatarUrl(pal.fb_id) + ')';
+            divMatch.style.backgroundImage = 'url(' + gui.getNeighborAvatarUrl(pal) + ')';
             divMatch.firstElementChild.innerText = pal.level;
             divMatch.lastElementChild.innerText = gui.getPlayerNameFull(pal);
             divMatch.style.display = 'block';
@@ -510,7 +510,7 @@ function updateRow(row) {
     }
     if (pal) {
         const anchor = Html.raw('<a class="no-link" translate="no">');
-        htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getFBFriendAvatarUrl(pal.fb_id)}" class="tooltip-event"/></a></td>`;
+        htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}" class="tooltip-event"/></a></td>`;
         const fullName = gui.getPlayerNameFull(pal);
         htm += Html.br`<td>${anchor}${fullName}</a>`;
         if (pal.extra.fn && pal.extra.fn != fullName) htm += Html.br`<br><span class="friendname">${pal.extra.fn}</span>`;
@@ -765,7 +765,7 @@ function matchStoreAndUpdate() {
     }
     const numFriendsToAnalyze = images.length;
     for (const pal of Object.values(notmatched)) {
-        addImage('n' + pal.id, gui.getFBFriendAvatarUrl(pal.fb_id));
+        addImage('n' + pal.id, gui.getNeighborAvatarUrl(pal));
     }
     const numNeighboursToAnalyze = images.length - numFriendsToAnalyze;
     // If there is at least one person in each group
@@ -987,14 +987,14 @@ function onTooltip(event) {
     if (td.cellIndex == 0) {
         fb_id = row.getAttribute('data-friend-id');
         const friend = fb_id && bgp.Data.getFriend(fb_id);
-        fb_image = friend && friend.img;
+        fb_image = friend && gui.getFBFriendAvatarUrl(fb_id, friend.img, 108);
     } else {
         const pal_id = row.getAttribute('data-pal-id');
         const pal = pal_id && bgp.Data.getNeighbour(pal_id);
-        fb_id = pal && pal.fb_id;
+        fb_image = gui.getNeighborAvatarUrl(pal);
     }
-    if (fb_id || fb_image) {
-        const htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${gui.getFBFriendAvatarUrl(fb_id, fb_image, 108)}"/></div>`;
+    if (fb_image) {
+        const htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${fb_image}"/></div>`;
         Tooltip.show(element, htm);
     }
 }
