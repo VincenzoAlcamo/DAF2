@@ -64,6 +64,7 @@ table.f-matching tr.f-notmatched td:nth-child(4):after {
   white-space: pre;
 }
 
+.friendship tr.f-ismatching button[data-action="manual"],
 .friendship button[data-action]:hover,
 .friendship.f-matching tr.f-notmatched td:nth-child(4):hover:after {
   background-color: var(--tb-hlcol);

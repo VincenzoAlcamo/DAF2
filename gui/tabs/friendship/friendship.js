@@ -325,6 +325,7 @@ function tableClick(event) {
             divMatch.style.display = 'block';
             smartTable.table.classList.add('f-matching');
             matchingId = pal.id;
+            row.classList.add('f-ismatching');
             if (firstTimeManualHelp) {
                 firstTimeManualHelp = false;
                 localStorage.setItem('manual_match', '1');
@@ -526,6 +527,7 @@ function updateRow(row) {
     const isNotMatched = friend && !pal ? !isIgnored : false;
     row.classList.toggle('f-ignored', isIgnored);
     row.classList.toggle('f-notmatched', isNotMatched);
+    row.classList.toggle('f-ismatching', pal && matchingId == pal.id);
 }
 
 let scheduledRefresh;
@@ -635,6 +637,8 @@ function cancelMatch() {
     matchingId = null;
     divMatch.style.display = 'none';
     smartTable.table.classList.remove('f-matching');
+    const row = smartTable.table.querySelector('tr.f-ismatching');
+    if (row) row.classList.remove('f-ismatching');
 }
 
 function matchFriendBase(friend, pal, score) {
