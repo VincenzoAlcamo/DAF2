@@ -1009,6 +1009,9 @@
     "friendship_collectmatchinfo": {
         "message": "Dette vil lave en automatisk sammenligning mellem dine venner og naboer.\nDin venneliste vil ikke blive opdateret.\nIgnorerede venner og venner med en score på mere end 90 bliver ikke automatisk sammenlignet.\nSammenligning vil stadig blive udført ved afslutningen af din vennesamling."
     },
+    "friendship_matchbyimage": {
+        "message": "Sammenlign med profil billede?"
+    },
     "friendship_confirmwarning": {
         "message": "Denne handling vil tage adskillige minutter.\n\nBekræft venligst at du vil fortsætte."
     },

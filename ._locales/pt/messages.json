@@ -1009,6 +1009,9 @@
     "friendship_collectmatchinfo": {
         "message": "Isso irá realizar a partida automática entre seus amigos e vizinhos.\nSua lista de amigos não será atualizada.\nAmigos ignorados e amigos com pontuação superior a 90 não são correspondidos automaticamente.\nA combinação ainda será realizada no final da coleção de seus amigos."
     },
+    "friendship_matchbyimage": {
+        "message": "Corresponder por imagem de perfil?"
+    },
     "friendship_confirmwarning": {
         "message": "Esta operação pode demorar vários minutos.\n\nConfirme que deseja continuar."
     },

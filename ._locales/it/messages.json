@@ -1009,6 +1009,9 @@
     "friendship_collectmatchinfo": {
         "message": "Verrà  eseguito l'abbinamento automatico tra i tuoi amici e i tuoi vicini.\nLa lista dei tuoi amici non sarà  aggiornata.\nGli amici ignorati o quelli con punteggio maggiore di 90 non saranno abbinati automaticamente.\nL'abbinamento sarà comunque eseguito al termine della collezione degli amici."
     },
+    "friendship_matchbyimage": {
+        "message": "Abbina per immagine profilo?"
+    },
     "friendship_confirmwarning": {
         "message": "Questa operazione potrebbe richiede alcuni minuti.\n\nPer favore, conferma che desideri procedere."
     },

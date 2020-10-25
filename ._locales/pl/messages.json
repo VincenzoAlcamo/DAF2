@@ -1009,6 +1009,9 @@
     "friendship_collectmatchinfo": {
         "message": "Spowoduje to automatyczne dopasowanie między znajomymi i sąsiadami.\nTwoja lista znajomych nie zostanie odświeżona.\nIgnorowani znajomi i znajomi z wynikiem większym niż 90 nie są\ndopasowani automatycznie.\nDopasowanie będzie nadal kontynuowane po zakończeniu zbierania znajomych."
     },
+    "friendship_matchbyimage": {
+        "message": "Dopasuj przez zdjęcie profilowe?"
+    },
     "friendship_confirmwarning": {
         "message": "To może potrwać kilka minut.\n\nPotwierdź, że chcesz kontynuować."
     },

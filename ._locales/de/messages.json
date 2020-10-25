@@ -1009,6 +1009,9 @@
     "friendship_collectmatchinfo": {
         "message": "Dies führt den automatischen Abgleich zwischen deinen Freunden und Nachbarn durch.\nDeine Freundesliste wird nicht aktualisiert.\nIgnorierte Freunde und Freunde mit einer Punktzahl von mehr als 90 werden nicht automatisch zugeordnet.\nDas Abgleichen wird weiterhin am Ende der Sammlung deiner Freunde durchgeführt."
     },
+    "friendship_matchbyimage": {
+        "message": "Abgleich nach Profilbild?"
+    },
     "friendship_confirmwarning": {
         "message": "Dieser Vorgang kann mehrere Minuten dauern.\n\nZum Fortfahren bitte bestätigen."
     },

@@ -1009,6 +1009,9 @@
     "friendship_collectmatchinfo": {
         "message": "La correspondance automatique entre vos amis et vos voisins sera effectuée.\nVotre liste d'amis ne sera pas mise à jour.\nLes amis ignorés ou ayant des scores supérieurs à 90 ne seront pas automatiquement associés.\nLe jumelage sera toujours effectué à la fin de la collection d'amis."
     },
+    "friendship_matchbyimage": {
+        "message": "Correspondance par image de profil?"
+    },
     "friendship_confirmwarning": {
         "message": "Cela peut prendre quelques minutes.\n\nVeuillez confirmer que vous souhaitez continuer."
     },
