@@ -58,7 +58,7 @@ function init() {
     });
     for (let rid = 1; rid <= gui.getMaxRegion(); rid++) {
         const locations = gui.getFile('locations_' + rid);
-        if (locations && Object.keys(locations).length) progress.push({
+        if (locations && Object.keys(locations).length >= 0) progress.push({
             id: 'region' + rid,
             rid: rid,
             icon: gui.getObjectImage('region', rid),
@@ -128,6 +128,7 @@ function update() {
         item.percent = item.max > 0 ? item.value / item.max * 100 : 0;
         item.isCompleted = item.value == item.max;
         item.isLocked = +item.rid > 0 && +item.rid > rid;
+        item.excluded = item.id == 'level' || item.rows.length == 0;
     }
     for (const element of container.querySelectorAll('.warning')) {
         element.innerText = gui.getMessage('gui_infodated', Locale.formatDateTime(gui.getGenerator().time));
@@ -176,9 +177,13 @@ function refresh() {
     gui.updateTabState(tab);
     const state = getState();
     let total = 0;
+    let count = 0;
     let htm = '';
     for (const item of progress) {
-        total += item.id == 'level' ? 0 : item.percent;
+        if (!item.excluded) {
+            total += item.percent;
+            count++;
+        }
         item.name = item.label;
         htm += Html.br`<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}" title="${Html(getTitle(item))}">`;
         let img = Html.br`<img src="${item.icon}"/>`;
@@ -193,7 +198,7 @@ function refresh() {
     container.classList.toggle('no-dates', !state.dates);
     container.classList.toggle('no-energy', !state.energy);
 
-    const percent = total / (progress.length - 1);
+    const percent = count ? total / count : 0;
     Array.from(smartTable.container.querySelectorAll('tfoot td:nth-child(2)')).forEach(cell => cell.innerText = Locale.formatNumber(percent, 2) + '%');
     Array.from(smartTable.container.querySelectorAll('tfoot td progress')).forEach(progress => progress.value = percent);
 
