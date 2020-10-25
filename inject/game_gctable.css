@@ -133,6 +133,10 @@
   --rg-col: #F995F9;
 }
 
+.DAF-gc-reg7 {
+  --rg-col: #f9d895;
+}
+
 .DAF-gc-show-region .DAF-gc-pal div:last-child {
   background-color: var(--rg-col);
 }
