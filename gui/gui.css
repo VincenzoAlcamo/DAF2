@@ -937,7 +937,8 @@ input.note:placeholder-shown {
 
 input.note:hover,
 input.note:focus {
-  background-color: #FF0;
+  background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
 }
 
 input.note:focus::-webkit-input-placeholder {
