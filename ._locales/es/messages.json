@@ -1010,7 +1010,7 @@
         "message": "Esto realizará coincidencia  automática entre tus amigos y vecinos.\nSu lista de amigos no se actualizará.\nLos amigos ignorados y los amigos con una puntuación superior a 90 nocoincidiran automáticamente.\nLa coincidencia se realizará al final de la colección de amigos."
     },
     "friendship_matchbyimage": {
-        "message": "¿Coincidir por imagen de perfil?"
+        "message": "Coincidir con imagen de perfil?"
     },
     "friendship_confirmwarning": {
         "message": "Esta operación puede tardar varios minutos.\n\nPor favor, confirme que desea continuar."

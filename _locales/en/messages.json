@@ -2341,7 +2341,7 @@
 "es@friendship_collectghost2":{"message":"Automaticamente"},
 "es@friendship_collectmatch":{"message":"Coincidencia"},
 "es@friendship_collectmatchinfo":{"message":"Esto realizará coincidencia  automática entre tus amigos y vecinos.\nSu lista de amigos no se actualizará.\nLos amigos ignorados y los amigos con una puntuación superior a 90 nocoincidiran automáticamente.\nLa coincidencia se realizará al final de la colección de amigos."},
-"es@friendship_matchbyimage":{"message":"¿Coincidir por imagen de perfil?"},
+"es@friendship_matchbyimage":{"message":"Coincidir con imagen de perfil?"},
 "es@friendship_confirmwarning":{"message":"Esta operación puede tardar varios minutos.\n\nPor favor, confirme que desea continuar."},
 "es@friendship_confirmcollection":{"message":"¿Confirmar el resultado de la recolección?"},
 "es@friendship_cc_maybe":{"message":"Si no está seguro"},
