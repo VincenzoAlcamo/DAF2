@@ -350,7 +350,7 @@ function search() {
                 let td, img;
                 td = row.appendChild(document.createElement('td'));
                 img = td.appendChild(document.createElement('img'));
-                img.src = `https://graph.facebook.com/v2.8/${pal.fb_id}/picture`;
+                img.src = pal.pic || `https://graph.facebook.com/v2.8/${pal.fb_id}/picture`;
                 td = row.appendChild(document.createElement('td'));
                 if (!pal.furl || pal.fn != pal.name) {
                     td.textContent = pal.name;

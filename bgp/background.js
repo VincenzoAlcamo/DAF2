@@ -1803,6 +1803,7 @@ async function init() {
                 return {
                     id: pal.id,
                     fb_id: pal.fb_id,
+                    pic: pal.pic_square,
                     name: pal.name ? pal.name + ' ' + pal.surname : 'Player ' + pal.id,
                     furl: friend && friend.uri,
                     fn: pal.extra.fn,
