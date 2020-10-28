@@ -163,22 +163,21 @@ function updateCamp(div, flagHeaderOnly = false) {
     const campResult = calculateCamp(camp, true);
     const camps = [campResult];
 
+    // add secondary camp setup if Professor's Switch was bought
+    if (isPlayer && gui.getArrayOfInt(generator.extensions).includes(2)) camps.push(calculateCamp(camp, false));
+    // sorts camps by total regeneration descending (day first, night last)
+    camps.sort((a, b) => b.reg_tot - a.reg_tot);
+
     const addons = calculateAddons(camp, isPlayer ? generator : null);
-    let slots = [];
-    Object.values(campResult.lines).forEach(line => slots = slots.concat(line.slots));
-    addons.empty = slots.filter(slot => slot.kind === 'empty').length;
-    addons.blocked = slots.filter(slot => slot.kind === 'block').length;
+    addons.empty = addons.blocked = 0;
+    camps.forEach(campResult => {
+        let slots = [];
+        Object.values(campResult.lines).forEach(line => slots = slots.concat(line.slots));
+        addons.empty = Math.max(addons.empty, slots.filter(slot => slot.kind === 'empty').length);
+        addons.blocked = Math.max(addons.blocked, slots.filter(slot => slot.kind === 'block').length);
+    });
 
     let htm = '';
-
-    if (isPlayer) {
-        const campResult2 = calculateCamp(camp, false);
-        if (campResult2.reg_base != campResult2.reg_tot || campResult2.cap_base != campResult2.cap_tot) {
-            camps.push(campResult2);
-            if (campResult2.reg_tot > campResult.reg_tot) camps.reverse();
-        }
-    }
-
     htm += Html.br`<table class="camp-tables"><tr>`;
 
     // table Player
