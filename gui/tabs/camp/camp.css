@@ -37,11 +37,11 @@
 }
 
 .camp-data tr.energy_capacity th {
-  padding: 0 4px;
+  padding: 0px 4px;
 }
 
 .camp-data tr.energy_capacity img {
-  height: 26px;
+  height: 22px;
   width: auto;
 }
 
@@ -280,7 +280,9 @@
 
 .tab_camp .screenshot {
   --outline-color: var(--crd-brcol);
-  margin-top: 2px;
+  margin-left: 8px;
+  margin-top: -10px;
+  margin-bottom: -8px;
 }
 
 .tab_camp .toolbar .weeks .warning:not(:last-child) {
@@ -417,4 +419,9 @@
 .camp-player.no-camp-3 .camp-3,
 .camp-player.no-addons .camp_addons {
   display: none;
+}
+
+.tab_camp .camp-summary td {
+  padding-top: 2px;
+  padding-bottom: 2px;
 }

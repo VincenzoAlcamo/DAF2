@@ -1,25 +1,25 @@
 <div class="toolbar">
     <label>
-        <span data-i18n-text="gui_show"></span>
-        <select name="show">
-            <option value="" data-i18n-text="gui_all"></option>
-            <option value="day" data-i18n-text="camp_day_mode"></option>
-            <option value="night" data-i18n-text="camp_night_mode"></option>
-        </select>
+        <span data-i18n-text="camp_day_mode"></span>
+        <input name="day" type="checkbox">
     </label>
     <label>
-        <span data-i18n-text="camp_show_addons"></span>
+        <span data-i18n-text="camp_night_mode"></span>
+        <input name="night" type="checkbox">
+    </label>
+    <label>
+        <span data-i18n-text="camp_setup_mode"></span>
+        <input name="setup" type="checkbox">
+        <input name="regen" type="number" min="0" max="144" maxlength="3">
+        <span data-i18n-text="camp_regen"></span>
+    </label>
+    <label>
+        <span data-i18n-text="camp_addons"></span>
         <input name="addons" type="checkbox">
     </label>
     <label>
         <span data-i18n-text="camp_neighbor"></span>
         <input name="neighbor" type="checkbox">
-    </label>
-    <label>
-        <span data-i18n-text="camp_show_setup"></span>
-        <input name="setup" type="checkbox">
-        <input name="level" type="number" min="0" max="144" maxlength="3">
-        <span data-i18n-text="camp_regen"></span>
     </label>
     <div class="weeks"></div>
 </div>
@@ -32,8 +32,7 @@
     <div class="camp_separator"></div>
     <div class="card camp-neighbor">
         <input type="checkbox" id="camp_neighbor">
-        <label for="camp_neighbor" data-i18n-title="gui_card_clicker"><img
-                src="/img/gui/anon.png" /><span></span></label>
+        <label for="camp_neighbor" data-i18n-title="gui_card_clicker"><img src="/img/gui/anon.png" /><span></span></label>
         <div></div>
     </div>
 </div>

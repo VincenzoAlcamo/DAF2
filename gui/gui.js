@@ -648,7 +648,9 @@ const gui = {
         target.className = 'target';
         target.title = gui.getMessage('gui_screenshot_target');
         screenshot.appendChild(target);
-        shot.addEventListener('click', function () {
+        shot.addEventListener('click', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
             screenshot.style.display = 'none';
             target.classList.remove('ready');
             setTimeout(function () {

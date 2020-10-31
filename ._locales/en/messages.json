@@ -529,7 +529,10 @@
         "message": "Total"
     },
     "camp_fill_time": {
-        "message": "Fill time\n(from 0 to max capacity)"
+        "message": "Fill time"
+    },
+    "camp_fill_time_info": {
+        "message": "Time required for the energy bar to go from empty to full capacity."
     },
     "camp_windmill_regen": {
         "message": "Single windmill regeneration"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "Slot maximum"
     },
+    "camp_num_slots": {
+        "message": "Number of slots"
+    },
     "camp_unlock_materials": {
         "message": "Materials required to unlock camp"
     },
@@ -605,7 +611,7 @@
     "camp_night_mode": {
         "message": "Night mode"
     },
-    "camp_stup_mode": {
+    "camp_setup_mode": {
         "message": "Setup mode"
     },
     "camp_webgl": {
@@ -615,13 +621,10 @@
         "message": "Discounted"
     },
     "camp_neighbor": {
-        "message": "Show neighbour's camp"
+        "message": "Neighbour's camp"
     },
-    "camp_show_addons": {
-        "message": "Show addons"
-    },
-    "camp_show_setup": {
-        "message": "Show setup"
+    "camp_addons": {
+        "message": "Addons"
     },
     "pillars_all": {
         "message": "All pillars"

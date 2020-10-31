@@ -13,7 +13,8 @@ export default {
 
 const NUM_SLOTS = 24;
 
-let tab, container, checkNeighbor, selectShow, checkAddons, checkSetup, inputSetupLevel, regBuildings, capBuildings, campNames;
+let tab, container, checkDay, checkNight, checkAddons, checkNeighbor, checkSetup, inputRegen;
+let regBuildings, capBuildings, campNames;
 
 const addonsMeta = [
     { name: 'diggy_skin', title: 'GUI3178', type: '', id: 0, desc: '' },
@@ -31,22 +32,19 @@ const addonsMeta = [
 function init() {
     tab = this;
     container = tab.container;
-    checkNeighbor = container.querySelector('[name=neighbor]');
-    checkNeighbor.addEventListener('click', toggleFlags);
-
-    checkAddons = container.querySelector('[name=addons]');
-    checkAddons.addEventListener('click', toggleFlags);
-
-    checkSetup = container.querySelector('[name=setup]');
-    checkSetup.addEventListener('click', toggleFlags);
-
-    inputSetupLevel = container.querySelector('[name=level]');
-    inputSetupLevel.addEventListener('change', rebuildSetup);
-
-    selectShow = container.querySelector('[name=show]');
-    selectShow.addEventListener('change', toggleFlags);
 
     campNames = [gui.getMessage('camp_day_mode'), gui.getMessage('camp_night_mode'), gui.getMessage('camp_setup_mode')];
+
+    checkDay = container.querySelector('[name=day]');
+    checkNight = container.querySelector('[name=night]');
+    checkAddons = container.querySelector('[name=addons]');
+    checkNeighbor = container.querySelector('[name=neighbor]');
+    checkSetup = container.querySelector('[name=setup]');
+    [checkDay, checkNight, checkAddons, checkNeighbor, checkSetup].forEach(input => input.addEventListener('click', toggleFlags));
+
+    inputRegen = container.querySelector('[name=regen]');
+    inputRegen.addEventListener('change', rebuildSetup);
+
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
         let div = tab.container.querySelector('.' + className);
@@ -110,18 +108,12 @@ function markToBeRendered(div) {
 
 function getState() {
     const getCheck = (id, c) => document.getElementById(id).checked ? c : '';
-    return {
-        'show': selectShow.value,
-        'no-neighbour': !checkNeighbor.checked,
-        'no-addons': !checkAddons.checked,
-        [checkSetup.checked ? 'setup' : 'no-setup']: inputSetupLevel.value,
-        h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('')
-    };
+    const hide = [checkDay, checkNight, checkAddons, checkNeighbor, checkSetup].filter(check => !check.checked).map(check => check.name).join(',');
+    return { hide, regen: inputRegen.value, h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('') };
 }
 
-function getSetupLevel(state) {
-    const level = Math.min(144, Math.max(0, parseInt(state.setup || state['no-setup']) || 0));
-    return level;
+function getSetupRegen(state) {
+    return Math.min(144, Math.max(0, parseInt(state.regen) || 0));
 }
 
 function setState(state) {
@@ -129,17 +121,23 @@ function setState(state) {
     const setCheck = (id, c) => document.getElementById(id).checked = h.indexOf(c) >= 0;
     setCheck('camp_player', 'p');
     setCheck('camp_neighbor', 'n');
-    checkNeighbor.checked = !state['no-neighbour'];
-    checkAddons.checked = !state['no-addons'];
-    checkSetup.checked = 'setup' in state;
-    inputSetupLevel.value = getSetupLevel(state);
-    state.show = gui.setSelectState(selectShow, state.show);
+    const hide = (state.hide || '').split(',');
+    // compatibilty
+    if ('no-neighbour' in state) hide.push('neighbor');
+    if ('no-addons' in state) hide.push('addons');
+    if (!('regen' in state)) {
+        hide.push('setup');
+        if (state.show == 'day') hide.push('night');
+        if (state.show == 'night') hide.push('day');
+    }
+    [checkDay, checkNight, checkAddons, checkNeighbor, checkSetup].forEach(input => input.checked = !hide.includes(input.name));
+    inputRegen.value = getSetupRegen(state);
     container.querySelector('.camp-neighbor').style.display = checkNeighbor.checked ? '' : 'none';
     const campPlayer = container.querySelector('.camp-player');
     campPlayer.classList.toggle('no-addons', !checkAddons.checked);
-    campPlayer.classList.toggle('no-camp-1', state.show == 'night');
-    campPlayer.classList.toggle('no-camp-2', state.show == 'day');
-    campPlayer.classList.toggle('no-camp-3', !('setup' in state));
+    campPlayer.classList.toggle('no-camp-1', !checkDay.checked);
+    campPlayer.classList.toggle('no-camp-2', !checkNight.checked);
+    campPlayer.classList.toggle('no-camp-3', !checkSetup.checked);
 }
 
 function toggleFlags() {
@@ -152,7 +150,7 @@ function rebuildSetup() {
     const generator = gui.getGenerator();
     const camp = generator.camp;
     let campResult = calculateCamp(camp, []);
-    campResult = calculateCamp(camp, fillCamp(campResult.lines, getSetupLevel(getState())));
+    campResult = calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState())));
     Dialog.htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2]));
     let htm = '';
     htm += Html.br`<table class="camp-caption"><thead><tr><th>${campNames[2]}</th></tr></thead></table>`;
@@ -167,11 +165,24 @@ function onmousemove(event) {
         if (el.hasAttribute('bid')) bid = el.getAttribute('bid').split(',');
         el = el.parentNode;
     }
-    el.querySelectorAll('.item.building').forEach(el => {
-        const flag = bid.includes(el.getAttribute('bid'));
-        el.classList.toggle('selected', flag);
-        el.classList.toggle('selected-first', flag && (!el.previousElementSibling || !bid.includes(el.previousElementSibling.getAttribute('bid'))));
-        el.classList.toggle('selected-last', flag && (!el.nextElementSibling || !bid.includes(el.nextElementSibling.getAttribute('bid'))));
+    let selected = Array.from(el.querySelectorAll('.item.building')).filter(el => {
+        el.classList.remove('selected', 'selected-first', 'selected-last');
+        return bid.includes(el.getAttribute('bid'));
+    });
+    if ((bid == 'camp-1' || bid == 'camp-2') && checkSetup.checked) {
+        const setupItems = Array.from(el.querySelectorAll(`.camp-container.camp-3 .item.building`));
+        selected = Array.from(el.querySelectorAll(`.camp-container.${bid} .item.building`)).filter(el => {
+            const bid = el.getAttribute('bid');
+            const foundAt = setupItems.findIndex(el => el.getAttribute('bid') == bid);
+            if(foundAt >= 0) setupItems.splice(foundAt, 1);
+            return foundAt < 0;
+        });
+        selected = selected.concat(setupItems);
+    }
+    selected.forEach(el => el.classList.add('selected'));
+    selected.forEach(el => {
+        if (!el.previousElementSibling || !el.previousElementSibling.classList.contains('selected')) el.classList.add('selected-first');
+        if (!el.nextElementSibling || !el.nextElementSibling.classList.contains('selected')) el.classList.add('selected-last');
     });
 }
 
@@ -190,20 +201,21 @@ function getCampSummary(campResult, campName) {
 
     // table Regeneration
     let htm = '';
-    htm += Html.br`<table class="camp-data row-coloring">`;
+    htm += Html.br`<table class="camp-data camp-summary row-coloring">`;
     htm += Html.br`<thead><tr class="energy_capacity"><th>${campName}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
     htm += Html.br`<tbody>`;
     htm += Html.br`<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
-    htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
     htm += Html.br`<tr><td>${gui.getMessage('camp_min_value')}</td><td bid="${campResult.stat.reg.min.join(',')}">${Locale.formatNumber(campResult.reg_min)}</td>`;
     htm += Html.br`<td bid="${campResult.stat.cap.min.join(',')}">${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
     htm += Html.br`<tr><td>${gui.getMessage('camp_max_value')}</td><td bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
     htm += Html.br`<td bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_num_slots')}</td><td>${Locale.formatNumber(campResult.stat.numRegSlots)}</td><td>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
     htm += Html.br`</tbody>`;
     if (time) {
-        htm += Html.br`<tbody>`;
+        htm += Html.br`<thead title="${gui.getMessage('camp_fill_time_info')}">`;
         htm += Html.br`<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
-        htm += Html.br`</tbody>`;
+        htm += Html.br`</thead>`;
     }
     htm += Html.br`</table>`;
     return htm;
@@ -237,7 +249,9 @@ function updateCamp(div, flagHeaderOnly = false) {
     }
 
     div.querySelector('img').setAttribute('src', pal ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png');
-    div.querySelector('span').textContent = campName;
+    // div.querySelector('span').textContent = campName;
+    Dialog.htmlToDOM(div.querySelector('span'), Html`${campName}<span class="screenshot"></span>`);
+    gui.setupScreenshot(div, campName);
     Dialog.htmlToDOM(div.querySelector('div'), '');
     if (flagHeaderOnly || !camp) return;
 
@@ -251,7 +265,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     if (isPlayer) {
         if (camps.length < 2) camps.push(null);
-        camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupLevel(getState()))));
+        camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState()))));
     }
 
     const addons = calculateAddons(camp, isPlayer ? generator : null);
@@ -284,7 +298,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     camps.forEach(function (campResult, index) {
         if (!campResult) return;
-        htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, campNames[index]) + Html.br`</td>`;
+        htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, isPlayer ? campNames[index] : '') + Html.br`</td>`;
     });
 
     const wind_count = (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0;
@@ -396,14 +410,12 @@ function updateCamp(div, flagHeaderOnly = false) {
         if (!campResult) return;
         htm += Html.br`<div class="camp-container camp-new camp-${index + 1}">`;
         if (camps.length > 1)
-            htm += Html.br`<table class="camp-caption"><thead><tr><th>${campNames[index]}</th></tr></thead></table>`;
+            htm += Html.br`<table class="camp-caption"><thead><tr><th bid="camp-${index + 1}">${campNames[index]}</th></tr></thead></table>`;
         htm += renderCamp(campResult);
         htm += Html.br`</div>`;
     });
 
     Dialog.htmlToDOM(div.querySelector('div'), htm);
-
-    gui.setupScreenshot(div, campName);
 }
 
 function calculateCamp(camp, current = true) {
@@ -531,6 +543,13 @@ function calculateCamp(camp, current = true) {
             }
         }
     });
+
+    stat.numRegSlots = stat.numCapSlots = stat.numEmptySlots = 0;
+    Object.values(lines).forEach(line => line.slots.forEach(slot => {
+        if (slot.kind == 'empty') stat.numEmptySlots++;
+        if (slot.kind == 'building' && slot.regen) stat.numRegSlots++;
+        if (slot.kind == 'building' && !slot.regen) stat.numCapSlots++;
+    }));
 
     const reg_avg = reg_cnt && Math.floor(reg_tot / reg_cnt);
     const cap_avg = cap_cnt && Math.floor(cap_tot / cap_cnt);
@@ -728,7 +747,7 @@ function fillCamp(campLines, numRegSlots, regFirst = true) {
     const lines = Object.values(campLines).map(line => {
         const copy = Object.assign({}, line);
         copy.empty = line.slots.length - line.blocked;
-        copy.first = line.isReversed ? line.blocked: 0;
+        copy.first = line.isReversed ? line.blocked : 0;
         copy.last = line.isReversed ? line.slots.length : copy.empty;
         numSlots += copy.empty;
         return copy;
@@ -771,7 +790,6 @@ function fillCamp(campLines, numRegSlots, regFirst = true) {
             [numRegSlots, numCapSlots] = [numCapSlots, numRegSlots];
         }
     }
-    console.log(blds);
     return blds;
 }
 

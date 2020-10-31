@@ -891,8 +891,8 @@ input[type=checkbox]:checked:before {
 .screenshot {
   display: inline-block;
   padding: 2px;
-  margin-bottom: -15px;
-  margin-top: -15px;
+  margin-bottom: -4px;
+  margin-top: -6px;
   vertical-align: middle;
 }
 
