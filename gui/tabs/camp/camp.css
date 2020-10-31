@@ -425,3 +425,7 @@
   padding-top: 2px;
   padding-bottom: 2px;
 }
+
+.tab_camp .toolbar input[name=regen] {
+  width: 3.5em;
+}
