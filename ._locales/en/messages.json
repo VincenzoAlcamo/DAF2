@@ -623,8 +623,8 @@
     "camp_neighbor": {
         "message": "Neighbour's camp"
     },
-    "camp_addons": {
-        "message": "Addons"
+    "camp_extra": {
+        "message": "Extra"
     },
     "pillars_all": {
         "message": "All pillars"

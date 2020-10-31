@@ -13,7 +13,7 @@ export default {
 
 const NUM_SLOTS = 24;
 
-let tab, container, checkDay, checkNight, checkAddons, checkNeighbor, checkSetup, inputRegen;
+let tab, container, checkDay, checkNight, checkExtra, checkNeighbor, checkSetup, inputRegen;
 let regBuildings, capBuildings, campNames;
 
 const addonsMeta = [
@@ -37,14 +37,13 @@ function init() {
 
     checkDay = container.querySelector('[name=day]');
     checkNight = container.querySelector('[name=night]');
-    checkAddons = container.querySelector('[name=addons]');
+    checkExtra = container.querySelector('[name=extra]');
     checkNeighbor = container.querySelector('[name=neighbor]');
     checkSetup = container.querySelector('[name=setup]');
-    [checkDay, checkNight, checkAddons, checkNeighbor, checkSetup].forEach(input => input.addEventListener('click', toggleFlags));
+    [checkDay, checkNight, checkExtra, checkNeighbor, checkSetup].forEach(input => input.addEventListener('click', toggleFlags));
 
     inputRegen = container.querySelector('[name=regen]');
     inputRegen.addEventListener('change', rebuildSetup);
-
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
         let div = tab.container.querySelector('.' + className);
@@ -108,7 +107,7 @@ function markToBeRendered(div) {
 
 function getState() {
     const getCheck = (id, c) => document.getElementById(id).checked ? c : '';
-    const hide = [checkDay, checkNight, checkAddons, checkNeighbor, checkSetup].filter(check => !check.checked).map(check => check.name).join(',');
+    const hide = [checkDay, checkNight, checkExtra, checkNeighbor, checkSetup].filter(check => !check.checked).map(check => check.name).join(',');
     return { hide, regen: inputRegen.value, h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('') };
 }
 
@@ -124,17 +123,17 @@ function setState(state) {
     const hide = (state.hide || '').split(',');
     // compatibilty
     if ('no-neighbour' in state) hide.push('neighbor');
-    if ('no-addons' in state) hide.push('addons');
+    if ('no-addons' in state) hide.push('extra');
     if (!('regen' in state)) {
         hide.push('setup');
         if (state.show == 'day') hide.push('night');
         if (state.show == 'night') hide.push('day');
     }
-    [checkDay, checkNight, checkAddons, checkNeighbor, checkSetup].forEach(input => input.checked = !hide.includes(input.name));
+    [checkDay, checkNight, checkExtra, checkNeighbor, checkSetup].forEach(input => input.checked = !hide.includes(input.name));
     inputRegen.value = getSetupRegen(state);
     container.querySelector('.camp-neighbor').style.display = checkNeighbor.checked ? '' : 'none';
     const campPlayer = container.querySelector('.camp-player');
-    campPlayer.classList.toggle('no-addons', !checkAddons.checked);
+    campPlayer.classList.toggle('no-addons', !checkExtra.checked);
     campPlayer.classList.toggle('no-camp-1', !checkDay.checked);
     campPlayer.classList.toggle('no-camp-2', !checkNight.checked);
     campPlayer.classList.toggle('no-camp-3', !checkSetup.checked);
