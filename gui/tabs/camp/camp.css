@@ -412,6 +412,9 @@
   height: calc(var(--size) + 2px);
 }
 
+.camp-player.no-camp-1 .camp-1,
+.camp-player.no-camp-2 .camp-2,
+.camp-player.no-camp-3 .camp-3,
 .camp-player.no-addons .camp_addons {
   display: none;
 }

@@ -1,10 +1,10 @@
 /*global bgp gui Locale Html Dialog Tooltip*/
 export default {
     hasCSS: true,
-    init: init,
-    update: update,
-    getState: getState,
-    setState: setState,
+    init,
+    update,
+    getState,
+    setState,
     actions: {
         'visit_camp': actionVisitCamp
     },
@@ -13,7 +13,7 @@ export default {
 
 const NUM_SLOTS = 24;
 
-let tab, container, checkNeighbor, selectShow, checkAddons;
+let tab, container, checkNeighbor, selectShow, checkAddons, checkSetup, inputSetupLevel, regBuildings, capBuildings, campNames;
 
 const addonsMeta = [
     { name: 'diggy_skin', title: 'GUI3178', type: '', id: 0, desc: '' },
@@ -37,11 +37,16 @@ function init() {
     checkAddons = container.querySelector('[name=addons]');
     checkAddons.addEventListener('click', toggleFlags);
 
+    checkSetup = container.querySelector('[name=setup]');
+    checkSetup.addEventListener('click', toggleFlags);
+
+    inputSetupLevel = container.querySelector('[name=level]');
+    inputSetupLevel.addEventListener('change', rebuildSetup);
+
     selectShow = container.querySelector('[name=show]');
-    selectShow.addEventListener('change', () => {
-        gui.updateTabState(tab);
-        markToBeRendered(container.querySelector('.camp-player'));
-    });
+    selectShow.addEventListener('change', toggleFlags);
+
+    campNames = [gui.getMessage('camp_day_mode'), gui.getMessage('camp_night_mode'), gui.getMessage('camp_setup_mode')];
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
         let div = tab.container.querySelector('.' + className);
@@ -71,6 +76,26 @@ function update() {
         if (sw.name) htm.push(Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
     }
     Dialog.htmlToDOM(divWeeks, htm.join(''));
+    const buildings = gui.getFile('buildings');
+    regBuildings = [];
+    capBuildings = [];
+    for (const [id, qty] of Object.entries(gui.getOwnedActive('building').owned)) {
+        const building = buildings[id];
+        if (building) {
+            const reg = +building.stamina_reg;
+            const cap = +building.max_stamina;
+            const height = +building.rows;
+            const width = +building.columns;
+            const value = (reg > 0 ? reg : cap) / width;
+            const item = { building, qty, width, height, value };
+            if (reg > 0) regBuildings.push(item);
+            else if (cap > 0) capBuildings.push(item);
+        }
+    }
+    // Sort by slot value descending, then width descending
+    const fnSort = (a, b) => (b.value - a.value) || (b.widht - a.width);
+    regBuildings.sort(fnSort);
+    capBuildings.sort(fnSort);
     divWeeks.style.display = htm.length ? '' : 'none';
 }
 
@@ -89,8 +114,14 @@ function getState() {
         'show': selectShow.value,
         'no-neighbour': !checkNeighbor.checked,
         'no-addons': !checkAddons.checked,
+        [checkSetup.checked ? 'setup' : 'no-setup']: inputSetupLevel.value,
         h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('')
     };
+}
+
+function getSetupLevel(state) {
+    const level = Math.min(144, Math.max(0, parseInt(state.setup || state['no-setup']) || 0));
+    return level;
 }
 
 function setState(state) {
@@ -100,14 +131,33 @@ function setState(state) {
     setCheck('camp_neighbor', 'n');
     checkNeighbor.checked = !state['no-neighbour'];
     checkAddons.checked = !state['no-addons'];
+    checkSetup.checked = 'setup' in state;
+    inputSetupLevel.value = getSetupLevel(state);
     state.show = gui.setSelectState(selectShow, state.show);
     container.querySelector('.camp-neighbor').style.display = checkNeighbor.checked ? '' : 'none';
-    container.querySelector('.camp-player').classList.toggle('no-addons', !checkAddons.checked);
+    const campPlayer = container.querySelector('.camp-player');
+    campPlayer.classList.toggle('no-addons', !checkAddons.checked);
+    campPlayer.classList.toggle('no-camp-1', state.show == 'night');
+    campPlayer.classList.toggle('no-camp-2', state.show == 'day');
+    campPlayer.classList.toggle('no-camp-3', !('setup' in state));
 }
 
 function toggleFlags() {
     gui.updateTabState(tab);
     setState(getState());
+}
+
+function rebuildSetup() {
+    gui.updateTabState(tab);
+    const generator = gui.getGenerator();
+    const camp = generator.camp;
+    let campResult = calculateCamp(camp, []);
+    campResult = calculateCamp(camp, fillCamp(campResult.lines, getSetupLevel(getState())));
+    Dialog.htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2]));
+    let htm = '';
+    htm += Html.br`<table class="camp-caption"><thead><tr><th>${campNames[2]}</th></tr></thead></table>`;
+    htm += renderCamp(campResult);
+    Dialog.htmlToDOM(container.querySelector('.camp-player .camp-container.camp-3'), htm);
 }
 
 function onmousemove(event) {
@@ -125,8 +175,42 @@ function onmousemove(event) {
     });
 }
 
+function getCampSummary(campResult, campName) {
+    const cap_total = campResult.cap_tot;
+    const reg_total = campResult.reg_tot;
+    let fillTime = Math.ceil(cap_total / reg_total * 3600);
+    let time;
+    if (fillTime) {
+        time = [];
+        time.unshift(String(fillTime % 60).padStart(2, '0'));
+        fillTime = Math.floor(fillTime / 60);
+        time.unshift(String(fillTime % 60).padStart(2, '0'));
+        time.unshift(Math.floor(fillTime / 60));
+    }
+
+    // table Regeneration
+    let htm = '';
+    htm += Html.br`<table class="camp-data row-coloring">`;
+    htm += Html.br`<thead><tr class="energy_capacity"><th>${campName}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
+    htm += Html.br`<tbody>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_min_value')}</td><td bid="${campResult.stat.reg.min.join(',')}">${Locale.formatNumber(campResult.reg_min)}</td>`;
+    htm += Html.br`<td bid="${campResult.stat.cap.min.join(',')}">${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_max_value')}</td><td bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
+    htm += Html.br`<td bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
+    htm += Html.br`</tbody>`;
+    if (time) {
+        htm += Html.br`<tbody>`;
+        htm += Html.br`<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
+        htm += Html.br`</tbody>`;
+    }
+    htm += Html.br`</table>`;
+    return htm;
+}
+
 function updateCamp(div, flagHeaderOnly = false) {
-    let camp, campName, pal, level, started, cdn;
+    let camp, campName, pal, level, started;
 
     const generator = gui.getGenerator();
 
@@ -141,7 +225,8 @@ function updateCamp(div, flagHeaderOnly = false) {
         };
         level = +generator.level;
         ['region', 'windmill_limit', 'windmill_reg'].forEach(key => camp[key] = +generator[key]);
-        campName = pal ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal), Locale.formatDateTime(+generator.time)) : gui.getMessage('camp_your_camp');
+        const time = Locale.formatDateTime(+generator.time);
+        campName = pal && pal.name ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal), time) : `${gui.getMessage('camp_your_camp')} (${time})`;
         started = new Date(+generator.registered_on * 1000);
     } else {
         camp = bgp.Data.lastVisitedCamp;
@@ -150,10 +235,6 @@ function updateCamp(div, flagHeaderOnly = false) {
         level = pal ? +pal.level : 1;
         campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? gui.getPlayerNameFull(pal) : '#' + neighbourId, Locale.formatDateTime(+camp.time)) : gui.getMessage('camp_no_player'));
     }
-
-    const state = getState();
-    const showDay = isPlayer && state.show != 'night';
-    const showNight = isPlayer && state.show != 'day';
 
     div.querySelector('img').setAttribute('src', pal ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png');
     div.querySelector('span').textContent = campName;
@@ -168,9 +249,15 @@ function updateCamp(div, flagHeaderOnly = false) {
     // sorts camps by total regeneration descending (day first, night last)
     camps.sort((a, b) => b.reg_tot - a.reg_tot);
 
+    if (isPlayer) {
+        if (camps.length < 2) camps.push(null);
+        camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupLevel(getState()))));
+    }
+
     const addons = calculateAddons(camp, isPlayer ? generator : null);
     addons.empty = addons.blocked = 0;
     camps.forEach(campResult => {
+        if (!campResult) return;
         let slots = [];
         Object.values(campResult.lines).forEach(line => slots = slots.concat(line.slots));
         addons.empty = Math.max(addons.empty, slots.filter(slot => slot.kind === 'empty').length);
@@ -196,37 +283,8 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += Html.br`</table><div class="screenshot"></div></td>`;
 
     camps.forEach(function (campResult, index) {
-        if (isPlayer && ![showDay, showNight][index]) return;
-        const cap_total = campResult.cap_tot;
-        const reg_total = campResult.reg_tot;
-        let fillTime = Math.ceil(cap_total / reg_total * 3600);
-        let time;
-        if (fillTime) {
-            time = [];
-            time.unshift(String(fillTime % 60).padStart(2, '0'));
-            fillTime = Math.floor(fillTime / 60);
-            time.unshift(String(fillTime % 60).padStart(2, '0'));
-            time.unshift(Math.floor(fillTime / 60));
-        }
-
-        // table Regeneration
-        htm += Html.br`<td><table class="camp-data row-coloring">`;
-        const caption = camps.length == 1 ? '' : gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode');
-        htm += Html.br`<thead><tr class="energy_capacity"><th>${caption}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
-        htm += Html.br`<tbody>`;
-        htm += Html.br`<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
-        htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
-        htm += Html.br`<tr><td>${gui.getMessage('camp_min_value')}</td><td bid="${campResult.stat.reg.min.join(',')}">${Locale.formatNumber(campResult.reg_min)}</td>`;
-        htm += Html.br`<td bid="${campResult.stat.cap.min.join(',')}">${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
-        htm += Html.br`<tr><td>${gui.getMessage('camp_max_value')}</td><td bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
-        htm += Html.br`<td bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
-        htm += Html.br`</tbody>`;
-        if (time) {
-            htm += Html.br`<tbody>`;
-            htm += Html.br`<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
-            htm += Html.br`</tbody>`;
-        }
-        htm += Html.br`</table></td>`;
+        if (!campResult) return;
+        htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, campNames[index]) + Html.br`</td>`;
     });
 
     const wind_count = (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0;
@@ -335,11 +393,11 @@ function updateCamp(div, flagHeaderOnly = false) {
     }
 
     camps.forEach(function (campResult, index) {
-        if (isPlayer && ![showDay, showNight][index]) return;
-        htm += Html.br`<div class="camp-container camp-new">`;
+        if (!campResult) return;
+        htm += Html.br`<div class="camp-container camp-new camp-${index + 1}">`;
         if (camps.length > 1)
-            htm += Html.br`<table class="camp-caption"><thead><tr><th>${gui.getMessage(index == 0 ? 'camp_day_mode' : 'camp_night_mode')}</th></tr></thead></table>`;
-        htm += renderCamp(campResult, cdn);
+            htm += Html.br`<table class="camp-caption"><thead><tr><th>${campNames[index]}</th></tr></thead></table>`;
+        htm += renderCamp(campResult);
         htm += Html.br`</div>`;
     });
 
@@ -394,6 +452,7 @@ function calculateCamp(camp, current = true) {
         }
         lines[lid] = {
             lid: lid,
+            isReversed: (index % 2) == 0,
             height: height,
             slots: slots,
             blocked: blocked
@@ -411,7 +470,7 @@ function calculateCamp(camp, current = true) {
     stat.cap = { min: [], max: [] };
     stat.reg = { min: [], max: [] };
 
-    let blds = current ? camp.buildings : camp.inactive_b;
+    let blds = Array.isArray(current) ? current : (current ? camp.buildings : camp.inactive_b);
     blds = blds ? (Array.isArray(blds) ? blds : [blds]) : [];
     blds.forEach(building => {
         const lid = building.line_id;
@@ -599,13 +658,12 @@ function renderCamp(campResult) {
     function getStrength(value, min, range) {
         return range ? (value - min) / range * opacity_range + opacity_min : 1;
     }
-    [1, 2, 3, 5, 7, 9].forEach((lid, index) => {
+    [1, 2, 3, 5, 7, 9].forEach((lid) => {
         const line = lines[lid];
         const slots = line.slots;
         htm += Html.br`<div class="line" style="--lw:24;--lh:${line.height}">`;
-        const isReversed = (index % 2) == 0;
         const getSlot = function (index) {
-            return slots[isReversed ? NUM_SLOTS - 1 - index : index];
+            return slots[line.isReversed ? NUM_SLOTS - 1 - index : index];
         };
         for (let i = 0; i < NUM_SLOTS;) {
             const slot = getSlot(i);
@@ -662,6 +720,59 @@ function renderCamp(campResult) {
     });
     htm += Html.br`</div>`;
     return htm;
+}
+
+function fillCamp(campLines, numRegSlots, regFirst = true) {
+    const blds = [];
+    let numSlots = 0;
+    const lines = Object.values(campLines).map(line => {
+        const copy = Object.assign({}, line);
+        copy.empty = line.slots.length - line.blocked;
+        copy.first = line.isReversed ? line.blocked: 0;
+        copy.last = line.isReversed ? line.slots.length : copy.empty;
+        numSlots += copy.empty;
+        return copy;
+    }).sort((a, b) => a.height - b.height);
+    numRegSlots = Math.min(numSlots, Math.max(0, numRegSlots));
+    let numCapSlots = numSlots - numRegSlots;
+    const regBuildingsRest = regBuildings.map(item => Object.assign({}, item));
+    const capBuildingsRest = capBuildings.map(item => Object.assign({}, item));
+    const tryFind = (num, buildings, atFirst) => {
+        if (num <= 0) return 0;
+        const index = buildings.findIndex(item => {
+            const { height, width } = item;
+            if (width > num) return false;
+            const line = lines.find(line => line.height >= height && line.empty >= width);
+            if (!line) return false;
+            const fromStart = line.isReversed ? !atFirst : atFirst;
+            const placed = { def_id: item.building.def_id, line_id: line.lid, slot: fromStart ? line.first : line.last - width };
+            blds.push(placed);
+            line.empty -= width;
+            if (fromStart) line.first += width; else line.last -= width;
+            return true;
+        });
+        if (index < 0) return 0;
+        const item = buildings[index];
+        if (--item.qty <= 0) buildings.splice(index, 1);
+        return item.width;
+    };
+    let switched = false;
+    for (; ;) {
+        const regPlaced = tryFind(numRegSlots, regBuildingsRest, regFirst);
+        const capPlaced = tryFind(numCapSlots, capBuildingsRest, !regFirst);
+        numRegSlots -= regPlaced;
+        numCapSlots -= capPlaced;
+        numSlots -= (regPlaced + capPlaced);
+        // Cannot add any building
+        if (regPlaced == 0 && capPlaced == 0) {
+            if (switched || numSlots == 0) break;
+            // Switch the quantities, so we try to fill the remaining slots
+            switched = true;
+            [numRegSlots, numCapSlots] = [numCapSlots, numRegSlots];
+        }
+    }
+    console.log(blds);
+    return blds;
 }
 
 function onTooltip(event) {
