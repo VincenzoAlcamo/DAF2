@@ -188,15 +188,8 @@ function onmousemove(event) {
 function getCampSummary(campResult, campName) {
     const cap_total = campResult.cap_tot;
     const reg_total = campResult.reg_tot;
-    let fillTime = Math.ceil(cap_total / reg_total * 3600);
-    let time;
-    if (fillTime) {
-        time = [];
-        time.unshift(String(fillTime % 60).padStart(2, '0'));
-        fillTime = Math.floor(fillTime / 60);
-        time.unshift(String(fillTime % 60).padStart(2, '0'));
-        time.unshift(Math.floor(fillTime / 60));
-    }
+    const fillTime = Math.ceil(cap_total / reg_total * 3600);
+    const time = fillTime ? gui.getDuration(fillTime, 2) : '';
 
     // table Regeneration
     let htm = '';
@@ -213,7 +206,7 @@ function getCampSummary(campResult, campName) {
     htm += Html.br`</tbody>`;
     if (time) {
         htm += Html.br`<thead title="${gui.getMessage('camp_fill_time_info')}">`;
-        htm += Html.br`<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time.join(':')}</td></tr>`;
+        htm += Html.br`<tr><td>${gui.getMessage('camp_fill_time')}</td><td colspan="2">${time}</td></tr>`;
         htm += Html.br`</thead>`;
     }
     htm += Html.br`</table>`;
