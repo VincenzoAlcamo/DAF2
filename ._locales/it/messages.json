@@ -529,7 +529,10 @@
         "message": "Totale"
     },
     "camp_fill_time": {
-        "message": "Tempo di riempimento\n(da 0 a max capacità)"
+        "message": "Tempo di riempimento"
+    },
+    "camp_fill_time_info": {
+        "message": "Tempo necessario affinché la barra dell'energia passi da vuota a piena capacità."
     },
     "camp_windmill_regen": {
         "message": "Rigenerazione di un mulino"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "Massimo a colonna"
     },
+    "camp_num_slots": {
+        "message": "Numero di colonne"
+    },
     "camp_unlock_materials": {
         "message": "Materiali per sbloccare il campo"
     },
@@ -605,6 +611,9 @@
     "camp_night_mode": {
         "message": "Modalità notte"
     },
+    "camp_setup_mode": {
+        "message": "Modalità pianificazione"
+    },
     "camp_webgl": {
         "message": "Mostra il campo secondo l'ordine WebGL"
     },
@@ -612,10 +621,10 @@
         "message": "Scontato"
     },
     "camp_neighbor": {
-        "message": "Mostra il campo del vicino"
+        "message": "Campo del vicino"
     },
-    "camp_show_addons": {
-        "message": "Mostra addons"
+    "camp_extra": {
+        "message": "Extra"
     },
     "pillars_all": {
         "message": "Tutti i pilastri"

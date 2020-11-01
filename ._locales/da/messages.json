@@ -529,7 +529,10 @@
         "message": "Total"
     },
     "camp_fill_time": {
-        "message": "Opfyldnings tid\n(fra 0 til maks kapacitet)"
+        "message": "Opfyldnings tid"
+    },
+    "camp_fill_time_info": {
+        "message": "Den tid det tager at fylde energisøjlen fra tomt til fuld."
     },
     "camp_windmill_regen": {
         "message": "Enkelt vindmølle regenerering"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "maksimum"
     },
+    "camp_num_slots": {
+        "message": "Antal"
+    },
     "camp_unlock_materials": {
         "message": "Nødvendige materialer for at låse lejr op"
     },
@@ -605,6 +611,9 @@
     "camp_night_mode": {
         "message": "Nat tilstand"
     },
+    "camp_setup_mode": {
+        "message": "Indstillings tilstand"
+    },
     "camp_webgl": {
         "message": "Vis lejr i WEBGL"
     },
@@ -612,10 +621,10 @@
         "message": "Tilbud"
     },
     "camp_neighbor": {
-        "message": "Vis nabo's lejr"
+        "message": "Nabo's lejr"
     },
-    "camp_show_addons": {
-        "message": "Vis tilføjelser"
+    "camp_extra": {
+        "message": "Ekstra"
     },
     "pillars_all": {
         "message": "Alle søjler"

@@ -529,7 +529,10 @@
         "message": "Total"
     },
     "camp_fill_time": {
-        "message": "Temps de remplissage\n(de 0 à la capacité maximale)"
+        "message": "Temps de remplissage"
+    },
+    "camp_fill_time_info": {
+        "message": "Le temps nécessaire de la barre d'énergie pour aller de vide à pleine capacité."
     },
     "camp_windmill_regen": {
         "message": "Régénération d'un moulin"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "Maximum"
     },
+    "camp_num_slots": {
+        "message": "Nombre d'emplacements"
+    },
     "camp_unlock_materials": {
         "message": "Matériaux pour débloquer le terrain"
     },
@@ -605,6 +611,9 @@
     "camp_night_mode": {
         "message": "Mode nuit"
     },
+    "camp_setup_mode": {
+        "message": "Mode de configuration"
+    },
     "camp_webgl": {
         "message": "Afficher le camp dans l'ordre WebGL"
     },
@@ -612,10 +621,10 @@
         "message": "À prix réduit"
     },
     "camp_neighbor": {
-        "message": "Afficher le camp du voisin"
+        "message": "Camp du voisin"
     },
-    "camp_show_addons": {
-        "message": "Afficher les extensions"
+    "camp_extra": {
+        "message": "Extra"
     },
     "pillars_all": {
         "message": "Tous les piliers"

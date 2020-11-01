@@ -529,7 +529,10 @@
         "message": "Razem"
     },
     "camp_fill_time": {
-        "message": "Czas napełnienia\n(od 0 do max pojemności)"
+        "message": "Czas napełnienia"
+    },
+    "camp_fill_time_info": {
+        "message": "Czas potrzebny do zapełnienia paska energii od zera do pełna."
     },
     "camp_windmill_regen": {
         "message": "Regeneracja jednego wiatraka"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "Maksymalnie"
     },
+    "camp_num_slots": {
+        "message": "Liczba slotów"
+    },
     "camp_unlock_materials": {
         "message": "Materiały wymagane do odblokowania"
     },
@@ -605,6 +611,9 @@
     "camp_night_mode": {
         "message": "Tryb nocny"
     },
+    "camp_setup_mode": {
+        "message": "Tryb ustawień"
+    },
     "camp_webgl": {
         "message": "Pokaż obóz w układzie WebGL"
     },
@@ -612,10 +621,10 @@
         "message": "Zniżka"
     },
     "camp_neighbor": {
-        "message": "Pokaż obóz sąsiada"
+        "message": "Obóz sąsiada"
     },
-    "camp_show_addons": {
-        "message": "Pokaż dodatki"
+    "camp_extra": {
+        "message": "Ekstra"
     },
     "pillars_all": {
         "message": "Wszystkie kolumny"

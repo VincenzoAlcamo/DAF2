@@ -529,7 +529,10 @@
         "message": "Summe"
     },
     "camp_fill_time": {
-        "message": "Auffüllzeit\n(von 0 bis max. Kapazität)"
+        "message": "Auffüllzeit"
+    },
+    "camp_fill_time_info": {
+        "message": "Benötigte Zeit, bis der Energiebalken von der leeren zur vollen Kapazität gelangt."
     },
     "camp_windmill_regen": {
         "message": "Regeneration einer einzelnen Windmühle"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "Stellplatz maximal"
     },
+    "camp_num_slots": {
+        "message": "Anzahl der Stellplätze"
+    },
     "camp_unlock_materials": {
         "message": "Benötigtes Material zum Freischalten des Lagers"
     },
@@ -605,6 +611,9 @@
     "camp_night_mode": {
         "message": "Nachtmodus"
     },
+    "camp_setup_mode": {
+        "message": "Konfigurationsmodus"
+    },
     "camp_webgl": {
         "message": "Camp in WebGL-Reihenfolge anzeigen"
     },
@@ -612,10 +621,10 @@
         "message": "Ermäßigter Preis"
     },
     "camp_neighbor": {
-        "message": "Nachbarcamp anzeigen"
+        "message": "Nachbarcamp"
     },
-    "camp_show_addons": {
-        "message": "Zusätze anzeigen"
+    "camp_extra": {
+        "message": "Extra"
     },
     "pillars_all": {
         "message": "Alle Säulen"

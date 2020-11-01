@@ -529,10 +529,13 @@
         "message": "Total"
     },
     "camp_fill_time": {
-        "message": "Regeneracion de energia\n(desde 0 a capacidad maxima)"
+        "message": "Tiempo de regeneracion de energia"
+    },
+    "camp_fill_time_info": {
+        "message": "Tiempo requerido para que la barra de energia pase de estar vacia a estar completa."
     },
     "camp_windmill_regen": {
-        "message": "Regenaracion por molino"
+        "message": "Regeneracion por molino"
     },
     "camp_windmill_regen_total": {
         "message": "Regeneracion del total de los molinos"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "Ranura maxima"
     },
+    "camp_num_slots": {
+        "message": "Cantidad de ranuras"
+    },
     "camp_unlock_materials": {
         "message": "Materiales necesarios para desbloquear el campamento"
     },
@@ -605,6 +611,9 @@
     "camp_night_mode": {
         "message": "Modo noche"
     },
+    "camp_setup_mode": {
+        "message": "Modo de configuracion"
+    },
     "camp_webgl": {
         "message": "Muestra campamento en WebGL"
     },
@@ -612,10 +621,10 @@
         "message": "Con descuentos"
     },
     "camp_neighbor": {
-        "message": "Mostrar campamento de vecinos"
+        "message": "Campamento de vecinos"
     },
-    "camp_show_addons": {
-        "message": "Mostrar complementos"
+    "camp_extra": {
+        "message": "Extra"
     },
     "pillars_all": {
         "message": "Todos los pilares"

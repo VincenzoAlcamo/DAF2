@@ -529,7 +529,10 @@
         "message": "Σύνολο"
     },
     "camp_fill_time": {
-        "message": "Χρόνος γεμίσματος\n(από 0 μέχρι μαξ χωρητικότητα)"
+        "message": "Χρόνος γεμίσματος"
+    },
+    "camp_fill_time_info": {
+        "message": "Χρόνος που χρειάζεται η μπάρα ενέργειας για να γεμίσει"
     },
     "camp_windmill_regen": {
         "message": "Ανανέωση ανεμόμυλων"
@@ -572,6 +575,9 @@
     "camp_max_value": {
         "message": "Μέγιστη Υποδοχή"
     },
+    "camp_num_slots": {
+        "message": "Αριθμός Υποδοχών"
+    },
     "camp_unlock_materials": {
         "message": "Υλικά για ξεκλείδωμα βάσης"
     },
@@ -605,6 +611,9 @@
     "camp_night_mode": {
         "message": "Βράδυ"
     },
+    "camp_setup_mode": {
+        "message": "Διάταξη"
+    },
     "camp_webgl": {
         "message": "Δείξε τη βάση σε WebGL σειρά"
     },
@@ -612,10 +621,10 @@
         "message": "Σε προσφορά"
     },
     "camp_neighbor": {
-        "message": "Εμφάνιση βάσης γείτονα"
+        "message": "Βάση γείτονα"
     },
-    "camp_show_addons": {
-        "message": "Εμφάνιση πρόσθετων"
+    "camp_extra": {
+        "message": "Έξτρα"
     },
     "pillars_all": {
         "message": "Όλοι οι κίονες"
