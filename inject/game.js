@@ -525,8 +525,38 @@ function interceptData() {
         function dispatch(type, kind, request, response) {
             let lang;
             try { lang = gamevars.lang; } catch(e) { }
-            const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, request, response } });
+            let text = '';
+            if (response === null) text = null;
+            else if (typeof response == 'string') text = response;
+            else if (response && response.bytes instanceof Uint8Array) text = getString(response.bytes);
+            else console.log('daf_xhr: invalid response');
+            const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, request, response: text } });
             document.dispatchEvent(event);
+        }
+        function getString(b) {
+            let s = '';
+            let i = 0;
+            const max = b.length;
+            while (i < max) {
+                const c = b[i++];
+                if (c < 128) {
+                    if (c == 0) { break; }
+                    s += String.fromCodePoint(c);
+                } else if (c < 224) {
+                    const code = (c & 63) << 6 | b[i++] & 127;
+                    s += String.fromCodePoint(code);
+                } else if (c < 240) {
+                    const c2 = b[i++];
+                    const code1 = (c & 31) << 12 | (c2 & 127) << 6 | b[i++] & 127;
+                    s += String.fromCodePoint(code1);
+                } else {
+                    const c21 = b[i++];
+                    const c3 = b[i++];
+                    const u = (c & 15) << 18 | (c21 & 127) << 12 | (c3 & 127) << 6 | b[i++] & 127;
+                    s += String.fromCodePoint(u);
+                }
+            }
+            return s;
         }
         XHR.open = function(method, url) {
             this.url = url;
