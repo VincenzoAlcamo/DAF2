@@ -1287,7 +1287,7 @@ var Data = {
         result.data = file && file.version == version ? Data.files[name] : null;
         return result;
     },
-    getFile: async function (name, version) {
+    getFile: async function (name, version, noStore) {
         const file = Data.checkFile(name, version);
         if (file.data) return file.data;
         delete Data.files[file.name];
@@ -1304,7 +1304,7 @@ var Data = {
             const items = keys.length ? (Array.isArray(data) ? data : Object.values(data)) : null;
             for (const key of keys) {
                 const key2 = key.substr(1);
-                const detail = await Data.getFile(name + '_' + key2);
+                const detail = await Data.getFile(name + '_' + key2, undefined, true);
                 // Expand key
                 items.forEach(item => {
                     const ids = (item[key] || '').split(',');
@@ -1319,8 +1319,10 @@ var Data = {
         }
         const fixFn = Parser['fix_' + name];
         if (typeof fixFn == 'function') data = fixFn(data) || data;
-        Data.files[name] = data;
-        Data.files[file.fileName] = file;
+        if (!noStore) {
+            Data.files[name] = data;
+            Data.files[file.fileName] = file;
+        }
         return data;
     },
     getConfigValue: function (name, defaultValue = 0) {
