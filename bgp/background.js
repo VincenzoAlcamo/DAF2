@@ -1295,9 +1295,10 @@ var Data = {
         if (!Data.generator || !Data.generator.cdn_root) return Promise.reject('Data has not been loaded yet');
         file.url = Data.generator.cdn_root + file.fileName + '?ver=' + file.version;
         const response = await fetch(file.url);
+        if (+response.status >= 400) throw `File cannot be load: "${file.url}"`;
         const text = await response.text();
         let data = Parser.parse(file.kind, text);
-        if (!data) throw `File cannot be parsed: "${file}"`;
+        if (!data) throw `File cannot be parsed: "${file.url}"`;
         if (file.kind == 'erik') {
             const keys = data.__keys.filter(key => key.startsWith('@'));
             delete data.__keys;
