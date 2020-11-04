@@ -45,7 +45,8 @@
   border: 1px solid transparent;
 }
 
-.about_visit a:hover {
+.tab_about.bg .about_visit a:hover,
+.tab_about .about_visit a:hover {
   background-color: var(--vm-item-hov-bgcol);
   color: var(--vm-item-hov-fgcol);
   border-color: var(--vm-item-brcol);
@@ -184,10 +185,6 @@
 
 .tab_about.bg .about_visit a {
   color: #FFF;
-}
-
-.tab_about.bg .about_visit a:hover {
-  color: var(--vm-item-sel-fgcol);
 }
 
 .about_version,
