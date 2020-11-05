@@ -177,18 +177,6 @@ function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
     if (!affordable) item.locked |= 8;
 }
 
-function getEventInfo(event) {
-    const eid = +event.def_id;
-    let end = +event.end || 0;
-    if (!end && eid == 14) end = 1393326000;
-    if (!end && eid == 15) end = 1395745200;
-    return {
-        end,
-        // compute the year as END - 14 days
-        year: end - 14 * 86400
-    };
-}
-
 function update() {
     const state = getState();
     const generator = gui.getGenerator();
@@ -251,7 +239,7 @@ function update() {
         if (shopLimit > updateTime && !(eid in events)) {
             events[eid] = region;
         }
-        const info = getEventInfo(event);
+        const info = gui.getEventInfo(event);
         allEvents[eid] = {
             id: eid,
             year: info.year

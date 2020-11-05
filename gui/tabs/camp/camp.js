@@ -173,7 +173,7 @@ function onmousemove(event) {
         selected = Array.from(el.querySelectorAll(`.camp-container.${bid} .item.building`)).filter(el => {
             const bid = el.getAttribute('bid');
             const foundAt = setupItems.findIndex(el => el.getAttribute('bid') == bid);
-            if(foundAt >= 0) setupItems.splice(foundAt, 1);
+            if (foundAt >= 0) setupItems.splice(foundAt, 1);
             return foundAt < 0;
         });
         selected = selected.concat(setupItems);

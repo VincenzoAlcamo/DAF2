@@ -117,18 +117,6 @@ function byEvent(list) {
     return hash;
 }
 
-function getEventInfo(event) {
-    const eid = +event.def_id;
-    let end = +event.end || 0;
-    if (!end && eid == 14) end = 1393326000;
-    if (!end && eid == 15) end = 1395745200;
-    return {
-        end,
-        // compute the year as END - 14 days
-        year: end - 14 * 86400
-    };
-}
-
 function addOption(select, value, text) {
     const option = document.createElement('option');
     option.value = value;
@@ -174,7 +162,7 @@ function update() {
         item.name = gui.getString(event.name_loc);
         item.gems = (+event.premium > 0 ? +event.gems_price : 0) || NaN;
         const edata = eventData[eid];
-        const info = getEventInfo(event);
+        const info = gui.getEventInfo(event);
         item.start = (edata && +edata.started) || NaN;
         item.end = (edata && +edata.finished) || info.end;
         item.year = info.year;

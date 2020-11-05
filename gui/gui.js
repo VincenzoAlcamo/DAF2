@@ -112,7 +112,7 @@ const gui = {
         }
         return Html.raw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
     },
-    getNeighborAvatarUrl: function(pal) {
+    getNeighborAvatarUrl: function (pal) {
         return pal ? pal.pic_square || gui.getFBFriendAvatarUrl(pal.fb_id) : '';
     },
     getFBFriendAnchor: function (fb_id, uri) {
@@ -177,6 +177,18 @@ const gui = {
     getLocationImg: function (location) {
         const img = `${gui.getGenerator().cdn_root}mobile/graphics/map/${location.mobile_asset}.png`;
         return Html.br`<div class="location_icon"><img src="${img}" title="${Html(gui.getString(location.name_loc))}"></div>`;
+    },
+    getEventInfo: function (event) {
+        if (typeof event == 'number') event = bgp.Data.files.events[event];
+        const eid = event ? +event.def_id : 0;
+        let end = (event && +event.end) || 0;
+        if (!end && eid == 14) end = 1393326000;
+        if (!end && eid == 15) end = 1395745200;
+        return {
+            end,
+            // compute the year as END - 14 days
+            year: end - 14 * 86400
+        };
     },
     getLocProg: function (lid) {
         const prog = bgp.Data.loc_prog[lid];
@@ -681,7 +693,7 @@ const gui = {
             canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
         });
     },
-    setTheme: function() {
+    setTheme: function () {
         document.firstElementChild.classList.toggle('dark', gui.getPreference('darkTheme'));
     },
     copyToClipboard: function (str, mimeType = 'text/plain') {
