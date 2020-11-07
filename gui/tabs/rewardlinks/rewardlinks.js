@@ -519,11 +519,12 @@ function update() {
                 if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             }
             const cnm = rewardLink.cnm || '';
-            if (item.cid != rewardLink.cid || item.cnm != cnm) {
+            if (item.cid != rewardLink.cid || item.cnm != cnm || (item.cpi != rewardLink.cpi && rewardLink.cpi)) {
                 flagUpdated = true;
                 item.cid = rewardLink.cid;
+                item.cpi = rewardLink.cpi;
                 item.cnm = cnm;
-                Dialog.htmlToDOM(item.row.cells[5], item.cid ? Html.br`<img src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
+                Dialog.htmlToDOM(item.row.cells[5], (item.cid || item.cpi) ? Html.br`<img src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
             }
             if (flagUpdated) status = 3;
         } else {
@@ -537,7 +538,7 @@ function update() {
             htm += Html.br`<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
             htm += Html.br`<td>${materialHTML(item.cmt)}</td>`;
             htm += Html.br`<td translate="no">`;
-            if (item.cid) htm += Html.br`<img lazy-src="${gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
+            if (item.cid || item.cpi) htm += Html.br`<img lazy-src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
             htm += `</td>`;
             Dialog.htmlToDOM(item.row, htm);
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');

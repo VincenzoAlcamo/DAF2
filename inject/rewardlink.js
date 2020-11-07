@@ -48,6 +48,7 @@ if (data) {
     el = div && div.getElementsByTagName('img')[0];
     match = el && reFriend.exec(el.src);
     if (match) data.cid = match[2];
+    if (el) data.cpi = el.src;
     // Facebook name
     el = div && div.getElementsByTagName('p')[0];
     if (el) data.cnm = el.textContent;

@@ -1146,6 +1146,7 @@ var Data = {
                     };
                     if (reward.cdt) existingReward.cdt = reward.cdt;
                     if (reward.cmt) existingReward.cmt = reward.cmt;
+                    if (reward.cpi) existingReward.cpi = reward.cpi;
                     if (existingReward.id <= expiredId && !existingReward.cmt) existingReward.cmt = -6;
                     if (reward.cid) {
                         // overwrite existing if owner id is different or existing has no owner name
@@ -1780,7 +1781,8 @@ async function init() {
                 htm += Html.br`<td>${reward.id}</td>`;
                 htm += Html.br`<td>${Locale.formatDateTime(reward.adt)}</td>`;
                 htm += Html.br`<td>${Locale.formatDateTime(reward.cdt)}</td>`;
-                if (reward.cid) htm += Html.br`<td><img src="https://graph.facebook.com/v2.8/${reward.cid}/picture" valign="middle" style="margin-right:8px"/>${reward.cnm}</td>`;
+                const url = reward.cpi || (reward.cid && `https://graph.facebook.com/v2.8/${reward.cid}/picture`);
+                if (url) htm += Html.br`<td><img src="${url}" valign="middle" style="margin-right:8px"/>${reward.cnm}</td>`;
                 htm += Html.br`</tr></tbody><table>`;
                 htm = String(htm);
                 return htm;
