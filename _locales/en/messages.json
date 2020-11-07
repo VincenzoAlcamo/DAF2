@@ -1772,7 +1772,7 @@
 "en@neighbors_notinlist":{"message":"Not in custom list"},
 "en@neighbors_withblocks":{"message":"With blocks to clear"},
 "en@neighbors_unknownblocks":{"message":"Blocks state unknown"},
-"en@neighbors_withexpiredwindmills":{"message":"With expired windmillls"},
+"en@neighbors_withexpiredwindmills":{"message":"With expired windmills"},
 "en@neighbors_found":{"message":"Neighbours found: $1 / $2"},
 "en@neighbors_giftcount":{"message":"Gift Count"},
 "en@neighbors_giftvalue":{"message":"Gift Value (in XP)"},

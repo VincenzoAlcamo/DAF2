@@ -707,7 +707,7 @@
         "message": "Blocks state unknown"
     },
     "neighbors_withexpiredwindmills": {
-        "message": "With expired windmillls"
+        "message": "With expired windmills"
     },
     "neighbors_found": {
         "message": "Neighbours found: $NUM$ / $TOTAL$",
