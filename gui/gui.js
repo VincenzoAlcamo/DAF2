@@ -5,13 +5,12 @@ let currentTab = null;
 const tabs = (function () {
     const tabs = {};
 
-    function addTab(id, enabled = true) {
-        const icon = id == 'godchild' ? 'gc' : id;
+    function addTab(id, icon) {
         tabs[id] = {
             id: id,
-            icon: '/img/gui/' + icon + '.png',
+            icon: '/img/gui/' + (icon || id) + '.png',
             generator: id != 'about' && id != 'options' && id != 'game',
-            enabled: enabled
+            enabled: true
         };
     }
     addTab('game');
@@ -20,13 +19,13 @@ const tabs = (function () {
     addTab('camp');
     addTab('neighbors');
     addTab('friendship');
-    addTab('godchild');
+    addTab('godchild', 'gc');
     addTab('equipment');
     addTab('events');
     addTab('kitchen');
     addTab('foundry');
     addTab('pillars');
-    // addTab('locations', false);
+    // addTab('locations');
     addTab('repeat');
     addTab('greenrings');
     addTab('redrings');
@@ -34,7 +33,7 @@ const tabs = (function () {
     addTab('rewardlinks');
     addTab('dailyreward');
     addTab('options');
-    // addTab('help', false);
+    // addTab('help');
     addTab('export');
     return tabs;
 })();
@@ -774,7 +773,7 @@ function onLoad() {
     let htm = '';
     const hasValidGenerator = gui.hasValidGenerator();
     for (const tab of Object.values(tabs)) {
-        const text = gui.getMessage('tab_' + tab.id) || tab.id;
+        const text = gui.getMessage('tab_' + tab.id) || (tab.id.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()));
         const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
         htm += Html`<li style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
     }
