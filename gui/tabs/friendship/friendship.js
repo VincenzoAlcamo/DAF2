@@ -1012,6 +1012,7 @@ function formatDateExcel(value) {
 function exportData() {
     let data = [];
     const friends = Object.values(bgp.Data.getFriends());
+    const isAdmin = bgp.Data.isAdmin();
     for (const friend of friends) {
         const line = [];
         data.push(line);
@@ -1019,11 +1020,14 @@ function exportData() {
         const pal = friend.uid && bgp.Data.getNeighbour(friend.uid);
         if (pal) {
             line.push(gui.getPlayerNameFull(pal), pal.level, pal.region, pal.extra.lastGift ? formatDateExcel(pal.extra.lastGift) : '');
+            if (isAdmin) line.push(pal.id);
         }
     }
     const comparer = gui.getNaturalComparer();
     data.sort((a, b) => comparer(a[1], b[1]));
-    data.unshift(['FB_ID', 'FB_NAME', 'FB_PAGE', 'RECORDED', 'SCORE', 'NEIGHBOUR', 'LEVEL', 'REGION', 'LAST_GIFT']);
+    const header = ['FB_ID', 'FB_NAME', 'FB_PAGE', 'RECORDED', 'SCORE', 'NEIGHBOUR', 'LEVEL', 'REGION', 'LAST_GIFT'];
+    if (isAdmin) header.push('ID');
+    data.unshift(header);
     data = data.map(line => line.join('\t'));
     data = data.join('\n');
     gui.downloadData(data, 'DAF_friends_%date%_%time%.csv');

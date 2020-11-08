@@ -4,6 +4,8 @@
 
 .neighbors tr td:nth-child(2) {
   text-align: left;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .neighbors tr[lazy-render] td:nth-child(1) {
@@ -88,6 +90,15 @@
 
 .neighbors .giftRow div {
   font-size: 11px;
+}
+
+.neighbors span.id {
+  display: none;
+  font-weight: bold;
+}
+
+.tab_neighbors.show-id span.id {
+  display: block;
 }
 
 .neighbors .friend {

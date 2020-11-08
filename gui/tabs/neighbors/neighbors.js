@@ -2,10 +2,10 @@
 
 export default {
     hasCSS: true,
-    init: init,
-    update: update,
-    getState: getState,
-    setState: setState,
+    init,
+    update,
+    getState,
+    setState,
     actions: {
         'cl_add': markNeighbor,
         'cl_remove': markNeighbor,
@@ -18,11 +18,14 @@ export default {
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '', filterExp = 0;
+let isAdmin, showId = false;
 const filterExpressions = ','.repeat(4).split(',');
 
 function init() {
     tab = this;
     container = tab.container;
+
+    isAdmin = bgp.Data.isAdmin();
 
     selectShow = container.querySelector('[name=show]');
     selectShow.addEventListener('change', refresh);
@@ -80,6 +83,7 @@ function getState() {
         search: searchInput.value,
         gift: filterGifts,
         exp: filterExp || undefined,
+        id: showId,
         sort: gui.getSortState(smartTable)
     };
     filterExpressions.forEach((value, index) => state['exp' + (index + 1)] = value.trim());
@@ -102,6 +106,7 @@ function setState(state) {
         state.exp1 = state.filter;
         delete state.filter;
     }
+    showId = state.id = state.id && isAdmin;
     filterExp = Math.max(0, Math.min(filterExpressions.length, +state.exp || 0)) || undefined;
     filterExpressions.forEach((value, index) => filterExpressions[index] = String(state['exp' + (index + 1)] || '').trim());
     gui.setSortState(state.sort, smartTable, 'name');
@@ -207,6 +212,9 @@ blocks>20 or (region=1 and level<100)
     htm += Html.br`<select name="gifts" data-method="gifts" multiple size="${Math.min(18, items.length)}" style="margin:3px;width:100%">`;
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
     htm += Html.br`</select>`;
+    if (isAdmin) {
+        htm += Html.br`<label style="margin-top:4px;display:block">Show player's ID <input type="checkbox" name="showid" style="vertical-align:middle"${showId ? ' checked' : ''}></label>`;
+    }
     htm += Html.br`</td></tr></table>`;
     gui.dialog.show({
         title: gui.getMessage('gui_advancedfilter'),
@@ -253,6 +261,7 @@ blocks>20 or (region=1 and level<100)
         if (method != Dialog.CONFIRM) return;
         filterGifts = list;
         filterExp = params.exp;
+        showId = params.showid == 'on';
         filterExpressions.forEach((value, index) => filterExpressions[index] = expressions[index + 1]);
         selectDays.value = params.days;
         refresh();
@@ -364,10 +373,12 @@ function updateRow(row) {
     let htm = '';
     htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}" class="tooltip-event"/></a></td>`;
     const fullName = gui.getPlayerNameFull(pal);
+    htm += Html.br`<td>`;
+    if (isAdmin) htm += Html.br`<span class="id">#${pal.id}</span>`;
     if (friend && friend.name == fullName) {
-        htm += Html.br`<td>${anchor}${fullName}</a>`;
+        htm += Html.br`${anchor}${fullName}</a>`;
     } else {
-        htm += Html.br`<td><a class="no-link">${fullName}</a>`;
+        htm += Html.br`<a class="no-link">${fullName}</a>`;
         if (friend) htm += Html.br`<br>${anchor}${friend.name}</a>`;
         else if (pal.extra.fn && pal.extra.fn != fullName) htm += Html.br`<br><span class="friendname">${pal.extra.fn}</span>`;
     }
@@ -596,6 +607,8 @@ function refreshDelayed() {
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });
+
+    container.classList.toggle('show-id', isAdmin && showId);
 
     scheduledRefresh = setTimeout(function () {
         items = sort(items);

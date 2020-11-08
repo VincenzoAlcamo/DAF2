@@ -870,6 +870,10 @@ var Data = {
         }
         return Data.pillars;
     },
+    isAdmin: function () {
+        const playerId = Data.generator ? Data.generator.player_id : '';
+        return ',11530133,17362365,'.indexOf(',' + playerId + ',') >= 0;
+    },
     //#region loc_prog
     getLocProg: function (lid) {
         let prog = Data.loc_prog[lid];
