@@ -608,7 +608,7 @@ function refreshDelayed() {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });
 
-    container.classList.toggle('show-id', isAdmin && showId);
+    container.classList.toggle('show-id', isAdmin && !!state.id);
 
     scheduledRefresh = setTimeout(function () {
         items = sort(items);
