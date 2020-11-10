@@ -1,4 +1,5 @@
 import about from './tabs/about/about.js';
+import artwork from './tabs/artwork/artwork.js';
 import camp from './tabs/camp/camp.js';
 import christmasrings from './tabs/christmasrings/christmasrings.js';
 import dailyreward from './tabs/dailyreward/dailyreward.js';
@@ -21,7 +22,7 @@ import repeat from './tabs/repeat/repeat.js';
 import rewardlinks from './tabs/rewardlinks/rewardlinks.js';
 
 const tabs = {
-    about, camp, christmasrings, dailyreward, equipment, events, export: export_,
+    about, artwork, camp, christmasrings, dailyreward, equipment, events, export: export_,
     foundry, friendship, godchild, greenrings, help, kitchen, locations, neighbors,
     options, pillars, progress, redrings, repeat, rewardlinks
 };

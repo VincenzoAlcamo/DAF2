@@ -32,6 +32,7 @@ const tabs = (function () {
     addTab('christmasrings');
     addTab('rewardlinks');
     addTab('dailyreward');
+    if (bgp.Data.isAdmin()) addTab('artwork', 'deco');
     addTab('options');
     // addTab('help');
     addTab('export');
@@ -380,6 +381,9 @@ const gui = {
     }),
     collectLazyElements: function (container) {
         if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.observe(item));
+    },
+    removeLazyElements: function (container) {
+        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.unobserve(item));
     },
     setLazyRender: function (element) {
         if (element) {

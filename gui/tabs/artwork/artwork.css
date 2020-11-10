@@ -1,0 +1,64 @@
+.tab_artwork .grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  --width: 200px;
+  --height: 200px;
+}
+
+.tab_artwork .grid .item {
+  display: grid;
+  width: var(--width);
+  height: var(--height);
+  margin: 1px;
+  background-color: var(--vm-item-bgcol);
+  position: relative;
+}
+
+.tab_artwork .grid .item:before {
+  content: attr(data-id);
+  background-color: var(--th-bgcol);
+  color: var(--th-fgcol);
+}
+
+.tab_artwork .grid .item[data-name]:after {
+  content: attr(data-name);
+  background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  font-size: 8px;
+  font-weight: bold;
+  opacity: 0.8;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: calc(100% - 10px);
+}
+
+.tab_artwork .grid .item:before,
+.tab_artwork .grid .item[data-name]:after {
+  position: absolute;
+  padding: 2px 4px;
+  border: 1px solid var(--vm-item-bgcol);
+  border-radius: 4px;
+}
+
+.tab_artwork .grid .item img {
+  max-width: var(--width);
+  max-height: var(--height);
+  margin: auto;
+}
+
+.tab_artwork .data tbody td {
+  border-color: var(--tr-bgcol);
+  padding: 0;
+}
+
+.artwork-tooltip img {
+  min-width: 200px;
+  min-height: 200px;
+  max-height: calc(100vh - 32px);
+  max-width: calc(100vw * 0.5);
+}

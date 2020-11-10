@@ -133,13 +133,18 @@ var Parser = {
         }
 
         // File changes
+        let to_version = undefined;
         try {
-            if (data.file_changes) arr = JSON.parse(data.file_changes).file_changes;
+            if (data.file_changes) {
+                const parsed = JSON.parse(data.file_changes);
+                to_version = parsed.to_version;
+                arr = parsed.file_changes;
+            }
         } catch (e) {
             arr = [];
             console.error('File changes parsing error', e);
         }
-        const file_changes = {};
+        const file_changes = { to_version };
         const reNonDigits = /[^\d]+/g;
         arr.forEach(item => {
             const path = item.file_path;
@@ -167,7 +172,7 @@ var Parser = {
 
         return data;
     },
-    parse_localization_revision: 7,
+    parse_localization_revision: 8,
     parse_localization: function (text, format) {
         const wanted = {
             'ABNA': 'Addon building',
@@ -179,7 +184,8 @@ var Parser = {
             'DENA': 'Decoration',
             'EVN': 'Event',
             'STDE': 'Event',
-            //'JOST': 'Journals',
+            'JOST': 'Journals Sub Title',
+            'JOPT': 'Journals Pic Title',
             'LONA': 'Location',
             'MANA': 'Material',
             'MAP': 'Map',
