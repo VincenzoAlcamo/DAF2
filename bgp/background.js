@@ -575,12 +575,12 @@ var Data = {
 
         // Skins
         col = {};
-        'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,CT013,CT016,MAP039,MAP050'.split(',').forEach(function (name_loc, index) {
+        'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,CT013,CT016,MAP039,,MAP050'.split(',').forEach(function (name_loc, index) {
             setItem(index + 1, name_loc, '/img/skins/' + (index + 1) + '.png');
         });
         Data.colSkins = col;
 
-        Data.region2Skin = [1, 2, 5, 8, 9, 13, 14];
+        Data.region2Skin = [1, 2, 5, 8, 9, 13, 15];
 
         // Regions
         col = {};
