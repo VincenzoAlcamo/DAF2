@@ -546,33 +546,31 @@ function calcAchievements(item) {
                 }
             });
             item.max += max;
-            if (achiev) {
-                const value = +achiev.confirmed_level;
-                item.value += value;
-                let imgUrl = '/img/gui/blank.gif';
-                let title = '';
-                if (achievement.type == 'material') {
-                    imgUrl = gui.getObjectImage('material', achievement.object_id);
-                    title = gui.getObjectName('material', achievement.object_id);
-                } else if (achievement.type == 'clear_mine') {
-                    imgUrl = gui.getObjectImage('region', achievement.object_id);
-                    title = gui.getObjectName('region', achievement.object_id);
-                } else {
-                    let key = achievement.action + '_' + achievement.type;
-                    if (!(key in achievementImages)) key = achievement.type;
-                    if (key in achievementImages) imgUrl = '/img/gui/' + achievementImages[key];
-                }
-                title += (title ? '\n' : '') + gui.getString(achievement.desc);
-                // imgUrl = `${gui.getGenerator().cdn_root}mobile/img/wallposts/achievements/achiev_${achiev.def_id}_${value}.png`;
-                item.rows.push({
-                    img: Html`<img height="24" src="${imgUrl}" title="${title}">`,
-                    sort: (+achievement.region_id || 1) * 10 + value,
-                    name: gui.getString(achievement.name_loc) + ' [' + value + '/' + max + ']',
-                    info: val == total ? null : gui.getMessage('progress_achievementnextstep', next),
-                    value: val,
-                    max: total
-                });
+            const value = achiev ? +achiev.confirmed_level : 0;
+            item.value += value;
+            let imgUrl = '/img/gui/blank.gif';
+            let title = '';
+            if (achievement.type == 'material') {
+                imgUrl = gui.getObjectImage('material', achievement.object_id);
+                title = gui.getObjectName('material', achievement.object_id);
+            } else if (achievement.type == 'clear_mine') {
+                imgUrl = gui.getObjectImage('region', achievement.object_id);
+                title = gui.getObjectName('region', achievement.object_id);
+            } else {
+                let key = achievement.action + '_' + achievement.type;
+                if (!(key in achievementImages)) key = achievement.type;
+                if (key in achievementImages) imgUrl = '/img/gui/' + achievementImages[key];
             }
+            title += (title ? '\n' : '') + gui.getString(achievement.desc);
+            // imgUrl = `${gui.getGenerator().cdn_root}mobile/img/wallposts/achievements/achiev_${achiev.def_id}_${value}.png`;
+            item.rows.push({
+                img: Html`<img height="24" src="${imgUrl}" title="${title}">`,
+                sort: (+achievement.region_id || 1) * 10 + value,
+                name: gui.getString(achievement.name_loc) + ' [' + value + '/' + max + ']',
+                info: val == total ? null : gui.getMessage('progress_achievementnextstep', next),
+                value: val,
+                max: total
+            });
         }
     }
     item.rows.sort((a, b) => a.sort - b.sort);
