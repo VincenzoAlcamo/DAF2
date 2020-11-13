@@ -415,7 +415,9 @@ function update() {
         if (item.skin) {
             item.rskin = item.skin;
             item.region = gui.getRegionFromSkin(item.skin);
-            if (!item.region) {
+            if (item.region) {
+                listRegion[item.region] = true;
+            } else {
                 item.region = item.skin / 100;
                 listSkin[item.skin] = true;
             }
