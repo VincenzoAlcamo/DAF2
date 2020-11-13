@@ -703,7 +703,7 @@ function renderCamp(campResult) {
                 const url = gui.getObjectImage('building', bid);
                 if (url) {
                     kind += ' img tooltip-event';
-                    exStyle = ';background-image:url(' + url + ')';
+                    exStyle = ';background-image:url(' + encodeURI(url) + ')';
                 }
                 if (slot.capacity > 0) {
                     kind += ' capacity';
