@@ -1239,14 +1239,16 @@ var Data = {
     getObjectImage: function (type, id, small) {
         const item = Data.getObject(type, id);
         if (!item) return '';
-        if (type == 'windmill') return Data.generator.cdn_root + 'mobile/graphics/windmills/greece_windmill.png';
+        const base = Data.generator.cdn_root + 'mobile/graphics/';
+        if (type == 'windmill') return base + 'windmills/greece_windmill.png';
         const asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
         if (!asset) return '';
         if (asset[0] == '/') return asset;
-        if (type == 'decoration') return Data.generator.cdn_root + 'mobile/graphics/decorations/' + asset + '.png';
-        if (type == 'diggy_skin') return Data.generator.cdn_root + 'mobile/graphics/gui/diggy_skin/' + asset + '.png';
-        if (small && !(type == 'material' || type == 'usable' || type == 'token')) small = false;
-        return Data.generator.cdn_root + 'mobile/graphics/all/' + asset + (small ? '_small' : '') + '.png';
+        const filename = encodeURIComponent(asset);
+        if (type == 'decoration') return base + 'decorations/' + filename + '.png';
+        if (type == 'diggy_skin') return base + 'gui/diggy_skin/' + filename + '.png';
+        const suffix = (small && (type == 'material' || type == 'usable' || type == 'token')) ? '_small' : '';
+        return base + 'all/' + filename + suffix + '.png';
     },
     getObjectName: function (type, id) {
         const item = Data.getObject(type, id);

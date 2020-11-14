@@ -142,7 +142,7 @@ async function refresh() {
                     const asset = sub[$asset];
                     if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) return;
                     hashes[asset] = true;
-                    const url = cdn + 'mobile/graphics/' + folder + asset + '.png';
+                    const url = cdn + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png';
                     prog++;
                     allItems[prog] = { id: prog, url };
                 });
@@ -151,7 +151,7 @@ async function refresh() {
             const asset = item[$asset];
             if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) continue;
             hashes[asset] = true;
-            const url = cdn + 'mobile/graphics/' + folder + asset + '.png';
+            const url = cdn + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png';
 
             const name = item[$name] && gui.getString(item[$name]);
             const title = item.desc;
