@@ -1356,7 +1356,7 @@
         "message": "Dieser Link wurde gesammelt, während das maximale Tageslimit erreicht wurde.\nAuf diese Weise gesammelte Links gehen für immer verloren."
     },
     "rewardlinks_infomayexceedlimit": {
-        "message": "Es gibt noch andere Belohnungen, deren Sammlung noch aussteht.\nDies kann dein Tageslimit überschreiten."
+        "message": "Es gibt noch andere Belohnungen, deren Sammlung noch aussteht.\nDies kann das Tageslimit überschreiten."
     },
     "rewardlinks_infoprobablyexpired": {
         "message": "Dieser Link ist wahrscheinlich abgelaufen.\nLinks-IDs werden sequentiell generiert und diese Belohnungs-ID ist niedriger als die ID einer abgelaufenen Belohnung."
@@ -1413,7 +1413,7 @@
         "message": "Links verkürzen/umwandeln"
     },
     "rewardlinks_shortenlinks_info1": {
-        "message": "Fügen Sie hier die Links zum Kürzen/Konvertieren ein."
+        "message": "Hier die Links zum Kürzen/Konvertieren einfügen."
     },
     "rewardlinks_shortenlinks_info2": {
         "message": "Verkürzte Links sind unten dargestellt (Duplikate werden entfernt)."
