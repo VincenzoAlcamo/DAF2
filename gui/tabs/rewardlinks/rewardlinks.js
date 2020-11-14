@@ -116,6 +116,8 @@ function init() {
     for (const button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClickButton);
     }
+
+    container.querySelector('.toolbar button[data-action="summary"]').textContent = gui.getProperCase(Locale.formatDaysNum(0));
 }
 
 function getState() {
@@ -289,6 +291,8 @@ function onClickButton() {
                 removeLinks(title, rewards);
             }
         });
+    } else if (action == 'summary') {
+        gui.dialog.show({ html: getSummary(), style: [Dialog.CLOSE, Dialog.WIDEST] });
     }
 }
 
@@ -606,6 +610,45 @@ function clearStatus() {
         clearInterval(clearStatusHandler);
         clearStatusHandler = 0;
     }
+}
+
+function getSummary() {
+    const links = Object.values(bgp.Data.getRewardLinks()).filter(link => link.cdt && link.cmt > 0).sort((a, b) => b.cdt - a.cdt);
+    const lastDay = links.length ? links[0].cdt - bgp.Data.REWARDLINKS_REFRESH_HOURS * 3600 : 0;
+    const hash = {};
+    links.filter(link => link.cdt > lastDay).filter((link, index) => index < bgp.Data.REWARDLINKS_DAILY_LIMIT).forEach(link => {
+        const arr = hash[link.cmt];
+        if (arr) arr.push(link); else hash[link.cmt] = [link];
+    });
+    let htm = Html`<table class="daf-table rewardlinks_summary">`;
+    // htm += Html`<thead><tr><th>${gui.getMessage('gui_material')}</th><th>${gui.getMessage('camp_player')}</th></tr></thead>`;
+    htm += Html`<tbody class="row-coloring">`;
+    const naturalComparer = gui.getNaturalComparer();
+    Object.keys(hash).map(id => [id, id == 2 ? Infinity : gui.getXp('material', id)]).sort((a, b) => b[1] - a[1]).forEach(a => {
+        const matId = a[0];
+        const arr = hash[matId];
+        const title = gui.getObjectName('material', matId);
+        htm += Html`<tr><td class="material"><img src="${gui.getObjectImage('material', matId, true)}" title="${title}" class="outlined">`;
+        htm += Html`<span class="qty">${'\xd7 ' + Locale.formatNumber(arr.length)}</span>`;
+        htm += Html`</td><td class="player">`;
+        arr.map(link => {
+            const title = [];
+            if (link.cnm) title.push(link.cnm);
+            title.push(gui.getMessageAndValue('rewardlinks_id', link.id));
+            const src = link.cpi || (link.cid ? gui.getFBFriendAvatarUrl(link.cid) : '') || '/img/gui/anon.gif';
+            return {
+                id: link.cnm + '\t' + src,
+                src,
+                title: title.join('\n')
+            };
+        }).sort((a, b) => naturalComparer(a.id, b.id)).forEach(item => {
+            htm += Html`\n<img title="${item.title}" src="${item.src}">`;
+        });
+        htm += Html`</td></tr>`;
+    });
+    htm += Html`</tbody>`;
+    htm += Html`</table>`;
+    return htm;
 }
 
 function showStats() {

@@ -243,6 +243,9 @@ const gui = {
     getArrayOfInt: function (value) {
         return String(value || '').split(',').map(o => parseInt(o)).filter(n => isFinite(n));
     },
+    getProperCase: function (value) {
+        return String(value || '').replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
+    },
     getChildrenMax: function (realNeighbours) {
         const max = Math.floor(Math.sqrt(realNeighbours)) + 3;
         return max > realNeighbours ? realNeighbours : max;
@@ -777,7 +780,7 @@ function onLoad() {
     let htm = '';
     const hasValidGenerator = gui.hasValidGenerator();
     for (const tab of Object.values(tabs)) {
-        const text = gui.getMessage('tab_' + tab.id) || (tab.id.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()));
+        const text = gui.getMessage('tab_' + tab.id) || gui.getProperCase(tab.id);
         const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
         htm += Html`<li style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
     }

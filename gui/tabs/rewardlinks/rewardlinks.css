@@ -82,3 +82,36 @@
 .rewardlinks_data tbody tr.selected {
   background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.4), rgba(255, 255, 128, 0.4));
 }
+
+.rewardlinks_summary {
+  max-width: 740px;
+}
+
+.rewardlinks_summary td {
+  vertical-align: middle;
+  padding: 1px;
+}
+
+.rewardlinks_summary img {
+  vertical-align: middle;
+}
+
+.rewardlinks_summary .material {
+  white-space: nowrap;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.rewardlinks_summary .material span.qty {
+  margin-left: 4px;
+}
+
+.rewardlinks_summary .material img {
+  width: 32px;
+}
+
+.rewardlinks_summary .player img {
+  width: 28px;
+  margin: 1px -1px;
+  vertical-align: middle;
+}
