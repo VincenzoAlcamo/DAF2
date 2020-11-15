@@ -106,6 +106,7 @@ function init() {
     smartTable = new SmartTable(container.querySelector('.rewardlinks_data'));
     smartTable.onSort = update;
     smartTable.table.addEventListener('click', onClickTable, true);
+    smartTable.table.addEventListener('error', onErrorImg, true);
 
     selectConvert = container.querySelector('[name=convert]');
     selectConvert.addEventListener('input', update);
@@ -118,6 +119,12 @@ function init() {
     }
 
     container.querySelector('.toolbar button[data-action="summary"]').textContent = gui.getProperCase(Locale.formatDaysNum(0));
+}
+
+function onErrorImg(event) {
+    if (event.srcElement && event.srcElement.tagName == 'IMG') {
+        event.srcElement.src = '/img/gui/anon.gif';
+    }
 }
 
 function getState() {
@@ -292,7 +299,11 @@ function onClickButton() {
             }
         });
     } else if (action == 'summary') {
-        gui.dialog.show({ html: getSummary(), style: [Dialog.CLOSE, Dialog.WIDEST] });
+        gui.dialog.show({ html: getSummary(), style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
+            if (method == Dialog.AUTORUN) {
+                gui.dialog.element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
+            }
+        });
     }
 }
 
