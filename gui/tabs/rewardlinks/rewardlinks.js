@@ -635,13 +635,24 @@ function getSummary() {
     // htm += Html`<thead><tr><th>${gui.getMessage('gui_material')}</th><th>${gui.getMessage('camp_player')}</th></tr></thead>`;
     htm += Html`<tbody class="row-coloring">`;
     const naturalComparer = gui.getNaturalComparer();
-    Object.keys(hash).map(id => [id, id == 2 ? Infinity : gui.getXp('material', id)]).sort((a, b) => b[1] - a[1]).forEach(a => {
-        const matId = a[0];
+    const xp = {};
+    Object.keys(hash).forEach(id => xp[id] = gui.getXp('material', id));
+    xp[1] = -Infinity;
+    xp[2] = Infinity;
+    let column = 0;
+    let hasRow = false;
+    Object.keys(hash).sort((a, b) => xp[b] - xp[a]).forEach(matId => {
         const arr = hash[matId];
         const title = gui.getObjectName('material', matId);
-        htm += Html`<tr><td class="material"><img src="${gui.getObjectImage('material', matId, true)}" title="${title}" class="outlined">`;
+        if (!column || matId == 1) {
+            if (hasRow) htm += Html`</tr>`;
+            htm += Html`<tr>`;
+            hasRow = true;
+        }
+        column = (column + 1) % 2;
+        htm += Html`<td class="material"><img src="${gui.getObjectImage('material', matId, true)}" title="${title}" class="outlined">`;
         htm += Html`<span class="qty">${'\xd7 ' + Locale.formatNumber(arr.length)}</span>`;
-        htm += Html`</td><td class="player">`;
+        htm += Html`</td><td class="player"${matId == 1 ? Html` colspan="3"` : ''}>`;
         arr.map(link => {
             const title = [];
             if (link.cnm) title.push(link.cnm);
@@ -655,8 +666,9 @@ function getSummary() {
         }).sort((a, b) => naturalComparer(a.id, b.id)).forEach(item => {
             htm += Html`\n<img title="${item.title}" src="${item.src}">`;
         });
-        htm += Html`</td></tr>`;
+        htm += Html`</td>`;
     });
+    if (hasRow) htm += Html`</tr>`;
     htm += Html`</tbody>`;
     htm += Html`</table>`;
     return htm;
