@@ -564,7 +564,7 @@ function update() {
             item.row = document.createElement('tr');
             item.row.setAttribute('data-id', item.id);
             let htm = '';
-            htm += Html.br`<td><input type="checkbox"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
+            htm += Html.br`<td><input type="checkbox" title="${gui.getMessage('gui_ctrlclick')}"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
             htm += Html.br`<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
             htm += Html.br`<td>${materialHTML(item.cmt)}</td>`;
             htm += Html.br`<td translate="no">`;

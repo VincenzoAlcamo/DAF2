@@ -300,6 +300,9 @@
     "gui_date": {
         "message": "Date"
     },
+    "gui_ctrlclick": {
+        "message": "Use CTRL to select/deselect all"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -655,6 +658,9 @@
     },
     "pillars_ignore": {
         "message": "Click to ignore/consider"
+    },
+    "pillars_altclick": {
+        "message": "Use ALT to reset/set all quantities"
     },
     "pillars_maxpossible": {
         "message": "Max possible"

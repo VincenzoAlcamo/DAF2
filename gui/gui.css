@@ -114,6 +114,14 @@ input[type=number] {
   text-align: right;
 }
 
+input:disabled,
+button:disabled,
+select:disabled,
+label:disabled {
+  cursor: default;
+}
+
+
 input,
 textarea,
 select {

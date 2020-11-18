@@ -226,7 +226,7 @@ function updateRow(row) {
     const id = +row.getAttribute('data-id');
     const item = repeatables[id];
     let htm = '';
-    htm += Html.br`<td><input type="checkbox"${item.selected ? Html(' checked') : ''}></td>`;
+    htm += Html.br`<td><input type="checkbox"${item.selected ? Html(' checked') : ''} title="${gui.getMessage('gui_ctrlclick')}"></td>`;
     htm += Html.br`<td>${gui.getLocationImg(item)}</td>`;
     htm += Html`<td>${item.name}</td>`;
     htm += Html.br`<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, 'desc') : gui.getObjectImg('region', item.rid, 32, false, 'desc')}</td>`;

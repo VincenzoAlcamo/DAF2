@@ -411,7 +411,7 @@ function ringLoot(kind) {
                     checkbox = Html`<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}" checked disabled>`;
                 } else if (kind == 'red' || kind == 'christmas') {
                     checked = (chestState & (2 ** (lootArea.chest - 1))) > 0;
-                    checkbox = Html`<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''}>`;
+                    checkbox = Html`<input type="checkbox" class="xp" data-chest-id="${lootArea.chest}"${checked ? ' checked' : ''} title="${gui.getMessage('gui_ctrlclick')}">`;
                     if (checked) countExp++;
                 } else if (kind == 'green') {
                     countExp++;
@@ -561,7 +561,7 @@ function ringLoot(kind) {
         for (const lootArea of data.curLoots) {
             if (lootArea.chest == chestId || event.ctrlKey) {
                 lootArea.checked = checked;
-                if (lootArea.chest != chestId) {
+                if (lootArea.chest != chestId && !lootArea.tle.startsWith('z')) {
                     const other = card.querySelector(`[data-chest-id="${lootArea.chest}"]`);
                     if (other) other.checked = checked;
                 }

@@ -323,10 +323,10 @@ function refresh() {
 
     let htm = '';
     let isOdd = false;
-    const titleIgnore = gui.getMessage('pillars_ignore');
+    const titleIgnore = gui.getMessage('pillars_ignore') + '\n' + gui.getMessage('gui_ctrlclick') + '\n' + gui.getMessage('pillars_altclick');
     let index = 0;
     for (const pillar of pillars.filter(isVisible)) {
-        const htmInputs = Html.br`<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${titleIgnore}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
+        const htmInputs = Html.br`<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${Html(titleIgnore)}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
         if (state.grid) {
             index++;
             if (index > GRID_COLUMNS) {
