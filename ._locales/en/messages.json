@@ -1424,6 +1424,9 @@
     "rewardlinks_newline": {
         "message": "Add newline?"
     },
+    "rewardlinks_addspace": {
+        "message": "Add space"
+    },
     "export_exportdata": {
         "message": "Export data"
     },

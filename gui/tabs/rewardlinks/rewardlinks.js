@@ -145,27 +145,29 @@ function setState(state) {
 }
 
 const shortenSeparators = ['.', ')', '-'];
+const prefixes = ['1', '0', 'l', 'u'];
 function formatShorten(obj) {
     obj = obj || {};
     let result = '';
     if (+obj.convert == 3) result += 'f';
     if (+obj.sort == 1) result += 'a';
     if (+obj.sort == 2) result += 'd';
-    if (+obj.prefix == 1) result += '1';
-    if (+obj.prefix == 2) result += '0';
+    const prefix = +obj.prefix;
+    if (prefix > 0 && prefix <= prefixes.length) result += prefixes[prefix - 1];
     if (+obj.newline) result += 'n';
+    if (!+obj.addspace) result += 't';
     if (shortenSeparators.indexOf(obj.separator) >= 0) result += obj.separator;
     return result;
 }
 
 function parseShorten(text) {
     text = String(text || '');
-    const result = { convert: 2, sort: 0, prefix: 0, separator: '', newline: false };
+    const result = { convert: 2, sort: 0, prefix: 0, separator: '', newline: false, addspace: true };
     if (text.indexOf('f') >= 0) result.convert = 3;
     if (text.indexOf('a') >= 0) result.sort = 1;
     if (text.indexOf('d') >= 0) result.sort = 2;
-    if (text.indexOf('0') >= 0) result.prefix = 2;
-    if (text.indexOf('1') >= 0) result.prefix = 1;
+    result.prefix = prefixes.findIndex(prefix => text.indexOf(prefix) >= 0) + 1;
+    result.addspace = text.indexOf('t') < 0;
     result.newline = text.indexOf('n') >= 0;
     result.separator = shortenSeparators.find(s => text.indexOf(s) >= 0) || '';
     return result;
@@ -198,28 +200,30 @@ function onClickButton() {
         gui.dialog.show({
             title: gui.getMessage('rewardlinks_shortenlinks'),
             html: Html.br`
-<table class="daf-table">
+<table class="daf-table rewardlinks_options">
 <thead><tr><th colspan="4">${gui.getMessage('tab_options')}</th></tr></thead>
 <tbody class="row-coloring">
-<tr><td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('rewardlinks_convert')}</td><td><select data-method="input" name="convert">
+<tr><td class="no_right_border label">${gui.getMessage('rewardlinks_convert')}</td><td><select data-method="input" name="convert">
 <option value="2">Portal</option>
 <option value="3">Facebook</option>
-</select></td><td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('options_linkgrabsort')}</td><td><select data-method="input" name="sort">
+</select></td><td class="no_right_border label">${gui.getMessage('options_linkgrabsort')}</td><td><select data-method="input" name="sort">
 <option value="0">${gui.getMessage('options_sort_none')}</option>
 <option value="1">${gui.getMessage('options_sort_ascending')}</option>
 <option value="2">${gui.getMessage('options_sort_descending')}</option>
 </select></td></tr>
-<tr><td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" name="prefix">
+<tr><td class="no_right_border label">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" name="prefix">
 <option value="0"></option>
 <option value="1">1</option>
 <option value="2">01</option>
+<option value="3">a</option>
+<option value="4">A</option>
 </select><select data-method="input" name="separator">
 <option value=""></option>
 <option value=".">.</option>
 <option value=")">)</option>
 <option value="-">-</option>
-</select></td>
-<td class="no_right_border" style="white-space:nowrap;text-align:right">${gui.getMessage('rewardlinks_newline')}</td><td><input type="checkbox" name="newline" data-method="input"></td></tr>
+</select> <label>${gui.getMessage('rewardlinks_addspace')} <input type="checkbox" name="addspace" data-method="input"></label></td>
+<td class="no_right_border label"><label for="rl_newline">${gui.getMessage('rewardlinks_newline')}</label></td><td><input type="checkbox" name="newline" id="rl_newline" data-method="input"></td></tr>
 </tbody></table>
 <table class="daf-table" style="margin-top:2px">
 <thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info1')}</th></tr></thead>
@@ -240,11 +244,13 @@ function onClickButton() {
                 gui.dialog.element.querySelector('[name=convert]').value = params.convert;
                 gui.dialog.element.querySelector('[name=sort]').value = params.sort;
                 gui.dialog.element.querySelector('[name=prefix]').value = params.prefix;
+                gui.dialog.element.querySelector('[name=addspace]').checked = params.addspace;
                 gui.dialog.element.querySelector('[name=separator]').value = params.separator;
                 gui.dialog.element.querySelector('[name=newline]').checked = params.newline;
             }
             if (method == 'input') {
                 params.newline = params.newline == 'on';
+                params.addspace = params.addspace == 'on';
                 const newShorten = formatShorten(params);
                 if (newShorten != shorten) {
                     shorten = newShorten;
@@ -259,9 +265,20 @@ function onClickButton() {
                 arr = arr.map((item, index) => {
                     let prefix = '';
                     const text = LinkData.getLink(item, options.convert);
-                    if (options.prefix) prefix += (index + 1).toString().padStart(padLength, '0');
+                    if (options.prefix == 3 || options.prefix == 4) {
+                        let s = '';
+                        for (; ;) {
+                            s = String.fromCharCode(65 + index % 26) + s;
+                            index = Math.floor(index / 26) - 1;
+                            if (index < 0) break;
+                        }
+                        if (options.prefix == 3) s = s.toLowerCase();
+                        prefix += s;
+                    } else if (options.prefix) {
+                        prefix += (index + 1).toString().padStart(padLength, '0');
+                    }
                     if (options.separator) prefix += options.separator;
-                    if (prefix) prefix += ' ';
+                    if (prefix && (options.addspace || prefix.match(/[a-z]$/i))) prefix += ' ';
                     return prefix + text + suffix;
                 });
                 gui.dialog.element.querySelector('[name=result]').value = arr.join('\n');

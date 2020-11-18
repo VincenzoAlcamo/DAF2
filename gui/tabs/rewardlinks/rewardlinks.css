@@ -115,3 +115,16 @@
   margin: 1px -1px;
   vertical-align: middle;
 }
+
+.rewardlinks_options td {
+  vertical-align: middle;
+  white-space: nowrap
+}
+
+.rewardlinks_options td input {
+  vertical-align: middle;
+}
+
+.rewardlinks_options td.label {
+  text-align: right;
+}

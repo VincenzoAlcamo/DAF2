@@ -1919,6 +1919,7 @@
 "en@rewardlinks_shortenlinks_info2":{"message":"Shortened links are shown below (duplicates are removed)."},
 "en@rewardlinks_prefix":{"message":"Prefix"},
 "en@rewardlinks_newline":{"message":"Add newline?"},
+"en@rewardlinks_addspace":{"message":"Add space"},
 "en@export_exportdata":{"message":"Export data"},
 "en@export_exportinventory":{"message":"Export inventory"},
 "en@export_importdata":{"message":"Import data"},
