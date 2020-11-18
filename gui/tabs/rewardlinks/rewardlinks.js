@@ -117,8 +117,6 @@ function init() {
     for (const button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClickButton);
     }
-
-    container.querySelector('.toolbar button[data-action="summary"]').textContent = gui.getProperCase(Locale.formatDaysNum(0));
 }
 
 function onErrorImg(event) {
@@ -316,7 +314,7 @@ function onClickButton() {
             }
         });
     } else if (action == 'summary') {
-        gui.dialog.show({ html: getSummary(), style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
+        gui.dialog.show({ title: gui.getMessage('rewardlinks_summary'), html: getSummary(), style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
             if (method == Dialog.AUTORUN) {
                 gui.dialog.element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
             }
@@ -649,7 +647,7 @@ function getSummary() {
         if (arr) arr.push(link); else hash[link.cmt] = [link];
     });
     let htm = Html`<table class="daf-table rewardlinks_summary">`;
-    // htm += Html`<thead><tr><th>${gui.getMessage('gui_material')}</th><th>${gui.getMessage('camp_player')}</th></tr></thead>`;
+    htm += Html`<thead><tr><th colspan="4">${gui.getMessage('rewardlinks_summaryinfo', Locale.formatNumber(bgp.Data.REWARDLINKS_REFRESH_HOURS))}</th></tr></thead>`;
     htm += Html`<tbody class="row-coloring">`;
     const naturalComparer = gui.getNaturalComparer();
     const xp = {};

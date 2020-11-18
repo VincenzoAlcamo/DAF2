@@ -1920,6 +1920,8 @@
 "en@rewardlinks_prefix":{"message":"Prefix"},
 "en@rewardlinks_newline":{"message":"Add newline?"},
 "en@rewardlinks_addspace":{"message":"Add space"},
+"en@rewardlinks_summary":{"message":"Summary"},
+"en@rewardlinks_summaryinfo":{"message":"All rewards collected within $1 hours of the most recent reward."},
 "en@export_exportdata":{"message":"Export data"},
 "en@export_exportinventory":{"message":"Export inventory"},
 "en@export_importdata":{"message":"Import data"},

@@ -1427,6 +1427,17 @@
     "rewardlinks_addspace": {
         "message": "Add space"
     },
+    "rewardlinks_summary": {
+        "message": "Summary"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "All rewards collected within $NUM$ hours of the most recent reward.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
     "export_exportdata": {
         "message": "Export data"
     },
