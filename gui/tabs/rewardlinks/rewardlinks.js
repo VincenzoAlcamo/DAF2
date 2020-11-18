@@ -646,8 +646,9 @@ function getSummary() {
         const arr = hash[link.cmt];
         if (arr) arr.push(link); else hash[link.cmt] = [link];
     });
+    const NUMCOLUMNS = 2;
     let htm = Html`<table class="daf-table rewardlinks_summary">`;
-    htm += Html`<thead><tr><th colspan="4">${gui.getMessage('rewardlinks_summaryinfo', Locale.formatNumber(bgp.Data.REWARDLINKS_REFRESH_HOURS))}</th></tr></thead>`;
+    htm += Html`<thead><tr><th colspan="${NUMCOLUMNS * 2}">${gui.getMessage('rewardlinks_summaryinfo', Locale.formatNumber(bgp.Data.REWARDLINKS_REFRESH_HOURS))}</th></tr></thead>`;
     htm += Html`<tbody class="row-coloring">`;
     const naturalComparer = gui.getNaturalComparer();
     const xp = {};
@@ -655,19 +656,14 @@ function getSummary() {
     xp[1] = -Infinity;
     xp[2] = Infinity;
     let column = 0;
-    let hasRow = false;
-    Object.keys(hash).sort((a, b) => xp[b] - xp[a]).forEach(matId => {
+    Object.keys(hash).sort((a, b) => xp[b] - xp[a]).forEach((matId, index, keys) => {
         const arr = hash[matId];
+        const nextMatId = keys[index + 1];
+        const isLastInRow = nextMatId == 1 || nextMatId === undefined;
         const title = gui.getObjectName('material', matId);
-        if (!column || matId == 1) {
-            if (hasRow) htm += Html`</tr>`;
-            htm += Html`<tr>`;
-            hasRow = true;
-        }
-        column = (column + 1) % 2;
         htm += Html`<td class="material"><img src="${gui.getObjectImage('material', matId, true)}" title="${title}" class="outlined">`;
         htm += Html`<span class="qty">${'\xd7 ' + Locale.formatNumber(arr.length)}</span>`;
-        htm += Html`</td><td class="player"${matId == 1 ? Html` colspan="3"` : ''}>`;
+        htm += Html`</td><td class="player"${isLastInRow && (NUMCOLUMNS - column) > 1 ? Html` colspan="${(NUMCOLUMNS - column) * 2 - 1}"` : ''}>`;
         arr.map(link => {
             const title = [];
             if (link.cnm) title.push(link.cnm);
@@ -682,8 +678,12 @@ function getSummary() {
             htm += Html`\n<img title="${item.title}" src="${item.src}">`;
         });
         htm += Html`</td>`;
+        column = (column + 1) % NUMCOLUMNS;
+        if (!column || isLastInRow) {
+            htm += Html`</tr>`;
+            column = 0;
+        }
     });
-    if (hasRow) htm += Html`</tr>`;
     htm += Html`</tbody>`;
     htm += Html`</table>`;
     return htm;
