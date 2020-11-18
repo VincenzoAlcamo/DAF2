@@ -683,7 +683,7 @@ function showInfo() {
     };
     const showRewardsInCell = (cell, rewards) => {
         rewards = rewards.filter(reward => {
-            reward.amount = Math.floor(reward.amount);
+            reward.amount = reward.amount >= 100 ? Math.floor(reward.amount) : Math.floor(reward.amount * 10) / 10;
             return reward.amount > 0;
         });
         const cells = showRewards(rewards, MAX_REWARDS_PER_ROW, { raw: true, filter: true });
@@ -1010,9 +1010,9 @@ function showInfo() {
             if (!isRepeatables) htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 2 + (showProgress ? 2 : 0), className: 'clear', addLoot: true, totalEnergy: showProgress ? totalEnergy : NaN });
             htm += Html.br`</table>`;
         };
-        if(selectedInfo == 'loc' || selectedInfo == 'loc1') showLocations(item.loc_qst, 'story_maps');
-        if(selectedInfo == 'loc' || selectedInfo == 'loc2') showLocations(item.loc_xlo, 'challenges');
-        if(selectedInfo == 'loc' || selectedInfo == 'loc3') showLocations(item.loc_rep, 'repeatables');
+        if (selectedInfo == 'loc' || selectedInfo == 'loc1') showLocations(item.loc_qst, 'story_maps');
+        if (selectedInfo == 'loc' || selectedInfo == 'loc2') showLocations(item.loc_xlo, 'challenges');
+        if (selectedInfo == 'loc' || selectedInfo == 'loc3') showLocations(item.loc_rep, 'repeatables');
     }
 
     htm += Html.br`</td>`;
