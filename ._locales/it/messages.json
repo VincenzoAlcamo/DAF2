@@ -300,6 +300,9 @@
     "gui_date": {
         "message": "Data"
     },
+    "gui_ctrlclick": {
+        "message": "Usa CTRL per selezionare/deselezionare tutti"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -655,6 +658,9 @@
     },
     "pillars_ignore": {
         "message": "Clicca per ignorare/considerare"
+    },
+    "pillars_altclick": {
+        "message": "Usa ALT per azzerare/reimpostare tutte le quantità"
     },
     "pillars_maxpossible": {
         "message": "Massimo possibile"
@@ -1423,6 +1429,20 @@
     },
     "rewardlinks_newline": {
         "message": "Aggiungi nuova riga?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Spazio?"
+    },
+    "rewardlinks_summary": {
+        "message": "Sommario"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Tutte le ricompense raccolte entro $NUM$ ore dalla ricompensa più recente.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "export_exportdata": {
         "message": "Esporta dati"

@@ -300,6 +300,9 @@
     "gui_date": {
         "message": "Ημερομηνία"
     },
+    "gui_ctrlclick": {
+        "message": "Χρησιμοποιείστε το CTRL για επιλογή/ξε-επιλογή όλων"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },
@@ -655,6 +658,9 @@
     },
     "pillars_ignore": {
         "message": "Πατήστε για να αγνοήσετε/συμπεριλάβετε"
+    },
+    "pillars_altclick": {
+        "message": "Χρησιμοποιείστε το ALR για να θέσετε/ξαναθέσετε όλες τις ποσότητες"
     },
     "pillars_maxpossible": {
         "message": "Το μεγαλύτερο δυνατό"
@@ -1423,6 +1429,20 @@
     },
     "rewardlinks_newline": {
         "message": "Προσθήκη νέας γραμμής?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Προσθήκη κενού"
+    },
+    "rewardlinks_summary": {
+        "message": "Περίληψη"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Όλα τα δώρα που συλλέχθηκαν μέσα σε $NUM$ ώρες από το τελευταίο συλλεγμένο δώρο",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "export_exportdata": {
         "message": "Εξαγωγή δεδομένων"

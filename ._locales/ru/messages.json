@@ -300,6 +300,9 @@
     "gui_date": {
         "message": "Дата"
     },
+    "gui_ctrlclick": {
+        "message": "Ctrl+клик чтобы выбрать/снять все"
+    },
     "dialog_ok": {
         "message": "Ок"
     },
@@ -570,10 +573,10 @@
         "message": "Среднее на ячейку"
     },
     "camp_min_value": {
-        "message": "Макс. ячейка"
+        "message": "Мин. ячейка"
     },
     "camp_max_value": {
-        "message": "Мин. ячейка"
+        "message": "Макс. ячейка"
     },
     "camp_num_slots": {
         "message": "Количество ячеек"
@@ -655,6 +658,9 @@
     },
     "pillars_ignore": {
         "message": "Нажмите, чтобы учитывать/неучитывать при расчёте"
+    },
+    "pillars_altclick": {
+        "message": "Alt+клик чтобы установить/обнулить количество"
     },
     "pillars_maxpossible": {
         "message": "Сейчас возможно купить"
@@ -1423,6 +1429,20 @@
     },
     "rewardlinks_newline": {
         "message": "Добавить новую строку?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Добавить пробел"
+    },
+    "rewardlinks_summary": {
+        "message": "Итого"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Все собраные награды в течение $NUM$ часов с момента получения самой последней награды.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "export_exportdata": {
         "message": "Экспорт данных"

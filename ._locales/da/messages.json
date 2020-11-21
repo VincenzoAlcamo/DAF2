@@ -300,6 +300,9 @@
     "gui_date": {
         "message": "Dato"
     },
+    "gui_ctrlclick": {
+        "message": "Brug CTRL til at vælge/fravælge alt"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -655,6 +658,9 @@
     },
     "pillars_ignore": {
         "message": "Klik for at ignorere / overveje"
+    },
+    "pillars_altclick": {
+        "message": "Brug ALT til at nulstille/indstille alle mængder"
     },
     "pillars_maxpossible": {
         "message": "Max mulige"
@@ -1423,6 +1429,20 @@
     },
     "rewardlinks_newline": {
         "message": "Tilføj ny linje?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Tilføj mellemrum"
+    },
+    "rewardlinks_summary": {
+        "message": "Resume"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Alle belønninger indsamlet inden for $NUM$ timer efter den seneste belønning.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "export_exportdata": {
         "message": "Eksport data"

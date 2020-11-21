@@ -300,6 +300,9 @@
     "gui_date": {
         "message": "Datum"
     },
+    "gui_ctrlclick": {
+        "message": "Um alle auszuwählen/abzuwählen, \"Strg\" verwenden"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -655,6 +658,9 @@
     },
     "pillars_ignore": {
         "message": "Klicken, um zu ignorieren/überlegen."
+    },
+    "pillars_altclick": {
+        "message": "Zum Zurücksetzen/Einstellen aller Mengen \"Alt\" verwenden"
     },
     "pillars_maxpossible": {
         "message": "Maximal möglich"
@@ -1423,6 +1429,20 @@
     },
     "rewardlinks_newline": {
         "message": "Neue Zeile hinzufügen?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Leerzeichen hinzufügen"
+    },
+    "rewardlinks_summary": {
+        "message": "Zusammenfassung"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Alle Belohnungen, die innerhalb von $NUM$ Stunden nach der letzten Belohnung gesammelt wurden.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "export_exportdata": {
         "message": "Exportieren von Daten"

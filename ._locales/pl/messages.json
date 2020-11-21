@@ -300,6 +300,9 @@
     "gui_date": {
         "message": "Data"
     },
+    "gui_ctrlclick": {
+        "message": "Użyj CTRL aby wybrać/odznaczyć wszystko"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -655,6 +658,9 @@
     },
     "pillars_ignore": {
         "message": "Kliknij aby zigniorować/pomyśleć"
+    },
+    "pillars_altclick": {
+        "message": "Użyj ALT aby zresetować/ustawić wszystkie ilości"
     },
     "pillars_maxpossible": {
         "message": "Maksymalnie możliwe"
@@ -1423,6 +1429,20 @@
     },
     "rewardlinks_newline": {
         "message": "Dodać nową linię?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Dodaj miejsce"
+    },
+    "rewardlinks_summary": {
+        "message": "Podsumowanie"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Wszystkie nagrody zebrane w ciągu $NUM$ godzin od ostatniej nagrody.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "export_exportdata": {
         "message": "Eksportuj dane"
