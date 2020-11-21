@@ -117,6 +117,8 @@ function init() {
     for (const button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClickButton);
     }
+
+    container.querySelector('.toolbar button[data-action="pixel"]').parentNode.style.display = bgp.Data.isAdmin() ? '' : 'none';
 }
 
 function onErrorImg(event) {
@@ -319,6 +321,8 @@ function onClickButton() {
                 gui.dialog.element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
             }
         });
+    } else if (action == 'pixel') {
+        showPixelLinks();
     }
 }
 
@@ -710,5 +714,59 @@ function showStats() {
     text = gui.getMessage('rewardlinks_stats', Locale.formatNumber(numToCollect), Locale.formatNumber(numTotal));
     Array.from(smartTable.container.querySelectorAll('tfoot td')).forEach(cell => {
         cell.innerText = text;
+    });
+}
+
+async function showPixelLinks() {
+    await bgp.Data.getFile('usables');
+    await bgp.Data.getFile('events');
+    const data = await bgp.Data.getFile('links');
+    const now = Date.now();
+    const items = Object.values(data)
+        .map(item => {
+            const end = new Date(item.end).getTime();
+            const start = end - 30 * 86400000;
+            return Object.assign({}, item, { start, end });
+        })
+        .filter(item => item.end > now)
+        .sort((a, b) => a.end - b.end);
+    let htm = '';
+    htm += Html`<label>${gui.getMessage('gui_show')} <select name="show" data-method="show">`;
+    htm += Html`<option value="0">Links not yet expired</option>`;
+    htm += Html`<option value="1">Upcoming links</option>`;
+    htm += Html`</select></label><div class="rewardlinks_pixel"></div>`;
+    gui.dialog.show({ html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
+        if (method == Dialog.AUTORUN || method == 'show') {
+            let htm = '';
+            htm += Html`<table class="daf-table rewardlinks_pixel">`;
+            htm += Html`<thead><tr><th>${gui.getMessage('gui_date')}</th>`;
+            const maxRid = gui.getMaxRegion();
+            for (let rid = 1; rid <= maxRid; rid++) htm += Html`<th>${gui.getObjectName('region', rid)}</th>`;
+            htm += Html`</tr></thead>`;
+            htm += Html`<tbody class="row-coloring">`;
+            const getReward = (reward) => {
+                if (!reward) return '';
+                const url = gui.getObjectImage(reward.type, reward.object_id, true);
+                const title = gui.getObjectName(reward.type, reward.object_id, 'event+info+desc');
+                // return Html`<div class="reward">${gui.getObjectImg(reward.type, reward.object_id, 32, true, 'desc')}</div><div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
+                return Html`<div class="reward"><img src="${url}" width="32" height="32" class="outlined" title="${title}"></div>
+                <div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
+            };
+            htm += items.filter(item => params.show == 0 || item.start > now).map(item => {
+                let s = Html`<tr><td><span class="from">${Locale.formatDate(item.start)}</span><span class="expires">(${Locale.formatDate(item.end)})</span></td>`;
+                if (item.reward.length == 1 && +item.reward[0].region_id == 0) {
+                    s += Html`<td colspan="${maxRid}">${getReward(item.reward[0])}</td>`;
+                } else {
+                    for (let rid = 1; rid <= maxRid; rid++) {
+                        s += Html`<td>${getReward(item.reward.find(r => +r.region_id == rid))}</td>`;
+                    }
+                }
+                s += Html`</tr>`;
+                return s;
+            }).join('');
+            htm += Html`<tbody>`;
+            htm += Html`</table>`;
+            Dialog.htmlToDOM(gui.dialog.element.querySelector('.rewardlinks_pixel'), htm);
+        }
     });
 }

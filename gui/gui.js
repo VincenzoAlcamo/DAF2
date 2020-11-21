@@ -127,25 +127,26 @@ const gui = {
     },
     getObjectName: function (type, id, options = '') {
         let name = bgp.Data.getObjectName(type, id);
-        if (options.includes('info')) {
-            if (type == 'building') {
-                const building = gui.getObject(type, id);
-                if (building) {
-                    name += ` (${+building.columns} \xd7 ${+building.rows})`;
-                    if (+building.stamina_reg > 0) name += '\n' + gui.getMessageAndValue('camp_regen', Locale.formatNumber(+building.stamina_reg));
-                    if (+building.max_stamina > 0) name += '\n' + gui.getMessageAndValue('camp_capacity', Locale.formatNumber(+building.max_stamina));
+        if(options) {
+            const obj = gui.getObject(type, id);
+            if(obj) {
+                if (options.includes('info') && type == 'building') {
+                    name += ` (${+obj.columns} \xd7 ${+obj.rows})`;
+                    if (+obj.stamina_reg > 0) name += '\n' + gui.getMessageAndValue('camp_regen', Locale.formatNumber(+obj.stamina_reg));
+                    if (+obj.max_stamina > 0) name += '\n' + gui.getMessageAndValue('camp_capacity', Locale.formatNumber(+obj.max_stamina));
+                }
+                if (options.includes('event') && +obj.event_id) {
+                    const eventName = gui.getObjectName('event', obj.event_id);
+                    if (eventName) name += '\n' + gui.getMessageAndValue('gui_event', eventName);
+                }
+                if (options.includes('info') && type == 'usable') {
+                    if (obj.action == 'add_stamina') name += '\n' + gui.getMessageAndValue('gui_energy', Locale.formatNumber(+obj.value));
+                }
+                if (options.includes('desc')) {
+                    const desc = bgp.Data.getObjectDesc(type, id);
+                    if (desc) name += '\n' + gui.getWrappedText(desc);
                 }
             }
-            if (type == 'usable') {
-                const usable = gui.getObject(type, id);
-                if (usable) {
-                    if (usable.action == 'add_stamina') name += '\n' + gui.getMessageAndValue('gui_energy', Locale.formatNumber(+usable.value));
-                }
-            }
-        }
-        if (options.includes('desc')) {
-            const desc = bgp.Data.getObjectDesc(type, id);
-            if (desc) name += '\n' + gui.getWrappedText(desc);
         }
         return name;
     },

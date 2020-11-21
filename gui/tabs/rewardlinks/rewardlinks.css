@@ -128,3 +128,27 @@
 .rewardlinks_options td.label {
   text-align: right;
 }
+
+.rewardlinks_pixel {
+  margin-top: 4px;
+}
+
+.rewardlinks_pixel td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 0;
+  min-width: 80px;
+}
+
+.rewardlinks_pixel .from {
+  font-weight: bold;
+}
+
+.rewardlinks_pixel .expires {
+  display: block;
+  font-size: smaller;
+}
+
+.rewardlinks_pixel .qty {
+  margin: -2px 0px;
+}
