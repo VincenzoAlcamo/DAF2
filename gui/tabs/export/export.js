@@ -100,6 +100,8 @@ function exportData() {
         extras[pal.id] = pal.extra;
     }
     delete extras[1];
+    data.friends = Object.values(bgp.Data.friends).map(friend => Object.assign({}, friend));
+    data.friends.forEach(friend => delete friend.img);
     Object.assign(data.preferences = {}, bgp.Preferences.values);
     gui.downloadData(data, 'DAF_data_%date%_%time%.json');
 }
@@ -128,6 +130,29 @@ function importData() {
                 }
             }
             if (toSave.length) bgp.Data.saveNeighbour(toSave);
+            if (data.friends) {
+                const friends = bgp.Data.getFriends();
+                const matches = {};
+                Object.values(friends).forEach(friend => {
+                    if (friend.uid) matches[friend.uid] = friend;
+                });
+                const toSave = [];
+                for (const friend of data.friends) {
+                    if (friend.uid && !(friend.uid in neighbours)) {
+                        delete friend.uid;
+                        delete friend.score;
+                    }
+                    const oldMatch = matches[friend.uid];
+                    if (oldMatch && oldMatch.id != friend.id) {
+                        delete oldMatch.uid;
+                        delete oldMatch.score;
+                    }
+                    const oldFriend = friends[friend.id] || friend;
+                    if (oldFriend !== friend) Object.assign(oldFriend, friend);
+                    toSave.push(oldFriend);
+                }
+                if (toSave.length) bgp.Data.saveFriend(toSave);
+            }
             bgp.Preferences.setValues(data.preferences);
             gui.markNeighborsTab();
             gui.dialog.show({
