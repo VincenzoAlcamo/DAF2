@@ -122,7 +122,7 @@ function ringLoot(kind) {
 
     function onInput(event) {
         updateTabState();
-        const name = event.srcElement.name;
+        const name = event.target.name;
         if (name == 'xp' || name == 'minmax' || name == 'showlevel') setStateFlags();
         else refresh();
     }
@@ -545,7 +545,7 @@ function ringLoot(kind) {
     }
 
     function onChestClick(event) {
-        const input = event.srcElement;
+        const input = event.target;
         const card = input.closest('.card');
         if (!card) return;
         const toggler = card.querySelector('input');

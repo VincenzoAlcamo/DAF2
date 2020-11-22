@@ -218,7 +218,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
                 gcTable.className = 'DAF-gc-bar DAF-gc-flipped';
                 gcTable.style.display = 'none';
                 gcTable.addEventListener('click', function (e) {
-                    for (let div = e.ctrlKey && e.srcElement; div && div !== gcTable; div = div.parentNode)
+                    for (let div = e.ctrlKey && e.target; div && div !== gcTable; div = div.parentNode)
                         if (div.id && div.id.startsWith('DAF-gc_')) return gcTable_remove(div);
                 });
             }

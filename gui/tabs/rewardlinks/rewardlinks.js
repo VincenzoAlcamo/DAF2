@@ -122,8 +122,8 @@ function init() {
 }
 
 function onErrorImg(event) {
-    if (event.srcElement && event.srcElement.tagName == 'IMG') {
-        event.srcElement.src = '/img/gui/anon.gif';
+    if (event.target && event.target.tagName == 'IMG') {
+        event.target.src = '/img/gui/anon.gif';
     }
 }
 
