@@ -55,9 +55,10 @@ function init() {
         input.addEventListener('click', () => gui.updateTabState(tab));
 
         div = div.querySelector('div');
-        div.addEventListener('mouseover', onmousemove);
-        div.addEventListener('mouseout', onmousemove);
-        div.addEventListener('mouseleave', onmousemove);
+        div.addEventListener('mouseover', onMouseMove);
+        div.addEventListener('mouseout', onMouseMove);
+        div.addEventListener('mouseleave', onMouseMove);
+        div.addEventListener('click', onClick);
     });
 
     container.addEventListener('tooltip', onTooltip);
@@ -150,14 +151,21 @@ function rebuildSetup() {
     const camp = generator.camp;
     let campResult = calculateCamp(camp, []);
     campResult = calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState())));
-    Dialog.htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2]));
+    Dialog.htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2], true));
     let htm = '';
     htm += Html.br`<table class="camp-caption"><thead><tr><th>${campNames[2]}</th></tr></thead></table>`;
     htm += renderCamp(campResult);
     Dialog.htmlToDOM(container.querySelector('.camp-player .camp-container.camp-3'), htm);
 }
 
-function onmousemove(event) {
+function onClick(event) {
+    if (event.target && event.target.hasAttribute('numreg')) {
+        inputRegen.value = +event.target.getAttribute('numreg');
+        rebuildSetup();
+    }
+}
+
+function onMouseMove(event) {
     let el = event.target;
     let bid = [];
     while (!el.classList.contains('card')) {
@@ -185,7 +193,7 @@ function onmousemove(event) {
     });
 }
 
-function getCampSummary(campResult, campName) {
+function getCampSummary(campResult, campName, isSetup) {
     const cap_total = campResult.cap_tot;
     const reg_total = campResult.reg_tot;
     const fillTime = Math.ceil(cap_total / reg_total * 3600);
@@ -201,7 +209,14 @@ function getCampSummary(campResult, campName) {
     htm += Html.br`<td bid="${campResult.stat.cap.min.join(',')}">${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
     htm += Html.br`<tr><td>${gui.getMessage('camp_max_value')}</td><td bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
     htm += Html.br`<td bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
-    htm += Html.br`<tr><td>${gui.getMessage('camp_num_slots')}</td><td>${Locale.formatNumber(campResult.stat.numRegSlots)}</td><td>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_num_slots')}</td>`;
+    if (isSetup) {
+        htm += Html.br`<td numreg="144" title="${gui.getMessageAndValue('camp_regen', gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
+        htm += Html.br`<td numreg="0" title="${gui.getMessageAndValue('camp_capacity', gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+    } else {
+        htm += Html.br`<td numreg="${campResult.stat.numRegSlots}" title="${gui.getMessageAndValue('gui_show', gui.getMessage('camp_setup_mode'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
+        htm += Html.br`<td>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+    }
     htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
     htm += Html.br`</tbody>`;
     if (time) {
@@ -290,7 +305,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     camps.forEach(function (campResult, index) {
         if (!campResult) return;
-        htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, isPlayer ? campNames[index] : '') + Html.br`</td>`;
+        htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, isPlayer ? campNames[index] : '', index == 2) + Html.br`</td>`;
     });
 
     const wind_count = (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0;
