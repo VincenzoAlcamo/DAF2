@@ -114,9 +114,12 @@ function init() {
     checkBackground = container.querySelector('[name=background]');
     checkBackground.addEventListener('click', saveState);
 
-    for (const button of container.querySelectorAll('.toolbar button')) {
-        button.addEventListener('click', onClickButton);
-    }
+    const handlers = { add, short, remove, removeold, summary, pixel };
+    const onClickButton = (event) => {
+        const action = event.target.getAttribute('data-action');
+        if (action in handlers) handlers[action](event);
+    };
+    for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
 
     container.querySelector('.toolbar button[data-action="pixel"]').parentNode.style.display = bgp.Data.isAdmin() ? '' : 'none';
 }
@@ -177,29 +180,29 @@ function saveState() {
     gui.updateTabState(tab);
 }
 
-function onClickButton() {
-    const action = this.getAttribute('data-action');
-    if (action == 'add') {
-        gui.dialog.show({
-            title: gui.getMessage('rewardlinks_addlinks'),
-            html: Html.br`${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" name="links"></textarea>`,
-            defaultButton: 'links',
-            style: [Dialog.CONFIRM, Dialog.CANCEL]
-        }, function (method, params) {
-            if (method == Dialog.CONFIRM) {
-                const arr = LinkData.getLinkData(params.links);
-                const numTotal = arr.length;
-                const numAdded = numTotal && bgp.Data.addRewardLinks(arr);
-                if (numAdded == 0)
-                    gui.toast.show({
-                        text: gui.getMessage('rewardlinks_nolinksadded')
-                    });
-            }
-        });
-    } else if (action == 'shorten') {
-        gui.dialog.show({
-            title: gui.getMessage('rewardlinks_shortenlinks'),
-            html: Html.br`
+function add() {
+    gui.dialog.show({
+        title: gui.getMessage('rewardlinks_addlinks'),
+        html: Html.br`${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" name="links"></textarea>`,
+        defaultButton: 'links',
+        style: [Dialog.CONFIRM, Dialog.CANCEL]
+    }, function (method, params) {
+        if (method == Dialog.CONFIRM) {
+            const arr = LinkData.getLinkData(params.links);
+            const numTotal = arr.length;
+            const numAdded = numTotal && bgp.Data.addRewardLinks(arr);
+            if (numAdded == 0)
+                gui.toast.show({
+                    text: gui.getMessage('rewardlinks_nolinksadded')
+                });
+        }
+    });
+}
+
+function short() {
+    gui.dialog.show({
+        title: gui.getMessage('rewardlinks_shortenlinks'),
+        html: Html.br`
 <table class="daf-table rewardlinks_options">
 <thead><tr><th colspan="4">${gui.getMessage('tab_options')}</th></tr></thead>
 <tbody class="row-coloring">
@@ -236,94 +239,89 @@ function onClickButton() {
 </td></tr></tbody>
 </table>
 `,
-            defaultButton: 'links',
-            style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN]
-        }, function (method, params) {
-            if (method == Dialog.AUTORUN) {
-                params = parseShorten(shorten);
-                gui.dialog.element.querySelector('[name=convert]').value = params.convert;
-                gui.dialog.element.querySelector('[name=sort]').value = params.sort;
-                gui.dialog.element.querySelector('[name=prefix]').value = params.prefix;
-                gui.dialog.element.querySelector('[name=addspace]').checked = params.addspace;
-                gui.dialog.element.querySelector('[name=separator]').value = params.separator;
-                gui.dialog.element.querySelector('[name=newline]').checked = params.newline;
-            }
-            if (method == 'input') {
-                params.newline = params.newline == 'on';
-                params.addspace = params.addspace == 'on';
-                const newShorten = formatShorten(params);
-                if (newShorten != shorten) {
-                    shorten = newShorten;
-                    gui.updateTabState(tab);
-                }
-                const options = parseShorten(shorten);
-                let arr = LinkData.getLinkData(params.links);
-                if (options.sort) arr.sort((a, b) => +a.id - +b.id);
-                if (options.sort == 2) arr.reverse();
-                const suffix = params.newline ? '\n' : '';
-                const padLength = options.prefix == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
-                arr = arr.map((item, index) => {
-                    let prefix = '';
-                    const text = LinkData.getLink(item, options.convert);
-                    if (options.prefix == 3 || options.prefix == 4) {
-                        let s = '';
-                        for (; ;) {
-                            s = String.fromCharCode(65 + index % 26) + s;
-                            index = Math.floor(index / 26) - 1;
-                            if (index < 0) break;
-                        }
-                        if (options.prefix == 3) s = s.toLowerCase();
-                        prefix += s;
-                    } else if (options.prefix) {
-                        prefix += (index + 1).toString().padStart(padLength, '0');
-                    }
-                    if (options.separator) prefix += options.separator;
-                    if (prefix && (options.addspace || prefix.match(/[a-z]$/i))) prefix += ' ';
-                    return prefix + text + suffix;
-                });
-                gui.dialog.element.querySelector('[name=result]').value = arr.join('\n');
-            }
-        });
-    } else if (action == 'remove') {
-        const rewards = Object.values(items).filter(item => item.row.classList.contains('selected'));
-        removeLinks(gui.getMessage('rewardlinks_removeselected'), rewards);
-    } else if (action == 'removeold') {
-        const title = gui.getMessage('rewardlinks_removelinks');
-        let days = parseInt(gui.getPreference('rewardsRemoveDays'));
-        days = Math.max(0, Math.min(bgp.Data.REWARDLINKS_REMOVE_DAYS - 1, isFinite(days) ? days : bgp.Data.REWARDLINKS_VALIDITY_DAYS));
-        let htm = '';
-        htm += Html.br`<select name="days">`;
-        for (let i = 0; i <= bgp.Data.REWARDLINKS_REMOVE_DAYS - 1; i++) {
-            htm += Html.br`<option value="${i}" ${i == days ? ' selected' : ''}>${Locale.formatNumber(i)}</option>`;
+        defaultButton: 'links',
+        style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN]
+    }, function (method, params) {
+        if (method == Dialog.AUTORUN) {
+            params = parseShorten(shorten);
+            gui.dialog.element.querySelector('[name=convert]').value = params.convert;
+            gui.dialog.element.querySelector('[name=sort]').value = params.sort;
+            gui.dialog.element.querySelector('[name=prefix]').value = params.prefix;
+            gui.dialog.element.querySelector('[name=addspace]').checked = params.addspace;
+            gui.dialog.element.querySelector('[name=separator]').value = params.separator;
+            gui.dialog.element.querySelector('[name=newline]').checked = params.newline;
         }
-        htm += Html.br`</select>`;
-        htm = String(Html.br`${gui.getMessage('rewardlinks_removelinksdays', bgp.Data.REWARDLINKS_REMOVE_DAYS)}`).replace('@DAYS@', htm);
-        gui.dialog.show({
-            title: title,
-            html: htm,
-            style: [Dialog.CONFIRM, Dialog.CANCEL]
-        }, function (method, params) {
-            if (method != Dialog.CONFIRM) return;
-            const days = parseInt(params.days);
-            if (days >= 0) {
-                gui.setPreference('rewardsRemoveDays', days);
-                const now = gui.getUnixTime();
-                const expiryThreshold = now - bgp.Data.REWARDLINKS_VALIDITY_DAYS * SECONDS_IN_A_DAY;
-                const checkThreshold = now - days * SECONDS_IN_A_DAY;
-                let rewards = Object.values(items);
-                rewards = rewards.filter(reward => Math.max(reward.adt, reward.cdt || 0) <= checkThreshold && (reward.adt <= expiryThreshold || (reward.cmt || 0) != 0));
-                removeLinks(title, rewards);
+        if (method == 'input') {
+            params.newline = params.newline == 'on';
+            params.addspace = params.addspace == 'on';
+            const newShorten = formatShorten(params);
+            if (newShorten != shorten) {
+                shorten = newShorten;
+                gui.updateTabState(tab);
             }
-        });
-    } else if (action == 'summary') {
-        gui.dialog.show({ title: gui.getMessage('rewardlinks_summary'), html: getSummary(), style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
-            if (method == Dialog.AUTORUN) {
-                gui.dialog.element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
-            }
-        });
-    } else if (action == 'pixel') {
-        showPixelLinks();
+            const options = parseShorten(shorten);
+            let arr = LinkData.getLinkData(params.links);
+            if (options.sort) arr.sort((a, b) => +a.id - +b.id);
+            if (options.sort == 2) arr.reverse();
+            const suffix = params.newline ? '\n' : '';
+            const padLength = options.prefix == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
+            arr = arr.map((item, index) => {
+                let prefix = '';
+                const text = LinkData.getLink(item, options.convert);
+                if (options.prefix == 3 || options.prefix == 4) {
+                    let s = '';
+                    for (; ;) {
+                        s = String.fromCharCode(65 + index % 26) + s;
+                        index = Math.floor(index / 26) - 1;
+                        if (index < 0) break;
+                    }
+                    if (options.prefix == 3) s = s.toLowerCase();
+                    prefix += s;
+                } else if (options.prefix) {
+                    prefix += (index + 1).toString().padStart(padLength, '0');
+                }
+                if (options.separator) prefix += options.separator;
+                if (prefix && (options.addspace || prefix.match(/[a-z]$/i))) prefix += ' ';
+                return prefix + text + suffix;
+            });
+            gui.dialog.element.querySelector('[name=result]').value = arr.join('\n');
+        }
+    });
+}
+
+function remove() {
+    const rewards = Object.values(items).filter(item => item.row.classList.contains('selected'));
+    removeLinks(gui.getMessage('rewardlinks_removeselected'), rewards);
+}
+
+function removeold() {
+    const title = gui.getMessage('rewardlinks_removelinks');
+    let days = parseInt(gui.getPreference('rewardsRemoveDays'));
+    days = Math.max(0, Math.min(bgp.Data.REWARDLINKS_REMOVE_DAYS - 1, isFinite(days) ? days : bgp.Data.REWARDLINKS_VALIDITY_DAYS));
+    let htm = '';
+    htm += Html.br`<select name="days">`;
+    for (let i = 0; i <= bgp.Data.REWARDLINKS_REMOVE_DAYS - 1; i++) {
+        htm += Html.br`<option value="${i}" ${i == days ? ' selected' : ''}>${Locale.formatNumber(i)}</option>`;
     }
+    htm += Html.br`</select>`;
+    htm = String(Html.br`${gui.getMessage('rewardlinks_removelinksdays', bgp.Data.REWARDLINKS_REMOVE_DAYS)}`).replace('@DAYS@', htm);
+    gui.dialog.show({
+        title: title,
+        html: htm,
+        style: [Dialog.CONFIRM, Dialog.CANCEL]
+    }, function (method, params) {
+        if (method != Dialog.CONFIRM) return;
+        const days = parseInt(params.days);
+        if (days >= 0) {
+            gui.setPreference('rewardsRemoveDays', days);
+            const now = gui.getUnixTime();
+            const expiryThreshold = now - bgp.Data.REWARDLINKS_VALIDITY_DAYS * SECONDS_IN_A_DAY;
+            const checkThreshold = now - days * SECONDS_IN_A_DAY;
+            let rewards = Object.values(items);
+            rewards = rewards.filter(reward => Math.max(reward.adt, reward.cdt || 0) <= checkThreshold && (reward.adt <= expiryThreshold || (reward.cmt || 0) != 0));
+            removeLinks(title, rewards);
+        }
+    });
 }
 
 function removeLinks(title, rewards) {
@@ -642,7 +640,7 @@ function clearStatus() {
     }
 }
 
-function getSummary() {
+function summary() {
     const links = Object.values(bgp.Data.getRewardLinks()).filter(link => link.cdt && link.cmt > 0).sort((a, b) => b.cdt - a.cdt);
     const lastDay = links.length ? links[0].cdt - bgp.Data.REWARDLINKS_REFRESH_HOURS * 3600 : 0;
     const hash = {};
@@ -690,7 +688,11 @@ function getSummary() {
     });
     htm += Html`</tbody>`;
     htm += Html`</table>`;
-    return htm;
+    gui.dialog.show({ title: gui.getMessage('gui_summary'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
+        if (method == Dialog.AUTORUN) {
+            gui.dialog.element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
+        }
+    });
 }
 
 function showStats() {
@@ -717,7 +719,7 @@ function showStats() {
     });
 }
 
-async function showPixelLinks() {
+async function pixel() {
     await bgp.Data.getFile('usables');
     await bgp.Data.getFile('events');
     const data = await bgp.Data.getFile('links');
@@ -746,9 +748,19 @@ async function showPixelLinks() {
             htm += Html`<tbody class="row-coloring">`;
             const getReward = (reward) => {
                 if (!reward) return '';
-                const url = gui.getObjectImage(reward.type, reward.object_id, true);
-                const title = gui.getObjectName(reward.type, reward.object_id, 'event+info+desc');
-                // return Html`<div class="reward">${gui.getObjectImg(reward.type, reward.object_id, 32, true, 'desc')}</div><div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
+                const type = reward.type;
+                const oid = reward.object_id;
+                const qty = +reward.amount;
+                const url = gui.getObjectImage(type, oid, true);
+                let title = gui.getObjectName(type, oid, 'event');
+                const xp = gui.getXp(type, oid);
+                if (xp) {
+                    const totXp = qty * xp;
+                    const textXp = ((xp == 1 || qty == 1) ? '' : Locale.formatNumber(qty) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
+                    title += '\n' + gui.getMessageAndValue(type == 'usable' ? 'gui_energy' : 'gui_xp', textXp);
+                }
+                const desc = bgp.Data.getObjectDesc(type, oid);
+                if (desc) title += '\n' + gui.getWrappedText(desc);
                 return Html`<div class="reward"><img src="${url}" width="32" height="32" class="outlined" title="${title}"></div>
                 <div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
             };

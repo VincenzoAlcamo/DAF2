@@ -303,6 +303,9 @@
     "gui_ctrlclick": {
         "message": "Brug CTRL til at vælge/fravælge alt"
     },
+    "gui_summary": {
+        "message": "Resume"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1433,9 +1436,6 @@
     "rewardlinks_addspace": {
         "message": "Tilføj mellemrum"
     },
-    "rewardlinks_summary": {
-        "message": "Resume"
-    },
     "rewardlinks_summaryinfo": {
         "message": "Alle belønninger indsamlet inden for $NUM$ timer efter den seneste belønning.",
         "placeholders": {
@@ -1572,7 +1572,7 @@
         "message": "Bemærk venligst at hvis du har købt en special pakke i dit spil til denne pris før, er det ikke muligt at købe endnu en pakke til denne pris.\nI det tilfælde vil det laveste tilgængelige pris niveau være ca. 5.5 USD."
     },
     "equipment_slotslower": {
-        "message": "Enheder med mindre strøm end dette"
+        "message": "Enheder med mindre energi/kapacitet end dette"
     },
     "events_year": {
         "message": "År"

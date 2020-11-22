@@ -303,6 +303,9 @@
     "gui_ctrlclick": {
         "message": "Ctrl+клик чтобы выбрать/снять все"
     },
+    "gui_summary": {
+        "message": "Итого"
+    },
     "dialog_ok": {
         "message": "Ок"
     },
@@ -1432,9 +1435,6 @@
     },
     "rewardlinks_addspace": {
         "message": "Добавить пробел"
-    },
-    "rewardlinks_summary": {
-        "message": "Итого"
     },
     "rewardlinks_summaryinfo": {
         "message": "Все собраные награды в течение $NUM$ часов с момента получения самой последней награды.",

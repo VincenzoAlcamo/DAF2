@@ -107,7 +107,8 @@
 }
 
 .rewardlinks_summary .material img {
-  width: 32px;
+  max-width: 32px;
+  max-height: 32px;
 }
 
 .rewardlinks_summary .player img {

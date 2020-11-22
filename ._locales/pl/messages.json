@@ -303,6 +303,9 @@
     "gui_ctrlclick": {
         "message": "Użyj CTRL aby wybrać/odznaczyć wszystko"
     },
+    "gui_summary": {
+        "message": "Podsumowanie"
+    },
     "dialog_ok": {
         "message": "Ok"
     },
@@ -1432,9 +1435,6 @@
     },
     "rewardlinks_addspace": {
         "message": "Dodaj miejsce"
-    },
-    "rewardlinks_summary": {
-        "message": "Podsumowanie"
     },
     "rewardlinks_summaryinfo": {
         "message": "Wszystkie nagrody zebrane w ciągu $NUM$ godzin od ostatniej nagrody.",

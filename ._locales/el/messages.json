@@ -303,6 +303,9 @@
     "gui_ctrlclick": {
         "message": "Χρησιμοποιείστε το CTRL για επιλογή/ξε-επιλογή όλων"
     },
+    "gui_summary": {
+        "message": "Περίληψη"
+    },
     "dialog_ok": {
         "message": "Εντάξει"
     },
@@ -1432,9 +1435,6 @@
     },
     "rewardlinks_addspace": {
         "message": "Προσθήκη κενού"
-    },
-    "rewardlinks_summary": {
-        "message": "Περίληψη"
     },
     "rewardlinks_summaryinfo": {
         "message": "Όλα τα δώρα που συλλέχθηκαν μέσα σε $NUM$ ώρες από το τελευταίο συλλεγμένο δώρο",

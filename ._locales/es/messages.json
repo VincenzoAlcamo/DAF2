@@ -303,6 +303,9 @@
     "gui_ctrlclick": {
         "message": "Utiliza CTRL para seleccionar / deseleccionar todo"
     },
+    "gui_summary": {
+        "message": "Resumen"
+    },
     "dialog_ok": {
         "message": "OK"
     },
@@ -1432,9 +1435,6 @@
     },
     "rewardlinks_addspace": {
         "message": "Añadir espacio"
-    },
-    "rewardlinks_summary": {
-        "message": "Resumen"
     },
     "rewardlinks_summaryinfo": {
         "message": "Todas las recompensas recolectadas dentro de $NUM$ de horas\nposteriores a la recompensa mas reciente",
