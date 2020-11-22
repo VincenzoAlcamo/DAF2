@@ -202,3 +202,38 @@
   color: var(--tb-hlfgcol);
   cursor: help;
 }
+
+.neighbors_summary {
+  margin-top: 4px;
+}
+
+.neighbors_summary td.gift {
+  text-align: center;
+  padding: 2px 8px 6px;
+}
+
+.neighbors_summary span.qty {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.neighbors_summary span.xp {
+  font-size: 12px;
+  background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+.neighbors_summary div.img {
+  width: 50px;
+  height: 50px;
+  padding-top: 25px;
+  margin: auto;
+}
+
+.neighbors_summary img {
+  max-width: 48px;
+  max-height: 48px;
+  transform: translateY(-50%);
+}

@@ -43,8 +43,12 @@ function init() {
     trGifts.className = 'giftrow';
     Dialog.htmlToDOM(trGifts, Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`);
 
-    const button = container.querySelector('.toolbar button.advanced');
-    button.addEventListener('click', onClickAdvanced);
+    const handlers = { advanced, summary };
+    const onClickButton = (event) => {
+        const action = event.target.getAttribute('data-action');
+        if (action in handlers) handlers[action](event);
+    };
+    for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -116,7 +120,7 @@ function setState(state) {
 function updateButton() {
     const filterExpression = getFilterExpression();
     const isActive = filterGifts != '' || filterExpression != '';
-    const button = container.querySelector('.toolbar button.advanced');
+    const button = container.querySelector('.toolbar button[data-action="advanced"]');
     button.textContent = gui.getMessage('gui_advancedfilter') + ': ' + gui.getMessage(isActive ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', isActive);
 }
@@ -134,7 +138,7 @@ function onInput(event) {
     }
 }
 
-function onClickAdvanced() {
+function advanced() {
     const state = getState();
     const gifts = gui.getFile('gifts');
     const items = [];
@@ -265,6 +269,65 @@ blocks>20 or (region=1 and level<100)
         filterExpressions.forEach((value, index) => filterExpressions[index] = expressions[index + 1]);
         selectDays.value = params.days;
         refresh();
+    });
+}
+
+function summary() {
+    const now = gui.getUnixTime();
+    const gifts = gui.getFile('gifts');
+    let select = '<select name="days" data-method="days">';
+    for (let days = 7; days <= 28; days+=7) {
+        select += Html`<option value="${days}">${Locale.formatNumber(days)}</option>`;
+    }
+    select += '</select>';
+    let htm = Html`<label>${gui.getMessage('neighbors_gifts')}</label><div class="neighbors_summary"></div>`;
+    htm = String(htm).replace('@DAYS@', select);
+    gui.dialog.show({ title: gui.getMessage('gui_summary'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
+        if (method == Dialog.AUTORUN || method == 'days') {
+            const numDays = +params.days;
+            const hash = {};
+            const limit = now - numDays * 86400;
+            let giftCount = 0;
+            for (const pal of Object.values(bgp.Data.getNeighbours())) {
+                const gs = (pal.extra && pal.extra.g) || [];
+                gs.filter(g => g[2] >= limit).forEach(g => {
+                    const gift = gifts[g[1]];
+                    if (gift) {
+                        giftCount++;
+                        const key = gift.type + '\t' + gift.object_id;
+                        let total = hash[key];
+                        if (!total) total = hash[key] = { type: gift.type, oid: gift.object_id, qty: 0, xp: gui.getXp(gift.type, gift.object_id) };
+                        total.qty += +gift.amount;
+                    }
+                });
+            }
+            const values = Object.values(hash);
+            values.forEach(item => item.totxp = item.xp * item.qty);
+            const giftTotal = values.reduce((t, item) => t + item.totxp, 0);
+            const NUMCOLUMNS = 5;
+            let htm = Html`<table class="daf-table neighbors_summary">`;
+            const text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(numDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / numDays)));
+            htm += Html`<thead><tr><th colspan="${NUMCOLUMNS}">${text}</th></tr></thead>`;
+            htm += Html`<tbody class="row-coloring">`;
+            let col = 0;
+            values.sort((a, b) => b.totxp - a.totxp).forEach(item => {
+                let title = gui.getObjectName(item.type, item.oid, 'info+event');
+                if (item.totxp) {
+                    const textXp = ((item.xp == 1 || item.qty == 1) ? '' : Locale.formatNumber(item.qty) + ' \xd7 ' + Locale.formatNumber(item.xp) + ' = ') + Locale.formatNumber(item.totxp);
+                    title += '\n' + gui.getMessageAndValue(item.type == 'usable' ? 'gui_energy' : 'gui_xp', textXp);
+                }
+                if (!col) htm += Html`<tr>`;
+                htm += Html`<td class="gift"><div class="img"><img src="${gui.getObjectImage(item.type, item.oid, true)}" title="${title}" class="outlined"></div>`;
+                htm += Html`<span class="qty">${'\xd7 ' + Locale.formatNumber(item.qty)}</span>`;
+                if (item.totxp) htm += Html`<br><span class="xp">${gui.getMessageAndValue(item.type == 'usable' ? 'gui_energy' : 'gui_xp', Locale.formatNumber(item.totxp))}</span>`;
+                htm += Html`</td>`;
+                col = (col + 1) % NUMCOLUMNS;
+                if (!col) htm += Html`</tr>`;
+            });
+            htm += Html`</tbody>`;
+            htm += Html`</table>`;
+            Dialog.htmlToDOM(gui.dialog.element.querySelector('.neighbors_summary'), htm);
+        }
     });
 }
 
