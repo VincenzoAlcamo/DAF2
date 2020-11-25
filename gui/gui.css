@@ -180,6 +180,10 @@ span.locked32::after {
   background-size: 16px;
 }
 
+body:not(.is-admin) .for-admin {
+  display: none;
+}
+
 @keyframes rotate-hue {
   0% {
     filter: hue-rotate(0deg);
@@ -751,8 +755,10 @@ input[type=checkbox]:checked:before {
   vertical-align: middle;
 }
 
-.toolbar label+label {
-  margin-left: 12px;
+label.with-margin,
+.toolbar label {
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
 .toolbar .warning {

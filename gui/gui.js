@@ -10,6 +10,7 @@ const tabs = (function () {
             id: id,
             icon: '/img/gui/' + (icon || id) + '.png',
             generator: id != 'about' && id != 'options' && id != 'game',
+            forAdmin: id == 'artwork',
             enabled: true
         };
     }
@@ -127,10 +128,10 @@ const gui = {
     },
     getObjectName: function (type, id, options = '') {
         let name = bgp.Data.getObjectName(type, id);
-        if(options) {
+        if (options) {
             const obj = gui.getObject(type, id);
-            if(obj) {
-                if (options.includes('info') && type == 'building') {
+            if (obj) {
+                if (type == 'building' && (options.includes('info') || options.includes('building'))) {
                     name += ` (${+obj.columns} \xd7 ${+obj.rows})`;
                     if (+obj.stamina_reg > 0) name += '\n' + gui.getMessageAndValue('camp_regen', Locale.formatNumber(+obj.stamina_reg));
                     if (+obj.max_stamina > 0) name += '\n' + gui.getMessageAndValue('camp_capacity', Locale.formatNumber(+obj.max_stamina));
@@ -139,7 +140,7 @@ const gui = {
                     const eventName = gui.getObjectName('event', obj.event_id);
                     if (eventName) name += '\n' + gui.getMessageAndValue('gui_event', eventName);
                 }
-                if (options.includes('info') && type == 'usable') {
+                if (type == 'usable' && (options.includes('info') || options.includes('usable'))) {
                     if (obj.action == 'add_stamina') name += '\n' + gui.getMessageAndValue('gui_energy', Locale.formatNumber(+obj.value));
                 }
                 if (options.includes('desc')) {
@@ -782,8 +783,10 @@ function onLoad() {
     const hasValidGenerator = gui.hasValidGenerator();
     for (const tab of Object.values(tabs)) {
         const text = gui.getMessage('tab_' + tab.id) || gui.getProperCase(tab.id);
-        const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
-        htm += Html`<li style="background-image:url(${tab.icon})" class="${disabled ? 'disabled' : ''}" data-tabid="${tab.id}"><span>${text}</span></li>`;
+        const classes = [];
+        if (!tab.enabled || (tab.generator && !hasValidGenerator)) classes.push('disabled');
+        if (tab.forAdmin) classes.push('for-admin');
+        htm += Html`<li style="background-image:url(${tab.icon})" class="${classes.join(' ')}" data-tabid="${tab.id}"><span>${text}</span></li>`;
     }
     htm += Html`<li class="last"></li>`;
     let div = document.querySelector('.vertical-menu');
@@ -806,6 +809,7 @@ function onLoad() {
                 const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
                 div.classList.toggle('disabled', disabled);
             }
+            document.body.classList.toggle('is-admin', bgp.Data.isAdmin());
             updateCurrentTab();
         } else if (action == 'account_mismatch') {
             tabs.about.mustBeUpdated = true;
@@ -837,6 +841,7 @@ function onLoad() {
     document.addEventListener('visibilitychange', () => notifyVisibility(currentTab, true));
 
     gui.setTheme();
+    document.body.classList.toggle('is-admin', bgp.Data.isAdmin());
 
     const urlInfo = new UrlInfo(location.href);
     let tabId = urlInfo.parameters.tab;
