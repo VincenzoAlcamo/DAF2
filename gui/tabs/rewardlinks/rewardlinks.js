@@ -120,8 +120,6 @@ function init() {
         if (action in handlers) handlers[action](event);
     };
     for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
-
-    container.querySelector('.toolbar button[data-action="pixel"]').parentNode.style.display = bgp.Data.isAdmin() ? '' : 'none';
 }
 
 function onErrorImg(event) {
@@ -719,8 +717,28 @@ function showStats() {
     });
 }
 
+function getReward(reward) {
+    if (!reward) return '';
+    const type = reward.type;
+    const oid = reward.object_id;
+    const qty = +reward.amount;
+    const url = gui.getObjectImage(type, oid, true);
+    let title = gui.getObjectName(type, oid, 'event+building');
+    const xp = gui.getXp(type, oid);
+    if (xp) {
+        const totXp = qty * xp;
+        const textXp = ((xp == 1 || qty == 1) ? '' : Locale.formatNumber(qty) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
+        title += '\n' + gui.getMessageAndValue(type == 'usable' ? 'gui_energy' : 'gui_xp', textXp);
+    }
+    const desc = bgp.Data.getObjectDesc(type, oid);
+    if (desc) title += '\n' + gui.getWrappedText(desc);
+    return Html`<div class="reward"><img src="${url}" class="outlined" title="${title}"></div>
+        <div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
+}
+
 async function pixel() {
     await bgp.Data.getFile('usables');
+    await bgp.Data.getFile('tokens');
     await bgp.Data.getFile('events');
     const data = await bgp.Data.getFile('links');
     const now = Date.now();
@@ -733,37 +751,19 @@ async function pixel() {
         .filter(item => item.end > now)
         .sort((a, b) => a.end - b.end);
     let htm = '';
-    htm += Html`<label>${gui.getMessage('gui_show')} <select name="show" data-method="show">`;
+    htm += Html`<label class="with-margin">${gui.getMessage('gui_show')} <select name="show" data-method="show">`;
     htm += Html`<option value="0">Links not yet expired</option>`;
     htm += Html`<option value="1">Upcoming links</option>`;
     htm += Html`</select></label><div class="rewardlinks_pixel"></div>`;
     gui.dialog.show({ html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
         if (method == Dialog.AUTORUN || method == 'show') {
             let htm = '';
-            htm += Html`<table class="daf-table rewardlinks_pixel">`;
+            htm += Html`<table class="daf-table">`;
             htm += Html`<thead><tr><th>${gui.getMessage('gui_date')}</th>`;
             const maxRid = gui.getMaxRegion();
             for (let rid = 1; rid <= maxRid; rid++) htm += Html`<th>${gui.getObjectName('region', rid)}</th>`;
             htm += Html`</tr></thead>`;
             htm += Html`<tbody class="row-coloring">`;
-            const getReward = (reward) => {
-                if (!reward) return '';
-                const type = reward.type;
-                const oid = reward.object_id;
-                const qty = +reward.amount;
-                const url = gui.getObjectImage(type, oid, true);
-                let title = gui.getObjectName(type, oid, 'event');
-                const xp = gui.getXp(type, oid);
-                if (xp) {
-                    const totXp = qty * xp;
-                    const textXp = ((xp == 1 || qty == 1) ? '' : Locale.formatNumber(qty) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
-                    title += '\n' + gui.getMessageAndValue(type == 'usable' ? 'gui_energy' : 'gui_xp', textXp);
-                }
-                const desc = bgp.Data.getObjectDesc(type, oid);
-                if (desc) title += '\n' + gui.getWrappedText(desc);
-                return Html`<div class="reward"><img src="${url}" width="32" height="32" class="outlined" title="${title}"></div>
-                <div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
-            };
             htm += items.filter(item => params.show == 0 || item.start > now).map(item => {
                 let s = Html`<tr><td><span class="from">${Locale.formatDate(item.start)}</span><span class="expires">(${Locale.formatDate(item.end)})</span></td>`;
                 if (item.reward.length == 1 && +item.reward[0].region_id == 0) {

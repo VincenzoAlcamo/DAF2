@@ -153,3 +153,8 @@
 .rewardlinks_pixel .qty {
   margin: -2px 0px;
 }
+
+.rewardlinks_pixel .reward img {
+  max-width: 32px;
+  max-height: 32px;
+}
