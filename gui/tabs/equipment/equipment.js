@@ -1,4 +1,6 @@
 /*global bgp gui SmartTable Html Locale Tooltip Dialog*/
+import packHelper from '../../packHelper.js';
+
 export default {
     hasCSS: true,
     init,
@@ -154,15 +156,6 @@ function computeItem(item, level, skins) {
     if (item.type == 'capacity') item.gain = Math.max(0, item.value - Math.min(campReg.capCum[item.width], campCap.capCum[item.width]));
     if (item.type == 'regen') item.gain = Math.max(0, item.value - Math.min(campReg.regCum[item.width], campCap.regCum[item.width]));
 }
-function getRequirements(requirements, backpack) {
-    return Array.isArray(requirements) ? requirements.map(req => {
-        const result = {};
-        result.material_id = +req.material_id;
-        result.amount = +req.amount;
-        result.stored = backpack[result.material_id] || 0;
-        return result;
-    }).sort((a, b) => a.material_id - b.material_id) : null;
-}
 
 function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
     item.hide = hide;
@@ -172,7 +165,7 @@ function setItem(item, hide, sale, saleType, eid, erid, level, reqs, backpack) {
     item.erid = erid;
     item.level = level;
     item.skin = sale.req_type == 'camp_skin' ? +sale.req_object : 0;
-    item.reqs = getRequirements(reqs || sale.requirements, backpack);
+    item.reqs = packHelper.getRequirements(reqs || sale.requirements, backpack);
     const affordable = !(item.reqs ? item.reqs.find(r => r.amount > r.stored) : null);
     if (!affordable) item.locked |= 8;
 }
@@ -1021,80 +1014,6 @@ function updateRow(row) {
     }
 }
 
-function getOutlinedText(text, extraClass = '') {
-    return Html.br`<span class="outlined-text ${extraClass}">${text}</span>`;
-}
-
-function getOfferItem(item) {
-    const copy = {};
-    copy.type = copy.kind = item.type;
-    copy.oid = +item.object_id;
-    copy.amount = +item.amount;
-    copy.portal = +item.portal || 0;
-    copy.sort = 0;
-    copy.value = copy.oid;
-    const backpack = gui.getGenerator().materials || {};
-    copy.reqs = getRequirements(item.requirements, backpack);
-    copy.limit = +item.limit || 0;
-    const obj = copy.obj = (copy.type == 'building' || copy.type == 'material' || copy.type == 'usable') ? gui.getObject(copy.type, copy.oid) : null;
-    // type can be: "system", "building", "decoration", "usable", "material", "token", "camp_skin"
-    if (copy.type == 'building' && obj) {
-        const cap = +obj.max_stamina;
-        const reg = +obj.stamina_reg;
-        let img = 'camp_capacity';
-        if (cap) {
-            copy.kind = 'capacity';
-            copy.value = cap;
-            copy.sort = 2;
-            copy.title = gui.getString('GUI2921');
-        } else {
-            copy.kind = 'regen';
-            copy.value = reg;
-            copy.sort = 1;
-            copy.title = gui.getString('GUI2920');
-            img = 'camp_energy';
-        }
-        copy.caption = Html`${getOutlinedText(Locale.formatNumber(copy.value))} <img width="40" src="/img/gui/${img}.png">`;
-        copy.width = +obj.columns;
-        copy.height = +obj.rows;
-    } else if (copy.type == 'material' && obj) {
-        if (copy.oid == 2) {
-            copy.kind = 'gem';
-            copy.sort = 0;
-        } else {
-            copy.sort = 3;
-            copy.title = gui.getString('GUI0010');
-        }
-        copy.value = copy.amount;
-    } else if (copy.type == 'usable' && obj) {
-        copy.sort = 4;
-        copy.value = +obj.value;
-        let caption;
-        if (obj.action == 'speedup_ctrl') {
-            caption = getOutlinedText(gui.getDuration(copy.value), 'with-time');
-        } else {
-            caption = getOutlinedText(Locale.formatNumber(copy.value), 'with-energy');
-        }
-        if (copy.amount > 1) caption = Html`${getOutlinedText(Locale.formatNumber(copy.amount) + ' \xd7 ', 'qty')}${caption}`;
-        copy.caption = caption;
-        copy.title = gui.getString('GUI0008');
-    } else if (copy.type == 'token') {
-        copy.sort = 5;
-    } else if (copy.type == 'decoration') {
-        copy.sort = 6;
-        copy.caption = getOutlinedText(Locale.formatNumber(copy.amount), 'with-deco');
-    } else if (copy.type == 'system') {
-        copy.sort = 7;
-        copy.kind = copy.oid == 2 ? 'energy' : 'xp';
-        copy.caption = getOutlinedText(Locale.formatNumber(copy.amount), 'with-' + copy.kind);
-    } else {
-        return null;
-    }
-    if (!copy.caption) copy.caption = getOutlinedText(Locale.formatNumber(copy.amount));
-    if (!copy.title) copy.title = gui.getObjectName(copy.type, copy.oid);
-    return copy;
-}
-
 function onTooltip(event) {
     const element = event.target;
     const htm = Html.br`<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
@@ -1197,10 +1116,10 @@ function showOffer(type, id, options) {
             let htm = '';
             let pre = '';
             if (current.date == -1) {
-                pre += Html.br`${getOutlinedText(Locale.formatDate(block.date), 'date')}</span>`;
+                pre += Html.br`${packHelper.getOutlinedText(Locale.formatDate(block.date), 'date')}</span>`;
             }
             if (current.rid == -1) {
-                pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, 'desc')}<br>${getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
+                pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, 'desc')}<br>${packHelper.getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
             }
             if (current.price == -1) {
                 pre += Html.br`<span class="outlined-text price">${block.priceText}`;
@@ -1208,7 +1127,7 @@ function showOffer(type, id, options) {
                 pre += Html.br`</span>`;
             }
             if (type == 'tier') {
-                pre += Html.br`<span>${getOutlinedText(gui.getString(block.name_loc))}<br>`;
+                pre += Html.br`<span>${packHelper.getOutlinedText(gui.getString(block.name_loc))}<br>`;
                 pre += Html.br`<span class="tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.gems)}${gui.getObjectImg('material', 2, 28, false)}</span></span>`;
                 if (block.tier == 5) pre += Html.br`<span class="tier_total tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.tgems)}${gui.getObjectImg('material', 2, 28, false)}</span>`;
             }
@@ -1221,7 +1140,7 @@ function showOffer(type, id, options) {
                 htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
                 if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
                 if (item.limit) htm += Html.br`<div class="limit outlined-text">${gui.getMessageAndValue('gui_maximum', Locale.formatNumber(item.limit))}</div>`;
-                if (item.portal) htm += Html.br`<div class="bonus">${getOutlinedText(gui.getString('GUI3065'))}</div>`;
+                if (item.portal) htm += Html.br`<div class="bonus">${packHelper.getOutlinedText(gui.getString('GUI3065'))}</div>`;
                 htm += Html.br`<div class="caption"><div>${item.caption}</div></div>`;
                 if (item.reqs) {
                     htm += Html.br`<div class="cost">`;
@@ -1302,7 +1221,7 @@ function getPacks(id) {
         }
         const price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
         const limited = !!pack.prices.find(p => +p.amount < 4 && (p.currency == 'EUR' || p.currency == 'USD'));
-        const items = pack.items.map(item => getOfferItem(item)).filter(item => item);
+        const items = pack.items.map(item => packHelper.getItem(item)).filter(item => item);
         items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
 
         const block = {
@@ -1334,7 +1253,7 @@ function getTieredOffers(id) {
         categories[category] = true;
         let tgems = 0;
         for (const tier of offer.tiers) {
-            const items = tier.items.map(item => getOfferItem(item)).filter(item => item);
+            const items = tier.items.map(item => packHelper.getItem(item)).filter(item => item);
             items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
             tgems += +tier.gem_price;
             const block = {
@@ -1401,7 +1320,7 @@ function getOffersBase(id) {
     let maxRid = 0;
     for (const offer of Object.values(offers).filter(offer => +offer.start == start)) {
         const regions = gui.getArrayOfInt(offer.regions || '0');
-        const item = getOfferItem(offer);
+        const item = packHelper.getItem(offer);
         if (item) {
             for (const rid of regions) {
                 maxRid = Math.max(rid, maxRid);
