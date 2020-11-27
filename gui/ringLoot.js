@@ -9,7 +9,8 @@ function ringLoot(kind) {
     const christmasMines = {
         1987: 5605,
         2284: 6844,
-        2640: 7833
+        2640: 7833,
+        2965: 8996
     };
 
     if (kind == 'green') {
