@@ -832,7 +832,7 @@ async function findThePair() {
             let htm = '';
             htm += Html`<table class="daf-table">`;
             htm += Html`<thead><tr><th colspan="8">${gui.getString('GUI3329')}</th></thead>`;
-            htm += Html`<tbody class="row-coloring">`;
+            htm += Html`<tbody class="chessboard-coloring">`;
             const playboard = data[params.type];
             const rid = params.rid;
             const totChance = data[params.type].cards.reduce((sum, card) => sum += +card.chance, 0);
@@ -856,7 +856,7 @@ async function findThePair() {
             const total = playboard.prices.reduce((s, p) => s += +p.gems, 0);
             htm += Html`<table class="daf-table flip-table">`;
             htm += Html`<thead><tr><th colspan="16">${gui.getString('GUI3332')} (${gui.getMessageAndValue('camp_total', Locale.formatNumber(total) + ' ' + gui.getObjectName('material', 2))})</th></thead>`;
-            htm += Html`<tbody class="row-coloring">`;
+            htm += Html`<tbody class="chessboard-coloring">`;
             col = 0;
             const gemUrl = gui.getObjectImage('material', 2, true);
             const getCost = gems => Html`<div class="reward"><img src="${gemUrl}" class="outlined"></div><div class="qty">${'\xd7 ' + Locale.formatNumber(gems)}</div>`;

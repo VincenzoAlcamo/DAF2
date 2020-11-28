@@ -1,10 +1,10 @@
 /*global bgp gui SmartTable Locale Html Tooltip Dialog*/
 export default {
     hasCSS: true,
-    init: init,
-    update: update,
-    getState: getState,
-    setState: setState,
+    init,
+    update,
+    getState,
+    setState,
     requires: ['materials', 'decorations', 'levelups', 'sales', 'usables', 'xp']
 };
 
@@ -357,6 +357,7 @@ function refresh() {
         while (index++ < GRID_COLUMNS) htm += `<td class="grid"></td>`;
         htm = `<tr>` + htm + `</tr>`;
     }
+    smartTable.tbody[0].classList.toggle('chessboard-coloring', state.grid);
     Dialog.htmlToDOM(smartTable.tbody[0], htm);
     Array.from(smartTable.tbody[0].querySelectorAll('input[type=checkbox]')).forEach(input => {
         input.addEventListener('click', updatePillar);
