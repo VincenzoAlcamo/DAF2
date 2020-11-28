@@ -1765,6 +1765,9 @@
     "specialweek_mystery_box": {
         "message": "Boîte mystère"
     },
+    "specialweek_find_the_pair": {
+        "message": "Trouvez la paire"
+    },
     "options_section_ingame": {
         "message": "Options dans le jeu"
     },

@@ -445,7 +445,6 @@
   vertical-align: middle;
   text-align: center;
   padding: 0;
-  min-width: 80px;
 }
 
 .flipthepair .chance {
@@ -487,4 +486,17 @@
   border-radius: 4px;
   padding: 0px 2px;
   z-index: 1;
+}
+
+.flipthepair .flip-card {
+  padding: 0;
+}
+
+.flipthepair .pack-item {
+  transform: scale(0.8);
+  margin: -10px;
+}
+
+.flipthepair .pack-item .title {
+  display: none;
 }

@@ -554,6 +554,7 @@ const gui = {
         // Debris discount      :   debris_discount (coeficient is not used, discount is 20%)
         // Discount offer       :   discount_so (shows badge)
         // Double usable offer  :   double_usable_so (shows badge)
+        // Find the pair        :   find_the_pair
         // camp_particle_effect
         // camp_snow_skin
         const now = gui.getUnixTime();
@@ -615,6 +616,7 @@ const gui = {
         result.halfTimeProduction = result.types['prod_time'];
         result.doubleDrop = result.types['refresh_drop'];
         result.postcards = result.types['postcards'];
+        result.findThePair = result.types['find_the_pair'];
         return result;
     },
     calculateLoot: function (lootArea, level, swDoubleDrop) {

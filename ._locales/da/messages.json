@@ -1765,6 +1765,9 @@
     "specialweek_mystery_box": {
         "message": "Mysterie boks"
     },
+    "specialweek_find_the_pair": {
+        "message": "Spil Vendespil"
+    },
     "options_section_ingame": {
         "message": "Spil muligheder"
     },

@@ -1765,6 +1765,9 @@
     "specialweek_mystery_box": {
         "message": "Caixa mistério"
     },
+    "specialweek_find_the_pair": {
+        "message": "Jogo da Memória"
+    },
     "options_section_ingame": {
         "message": "Opções do jogo"
     },

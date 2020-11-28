@@ -1178,6 +1178,187 @@ div.location_icon img {
   transform: scale(1.7);
 }
 
+/*@region Pack Helper*/
+div.equipment_mask {
+  margin-left: 6px;
+  background-image: url(/img/gui/building_mask.png);
+  width: calc(var(--w) * 10px + 1px);
+  height: calc(var(--h) * 10px + 1px);
+  margin-right: calc((5 - var(--w)) * 10px);
+}
+
+.pack-item {
+  width: 120px;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin: 2px;
+  cursor: default;
+}
+
+.pack-item .title {
+  padding: 1px 2px;
+  width: 120px;
+  height: 24px;
+  overflow: hidden;
+  text-align: center;
+  display: grid;
+}
+
+.pack-item .title span {
+  margin: auto;
+  color: #000;
+  font-size: 10pt;
+  line-height: 0.85em;
+}
+
+.pack-item.gem .title {
+  background-color: #B7C;
+}
+
+.pack-item.capacity .title {
+  background-color: #99F;
+}
+
+.pack-item.regen .title {
+  background-color: #6D6;
+}
+
+.pack-item.usable .title,
+.pack-item.energy .title {
+  background-color: #DD6;
+}
+
+.pack-item.xp .title {
+  background-color: #F96;
+}
+
+.pack-item.material .title {
+  background-color: #6BC;
+}
+
+.pack-item.token .title,
+.pack-item.decoration .title {
+  background-color: #EFE;
+}
+
+.pack-item .bonus {
+  margin-top: -104px;
+  width: 120px;
+  height: 104px;
+  display: grid;
+}
+
+.pack-item .bonus span {
+  font-size: 12pt;
+  font-weight: bold;
+  color: #FF0;
+  margin: auto;
+  text-align: center;
+}
+
+.pack-item .limit {
+  margin-top: -104px;
+  width: 120px;
+  height: 104px;
+  text-align: center;
+  font-size: 12px;
+  padding-top: 2px;
+}
+
+.pack-item .mask {
+  margin-top: -104px;
+  width: 120px;
+  height: 104px;
+  display: grid;
+}
+
+.pack-item .mask .equipment_mask {
+  transform: scale(1.5);
+  transform-origin: bottom right;
+  opacity: 0.8;
+  margin: auto 2px 0px auto;
+}
+
+.pack-item .image {
+  height: 104px;
+  display: grid;
+}
+
+.pack-item .image img {
+  max-width: 100px;
+  max-height: 100px;
+  margin: auto;
+}
+
+.pack-item .caption {
+  text-align: center;
+  height: 42px;
+  margin-top: -16px;
+  display: grid;
+}
+
+.pack-item .caption div {
+  margin-top: auto;
+}
+
+.pack-item .caption span {
+  color: #FFF;
+  font-weight: bold;
+  font-size: 15pt;
+}
+
+.pack-item .caption img {
+  vertical-align: top;
+  margin-top: 2px;
+}
+
+.pack-item.regen .caption,
+.pack-item.capacity .caption {
+  padding-top: 4px;
+}
+
+.pack-item.regen .caption span,
+.pack-item.capacity .caption span {
+  font-size: 14pt;
+}
+
+.pack-item .caption span.qty {
+  color: #FF8;
+  font-size: 10pt;
+  line-height: 0.8em;
+}
+
+.pack-item .outlined-text {
+  text-shadow: -1px -1px #000, -1px 0px #000, -1px 1px #000, 0px -1px #000, 0px 1px #000, 1px -1px #000, 1px 0 #000, 1px 1px #000;
+}
+
+.pack-item .caption .with-energy,
+.pack-item .caption .with-time,
+.pack-item .caption .with-xp,
+.pack-item .caption .with-deco {
+  padding-right: 28px;
+  background-size: 26px;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+.pack-item .caption .with-energy {
+  background-image: url(/img/gui/energy.png);
+}
+
+.pack-item .caption .with-time {
+  background-image: url(/img/gui/time.png);
+}
+
+.pack-item .caption .with-xp {
+  background-image: url(/img/gui/xp.png);
+}
+
+.pack-item .caption .with-deco {
+  background-image: url(/img/gui/deco.png);
+}
+
+/*@endregion*/
+
 /*@region Firefox overrides*/
 @-moz-document url-prefix() {
   .vertical-menu {

@@ -1108,7 +1108,7 @@ function showOffer(type, id, options) {
                 if (block.tier == 5) pre += Html.br`<span class="tier_total tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.tgems)}${gui.getObjectImg('material', 2, 28, false)}</span>`;
             }
             if (pre) {
-                pre = `<td class="td-section"><div class="item section">${pre}</div></td>`;
+                pre = `<td class="td-section"><div class="pack-item section">${pre}</div></td>`;
             }
             block.items.forEach((item, index) => {
                 htm += Html.br`<td class="td-item">${packHelper.getHtml(item)}</td>`;

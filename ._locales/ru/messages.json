@@ -1765,6 +1765,9 @@
     "specialweek_mystery_box": {
         "message": "Таинственная коробка"
     },
+    "specialweek_find_the_pair": {
+        "message": "Найди Пару."
+    },
     "options_section_ingame": {
         "message": "Параметры в игре"
     },

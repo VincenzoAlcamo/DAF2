@@ -103,7 +103,7 @@ function getMaterialImg(req) {
 
 function getHtml(item) {
     let htm = '';
-    htm += Html.br`<div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, 'info+desc'))}">`;
+    htm += Html.br`<div class="pack-item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, 'info+desc'))}">`;
     htm += Html.br`<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
     htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
     if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;

@@ -1765,6 +1765,9 @@
     "specialweek_mystery_box": {
         "message": "Tajemnicza skrzynia"
     },
+    "specialweek_find_the_pair": {
+        "message": "Znajdź parę"
+    },
     "options_section_ingame": {
         "message": "Opcje w grze"
     },

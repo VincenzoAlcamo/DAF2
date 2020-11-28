@@ -1,4 +1,6 @@
 /*global bgp gui Locale Html Dialog Tooltip*/
+import packHelper from '../../packHelper.js';
+
 export default {
     hasCSS: true,
     init,
@@ -70,7 +72,8 @@ function init() {
 }
 
 function update() {
-    swFindThePair = gui.getActiveSpecialWeeks().items.find(sw => sw.type == 'find_the_pair');
+    packHelper.onUpdate();
+    swFindThePair = gui.getActiveSpecialWeeks().findThePair;
     buttonFindThePair.style.display = swFindThePair ? '' : 'none';
 
     markToBeRendered(container.querySelector('.camp-player'));
@@ -808,29 +811,11 @@ function fillCamp(campLines, numRegSlots, regFirst = true) {
     return blds;
 }
 
-function getReward(reward) {
-    if (!reward) return '';
-    const type = reward.type;
-    const oid = reward.object_id;
-    const qty = +reward.amount;
-    const url = gui.getObjectImage(type, oid, true);
-    let title = gui.getObjectName(type, oid, 'event+building');
-    const xp = gui.getXp(type, oid);
-    if (xp) {
-        const totXp = qty * xp;
-        const textXp = ((xp == 1 || qty == 1) ? '' : Locale.formatNumber(qty) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
-        title += '\n' + gui.getMessageAndValue(type == 'usable' ? 'gui_energy' : 'gui_xp', textXp);
-    }
-    const desc = bgp.Data.getObjectDesc(type, oid);
-    if (desc) title += '\n' + gui.getWrappedText(desc);
-    return Html`<div class="reward"><img src="${url}" class="outlined" title="${title}"></div>
-        <div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
-}
-
 async function findThePair() {
     await bgp.Data.getFile('tokens');
     await bgp.Data.getFile('events');
     const data = await bgp.Data.getFile('playboards');
+    const generator = gui.getGenerator();
 
     let htm = '';
     const types = Object.keys(data).map(key => +key).sort((a, b) => b - a);
@@ -839,7 +824,7 @@ async function findThePair() {
     htm += Html`</select></label>`;
     htm += Html`<label class="with-margin">${gui.getMessage('gui_region')} <select name="rid" data-method="rid">`;
     const maxRid = gui.getMaxRegion();
-    for (let rid = 1; rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+    for (let rid = 1; rid <= maxRid; rid++) htm += Html`<option value="${rid}"${rid == generator.region ? ' selected' : ''}>${gui.getObjectName('region', rid)}</option>`;
     htm += Html`</select></label>`;
     htm += Html`<div class="flipthepair"></div>`;
     gui.dialog.show({ title: gui.getString('GUI3326'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
@@ -854,9 +839,13 @@ async function findThePair() {
             let col = 0;
             playboard.cards.forEach(card => {
                 if (col == 0) htm += Html`<tr>`;
-                htm += Html`<td>`;
+                htm += Html`<td class="flip-card">`;
                 htm += card.rewards.filter(r => +r.region_id == 0 || +r.region_id == rid).map(reward => {
-                    return getReward(reward) + Html`<div class="chance">${gui.getMessageAndValue('events_chance', Locale.formatNumber(+card.chance / totChance * 100, 1))} %</div>`;
+                    let htm = '';
+                    const item = packHelper.getItem(reward);
+                    htm += packHelper.getHtml(item);
+                    htm += Html`<div class="chance">${gui.getMessageAndValue('events_chance', Locale.formatNumber(+card.chance / totChance * 100, 1))} %</div>`;
+                    return htm;
                 }).join('');
                 htm += Html`</td>`;
                 col = (col + 1) % 8;
@@ -869,12 +858,14 @@ async function findThePair() {
             htm += Html`<thead><tr><th colspan="16">${gui.getString('GUI3332')} (${gui.getMessageAndValue('camp_total', Locale.formatNumber(total) + ' ' + gui.getObjectName('material', 2))})</th></thead>`;
             htm += Html`<tbody class="row-coloring">`;
             col = 0;
+            const gemUrl = gui.getObjectImage('material', 2, true);
+            const getCost = gems => Html`<div class="reward"><img src="${gemUrl}" class="outlined"></div><div class="qty">${'\xd7 ' + Locale.formatNumber(gems)}</div>`;
             playboard.prices.map(price => { return { gems: +price.gems, order: +price.flip_order }; })
                 .sort((a, b) => a.order - b.order)
                 .forEach(price => {
                     if (col == 0) htm += Html`<tr>`;
-                    const reward = { type: 'material', object_id: 2, amount: price.gems };
-                    htm += Html`<td><div class="ordinal">${Locale.formatNumber(price.order)}</div > ${reward.amount ? getReward(reward) : gui.getMessage('equipment_free')}</td > `;
+                    const gems = +price.gems;
+                    htm += Html`<td><div class="ordinal">${Locale.formatNumber(price.order)}</div>${gems ? getCost(gems) : gui.getMessage('equipment_free')}</td>`;
                     col = (col + 1) % 16;
                     if (col == 0) htm += Html`</tr > `;
                 });

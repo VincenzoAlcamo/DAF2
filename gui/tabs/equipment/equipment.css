@@ -84,14 +84,6 @@
   vertical-align: middle;
 }
 
-div.equipment_mask {
-  margin-left: 6px;
-  background-image: url(/img/gui/building_mask.png);
-  width: calc(var(--w) * 10px + 1px);
-  height: calc(var(--h) * 10px + 1px);
-  margin-right: calc((5 - var(--w)) * 10px);
-}
-
 .equipment_pack {
   margin-top: 4px;
   display: inline-block;
@@ -120,148 +112,7 @@ div.equipment_mask {
   text-shadow: -1px -1px #000, -1px 0px #000, -1px 1px #000, 0px -1px #000, 0px 1px #000, 1px -1px #000, 1px 0 #000, 1px 1px #000;
 }
 
-.equipment_pack .item {
-  width: 120px;
-  background-color: rgba(255, 255, 255, 0.6);
-  margin: 2px;
-  float: left;
-  cursor: default;
-}
-
-.equipment_pack .item .title {
-  padding: 1px 2px;
-  width: 120px;
-  height: 24px;
-  overflow: hidden;
-  text-align: center;
-  display: grid;
-}
-
-.equipment_pack .item .title span {
-  margin: auto;
-  color: #000;
-  font-size: 10pt;
-  line-height: 0.85em;
-}
-
-.equipment_pack .item.gem .title {
-  background-color: #B7C;
-}
-
-.equipment_pack .item.capacity .title {
-  background-color: #99F;
-}
-
-.equipment_pack .item.regen .title {
-  background-color: #6D6;
-}
-
-.equipment_pack .item.usable .title,
-.equipment_pack .item.energy .title {
-  background-color: #DD6;
-}
-
-.equipment_pack .item.xp .title {
-  background-color: #F96;
-}
-
-.equipment_pack .item.material .title {
-  background-color: #6BC;
-}
-
-.equipment_pack .item.token .title,
-.equipment_pack .item.decoration .title {
-  background-color: #EFE;
-}
-
-.equipment_pack .item .bonus {
-  margin-top: -104px;
-  width: 120px;
-  height: 104px;
-  display: grid;
-}
-
-.equipment_pack .item .bonus span {
-  font-size: 12pt;
-  font-weight: bold;
-  color: #FF0;
-  margin: auto;
-  text-align: center;
-}
-
-.equipment_pack .item .limit {
-  margin-top: -104px;
-  width: 120px;
-  height: 104px;
-  text-align: center;
-  font-size: 12px;
-  padding-top: 2px;
-}
-
-.equipment_pack .item .mask {
-  margin-top: -104px;
-  width: 120px;
-  height: 104px;
-  display: grid;
-}
-
-.equipment_pack .item .mask .equipment_mask {
-  transform: scale(1.5);
-  transform-origin: bottom right;
-  opacity: 0.8;
-  margin: auto 2px 0px auto;
-}
-
-.equipment_pack .item .image {
-  height: 104px;
-  display: grid;
-}
-
-.equipment_pack .item .image img {
-  max-width: 100px;
-  max-height: 100px;
-  margin: auto;
-}
-
-.equipment_pack .item .caption {
-  text-align: center;
-  height: 42px;
-  margin-top: -16px;
-  display: grid;
-}
-
-.equipment_pack .item .caption div {
-  margin-top: auto;
-}
-
-.equipment_pack .item .caption span {
-  color: #FFF;
-  font-weight: bold;
-  font-size: 15pt;
-}
-
-.equipment_pack .item .caption img {
-  vertical-align: top;
-  margin-top: 2px;
-}
-
-.equipment_pack .item.regen .caption,
-.equipment_pack .item.capacity .caption {
-  padding-top: 4px;
-}
-
-.equipment_pack .item.regen .caption span,
-.equipment_pack .item.capacity .caption span {
-  font-size: 14pt;
-}
-
-.equipment_pack .item .caption span.qty {
-  color: #FF8;
-  font-size: 10pt;
-  line-height: 0.8em;
-}
-
-.equipment_pack .item.section {
+.equipment_pack .pack-item.section {
   height: 154px;
   padding: 4px;
   display: grid;
@@ -270,7 +121,7 @@ div.equipment_mask {
   width: 110px;
 }
 
-.equipment_pack .item.section span {
+.equipment_pack .pack-item.section span {
   margin: auto;
   color: #FFF;
   font-weight: bold;
@@ -278,13 +129,13 @@ div.equipment_mask {
   word-break: break-word;
 }
 
-.equipment_pack .item.section.region span,
-.equipment_pack .item.section span.region span {
+.equipment_pack .pack-item.section.region span,
+.equipment_pack .pack-item.section span.region span {
   font-size: 12pt;
 }
 
-.equipment_pack .item.section.region img,
-.equipment_pack .item.section span.region img {
+.equipment_pack .pack-item.section.region img,
+.equipment_pack .pack-item.section span.region img {
   margin: auto;
   transform: scale(1.2);
   transform-origin: bottom center;
@@ -363,8 +214,8 @@ div.equipment_mask {
   width: 87px;
 }
 
-.equipment_pack.zoomed td.td-section>.item,
-.equipment_pack.zoomed td.td-item>.item {
+.equipment_pack.zoomed td.td-section>.pack-item,
+.equipment_pack.zoomed td.td-item>.pack-item {
   transform: scale(var(--scale));
   transform-origin: top left;
   position: absolute;
@@ -382,40 +233,14 @@ div.equipment_mask {
   font-size: 14px;
 }
 
-.equipment_pack .item.section .tier_cost {
+.equipment_pack .pack-item.section .tier_cost {
   font-size: 15pt;
 }
 
-.equipment_pack .item.section .tier_cost img {
+.equipment_pack .pack-item.section .tier_cost img {
   height: 28px;
   vertical-align: middle;
   margin-left: 2px;
-}
-
-.equipment_pack .caption .with-energy,
-.equipment_pack .caption .with-time,
-.equipment_pack .caption .with-xp,
-.equipment_pack .caption .with-deco {
-  padding-right: 28px;
-  background-size: 26px;
-  background-position: right center;
-  background-repeat: no-repeat;
-}
-
-.equipment_pack .caption .with-energy {
-  background-image: url(/img/gui/energy.png);
-}
-
-.equipment_pack .caption .with-time {
-  background-image: url(/img/gui/time.png);
-}
-
-.equipment_pack .caption .with-xp {
-  background-image: url(/img/gui/xp.png);
-}
-
-.equipment_pack .caption .with-deco {
-  background-image: url(/img/gui/deco.png);
 }
 
 .equipment_pack.mini.tier5 td.td-section {
