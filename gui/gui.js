@@ -568,6 +568,7 @@ const gui = {
                     type: sw.type,
                     coeficient: +sw.coeficient,
                     priority: +sw.priority || 0,
+                    info: +sw.info,
                     start: start,
                     finish: finish
                 };

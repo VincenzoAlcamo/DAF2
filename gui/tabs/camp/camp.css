@@ -436,3 +436,55 @@
 .tab_camp .toolbar input[name=regen] {
   width: 3.5em;
 }
+
+.flipthepair {
+  margin-top: 4px;
+}
+
+.flipthepair td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 0;
+  min-width: 80px;
+}
+
+.flipthepair .chance {
+  font-size: 12px;
+  background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+.flipthepair .reward img {
+  max-width: 48px;
+  max-height: 48px;
+}
+
+.flipthepair .flip-table {
+  margin-top: 4px;
+}
+
+.flipthepair .flip-table td {
+  min-width: 48px;
+  font-weight: bold;
+  position: relative;
+}
+
+.flipthepair .flip-table .reward img {
+  max-width: 24px;
+  max-height: 24px;
+}
+
+.flipthepair .flip-table .ordinal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 12px;
+  font-weight: normal;
+  background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
+  border-radius: 4px;
+  padding: 0px 2px;
+  z-index: 1;
+}

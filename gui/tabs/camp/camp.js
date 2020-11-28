@@ -15,6 +15,7 @@ const NUM_SLOTS = 24;
 
 let tab, container, checkDay, checkNight, checkExtra, checkNeighbor, checkSetup, inputRegen;
 let regBuildings, capBuildings, campNames;
+let swFindThePair, buttonFindThePair;
 
 const addonsMeta = [
     { name: 'diggy_skin', title: 'GUI3178', type: '', id: 0, desc: '' },
@@ -45,6 +46,10 @@ function init() {
     inputRegen = container.querySelector('[name=regen]');
     inputRegen.addEventListener('change', rebuildSetup);
 
+    buttonFindThePair = container.querySelector('.toolbar button[data-action="playboard"]');
+    buttonFindThePair.textContent = gui.getString('GUI3326');
+    buttonFindThePair.addEventListener('click', findThePair);
+
     ['camp-player', 'camp-neighbor'].forEach(className => {
         let div = tab.container.querySelector('.' + className);
         div.addEventListener('render', function (_event) {
@@ -65,6 +70,9 @@ function init() {
 }
 
 function update() {
+    swFindThePair = gui.getActiveSpecialWeeks().items.find(sw => sw.type == 'find_the_pair');
+    buttonFindThePair.style.display = swFindThePair ? '' : 'none';
+
     markToBeRendered(container.querySelector('.camp-player'));
     markToBeRendered(container.querySelector('.camp-neighbor'));
     const divWeeks = container.querySelector('.toolbar .weeks');
@@ -798,6 +806,83 @@ function fillCamp(campLines, numRegSlots, regFirst = true) {
         }
     }
     return blds;
+}
+
+function getReward(reward) {
+    if (!reward) return '';
+    const type = reward.type;
+    const oid = reward.object_id;
+    const qty = +reward.amount;
+    const url = gui.getObjectImage(type, oid, true);
+    let title = gui.getObjectName(type, oid, 'event+building');
+    const xp = gui.getXp(type, oid);
+    if (xp) {
+        const totXp = qty * xp;
+        const textXp = ((xp == 1 || qty == 1) ? '' : Locale.formatNumber(qty) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
+        title += '\n' + gui.getMessageAndValue(type == 'usable' ? 'gui_energy' : 'gui_xp', textXp);
+    }
+    const desc = bgp.Data.getObjectDesc(type, oid);
+    if (desc) title += '\n' + gui.getWrappedText(desc);
+    return Html`<div class="reward"><img src="${url}" class="outlined" title="${title}"></div>
+        <div class="qty">${'\xd7 ' + Locale.formatNumber(+reward.amount)}</div>`;
+}
+
+async function findThePair() {
+    await bgp.Data.getFile('tokens');
+    await bgp.Data.getFile('events');
+    const data = await bgp.Data.getFile('playboards');
+
+    let htm = '';
+    const types = Object.keys(data).map(key => +key).sort((a, b) => b - a);
+    htm += Html`<label class="with-margin" style="${types.length < 2 ? 'display:none' : ''}">${gui.getMessage('gui_type')} <select name="type" data-method="type">`;
+    for (const key of types) htm += Html`<option value="${key}">${key}</option>`;
+    htm += Html`</select></label>`;
+    htm += Html`<label class="with-margin">${gui.getMessage('gui_region')} <select name="rid" data-method="rid">`;
+    const maxRid = gui.getMaxRegion();
+    for (let rid = 1; rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+    htm += Html`</select></label>`;
+    htm += Html`<div class="flipthepair"></div>`;
+    gui.dialog.show({ title: gui.getString('GUI3326'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
+        if (method == Dialog.AUTORUN || method == 'type' || method == 'rid') {
+            let htm = '';
+            htm += Html`<table class="daf-table">`;
+            htm += Html`<thead><tr><th colspan="8">${gui.getString('GUI3329')}</th></thead>`;
+            htm += Html`<tbody class="row-coloring">`;
+            const playboard = data[params.type];
+            const rid = params.rid;
+            const totChance = data[params.type].cards.reduce((sum, card) => sum += +card.chance, 0);
+            let col = 0;
+            playboard.cards.forEach(card => {
+                if (col == 0) htm += Html`<tr>`;
+                htm += Html`<td>`;
+                htm += card.rewards.filter(r => +r.region_id == 0 || +r.region_id == rid).map(reward => {
+                    return getReward(reward) + Html`<div class="chance">${gui.getMessageAndValue('events_chance', Locale.formatNumber(+card.chance / totChance * 100, 1))} %</div>`;
+                }).join('');
+                htm += Html`</td>`;
+                col = (col + 1) % 8;
+                if (col == 0) htm += Html`</tr>`;
+            });
+            htm += Html`<tbody>`;
+            htm += Html`</table>`;
+            const total = playboard.prices.reduce((s, p) => s += +p.gems, 0);
+            htm += Html`<table class="daf-table flip-table">`;
+            htm += Html`<thead><tr><th colspan="16">${gui.getString('GUI3332')} (${gui.getMessageAndValue('camp_total', Locale.formatNumber(total) + ' ' + gui.getObjectName('material', 2))})</th></thead>`;
+            htm += Html`<tbody class="row-coloring">`;
+            col = 0;
+            playboard.prices.map(price => { return { gems: +price.gems, order: +price.flip_order }; })
+                .sort((a, b) => a.order - b.order)
+                .forEach(price => {
+                    if (col == 0) htm += Html`<tr>`;
+                    const reward = { type: 'material', object_id: 2, amount: price.gems };
+                    htm += Html`<td><div class="ordinal">${Locale.formatNumber(price.order)}</div > ${reward.amount ? getReward(reward) : gui.getMessage('equipment_free')}</td > `;
+                    col = (col + 1) % 16;
+                    if (col == 0) htm += Html`</tr > `;
+                });
+            htm += Html`<tbody>`;
+            htm += Html`</table > `;
+            Dialog.htmlToDOM(gui.dialog.element.querySelector('.flipthepair'), htm);
+        }
+    });
 }
 
 function onTooltip(event) {
