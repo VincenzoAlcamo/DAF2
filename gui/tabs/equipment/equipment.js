@@ -13,7 +13,7 @@ export default {
 let tab, container, smartTable, selectOwned, selectShop, selectFrom, selectShopFrom, selectAffordable, selectUseful, selectType, searchInput, searchHandler;
 let selectShow, selectEvent, selectRegion, selectTheme;
 let allItems, currentItems, allEvents;
-let matCache, minRegen, minCapacity, updateTime, packsViewed;
+let minRegen, minCapacity, updateTime, packsViewed;
 let currency, lastPack, lastOffer, lastTieredOffer, btnPack, btnOffer, btnTieredOffer;
 let listRegion, listSkin, listMaterial;
 let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
@@ -178,7 +178,7 @@ function update() {
     const level = +generator.level;
     currency = generator.currency;
     updateTime = gui.getUnixTime();
-    matCache = {};
+    packHelper.onUpdate();
 
     const camps = [getCampInfo(generator.camp.buildings), getCampInfo(generator.camp.inactive_b)];
     camps.sort((a, b) => b.regTot - a.regTot);
@@ -884,30 +884,6 @@ function refresh() {
 
 const lockedClass = Html` class="locked"`;
 
-function getMaterialImg(req) {
-    const id = req.material_id;
-    let result = matCache[id];
-    if (!result) {
-        result = {};
-        result.url = gui.getObjectImage('material', id, true);
-        const item = gui.getObject('material', id);
-        const name_loc = item && item.name_loc;
-        result.name = name_loc ? gui.getString(name_loc) : '#' + id;
-        result.title = (item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '');
-        matCache[id] = result;
-    }
-    const img = result.url ? Html`<img width="18" height="18" src="${result.url}">` : '';
-    let title = result.name + ' (' + Locale.formatNumber(req.amount) + ' / ' + Locale.formatNumber(req.stored) + ')';
-    const xp = gui.getXp('material', id);
-    const totXp = req.amount * xp;
-    if (totXp) {
-        const textXp = ((xp == 1 || req.amount == 1) ? '' : Locale.formatNumber(req.amount) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
-        title += '\n' + gui.getMessageAndValue('gui_xp', textXp);
-    }
-    title += result.title;
-    return Html`<span class="${req.amount > req.stored ? 'locked' : ''}" title="${title}">${Locale.formatNumber(req.amount)}${img}</span>`;
-}
-
 function updateRow(row) {
     const id = row.getAttribute('data-id');
     const item = currentItems[id];
@@ -969,11 +945,11 @@ function updateRow(row) {
         htm += Html.br`${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
     } else if (type == 'decoration') {
         htm += Html.br`<td class="no_right_border"><img src="/img/gui/deco.png" title="${gui.getMessage('gui_decoration')}"></td>`;
-        htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, 18, true)}</td>`;
+        htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, undefined, true)}</td>`;
     } else if (type == 'usable') {
         htm += Html.br`<td class="no_right_border"><img src="/img/gui/usable.png" title="${gui.getMessage('gui_usable')}"></td>`;
         if (item.value) {
-            htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 2, 18, true)}</td>`;
+            htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 2, undefined, true)}</td>`;
         } else {
             htm += Html.br`<td class="bonus" colspan="5">${item.name}</td>`;
         }
@@ -1002,7 +978,7 @@ function updateRow(row) {
         for (const req of reqs) {
             if (!first) htm += `<br>`;
             first = false;
-            htm += getMaterialImg(req);
+            htm += packHelper.getMaterialImg(req);
         }
     }
     htm += Html.br`</td>`;
@@ -1135,24 +1111,7 @@ function showOffer(type, id, options) {
                 pre = `<td class="td-section"><div class="item section">${pre}</div></td>`;
             }
             block.items.forEach((item, index) => {
-                htm += Html.br`<td class="td-item"><div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, 'info+desc'))}">`;
-                htm += Html.br`<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
-                htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
-                if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
-                if (item.limit) htm += Html.br`<div class="limit outlined-text">${gui.getMessageAndValue('gui_maximum', Locale.formatNumber(item.limit))}</div>`;
-                if (item.portal) htm += Html.br`<div class="bonus">${packHelper.getOutlinedText(gui.getString('GUI3065'))}</div>`;
-                htm += Html.br`<div class="caption"><div>${item.caption}</div></div>`;
-                if (item.reqs) {
-                    htm += Html.br`<div class="cost">`;
-                    let first = true;
-                    for (const req of item.reqs) {
-                        if (!first) htm += `<br>`;
-                        first = false;
-                        htm += getMaterialImg(req);
-                    }
-                    htm += Html.br`</div>`;
-                }
-                htm += Html.br`</div></td>`;
+                htm += Html.br`<td class="td-item">${packHelper.getHtml(item)}</td>`;
                 if (!pre && index == 2 && block.items.length >= 5) htm += `</tr><tr>`;
             });
             if (htm in prev) continue;

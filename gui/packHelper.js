@@ -1,6 +1,10 @@
 /*global gui Html Locale*/
 
-function getRequirements(requirements, backpack) {
+let last_login;
+let matCache = {};
+let backpack = {};
+
+function getRequirements(requirements) {
     return Array.isArray(requirements) ? requirements.map(req => {
         const result = {};
         result.material_id = +req.material_id;
@@ -24,9 +28,8 @@ function getItem({ type, object_id, amount, portal, limit, requirements }) {
     let sort = 0;
     let caption;
     let title;
-    const backpack = gui.getGenerator().materials || {};
     const obj = (type == 'building' || type == 'material' || type == 'usable') ? gui.getObject(type, oid) : null;
-    const item = { type, oid, amount, portal, limit, obj, reqs: getRequirements(requirements, backpack) };
+    const item = { type, oid, amount, portal, limit, obj, reqs: getRequirements(requirements) };
     // type can be: "system", "building", "decoration", "usable", "material", "token", "camp_skin"
     if (type == 'building' && obj) {
         const cap = +obj.max_stamina;
@@ -74,6 +77,62 @@ function getItem({ type, object_id, amount, portal, limit, requirements }) {
     return Object.assign(item, { kind, value, sort, caption, title });
 }
 
-const packHelper = { getRequirements, getOutlinedText, getItem };
+function getMaterialImg(req) {
+    const id = req.material_id;
+    let result = matCache[id];
+    if (!result) {
+        result = {};
+        result.url = gui.getObjectImage('material', id, true);
+        const item = gui.getObject('material', id);
+        const name_loc = item && item.name_loc;
+        result.name = name_loc ? gui.getString(name_loc) : '#' + id;
+        result.title = (item && item.desc ? '\n' + gui.getWrappedText(gui.getString(item.desc)) : '');
+        matCache[id] = result;
+    }
+    const img = result.url ? Html`<img src="${result.url}">` : '';
+    let title = result.name + ' (' + Locale.formatNumber(req.amount) + ' / ' + Locale.formatNumber(req.stored) + ')';
+    const xp = gui.getXp('material', id);
+    const totXp = req.amount * xp;
+    if (totXp) {
+        const textXp = ((xp == 1 || req.amount == 1) ? '' : Locale.formatNumber(req.amount) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(totXp);
+        title += '\n' + gui.getMessageAndValue('gui_xp', textXp);
+    }
+    title += result.title;
+    return Html`<span class="material-img ${req.amount > req.stored ? 'locked' : ''}" title="${title}">${Locale.formatNumber(req.amount)}${img}</span>`;
+}
+
+function getHtml(item) {
+    let htm = '';
+    htm += Html.br`<div class="item ${item.kind}" title="${Html(gui.getObjectName(item.type, item.oid, 'info+desc'))}">`;
+    htm += Html.br`<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
+    htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
+    if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
+    if (item.limit) htm += Html.br`<div class="limit outlined-text">${gui.getMessageAndValue('gui_maximum', Locale.formatNumber(item.limit))}</div>`;
+    if (item.portal) htm += Html.br`<div class="bonus">${packHelper.getOutlinedText(gui.getString('GUI3065'))}</div>`;
+    htm += Html.br`<div class="caption"><div>${item.caption}</div></div>`;
+    if (item.reqs) {
+        htm += Html.br`<div class="cost">`;
+        let first = true;
+        for (const req of item.reqs) {
+            if (!first) htm += `<br>`;
+            first = false;
+            htm += getMaterialImg(req);
+        }
+        htm += Html.br`</div>`;
+    }
+    htm += Html.br`</div>`;
+    return Html.raw(htm);
+}
+
+function onUpdate() {
+    const generator = gui.getGenerator();
+    if (last_login != generator.last_login) {
+        last_login = generator.last_login;
+        matCache = {};
+        backpack = generator.materials || {};
+    }
+}
+
+const packHelper = { onUpdate, getRequirements, getOutlinedText, getItem, getHtml, getMaterialImg };
 
 export default packHelper;
