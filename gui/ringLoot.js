@@ -193,7 +193,7 @@ function ringLoot(kind) {
                     tle = tle.split(';');
                     for (let t of tle) {
                         t = t.split(',').map(n => parseInt(n));
-                        if (kind == 'red' || kind == 'christmas') {
+                        if (kind == 'red' || (kind == 'christmas' && lid != 2965)) {
                             t[0] = 99 - t[0];
                         }
                         t = t.map(n => String(n).padStart(3, '0')).join(',');
