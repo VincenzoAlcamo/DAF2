@@ -34,8 +34,11 @@ function addStylesheet(href, onLoad) {
     document.head.appendChild(link);
 }
 
+function htmlEncode(text) {
+    return text === undefined || text === null ? '' : String(text).replace(/[&<>'"]/g, c => '&#' + c.charCodeAt(0) + ';');
+}
 function htmlEncodeBr(text) {
-    return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
+    return htmlEncode(text).replace(/\n/g, '<br>');
 }
 
 function getMessage(id, ...args) {
@@ -272,6 +275,20 @@ function playSound(sound, volume = 100) {
     }
 }
 
+let badgeLuckyCards;
+function setBadgeLucky({ active, sound, volume }) {
+    const badge = menu && menu.querySelector('.DAF-badge-luckycards');
+    if (!badge) return;
+    if (!badgeLuckyCards) {
+        badgeLuckyCards = badge;
+        badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
+    }
+    active = !!active;
+    badge.classList.toggle('DAF-badge-on', active);
+    if (active) playSound(sound, volume);
+    badge.classList.toggle('animate', active);
+}
+
 let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
 function setBadgeRep({ list, sound, volume }) {
     list = Array.isArray(list) ? list : [];
@@ -382,6 +399,7 @@ function search() {
 function createMenu() {
     const gm = (id) => htmlEncodeBr(getMessage(id));
     const gm1 = (id) => htmlEncodeBr(getMessage(id).split('\n')[0]);
+    const gmSound = htmlEncode(getMessage('options_badgesound').split('\n')[1]);
     let html = `
 <ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
 <li data-action="about"><b>&nbsp;</b>
@@ -427,8 +445,11 @@ function createMenu() {
         <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
         <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
         <br>
-        <i data-pref="badgeRepeatables">${gm1('options_badgerepeatables')}</i>
-        <i data-pref="badgeRepeatablesSound">${gm1('options_badgerepeatablessound')}</i>
+        <i data-pref="badgeRepeatables" class="squared-right">${gm1('options_badgerepeatables')}</i>
+        <i data-pref="badgeRepeatablesSound" class="squared-left" title="${gmSound}">${gm1('options_badgesound')}</i>
+        <br>
+        <i data-pref="badgeLuckyCards" class="squared-right">${gm1('options_badgeluckycards')}</i>
+        <i data-pref="badgeLuckyCardsSound" class="squared-left" title="${gmSound}">${gm1('options_badgesound')}</i>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -442,6 +463,7 @@ function createMenu() {
 <div class="DAF-badges">
     <b class="DAF-badge-gc-counter DAF-badge-img"></b>
     <b class="DAF-badge-gc-energy DAF-badge-img"></b>
+    <b class="DAF-badge-luckycards DAF-badge-img" title="${htmlEncode(getMessage('options_badgeluckycards').split('\n')[0])}"></b>
     <div class="DAF-badge-rep"></div>
 </div>
 `;
@@ -458,7 +480,7 @@ function createMenu() {
     document.body.appendChild(menu);
     for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
         const prefName = el.getAttribute('data-pref');
-        el.title = getMessage('options_' + prefName.toLowerCase()).split('\n')[1];
+        el.title = el.title || getMessage('options_' + prefName.toLowerCase()).split('\n')[1];
     }
     searchInput = menu.querySelector('[data-action="search"] input');
     searchInput.addEventListener('input', search);
@@ -619,7 +641,7 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-    addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables,badgeRepeatablesSound');
+    addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;
@@ -703,11 +725,14 @@ function init() {
                 }
             }
         };
-        if (!miner) msgHandlers['gc-energy'] = (request) => {
-            const energy = (request.data && +request.data.energy) || 0;
-            setBadge({ selector: '.DAF-badge-gc-energy', text: energy, title: (request.data && request.data.title) || getMessage('gui_energy'), active: energy > 0 });
-        };
-        if (!miner) msgHandlers['repeatables'] = (request) => setBadgeRep(request.data);
+        if (!miner) {
+            msgHandlers['gc-energy'] = (request) => {
+                const energy = (request.data && +request.data.energy) || 0;
+                setBadge({ selector: '.DAF-badge-gc-energy', text: energy, title: (request.data && request.data.title) || getMessage('gui_energy'), active: energy > 0 });
+            };
+            msgHandlers['repeatables'] = (request) => setBadgeRep(request.data);
+            msgHandlers['luckycards'] = (request) => setBadgeLucky(request.data);
+        }
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();
         onFullWindow();

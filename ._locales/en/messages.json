@@ -1926,13 +1926,16 @@
     "options_badgerepeatables": {
         "message": "Repeatables\nShow a badge when any selected repeatable is ready"
     },
+    "options_badgeluckycards": {
+        "message": "Lucky Cards\nShow a badge when the Lucky Cards tent is ready"
+    },
     "options_badgerepeatablesoffset": {
         "message": "Time offset\nThe repeatable badge will be shown in advance by this amount of seconds."
     },
-    "options_badgerepeatablessound": {
-        "message": "Sound Effect\nThe sound effect to play when a repeatable is ready."
+    "options_badgesound": {
+        "message": "Sound Effect\nThe sound effect to play when the badge is displayed."
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgevolume": {
         "message": "Volume\nThe volume of the sound effect."
     },
     "calc_operators": {

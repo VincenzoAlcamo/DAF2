@@ -86,6 +86,10 @@ var Preferences = {
             badgeRepeatablesSound: true,
             badgeRepeatablesSoundName: 'ui_celebrate',
             badgeRepeatablesVolume: 100,
+            badgeLuckyCards: true,
+            badgeLuckyCardsSound: true,
+            badgeLuckyCardsSoundName: 'museum_done',
+            badgeLuckyCardsVolume: 100,
             keepDebugging: false,
             removeGhosts: 0,
             confirmCollection: false,
@@ -703,6 +707,7 @@ var Data = {
                 Tab.detectAll().then(() => {
                     Synchronize.signal('generator');
                     Data.checkRepeatablesStatus();
+                    Data.checkLuckyCards();
                 });
             });
             // Reset some values and pre-load childs
@@ -804,10 +809,19 @@ var Data = {
         Data.repeatables = repeatables;
         return repeatables;
     },
-    nextCheckRepeatablesStatus: 0,
+    timers: {},
+    setTimer: function (fn, timeout) {
+        const key = fn.name;
+        const data = Data.timers[key] = Data.timers[key] || {};
+        if (data.handle) clearTimeout(data.handle);
+        delete data.handle;
+        if (timeout > 0) {
+            data.handle = setTimeout(() => { delete data.handle; fn(); }, timeout);
+            data.nextTime = Date.now() + timeout;
+        }
+    },
     checkRepeatablesStatus: function () {
-        let now = getUnixTime();
-        now += Synchronize.offset;
+        const now = getUnixTime() + Synchronize.offset;
         const generator = Data.generator;
         const offset = parseInt(Preferences.getValue('badgeRepeatablesOffset'), 10) || 0;
         let time = +Infinity;
@@ -830,15 +844,31 @@ var Data = {
             }
             if (end < time) time = end;
         });
-        if (Data.nextCheckRepeatablesStatus) {
-            clearTimeout(Data.nextCheckRepeatablesStatus);
-            Data.nextCheckRepeatablesStatus = 0;
-        }
-        if (isFinite(time)) {
-            const interval = time - now;
-            Data.nextCheckRepeatablesStatus = setTimeout(Data.checkRepeatablesStatus, interval * 1000);
-        }
+        Data.setTimer(Data.checkRepeatablesStatus, isFinite(time) ? (time - now) * 1000 : 0);
         Synchronize.signalRepeatables(list);
+    },
+    findLuckyCardsAd: function (setValue) {
+        let ad = null;
+        const generator = Data.generator;
+        if (generator) {
+            let video_ad = generator.video_ad;
+            if (!video_ad) video_ad = generator.video_ad = {};
+            let item = video_ad.item;
+            if (!Array.isArray(item)) item = video_ad.item = [];
+            ad = item.find(ad => ad.type == 'wheel_of_fortune');
+            if (!ad) item.push(ad = { type: 'wheel_of_fortune' });
+            ad.watched_at = setValue || +ad.watched_at || 0;
+        }
+        return ad;
+    },
+    checkLuckyCards: function () {
+        const ad = Data.findLuckyCardsAd();
+        const now = getUnixTime() + Synchronize.offset;
+        const next = ad ? 8 * 3600 + ad.watched_at : 0;
+        const diff = next - now;
+        const active = diff <= 0;
+        Data.setTimer(Data.checkLuckyCards, diff > 0 ? diff * 1000 : 0);
+        Synchronize.signal('luckycards', Synchronize.expandDataWithSound({ active }, 'badgeLuckyCards'));
     },
     getPillarsInfo: function () {
         // Collect all pillars in the game and compute XP by material
@@ -894,13 +924,11 @@ var Data = {
         }
         return prog;
     },
-    storeLocProgHandler: 0,
+    storeLocProgDelayed: function () {
+        Data.storeSimple('loc_prog', Data.loc_prog);
+    },
     storeLocProg: function () {
-        if (Data.storeLocProgHandler) clearTimeout(Data.storeLocProgHandler);
-        Data.storeLocProgHandler = setTimeout(() => {
-            Data.storeLocProgHandler = 0;
-            Data.storeSimple('loc_prog', Data.loc_prog);
-        }, 5000);
+        Data.setTimer(Data.storeLocProgDelayed, 5000);
     },
     //#endregion
     //#region Neighbors
@@ -910,10 +938,8 @@ var Data = {
     getNeighbours: function () {
         return Data.neighbours;
     },
-    saveNeighbourHandler: 0,
     saveNeighbourList: {},
     saveNeighbourDelayed: function () {
-        Data.saveNeighbourHandler = 0;
         const tx = Data.db.transaction('Neighbours', 'readwrite');
         tx.objectStore('Neighbours').bulkPut(Object.values(Data.saveNeighbourList));
         Data.saveNeighbourList = {};
@@ -922,8 +948,7 @@ var Data = {
         if (!neighbour) return;
         const neighbours = [].concat(neighbour);
         if (!neighbours.length) return;
-        if (Data.saveNeighbourHandler) clearTimeout(Data.saveNeighbourHandler);
-        Data.saveNeighbourHandler = setTimeout(Data.saveNeighbourDelayed, 500);
+        Data.setTimer(Data.saveNeighbourDelayed, 500);
         neighbours.forEach(neighbour => Data.saveNeighbourList[neighbour.id] = neighbour);
     },
     convertNeighbourExtra: function (extra) {
@@ -962,11 +987,9 @@ var Data = {
     getFriends: function () {
         return Data.friends;
     },
-    saveFriendHandler: 0,
     saveFriendList: {},
     removeFriendList: {},
     saveFriendDelayed: function () {
-        Data.saveFriendHandler = 0;
         const tx = Data.db.transaction('Friends', 'readwrite');
         const store = tx.objectStore('Friends');
         const items = Object.values(Data.saveFriendList);
@@ -979,8 +1002,7 @@ var Data = {
         if (!friend) return;
         const friends = [].concat(friend);
         if (!friends.length) return;
-        if (Data.saveFriendHandler) clearTimeout(Data.saveFriendHandler);
-        Data.saveFriendHandler = setTimeout(Data.saveFriendDelayed, 500);
+        Data.setTimer(Data.saveFriendDelayed, 500);
         for (const f of friends) {
             if (remove) {
                 Data.removeFriendList[f.id] = f;
@@ -1040,12 +1062,10 @@ var Data = {
     getRewardLinks: function () {
         return Data.rewardLinks;
     },
-    saveRewardLinkHandler: 0,
     saveRewardLinkList: {},
     removeRewardLinkList: {},
     saveRewardLinksHistory: false,
     saveRewardLinkDelayed: function () {
-        Data.saveRewardLinkHandler = 0;
         const tx = Data.db.transaction('RewardLinks', 'readwrite');
         const store = tx.objectStore('RewardLinks');
         if (Data.saveRewardLinksHistory) {
@@ -1067,8 +1087,7 @@ var Data = {
         if (!rewardLink) return;
         const rewardLinks = [].concat(rewardLink);
         if (!rewardLink.length) return;
-        if (Data.saveRewardLinkHandler) clearTimeout(Data.saveRewardLinkHandler);
-        Data.saveRewardLinkHandler = setTimeout(Data.saveRewardLinkDelayed, 500);
+        Data.setTimer(Data.saveRewardLinkDelayed, 500);
         for (const rl of rewardLinks) {
             if (remove) {
                 const id = +rl.id;
@@ -1392,14 +1411,17 @@ var Synchronize = {
             Synchronize.signal('gc-energy', { energy, title });
         }
     },
+    expandDataWithSound: function (data, prefName) {
+        data.volume = Preferences.getValue(prefName + 'Sound') ? parseInt(Preferences.getValue(prefName + 'Volume')) || 0 : 0;
+        data.sound = data.volume ? Data.getSound(Preferences.getValue(prefName + 'SoundName')) : '';
+        return data;
+    },
     repeatables: '',
-    signalRepeatables(list) {
+    signalRepeatables: function (list) {
         const repeatables = list.map(o => o.lid).join(',');
         if (repeatables != Synchronize.repeatables) {
             Synchronize.repeatables = repeatables;
-            const volume = Preferences.getValue('badgeRepeatablesSound') ? parseInt(Preferences.getValue('badgeRepeatablesVolume')) || 0 : 0;
-            const sound = volume ? Data.getSound(Preferences.getValue('badgeRepeatablesSoundName')) : '';
-            Synchronize.signal('repeatables', { list, sound, volume });
+            Synchronize.signal('repeatables', Synchronize.expandDataWithSound({ list }, 'badgeRepeatables'));
         }
     },
     process: function (postedXml, responseText) {
@@ -1573,6 +1595,12 @@ var Synchronize = {
                     Data.checkRepeatablesStatus();
                 }
                 Data.storeLocProg();
+            }
+        },
+        process_waiting_rewards: function (_action, _tast, taskResponse, _response) {
+            if (taskResponse && taskResponse.video_ad_type == 'wheel_of_fortune') {
+                Data.findLuckyCardsAd(+taskResponse.video_ad_watched_at);
+                Data.checkLuckyCards();
             }
         },
         cl_add: function (action, task, taskResponse, _response) {

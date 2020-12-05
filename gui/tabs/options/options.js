@@ -56,7 +56,9 @@ function init() {
     }
 
     function option(prefName, features, options, extraHtml) {
-        const messageId = 'options_' + prefName.toLowerCase();
+        let messageId = 'options_' + prefName.toLowerCase();
+        if (prefName.endsWith('Sound')) messageId = 'options_badgesound';
+        if (prefName.endsWith('Volume')) messageId = 'options_badgevolume';
         const text = gui.getMessage(messageId);
         const i = text.indexOf('\n');
         const title = i >= 0 ? text.substr(0, i) : text;
@@ -124,30 +126,6 @@ function init() {
         return locales;
     }
 
-    beginSection('general');
-    const languages = bgp.Data.languages;
-    languages.sort((a, b) => a.name.localeCompare(b.name));
-    const guiLanguages = languages.filter(item => bgp.Data.guiLanguages.includes(item.id)).map(item => [item.id, item.name + ' - ' + item.nameLocal]);
-    option('language', CRITICAL + WITHSUBOPTIONS, guiLanguages);
-    const optionLocales = determineLocales();
-    let extra = '';
-    extra += Html`<ul style="margin-left:24px">`;
-    extra += Html`<li>${Locale.formatNumber(123456.78)}`;
-    extra += Html`<li>${Locale.formatDateTimeFull(gui.getUnixTime())}`;
-    extra += Html`<li>${gui.getDuration(1 * 86400 + 2 * 3600 + 3 * 60 + 4, 2)}`;
-    extra += Html`<li>${Locale.formatList([Locale.formatDaysNum(1), Locale.formatDaysNum(-1), Locale.formatDaysNum(-3)])}`;
-    extra += Html`</ul>`;
-    option('locale', SUBOPTION, optionLocales, Html.raw(extra));
-    const gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
-    if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
-    option('darkTheme');
-    option('autoLogin');
-    option('disableAltGuard', WARNING);
-    continueSection('badges');
-    option('badgeGcCounter');
-    option('badgeGcEnergy');
-    option('badgeRepeatables', WITHSUBOPTIONS);
-    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: 0, max: 9999 });
     const sounds = `
 ui_button
 ui_tab
@@ -250,11 +228,41 @@ UI_claim_coin_single_fast_02
 UI_claim_coin_single_slow_01
 UI_claim_coin_single_slow_02
 `;
-    extra = Html.br`<select data-pref="badgeRepeatablesSoundName">`;
-    extra += sounds.split('\n').sort(gui.sortTextAscending).map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join('');
-    extra += Html.br`</select><button class="play_sound">\u25B6</button>`;
-    option('badgeRepeatablesSound', SUBOPTION, null, Html.raw(extra));
-    option('badgeRepeatablesVolume', TEXT + SUBOPTION, { min: 0, max: 100, type: 'range', class: 'percent' });
+    function optionEffect(prefName) {
+        let extra = Html.br`<select data-pref="${prefName}SoundName">`;
+        extra += sounds.split('\n').sort(gui.sortTextAscending).map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join('');
+        extra += Html.br`</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
+        option(`${prefName}Sound`, SUBOPTION, null, Html.raw(extra));
+        option(`${prefName}Volume`, TEXT + SUBOPTION, { min: 0, max: 100, type: 'range', class: 'percent' });
+    }
+
+    beginSection('general');
+    const languages = bgp.Data.languages;
+    languages.sort((a, b) => a.name.localeCompare(b.name));
+    const guiLanguages = languages.filter(item => bgp.Data.guiLanguages.includes(item.id)).map(item => [item.id, item.name + ' - ' + item.nameLocal]);
+    option('language', CRITICAL + WITHSUBOPTIONS, guiLanguages);
+    const optionLocales = determineLocales();
+    let extra = '';
+    extra += Html`<ul style="margin-left:24px">`;
+    extra += Html`<li>${Locale.formatNumber(123456.78)}`;
+    extra += Html`<li>${Locale.formatDateTimeFull(gui.getUnixTime())}`;
+    extra += Html`<li>${gui.getDuration(1 * 86400 + 2 * 3600 + 3 * 60 + 4, 2)}`;
+    extra += Html`<li>${Locale.formatList([Locale.formatDaysNum(1), Locale.formatDaysNum(-1), Locale.formatDaysNum(-3)])}`;
+    extra += Html`</ul>`;
+    option('locale', SUBOPTION, optionLocales, Html.raw(extra));
+    const gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
+    if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
+    option('darkTheme');
+    option('autoLogin');
+    option('disableAltGuard', WARNING);
+    continueSection('badges');
+    option('badgeGcCounter');
+    option('badgeGcEnergy');
+    option('badgeRepeatables', WITHSUBOPTIONS);
+    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: 0, max: 9999 });
+    optionEffect('badgeRepeatables');
+    option('badgeLuckyCards', WITHSUBOPTIONS);
+    optionEffect('badgeLuckyCards');
     endSection();
     beginSection('ingame');
     option('fullWindow', WITHSUBOPTIONS);
@@ -310,8 +318,6 @@ UI_claim_coin_single_slow_02
 
     Dialog.htmlToDOM(container.querySelector('.scrollable-content'), htm);
 
-    container.querySelector('.play_sound').addEventListener('click', playSound);
-
     for (const item of container.querySelectorAll('.open_href')) {
         item.addEventListener('click', function (event) {
             event.preventDefault();
@@ -342,22 +348,32 @@ UI_claim_coin_single_slow_02
         return name in changes ? changes[name] : gui.getPreference(name);
     }
 
-    let audio;
+    let audio, audioPref;
     function stopSound() {
         if (audio) try { audio.pause(); } catch (e) { }
         audio = null;
     }
     function playSound() {
         stopSound();
-        const name = getPrefInChanges('badgeRepeatablesSoundName');
-        const volume = parseInt(getPrefInChanges('badgeRepeatablesVolume'));
-        const sound = bgp.Data.getSound(name);
-        if (sound && volume) {
-            audio = new Audio(sound);
-            audio.volume = volume / 100;
-            audio.play().then(_ => 0);
+        if (audioPref) {
+            const enabled = getPrefInChanges(audioPref + 'Sound');
+            const name = getPrefInChanges(audioPref + 'SoundName');
+            const volume = parseInt(getPrefInChanges(audioPref + 'Volume'));
+            if (enabled && volume > 0) {
+                const sound = bgp.Data.getSound(name);
+                if (sound) {
+                    audio = new Audio(sound);
+                    audio.volume = volume / 100;
+                    audio.play().then(_ => 0);
+                }
+            }
         }
     }
+
+    Array.from(container.querySelectorAll('.play_sound')).forEach(el => el.addEventListener('click', event => {
+        audioPref = event.target.getAttribute('data-name');
+        playSound();
+    }));
 
     let delayedAudio;
     function onInput() {
@@ -374,9 +390,10 @@ UI_claim_coin_single_slow_02
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, name == 'darkTheme' ? 0 : 500);
         changes[name] = value;
-        if ((name == 'badgeRepeatablesSound' && value) || name == 'badgeRepeatablesVolume' || name == 'badgeRepeatablesSoundName') {
+        if (name.endsWith('Sound') || name.endsWith('SoundName') || name.endsWith('Volume')) {
             stopSound();
             if (delayedAudio) clearTimeout(delayedAudio);
+            audioPref = name.replace(/(Sound|SoundName|Volume)$/, '');
             delayedAudio = setTimeout(playSound, 300);
         }
         if (name == 'locale') {
@@ -443,11 +460,16 @@ function refresh() {
         table.style.display = count > 0 ? '' : 'none';
     }
     for (const input of container.querySelectorAll('[data-pref]')) {
-        const name = input.getAttribute('data-pref');
-        const value = gui.getPreference(name);
+        let name = input.getAttribute('data-pref');
+        let value = gui.getPreference(name);
+        if (name.startsWith('@')) {
+            const index = parseInt(name.charAt(1));
+            name = name.substr(2);
+            value = gui.getPreference(name).split(',')[index];
+        }
         if (value !== undefined) {
             if (input.tagName == 'SELECT' || input.type == 'text' || input.type == 'number') input.value = value;
-            if (input.type == 'checkbox') input.checked = value === true;
+            if (input.type == 'checkbox') input.checked = value === true || value == 1;
             if (input.type == 'range') {
                 input.value = value;
                 input.nextElementSibling.textContent = Locale.formatNumber(value);

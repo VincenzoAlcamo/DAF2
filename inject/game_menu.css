@@ -97,6 +97,17 @@
   cursor: pointer;
 }
 
+.DAF-menu i.squared-right {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: -2px;
+}
+
+.DAF-menu i.squared-left {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .DAF-menu li:focus-within>*,
 .DAF-menu li:hover>* {
   display: inline-block;
@@ -212,6 +223,12 @@
   background-color: #0F0;
 }
 
+.DAF-badges .DAF-badge-luckycards {
+  background-image: url(/img/gui/luckycards.png);
+  background-color: #FF0;
+  padding: 0px 5px 0 16px;
+}
+
 .DAF-badges .DAF-badge-rep b {
   background-color: #A00;
   border-color: #A00;
@@ -220,12 +237,14 @@
   display: inline-block;
 }
 
+.DAF-badges .DAF-badge-luckycards.animate,
 .DAF-badges .DAF-badge-rep.animate b {
   animation: DAF_flash infinite 2s alternate;
 }
 
 .DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
+.DAF-badges.DAF-badgeluckycards .DAF-badge-luckycards.DAF-badge-on,
 .DAF-badges.DAF-badgegcenergy .DAF-badge-gc-energy.DAF-badge-on {
   display: inline-block;
 }
