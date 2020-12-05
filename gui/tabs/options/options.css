@@ -12,6 +12,11 @@
   font-size: inherit;
 }
 
+.options label>h3 {
+  display: inline-block;
+  margin-right: 8px;
+}
+
 .options p {
   font-size: small;
 }
@@ -68,4 +73,15 @@
 
 .options input[type=range].percent+span:after {
   content: "%";
+}
+
+.options p.time {
+  display: block;
+  float: left;
+  max-width: 70%;
+  margin-right: 8px;
+}
+
+.options input[type=number].time {
+  width: 60px;
 }

@@ -87,6 +87,7 @@ var Preferences = {
             badgeRepeatablesSoundName: 'ui_celebrate',
             badgeRepeatablesVolume: 100,
             badgeLuckyCards: true,
+            badgeLuckyCardsOffset: 0,
             badgeLuckyCardsSound: true,
             badgeLuckyCardsSoundName: 'museum_done',
             badgeLuckyCardsVolume: 100,
@@ -863,12 +864,13 @@ var Data = {
     },
     checkLuckyCards: function () {
         const ad = Data.findLuckyCardsAd();
-        const now = getUnixTime() + Synchronize.offset;
-        const next = ad ? 8 * 3600 + ad.watched_at : 0;
+        const offset = parseInt(Preferences.getValue('badgeLuckyCardsOffset'), 10) || 0;
+        const now = getUnixTime() + offset;
+        const next = ad ? 8 * 3600 + ad.watched_at - Synchronize.offset: 0;
         const diff = next - now;
         const active = diff <= 0;
         Data.setTimer(Data.checkLuckyCards, diff > 0 ? diff * 1000 : 0);
-        Synchronize.signal('luckycards', Synchronize.expandDataWithSound({ active }, 'badgeLuckyCards'));
+        Synchronize.signal('luckycards', Synchronize.expandDataWithSound({ active, next }, 'badgeLuckyCards'));
     },
     getPillarsInfo: function () {
         // Collect all pillars in the game and compute XP by material
@@ -1873,6 +1875,7 @@ async function init() {
         language: value => languageId = value,
         locale: changeLocale,
         repeatables: Data.checkRepeatablesStatus,
+        badgeLuckyCardsOffset: Data.checkLuckyCards,
         badgeRepeatablesOffset: Data.checkRepeatablesStatus
     }).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
 

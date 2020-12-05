@@ -59,6 +59,7 @@ function init() {
         let messageId = 'options_' + prefName.toLowerCase();
         if (prefName.endsWith('Sound')) messageId = 'options_badgesound';
         if (prefName.endsWith('Volume')) messageId = 'options_badgevolume';
+        if (prefName.endsWith('Offset')) messageId = 'options_badgetimeoffset';
         const text = gui.getMessage(messageId);
         const i = text.indexOf('\n');
         const title = i >= 0 ? text.substr(0, i) : text;
@@ -78,7 +79,7 @@ function init() {
         const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
 
         htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
-        htm += Html.br`<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p>${info}</p>`;
+        htm += Html.br`<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
         if (type == SELECT) {
             htm += Html.br`<select data-pref="${prefName}">`;
             for (const option of options) {
@@ -229,11 +230,13 @@ UI_claim_coin_single_slow_01
 UI_claim_coin_single_slow_02
 `;
     function optionEffect(prefName) {
+        option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
         let extra = Html.br`<select data-pref="${prefName}SoundName">`;
         extra += sounds.split('\n').sort(gui.sortTextAscending).map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join('');
         extra += Html.br`</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
+        extra += Html.br`<br><label><h3>${gui.getMessage('options_badgevolume').split('\n')[0]}</h3>`;
+        extra += Html.br`<input data-pref="${prefName}Volume" type="range" min="0" max="100" step="5" class="percent"><span></span></label>`;
         option(`${prefName}Sound`, SUBOPTION, null, Html.raw(extra));
-        option(`${prefName}Volume`, TEXT + SUBOPTION, { min: 0, max: 100, type: 'range', class: 'percent' });
     }
 
     beginSection('general');
@@ -259,7 +262,6 @@ UI_claim_coin_single_slow_02
     option('badgeGcCounter');
     option('badgeGcEnergy');
     option('badgeRepeatables', WITHSUBOPTIONS);
-    option('badgeRepeatablesOffset', TEXT + SUBOPTION, { min: 0, max: 9999 });
     optionEffect('badgeRepeatables');
     option('badgeLuckyCards', WITHSUBOPTIONS);
     optionEffect('badgeLuckyCards');

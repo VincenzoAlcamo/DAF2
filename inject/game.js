@@ -6,6 +6,10 @@ let menu;
 let loadCompleted, styleLoaded;
 let lastFullWindow = false;
 
+function getUnixTime() {
+    return Math.floor(Date.now() / 1000);
+}
+
 function sendMinerPosition() {
     // Send some values to the top window
     const name = '@bodyHeight';
@@ -275,18 +279,42 @@ function playSound(sound, volume = 100) {
     }
 }
 
-let badgeLuckyCards;
-function setBadgeLucky({ active, sound, volume }) {
+let badgeLuckyCards, badgeLuckyCardsNext, badgeLuckyCardsHandler;
+function setBadgeLucky({ active, sound, volume, next }) {
+    active = !!active;
     const badge = menu && menu.querySelector('.DAF-badge-luckycards');
     if (!badge) return;
     if (!badgeLuckyCards) {
         badgeLuckyCards = badge;
         badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
     }
-    active = !!active;
+    const wasActive = badge.classList.contains('DAF-badge-on');
     badge.classList.toggle('DAF-badge-on', active);
-    if (active) playSound(sound, volume);
-    badge.classList.toggle('animate', active);
+    badgeLuckyCardsNext = active ? next : 0;
+    if (active && !wasActive) {
+        badge.classList.add('animate');
+        playSound(sound, volume);
+    }
+    setBadgetLuckyText();
+}
+function setBadgetLuckyText() {
+    if (badgeLuckyCardsHandler) clearTimeout(badgeLuckyCardsHandler);
+    badgeLuckyCardsHandler = 0;
+    if (!badgeLuckyCardsNext) return;
+    const now = getUnixTime();
+    let diff = badgeLuckyCardsNext - now;
+    let text = getMessage('repeat_ready');
+    if (diff > 0) {
+        badgeLuckyCardsHandler = setTimeout(setBadgetLuckyText, 1000 - Date.now() % 1000);
+        text = String(diff % 60).padStart(2, '0');
+        diff = (diff - diff % 60) / 60;
+        if (diff) {
+            text = String(diff % 60).padStart(2, '0') + ':' + text;
+            diff = (diff - diff % 60) / 60;
+            if (diff) text = String(diff).padStart(2, '0') + ':' + text;
+        }
+    }
+    badgeLuckyCards.textContent = text;
 }
 
 let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
@@ -446,10 +474,10 @@ function createMenu() {
         <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
         <br>
         <i data-pref="badgeRepeatables" class="squared-right">${gm1('options_badgerepeatables')}</i>
-        <i data-pref="badgeRepeatablesSound" class="squared-left" title="${gmSound}">${gm1('options_badgesound')}</i>
+        <i data-pref="badgeRepeatablesSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
         <br>
         <i data-pref="badgeLuckyCards" class="squared-right">${gm1('options_badgeluckycards')}</i>
-        <i data-pref="badgeLuckyCardsSound" class="squared-left" title="${gmSound}">${gm1('options_badgesound')}</i>
+        <i data-pref="badgeLuckyCardsSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>

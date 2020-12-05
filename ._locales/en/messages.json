@@ -1932,6 +1932,9 @@
     "options_badgerepeatablesoffset": {
         "message": "Time offset\nThe repeatable badge will be shown in advance by this amount of seconds."
     },
+    "options_badgetimeoffset": {
+        "message": "Time offset\nThe badge will be shown in advance by this amount of seconds."
+    },
     "options_badgesound": {
         "message": "Sound Effect\nThe sound effect to play when the badge is displayed."
     },

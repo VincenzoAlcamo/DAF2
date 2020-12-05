@@ -92,7 +92,7 @@
 .DAF-menu i {
   border: 2px solid #202020;
   margin: -2px 2px 2px 0px;
-  padding: 2px 4px 1px 4px;
+  padding: 2px 6px 1px 6px;
   line-height: 1em;
   cursor: pointer;
 }
@@ -101,11 +101,17 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   margin-right: -2px;
+  padding-right: 4px;
 }
 
 .DAF-menu i.squared-left {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  padding-left: 4px;
+}
+
+.DAF-menu .hue {
+  filter: hue-rotate(285deg);
 }
 
 .DAF-menu li:focus-within>*,
@@ -226,7 +232,6 @@
 .DAF-badges .DAF-badge-luckycards {
   background-image: url(/img/gui/luckycards.png);
   background-color: #FF0;
-  padding: 0px 5px 0 16px;
 }
 
 .DAF-badges .DAF-badge-rep b {
