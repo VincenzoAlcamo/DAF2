@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "Vous pouvez supprimer l'amitié de cette page.\n\nN'oubliez pas que les comptes Facebook peuvent être temporairement désactivés et peuvent être activés ultérieurement."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "$NUM$ amis \"fantômes\" ont été détectés.\nVoulez-vous les supprimer maintenant?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Lecture de la liste des amis en cours..."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Suppression des amis \"fantômes\" en cours... ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ amis \"fantômes\" ont été supprimés.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Appuyez sur OUI pour confirmer, sur NON pour essayer plus loin.\n\nVous pouvez fermer cette fenêtre à tout moment\npour annuler l'opération."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "Cette méthode est identique à la méthode 'Standard', mais ne collecte pas d'amis.\nAu lieu de cela, tous les amis actuellement incomparables seront affichés, de sorte que vous pouvez supprimer l'amitié manuellement."
     },
-    "friendship_collectalternate": {
-        "message": "Alternative"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "Cette méthode est très rapide, mais sans détecter les comptes désactivés."
-    },
-    "friendship_collectboth": {
-        "message": "Les deux"
-    },
-    "friendship_collectbothinfo": {
-        "message": "Cette méthode combine les méthodes Alternative et Standard (Première alternative, puis Standard)."
-    },
     "friendship_disabledinfo": {
         "message": "Il peut identifier les profils désactivés."
-    },
-    "friendship_ghostinfo": {
-        "message": "Il peut identifier certains profils \"fantômes\" et offrira la possibilité de les supprimer."
-    },
-    "friendship_collectghostdelete": {
-        "message": "Est-ce que je supprime les profils \"fantômes\"?"
-    },
-    "friendship_collectghost0": {
-        "message": "Ce n'est pas grave"
-    },
-    "friendship_collectghost1": {
-        "message": "Demander d'abord"
-    },
-    "friendship_collectghost2": {
-        "message": "Automatiquement"
     },
     "friendship_collectmatch": {
         "message": "Correspondance"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Thème sombre"
     },
-    "options_keepdebugging": {
-        "message": "Le débogage continue\nLe débogueur reste actif même après le chargement du jeu.\nVous pouvez activer l'option @SILENT@ pour supprimer la barre \"DAF2 en cours de débogage\"."
-    },
-    "options_keepdebugging_warning": {
-        "message": "Cette option est nécessaire pour enregistrer les cadeaux tout en jouant et pour inspecter le terrain des voisins."
-    },
     "options_disablealtguard": {
         "message": "Réinitialiser sur un autre compte\nSi vous définissez cette option, le chargement d'un autre compte écrasera vos données DAF2 actuelles."
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Cartes de la chance\nMontrez un badge lorsque la tente des cartes de la chance est prête"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Décalage horaire\nLe badge répétable sera affiché à l'avance par ce nombre de secondes."
     },
     "options_badgetimeoffset": {
         "message": "Décalage horaire\nLe badge sera affiché à l'avance par ce nombre de secondes."

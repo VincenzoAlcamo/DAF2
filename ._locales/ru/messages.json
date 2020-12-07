@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "Вы можете удалить их из друзей на этой странице.\n\nИмейте в виду, что аккаунты Facebook могут быть заблокированы временно и могут быть разблокированы позже."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "Обнаружено $NUM$ «друзей-призраков».\nВы хотите удалить их сейчас?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Получение списка друзей..."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Удаление «друзей-призраков» ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ «друзей-призраков» было удалено.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Нажмите ДА, чтобы подтвердить, НЕТ, чтобы продолжить.\n\nВы можете закрыть это окно в любой момент\nдля отмены операции."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "Метод такой же, как и «Стандартный», но не собирает друзей.\nВместо этого он показывает всех несопоставленных друзей и вы сможете вручную удалить их из списка друзей."
     },
-    "friendship_collectalternate": {
-        "message": "Альтернативный"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "Метод очень быстрый, но не может обнаружить отключенные аккаунты."
-    },
-    "friendship_collectboth": {
-        "message": "Оба"
-    },
-    "friendship_collectbothinfo": {
-        "message": "Метод объединяет в себе Альтернативный и Стандартный методы (Сначала используется Альтернативный, затем Стандартный)."
-    },
     "friendship_disabledinfo": {
         "message": "Может обнаружить отключенные аккаунты."
-    },
-    "friendship_ghostinfo": {
-        "message": "Может обнаружить «друзей-призраков» и предложить удалить их."
-    },
-    "friendship_collectghostdelete": {
-        "message": "Удалить «друзей-призраков»?"
-    },
-    "friendship_collectghost0": {
-        "message": "Не спрашивать"
-    },
-    "friendship_collectghost1": {
-        "message": "Спрашивать"
-    },
-    "friendship_collectghost2": {
-        "message": "Автоматически"
     },
     "friendship_collectmatch": {
         "message": "Сопоставление"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Тёмная тема"
     },
-    "options_keepdebugging": {
-        "message": "Продолжать отладку\nИспользуйте отладчик даже после загрузки игры.\nВы можете включить @SILENT@, чтобы избавиться от сообщения «DAF2 is debugging»"
-    },
-    "options_keepdebugging_warning": {
-        "message": "Это необходимо для регистрации поступающих подарков во время игры и для осмотра лагеря соседа."
-    },
     "options_disablealtguard": {
         "message": "Сброс для альтернативного аккаунта\nЕсли вы установите этот параметр, загрузка альтернативной учетной записи перезапишет ваши текущие данные DAF2."
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Карты удачи\nОтображает значек, когда карты удачи готовы"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Смещение времени\nЗначок с готовой повторяющейся локацией будет показан заранее на указанное количество секунд."
     },
     "options_badgetimeoffset": {
         "message": "Смещение времени\nЗначок будет показан заранее на указанное количество секунд."

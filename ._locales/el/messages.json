@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "Μπορείτε να τους αφαιρέσετε από αυτή τη σελίδα.\n\nΝα ξέρετε όμως πως λογαριασμοί του Facebook μπορεί να απενεργοποιηθούν προσωρινά και να ενεργοποιηθούν αργότερα."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "Βρέθηκαν $NUM$ φίλοι \"φαντάσματα\".\nΘα θέλατε να τους αφαιρέσετε τώρα;",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Ανάκτηση λίστας φίλων..."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Αφαιρούνται φίλοι \"φαντάσματα\" ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ φίλοι \"φαντάσματα\" αφαιρέθηκαν.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Πατήστε ΝΑΙ για επιβεβαίωση, ΟΧΙ για περαιτέρω εύρεση\n\nΜπορείτε να κλείσετε αυτό το παράθυρο όποτε\nθέλετε για να ακυρώσετε τη διαδικασία."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "Αυτή η μέθοδος είναι η ίδια με την 'Προεπιλεγμένη', αλλά δε θα συλλέξει φίλους.\nΘα σας δείξει όλους του τωρινούς μη ταιρασμένους φίλους, για να τους διαγράψετε εσείς."
     },
-    "friendship_collectalternate": {
-        "message": "Εναλλακτική"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "Αυτή η μέθοδος είναι πολύ γρήγορη, αλλά δεν μπορεί να ανιχνεύσει απενεργοποιημένους λογαριασμούς."
-    },
-    "friendship_collectboth": {
-        "message": "Και τα δύο"
-    },
-    "friendship_collectbothinfo": {
-        "message": "Αυτή η μέθοδος συνδυάζει την Εναλλακτική και την Προεπιλεγμένη μέθοδο (Εναλλακτική πρώτα, μετά Προεπιλεγμένη)"
-    },
     "friendship_disabledinfo": {
         "message": "Μπορεί να ανιχνεύσει απενεργοποιημένους λογαριασμούς."
-    },
-    "friendship_ghostinfo": {
-        "message": "Μπορεί να ανιχνεύσει φίλους \"φαντάσματα\" και προσφέρει τη δυνατότητα διαγραφής τους."
-    },
-    "friendship_collectghostdelete": {
-        "message": "Διαγραφή φίλων \"φαντασμάτων\";"
-    },
-    "friendship_collectghost0": {
-        "message": "Αγνόηση"
-    },
-    "friendship_collectghost1": {
-        "message": "Ερώτηση πρώτα"
-    },
-    "friendship_collectghost2": {
-        "message": "Αυτόματα"
     },
     "friendship_collectmatch": {
         "message": "Ταίριασμα"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Σκοτεινό θέμα"
     },
-    "options_keepdebugging": {
-        "message": "Debug συνέχεια\nΔιόρθωση σφαλμάτων ακόμα και όταν φορτώνετε το παιχνίδι.\nΜπορείτε να ενεργοποιήσετε το @SILENT@ για να μην εμφανίζετε το μήνυμα \"Το DAF2 κάνει debug\""
-    },
-    "options_keepdebugging_warning": {
-        "message": "Αυτό είναι απαραίτητο για την καταγραφή εισερχόμενων δώρων ενώ παίζετε και τον έλεγχο της βάσης κάποιου γείτονα."
-    },
     "options_disablealtguard": {
         "message": "Επαναφορά σε διαφορετικούς λογαριασμούς\nΑν επιλεχθεί, η φόρτωση ενός διαφορετικού λογαριασμού θα κάνει αντικατάσταση των τωρινών σας δεδομένων του DAF2."
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Τυχερές Κάρτες\nΕπίδειξη σήματος όταν η τέντα με τις Τυχερές Κάρτες είναι έτοιμη"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Αντιστάθμιση χρόνου\nΤο σήμα επαναλαμβανόμενων θα εμφανιστεί εκ των προτέρων κατά αυτό τον αριθμό δευτερολέπτων"
     },
     "options_badgetimeoffset": {
         "message": "Προγενέστερος Χρόνος\nΤο σήμα εμφανίζεται προγενέστερα κατά τόσο χρόνο"

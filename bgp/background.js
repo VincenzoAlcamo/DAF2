@@ -91,8 +91,6 @@ var Preferences = {
             badgeLuckyCardsSound: true,
             badgeLuckyCardsSoundName: 'museum_done',
             badgeLuckyCardsVolume: 100,
-            keepDebugging: false,
-            removeGhosts: 0,
             confirmCollection: false,
             speedupCollection: 0,
             matchByImage: true,

@@ -3,7 +3,6 @@
 let language = 'en';
 let collectMethod = 'standard';
 // eslint-disable-next-line no-unused-vars
-let removeGhosts = 0;
 let unmatched = '';
 let confirmCollection = false;
 let speedupCollection = 0;

@@ -106,11 +106,6 @@ function update() {
     refresh();
 }
 
-function getRemoveGhosts() {
-    const result = parseInt(gui.getPreference('removeGhosts'));
-    return result >= 0 && result <= 2 ? result : 0;
-}
-
 function getConfirmCollection() {
     return !!gui.getPreference('confirmCollection');
 }
@@ -149,20 +144,11 @@ function getUnmatched() {
 }
 
 function showCollectDialog() {
-    let ghost = getRemoveGhosts();
     let confirmCollection = getConfirmCollection();
     let speedupCollection = getSpeedupCollection();
     let matchByImage = getMatchByImage();
     let fbFriendsPage = getFbFriendsPage();
     const numUnmatched = getUnmatched().length;
-
-    function addAlternateSettings() {
-        let extra = Html.br`<br>${gui.getMessage('friendship_collectghostdelete')} <select name="ghost">`;
-        for (let i = 0; i <= 2; i++)
-            extra += Html.br`<option value="${i}"${i == ghost ? ' selected' : ''}>${gui.getMessage('friendship_collectghost' + i)}</option>`;
-        extra += Html.br`</select>`;
-        return Html.raw(extra);
-    }
 
     function addStandardSettings() {
         let extra = Html.br`<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
@@ -203,8 +189,6 @@ function showCollectDialog() {
 <td>${gui.getMessage(msgId + 'info')}
 ${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 ${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
-${method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
-${method == 'alternate' ? addAlternateSettings() : ''}
 ${method == 'standard' ? addStandardSettings() : ''}
 ${method == 'match' ? addMatchSettings() : ''}
 </td></tr>`;
@@ -214,10 +198,6 @@ ${method == 'match' ? addMatchSettings() : ''}
     function setNewValue(prefName, oldValue, newValue) {
         if (oldValue != newValue) gui.setPreference(prefName, newValue);
         return newValue;
-    }
-
-    function setAlternateOptions(params) {
-        ghost = setNewValue('removeGhosts', ghost, parseInt(params.ghost) || 0);
     }
 
     function setStandardOptions(params) {
@@ -238,30 +218,26 @@ ${button('standard')}
 ${numFriends > 0 ? button('unmatched') : ''}
 ${numFriends > 0 ? button('match') : ''}
 </table>`,
-        style: ['standard', 'unmatched', 'alternate', 'both', 'match', Dialog.CANCEL]
+        style: ['standard', 'unmatched', 'match', Dialog.CANCEL]
     }, function (method, params) {
-        setAlternateOptions(params);
         setStandardOptions(params);
         if (numFriends > 0) setMatchOptions(params);
-        if (method == 'standard' || method == 'unmatched' || method == 'alternate' || method == 'both' || method == 'match') {
+        if (method == 'standard' || method == 'unmatched' || method == 'match') {
             gui.dialog.show({
                 title: gui.getMessage('friendship_collectfriends'),
                 html: Html.br`<p style="text-align:left">${gui.getMessage('friendship_collect' + method + 'info')}
-${method == 'both' || method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
+${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 ${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
-${method == 'both' || method == 'alternate' ? '\n' + gui.getMessage('friendship_ghostinfo') : ''}
 </p>
-${method == 'both' || method == 'alternate' ? addAlternateSettings() : ''}
-${method == 'both' || method == 'standard' || method == 'unmatched' ? addStandardSettings() : ''}
-${method == 'both' || method == 'standard' || method == 'alternate' || method == 'match' ? addMatchSettings() : ''}
+${method == 'standard' || method == 'unmatched' ? addStandardSettings() : ''}
+${method == 'standard' || method == 'match' ? addMatchSettings() : ''}
 <br><br>${gui.getMessage('friendship_confirmwarning')}`,
                 style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
             }, function (confirmation, params) {
-                if (method == 'alternate' || method == 'both') setAlternateOptions(params);
-                if (method == 'standard' || method == 'unmatched' || method == 'both') setStandardOptions(params);
-                if (method == 'both' || method == 'standard' || method == 'alternate' || method == 'match') setMatchOptions(params);
+                if (method == 'standard' || method == 'unmatched') setStandardOptions(params);
+                if (method == 'standard' || method == 'match') setMatchOptions(params);
                 if (confirmation != Dialog.CONFIRM) return;
-                if (method == 'standard' || method == 'alternate' || method == 'both' || method == 'unmatched') collectFriends(method);
+                if (method == 'standard' || method == 'unmatched') collectFriends(method);
                 else if (method == 'match') matchStoreAndUpdate();
             });
         }
@@ -410,7 +386,6 @@ function collectFriends(method) {
                         addVar('language', gui.getPreference('language'));
                         addVar('unmatched', unmatched);
                         addVar('collectMethod', method);
-                        addVar('removeGhosts', getRemoveGhosts());
                         addVar('confirmCollection', getConfirmCollection());
                         addVar('speedupCollection', getSpeedupCollection());
                         details.code = code + 'collect();';

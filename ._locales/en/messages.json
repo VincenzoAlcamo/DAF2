@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "You can unfriend them from this page.\n\nPlease be aware that Facebook accounts may be temporary disabled and may be enabled at a later moment."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "$NUM$ \"ghost\" friends were detected.\nWould you like to remove them now?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Retrieving friend list ..."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Removing \"ghost\" friend ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ \"ghost\" friends were removed.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Press YES to confirm, NO to try further.\n\nYou can close this window at any time\nto cancel the operation."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "This method is the same as the 'Standard' method, but it will not collect friends.\nInstead, it will show you all currently unmatched friends, so you can manually unfriend them."
     },
-    "friendship_collectalternate": {
-        "message": "Alternate"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "This method is super fast, but cannot detect disabled accounts."
-    },
-    "friendship_collectboth": {
-        "message": "Both"
-    },
-    "friendship_collectbothinfo": {
-        "message": "This method combines the Alternate and Standard methods (Alternate first, then Standard)."
-    },
     "friendship_disabledinfo": {
         "message": "It can detect disabled accounts."
-    },
-    "friendship_ghostinfo": {
-        "message": "It can detect \"ghost\" friends and will offer the option to delete them."
-    },
-    "friendship_collectghostdelete": {
-        "message": "Delete \"ghost\" friends?"
-    },
-    "friendship_collectghost0": {
-        "message": "Don't bother"
-    },
-    "friendship_collectghost1": {
-        "message": "Ask first"
-    },
-    "friendship_collectghost2": {
-        "message": "Automatically"
     },
     "friendship_collectmatch": {
         "message": "Match"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Dark theme"
     },
-    "options_keepdebugging": {
-        "message": "Keep debugging\nUse the debugger even after the game has loaded.\nYou may enable @SILENT@ to get rid of the \"DAF2 is debugging\" message"
-    },
-    "options_keepdebugging_warning": {
-        "message": "This is necessary to register incoming gifts while playing and to inspect a neighbor's camp."
-    },
     "options_disablealtguard": {
         "message": "Reset on alternate account\nIf you set this option, loading an alternate account will overwrite your current DAF2 data."
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Lucky Cards\nShow a badge when the Lucky Cards tent is ready"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Time offset\nThe repeatable badge will be shown in advance by this amount of seconds."
     },
     "options_badgetimeoffset": {
         "message": "Time offset\nThe badge will be shown in advance by this amount of seconds."

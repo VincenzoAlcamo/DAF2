@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "Du kan fravælge dem på denne side.\n\nVær opmærksom på at Facebook konti kan være midlertidigt deaktiveret og kan blive aktiveret på et senere tidspunkt."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "$NUM$ \"ghost\" venner blev fundet.\nVil du slette dem nu?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Indhenter venneliste ….."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Fjerner \"ghost\" venner ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ \"ghost\" venner blev fjernet.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Tryk JA for at bekræfte, NEJ for at prøve igen.\n\nDu kan lukke dette vindue på et hvert tidspunkt\nfor at afbryde handlingen."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "Denne metode er den samme som Standard metoden, men vil ikke indhente venner.\nI stedet vil den vise dig alle nuværende ikke sammenlignede venner, så du manuelt kan fravælge dem."
     },
-    "friendship_collectalternate": {
-        "message": "Alternativ"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "Denne metode er super hurtig, men kan ikke finde deaktiverede konti"
-    },
-    "friendship_collectboth": {
-        "message": "Begge"
-    },
-    "friendship_collectbothinfo": {
-        "message": "Her kombineres alternativ og standard metode (Alternativ først, så Standard)"
-    },
     "friendship_disabledinfo": {
         "message": "Den kan finde deaktiverede konti"
-    },
-    "friendship_ghostinfo": {
-        "message": "Den kan finde \"ghost\" venner og vil tilbyde mulighed for at slette dem."
-    },
-    "friendship_collectghostdelete": {
-        "message": "Slet \"ghost\" friends?"
-    },
-    "friendship_collectghost0": {
-        "message": "Tag dig ikke af det"
-    },
-    "friendship_collectghost1": {
-        "message": "Spørg først"
-    },
-    "friendship_collectghost2": {
-        "message": "Automatisk"
     },
     "friendship_collectmatch": {
         "message": "Sammenlign"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Mørkt tema"
     },
-    "options_keepdebugging": {
-        "message": "Fortsæt debug\nBrug debug selv efter spillet er startet.\nDu kan aktivere @SILENT@ for at slippe for \"DAF2 is debugging\" beskeden"
-    },
-    "options_keepdebugging_warning": {
-        "message": "Dette er nødvendigt for at modtage gaver og besøge naboers lejre, mens du spiller."
-    },
     "options_disablealtguard": {
         "message": "Reset på alternativ konto\nHvis du vælger denne mulighed, vil indlæsning af en alternativ konto overskrive dine nuværende DAF2 data."
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Heldige Kort\nVis et skilt når Heldige Kort teltet er klar"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Tidsforskydning\nDet gentagelige skilt vil blive vist forlods med dette antalt sekunder"
     },
     "options_badgetimeoffset": {
         "message": "Tidsforskydning\nSkiltet vil blive vist forlods med dette antalt sekunder"

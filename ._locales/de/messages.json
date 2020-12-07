@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "Du kannst sie von dieser Seite aus entfreunden.\n\nBitte beachten, dass Facebook-Konten vorübergehend deaktiviert und zu einem späteren Zeitpunkt aktiviert werden können."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "$NUM$ \"Geisterfreunde\" wurden entdeckt.\nMöchtest du sie jetzt entfernen?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Freundschaftsliste abrufen ..."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Entfernen von \"Geisterfreunden\" ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ \"Geisterfreunde\" wurden entfernt.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Klicke Sie JA zur Bestätigung, NEIN zum weiteren Versuch.\n\nDu kannst dieses Fenster jederzeit schließen,\num den Vorgang abzubrechen."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "Diese Methode ist die gleiche wie die 'Standard'-Methode, aber sie sammelt keine Freunde.\nStattdessen zeigt es alle derzeit ungleichen Freunde an, so dass sie manuell entfreundet werden können."
     },
-    "friendship_collectalternate": {
-        "message": "Alternativ"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "Diese Methode ist superschnell, kann aber deaktivierte Benutzerkonten nicht erkennen."
-    },
-    "friendship_collectboth": {
-        "message": "Beides"
-    },
-    "friendship_collectbothinfo": {
-        "message": "Diese Methode kombiniert die Methoden Alternativ und Standard (Alternativ zuerst, dann Standard)."
-    },
     "friendship_disabledinfo": {
         "message": "Es kann deaktivierte Konten erkennen."
-    },
-    "friendship_ghostinfo": {
-        "message": "Es kann \"Geisterfreunde\" erkennen und bietet die Möglichkeit, diese zu löschen."
-    },
-    "friendship_collectghostdelete": {
-        "message": "\"Geisterfreunde\" löschen?"
-    },
-    "friendship_collectghost0": {
-        "message": "Mach dir keine Sorgen."
-    },
-    "friendship_collectghost1": {
-        "message": "Zuerst fragen"
-    },
-    "friendship_collectghost2": {
-        "message": "Automatisch"
     },
     "friendship_collectmatch": {
         "message": "Übereinstimmung"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Dunkles Thema"
     },
-    "options_keepdebugging": {
-        "message": "Debugging fortsetzen\nVerwenden Sie den Debugger auch nach dem Laden des Spiels.\nDu kannst @SILENT@ aktivieren, um die Meldung \"DAF2 is debugging\" zu beseitigen."
-    },
-    "options_keepdebugging_warning": {
-        "message": "Dies ist erforderlich, um eingehende Geschenke während des Spiels zu registrieren und das Camp eines Nachbarn zu besuchen."
-    },
     "options_disablealtguard": {
         "message": "Zurücksetzen auf ein anderes Konto\nWenn Sie diese Option aktivieren, überschreibt das Laden eines alternativen Kontos Ihre aktuellen DAF2-Daten."
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Glückskarten\nAnzeigen eines Abzeichens, wenn das Glückskartenzelt bereit ist"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Zeitversatz\nDas wiederholbare Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."
     },
     "options_badgetimeoffset": {
         "message": "Zeitversatz\nDas Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."

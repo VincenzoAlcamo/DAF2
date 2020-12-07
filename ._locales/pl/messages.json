@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "Możesz usunąć ich ze znajomych z tej strony.\n\nNależy pamiętać, że konta na Facebooku mogą być tymczasowo zablokowane i mogą zostać włączone w późniejszym czasie."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "$NUM$ \"znajomych-duchów\" zostało wykrytych.\nCzy chcesz ich teraz usunąć?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Pobieranie listy znajomych..."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Usuwanie znajomych \"duchów\" ($NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ znajomych \"duchów\" zostało usuniętych.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Kliknij TAK aby potwierdzić, NIE aby przerwać.\n\nMożesz zamknąć to okno w każdym czasie\naby anulować tą operację."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "Ta metoda jest taka sama jak metoda \"Standardowa\", ale nie będzie kolekcjonować przyjaciół.\nZamiast tego pokaże ci aktualnie niedopasowanych przyjaciół, więc możesz ich usunąć ręcznie."
     },
-    "friendship_collectalternate": {
-        "message": "Alternatywna"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "Ta metoda jest bardzo szybka, ale nie wykrywa nieaktywnych kont."
-    },
-    "friendship_collectboth": {
-        "message": "Obie"
-    },
-    "friendship_collectbothinfo": {
-        "message": "Ta metoda łączy metodę Alternatywną i Standardową (Alternatywna pierwsza,\npóźniej Standardowa)"
-    },
     "friendship_disabledinfo": {
         "message": "Wykrywa nieaktywne konta."
-    },
-    "friendship_ghostinfo": {
-        "message": "Wykrywa znajomych \"duchów\" i proponuje opcję usunięcia ich."
-    },
-    "friendship_collectghostdelete": {
-        "message": "Usuąć znajomych \"duchów\"?"
-    },
-    "friendship_collectghost0": {
-        "message": "Nie przejmuj się"
-    },
-    "friendship_collectghost1": {
-        "message": "Najpierw zapytaj"
-    },
-    "friendship_collectghost2": {
-        "message": "Automatycznie"
     },
     "friendship_collectmatch": {
         "message": "Dopasuj"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Ciemny motyw"
     },
-    "options_keepdebugging": {
-        "message": "Debugowanie\nUżyj debugera nawet po załadowaniu gry.\nMożesz włączyć @SILENT@ aby pozbyć się komunikatu \"DAF2 debuguje tę przeglądrkę\""
-    },
-    "options_keepdebugging_warning": {
-        "message": "Jest to konieczne, aby zarejestrować przychodzące prezenty podczas gry i mieć podgląd na\nobóz sąsiada"
-    },
     "options_disablealtguard": {
         "message": "Zresetuj na koncie alternatywnym\nJeśli ustawisz tą opcję, ładowanie konta alternatywnego zastąpi twoje aktualne\ndane DAF2"
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Szczęśliwe karty\nPokaż odznakę, kiedy Szczęśliwe karty będą gotowe"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Przesunięcie czasowe\nPowtarzalna odznaka zostanie pokazana z wyprzedzeniem o kilka sekund."
     },
     "options_badgetimeoffset": {
         "message": "Przesunięcie czasowe\nOdznaka zostanie pokazana z wyprzedzeniem o kilka sekund."

@@ -63,7 +63,7 @@ function init() {
         const text = gui.getMessage(messageId);
         const i = text.indexOf('\n');
         const title = i >= 0 ? text.substr(0, i) : text;
-        let info = i >= 0 ? text.substr(i + 1) : '';
+        const info = i >= 0 ? text.substr(i + 1) : '';
         let warning = '';
         let className = '';
         features = features || '';
@@ -71,10 +71,6 @@ function init() {
         if (features.indexOf(WITHSUBOPTIONS) >= 0) className += ' hassuboptions';
         if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
         if (features.indexOf(WARNING) >= 0) warning = gui.getMessage(messageId + '_warning');
-        if (info.indexOf('@SILENT@') >= 0) {
-            info = info.split('\n')[0];
-            // info = Html.raw(String(Html.br(info)).replace('@SILENT@', '<a href="chrome://flags/#silent-debugger-extension-api" class="open_href">Silent Debugging</a>'));
-        }
 
         const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
 

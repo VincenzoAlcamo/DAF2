@@ -857,36 +857,6 @@
     "friendship_unfriendinfo": {
         "message": "Você pode cancelar a amizade deles nesta página.\n\nEsteja ciente de que as contas do Facebook podem ser desativadas temporariamente e podem ser ativadas posteriormente."
     },
-    "friendship_ghostfriendsdetected": {
-        "message": "$NUM$ amigos \"fantasmas\" foram detectados.\nGostaria de removê-los agora?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectalternatewait": {
-        "message": "Recuperando lista de amigos ..."
-    },
-    "friendship_ghostfriendremoving": {
-        "message": "Removendo amigo \"fantasma\" ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_ghostfriendremoved": {
-        "message": "$NUM$ amigos \"fantasmas\" foram removidos.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
     "friendship_confirmcollect": {
         "message": "Pressione SIM para confirmar, NÃO para tentar mais.\n\nVocê pode fechar esta janela a qualquer momento\npara cancelar a operação."
     },
@@ -991,35 +961,8 @@
     "friendship_collectunmatchedinfo": {
         "message": "Este método é igual ao método 'Padrão', mas não coleta amigos.\nEm vez disso, ele mostrará todos os amigos que não têm correspondência no momento, para que você possa desfazer a amizade deles manualmente."
     },
-    "friendship_collectalternate": {
-        "message": "Alternar"
-    },
-    "friendship_collectalternateinfo": {
-        "message": "Este método é muito rápido, mas não detecta contas desativadas."
-    },
-    "friendship_collectboth": {
-        "message": "Ambos"
-    },
-    "friendship_collectbothinfo": {
-        "message": "Este método combina os métodos alternativo e padrão (alternativo primeiro, depois padrão)."
-    },
     "friendship_disabledinfo": {
         "message": "Ele pode detectar contas desativadas."
-    },
-    "friendship_ghostinfo": {
-        "message": "Ele pode detectar amigos \"fantasmas\" e oferecer a opção de excluí-los."
-    },
-    "friendship_collectghostdelete": {
-        "message": "Excluir amigos \"fantasmas\"?"
-    },
-    "friendship_collectghost0": {
-        "message": "Não se preocupe"
-    },
-    "friendship_collectghost1": {
-        "message": "Pergunte primeiro"
-    },
-    "friendship_collectghost2": {
-        "message": "Automaticamente"
     },
     "friendship_collectmatch": {
         "message": "Combine"
@@ -1830,12 +1773,6 @@
     "options_darktheme": {
         "message": "Tema escuro"
     },
-    "options_keepdebugging": {
-        "message": "Continue depurando\nUse o depurador mesmo depois que o jogo for carregado.\nVocê pode habilitar @SILENT@ para se livrar da mensagem \"DAF2 is debugging\""
-    },
-    "options_keepdebugging_warning": {
-        "message": "Isso é necessário para registrar os presentes recebidos durante o jogo e para inspecionar o acampamento de um vizinho."
-    },
     "options_disablealtguard": {
         "message": "Redefinir em conta alternativa\nSe você definir esta opção, carregar uma conta alternativa irá sobrescrever seus dados DAF2 atuais."
     },
@@ -1928,9 +1865,6 @@
     },
     "options_badgeluckycards": {
         "message": "Cartas da Sorte\nMostre um marcador quando a tenda das casas da sorte estiver pronta"
-    },
-    "options_badgerepeatablesoffset": {
-        "message": "Deslocamento de tempo\nO marcador da renovável será mostrado antecipadamente por esse período de segundos."
     },
     "options_badgetimeoffset": {
         "message": "Ajuste de tempo\nO marcador será mostrado com antecedência por esta quantidade de segundos."
