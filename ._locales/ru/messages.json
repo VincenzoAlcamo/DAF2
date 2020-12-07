@@ -1279,7 +1279,7 @@
         "message": "ВЕРОЯТНО ССЫЛКА ПРОСРОЧЕНА"
     },
     "rewardlinks_background": {
-        "message": "Фон?"
+        "message": "Фоновое открытие ссылок"
     },
     "rewardlinks_addlinks": {
         "message": "Добавить ссылки"
@@ -1926,13 +1926,19 @@
     "options_badgerepeatables": {
         "message": "Повторяющиеся\nОтображает значки выбранных и готовых повторяющихся локаций"
     },
+    "options_badgeluckycards": {
+        "message": "Карты удачи\nОтображает значек, когда карты удачи готовы"
+    },
     "options_badgerepeatablesoffset": {
         "message": "Смещение времени\nЗначок с готовой повторяющейся локацией будет показан заранее на указанное количество секунд."
     },
-    "options_badgerepeatablessound": {
-        "message": "Звуковой эффект\nЭффект, который будет воспроизводиться, когда повторяющаяся локация будет готова."
+    "options_badgetimeoffset": {
+        "message": "Смещение времени\nЗначок будет показан заранее на указанное количество секунд."
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Звуковой эффект\nЭффект, который будет воспроизводиться при отображении значка."
+    },
+    "options_badgevolume": {
         "message": "Громкость\nГромкость звукового эффекта."
     },
     "calc_operators": {

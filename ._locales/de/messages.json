@@ -191,7 +191,7 @@
         }
     },
     "gui_screenshot_shot": {
-        "message": "Klicken, um einen Screenshot von diesem Abschnitt zu machen.\nDer Screenshot erscheint auf der rechten Seite.\nBitte beachten: Es wird nur der sichtbare Bereich erfasst!\nSie müssen auf das DAF2-Symbol im Chrome-Menü klicken,\num diese Funktion zu aktivieren."
+        "message": "Klicken, um einen Screenshot von diesem Abschnitt zu machen.\nDer Screenshot erscheint auf der rechten Seite.\nBitte beachten: Es wird nur der sichtbare Bereich erfasst!\nAuf das DAF2-Symbol im Chrome-Menü klicken,\num diese Funktion zu aktivieren."
     },
     "gui_screenshot_target": {
         "message": "Klicken, um das Bild herunterzuladen.\nMit der rechten Maustaste auf dieses Bild klicken und\n\"Bild kopieren\" wählen, um es in die Zwischenablage zu kopieren."
@@ -200,7 +200,7 @@
         "message": "Screenshot kann nicht erstellt werden."
     },
     "gui_screenshot_errorinfo": {
-        "message": "Zuerst auf das @DAF2@-Symbol im Chrome-Menü klicken.\nDadurch wird die Screenshot-Funktion aktiviert, bis die Seite geschlossen wird.\n\nBitte auf das @DAF2@-Symbol klicken und versuchen Sie den Screenshot erneut."
+        "message": "Zuerst auf das @DAF2@-Symbol im Chrome-Menü klicken.\nDadurch wird die Screenshot-Funktion aktiviert, bis die Seite geschlossen wird.\n\nBitte auf das @DAF2@-Symbol klicken und den Screenshot erneut versuchen."
     },
     "gui_infodated": {
         "message": "Diese Informationen waren aktuell und nur gültig zum Zeitpunkt '$VALID$'.",
@@ -422,7 +422,7 @@
         "message": "Die offizielle Facebook-Seite besuchen."
     },
     "about_nodata": {
-        "message": "Es sind noch keine Spieldaten geladen, bitte laden oder aktualisiere das Spielfenster."
+        "message": "Es sind noch keine Spieldaten geladen, bitte das Spielfenster laden oder aktualisieren."
     },
     "about_disclaimer": {
         "message": "DA Friends ist 'Fan Code' und wird von Pixel Federation, den Autoren des Spiels \"Diggy's Adventure\", weder empfohlen noch gebilligt oder unterstützt.\nDie Nutzung von DA Friends erfolgt auf eigene Gefahr. Es gibt keine Garantie oder Gewährleistung, weder ausdrücklich noch implizit in Bezug auf Funktionalität oder Benutzerfreundlichkeit.\nDer Autor haftet nicht für Schäden oder Verluste, die durch die Nutzung entstehen.\nMit der Nutzung dieser Erweiterung erklären Sie sich mit diesen Bedingungen einverstanden."
@@ -855,7 +855,7 @@
         "message": "Deaktivierte und/oder nicht übereinstimmende Benutzerkonten wurden erkannt."
     },
     "friendship_unfriendinfo": {
-        "message": "Du kannst sie von dieser Seite aus entfreunden.\n\nBitte beachte, dass Facebook-Konten vorübergehend deaktiviert und zu einem späteren Zeitpunkt aktiviert werden können."
+        "message": "Du kannst sie von dieser Seite aus entfreunden.\n\nBitte beachten, dass Facebook-Konten vorübergehend deaktiviert und zu einem späteren Zeitpunkt aktiviert werden können."
     },
     "friendship_ghostfriendsdetected": {
         "message": "$NUM$ \"Geisterfreunde\" wurden entdeckt.\nMöchtest du sie jetzt entfernen?",
@@ -1007,7 +1007,7 @@
         "message": "Es kann deaktivierte Konten erkennen."
     },
     "friendship_ghostinfo": {
-        "message": "Es kann \"Geisterfreunde\" erkennen und bietet die Möglichkeit, sie zu löschen."
+        "message": "Es kann \"Geisterfreunde\" erkennen und bietet die Möglichkeit, diese zu löschen."
     },
     "friendship_collectghostdelete": {
         "message": "\"Geisterfreunde\" löschen?"
@@ -1787,7 +1787,7 @@
         "message": "Vollbildmodus sperren\nVerhindert, dass das Spiel den Vollbildmodus verlässt."
     },
     "options_resetfullwindow": {
-        "message": "Zurücksetzen beim Starten\nJedes Mal, wenn Sie das Spiel laden, werden \"Vollbildmodus\" und \"Vollbild - Seite\" zurückgesetzt."
+        "message": "Zurücksetzen beim Starten\nJedes Mal, wenn das Spiel geladen wird, werden \"Vollbildmodus\" und \"Vollbild - Seite\" zurückgesetzt."
     },
     "options_resetfullwindow_warning": {
         "message": "Diese Einstellung sollte aktiviert werden, wenn es Probleme beim Laden des Spiels gibt."
@@ -1926,13 +1926,19 @@
     "options_badgerepeatables": {
         "message": "Wiederholbare\nAnzeigen eines Abzeichens, wenn eine ausgewählte Wiederholbare bereit ist"
     },
+    "options_badgeluckycards": {
+        "message": "Glückskarten\nAnzeigen eines Abzeichens, wenn das Glückskartenzelt bereit ist"
+    },
     "options_badgerepeatablesoffset": {
         "message": "Zeitversatz\nDas wiederholbare Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."
     },
-    "options_badgerepeatablessound": {
-        "message": "Klangeffekt\nDer Klangeffekt wird abgespielt, wenn eine Wiederholfunktion bereit ist."
+    "options_badgetimeoffset": {
+        "message": "Zeitversatz\nDas Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Klangeffekt\nDer Klangeffekt, der abgespielt wird, wenn das Abzeichen angezeigt wird."
+    },
+    "options_badgevolume": {
         "message": "Lautstärke\nDie Lautstärke des Klangeffekts."
     },
     "calc_operators": {

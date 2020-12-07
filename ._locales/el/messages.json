@@ -1926,13 +1926,19 @@
     "options_badgerepeatables": {
         "message": "Επαναλαμβανόμενα\nΕμφάνιση σήματος όταν οποιοδήποτε επαναλαμβανόμενο είναι έτοιμο"
     },
+    "options_badgeluckycards": {
+        "message": "Τυχερές Κάρτες\nΕπίδειξη σήματος όταν η τέντα με τις Τυχερές Κάρτες είναι έτοιμη"
+    },
     "options_badgerepeatablesoffset": {
         "message": "Αντιστάθμιση χρόνου\nΤο σήμα επαναλαμβανόμενων θα εμφανιστεί εκ των προτέρων κατά αυτό τον αριθμό δευτερολέπτων"
     },
-    "options_badgerepeatablessound": {
-        "message": "Εφέ ήχου\nΝα ακούγεται ένας ήχος όταν ένα επαναλαμβανόμενο είναι έτοιμο."
+    "options_badgetimeoffset": {
+        "message": "Προγενέστερος Χρόνος\nΤο σήμα εμφανίζεται προγενέστερα κατά τόσο χρόνο"
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Ηχητικό Εφέ\nΟ ήχος που ακούγεται όταν το σήμα εμφανίζεται"
+    },
+    "options_badgevolume": {
         "message": "Ένταση\nΗ ένταση του ήχου"
     },
     "calc_operators": {

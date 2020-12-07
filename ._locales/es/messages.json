@@ -1921,18 +1921,24 @@
         "message": "Contador niños dioses.\nMuestra una insignia con el numero restante de niños dioses para recolectar"
     },
     "options_badgegcenergy": {
-        "message": "Energia niños dioses.\nMuestra una insignia con la energia de los niños dioses de los vecinos ."
+        "message": "Energia niños dioses.\nMuestra una insignia con la energia de los niños dioses de los vecinos."
     },
     "options_badgerepeatables": {
         "message": "Repetibles\nMostrar una insignia cuando cualquier repetible seleccionado esté listo"
     },
+    "options_badgeluckycards": {
+        "message": "Cartas de la suerte\nMuestra una insignia cuando la carpa de cartas de la suerte este lista."
+    },
     "options_badgerepeatablesoffset": {
         "message": "Desplazamiento de tiempo\nLa insignia repetible se mostrará de antemano por esta cantidad de segundos."
     },
-    "options_badgerepeatablessound": {
-        "message": "Efecto de sonido\nEl efecto de sonido se reproduce cuando un repetible está listo."
+    "options_badgetimeoffset": {
+        "message": "Desplazamiento de tiempo.\nLa insignia se mostrará con antelacion por esa cantidad de segundos"
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Efecto de sonido\nUn sonido se reproducirá cuando se muestre la insignis."
+    },
+    "options_badgevolume": {
         "message": "Volumen\nVolumen del efecto de sonido"
     },
     "calc_operators": {

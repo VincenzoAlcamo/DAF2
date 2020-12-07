@@ -90,7 +90,7 @@
         "message": "Antal\nPåkrævet"
     },
     "gui_energy": {
-        "message": "Energy"
+        "message": "Energi"
     },
     "gui_estimatedenergy": {
         "message": "Estimeret energi"
@@ -1926,13 +1926,19 @@
     "options_badgerepeatables": {
         "message": "Gentagelige\nVis et skilt når en valgt gentagelig er klar"
     },
+    "options_badgeluckycards": {
+        "message": "Heldige Kort\nVis et skilt når Heldige Kort teltet er klar"
+    },
     "options_badgerepeatablesoffset": {
         "message": "Tidsforskydning\nDet gentagelige skilt vil blive vist forlods med dette antalt sekunder"
     },
-    "options_badgerepeatablessound": {
-        "message": "Lyd Effekt\nDen lyd effekt der afspilles når en gentagelig er klar."
+    "options_badgetimeoffset": {
+        "message": "Tidsforskydning\nSkiltet vil blive vist forlods med dette antalt sekunder"
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Lyd Effekt\nLyd effekten der spilles, når skiltet vises."
+    },
+    "options_badgevolume": {
         "message": "Lydstyrke\nLyd effektens lydstyrke."
     },
     "calc_operators": {

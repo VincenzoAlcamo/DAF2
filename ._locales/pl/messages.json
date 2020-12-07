@@ -1926,13 +1926,19 @@
     "options_badgerepeatables": {
         "message": "Odnawialne\nPokaż odznakę, gdy zaznaczona odnawialna jest gotowa"
     },
+    "options_badgeluckycards": {
+        "message": "Szczęśliwe karty\nPokaż odznakę, kiedy Szczęśliwe karty będą gotowe"
+    },
     "options_badgerepeatablesoffset": {
         "message": "Przesunięcie czasowe\nPowtarzalna odznaka zostanie pokazana z wyprzedzeniem o kilka sekund."
     },
-    "options_badgerepeatablessound": {
-        "message": "Efekt dźwiękowy\nDźwięk odtwarzany kiedy odnawialna jest gotowa."
+    "options_badgetimeoffset": {
+        "message": "Przesunięcie czasowe\nOdznaka zostanie pokazana z wyprzedzeniem o kilka sekund."
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Efekty dźwiękowe\nEfekt dźwiękowy który gra kiedy odznaka jest wyświetlana."
+    },
+    "options_badgevolume": {
         "message": "Głośność\nGłośność efektów dźwiękowych."
     },
     "calc_operators": {

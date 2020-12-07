@@ -1926,13 +1926,19 @@
     "options_badgerepeatables": {
         "message": "Ripetibili\nMostra un segnalino quando una qualsiasi ripetibile selezionata è pronta"
     },
+    "options_badgeluckycards": {
+        "message": "Carte Fortunate\nMostra un segnalino quando la tenda è pronta"
+    },
+    "options_badgerepeatablesoffset": {
+        "message": "Compensazione tempo\nIl segnalino ripetibili sarà mostrato in anticipo di questo numero di secondi."
+    },
     "options_badgetimeoffset": {
         "message": "Compensazione tempo\nIl segnalino sarà mostrato in anticipo di questo numero di secondi."
     },
-    "options_badgerepeatablessound": {
-        "message": "Effetto sonoro\nL'effetto sonoro da suonare quando una ripetibile è pronta."
+    "options_badgesound": {
+        "message": "Effetto sonoro\nL'effetto sonoro da suonare quando il segnalino viene mostrato."
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgevolume": {
         "message": "Volume\nIl volume dell'effetto sonoro."
     },
     "calc_operators": {

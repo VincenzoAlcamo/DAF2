@@ -1915,24 +1915,30 @@
         "message": "Linguagem do jogo\nLinguagem para as mensagens do jogo"
     },
     "options_section_badges": {
-        "message": "Distintivos"
+        "message": "Marcadores"
     },
     "options_badgegccounter": {
-        "message": "Contador de Afilhados\nMostre um crachá com o número restante de afilhados para coletar"
+        "message": "Contador de Afilhados\nMostre um marcador com o número restante de afilhados para coletar"
     },
     "options_badgegcenergy": {
-        "message": "Energiade afilhados\nMostrar um crachá com a energia dos afilhados de um vizinho"
+        "message": "Energia dos afilhados\nMostrar um Marcador com a energia dos afilhados de um vizinho"
     },
     "options_badgerepeatables": {
-        "message": "Renovaveis\nMostrar um crachá quando qualquer renovável selecionada estiver pronta"
+        "message": "Renovaveis\nMostrar um marcador quando qualquer renovável selecionada estiver pronta"
+    },
+    "options_badgeluckycards": {
+        "message": "Cartas da Sorte\nMostre um marcador quando a tenda das casas da sorte estiver pronta"
     },
     "options_badgerepeatablesoffset": {
-        "message": "Ajuste de tempo\nO emblema repetível será mostrado com antecedência por esta quantidade de segundos."
+        "message": "Deslocamento de tempo\nO marcador da renovável será mostrado antecipadamente por esse período de segundos."
     },
-    "options_badgerepeatablessound": {
-        "message": "Efeito sonoro\nO efeito de som a ser reproduzido quando um repetível estiver pronto."
+    "options_badgetimeoffset": {
+        "message": "Ajuste de tempo\nO marcador será mostrado com antecedência por esta quantidade de segundos."
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Efeito sonoro\nO efeito sonoro a ser reproduzido quando o marcador é exibido."
+    },
+    "options_badgevolume": {
         "message": "Volume\nO volume do efeito sonoro."
     },
     "calc_operators": {

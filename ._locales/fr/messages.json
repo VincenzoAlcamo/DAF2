@@ -1926,13 +1926,19 @@
     "options_badgerepeatables": {
         "message": "Répétables\nAfficher un badge lorsque tout répétable sélectionné est prêt."
     },
+    "options_badgeluckycards": {
+        "message": "Cartes de la chance\nMontrez un badge lorsque la tente des cartes de la chance est prête"
+    },
     "options_badgerepeatablesoffset": {
         "message": "Décalage horaire\nLe badge répétable sera affiché à l'avance par ce nombre de secondes."
     },
-    "options_badgerepeatablessound": {
-        "message": "Effet sonore\nL'effet sonore à jouer quand une répétable est prête."
+    "options_badgetimeoffset": {
+        "message": "Décalage horaire\nLe badge sera affiché à l'avance par ce nombre de secondes."
     },
-    "options_badgerepeatablesvolume": {
+    "options_badgesound": {
+        "message": "Effet sonore\nL'effet sonore lorsque le badge est affiché."
+    },
+    "options_badgevolume": {
         "message": "Le volume\nLe volume de l'effet sonore."
     },
     "calc_operators": {
