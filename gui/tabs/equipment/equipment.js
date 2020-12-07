@@ -1027,6 +1027,7 @@ function showOffer(type, id, options) {
         block = blocks2[0] || block;
     }
     const current = { rid: block.rid, price: block.price, date: block.date };
+    let showInRow = false;
     let subTitle;
 
     const html = getDetails();
@@ -1035,8 +1036,12 @@ function showOffer(type, id, options) {
         html,
         style: [Dialog.CLOSE, Dialog.WIDEST]
     }, function (method, params) {
-        if (method == 'rid' || method == 'price' || method == 'date') {
-            current[method] = options[method] = +params[method];
+        if (method == 'row' || method == 'rid' || method == 'price' || method == 'date') {
+            if (method == 'rid' || method == 'price' || method == 'date') {
+                current[method] = options[method] = +params[method];
+            } else if (method == 'row') {
+                showInRow = params.row == 'on';
+            }
             gui.dialog.setHtml(getDetails());
             gui.dialog.setTitle(title + subTitle);
             try { gui.dialog.element.querySelector(`[data-method="${method}"`).focus(); } catch (e) { }
@@ -1080,6 +1085,10 @@ function showOffer(type, id, options) {
             for (const price of prices) htm += optionHtml(price, blocks.find(block => block.price == price).priceText, current.price);
             htm += Html.br`</select></td>`;
         }
+        if (type == 'tier' && current.price == -1) {
+            htm += Html.br`<td><label>Row&nbsp;<input type="checkbox" name="row" style="vertical-align: bottom" data-method="row"${showInRow ? ' checked' : ''}>`;
+            htm += Html.br`</label></td>`;
+        }
         htm += Html.br`</tr></table>`;
 
         const selection = getSelection(current);
@@ -1102,16 +1111,20 @@ function showOffer(type, id, options) {
                 if (!allLimited && block.limited) pre += Html.br`<br><img src="/img/gui/q-hard.png" title="${Html(gui.getMessage('equipment_pfdisclaimer'))}">`;
                 pre += Html.br`</span>`;
             }
+            let sectionClass = '';
             if (type == 'tier') {
                 pre += Html.br`<span>${packHelper.getOutlinedText(gui.getString(block.name_loc))}<br>`;
                 pre += Html.br`<span class="tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.gems)}${gui.getObjectImg('material', 2, 28, false)}</span></span>`;
-                if (block.tier == 5) pre += Html.br`<span class="tier_total tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.tgems)}${gui.getObjectImg('material', 2, 28, false)}</span>`;
+                if (block.tier == 5) {
+                    sectionClass = 'with-total';
+                    pre += Html.br`<span class="tier_total tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.tgems)}${gui.getObjectImg('material', 2, 28, false)}</span>`;
+                }
             }
             if (pre) {
-                pre = `<td class="td-section"><div class="pack-item section">${pre}</div></td>`;
+                pre = `<td class="td-section ${sectionClass}"><div class="pack-item-container"><div class="pack-item section">${pre}</div></div></td>`;
             }
             block.items.forEach((item, index) => {
-                htm += Html.br`<td class="td-item">${packHelper.getHtml(item)}</td>`;
+                htm += Html.br`<td class="td-item"><div class="pack-item-container">${packHelper.getHtml(item)}</div></td>`;
                 if (!pre && index == 2 && block.items.length >= 5) htm += `</tr><tr>`;
             });
             if (htm in prev) continue;
@@ -1122,7 +1135,10 @@ function showOffer(type, id, options) {
         let rows = len || 1;
         let columns = 1;
         let isTier5 = false;
-        if (len > 5 && type == 'tier') {
+        if (type == 'tier' && showInRow && len % 5 == 0) {
+            columns = len / 5;
+            rows = 5;
+        } else if (len > 5 && type == 'tier') {
             columns = len >= 15 ? 3 : 2;
             isTier5 = len % 5 == 0;
             rows = isTier5 ? Math.floor((len + columns * 5 - 1) / (columns * 5)) * 5 : Math.ceil(rows / columns);
