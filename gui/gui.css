@@ -565,7 +565,7 @@ tbody.chessboard-coloring>tr:nth-child(even)>td:nth-child(odd),
 tbody.chessboard-coloring>tr:nth-child(odd)>td:nth-child(even),
 tbody.row-coloring>tr:nth-child(even),
 table.row-coloring>tbody>tr:nth-child(even) {
-  background: var(--tr-bgcol);
+  background-color: var(--tr-bgcol);
 }
 
 tbody>tr.odd,
@@ -573,7 +573,7 @@ tbody.chessboard-coloring>tr:nth-child(even)>td:nth-child(even),
 tbody.chessboard-coloring>tr:nth-child(odd)>td:nth-child(odd),
 tbody.row-coloring>tr:nth-child(odd),
 table.row-coloring>tbody>tr:nth-child(odd) {
-  background: var(--tr-bgcol2);
+  background-color: var(--tr-bgcol2);
 }
 
 tbody.hidden {
