@@ -1445,17 +1445,17 @@ var Synchronize = {
         let taskIndex = 0;
         for (const task of tasks) {
             const action = task.action;
-            // console.log('Action "' + action + '"');
+            // console.log(`Action #${taskIndex} "${ action}"`);
             const fn = Synchronize.handlers[action];
             if (fn instanceof Function) {
                 const taskName = 'task_' + taskIndex;
-                taskIndex++;
                 try {
                     fn(action, task, response && response[taskName], response);
                 } catch (e) {
                     console.error(action + '() ' + e.message);
                 }
             }
+            taskIndex++;
         }
         const sent = {};
         for (const message of Synchronize.delayedSignals) {
