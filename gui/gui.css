@@ -727,6 +727,7 @@ thead .stats {
   width: 3.5em;
 }
 
+input[type=radio],
 input[type=checkbox] {
   width: 20px !important;
   height: 20px !important;
@@ -737,10 +738,22 @@ input[type=checkbox] {
   border-radius: 4px;
 }
 
+input[type=radio] {
+  border-radius: 10px;
+}
+
+input[type=radio]:checked,
 input[type=checkbox]:checked {
   background-color: var(--tt-button-hlcol);
 }
 
+input[type=radio]:disabled,
+input[type=checkbox]:disabled {
+  opacity: 0.6;
+  background-color: var(--tt-input-brcol);
+}
+
+input[type=radio]:before,
 input[type=checkbox]:before {
   color: var(--tt-input-brcol);
   content: ' ';
@@ -748,13 +761,23 @@ input[type=checkbox]:before {
   font-size: 15px;
   display: block;
   margin-top: -1px;
-  margin-left: 2px;
+  text-align: center;
+}
+
+input[type=radio]:disabled:before,
+input[type=checkbox]:disabled:before {
+  color: var(--tt-input-bgcol);
 }
 
 input[type=checkbox]:checked:before {
   content: '\002714';
 }
 
+input[type=radio]:checked:before {
+  content: '\002022';
+}
+
+.toolbar input[type=radio],
 .toolbar input[type=checkbox] {
   vertical-align: middle;
 }
