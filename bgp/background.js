@@ -727,6 +727,7 @@ var Data = {
         const match = url && url.match(/\/([A-Z][A-Z])\/localization\./);
         return match && match[1];
     },
+    requiresFullLanguage: false,
     checkLocalization: function (url, lang) {
         const changes = Data.generator && Data.generator.file_changes;
         if (!changes) return;
@@ -743,10 +744,11 @@ var Data = {
         };
         const id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
         const id2 = [gameLanguage, file.version, file.revision].join(',');
-        if (id1 != id2) {
+        if (id1 != id2 || (Data.requiresFullLanguage && Data.localization.data && !Data.localization.data.isFull)) {
             return fetch(file.url).then(function (response) {
                 return response.text();
             }).then(function (text) {
+                Parser.requiresFullLanguage = Data.requiresFullLanguage;
                 file.data = Parser.parse(file.id, text);
                 Data.store(file);
             });

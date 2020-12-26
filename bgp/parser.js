@@ -174,6 +174,7 @@ var Parser = {
         return data;
     },
     parse_localization_revision: 8,
+    requiresFullLanguage: false,
     parse_localization: function (text, format) {
         const wanted = {
             'ABNA': 'Addon building',
@@ -216,7 +217,8 @@ var Parser = {
             }
             return s.substr(0, i);
         }
-        const data = {};
+        const isFull = Parser.requiresFullLanguage;
+        const data = { isFull };
         const reNewline = /@@@/g;
         if (format == FORMATS.TEXT) {
             const arr = text.split(/[\n\u0085\u2028\u2029]|\r\n?/g);
@@ -224,7 +226,7 @@ var Parser = {
                 const i = s.indexOf('*#*');
                 if (i < 0) return;
                 const key = getFirstAlpha(s);
-                if (key in wanted) {
+                if (isFull || (key in wanted)) {
                     const name = s.substr(0, i);
                     let value = s.substr(i + 3);
                     value = value.replace(reNewline, '\n');
@@ -238,10 +240,11 @@ var Parser = {
                 let child = parent.firstElementChild;
                 const s = (child && child.getAttribute('index')) || '';
                 const key = getFirstAlpha(s);
-                if (!(key in wanted)) continue;
-                for (; child; child = child.nextElementSibling) {
-                    const name = child.getAttribute('index');
-                    if (name) data[name] = child.textContent.replace(reNewline, '\n');
+                if (isFull || (key in wanted)) {
+                    for (; child; child = child.nextElementSibling) {
+                        const name = child.getAttribute('index');
+                        if (name) data[name] = child.textContent.replace(reNewline, '\n');
+                    }
                 }
             }
             return data;

@@ -776,6 +776,7 @@ function notifyVisibility(tab, visible) {
 }
 
 function onLoad() {
+    bgp.Data.requiresFullLanguage = false;
     gui.isFirefox = getComputedStyle(document.body.querySelector('.mozTest')).textDecorationStyle === 'wavy';
     const currentLanguage = gui.getPreference('language');
     const currentLocale = gui.getPreference('locale');
