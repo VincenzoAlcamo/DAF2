@@ -144,7 +144,7 @@ var Parser = {
             arr = [];
             console.error('File changes parsing error', e);
         }
-        const file_changes = { to_version };
+        const file_changes = {};
         const reNonDigits = /[^\d]+/g;
         arr.forEach(item => {
             const path = item.file_path;
@@ -155,6 +155,7 @@ var Parser = {
             }
         });
         data.file_changes = file_changes;
+        data.versionParameter = to_version ? '?ver=' + to_version : '';
 
         let accumulator = {};
         const accumulate = (array, fn) => {

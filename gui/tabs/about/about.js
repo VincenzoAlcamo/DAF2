@@ -56,11 +56,12 @@ function update() {
 async function updateBg() {
     const urls = [];
     let cdn_root = 'https://cdn.diggysadventure.com/1/';
+    let versionParameter = '';
     rnd.seed = 0;
     if (gui.hasValidGenerator()) {
         const generator = gui.getGenerator();
         rnd.seed = +generator.player_id;
-        cdn_root = generator.cdn_root;
+        ({ cdn_root, versionParameter } = generator);
         await bgp.Data.getFile('events');
         let events = gui.getFile('events');
         if (events) {
@@ -94,7 +95,7 @@ async function updateBg() {
             container.style.backgroundImage = `url(${img.src})`;
             img.remove();
         };
-        img.src = `${cdn_root}mobile/graphics/map/${urls[index]}.png`;
+        img.src = `${cdn_root}mobile/graphics/map/${urls[index]}.png${versionParameter}`;
     }
 }
 

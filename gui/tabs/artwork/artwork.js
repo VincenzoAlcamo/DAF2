@@ -39,8 +39,8 @@ const kinds = {
     usables: {},
 };
 
-let tab, container, smartTable, grid, selectShow, selectEvent, searchInput;
-let allEvents, type, allItems, searchHandler, versionParameter;
+let tab, container, smartTable, grid, selectShow, selectEvent, searchInput, cdn_root, versionParameter;
+let allEvents, type, allItems, searchHandler;
 
 function init() {
     tab = this;
@@ -93,9 +93,7 @@ function setState(state) {
 }
 
 function update() {
-    let toVersion;
-    try { toVersion = bgp.Data.generator.file_changes.to_version; } catch (e) { }
-    versionParameter = toVersion ? '?ver=' + toVersion : '';
+    ({ cdn_root, versionParameter } = gui.getGenerator());
     allEvents = Object.values(gui.getFile('events')).map(event => {
         const info = gui.getEventInfo(event);
         return { id: event.def_id, year: info.year };
@@ -128,8 +126,6 @@ async function refresh() {
         allItems = {};
         const kind = kinds[type];
         const data = await bgp.Data.getFile(kind.type || type);
-        const generator = gui.getGenerator();
-        const cdn = generator.cdn_root;
         const hashes = {};
         const folder = kind.folder || 'all/';
         const $name = kind.name || 'name_loc';
@@ -142,7 +138,7 @@ async function refresh() {
                     const asset = sub[$asset];
                     if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) return;
                     hashes[asset] = true;
-                    const url = cdn + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png';
+                    const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
                     prog++;
                     allItems[prog] = { id: prog, url };
                 });
@@ -151,7 +147,7 @@ async function refresh() {
             const asset = item[$asset];
             if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) continue;
             hashes[asset] = true;
-            const url = cdn + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png';
+            const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
 
             const name = item[$name] && gui.getString(item[$name]);
             const title = item.desc;
@@ -192,7 +188,7 @@ function updateItem(el) {
     el.title = [item.name, gui.getWrappedText(title)].filter(t => t).join('\n');
     const img = document.createElement('img');
     img.classList.add('tooltip-event');
-    img.src = item.url + versionParameter;
+    img.src = item.url;
     el.appendChild(img);
 }
 

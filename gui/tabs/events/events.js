@@ -29,7 +29,7 @@ const RINGS_BY_EVENT = {
 let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectType, checkTotals, checkEnergy;
 let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop;
 let selectedRegion, selectedInfo, selectedEventId;
-let lootChecks;
+let lootChecks, cdn_root, versionParameter;
 
 function init() {
     tab = this;
@@ -125,6 +125,7 @@ function addOption(select, value, text) {
 }
 
 function update() {
+    ({ cdn_root, versionParameter } = gui.getGenerator());
     swDoubleDrop = gui.getActiveSpecialWeeks().doubleDrop;
     const divWarning = container.querySelector('.toolbar .warning');
     if (swDoubleDrop) {
@@ -475,8 +476,8 @@ function onTooltip(event) {
     const eid = parseInt(element.parentNode.parentNode.getAttribute('data-eid'));
     const description = gui.getString(gui.getObject('event', eid).desc);
     const item = allEvents[eid];
-    const img1 = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_events/' + item.img_webgl + '.png';
-    const img2 = item.img_full == 'default' ? '' : gui.getGenerator().cdn_root + 'mobile/graphics/all/' + item.img_full + '.png';
+    const img1 = cdn_root + 'mobile/graphics/map/webgl_events/' + item.img_webgl + '.png' + versionParameter;
+    const img2 = item.img_full == 'default' ? '' : cdn_root + 'mobile/graphics/all/' + item.img_full + '.png' + versionParameter;
     const img = item.img_missing ? img2 : img1;
     const imgFull = img && Html`<img src="${img}" class="full">`;
     let htm = '';

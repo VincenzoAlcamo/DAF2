@@ -524,7 +524,10 @@ var Data = {
         Data.loc_prog = {};
         tx.objectStore('Files').getAll().then(values => {
             for (const file of values) {
-                if (file.id == 'generator') Data.generator = file.data || {};
+                if (file.id == 'generator') {
+                    Data.generator = file.data || {};
+                    Data.generator.versionParameter = Data.generator.versionParameter || '';
+                }
                 if (file.id == 'localization') Data.storeLocalization(file);
                 if (file.id == 'gcInfo') Data.removegcInfo();
                 if (file.id == 'repeatables') Data.repeatables = file.data || {};
@@ -864,7 +867,7 @@ var Data = {
         const ad = Data.findLuckyCardsAd();
         const offset = parseInt(Preferences.getValue('badgeLuckyCardsOffset'), 10) || 0;
         const now = getUnixTime() + offset;
-        const next = ad ? 8 * 3600 + ad.watched_at - Synchronize.offset: 0;
+        const next = ad ? 8 * 3600 + ad.watched_at - Synchronize.offset : 0;
         const diff = next - now;
         const active = diff <= 0;
         Data.setTimer(Data.checkLuckyCards, diff > 0 ? diff * 1000 : 0);
@@ -1259,15 +1262,15 @@ var Data = {
         const item = Data.getObject(type, id);
         if (!item) return '';
         const base = Data.generator.cdn_root + 'mobile/graphics/';
-        if (type == 'windmill') return base + 'windmills/greece_windmill.png';
+        if (type == 'windmill') return base + 'windmills/greece_windmill.png' + Data.generator.versionParameter;
         const asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
         if (!asset) return '';
         if (asset[0] == '/') return asset;
         const filename = encodeURIComponent(asset);
-        if (type == 'decoration') return base + 'decorations/' + filename + '.png';
-        if (type == 'diggy_skin') return base + 'gui/diggy_skin/' + filename + '.png';
+        if (type == 'decoration') return base + 'decorations/' + filename + '.png' + Data.generator.versionParameter;
+        if (type == 'diggy_skin') return base + 'gui/diggy_skin/' + filename + '.png' + Data.generator.versionParameter;
         const suffix = (small && (type == 'material' || type == 'usable' || type == 'token')) ? '_small' : '';
-        return base + 'all/' + filename + suffix + '.png';
+        return base + 'all/' + filename + suffix + '.png' + Data.generator.versionParameter;
     },
     getObjectName: function (type, id) {
         const item = Data.getObject(type, id);

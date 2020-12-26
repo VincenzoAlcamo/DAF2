@@ -20,7 +20,7 @@ let tab, container, progress, checkCompleted, checkGroups, checkDates, checkEner
 const imgCompleted = Html.br`<img width="24" src="/img/gui/tick.png"/>`;
 let lastTimeMined = 0;
 let mapFilters, mapTutorials;
-let qtypes;
+let qtypes, cdn_root, versionParameter;
 
 function init() {
     tab = this;
@@ -100,6 +100,7 @@ function toggles() {
 }
 
 function update() {
+    ({ cdn_root, versionParameter } = gui.getGenerator());
     qtypes = getQuestTypes();
 
     mapFilters = {};
@@ -311,7 +312,7 @@ function showDetail(show) {
     let isOdd = false;
     const group = {};
     initGroupTotals(group.grandtotal = {});
-    const url = gui.getGenerator().cdn_root + 'mobile/graphics/map/webgl_filters/';
+    const url = cdn_root + 'mobile/graphics/map/webgl_filters/';
     let rows = [];
     let sublist = [];
     let lastSub = null;
@@ -346,7 +347,7 @@ function showDetail(show) {
                 updateGroup(group);
                 group.row = null;
                 group.name = sub.gname;
-                group.url = url + sub.ma + '.png';
+                group.url = url + sub.ma + '.png' + versionParameter;
                 group.ma = sub.ma;
                 if (level == 0) {
                     group.row = document.createElement('tr');
