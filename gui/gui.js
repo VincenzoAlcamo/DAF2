@@ -446,20 +446,23 @@ const gui = {
         }
         smartTable.setSortInfo();
     },
-    getNaturalComparer: function () {
+    naturalComparer: (function () {
         const collator = new Intl.Collator(undefined, {
             numeric: true,
             sensitivity: 'base'
         });
         return collator.compare;
+    })(),
+    getNaturalComparer: function () {
+        return gui.naturalComparer;
     },
     sortTextAscending: function (a, b) {
         if (a === null) return b === null ? 0 : 1;
-        return b === null ? -1 : a.localeCompare(b);
+        return b === null ? -1 : gui.naturalComparer(a, b);
     },
     sortTextDescending: function (a, b) {
         if (a === null) return b === null ? 0 : 1;
-        return b === null ? -1 : -a.localeCompare(b);
+        return b === null ? -1 : -gui.naturalComparer(a, b);
     },
     sortNumberAscending: function (a, b) {
         if (isNaN(a)) return isNaN(b) ? 0 : 1;
