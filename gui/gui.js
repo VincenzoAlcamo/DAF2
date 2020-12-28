@@ -892,13 +892,12 @@ async function loadTab(tab) {
             return !file.data;
         });
         resource_count += requires.length;
-        const response = await fetch(tabBasePath + '.html');
-        const text = await response.text();
-        Dialog.htmlToDOM(container, text);
+        const promises = [];
+        promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => Dialog.htmlToDOM(container, text))));
         for (const name of requires) {
-            advanceProgress();
-            await bgp.Data.getFile(name);
+            promises.push(bgp.Data.getFile(name).then(_ => advanceProgress()));
         }
+        await Promise.all(promises);
         if (tab.requires.includes('sales')) gui.getPillarsInfo();
         tab.init();
         tab.isLoaded = true;
