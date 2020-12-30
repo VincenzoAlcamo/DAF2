@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Dialog Html Tooltip Calculation*/
+/*global bgp gui SmartTable Locale Dialog Html Tooltip Calculation isAdmin*/
 
 export default {
     hasCSS: true,
@@ -18,14 +18,12 @@ export default {
 let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '', filterExp = 0;
-let isAdmin, showId = false;
+let showId = false;
 const filterExpressions = ','.repeat(4).split(',');
 
 function init() {
     tab = this;
     container = tab.container;
-
-    isAdmin = bgp.Data.isAdmin();
 
     selectShow = container.querySelector('[name=show]');
     selectShow.addEventListener('change', refresh);
@@ -216,9 +214,7 @@ blocks>20 or (region=1 and level<100)
     htm += Html.br`<select name="gifts" data-method="gifts" multiple size="${Math.min(18, items.length)}" style="margin:3px;width:100%">`;
     htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
     htm += Html.br`</select>`;
-    if (isAdmin) {
-        htm += Html.br`<label style="margin-top:4px;display:block">Show player's ID <input type="checkbox" name="showid" style="vertical-align:middle"${showId ? ' checked' : ''}></label>`;
-    }
+    htm += Html.br`<label style="margin-top:4px" class="for-admin">Show player's ID <input type="checkbox" name="showid" style="vertical-align:middle"${showId ? ' checked' : ''}></label>`;
     htm += Html.br`</td></tr></table>`;
     gui.dialog.show({
         title: gui.getMessage('gui_advancedfilter'),

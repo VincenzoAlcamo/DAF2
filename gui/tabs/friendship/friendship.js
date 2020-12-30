@@ -1,4 +1,4 @@
-/*global chrome bgp gui Locale Dialog SmartTable Html Tooltip*/
+/*global chrome bgp gui Locale Dialog SmartTable Html Tooltip isAdmin*/
 export default {
     hasCSS: true,
     init: init,
@@ -987,7 +987,6 @@ function formatDateExcel(value) {
 function exportData() {
     let data = [];
     const friends = Object.values(bgp.Data.getFriends());
-    const isAdmin = bgp.Data.isAdmin();
     for (const friend of friends) {
         const line = [];
         data.push(line);
