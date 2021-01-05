@@ -181,6 +181,8 @@ function ringLoot(kind) {
             let chest = 0;
             let hasCandy = false;
             for (const floor of floors.floor) {
+                if (!floor.def_id) continue;
+                const { columns: cols, rows } = floor;
                 let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
                 lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
                 const loots = [];
@@ -193,6 +195,8 @@ function ringLoot(kind) {
                     tle = tle.split(';');
                     for (let t of tle) {
                         t = t.split(',').map(n => parseInt(n));
+                        const [y, x] = t;
+                        if (x < 0 || x >= cols || y < 0 || y >= rows) continue;
                         if (kind == 'red' || (kind == 'christmas' && lid != 2965)) {
                             t[0] = 99 - t[0];
                         }
