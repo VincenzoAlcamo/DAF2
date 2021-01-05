@@ -196,6 +196,8 @@ function ringLoot(kind) {
                     for (let t of tle) {
                         t = t.split(',').map(n => parseInt(n));
                         const [y, x] = t;
+                        // Bug in "Red deck of rewards"
+                        if (lid == 2999 && x == 2 && y == 37) continue;
                         if (x < 0 || x >= cols || y < 0 || y >= rows) continue;
                         if (kind == 'red' || (kind == 'christmas' && lid != 2965)) {
                             t[0] = 99 - t[0];
