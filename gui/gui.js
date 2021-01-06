@@ -1,6 +1,5 @@
 /*global chrome Locale Dialog UrlInfo Html Tooltip imported_tabs*/
 const bgp = chrome.extension.getBackgroundPage();
-const isAdmin = bgp.Data.isAdmin();
 
 let currentTab = null;
 const tabs = (function () {
@@ -34,7 +33,7 @@ const tabs = (function () {
     addTab('christmasrings');
     addTab('rewardlinks');
     addTab('dailyreward');
-    if (isAdmin) addTab('artwork', 'deco');
+    addTab('artwork', 'deco');
     addTab('options');
     // addTab('help');
     addTab('export');
@@ -834,7 +833,7 @@ function onLoad() {
                 const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
                 div.classList.toggle('disabled', disabled);
             }
-            document.body.classList.toggle('is-admin', isAdmin);
+            document.body.classList.toggle('is-admin', bgp.Data.isAdmin());
             updateCurrentTab();
         } else if (action == 'account_mismatch') {
             tabs.about.mustBeUpdated = true;
@@ -866,7 +865,7 @@ function onLoad() {
     document.addEventListener('visibilitychange', () => notifyVisibility(currentTab, true));
 
     gui.setTheme();
-    document.body.classList.toggle('is-admin', isAdmin);
+    document.body.classList.toggle('is-admin', bgp.Data.isAdmin());
 
     const urlInfo = new UrlInfo(location.href);
     let tabId = urlInfo.parameters.tab;

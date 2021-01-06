@@ -1,4 +1,4 @@
-/*global chrome bgp gui Locale Dialog SmartTable Html Tooltip isAdmin*/
+/*global chrome bgp gui Locale Dialog SmartTable Html Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -985,6 +985,7 @@ function formatDateExcel(value) {
 }
 
 function exportData() {
+    const flagAdmin = bgp.Data.isAdmin();
     let data = [];
     const friends = Object.values(bgp.Data.getFriends());
     for (const friend of friends) {
@@ -994,13 +995,13 @@ function exportData() {
         const pal = friend.uid && bgp.Data.getNeighbour(friend.uid);
         if (pal) {
             line.push(gui.getPlayerNameFull(pal), pal.level, pal.region, pal.extra.lastGift ? formatDateExcel(pal.extra.lastGift) : '');
-            if (isAdmin) line.push(pal.id);
+            if (flagAdmin) line.push(pal.id);
         }
     }
     const comparer = gui.getNaturalComparer();
     data.sort((a, b) => comparer(a[1], b[1]));
     const header = ['FB_ID', 'FB_NAME', 'FB_PAGE', 'RECORDED', 'SCORE', 'NEIGHBOUR', 'LEVEL', 'REGION', 'LAST_GIFT'];
-    if (isAdmin) header.push('ID');
+    if (flagAdmin) header.push('ID');
     data.unshift(header);
     data = data.map(line => line.join('\t'));
     data = data.join('\n');
