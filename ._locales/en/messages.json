@@ -339,6 +339,9 @@
     "tab_camp": {
         "message": "Camp"
     },
+    "tab_map": {
+        "message": "Map"
+    },
     "tab_kitchen": {
         "message": "Kitchen"
     },
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Extra"
+    },
+    "map_floor": {
+        "message": "Floor"
+    },
+    "map_floor_current": {
+        "message": "This is the current floor"
+    },
+    "map_floor_found": {
+        "message": "Click to show the map for this floor"
+    },
+    "map_floor_not_found": {
+        "message": "This floor has not been visited yet"
+    },
+    "map_remaining_tiles": {
+        "message": "Remaining tiles"
+    },
+    "map_special": {
+        "message": "Special"
+    },
+    "map_quest": {
+        "message": "Quest"
+    },
+    "map_this_floor": {
+        "message": "This floor"
+    },
+    "map_all_floors": {
+        "message": "All floors"
+    },
+    "map_warning": {
+        "message": "Please enter any location first"
+    },
+    "map_button_d": {
+        "message": "Show Diggy"
+    },
+    "map_button_t": {
+        "message": "Show teleports"
+    },
+    "map_button_e": {
+        "message": "Show beacons"
+    },
+    "map_button_g": {
+        "message": "Show debug info"
+    },
+    "map_button_l": {
+        "message": "Highlight breakable tiles"
+    },
+    "map_button_n": {
+        "message": "Highlight tiles with notable loot"
+    },
+    "map_button_v": {
+        "message": "Tile visibility is sticky"
+    },
+    "map_button_o": {
+        "message": "Show opaque tiles"
+    },
+    "map_button_b": {
+        "message": "Show bonus indicator"
+    },
+    "map_button_k": {
+        "message": "Show background by hiding all breakable tiles"
+    },
+    "map_button_a": {
+        "message": "Show all tiles"
+    },
+    "map_save": {
+        "message": "Save"
+    },
+    "map_save_tip": {
+        "message": "Save the map as an image file"
+    },
+    "map_entrance": {
+        "message": "Entrance"
+    },
+    "map_exit": {
+        "message": "Exit"
+    },
+    "map_teleport": {
+        "message": "Teleport"
+    },
+    "map_hint": {
+        "message": "Hint"
+    },
+    "map_beacon": {
+        "message": "Beacon"
+    },
+    "map_active": {
+        "message": "active"
+    },
+    "map_not_active": {
+        "message": "not active"
+    },
+    "map_tile": {
+        "message": "Tile"
+    },
+    "map_npc": {
+        "message": "Npc"
+    },
+    "map_says": {
+        "message": "Says"
+    },
+    "map_godchild": {
+        "message": "Godchild"
+    },
+    "map_unknown": {
+        "message": "Unknown"
+    },
+    "map_yellow": {
+        "message": "Yellow"
+    },
+    "map_red": {
+        "message": "Red"
+    },
+    "map_blue": {
+        "message": "Blue"
+    },
+    "map_green": {
+        "message": "Green"
+    },
+    "map_left": {
+        "message": "Left"
+    },
+    "map_down": {
+        "message": "Down"
+    },
+    "map_right": {
+        "message": "Right"
+    },
+    "map_up": {
+        "message": "Up"
+    },
+    "map_require_draggable": {
+        "message": "Requires draggable"
+    },
+    "map_require_item": {
+        "message": "Requires item"
+    },
+    "map_require_light": {
+        "message": "Requires light"
+    },
+    "map_emitter": {
+        "message": "Light emitter"
+    },
+    "map_mirror": {
+        "message": "Mirror"
+    },
+    "map_filter": {
+        "message": "Light filter"
+    },
+    "map_draggable": {
+        "message": "Draggable"
+    },
+    "map_can_move": {
+        "message": "Can be moved"
+    },
+    "map_can_rotate": {
+        "message": "Can be rotate"
+    },
+    "map_fixed": {
+        "message": "Is fixed"
     },
     "pillars_all": {
         "message": "All pillars"

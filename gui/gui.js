@@ -18,6 +18,7 @@ const tabs = (function () {
     addTab('about');
     addTab('progress');
     addTab('camp');
+    addTab('map');
     addTab('neighbors');
     addTab('friendship');
     addTab('godchild', 'gc');

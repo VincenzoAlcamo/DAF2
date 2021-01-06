@@ -899,6 +899,12 @@ var Data = {
                 expByMaterial[materialId] = Math.max(exp, expByMaterial[materialId] || 0);
                 return true;
             }).map(sale => +sale.def_id);
+            // const estimates = {
+            //     332: 375000, // Superchromium
+            //     331: 7000,   // Chromite ore
+            //     329: 227000, // Opal
+            // };
+            // for (const id in estimates) if (!(id in expByMaterial)) expByMaterial[id] = estimates[id];
             // sort descending by id (newer first)
             sales.sort((a, b) => a - b);
             if (JSON.stringify(Data.pillars.expByMaterial) !== JSON.stringify(expByMaterial)) Data.storeSimple('expByMaterial', expByMaterial);
@@ -1298,6 +1304,24 @@ var Data = {
         return name && Data.generator && Data.generator.cdn_root + 'webgl_client/embedded_assets/sounds/' + name + '.mp3';
     },
     //#endregion
+    //#region LAST VISITE MINE
+    lastVisitedMine: null,
+    mineCache: [],
+    setLastVisitedMine: function (mine) {
+        const { id: lid, level_id: fid } = mine;
+        const index = Data.mineCache.findIndex(m => m.id == lid && m.level_id == fid);
+        if (index >= 0) {
+            mine._v = Data.mineCache[index]._v;
+            Data.mineCache.splice(index, 1);
+        }
+        while (Data.mineCache.length >= 200) {
+            const last = Data.mineCache.pop();
+            if (last.id == lid) Data.mineCache.unshift(last);
+        }
+        Data.lastVisitedMine = mine;
+        Data.mineCache.unshift(mine);
+    },
+    //#endregion
     //#region FILES
     unusedFiles: {
         'buildings_actions': true
@@ -1401,6 +1425,14 @@ var Synchronize = {
         if (delayed) return Synchronize.delayedSignals.push(message);
         chrome.runtime.sendMessage(message, () => hasRuntimeError('SYNC1'));
         chrome.tabs.sendMessage(Tab.gameTabId, message, () => hasRuntimeError('SYNC2'));
+    },
+    signalMineAction: function (data) {
+        const mine = Data.lastVisitedMine;
+        if (mine) {
+            if (!mine.actions) mine.actions = [];
+            mine.actions.push(data);
+            if (!Synchronize.delayedSignals.find(s => s.action == 'mine_action')) Synchronize.delayedSignals.push({ action: 'mine_action' });
+        }
     },
     energyId: 0,
     signalEnergy(energy, pal) {
@@ -1544,7 +1576,7 @@ var Synchronize = {
                 }
             }
         },
-        enter_mine: function (_action, task, taskResponse, _response) {
+        enter_mine: function (action, task, taskResponse, _response) {
             Synchronize.signalEnergy(0);
             const loc_id = +task.loc_id || 0;
             const prog = Synchronize.setLastLocation(loc_id);
@@ -1573,7 +1605,14 @@ var Synchronize = {
                 }
                 Data.storeLocProg();
                 Data.checkRepeatablesStatus();
+                Data.setLastVisitedMine(taskResponse);
+                Synchronize.signal(action, taskResponse);
             }
+        },
+        change_level: function (action, task, taskResponse, _response) {
+            Synchronize.signalMineAction({ action, exit_id: +task.exit_id, direction: task.direction });
+            Data.setLastVisitedMine(taskResponse);
+            Synchronize.signal(action, taskResponse);
         },
         speedup_reset: function (_action, task, _taskResponse, _response) {
             const loc_id = +task.loc_id || 0;
@@ -1588,7 +1627,7 @@ var Synchronize = {
                 Data.checkRepeatablesStatus();
             }
         },
-        mine: function (_action, _task, _taskResponse, _response) {
+        mine: function (action, task, _taskResponse, _response) {
             Synchronize.lastTimeMined = Synchronize.time;
             const loc_id = Synchronize.last_lid;
             const prog = Synchronize.setLastLocation(loc_id);
@@ -1602,6 +1641,28 @@ var Synchronize = {
                 }
                 Data.storeLocProg();
             }
+            Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, cx: +task.cur_column, cy: +task.cur_row });
+        },
+        drag_object: function (action, task, _taskResponse, _response) {
+            Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, direction: task.direction, type: task.type });
+        },
+        use_beacon: function (action, task, _taskResponse, _response) {
+            Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, cx: +task.cur_column, cy: +task.cur_row });
+        },
+        manipulate_object: function (action, task, _taskResponse, _response) {
+            Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, cx: +task.cur_column, cy: +task.cur_row, direction: task.direction });
+        },
+        pick_child: function (action, task, _taskResponse, _response) {
+            Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, cx: +task.cur_column, cy: +task.cur_row });
+        },
+        pick_npc: function (action, task, _taskResponse, _response) {
+            Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, cx: +task.cur_column, cy: +task.cur_row });
+        },
+        use_teleport: function (action, task, _taskResponse, _response) {
+            Synchronize.signalMineAction({ action, x: +task.column, y: +task.row });
+        },
+        leave_mine: function (action, task, _taskResponse, _response) {
+            Synchronize.signalMineAction({ action, loc_id: +task.loc_id, level: +task.level, cx: +task.cur_column, cy: +task.cur_row });
         },
         process_waiting_rewards: function (_action, _tast, taskResponse, _response) {
             if (taskResponse && taskResponse.video_ad_type == 'wheel_of_fortune') {
