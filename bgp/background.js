@@ -693,7 +693,7 @@ var Data = {
             delete file.data.neighbours;
             // Process un_gifts
             const un_gifts = file.data.un_gifts;
-            Synchronize.processUnGift(un_gifts && un_gifts.item, +file.data.time, neighbours);
+            Synchronize.processUnGift(un_gifts && un_gifts.item, +file.data.time, neighbours, file.data.f_actions);
             delete file.data.un_gifts;
             // Remove the player itself from the neighbors, but store their fb_id
             const pal = neighbours[file.data.player_id];
@@ -1637,8 +1637,9 @@ var Synchronize = {
             }
         }
     },
-    processUnGift: function (ungift, time, neighbours) {
-        if (!Array.isArray(ungift)) return [];
+    processUnGift: function (ungift, time, neighbours, factions) {
+        ungift = ungift ? [].concat(ungift) : [];
+        factions = factions ? [].concat(factions) : [];
         if (!neighbours) neighbours = Data.neighbours;
         time = +time;
         const changed = {};
@@ -1662,6 +1663,13 @@ var Synchronize = {
                 if (thisTime >= lastTime) thisTime = gifts[i][2] = lastTime - 1;
                 lastTime = thisTime;
             }
+            changed[pal.id] = pal;
+        }
+        for (const item of factions) {
+            if (item.type != 'friend_child') continue;
+            const pal = neighbours[item.invoker_id];
+            if (!pal) continue;
+            pal.extra.lastGC = time;
             changed[pal.id] = pal;
         }
         return Object.values(changed);
