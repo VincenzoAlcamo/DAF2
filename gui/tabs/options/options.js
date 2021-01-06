@@ -252,6 +252,12 @@ UI_claim_coin_single_slow_02
     const gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
     if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
     option('darkTheme');
+    const shrinkOptions = [
+        [0, gui.getMessage('options_shrinkmenu_0')],
+        [1, gui.getMessage('options_shrinkmenu_1')],
+        [2, gui.getMessage('options_shrinkmenu_2')],
+    ];
+    option('shrinkMenu', '', shrinkOptions);
     option('autoLogin');
     option('disableAltGuard', WARNING);
     continueSection('badges');
@@ -337,6 +343,7 @@ UI_claim_coin_single_slow_02
         for (const [name, value] of Object.entries(changes)) {
             gui.setPreference(name, value);
             if (name == 'darkTheme') gui.setTheme();
+            if (name == 'shrinkMenu') gui.setShrinkMenu();
         }
         changes = {};
         refresh();

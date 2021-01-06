@@ -1773,6 +1773,18 @@
     "options_darktheme": {
         "message": "Dark theme"
     },
+    "options_shrinkmenu": {
+        "message": "Menu width\nReduce the width of the left vertical menu"
+    },
+    "options_shrinkmenu_0": {
+        "message": "When page's width is small"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Always use a compact menu"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Always use an expanded menu"
+    },
     "options_disablealtguard": {
         "message": "Reset on alternate account\nIf you set this option, loading an alternate account will overwrite your current DAF2 data."
     },

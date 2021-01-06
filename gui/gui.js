@@ -714,6 +714,14 @@ const gui = {
     setTheme: function () {
         document.firstElementChild.classList.toggle('dark', gui.getPreference('darkTheme'));
     },
+    setShrinkMenu: function () {
+        const shrinkMenu = gui.getPreference('shrinkMenu');
+        const html = document.firstElementChild;
+        html.classList.toggle('shrink-menu', shrinkMenu == 1);
+        html.classList.toggle('no-shrink-menu', shrinkMenu == 2);
+        const handle = document.querySelector('.shrink-handle');
+        handle.title = gui.getMessage('options_shrinkmenu') + '\n' + gui.getMessage('options_shrinkmenu_' + shrinkMenu);
+    },
     copyToClipboard: function (str, mimeType = 'text/plain') {
         function oncopy(event) {
             event.clipboardData.setData(mimeType, str);
@@ -804,6 +812,12 @@ function onLoad() {
     Dialog.htmlToDOM(div, htm);
     div.addEventListener('click', clickMenu, true);
     div.addEventListener('scroll', e => e.target.style.setProperty('--scroll-y', (-e.target.scrollTop - 1)) + 'px', true);
+
+    document.querySelector('.shrink-handle').addEventListener('click', _e => {
+        const shrinkMenu = gui.getPreference('shrinkMenu');
+        gui.setPreference('shrinkMenu', shrinkMenu != 0 ? 0 : window.innerWidth <= 1366 ? 2 : 1);
+        gui.setShrinkMenu();
+    });
 
     document.body.addEventListener('click', function (e) {
         if (e.target && e.target.hasAttribute('data-wiki-page')) openWiki(e.target.getAttribute('data-wiki-page'));
@@ -947,6 +961,8 @@ async function setCurrentTab(tabId) {
     }
     notifyVisibility(currentTab, false);
     currentTab = tab;
+    document.firstElementChild.setAttribute('data-tab', tabId);
+    gui.setShrinkMenu();
     localStorage.setItem('tab', currentTab.id);
     gui.updateTabState(currentTab);
     Object.values(tabs).forEach(t => t.container && (t.container.style.display = t == currentTab ? '' : 'none'));
