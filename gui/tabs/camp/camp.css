@@ -88,6 +88,10 @@
   float: left;
 }
 
+html.dark .camp .line {
+  background-color: #111;
+}
+
 .camp.public .line {
   margin-bottom: calc(8px + var(--lsize));
 }
@@ -235,6 +239,10 @@
   background-size: calc(var(--w) * var(--size)) calc(var(--h) * var(--size));
   border: none;
   border-top: calc((var(--lh) - var(--h)) * var(--size)) solid #CCC9;
+}
+
+html.dark .camp .item.building.img {
+  border-top-color: #CCC2;
 }
 
 .camp .item.capacity.selected {
