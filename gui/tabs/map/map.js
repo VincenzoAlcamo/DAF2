@@ -855,6 +855,7 @@ async function calcMine(mine, flagAddImages) {
         }
         if (tileDef.npcLoot) checkLoot(tileDef, tileDef.npcLoot);
     }
+    mine.numActions = asArray(mine.actions).length;
     mine.numTiles = numTiles;
     mine.cost = cost;
     mine.numSpecial = numSpecial;
@@ -1460,7 +1461,7 @@ async function drawMine() {
     let totalTiles = 0, totalCost = 0, totalSpecial = 0, totalQuest = 0, numFound = 0;
     for (const floorId of currentData.floorNumbers) {
         const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == floorId);
-        if (found && isNaN(+found.numTiles)) await calcMine(found, false);
+        if (found && (isNaN(+found.numTiles) || asArray(found.actions).length > (+found.numActions || 0))) await calcMine(found, false);
         const isValid = found && !isNaN(+found.numTiles);
         if (isValid) {
             numFound++;
