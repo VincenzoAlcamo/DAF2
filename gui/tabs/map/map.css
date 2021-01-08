@@ -78,6 +78,19 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 
 /*#endregion*/
 
+.tab_map .tile-info {
+  cursor: default;
+}
+
+.tab_map .tile-info table:not(.has-special) .special,
+.tab_map .tile-info table:not(.has-quest) .quest {
+  display: none;
+}
+
+.tab_map .tile-info table.is-repeatable tr.totals {
+  visibility: hidden;
+}
+
 .tab_map .toolbar input[type=radio] {
   width: 20px !important;
   height: 20px !important;

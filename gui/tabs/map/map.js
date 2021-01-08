@@ -61,7 +61,7 @@ const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 
-let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks;
+let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo;
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
@@ -82,6 +82,8 @@ function getLocationName(lid, location) {
 function init() {
     tab = this;
     container = tab.container;
+
+    tableTileInfo = container.querySelector('.tile-info table');
 
     const slider = container.querySelector('.scrollable-content');
     map = slider.querySelector('.map');
@@ -152,6 +154,7 @@ function init() {
     });
 
     container.addEventListener('render', function () {
+        container.querySelector('.toolbar .warning').textContent = gui.getMessage('dialog_pleasewait');
         setTimeout(processMine, 0);
     });
 }
@@ -931,8 +934,10 @@ async function addExtensionImages() {
 }
 
 async function processMine(selectedMine) {
-    currentData = await calcMine(selectedMine || bgp.Data.lastVisitedMine, true);
+    currentData = await calcMine(selectedMine || bgp.Data.lastViewedMine || bgp.Data.lastVisitedMine, true);
     if (!currentData) return;
+
+    bgp.Data.lastViewedMine = currentData.mine;
 
     // Create location combo
     const options = {};
@@ -959,9 +964,7 @@ async function processMine(selectedMine) {
     }
     container.querySelector('[data-id="rid"]').textContent = text;
 
-    const isRepeatable = +currentData.location.reset_cd > 0;
-    const tb = container.querySelector('.toolbar table');
-    tb.rows[2].style.visibility = isRepeatable ? 'hidden' : '';
+    tableTileInfo.classList.toggle('is-repeatable', +currentData.location.reset_cd > 0);
 
     await addExtensionImages();
     // for debugging purposes
@@ -1477,7 +1480,6 @@ async function drawMine() {
     const div = container.querySelector('[data-id="fid"]');
     Dialog.htmlToDOM(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
-    const tb = container.querySelector('.toolbar table');
     const formatNum = num => isNaN(num) ? '?' : Locale.formatNumber(num);
     const setTable = (row, numTiles, cost, numSpecial, numQuest) => {
         row.cells[1].textContent = formatNum(numTiles);
@@ -1487,12 +1489,12 @@ async function drawMine() {
         row.cells[4].textContent = formatNum(numQuest);
         row.cells[4].style.fontWeight = numQuest > 0 ? 'bold' : '';
     };
-    setTable(tb.rows[1], currentData.mine.numTiles, currentData.mine.cost, currentData.mine.numSpecial, currentData.mine.numQuest);
+    tableTileInfo.classList.toggle('has-special', totalSpecial > 0);
+    tableTileInfo.classList.toggle('has-quest', totalQuest > 0);
+    setTable(tableTileInfo.rows[1], currentData.mine.numTiles, currentData.mine.cost, currentData.mine.numSpecial, currentData.mine.numQuest);
     const allFound = numFound == currentData.floorNumbers.length;
     if (!allFound) totalTiles = totalCost = totalSpecial = totalQuest = NaN;
-    setTable(tb.rows[2], totalTiles, totalCost, totalSpecial, totalQuest);
-    for (let i = 0; i < 3; i++) tb.rows[i].cells[3 - (i == 0 ? 1 : 0)].style.display = totalSpecial > 0 ? '' : 'none';
-    for (let i = 0; i < 3; i++) tb.rows[i].cells[4 - (i == 0 ? 1 : 0)].style.display = totalQuest > 0 ? '' : 'none';
+    setTable(tableTileInfo.rows[2], totalTiles, totalCost, totalSpecial, totalQuest);
 }
 
 function CustomRandomRND(key) {
