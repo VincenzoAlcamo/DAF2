@@ -866,6 +866,7 @@ function onLoad() {
     document.addEventListener('visibilitychange', () => notifyVisibility(currentTab, true));
 
     gui.setTheme();
+    gui.setShrinkMenu();
     document.body.classList.toggle('is-admin', bgp.Data.isAdmin());
 
     const urlInfo = new UrlInfo(location.href);
@@ -962,7 +963,6 @@ async function setCurrentTab(tabId) {
     notifyVisibility(currentTab, false);
     currentTab = tab;
     document.firstElementChild.setAttribute('data-tab', tabId);
-    gui.setShrinkMenu();
     localStorage.setItem('tab', currentTab.id);
     gui.updateTabState(currentTab);
     Object.values(tabs).forEach(t => t.container && (t.container.style.display = t == currentTab ? '' : 'none'));
