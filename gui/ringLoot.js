@@ -167,6 +167,11 @@ function ringLoot(kind) {
             for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
                 return +mine.test == 0 && +mine.event_id == eid && +mine.reset_cd == seconds;
             }));
+            if (kind == 'red') {
+                const quests = gui.getArrayOfInt(gui.getGenerator().quests_f);
+                mines = mines.filter(mine => quests.includes(+mine.vis_quest));
+                mines.sort((a, b) => +a.vis_quest - +b.vis_quest);
+            }
         }
 
         floorData = {};
