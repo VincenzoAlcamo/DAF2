@@ -161,7 +161,7 @@ function init() {
 
 function update() {
     ({ cdn_root, versionParameter } = gui.getGenerator());
-    if (bgp.Data.lastVisitedMine) markToBeRendered();
+    if (bgp.Data.lastVisitedMine) gui.setLazyRender(map);
     addons = gui.getFile('addons');
     backgrounds = gui.getFile('backgrounds');
     draggables = gui.getFile('draggables');
@@ -234,10 +234,8 @@ function update() {
 }
 
 function markToBeRendered() {
-    if (map) {
-        map.setAttribute('lazy-render', '');
-        gui.collectLazyElements(container);
-    }
+    gui.setLazyRender(map);
+    delete bgp.Data.lastViewedMine;
 }
 
 function getState() {
