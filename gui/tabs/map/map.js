@@ -651,25 +651,7 @@ async function calcMine(mine, flagAddImages) {
                 if (!draggable) return false;
                 tileDef.draggableId = id;
                 addAsset(draggable);
-                if (v.length > 1) tileDef.draggableStatus = +v[1];
-                tileDef.draggableStatus = tileDef.draggableStatus || 1;
-            }
-        },
-        'drag_swap': (tileDef, _value, values) => {
-            // one value = set that drag (draggableid or draggableid_status)
-            // more value = use the next
-            let index = values.indexOf(!tileDef.draggableId ? 'null' : '' + tileDef.draggableId) + 1;
-            if (index == values.length) index = 0;
-            const v = values[index].split('_');
-            const id = +v[0];
-            if (id == 0) {
-                delete tileDef.draggableId;
-                delete tileDef.draggableStatus;
-            } else {
-                const draggable = draggables[id];
-                if (!draggable) return false;
-                tileDef.draggableId = id;
-                addAsset(draggable);
+                addAsset(draggables[asArray(draggable.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]]);
                 if (v.length > 1) tileDef.draggableStatus = +v[1];
                 tileDef.draggableStatus = tileDef.draggableStatus || 1;
             }
@@ -701,6 +683,7 @@ async function calcMine(mine, flagAddImages) {
             if (tileDef.visible) tileDef.viewed = true;
         }
     };
+    layerFns['drag_swap'] = layerFns['drag'];
     const executeBeaconActions = beacon => {
         for (const action of asArray(beacon.actions.action)) {
             const layer = action.layer;
@@ -1000,7 +983,7 @@ async function drawMine() {
     updateTableFlags(state);
     if (!currentData) return;
 
-    const { rows, cols, lid, fid, tileDefs, beaconParts, entrances, exits, hints, teleports } = currentData;
+    const { rows, cols, lid, fid, rid, tileDefs, beaconParts, entrances, exits, hints, teleports } = currentData;
 
     canvas.width = cols * TILE_SIZE;
     canvas.height = rows * TILE_SIZE;
@@ -1290,6 +1273,9 @@ async function drawMine() {
     // Draggables
     drawAll(draggables, 'draggableId', (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
+        const override = draggables[asArray(item.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]];
+        if (override && override.mobile_asset in images) img = images[override.mobile_asset];
+        const cost = override ? +override.stamina : +item.stamina;
         let title = gui.getMessageAndValue('map_draggable', tileDef.draggableId) + ' (' + getOrientationName(tileDef.draggableStatus) + ')';
         if (item.type == 'light') title += '\n' + gui.getMessageAndValue('map_emitter', getLightColorName(item.color_light));
         if (item.type == 'mirror') title += '\n' + gui.getMessage('map_mirror');
@@ -1297,7 +1283,10 @@ async function drawMine() {
         if (+item.moveable == 0 && +item.manipulate == 0) {
             title += '\n' + gui.getMessage('map_fixed');
         } else {
-            if (+item.moveable) title += '\n' + gui.getMessage('map_can_move');
+            if (+item.moveable) {
+                title += '\n' + gui.getMessage('map_can_move');
+                if (cost > 0) title += ' (' + gui.getMessageAndValue('gui_energy', Locale.formatNumber(cost)) + ')';
+            }
             if (+item.manipulate) title += '\n' + gui.getMessage('map_can_rotate');
         }
         addTitle(x, y, title);
