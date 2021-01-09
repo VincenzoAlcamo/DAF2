@@ -1306,6 +1306,7 @@ var Data = {
     //#endregion
     //#region LAST VISITE MINE
     lastVisitedMine: null,
+    lastViewedMine: null,
     mineCache: [],
     setLastVisitedMine: function (mine) {
         const { id: lid, level_id: fid } = mine;
@@ -1319,6 +1320,7 @@ var Data = {
             if (last.id == lid) Data.mineCache.unshift(last);
         }
         Data.lastVisitedMine = mine;
+        Data.lastViewedMine = null;
         Data.mineCache.unshift(mine);
     },
     //#endregion
@@ -1583,6 +1585,7 @@ var Synchronize = {
             if (prog && taskResponse) {
                 // console.log(Object.assign({}, prog), taskResponse, Data.repeatables && Data.repeatables[loc_id]);
                 prog.lvl = +taskResponse.level_id;
+                const reset = +taskResponse.reset_count;
                 const rep = Data.repeatables && Data.repeatables[loc_id];
                 if (rep) {
                     // We have repeatables info => this is a repeatable
@@ -1596,13 +1599,12 @@ var Synchronize = {
                 } else {
                     // No repeatable info => alternative method
                     // The reset count will increase when entering a refreshed repeatable
-                    const reset = +taskResponse.reset_count;
                     if (reset > +prog.reset) {
-                        prog.reset = reset;
                         prog.cmpl = 0;
                         prog.prog = 0;
                     }
                 }
+                prog.reset = reset;
                 Data.storeLocProg();
                 Data.checkRepeatablesStatus();
                 Data.setLastVisitedMine(taskResponse);
