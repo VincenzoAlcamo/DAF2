@@ -339,6 +339,9 @@
     "tab_camp": {
         "message": "Camp"
     },
+    "tab_map": {
+        "message": "Karte"
+    },
     "tab_kitchen": {
         "message": "Küche"
     },
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Extra"
+    },
+    "map_floor": {
+        "message": "Ebene"
+    },
+    "map_floor_current": {
+        "message": "Dies ist die aktuelle Ebene."
+    },
+    "map_floor_found": {
+        "message": "Klicken zum Anzeigen der Karte für diese Ebene"
+    },
+    "map_floor_not_found": {
+        "message": "Diese Ebene wurde noch nicht besucht."
+    },
+    "map_remaining_tiles": {
+        "message": "Verbleibende Kacheln"
+    },
+    "map_special": {
+        "message": "Besonderes"
+    },
+    "map_quest": {
+        "message": "Aufgaben"
+    },
+    "map_this_floor": {
+        "message": "Diese Ebene"
+    },
+    "map_all_floors": {
+        "message": "Alle Ebenen"
+    },
+    "map_warning": {
+        "message": "Bitte zuerst einen beliebigen Ort eingeben."
+    },
+    "map_button_d": {
+        "message": "Diggy zeigen"
+    },
+    "map_button_t": {
+        "message": "Teleporter anzeigen"
+    },
+    "map_button_e": {
+        "message": "Leuchtfeuer anzeigen"
+    },
+    "map_button_g": {
+        "message": "Debug-Infos anzeigen"
+    },
+    "map_button_l": {
+        "message": "Brüchige Kacheln hervorheben"
+    },
+    "map_button_n": {
+        "message": "Kacheln mit bemerkenswerter Beute hervorheben"
+    },
+    "map_button_v": {
+        "message": "Kachelsichtbarkeit bleibt erhalten."
+    },
+    "map_button_o": {
+        "message": "Undurchsichtige Kachel anzeigen"
+    },
+    "map_button_b": {
+        "message": "Bonusindikator anzeigen"
+    },
+    "map_button_k": {
+        "message": "Hintergrund anzeigen, indem alle zerbrechlichen Kacheln ausgeblendet werden."
+    },
+    "map_button_a": {
+        "message": "Alle Kacheln anzeigen"
+    },
+    "map_save": {
+        "message": "Speichern"
+    },
+    "map_save_tip": {
+        "message": "Speichern der Karte als Bilddatei"
+    },
+    "map_entrance": {
+        "message": "Eingang"
+    },
+    "map_exit": {
+        "message": "Ausgang"
+    },
+    "map_teleport": {
+        "message": "Teleporter"
+    },
+    "map_hint": {
+        "message": "Hinweis"
+    },
+    "map_beacon": {
+        "message": "Leuchtfeuer"
+    },
+    "map_active": {
+        "message": "aktiv(e)"
+    },
+    "map_not_active": {
+        "message": "nicht aktiv(e)"
+    },
+    "map_tile": {
+        "message": "Kachel((n)"
+    },
+    "map_npc": {
+        "message": "Npc"
+    },
+    "map_says": {
+        "message": "sagt"
+    },
+    "map_godchild": {
+        "message": "Götterkind"
+    },
+    "map_unknown": {
+        "message": "Unbekannt"
+    },
+    "map_yellow": {
+        "message": "Gelb"
+    },
+    "map_red": {
+        "message": "Rot"
+    },
+    "map_blue": {
+        "message": "Blau"
+    },
+    "map_green": {
+        "message": "Grün"
+    },
+    "map_left": {
+        "message": "Linke"
+    },
+    "map_down": {
+        "message": "Unten"
+    },
+    "map_right": {
+        "message": "Rechte"
+    },
+    "map_up": {
+        "message": "Hoch"
+    },
+    "map_require_draggable": {
+        "message": "Verschiebbare Elemente"
+    },
+    "map_require_item": {
+        "message": "Gegenstand erforderlich"
+    },
+    "map_require_light": {
+        "message": "Licht erforderlich"
+    },
+    "map_emitter": {
+        "message": "Lichtquelle"
+    },
+    "map_mirror": {
+        "message": "Spiegel"
+    },
+    "map_filter": {
+        "message": "Lichtfilter"
+    },
+    "map_draggable": {
+        "message": "Verschiebbar"
+    },
+    "map_can_move": {
+        "message": "Kann bewegt werden"
+    },
+    "map_can_rotate": {
+        "message": "Kann gedreht werden"
+    },
+    "map_fixed": {
+        "message": "Ist fixiert"
     },
     "pillars_all": {
         "message": "Alle Säulen"
@@ -1482,7 +1644,7 @@
         "message": "Maximal zulässiges Ausblenden"
     },
     "equipment_price_info": {
-        "message": "Der hier angegebene Preis gilt nicht für dieses Ausstattung,\naber für das Paket/Angebot, das diese Ausstattung beinhaltet."
+        "message": "Der hier angegebene Preis gilt nicht für diese Ausstattung.\nSondern für das Paket/Angebot, dass diese Ausstattung beinhaltet."
     },
     "equipment_level_none": {
         "message": "Nicht wichtig"
@@ -1512,7 +1674,7 @@
         "message": "Aktuell"
     },
     "equipment_pfdisclaimer": {
-        "message": "Bitte beachten, dass, wenn in der Vergangenheit ein spezielles Paket im Spiel zu diesem Preis gekauft wurde, es nicht möglich ist, ein nächstes Paket zu diesem Preis zu erwerben.\nIn diesem Fall liegt die niedrigste verfügbare Preisstufe bei etwa 5,50 USD."
+        "message": "Bitte beachten, dass, wenn in der Vergangenheit ein spezielles Paket im Spiel zu diesem Preis gekauft wurde, ist es nicht möglich, ein nächstes Paket zu diesem Preis zu erwerben.\nIn diesem Fall liegt die niedrigste verfügbare Preisstufe bei etwa 5,50 USD."
     },
     "equipment_slotslower": {
         "message": "Stellplätze mit weniger Leistung als diese"
@@ -1772,6 +1934,18 @@
     },
     "options_darktheme": {
         "message": "Dunkles Thema"
+    },
+    "options_shrinkmenu": {
+        "message": "Menübreite\nVerringert die Breite des linken vertikalen Menüs"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Wenn die Breite der Seite klein ist"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Immer ein kompaktes Menü verwenden"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Immer ein erweitertes Menü verwenden"
     },
     "options_disablealtguard": {
         "message": "Zurücksetzen auf ein anderes Konto\nWenn Sie diese Option aktivieren, überschreibt das Laden eines alternativen Kontos Ihre aktuellen DAF2-Daten."

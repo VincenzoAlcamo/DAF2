@@ -789,7 +789,7 @@
         "message": "Can be moved"
     },
     "map_can_rotate": {
-        "message": "Can be rotate"
+        "message": "Can be rotated"
     },
     "map_fixed": {
         "message": "Is fixed"

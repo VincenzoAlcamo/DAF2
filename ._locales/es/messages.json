@@ -339,6 +339,9 @@
     "tab_camp": {
         "message": "Campamento"
     },
+    "tab_map": {
+        "message": "Mapa"
+    },
     "tab_kitchen": {
         "message": "Cocina"
     },
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Extra"
+    },
+    "map_floor": {
+        "message": "Piso"
+    },
+    "map_floor_current": {
+        "message": "Piso actual"
+    },
+    "map_floor_found": {
+        "message": "Pinche aqui para mostrar el piso acuto"
+    },
+    "map_floor_not_found": {
+        "message": "Piso no visitado aun"
+    },
+    "map_remaining_tiles": {
+        "message": "Azulejos restantes"
+    },
+    "map_special": {
+        "message": "Especial"
+    },
+    "map_quest": {
+        "message": "Mision"
+    },
+    "map_this_floor": {
+        "message": "Este piso"
+    },
+    "map_all_floors": {
+        "message": "Todos los pisos"
+    },
+    "map_warning": {
+        "message": "Ingrese en cualquier ubicacion primero"
+    },
+    "map_button_d": {
+        "message": "Mostrar  Diggy"
+    },
+    "map_button_t": {
+        "message": "Mostrar teletransporte"
+    },
+    "map_button_e": {
+        "message": "Mostrar balizas"
+    },
+    "map_button_g": {
+        "message": "Mostrar información de depuración"
+    },
+    "map_button_l": {
+        "message": "Resaltar azulejos rompibles"
+    },
+    "map_button_n": {
+        "message": "Resaltar azulejos con recompensas importantes"
+    },
+    "map_button_v": {
+        "message": "Las azulejos continuarán visibles aunque en el juego se muestren como ocultas"
+    },
+    "map_button_o": {
+        "message": "Mostrar azulejos opacas"
+    },
+    "map_button_b": {
+        "message": "Mostrar indicador de bonificacion"
+    },
+    "map_button_k": {
+        "message": "Mostrar el fondo ocualtando todas los azulejos rompibles"
+    },
+    "map_button_a": {
+        "message": "Mostrar todas los azulejos"
+    },
+    "map_save": {
+        "message": "Guardar"
+    },
+    "map_save_tip": {
+        "message": "Guardar mapa como archivo de imágen"
+    },
+    "map_entrance": {
+        "message": "Entrada"
+    },
+    "map_exit": {
+        "message": "Salida"
+    },
+    "map_teleport": {
+        "message": "Teletrasportación"
+    },
+    "map_hint": {
+        "message": "Indicio /pista"
+    },
+    "map_beacon": {
+        "message": "Baliza"
+    },
+    "map_active": {
+        "message": "activa"
+    },
+    "map_not_active": {
+        "message": "no activa"
+    },
+    "map_tile": {
+        "message": "Azulejo/baldoza"
+    },
+    "map_npc": {
+        "message": "Npc (personaje no jugador)"
+    },
+    "map_says": {
+        "message": "Dice"
+    },
+    "map_godchild": {
+        "message": "Niños dioses"
+    },
+    "map_unknown": {
+        "message": "Desconocido"
+    },
+    "map_yellow": {
+        "message": "Amarillo"
+    },
+    "map_red": {
+        "message": "Rojo"
+    },
+    "map_blue": {
+        "message": "Azul"
+    },
+    "map_green": {
+        "message": "Verde"
+    },
+    "map_left": {
+        "message": "Izquierdo"
+    },
+    "map_down": {
+        "message": "Abajo"
+    },
+    "map_right": {
+        "message": "Derecho"
+    },
+    "map_up": {
+        "message": "Arriba"
+    },
+    "map_require_draggable": {
+        "message": "Requiere arrastrar"
+    },
+    "map_require_item": {
+        "message": "Requiere  un objeto"
+    },
+    "map_require_light": {
+        "message": "Requiere luz"
+    },
+    "map_emitter": {
+        "message": "Emisor de luz"
+    },
+    "map_mirror": {
+        "message": "Espejo"
+    },
+    "map_filter": {
+        "message": "Flltro de luz"
+    },
+    "map_draggable": {
+        "message": "Arrastrable"
+    },
+    "map_can_move": {
+        "message": "Puede ser movido"
+    },
+    "map_can_rotate": {
+        "message": "Puede rotar"
+    },
+    "map_fixed": {
+        "message": "Esta fijo"
     },
     "pillars_all": {
         "message": "Todos los pilares"
@@ -1629,7 +1791,7 @@
         "message": "Azulejos totales"
     },
     "repeat_time": {
-        "message": "Momento en que la mina estará listo de nuevo"
+        "message": "Momento en que la mina estará lista nuevamente"
     },
     "repeat_show_all": {
         "message": "Todas las minas"
@@ -1772,6 +1934,18 @@
     },
     "options_darktheme": {
         "message": "Tema oscuro"
+    },
+    "options_shrinkmenu": {
+        "message": "Ancho del menú\nReducir el ancho del menu vertical izquierdo"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Cuando el ancho de la página es pequeño"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Utilizar siempre menú compacto"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Utilizar siempre menú ampliado"
     },
     "options_disablealtguard": {
         "message": "Restablecer con una  cuenta alternativa\nSi configura esta opción, cargar una cuenta alternativa sobrescribirá sus datos DAF2 actuales."
