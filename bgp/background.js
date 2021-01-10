@@ -467,8 +467,11 @@ var Data = {
                 return match ? match[1].toLowerCase() : '';
             }).find(id => Data.guiLanguages.includes(id)) || 'en';
     },
-    resetGenerator: function () {
-        Data.generator = {};
+    setGenerator: function (generator) {
+        generator = generator || {};
+        // generator.versionParameter = generator.to_version ? '?ver=' + generator.to_version : '';
+        generator.versionParameter = '';
+        Data.generator = generator;
     },
     init: async function () {
         await new Promise(function (resolve, _reject) {
@@ -503,7 +506,7 @@ var Data = {
         });
         */
         Data.initCollections();
-        Data.generator = {};
+        Data.setGenerator();
         Data.files = {};
         Data.neighbours = {};
         Data.friends = {};
@@ -525,10 +528,7 @@ var Data = {
         Data.loc_prog = {};
         tx.objectStore('Files').getAll().then(values => {
             for (const file of values) {
-                if (file.id == 'generator') {
-                    Data.generator = file.data || {};
-                    Data.generator.versionParameter = Data.generator.versionParameter || '';
-                }
+                if (file.id == 'generator') Data.setGenerator(file.data);
                 if (file.id == 'localization') Data.storeLocalization(file);
                 if (file.id == 'gcInfo') Data.removegcInfo();
                 if (file.id == 'repeatables') Data.repeatables = file.data || {};
@@ -700,7 +700,7 @@ var Data = {
             file.data.fb_id = pal ? pal.fb_id : Data.generator && Data.generator.fb_id;
             delete neighbours[file.data.player_id];
             Data.neighbours = neighbours;
-            Data.generator = file.data;
+            Data.setGenerator(file.data);
             Data.loc_prog = {};
             const store = tx.objectStore('Neighbours');
             // We don't need to wait for the operation to be completed

@@ -155,7 +155,7 @@ var Parser = {
             }
         });
         data.file_changes = file_changes;
-        data.versionParameter = to_version ? '?ver=' + to_version : '';
+        data.to_version = to_version;
 
         let accumulator = {};
         const accumulate = (array, fn) => {
