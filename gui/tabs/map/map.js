@@ -1075,13 +1075,18 @@ async function drawMine() {
         const width = 3;
         const addSegment = (p, angle, length) => [p[0] + length * Math.cos(angle), p[1] + length * Math.sin(angle)];
 
-        const p1 = [(sx + 0.5) * TILE_SIZE, (sy + 0.5) * TILE_SIZE];
+        const ps = [(sx + 0.5) * TILE_SIZE, (sy + 0.5) * TILE_SIZE];
         const pe = [(tx + 0.5) * TILE_SIZE, (ty + 0.5) * TILE_SIZE];
-        const dx = pe[0] - p1[0];
-        const dy = pe[1] - p1[1];
-        let length = Math.sqrt(dx * dx + dy * dy);
-        if (!isBidi) length -= TILE_SIZE / 2;
+        const dx = pe[0] - ps[0];
+        const dy = pe[1] - ps[1];
         const angle = Math.atan2(dy, dx);
+
+        let length = Math.sqrt(dx * dx + dy * dy);
+        let p1 = ps;
+        if (!isBidi) {
+            length -= TILE_SIZE / 2;
+            p1 = addSegment(ps, angle, TILE_SIZE / 6);
+        }
 
         const p2 = addSegment(p1, angle + Math.PI / 2, width);
         const p3 = addSegment(p2, angle, length - 20);
@@ -1106,7 +1111,7 @@ async function drawMine() {
             path = [p2, p3, p4, p5, p8, p7, p6];
         }
 
-        ctx.strokeStyle = '#0008';
+        ctx.strokeStyle = '#000C';
         ctx.fillStyle = isBidi ? '#FC4C' : '#88FC';
         ctx.beginPath();
         ctx.moveTo(path[0][0], path[0][1]);
@@ -1181,7 +1186,7 @@ async function drawMine() {
         }
         if (tileDef.miscType == 'B' && flagAdmin) {
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
-            if (item.req_drag) texts.push(gui.getMessageAndValue('map_require_draggable', item.req_drag) + (item.req_drag_rotation != 'none' ? ' (' + getOrientationName(item.req_drag_rotation) + ')' : ''));
+            if (item.req_drag) texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getOrientationName(item.req_drag_rotation)})` : ''}`);
             if (item.req_material) {
                 const token = gui.getObject('token', item.req_material);
                 const name = token.name_loc ? gui.getString(token.name_loc) : '#' + item.req_material;
@@ -1276,7 +1281,7 @@ async function drawMine() {
         const override = draggables[asArray(item.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]];
         if (override && override.mobile_asset in images) img = images[override.mobile_asset];
         const cost = override ? +override.stamina : +item.stamina;
-        let title = gui.getMessageAndValue('map_draggable', tileDef.draggableId) + ' (' + getOrientationName(tileDef.draggableStatus) + ')';
+        let title = `${gui.getMessage('map_draggable')} #${tileDef.draggableId} (${getOrientationName(tileDef.draggableStatus)})`;
         if (item.type == 'light') title += '\n' + gui.getMessageAndValue('map_emitter', getLightColorName(item.color_light));
         if (item.type == 'mirror') title += '\n' + gui.getMessage('map_mirror');
         if (item.type == 'filter') title += '\n' + gui.getMessageAndValue('map_filter', getLightColorName(item.color_filter));
