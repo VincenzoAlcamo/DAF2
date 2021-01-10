@@ -438,7 +438,7 @@ progress::-webkit-progress-value {
   background-color: var(--tt-button-bgcol);
   color: var(--tt-button-fgcol);
   user-select: none;
-  opacity: 0.7;
+  opacity: 0.4;
 }
 
 .shrink-handle:before {
@@ -448,6 +448,7 @@ progress::-webkit-progress-value {
 .shrink-handle:hover {
   background-color: var(--tb-hlcol);
   color: var(--tb-hlfgcol);
+  opacity: 1;
 }
 
 @media (max-width: 1366px) {
