@@ -120,6 +120,13 @@ function init() {
         if (action in handlers) handlers[action](event);
     };
     for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
+
+    container.querySelector('.toolbar input[name="paste"]').addEventListener('paste', (event) => {
+        const pasted = (event.clipboardData || window.clipboardData).getData('text');
+        const numAdded = bgp.Data.addRewardLinks(LinkData.getLinkData(pasted));
+        gui.toast.show({ text: gui.getMessage(numAdded ? 'linkgrabber_added' : 'rewardlinks_nolinksadded', numAdded) });
+        event.preventDefault();
+    });
 }
 
 function onErrorImg(event) {
@@ -186,13 +193,8 @@ function add() {
         style: [Dialog.CONFIRM, Dialog.CANCEL]
     }, function (method, params) {
         if (method == Dialog.CONFIRM) {
-            const arr = LinkData.getLinkData(params.links);
-            const numTotal = arr.length;
-            const numAdded = numTotal && bgp.Data.addRewardLinks(arr);
-            if (numAdded == 0)
-                gui.toast.show({
-                    text: gui.getMessage('rewardlinks_nolinksadded')
-                });
+            const numAdded = bgp.Data.addRewardLinks(LinkData.getLinkData(params.links));
+            if (numAdded == 0) gui.toast.show({ text: gui.getMessage('rewardlinks_nolinksadded') });
         }
     });
 }

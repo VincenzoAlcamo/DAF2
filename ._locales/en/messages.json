@@ -1389,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Add links"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Paste here the links to add, then press the \"$CONFIRM$\" button",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Any link pasted here will be directly added"
     },
     "rewardlinks_linksadded": {
         "message": "Rewards links added: $NUM$",
