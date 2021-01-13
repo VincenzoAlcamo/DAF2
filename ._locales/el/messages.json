@@ -1389,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Προσθήκη συνδέσμων"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Επικολήστε εδώ τους συνδέσμους και πατήστε \"$CONFIRM$\"",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Όποιος σύνδεσμος επικολληθεί εδώ θα προστεθεί κατευθείαν"
     },
     "rewardlinks_linksadded": {
         "message": "Σύνδεσμοι δώρων που προστέθηκαν: $NUM$",

@@ -1389,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Tilføj links"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Indsæt links her og tryk på \"$CONFIRM$\" knappen",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Ethvert link, der sættes ind her, vil blive direkte tilføjet"
     },
     "rewardlinks_linksadded": {
         "message": "Præmie links tilføjet: $NUM$",

@@ -339,6 +339,9 @@
     "tab_camp": {
         "message": "Acampamento"
     },
+    "tab_map": {
+        "message": "Mapa"
+    },
     "tab_kitchen": {
         "message": "Cozinha"
     },
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Extra"
+    },
+    "map_floor": {
+        "message": "Andar"
+    },
+    "map_floor_current": {
+        "message": "Este é o andar atual"
+    },
+    "map_floor_found": {
+        "message": "Clique para mostrar o mapa para este andar"
+    },
+    "map_floor_not_found": {
+        "message": "Este andar ainda não foi visitado"
+    },
+    "map_remaining_tiles": {
+        "message": "Blocos restantes"
+    },
+    "map_special": {
+        "message": "Especial"
+    },
+    "map_quest": {
+        "message": "Missão"
+    },
+    "map_this_floor": {
+        "message": "Este andar"
+    },
+    "map_all_floors": {
+        "message": "Todos os andares"
+    },
+    "map_warning": {
+        "message": "Insira qualquer local primeiro"
+    },
+    "map_button_d": {
+        "message": "Mostre Diggy"
+    },
+    "map_button_t": {
+        "message": "Mostre Teletransporte"
+    },
+    "map_button_e": {
+        "message": "Mostrar balizas"
+    },
+    "map_button_g": {
+        "message": "Mostrar informações de depuração"
+    },
+    "map_button_l": {
+        "message": "Destaque os blocos com itens notáveis"
+    },
+    "map_button_n": {
+        "message": "Destaque os blocos com itens notáveis"
+    },
+    "map_button_v": {
+        "message": "Destacar blocos quebráveis"
+    },
+    "map_button_o": {
+        "message": "Mostrar blocos opacos"
+    },
+    "map_button_b": {
+        "message": "Mostrar indicador de bónus"
+    },
+    "map_button_k": {
+        "message": "Mostre o fundo ocultando todas as blocos quebráveis"
+    },
+    "map_button_a": {
+        "message": "Mostrar todos os blocos"
+    },
+    "map_save": {
+        "message": "Salve"
+    },
+    "map_save_tip": {
+        "message": "Salve mapa como imagem de ficheiro"
+    },
+    "map_entrance": {
+        "message": "Entrada"
+    },
+    "map_exit": {
+        "message": "Saida"
+    },
+    "map_teleport": {
+        "message": "Teletransporte"
+    },
+    "map_hint": {
+        "message": "Dica"
+    },
+    "map_beacon": {
+        "message": "Baliza"
+    },
+    "map_active": {
+        "message": "Activado"
+    },
+    "map_not_active": {
+        "message": "Desacttivado"
+    },
+    "map_tile": {
+        "message": "Bloco"
+    },
+    "map_npc": {
+        "message": "Personagens"
+    },
+    "map_says": {
+        "message": "Diz"
+    },
+    "map_godchild": {
+        "message": "Afilhado"
+    },
+    "map_unknown": {
+        "message": "Desconhecido"
+    },
+    "map_yellow": {
+        "message": "Amarelo"
+    },
+    "map_red": {
+        "message": "Vermelho"
+    },
+    "map_blue": {
+        "message": "Azul"
+    },
+    "map_green": {
+        "message": "Verde"
+    },
+    "map_left": {
+        "message": "Esquerda"
+    },
+    "map_down": {
+        "message": "Em Baixo"
+    },
+    "map_right": {
+        "message": "Direita"
+    },
+    "map_up": {
+        "message": "Em cima"
+    },
+    "map_require_draggable": {
+        "message": "Requer arrastável"
+    },
+    "map_require_item": {
+        "message": "Requere Item"
+    },
+    "map_require_light": {
+        "message": "Requer luz"
+    },
+    "map_emitter": {
+        "message": "Emissor de luz"
+    },
+    "map_mirror": {
+        "message": "Espelho"
+    },
+    "map_filter": {
+        "message": "Filtro de luz"
+    },
+    "map_draggable": {
+        "message": "Arrastável"
+    },
+    "map_can_move": {
+        "message": "Pode ser movido"
+    },
+    "map_can_rotate": {
+        "message": "Pode ser rodado"
+    },
+    "map_fixed": {
+        "message": "Fixo"
     },
     "pillars_all": {
         "message": "Todos os pilares"
@@ -1227,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Adicionar links"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Cole aqui os links para adicionar e pressione o botão \"$CONFIRM$\"",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Qualquer link colado aqui será adicionado diretamente"
     },
     "rewardlinks_linksadded": {
         "message": "Links de recompensas adicionados: $NUM$",
@@ -1772,6 +1937,18 @@
     },
     "options_darktheme": {
         "message": "Tema escuro"
+    },
+    "options_shrinkmenu": {
+        "message": "Largura do menu\nReduza a largura do menu vertical esquerdo"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Quando a largura da página é pequena"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Sempre use um menu compacto"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Sempre use um menu expandido"
     },
     "options_disablealtguard": {
         "message": "Redefinir em conta alternativa\nSe você definir esta opção, carregar uma conta alternativa irá sobrescrever seus dados DAF2 atuais."

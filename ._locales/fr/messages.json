@@ -339,6 +339,9 @@
     "tab_camp": {
         "message": "Campement"
     },
+    "tab_map": {
+        "message": "Carte"
+    },
     "tab_kitchen": {
         "message": "Cuisine"
     },
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Extra"
+    },
+    "map_floor": {
+        "message": "Sol"
+    },
+    "map_floor_current": {
+        "message": "C'est la mine actuelle"
+    },
+    "map_floor_found": {
+        "message": "Cliquez pour afficher la carte de cette mine"
+    },
+    "map_floor_not_found": {
+        "message": "Cette mine n'a pas encore été visitée"
+    },
+    "map_remaining_tiles": {
+        "message": "Tuiles restantes"
+    },
+    "map_special": {
+        "message": "Spécial"
+    },
+    "map_quest": {
+        "message": "Quête"
+    },
+    "map_this_floor": {
+        "message": "Cette mine"
+    },
+    "map_all_floors": {
+        "message": "Toutes les mines"
+    },
+    "map_warning": {
+        "message": "Veuillez d'abord entrer n'importe quel emplacement"
+    },
+    "map_button_d": {
+        "message": "Afficher Diggy"
+    },
+    "map_button_t": {
+        "message": "Afficher les téléports"
+    },
+    "map_button_e": {
+        "message": "Afficher les balises"
+    },
+    "map_button_g": {
+        "message": "Afficher les informations de débogage"
+    },
+    "map_button_l": {
+        "message": "Mettre en évidence les tuiles cassables"
+    },
+    "map_button_n": {
+        "message": "Mettez en évidence les tuiles avec un butin remarquable"
+    },
+    "map_button_v": {
+        "message": "La visibilité des tuiles est collante"
+    },
+    "map_button_o": {
+        "message": "Afficher les tuiles opaques"
+    },
+    "map_button_b": {
+        "message": "Afficher l'indicateur de bonus"
+    },
+    "map_button_k": {
+        "message": "Afficher l'arrière-plan en masquant toutes les tuiles cassables"
+    },
+    "map_button_a": {
+        "message": "Afficher toutes les tuiles"
+    },
+    "map_save": {
+        "message": "Enregistrer"
+    },
+    "map_save_tip": {
+        "message": "Enregistrer la carte en tant que fichier image"
+    },
+    "map_entrance": {
+        "message": "Entrée"
+    },
+    "map_exit": {
+        "message": "Sortie"
+    },
+    "map_teleport": {
+        "message": "Téléporté"
+    },
+    "map_hint": {
+        "message": "Caché"
+    },
+    "map_beacon": {
+        "message": "Balise"
+    },
+    "map_active": {
+        "message": "Activer"
+    },
+    "map_not_active": {
+        "message": "Inactiver"
+    },
+    "map_tile": {
+        "message": "Tuiles"
+    },
+    "map_npc": {
+        "message": "Personnages"
+    },
+    "map_says": {
+        "message": "Parlé"
+    },
+    "map_godchild": {
+        "message": "Filleuls"
+    },
+    "map_unknown": {
+        "message": "Inconnu"
+    },
+    "map_yellow": {
+        "message": "Jaune"
+    },
+    "map_red": {
+        "message": "Rouge"
+    },
+    "map_blue": {
+        "message": "Bleue"
+    },
+    "map_green": {
+        "message": "Verte"
+    },
+    "map_left": {
+        "message": "Gauche"
+    },
+    "map_down": {
+        "message": "Bas"
+    },
+    "map_right": {
+        "message": "Droite"
+    },
+    "map_up": {
+        "message": "Haut"
+    },
+    "map_require_draggable": {
+        "message": "Nécessite un objet étirable"
+    },
+    "map_require_item": {
+        "message": "Nécessite un objet"
+    },
+    "map_require_light": {
+        "message": "Nécessite de la lumière"
+    },
+    "map_emitter": {
+        "message": "Émetteur de lumière"
+    },
+    "map_mirror": {
+        "message": "Miroir"
+    },
+    "map_filter": {
+        "message": "Filtre de lumière"
+    },
+    "map_draggable": {
+        "message": "Etrirable"
+    },
+    "map_can_move": {
+        "message": "Peut être déplacé"
+    },
+    "map_can_rotate": {
+        "message": "Peut être tourné"
+    },
+    "map_fixed": {
+        "message": "c'est fixé"
     },
     "pillars_all": {
         "message": "Tous les piliers"
@@ -1227,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Ajouter"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Collez des liens ajoutés ici, puis appuyez sur le bouton \"$CONFIRM$\"",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Ici, tout lien collé sera directement ajouté"
     },
     "rewardlinks_linksadded": {
         "message": "Lien de récompense ajouté: $NUM$",
@@ -1772,6 +1937,18 @@
     },
     "options_darktheme": {
         "message": "Thème sombre"
+    },
+    "options_shrinkmenu": {
+        "message": "Largeur du menu\nRéduisez la largeur du menu vertical de gauche"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Lorsque la largeur de la page est petite"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Utilisez toujours un menu compact"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Utilisez toujours un menu étendu"
     },
     "options_disablealtguard": {
         "message": "Réinitialiser sur un autre compte\nSi vous définissez cette option, le chargement d'un autre compte écrasera vos données DAF2 actuelles."

@@ -339,6 +339,9 @@
     "tab_camp": {
         "message": "Campo"
     },
+    "tab_map": {
+        "message": "Mappa"
+    },
     "tab_kitchen": {
         "message": "Cucina"
     },
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Extra"
+    },
+    "map_floor": {
+        "message": "Piano"
+    },
+    "map_floor_current": {
+        "message": "Questo è il piano corrente"
+    },
+    "map_floor_found": {
+        "message": "Clicca per mostrare la mappa di questo piano"
+    },
+    "map_floor_not_found": {
+        "message": "Questo piano non è stato ancora visitato"
+    },
+    "map_remaining_tiles": {
+        "message": "Mattonelle rimaste"
+    },
+    "map_special": {
+        "message": "Speciali"
+    },
+    "map_quest": {
+        "message": "Missione"
+    },
+    "map_this_floor": {
+        "message": "Questo piano"
+    },
+    "map_all_floors": {
+        "message": "Tutti i piani"
+    },
+    "map_warning": {
+        "message": "Per favore, entra prima in una mappa"
+    },
+    "map_button_d": {
+        "message": "Mostra Diggy"
+    },
+    "map_button_t": {
+        "message": "Mostra i teletrasporti"
+    },
+    "map_button_e": {
+        "message": "Mostra i segnalatori"
+    },
+    "map_button_g": {
+        "message": "Mostra informazioni di debug"
+    },
+    "map_button_l": {
+        "message": "Evidenzia le caselle distruggibili"
+    },
+    "map_button_n": {
+        "message": "Evidenzia le caselle con materiali notevoli"
+    },
+    "map_button_v": {
+        "message": "La visibilità delle caselle è persistente"
+    },
+    "map_button_o": {
+        "message": "Mostra le caselle opache"
+    },
+    "map_button_b": {
+        "message": "Mostra l'indicatore per i bonus"
+    },
+    "map_button_k": {
+        "message": "Mostra lo sfondo nascondendo tutte le mattonelle"
+    },
+    "map_button_a": {
+        "message": "Mostra tutte le caselle"
+    },
+    "map_save": {
+        "message": "Salva"
+    },
+    "map_save_tip": {
+        "message": "Salva la mappa come un file immagine"
+    },
+    "map_entrance": {
+        "message": "Entrata"
+    },
+    "map_exit": {
+        "message": "Uscita"
+    },
+    "map_teleport": {
+        "message": "Teletrasporto"
+    },
+    "map_hint": {
+        "message": "Suggerimento"
+    },
+    "map_beacon": {
+        "message": "Segnalatore"
+    },
+    "map_active": {
+        "message": "attivo"
+    },
+    "map_not_active": {
+        "message": "non attivo"
+    },
+    "map_tile": {
+        "message": "Mattonella"
+    },
+    "map_npc": {
+        "message": "Png"
+    },
+    "map_says": {
+        "message": "Dice"
+    },
+    "map_godchild": {
+        "message": "Bambino"
+    },
+    "map_unknown": {
+        "message": "Sconosciuto"
+    },
+    "map_yellow": {
+        "message": "Giallo"
+    },
+    "map_red": {
+        "message": "Rosso"
+    },
+    "map_blue": {
+        "message": "Blu"
+    },
+    "map_green": {
+        "message": "Verde"
+    },
+    "map_left": {
+        "message": "Sinistra"
+    },
+    "map_down": {
+        "message": "Giù"
+    },
+    "map_right": {
+        "message": "Destra"
+    },
+    "map_up": {
+        "message": "Sù"
+    },
+    "map_require_draggable": {
+        "message": "Richiede rotolante"
+    },
+    "map_require_item": {
+        "message": "Richiede oggetto"
+    },
+    "map_require_light": {
+        "message": "Richiede luce"
+    },
+    "map_emitter": {
+        "message": "Emittitore di luce"
+    },
+    "map_mirror": {
+        "message": "Specchio"
+    },
+    "map_filter": {
+        "message": "Filtro di luce"
+    },
+    "map_draggable": {
+        "message": "Rotolante"
+    },
+    "map_can_move": {
+        "message": "Può essere spostato"
+    },
+    "map_can_rotate": {
+        "message": "Può essere ruotato"
+    },
+    "map_fixed": {
+        "message": "È fisso"
     },
     "pillars_all": {
         "message": "Tutti i pilastri"
@@ -1227,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Aggiungi link"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Incolla qui i link da aggiungere, quindi premi il pulsante \"$CONFIRM$\"",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Qualunque link incollato qui sarà aggiunto direttamente"
     },
     "rewardlinks_linksadded": {
         "message": "Link ricompensa aggiunti: $NUM$",
@@ -1772,6 +1937,18 @@
     },
     "options_darktheme": {
         "message": "Tema scuro"
+    },
+    "options_shrinkmenu": {
+        "message": "Larghezza menù\nRiduce la larghezza del menù verticale di sinistra"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Quando la larghezza della pagina è piccola"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Usa sempre un menù compatto"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Usa sempre un menù esteso"
     },
     "options_disablealtguard": {
         "message": "Azzera quando account alternativo.\nSe imposti questa opzione, caricare un account alternativo sovrascriverà i tuoi dati attuali di DAF2."

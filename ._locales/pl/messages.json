@@ -339,6 +339,9 @@
     "tab_camp": {
         "message": "Obóz"
     },
+    "tab_map": {
+        "message": "Mapa"
+    },
     "tab_kitchen": {
         "message": "Kuchnia"
     },
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Ekstra"
+    },
+    "map_floor": {
+        "message": "Piętro"
+    },
+    "map_floor_current": {
+        "message": "To jest aktualne piętro"
+    },
+    "map_floor_found": {
+        "message": "Kliknij aby pokazać mapę dla tego piętra"
+    },
+    "map_floor_not_found": {
+        "message": "To piętro nie było jeszcze odwiedzone"
+    },
+    "map_remaining_tiles": {
+        "message": "Pozostałe kostki"
+    },
+    "map_special": {
+        "message": "Specjalna"
+    },
+    "map_quest": {
+        "message": "Zadanie"
+    },
+    "map_this_floor": {
+        "message": "To piętro"
+    },
+    "map_all_floors": {
+        "message": "Wszystkie piętra"
+    },
+    "map_warning": {
+        "message": "Proszę wejdź najpierw do lokacji"
+    },
+    "map_button_d": {
+        "message": "Pokaż Diggiego"
+    },
+    "map_button_t": {
+        "message": "Pokaż teleporty"
+    },
+    "map_button_e": {
+        "message": "Pokaż latarnię"
+    },
+    "map_button_g": {
+        "message": "Pokaż info debugowania"
+    },
+    "map_button_l": {
+        "message": "Wyraźne zbite kostki"
+    },
+    "map_button_n": {
+        "message": "Wyraźne kostki z łupem"
+    },
+    "map_button_v": {
+        "message": "Widoczność kostek jest lepka"
+    },
+    "map_button_o": {
+        "message": "Pokaż nieprzejrzyste kostki"
+    },
+    "map_button_b": {
+        "message": "Pokaż wskaźnik bonusu"
+    },
+    "map_button_k": {
+        "message": "Pokaż tło chowając wszystkie kostki do zbicia"
+    },
+    "map_button_a": {
+        "message": "Pokaż wszystkie kostki"
+    },
+    "map_save": {
+        "message": "Zapisz"
+    },
+    "map_save_tip": {
+        "message": "Zapisz mapę jako plik obrazu"
+    },
+    "map_entrance": {
+        "message": "Wejście"
+    },
+    "map_exit": {
+        "message": "Wyjście"
+    },
+    "map_teleport": {
+        "message": "Teleport"
+    },
+    "map_hint": {
+        "message": "Wskazówka"
+    },
+    "map_beacon": {
+        "message": "Latarnia"
+    },
+    "map_active": {
+        "message": "aktywny"
+    },
+    "map_not_active": {
+        "message": "nieaktywny"
+    },
+    "map_tile": {
+        "message": "Kostka"
+    },
+    "map_npc": {
+        "message": "Npc"
+    },
+    "map_says": {
+        "message": "Mówi"
+    },
+    "map_godchild": {
+        "message": "Boże Dzieci"
+    },
+    "map_unknown": {
+        "message": "Nieznany"
+    },
+    "map_yellow": {
+        "message": "Żółty"
+    },
+    "map_red": {
+        "message": "Czerwony"
+    },
+    "map_blue": {
+        "message": "Niebieski"
+    },
+    "map_green": {
+        "message": "Zielony"
+    },
+    "map_left": {
+        "message": "Lewy"
+    },
+    "map_down": {
+        "message": "Dół"
+    },
+    "map_right": {
+        "message": "Prawy"
+    },
+    "map_up": {
+        "message": "Góra"
+    },
+    "map_require_draggable": {
+        "message": "Wymagane przeciąganie"
+    },
+    "map_require_item": {
+        "message": "Wymaga przedmiotu"
+    },
+    "map_require_light": {
+        "message": "Wymaga światła"
+    },
+    "map_emitter": {
+        "message": "Emiter światła"
+    },
+    "map_mirror": {
+        "message": "Lustro"
+    },
+    "map_filter": {
+        "message": "Filtr światła"
+    },
+    "map_draggable": {
+        "message": "Przeciąganie"
+    },
+    "map_can_move": {
+        "message": "Może być ruszone"
+    },
+    "map_can_rotate": {
+        "message": "Może być obracane"
+    },
+    "map_fixed": {
+        "message": "Jest stały"
     },
     "pillars_all": {
         "message": "Wszystkie kolumny"
@@ -1227,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Dodaj linki"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Wklej tutaj linki aby dodać, następnie naciśnij przycisk \"$CONFIRM$\"",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Każdy link wklejony tutaj zostanie bezpośrednio dodany"
     },
     "rewardlinks_linksadded": {
         "message": "Dodane linki z nagrodami: $NUM$",
@@ -1772,6 +1937,18 @@
     },
     "options_darktheme": {
         "message": "Ciemny motyw"
+    },
+    "options_shrinkmenu": {
+        "message": "Szerokość menu\nZmniejszenie szerokości lewego pionowego menu"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Kiedy szerokość strony jest mała"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Zawsze używaj kompaktowego menu"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Zawsze używaj rozszerzonego menu"
     },
     "options_disablealtguard": {
         "message": "Zresetuj na koncie alternatywnym\nJeśli ustawisz tą opcję, ładowanie konta alternatywnego zastąpi twoje aktualne\ndane DAF2"
