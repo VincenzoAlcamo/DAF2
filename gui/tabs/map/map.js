@@ -5,11 +5,7 @@ export default {
     update,
     getState,
     setState,
-    actions: {
-        'enter_mine': markToBeRendered,
-        'change_level': markToBeRendered,
-        'mine_action': markToBeRendered
-    },
+    actions: { 'daf_mine_action': markToBeRendered },
     requires: (function () {
         const requires = ['addons', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events', 'usables', 'materials', 'tokens', 'achievements', 'quests', 'map_filters'];
         for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
@@ -307,6 +303,7 @@ function changeLevel(e) {
 
 async function calcMine(mine, flagAddImages) {
     if (!mine) return;
+    mine.processed = gui.getUnixTime();
     const flagAdmin = bgp.Data.isAdmin();
     const { id: lid, level_id: fid, columns: cols, rows } = mine;
 
@@ -851,7 +848,6 @@ async function calcMine(mine, flagAddImages) {
         }
         if (tileDef.npcLoot) checkLoot(tileDef, tileDef.npcLoot);
     }
-    mine.numActions = asArray(mine.actions).length;
     mine.numTiles = numTiles;
     mine.cost = cost;
     mine.numSpecial = numSpecial;
@@ -1000,8 +996,7 @@ async function drawMine() {
     for (const floorId of currentData.floorNumbers) {
         const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == floorId);
         if (found && floorId != fid) {
-            const thisQuestDrops = allQuestDropsFlags[`${lid}_${floorId}`];
-            const recalc = isNaN(+found.numTiles) || asArray(found.actions).length > (+found.numActions || 0) || numQuestDrops !== thisQuestDrops;
+            const recalc = (found.processed || 0) < found.time || numQuestDrops !== allQuestDropsFlags[`${lid}_${floorId}`];
             if (recalc) await calcMine(found, false);
         }
     }
@@ -1481,12 +1476,6 @@ async function drawMine() {
     for (const floorId of currentData.floorNumbers) {
         const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == floorId);
         if (found) {
-            const recalc = isNaN(+found.numTiles) || asArray(found.actions).length > (+found.numActions || 0) || !(`${lid}_${floorId}` in allQuestDropsFlags);
-            // TODO: move up this code and recalc the current mine if quest drop has been added
-            if (recalc) await calcMine(found, false);
-        }
-        const isValid = found && !isNaN(+found.numTiles);
-        if (isValid) {
             numFound++;
             totalTiles += found.numTiles;
             totalCost += found.cost;
@@ -1495,7 +1484,7 @@ async function drawMine() {
         }
         const isCurrent = floorId == fid;
         const title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
-        htm += Html`<input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} class="${!isValid ? 'invalid' : ''}" title="${title}"'}>`;
+        htm += Html`<input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"'}>`;
     }
     const div = container.querySelector('[data-id="fid"]');
     Dialog.htmlToDOM(div, htm);

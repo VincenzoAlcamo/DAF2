@@ -1431,9 +1431,10 @@ var Synchronize = {
     signalMineAction: function (data) {
         const mine = Data.lastVisitedMine;
         if (mine) {
+            mine.time = getUnixTime();
             if (!mine.actions) mine.actions = [];
-            mine.actions.push(data);
-            if (!Synchronize.delayedSignals.find(s => s.action == 'mine_action')) Synchronize.delayedSignals.push({ action: 'mine_action' });
+            if (data) mine.actions.push(data);
+            if (!Synchronize.delayedSignals.find(s => s.action == 'daf_mine_action')) Synchronize.delayedSignals.push({ action: 'daf_mine_action' });
         }
     },
     energyId: 0,
@@ -1608,12 +1609,14 @@ var Synchronize = {
                 Data.storeLocProg();
                 Data.checkRepeatablesStatus();
                 Data.setLastVisitedMine(taskResponse);
+                Synchronize.signalMineAction();
                 Synchronize.signal(action, taskResponse);
             }
         },
         change_level: function (action, task, taskResponse, _response) {
             Synchronize.signalMineAction({ action, exit_id: +task.exit_id, direction: task.direction });
             Data.setLastVisitedMine(taskResponse);
+            Synchronize.signalMineAction();
             Synchronize.signal(action, taskResponse);
         },
         speedup_reset: function (_action, task, _taskResponse, _response) {

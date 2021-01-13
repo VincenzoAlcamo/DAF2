@@ -105,11 +105,6 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   border-radius: 10px;
 }
 
-.tab_map .toolbar input[type=radio].invalid {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
-}
-
 .tab_map .toolbar input[type=radio]:checked {
   background-color: var(--tt-button-hlcol);
 }
