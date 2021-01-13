@@ -62,7 +62,16 @@ const gui = {
         return bgp.Data.files[name];
     },
     getPillarsInfo: function () {
-        return bgp.Data.getPillarsInfo();
+        const result = bgp.Data.getPillarsInfo();
+        gui.expByMaterial = Object.assign({}, result.expByMaterial);
+        // const expByMaterial = gui.expByMaterial;
+        // const estimates = {
+        //     332: 375000, // Superchromium
+        //     331: 7000,   // Chromite ore
+        //     329: 227000, // Opal
+        // };
+        // for (const id in estimates) if (!(id in expByMaterial)) expByMaterial[id] = estimates[id];
+        return result;
     },
     getString: function (id) {
         return bgp.Data.getString(id);
@@ -283,7 +292,7 @@ const gui = {
         return { owned, active };
     },
     getXp: function (type, oid) {
-        const expByMaterial = bgp.Data.pillars.expByMaterial;
+        const expByMaterial = gui.expByMaterial;    //bgp.Data.pillars.expByMaterial
         if (!expByMaterial) return 0;
         if (type == 'material') return expByMaterial[oid] || 0;
         if (type == 'usable') {
