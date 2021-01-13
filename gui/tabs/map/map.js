@@ -63,7 +63,7 @@ const IMG_BEAMS = '/img/gui/beams.png';
 
 let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo;
 const images = {};
-let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, mapFilters;
+let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData;
 let showBackground, showBeacon, showTeleport, showDiggy, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
@@ -159,6 +159,13 @@ function init() {
     });
 }
 
+function addQuestDrop(lid, type, id, value) {
+    let h = allQuestDrops[lid];
+    if (!h) h = allQuestDrops[lid] = {};
+    const key = type + '_' + id;
+    if (!(key in h)) h[key] = value;
+}
+
 function update() {
     ({ cdn_root, versionParameter } = gui.getGenerator());
     if (bgp.Data.lastVisitedMine) gui.setLazyRender(map);
@@ -187,6 +194,7 @@ function update() {
     });
 
     allQuestDrops = {};
+    allQuestDropsFlags = {};
     // Quests -> steps -> objectives -> location_type can be:
     // camp, floor, city, bill, map, global_contract_popup, create_mine, crafting_popup
     const materials = gui.getFile('materials');
@@ -194,14 +202,12 @@ function update() {
         for (const step of asArray(quest.steps)) {
             for (const obj of asArray(step.objectives)) {
                 if (obj.type == 'get' && obj.location_type == 'floor' && +obj.amount > 0 && obj.object_type != 'create_mine') {
-                    const lid = +obj.location_id;
-                    let h = allQuestDrops[lid];
-                    if (!h) h = allQuestDrops[lid] = {};
-                    if (obj.object_type == 'material') {
-                        const m = materials[obj.object_id];
+                    const { location_id: lid, object_type: type, object_id: id } = obj;
+                    if (type == 'material') {
+                        const m = materials[id];
                         if (!m || +m.event_id == 0) continue;
                     }
-                    h[obj.object_type + '_' + obj.object_id] = quest.def_id;
+                    addQuestDrop(lid, type, id, quest.def_id);
                 }
             }
         }
@@ -803,6 +809,12 @@ async function calcMine(mine, flagAddImages) {
     if (wrongAction) console.log(wrongAction);
     for (const tileDef of tileDefs.filter(t => t.toDo)) computeTile(tileDef);
 
+    // Add beacon requirements as quest loot
+    for (const beacon of Object.values(beaconParts).filter(b => !b.active && b.req_material > 0)) {
+        addQuestDrop(lid, 'token', beacon.req_material, 'beacon');
+    }
+    allQuestDropsFlags[`${lid}_${fid}`] = Object.keys(allQuestDrops[lid] || {}).length;
+
     // Check loot
     let numTiles = 0;
     let cost = 0;
@@ -983,7 +995,19 @@ async function drawMine() {
     updateTableFlags(state);
     if (!currentData) return;
 
-    const { rows, cols, lid, fid, rid, tileDefs, beaconParts, entrances, exits, hints, teleports } = currentData;
+    const { lid, fid } = currentData;
+    const numQuestDrops = Object.keys(allQuestDrops[lid] || {}).length;
+    for (const floorId of currentData.floorNumbers) {
+        const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == floorId);
+        if (found && floorId != fid) {
+            const thisQuestDrops = allQuestDropsFlags[`${lid}_${floorId}`];
+            const recalc = isNaN(+found.numTiles) || asArray(found.actions).length > (+found.numActions || 0) || numQuestDrops !== thisQuestDrops;
+            if (recalc) await calcMine(found, false);
+        }
+    }
+    if (Object.keys(allQuestDrops[lid] || {}).length !== allQuestDropsFlags[`${lid}_${fid}`]) currentData = await calcMine(currentData.mine);
+
+    const { rows, cols, rid, tileDefs, beaconParts, entrances, exits, hints, teleports } = currentData;
 
     canvas.width = cols * TILE_SIZE;
     canvas.height = rows * TILE_SIZE;
@@ -1456,7 +1480,11 @@ async function drawMine() {
     let totalTiles = 0, totalCost = 0, totalSpecial = 0, totalQuest = 0, numFound = 0;
     for (const floorId of currentData.floorNumbers) {
         const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == floorId);
-        if (found && (isNaN(+found.numTiles) || asArray(found.actions).length > (+found.numActions || 0))) await calcMine(found, false);
+        if (found) {
+            const recalc = isNaN(+found.numTiles) || asArray(found.actions).length > (+found.numActions || 0) || !(`${lid}_${floorId}` in allQuestDropsFlags);
+            // TODO: move up this code and recalc the current mine if quest drop has been added
+            if (recalc) await calcMine(found, false);
+        }
         const isValid = found && !isNaN(+found.numTiles);
         if (isValid) {
             numFound++;

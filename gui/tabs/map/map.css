@@ -70,10 +70,14 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   background-color: #0008;
 }
 
-.tab_map .toolbar .special,
+.tab_map .toolbar .special {
+  background-color: #FF0;
+  color: #000;
+}
+
 .tab_map .toolbar .quest {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
+  background-color: #F0F;
+  color: #000;
 }
 
 /*#endregion*/
@@ -240,7 +244,11 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 .tab_map .map.show_notable td.special {
   outline-style: solid;
   outline-width: 8px !important;
-  animation: map-rotate-outline 5s linear infinite;
+  animation: map-special-outline 1s alternate infinite;
+}
+
+.tab_map .map.show_notable td.quest {
+  animation: map-quest-outline 1s alternate infinite;
 }
 
 .tab_map .map .beacon {
@@ -261,32 +269,22 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   cursor: help;
 }
 
-@keyframes map-rotate-outline {
+@keyframes map-special-outline {
   0% {
     outline-color: #0008;
   }
 
-  17% {
+  100% {
     outline-color: #FF0;
   }
+}
 
-  34% {
+@keyframes map-quest-outline {
+  0% {
     outline-color: #0008;
-  }
-
-  50% {
-    outline-color: #0FF;
-  }
-
-  67% {
-    outline-color: #0008;
-  }
-
-  84% {
-    outline-color: #F0F;
   }
 
   100% {
-    outline-color: #0008;
+    outline-color: #F0F;
   }
 }
