@@ -776,8 +776,7 @@ async function calcMine(mine, flagAddImages) {
             const beaconPart = dest.miscType == 'B' && getBeaconPart(dest.miscId, dest.beaconPart);
             if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
                 if (beaconPart.req_drag == 0 || (beaconPart.req_drag == draggableId && isRequiredOrientation(beaconPart, dest.draggableStatus))) {
-                    beaconPart.active = true;
-                    executeBeaconActions(beacons[dest.miscId]);
+                    setBeaconPartActive(dest, beacons[dest.miscId], beaconPart, true);
                 } else if (beaconPart.activation == 'pit') {
                     return true;
                 }
