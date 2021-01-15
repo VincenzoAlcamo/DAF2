@@ -684,7 +684,7 @@
         "message": "Destaque os blocos com itens notáveis"
     },
     "map_button_v": {
-        "message": "Destacar blocos quebráveis"
+        "message": "A visibilidade do bloco é persistente"
     },
     "map_button_o": {
         "message": "Mostrar blocos opacos"

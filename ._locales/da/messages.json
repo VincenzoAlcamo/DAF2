@@ -684,7 +684,7 @@
         "message": "Fremhæv felter med bemærkelsesværdig bytte"
     },
     "map_button_v": {
-        "message": "Feltets synlighed hænger ved"
+        "message": "Feltets synlighed er vedvarende"
     },
     "map_button_o": {
         "message": "Vis uigennemsigtige fliser"

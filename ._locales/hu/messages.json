@@ -1,0 +1,1515 @@
+{
+    "ext_name": {
+        "message": "DA Friends 2"
+    },
+    "ext_title": {
+        "message": "Segítő eszköz a Diggy Adventure-hoz"
+    },
+    "menu_resetfullwindow": {
+        "message": "Újratöltés"
+    },
+    "menu_fullwindow": {
+        "message": "Teljes képernyős játék"
+    },
+    "menu_fullwindowheader": {
+        "message": "Fejléc"
+    },
+    "menu_fullwindowside": {
+        "message": "Oldalsáv"
+    },
+    "menu_fullwindowlock": {
+        "message": "Lezár"
+    },
+    "menu_gctable": {
+        "message": "GC táblázat megjelenítése"
+    },
+    "menu_gctablecounter": {
+        "message": "Számláló"
+    },
+    "menu_gctableregion": {
+        "message": "Régió"
+    },
+    "menu_gccollected": {
+        "message": "Minden GC-t begyűjtöttél"
+    },
+    "menu_autoclick": {
+        "message": "Automatikusan kattintson a Facebook felugró ablakára"
+    },
+    "menu_nogcpopup": {
+        "message": "Nincs felugró ablak a GC gyűjtésekor"
+    },
+    "menu_reloadgame": {
+        "message": "Játék újratöltése és kényszerített adat frissítés"
+    },
+    "menu_switchportal": {
+        "message": "Átkapcsolás a Portal-ra"
+    },
+    "menu_switchfacebook": {
+        "message": "Átkapcsolás a Facebook-ra"
+    },
+    "menu_on": {
+        "message": "BE"
+    },
+    "menu_off": {
+        "message": "KI"
+    },
+    "gui_timeparts": {
+        "message": "n,ó,p,m"
+    },
+    "gui_card_clicker": {
+        "message": "Kattints a szekció kinyitásáért/bezárásáért"
+    },
+    "gui_show": {
+        "message": "Mutat"
+    },
+    "gui_all": {
+        "message": "Mind"
+    },
+    "gui_search": {
+        "message": "Keresés"
+    },
+    "gui_filter": {
+        "message": "Szűrő"
+    },
+    "gui_name": {
+        "message": "Név"
+    },
+    "gui_region_required": {
+        "message": "Szükséges\n Régió"
+    },
+    "gui_theme_required": {
+        "message": "Szükséges\n Régió/Téma"
+    },
+    "gui_level_required": {
+        "message": "Szükséges\n Szint"
+    },
+    "gui_qty": {
+        "message": "Mennyiség"
+    },
+    "gui_qty_required": {
+        "message": "Szükséges\n Mennyiség"
+    },
+    "gui_energy": {
+        "message": "Energia"
+    },
+    "gui_estimatedenergy": {
+        "message": "Becsült energia"
+    },
+    "gui_food": {
+        "message": "Étel"
+    },
+    "gui_coins": {
+        "message": "Érmék"
+    },
+    "gui_backpack": {
+        "message": "Hátizsák"
+    },
+    "gui_clickwiki": {
+        "message": "Kattints ide a Wiki oldal megnyitásához."
+    },
+    "gui_from_any": {
+        "message": "régiókból vagy az eseményekből"
+    },
+    "gui_from_regions": {
+        "message": "régiókból"
+    },
+    "gui_from_events": {
+        "message": "eseményekből"
+    },
+    "gui_ingredients": {
+        "message": "Hozzávalók"
+    },
+    "gui_event": {
+        "message": "Esemény"
+    },
+    "gui_specialweek": {
+        "message": "Speciális hét"
+    },
+    "gui_region": {
+        "message": "Régió"
+    },
+    "gui_theme": {
+        "message": "Téma"
+    },
+    "gui_year": {
+        "message": "Év"
+    },
+    "gui_quest": {
+        "message": "Küldetés"
+    },
+    "gui_offer": {
+        "message": "Ajánlat"
+    },
+    "gui_tieredoffer": {
+        "message": "Fokozatos ajánlat"
+    },
+    "gui_pack": {
+        "message": "Csomag"
+    },
+    "gui_equipment": {
+        "message": "Felszerelés"
+    },
+    "gui_shop": {
+        "message": "Bolt"
+    },
+    "gui_decoration": {
+        "message": "Dekoráció"
+    },
+    "gui_usable": {
+        "message": "Használható"
+    },
+    "gui_token": {
+        "message": "Jel"
+    },
+    "gui_level": {
+        "message": "Szint"
+    },
+    "gui_xp": {
+        "message": "XP"
+    },
+    "gui_sell_price": {
+        "message": "Eladási ár"
+    },
+    "gui_neighbour": {
+        "message": "Szomszéd"
+    },
+    "gui_friend": {
+        "message": "Barát"
+    },
+    "gui_firstrecorded": {
+        "message": "Első\n feljegyzés"
+    },
+    "gui_loadingresources": {
+        "message": "Erőforrások betöltése ($NUM$/$TOTAL$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "gui_screenshot_shot": {
+        "message": "Kattints, hogy képernyőképet csinálj erről a szekcióról.\n A képernyőkép a jobb oldalon jelenik meg.\n Kerlek vedd figyelembe, hogy csak a látható részt rögzíti!\n Kattints a DAF2 ikonra, hogy engedélyezd ezt a funkciót."
+    },
+    "gui_screenshot_target": {
+        "message": "Kattints a kép letöltéséhez.\n Kattints jobb gonbbal a képen és válaszd ki a \"Kép másolása\"-t, hogy a vágólapra másold."
+    },
+    "gui_screenshot_error": {
+        "message": "Nem lehet képernyőképet készíteni."
+    },
+    "gui_screenshot_errorinfo": {
+        "message": "Először kattints a @DAF2@ ikonra a Chrome menüjében.\n Ez az oldal bezárásáig engedélyezi a képernyőkép funkciót.\n\n Kérlek kattints a @DAF2@ ikonra, majd próbáld újra képernyőképet."
+    },
+    "gui_infodated": {
+        "message": "Az itt megjelenő információk aktuálisak voltak és csak eddig érvényesek: '$VALID$'",
+        "placeholders": {
+            "valid": {
+                "content": "$1"
+            }
+        }
+    },
+    "gui_nonote": {
+        "message": "Nincs megjegyzés"
+    },
+    "gui_minimum": {
+        "message": "Minimum"
+    },
+    "gui_maximum": {
+        "message": "Maximum"
+    },
+    "gui_average": {
+        "message": "Átlag"
+    },
+    "gui_loot": {
+        "message": "Zsákmány"
+    },
+    "gui_datafrompf": {
+        "message": "A Pixel Federation játék fájljaiból nyert adatok"
+    },
+    "gui_gift": {
+        "message": "Ajándék"
+    },
+    "gui_gifts": {
+        "message": "Ajándékok"
+    },
+    "gui_day": {
+        "message": "Nap"
+    },
+    "gui_placed": {
+        "message": "Táborba rakva"
+    },
+    "gui_owned": {
+        "message": "Megszerzett"
+    },
+    "gui_limit": {
+        "message": "Korlát"
+    },
+    "gui_type": {
+        "message": "Tipus"
+    },
+    "gui_width": {
+        "message": "Szélesség"
+    },
+    "gui_height": {
+        "message": "Magasság"
+    },
+    "gui_value": {
+        "message": "Érték"
+    },
+    "gui_slot_value": {
+        "message": "Cella értéke"
+    },
+    "gui_cost": {
+        "message": "Ár"
+    },
+    "gui_items_found": {
+        "message": "Talált elemek"
+    },
+    "gui_reset": {
+        "message": "Visszaállítás"
+    },
+    "gui_material": {
+        "message": "Nyersanyag"
+    },
+    "gui_filter_clear": {
+        "message": "Törlés"
+    },
+    "gui_filter_invert": {
+        "message": "Megfordít"
+    },
+    "gui_advancedfilter": {
+        "message": "Speciális szűrő"
+    },
+    "gui_location": {
+        "message": "Helyszín"
+    },
+    "gui_locked": {
+        "message": "Zárva"
+    },
+    "gui_noresults": {
+        "message": "Nincs eredmény"
+    },
+    "gui_toomanyresults": {
+        "message": "Túl sok eredmény"
+    },
+    "gui_id": {
+        "message": "ID"
+    },
+    "gui_date": {
+        "message": "Dárum"
+    },
+    "gui_ctrlclick": {
+        "message": "Használd a CTRL-t az összes kijelöléséhez/törléséhez"
+    },
+    "gui_summary": {
+        "message": "Összegzés"
+    },
+    "dialog_ok": {
+        "message": "Ok"
+    },
+    "dialog_yes": {
+        "message": "Igen"
+    },
+    "dialog_no": {
+        "message": "Nem"
+    },
+    "dialog_confirm": {
+        "message": "Elfogad"
+    },
+    "dialog_cancel": {
+        "message": "Mégse"
+    },
+    "dialog_close": {
+        "message": "Bezár"
+    },
+    "dialog_pleasewait": {
+        "message": "Kérlek várj"
+    },
+    "tab_game": {
+        "message": "Átlépés a játékba"
+    },
+    "tab_about": {
+        "message": "Rólunk"
+    },
+    "tab_progress": {
+        "message": "Haladás"
+    },
+    "tab_camp": {
+        "message": "Tábor"
+    },
+    "tab_map": {
+        "message": "Térkép"
+    },
+    "tab_kitchen": {
+        "message": "Konyha"
+    },
+    "tab_foundry": {
+        "message": "Öntöde"
+    },
+    "tab_pillars": {
+        "message": "Pillérek"
+    },
+    "tab_neighbors": {
+        "message": "Szomszédok"
+    },
+    "tab_friendship": {
+        "message": "Barátság"
+    },
+    "tab_godchild": {
+        "message": "Isten Gyermekek"
+    },
+    "tab_locations": {
+        "message": "Helyszínek"
+    },
+    "tab_greenrings": {
+        "message": "Zöld gyűrűk"
+    },
+    "tab_redrings": {
+        "message": "Piros gyűrűk"
+    },
+    "tab_christmasrings": {
+        "message": "Karácsonyi gyűrűk"
+    },
+    "tab_rewardlinks": {
+        "message": "Jutalom linkek"
+    },
+    "tab_options": {
+        "message": "Beállítások"
+    },
+    "tab_help": {
+        "message": "Segítség"
+    },
+    "tab_export": {
+        "message": "Betöltés / Mentés"
+    },
+    "tab_equipment": {
+        "message": "Tárgyak / Bolt"
+    },
+    "tab_events": {
+        "message": "Események"
+    },
+    "tab_repeat": {
+        "message": "Ismétlők"
+    },
+    "tab_dailyreward": {
+        "message": "Napi jutalom"
+    },
+    "about_version": {
+        "message": "Verzió: $VERSION$",
+        "placeholders": {
+            "version": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_data": {
+        "message": "Utoló adat rögzítés: $TIME$\n Játék oldal: $SITE$ ($PLATFORM$)\n Játékos ID: #$USERID$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            },
+            "userid": {
+                "content": "$2"
+            },
+            "site": {
+                "content": "$3"
+            },
+            "platform": {
+                "content": "$4"
+            }
+        }
+    },
+    "about_visit": {
+        "message": "Látogasd meg a hivatalos Facebook oldalt"
+    },
+    "about_nodata": {
+        "message": "Még nincs betöltve játékadat, kérlek töltsd be vagy frissítsd a játék ablakot"
+    },
+    "about_disclaimer": {
+        "message": "DA Friends egy 'Rajongói Program' és a Pixel Federation a \"Diggy's Adventure\" játék készítői nem járultak hozzá és sohasem támogatták.\n A DA Friends alkalmazást a saját felelősségedre használd. Nincs szavatosság vagy garancia sem határozott vagy .\n A szerző nem tehető felelőssé semmilyen kárért vagy veszteségért, amely a kiegészítő használatából ered.\n A kiegészítő használatával elfogadod ezeket a feltételeket."
+    },
+    "about_translators": {
+        "message": "Fordítók"
+    },
+    "about_alternate": {
+        "message": "Másik játékos fiók betöltve ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Előző játékos fiókod adatait megőriztük.\n Az adatok törléséhez és egy másik fiók használatához, kattints a @RESET@-re"
+    },
+    "about_reset_ask_title": {
+        "message": "Fiók adatainak törlése"
+    },
+    "about_reset_ask_text": {
+        "message": "Biztosan törölni akarod az adatokat,\n hogy egy másik fiókot használj?"
+    },
+    "about_reset_ok_title": {
+        "message": "Adatok törölve"
+    },
+    "about_reset_ok_text": {
+        "message": "Kérlek töltsd be újra a Diggy's Adventure játékot a használni kívánt fiókkal."
+    },
+    "kitchen_all": {
+        "message": "Minden recept"
+    },
+    "kitchen_only_possible": {
+        "message": "Csak a lehetséges receptek"
+    },
+    "kitchen_time_to_cook": {
+        "message": "Főzési idő"
+    },
+    "kitchen_energy_hour": {
+        "message": "Óránkénti\nEnergia"
+    },
+    "kitchen_possible_dishes": {
+        "message": "Lehetséges\nEdény"
+    },
+    "kitchen_possible_energy": {
+        "message": "Lehetséges\nEnergia"
+    },
+    "kitchen_total_time": {
+        "message": "Főzési idő\n($POTS$ Edényben)",
+        "placeholders": {
+            "pots": {
+                "content": "$1"
+            }
+        }
+    },
+    "kitchen_food_in_backpack": {
+        "message": "étel a hátizsákodban"
+    },
+    "foundry_all": {
+        "message": "Minden ötvözet"
+    },
+    "foundry_only_possible": {
+        "message": "Csak lehetséges ötvözetek"
+    },
+    "foundry_time_to_craft": {
+        "message": "Készítési idő"
+    },
+    "foundry_qty": {
+        "message": "Üllőnkénti elkészülés"
+    },
+    "foundry_possible_alloys": {
+        "message": "Lehetséges\nÖtvözetek"
+    },
+    "foundry_total_time": {
+        "message": "Készítési idő\n($ANVILS$ Üllőn)",
+        "placeholders": {
+            "anvils": {
+                "content": "$1"
+            }
+        }
+    },
+    "foundry_uplift": {
+        "message": "Emelkedés (XP/ó)"
+    },
+    "foundry_uplift_info": {
+        "message": "Egyetlen üllővel egy óra alatt nyert XP,\n a pillérekből kapott értékek alapján."
+    },
+    "camp_your_camp": {
+        "message": "Táborod"
+    },
+    "camp_player_name": {
+        "message": "$PLAYER$ tábora $DATE$",
+        "placeholders": {
+            "player": {
+                "content": "$1"
+            },
+            "date": {
+                "content": "$2"
+            }
+        }
+    },
+    "camp_no_player": {
+        "message": "Még nem látogattál meg tábort"
+    },
+    "camp_player": {
+        "message": "Játékos"
+    },
+    "camp_total": {
+        "message": "Összes"
+    },
+    "camp_fill_time": {
+        "message": "Töltési idő"
+    },
+    "camp_fill_time_info": {
+        "message": "Idő, amely ahoz szükséges, hogy az energia sávod nulláról teljesen feltöltődjön."
+    },
+    "camp_windmill_regen": {
+        "message": "Egy szélmalom regenerációja"
+    },
+    "camp_windmill_regen_total": {
+        "message": "Összes szélmalom regenerációja"
+    },
+    "camp_windmill_num": {
+        "message": "Jelenlegi szélmalmok száma"
+    },
+    "camp_windmill_expiry": {
+        "message": "A szélmalmok lejárnak\n$TIME$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_empty": {
+        "message": "Üres cella"
+    },
+    "camp_slot_blocked": {
+        "message": "Blokkolt hely"
+    },
+    "camp_regen": {
+        "message": "Regeneráció"
+    },
+    "camp_capacity": {
+        "message": "Kapacitás"
+    },
+    "camp_windmills": {
+        "message": "Szélmalmok"
+    },
+    "camp_avg_value": {
+        "message": "Cella átlag"
+    },
+    "camp_min_value": {
+        "message": "Cella minimum"
+    },
+    "camp_max_value": {
+        "message": "Cella maximum"
+    },
+    "camp_num_slots": {
+        "message": "Cellák száma"
+    },
+    "camp_unlock_materials": {
+        "message": "Az összes cella feloldásához szükséges nyersanyagok"
+    },
+    "camp_unlock_one": {
+        "message": "Egy cella feloldása $VALUE$ XP-t fog érni",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_unlock_cost": {
+        "message": "Egy cella feloldható $ VALUE $ drágakövekkel\nvagy ezekkel az nyersanyagokkal:",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_start_date": {
+        "message": "Elkezdtél játszani:\n$STARTED$",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_day_mode": {
+        "message": "Nappali mód"
+    },
+    "camp_night_mode": {
+        "message": "Éjjeli mód"
+    },
+    "camp_setup_mode": {
+        "message": "Tervezési mód"
+    },
+    "camp_webgl": {
+        "message": "Mutasd a tábort a WebGL sorrendben"
+    },
+    "camp_discounted": {
+        "message": "Kedvezményes"
+    },
+    "camp_neighbor": {
+        "message": "Szomszédod tábora"
+    },
+    "camp_extra": {
+        "message": "Extra"
+    },
+    "map_floor": {
+        "message": "Szint"
+    },
+    "map_floor_current": {
+        "message": "Jelenlegi szint"
+    },
+    "map_floor_found": {
+        "message": "Kattints a szint térképének a megtekintéséhez"
+    },
+    "map_floor_not_found": {
+        "message": "Ezt a szintet még nem látogattad meg"
+    },
+    "map_remaining_tiles": {
+        "message": "Hátralévő kövek"
+    },
+    "map_special": {
+        "message": "Speciális"
+    },
+    "map_quest": {
+        "message": "Küldetés"
+    },
+    "map_this_floor": {
+        "message": "Ez a szint"
+    },
+    "map_all_floors": {
+        "message": "Minden szint"
+    },
+    "map_warning": {
+        "message": "Kérlek, először adj meg bármilyen helyet"
+    },
+    "map_button_d": {
+        "message": "Mutasd Diggyt"
+    },
+    "map_button_t": {
+        "message": "Mutasd a teleportokat"
+    },
+    "map_button_e": {
+        "message": "Mutasd a jeladókat"
+    },
+    "map_button_g": {
+        "message": "Hibakeresési információ megjelenítése"
+    },
+    "map_button_l": {
+        "message": "Jelöld meg a törhető köveket"
+    },
+    "map_button_n": {
+        "message": "Jelöld meg a jelentős zsákmányú köveket"
+    },
+    "map_button_v": {
+        "message": "Kő látható marad"
+    },
+    "map_button_o": {
+        "message": "Mutasd az átlátszatlan köveket"
+    },
+    "map_button_b": {
+        "message": "Mutasd a bónusz mutatót"
+    },
+    "map_button_k": {
+        "message": "Mutasd a hátteret az összes ásható kő elrejtésével"
+    },
+    "map_button_a": {
+        "message": "Mutasd az összes követ"
+    },
+    "map_save": {
+        "message": "Mentés"
+    },
+    "map_save_tip": {
+        "message": "Mentsd el a térképet egy kép fájlba"
+    },
+    "map_entrance": {
+        "message": "Bejárat"
+    },
+    "map_exit": {
+        "message": "Kijárat"
+    },
+    "map_teleport": {
+        "message": "Teleport"
+    },
+    "map_hint": {
+        "message": "Tipp"
+    },
+    "map_beacon": {
+        "message": "Jel"
+    },
+    "map_active": {
+        "message": "aktív"
+    },
+    "map_not_active": {
+        "message": "nem aktív"
+    },
+    "map_tile": {
+        "message": "Kő"
+    },
+    "map_npc": {
+        "message": "Személyek"
+    },
+    "map_says": {
+        "message": "Beszédek"
+    },
+    "map_godchild": {
+        "message": "Istengyermek (GC)"
+    },
+    "map_unknown": {
+        "message": "Ismeretlen"
+    },
+    "map_yellow": {
+        "message": "Sárga"
+    },
+    "map_red": {
+        "message": "Piros"
+    },
+    "map_blue": {
+        "message": "Kék"
+    },
+    "map_green": {
+        "message": "Zöld"
+    },
+    "map_left": {
+        "message": "Bal"
+    },
+    "map_down": {
+        "message": "Le"
+    },
+    "map_right": {
+        "message": "Jobb"
+    },
+    "map_up": {
+        "message": "Fel"
+    },
+    "map_require_draggable": {
+        "message": "Húzni kell"
+    },
+    "map_require_item": {
+        "message": "Szükséges elem"
+    },
+    "map_require_light": {
+        "message": "Fényt igényel"
+    },
+    "map_emitter": {
+        "message": "Fény forrás"
+    },
+    "map_mirror": {
+        "message": "Tükör"
+    },
+    "map_filter": {
+        "message": "Fény szűrő"
+    },
+    "map_draggable": {
+        "message": "Húzható"
+    },
+    "map_can_move": {
+        "message": "Nem mozgatható"
+    },
+    "map_can_rotate": {
+        "message": "Nem forgatható"
+    },
+    "map_fixed": {
+        "message": "Megjavítva"
+    },
+    "pillars_all": {
+        "message": "Minden pillér"
+    },
+    "pillars_only_possible": {
+        "message": "Csak lehetséges pillérek"
+    },
+    "pillars_perc_next": {
+        "message": "%\nKövetkező"
+    },
+    "pillars_possible": {
+        "message": "Lehetséges"
+    },
+    "pillars_totals": {
+        "message": "Összes"
+    },
+    "pillars_current_level": {
+        "message": "Jelenlegi szinted"
+    },
+    "pillars_predicted": {
+        "message": "Jósolt"
+    },
+    "pillars_predicted_level": {
+        "message": "Jósolt szint"
+    },
+    "pillars_predicted_gain": {
+        "message": "Jósolt nyereségek a szintlépések miatt"
+    },
+    "pillars_ignore": {
+        "message": "Kattints a mellőz/megfontol-ra"
+    },
+    "pillars_altclick": {
+        "message": "Használd az ALT gombot az összes mennyiség visszaállításához/beállításához"
+    },
+    "pillars_maxpossible": {
+        "message": "Lehetséges maximum"
+    },
+    "pillars_grid": {
+        "message": "Megjelenítés rácsként"
+    },
+    "pillars_cap": {
+        "message": "Lehetséges kapacitásig"
+    },
+    "neighbors_lastlevelup": {
+        "message": "Utolsó\nSzintlépés"
+    },
+    "neighbors_lastgiftreceived": {
+        "message": "Utolsó\nKapott ajándék"
+    },
+    "neighbors_yourlastvisit": {
+        "message": "Utolsó látogatásod"
+    },
+    "neighbors_all": {
+        "message": "Mind"
+    },
+    "neighbors_nogift": {
+        "message": "Nincs ajándék $NUM$ nap alatt",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "neighbors_gifts": {
+        "message": "Ajándékok figyelembe vétele az elmúlt @DAYS@ napban"
+    },
+    "neighbors_listed": {
+        "message": "Egyéni lista"
+    },
+    "neighbors_blocks": {
+        "message": "Blokkok a tábori alagsorban a kitakarításig"
+    },
+    "neighbors_inlist": {
+        "message": "Egyéni listában"
+    },
+    "neighbors_notinlist": {
+        "message": "Nincs az egyéni listában"
+    },
+    "neighbors_withblocks": {
+        "message": "A kitakarítandó blokkokkal együtt"
+    },
+    "neighbors_unknownblocks": {
+        "message": "Blokkok állapota ismeretlen"
+    },
+    "neighbors_withexpiredwindmills": {
+        "message": "Lejárt szélmalmokkal"
+    },
+    "neighbors_found": {
+        "message": "Talált szomszédok: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_giftcount": {
+        "message": "Ajándék Száma"
+    },
+    "neighbors_giftvalue": {
+        "message": "Ajándék Értéke (XP-ben)"
+    },
+    "neighbors_efficiency": {
+        "message": "Hatékonyság (ajándék/nap)"
+    },
+    "neighbors_wmtime": {
+        "message": "Szélmalom lejárati idő"
+    },
+    "neighbors_gifttip": {
+        "message": "$NAME$\nXP: $XP$\nNap: $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_gift": {
+        "message": "$NAME$ ($XP$ XP) $DAY$-on",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_clearfilter": {
+        "message": "Szűrő törlése"
+    },
+    "neighbors_sortby": {
+        "message": "Rendezés"
+    },
+    "friendship_collectfriends": {
+        "message": "Barátok gyűjtése"
+    },
+    "friendship_score": {
+        "message": "Pont"
+    },
+    "progress_measure": {
+        "message": "Intézkedés"
+    },
+    "progress_attained": {
+        "message": "Megszerzett"
+    },
+    "progress_goal": {
+        "message": "Cél"
+    },
+    "progress_remaining": {
+        "message": "Hátralévő"
+    },
+    "progress_progress": {
+        "message": "Haladás"
+    },
+    "progress_achievements": {
+        "message": "Kitüntetések"
+    },
+    "progress_treasures": {
+        "message": "Kincsek"
+    },
+    "progress_hidecompleted": {
+        "message": "Készek elrejtése"
+    },
+    "progress_grouplocations": {
+        "message": "Helyszínek csoportosítása"
+    },
+    "progress_showdates": {
+        "message": "Helyszín dátumok"
+    },
+    "progress_averagetilecost": {
+        "message": "Kő átlag"
+    },
+    "progress_achievementnextstep": {
+        "message": "Következő lépéshez = $NEXT$",
+        "placeholders": {
+            "next": {
+                "content": "$1"
+            }
+        }
+    },
+    "progress_start": {
+        "message": "Elkezdted"
+    },
+    "progress_end": {
+        "message": "Befejezted"
+    },
+    "progress_duration": {
+        "message": "Időtartam"
+    },
+    "progress_subtotal": {
+        "message": "Részösszeg"
+    },
+    "progress_grandtotal": {
+        "message": "Teljes összeg"
+    },
+    "progress_playtime": {
+        "message": "You started playing $STARTED$ and have been playing for $DURATION$ (as at $NOW$)",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            },
+            "duration": {
+                "content": "$2"
+            },
+            "now": {
+                "content": "$3"
+            }
+        }
+    },
+    "progress_levelrange": {
+        "message": "$FROM$-tól $TO$-ig",
+        "placeholders": {
+            "from": {
+                "content": "$1"
+            },
+            "to": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_id": {
+        "message": "Jutalom ID"
+    },
+    "rewardlinks_insertdate": {
+        "message": "Dátum beszúrása"
+    },
+    "rewardlinks_collectdate": {
+        "message": "Dátum gyűjtése"
+    },
+    "rewardlinks_collectmaterial": {
+        "message": "Talált jutalom"
+    },
+    "rewardlinks_owner": {
+        "message": "Tulajdonos"
+    },
+    "rewardlinks_expired": {
+        "message": "LEJÁRT LNIK"
+    },
+    "rewardlinks_collected": {
+        "message": "MÁR BEGYŰJTÖTTED"
+    },
+    "rewardlinks_maxreached": {
+        "message": "ELÉRTED A NAPI MAXIMUMOT"
+    },
+    "rewardlinks_noself": {
+        "message": "NINCS ÖN JUTALMAZÁS"
+    },
+    "rewardlinks_broken": {
+        "message": "HIBÁS LINK"
+    },
+    "rewardlinks_probablyexpired": {
+        "message": "VALSÓSZÍNŰLEG LEJÁRT LINK"
+    },
+    "rewardlinks_background": {
+        "message": "Háttér?"
+    },
+    "rewardlinks_addlinks": {
+        "message": "Linkek hozzáadása"
+    },
+    "rewardlinks_pasteadd": {
+        "message": "Ide illeszd be a linkeket, majd nyomd meg a $CONFIRM$ gombot",
+        "placeholders": {
+            "confirm": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Az itt beillesztett linket közvetlenül hozzáadjuk"
+    },
+    "rewardlinks_linksadded": {
+        "message": "Jutalom linkek hozzáadva: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_nolinksadded": {
+        "message": "Jutalom linkek nem lettek hozzáadva."
+    },
+    "rewardlinks_linksupdated": {
+        "message": "Jutalom linkek frissítve: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_stats": {
+        "message": "Jutalom linkek: $TOTAL$. Begyűjtve: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_allcollected": {
+        "message": "Minden jutalom link begyűjtve."
+    },
+    "rewardlinks_nexttime": {
+        "message": "Következő gyűjtés $DATE$ napon kezdődik",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_countremaining": {
+        "message": "Gyűjthető megmaradt linkek: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_convert": {
+        "message": "Link konvertálása"
+    },
+    "equipment_inshop": {
+        "message": "Boltban"
+    },
+    "equipment_free": {
+        "message": "INGYENES"
+    },
+    "equipment_level_eq": {
+        "message": "Pontosan"
+    },
+    "equipment_level_your": {
+        "message": "szinted"
+    },
+    "equipment_level_this": {
+        "message": "ez a szint"
+    },
+    "events_year": {
+        "message": "Év"
+    },
+    "events_end": {
+        "message": "Vége"
+    },
+    "events_quests": {
+        "message": "Küldetés"
+    },
+    "events_achievements": {
+        "message": "Kitüntetések"
+    },
+    "events_pieces": {
+        "message": "Kincsek darabjai"
+    },
+    "events_locations": {
+        "message": "Helyszínek"
+    },
+    "events_materials": {
+        "message": "Speciális\n anyagok"
+    },
+    "events_completed": {
+        "message": "Kész"
+    },
+    "events_total": {
+        "message": "Teljes"
+    },
+    "events_medal": {
+        "message": "Érem"
+    },
+    "events_story_maps": {
+        "message": "Történet térkép"
+    },
+    "events_challenges": {
+        "message": "Kihívások"
+    },
+    "events_repeatables": {
+        "message": "Ismétlők"
+    },
+    "events_active": {
+        "message": "Aktív"
+    },
+    "events_rerelease": {
+        "message": "Megvett/Ajándékozott"
+    },
+    "events_complete": {
+        "message": "Befejezett"
+    },
+    "events_incomplete": {
+        "message": "Befejezetlen"
+    },
+    "events_notdone": {
+        "message": "Nincs kész"
+    },
+    "events_segmented": {
+        "message": "Régiókkénti"
+    },
+    "events_yourprogress": {
+        "message": "Haladásod"
+    },
+    "events_rewards": {
+        "message": "Jutalmak"
+    },
+    "events_finalreward": {
+        "message": "Végső jutalom"
+    },
+    "events_notsegmented": {
+        "message": "Nem régiókkénti"
+    },
+    "events_tiles": {
+        "message": "Kövek"
+    },
+    "events_chance": {
+        "message": "Esély"
+    },
+    "events_clearbonus": {
+        "message": "Takarítási bónusz"
+    },
+    "events_gemstones": {
+        "message": "Drágakövek"
+    },
+    "repeat_name": {
+        "message": "Név"
+    },
+    "repeat_region_event": {
+        "message": "Régió / Esemény"
+    },
+    "repeat_cooldown_time": {
+        "message": "Idő"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Drágakövek"
+    },
+    "repeat_reset": {
+        "message": "Újrakezd"
+    },
+    "repeat_bonus": {
+        "message": "Befejezési bónusz"
+    },
+    "repeat_progress": {
+        "message": "Haladás"
+    },
+    "repeat_progress_current": {
+        "message": "Kiásott kövek"
+    },
+    "repeat_progress_total": {
+        "message": "Össz kő"
+    },
+    "repeat_time": {
+        "message": "Idő, amikor a bánya újra készen áll"
+    },
+    "repeat_show_all": {
+        "message": "Minden ismételhető"
+    },
+    "repeat_show_selected": {
+        "message": "Csak a kiválasztott ismétlők"
+    },
+    "repeat_ready": {
+        "message": "KÉSZ"
+    },
+    "repeat_show_ready": {
+        "message": "Kész?"
+    },
+    "repeat_postcard": {
+        "message": "Kész a képeslap hétvége?"
+    },
+    "dailyreward_stats": {
+        "message": "A napi jutalom a jelenlegi szinteden ($LEVEL$) és régiódon ($REGION$) alapul.",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Megszerezve $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "dailyreward_formula": {
+        "message": "Képlet"
+    },
+    "specialweek_end": {
+        "message": "vége $FINISH$",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_debris_discount": {
+        "message": "Kedvezményes Hely feloldási hét $PERCENT$%",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_production": {
+        "message": "Dupla gyártási hét"
+    },
+    "specialweek_half_prod_time": {
+        "message": "Gyártási idő felezési hét"
+    },
+    "specialweek_double_drop": {
+        "message": "Dupla nyersanyag hét"
+    },
+    "specialweek_gifts": {
+        "message": "Dupla ajándékozási hét"
+    },
+    "specialweek_postcards": {
+        "message": "Képeslap hét"
+    },
+    "specialweek_material_seller": {
+        "message": "Kereskedő a régi nyersanyagokért"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Ingyenes régi esemény (be kell váltanod)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Zsákbamacska"
+    },
+    "specialweek_find_the_pair": {
+        "message": "Keresd a párját"
+    },
+    "options_section_ingame": {
+        "message": "Játékon belüli beállítások"
+    },
+    "options_injectgame": {
+        "message": "DAF Engedélyezése\n DAF Engedélyezése a játékban\n Ha nincs engedélyezve, a követő opcióknak nincs hatása"
+    },
+    "options_fullwindow": {
+        "message": "Teljes képernyő\n Játék megjelenítése teljes képernyőn"
+    },
+    "options_fullwindowheader": {
+        "message": "Fejléc\n Oldal fejléc megjelenítése teljes képernyős módban"
+    },
+    "options_fullwindowside": {
+        "message": "Oldalsáv\n Oldalsáv elrejtése (Facebook) nem teljes képernyős módban"
+    },
+    "options_fullwindowlock": {
+        "message": "Teljes képernyő lezárása\n Megakadéjozza a játék teljes képernyős módból való kilépését"
+    },
+    "options_resetfullwindow": {
+        "message": "Újratöltés\n Mindig amikor betöltöd a játékot, a \"Teljes képernyő\" és \"Teljes képernyő - Oldalsáv\" visszaállnak"
+    },
+    "options_gctablecounter": {
+        "message": "Számláló\n Számláló megjelenítése"
+    },
+    "options_gctableregion": {
+        "message": "Régió\n Színek használata a barátok régiójának megjelölésére"
+    },
+    "options_autoclick": {
+        "message": "Automatikus kattintás\n Automatikusan kattintson a Facebook felugró ablakira"
+    },
+    "options_linkgrabsort": {
+        "message": "Linkek sorbarendezése"
+    },
+    "options_linkgrabconvert": {
+        "message": "Linkek konvertálása"
+    },
+    "options_modifier_none": {
+        "message": "Semmi"
+    },
+    "options_modifier_shift": {
+        "message": "SHIFT"
+    },
+    "options_modifier_ctrl": {
+        "message": "CTRL"
+    },
+    "options_modifier_alt": {
+        "message": "ALT"
+    },
+    "options_button_left": {
+        "message": "LEFT"
+    },
+    "options_button_middle": {
+        "message": "KÖZÉP"
+    },
+    "options_button_right": {
+        "message": "JOBB"
+    },
+    "options_sort_none": {
+        "message": "Semmi"
+    },
+    "options_sort_ascending": {
+        "message": "Növekvő"
+    },
+    "options_sort_descending": {
+        "message": "Csökkenő"
+    },
+    "options_language": {
+        "message": "Nyelv\n Használati nyelv kiválasztása"
+    },
+    "options_locale": {
+        "message": "Helymeghatározás\n Számok, dátumok és listák formázására szolgál"
+    },
+    "options_locale_browser": {
+        "message": "Böngésző beállításának használata"
+    },
+    "options_gamelanguage": {
+        "message": "Játék nyelve\n A játék üzeneteinek a nyelve"
+    },
+    "options_section_badges": {
+        "message": "Jelvények"
+    },
+    "options_badgegccounter": {
+        "message": "GC Számláló\n Mutass egy jelvényt a hátralévő GC számával"
+    },
+    "options_badgegcenergy": {
+        "message": "GC Energia\n Mutass egy jelvényt a szomszéd GC energiájával"
+    },
+    "options_badgerepeatables": {
+        "message": "Ismételhetőek\n Mutass egy jelvényt amikor a kiválasztott ismétlő készen van"
+    },
+    "options_badgeluckycards": {
+        "message": "Szerencsekártyák\n Mutass egy jelvényt amikor a Szerencsekártya sátor készen áll"
+    },
+    "options_badgetimeoffset": {
+        "message": "Idő eltolás\n A jelvény ennyi másodperccel hamarabb jelenik meg"
+    },
+    "options_badgesound": {
+        "message": "Hang effektus\n A jelzés megjelenésekor lejátszott hang effektus."
+    },
+    "options_badgevolume": {
+        "message": "Hangerő\n A hang effektus hangereje."
+    },
+    "calc_operators": {
+        "message": "Műveleti jelek"
+    },
+    "calc_arithmetic": {
+        "message": "Számítás"
+    },
+    "calc_comparison": {
+        "message": "Összehasonlítás"
+    },
+    "calc_logical": {
+        "message": "Logikai"
+    },
+    "calc_functions": {
+        "message": "Függvények"
+    },
+    "calc_variables": {
+        "message": "Variációk"
+    },
+    "calc_examples": {
+        "message": "Példák"
+    },
+    "calc_error_1": {
+        "message": "Szintaktikai hiba"
+    },
+    "calc_error_2": {
+        "message": "A függvény zárójeleket igényel"
+    },
+    "calc_error_3": {
+        "message": "Hiányzó záró zárójel"
+    },
+    "calc_error_4": {
+        "message": "Túl sok zárójel"
+    },
+    "linkgrabber_selected": {
+        "message": "Linkek: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Másolás váglólapra"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Elküldés a DAF-nak"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Mégse"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Linkek frissítése"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Mutat/Elrejt jutalom ID"
+    },
+    "linkgrabber_added": {
+        "message": "Jualom linkek hozzáadva: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Linkek másolva a vágólapra: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    }
+}

@@ -684,7 +684,7 @@
         "message": "Mettez en évidence les tuiles avec un butin remarquable"
     },
     "map_button_v": {
-        "message": "La visibilité des tuiles est collante"
+        "message": "La visibilité des tuiles est persistante"
     },
     "map_button_o": {
         "message": "Afficher les tuiles opaques"

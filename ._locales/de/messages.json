@@ -684,7 +684,7 @@
         "message": "Kacheln mit bemerkenswerter Beute hervorheben"
     },
     "map_button_v": {
-        "message": "Kachelsichtbarkeit bleibt erhalten."
+        "message": "Erkundete Kacheln anzeigen"
     },
     "map_button_o": {
         "message": "Undurchsichtige Kachel anzeigen"

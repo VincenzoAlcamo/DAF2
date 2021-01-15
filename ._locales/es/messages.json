@@ -684,7 +684,7 @@
         "message": "Resaltar azulejos con recompensas importantes"
     },
     "map_button_v": {
-        "message": "Las azulejos continuarán visibles aunque en el juego se muestren como ocultas"
+        "message": "Mientras la opcion esté activada los zulejos continuarán visibles aunque en el juego se muestren como ocultas"
     },
     "map_button_o": {
         "message": "Mostrar azulejos opacas"

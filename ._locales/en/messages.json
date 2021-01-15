@@ -684,7 +684,7 @@
         "message": "Highlight tiles with notable loot"
     },
     "map_button_v": {
-        "message": "Tile visibility is sticky"
+        "message": "Tile visibility is persistent"
     },
     "map_button_o": {
         "message": "Show opaque tiles"

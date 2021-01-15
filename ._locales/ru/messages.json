@@ -141,7 +141,7 @@
         "message": "Спецпредложение"
     },
     "gui_tieredoffer": {
-        "message": "Многоуровневое спецпредложение"
+        "message": "Комплексное предложение"
     },
     "gui_pack": {
         "message": "Спецпакет"
@@ -338,6 +338,9 @@
     },
     "tab_camp": {
         "message": "Лагерь"
+    },
+    "tab_map": {
+        "message": "Карта"
     },
     "tab_kitchen": {
         "message": "Кухня"
@@ -631,6 +634,165 @@
     },
     "camp_extra": {
         "message": "Бонусы"
+    },
+    "map_floor": {
+        "message": "Секция"
+    },
+    "map_floor_current": {
+        "message": "Это текущая секция"
+    },
+    "map_floor_found": {
+        "message": "Кликните, чтобы просмотреть карту этой секции"
+    },
+    "map_floor_not_found": {
+        "message": "Эта секция еще не посещена"
+    },
+    "map_remaining_tiles": {
+        "message": "Осталось плиток"
+    },
+    "map_special": {
+        "message": "Особый материал"
+    },
+    "map_quest": {
+        "message": "Квест"
+    },
+    "map_this_floor": {
+        "message": "Эта секция"
+    },
+    "map_all_floors": {
+        "message": "Все секции"
+    },
+    "map_warning": {
+        "message": "Сначала посетите любую локацию"
+    },
+    "map_button_d": {
+        "message": "Показать Дигги"
+    },
+    "map_button_t": {
+        "message": "Показать телепорты"
+    },
+    "map_button_e": {
+        "message": "Показать триггеры"
+    },
+    "map_button_g": {
+        "message": "Показать диагностическую информацию"
+    },
+    "map_button_l": {
+        "message": "Подсветить плитки"
+    },
+    "map_button_n": {
+        "message": "Подсветить плитки с особой добычей"
+    },
+    "map_button_v": {
+        "message": "Постоянная видимость плитки"
+    },
+    "map_button_o": {
+        "message": "Показать непрозрачные плитки"
+    },
+    "map_button_b": {
+        "message": "Показать наличие бонуса на плитке"
+    },
+    "map_button_k": {
+        "message": "Показать фон, скрыв все раскапываемые плитки\n"
+    },
+    "map_button_a": {
+        "message": "Показать все плитки"
+    },
+    "map_save": {
+        "message": "Сохранить"
+    },
+    "map_save_tip": {
+        "message": "Сохранить карту как картинку"
+    },
+    "map_entrance": {
+        "message": "Вход"
+    },
+    "map_exit": {
+        "message": "Выход"
+    },
+    "map_teleport": {
+        "message": "Телепорт"
+    },
+    "map_hint": {
+        "message": "Подсказка"
+    },
+    "map_beacon": {
+        "message": "Триггер"
+    },
+    "map_active": {
+        "message": "активно"
+    },
+    "map_not_active": {
+        "message": "неактивно"
+    },
+    "map_tile": {
+        "message": "Плитка"
+    },
+    "map_npc": {
+        "message": "Неигровой персонаж"
+    },
+    "map_says": {
+        "message": "Речь"
+    },
+    "map_godchild": {
+        "message": "Дети богов"
+    },
+    "map_unknown": {
+        "message": "Неизвестно"
+    },
+    "map_yellow": {
+        "message": "Желтый"
+    },
+    "map_red": {
+        "message": "Красный"
+    },
+    "map_blue": {
+        "message": "Синий"
+    },
+    "map_green": {
+        "message": "Зеленый"
+    },
+    "map_left": {
+        "message": "Влево"
+    },
+    "map_down": {
+        "message": "Вниз"
+    },
+    "map_right": {
+        "message": "Вправо"
+    },
+    "map_up": {
+        "message": "Вверх"
+    },
+    "map_require_draggable": {
+        "message": "Требуется перетаскивать"
+    },
+    "map_require_item": {
+        "message": "Требуются предметы"
+    },
+    "map_require_light": {
+        "message": "Требуется свет"
+    },
+    "map_emitter": {
+        "message": "Источник света"
+    },
+    "map_mirror": {
+        "message": "Зеркало"
+    },
+    "map_filter": {
+        "message": "Светофильтр"
+    },
+    "map_draggable": {
+        "message": "Перетаскиваемый"
+    },
+    "map_can_move": {
+        "message": "Можно перемещать"
+    },
+    "map_can_rotate": {
+        "message": "Можно поворачивать"
+    },
+    "map_fixed": {
+        "message": "Фиксированный"
     },
     "pillars_all": {
         "message": "Все колонны"
@@ -1227,13 +1389,16 @@
     "rewardlinks_addlinks": {
         "message": "Добавить ссылки"
     },
-    "rewardlinks_pasteAdd": {
+    "rewardlinks_pasteadd": {
         "message": "Вставьте сюда ссылки для добавления, затем нажмите кнопку «$CONFIRM$»",
         "placeholders": {
             "confirm": {
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Любая вставленная ссылка будет добавлена"
     },
     "rewardlinks_linksadded": {
         "message": "Добавлено наградных ссылок: $NUM$",
@@ -1772,6 +1937,18 @@
     },
     "options_darktheme": {
         "message": "Тёмная тема"
+    },
+    "options_shrinkmenu": {
+        "message": "Ширина меню\nУменьшить ширину вертикального меню слева"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Когда окно узкое"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Всегда свернуто"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Всегда развернуто"
     },
     "options_disablealtguard": {
         "message": "Сброс для альтернативного аккаунта\nЕсли вы установите этот параметр, загрузка альтернативной учетной записи перезапишет ваши текущие данные DAF2."
