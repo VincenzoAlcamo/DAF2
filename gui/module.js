@@ -12,7 +12,6 @@ import godchild from './tabs/godchild/godchild.js';
 import greenrings from './tabs/greenrings/greenrings.js';
 import help from './tabs/help/help.js';
 import kitchen from './tabs/kitchen/kitchen.js';
-import locations from './tabs/locations/locations.js';
 import map from './tabs/map/map.js';
 import neighbors from './tabs/neighbors/neighbors.js';
 import options from './tabs/options/options.js';
@@ -24,7 +23,7 @@ import rewardlinks from './tabs/rewardlinks/rewardlinks.js';
 
 const tabs = {
     about, artwork, camp, christmasrings, dailyreward, equipment, events, export: export_,
-    foundry, friendship, godchild, greenrings, help, kitchen, locations, map, neighbors,
+    foundry, friendship, godchild, greenrings, help, kitchen, map, neighbors,
     options, pillars, progress, redrings, repeat, rewardlinks
 };
 
