@@ -14,10 +14,6 @@ function getRequirements(requirements) {
     }).sort((a, b) => a.material_id - b.material_id) : null;
 }
 
-function getOutlinedText(text, extraClass = '') {
-    return Html.br`<span class="outlined-text ${extraClass}">${text}</span>`;
-}
-
 function getItem({ type, object_id, amount, portal, limit, requirements }) {
     const oid = +object_id;
     amount = +amount || 0;
@@ -38,7 +34,7 @@ function getItem({ type, object_id, amount, portal, limit, requirements }) {
         kind = cap ? 'capacity' : 'regen';
         sort = cap ? 2 : 1;
         title = cap ? gui.getString('GUI2921') : gui.getString('GUI2920');
-        caption = Html`${getOutlinedText(Locale.formatNumber(value))} <img width="40" src="/img/gui/${cap ? 'camp_capacity' : 'camp_energy'}.png">`;
+        caption = Html`<span>${Locale.formatNumber(value)}</span> <img width="40" src="/img/gui/${cap ? 'camp_capacity' : 'camp_energy'}.png">`;
         item.width = +obj.columns;
         item.height = +obj.rows;
     } else if (type == 'material' && obj) {
@@ -54,25 +50,25 @@ function getItem({ type, object_id, amount, portal, limit, requirements }) {
         sort = 4;
         value = +obj.value;
         if (obj.action == 'speedup_ctrl') {
-            caption = getOutlinedText(gui.getDuration(value), 'with-time');
+            caption = Html`<span class="with-time">${gui.getDuration(value)}</span>`;
         } else {
-            caption = getOutlinedText(Locale.formatNumber(value), 'with-energy');
+            caption = Html`<span class="with-energy">${Locale.formatNumber(value)}</span>`;
         }
-        if (amount > 1) caption = Html`${getOutlinedText(Locale.formatNumber(amount) + ' \xd7 ', 'qty')}${caption}`;
+        if (amount > 1) caption = Html`<span class="qty">${Locale.formatNumber(amount) + ' \xd7 '}</span>${caption}`;
         title = gui.getString('GUI0008');
     } else if (type == 'token') {
         sort = 5;
     } else if (type == 'decoration') {
         sort = 6;
-        caption = getOutlinedText(Locale.formatNumber(amount), 'with-deco');
+        caption = Html`<span class="with-deco">${Locale.formatNumber(amount)}</span>`;
     } else if (type == 'system') {
         sort = 7;
         kind = oid == 2 ? 'energy' : 'xp';
-        caption = getOutlinedText(Locale.formatNumber(amount), 'with-' + kind);
+        caption = Html`<span class="with-${kind}">${Locale.formatNumber(amount)}</span>`;
     } else {
         return null;
     }
-    if (!caption) caption = getOutlinedText(Locale.formatNumber(amount));
+    if (!caption) caption = Html`<span>${Locale.formatNumber(amount)}</span>`;
     if (!title) title = gui.getObjectName(type, oid);
     return Object.assign(item, { kind, value, sort, caption, title });
 }
@@ -108,7 +104,7 @@ function getHtml(item) {
     htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
     if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
     if (item.limit) htm += Html.br`<div class="limit outlined-text">${gui.getMessageAndValue('gui_maximum', Locale.formatNumber(item.limit))}</div>`;
-    if (item.portal) htm += Html.br`<div class="bonus">${packHelper.getOutlinedText(gui.getString('GUI3065'))}</div>`;
+    if (item.portal) htm += Html.br`<div class="bonus"><span class="outlined-text">${gui.getString('GUI3065')}</span></div>`;
     htm += Html.br`<div class="caption"><div>${item.caption}</div></div>`;
     if (item.reqs) {
         htm += Html.br`<div class="cost">`;
@@ -133,6 +129,6 @@ function onUpdate() {
     }
 }
 
-const packHelper = { onUpdate, getRequirements, getOutlinedText, getItem, getHtml, getMaterialImg };
+const packHelper = { onUpdate, getRequirements, getItem, getHtml, getMaterialImg };
 
 export default packHelper;

@@ -1397,7 +1397,7 @@ div.equipment_mask {
 }
 
 .pack-item .caption span {
-  color: #FFF;
+  color: #244;
   font-weight: bold;
   font-size: 15pt;
 }
@@ -1418,8 +1418,8 @@ div.equipment_mask {
 }
 
 .pack-item .caption span.qty {
-  color: #FF8;
-  font-size: 10pt;
+  color: #642;
+  font-size: 15px;
   line-height: 0.8em;
 }
 

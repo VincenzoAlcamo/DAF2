@@ -1080,7 +1080,7 @@ function showOffer(type, id, options) {
         }
         const prices = getDistincts(getSelection(Object.assign({}, current, { price: -1 })).map(block => block.price));
         if (prices.length > 1) {
-            htm += Html.br`<td>${gui.getMessage('gui_cost')} <select name="price" data-method="price" style="margin-bottom:2px">`;
+            htm += Html.br`<td>${gui.getMessage(type == 'tier' ? 'gui_type' : 'gui_cost')} <select name="price" data-method="price" style="margin-bottom:2px">`;
             htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.price);
             for (const price of prices) htm += optionHtml(price, blocks.find(block => block.price == price).priceText, current.price);
             htm += Html.br`</select></td>`;
@@ -1100,36 +1100,35 @@ function showOffer(type, id, options) {
         for (const block of selection) {
             let htm = '';
             let pre = '';
-            if (current.date == -1) {
-                pre += Html.br`${packHelper.getOutlinedText(Locale.formatDate(block.date), 'date')}</span>`;
-            }
-            if (current.rid == -1) {
-                pre += Html.br`<span class="region">${gui.getObjectImg('region', block.rid, 0, false, 'desc')}<br>${packHelper.getOutlinedText(gui.getObjectName('region', block.rid))}</span>`;
-            }
-            if (current.price == -1) {
-                pre += Html.br`<span class="outlined-text price">${block.priceText}`;
-                if (!allLimited && block.limited) pre += Html.br`<br><img src="/img/gui/q-hard.png" title="${Html(gui.getMessage('equipment_pfdisclaimer'))}">`;
-                pre += Html.br`</span>`;
-            }
-            let sectionClass = '';
+            const hasSection = current.date == -1 || current.rid == -1 || current.price == -1 || type == 'tier';
             if (type == 'tier') {
-                pre += Html.br`<span>${packHelper.getOutlinedText(gui.getString(block.name_loc))}<br>`;
-                pre += Html.br`<span class="tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.gems)}${gui.getObjectImg('material', 2, 28, false)}</span></span>`;
-                if (block.tier == 5) {
-                    sectionClass = 'with-total';
-                    pre += Html.br`<span class="tier_total tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.tgems)}${gui.getObjectImg('material', 2, 28, false)}</span>`;
-                }
+                pre += Html.br`<span class="outlined-text" title="${gui.getMessage('gui_type')} ${block.priceText}\n${gui.getString(block.name_loc)}">${block.priceText + block.tier}</span>`;
+                pre += Html.br`<span class="tier_cost" title="${gui.getObjectName('material', 2)}">${Locale.formatNumber(block.gems)}${gui.getObjectImg('material', 2, 28, false)}</span>`;
             }
             if (pre) {
-                pre = `<td class="td-section ${sectionClass}"><div class="pack-item-container"><div class="pack-item section">${pre}</div></div></td>`;
+                pre = `<td class="td-section"><div class="pack-item-container"><div class="pack-item section">${pre}</div></div></td>`;
             }
             block.items.forEach((item, index) => {
                 htm += Html.br`<td class="td-item"><div class="pack-item-container">${packHelper.getHtml(item)}</div></td>`;
-                if (!pre && index == 2 && block.items.length >= 5) htm += `</tr><tr>`;
+                if (!(pre || hasSection) && index == 2 && block.items.length >= 5) htm += `</tr><tr>`;
             });
             if (htm in prev) continue;
             prev[htm] = true;
-            result.push(`<table><tr>${pre + htm}</tr></table>`);
+            if (current.date == -1 || current.rid == -1 || (current.price == -1 && type != 'tier')) {
+                const items = [];
+                if (current.date == -1) items.push(Html.br`${Locale.formatDate(block.date)}`);
+                if (current.rid == -1) items.push(Html.br`${items.length ? ' ' : ''}${gui.getObjectImg('region', block.rid, 0, false, 'desc')} ${gui.getObjectName('region', block.rid)}`);
+                if (current.price == -1) {
+                    let t = Html.br`${items.length ? ' \u2014 ' : ''}${block.priceText}`;
+                    if (!allLimited && block.limited) t += Html.br` <img src="/img/gui/q-hard.png" title="${Html(gui.getWrappedText(gui.getMessage('equipment_pfdisclaimer')))}">`;
+                    items.push(t);
+                }
+                pre = Html.br`<td colspan="${block.items.length}" class="pack-title">` + items.join('') + Html.br`</td></tr><tr>` + pre;
+            }
+            if (type == 'tier' && block.tier == 1) {
+                pre = Html.br`<td></td><td colspan="${block.items.length}" class="pack-title">${gui.getMessage('gui_type')} ${block.priceText} &mdash; ${Locale.formatNumber(block.tgems)} ${gui.getObjectImg('material', 2)}</td></tr><tr>` + pre;
+            }
+            result.push(`<table ${hasSection ? ' style="margin-top:2px"' : ''}><tr>${pre + htm}</tr></table>`);
         }
         const len = result.length;
         let rows = len || 1;
@@ -1146,7 +1145,7 @@ function showOffer(type, id, options) {
             columns = 2;
             rows = Math.ceil(rows / 2);
         }
-        htm += `<div class="equipment_pack ${columns > 1 ? 'zoomed mini' : (len > 3 ? 'zoomed compact' : '')} ${isTier5 ? 'tier5' : ''}" data-type="${type}">`;
+        htm += `<div class="equipment_pack ${columns > 1 || len > 3 ? 'zoomed compact' : ''} ${isTier5 ? 'tier5' : ''}" data-type="${type}">`;
         if (allLimited) htm += Html.br`<div class="equipment_limited">${gui.getMessage('equipment_pfdisclaimer')}</div>`;
         htm += `<table>`;
         const getIndex = (row, col) => isTier5 ? Math.floor(row / 5) * 5 * columns + col * 5 + row % 5 : col * rows + row;
@@ -1227,10 +1226,10 @@ function getTieredOffers(id) {
         const category = gui.getArrayOfInt(offer.payer_category_list)[0] || 0;
         categories[category] = true;
         let tgems = 0;
+        for (const tier of offer.tiers) tgems += +tier.gem_price;
         for (const tier of offer.tiers) {
             const items = tier.items.map(item => packHelper.getItem(item)).filter(item => item);
             items.sort((a, b) => (a.portal - b.portal) || (a.sort - b.sort) || (a.value - b.value));
-            tgems += +tier.gem_price;
             const block = {
                 id: offer.def_id,
                 tier: +tier.order_id,
@@ -1248,7 +1247,7 @@ function getTieredOffers(id) {
     }
     Object.keys(categories).map(k => +k).sort((a, b) => a - b).forEach((category, index) => {
         const price = index + 1;
-        const priceText = gui.getMessage('gui_type') + ' ' + String.fromCharCode(65 + index);
+        const priceText = String.fromCharCode(65 + index);
         for (const block of blocks.filter(block => block.category == category)) {
             block.price = price;
             block.priceText = priceText;

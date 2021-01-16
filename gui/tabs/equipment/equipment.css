@@ -108,10 +108,6 @@
   padding-left: 16px;
 }
 
-.equipment_pack .outlined-text {
-  text-shadow: -1px -1px #000, -1px 0px #000, -1px 1px #000, 0px -1px #000, 0px 1px #000, 1px -1px #000, 1px 0 #000, 1px 1px #000;
-}
-
 .equipment_pack .pack-item.section {
   height: 154px;
   padding: 4px;
@@ -208,11 +204,12 @@
 }
 
 .equipment_pack .pack-item.section .tier_cost {
-  font-size: 15pt;
+  font-size: 20px;
+  line-height: 14px;
 }
 
 .equipment_pack .pack-item.section .tier_cost img {
-  height: 28px;
+  height: 22px;
   vertical-align: middle;
   margin-left: 2px;
 }
@@ -229,17 +226,12 @@
   display: none;
 }
 
-.equipment_pack .tier_total,
 .equipment_pack.mini.tier5 tr:nth-child(5n+1) tr td.td-section .price {
   display: block;
   padding: 2px;
   position: absolute;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-}
-
-.equipment_pack .tier_total {
-  bottom: 0;
 }
 
 .equipment_limited {
@@ -283,6 +275,25 @@ table.daf-table.equipment-all button {
   width: calc(111px * var(--scale) + 2px);
 }
 
-.equipment_pack .td-section.with-total .pack-item {
-  padding-bottom: 25px;
+.equipment_pack[data-type="tier"] .td-section {
+  --w: 60px;
+}
+
+.equipment_pack[data-type="tier"] .td-section .pack-item-container {
+  width: calc(var(--w) * var(--scale) + 2px);
+}
+
+.equipment_pack[data-type="tier"] .pack-item.section {
+  width: var(--w);
+}
+
+.equipment_pack .pack-title {
+  text-align: center;
+  background-color: #000A;
+}
+
+.equipment_pack .pack-title img {
+  max-width: 18px;
+  max-height: 18px;
+  vertical-align: text-bottom;
 }
