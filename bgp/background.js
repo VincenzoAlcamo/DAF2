@@ -899,12 +899,6 @@ var Data = {
                 expByMaterial[materialId] = Math.max(exp, expByMaterial[materialId] || 0);
                 return true;
             }).map(sale => +sale.def_id);
-            // const estimates = {
-            //     332: 375000, // Superchromium
-            //     331: 7000,   // Chromite ore
-            //     329: 227000, // Opal
-            // };
-            // for (const id in estimates) if (!(id in expByMaterial)) expByMaterial[id] = estimates[id];
             // sort descending by id (newer first)
             sales.sort((a, b) => a - b);
             if (JSON.stringify(Data.pillars.expByMaterial) !== JSON.stringify(expByMaterial)) Data.storeSimple('expByMaterial', expByMaterial);

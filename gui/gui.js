@@ -27,7 +27,6 @@ const tabs = (function () {
     addTab('kitchen');
     addTab('foundry');
     addTab('pillars');
-    // addTab('locations');
     addTab('repeat');
     addTab('greenrings');
     addTab('redrings');
