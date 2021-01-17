@@ -291,18 +291,18 @@ const gui = {
         return { owned, active };
     },
     getXp: function (type, oid) {
-        const expByMaterial = gui.expByMaterial;    //bgp.Data.pillars.expByMaterial
-        if (!expByMaterial) return 0;
-        if (type == 'material') return expByMaterial[oid] || 0;
-        if (type == 'usable') {
+        if (type == 'material') {
+            const expByMaterial = gui.expByMaterial;    //bgp.Data.pillars.expByMaterial
+            return (expByMaterial && expByMaterial[oid]) || 0;
+        } else if (type == 'usable') {
             const usable = gui.getObject(type, oid);
-            return usable && usable.action == 'add_stamina' ? +usable.value || 0 : 0;
+            return (usable && usable.action == 'add_stamina' && +usable.value) || 0;
+        } else if (type == 'decoration' || type == 'windmill') {
+            const obj = bgp.Data.getObject(type, oid);
+            return (obj && +obj.sell_price) || 0;
+        } else if (type == 'system') {
+            return (oid == 1 || oid == 2) ? 1 : 0;
         }
-        if (type == 'decoration' || type == 'windmill') {
-            const o = bgp.Data.getObject(type, oid);
-            return o ? +o.sell_price || 0 : 0;
-        }
-        if (type == 'system' && (oid == 1 || oid == 2)) return 1;
         return 0;
     },
     getBackpackFood: function () {
@@ -981,6 +981,7 @@ function updateCurrentTab() {
     if (!currentTab || !currentTab.isLoaded) return;
     if (currentTab.mustBeUpdated) {
         currentTab.mustBeUpdated = false;
+        if (currentTab.requires.includes('sales')) gui.getPillarsInfo();
         translate(currentTab.container);
         if (typeof currentTab.update == 'function') currentTab.update();
     }
