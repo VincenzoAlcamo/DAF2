@@ -127,7 +127,7 @@ textarea,
 select {
   color: var(--tt-input-fgcol);
   background-color: var(--tt-input-bgcol);
-  border-color: var(--tt-input-brcol);
+  border: 1px solid var(--tt-input-brcol);
 }
 
 .help,
