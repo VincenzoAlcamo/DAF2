@@ -49,11 +49,19 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   padding: 0 2px;
   color: var(--tt-fgcol);
   font-size: 12px;
+  text-align: right;
+}
+
+.tab_map .toolbar table tr:first-of-type th {
   text-align: center;
 }
 
 .tab_map .toolbar table tr th:first-of-type {
   text-align: left;
+}
+
+.tab_map .toolbar table tr:first-of-type th:first-of-type {
+  text-align: right;
 }
 
 .tab_map .toolbar table tr:first-of-type th {

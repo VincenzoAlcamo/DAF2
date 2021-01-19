@@ -301,6 +301,12 @@ function changeLevel(e) {
     if (found) processMine(found);
 }
 
+function isValidTile(tileDef, beaconPart) {
+    if (tileDef.stamina < 0 || tileDef.tileStatus != 2) return false;
+    if (beaconPart && !beaconPart.active && beaconPart.activation == 'use') return true;
+    return tileDef.isTile;
+}
+
 async function calcMine(mine, flagAddImages) {
     if (!mine) return;
     mine.processed = gui.getUnixTime();
@@ -841,7 +847,7 @@ async function calcMine(mine, flagAddImages) {
             const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
             if (!beaconPart.active && beaconPart.activation == 'use') hasLoot = true;
         }
-        if (hasLoot && tileDef.loot) {
+        if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart)) && hasLoot && tileDef.loot) {
             tileDef.hasLoot = true;
             checkLoot(tileDef, tileDef.loot);
         }
@@ -1175,8 +1181,14 @@ async function drawMine() {
                         // Mark previous background addon as not full
                         tileDefs[(y + dy - tileDef2.bgaDy) * cols + x + dx - tileDef2.bgaDx].bgaIsFull = false;
                     }
-                    tileDef2.bgaDx = dx;
-                    tileDef2.bgaDy = dy;
+                    if (tileDef2.tileStatus == 0) {
+                        tileDef.bgaIsFull = false;
+                        delete tileDef2.bgaDx;
+                        delete tileDef2.bgaDy;
+                    } else {
+                        tileDef2.bgaDx = dx;
+                        tileDef2.bgaDy = dy;
+                    }
                 }
             }
         }
@@ -1204,14 +1216,16 @@ async function drawMine() {
         }
         if (tileDef.miscType == 'B' && flagAdmin) {
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
-            if (item.req_drag) texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getOrientationName(item.req_drag_rotation)})` : ''}`);
-            if (item.req_material) {
-                const token = gui.getObject('token', item.req_material);
-                const name = token.name_loc ? gui.getString(token.name_loc) : '#' + item.req_material;
-                texts.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
-            }
-            if (item.req_light) {
-                texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
+            if (tileDef.stamina >= 0) {
+                if (item.req_drag) texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getOrientationName(item.req_drag_rotation)})` : ''}`);
+                if (item.req_material) {
+                    const token = gui.getObject('token', item.req_material);
+                    const name = token.name_loc ? gui.getString(token.name_loc) : '#' + item.req_material;
+                    texts.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
+                }
+                if (item.req_light) {
+                    texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
+                }
             }
         }
         if (texts.length) addTitle(x, y, texts.join('\n'), true);
@@ -1230,11 +1244,11 @@ async function drawMine() {
         if (!tileDef.isVisible) return;
         const cell = table.rows[y].cells[x];
         cell.classList.toggle('tile', tileDef.isTile);
-        cell.classList.toggle('special', tileDef.isSpecial);
-        cell.classList.toggle('quest', tileDef.isQuest);
-        if (tileDef.isTile && tileDef.isBonusXp) cell.classList.add('xp');
-        if (tileDef.isTile && tileDef.isBonusEnergy) cell.classList.add('energy');
-        if (tileDef.stamina >= 0 && tileDef.tileStatus == 0) {
+        if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
+            if (tileDef.isSpecial) cell.classList.add('special');
+            if (tileDef.isQuest) cell.classList.add('quest');
+            if (tileDef.isBonusXp) cell.classList.add('xp');
+            if (tileDef.isBonusEnergy) cell.classList.add('energy');
             addTitle(x, y, `${gui.getMessage('map_tile')} ${tileDef.stamina > 0 ? ` (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})` : ''}`, true);
         }
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
@@ -1450,7 +1464,7 @@ async function drawMine() {
     }
 
     // Add drop info
-    for (const tileDef of tileDefs.filter(t => t.isVisible && t.hasLoot)) {
+    for (const tileDef of tileDefs.filter(t => t.isVisible && t.hasLoot && t.stamina >= 0)) {
         const { x, y } = tileDef;
         addDrop(x, y, tileDef.loot);
     }
@@ -1488,7 +1502,7 @@ async function drawMine() {
     const div = container.querySelector('[data-id="fid"]');
     Dialog.htmlToDOM(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
-    const formatNum = num => isNaN(num) ? '?' : Locale.formatNumber(num);
+    const formatNum = num => typeof num == 'string' ? num : (isNaN(num) ? '?' : Locale.formatNumber(num));
     const setTable = (row, numTiles, cost, numSpecial, numQuest) => {
         row.cells[1].textContent = formatNum(numTiles);
         row.cells[2].textContent = formatNum(cost);
@@ -1501,7 +1515,7 @@ async function drawMine() {
     tableTileInfo.classList.toggle('has-quest', totalQuest > 0);
     setTable(tableTileInfo.rows[1], currentData.mine.numTiles, currentData.mine.cost, currentData.mine.numSpecial, currentData.mine.numQuest);
     const allFound = numFound == currentData.floorNumbers.length;
-    if (!allFound) totalTiles = totalCost = totalSpecial = totalQuest = NaN;
+    if (!allFound) [totalTiles, totalCost, totalSpecial, totalQuest] = [totalTiles, totalCost, totalSpecial, totalQuest].map(n => '\u2267 ' + Locale.formatNumber(n));
     setTable(tableTileInfo.rows[2], totalTiles, totalCost, totalSpecial, totalQuest);
 }
 
