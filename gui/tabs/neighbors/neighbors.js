@@ -15,7 +15,7 @@ export default {
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'xp']
 };
 
-let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts;
+let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts, isAdmin;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '', filterExp = 0;
 let showId = false;
@@ -108,7 +108,7 @@ function setState(state) {
         state.exp1 = state.filter;
         delete state.filter;
     }
-    showId = state.id = state.id && bgp.Data.isAdmin();
+    showId = state.id = state.id && isAdmin;
     filterExp = Math.max(0, Math.min(filterExpressions.length, +state.exp || 0)) || undefined;
     filterExpressions.forEach((value, index) => filterExpressions[index] = String(state['exp' + (index + 1)] || '').trim());
     gui.setSortState(state.sort, smartTable, 'name');
@@ -380,6 +380,7 @@ function onClick(e) {
 }
 
 function update() {
+    isAdmin = bgp.Data.adminLevel > 0;
     lastGiftDays = 0;
     palRows = {};
     palDays = {};
@@ -433,7 +434,7 @@ function updateRow(row) {
     htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}" class="tooltip-event"/></a></td>`;
     const fullName = gui.getPlayerNameFull(pal);
     htm += Html.br`<td>`;
-    if (bgp.Data.isAdmin()) htm += Html.br`<span class="id">#${pal.id}</span>`;
+    if (isAdmin) htm += Html.br`<span class="id">#${pal.id}</span>`;
     if (friend && friend.name == fullName) {
         htm += Html.br`${anchor}${fullName}</a>`;
     } else {
@@ -667,7 +668,7 @@ function refreshDelayed() {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });
 
-    container.classList.toggle('show-id', bgp.Data.isAdmin() && !!state.id);
+    container.classList.toggle('show-id', isAdmin && !!state.id);
 
     scheduledRefresh = setTimeout(function () {
         items = sort(items);

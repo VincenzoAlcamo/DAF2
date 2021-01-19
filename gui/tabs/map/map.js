@@ -63,6 +63,7 @@ let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData;
 let showBackground, showBeacon, showTeleport, showDiggy, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
+let isAdmin, canShowBonus, canShowBeacon;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
@@ -162,7 +163,20 @@ function addQuestDrop(lid, type, id, value) {
     if (!(key in h)) h[key] = value;
 }
 
+function isCheckAllowed(check) {
+    if (check.classList.contains('for-admin') && bgp.Data.adminLevel <= 0) return false;
+    if (check.classList.contains('for-admin2') && bgp.Data.adminLevel <= 1) return false;
+    return true;
+}
+
 function update() {
+    isAdmin = bgp.Data.adminLevel > 0;
+    canShowBonus = canShowBeacon = false;
+    checks.forEach(check => {
+        const flag = check.getAttribute('data-flag');
+        if (flag == 'B') canShowBonus = isCheckAllowed(check);
+        if (flag == 'E') canShowBeacon = isCheckAllowed(check);
+    });
     ({ cdn_root, versionParameter } = gui.getGenerator());
     if (bgp.Data.lastVisitedMine) gui.setLazyRender(map);
     addons = gui.getFile('addons');
@@ -241,9 +255,8 @@ function markToBeRendered() {
 }
 
 function getState() {
-    const flagAdmin = bgp.Data.isAdmin();
     return {
-        show: checks.map(check => check.checked && (!check.classList.contains('for-admin') || flagAdmin) ? check.getAttribute('data-flag') : '').sort().join('').toLowerCase(),
+        show: checks.map(check => check.checked && isCheckAllowed(check) ? check.getAttribute('data-flag') : '').sort().join('').toLowerCase(),
         zoom: zoom
     };
 }
@@ -302,7 +315,7 @@ function changeLevel(e) {
 }
 
 function isValidTile(tileDef, beaconPart) {
-    if (tileDef.stamina < 0 || tileDef.tileStatus != 2) return false;
+    if (tileDef.stamina < 0) return false;
     if (beaconPart && !beaconPart.active && beaconPart.activation == 'use') return true;
     return tileDef.isTile;
 }
@@ -310,7 +323,6 @@ function isValidTile(tileDef, beaconPart) {
 async function calcMine(mine, flagAddImages) {
     if (!mine) return;
     mine.processed = gui.getUnixTime();
-    const flagAdmin = bgp.Data.isAdmin();
     const { id: lid, level_id: fid, columns: cols, rows } = mine;
 
     let rid = mine.region;
@@ -369,7 +381,7 @@ async function calcMine(mine, flagAddImages) {
         delete tileDef.staminaLoot;
         if (tileDef.stamina > 0) {
             tileDef.staminaLoot = [{ type: 'system', id: 1, amount: tileDef.stamina }];
-            for (const effect of (flagAdmin ? effects : [])) {
+            for (const effect of (canShowBonus ? effects : [])) {
                 let rnd = CustomRandomRND(playerUidRnd + 10000 * lid + 1000 * fid + 100 * y + 10 * x + effect.id + resetCount);
                 rnd = rnd % 10001 / 100;
                 if (rnd <= effect.chance) {
@@ -970,6 +982,7 @@ async function processMine(selectedMine) {
 
 function updateTableFlags(state) {
     if (!map) return;
+    gui.updateTabState(tab);
     showBackground = state.show.includes('k');
     showBeacon = state.show.includes('e');
     showTeleport = state.show.includes('t');
@@ -989,8 +1002,6 @@ function updateTableFlags(state) {
 }
 
 async function drawMine() {
-    const flagAdmin = bgp.Data.isAdmin();
-
     gui.updateTabState(tab);
     const state = getState();
     updateTableFlags(state);
@@ -1080,7 +1091,7 @@ async function drawMine() {
     const addDrop = (x, y, drops) => {
         let s = '';
         for (const drop of drops) {
-            if (drop.forAdmin && !flagAdmin) continue;
+            if (drop.forAdmin && !isAdmin) continue;
             s += `\n${Locale.formatNumber(drop.amount)} \xd7 ${gui.getObjectName(drop.type, drop.id)}`;
         }
         addTitle(x, y, gui.getMessageAndValue('gui_loot', s));
@@ -1181,7 +1192,7 @@ async function drawMine() {
                         // Mark previous background addon as not full
                         tileDefs[(y + dy - tileDef2.bgaDy) * cols + x + dx - tileDef2.bgaDx].bgaIsFull = false;
                     }
-                    if (tileDef2.tileStatus == 0) {
+                    if (tileDef2.tileStatus == 0 && !showBackground) {
                         tileDef.bgaIsFull = false;
                         delete tileDef2.bgaDx;
                         delete tileDef2.bgaDy;
@@ -1214,7 +1225,7 @@ async function drawMine() {
             const hint = gui.getString(item.localization);
             texts.push(hint ? gui.getWrappedText(gui.getMessageAndValue('map_hint', '\u201c' + hint + '\u201d')) : gui.getMessage('map_hint'));
         }
-        if (tileDef.miscType == 'B' && flagAdmin) {
+        if (tileDef.miscType == 'B' && canShowBeacon) {
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
             if (tileDef.stamina >= 0) {
                 if (item.req_drag) texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getOrientationName(item.req_drag_rotation)})` : ''}`);

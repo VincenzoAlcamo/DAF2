@@ -10,7 +10,7 @@ const tabs = (function () {
             id: id,
             icon: '/img/gui/' + (icon || id) + '.png',
             generator: id != 'about' && id != 'options' && id != 'game',
-            forAdmin: id == 'artwork',
+            forAdmin: id == 'artwork' || id == 'map',
             enabled: true
         };
     }
@@ -831,6 +831,11 @@ function onLoad() {
         if (e.target && e.target.hasAttribute('data-wiki-page')) openWiki(e.target.getAttribute('data-wiki-page'));
     }, true);
 
+    function setAdminLevel() {
+        document.body.classList.toggle('is-admin', bgp.Data.adminLevel > 0);
+        document.body.classList.toggle('is-admin2', bgp.Data.adminLevel > 1);
+    }
+
     chrome.runtime.onMessage.addListener(function onMessage(request, _sender, _sendResponse) {
         const action = request.action;
         const data = request.data;
@@ -842,7 +847,7 @@ function onLoad() {
                 const disabled = !tab.enabled || (tab.generator && !hasValidGenerator);
                 div.classList.toggle('disabled', disabled);
             }
-            document.body.classList.toggle('is-admin', bgp.Data.isAdmin());
+            setAdminLevel();
             updateCurrentTab();
         } else if (action == 'account_mismatch') {
             tabs.about.mustBeUpdated = true;
@@ -875,13 +880,14 @@ function onLoad() {
 
     gui.setTheme();
     gui.setShrinkMenu();
-    document.body.classList.toggle('is-admin', bgp.Data.isAdmin());
+    setAdminLevel();
 
     const urlInfo = new UrlInfo(location.href);
     let tabId = urlInfo.parameters.tab;
     if (tabId == 'game') tabId = 'about';
     div = gui.getTabMenuItem(tabId);
-    if (div && !div.classList.contains('disabled')) {
+    const isAdmin = bgp.Data.adminLevel > 0;
+    if (div && !div.classList.contains('disabled') && (!div.classList.contains('for-admin') || isAdmin)) {
         const state = Object.assign({}, urlInfo.parameters);
         delete state.tab;
         localStorage.setItem('state_' + tabId, JSON.stringify(state));
@@ -889,7 +895,7 @@ function onLoad() {
         tabId = localStorage.getItem('tab');
         div = gui.getTabMenuItem(tabId);
     }
-    if (!div || div.classList.contains('disabled') || bgp.Data.alternateAccountDetected) tabId = 'about';
+    if (!div || div.classList.contains('disabled') || (div.classList.contains('for-admin') && !isAdmin) || bgp.Data.alternateAccountDetected) tabId = 'about';
     setCurrentTab(tabId);
 }
 

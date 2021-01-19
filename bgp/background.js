@@ -427,6 +427,7 @@ function Language(id, gameId, name, nameLocal, locales) {
     locales.sort();
     this.locales = locales;
 }
+let adminLevel = 0;
 // eslint-disable-next-line no-var
 var Data = {
     db: null,
@@ -467,11 +468,25 @@ var Data = {
                 return match ? match[1].toLowerCase() : '';
             }).find(id => Data.guiLanguages.includes(id)) || 'en';
     },
+    get adminLevel() { return adminLevel; },
+    admins: ',\
+45380,93887,126394,160666,160699,272209,274394,300786,330575,341206,432156,\
+583351,724532,1364119,1383237,2585017,2629798,2892099,3094381,3249234,3280114,\
+3341311,3386911,3450569,3588711,3612676,3717410,3727387,3741439,3780544,3836341,\
+3970499,4010790,4039296,4096091,4103286,4135364,4193131,4348337,4348743,4381557,\
+4485902,4705505,4784487,4917095,4979156,5009209,5176586,5257073,5594921,5703231,\
+5895942,6180698,6211963,6226998,6307883,6715455,6849088,7554792,9944465,10347656,\
+10484489,10887338,11530133,14220776,15545185,16570740,17362365,18096732,19229879,\
+19728318,20653338,20904021,21378282,24440023,30529001,35108410,38554475,\
+',
+    admins2: ',11530133,17362365,',
     setGenerator: function (generator) {
         generator = generator || {};
         // generator.versionParameter = generator.to_version ? '?ver=' + generator.to_version : '';
         generator.versionParameter = '';
         Data.generator = generator;
+        const search = ',' + (generator.player_id || '0') + ',';
+        adminLevel = Data.admins2.indexOf(search) >= 0 ? 2 : (Data.admins.indexOf(search) >= 0 ? 1 : 0);
     },
     init: async function () {
         await new Promise(function (resolve, _reject) {
@@ -905,20 +920,6 @@ var Data = {
             Object.assign(Data.pillars, { time, expByMaterial, sales });
         }
         return Data.pillars;
-    },
-    admins: ',\
-45380,93887,126394,160666,160699,272209,274394,300786,330575,341206,432156,\
-583351,724532,1364119,1383237,2585017,2629798,2892099,3094381,3249234,3280114,\
-3341311,3386911,3450569,3588711,3612676,3717410,3727387,3741439,3780544,3836341,\
-3970499,4010790,4039296,4096091,4103286,4135364,4193131,4348337,4348743,4381557,\
-4485902,4705505,4784487,4917095,4979156,5009209,5176586,5257073,5594921,5703231,\
-5895942,6180698,6211963,6226998,6307883,6715455,6849088,7554792,9944465,10347656,\
-10484489,10887338,11530133,14220776,15545185,16570740,17362365,18096732,19229879,\
-19728318,20653338,20904021,21378282,24440023,30529001,35108410,38554475,\
-',
-    isAdmin: function () {
-        const playerId = (Data.generator && Data.generator.player_id) || '0';
-        return this.admins.indexOf(',' + playerId + ',') >= 0;
     },
     //#region loc_prog
     getLocProg: function (lid) {

@@ -180,7 +180,8 @@ span.locked32::after {
   background-size: 16px;
 }
 
-body:not(.is-admin) .for-admin {
+body:not(.is-admin) .for-admin,
+body:not(.is-admin2) .for-admin2 {
   display: none;
 }
 

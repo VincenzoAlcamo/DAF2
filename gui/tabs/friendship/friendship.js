@@ -10,7 +10,7 @@ export default {
     setState: setState
 };
 
-let tab, container, selectShow, searchInput, smartTable, searchHandler;
+let tab, container, selectShow, searchInput, smartTable, searchHandler, isAdmin;
 let buttonUnlink, buttonIgnore, buttonRegard, buttonManual, friendDisabled;
 let divMatch, matchingId;
 
@@ -102,6 +102,7 @@ function setState(state) {
 }
 
 function update() {
+    isAdmin = bgp.Data.adminLevel > 0;
     gui.updateNeighborFriendNames(true);
     refresh();
 }
@@ -985,7 +986,6 @@ function formatDateExcel(value) {
 }
 
 function exportData() {
-    const flagAdmin = bgp.Data.isAdmin();
     let data = [];
     const friends = Object.values(bgp.Data.getFriends());
     for (const friend of friends) {
@@ -995,13 +995,13 @@ function exportData() {
         const pal = friend.uid && bgp.Data.getNeighbour(friend.uid);
         if (pal) {
             line.push(gui.getPlayerNameFull(pal), pal.level, pal.region, pal.extra.lastGift ? formatDateExcel(pal.extra.lastGift) : '');
-            if (flagAdmin) line.push(pal.id);
+            if (isAdmin) line.push(pal.id);
         }
     }
     const comparer = gui.getNaturalComparer();
     data.sort((a, b) => comparer(a[1], b[1]));
     const header = ['FB_ID', 'FB_NAME', 'FB_PAGE', 'RECORDED', 'SCORE', 'NEIGHBOUR', 'LEVEL', 'REGION', 'LAST_GIFT'];
-    if (flagAdmin) header.push('ID');
+    if (isAdmin) header.push('ID');
     data.unshift(header);
     data = data.map(line => line.join('\t'));
     data = data.join('\n');
