@@ -469,7 +469,8 @@ var Data = {
             }).find(id => Data.guiLanguages.includes(id)) || 'en';
     },
     get adminLevel() { return adminLevel; },
-    admins: ',\
+    admins: {
+        1: ',\
 45380,93887,126394,160666,160699,272209,274394,300786,330575,341206,432156,\
 583351,724532,1364119,1383237,2585017,2629798,2892099,3094381,3249234,3280114,\
 3341311,3386911,3450569,3588711,3612676,3717410,3727387,3741439,3780544,3836341,\
@@ -478,15 +479,16 @@ var Data = {
 5895942,6180698,6211963,6226998,6307883,6715455,6849088,7554792,9944465,10347656,\
 10484489,10887338,11530133,14220776,15545185,16570740,17362365,18096732,19229879,\
 19728318,20653338,20904021,21378282,24440023,30529001,35108410,38554475,\
-',
-    admins2: ',11530133,17362365,',
+11703399,',
+        2: ',5703231,11530133,17362365,'
+    },
     setGenerator: function (generator) {
         generator = generator || {};
         // generator.versionParameter = generator.to_version ? '?ver=' + generator.to_version : '';
         generator.versionParameter = '';
         Data.generator = generator;
         const search = ',' + (generator.player_id || '0') + ',';
-        adminLevel = Data.admins2.indexOf(search) >= 0 ? 2 : (Data.admins.indexOf(search) >= 0 ? 1 : 0);
+        adminLevel = Object.keys(Data.admins).reduce((v, n) => Math.max(v, Data.admins[n].indexOf(search) >= 0 ? +n : 0), 0);
     },
     init: async function () {
         await new Promise(function (resolve, _reject) {

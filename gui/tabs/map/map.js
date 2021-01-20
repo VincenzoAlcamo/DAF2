@@ -63,7 +63,7 @@ let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData;
 let showBackground, showBeacon, showTeleport, showDiggy, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
-let isAdmin, canShowBonus, canShowBeacon;
+let isAdmin, canShowBonus, canShowBeacon, lastMapId;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
@@ -168,8 +168,8 @@ function addQuestDrop(lid, type, id, value) {
 }
 
 function isCheckAllowed(check) {
-    if (check.classList.contains('for-admin') && bgp.Data.adminLevel <= 0) return false;
-    if (check.classList.contains('for-admin2') && bgp.Data.adminLevel <= 1) return false;
+    const flag = check.getAttribute('data-flag');
+    if ('LEGOBKA'.indexOf(flag) >= 0 && bgp.Data.adminLevel < 2) return false;
     return true;
 }
 
@@ -1532,6 +1532,13 @@ async function drawMine() {
     const allFound = numFound == currentData.floorNumbers.length;
     if (!allFound) [totalTiles, totalCost, totalSpecial, totalQuest] = [totalTiles, totalCost, totalSpecial, totalQuest].map(n => '\u2267 ' + Locale.formatNumber(n));
     setTable(tableTileInfo.rows[2], totalTiles, totalCost, totalSpecial, totalQuest);
+
+    const mapId = `${lid}_${fid}`;
+    if (mapId != lastMapId) {
+        lastMapId = mapId;
+        const { cur_column: x, cur_row: y } = currentData.mine;
+        table.rows[y].cells[x].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
+    }
 }
 
 function CustomRandomRND(key) {

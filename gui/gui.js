@@ -10,7 +10,7 @@ const tabs = (function () {
             id: id,
             icon: '/img/gui/' + (icon || id) + '.png',
             generator: id != 'about' && id != 'options' && id != 'game',
-            forAdmin: id == 'artwork' || id == 'map',
+            forAdmin: id == 'artwork',
             enabled: true
         };
     }
