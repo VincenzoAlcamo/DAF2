@@ -70,6 +70,8 @@ const getLightColorName = (id) => lightColors[id] || lightColors[0];
 
 const orientations = [gui.getMessage('map_unknown'), gui.getMessage('map_right'), gui.getMessage('map_down'), gui.getMessage('map_left'), gui.getMessage('map_up')];
 const getOrientationName = (status) => orientations[status] || orientations[0];
+const reqOrientations = { right: 1, down: 2, left: 3, up: 4 };
+const getReqOrientationName = (value) => getOrientationName(reqOrientations[value]);
 
 function getLocationName(lid, location) {
     const name = location && location.name_loc;
@@ -150,10 +152,12 @@ function init() {
         }
     });
 
+    const setWarning = () => container.querySelector('.toolbar .warning').textContent = gui.getMessage(bgp.Data.lastVisitedMine ? 'dialog_pleasewait' : 'map_warning');
     container.addEventListener('render', function () {
-        container.querySelector('.toolbar .warning').textContent = gui.getMessage('dialog_pleasewait');
+        setWarning();
         setTimeout(processMine, 0);
     });
+    setWarning();
 }
 
 function addQuestDrop(lid, type, id, value) {
@@ -1228,7 +1232,7 @@ async function drawMine() {
         if (tileDef.miscType == 'B' && canShowBeacon) {
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
             if (tileDef.stamina >= 0) {
-                if (item.req_drag) texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getOrientationName(item.req_drag_rotation)})` : ''}`);
+                if (item.req_drag) texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
                 if (item.req_material) {
                     const token = gui.getObject('token', item.req_material);
                     const name = token.name_loc ? gui.getString(token.name_loc) : '#' + item.req_material;
@@ -1260,7 +1264,7 @@ async function drawMine() {
             if (tileDef.isQuest) cell.classList.add('quest');
             if (tileDef.isBonusXp) cell.classList.add('xp');
             if (tileDef.isBonusEnergy) cell.classList.add('energy');
-            addTitle(x, y, `${gui.getMessage('map_tile')} ${tileDef.stamina > 0 ? ` (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})` : ''}`, true);
+            if (tileDef.stamina >= 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
         }
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, +item.rotation / 90 * Math.PI / 2);
@@ -1337,7 +1341,7 @@ async function drawMine() {
             }
             if (+item.manipulate) title += '\n' + gui.getMessage('map_can_rotate');
         }
-        addTitle(x, y, title);
+        addTitle(x, y, title, true);
         if (img) {
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, (tileDef.draggableStatus - 1) * Math.PI / 2);
             ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
