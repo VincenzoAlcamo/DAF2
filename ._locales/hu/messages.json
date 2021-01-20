@@ -194,13 +194,13 @@
         "message": "Kattints, hogy képernyőképet csinálj erről a szekcióról.\n A képernyőkép a jobb oldalon jelenik meg.\n Kerlek vedd figyelembe, hogy csak a látható részt rögzíti!\n Kattints a DAF2 ikonra, hogy engedélyezd ezt a funkciót."
     },
     "gui_screenshot_target": {
-        "message": "Kattints a kép letöltéséhez.\n Kattints jobb gonbbal a képen és válaszd ki a \"Kép másolása\"-t, hogy a vágólapra másold."
+        "message": "Kattints a kép letöltéséhez.\nKattints jobb gonbbal a képen és válaszd ki a \"Kép másolása\"-t, hogy a vágólapra másold."
     },
     "gui_screenshot_error": {
         "message": "Nem lehet képernyőképet készíteni."
     },
     "gui_screenshot_errorinfo": {
-        "message": "Először kattints a @DAF2@ ikonra a Chrome menüjében.\n Ez az oldal bezárásáig engedélyezi a képernyőkép funkciót.\n\n Kérlek kattints a @DAF2@ ikonra, majd próbáld újra képernyőképet."
+        "message": "Először kattints a @DAF2@ ikonra a Chrome menüjében.\nEz az oldal bezárásáig engedélyezi a képernyőkép funkciót.\n\nKérlek kattints a @DAF2@ ikonra, majd próbáld újra képernyőképet."
     },
     "gui_infodated": {
         "message": "Az itt megjelenő információk aktuálisak voltak és csak eddig érvényesek: '$VALID$'",
@@ -405,7 +405,7 @@
         }
     },
     "about_data": {
-        "message": "Utoló adat rögzítés: $TIME$\n Játék oldal: $SITE$ ($PLATFORM$)\n Játékos ID: #$USERID$",
+        "message": "Utoló adat rögzítés: $TIME$\nJáték oldal: $SITE$ ($PLATFORM$)\nJátékos ID: #$USERID$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -428,7 +428,7 @@
         "message": "Még nincs betöltve játékadat, kérlek töltsd be vagy frissítsd a játék ablakot"
     },
     "about_disclaimer": {
-        "message": "DA Friends egy 'Rajongói Program' és a Pixel Federation a \"Diggy's Adventure\" játék készítői nem járultak hozzá és sohasem támogatták.\n A DA Friends alkalmazást a saját felelősségedre használd. Nincs szavatosság vagy garancia sem határozott vagy .\n A szerző nem tehető felelőssé semmilyen kárért vagy veszteségért, amely a kiegészítő használatából ered.\n A kiegészítő használatával elfogadod ezeket a feltételeket."
+        "message": "DA Friends egy 'Rajongói Program' és a Pixel Federation a \"Diggy's Adventure\" játék készítői nem járultak hozzá és sohasem támogatták.\nA DA Friends alkalmazást a saját felelősségedre használd. Nincs szavatosság vagy garancia, sem kifejezett sem közvetett a funkcionalitásra és használhatóságra vonatkozóan.\nA szerző nem tehető felelőssé semmilyen kárért vagy veszteségért, amely a kiegészítő használatából ered.\nA kiegészítő használatával elfogadod ezeket a feltételeket."
     },
     "about_translators": {
         "message": "Fordítók"
@@ -442,13 +442,13 @@
         }
     },
     "about_reset": {
-        "message": "Előző játékos fiókod adatait megőriztük.\n Az adatok törléséhez és egy másik fiók használatához, kattints a @RESET@-re"
+        "message": "Előző játékos fiókod adatait megőriztük.\nAz adatok törléséhez és egy másik fiók használatához, kattints a @RESET@-re"
     },
     "about_reset_ask_title": {
         "message": "Fiók adatainak törlése"
     },
     "about_reset_ask_text": {
-        "message": "Biztosan törölni akarod az adatokat,\n hogy egy másik fiókot használj?"
+        "message": "Biztosan törölni akarod az adatokat,\nhogy egy másik fiókot használj?"
     },
     "about_reset_ok_title": {
         "message": "Adatok törölve"
@@ -512,7 +512,7 @@
         "message": "Emelkedés (XP/ó)"
     },
     "foundry_uplift_info": {
-        "message": "Egyetlen üllővel egy óra alatt nyert XP,\n a pillérekből kapott értékek alapján."
+        "message": "Egyetlen üllővel egy óra alatt nyert XP,\na pillérekből kapott értékek alapján."
     },
     "camp_your_camp": {
         "message": "Táborod"
@@ -1000,7 +1000,7 @@
         "message": "Teljes összeg"
     },
     "progress_playtime": {
-        "message": "You started playing $STARTED$ and have been playing for $DURATION$ (as at $NOW$)",
+        "message": "Elkezdtél játszani $STARTED$ and have been playing for $DURATION$ (as at $NOW$)",
         "placeholders": {
             "started": {
                 "content": "$1"
@@ -1336,31 +1336,31 @@
         "message": "Játékon belüli beállítások"
     },
     "options_injectgame": {
-        "message": "DAF Engedélyezése\n DAF Engedélyezése a játékban\n Ha nincs engedélyezve, a követő opcióknak nincs hatása"
+        "message": "DAF Engedélyezése\nDAF Engedélyezése a játékban\nHa nincs engedélyezve, a követő opcióknak nincs hatása"
     },
     "options_fullwindow": {
-        "message": "Teljes képernyő\n Játék megjelenítése teljes képernyőn"
+        "message": "Teljes képernyő\nJáték megjelenítése teljes képernyőn"
     },
     "options_fullwindowheader": {
-        "message": "Fejléc\n Oldal fejléc megjelenítése teljes képernyős módban"
+        "message": "Fejléc\nOldal fejléc megjelenítése teljes képernyős módban"
     },
     "options_fullwindowside": {
-        "message": "Oldalsáv\n Oldalsáv elrejtése (Facebook) nem teljes képernyős módban"
+        "message": "Oldalsáv\nOldalsáv elrejtése (Facebook) nem teljes képernyős módban"
     },
     "options_fullwindowlock": {
-        "message": "Teljes képernyő lezárása\n Megakadéjozza a játék teljes képernyős módból való kilépését"
+        "message": "Teljes képernyő lezárása\nMegakadéjozza a játék teljes képernyős módból való kilépését"
     },
     "options_resetfullwindow": {
-        "message": "Újratöltés\n Mindig amikor betöltöd a játékot, a \"Teljes képernyő\" és \"Teljes képernyő - Oldalsáv\" visszaállnak"
+        "message": "Újratöltés\nMindig amikor betöltöd a játékot, a \"Teljes képernyő\" és \"Teljes képernyő - Oldalsáv\" visszaállnak"
     },
     "options_gctablecounter": {
-        "message": "Számláló\n Számláló megjelenítése"
+        "message": "Számláló\nSzámláló megjelenítése"
     },
     "options_gctableregion": {
-        "message": "Régió\n Színek használata a barátok régiójának megjelölésére"
+        "message": "Régió\nSzínek használata a barátok régiójának megjelölésére"
     },
     "options_autoclick": {
-        "message": "Automatikus kattintás\n Automatikusan kattintson a Facebook felugró ablakira"
+        "message": "Automatikus kattintás\nAutomatikusan kattintson a Facebook felugró ablakira"
     },
     "options_linkgrabsort": {
         "message": "Linkek sorbarendezése"
@@ -1399,40 +1399,40 @@
         "message": "Csökkenő"
     },
     "options_language": {
-        "message": "Nyelv\n Használati nyelv kiválasztása"
+        "message": "Nyelv\nHasználati nyelv kiválasztása"
     },
     "options_locale": {
-        "message": "Helymeghatározás\n Számok, dátumok és listák formázására szolgál"
+        "message": "Helymeghatározás\nSzámok, dátumok és listák formázására szolgál"
     },
     "options_locale_browser": {
         "message": "Böngésző beállításának használata"
     },
     "options_gamelanguage": {
-        "message": "Játék nyelve\n A játék üzeneteinek a nyelve"
+        "message": "Játék nyelve\nA játék üzeneteinek a nyelve"
     },
     "options_section_badges": {
         "message": "Jelvények"
     },
     "options_badgegccounter": {
-        "message": "GC Számláló\n Mutass egy jelvényt a hátralévő GC számával"
+        "message": "GC Számláló\nMutass egy jelvényt a hátralévő GC számával"
     },
     "options_badgegcenergy": {
-        "message": "GC Energia\n Mutass egy jelvényt a szomszéd GC energiájával"
+        "message": "GC Energia\nMutass egy jelvényt a szomszéd GC energiájával"
     },
     "options_badgerepeatables": {
-        "message": "Ismételhetőek\n Mutass egy jelvényt amikor a kiválasztott ismétlő készen van"
+        "message": "Ismételhetőek\nMutass egy jelvényt amikor a kiválasztott ismétlő készen van"
     },
     "options_badgeluckycards": {
-        "message": "Szerencsekártyák\n Mutass egy jelvényt amikor a Szerencsekártya sátor készen áll"
+        "message": "Szerencsekártyák\nMutass egy jelvényt amikor a Szerencsekártya sátor készen áll"
     },
     "options_badgetimeoffset": {
-        "message": "Idő eltolás\n A jelvény ennyi másodperccel hamarabb jelenik meg"
+        "message": "Idő eltolás\nA jelvény ennyi másodperccel hamarabb jelenik meg"
     },
     "options_badgesound": {
-        "message": "Hang effektus\n A jelzés megjelenésekor lejátszott hang effektus."
+        "message": "Hang effektus\nA jelzés megjelenésekor lejátszott hang effektus."
     },
     "options_badgevolume": {
-        "message": "Hangerő\n A hang effektus hangereje."
+        "message": "Hangerő\nA hang effektus hangereje."
     },
     "calc_operators": {
         "message": "Műveleti jelek"

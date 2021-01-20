@@ -2047,7 +2047,7 @@
         "message": "Compensazione tempo\nIl segnalino sarà mostrato in anticipo di questo numero di secondi."
     },
     "options_badgesound": {
-        "message": "Effetto sonoro\nL'effetto sonoro da suonare quando il segnalino viene mostrato."
+        "message": "Effetto sonoro\nL'effetto sonoro da riprodurre quando il segnalino viene mostrato."
     },
     "options_badgevolume": {
         "message": "Volume\nIl volume dell'effetto sonoro."

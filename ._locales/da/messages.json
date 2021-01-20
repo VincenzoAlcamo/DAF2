@@ -2035,7 +2035,7 @@
         "message": "GC Tæller\nVis et skilt med det tilbageværende antal af GC der kan samles"
     },
     "options_badgegcenergy": {
-        "message": "GC Energi\nVi et skilt med energien fra en nabos GC"
+        "message": "GC Energi\nVis et skilt med energien fra en nabos GC"
     },
     "options_badgerepeatables": {
         "message": "Gentagelige\nVis et skilt når en valgt gentagelig er klar"
