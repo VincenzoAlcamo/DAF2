@@ -57,7 +57,7 @@ const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 
-let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo;
+let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation;
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
@@ -151,6 +151,10 @@ function init() {
             canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
         }
     });
+
+    imgLocation = container.querySelector('.toolbar img.location');
+    imgLocation.addEventListener('load', () => imgLocation.style.display = '');
+    imgLocation.addEventListener('error', () => imgLocation.style.display = 'none');
 
     const setWarning = () => container.querySelector('.toolbar .warning').textContent = gui.getMessage(bgp.Data.lastVisitedMine ? 'dialog_pleasewait' : 'map_warning');
     container.addEventListener('render', function () {
@@ -1363,8 +1367,16 @@ async function drawMine() {
             if (hint) addTitle(x, y, gui.getMessageAndValue('map_says', gui.getWrappedText('\u201c' + hint + '\u201d')));
         }
         if (img) {
-            transform((x + +item.columns / 2) * TILE_SIZE, (y + +item.rows / 2) * TILE_SIZE, item.orientation == 'right', false, 0);
-            ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE - img.naturalHeight);
+            const width = +item.columns;
+            const height = +item.rows;
+            const sw = img.naturalWidth;
+            const sh = img.naturalHeight;
+            const rx = width / sw;
+            const ry = height / sh;
+            // console.log(width, height, sw, sh, rx, ry);
+            transform((x + width / 2) * TILE_SIZE, (y + height / 2) * TILE_SIZE, item.orientation == 'right', false, 0);
+            // ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE - sh);
+            ctx.drawImage(img, 0, 0, sw, sh, x * TILE_SIZE, y * TILE_SIZE - (height - 1) * TILE_SIZE, width * TILE_SIZE / rx * ry, height * TILE_SIZE);
             resetTransformation();
         }
         if (tileDef.npcLoot && tileDef.npcLoot.length) {
@@ -1532,6 +1544,10 @@ async function drawMine() {
     const allFound = numFound == currentData.floorNumbers.length;
     if (!allFound) [totalTiles, totalCost, totalSpecial, totalQuest] = [totalTiles, totalCost, totalSpecial, totalQuest].map(n => '\u2267 ' + Locale.formatNumber(n));
     setTable(tableTileInfo.rows[2], totalTiles, totalCost, totalSpecial, totalQuest);
+
+    // Icon
+    const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
+    imgLocation.src = src;
 
     const mapId = `${lid}_${fid}`;
     if (mapId != lastMapId) {

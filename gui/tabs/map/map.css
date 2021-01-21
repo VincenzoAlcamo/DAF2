@@ -291,3 +291,11 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
     outline-color: #F0F;
   }
 }
+
+.tab_map img.location {
+  max-width: 40px;
+  max-height: 40px;
+  vertical-align: bottom;
+  margin-top: -16px;
+  cursor: default;
+}
