@@ -296,6 +296,6 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   max-width: 40px;
   max-height: 40px;
   vertical-align: bottom;
-  margin-top: -16px;
+  margin-right: -6px;
   cursor: default;
 }

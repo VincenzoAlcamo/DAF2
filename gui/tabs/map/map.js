@@ -342,12 +342,15 @@ async function calcMine(mine, flagAddImages) {
     const locations = gui.getFile('locations_' + rid);
     const location = locations[lid];
     const eid = mine.region == 0 && +location.event_id;
-    if (eid) rid = generator.events_region[eid] || generator.region;
+    const event = eid && gui.getObject('event', eid);
+    const maxSegment = (event ? event.reward : []).reduce((max, obj) => Math.max(max, +obj.region_id), 0);
+    const segmented = maxSegment > 1;
+    if (eid) rid = segmented ? generator.events_region[eid] || generator.region : 1;
 
     const isInvalidCoords = (x, y) => y < 0 || y >= rows || x < 0 || x >= cols;
     const addAsset = (item) => flagAddImages && item && addImage(item.mobile_asset);
 
-    const data = { mine, lid, fid, eid, rid, cols, rows, resetCount, location };
+    const data = { mine, lid, fid, eid, segmented, rid, cols, rows, resetCount, location };
 
     let floors = await bgp.Data.getFile(`floors_${lid}`);
     data.floors = floors = asArray(floors && floors.floor);
@@ -967,16 +970,16 @@ async function processMine(selectedMine) {
     values.sort((a, b) => gui.sortTextAscending(a[0], b[0]));
     Dialog.htmlToDOM(container.querySelector('[data-id="lid"]'), values.map(t => t[1]).join(''));
 
-    const div = container.querySelector('[data-id="eid"]');
-    div.textContent = currentData.eid ? gui.getObjectName('event', currentData.eid) : '';
-    div.parentNode.style.display = currentData.eid ? '' : 'none';
-
-    let text = gui.getObjectName('region', currentData.rid);
-    if (!currentData.eid) {
-        const s = mapFilters[currentData.location.filter];
-        if (s) text += ' \u2013 ' + s;
+    const regionName = gui.getObjectName('region', currentData.rid);
+    const div = container.querySelector('[data-id="info"]');
+    const divCaption = container.querySelector('[data-id="info-caption"]');
+    if (currentData.eid) {
+        divCaption.textContent = gui.getMessage('gui_event') + (currentData.segmented ? ' (' + regionName + ')' : '');
+        div.textContent = gui.getObjectName('event', currentData.eid);
+    } else {
+        divCaption.textContent = regionName;
+        div.textContent = mapFilters[currentData.location.filter] || '';
     }
-    container.querySelector('[data-id="rid"]').textContent = text;
 
     tableTileInfo.classList.toggle('is-repeatable', +currentData.location.reset_cd > 0);
 
@@ -1547,7 +1550,7 @@ async function drawMine() {
 
     // Icon
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
-    imgLocation.src = src;
+    if (imgLocation.src != src) imgLocation.src = src;
 
     const mapId = `${lid}_${fid}`;
     if (mapId != lastMapId) {
