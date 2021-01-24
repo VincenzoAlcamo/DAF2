@@ -62,7 +62,7 @@ const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData;
-let showBackground, showBeacon, showTeleport, showDiggy, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
+let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
 let isAdmin, canShowBonus, canShowBeacon, lastMapId;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
@@ -92,29 +92,61 @@ function init() {
     canvas.height = 1;
     zoom = 5;
 
-    let isDown = false;
+    let isDragging = false;
+    let wasDragged = false;
     let startX, startY, scrollLeft, scrollTop;
 
+    const startDrag = () => {
+        isDragging = true;
+        wasDragged = false;
+    };
+    const endDrag = () => {
+        isDragging = false;
+        slider.classList.remove('dragging');
+    };
+
     slider.addEventListener('mousedown', e => {
-        isDown = true;
+        if (e.button != 0) return;
+        if (slider.scrollWidth <= slider.clientWidth && slider.scrollHeight <= slider.clientHeight) return;
         startX = e.pageX - slider.offsetLeft;
         startY = e.pageY - slider.offsetTop;
         scrollLeft = slider.scrollLeft;
         scrollTop = slider.scrollTop;
+        startDrag();
     });
     slider.addEventListener('mouseleave', () => {
-        isDown = false;
+        endDrag();
     });
     slider.addEventListener('mouseup', () => {
-        isDown = false;
+        endDrag();
     });
     slider.addEventListener('mousemove', e => {
-        if (!isDown) return;
+        if (!isDragging) {
+            wasDragged = false;
+            return;
+        }
         e.preventDefault();
         const x = e.pageX - slider.offsetLeft;
         const y = e.pageY - slider.offsetTop;
-        slider.scrollLeft = scrollLeft - (x - startX);
-        slider.scrollTop = scrollTop - (y - startY);
+        const dx = x - startX;
+        const dy = y - startY;
+        if (dx != 0 && dy != 0) {
+            slider.scrollLeft = scrollLeft - dx;
+            slider.scrollTop = scrollTop - dy;
+            if (!wasDragged) {
+                wasDragged = true;
+                slider.classList.add('dragging');
+            }
+        }
+    });
+    slider.addEventListener('click', e => {
+        if (wasDragged) {
+            e.preventDefault();
+            e.stopPropagation();
+            wasDragged = false;
+        } else {
+            onTableClick(e);
+        }
     });
     slider.addEventListener('wheel', e => {
         e.preventDefault();
@@ -175,6 +207,34 @@ function isCheckAllowed(check) {
     const flag = check.getAttribute('data-flag');
     if ('LEGOBKA'.indexOf(flag) >= 0 && bgp.Data.adminLevel < 2) return false;
     return true;
+}
+
+function scrollToCenter(x, y, smooth) {
+    table.rows[y].cells[x].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center', inline: 'center' });
+}
+
+function onTableClick(event) {
+    let cell = currentData ? event.target : null;
+    for (; cell; cell = cell.parentNode) {
+        if (cell == container) return;
+        const tagName = cell.tagName;
+        if (tagName == 'TR' || tagName == 'TBODY' || tagName == 'TABLE') return;
+        if (tagName == 'TD') break;
+    }
+    const dataAction = cell && cell.getAttribute('data-action');
+    if (!dataAction) return;
+    const arr = dataAction.split('_');
+    const action = arr[0];
+    if (action == 'goto') {
+        const fid = +arr[1];
+        const x = +arr[2];
+        const y = +arr[3];
+        if (fid == currentData.fid) scrollToCenter(x, y, true);
+        else {
+            const found = bgp.Data.mineCache.find(m => m.id == currentData.lid && m.level_id == fid);
+            if (found) processMine(found, { x, y });
+        }
+    }
 }
 
 function update() {
@@ -341,6 +401,7 @@ async function calcMine(mine, flagAddImages) {
 
     const locations = gui.getFile('locations_' + rid);
     const location = locations[lid];
+    const isRepeatable = +location.reset_cd > 0;
     const eid = mine.region == 0 && +location.event_id;
     const event = eid && gui.getObject('event', eid);
     const maxSegment = (event ? event.reward : []).reduce((max, obj) => Math.max(max, +obj.region_id), 0);
@@ -350,10 +411,10 @@ async function calcMine(mine, flagAddImages) {
     const isInvalidCoords = (x, y) => y < 0 || y >= rows || x < 0 || x >= cols;
     const addAsset = (item) => flagAddImages && item && addImage(item.mobile_asset);
 
-    const data = { mine, lid, fid, eid, segmented, rid, cols, rows, resetCount, location };
+    const data = { mine, lid, fid, eid, segmented, rid, cols, rows, resetCount, location, isRepeatable };
 
     let floors = await bgp.Data.getFile(`floors_${lid}`);
-    data.floors = floors = asArray(floors && floors.floor);
+    data.floors = floors = asArray(floors && floors.floor).filter(floor => floor.def_id > 0);
     const floor = data.floor = floors.find(floor => floor.def_id == fid);
     if (!floor) return;
     data.floorNumbers = floors.map(f => f.def_id).filter(n => n > 0).sort((a, b) => a - b);
@@ -428,7 +489,7 @@ async function calcMine(mine, flagAddImages) {
         tileDef.tileSubtype = tileSubtype;
         computeTile(tileDef);
     });
-    applyViewed(tileDefs, mine._v);
+    applyViewed(tileDefs, mine._p.vis);
 
     // Loot
     const filterByRegion = a => {
@@ -547,35 +608,49 @@ async function calcMine(mine, flagAddImages) {
         }
     }
 
-    // Entrances
-    const entrances = data.entrances = {};
-    for (const entrance of asArray(floor.entrances && floor.entrances.entrance)) {
-        entrances[entrance.entrance_id] = entrance;
-    }
-    for (const obj of asArray(floor.hide_entrance == 0 ? mine.entrances : null)) {
-        const { def_id: id, row: y, column: x } = obj;
-        const item = entrances[id];
-        if (item) {
-            addAsset(item);
-            const tileDef = tileDefs[y * cols + x];
-            tileDef.miscId = id;
-            tileDef.miscType = 'N';
-        }
-    }
-
-    // Exits
-    const exits = data.exits = {};
-    for (const exit of asArray(floor.exits && floor.exits.exit)) {
-        exits[exit.exit_id] = exit;
-    }
-    for (const obj of asArray(mine.exits)) {
-        const { def_id: id, row: y, column: x } = obj;
-        const item = exits[id];
-        if (item) {
-            addAsset(item);
-            const tileDef = tileDefs[y * cols + x];
-            tileDef.miscId = id;
-            tileDef.miscType = 'X';
+    // Entrances and exits
+    const doors = data.doors = {};
+    const locationMines = {};
+    bgp.Data.mineCache.filter(m => m.id == lid).forEach(m => locationMines[m.level_id] = m);
+    let numExits = 0;
+    const setDoorPosition = (door, x, y) => {
+        if (!door) return;
+        door.x = x;
+        door.y = y;
+        doors[door.fid + '_p_' + x + '_' + y] = door;
+    };
+    floors.forEach(floor => {
+        const fid = floor.def_id;
+        asArray(floor.exits && floor.exits.exit).forEach(exit => {
+            const { exit_id: id, mobile_asset } = exit;
+            const name = String.fromCharCode(65 + numExits % 26) + (numExits >= 26 ? Math.floor((numExits - 26) / 26) + 1 : '');
+            numExits++;
+            doors[fid + '_x_' + id] = { fid, miscType: 'X', id, mobile_asset, name };
+        });
+        asArray(floor.entrances && floor.entrances.entrance).forEach(entrance => {
+            const { entrance_id: id, mobile_asset } = entrance;
+            doors[fid + '_n_' + id] = { fid, miscType: 'N', id, mobile_asset };
+        });
+        const mine = locationMines[fid];
+        for (const obj of asArray(mine && mine.entrances)) setDoorPosition(doors[fid + '_n_' + obj.def_id], obj.column, obj.row);
+        for (const obj of asArray(mine && mine.exits)) setDoorPosition(doors[fid + '_x_' + obj.def_id], obj.column, obj.row);
+    });
+    const setDoorTile = (door) => {
+        if (!door) return;
+        addAsset(door);
+        const tileDef = tileDefs[door.y * cols + door.x];
+        tileDef.miscId = door.id;
+        tileDef.miscType = door.miscType;
+    };
+    for (const obj of asArray(floor.hide_entrance == 0 ? mine.entrances : [])) setDoorTile(doors[fid + '_n_' + obj.def_id]);
+    for (const obj of asArray(mine.exits)) setDoorTile(doors[fid + '_x_' + obj.def_id]);
+    for (const [keyStartPartial, keyEnd] of Object.entries(mine._p.links)) {
+        const keyStart = fid + '_' + keyStartPartial;
+        const start = doors[keyStart], end = doors[keyEnd];
+        if (start && end) {
+            start.to = keyEnd;
+            end.to = keyStart;
+            start.name = end.name = start.name || end.name;
         }
     }
 
@@ -845,7 +920,6 @@ async function calcMine(mine, flagAddImages) {
     let cost = 0;
     let numSpecial = 0;
     let numQuest = 0;
-    const isRepeatable = +location.reset_cd > 0;
     const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
     const checkLoot = (tileDef, loot) => {
         for (const drop of loot) {
@@ -913,7 +987,7 @@ async function calcMine(mine, flagAddImages) {
         if (tileDef.npcId) tileDef.solid |= 128;
     }
 
-    mine._v = getViewed(tileDefs);
+    mine._p.vis = getViewed(tileDefs);
 
     return data;
 }
@@ -950,7 +1024,7 @@ async function addExtensionImages() {
     }
 }
 
-async function processMine(selectedMine) {
+async function processMine(selectedMine, args) {
     currentData = await calcMine(selectedMine || bgp.Data.lastViewedMine || bgp.Data.lastVisitedMine, true);
     if (!currentData) return;
 
@@ -988,7 +1062,7 @@ async function processMine(selectedMine) {
     window.mineData = currentData;
     window.subtiles = subtiles;
     // window.allQuestDrops = allQuestDrops;
-    drawMine();
+    return drawMine(args);
 }
 
 function updateTableFlags(state) {
@@ -998,6 +1072,7 @@ function updateTableFlags(state) {
     showBeacon = state.show.includes('e');
     showTeleport = state.show.includes('t');
     showDiggy = state.show.includes('d');
+    showExit = state.show.includes('x');
     showDebug = state.show.includes('g');
     showAll = state.show.includes('a');
     showTiles = state.show.includes('l');
@@ -1012,7 +1087,7 @@ function updateTableFlags(state) {
     map.classList.toggle('show_opaque', showOpaque);
 }
 
-async function drawMine() {
+async function drawMine(args) {
     gui.updateTabState(tab);
     const state = getState();
     updateTableFlags(state);
@@ -1029,7 +1104,7 @@ async function drawMine() {
     }
     if (Object.keys(allQuestDrops[lid] || {}).length !== allQuestDropsFlags[`${lid}_${fid}`]) currentData = await calcMine(currentData.mine);
 
-    const { rows, cols, rid, tileDefs, beaconParts, entrances, exits, hints, teleports } = currentData;
+    const { rows, cols, rid, tileDefs, beaconParts, doors, hints, teleports, isRepeatable } = currentData;
 
     canvas.width = cols * TILE_SIZE;
     canvas.height = rows * TILE_SIZE;
@@ -1053,13 +1128,13 @@ async function drawMine() {
 
     const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
     const getMiscItem = (tileDef) => {
-        if (tileDef.miscType == 'N') return entrances[tileDef.miscId];
-        if (tileDef.miscType == 'X') return exits[tileDef.miscId];
+        if (tileDef.miscType == 'N' || tileDef.miscType == 'X') return doors[fid + '_' + tileDef.miscType.toLowerCase() + '_' + tileDef.miscId];
         if (tileDef.miscType == 'H') return hints[tileDef.miscId];
         if (tileDef.miscType == 'B') return getBeaconPart(tileDef.miscId, tileDef.beaconPart);
     };
 
     const ctx = canvas.getContext('2d');
+    ctx.lineWidth = 1;
     const resetTransformation = () => ctx.setTransform(1, 0, 0, 1, 0, 0);
     const transform = (cx, cy, flipX, flipY, rotation) => {
         ctx.translate(cx, cy);
@@ -1167,6 +1242,56 @@ async function drawMine() {
         ctx.stroke();
     };
 
+    const drawRoundRect = (x, y, width, height, radius, fill, stroke) => {
+        if (typeof stroke === 'undefined') stroke = true;
+        if (typeof radius === 'undefined') radius = 5;
+        if (typeof radius === 'number') {
+            radius = { tl: radius, tr: radius, br: radius, bl: radius };
+        } else {
+            const defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
+            for (const side in defaultRadius) {
+                radius[side] = radius[side] || defaultRadius[side];
+            }
+        }
+        ctx.beginPath();
+        ctx.moveTo(x + radius.tl, y);
+        ctx.lineTo(x + width - radius.tr, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+        ctx.lineTo(x + width, y + height - radius.br);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+        ctx.lineTo(x + radius.bl, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+        ctx.lineTo(x, y + radius.tl);
+        ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+        ctx.closePath();
+        if (fill) ctx.fill();
+        if (stroke) ctx.stroke();
+    };
+
+    const drawText = (text, cx, cy) => {
+        const sy = cy + 3;
+        if (text.length == 1) {
+            ctx.textAlign = 'center';
+            ctx.fillText(text, cx, sy);
+        } else {
+            const dx = -3;
+            let totalWidth = 0;
+            const arr = text.split('').map(c => {
+                const m = ctx.measureText(c);
+                const width = m.width;
+                totalWidth += width;
+                return { c, width };
+            });
+            totalWidth += dx * text.length;
+            let sx = cx - Math.ceil(totalWidth / 2);
+            ctx.textAlign = 'left';
+            arr.forEach(o => {
+                ctx.fillText(o.c, sx, sy);
+                sx += o.width + dx;
+            });
+        }
+    };
+
     // Set visibility
     for (const tileDef of tileDefs) {
         tileDef.isVisible = showAll ? tileDef.show : (showViewed ? tileDef.viewed : tileDef.visible);
@@ -1203,7 +1328,8 @@ async function drawMine() {
                         // Mark previous background addon as not full
                         tileDefs[(y + dy - tileDef2.bgaDy) * cols + x + dx - tileDef2.bgaDx].bgaIsFull = false;
                     }
-                    if (tileDef2.tileStatus == 0 && !showBackground) {
+                    const subtile = subtiles[tileDef2.tileSubtype];
+                    if (tileDef2.tileStatus == 0 && !showBackground && subtile && +subtile.alpha == 0) {
                         tileDef.bgaIsFull = false;
                         delete tileDef2.bgaDx;
                         delete tileDef2.bgaDy;
@@ -1230,8 +1356,20 @@ async function drawMine() {
         const item = getMiscItem(tileDef);
         if (!item) continue;
         const texts = [];
-        if (tileDef.miscType == 'N') texts.push(gui.getMessage('map_entrance'));
-        if (tileDef.miscType == 'X') texts.push(gui.getMessage('map_exit'));
+        if (tileDef.miscType == 'N' || tileDef.miscType == 'X') {
+            let text;
+            if (tileDef.miscType == 'N' && (fid == 1 || isRepeatable)) {
+                text = gui.getMessage('map_mine_exit');
+            } else if (!item.to) {
+                text = gui.getMessage('map_goto_unknown');
+            } else {
+                const door = doors[item.to];
+                const fidText = Locale.formatNumber(door.fid);
+                text = gui.getMessage('map_goto_floor', fidText);
+                table.rows[y].cells[x].setAttribute('data-action', `goto_${door.fid}_${door.x}_${door.y}`);
+            }
+            texts.push(text);
+        }
         if (tileDef.miscType == 'H') {
             const hint = gui.getString(item.localization);
             texts.push(hint ? gui.getWrappedText(gui.getMessageAndValue('map_hint', '\u201c' + hint + '\u201d')) : gui.getMessage('map_hint'));
@@ -1387,6 +1525,30 @@ async function drawMine() {
         }
     });
 
+    // Entrances/Exits
+    if (showExit) {
+        ctx.font = 'bold 44px sans-serif';
+        ctx.textBaseline = 'middle';
+        const w = 27;
+        const r = 6;
+        for (const tileDef of tileDefs.filter(t => t.miscType == 'N' || t.miscType == 'X')) {
+            const { x, y } = tileDef;
+            const door = getMiscItem(tileDef);
+            if (door) {
+                ctx.lineWidth = 3;
+                const name = door.name || (door.miscType == 'N' && (door.fid == 1 || isRepeatable) ? '\u2196' : '?');
+                const cx = (x + 0.5) * TILE_SIZE - Math.floor(ctx.lineWidth / 2);
+                const cy = (y + 0.5) * TILE_SIZE + Math.floor(ctx.lineWidth / 2);
+                ctx.fillStyle = '#FFF';
+                ctx.strokeStyle = '#F00';
+                drawRoundRect(cx - w, cy - w, w * 2, w * 2, r, true, true);
+                ctx.lineWidth = 1;
+                ctx.fillStyle = '#000';
+                drawText(name, cx, cy);
+            }
+        }
+    }
+
     // Diggy
     {
         const { cur_column: x, cur_row: y } = currentData.mine;
@@ -1447,11 +1609,14 @@ async function drawMine() {
         const teleport = teleports[tileDef.teleportId];
         const target = teleport && teleports[teleport.target_teleport_id];
         if (!teleport || !target) continue;
-        if (tileDef.isVisible) addTitle(tileDef.x, tileDef.y, gui.getMessage('map_teleport'), true);
-        if (showTeleport) {
-            const targetTileDef = tileDefs[target.row * cols + target.column];
-            if (tileDef.isVisible != targetTileDef.isVisible) drawTeleport(teleport);
+        const targetTileDef = tileDefs[target.row * cols + target.column];
+        if (tileDef.isVisible) {
+            addTitle(tileDef.x, tileDef.y, gui.getMessage('map_teleport'), true);
+            if (targetTileDef.isVisible) {
+                table.rows[tileDef.y].cells[tileDef.x].setAttribute('data-action', `goto_${fid}_${targetTileDef.x}_${targetTileDef.y}`);
+            }
         }
+        if (showTeleport && tileDef.isVisible != targetTileDef.isVisible) drawTeleport(teleport);
     }
 
     // Hide tiles
@@ -1462,7 +1627,8 @@ async function drawMine() {
         const cell = table.rows[y].cells[x];
         Dialog.htmlToDOM(cell, '');
         cell.removeAttribute('title');
-        cell.classList.add('hide');
+        cell.removeAttribute('data-action');
+        cell.className = '';
     }
 
     // Opaque tiles (non transparent)
@@ -1470,10 +1636,10 @@ async function drawMine() {
         const { x, y } = tileDef;
         table.rows[y].cells[x].classList.add('opaque');
     }
-    for (const tileDef of tileDefs.filter(t => t.isVisible && t.solid == 0)) {
-        const { x, y } = tileDef;
-        table.rows[y].cells[x].classList.add('walkable');
-    }
+    // for (const tileDef of tileDefs.filter(t => t.isVisible && t.solid == 0)) {
+    //     const { x, y } = tileDef;
+    //     table.rows[y].cells[x].classList.add('walkable');
+    // }
 
     // Teleports (where both ends are visible)
     for (const tileDef of tileDefs.filter(t => showTeleport && t.isVisible && t.teleportId)) {
@@ -1552,12 +1718,16 @@ async function drawMine() {
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
     if (imgLocation.src != src) imgLocation.src = src;
 
+    // Auto-scroll map
+    let x, y;
     const mapId = `${lid}_${fid}`;
+    const smooth = mapId == lastMapId;
     if (mapId != lastMapId) {
         lastMapId = mapId;
-        const { cur_column: x, cur_row: y } = currentData.mine;
-        table.rows[y].cells[x].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
+        ({ cur_column: x, cur_row: y } = currentData.mine);
     }
+    if (args && 'x' in args) ({ x, y } = args);
+    if (x !== undefined) scrollToCenter(x, y, smooth);
 }
 
 function CustomRandomRND(key) {

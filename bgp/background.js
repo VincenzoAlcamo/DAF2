@@ -3,6 +3,7 @@
 
 //#region MISCELLANEOUS
 const SECONDS_IN_A_DAY = 86400;
+const MINECACHE_LIMIT = 200;
 
 function hasRuntimeError(info) {
     // This is necessary to avoid unchecked runtime errors from Chrome
@@ -1309,15 +1310,29 @@ var Data = {
         const { id: lid, level_id: fid } = mine;
         const index = Data.mineCache.findIndex(m => m.id == lid && m.level_id == fid);
         if (index >= 0) {
-            mine._v = Data.mineCache[index]._v;
+            // If already in cache, get the persistent data and remove from cache
+            mine._p = Data.mineCache[index]._p;
             Data.mineCache.splice(index, 1);
+        } else if(Data.mineCache.length >= MINECACHE_LIMIT) {
+            // Cache is at its limit, get all the mine id in the cache order
+            const hash = {};
+            const list = [];
+            Data.mineCache.forEach(m => {
+                if(m.id != lid && !(m.id in hash)) {
+                    hash[m.id] = true;
+                    list.push(m.id);
+                }
+            });
+            while (Data.mineCache.length >= MINECACHE_LIMIT) {
+                // Get the last used location id and remove all mines for that location
+                const removeId = list.pop();
+                Data.mineCache = Data.mineCache.filter(m => m.id != removeId);
+            }
         }
-        while (Data.mineCache.length >= 200) {
-            const last = Data.mineCache.pop();
-            if (last.id == lid) Data.mineCache.unshift(last);
-        }
+        if (!mine._p) mine._p = { links: {} };
         Data.lastVisitedMine = mine;
         Data.lastViewedMine = null;
+        // Add the mine at the head of the cache
         Data.mineCache.unshift(mine);
     },
     //#endregion
@@ -1611,8 +1626,17 @@ var Synchronize = {
             }
         },
         change_level: function (action, task, taskResponse, _response) {
+            const last = Data.lastVisitedMine;
+            const next = taskResponse;
+            let from, to;
+            if (last && next && last.id == next.id) {
+                from = `${task.direction == 'up' ? 'n' : 'x'}_${task.exit_id}`;
+                to = `p_${taskResponse.cur_column}_${taskResponse.cur_row}`;
+                last._p.links[from] = `${taskResponse.level_id}_${to}`;
+            }
             Synchronize.signalMineAction({ action, exit_id: +task.exit_id, direction: task.direction });
             Data.setLastVisitedMine(taskResponse);
+            if (to) next._p.links[to] = `${last.level_id}_${from}`;
             Synchronize.signalMineAction();
             Synchronize.signal(action, taskResponse);
         },

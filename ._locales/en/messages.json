@@ -663,7 +663,7 @@
         "message": "All floors"
     },
     "map_warning": {
-        "message": "Please enter any location first"
+        "message": "Please go in the game and enter any location, then return here!"
     },
     "map_button_d": {
         "message": "Show Diggy"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Show all tiles"
     },
+    "map_button_x": {
+        "message": "Show entrances and exits"
+    },
     "map_save": {
         "message": "Save"
     },
     "map_save_tip": {
         "message": "Save the map as an image file"
     },
-    "map_entrance": {
-        "message": "Entrance"
+    "map_mine_exit": {
+        "message": "Exits mine"
     },
-    "map_exit": {
-        "message": "Exit"
+    "map_goto_floor": {
+        "message": "Goes to floor $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Goes to another floor, but this path has not been taken yet"
     },
     "map_teleport": {
         "message": "Teleport"

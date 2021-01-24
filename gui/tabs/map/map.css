@@ -272,6 +272,10 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   cursor: help;
 }
 
+.tab_map .map td[data-action] {
+  cursor: pointer;
+}
+
 @keyframes map-special-outline {
   0% {
     outline-color: #0008;
@@ -298,4 +302,9 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   vertical-align: bottom;
   margin-right: -6px;
   cursor: default;
+}
+
+body.map-rendered .tab_map .scrollable-content.dragging,
+body.map-rendered .tab_map .scrollable-content.dragging td {
+  cursor: grabbing;
 }
