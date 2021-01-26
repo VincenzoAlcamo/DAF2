@@ -441,7 +441,7 @@ async function calcMine(mine, flagAddImages) {
     const eid = mine.region == 0 && +location.event_id;
     const event = eid && gui.getObject('event', eid);
     const maxSegment = (event ? event.reward : []).reduce((max, obj) => Math.max(max, +obj.region_id), 0);
-    const segmented = maxSegment > 1;
+    let segmented = maxSegment > 1;
     if (eid) rid = segmented ? generator.events_region[eid] || generator.region : 1;
 
     const isInvalidCoords = (x, y) => y < 0 || y >= rows || x < 0 || x >= cols;
@@ -454,6 +454,12 @@ async function calcMine(mine, flagAddImages) {
     const floor = data.floor = floors.find(floor => floor.def_id == fid);
     if (!floor) return;
     data.floorNumbers = floors.map(f => f.def_id).filter(n => n > 0).sort((a, b) => a - b);
+
+    // Fix for segmentation flag in special weeks
+    if (!segmented && asArray(floor.loot_areas && floor.loot_areas.loot_area).find(a => a.region_id > 1)) {
+        segmented = data.segmented = true;
+        rid = data.rid = generator.events_region[eid] || generator.region;
+    }
 
     const defaultBgId = floor.bg_id;
     addAsset(backgrounds[defaultBgId]);
