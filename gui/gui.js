@@ -739,6 +739,26 @@ const gui = {
         document.execCommand('copy', false, null);
         document.removeEventListener('copy', oncopy);
     },
+    fileChooser: null,
+    chooseFile: function (callback) {
+        if (!gui.fileChooser) {
+            const form = document.createElement('form');
+            gui.fileChooser = document.createElement('input');
+            gui.fileChooser.type = 'file';
+            gui.fileChooser.addEventListener('change', function () {
+                const callback = gui.fileChooserCallback;
+                delete gui.fileChooserCallback;
+                try {
+                    if (callback) callback(gui.fileChooser.files[0]);
+                } finally {
+                    form.reset();
+                }
+            });
+            form.appendChild(gui.fileChooser);
+        }
+        gui.fileChooserCallback = callback;
+        gui.fileChooser.click();
+    },
     downloadData: function (data, fileName) {
         const p2 = n => n.toString().padStart(2, '0');
         const dt = new Date();

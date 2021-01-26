@@ -3,7 +3,7 @@
 
 //#region MISCELLANEOUS
 const SECONDS_IN_A_DAY = 86400;
-const MINECACHE_LIMIT = 200;
+const MINECACHE_LIMIT = 100;
 
 function hasRuntimeError(info) {
     // This is necessary to avoid unchecked runtime errors from Chrome
@@ -14,6 +14,10 @@ function hasRuntimeError(info) {
 
 function getUnixTime() {
     return Math.floor(Date.now() / 1000);
+}
+
+function asArray(t) {
+    return t ? [].concat(t) : [];
 }
 
 let languageId = 'en';
@@ -545,6 +549,7 @@ var Data = {
         Data.pillars = {};
         Data.loc_prog = {};
         tx.objectStore('Files').getAll().then(values => {
+            const mineCache = [];
             for (const file of values) {
                 if (file.id == 'generator') Data.setGenerator(file.data);
                 if (file.id == 'localization') Data.storeLocalization(file);
@@ -552,7 +557,10 @@ var Data = {
                 if (file.id == 'repeatables') Data.repeatables = file.data || {};
                 if (file.id == 'expByMaterial') Data.pillars.expByMaterial = file.data;
                 if (file.id == 'loc_prog') Data.loc_prog = file.data;
+                if (file.id.startsWith('mine_')) mineCache.push(file.data);
             }
+            Data.mineCache = mineCache.sort((a, b) => b.time - a.time);
+            if (Data.mineCache.length > 0) Data.setLastVisitedMine(Data.mineCache[0]);
         });
         tx.objectStore('Neighbours').getAll().then(values => {
             for (const pal of values) {
@@ -1302,38 +1310,74 @@ var Data = {
         return name && Data.generator && Data.generator.cdn_root + 'webgl_client/embedded_assets/sounds/' + name + '.mp3';
     },
     //#endregion
-    //#region LAST VISITE MINE
+    //#region LAST VISITED MINE
     lastVisitedMine: null,
     lastViewedMine: null,
     mineCache: [],
-    setLastVisitedMine: function (mine) {
-        const { id: lid, level_id: fid } = mine;
-        const index = Data.mineCache.findIndex(m => m.id == lid && m.level_id == fid);
-        if (index >= 0) {
-            // If already in cache, get the persistent data and remove from cache
-            mine._p = Data.mineCache[index]._p;
-            Data.mineCache.splice(index, 1);
-        } else if(Data.mineCache.length >= MINECACHE_LIMIT) {
-            // Cache is at its limit, get all the mine id in the cache order
-            const hash = {};
-            const list = [];
-            Data.mineCache.forEach(m => {
-                if(m.id != lid && !(m.id in hash)) {
-                    hash[m.id] = true;
-                    list.push(m.id);
-                }
-            });
-            while (Data.mineCache.length >= MINECACHE_LIMIT) {
-                // Get the last used location id and remove all mines for that location
-                const removeId = list.pop();
-                Data.mineCache = Data.mineCache.filter(m => m.id != removeId);
-            }
+    addMine: function (mine) {
+        const mines = asArray(mine).reverse();
+        for (const mine of mines) {
+            const { id: lid, level_id: fid } = mine;
+            const index = Data.mineCache.findIndex(m => m.id == lid && m.level_id == fid);
+            mine._p = mine._p || (index >= 0 ? Data.mineCache[index]._p : null) || { links: {} };
+            if (index >= 0) Data.mineCache.splice(index, 1);
+            Data.mineCache.unshift(mine);
         }
-        if (!mine._p) mine._p = { links: {} };
+        if (Data.mineCache.length <= MINECACHE_LIMIT) return;
+        // Cache is at its limit, get all the mine id in the cache order
+        const hash = {};
+        const list = [];
+        Data.mineCache.forEach(m => {
+            if (!(m.id in hash)) {
+                hash[m.id] = true;
+                list.push(m.id);
+            }
+        });
+        while (Data.mineCache.length >= MINECACHE_LIMIT) {
+            // Get the last used location id and remove all mines for that location
+            const removeId = list.pop();
+            Data.removeMine(Data.mineCache.filter(m => m.id == removeId));
+            Data.mineCache = Data.mineCache.filter(m => m.id != removeId);
+        }
+    },
+    setLastVisitedMine: function (mine) {
+        Data.addMine(mine);
         Data.lastVisitedMine = mine;
         Data.lastViewedMine = null;
-        // Add the mine at the head of the cache
-        Data.mineCache.unshift(mine);
+    },
+    saveMineList: {},
+    saveMineHandler: 0,
+    removeMineList: {},
+    saveMineDelayed: function () {
+        Data.saveMineHandler = 0;
+        const toSave = Object.values(Data.saveMineList);
+        Data.saveMineList = {};
+        const toRemove = Object.keys(Data.removeMineList);
+        Data.removeMineList = {};
+        if (toSave.length > 0 || toRemove.length > 0) {
+            const tx = Data.db.transaction('Files', 'readwrite');
+            const store = tx.objectStore('Files');
+            if (toSave.length) store.bulkPut(toSave);
+            for (const key of toRemove) store.delete(key);
+        }
+    },
+    saveMine: function (mine, remove = false) {
+        const mines = asArray(mine);
+        if (!mines.length) return;
+        for (const mine of mines) {
+            const id = 'mine_' + mine.id + '_' + mine.level_id;
+            if (remove) {
+                Data.removeMineList[id] = true;
+                delete Data.saveMineList[id];
+            } else {
+                Data.saveMineList[id] = { id: id, data: mine };
+                delete Data.removeMineList[id];
+            }
+        }
+        if (!Data.saveMineHandler) Data.saveMineHandler = setTimeout(Data.saveMineDelayed, 30000);
+    },
+    removeMine: function (mine) {
+        Data.saveMine(mine, true);
     },
     //#endregion
     //#region FILES
@@ -1446,6 +1490,7 @@ var Synchronize = {
             mine.time = getUnixTime();
             if (!mine.actions) mine.actions = [];
             if (data) mine.actions.push(data);
+            Data.saveMine(mine);
             if (!Synchronize.delayedSignals.find(s => s.action == 'daf_mine_action')) Synchronize.delayedSignals.push({ action: 'daf_mine_action' });
         }
     },

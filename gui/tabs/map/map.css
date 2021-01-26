@@ -1,4 +1,6 @@
-body:not(.map-rendered) .tab_map .toolbar label,
+body:not(.map-rendered) .tab_map .toolbar label:not(.actions),
+body:not(.map-rendered) .tab_map .toolbar label.actions button[data-action="save"],
+body:not(.map-rendered) .tab_map .toolbar label.actions button[data-action="export"],
 body.map-rendered .tab_map .toolbar div.warning {
   display: none;
 }

@@ -1563,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Export"
+    },
+    "export_import": {
+        "message": "Import"
+    },
     "export_exportdata": {
         "message": "Export data"
     },
@@ -1574,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "File is not a valid DAF export data for the current player!"
+    },
+    "export_invalidexport": {
+        "message": "File is not a valid export data!"
     },
     "export_importsuccess": {
         "message": "Data has been imported succesfully!"

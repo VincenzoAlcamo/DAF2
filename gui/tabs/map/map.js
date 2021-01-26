@@ -177,12 +177,7 @@ function init() {
         processMine(mine);
     });
 
-    container.querySelector('button[data-action="save"]').addEventListener('click', _ => {
-        if (currentData && canvas) {
-            const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
-            canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
-        }
-    });
+    for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
 
     imgLocation = container.querySelector('.toolbar img.location');
     imgLocation.addEventListener('load', () => imgLocation.style.display = '');
@@ -211,6 +206,47 @@ function isCheckAllowed(check) {
 
 function scrollToCenter(x, y, smooth) {
     table.rows[y].cells[x].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center', inline: 'center' });
+}
+
+function onClickButton(event) {
+    const action = event.target.getAttribute('data-action');
+    if (action == 'save') {
+        if (!currentData || !canvas) return;
+        const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
+        canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
+    } else if (action == 'export') {
+        if (!currentData || !canvas) return;
+        const fileName = `${getLocationName(currentData.lid, currentData.location)}.json`;
+        const data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
+        gui.downloadData(data, fileName);
+    } else if (action == 'import') {
+        gui.chooseFile(async function (file) {
+            const invalidExport = new Error(gui.getMessage('export_invalidexport'));
+            try {
+                if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw invalidExport;
+                const data = await (new Promise(function (resolve, _reject) {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(JSON.parse(reader.result));
+                    reader.readAsText(file);
+                }));
+                if (!Array.isArray(data) || data.length == 0) throw invalidExport;
+                const lid = data[0].id;
+                for (const mine of data) if (mine.id != lid || !(+mine.level_id > 0)) throw invalidExport;
+                bgp.Data.addMine(data);
+                gui.dialog.show({
+                    title: gui.getMessage('export_import'),
+                    text: gui.getMessage('export_importsuccess')
+                });
+                processMine(bgp.Data.mineCache[0]);
+            } catch (error) {
+                gui.dialog.show({
+                    title: gui.getMessage('gui_export'),
+                    text: error.message || error,
+                    style: [Dialog.CRITICAL, Dialog.OK]
+                });
+            }
+        });
+    }
 }
 
 function onTableClick(event) {
@@ -1232,12 +1268,12 @@ async function drawMine(args) {
             path = [p2, p3, p4, p5, p8, p7, p6];
         }
 
-        ctx.strokeStyle = '#000C';
-        ctx.fillStyle = isBidi ? '#FC4C' : '#88FC';
+        ctx.strokeStyle = isBidi ? '#440' : '#400';
+        ctx.fillStyle = isBidi ? '#FC4' : '#F8C';
         ctx.beginPath();
         ctx.moveTo(path[0][0], path[0][1]);
         for (let i = 1; i < path.length; i++) ctx.lineTo(path[i][0], path[i][1]);
-        ctx.lineTo(path[0][0], path[0][1]);
+        ctx.closePath();
         ctx.fill();
         ctx.stroke();
     };
@@ -1527,18 +1563,18 @@ async function drawMine(args) {
 
     // Entrances/Exits
     if (showExit) {
-        ctx.font = 'bold 44px sans-serif';
+        ctx.font = 'bold 40px sans-serif';
         ctx.textBaseline = 'middle';
-        const w = 27;
+        const w = 26;
         const r = 6;
         for (const tileDef of tileDefs.filter(t => t.miscType == 'N' || t.miscType == 'X')) {
             const { x, y } = tileDef;
             const door = getMiscItem(tileDef);
             if (door) {
-                ctx.lineWidth = 3;
+                ctx.lineWidth = 4;
                 const name = door.name || (door.miscType == 'N' && (door.fid == 1 || isRepeatable) ? '\u2196' : '?');
-                const cx = (x + 0.5) * TILE_SIZE - Math.floor(ctx.lineWidth / 2);
-                const cy = (y + 0.5) * TILE_SIZE + Math.floor(ctx.lineWidth / 2);
+                const cx = (x + 0.5) * TILE_SIZE;
+                const cy = (y + 0.5) * TILE_SIZE;
                 ctx.fillStyle = '#FFF';
                 ctx.strokeStyle = '#F00';
                 drawRoundRect(cx - w, cy - w, w * 2, w * 2, r, true, true);

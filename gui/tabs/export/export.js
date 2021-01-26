@@ -5,27 +5,11 @@ export default {
     requires: ['materials', 'decorations', 'usables', 'windmills', 'buildings', 'tokens']
 };
 
-let tab, container, form, fileChooser, callback;
+let tab, container;
 
 function init() {
     tab = this;
     container = tab.container;
-
-    fileChooser = document.createElement('input');
-    fileChooser.type = 'file';
-    fileChooser.addEventListener('change', function () {
-        if (callback) {
-            const file = fileChooser.files[0];
-            try {
-                callback(file);
-            } finally {
-                callback = null;
-            }
-        }
-        form.reset();
-    });
-    form = document.createElement('form');
-    form.appendChild(fileChooser);
 
     for (const button of container.querySelectorAll('.toolbar button')) {
         button.addEventListener('click', onClick);
@@ -107,9 +91,9 @@ function exportData() {
 }
 
 function importData() {
-    callback = function (file) {
+    gui.chooseFile(function (file) {
         new Promise(function (resolve, _reject) {
-            if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw new Error(gui.getMessage('export_invalidexportdata'));
+            if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw new Error(gui.getMessage('export_invalidexport'));
             const reader = new FileReader();
             reader.onload = function () {
                 const data = JSON.parse(reader.result);
@@ -166,6 +150,5 @@ function importData() {
                 style: [Dialog.CRITICAL, Dialog.OK]
             });
         });
-    };
-    fileChooser.click();
+    });
 }
