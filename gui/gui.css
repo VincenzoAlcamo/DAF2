@@ -749,6 +749,7 @@ img.medium {
 .toolbar.vertical label {
   display: inline-block;
   text-align: left;
+  vertical-align: top;
 }
 
 .toolbar.vertical label span {

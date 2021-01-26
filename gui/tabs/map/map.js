@@ -762,6 +762,17 @@ async function calcMine(mine, flagAddImages) {
         const tileDef = tileDefs[y * cols + x];
         tileDef.teleportId = teleport.teleport_id;
     }
+    let teleportIndex = 0;
+    console.log('START', lid, fid);
+    const sortedTeleports = Object.values(teleports).sort((a, b) => (a.row - b.row) || (a.column - b.column));
+    sortedTeleports.forEach(teleport => delete teleport.name);
+    sortedTeleports.forEach(teleport => {
+        const target = teleports[teleport.target_teleport_id];
+        const isBidi = target.target_teleport_id == teleport.teleport_id;
+        console.log(target.teleport_id, teleport.row, teleport.column, isBidi, target.name);
+        teleport.name = (isBidi && target.name) ? target.name : Locale.formatNumber(++teleportIndex);
+    });
+    console.log('END');
 
     // Execute all queued actions
     const isRequiredOrientation = (beaconPart, status) => {
@@ -1091,8 +1102,8 @@ async function processMine(selectedMine, args) {
     const div = container.querySelector('[data-id="info"]');
     const divCaption = container.querySelector('[data-id="info-caption"]');
     if (currentData.eid) {
-        divCaption.textContent = gui.getMessage('gui_event') + (currentData.segmented ? ' (' + regionName + ')' : '');
-        div.textContent = gui.getObjectName('event', currentData.eid);
+        divCaption.textContent = gui.getMessage('gui_event') + (currentData.segmented ? ' \u2013 ' + regionName : '');
+        div.textContent = gui.getObjectName('event', currentData.eid).replace(/\s+/g, ' ') + (currentData.isRepeatable ? '\n' + gui.getString('MAP002') : '');
     } else {
         divCaption.textContent = regionName;
         div.textContent = mapFilters[currentData.location.filter] || '';
@@ -1248,7 +1259,7 @@ async function drawMine(args) {
         let length = Math.sqrt(dx * dx + dy * dy);
         let p1 = ps;
         if (!isBidi) {
-            length -= TILE_SIZE / 2;
+            length -= (TILE_SIZE / 2 + (showExit ? TILE_SIZE / 6 : 0));
             p1 = addSegment(ps, angle, TILE_SIZE / 6);
         }
 
@@ -1276,13 +1287,13 @@ async function drawMine(args) {
         }
 
         ctx.strokeStyle = isBidi ? '#440' : '#400';
-        ctx.fillStyle = isBidi ? '#FC4' : '#F8C';
+        ctx.fillStyle = showExit ? (isBidi ? '#F00' : '#F8C') : (isBidi ? '#FC4' : '#F8C');
         ctx.beginPath();
         ctx.moveTo(path[0][0], path[0][1]);
         for (let i = 1; i < path.length; i++) ctx.lineTo(path[i][0], path[i][1]);
         ctx.closePath();
         ctx.fill();
-        ctx.stroke();
+        if (!showExit) ctx.stroke();
     };
 
     const drawRoundRect = (x, y, width, height, radius, fill, stroke) => {
@@ -1311,7 +1322,7 @@ async function drawMine(args) {
         if (stroke) ctx.stroke();
     };
 
-    const drawText = (text, cx, cy) => {
+    const drawText = (cx, cy, text) => {
         const sy = cy + 3;
         if (text.length == 1) {
             ctx.textAlign = 'center';
@@ -1333,6 +1344,19 @@ async function drawMine(args) {
                 sx += o.width + dx;
             });
         }
+    };
+    const TEXTMARKER_WIDTH = 26;
+    const TEXTMARKER_RADIUS = 6;
+    const drawTextMarker = (x, y, name) => {
+        const cx = (x + 0.5) * TILE_SIZE;
+        const cy = (y + 0.5) * TILE_SIZE;
+        ctx.fillStyle = '#FFF';
+        ctx.strokeStyle = '#F00';
+        ctx.lineWidth = 4;
+        drawRoundRect(cx - TEXTMARKER_WIDTH, cy - TEXTMARKER_WIDTH, TEXTMARKER_WIDTH * 2, TEXTMARKER_WIDTH * 2, TEXTMARKER_RADIUS, true, true);
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#000';
+        drawText(cx, cy, name);
     };
 
     // Set visibility
@@ -1574,22 +1598,12 @@ async function drawMine(args) {
     if (showExit) {
         ctx.font = 'bold 40px sans-serif';
         ctx.textBaseline = 'middle';
-        const w = 26;
-        const r = 6;
         for (const tileDef of tileDefs.filter(t => t.miscType == 'N' || t.miscType == 'X')) {
             const { x, y } = tileDef;
             const door = getMiscItem(tileDef);
             if (door) {
-                ctx.lineWidth = 4;
                 const name = door.name || (door.miscType == 'N' && (door.fid == 1 || isRepeatable) ? '\u2196' : '?');
-                const cx = (x + 0.5) * TILE_SIZE;
-                const cy = (y + 0.5) * TILE_SIZE;
-                ctx.fillStyle = '#FFF';
-                ctx.strokeStyle = '#F00';
-                drawRoundRect(cx - w, cy - w, w * 2, w * 2, r, true, true);
-                ctx.lineWidth = 1;
-                ctx.fillStyle = '#000';
-                drawText(name, cx, cy);
+                drawTextMarker(x, y, name);
             }
         }
     }
@@ -1693,6 +1707,14 @@ async function drawMine(args) {
         if (!teleport || !target) continue;
         const targetTileDef = tileDefs[target.row * cols + target.column];
         if (targetTileDef.isVisible) drawTeleport(teleport);
+    }
+
+    // Teleports merker
+    for (const tileDef of (showExit ? tileDefs.filter(t => t.isVisible && t.teleportId) : [])) {
+        const teleport = teleports[tileDef.teleportId];
+        const target = teleport && teleports[teleport.target_teleport_id];
+        if (!teleport || !target) continue;
+        drawTextMarker(tileDef.x, tileDef.y, teleport.name);
     }
 
     // Show Beacons
