@@ -696,6 +696,7 @@ async function calcMine(mine, flagAddImages) {
         const item = draggables[id];
         if (item) {
             addAsset(item);
+            addAsset(draggables[asArray(item.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]]);
             const tileDef = tileDefs[y * cols + x];
             tileDef.draggableId = id;
             tileDef.draggableStatus = state;
@@ -1523,6 +1524,8 @@ async function drawMine(args) {
             if (+item.manipulate) title += '\n' + gui.getMessage('map_can_rotate');
         }
         addTitle(x, y, title, true);
+        const segmentedItem = draggables[asArray(item.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]];
+        if (segmentedItem && segmentedItem.mobile_asset) img = images[segmentedItem.mobile_asset].img;
         if (img) {
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, (tileDef.draggableStatus - 1) * Math.PI / 2);
             ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
