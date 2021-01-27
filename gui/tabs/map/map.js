@@ -301,6 +301,8 @@ function update() {
         token_802: true,    // CODED FATHER'S NORDIC JOURNAL 2
         token_818: true,    // CODED FATHER'S NORDIC JOURNAL 3
         token_1470: true,   // CHINESE JOURNAL
+        material_93: true,  // JADEITE
+        material_270: true, // OBSIDIAN
     };
     Object.values(gui.getFile('achievements')).filter(a => +a.event_id > 0 && a.action == 'collect' && a.type == 'material').forEach(a => {
         const key = a.type + '_' + a.object_id;
