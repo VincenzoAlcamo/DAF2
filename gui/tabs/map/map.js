@@ -763,16 +763,13 @@ async function calcMine(mine, flagAddImages) {
         tileDef.teleportId = teleport.teleport_id;
     }
     let teleportIndex = 0;
-    console.log('START', lid, fid);
     const sortedTeleports = Object.values(teleports).sort((a, b) => (a.row - b.row) || (a.column - b.column));
     sortedTeleports.forEach(teleport => delete teleport.name);
     sortedTeleports.forEach(teleport => {
         const target = teleports[teleport.target_teleport_id];
         const isBidi = target.target_teleport_id == teleport.teleport_id;
-        console.log(target.teleport_id, teleport.row, teleport.column, isBidi, target.name);
         teleport.name = (isBidi && target.name) ? target.name : Locale.formatNumber(++teleportIndex);
     });
-    console.log('END');
 
     // Execute all queued actions
     const isRequiredOrientation = (beaconPart, status) => {
@@ -1248,6 +1245,7 @@ async function drawMine(args) {
         if (isBidi && sx + sy * cols > tx + ty * cols) return;
 
         const width = 3;
+        const arrowWidth = width * 3;
         const addSegment = (p, angle, length) => [p[0] + length * Math.cos(angle), p[1] + length * Math.sin(angle)];
 
         const ps = [(sx + 0.5) * TILE_SIZE, (sy + 0.5) * TILE_SIZE];
@@ -1255,45 +1253,48 @@ async function drawMine(args) {
         const dx = pe[0] - ps[0];
         const dy = pe[1] - ps[1];
         const angle = Math.atan2(dy, dx);
+        const angle2 = Math.floor((angle / Math.PI * 180) + 360) % 90;
+        const isCorner = angle2 > 40 && angle2 < 50;
 
         let length = Math.sqrt(dx * dx + dy * dy);
         let p1 = ps;
         if (!isBidi) {
-            length -= (TILE_SIZE / 2 + (showExit ? TILE_SIZE / 6 : 0));
+            length -= (4 * TILE_SIZE / 6);
             p1 = addSegment(ps, angle, TILE_SIZE / 6);
+            if (isCorner) length -= TILE_SIZE / 8;
         }
 
         const p2 = addSegment(p1, angle + Math.PI / 2, width);
         const p3 = addSegment(p2, angle, length - 20);
-        const p4 = addSegment(p3, angle + Math.PI / 2, width * 2);
+        const p4 = addSegment(p3, angle + Math.PI / 2, arrowWidth);
         const p5 = addSegment(p1, angle, length);
 
         const p6 = addSegment(p1, angle - Math.PI / 2, width);
         const p7 = addSegment(p6, angle, length - 20);
-        const p8 = addSegment(p7, angle - Math.PI / 2, width * 2);
+        const p8 = addSegment(p7, angle - Math.PI / 2, arrowWidth);
 
         let path;
         if (isBidi) {
             const angle2 = angle + Math.PI;
             const p9 = addSegment(p5, angle2 + Math.PI / 2, width);
             const p10 = addSegment(p9, angle2, length - 20);
-            const p11 = addSegment(p10, angle2 + Math.PI / 2, width * 2);
+            const p11 = addSegment(p10, angle2 + Math.PI / 2, arrowWidth);
             const p12 = addSegment(p5, angle2 - Math.PI / 2, width);
             const p13 = addSegment(p12, angle2, length - 20);
-            const p14 = addSegment(p13, angle2 - Math.PI / 2, width * 2);
+            const p14 = addSegment(p13, angle2 - Math.PI / 2, arrowWidth);
             path = [p1, p14, p13, p3, p4, p5, p8, p7, p10, p11];
         } else {
             path = [p2, p3, p4, p5, p8, p7, p6];
         }
 
         ctx.strokeStyle = isBidi ? '#440' : '#400';
-        ctx.fillStyle = showExit ? (isBidi ? '#F00' : '#F8C') : (isBidi ? '#FC4' : '#F8C');
+        ctx.fillStyle = isBidi ? '#F00' : '#F8C';
         ctx.beginPath();
         ctx.moveTo(path[0][0], path[0][1]);
         for (let i = 1; i < path.length; i++) ctx.lineTo(path[i][0], path[i][1]);
         ctx.closePath();
         ctx.fill();
-        if (!showExit) ctx.stroke();
+        ctx.stroke();
     };
 
     const drawRoundRect = (x, y, width, height, radius, fill, stroke) => {
