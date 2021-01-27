@@ -704,12 +704,6 @@
     "map_save_tip": {
         "message": "Zapisz mapę jako plik obrazu"
     },
-    "map_entrance": {
-        "message": "Wejście"
-    },
-    "map_exit": {
-        "message": "Wyjście"
-    },
     "map_teleport": {
         "message": "Teleport"
     },

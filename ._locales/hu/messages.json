@@ -704,12 +704,6 @@
     "map_save_tip": {
         "message": "Mentsd el a térképet egy kép fájlba"
     },
-    "map_entrance": {
-        "message": "Bejárat"
-    },
-    "map_exit": {
-        "message": "Kijárat"
-    },
     "map_teleport": {
         "message": "Teleport"
     },

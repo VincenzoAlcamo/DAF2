@@ -200,7 +200,7 @@
         "message": "No se puede hacer captura de pantalla"
     },
     "gui_screenshot_errorinfo": {
-        "message": "Primero debe hacer clic en el icono de  @DAF2@ en el menu de Chrome.\nEsto habilitara la funcion captura de pantalla hasta que se cierre la pagina.\n\nPor favor haga clic en el  icono de  @DAF2@  luego vuelva a intentar la captura de pantalla."
+        "message": "Primero debe hacer clic en el icono de @DAF2@ en el menu de Chrome.\nEsto habilitara la funcion captura de pantalla hasta que se cierre la pagina.\n\nPor favor haga clic en el icono de @DAF2@ luego vuelva a intentar la captura de pantalla."
     },
     "gui_infodated": {
         "message": "La infomacion que se muestra aquí es actual y solo valida como '$VALID$'",
@@ -428,7 +428,7 @@
         "message": "Aun no se han cargado datos del juego .por favor cargue o actualice la venta del juego"
     },
     "about_disclaimer": {
-        "message": "DA Friends es un  'Fan Code'y no es avalado ni respaldado por  Pixel Federation, o los autores de  \"Diggy's Adventure\".\nSi  usas DA Friends lo haces bajo tu propio riesgo. Viene sin garantia ni garantias, ni explícita ni implícita hacia la funcionalidad o la usabilidad.\nEl autor no será responsable por cualquier daño o pérdida causada por su uso.Al utilizar esta extensión, usted acepta estos términos"
+        "message": "DA Friends es un 'Fan Code' y no es avalado ni respaldado por Pixel Federation, o los autores de \"Diggy's Adventure\".\nSi usas DA Friends lo haces bajo tu propio riesgo. Viene sin garantia ni garantias, ni explícita ni implícita hacia la funcionalidad o la usabilidad.\nEl autor no será responsable por cualquier daño o pérdida causada por su uso.Al utilizar esta extensión, usted acepta estos términos"
     },
     "about_translators": {
         "message": "Traductores"
@@ -663,10 +663,10 @@
         "message": "Todos los pisos"
     },
     "map_warning": {
-        "message": "Ingrese en cualquier ubicacion primero"
+        "message": "Entra en el juego ingresa a cualquier ubicación y luego regresa aqui ."
     },
     "map_button_d": {
-        "message": "Mostrar  Diggy"
+        "message": "Mostrar Diggy"
     },
     "map_button_t": {
         "message": "Mostrar teletransporte"
@@ -684,19 +684,22 @@
         "message": "Resaltar azulejos con recompensas importantes"
     },
     "map_button_v": {
-        "message": "Mientras la opcion esté activada los zulejos continuarán visibles aunque en el juego se muestren como ocultas"
+        "message": "Mientras la opcion esté activada los azulejos continuarán visibles aunque en el juego se muestren como ocultas"
     },
     "map_button_o": {
-        "message": "Mostrar azulejos opacas"
+        "message": "Mostrar azulejos opacos"
     },
     "map_button_b": {
         "message": "Mostrar indicador de bonificacion"
     },
     "map_button_k": {
-        "message": "Mostrar el fondo ocualtando todas los azulejos rompibles"
+        "message": "Mostrar el fondo ocultando todas los azulejos rompibles"
     },
     "map_button_a": {
         "message": "Mostrar todas los azulejos"
+    },
+    "map_button_x": {
+        "message": "Mostrar entradas y salidas"
     },
     "map_save": {
         "message": "Guardar"
@@ -704,11 +707,19 @@
     "map_save_tip": {
         "message": "Guardar mapa como archivo de imágen"
     },
-    "map_entrance": {
-        "message": "Entrada"
+    "map_mine_exit": {
+        "message": "Salida de la mina"
     },
-    "map_exit": {
-        "message": "Salida"
+    "map_goto_floor": {
+        "message": "Ir a los pisos $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Va a otro piso, pero ese camino aún no ha sido despejado ."
     },
     "map_teleport": {
         "message": "Teletrasportación"
@@ -768,7 +779,7 @@
         "message": "Requiere arrastrar"
     },
     "map_require_item": {
-        "message": "Requiere  un objeto"
+        "message": "Requiere un objeto"
     },
     "map_require_light": {
         "message": "Requiere luz"
@@ -904,7 +915,7 @@
         "message": "Tiempo de expiracion de los molinos"
     },
     "neighbors_giftinfo": {
-        "message": "La fecha del regalo se refiere  al momento en que  DAF registro el regalo ,no a la fecha en se envio ."
+        "message": "La fecha del regalo se refiere al momento en que DAF registro el regalo, no a la fecha en el que fue enviado."
     },
     "neighbors_gifttip": {
         "message": "$NAME$\nXP: $XP$\nDay: $DAY$",
@@ -984,7 +995,7 @@
         "message": "Puntuacion"
     },
     "friendship_scoretooltip": {
-        "message": "Match confidence, as follows:\n100 =Mismo Facebook id\n99 = Partida manual\n95 = Misma foto de prefil\n90 = Mismo nombre completo\n80 = Mismo primer nombre y apellido\n70 = Mismo primer nombre y apellido  (invertido)\n60 = Coincidencia con caracteres chinos"
+        "message": "Match confidence, as follows:\n100 =Mismo Facebook id\n99 = Partida manual\n95 = Misma foto de prefil\n90 = Mismo nombre completo\n80 = Mismo primer nombre y apellido\n70 = Mismo primer nombre y apellido (invertido)\n60 = Coincidencia con caracteres chinos"
     },
     "friendship_action": {
         "message": "Accion"
@@ -1020,7 +1031,7 @@
         "message": "Puedes eliminar amigo desde esta pagina\n\nTenga en cuenta que las cuentas de Facebook pueden estar deshabilitadas temporalmente y pueden habilitarse en un momento posterior."
     },
     "friendship_confirmcollect": {
-        "message": "Presione SI  para confirmar, NO para intentar más tarde .\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
+        "message": "Presione SI para confirmar, NO para intentar más tarde .\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
     },
     "friendship_speedupcollect": {
         "message": "Recoleccion acelerada?"
@@ -1130,7 +1141,7 @@
         "message": "Coincidencia"
     },
     "friendship_collectmatchinfo": {
-        "message": "Esto realizará coincidencia  automática entre tus amigos y vecinos.\nSu lista de amigos no se actualizará.\nLos amigos ignorados y los amigos con una puntuación superior a 90 nocoincidiran automáticamente.\nLa coincidencia se realizará al final de la colección de amigos."
+        "message": "Esto realizará coincidencia automática entre tus amigos y vecinos.\nSu lista de amigos no se actualizará.\nLos amigos ignorados y los amigos con una puntuación superior a 90 nocoincidiran automáticamente.\nLa coincidencia se realizará al final de la colección de amigos."
     },
     "friendship_matchbyimage": {
         "message": "Coincidir con imagen de perfil?"
@@ -1250,7 +1261,7 @@
         }
     },
     "godchild_next": {
-        "message": "Para obtener un ahijado  adicional, debe agregar $NUM$ más vecinos",
+        "message": "Para obtener un ahijado adicional, debe agregar $NUM$ más vecinos",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1647,7 +1658,7 @@
         "message": "Ocultar maximo"
     },
     "equipment_price_info": {
-        "message": "El precio que se muestra no es para este equipamiento  , es para el paquete /oferta que incluye este equipamiento"
+        "message": "El precio que se muestra no es para este equipamiento, es para el paquete /oferta que incluye este equipamiento"
     },
     "equipment_level_none": {
         "message": "No importa"
@@ -1677,7 +1688,7 @@
         "message": "Actual"
     },
     "equipment_pfdisclaimer": {
-        "message": "Tenga en cuenta que si compró un paquete especial en el juego por este precio en el pasado, no será  posible comprar ningún otro  paquete  por este precio.\nEn este caso, el  precio más bajo disponible será de aproximadamente 5,5 USD."
+        "message": "Tenga en cuenta que si compró un paquete especial en el juego por este precio en el pasado, no será posible comprar ningún otro paquete por este precio.\nEn este caso, el precio más bajo disponible será de aproximadamente 5,5 USD."
     },
     "equipment_slotslower": {
         "message": "Ranuras con menos potencia que esta ."
@@ -1842,7 +1853,7 @@
         }
     },
     "specialweek_debris_discount": {
-        "message": "Grilla desbloqueada  semana de descuento $PERCENT$%",
+        "message": "Grilla desbloqueada semana de descuento $PERCENT$%",
         "placeholders": {
             "percent": {
                 "content": "$1"
@@ -1912,7 +1923,7 @@
         }
     },
     "options_gctable": {
-        "message": "Tabla con ahijados\nMostrar a todos los vecinos con ahijados  debajo del juego."
+        "message": "Tabla con ahijados\nMostrar a todos los vecinos con ahijados debajo del juego."
     },
     "options_gctablecounter": {
         "message": "Contador\nMostrar contador"
@@ -1951,10 +1962,10 @@
         "message": "Utilizar siempre menú ampliado"
     },
     "options_disablealtguard": {
-        "message": "Restablecer con una  cuenta alternativa\nSi configura esta opción, cargar una cuenta alternativa sobrescribirá sus datos DAF2 actuales."
+        "message": "Restablecer con una cuenta alternativa\nSi configura esta opción, cargar una cuenta alternativa sobrescribirá sus datos DAF2 actuales."
     },
     "options_disablealtguard_warning": {
-        "message": "CUIDADO. habilite  esta opción bajo su propia responsabilidad y riesgo"
+        "message": "CUIDADO. habilite esta opción bajo su propia responsabilidad y riesgo"
     },
     "options_section_rewardlinks": {
         "message": "Enlaces de recompensa"
@@ -1963,16 +1974,16 @@
         "message": "Auto cerrado\nCerrar automáticamente la página después de que se haya recogido la recompensa."
     },
     "options_rewardscloseexceptgems": {
-        "message": "Excepto gemas\nNo al  cierre automático cuando se encuentren gemas."
+        "message": "Excepto gemas\nNo al cierre automático cuando se encuentren gemas."
     },
     "options_rewardscloseexcepterrors": {
-        "message": "Excepto errores\nNo al  cierre automático cuando se encuentre un error."
+        "message": "Excepto errores\nNo al cierre automático cuando se encuentre un error."
     },
     "options_rewardssummary": {
         "message": "Añadir tabla de resumen\nSi la página no se cierra automáticamente, agregue una tabla de resumen en la parte inferior."
     },
     "options_linkgrabenabled": {
-        "message": "Recolectar enlace .\nHabilita el recolector de enlaces  dentro de Facebook.\nSi no está habilitado, las siguientes opciones no tienen efecto."
+        "message": "Recolectar enlace .\nHabilita el recolector de enlaces dentro de Facebook.\nSi no está habilitado, las siguientes opciones no tienen efecto."
     },
     "options_linkgrabbutton": {
         "message": "Botón del ratón\n\nElige el botón del ratón que activa el recolector de enlaces."

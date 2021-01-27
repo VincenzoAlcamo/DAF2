@@ -663,7 +663,7 @@
         "message": "Tutti i piani"
     },
     "map_warning": {
-        "message": "Per favore, entra prima in una mappa"
+        "message": "Per favore, vai nel gioco ed entra in una mappa, quindi torna qui!"
     },
     "map_button_d": {
         "message": "Mostra Diggy"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Mostra tutte le caselle"
     },
+    "map_button_x": {
+        "message": "Mostra entrate e uscite"
+    },
     "map_save": {
         "message": "Salva"
     },
     "map_save_tip": {
         "message": "Salva la mappa come un file immagine"
     },
-    "map_entrance": {
-        "message": "Entrata"
+    "map_mine_exit": {
+        "message": "Uscita dalla mappa"
     },
-    "map_exit": {
-        "message": "Uscita"
+    "map_goto_floor": {
+        "message": "Va al piano $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Va ad un altro piano, ma questo percorso non è ancora stato preso"
     },
     "map_teleport": {
         "message": "Teletrasporto"
@@ -1552,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Esporta"
+    },
+    "export_import": {
+        "message": "Importa dati"
+    },
     "export_exportdata": {
         "message": "Esporta dati"
     },
@@ -1563,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "Non è un file di esportazione di DAF valido per il giocatore attuale!"
+    },
+    "export_invalidexport": {
+        "message": "Non è un file di esportazione valido!"
     },
     "export_importsuccess": {
         "message": "I dati sono stati importati con successo!"

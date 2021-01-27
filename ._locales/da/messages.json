@@ -428,7 +428,7 @@
         "message": "Der er ikke blevet loaded nogen spildata endnu, vær venlig at loade eller genstarte spil vinduet"
     },
     "about_disclaimer": {
-        "message": "DA venner er 'Fan Code' og er hverken godkendt eller supporteret af Pixel Federation, Forfatterne af spillet \"Diggys Adventure\".\nDu bruger DA venner på egen risiko. Der gives ingen erstatning eller garanti, hverken eksplesit eller implicit mod funktionalitet eller brugbarhed.\nForfatteren vil ikke blive holdt ansvarlig for nogen form for skade eller tab opstået ved brug af DA venner.\nVed at bruge denne udvidelse accepterer du disse betingelser."
+        "message": "DA venner er 'Fan Code' og er hverken godkendt eller supporteret af Pixel Federation, Forfatterne af spillet \"Diggys Adventure\".\nDu bruger DA venner på egen risiko. Der gives ingen erstatning eller garanti, hverken eksplecit eller implicit mod funktionalitet eller brugbarhed.\nForfatteren vil ikke blive holdt ansvarlig for nogen form for skade eller tab opstået ved brug af DA venner.\nVed at bruge denne udvidelse accepterer du disse betingelser."
     },
     "about_translators": {
         "message": "Oversættere"
@@ -663,7 +663,7 @@
         "message": "Alle etager"
     },
     "map_warning": {
-        "message": "Gå først ind på en bane"
+        "message": "Gå først ind på en bane i spillet og vend så tilbage hertil."
     },
     "map_button_d": {
         "message": "Vis Diggy"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Vis alle felter"
     },
+    "map_button_x": {
+        "message": "Vis ind- og udgange"
+    },
     "map_save": {
         "message": "Gem"
     },
     "map_save_tip": {
         "message": "Gem kortet som en billedfil"
     },
-    "map_entrance": {
-        "message": "Ingang"
+    "map_mine_exit": {
+        "message": "Mine udgang"
     },
-    "map_exit": {
-        "message": "Udgang"
+    "map_goto_floor": {
+        "message": "Går til etage $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Går til en anden etage, men denne vej er ikke taget endnu"
     },
     "map_teleport": {
         "message": "Teleort"
@@ -1552,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Eksport"
+    },
+    "export_import": {
+        "message": "Import"
+    },
     "export_exportdata": {
         "message": "Eksport data"
     },
@@ -1563,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "Denne fil er ikke valid DAF eksport data for den aktuelle spiller!"
+    },
+    "export_invalidexport": {
+        "message": "Filen har ikke gyldig eksportdata!"
     },
     "export_importsuccess": {
         "message": "Data er blevet importet succefuldt"

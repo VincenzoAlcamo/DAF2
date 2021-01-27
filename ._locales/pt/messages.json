@@ -663,7 +663,7 @@
         "message": "Todos os andares"
     },
     "map_warning": {
-        "message": "Insira qualquer local primeiro"
+        "message": "Por favor, entre no jogo e entre em qualquer local, depois volte aqui!"
     },
     "map_button_d": {
         "message": "Mostre Diggy"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Mostrar todos os blocos"
     },
+    "map_button_x": {
+        "message": "Mostrar entradas e saidas"
+    },
     "map_save": {
         "message": "Salve"
     },
     "map_save_tip": {
         "message": "Salve mapa como imagem de ficheiro"
     },
-    "map_entrance": {
-        "message": "Entrada"
+    "map_mine_exit": {
+        "message": "Saida do mapa"
     },
-    "map_exit": {
-        "message": "Saida"
+    "map_goto_floor": {
+        "message": "Ir para o andar $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Ir para outro andar, mas esse caminho ainda não foi percorrido"
     },
     "map_teleport": {
         "message": "Teletransporte"
@@ -1552,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Exportar"
+    },
+    "export_import": {
+        "message": "Importar"
+    },
     "export_exportdata": {
         "message": "Exportar dados"
     },
@@ -1563,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "O arquivo não é um dado de exportação DAF válido para o reprodutor atual!"
+    },
+    "export_invalidexport": {
+        "message": "O arquivo não é um dado de exportação válido!"
     },
     "export_importsuccess": {
         "message": "Os dados foram importados com sucesso!"

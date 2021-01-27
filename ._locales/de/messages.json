@@ -663,10 +663,10 @@
         "message": "Alle Ebenen"
     },
     "map_warning": {
-        "message": "Bitte zuerst einen beliebigen Ort eingeben."
+        "message": "Bitte ins Spiel gehen und einen beliebigen Ort eingeben, dann hierher zurückkehren!"
     },
     "map_button_d": {
-        "message": "Diggy zeigen"
+        "message": "Diggy anzeigen"
     },
     "map_button_t": {
         "message": "Teleporter anzeigen"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Alle Kacheln anzeigen"
     },
+    "map_button_x": {
+        "message": "Eingänge und Ausgänge anzeigen"
+    },
     "map_save": {
         "message": "Speichern"
     },
     "map_save_tip": {
         "message": "Speichern der Karte als Bilddatei"
     },
-    "map_entrance": {
-        "message": "Eingang"
+    "map_mine_exit": {
+        "message": "Verlassen der Mine"
     },
-    "map_exit": {
-        "message": "Ausgang"
+    "map_goto_floor": {
+        "message": "Geht zur Ebene $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Führt zu einer anderen Ebene, aber dieser Weg wurde noch nicht genommen."
     },
     "map_teleport": {
         "message": "Teleporter"
@@ -1552,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Exportieren"
+    },
+    "export_import": {
+        "message": "Importieren"
+    },
     "export_exportdata": {
         "message": "Exportieren von Daten"
     },
@@ -1563,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "Die Datei ist keine gültige DAF-Exportdatei für den aktuellen Spieler!"
+    },
+    "export_invalidexport": {
+        "message": "Datei ist keine gültige Exportdatei!"
     },
     "export_importsuccess": {
         "message": "Die Daten wurden erfolgreich importiert!"

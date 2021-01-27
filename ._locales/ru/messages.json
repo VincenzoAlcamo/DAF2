@@ -639,7 +639,7 @@
         "message": "Секция"
     },
     "map_floor_current": {
-        "message": "Это текущая секция"
+        "message": "Текущая секция"
     },
     "map_floor_found": {
         "message": "Кликните, чтобы просмотреть карту этой секции"
@@ -663,7 +663,7 @@
         "message": "Все секции"
     },
     "map_warning": {
-        "message": "Сначала посетите любую локацию"
+        "message": "Сначала зайдите в игру и посетите любую локацию"
     },
     "map_button_d": {
         "message": "Показать Дигги"
@@ -684,7 +684,7 @@
         "message": "Подсветить плитки с особой добычей"
     },
     "map_button_v": {
-        "message": "Постоянная видимость плитки"
+        "message": "Постоянная видимость плиток"
     },
     "map_button_o": {
         "message": "Показать непрозрачные плитки"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Показать все плитки"
     },
+    "map_button_x": {
+        "message": "Показать входы и выходы"
+    },
     "map_save": {
         "message": "Сохранить"
     },
     "map_save_tip": {
-        "message": "Сохранить карту как картинку"
+        "message": "Сохранить как картинку"
     },
-    "map_entrance": {
-        "message": "Вход"
+    "map_mine_exit": {
+        "message": "Выход из шахты"
     },
-    "map_exit": {
-        "message": "Выход"
+    "map_goto_floor": {
+        "message": "Ведет к секции $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Ведет к другой, еще неизвестной, секции"
     },
     "map_teleport": {
         "message": "Телепорт"
@@ -765,10 +776,10 @@
         "message": "Вверх"
     },
     "map_require_draggable": {
-        "message": "Требуется перетаскивать"
+        "message": "Требуется перетащить"
     },
     "map_require_item": {
-        "message": "Требуются предметы"
+        "message": "Требуется предмет"
     },
     "map_require_light": {
         "message": "Требуется свет"

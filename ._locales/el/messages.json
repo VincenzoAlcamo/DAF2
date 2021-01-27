@@ -663,7 +663,7 @@
         "message": "Όλοι οι όροφοι"
     },
     "map_warning": {
-        "message": "Παρακαλώ βάλτε κάποια τοποθεσία"
+        "message": "Παρακαλώ επισκεφθείτε κάποια τοποθεσία στο παιχνίδι και επιστρέψτε εδώ!"
     },
     "map_button_d": {
         "message": "Εμφάνιση Diggy"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Εμφάνιση όλων των πλακιδίων"
     },
+    "map_button_x": {
+        "message": "Εμφάνιση εισόδων και εξόδων"
+    },
     "map_save": {
         "message": "Αποθήκευση"
     },
     "map_save_tip": {
         "message": "Αποθήκευση χάρτη ως αρχείο εικόνας"
     },
-    "map_entrance": {
-        "message": "Είσοδος"
+    "map_mine_exit": {
+        "message": "Αποχωρεί από ορυχείο"
     },
-    "map_exit": {
-        "message": "Έξοδος"
+    "map_goto_floor": {
+        "message": "Πηγαίνει στον όροφο $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Πηγαίνει σε άλλον όροφο, αλλά αυτός ο δρόμος δεν έχει παρθεί ξανά"
     },
     "map_teleport": {
         "message": "Τηλεμεταφορά"
@@ -1552,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Εξαγωγή"
+    },
+    "export_import": {
+        "message": "Εισαγωγή"
+    },
     "export_exportdata": {
         "message": "Εξαγωγή δεδομένων"
     },
@@ -1563,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "Το αρχείο δεν είναι έγκυρα εξαγώμενα δεδομένα του DAF για τον τωρινό παίχτη."
+    },
+    "export_invalidexport": {
+        "message": "Το αρχείο δεν είναι σωστά εξαγώμενα δεδομένα!"
     },
     "export_importsuccess": {
         "message": "Τα δεδομένα εισήχθησαν με επιτυχία!"

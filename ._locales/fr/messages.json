@@ -663,7 +663,7 @@
         "message": "Toutes les mines"
     },
     "map_warning": {
-        "message": "Veuillez d'abord entrer n'importe quel emplacement"
+        "message": "Allez dans le jeu et entrez n'importe quel endroit, puis revenez ici!"
     },
     "map_button_d": {
         "message": "Afficher Diggy"
@@ -698,17 +698,28 @@
     "map_button_a": {
         "message": "Afficher toutes les tuiles"
     },
+    "map_button_x": {
+        "message": "Afficher les entrées et les sorties"
+    },
     "map_save": {
         "message": "Enregistrer"
     },
     "map_save_tip": {
         "message": "Enregistrer la carte en tant que fichier image"
     },
-    "map_entrance": {
-        "message": "Entrée"
+    "map_mine_exit": {
+        "message": "Quitter la carte"
     },
-    "map_exit": {
-        "message": "Sortie"
+    "map_goto_floor": {
+        "message": "Allez à la salle $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "vers une autre salle, mais ce chemin n'a pas encore été emprunté"
     },
     "map_teleport": {
         "message": "Téléporté"
@@ -1552,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Exporter"
+    },
+    "export_import": {
+        "message": "Importer"
+    },
     "export_exportdata": {
         "message": "Exporter des données"
     },
@@ -1563,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "Ce n'est pas un fichier d'exportation de DAF valide pour le lecteur actuel!"
+    },
+    "export_invalidexport": {
+        "message": "Ce fichier n'est pas une donnée d'exportation valide!"
     },
     "export_importsuccess": {
         "message": "Les données ont été importées avec succès!"
