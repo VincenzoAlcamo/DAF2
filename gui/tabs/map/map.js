@@ -303,6 +303,7 @@ function update() {
         token_1470: true,   // CHINESE JOURNAL
         material_93: true,  // JADEITE
         material_270: true, // OBSIDIAN
+        material_2: true,   // GEM
     };
     Object.values(gui.getFile('achievements')).filter(a => +a.event_id > 0 && a.action == 'collect' && a.type == 'material').forEach(a => {
         const key = a.type + '_' + a.object_id;
@@ -1136,7 +1137,6 @@ function updateTableFlags(state) {
     map.classList.toggle('show_beacon', showBeacon);
     map.classList.toggle('show_tiles', !showBackground && showTiles);
     map.classList.toggle('show_bonus', !showBackground && showBonus);
-    map.classList.toggle('show_notable', showNotableLoot);
     map.classList.toggle('show_opaque', showOpaque);
 }
 
@@ -1470,13 +1470,13 @@ async function drawMine(args) {
     }
 
     // Tiles
+    const specialTiles = [];
     drawAll(subtiles, 'tileSubtype', (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
         const cell = table.rows[y].cells[x];
         cell.classList.toggle('tile', tileDef.isTile);
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
-            if (tileDef.isSpecial) cell.classList.add('special');
-            if (tileDef.isQuest) cell.classList.add('quest');
+            if (tileDef.isSpecial || tileDef.isQuest) specialTiles.push(tileDef);
             if (tileDef.isBonusXp) cell.classList.add('xp');
             if (tileDef.isBonusEnergy) cell.classList.add('energy');
             if (tileDef.stamina >= 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
@@ -1596,6 +1596,18 @@ async function drawMine(args) {
             addDrop(x, y, tileDef.npcLoot);
         }
     });
+
+    // Special
+    for (const tileDef of (showNotableLoot ? specialTiles : []).filter(t => t.isVisible)) {
+        const w = 8;
+        ctx.fillStyle = tileDef.isQuest ? '#F0F' : '#FF0';
+        const sx = tileDef.x * TILE_SIZE;
+        const sy = tileDef.y * TILE_SIZE;
+        ctx.fillRect(sx - w / 2, sy - w / 2, TILE_SIZE + w, w);
+        ctx.fillRect(sx - w / 2, sy, w, TILE_SIZE);
+        ctx.fillRect(sx + TILE_SIZE - w / 2, sy, w, TILE_SIZE);
+        ctx.fillRect(sx - w / 2, sy + TILE_SIZE - w / 2, TILE_SIZE + w, w);
+    }
 
     // Entrances/Exits
     if (showExit) {

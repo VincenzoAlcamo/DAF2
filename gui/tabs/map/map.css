@@ -250,17 +250,6 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   outline: 2px solid #FFF;
 } */
 
-.tab_map .map.show_notable td.quest,
-.tab_map .map.show_notable td.special {
-  outline-style: solid;
-  outline-width: 8px !important;
-  animation: map-special-outline 1s alternate infinite;
-}
-
-.tab_map .map.show_notable td.quest {
-  animation: map-quest-outline 1s alternate infinite;
-}
-
 .tab_map .map .beacon {
   display: none;
   width: 14px;
@@ -281,26 +270,6 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 
 .tab_map .map td[data-action] {
   cursor: pointer;
-}
-
-@keyframes map-special-outline {
-  0% {
-    outline-color: #0008;
-  }
-
-  100% {
-    outline-color: #FF0;
-  }
-}
-
-@keyframes map-quest-outline {
-  0% {
-    outline-color: #0008;
-  }
-
-  100% {
-    outline-color: #F0F;
-  }
 }
 
 .tab_map img.location {
