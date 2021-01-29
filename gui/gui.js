@@ -740,7 +740,7 @@ const gui = {
         document.removeEventListener('copy', oncopy);
     },
     fileChooser: null,
-    chooseFile: function (callback) {
+    chooseFile: function (callback, accept) {
         if (!gui.fileChooser) {
             const form = document.createElement('form');
             gui.fileChooser = document.createElement('input');
@@ -756,6 +756,7 @@ const gui = {
             });
             form.appendChild(gui.fileChooser);
         }
+        gui.fileChooser.accept = accept || '';
         gui.fileChooserCallback = callback;
         gui.fileChooser.click();
     },
