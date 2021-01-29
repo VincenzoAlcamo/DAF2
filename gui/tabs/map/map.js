@@ -57,7 +57,7 @@ const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 
-let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation;
+let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
@@ -156,6 +156,9 @@ function init() {
         setCanvasZoom();
     });
     setCanvasZoom();
+
+    selectRegion = container.querySelector('[name=region]');
+    selectRegion.addEventListener('change', () => processMine());
 
     checks = Array.from(container.querySelectorAll('.toolbar input[type=checkbox][data-flag]'));
     checks.forEach(el => {
@@ -354,6 +357,16 @@ function update() {
         }
         return bonus > 0 && chance > 0 ? ({ id, type: e.type, level, chance, bonus }) : null;
     }).filter(t => t);
+
+    const state = getState();
+    Dialog.htmlToDOM(selectRegion, '');
+    for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
+        const option = document.createElement('option');
+        option.value = rid ? '' + rid : '';
+        option.innerText = rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress');
+        selectRegion.appendChild(option);
+    }
+    setState(state);
 }
 
 function markToBeRendered() {
@@ -363,12 +376,15 @@ function markToBeRendered() {
 
 function getState() {
     return {
+        region: selectRegion.options.length ? selectRegion.value : selectRegion.getAttribute('data-value'),
         show: checks.map(check => check.checked && isCheckAllowed(check) ? check.getAttribute('data-flag') : '').sort().join('').toLowerCase(),
         zoom: zoom
     };
 }
 
 function setState(state) {
+    if (selectRegion.options.length) state.region = gui.setSelectState(selectRegion, state.region || '');
+    selectRegion.setAttribute('data-value', state.region);
     const flags = String(state.show || '').toUpperCase();
     checks.forEach(check => check.checked = flags.includes(check.getAttribute('data-flag')));
     zoom = Math.min(Math.max(2, Math.round(+state.zoom || 5)), 10);
@@ -459,9 +475,19 @@ async function calcMine(mine, flagAddImages) {
     data.floorNumbers = floors.map(f => f.def_id).filter(n => n > 0).sort((a, b) => a - b);
 
     // Fix for segmentation flag in special weeks
-    if (!segmented && asArray(floor.loot_areas && floor.loot_areas.loot_area).find(a => a.region_id > 1)) {
+    let maxRegion = 0;
+    asArray(floor.loot_areas && floor.loot_areas.loot_area).forEach(a => {
+        if (a.region_id > maxRegion) maxRegion = a.region_id;
+    });
+    if (!segmented && maxRegion > 1) {
         segmented = data.segmented = true;
         rid = data.rid = generator.events_region[eid] || generator.region;
+    }
+
+    // Apply specific region
+    if (segmented) {
+        const state = getState();
+        if (+state.region > 0) rid = data.rid = Math.min(+state.region, maxRegion);
     }
 
     const defaultBgId = floor.bg_id;
@@ -1108,6 +1134,8 @@ async function processMine(selectedMine, args) {
         divCaption.textContent = regionName;
         div.textContent = mapFilters[currentData.location.filter] || '';
     }
+
+    selectRegion.parentNode.classList.toggle('hidden', !currentData.segmented);
 
     tableTileInfo.classList.toggle('is-repeatable', +currentData.location.reset_cd > 0);
 
