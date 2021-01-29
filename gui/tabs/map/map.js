@@ -219,7 +219,7 @@ function onClickButton(event) {
         canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
     } else if (action == 'export') {
         if (!currentData || !canvas) return;
-        const fileName = `${getLocationName(currentData.lid, currentData.location)}.json`;
+        const fileName = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
         const data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
         gui.downloadData(data, fileName);
     } else if (action == 'import') {
@@ -248,7 +248,7 @@ function onClickButton(event) {
                     style: [Dialog.CRITICAL, Dialog.OK]
                 });
             }
-        });
+        }, '.map.json');
     }
 }
 
