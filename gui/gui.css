@@ -180,9 +180,10 @@ span.locked32::after {
   background-size: 16px;
 }
 
+.hidden,
 body:not(.is-admin) .for-admin,
 body:not(.is-admin2) .for-admin2 {
-  display: none;
+  display: none !important;
 }
 
 @keyframes rotate-hue {
