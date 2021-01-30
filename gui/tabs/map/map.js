@@ -57,12 +57,19 @@ const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 
+const OPTION_GROUPLOCATIONS = 'g';
+const OPTION_REGIONSELECTOR = 's';
+const OPTION_LOCATIONINFO = 'i';
+const OPTION_REPEATABLES = 'r';
+const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES];
+
 let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData;
 let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
+const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
@@ -77,6 +84,9 @@ function getLocationName(lid, location) {
     const name = location && location.name_loc;
     return name ? gui.getString(name) : '#' + lid;
 }
+
+function hasOption(id) { return !!options[id]; }
+function setOption(id, flag) { options[id] = !!flag; }
 
 function init() {
     tab = this;
@@ -217,6 +227,8 @@ function onClickButton(event) {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
         canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
+    } else if (action == 'advanced') {
+        showAdvancedOptions();
     } else if (action == 'export') {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
@@ -250,6 +262,27 @@ function onClickButton(event) {
             }
         }, '.map.json');
     }
+}
+
+function showAdvancedOptions() {
+    const addOption = (id, caption) => {
+        return Html`<label style="margin-top:3px;display:block"><input name="${id}" type="checkbox" ${hasOption(id) ? 'checked ' : ''}style="vertical-align:middle"> ${caption}</label>`;
+    };
+    let htm = '';
+    htm += Html`<div style="display:inline-block;text-align:left">`;
+    htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
+    htm += addOption(OPTION_REGIONSELECTOR, gui.getMessage('map_option_s'));
+    htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
+    htm += addOption(OPTION_REPEATABLES, gui.getMessage('map_option_r'));
+    htm += Html`</div>`;
+    gui.dialog.show({
+        title: gui.getMessage('tab_options'),
+        html: htm,
+        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
+    }, function (method, params) {
+        ALL_OPTIONS.forEach(id => setOption(id, params[id] == 'on'));
+        processMine();
+    });
 }
 
 function onTableClick(event) {
@@ -378,6 +411,7 @@ function getState() {
     return {
         region: selectRegion.options.length ? selectRegion.value : selectRegion.getAttribute('data-value'),
         show: checks.map(check => check.checked && isCheckAllowed(check) ? check.getAttribute('data-flag') : '').sort().join('').toLowerCase(),
+        options: ALL_OPTIONS.filter(id => !hasOption(id)).join(''),
         zoom: zoom
     };
 }
@@ -388,6 +422,8 @@ function setState(state) {
     const flags = String(state.show || '').toUpperCase();
     checks.forEach(check => check.checked = flags.includes(check.getAttribute('data-flag')));
     zoom = Math.min(Math.max(2, Math.round(+state.zoom || 5)), 10);
+    const options = String(state.options || '').toLowerCase();
+    ALL_OPTIONS.forEach(id => setOption(id, options.indexOf(id) < 0));
     setCanvasZoom();
 }
 
@@ -485,7 +521,7 @@ async function calcMine(mine, flagAddImages) {
     }
 
     // Apply specific region
-    if (segmented) {
+    if (segmented && hasOption(OPTION_REGIONSELECTOR)) {
         const state = getState();
         if (+state.region > 0) rid = data.rid = Math.min(+state.region, maxRegion);
     }
@@ -1105,24 +1141,53 @@ async function addExtensionImages() {
 }
 
 async function processMine(selectedMine, args) {
+    const showRepeatables = hasOption(OPTION_REPEATABLES);
+
     currentData = await calcMine(selectedMine || bgp.Data.lastViewedMine || bgp.Data.lastVisitedMine, true);
     if (!currentData) return;
 
     bgp.Data.lastViewedMine = currentData.mine;
 
     // Create location combo
+    const groupLocations = hasOption(OPTION_GROUPLOCATIONS);
     const options = {};
     const addOption = (id, rid) => {
         if (id in options) return;
         const locations = gui.getFile('locations_' + rid);
+        const location = locations[id];
+        if (!location) return;
+        const isRepeatable = +location.reset_cd > 0;
+        if (!showRepeatables && isRepeatable) return;
+        const eid = rid == 0 && +location.event_id;
         const name = getLocationName(id, locations[id]);
-        options[id] = [name, `<option value="${id}"${currentData.lid == id ? ' selected' : ''}>${name}</option>`];
+        let groupName = '';
+        if (groupLocations) {
+            if (eid) {
+                groupName = gui.getObjectName('event', eid);
+            } else {
+                groupName = gui.getObjectName('region', rid);
+                const filter = location && mapFilters[location.filter];
+                if (filter) groupName += ' \u2013 ' + filter;
+            }
+        }
+        options[id] = [groupName + ' ' + name, `<option value="${id}"${currentData.lid == id ? ' selected' : ''}>${name}</option>`, groupName];
     };
     addOption(currentData.mine.id, currentData.mine.region);
     for (const m of bgp.Data.mineCache) addOption(m.id, m.region);
     const values = Object.values(options);
     values.sort((a, b) => gui.sortTextAscending(a[0], b[0]));
-    Dialog.htmlToDOM(container.querySelector('[data-id="lid"]'), values.map(t => t[1]).join(''));
+    let htm = '';
+    let lastGroupName = '';
+    values.forEach(arr => {
+        if (groupLocations && arr[2] != lastGroupName) {
+            if (lastGroupName) htm += `</optgroup>`;
+            lastGroupName = arr[2];
+            htm += Html`<optgroup label="${lastGroupName}">`;
+        }
+        htm += arr[1];
+    });
+    if (lastGroupName) htm += `</optgroup>`;
+    Dialog.htmlToDOM(container.querySelector('[data-id="lid"]'), htm);
 
     const regionName = gui.getObjectName('region', currentData.rid);
     const div = container.querySelector('[data-id="info"]');
@@ -1135,9 +1200,10 @@ async function processMine(selectedMine, args) {
         div.textContent = mapFilters[currentData.location.filter] || '';
     }
 
-    selectRegion.parentNode.classList.toggle('hidden', !currentData.segmented);
-
     tableTileInfo.classList.toggle('is-repeatable', +currentData.location.reset_cd > 0);
+
+    div.parentNode.classList.toggle('hidden', !hasOption(OPTION_LOCATIONINFO));
+    selectRegion.parentNode.classList.toggle('hidden', !currentData || !currentData.segmented || !hasOption(OPTION_REGIONSELECTOR));
 
     await addExtensionImages();
     // for debugging purposes

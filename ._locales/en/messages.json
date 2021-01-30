@@ -805,6 +805,15 @@
     "map_fixed": {
         "message": "Is fixed"
     },
+    "map_option_s": {
+        "message": "Show region selector"
+    },
+    "map_option_i": {
+        "message": "Show location info"
+    },
+    "map_option_r": {
+        "message" : "Show repeatables"
+    },
     "pillars_all": {
         "message": "All pillars"
     },
