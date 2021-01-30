@@ -57,11 +57,12 @@ const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 
+const OPTION_COORDINATES = 'c';
 const OPTION_GROUPLOCATIONS = 'g';
 const OPTION_REGIONSELECTOR = 's';
 const OPTION_LOCATIONINFO = 'i';
 const OPTION_REPEATABLES = 'r';
-const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES];
+const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES, OPTION_COORDINATES];
 
 let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
 const images = {};
@@ -70,7 +71,7 @@ let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData;
 let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
 const options = {};
-let isAdmin, canShowBonus, canShowBeacon, lastMapId;
+let isAdmin, canShowBonus, canShowBeacon, lastMapId, lastViewedMine, waitHandler;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
@@ -196,12 +197,11 @@ function init() {
     imgLocation.addEventListener('load', () => imgLocation.style.display = '');
     imgLocation.addEventListener('error', () => imgLocation.style.display = 'none');
 
-    const setWarning = () => container.querySelector('.toolbar .warning').textContent = gui.getMessage(bgp.Data.lastVisitedMine ? 'dialog_pleasewait' : 'map_warning');
+    container.querySelector('.toolbar .warning').classList.toggle('hidden', !!determineCurrentMine());
     container.addEventListener('render', function () {
-        setWarning();
+        console.log(new Date(), 'render event');
         setTimeout(processMine, 0);
     });
-    setWarning();
 }
 
 function addQuestDrop(lid, type, id, value) {
@@ -227,7 +227,7 @@ function onClickButton(event) {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
         canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
-    } else if (action == 'advanced') {
+    } else if (action == 'options') {
         showAdvancedOptions();
     } else if (action == 'export') {
         if (!currentData || !canvas) return;
@@ -269,19 +269,46 @@ function showAdvancedOptions() {
         return Html`<label style="margin-top:3px;display:block"><input name="${id}" type="checkbox" ${hasOption(id) ? 'checked ' : ''}style="vertical-align:middle"> ${caption}</label>`;
     };
     let htm = '';
-    htm += Html`<div style="display:inline-block;text-align:left">`;
+    htm += Html`<div><div style="display:inline-block;text-align:left">`;
     htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
     htm += addOption(OPTION_REGIONSELECTOR, gui.getMessage('map_option_s'));
     htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
     htm += addOption(OPTION_REPEATABLES, gui.getMessage('map_option_r'));
-    htm += Html`</div>`;
+    htm += addOption(OPTION_COORDINATES, gui.getMessage('map_option_c'));
+    htm += Html`</div></div>`;
+    htm += Html`<div style="margin-top:14px"><button data-method="clear">${gui.getMessage('map_clear')}</button> ${gui.getMessage('map_clear_info')}</div>`;
     gui.dialog.show({
         title: gui.getMessage('tab_options'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
     }, function (method, params) {
+        const setNoMines = () => {
+            lastViewedMine = null;
+            lastMapId = '';
+            container.querySelector('.toolbar .warning').classList.remove('hidden');
+            document.body.classList.remove('map-rendered');
+            setMapVisibility(false);
+        };
+        if (method == 'clear') {
+            const dialog = Dialog();
+            dialog.show({
+                title: gui.getMessage('map_clear_info'),
+                text: gui.getMessage('map_clear_warning'),
+                style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.CRITICAL]
+            }, function (method) {
+                dialog.remove();
+                if (method == Dialog.CONFIRM) {
+                    bgp.Data.removeAllStoredMines();
+                    gui.dialog.hide();
+                    setNoMines();
+                }
+            });
+            return;
+        }
         ALL_OPTIONS.forEach(id => setOption(id, params[id] == 'on'));
-        processMine();
+        gui.updateTabState(tab);
+        if (determineCurrentMine()) processMine();
+        else setNoMines();
     });
 }
 
@@ -318,7 +345,7 @@ function update() {
         if (flag == 'E') canShowBeacon = isCheckAllowed(check);
     });
     ({ cdn_root, versionParameter } = gui.getGenerator());
-    if (bgp.Data.lastVisitedMine) gui.setLazyRender(map);
+    if (determineCurrentMine()) gui.setLazyRender(map);
     addons = gui.getFile('addons');
     backgrounds = gui.getFile('backgrounds');
     draggables = gui.getFile('draggables');
@@ -404,7 +431,7 @@ function update() {
 
 function markToBeRendered() {
     gui.setLazyRender(map);
-    delete bgp.Data.lastViewedMine;
+    lastViewedMine = null;
 }
 
 function getState() {
@@ -461,7 +488,7 @@ function setCanvasZoom() {
 function addTitle(x, y, text, isBlockTitle) {
     try {
         const cell = table.rows[y].cells[x];
-        cell.title = (cell.title ? cell.title + '\n' + (isBlockTitle ? '\n' : '') : `(${x}, ${y})\n`) + text;
+        cell.title = (cell.title ? cell.title + '\n' + (isBlockTitle ? '\n' : '') : (hasOption(OPTION_COORDINATES) ? `(${x}, ${y})\n` : '')) + text;
     } catch (e) { }
 }
 
@@ -718,6 +745,7 @@ async function calcMine(mine, flagAddImages) {
     // Entrances and exits
     const doors = data.doors = {};
     const locationMines = {};
+    locationMines[mine.level_id] = mine;
     bgp.Data.mineCache.filter(m => m.id == lid).forEach(m => locationMines[m.level_id] = m);
     let numExits = 0;
     const setDoorPosition = (door, x, y) => {
@@ -1140,13 +1168,44 @@ async function addExtensionImages() {
     }
 }
 
-async function processMine(selectedMine, args) {
+function determineCurrentMine(selectedMine) {
     const showRepeatables = hasOption(OPTION_REPEATABLES);
 
-    currentData = await calcMine(selectedMine || bgp.Data.lastViewedMine || bgp.Data.lastVisitedMine, true);
-    if (!currentData) return;
+    const isValid = mine => {
+        if (!mine) return null;
+        const rid = mine.region;
+        const locations = gui.getFile('locations_' + rid);
+        const location = locations[mine.id];
+        if (!location) return null;
+        const isRepeatable = +location.reset_cd > 0;
+        if (!showRepeatables && isRepeatable) return null;
+        return mine;
+    };
 
-    bgp.Data.lastViewedMine = currentData.mine;
+    return isValid(selectedMine) || isValid(lastViewedMine) || isValid(bgp.Data.lastEnteredMine) || bgp.Data.mineCache.find(isValid) || false;
+}
+
+function setWaitHandler() {
+    if (waitHandler) return;
+    waitHandler = setTimeout(() => {
+        gui.wait.show();
+    }, 2000);
+}
+function clearWaitHandler() {
+    if (waitHandler) clearTimeout(waitHandler);
+    waitHandler = null;
+    gui.wait.hide();
+}
+
+async function processMine(selectedMine, args) {
+    console.log(new Date(), 'processMine', selectedMine);
+    const showRepeatables = hasOption(OPTION_REPEATABLES);
+
+    currentData = await calcMine(determineCurrentMine(selectedMine), true);
+    console.log(new Date(), 'processMine 2', currentData);
+    if (!currentData) return;
+    lastViewedMine = currentData.mine;
+    setWaitHandler();
 
     // Create location combo
     const groupLocations = hasOption(OPTION_GROUPLOCATIONS);
@@ -1207,8 +1266,8 @@ async function processMine(selectedMine, args) {
 
     await addExtensionImages();
     // for debugging purposes
-    window.mineData = currentData;
-    window.subtiles = subtiles;
+    // window.mineData = currentData;
+    // window.subtiles = subtiles;
     // window.allQuestDrops = allQuestDrops;
     return drawMine(args);
 }
@@ -1234,11 +1293,21 @@ function updateTableFlags(state) {
     map.classList.toggle('show_opaque', showOpaque);
 }
 
+function setMapVisibility(flag) {
+    canvas.style.display = flag ? '' : 'none';
+    table.style.display = flag ? '' : 'none';
+}
+
 async function drawMine(args) {
+    setMapVisibility(false);
+    setWaitHandler();
     gui.updateTabState(tab);
     const state = getState();
     updateTableFlags(state);
-    if (!currentData) return;
+    if (!currentData) {
+        clearWaitHandler();
+        return;
+    }
 
     const { lid, fid } = currentData;
     const numQuestDrops = Object.keys(allQuestDrops[lid] || {}).length;
@@ -1904,6 +1973,9 @@ async function drawMine(args) {
     }
     if (args && 'x' in args) ({ x, y } = args);
     if (x !== undefined) scrollToCenter(x, y, smooth);
+
+    setMapVisibility(true);
+    clearWaitHandler();
 }
 
 function CustomRandomRND(key) {

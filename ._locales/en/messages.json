@@ -805,6 +805,18 @@
     "map_fixed": {
         "message": "Is fixed"
     },
+    "map_clear": {
+        "message": "Clear"
+    },
+    "map_clear_info": {
+        "message": "Remove all stored mines"
+    },
+    "map_clear_warning": {
+        "message": "Confirm removal of all stored mines?"
+    },
+    "map_option_c": {
+        "message": "Show coordinates in tooltip"
+    },
     "map_option_s": {
         "message": "Show region selector"
     },

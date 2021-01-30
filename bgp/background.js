@@ -560,7 +560,6 @@ var Data = {
                 if (file.id.startsWith('mine_')) mineCache.push(file.data);
             }
             Data.mineCache = mineCache.sort((a, b) => b.time - a.time);
-            if (Data.mineCache.length > 0) Data.setLastVisitedMine(Data.mineCache[0]);
         });
         tx.objectStore('Neighbours').getAll().then(values => {
             for (const pal of values) {
@@ -1311,8 +1310,7 @@ var Data = {
     },
     //#endregion
     //#region LAST VISITED MINE
-    lastVisitedMine: null,
-    lastViewedMine: null,
+    lastEnteredMine: null,
     mineCache: [],
     addMine: function (mine) {
         const mines = asArray(mine).reverse();
@@ -1340,10 +1338,10 @@ var Data = {
             Data.mineCache = Data.mineCache.filter(m => m.id != removeId);
         }
     },
-    setLastVisitedMine: function (mine) {
+    setLastEnteredMine: function (mine) {
+        mine.entered = getUnixTime();
         Data.addMine(mine);
-        Data.lastVisitedMine = mine;
-        Data.lastViewedMine = null;
+        Data.lastEnteredMine = mine;
     },
     saveMineList: {},
     saveMineHandler: 0,
@@ -1378,6 +1376,10 @@ var Data = {
     },
     removeMine: function (mine) {
         Data.saveMine(mine, true);
+    },
+    removeAllStoredMines: function() {
+        Data.removeMine(Data.mineCache);
+        Data.mineCache = [];
     },
     //#endregion
     //#region FILES
@@ -1485,7 +1487,7 @@ var Synchronize = {
         chrome.tabs.sendMessage(Tab.gameTabId, message, () => hasRuntimeError('SYNC2'));
     },
     signalMineAction: function (data) {
-        const mine = Data.lastVisitedMine;
+        const mine = Data.lastEnteredMine;
         if (mine) {
             mine.time = getUnixTime();
             if (!mine.actions) mine.actions = [];
@@ -1665,13 +1667,13 @@ var Synchronize = {
                 prog.reset = reset;
                 Data.storeLocProg();
                 Data.checkRepeatablesStatus();
-                Data.setLastVisitedMine(taskResponse);
+                Data.setLastEnteredMine(taskResponse);
                 Synchronize.signalMineAction();
                 Synchronize.signal(action, taskResponse);
             }
         },
         change_level: function (action, task, taskResponse, _response) {
-            const last = Data.lastVisitedMine;
+            const last = Data.lastEnteredMine;
             const next = taskResponse;
             let from, to;
             if (last && next && last.id == next.id) {
@@ -1680,7 +1682,8 @@ var Synchronize = {
                 last._p.links[from] = `${taskResponse.level_id}_${to}`;
             }
             Synchronize.signalMineAction({ action, exit_id: +task.exit_id, direction: task.direction });
-            Data.setLastVisitedMine(taskResponse);
+            Data.setLastEnteredMine(taskResponse);
+            // This must be done after the map has been added, so next._p is correctly set
             if (to) next._p.links[to] = `${last.level_id}_${from}`;
             Synchronize.signalMineAction();
             Synchronize.signal(action, taskResponse);
