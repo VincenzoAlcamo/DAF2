@@ -1377,9 +1377,13 @@ var Data = {
     removeMine: function (mine) {
         Data.saveMine(mine, true);
     },
-    removeAllStoredMines: function() {
-        Data.removeMine(Data.mineCache);
-        Data.mineCache = [];
+    removeStoredMines: function (mineId) {
+        const minesId = asArray(mineId).map(o => +o || 0);
+        const mines = Data.mineCache.filter(m => minesId.includes(m.id));
+        if (mines.length) {
+            Data.removeMine(mines);
+            Data.mineCache = Data.mineCache.filter(m => !minesId.includes(m.id));
+        }
     },
     //#endregion
     //#region FILES

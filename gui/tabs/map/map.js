@@ -199,7 +199,6 @@ function init() {
 
     container.querySelector('.toolbar .warning').classList.toggle('hidden', !!determineCurrentMine());
     container.addEventListener('render', function () {
-        console.log(new Date(), 'render event');
         setTimeout(processMine, 0);
     });
 }
@@ -265,23 +264,29 @@ function onClickButton(event) {
 }
 
 function showAdvancedOptions() {
+    let flagReprocess = false;
     const addOption = (id, caption) => {
-        return Html`<label style="margin-top:3px;display:block"><input name="${id}" type="checkbox" ${hasOption(id) ? 'checked ' : ''}style="vertical-align:middle"> ${caption}</label>`;
+        return Html`<label style="margin-top:3px;display:block"><input name="${id}" data-method="flags" type="checkbox" ${hasOption(id) ? 'checked ' : ''}style="vertical-align:middle"> ${caption}</label>`;
     };
     let htm = '';
-    htm += Html`<div><div style="display:inline-block;text-align:left">`;
+    htm += Html`<table style="user-select:none"><tr><td>`;
     htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
     htm += addOption(OPTION_REGIONSELECTOR, gui.getMessage('map_option_s'));
     htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
     htm += addOption(OPTION_REPEATABLES, gui.getMessage('map_option_r'));
     htm += addOption(OPTION_COORDINATES, gui.getMessage('map_option_c'));
-    htm += Html`</div></div>`;
-    htm += Html`<div style="margin-top:14px"><button data-method="clear">${gui.getMessage('map_clear')}</button> ${gui.getMessage('map_clear_info')}</div>`;
+    htm += Html`</td><td style="text-align:center">`;
+    htm += Html`<select name="mines" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;"></select>`;
+    htm += Html`<br><input data-method="clr" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
+    htm += Html`&#32;<input data-method="inv" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/>`;
+    htm += Html`&#32;<button data-method="remove" class="small">${gui.getMessage('rewardlinks_removeselected')}</button> `;
+    htm += Html`</td></tr></table>`;
     gui.dialog.show({
         title: gui.getMessage('tab_options'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
     }, function (method, params) {
+        ALL_OPTIONS.forEach(id => params[id] == params[id] == 'on');
         const setNoMines = () => {
             lastViewedMine = null;
             lastMapId = '';
@@ -289,26 +294,47 @@ function showAdvancedOptions() {
             document.body.classList.remove('map-rendered');
             setMapVisibility(false);
         };
-        if (method == 'clear') {
+        if (method == 'remove') {
+            const mines = asArray(params.mines);
+            if (!mines.length) return;
             const dialog = Dialog();
             dialog.show({
-                title: gui.getMessage('map_clear_info'),
-                text: gui.getMessage('map_clear_warning'),
+                title: gui.getMessage('rewardlinks_removeselected'),
+                text: gui.getMessage('map_remove_confirmation'),
                 style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.CRITICAL]
             }, function (method) {
                 dialog.remove();
                 if (method == Dialog.CONFIRM) {
-                    bgp.Data.removeAllStoredMines();
-                    gui.dialog.hide();
-                    setNoMines();
+                    bgp.Data.removeStoredMines(mines);
+                    if (bgp.Data.mineCache.length == 0) {
+                        gui.dialog.hide();
+                        setNoMines();
+                    } else {
+                        flagReprocess = true;
+                        gui.dialog.runCallback(Dialog.AUTORUN, null, true);
+                    }
                 }
             });
             return;
         }
-        ALL_OPTIONS.forEach(id => setOption(id, params[id] == 'on'));
-        gui.updateTabState(tab);
-        if (determineCurrentMine()) processMine();
-        else setNoMines();
+        if (method == Dialog.AUTORUN || method == 'flags') {
+            const select = gui.dialog.element.querySelector('[name=mines]');
+            Dialog.htmlToDOM(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
+            select.size = Math.max(10, Math.min(20, select.querySelectorAll('optgroup,option').length));
+        }
+        if (method == 'clr' || method == 'inv') {
+            const fn = method == 'clr' ? o => o.selected = false : o => o.selected = !o.selected;
+            const select = gui.dialog.element.querySelector('[name=mines]');
+            for (const option of select.options) fn(option);
+        }
+        if (method == Dialog.CONFIRM) {
+            ALL_OPTIONS.forEach(id => setOption(id, params[id]));
+            gui.updateTabState(tab);
+        }
+        if (method == Dialog.CONFIRM || (method == Dialog.CANCEL && flagReprocess)) {
+            if (determineCurrentMine()) processMine();
+            else setNoMines();
+        }
     });
 }
 
@@ -360,17 +386,18 @@ function update() {
         }
     }
     specialDrops = {
+        token_215: true,    // FATHER'S JOURNAL PAGE
         token_505: true,    // CODED FATHER'S NORDIC JOURNAL 1
         token_802: true,    // CODED FATHER'S NORDIC JOURNAL 2
         token_818: true,    // CODED FATHER'S NORDIC JOURNAL 3
         token_1470: true,   // CHINESE JOURNAL
-        material_93: true,  // JADEITE
-        material_270: true, // OBSIDIAN
-        material_2: true,   // GEM
+        material_93: false, // JADEITE
+        material_270: false,// OBSIDIAN
+        material_2: false,  // GEM
     };
     Object.values(gui.getFile('achievements')).filter(a => +a.event_id > 0 && a.action == 'collect' && a.type == 'material').forEach(a => {
         const key = a.type + '_' + a.object_id;
-        specialDrops[key] = true;
+        specialDrops[key] = false;
     });
 
     allQuestDrops = {};
@@ -1068,8 +1095,10 @@ async function calcMine(mine, flagAddImages) {
     const checkLoot = (tileDef, loot) => {
         for (const drop of loot) {
             const key = drop.type + '_' + drop.id;
-            if (key in specialDrops) { tileDef.isSpecial = true; numSpecial++; }
-            if (key in questDrops) { tileDef.isQuest = true; numQuest++; }
+            const isQuest = (key in questDrops) || specialDrops[key] === true;
+            const isSpecial = !isQuest && specialDrops[key] === false;
+            if (isSpecial) { tileDef.isSpecial = true; numSpecial++; }
+            if (isQuest) { tileDef.isQuest = true; numQuest++; }
         }
     };
     for (const tileDef of tileDefs) {
@@ -1197,18 +1226,8 @@ function clearWaitHandler() {
     gui.wait.hide();
 }
 
-async function processMine(selectedMine, args) {
-    console.log(new Date(), 'processMine', selectedMine);
-    const showRepeatables = hasOption(OPTION_REPEATABLES);
-
-    currentData = await calcMine(determineCurrentMine(selectedMine), true);
-    console.log(new Date(), 'processMine 2', currentData);
-    if (!currentData) return;
-    lastViewedMine = currentData.mine;
-    setWaitHandler();
-
-    // Create location combo
-    const groupLocations = hasOption(OPTION_GROUPLOCATIONS);
+function getMineList(groupLocations, showRepeatables, currentMine, selection) {
+    selection = ',' + asArray(selection).join(',') + ',';
     const options = {};
     const addOption = (id, rid) => {
         if (id in options) return;
@@ -1229,9 +1248,9 @@ async function processMine(selectedMine, args) {
                 if (filter) groupName += ' \u2013 ' + filter;
             }
         }
-        options[id] = [groupName + ' ' + name, `<option value="${id}"${currentData.lid == id ? ' selected' : ''}>${name}</option>`, groupName];
+        options[id] = [groupName + ' ' + name, `<option value="${id}"${selection.indexOf(',' + id + ',') >= 0 ? ' selected' : ''}>${name}</option>`, groupName];
     };
-    addOption(currentData.mine.id, currentData.mine.region);
+    if (currentMine) addOption(currentMine.id, currentMine.region);
     for (const m of bgp.Data.mineCache) addOption(m.id, m.region);
     const values = Object.values(options);
     values.sort((a, b) => gui.sortTextAscending(a[0], b[0]));
@@ -1246,6 +1265,17 @@ async function processMine(selectedMine, args) {
         htm += arr[1];
     });
     if (lastGroupName) htm += `</optgroup>`;
+    return htm;
+}
+
+async function processMine(selectedMine, args) {
+
+    currentData = await calcMine(determineCurrentMine(selectedMine), true);
+    if (!currentData) return;
+    lastViewedMine = currentData.mine;
+    setWaitHandler();
+
+    const htm = getMineList(hasOption(OPTION_GROUPLOCATIONS), hasOption(OPTION_REPEATABLES), currentData.mine, currentData.lid);
     Dialog.htmlToDOM(container.querySelector('[data-id="lid"]'), htm);
 
     const regionName = gui.getObjectName('region', currentData.rid);
