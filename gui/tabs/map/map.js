@@ -62,7 +62,8 @@ const OPTION_GROUPLOCATIONS = 'g';
 const OPTION_REGIONSELECTOR = 's';
 const OPTION_LOCATIONINFO = 'i';
 const OPTION_REPEATABLES = 'r';
-const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES, OPTION_COORDINATES];
+const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_COORDINATES];
+const ALL_OPTIONS_AND_PREFERENCES = [...ALL_OPTIONS, OPTION_REPEATABLES];
 
 let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
 const images = {};
@@ -86,8 +87,15 @@ function getLocationName(lid, location) {
     return name ? gui.getString(name) : '#' + lid;
 }
 
-function hasOption(id) { return !!options[id]; }
-function setOption(id, flag) { options[id] = !!flag; }
+function hasOption(id) {
+    if (id == OPTION_REPEATABLES) { options[id] = bgp.Preferences.getValue('mapShowRepeatables'); }
+    return !!options[id];
+}
+function setOption(id, flag) {
+    flag = !!flag;
+    if (id == OPTION_REPEATABLES && flag != bgp.Preferences.getValue('mapShowRepeatables')) bgp.Preferences.setValue('mapShowRepeatables', flag);
+    options[id] = flag;
+}
 
 function init() {
     tab = this;
@@ -286,7 +294,7 @@ function showAdvancedOptions() {
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
     }, function (method, params) {
-        ALL_OPTIONS.forEach(id => params[id] == params[id] == 'on');
+        ALL_OPTIONS_AND_PREFERENCES.forEach(id => params[id] == params[id] == 'on');
         const setNoMines = () => {
             lastViewedMine = null;
             lastMapId = '';
@@ -328,7 +336,7 @@ function showAdvancedOptions() {
             for (const option of select.options) fn(option);
         }
         if (method == Dialog.CONFIRM) {
-            ALL_OPTIONS.forEach(id => setOption(id, params[id]));
+            ALL_OPTIONS_AND_PREFERENCES.forEach(id => setOption(id, params[id]));
             gui.updateTabState(tab);
         }
         if (method == Dialog.CONFIRM || (method == Dialog.CANCEL && flagReprocess)) {

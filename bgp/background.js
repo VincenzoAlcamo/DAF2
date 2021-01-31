@@ -100,6 +100,7 @@ var Preferences = {
             confirmCollection: false,
             speedupCollection: 0,
             matchByImage: true,
+            mapShowRepeatables: true,
             fbFriendsPage: 0,
             linkGrabEnabled: false,
             linkGrabButton: 2,
@@ -1325,12 +1326,16 @@ var Data = {
         // Cache is at its limit, get all the mine id in the cache order
         const hash = {};
         const list = [];
-        Data.mineCache.forEach(m => {
+        const listRep = [];
+        const showRepeatables = Preferences.getValue('mapShowRepeatables');
+        Data.mineCache.forEach((m, index) => {
             if (!(m.id in hash)) {
                 hash[m.id] = true;
-                list.push(m.id);
+                if (showRepeatables || index == 0 || !(m.id in Data.repeatables)) list.push(m.id);
+                else listRep.push(m.id);
             }
         });
+        if (!showRepeatables) listRep.forEach(id => list.push(id));
         while (Data.mineCache.length >= MINECACHE_LIMIT) {
             // Get the last used location id and remove all mines for that location
             const removeId = list.pop();
