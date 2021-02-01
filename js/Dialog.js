@@ -61,9 +61,15 @@ Object.defineProperty(Dialog.prototype, 'visible', {
         if (visible && !this.onkeydown && this.cancelable) {
             this.onkeydown = Dialog.onkeydown.bind(this);
             window.addEventListener('keydown', this.onkeydown, true);
-        } else if (!visible && this.onkeydown) {
-            window.removeEventListener('keydown', this.onkeydown, true);
-            delete this.onkeydown;
+        } else if (!visible) {
+            if (this.onkeydown) {
+                window.removeEventListener('keydown', this.onkeydown, true);
+                delete this.onkeydown;
+            }
+            if (this.autoRemove) {
+                if (this.removeTimer) clearTimeout(this.removeTimer);
+                this.removeTimer = setTimeout(() => this.remove(), 500);
+            }
         }
     },
     get: function () {
@@ -117,13 +123,11 @@ Object.assign(Dialog.prototype, {
         if (element) setTimeout(() => element.focus(), 100);
         if (this.mode === Dialog.TOAST) {
             this.delay = o.delay || this.delay;
+            this.autoRemove = true;
             if (this.removeTimer) clearTimeout(this.removeTimer);
             this.removeTimer = setTimeout(() => {
+                delete this.removeTimer;
                 this.visible = false;
-                this.removeTimer = setTimeout(() => {
-                    delete this.removeTimer;
-                    this.remove();
-                }, 500);
             }, this.delay);
         }
         this.clearAuto();
@@ -168,8 +172,8 @@ Object.assign(Dialog.prototype, {
     setTitle: function (title) {
         const el = this.create().element.querySelector('.DAF-md-title div');
         if (el) {
-            Dialog.htmlToDOM(el, Dialog.htmlEncodeBr(title).replace(/\v([^\v]*)/g,'<sub>$1</sub>'));
-            el.style.display = title ? '' : 'none';
+            Dialog.htmlToDOM(el, Dialog.htmlEncodeBr(title).replace(/\v([^\v]*)/g, '<sub>$1</sub>'));
+            el.parentNode.classList.toggle('empty', !title);
         }
         return this;
     },

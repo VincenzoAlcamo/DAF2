@@ -67,7 +67,7 @@
 }
 
 .DAF-toast .DAF-md-box {
-  padding: 8px;
+  padding: 2px;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   box-shadow: none;
@@ -113,12 +113,12 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
-.DAF-md-title > div {
+.DAF-md-title>div {
   padding: 0.1em;
   line-height: 1em;
 }
 
-.DAF-md-title > div sub {
+.DAF-md-title>div sub {
   display: block;
   font-size: 20px;
   line-height: 20px;
@@ -151,7 +151,7 @@
   display: inline-block;
   margin: 0;
   border-radius: 4px;
-  border: 2px solid rgba(0,0,0,0.4);
+  border: 2px solid rgba(0, 0, 0, 0.4);
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -206,7 +206,7 @@
 }
 
 .DAF-dialog button[timer]:after {
-  content: " [" attr(timer) "]";
+  content: " ["attr(timer) "]";
 }
 
 .DAF-dialog .DAF-md-title button[value="close"] {
@@ -226,6 +226,15 @@
   overflow: hidden;
 }
 
-.DAF-md-close .DAF-md-title > div {
+.DAF-md-title.empty button[value="close"] {
+  transform: scale(0.5);
+  transform-origin: top right;
+}
+
+.DAF-md-title.empty>div {
+  display: none;
+}
+
+.DAF-md-close .DAF-md-title>div {
   margin-right: 32px;
 }
