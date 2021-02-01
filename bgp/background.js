@@ -1322,6 +1322,7 @@ var Data = {
             if (index >= 0) Data.mineCache.splice(index, 1);
             Data.mineCache.unshift(mine);
         }
+        Data.saveMine(mine);
         if (Data.mineCache.length <= MINECACHE_LIMIT) return;
         // Cache is at its limit, get all the mine id in the cache order
         const hash = {};
@@ -1377,7 +1378,7 @@ var Data = {
                 delete Data.removeMineList[id];
             }
         }
-        if (!Data.saveMineHandler) Data.saveMineHandler = setTimeout(Data.saveMineDelayed, 30000);
+        if (!Data.saveMineHandler) Data.saveMineHandler = setTimeout(Data.saveMineDelayed, 10000);
     },
     removeMine: function (mine) {
         Data.saveMine(mine, true);
