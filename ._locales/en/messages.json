@@ -820,6 +820,18 @@
     "map_option_r": {
         "message" : "Show repeatables"
     },
+    "map_option_resize": {
+        "message": "Size of saved image"
+    },
+    "map_export_location": {
+        "message": "Export all floors as data file"
+    },
+    "map_export_floor": {
+        "message": "Export the current floor as data file"
+    },
+    "map_import": {
+        "message": "Import a previously exported data file"
+    },
     "pillars_all": {
         "message": "All pillars"
     },

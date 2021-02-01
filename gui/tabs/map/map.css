@@ -1,6 +1,5 @@
 body:not(.map-rendered) .tab_map .toolbar label:not(.actions),
 body:not(.map-rendered) .tab_map .toolbar label.actions button[data-action="save"],
-body:not(.map-rendered) .tab_map .toolbar label.actions button[data-action="export"],
 body:not(.map-rendered) .tab_map .toolbar img.location,
 body.map-rendered .tab_map .toolbar div.warning {
   display: none;
@@ -20,6 +19,12 @@ body.map-rendered ul.vertical-menu li[data-tabid="map"].selected {
 
 body.is-admin .tab_map .toolbar button[data-action="admin"] {
   background-color: var(--tt-button-hlcol);
+}
+
+.tab_map .toolbar button.small {
+  font-size: 0.8em;
+  margin: 0px 0px 1px 6px;
+  padding: 1px 2px;
 }
 
 .tab_map .toolbar label div {

@@ -73,6 +73,7 @@ let currentData;
 let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, lastViewedMine, waitHandler;
+let resize;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
@@ -233,13 +234,25 @@ function onClickButton(event) {
     if (action == 'save') {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
-        canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
+        let canvas2 = canvas;
+        if (resize < 100) {
+            canvas2 = document.createElement('canvas');
+            canvas2.width = Math.round(canvas.width * resize / 100);
+            canvas2.height = Math.round(canvas.height * resize / 100);
+            canvas2.getContext('2d').drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height);
+        }
+        canvas2.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
     } else if (action == 'options') {
         showAdvancedOptions();
-    } else if (action == 'export') {
+    } else if (action == 'export_location') {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
         const data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
+        gui.downloadData(data, fileName);
+    } else if (action == 'export_floor') {
+        if (!currentData || !canvas) return;
+        const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.map.json`;
+        const data = [currentData.mine];
         gui.downloadData(data, fileName);
     } else if (action == 'import') {
         gui.chooseFile(async function (file) {
@@ -255,9 +268,10 @@ function onClickButton(event) {
                 const lid = data[0].id;
                 for (const mine of data) if (mine.id != lid || !(+mine.level_id > 0)) throw invalidExport;
                 bgp.Data.addMine(data);
-                gui.dialog.show({
-                    title: gui.getMessage('export_import'),
-                    text: gui.getMessage('export_importsuccess')
+                gui.toast.show({
+                    text: gui.getMessage('export_importsuccess'),
+                    delay: 2000,
+                    style: [Dialog.CLOSE]
                 });
                 processMine(bgp.Data.mineCache[0]);
             } catch (error) {
@@ -267,7 +281,7 @@ function onClickButton(event) {
                     style: [Dialog.CRITICAL, Dialog.OK]
                 });
             }
-        }, '.map.json');
+        }, '.json');
     }
 }
 
@@ -283,6 +297,16 @@ function showAdvancedOptions() {
     htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
     htm += addOption(OPTION_REPEATABLES, gui.getMessage('map_option_r'));
     htm += addOption(OPTION_COORDINATES, gui.getMessage('map_option_c'));
+    htm += Html`<label style="margin-top:3px;display:block">${gui.getMessage('map_option_resize')} <select name="resize">`;
+    const sizes = [100, 80, 75, 66, 60, 50, 40, 33, 25];
+    if (resize < 100 && resize > 25 && !sizes.includes(resize)) {
+        sizes.push(resize);
+        sizes.sort(gui.sortNumberDescending);
+    }
+    sizes.forEach(step => {
+        htm += Html`<option value="${step}"${step == resize ? ' selected' : ''}>${Locale.formatNumber(step)}%</option>`;
+    });
+    htm += Html`</select></label>`;
     htm += Html`</td><td style="text-align:center">`;
     htm += Html`<select name="mines" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;"></select>`;
     htm += Html`<br><input data-method="clr" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
@@ -337,6 +361,7 @@ function showAdvancedOptions() {
         }
         if (method == Dialog.CONFIRM) {
             ALL_OPTIONS_AND_PREFERENCES.forEach(id => setOption(id, params[id]));
+            resize = +params.resize;
             gui.updateTabState(tab);
         }
         if (method == Dialog.CONFIRM || (method == Dialog.CANCEL && flagReprocess)) {
@@ -474,6 +499,7 @@ function getState() {
         region: selectRegion.options.length ? selectRegion.value : selectRegion.getAttribute('data-value'),
         show: checks.map(check => check.checked && isCheckAllowed(check) ? check.getAttribute('data-flag') : '').sort().join('').toLowerCase(),
         options: ALL_OPTIONS.filter(id => !hasOption(id)).join(''),
+        resize: resize == 100 ? null : resize,
         zoom: zoom
     };
 }
@@ -486,6 +512,9 @@ function setState(state) {
     zoom = Math.min(Math.max(2, Math.round(+state.zoom || 5)), 10);
     const options = String(state.options || '').toLowerCase();
     ALL_OPTIONS.forEach(id => setOption(id, options.indexOf(id) < 0));
+    resize = +state.resize || 0;
+    if (resize < 25 || resize > 100) resize = 100;
+    state.resize = resize;
     setCanvasZoom();
 }
 
