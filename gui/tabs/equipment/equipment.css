@@ -297,3 +297,7 @@ table.daf-table.equipment-all button {
   max-height: 18px;
   vertical-align: text-bottom;
 }
+
+.equipment_pack .pack-item .caption span.qty {
+  --outline-color: #c2c2eb;
+}

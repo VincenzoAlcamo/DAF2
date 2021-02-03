@@ -1421,6 +1421,7 @@ div.equipment_mask {
 }
 
 .pack-item .caption span.qty {
+  --outline-color: #eee;
   color: #642;
   font-size: 15px;
   line-height: 0.8em;

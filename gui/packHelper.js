@@ -54,7 +54,7 @@ function getItem({ type, object_id, amount, portal, limit, requirements }) {
         } else {
             caption = Html`<span class="with-energy">${Locale.formatNumber(value)}</span>`;
         }
-        if (amount > 1) caption = Html`<span class="qty">${Locale.formatNumber(amount) + ' \xd7 '}</span>${caption}`;
+        if (amount > 1) caption = Html`<span class="qty outlined">${Locale.formatNumber(amount) + ' \xd7 '}</span>${caption}`;
         title = gui.getString('GUI0008');
     } else if (type == 'token') {
         sort = 5;
