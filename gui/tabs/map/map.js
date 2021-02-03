@@ -1661,7 +1661,7 @@ async function drawMine(args) {
         const item = getMiscItem(tileDef);
         if (!item) continue;
         const texts = [];
-        if (tileDef.miscType == 'N' || tileDef.miscType == 'X') {
+        if ((tileDef.miscType == 'N' || tileDef.miscType == 'X') && tileDef.stamina >= 0) {
             let text;
             if (tileDef.miscType == 'N' && (fid == 1 || isRepeatable)) {
                 text = gui.getMessage('map_mine_exit');
@@ -1848,7 +1848,7 @@ async function drawMine(args) {
     if (showExit) {
         ctx.font = 'bold 40px sans-serif';
         ctx.textBaseline = 'middle';
-        for (const tileDef of tileDefs.filter(t => t.miscType == 'N' || t.miscType == 'X')) {
+        for (const tileDef of tileDefs.filter(t => (t.miscType == 'N' || t.miscType == 'X') && t.stamina >= 0)) {
             const { x, y } = tileDef;
             const door = getMiscItem(tileDef);
             if (door) {
