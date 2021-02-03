@@ -410,22 +410,21 @@ function onTableMouseMove(event) {
     if (teleportId == lastTeleportId) return;
     lastTeleportId = teleportId;
     const line = map.querySelector('.line');
+    const circle = map.querySelector('.circle');
     if (tileDef) {
         const dx = sx - tx;
         const dy = sy - ty;
         const angle = Math.atan2(dy, dx) + Math.PI;
-        const angle2 = Math.floor((angle / Math.PI * 180) + 360) % 90;
-        const isCorner = angle2 > 40 && angle2 < 50;
-        const width = (Math.sqrt(dx * dx + dy * dy) - 1 + (isCorner ? -0.2 : 0)) * TILE_SIZE;
+        const width = (Math.sqrt(dx * dx + dy * dy) - 1) * TILE_SIZE;
         line.style.left = Math.floor((sx + 0.5 + Math.cos(angle) / 2) * TILE_SIZE) + 'px';
         line.style.top = Math.floor((sy + 0.5 + Math.sin(angle) / 2) * TILE_SIZE - 5) + 'px';
         line.style.width = Math.floor(width) + 'px';
         line.style.transform = `rotate(${angle / Math.PI * 180}deg)`;
-        line.style.display = 'block';
-        table.rows[ty].cells[tx].classList.add('target_teleport');
+        circle.style.left = Math.floor(tx * TILE_SIZE) + 'px';
+        circle.style.top = Math.floor(ty * TILE_SIZE) + 'px';
+        line.style.display = circle.style.display = 'block';
     } else {
-        line.style.display = 'none';
-        Array.from(table.querySelectorAll('.target_teleport')).forEach(e => e.classList.remove('target_teleport'));
+        line.style.display = circle.style.display = 'none';
     }
 }
 

@@ -304,6 +304,13 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   display: none;
 }
 
-.tab_map .map td.target_teleport {
-  outline: #FF0 solid 8px;
+.tab_map .map .circle {
+  position: absolute;
+  height: 84px;
+  width: 84px;
+  border: 10px solid #FF0;
+  border-radius: 84px;
+  margin-top: -11px;
+  margin-left: -11px;
+  display: none;
 }
