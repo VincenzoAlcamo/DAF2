@@ -550,8 +550,7 @@ function setCanvasZoom() {
     const width = canvas.width;
     const height = canvas.height;
     const zoomFactor = zoomFactors[zoom - 1];
-    canvas.style.transform = `scale(${zoomFactor})`;
-    table.style.transform = `scale(${zoomFactor})`;
+    canvas.parentNode.style.transform = `scale(${zoomFactor})`;
     map.style.width = `${Math.floor(width * zoomFactor)}px`;
     map.style.height = `${Math.floor(height * zoomFactor)}px`;
 }

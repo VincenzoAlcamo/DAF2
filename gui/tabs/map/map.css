@@ -179,12 +179,15 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   pointer-events: none;
 }
 
+.tab_map .map .scaled {
+  transform-origin: top left;
+}
+
 .tab_map .map table,
 .tab_map .map canvas {
   position: absolute;
   left: 0;
   top: 0;
-  transform-origin: top left;
 }
 
 .tab_map .map table tr {
