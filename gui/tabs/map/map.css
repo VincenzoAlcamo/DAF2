@@ -293,3 +293,17 @@ body.map-rendered .tab_map .scrollable-content.dragging,
 body.map-rendered .tab_map .scrollable-content.dragging td {
   cursor: grabbing;
 }
+
+.tab_map .map .line {
+  position: absolute;
+  height: 10px;
+  background-color: #FF0;
+  border: 2px solid #000;
+  transform-origin: 0px 5px;
+  border-radius: 5px;
+  display: none;
+}
+
+.tab_map .map td.target_teleport {
+  outline: #FF0 solid 8px;
+}

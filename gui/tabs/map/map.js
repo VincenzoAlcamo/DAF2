@@ -80,7 +80,7 @@ let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
-let currentData;
+let currentData, lastTeleportId;
 let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
@@ -154,6 +154,7 @@ function init() {
     slider.addEventListener('mousemove', e => {
         if (!isDragging) {
             wasDragged = false;
+            onTableMouseMove(e);
             return;
         }
         e.preventDefault();
@@ -378,7 +379,7 @@ function showAdvancedOptions() {
     });
 }
 
-function onTableClick(event) {
+function findTableCell(event) {
     let cell = currentData ? event.target : null;
     for (; cell; cell = cell.parentNode) {
         if (cell == container) return;
@@ -386,6 +387,50 @@ function onTableClick(event) {
         if (tagName == 'TR' || tagName == 'TBODY' || tagName == 'TABLE') return;
         if (tagName == 'TD') break;
     }
+    return cell;
+}
+function onTableMouseMove(event) {
+    if (!currentData) return;
+    const cell = findTableCell(event);
+    let teleportId = 0;
+    let sx, sy, tx, ty, tileDef;
+    if (cell && cell.classList.contains('teleport')) {
+        sx = cell.cellIndex;
+        sy = cell.parentNode.rowIndex;
+        tileDef = currentData.tileDefs[sy * currentData.cols + sx];
+        teleportId = (tileDef && tileDef.teleportId) || 0;
+        const teleport = currentData.teleports[teleportId];
+        const target = teleport && currentData.teleports[teleport.target_teleport_id];
+        if (!teleport || !target) teleportId = 0;
+        if (target) {
+            tx = target.column;
+            ty = target.row;
+        }
+    }
+    if (teleportId == lastTeleportId) return;
+    lastTeleportId = teleportId;
+    const line = map.querySelector('.line');
+    if (tileDef) {
+        const dx = sx - tx;
+        const dy = sy - ty;
+        const angle = Math.atan2(dy, dx) + Math.PI;
+        const angle2 = Math.floor((angle / Math.PI * 180) + 360) % 90;
+        const isCorner = angle2 > 40 && angle2 < 50;
+        const width = (Math.sqrt(dx * dx + dy * dy) - 1 + (isCorner ? -0.2 : 0)) * TILE_SIZE;
+        line.style.left = Math.floor((sx + 0.5 + Math.cos(angle) / 2) * TILE_SIZE) + 'px';
+        line.style.top = Math.floor((sy + 0.5 + Math.sin(angle) / 2) * TILE_SIZE - 5) + 'px';
+        line.style.width = Math.floor(width) + 'px';
+        line.style.transform = `rotate(${angle / Math.PI * 180}deg)`;
+        line.style.display = 'block';
+        table.rows[ty].cells[tx].classList.add('target_teleport');
+    } else {
+        line.style.display = 'none';
+        Array.from(table.querySelectorAll('.target_teleport')).forEach(e => e.classList.remove('target_teleport'));
+    }
+}
+
+function onTableClick(event) {
+    const cell = findTableCell(event);
     const dataAction = cell && cell.getAttribute('data-action');
     if (!dataAction) return;
     const arr = dataAction.split('_');
@@ -1921,7 +1966,10 @@ async function drawMine(args) {
         if (tileDef.isVisible) {
             addTitle(tileDef.x, tileDef.y, gui.getMessage('map_teleport'), true);
             if (targetTileDef.isVisible) {
-                table.rows[tileDef.y].cells[tileDef.x].setAttribute('data-action', `goto_${fid}_${targetTileDef.x}_${targetTileDef.y}`);
+                // Both ends are visible
+                const cell = table.rows[tileDef.y].cells[tileDef.x];
+                cell.setAttribute('data-action', `goto_${fid}_${targetTileDef.x}_${targetTileDef.y}`);
+                cell.classList.add('teleport');
             }
         }
         if (showTeleport && tileDef.isVisible != targetTileDef.isVisible) drawTeleport(teleport);
@@ -2046,6 +2094,7 @@ async function drawMine(args) {
     if (x !== undefined) scrollToCenter(x, y, smooth);
 
     setMapVisibility(true);
+    lastTeleportId = 0;
     clearWaitHandler();
 }
 
