@@ -51,6 +51,17 @@ function getViewed(tileDefs) {
     return arrayToBase64(a);
 }
 
+const getMapKey = (mine) => mine ? JSON.stringify([mine.id, mine.level_id]) : '';
+const findMine = (lid, fid) => bgp.Data.mineCache.find(m => m.id == lid && (m.level_id == fid || fid == -1));
+const setLastViewedMine = (mine) => bgp.Data.lastViewedMine = getMapKey(mine);
+const getLastViewedMine = () => {
+    try {
+        const key = bgp.Data.lastViewedMine;
+        const [lid, fid] = key ? JSON.parse(key) : [];
+        return key ? findMine(lid, fid) : null;
+    } catch (e) { return null; }
+};
+
 const TILE_SIZE = 62;
 const IMG_DIGGY = '/img/gui/diggy.png';
 const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
@@ -72,7 +83,7 @@ let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData;
 let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
 const options = {};
-let isAdmin, canShowBonus, canShowBeacon, lastMapId, lastViewedMine, waitHandler;
+let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
@@ -194,11 +205,7 @@ function init() {
         });
     });
 
-    container.querySelector('[data-id="lid"]').addEventListener('change', e => {
-        const lid = +e.target.value;
-        const mine = bgp.Data.mineCache.find(t => t.id == lid);
-        processMine(mine);
-    });
+    container.querySelector('[data-id="lid"]').addEventListener('change', e => processMine(findMine(+e.target.value, -1)));
 
     for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
 
@@ -320,7 +327,7 @@ function showAdvancedOptions() {
     }, function (method, params) {
         ALL_OPTIONS_AND_PREFERENCES.forEach(id => params[id] == params[id] == 'on');
         const setNoMines = () => {
-            lastViewedMine = null;
+            setLastViewedMine(null);
             lastMapId = '';
             container.querySelector('.toolbar .warning').classList.remove('hidden');
             document.body.classList.remove('map-rendered');
@@ -389,7 +396,7 @@ function onTableClick(event) {
         const y = +arr[3];
         if (fid == currentData.fid) scrollToCenter(x, y, true);
         else {
-            const found = bgp.Data.mineCache.find(m => m.id == currentData.lid && m.level_id == fid);
+            const found = findMine(currentData.lid, fid);
             if (found) processMine(found, { x, y });
         }
     }
@@ -491,7 +498,7 @@ function update() {
 
 function markToBeRendered() {
     gui.setLazyRender(map);
-    lastViewedMine = null;
+    setLastViewedMine(null);
 }
 
 function getState() {
@@ -558,9 +565,7 @@ function addTitle(x, y, text, isBlockTitle) {
 
 function changeLevel(e) {
     if (!currentData || e.target.disabled) return;
-    const lid = currentData.lid;
-    const fid = +e.target.getAttribute('data-flag');
-    const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == fid);
+    const found = findMine(currentData.lid, +e.target.getAttribute('data-flag'));
     if (found) processMine(found);
 }
 
@@ -1248,7 +1253,7 @@ function determineCurrentMine(selectedMine) {
         return mine;
     };
 
-    return isValid(selectedMine) || isValid(lastViewedMine) || isValid(bgp.Data.lastEnteredMine) || bgp.Data.mineCache.find(isValid) || false;
+    return isValid(selectedMine) || isValid(getLastViewedMine()) || isValid(bgp.Data.lastEnteredMine) || bgp.Data.mineCache.find(isValid) || false;
 }
 
 function setWaitHandler() {
@@ -1309,7 +1314,7 @@ async function processMine(selectedMine, args) {
 
     currentData = await calcMine(determineCurrentMine(selectedMine), true);
     if (!currentData) return;
-    lastViewedMine = currentData.mine;
+    setLastViewedMine(currentData.mine);
     setWaitHandler();
 
     const htm = getMineList(hasOption(OPTION_GROUPLOCATIONS), hasOption(OPTION_REPEATABLES), currentData.mine, currentData.lid);
@@ -1379,7 +1384,7 @@ async function drawMine(args) {
     const { lid, fid } = currentData;
     const numQuestDrops = Object.keys(allQuestDrops[lid] || {}).length;
     for (const floorId of currentData.floorNumbers) {
-        const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == floorId);
+        const found = findMine(lid, floorId);
         if (found && floorId != fid) {
             const recalc = (found.processed || 0) < found.time || numQuestDrops !== allQuestDropsFlags[`${lid}_${floorId}`];
             if (recalc) await calcMine(found, false);
@@ -1995,7 +2000,7 @@ async function drawMine(args) {
     let htm = '';
     let totalTiles = 0, totalCost = 0, totalSpecial = 0, totalQuest = 0, numFound = 0;
     for (const floorId of currentData.floorNumbers) {
-        const found = bgp.Data.mineCache.find(m => m.id == lid && m.level_id == floorId);
+        const found = findMine(lid, floorId);
         if (found) {
             numFound++;
             totalTiles += found.numTiles;
@@ -2032,7 +2037,7 @@ async function drawMine(args) {
 
     // Auto-scroll map
     let x, y;
-    const mapId = `${lid}_${fid}`;
+    const mapId = getMapKey(currentData.mine);
     const smooth = mapId == lastMapId;
     if (mapId != lastMapId) {
         lastMapId = mapId;
