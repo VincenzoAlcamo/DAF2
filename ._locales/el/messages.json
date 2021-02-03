@@ -805,6 +805,33 @@
     "map_fixed": {
         "message": "Φτιαγμένο"
     },
+    "map_remove_confirmation": {
+        "message": "Επιβεβαίωση διαγραφής αυτών τον ορυχείων;"
+    },
+    "map_option_c": {
+        "message": "Εμφάνιση συντεταγμένων στα εργαλεία"
+    },
+    "map_option_s": {
+        "message": "Εμφάνιση επιλογής περιοχής"
+    },
+    "map_option_i": {
+        "message": "Εμφάνισης πληροφοριών τοποθεσίας"
+    },
+    "map_option_r": {
+        "message": "Εμφάνιση επαναλαμβανόμενων"
+    },
+    "map_option_resize": {
+        "message": "Μέγεθος αποθηκευμένης εικόνας"
+    },
+    "map_export_location": {
+        "message": "Εξαγωγή ορόφων ως αρχεία δεδομένων"
+    },
+    "map_export_floor": {
+        "message": "Εξαγωγή τωρινού ορόφου ως αρχείο δεδομένων"
+    },
+    "map_import": {
+        "message": "Εισαγωγή όλων των εξαγόμενων αρχείων"
+    },
     "pillars_all": {
         "message": "Όλοι οι κίονες"
     },

@@ -698,11 +698,28 @@
     "map_button_a": {
         "message": "Mutasd az összes követ"
     },
+    "map_button_x": {
+        "message": "Mutasd a be- és kijáratokat"
+    },
     "map_save": {
         "message": "Mentés"
     },
     "map_save_tip": {
         "message": "Mentsd el a térképet egy kép fájlba"
+    },
+    "map_mine_exit": {
+        "message": "Bánya kijárat"
+    },
+    "map_goto_floor": {
+        "message": "A(z) $NUM$ emeletre megy",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Másik emeletre megy, de ezt az utat még nem jártad meg"
     },
     "map_teleport": {
         "message": "Teleport"
@@ -788,6 +805,33 @@
     "map_fixed": {
         "message": "Megjavítva"
     },
+    "map_remove_confirmation": {
+        "message": "Megerősíted ezeknek a bányáknak az eltávolítását?"
+    },
+    "map_option_c": {
+        "message": "Mutasd a koordinátákat a megjegyzésben"
+    },
+    "map_option_s": {
+        "message": "Mutasd a régió választót"
+    },
+    "map_option_i": {
+        "message": "Mutasd a helyszín infót"
+    },
+    "map_option_r": {
+        "message": "Mutasd az ismétlőket"
+    },
+    "map_option_resize": {
+        "message": "Mentett kép mérete"
+    },
+    "map_export_location": {
+        "message": "Minden emelet mentése egy adat fájlba"
+    },
+    "map_export_floor": {
+        "message": "Az aktuális emelet mentése egy adat fájlba"
+    },
+    "map_import": {
+        "message": "Egy mentett adat fájl betöltése"
+    },
     "pillars_all": {
         "message": "Minden pillér"
     },
@@ -843,7 +887,7 @@
         "message": "Mind"
     },
     "neighbors_nogift": {
-        "message": "Nincs ajándék $NUM$ nap alatt",
+        "message": "Nincs ajándék $NUM$ napon belül",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -897,6 +941,9 @@
     "neighbors_wmtime": {
         "message": "Szélmalom lejárati idő"
     },
+    "neighbors_giftinfo": {
+        "message": "Az ajándékozás dátuma arra az időpontra vonatkozik, amikor a DAF először regisztrálta az ajándékot, nem pedig annak elküldésének dátumára."
+    },
     "neighbors_gifttip": {
         "message": "$NAME$\nXP: $XP$\nNap: $DAY$",
         "placeholders": {
@@ -925,17 +972,69 @@
             }
         }
     },
+    "neighbors_advancedfilterinfo": {
+        "message": "A listából kiválasztva egy vagy több ajándékot tovább szűrheted a szomszédaidat az ajándékok alapján amiket az elmúlt @DAYS@ napokban küldtek."
+    },
     "neighbors_clearfilter": {
         "message": "Szűrő törlése"
     },
+    "neighbors_gift_tooltip": {
+        "message": "Kapott ajándékok amíg a DAF2 aktív volt."
+    },
     "neighbors_sortby": {
-        "message": "Rendezés"
+        "message": "Rendezés a"
+    },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ ajándék $DAYS$ nap alatt = $TOTAL$ XP($AVERAGE$ XP/nap)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Ajándék átlaga = $XP$ XP ($AVERAGE$ XP /szomszéd/nap)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_expression": {
+        "message": "Adj meg egy kifejezést az értékeléshez"
     },
     "friendship_collectfriends": {
         "message": "Barátok gyűjtése"
     },
     "friendship_score": {
         "message": "Pont"
+    },
+    "friendship_scoretooltip": {
+        "message": "Match confidence, as follows:\n100 = Ugyanaz a Facebook azonosító\n99 = Leírás egyezés\n95 = Ugyanaz a profil kép\n90 = Ugyanaz a teljes név\n80 = Ugyanaz a vezetéknév és a keresztnév\n70 = Ugyanaz a vezetéknév és a keresztnév (fordítva)\n60 = Kínai karakterek egyezése"
+    },
+    "friendship_action": {
+        "message": "Akció"
+    },
+    "friendship_actionignore": {
+        "message": "Ezt a barátot figyelembe vesszük az egyezésnél\nKattints, hogy figylemen kívül hagyjuk ezt a barátot az egyezésnél"
+    },
+    "friendship_actionregard": {
+        "message": "Ezt a barátot figyelmen kívül hagyjuk az egyezésnél\nKattints, hogy megnézd ezt a barátot"
+    },
+    "friendship_actionunlink": {
+        "message": "Kattints, hogy eltávolítsd az egyezést"
     },
     "progress_measure": {
         "message": "Intézkedés"
@@ -1049,7 +1148,7 @@
         "message": "HIBÁS LINK"
     },
     "rewardlinks_probablyexpired": {
-        "message": "VALSÓSZÍNŰLEG LEJÁRT LINK"
+        "message": "VALÓSZÍNŰLEG LEJÁRT LINK"
     },
     "rewardlinks_background": {
         "message": "Háttér?"

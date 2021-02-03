@@ -805,6 +805,33 @@
     "map_fixed": {
         "message": "È fisso"
     },
+    "map_remove_confirmation": {
+        "message": "Confermi la rimozione di queste mappe?"
+    },
+    "map_option_c": {
+        "message": "Mostra coordinate nei suggerimenti"
+    },
+    "map_option_s": {
+        "message": "Mostra selettore di regione"
+    },
+    "map_option_i": {
+        "message": "Mostra informazioni sulla locazione"
+    },
+    "map_option_r": {
+        "message": "Mostra ripetibili"
+    },
+    "map_option_resize": {
+        "message": "Dimensione dell'immagine salvata"
+    },
+    "map_export_location": {
+        "message": "Esporta tutti i piani in un file dati"
+    },
+    "map_export_floor": {
+        "message": "Esporta il piano corrente in un file dati"
+    },
+    "map_import": {
+        "message": "Importa un file dati precedentemente esportato"
+    },
     "pillars_all": {
         "message": "Tutti i pilastri"
     },

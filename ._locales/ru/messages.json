@@ -708,7 +708,7 @@
         "message": "Сохранить как картинку"
     },
     "map_mine_exit": {
-        "message": "Выход из шахты"
+        "message": "Выход из локации"
     },
     "map_goto_floor": {
         "message": "Ведет к секции $NUM$",
@@ -740,7 +740,7 @@
         "message": "Плитка"
     },
     "map_npc": {
-        "message": "Неигровой персонаж"
+        "message": "Неигровой персонаж (NPC)"
     },
     "map_says": {
         "message": "Речь"
@@ -804,6 +804,33 @@
     },
     "map_fixed": {
         "message": "Фиксированный"
+    },
+    "map_remove_confirmation": {
+        "message": "Действительно удалить эти локации?"
+    },
+    "map_option_c": {
+        "message": "Показывать координаты в подсказке"
+    },
+    "map_option_s": {
+        "message": "Показать выбор региона"
+    },
+    "map_option_i": {
+        "message": "Показать информацию о локации"
+    },
+    "map_option_r": {
+        "message": "Показать повторяемые"
+    },
+    "map_option_resize": {
+        "message": "Масштаб сохраняемого изображения"
+    },
+    "map_export_location": {
+        "message": "Экспорт всех секций в файл"
+    },
+    "map_export_floor": {
+        "message": "Экспорт текущей секций в файл"
+    },
+    "map_import": {
+        "message": "Импорт ранее экспортированного файла"
     },
     "pillars_all": {
         "message": "Все колонны"
@@ -1563,6 +1590,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Экспорт"
+    },
+    "export_import": {
+        "message": "Импорт"
+    },
     "export_exportdata": {
         "message": "Экспорт данных"
     },
@@ -1574,6 +1607,9 @@
     },
     "export_invalidexportdata": {
         "message": "Файл не является файлом с данными DAF для текущего игрока!"
+    },
+    "export_invalidexport": {
+        "message": "Файл не содержит данные для экспорта!"
     },
     "export_importsuccess": {
         "message": "Данные успешно импортированны!"

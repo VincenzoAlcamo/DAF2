@@ -512,7 +512,7 @@
         "message": "Anstieg (XP/h)"
     },
     "foundry_uplift_info": {
-        "message": "XP durch einen einzigen Amboss in einer Stunde gewonnen,\nauf der Grundlage der aus den Säulen gewonnenen Werte."
+        "message": "XP durch einen einzigen Amboss in einer Stunde gewonnen,\nauf Grundlage der aus den Säulen gewonnenen Werte."
     },
     "camp_your_camp": {
         "message": "Dein Camp"
@@ -663,7 +663,7 @@
         "message": "Alle Ebenen"
     },
     "map_warning": {
-        "message": "Bitte ins Spiel gehen und einen beliebigen Ort eingeben, dann hierher zurückkehren!"
+        "message": "Bitte ins Spiel gehen und einen beliebigen Ort betreten, dann hierher zurückkehren!"
     },
     "map_button_d": {
         "message": "Diggy anzeigen"
@@ -699,7 +699,7 @@
         "message": "Alle Kacheln anzeigen"
     },
     "map_button_x": {
-        "message": "Eingänge und Ausgänge anzeigen"
+        "message": "Ein- und Ausgänge anzeigen"
     },
     "map_save": {
         "message": "Speichern"
@@ -804,6 +804,33 @@
     },
     "map_fixed": {
         "message": "Ist fixiert"
+    },
+    "map_remove_confirmation": {
+        "message": "Die Beseitigung dieser Minen bestätigen?"
+    },
+    "map_option_c": {
+        "message": "Koordinaten im Tooltip anzeigen"
+    },
+    "map_option_s": {
+        "message": "Regionsauswahl anzeigen"
+    },
+    "map_option_i": {
+        "message": "Standortinfo anzeigen"
+    },
+    "map_option_r": {
+        "message": "Wiederholbare anzeigen"
+    },
+    "map_option_resize": {
+        "message": "Größe des gespeicherten Bildes"
+    },
+    "map_export_location": {
+        "message": "Alle Ebenen als Datendatei exportieren"
+    },
+    "map_export_floor": {
+        "message": "Exportieren der aktuellen Ebene als Datendatei"
+    },
+    "map_import": {
+        "message": "Importieren einer zuvor exportierten Datendatei"
     },
     "pillars_all": {
         "message": "Alle Säulen"
@@ -1031,7 +1058,7 @@
         "message": "Du kannst sie von dieser Seite aus entfreunden.\n\nBitte beachten, dass Facebook-Konten vorübergehend deaktiviert und zu einem späteren Zeitpunkt aktiviert werden können."
     },
     "friendship_confirmcollect": {
-        "message": "Klicke Sie JA zur Bestätigung, NEIN zum weiteren Versuch.\n\nDu kannst dieses Fenster jederzeit schließen,\num den Vorgang abzubrechen."
+        "message": "Zur Bestätigung auf JA klicken, NEIN zum weiteren Versuch.\n\nDieses Fenster kann jederzeit geschlossen werden,\num den Vorgang abzubrechen."
     },
     "friendship_speedupcollect": {
         "message": "Beschleunigung der Sammlung?"
@@ -1132,7 +1159,7 @@
         "message": "Nicht übereinstimmend"
     },
     "friendship_collectunmatchedinfo": {
-        "message": "Diese Methode ist die gleiche wie die 'Standard'-Methode, aber sie sammelt keine Freunde.\nStattdessen zeigt es alle derzeit ungleichen Freunde an, so dass sie manuell entfreundet werden können."
+        "message": "Diese Methode ist die gleiche wie die 'Standard'-Methode, aber sie sammelt keine Freunde.\nStattdessen werden alle derzeit ungleichen Freunde angezeigt, so dass sie manuell entfreundet werden können."
     },
     "friendship_disabledinfo": {
         "message": "Es kann deaktivierte Konten erkennen."
@@ -1272,7 +1299,7 @@
         "message": "Die maximal mögliche Anzahl von Götterkindern wurde erreicht."
     },
     "godchild_next1": {
-        "message": "Um einen zusätzlichen Götterkind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
+        "message": "Um ein zusätzliches Götterkind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
     },
     "progress_measure": {
         "message": "Messung"
@@ -1697,7 +1724,7 @@
         "message": "Aktuell"
     },
     "equipment_pfdisclaimer": {
-        "message": "Bitte beachten, dass, wenn in der Vergangenheit ein spezielles Paket im Spiel zu diesem Preis gekauft wurde, ist es nicht möglich, ein nächstes Paket zu diesem Preis zu erwerben.\nIn diesem Fall liegt die niedrigste verfügbare Preisstufe bei etwa 5,50 USD."
+        "message": "Bitte beachten, dass, wenn in der Vergangenheit ein spezielles Paket im Spiel zu diesem Preis gekauft wurde, es nicht möglich ist, ein nächstes Paket zu diesem Preis zu erwerben.\nIn diesem Fall liegt die niedrigste verfügbare Preisstufe bei etwa 5,50 USD."
     },
     "equipment_slotslower": {
         "message": "Stellplätze mit weniger Leistung als diese"

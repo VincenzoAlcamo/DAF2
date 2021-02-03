@@ -805,6 +805,33 @@
     "map_fixed": {
         "message": "c'est fixé"
     },
+    "map_remove_confirmation": {
+        "message": "Confirmer la suppression de ces mines?"
+    },
+    "map_option_c": {
+        "message": "Afficher les coordonnées dans l'info-bulle"
+    },
+    "map_option_s": {
+        "message": "Afficher le sélecteur de région"
+    },
+    "map_option_i": {
+        "message": "Afficher les informations de localisation"
+    },
+    "map_option_r": {
+        "message": "Afficher les répétables"
+    },
+    "map_option_resize": {
+        "message": "Taille de l'image enregistrée"
+    },
+    "map_export_location": {
+        "message": "Exporter toutes les salles comme fichier de données"
+    },
+    "map_export_floor": {
+        "message": "Exporter la salle actuelle comme fichier de données"
+    },
+    "map_import": {
+        "message": "Importer ce fichier de données précédemment exporté"
+    },
     "pillars_all": {
         "message": "Tous les piliers"
     },

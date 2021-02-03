@@ -663,7 +663,7 @@
         "message": "Wszystkie piętra"
     },
     "map_warning": {
-        "message": "Proszę wejdź najpierw do lokacji"
+        "message": "Proszę wejdź najpierw do gry i lokacji, później wróć tutaj!"
     },
     "map_button_d": {
         "message": "Pokaż Diggiego"
@@ -698,11 +698,28 @@
     "map_button_a": {
         "message": "Pokaż wszystkie kostki"
     },
+    "map_button_x": {
+        "message": "Pokaż wejście i wyjście"
+    },
     "map_save": {
         "message": "Zapisz"
     },
     "map_save_tip": {
         "message": "Zapisz mapę jako plik obrazu"
+    },
+    "map_mine_exit": {
+        "message": "Wyjście z kopalni"
+    },
+    "map_goto_floor": {
+        "message": "Idzie na piętro $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Idzie na inne piętro, ale ta ścieżka nie została jeszcze wybrana"
     },
     "map_teleport": {
         "message": "Teleport"
@@ -1546,6 +1563,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Eksport"
+    },
+    "export_import": {
+        "message": "Import"
+    },
     "export_exportdata": {
         "message": "Eksportuj dane"
     },
@@ -1557,6 +1580,9 @@
     },
     "export_invalidexportdata": {
         "message": "Plik nie jest prawidłowymi danymi eksportowymi DAF dla bieżącego gracza."
+    },
+    "export_invalidexport": {
+        "message": "Plik nie jest prawidłowym plikiem eksportowym!"
     },
     "export_importsuccess": {
         "message": "Dane zostały pomyślnie zaimportowane!"

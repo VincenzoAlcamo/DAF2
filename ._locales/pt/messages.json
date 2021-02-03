@@ -805,6 +805,33 @@
     "map_fixed": {
         "message": "Fixo"
     },
+    "map_remove_confirmation": {
+        "message": "Confirma a remoção dessas minas?"
+    },
+    "map_option_c": {
+        "message": "Mostrar coordenadas na dica"
+    },
+    "map_option_s": {
+        "message": "Mostrar seletor de região"
+    },
+    "map_option_i": {
+        "message": "Mostrar informações de localização"
+    },
+    "map_option_r": {
+        "message": "Mostrar renováveis"
+    },
+    "map_option_resize": {
+        "message": "Tamanho da imagem salva"
+    },
+    "map_export_location": {
+        "message": "Exportar todos os andares como arquivo de dados"
+    },
+    "map_export_floor": {
+        "message": "Exportar o andar atual como arquivo de dados"
+    },
+    "map_import": {
+        "message": "Importar um arquivo de dados exportado anteriormente"
+    },
     "pillars_all": {
         "message": "Todos os pilares"
     },

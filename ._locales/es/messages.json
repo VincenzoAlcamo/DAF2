@@ -805,6 +805,33 @@
     "map_fixed": {
         "message": "Esta fijo"
     },
+    "map_remove_confirmation": {
+        "message": "Confirma remoción de estas minas ?"
+    },
+    "map_option_c": {
+        "message": "Mostrar coordinadas en la informacin sobre herramientas"
+    },
+    "map_option_s": {
+        "message": "Mostrar selector de regiones"
+    },
+    "map_option_i": {
+        "message": "Mostrar informacion sobre la ubicación"
+    },
+    "map_option_r": {
+        "message": "Mostrar repetibles"
+    },
+    "map_option_resize": {
+        "message": "Tamaño de la imágen guardada"
+    },
+    "map_export_location": {
+        "message": "Exportar todos los pisos"
+    },
+    "map_export_floor": {
+        "message": "Exportar el piso ( mina )  actual como archivo"
+    },
+    "map_import": {
+        "message": "Importar un archivo exportado previamente"
+    },
     "pillars_all": {
         "message": "Todos los pilares"
     },
@@ -1563,6 +1590,12 @@
             }
         }
     },
+    "export_export": {
+        "message": "Exportar"
+    },
+    "export_import": {
+        "message": "Importar"
+    },
     "export_exportdata": {
         "message": "Exportar datos"
     },
@@ -1574,6 +1607,9 @@
     },
     "export_invalidexportdata": {
         "message": "El archivo no es un dato de exportación de DAF válido para el jugador actual!"
+    },
+    "export_invalidexport": {
+        "message": "El archivo no valido para exportar !"
     },
     "export_importsuccess": {
         "message": "Los datos se han importado con éxito!"

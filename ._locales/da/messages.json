@@ -805,6 +805,33 @@
     "map_fixed": {
         "message": "Er lavet"
     },
+    "map_remove_confirmation": {
+        "message": "Bekræft fjernelsen af disse miner?"
+    },
+    "map_option_c": {
+        "message": "Vis koordinater i værktøjs tip"
+    },
+    "map_option_s": {
+        "message": "Vis regions vælger"
+    },
+    "map_option_i": {
+        "message": "Vis lokations info"
+    },
+    "map_option_r": {
+        "message": "Vis gentagelige"
+    },
+    "map_option_resize": {
+        "message": "Størrelse på gemt billede"
+    },
+    "map_export_location": {
+        "message": "Eksporter alle etager som data fil"
+    },
+    "map_export_floor": {
+        "message": "Eksporter nuværende etage som data fil"
+    },
+    "map_import": {
+        "message": "Importer en tidligere eksporteret data fil"
+    },
     "pillars_all": {
         "message": "Alle søjler"
     },
