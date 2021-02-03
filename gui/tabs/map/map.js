@@ -651,9 +651,9 @@ async function calcMine(mine, flagAddImages) {
 
     // Fix for segmentation flag in special weeks
     let maxRegion = 0;
-    asArray(floor.loot_areas && floor.loot_areas.loot_area).forEach(a => {
+    floors.forEach(floor => asArray(floor.loot_areas && floor.loot_areas.loot_area).forEach(a => {
         if (a.region_id > maxRegion) maxRegion = a.region_id;
-    });
+    }));
     if (!segmented && maxRegion > 1) {
         segmented = data.segmented = true;
         rid = data.rid = generator.events_region[eid] || generator.region;
@@ -742,6 +742,7 @@ async function calcMine(mine, flagAddImages) {
         const regionId = +a.region_id || 0;
         return regionId == rid || regionId == 0;
     };
+    const artifacts = gui.getArrayOfInt(generator.artifacts);
     for (const area of asArray(floor.loot_areas && floor.loot_areas.loot_area).filter(filterByRegion)) {
         const { area_id, min, max, random, type } = area;
         const tiles = typeof area.tiles == 'string' ? area.tiles.split(';') : [];
@@ -756,15 +757,14 @@ async function calcMine(mine, flagAddImages) {
                     amount = min == max ? min : Math.floor(Math.max(CustomRandomTileRND(mine.key, x, y, area_id * 10000) % (max - min + 1) + min, 0));
                     coef = area.coef;
                 }
-                if (type == 'chest' || type == 'artifact') {
-                    // Do nothing
-                } else {
+                const lootType = type == 'chest' ? 'artifact' : type;
+                const lootId = type == 'chest' ? pickTreasure(mine.key, x, y, area_id, gui.getArrayOfInt(area.pieces), artifacts) : +area.object_id;
+                if (lootType == 'artifact' && artifacts.includes(lootId)) amount = 0;
+                if (amount > 0 && lootId > 0) {
                     if (coef > 0) amount = amount + Math.floor(amount * coef * playerLevel);
-                    if (amount > 0) {
-                        const tileDef = tileDefs[y * cols + x];
-                        if (!tileDef.loot) tileDef.loot = [];
-                        tileDef.loot.push({ type, id: area.object_id, amount });
-                    }
+                    const tileDef = tileDefs[y * cols + x];
+                    if (!tileDef.loot) tileDef.loot = [];
+                    tileDef.loot.push({ type: lootType, id: lootId, amount });
                 }
             }
         });
@@ -1181,7 +1181,7 @@ async function calcMine(mine, flagAddImages) {
         for (const drop of loot) {
             const key = drop.type + '_' + drop.id;
             const isQuest = (key in questDrops) || specialDrops[key] === true;
-            const isSpecial = !isQuest && specialDrops[key] === false;
+            const isSpecial = !isQuest && (specialDrops[key] === false || drop.type == 'artifact');
             if (isSpecial) { tileDef.isSpecial = true; numSpecial++; }
             if (isQuest) { tileDef.isQuest = true; numQuest++; }
         }
@@ -1200,7 +1200,23 @@ async function calcMine(mine, flagAddImages) {
             hasLoot = true;
         } else if (tileDef.miscType == 'B') {
             const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-            if (!beaconPart.active && beaconPart.activation == 'use') hasLoot = true;
+            if (!beaconPart.active && beaconPart.activation == 'use') {
+                let loot = [];
+                const beacon = beacons[tileDef.miscId];
+                for (const action of asArray(beacon.actions.action).filter(a => a.layer == 'loot')) {
+                    for (const tile of splitString(action.tiles, ';')) {
+                        const [y, x] = tile.split(',').map(v => +v);
+                        if (!isInvalidCoords(x, y)) {
+                            const tileDef2 = tileDefs[y * cols + x];
+                            if (tileDef2.loot) loot = loot.concat(tileDef2.loot);
+                        }
+                    }
+                }
+                if (loot.length) {
+                    hasLoot = true;
+                    tileDef.loot = loot;
+                }
+            }
         }
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart)) && hasLoot && tileDef.loot) {
             tileDef.hasLoot = true;
@@ -1381,7 +1397,7 @@ async function processMine(selectedMine, args) {
 
     await addExtensionImages();
     // for debugging purposes
-    // window.mineData = currentData;
+    if (bgp.Data.adminLevel >= 2) window.mineData = currentData;
     // window.subtiles = subtiles;
     // window.allQuestDrops = allQuestDrops;
     return drawMine(args);
@@ -2121,4 +2137,12 @@ function lootIndex(key, area_id, length, count) {
         indexes.splice(index, 1);
     }
     return picked;
+}
+function pickTreasure(key, x, y, area_id, pieces, artifacts) {
+    if (pieces.length) {
+        const index = CustomRandomTileRND(key, x, y, area_id * 20000) % pieces.length;
+        pieces = pieces.slice(index).concat(pieces.slice(0, index));
+        while (pieces.length && artifacts.includes(pieces[0])) pieces.shift();
+    }
+    return pieces.length ? pieces[0] : 0;
 }
