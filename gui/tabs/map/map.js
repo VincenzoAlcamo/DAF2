@@ -81,7 +81,7 @@ const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared;
+let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize;
@@ -231,7 +231,7 @@ function addQuestDrop(lid, type, id, value) {
 
 function isCheckAllowed(check) {
     const flag = check.getAttribute('data-flag');
-    if ('LEGOBKAU'.indexOf(flag) >= 0 && bgp.Data.adminLevel < 2) return false;
+    if ('LEGOBKAUF'.indexOf(flag) >= 0 && bgp.Data.adminLevel < 2) return false;
     return true;
 }
 
@@ -946,12 +946,18 @@ async function calcMine(mine, flagAddImages) {
             return copy;
         });
         // Show flag
-        for (const action of asArray(beacon.actions.action).filter(a => a.layer == 'vision')) {
-            const values = splitString(action.values, ',');
-            if (values.length == 1 && +values[0] != 1) continue;
-            for (const tile of splitString(action.tiles, ';')) {
-                const [y, x] = tile.split(',').map(v => +v);
-                if (!isInvalidCoords(x, y)) tileDefs[y * cols + x].show = true;
+        const parts = copy.parts.part;
+        const activableParts = parts.filter(p => {
+            return p.activation != 'door_r' || p.req_material > 0 || p.req_drag > 0 || p.req_light > 0;
+        });
+        if (parts.length && parts.length == activableParts.length) {
+            for (const action of asArray(beacon.actions.action).filter(a => a.layer == 'vision')) {
+                const values = splitString(action.values, ',');
+                if (values.length == 1 && +values[0] != 1) continue;
+                for (const tile of splitString(action.tiles, ';')) {
+                    const [y, x] = tile.split(',').map(v => +v);
+                    if (!isInvalidCoords(x, y)) tileDefs[y * cols + x].show = true;
+                }
             }
         }
     }
@@ -1423,6 +1429,7 @@ function updateTableFlags(state) {
     showExit = state.show.includes('x');
     showDebug = state.show.includes('g');
     showAll = state.show.includes('a');
+    showFull = state.show.includes('f');
     showTiles = state.show.includes('l');
     showViewed = state.show.includes('v');
     showBonus = state.show.includes('b');
@@ -1672,7 +1679,7 @@ async function drawMine(args) {
 
     // Set visibility
     for (const tileDef of tileDefs) {
-        tileDef.isVisible = showAll ? tileDef.show : (showViewed ? tileDef.viewed : tileDef.visible);
+        tileDef.isVisible = showFull || (showAll ? tileDef.show : (showViewed ? tileDef.viewed : tileDef.visible));
     }
 
     // Backgrounds
