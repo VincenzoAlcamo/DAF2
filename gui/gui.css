@@ -724,7 +724,7 @@ img.medium {
 
 .toolbar {
   color: var(--tt-fgcol);
-  background: var(--tt-bgcol);
+  background-color: var(--tt-bgcol);
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
