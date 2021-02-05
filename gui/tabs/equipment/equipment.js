@@ -1043,6 +1043,8 @@ function showOffer(type, id, options) {
                 showInRow = params.row == 'on';
             }
             gui.dialog.setHtml(getDetails());
+            const div = gui.dialog.element.querySelector('.equipment_pack');
+            div.parentNode.style.overflow = 'hidden';
             gui.dialog.setTitle(title + subTitle);
             try { gui.dialog.element.querySelector(`[data-method="${method}"`).focus(); } catch (e) { }
         }

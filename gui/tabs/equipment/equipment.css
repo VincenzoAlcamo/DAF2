@@ -87,7 +87,7 @@
 .equipment_pack {
   margin-top: 4px;
   display: inline-block;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 120px);
   max-width: calc(100vw - 32px);
   overflow: auto;
   position: relative;
