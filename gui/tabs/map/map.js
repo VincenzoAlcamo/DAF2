@@ -7,7 +7,7 @@ export default {
     setState,
     actions: { 'daf_mine_action': markToBeRendered },
     requires: (function () {
-        const requires = ['addons', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events', 'usables', 'materials', 'tokens', 'achievements', 'quests', 'map_filters'];
+        const requires = ['addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events', 'usables', 'materials', 'tokens', 'achievements', 'quests', 'map_filters'];
         for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
         return requires;
     })()
