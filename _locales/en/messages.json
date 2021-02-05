@@ -1967,6 +1967,7 @@
 "en@map_button_k":{"message":"Show background by hiding all breakable tiles"},
 "en@map_button_a":{"message":"Show all tiles"},
 "en@map_button_x":{"message":"Show entrances and exits"},
+"en@map_button_u":{"message":"Show uncleared map"},
 "en@map_save":{"message":"Save"},
 "en@map_save_tip":{"message":"Save the map as an image file"},
 "en@map_mine_exit":{"message":"Exits mine"},

@@ -701,6 +701,9 @@
     "map_button_x": {
         "message": "Show entrances and exits"
     },
+    "map_button_u": {
+        "message": "Show uncleared map"
+    },
     "map_save": {
         "message": "Save"
     },

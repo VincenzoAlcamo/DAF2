@@ -1,4 +1,4 @@
-/*global bgp gui Dialog Locale Html*/
+/*global bgp gui Dialog Locale Html PackTiles*/
 export default {
     hasCSS: true,
     init,
@@ -81,7 +81,7 @@ const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque;
+let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize;
@@ -198,8 +198,10 @@ function init() {
         el.title = gui.getMessage('map_button_' + el.getAttribute('data-flag').toLowerCase());
         el.addEventListener('click', e => {
             const state = getState();
-            if ('LBE'.includes(e.target.getAttribute('data-flag'))) {
+            const flag = e.target.getAttribute('data-flag');
+            if ('LBEU'.includes(flag)) {
                 updateTableFlags(state);
+                if (flag == 'U') processMine();
                 return;
             }
             drawMine();
@@ -229,7 +231,7 @@ function addQuestDrop(lid, type, id, value) {
 
 function isCheckAllowed(check) {
     const flag = check.getAttribute('data-flag');
-    if ('LEGOBKA'.indexOf(flag) >= 0 && bgp.Data.adminLevel < 2) return false;
+    if ('LEGOBKAU'.indexOf(flag) >= 0 && bgp.Data.adminLevel < 2) return false;
     return true;
 }
 
@@ -621,9 +623,16 @@ function isValidTile(tileDef, beaconPart) {
 async function calcMine(mine, flagAddImages) {
     if (!mine) return;
     mine.processed = gui.getUnixTime();
-    const { id: lid, level_id: fid, columns: cols, rows } = mine;
 
-    let rid = mine.region;
+    const { id: lid, level_id: fid, columns: cols, rows } = mine;
+    let { region: rid, tiles: mineTiles, packedTiles } = mine;
+
+    let base = mine;
+    if (showUncleared && mine._p.o) {
+        base = mine._p.o;
+        packedTiles = base.packed;
+    }
+    if (packedTiles) mineTiles = PackTiles.unpack(packedTiles);
 
     const generator = gui.getGenerator();
     const locProg = bgp.Data.getLocProg(lid);
@@ -632,7 +641,7 @@ async function calcMine(mine, flagAddImages) {
     const locations = gui.getFile('locations_' + rid);
     const location = locations[lid];
     const isRepeatable = +location.reset_cd > 0;
-    const eid = mine.region == 0 && +location.event_id;
+    const eid = rid == 0 && +location.event_id;
     const event = eid && gui.getObject('event', eid);
     const maxSegment = (event ? event.reward : []).reduce((max, obj) => Math.max(max, +obj.region_id), 0);
     let segmented = maxSegment > 1;
@@ -721,7 +730,7 @@ async function calcMine(mine, flagAddImages) {
 
     // Build tileDefs
     const tileDefs = data.tileDefs = [];
-    mine.tiles.split(';').forEach((tileData, tileIndex) => {
+    mineTiles.split(';').forEach((tileData, tileIndex) => {
         const x = tileIndex % cols;
         const y = Math.floor(tileIndex / cols);
         const tileDef = tileDefs[tileIndex] = { x, y, tileIndex };
@@ -743,10 +752,11 @@ async function calcMine(mine, flagAddImages) {
         return regionId == rid || regionId == 0;
     };
     const artifacts = gui.getArrayOfInt(generator.artifacts);
+    const mineKey = mine.key;
     for (const area of asArray(floor.loot_areas && floor.loot_areas.loot_area).filter(filterByRegion)) {
         const { area_id, min, max, random, type } = area;
         const tiles = typeof area.tiles == 'string' ? area.tiles.split(';') : [];
-        const indexes = random > 0 ? lootIndex(mine.key, area_id, tiles.length, random) : null;
+        const indexes = random > 0 ? lootIndex(mineKey, area_id, tiles.length, random) : null;
         tiles.forEach((tile, index) => {
             if (!indexes || indexes.indexOf(index) >= 0) {
                 const [y, x] = tile.split(',').map(v => +v);
@@ -754,11 +764,11 @@ async function calcMine(mine, flagAddImages) {
                 if (min > max) {
                     amount = 1;
                 } else {
-                    amount = min == max ? min : Math.floor(Math.max(CustomRandomTileRND(mine.key, x, y, area_id * 10000) % (max - min + 1) + min, 0));
+                    amount = min == max ? min : Math.floor(Math.max(CustomRandomTileRND(mineKey, x, y, area_id * 10000) % (max - min + 1) + min, 0));
                     coef = area.coef;
                 }
                 const lootType = type == 'chest' ? 'artifact' : type;
-                const lootId = type == 'chest' ? pickTreasure(mine.key, x, y, area_id, gui.getArrayOfInt(area.pieces), artifacts) : +area.object_id;
+                const lootId = type == 'chest' ? pickTreasure(mineKey, x, y, area_id, gui.getArrayOfInt(area.pieces), artifacts) : +area.object_id;
                 if (lootType == 'artifact' && artifacts.includes(lootId)) amount = 0;
                 if (amount > 0 && lootId > 0) {
                     if (coef > 0) amount = amount + Math.floor(amount * coef * playerLevel);
@@ -833,7 +843,7 @@ async function calcMine(mine, flagAddImages) {
             }
         }
     };
-    for (const obj of asArray(mine.npcs)) {
+    for (const obj of asArray(base.npcs)) {
         const { def_id: id, column: x, row: y } = obj;
         setNpc(tileDefs[y * cols + x], id);
     }
@@ -843,7 +853,7 @@ async function calcMine(mine, flagAddImages) {
     for (const hint of asArray(floor.hints && floor.hints.hint)) {
         hints[hint.hint_id] = hint;
     }
-    for (const obj of asArray(mine.hints)) {
+    for (const obj of asArray(base.hints)) {
         const { def_id: id, row: y, column: x } = obj;
         const item = hints[id];
         if (item) {
@@ -902,7 +912,7 @@ async function calcMine(mine, flagAddImages) {
     }
 
     // Draggables
-    for (const obj of asArray(mine.drags)) {
+    for (const obj of asArray(base.drags)) {
         const { def_id: id, row: y, column: x, state } = obj;
         const item = draggables[id];
         if (item) {
@@ -945,7 +955,7 @@ async function calcMine(mine, flagAddImages) {
             }
         }
     }
-    for (const obj of asArray(mine.beacons)) {
+    for (const obj of asArray(base.beacons)) {
         const { def_id: id, row: y, column: x, part, state } = obj;
         const beaconPart = getBeaconPart(id, part);
         if (beaconPart) {
@@ -1161,7 +1171,7 @@ async function calcMine(mine, flagAddImages) {
         }
         return true;
     };
-    const wrongAction = asArray(mine.actions).find(action => !executeAction(action));
+    const wrongAction = asArray(base.actions).find(action => !executeAction(action));
     if (wrongAction) console.log(wrongAction);
     for (const tileDef of tileDefs.filter(t => t.toDo)) computeTile(tileDef);
 
@@ -1418,6 +1428,7 @@ function updateTableFlags(state) {
     showBonus = state.show.includes('b');
     showNotableLoot = state.show.includes('n');
     showOpaque = state.show.includes('o');
+    showUncleared = state.show.includes('u');
     map.classList.toggle('show_beacon', showBeacon);
     map.classList.toggle('show_tiles', !showBackground && showTiles);
     map.classList.toggle('show_bonus', !showBackground && showBonus);
@@ -1435,6 +1446,9 @@ async function drawMine(args) {
     gui.updateTabState(tab);
     const state = getState();
     updateTableFlags(state);
+    let base = currentData && currentData.mine;
+    if (showUncleared && base && base._p.o) base = base._p.o;
+    container.classList.toggle('show_uncleared', base ? base !== currentData.mine : false);
     if (!currentData) {
         clearWaitHandler();
         return;
@@ -1919,7 +1933,7 @@ async function drawMine(args) {
 
     // Diggy
     {
-        const { cur_column: x, cur_row: y } = currentData.mine;
+        const { cur_column: x, cur_row: y } = base;
         const img = images[IMG_DIGGY].img;
         const sh = img.naturalHeight;
         if (showDiggy) {
@@ -2097,20 +2111,20 @@ async function drawMine(args) {
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
     if (imgLocation.src != src) imgLocation.src = src;
 
+    setMapVisibility(true);
+    lastTeleportId = 0;
+    clearWaitHandler();
+
     // Auto-scroll map
     let x, y;
     const mapId = getMapKey(currentData.mine);
     const smooth = mapId == lastMapId;
     if (mapId != lastMapId) {
         lastMapId = mapId;
-        ({ cur_column: x, cur_row: y } = currentData.mine);
+        ({ cur_column: x, cur_row: y } = base);
     }
     if (args && 'x' in args) ({ x, y } = args);
     if (x !== undefined) scrollToCenter(x, y, smooth);
-
-    setMapVisibility(true);
-    lastTeleportId = 0;
-    clearWaitHandler();
 }
 
 function CustomRandomRND(key) {

@@ -1,4 +1,4 @@
-/*global chrome Parser UrlInfo idb Html Locale*/
+/*global chrome Parser UrlInfo idb Html Locale PackTiles*/
 'use strict';
 
 //#region MISCELLANEOUS
@@ -1319,6 +1319,18 @@ var Data = {
             const { id: lid, level_id: fid } = mine;
             const index = Data.mineCache.findIndex(m => m.id == lid && m.level_id == fid);
             mine._p = mine._p || (index >= 0 ? Data.mineCache[index]._p : null) || { links: {} };
+            if (mine.tiles) {
+                const packed = PackTiles.pack(mine.tiles);
+                delete mine.tiles;
+                mine.packedTiles = packed;
+                if (!mine._p.o) {
+                    const floor = asArray(mine.floor_progress).find(t => +t.floor == fid);
+                    if (floor && +floor.progress == 0) {
+                        const o = mine._p.o = { packed };
+                        ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => o[key] = mine[key]);
+                    }
+                }
+            }
             if (index >= 0) Data.mineCache.splice(index, 1);
             Data.mineCache.unshift(mine);
         }
