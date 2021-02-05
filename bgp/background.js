@@ -1310,8 +1310,9 @@ var Data = {
         return name && Data.generator && Data.generator.cdn_root + 'webgl_client/embedded_assets/sounds/' + name + '.mp3';
     },
     //#endregion
-    //#region LAST VISITED MINE
+    //#region LAST ENTERED MINE
     lastEnteredMine: null,
+    lastViewedMine: null,
     mineCache: [],
     addMine: function (mine) {
         const mines = asArray(mine).reverse();
@@ -1360,6 +1361,7 @@ var Data = {
         mine.entered = getUnixTime();
         Data.addMine(mine);
         Data.lastEnteredMine = mine;
+        Data.lastViewedMine = null;
     },
     saveMineList: {},
     saveMineHandler: 0,

@@ -544,7 +544,6 @@ function update() {
 
 function markToBeRendered() {
     gui.setLazyRender(map);
-    setLastViewedMine(null);
 }
 
 function getState() {
