@@ -1326,7 +1326,7 @@ var Data = {
                 mine.packedTiles = packed;
                 if (!mine._p.o) {
                     const floor = asArray(mine.floor_progress).find(t => +t.floor == fid);
-                    if (floor && +floor.progress == 0) {
+                    if ((floor && +floor.progress == 0) || !mine.floor_progress) {
                         const o = mine._p.o = { packed };
                         ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => o[key] = mine[key]);
                     }
