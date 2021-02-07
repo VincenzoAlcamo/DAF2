@@ -14,18 +14,19 @@ function getRequirements(requirements) {
     }).sort((a, b) => a.material_id - b.material_id) : null;
 }
 
-function getItem({ type, object_id, amount, portal, limit, requirements }) {
+function getItem({ type, object_id, amount, portal, limit, owned, requirements }) {
     const oid = +object_id;
     amount = +amount || 0;
     portal = +portal || 0;
     limit = +limit || 0;
+    owned = owned === undefined ? undefined : (+owned || 0);
     let kind = type;
     let value = oid;
     let sort = 0;
     let caption;
     let title;
     const obj = (type == 'building' || type == 'material' || type == 'usable') ? gui.getObject(type, oid) : null;
-    const item = { type, oid, amount, portal, limit, obj, reqs: getRequirements(requirements) };
+    const item = { type, oid, amount, portal, owned, limit, obj, reqs: getRequirements(requirements) };
     // type can be: "system", "building", "decoration", "usable", "material", "token", "camp_skin"
     if (type == 'building' && obj) {
         const cap = +obj.max_stamina;
@@ -103,7 +104,13 @@ function getHtml(item) {
     htm += Html.br`<div class="title"><span>${item.title.toUpperCase()}</span></div>`;
     htm += Html.br`<div class="image">${gui.getObjectImg(item.type, item.oid, 0, false, 'none')}</div>`;
     if (item.type == 'building') htm += Html.br`<div class="mask"><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></div>`;
-    if (item.limit) htm += Html.br`<div class="limit outlined-text">${gui.getMessageAndValue('gui_maximum', Locale.formatNumber(item.limit))}</div>`;
+    if (item.owned !== undefined) {
+        let s = Locale.formatNumber(item.owned);
+        if (item.limit) s += ' / ' + Locale.formatNumber(item.limit);
+        htm += Html.br`<div class="limit outlined">${s}</div>`;
+    } else {
+        if (item.limit) htm += Html.br`<div class="limit outlined">${gui.getMessageAndValue('gui_maximum', Locale.formatNumber(item.limit))}</div>`;
+    }
     if (item.portal) htm += Html.br`<div class="bonus"><span class="outlined-text">${gui.getString('GUI3065')}</span></div>`;
     htm += Html.br`<div class="caption"><div>${item.caption}</div></div>`;
     if (item.reqs) {

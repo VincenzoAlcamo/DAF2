@@ -16,7 +16,7 @@ let allItems, currentItems, allEvents;
 let minRegen, minCapacity, updateTime, packsViewed;
 let currency, lastPack, lastOffer, lastTieredOffer, btnPack, btnOffer, btnTieredOffer;
 let listRegion, listSkin, listMaterial;
-let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax;
+let filterSkin, filterMaterial, filterLevelComparison, filterLevelType, filterLevel, filterHideMax, showAsGrid;
 let campReg, campCap;
 let allOptions;
 
@@ -78,7 +78,7 @@ function init() {
     smartTable.onSort = refresh;
     smartTable.fixedHeader.parentNode.classList.add('equipment');
     smartTable.fixedFooter.parentNode.classList.add('equipment');
-    smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateRow));
+    smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateItem));
 
     container.addEventListener('tooltip', onTooltip);
 }
@@ -499,6 +499,7 @@ function getState() {
         affordable: selectAffordable.value,
         useful: selectUseful.value,
         hidemax: !!filterHideMax,
+        grid: !!showAsGrid,
         type: selectType.value,
         level: filterLevelComparison + filterLevelType + (filterLevel > 0 ? filterLevel : ''),
         skin: filterSkin,
@@ -526,6 +527,7 @@ function setState(state) {
     state.affordable = gui.setSelectState(selectAffordable, state.affordable);
     state.useful = gui.setSelectState(selectUseful, state.useful);
     filterHideMax = !!state.hidemax;
+    showAsGrid = !!state.grid;
     state.type = gui.setSelectState(selectType, state.type);
     const level = String(state.level || '').toUpperCase();
     let match = level.match(/[EGL]/);
@@ -562,6 +564,8 @@ function onClickAdvanced() {
     const getValueSelected = (value, flag) => Html`value="${value}"${flag ? ' selected' : ''}`;
     const getValueCurrent = (value, current) => getValueSelected(value, value == current);
     let htm = '';
+    htm += Html`<label for="d_grid"><b data-lbl="grid">${gui.getMessage('pillars_grid')}</b> <input id="d_grid" name="grid" type="checkbox" style="vertical-align:middle" ${showAsGrid ? 'checked' : ''} data-method="grid"></label>`;
+    htm += Html`<br><br>`;
     htm += Html`<b data-lbl="level">${gui.getMessage('gui_level')}</b>: `;
     htm += Html`<select name="levelcomparison" data-method="level">`;
     htm += Html`<option ${getValueCurrent('', filterLevelComparison)}>${gui.getMessage('equipment_level_none')}</option>`;
@@ -639,7 +643,7 @@ function onClickAdvanced() {
             gui.dialog.element.querySelector('[name=leveltype]').style.display = params.levelcomparison ? '' : 'none';
             gui.dialog.element.querySelector('[name=level]').style.display = params.levelcomparison && params.leveltype == 'C' ? '' : 'none';
         }
-        let shouldRefresh = method == 'hidemax' || method == 'skin' || method == 'material0' || method == 'material1' || method == 'level' || method == Dialog.AUTORUN;
+        let shouldRefresh = method == 'grid' || method == 'hidemax' || method == 'skin' || method == 'material0' || method == 'material1' || method == 'level' || method == Dialog.AUTORUN;
         if (method.startsWith('clr-') || method.startsWith('inv-')) {
             shouldRefresh = true;
             const fn = method.startsWith('clr-') ? o => o.selected = false : o => o.selected = !o.selected;
@@ -662,6 +666,7 @@ function onClickAdvanced() {
         }
         if (shouldRefresh) {
             const setActivated = (lbl, flag) => gui.dialog.element.querySelector('[data-lbl=' + lbl + ']').classList.toggle('equipment-activated', !!flag);
+            setActivated('grid', params.grid);
             setActivated('level', params.levelcomparison);
             setActivated('hidemax', params.hidemax);
             setActivated('skin', params.skin);
@@ -673,6 +678,7 @@ function onClickAdvanced() {
         filterLevelType = params.leveltype;
         filterLevel = params.level || 0;
         filterHideMax = params.hidemax;
+        showAsGrid = params.grid;
         const hash = {};
         for (const option of gui.dialog.element.querySelector('[name=material1').selectedOptions) hash[option.value] = option.value;
         for (const option of gui.dialog.element.querySelector('[name=material0').selectedOptions) hash[option.value] = -option.value;
@@ -868,15 +874,37 @@ function refresh() {
 
     const tbody = smartTable.tbody[0];
     Dialog.htmlToDOM(tbody, '');
-    for (const item of items) {
-        let row = item.row;
-        if (!row) {
-            row = item.row = document.createElement('tr');
-            row.setAttribute('data-id', item.id);
-            row.setAttribute('height', 65);
-            row.setAttribute('lazy-render', '');
-        }
+    if (showAsGrid) {
+        const row = document.createElement('tr');
         tbody.appendChild(row);
+        const td = row.insertCell();
+        td.classList.add('grid-container');
+        td.colSpan = 16;
+        const parent = document.createElement('div');
+        parent.style.display = 'none';
+        td.appendChild(parent);
+        for (const item of items) {
+            let div = item.div;
+            if (!div) {
+                div = item.div = document.createElement('div');
+                div.setAttribute('data-id', item.id);
+                div.className = 'pack-item-placeholder';
+                div.setAttribute('lazy-render', '');
+            }
+            parent.appendChild(div);
+        }
+        setTimeout(() => parent.style.display = '', 50);
+    } else {
+        for (const item of items) {
+            let row = item.row;
+            if (!row) {
+                row = item.row = document.createElement('tr');
+                row.setAttribute('data-id', item.id);
+                row.setAttribute('height', 65);
+                row.setAttribute('lazy-render', '');
+            }
+            tbody.appendChild(row);
+        }
     }
     gui.collectLazyElements(tbody);
     smartTable.syncLater();
@@ -884,13 +912,9 @@ function refresh() {
 
 const lockedClass = Html` class="locked"`;
 
-function updateRow(row) {
-    const id = row.getAttribute('data-id');
+function updateItem(div) {
+    const id = div.getAttribute('data-id');
     const item = currentItems[id];
-    let htm = '';
-    const type = item.type == 'capacity' || item.type == 'regen' ? 'building' : item.type;
-    htm += Html.br`<td><img class="building tooltip-event" src="${gui.getObjectImage(type, item.oid)}"></td>`;
-    htm += Html.br`<td>${item.name}`;
     let start = 0;
     let end = 0;
     let price, saleMessageId, saleExtras;
@@ -913,77 +937,129 @@ function updateRow(row) {
         end = start ? start + (+pack.duration) : 0;
         price = pack.prices.find(p => p.currency == currency) || pack.prices.find(p => p.currency == 'EUR') || pack.prices[0];
     }
+    let badgeHtml = '';
     if (saleMessageId) {
-        htm += Html.br`<br><div class="offer" data-type="${item.sale}" data-id="${item.sale_id}" title="${gui.getMessageAndValue(saleMessageId, item.sale_id)}">${gui.getMessage(saleMessageId)}</div>${saleExtras}`;
+        badgeHtml = Html`<div class="offer" data-type="${item.sale}" data-id="${item.sale_id}" title="${gui.getMessageAndValue(saleMessageId, item.sale_id)}">${gui.getMessage(saleMessageId)}</div>`;
     }
-    if (start || end) {
-        if (end < start) end = start;
-        htm += Html.br`<div class="offer-dates">`;
-        if (start) htm += Html.br`<span${start > updateTime || end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(start)}</span> - `;
-        htm += Html.br`<span${end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(end)}</span>`;
-        htm += Html.br`</div>`;
-    }
-    htm += Html.br`</td>`;
-    htm += Html.br`<td${(item.locked & 1) ? lockedClass : ''}>${item.level ? Locale.formatNumber(item.level) : ''}</td>`;
-    htm += Html.br`<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, 'desc')}</td>`;
-    htm += Html.br`<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, 'desc') : ''}</td>`;
-    htm += Html.br`<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
-    if (type == 'building' || type == 'decoration') {
-        htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
-    } else {
-        htm += Html.br`<td class="no_right_border"></td>`;
-    }
-    htm += Html.br`<td>${Locale.formatNumber(item.owned)}</td>`;
-    htm += Html.br`<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
-    if (type == 'building') {
-        if (item.gainTitle === undefined) item.gainTitle = computeItemGain(item);
-        htm += Html.br`<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
-        htm += Html.br`<td>${Locale.formatNumber(item.value)}</td>`;
-        htm += Html.br`<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
-        htm += Html.br`<td>${Locale.formatNumber(item.slotvalue)}</td>`;
-        htm += item.gainTitle ? Html.br`<td class="help dot2" title="${Html(item.gainTitle)}">` : Html.br`<td>`;
-        htm += Html.br`${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
-    } else if (type == 'decoration') {
-        htm += Html.br`<td class="no_right_border"><img src="/img/gui/deco.png" title="${gui.getMessage('gui_decoration')}"></td>`;
-        htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, undefined, true)}</td>`;
-    } else if (type == 'usable') {
-        htm += Html.br`<td class="no_right_border"><img src="/img/gui/usable.png" title="${gui.getMessage('gui_usable')}"></td>`;
-        if (item.value) {
-            htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 2, undefined, true)}</td>`;
-        } else {
-            htm += Html.br`<td class="bonus" colspan="5">${item.name}</td>`;
-        }
-    } else {
-        htm += Html.br`<td colspan="6"></td>`;
-    }
-    let className = 'cost';
-    let title = [];
+    let costClass = 'cost';
+    let costTitle = [];
     if (item.hide && item.sale_id) {
-        title.push(gui.getMessage('equipment_notonsale'));
-        className += ' dot';
+        costTitle.push(gui.getMessage('equipment_notonsale'));
+        costClass += ' dot';
     }
     if (item.sale == 'pack' || item.sale == 'tier') {
-        title.push(gui.getMessage('equipment_price_info'));
-        className += ' dot2';
+        costTitle.push(gui.getMessage('equipment_price_info'));
+        costClass += ' dot2';
     }
-    title = title.join('\n');
-    htm += Html.br`<td class="${className}"${title ? Html` title="${title}"` : ''}>`;
-    const reqs = gui.getArray(item.reqs);
-    if (price) {
-        htm += Html.br(price.currency + ' ' + Locale.formatNumber(+price.amount, 2));
-    } else if (reqs.length == 1 && reqs[0].amount == 0) {
-        htm += Html.br(gui.getMessage('equipment_free'));
-    } else {
-        let first = true;
-        for (const req of reqs) {
-            if (!first) htm += `<br>`;
-            first = false;
-            htm += packHelper.getMaterialImg(req);
+    costTitle = costTitle.join('\n');
+    if (div.tagName == 'TR') {
+        let htm = '';
+        const type = item.type == 'capacity' || item.type == 'regen' ? 'building' : item.type;
+        htm += Html.br`<td><img class="building tooltip-event" src="${gui.getObjectImage(type, item.oid)}"></td>`;
+        htm += Html.br`<td>${item.name}`;
+        if (saleMessageId) {
+            htm += Html.br`<br>${badgeHtml}${saleExtras}`;
         }
+        if (start || end) {
+            if (end < start) end = start;
+            htm += Html.br`<div class="offer-dates">`;
+            if (start) htm += Html.br`<span${start > updateTime || end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(start)}</span> - `;
+            htm += Html.br`<span${end <= updateTime ? lockedClass : ''}>${Locale.formatDateTime(end)}</span>`;
+            htm += Html.br`</div>`;
+        }
+        htm += Html.br`</td>`;
+        htm += Html.br`<td${(item.locked & 1) ? lockedClass : ''}>${item.level ? Locale.formatNumber(item.level) : ''}</td>`;
+        htm += Html.br`<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, 'desc')}</td>`;
+        htm += Html.br`<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, 'desc') : ''}</td>`;
+        htm += Html.br`<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
+        if (type == 'building' || type == 'decoration') {
+            htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
+        } else {
+            htm += Html.br`<td class="no_right_border"></td>`;
+        }
+        htm += Html.br`<td>${Locale.formatNumber(item.owned)}</td>`;
+        htm += Html.br`<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
+        if (type == 'building') {
+            if (item.gainTitle === undefined) item.gainTitle = computeItemGain(item);
+            htm += Html.br`<td class="no_right_border"><img src="/img/gui/${item.type}.png" title="${gui.getMessage(item.type == 'capacity' ? 'camp_capacity' : 'camp_regen')}"></td>`;
+            htm += Html.br`<td>${Locale.formatNumber(item.value)}</td>`;
+            htm += Html.br`<td colspan="2" class="wh"><div>${Locale.formatNumber(item.width)} &#215; ${Locale.formatNumber(item.height)}<div><div class="equipment_mask" style="--w:${item.width};--h:${item.height}"></div></td>`;
+            htm += Html.br`<td>${Locale.formatNumber(item.slotvalue)}</td>`;
+            htm += item.gainTitle ? Html.br`<td class="help dot2" title="${Html(item.gainTitle)}">` : Html.br`<td>`;
+            htm += Html.br`${item.gain ? '+' + Locale.formatNumber(item.gain) : ''}</td>`;
+        } else if (type == 'decoration') {
+            htm += Html.br`<td class="no_right_border"><img src="/img/gui/deco.png" title="${gui.getMessage('gui_decoration')}"></td>`;
+            htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 1, undefined, true)}</td>`;
+        } else if (type == 'usable') {
+            htm += Html.br`<td class="no_right_border"><img src="/img/gui/usable.png" title="${gui.getMessage('gui_usable')}"></td>`;
+            if (item.value) {
+                htm += Html.br`<td class="bonus" colspan="5">${Locale.formatNumber(item.value)}${gui.getObjectImg('system', 2, undefined, true)}</td>`;
+            } else {
+                htm += Html.br`<td class="bonus" colspan="5">${item.name}</td>`;
+            }
+        } else {
+            htm += Html.br`<td colspan="6"></td>`;
+        }
+        htm += Html.br`<td class="${costClass}"${costTitle ? Html` title="${costTitle}"` : ''}>`;
+        const reqs = gui.getArray(item.reqs);
+        if (price) {
+            htm += Html.br(price.currency + ' ' + Locale.formatNumber(+price.amount, 2));
+        } else if (reqs.length == 1 && reqs[0].amount == 0) {
+            htm += Html.br(gui.getMessage('equipment_free'));
+        } else {
+            let first = true;
+            for (const req of reqs) {
+                if (!first) htm += `<br>`;
+                first = false;
+                htm += packHelper.getMaterialImg(req);
+            }
+        }
+        htm += Html.br`</td>`;
+        Dialog.htmlToDOM(div, htm);
+    } else {
+        const obj = {};
+        obj.object_id = item.oid;
+        obj.type = item.type == 'regen' || item.type == 'capacity' ? 'building' : item.type;
+        obj.amount = 1;
+        obj.owned = obj.type == 'building' || obj.type == 'decoration' ? item.owned : undefined;
+        obj.limit = isFinite(item.limit) ? item.limit : 0;
+        obj.requirements = item.reqs || [];
+        const packItem = packHelper.getItem(obj);
+        packItem.title = gui.getObjectName(obj.type, obj.object_id);
+        const html = packHelper.getHtml(packItem);
+        Dialog.htmlToDOM(div, html);
+        const costEl = div.querySelector('.cost');
+        costEl.className = costClass;
+        if (saleMessageId) {
+            let badge = document.createElement('div');
+            Dialog.htmlToDOM(badge, badgeHtml);
+            badge = badge.firstElementChild;
+            let title = badge.title;
+            badge.removeAttribute('title');
+            costEl.insertBefore(badge, costEl.firstChild);
+            if (saleExtras) title += '\n' + saleExtras;
+            if (start || end) {
+                if (end < start) end = start;
+                title += '\n' + Locale.formatDateTime(start) + ' - ' + Locale.formatDateTime(end);
+            }
+            costTitle = title + (costTitle ? '\n' + costTitle : '');
+            if (price) {
+                const span = document.createElement('span');
+                span.textContent = price.currency + ' ' + Locale.formatNumber(+price.amount, 2);
+                costEl.appendChild(span);
+            }
+        }
+        costEl.title = costTitle;
+        if (item.sale_id > 0 && item.hide) div.classList.add('notinshop');
+        if (item.locked) div.classList.add('locked');
+        div.classList.add('tooltip-event');
+        let title = div.firstElementChild.title;
+        if (item.event) title += '\n' + gui.getMessageAndValue('gui_event', gui.getObjectName('event', item.event));
+        if (item.level) title += '\n' + gui.getMessageAndValue('gui_level_required', Locale.formatNumber(item.level)).replace(/\n+/g, ' ');
+        if (item.rskin && item.rskin != 1) title += '\n' + gui.getMessageAndValue('gui_theme_required', gui.getObjectName('skin', item.rskin)).replace(/\n+/g, ' ');
+        div.firstElementChild.title = title;
     }
-    htm += Html.br`</td>`;
-    Dialog.htmlToDOM(row, htm);
-    const badge = row.querySelector('.offer[data-type]');
+    const badge = div.querySelector('.offer[data-type]');
     if (badge) {
         badge.style.cursor = 'zoom-in';
         badge.addEventListener('click', (event) => showOffer(event.target.getAttribute('data-type'), +event.target.getAttribute('data-id')));
@@ -992,8 +1068,17 @@ function updateRow(row) {
 
 function onTooltip(event) {
     const element = event.target;
-    const htm = Html.br`<div class="equipment-tooltip"><img src="${element.src}"/></div>`;
-    Tooltip.show(element, htm);
+    let src;
+    if (element.tagName == 'IMG') {
+        src = element.src;
+    } else {
+        const img = element.querySelector('.image img');
+        src = img.src;
+    }
+    if (src) {
+        const htm = Html.br`<div class="equipment-tooltip"><img src="${src}"/></div>`;
+        Tooltip.show(element, htm);
+    }
 }
 
 function showOffer(type, id, options) {

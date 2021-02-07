@@ -298,6 +298,65 @@ table.daf-table.equipment-all button {
   vertical-align: text-bottom;
 }
 
-.equipment_pack .pack-item .caption span.qty {
-  --outline-color: #c2c2eb;
+.equipment_pack .pack-item {
+  --outline-color: #c2c2ea;
+}
+
+.tab_equipment .grid-container {
+  padding: 0 !important;
+  text-align: left;
+}
+
+.tab_equipment .grid-container>div {
+  max-width: 976px;
+}
+
+.tab_equipment .pack-item-placeholder {
+  width: 122px;
+  height: 192px;
+  display: inline-block;
+  overflow: hidden;
+  --bgcol: #c2c2ea;
+}
+
+.tab_equipment .pack-item-placeholder.locked {
+  --bgcol: #a88;
+}
+
+.tab_equipment .pack-item-placeholder.notinshop {
+  --bgcol: #88a;
+}
+
+.tab_equipment .grid-container .pack-item {
+  --outline-color: var(--bgcol);
+  background-color: var(--bgcol);
+  margin: 1px;
+}
+
+.tab_equipment .grid-container .pack-item .cost {
+  background-color: #446;
+  color: #fff;
+  height: 36px;
+  width: 120px;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.tab_equipment .grid-container .pack-item .cost br {
+  display: none;
+}
+
+.tab_equipment .grid-container .pack-item .cost span {
+  margin: 0 1px;
+}
+
+.tab_equipment .grid-container .pack-item .cost span.locked {
+  background-color: #800;
+}
+
+.tab_equipment .grid-container .pack-item .limit {
+  text-align: right;
+  padding-right: 4px;
+  font-weight: bold;
 }

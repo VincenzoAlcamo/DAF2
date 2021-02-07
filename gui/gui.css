@@ -753,7 +753,7 @@ img.medium {
   vertical-align: top;
 }
 
-.toolbar.vertical label > span {
+.toolbar.vertical label>span {
   display: table-cell;
   white-space: nowrap;
 }
@@ -1094,6 +1094,8 @@ input.note:focus::-webkit-input-placeholder {
 
 /*#endregion*/
 
+.cost.dot,
+.cost.dot2,
 td.dot,
 td.dot2 {
   background-image: url(/img/gui/red_dot.gif);
@@ -1101,10 +1103,12 @@ td.dot2 {
   background-position: 3px 4px, 11px 4px;
 }
 
+.cost.dot2,
 td.dot2 {
   background-image: url(/img/gui/blue_dot.gif);
 }
 
+.cost.dot.dot2,
 td.dot.dot2 {
   background-image: url(/img/gui/red_dot.gif), url(/img/gui/blue_dot.gif);
 }
@@ -1291,6 +1295,7 @@ div.equipment_mask {
   background-color: rgba(255, 255, 255, 0.6);
   margin: 2px;
   cursor: default;
+  --outline-color: #eee;
 }
 
 .pack-item .title {
@@ -1361,6 +1366,7 @@ div.equipment_mask {
   text-align: center;
   font-size: 12px;
   padding-top: 2px;
+  color: #000;
 }
 
 .pack-item .mask {
@@ -1421,7 +1427,6 @@ div.equipment_mask {
 }
 
 .pack-item .caption span.qty {
-  --outline-color: #eee;
   color: #642;
   font-size: 15px;
   line-height: 0.8em;

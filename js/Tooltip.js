@@ -8,9 +8,12 @@ Tooltip.init = function () {
     document.addEventListener('mouseover', function (e) {
         const el = e.target;
         if (el.hasAttribute('data-tooltip')) Tooltip.show(el, el.getAttribute('data-tooltip'));
-        else if (el.classList.contains('tooltip-event')) {
-            const event = new Event('tooltip', { bubbles: true });
-            el.dispatchEvent(event);
+        else {
+            const element = el.closest('.tooltip-event');
+            if (element) {
+                const event = new Event('tooltip', { bubbles: true });
+                element.dispatchEvent(event);
+            }
         }
     });
 };
