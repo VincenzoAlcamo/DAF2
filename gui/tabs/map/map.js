@@ -615,7 +615,7 @@ function changeLevel(e) {
 
 function isValidTile(tileDef, beaconPart) {
     if (tileDef.stamina < 0) return false;
-    if (beaconPart && !beaconPart.active && beaconPart.activation == 'use') return true;
+    if (beaconPart && !beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door')) return true;
     return tileDef.isTile;
 }
 
@@ -1215,7 +1215,7 @@ async function calcMine(mine, flagAddImages) {
             hasLoot = true;
         } else if (tileDef.miscType == 'B') {
             const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-            if (!beaconPart.active && beaconPart.activation == 'use') {
+            if (!beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door')) {
                 let loot = [];
                 const beacon = beacons[tileDef.miscId];
                 for (const action of asArray(beacon.actions.action).filter(a => a.layer == 'loot')) {
@@ -1793,7 +1793,7 @@ async function drawMine(args) {
             if (tileDef.isSpecial || tileDef.isQuest) specialTiles.push(tileDef);
             if (tileDef.isBonusXp) cell.classList.add('xp');
             if (tileDef.isBonusEnergy) cell.classList.add('energy');
-            if (tileDef.stamina >= 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
+            if (tileDef.stamina >= 0 && tileDef.tileStatus == 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
         }
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, +item.rotation / 90 * Math.PI / 2);
