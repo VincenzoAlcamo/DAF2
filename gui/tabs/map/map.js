@@ -198,13 +198,11 @@ function init() {
         el.title = gui.getMessage('map_button_' + el.getAttribute('data-flag').toLowerCase());
         el.addEventListener('click', e => {
             const state = getState();
+            updateTableFlags(state);
             const flag = e.target.getAttribute('data-flag');
-            if ('LBEU'.includes(flag)) {
-                updateTableFlags(state);
-                if (flag == 'U') processMine();
-                return;
-            }
-            drawMine();
+            if ('UK'.includes(flag)) processMine();
+            else if ('LBE'.includes(flag)) return;
+            else drawMine();
         });
     });
 
@@ -1203,7 +1201,7 @@ async function calcMine(mine, flagAddImages) {
     };
     for (const tileDef of tileDefs) {
         tileDef.isSpecial = tileDef.isQuest = false;
-        tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0;
+        tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0 && !showBackground;
         let hasLoot = false;
         if (tileDef.isTile) {
             numTiles++;

@@ -1312,9 +1312,10 @@ var Data = {
     //#endregion
     //#region LAST ENTERED MINE
     lastEnteredMine: null,
+    lastEnteredMineProgress: null,
     lastViewedMine: null,
     mineCache: [],
-    addMine: function (mine) {
+    addMine: function (mine, progress) {
         const mines = asArray(mine).reverse();
         for (const mine of mines) {
             const { id: lid, level_id: fid } = mine;
@@ -1325,8 +1326,8 @@ var Data = {
                 delete mine.tiles;
                 mine.packedTiles = packed;
                 if (!mine._p.o) {
-                    const floor = asArray(mine.floor_progress).find(t => +t.floor == fid);
-                    if ((floor && +floor.progress == 0) || !mine.floor_progress) {
+                    const floor = asArray(mine.floor_progress || progress).find(t => +t.floor == fid);
+                    if ((floor && +floor.progress == 0)) {
                         const o = mine._p.o = { packed };
                         ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => o[key] = mine[key]);
                     }
@@ -1359,9 +1360,12 @@ var Data = {
     },
     setLastEnteredMine: function (mine) {
         mine.entered = getUnixTime();
-        Data.addMine(mine);
+        let progress = mine.floor_progress;
+        if (!progress && Data.lastEnteredMine && Data.lastEnteredMine.id != mine.id) progress = null;
         Data.lastEnteredMine = mine;
+        Data.lastEnteredMineProgress = progress;
         Data.lastViewedMine = null;
+        Data.addMine(mine, Data.lastEnteredMineProgress);
     },
     saveMineList: {},
     saveMineHandler: 0,
