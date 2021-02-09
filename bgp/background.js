@@ -1361,7 +1361,7 @@ var Data = {
     setLastEnteredMine: function (mine) {
         mine.entered = getUnixTime();
         let progress = mine.floor_progress;
-        if (!progress && Data.lastEnteredMine && Data.lastEnteredMine.id != mine.id) progress = null;
+        if (!progress && Data.lastEnteredMine && Data.lastEnteredMine.id == mine.id) progress = Data.lastEnteredMineProgress;
         Data.lastEnteredMine = mine;
         Data.lastEnteredMineProgress = progress;
         Data.lastViewedMine = null;
