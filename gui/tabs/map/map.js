@@ -238,6 +238,22 @@ function scrollToCenter(x, y, smooth) {
     table.rows[y].cells[x].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center', inline: 'center' });
 }
 
+function getDownloadPath() {
+    const isEvent = currentData.eid > 0;
+    let path = gui.getPreference(isEvent ? 'mapDownloadEvent' : 'mapDownloadRegion');
+    path = path.replace(/\$[a-z]+/g, function (v) {
+        const t = v.toLowerCase();
+        if (t == '$event' && isEvent) v = gui.getObjectName('event', currentData.eid);
+        else if (t == '$region' && !isEvent) v = gui.getObjectName('region', currentData.rid);
+        else if (t == '$god' && !isEvent) {
+            const filter = currentData.location && mapFilters[currentData.location.filter];
+            if (filter) v = filter;
+        } else if (t == '$location') v = gui.getString(currentData.location.name_loc);
+        return v;
+    });
+    return path;
+}
+
 function onClickButton(event) {
     const action = event.target.getAttribute('data-action');
     if (action == 'save') {
@@ -250,19 +266,19 @@ function onClickButton(event) {
             canvas2.height = Math.round(canvas.height * resize / 100);
             canvas2.getContext('2d').drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height);
         }
-        canvas2.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
+        canvas2.toBlob(blob => gui.downloadData(blob, fileName, getDownloadPath()), 'image/png');
     } else if (action == 'options') {
         showAdvancedOptions();
     } else if (action == 'export_location') {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
         const data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
-        gui.downloadData(data, fileName);
+        gui.downloadData(data, fileName, getDownloadPath());
     } else if (action == 'export_floor') {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.map.json`;
         const data = [currentData.mine];
-        gui.downloadData(data, fileName);
+        gui.downloadData(data, fileName, getDownloadPath());
     } else if (action == 'import') {
         gui.chooseFile(async function (file) {
             const invalidExport = new Error(gui.getMessage('export_invalidexport'));
@@ -297,16 +313,17 @@ function onClickButton(event) {
 function showAdvancedOptions() {
     let flagReprocess = false;
     const addOption = (id, caption) => {
-        return Html`<label style="margin-top:3px;display:block"><input name="${id}" data-method="flags" type="checkbox" ${hasOption(id) ? 'checked ' : ''}style="vertical-align:middle"> ${caption}</label>`;
+        return Html`<label style="margin:1px 0"><input name="${id}" data-method="flags" type="checkbox" ${hasOption(id) ? 'checked ' : ''}style="vertical-align:middle"> ${caption}</label>`;
     };
     let htm = '';
     htm += Html`<table style="user-select:none"><tr><td>`;
+    htm += Html`<fieldset style="width:300px"><legend>${gui.getMessage('tab_options')}</legend>`;
     htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
     htm += addOption(OPTION_REGIONSELECTOR, gui.getMessage('map_option_s'));
     htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
     htm += addOption(OPTION_REPEATABLES, gui.getMessage('map_option_r'));
     htm += addOption(OPTION_COORDINATES, gui.getMessage('map_option_c'));
-    htm += Html`<label style="margin-top:3px;display:block">${gui.getMessage('map_option_resize')} <select name="resize">`;
+    htm += Html`<label style="margin-top:3px">${gui.getMessage('map_option_resize')} <select name="resize">`;
     const sizes = [100, 80, 75, 66, 60, 50, 40, 33, 25];
     if (resize < 100 && resize > 25 && !sizes.includes(resize)) {
         sizes.push(resize);
@@ -316,6 +333,11 @@ function showAdvancedOptions() {
         htm += Html`<option value="${step}"${step == resize ? ' selected' : ''}>${Locale.formatNumber(step)}%</option>`;
     });
     htm += Html`</select></label>`;
+    htm += Html`</fieldset>`;
+    htm += Html`<fieldset style="margin-top:8px"><legend>Download folder</legend>`;
+    htm += Html`<label style="margin:1px 0">${gui.getMessage('gui_event')}<br><input name="folderevent" type="text" style="width:100%" value="${gui.getPreference('mapDownloadEvent')}"></label>`;
+    htm += Html`<label style="margin:1px 0">${gui.getMessage('gui_region')}<br><input name="folderregion" type="text" style="width:100%" value="${gui.getPreference('mapDownloadRegion')}"></label>`;
+    htm += Html`</fieldset>`;
     htm += Html`</td><td style="text-align:center">`;
     htm += Html`<select name="mines" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;"></select>`;
     htm += Html`<br><input data-method="clr" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
@@ -371,6 +393,8 @@ function showAdvancedOptions() {
         if (method == Dialog.CONFIRM) {
             ALL_OPTIONS_AND_PREFERENCES.forEach(id => setOption(id, params[id]));
             resize = +params.resize;
+            gui.setPreference('mapDownloadEvent', params.folderevent);
+            gui.setPreference('mapDownloadRegion', params.folderregion);
             gui.updateTabState(tab);
         }
         if (method == Dialog.CONFIRM || (method == Dialog.CANCEL && flagReprocess)) {

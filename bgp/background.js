@@ -97,6 +97,8 @@ var Preferences = {
             badgeLuckyCardsSound: true,
             badgeLuckyCardsSoundName: 'museum_done',
             badgeLuckyCardsVolume: 100,
+            mapDownloadEvent: 'DAF2_maps/$event/$location',
+            mapDownloadRegion: 'DAF2_maps/$region/$god/$location',
             confirmCollection: false,
             speedupCollection: 0,
             matchByImage: true,

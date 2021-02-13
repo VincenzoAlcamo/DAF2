@@ -130,6 +130,23 @@ select {
   border: 1px solid var(--tt-input-brcol);
 }
 
+fieldset {
+  padding: 2px 6px;
+  border: 1px solid var(--tt-input-brcol);
+  border-radius: 4px;
+}
+
+fieldset legend {
+  color: var(--tt-input-bgcol);
+  background-color: var(--tt-input-fgcol);
+  border-radius: 4px;
+  padding: 0px 4px;
+}
+
+fieldset label {
+  display: block;
+}
+
 .help,
 .wiki,
 [data-wiki-page] {

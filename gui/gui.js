@@ -760,25 +760,30 @@ const gui = {
         gui.fileChooserCallback = callback;
         gui.fileChooser.click();
     },
-    downloadData: function (data, fileName) {
+    downloadData: function (data, fileName, path) {
         const p2 = n => n.toString().padStart(2, '0');
         const dt = new Date();
         if (fileName.indexOf('%date%')) fileName = fileName.replace(/%date%/g, `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}-${p2(dt.getDate())}`);
         if (fileName.indexOf('%time%')) fileName = fileName.replace(/%time%/g, `${p2(dt.getHours())}${p2(dt.getMinutes())}${p2(dt.getSeconds())}`);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        document.body.appendChild(a);
         const blob = data instanceof Blob ? data : new Blob([typeof data == 'string' ? data : JSON.stringify(data)], {
-            type: 'text/plain; charset=utf-8'
+            type: typeof data == 'string' ? 'text/plain; charset=utf-8' : 'application/json'
         });
         const url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        setTimeout(function () {
-            window.URL.revokeObjectURL(url);
-            a.parentNode.removeChild(a);
-        }, 2000);
+        setTimeout(() => window.URL.revokeObjectURL(url), 2000);
+        path = String(path || '').replace(/[\\/]+/g, '/').replace(/(^\/)|(\/$)/g, '');
+        if (path) {
+            chrome.downloads.download({
+                url, filename: path + '/' + fileName
+            }, console.log);
+        } else {
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            setTimeout(() => a.parentNode.removeChild(a), 2000);
+        }
     },
     captureElement: function (element) {
         return new Promise(function (resolve, reject) {
