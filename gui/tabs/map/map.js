@@ -197,8 +197,7 @@ function init() {
         if (el.previousSibling && el.previousSibling.nodeType == Node.TEXT_NODE) el.previousSibling.remove();
         el.title = gui.getMessage('map_button_' + el.getAttribute('data-flag').toLowerCase());
         el.addEventListener('click', e => {
-            const state = getState();
-            updateTableFlags(state);
+            updateTableFlags();
             const flag = e.target.getAttribute('data-flag');
             if ('UK'.includes(flag)) processMine();
             else if ('LBE'.includes(flag)) return;
@@ -538,6 +537,7 @@ function update() {
         selectRegion.appendChild(option);
     }
     setState(state);
+    updateTableFlags();
 }
 
 function markToBeRendered() {
@@ -1346,7 +1346,7 @@ function getMineList(groupLocations, showRepeatables, currentMine, selection) {
     const addOption = (id, rid) => {
         if (id in options) return;
         const locations = gui.getFile('locations_' + rid);
-        const location = locations[id];
+        const location = locations && locations[id];
         if (!location) return;
         const isRepeatable = +location.reset_cd > 0;
         if (!showRepeatables && isRepeatable) return;
@@ -1418,6 +1418,7 @@ async function processMine(selectedMine, args) {
 
 function updateTableFlags(state) {
     if (!map) return;
+    const state = getState();
     gui.updateTabState(tab);
     showBackground = state.show.includes('k');
     showBeacon = state.show.includes('e');
@@ -1448,8 +1449,7 @@ async function drawMine(args) {
     setMapVisibility(false);
     setWaitHandler();
     gui.updateTabState(tab);
-    const state = getState();
-    updateTableFlags(state);
+    updateTableFlags();
     let base = currentData && currentData.mine;
     if (showUncleared && base && base._p.o) base = base._p.o;
     container.classList.toggle('show_uncleared', base ? base !== currentData.mine : false);
