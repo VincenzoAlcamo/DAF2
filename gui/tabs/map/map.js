@@ -1,4 +1,4 @@
-/*global bgp gui Dialog Locale Html PackTiles*/
+/*global bgp gui Dialog Locale Html PackTiles Tooltip*/
 export default {
     hasCSS: true,
     init,
@@ -217,6 +217,8 @@ function init() {
     container.addEventListener('render', function () {
         setTimeout(processMine, 0);
     });
+
+    container.addEventListener('tooltip', onTooltip);
 }
 
 function addQuestDrop(lid, type, id, value) {
@@ -1416,7 +1418,7 @@ async function processMine(selectedMine, args) {
     return drawMine(args);
 }
 
-function updateTableFlags(state) {
+function updateTableFlags() {
     if (!map) return;
     const state = getState();
     gui.updateTabState(tab);
@@ -1759,14 +1761,30 @@ async function drawMine(args) {
         if (tileDef.miscType == 'B' && canShowBeacon) {
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
             if (tileDef.stamina >= 0) {
-                if (item.req_drag) texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
+                let asset = '';
+                let rotation = 1;
+                if (item.req_drag) {
+                    texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
+                    const draggable = draggables[item.req_drag];
+                    asset = draggable.mobile_asset;
+                    const override = draggables[asArray(draggable.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]];
+                    if (override && override.mobile_asset in images) asset = override.mobile_asset;
+                    rotation = reqOrientations[item.req_drag_rotation] || 1;
+                }
                 if (item.req_material) {
                     const token = gui.getObject('token', item.req_material);
                     const name = token.name_loc ? gui.getString(token.name_loc) : '#' + item.req_material;
                     texts.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
+                    asset = token.mobile_asset;
                 }
                 if (item.req_light) {
                     texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
+                }
+                if (asset) {
+                    const cell = table.rows[y].cells[x];
+                    cell.setAttribute('data-asset', asset);
+                    if (rotation > 1) cell.setAttribute('data-rotation', rotation);
+                    cell.classList.add('tooltip-event');
                 }
             }
         }
@@ -2015,9 +2033,7 @@ async function drawMine(args) {
         ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         const cell = table.rows[y].cells[x];
         Dialog.htmlToDOM(cell, '');
-        cell.removeAttribute('title');
-        cell.removeAttribute('data-action');
-        cell.className = '';
+        Array.from(cell.attributes).map(a => a.name).filter(n => n == 'class' || n == 'title' || n.startsWith('data-')).forEach(n => cell.removeAttribute(n));
     }
 
     // Opaque tiles (non transparent)
@@ -2051,7 +2067,8 @@ async function drawMine(args) {
     const beaconColors = { default: 'f00', dig: 'ff0', door: '0f0', door_r: '0ff', pit: '00f', push: 'f0f', sensor: 'fff', use: 'f90', visual: '999' };
     for (const tileDef of tileDefs.filter(t => t.isVisible && t.miscType == 'B')) {
         const { x, y } = tileDef;
-        const activation = (tileDef.beaconPart && tileDef.beaconPart.activation) || '';
+        const item = getMiscItem(tileDef);
+        const activation = item.activation || '';
         const color = '#' + (beaconColors[activation] || beaconColors.default) + '8';
         Dialog.htmlToDOM(table.rows[y].cells[x], `<div class="beacon" style="background-color:${color}"></div>`);
     }
@@ -2163,4 +2180,16 @@ function pickTreasure(key, x, y, area_id, pieces, artifacts) {
         while (pieces.length && artifacts.includes(pieces[0])) pieces.shift();
     }
     return pieces.length ? pieces[0] : 0;
+}
+
+function onTooltip(event) {
+    const element = event.target;
+    const asset = element.getAttribute('data-asset');
+    const rotation = element.getAttribute('data-rotation') || 1;
+    if (asset) {
+        const src = cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
+        const style = rotation > 1 ? Html` style="transform: rotate(${(rotation - 1) * 90}deg)"` : '';
+        const htm = Html.br`<div class="MAP-tooltip"><img src="${src}"${style}/></div>`;
+        Tooltip.show(element, htm);
+    }
 }
