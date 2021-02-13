@@ -2011,6 +2011,7 @@
 "en@map_export_location":{"message":"Export all floors as data file"},
 "en@map_export_floor":{"message":"Export the current floor as data file"},
 "en@map_import":{"message":"Import a previously exported data file"},
+"en@map_downloadfolder":{"message":"Download folder"},
 "en@pillars_all":{"message":"All pillars"},
 "en@pillars_only_possible":{"message":"Only possible pillars"},
 "en@pillars_perc_next":{"message":"%\nNext"},

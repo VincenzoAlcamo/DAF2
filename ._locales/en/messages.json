@@ -838,6 +838,9 @@
     "map_import": {
         "message": "Import a previously exported data file"
     },
+    "map_downloadfolder": {
+        "message": "Download folder"
+    },
     "pillars_all": {
         "message": "All pillars"
     },

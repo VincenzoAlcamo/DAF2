@@ -334,7 +334,7 @@ function showAdvancedOptions() {
     });
     htm += Html`</select></label>`;
     htm += Html`</fieldset>`;
-    htm += Html`<fieldset style="margin-top:8px"><legend>Download folder</legend>`;
+    htm += Html`<fieldset style="margin-top:8px"><legend>${gui.getMessage('map_downloadfolder')}</legend>`;
     htm += Html`<label style="margin:1px 0">${gui.getMessage('gui_event')}<br><input name="folderevent" type="text" style="width:100%" value="${gui.getPreference('mapDownloadEvent')}"></label>`;
     htm += Html`<label style="margin:1px 0">${gui.getMessage('gui_region')}<br><input name="folderregion" type="text" style="width:100%" value="${gui.getPreference('mapDownloadRegion')}"></label>`;
     htm += Html`</fieldset>`;
@@ -775,6 +775,7 @@ async function calcMine(mine, flagAddImages) {
         return regionId == rid || regionId == 0;
     };
     const artifacts = gui.getArrayOfInt(generator.artifacts);
+    const tokens = gui.getFile('tokens');
     const mineKey = mine.key;
     for (const area of asArray(floor.loot_areas && floor.loot_areas.loot_area).filter(filterByRegion)) {
         const { area_id, min, max, random, type } = area;
@@ -797,7 +798,12 @@ async function calcMine(mine, flagAddImages) {
                     if (coef > 0) amount = amount + Math.floor(amount * coef * playerLevel);
                     const tileDef = tileDefs[y * cols + x];
                     if (!tileDef.loot) tileDef.loot = [];
-                    tileDef.loot.push({ type: lootType, id: lootId, amount });
+                    const loot = { type: lootType, id: lootId, amount };
+                    if (lootType == 'token') {
+                        const t = tokens[lootId];
+                        if (!t || +t.visibility != 1) loot.hidden = true;
+                    }
+                    tileDef.loot.push(loot);
                 }
             }
         });
@@ -1218,6 +1224,7 @@ async function calcMine(mine, flagAddImages) {
     const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
     const checkLoot = (tileDef, loot) => {
         for (const drop of loot) {
+            if (drop.hidden || (drop.forAdmin && !isAdmin)) continue;
             const key = drop.type + '_' + drop.id;
             const isQuest = (key in questDrops) || specialDrops[key] === true;
             const isSpecial = !isQuest && (specialDrops[key] === false || drop.type == 'artifact');
@@ -1566,11 +1573,7 @@ async function drawMine(args) {
         }
     };
     const addDrop = (x, y, drops) => {
-        let s = '';
-        for (const drop of drops) {
-            if (drop.forAdmin && !isAdmin) continue;
-            s += `\n${Locale.formatNumber(drop.amount)} \xd7 ${gui.getObjectName(drop.type, drop.id)}`;
-        }
+        const s = drops.filter(d => !d.hidden && (isAdmin || !d.forAdmin)).map(d => `\n${Locale.formatNumber(d.amount)} \xd7 ${gui.getObjectName(d.type, d.id)}`).join('');
         addTitle(x, y, gui.getMessageAndValue('gui_loot', s));
     };
 
@@ -2213,7 +2216,7 @@ function onTooltip(event) {
     if (asset) {
         const src = cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
         const style = rotation > 1 ? Html` style="transform: rotate(${(rotation - 1) * 90}deg)"` : '';
-        const htm = Html.br`<div class="MAP-tooltip"><img src="${src}"${style}/></div>`;
+        const htm = Html.br`<div class="map-tooltip"><img src="${src}"${style}/></div>`;
         Tooltip.show(element, htm);
     }
 }
