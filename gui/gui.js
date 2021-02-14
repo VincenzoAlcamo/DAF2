@@ -760,6 +760,12 @@ const gui = {
         gui.fileChooserCallback = callback;
         gui.fileChooser.click();
     },
+    hasRuntimeError: function (info) {
+        // This is necessary to avoid unchecked runtime errors from Chrome
+        const hasError = !!chrome.runtime.lastError;
+        if (hasError) console.log(`[${info}] RUNTIME error: "${chrome.runtime.lastError.message}"`);
+        return hasError;
+    },
     downloadData: function (data, fileName, path) {
         const p2 = n => n.toString().padStart(2, '0');
         const dt = new Date();
@@ -774,7 +780,7 @@ const gui = {
         if (path) {
             chrome.downloads.download({
                 url, filename: path + '/' + fileName
-            }, console.log);
+            }, () => gui.hasRuntimeError('downloadData'));
         } else {
             const a = document.createElement('a');
             a.style.display = 'none';
