@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Mostrar entradas y salidas"
     },
+    "map_button_u": {
+        "message": "Mostrar mapa original"
+    },
+    "map_button_f": {
+        "message": "Mostrar mapa completo"
+    },
     "map_save": {
         "message": "Guardar"
     },
@@ -832,6 +838,9 @@
     "map_import": {
         "message": "Importar un archivo exportado previamente"
     },
+    "map_downloadfolder": {
+        "message": "Carpeta de descargas"
+    },
     "pillars_all": {
         "message": "Todos los pilares"
     },
@@ -942,7 +951,7 @@
         "message": "Tiempo de expiracion de los molinos"
     },
     "neighbors_giftinfo": {
-        "message": "La fecha del regalo se refiere al momento en que DAF registro el regalo, no a la fecha en el que fue enviado."
+        "message": "La fecha del regalo se refiere al momento en que DAF registro el regalo, no la fecha en el que fue enviado."
     },
     "neighbors_gifttip": {
         "message": "$NAME$\nXP: $XP$\nDay: $DAY$",

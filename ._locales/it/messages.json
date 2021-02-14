@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Mostra entrate e uscite"
     },
+    "map_button_u": {
+        "message": "Mostra la mappa originale"
+    },
+    "map_button_f": {
+        "message": "Mosta l'intera mappa"
+    },
     "map_save": {
         "message": "Salva"
     },
@@ -831,6 +837,9 @@
     },
     "map_import": {
         "message": "Importa un file dati precedentemente esportato"
+    },
+    "map_downloadfolder": {
+        "message": "Cartella di download"
     },
     "pillars_all": {
         "message": "Tutti i pilastri"

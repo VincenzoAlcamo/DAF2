@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Vis ind- og udgange"
     },
+    "map_button_u": {
+        "message": "Vis originalt kort"
+    },
+    "map_button_f": {
+        "message": "Vis hele kortet"
+    },
     "map_save": {
         "message": "Gem"
     },
@@ -831,6 +837,9 @@
     },
     "map_import": {
         "message": "Importer en tidligere eksporteret data fil"
+    },
+    "map_downloadfolder": {
+        "message": "Download mappe"
     },
     "pillars_all": {
         "message": "Alle søjler"

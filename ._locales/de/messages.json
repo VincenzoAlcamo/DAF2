@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Ein- und Ausgänge anzeigen"
     },
+    "map_button_u": {
+        "message": "Ursprüngliche Karte anzeigen"
+    },
+    "map_button_f": {
+        "message": "Komplette Karte anzeigen"
+    },
     "map_save": {
         "message": "Speichern"
     },
@@ -737,7 +743,7 @@
         "message": "nicht aktiv(e)"
     },
     "map_tile": {
-        "message": "Kachel((n)"
+        "message": "Kachel"
     },
     "map_npc": {
         "message": "Npc"
@@ -831,6 +837,9 @@
     },
     "map_import": {
         "message": "Importieren einer zuvor exportierten Datendatei"
+    },
+    "map_downloadfolder": {
+        "message": "Download-Ordner"
     },
     "pillars_all": {
         "message": "Alle Säulen"

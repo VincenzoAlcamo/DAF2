@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Показать входы и выходы"
     },
+    "map_button_u": {
+        "message": "Показать исходную карту"
+    },
+    "map_button_f": {
+        "message": "Показать всю карту"
+    },
     "map_save": {
         "message": "Сохранить"
     },
@@ -831,6 +837,9 @@
     },
     "map_import": {
         "message": "Импорт ранее экспортированного файла"
+    },
+    "map_downloadfolder": {
+        "message": "Папка загрузки"
     },
     "pillars_all": {
         "message": "Все колонны"

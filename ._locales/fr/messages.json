@@ -340,7 +340,7 @@
         "message": "Campement"
     },
     "tab_map": {
-        "message": "Carte"
+        "message": "Cartes"
     },
     "tab_kitchen": {
         "message": "Cuisine"
@@ -636,7 +636,7 @@
         "message": "Extra"
     },
     "map_floor": {
-        "message": "Sol"
+        "message": "Mines"
     },
     "map_floor_current": {
         "message": "C'est la mine actuelle"
@@ -681,7 +681,7 @@
         "message": "Mettre en évidence les tuiles cassables"
     },
     "map_button_n": {
-        "message": "Mettez en évidence les tuiles avec un butin remarquable"
+        "message": "Mettre en évidence des objets rares"
     },
     "map_button_v": {
         "message": "La visibilité des tuiles est persistante"
@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Afficher les entrées et les sorties"
     },
+    "map_button_u": {
+        "message": "Afficher la carte originale"
+    },
+    "map_button_f": {
+        "message": "Afficher la carte complète"
+    },
     "map_save": {
         "message": "Enregistrer"
     },
@@ -711,7 +717,7 @@
         "message": "Quitter la carte"
     },
     "map_goto_floor": {
-        "message": "Allez à la salle $NUM$",
+        "message": "Allez à la carte $NUM$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -719,7 +725,7 @@
         }
     },
     "map_goto_unknown": {
-        "message": "vers une autre salle, mais ce chemin n'a pas encore été emprunté"
+        "message": "vers une autre carte, mais ce chemin n'a pas encore été emprunté"
     },
     "map_teleport": {
         "message": "Téléporté"
@@ -743,7 +749,7 @@
         "message": "Personnages"
     },
     "map_says": {
-        "message": "Parlé"
+        "message": "Discuté"
     },
     "map_godchild": {
         "message": "Filleuls"
@@ -824,13 +830,16 @@
         "message": "Taille de l'image enregistrée"
     },
     "map_export_location": {
-        "message": "Exporter toutes les salles comme fichier de données"
+        "message": "Exporter toutes les cartes comme fichier de données"
     },
     "map_export_floor": {
-        "message": "Exporter la salle actuelle comme fichier de données"
+        "message": "Exporter la carte actuelle comme fichier de données"
     },
     "map_import": {
         "message": "Importer ce fichier de données précédemment exporté"
+    },
+    "map_downloadfolder": {
+        "message": "Dossier de téléchargement"
     },
     "pillars_all": {
         "message": "Tous les piliers"
@@ -1329,7 +1338,7 @@
         "message": "Masquer les complétés"
     },
     "progress_grouplocations": {
-        "message": "Cacher les mines"
+        "message": "Cacher les hiérarchies"
     },
     "progress_showdates": {
         "message": "Date de localisation"

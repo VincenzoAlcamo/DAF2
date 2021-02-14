@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Εμφάνιση εισόδων και εξόδων"
     },
+    "map_button_u": {
+        "message": "Εμφάνιση αρχικού χάρτη"
+    },
+    "map_button_f": {
+        "message": "Εμφάνιση όλου του χάρτη"
+    },
     "map_save": {
         "message": "Αποθήκευση"
     },
@@ -831,6 +837,9 @@
     },
     "map_import": {
         "message": "Εισαγωγή όλων των εξαγόμενων αρχείων"
+    },
+    "map_downloadfolder": {
+        "message": "Φάκελος κατεβάσματος"
     },
     "pillars_all": {
         "message": "Όλοι οι κίονες"
