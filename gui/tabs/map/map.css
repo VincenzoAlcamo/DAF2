@@ -199,6 +199,7 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   width: 62px;
   height: 62px;
   background-color: transparent !important;
+  position: relative;
 }
 
 .tab_map .map.show_tiles td.tile {
@@ -258,6 +259,17 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   background-color: rgba(255, 255, 255, 0.5) !important;
   outline: 2px solid #FFF;
 } */
+
+.tab_map .map .beacon-req {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 62px;
+  height: 62px;
+  background-size: 62px 62px;
+  background-color: #0F0;
+  display: none;
+}
 
 .tab_map .map .beacon {
   display: none;

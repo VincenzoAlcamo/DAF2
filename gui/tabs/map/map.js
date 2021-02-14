@@ -1,4 +1,4 @@
-/*global bgp gui Dialog Locale Html PackTiles Tooltip*/
+/*global bgp gui Dialog Locale Html PackTiles*/
 export default {
     hasCSS: true,
     init,
@@ -272,7 +272,8 @@ function onClickButton(event) {
     } else if (action == 'export_location') {
         if (!currentData || !canvas) return;
         const fileName = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
-        const data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
+        let data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
+        data = data.sort((a, b) => a.level_id - b.level_id);
         gui.downloadData(data, fileName, getDownloadPath());
     } else if (action == 'export_floor') {
         if (!currentData || !canvas) return;
@@ -1762,6 +1763,7 @@ async function drawMine(args) {
     }
 
     // Misc
+    const beaconColors = { default: 'f00', dig: 'ff0', door: '0f0', door_r: '0ff', pit: '00f', push: 'f0f', sensor: 'fff', use: 'f90', visual: '999' };
     for (const tileDef of tileDefs.filter(t => t.miscType)) {
         const { x, y } = tileDef;
         const item = getMiscItem(tileDef);
@@ -1786,6 +1788,7 @@ async function drawMine(args) {
             texts.push(hint ? gui.getWrappedText(gui.getMessageAndValue('map_hint', '\u201c' + hint + '\u201d')) : gui.getMessage('map_hint'));
         }
         if (tileDef.miscType == 'B' && canShowBeacon) {
+            const cell = table.rows[y].cells[x];
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
             if (tileDef.stamina >= 0) {
                 let asset = '';
@@ -1808,12 +1811,18 @@ async function drawMine(args) {
                     texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
                 }
                 if (asset) {
-                    const cell = table.rows[y].cells[x];
-                    cell.setAttribute('data-asset', asset);
-                    if (rotation > 1) cell.setAttribute('data-rotation', rotation);
+                    const url = cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
                     cell.classList.add('tooltip-event');
+                    const div = cell.appendChild(document.createElement('div'));
+                    div.className = 'beacon-req';
+                    div.setAttribute('data-beacon', tileDef.miscId);
+                    div.style.backgroundImage = `url(${url})`;
+                    if (rotation > 1) div.style.transform = `rotate(${(rotation - 1) * 90}deg)`;
                 }
             }
+            const div = cell.appendChild(document.createElement('div'));
+            div.style.backgroundColor = '#' + (beaconColors[item.activation || ''] || beaconColors.default) + '8';
+            div.className = 'beacon';
         }
         if (texts.length) addTitle(x, y, texts.join('\n'), true);
         const img = item && item.mobile_asset && images[item.mobile_asset].img;
@@ -2090,16 +2099,6 @@ async function drawMine(args) {
         drawTextMarker(tileDef.x, tileDef.y, teleport.name);
     }
 
-    // Show Beacons
-    const beaconColors = { default: 'f00', dig: 'ff0', door: '0f0', door_r: '0ff', pit: '00f', push: 'f0f', sensor: 'fff', use: 'f90', visual: '999' };
-    for (const tileDef of tileDefs.filter(t => t.isVisible && t.miscType == 'B')) {
-        const { x, y } = tileDef;
-        const item = getMiscItem(tileDef);
-        const activation = item.activation || '';
-        const color = '#' + (beaconColors[activation] || beaconColors.default) + '8';
-        Dialog.htmlToDOM(table.rows[y].cells[x], `<div class="beacon" style="background-color:${color}"></div>`);
-    }
-
     // Add drop info
     for (const tileDef of tileDefs.filter(t => t.isVisible && t.hasLoot && t.stamina >= 0)) {
         const { x, y } = tileDef;
@@ -2211,12 +2210,16 @@ function pickTreasure(key, x, y, area_id, pieces, artifacts) {
 
 function onTooltip(event) {
     const element = event.target;
-    const asset = element.getAttribute('data-asset');
-    const rotation = element.getAttribute('data-rotation') || 1;
-    if (asset) {
-        const src = cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
-        const style = rotation > 1 ? Html` style="transform: rotate(${(rotation - 1) * 90}deg)"` : '';
-        const htm = Html.br`<div class="map-tooltip"><img src="${src}"${style}/></div>`;
-        Tooltip.show(element, htm);
+    const div = element.querySelector('div.beacon-req');
+    if (div) {
+        const id = div.getAttribute('data-beacon');
+        const list = Array.from(table.querySelectorAll(`.beacon-req[data-beacon="${id}"]`));
+        list.forEach(el => el.style.display = 'block');
+        const eventNames = ['mouseleave', 'blur'];
+        const autoHide = () => {
+            eventNames.forEach(name => element.removeEventListener(name, autoHide));
+            list.forEach(el => el.style.display = 'none');
+        };
+        eventNames.forEach(name => element.addEventListener(name, autoHide));
     }
 }
