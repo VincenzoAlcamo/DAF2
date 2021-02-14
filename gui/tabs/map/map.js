@@ -73,7 +73,8 @@ const OPTION_GROUPLOCATIONS = 'g';
 const OPTION_REGIONSELECTOR = 's';
 const OPTION_LOCATIONINFO = 'i';
 const OPTION_REPEATABLES = 'r';
-const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_COORDINATES];
+const OPTION_TITLE = 't';
+const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_COORDINATES, OPTION_TITLE];
 const ALL_OPTIONS_AND_PREFERENCES = [...ALL_OPTIONS, OPTION_REPEATABLES];
 
 let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
@@ -96,7 +97,7 @@ const getReqOrientationName = (value) => getOrientationName(reqOrientations[valu
 
 function getLocationName(lid, location) {
     const name = location && location.name_loc;
-    return name ? gui.getString(name) : '#' + lid;
+    return name ? gui.getString(name).replace(/\s+/g, ' ') : '#' + lid;
 }
 
 function hasOption(id) {
@@ -324,6 +325,7 @@ function showAdvancedOptions() {
     htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
     htm += addOption(OPTION_REPEATABLES, gui.getMessage('map_option_r'));
     htm += addOption(OPTION_COORDINATES, gui.getMessage('map_option_c'));
+    htm += addOption(OPTION_TITLE, gui.getMessage('map_option_t'));
     htm += Html`<label style="margin-top:3px">${gui.getMessage('map_option_resize')} <select name="resize">`;
     const sizes = [100, 80, 75, 66, 60, 50, 40, 33, 25];
     if (resize < 100 && resize > 25 && !sizes.includes(resize)) {
@@ -1667,29 +1669,6 @@ async function drawMine(args) {
         if (stroke) ctx.stroke();
     };
 
-    const drawText = (cx, cy, text) => {
-        const sy = cy + 3;
-        if (text.length == 1) {
-            ctx.textAlign = 'center';
-            ctx.fillText(text, cx, sy);
-        } else {
-            const dx = -3;
-            let totalWidth = 0;
-            const arr = text.split('').map(c => {
-                const m = ctx.measureText(c);
-                const width = m.width;
-                totalWidth += width;
-                return { c, width };
-            });
-            totalWidth += dx * text.length;
-            let sx = cx - Math.ceil(totalWidth / 2);
-            ctx.textAlign = 'left';
-            arr.forEach(o => {
-                ctx.fillText(o.c, sx, sy);
-                sx += o.width + dx;
-            });
-        }
-    };
     const TEXTMARKER_WIDTH = 26;
     const TEXTMARKER_RADIUS = 6;
     const drawTextMarker = (x, y, name) => {
@@ -1701,7 +1680,8 @@ async function drawMine(args) {
         drawRoundRect(cx - TEXTMARKER_WIDTH, cy - TEXTMARKER_WIDTH, TEXTMARKER_WIDTH * 2, TEXTMARKER_WIDTH * 2, TEXTMARKER_RADIUS, true, true);
         ctx.lineWidth = 1;
         ctx.fillStyle = '#000';
-        drawText(cx, cy, name);
+        ctx.textAlign = 'center';
+        ctx.fillText(name, cx, cy + 3, TILE_SIZE - 16);
     };
 
     // Set visibility
@@ -2158,6 +2138,29 @@ async function drawMine(args) {
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
     if (imgLocation.src != src) imgLocation.src = src;
 
+    // Print title
+    table.style.marginTop = '';
+    if (hasOption(OPTION_TITLE)) {
+        const THRESHOLD = 8;
+        const imgData = ctx.getImageData(0, 0, canvas.width, TILE_SIZE);
+        if (imgData.data.find((v, i) => v > THRESHOLD && (i & 3) != 3)) {
+            table.style.marginTop = TILE_SIZE + 'px';
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            canvas.height = (rows + 1) * TILE_SIZE;
+            ctx.putImageData(imgData, 0, TILE_SIZE);
+            setCanvasZoom();
+        }
+        let title = getLocationName(currentData.lid, currentData.location);
+        if (currentData.floors.length > 1) {
+            title += ' \u2013 ' + gui.getMessage('map_floor').toUpperCase() + ' ' + Locale.formatNumber(currentData.fid);
+        }
+        ctx.font = 'bold 48px sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#FFF';
+        ctx.fillText(title, Math.floor(TILE_SIZE * cols / 2), Math.floor(TILE_SIZE / 2), cols * TILE_SIZE);
+    }
+
     setMapVisibility(true);
     lastTeleportId = 0;
     clearWaitHandler();
@@ -2172,6 +2175,8 @@ async function drawMine(args) {
     }
     if (args && 'x' in args) ({ x, y } = args);
     if (x !== undefined) scrollToCenter(x, y, smooth);
+    map.scrollTop = 0;
+    map.scrollLeft = 0;
 }
 
 function CustomRandomRND(key) {

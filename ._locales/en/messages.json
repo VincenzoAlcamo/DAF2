@@ -826,6 +826,9 @@
     "map_option_r": {
         "message" : "Show repeatables"
     },
+    "map_option_t": {
+        "message" : "Add map title"
+    },
     "map_option_resize": {
         "message": "Size of saved image"
     },
