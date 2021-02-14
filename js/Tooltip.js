@@ -19,8 +19,13 @@ Tooltip.init = function () {
 };
 Tooltip.show = function (el, html, direction) {
     direction = ((direction || '') + 'WE').toUpperCase();
+    const eventNames = ['mousedown', 'mouseleave', 'blur'];
+    const autoHide = () => {
+        eventNames.forEach(name => el.removeEventListener(name, autoHide));
+        Tooltip.hide();
+    };
+    eventNames.forEach(name => el.addEventListener(name, autoHide));
     const tip = this.tip;
-    for (const name of ['mousedown', 'mouseleave', 'blur']) el.addEventListener(name, autoHide);
     tip.className = 'Tooltip';
     tip.style.display = '';
     Dialog.htmlToDOM(tip, html);
@@ -37,11 +42,6 @@ Tooltip.show = function (el, html, direction) {
     tip.style.left = left + 'px';
     tip.style.top = top + 'px';
     tip.classList.add('Tooltip-On');
-
-    function autoHide() {
-        for (const name of ['mousedown', 'mouseleave', 'blur']) el.removeEventListener(name, autoHide);
-        Tooltip.hide();
-    }
 };
 Tooltip.hide = function () {
     this.tip.style.display = 'none';
