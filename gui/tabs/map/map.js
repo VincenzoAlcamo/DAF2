@@ -604,6 +604,7 @@ function addImage(asset, url) {
         item.promise = new Promise((resolve, _reject) => {
             if (!url) url = asset.startsWith('/') ? asset : cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
             const img = new Image();
+            img.crossOrigin = 'anonymous';
             img.onload = () => {
                 item.img = img;
                 resolve();
@@ -2142,8 +2143,7 @@ async function drawMine(args) {
     table.style.marginTop = '';
     if (hasOption(OPTION_TITLE)) {
         const THRESHOLD = 8;
-        const imgData = ctx.getImageData(0, 0, canvas.width, TILE_SIZE);
-        if (imgData.data.find((v, i) => v > THRESHOLD && (i & 3) != 3)) {
+        if (ctx.getImageData(0, 0, canvas.width, TILE_SIZE).data.find((v, i) => v > THRESHOLD && (i & 3) != 3)) {
             table.style.marginTop = TILE_SIZE + 'px';
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             canvas.height = (rows + 1) * TILE_SIZE;
