@@ -5,6 +5,11 @@
   position: fixed;
   left: -8px;
   top: 32px;
+  --logo: url(/img/logo/iconRed.png);
+}
+
+.DAF-menu-container.ok {
+  --logo: url(/img/gui/about.png);
 }
 
 .DAF-badges b,
@@ -42,7 +47,7 @@
   transition: 0.6s;
   background-position: 8px 4px;
   background-repeat: no-repeat;
-  background-image: url(/img/gui/about.png);
+  background-image: var(--logo);
   background-size: 16px 16px;
 }
 
@@ -154,7 +159,7 @@
 }
 
 .DAF-menu li[data-action="about"] b {
-  background-image: url("/img/gui/about.png");
+  background-image: var(--logo);
   background-size: 22px 22px;
   background-position: 4px 3px;
 }

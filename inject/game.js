@@ -712,7 +712,7 @@ function init() {
         } else {
             handlers['gcTableCounter'] = setgcTableOptions;
         }
-        msgHandlers['generator'] = () => {
+        const onGenerator = () => {
             if (loadCompleted) return;
             delete msgHandlers['generator'];
             loadCompleted = true;
@@ -741,7 +741,11 @@ function init() {
                 setTimeout(check, prefs.fullWindowTimeout * 1000);
             }
         };
-        setTimeout(msgHandlers['generator'], 10000);
+        msgHandlers['generator'] = () => {
+            menu.classList.add('ok');
+            onGenerator();
+        };
+        setTimeout(onGenerator, 10000);
         msgHandlers['friend_child_charge'] = (request) => {
             updateGCStatus(request.data);
             if (miner) {
