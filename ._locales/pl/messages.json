@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Pokaż wejście i wyjście"
     },
+    "map_button_u": {
+        "message": "Pokaż oryginalną mapę"
+    },
+    "map_button_f": {
+        "message": "Pokaż pełną mapę"
+    },
     "map_save": {
         "message": "Zapisz"
     },
@@ -804,6 +810,39 @@
     },
     "map_fixed": {
         "message": "Jest stały"
+    },
+    "map_remove_confirmation": {
+        "message": "Potwierdzić usunięcie tych kopalń?"
+    },
+    "map_option_c": {
+        "message": "Pokaż współrzędne w narzędziach"
+    },
+    "map_option_s": {
+        "message": "Pokaż wybór regionu"
+    },
+    "map_option_i": {
+        "message": "Pokaż informacje o lokalizacji"
+    },
+    "map_option_r": {
+        "message": "Pokaż odnawialne"
+    },
+    "map_option_t": {
+        "message": "Dodaj nazwę mapy"
+    },
+    "map_option_resize": {
+        "message": "Rozmiar zapisanego obrazu"
+    },
+    "map_export_location": {
+        "message": "Eksport wszystkich pięter jako plik danych"
+    },
+    "map_export_floor": {
+        "message": "Eksport bieżącego piętra jako plik danych"
+    },
+    "map_import": {
+        "message": "Import wcześniej eksportowanego pliku danych"
+    },
+    "map_downloadfolder": {
+        "message": "Pobierz folder"
     },
     "pillars_all": {
         "message": "Wszystkie kolumny"

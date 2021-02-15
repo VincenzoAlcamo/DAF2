@@ -826,6 +826,9 @@
     "map_option_r": {
         "message": "Показать повторяемые"
     },
+    "map_option_t": {
+        "message": "Добавить название карты"
+    },
     "map_option_resize": {
         "message": "Масштаб сохраняемого изображения"
     },

@@ -826,6 +826,9 @@
     "map_option_r": {
         "message": "Mostrar renováveis"
     },
+    "map_option_t": {
+        "message": "Adicione o título do mapa"
+    },
     "map_option_resize": {
         "message": "Tamanho da imagem salva"
     },

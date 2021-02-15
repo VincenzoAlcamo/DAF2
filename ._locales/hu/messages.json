@@ -701,6 +701,12 @@
     "map_button_x": {
         "message": "Mutasd a be- és kijáratokat"
     },
+    "map_button_u": {
+        "message": "Mutasd az eredeti térképet"
+    },
+    "map_button_f": {
+        "message": "Mutasd a teljes térképet"
+    },
     "map_save": {
         "message": "Mentés"
     },
@@ -740,10 +746,10 @@
         "message": "Kő"
     },
     "map_npc": {
-        "message": "Személyek"
+        "message": "Njk"
     },
     "map_says": {
-        "message": "Beszédek"
+        "message": "Mondja"
     },
     "map_godchild": {
         "message": "Istengyermek (GC)"
@@ -820,6 +826,9 @@
     "map_option_r": {
         "message": "Mutasd az ismétlőket"
     },
+    "map_option_t": {
+        "message": "Add hozzá a térkép nevét"
+    },
     "map_option_resize": {
         "message": "Mentett kép mérete"
     },
@@ -831,6 +840,9 @@
     },
     "map_import": {
         "message": "Egy mentett adat fájl betöltése"
+    },
+    "map_downloadfolder": {
+        "message": "Könyvtár letöltése"
     },
     "pillars_all": {
         "message": "Minden pillér"
@@ -1036,6 +1048,260 @@
     "friendship_actionunlink": {
         "message": "Kattints, hogy eltávolítsd az egyezést"
     },
+    "friendship_actionmanual": {
+        "message": "Kattints a manuális összehasonlításhoz ennél a szomszédnál"
+    },
+    "friendship_actiondelete": {
+        "message": "Kattints a barát végleges törléséhez"
+    },
+    "friendship_matchplayertitle": {
+        "message": "Kattints ide, hogy megszakítsd az összehasonlítást"
+    },
+    "friendship_accountdisabled": {
+        "message": "A fiók le van tiltva"
+    },
+    "friendship_disabledaccountsdetected": {
+        "message": "Letiltott fiókokat észleltem."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Letiltott és/vagy nem egyező fiókokat észleltem."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Erről az oldalról barátkozhatsz velük.\r\n\r\nKérjük, vegye figyelembe, hogy a facebook-fiókokat ideiglenesen letilthatják, és később engedélyezhetik is."
+    },
+    "friendship_confirmcollect": {
+        "message": "Nyomd meg az IGEN-t az elfogadáshoz, NEM-t a további próbálkozáshoz.\n\nBármikor bezárhatod ezt az ablakot,\nhogy töröld ezt a műveletet.\n"
+    },
+    "friendship_speedupcollect": {
+        "message": "Felgyorsítod a gyűjtést?"
+    },
+    "friendship_filter_a": {
+        "message": "Barátok: $FRIENDS$, Szomszédok: $NEIGHBOURS$",
+        "placeholders": {
+            "friends": {
+                "content": "$1"
+            },
+            "neighbours": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_filter_d": {
+        "message": "Letiltott Facebook fiókok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_m": {
+        "message": "Egyező szomszédok és barátok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_g": {
+        "message": "Kép alapján egyező barátok és szomszédok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_h": {
+        "message": "Manuálisan egyező barátok és szomszédok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_i": {
+        "message": "Figyelmen kívül hagyott barátok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_f": {
+        "message": "Nem egyező barátok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_u": {
+        "message": "Figyelmen kívül hagyott és/vagy nem egyezős barátok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_n": {
+        "message": "Nem egyező szomszédok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_s": {
+        "message": "Nem egyező szomszédok és barátok: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectpreamble": {
+        "message": "Itt összegyűjtheted a Facebook barátaidat és összevetheted a szomszédaiddal."
+    },
+    "friendship_collectstandard": {
+        "message": "Normál"
+    },
+    "friendship_collectstandardinfo": {
+        "message": "Ez a módszer megbízható, de nagyon lassú (több percig is eltarthat)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Nemegyező"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Ez a módszer ugyanaz mint a 'Normál\" csak nem gyűjt barátokat.\nEhelyett az összes nem egyező barátot megmutatja, hogy manuálisan társítsd őket."
+    },
+    "friendship_disabledinfo": {
+        "message": "Felismeri a letiltott fiókokat."
+    },
+    "friendship_collectmatch": {
+        "message": "Összehasonlítás"
+    },
+    "friendship_collectmatchinfo": {
+        "message": "Ez végrehajtja az automatikus összehasonlítást a barátaid és a szomszédaid között.\nA barát listád nem fog frissülni.\nA figyelmen kívül hagyott barátok és a 90-nél nagyobb pontszámmal rendelkező barátok nem kerülnek automatikusan összehasonlításra.\nAz összehasnlítást továbbra is a barátok gyűjtésének a végén hajtjuk végre."
+    },
+    "friendship_matchbyimage": {
+        "message": "Összehasonlítás profilkép alapján?"
+    },
+    "friendship_confirmwarning": {
+        "message": "Ez a művelet több percet is igénybe vehet.\r\n\r\nKérlek erősítsd meg, hogy folytatod."
+    },
+    "friendship_confirmcollection": {
+        "message": "Megerősíti a gyűjtési eredményt?"
+    },
+    "friendship_cc_maybe": {
+        "message": "Ha bizonytalan"
+    },
+    "friendship_collecterror": {
+        "message": "Valami hiba történt."
+    },
+    "friendship_manualhelp": {
+        "message": "Kérem frissítse a DAF2 oldalt, menjen a \"$FRIENDSHIP$\" fülre, kattintson a \"$COLLECT$\" és válassza a \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_analyzingmatches": {
+        "message": "Adatok elemzése, $PERCENT$ % ($NUM$ / $TOTAL$)",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            },
+            "num": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_collectstat": {
+        "message": "Gyűjtött barátok: $COUNT$",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_manualmatchhelp": {
+        "message": "Hogy megfelelj ennek a szomszédnak, találnod kell egy nem egyező barátot és ra kell kattintanod ⭐ jelre a mezőben."
+    },
+    "friendship_friendupdateinfo": {
+        "message": "A Facebook barátok listáját a $DATE$ napon frissítettük.",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_totalfriends": {
+        "message": "Barátok: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_totalneighbours": {
+        "message": "Szomszédok: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_info": {
+        "message": "$NUM$ szomszéd = $GC$ Isten gyermek",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "gc": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_stat": {
+        "message": "Isten gyermekek: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_next": {
+        "message": "További GC hozzáadásához még $NUM$ szomszédot kell szerezned",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "godchild_next0": {
+        "message": "Elérted a maximum lehetséges GC-k számát"
+    },
+    "godchild_next1": {
+        "message": "További GC megszerzéséhez csak egy szomszédot kell hozzáadnod"
+    },
     "progress_measure": {
         "message": "Intézkedés"
     },
@@ -1056,6 +1322,9 @@
     },
     "progress_treasures": {
         "message": "Kincsek"
+    },
+    "progress_overall": {
+        "message": "Összesen"
     },
     "progress_hidecompleted": {
         "message": "Készek elrejtése"
@@ -1215,6 +1484,49 @@
                 "content": "$1"
             }
         }
+    },
+    "rewardlinks_collectanyway": {
+        "message": "Szeretnéd mégis megnyitni ezt a linket?"
+    },
+    "rewardlinks_infocollected": {
+        "message": "Ezt a linket már begyűjtötted."
+    },
+    "rewardlinks_infoexpired": {
+        "message": "Ez a link lejárt.\nA linkek csak $NUM$ napig érvényesek.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_infonoself": {
+        "message": "Ez a link a tiéd: az önjutalmazás nem lehetséges."
+    },
+    "rewardlinks_infobroken": {
+        "message": "Ez a link rossz vagy nem működik."
+    },
+    "rewardlinks_removelinks": {
+        "message": "Régi linkek eltávolítása"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Kijelöltek eltávolítása"
+    },
+    "rewardlinks_removenone": {
+        "message": "Nincsenek eltávolítható linkek!"
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Ezt a jutalmat hozzáadták $DATE$ napon",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Nullázás"
+    },
+    "rewardlinks_resetcount": {
+        "message": "Alaphelyzetbe állíthatod a \"Következő gyűjtés\" információkat és így folytatod ezzel a linkkel."
     },
     "rewardlinks_convert": {
         "message": "Link konvertálása"

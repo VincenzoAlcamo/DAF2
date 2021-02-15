@@ -826,6 +826,9 @@
     "map_option_r": {
         "message": "Εμφάνιση επαναλαμβανόμενων"
     },
+    "map_option_t": {
+        "message": "Προσθέστε χάρτη τίτλο"
+    },
     "map_option_resize": {
         "message": "Μέγεθος αποθηκευμένης εικόνας"
     },

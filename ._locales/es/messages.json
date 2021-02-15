@@ -826,6 +826,9 @@
     "map_option_r": {
         "message": "Mostrar repetibles"
     },
+    "map_option_t": {
+        "message": "Añadir título del mapa"
+    },
     "map_option_resize": {
         "message": "Tamaño de la imágen guardada"
     },

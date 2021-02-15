@@ -636,7 +636,7 @@
         "message": "Extra"
     },
     "map_floor": {
-        "message": "Mines"
+        "message": "Salles"
     },
     "map_floor_current": {
         "message": "C'est la mine actuelle"
@@ -825,6 +825,9 @@
     },
     "map_option_r": {
         "message": "Afficher les répétables"
+    },
+    "map_option_t": {
+        "message": "Ajouter un titre de la carte"
     },
     "map_option_resize": {
         "message": "Taille de l'image enregistrée"
@@ -1526,7 +1529,7 @@
         "message": "Ce lien a probablement expiré.\nLes identifiants de lien sont générés en séquence et l'identifiant de cette récompense est inférieur à celui d'une récompense expirée."
     },
     "rewardlinks_removelinks": {
-        "message": "Supprimer tous"
+        "message": "Nettoyer"
     },
     "rewardlinks_removeselected": {
         "message": "Supprimer"

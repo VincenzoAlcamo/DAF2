@@ -826,6 +826,9 @@
     "map_option_r": {
         "message": "Vis gentagelige"
     },
+    "map_option_t": {
+        "message": "Tilføj kort navn"
+    },
     "map_option_resize": {
         "message": "Størrelse på gemt billede"
     },

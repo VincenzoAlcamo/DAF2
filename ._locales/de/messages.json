@@ -826,6 +826,9 @@
     "map_option_r": {
         "message": "Wiederholbare anzeigen"
     },
+    "map_option_t": {
+        "message": "Titel der Karte hinzufügen"
+    },
     "map_option_resize": {
         "message": "Größe des gespeicherten Bildes"
     },
