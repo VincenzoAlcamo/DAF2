@@ -766,11 +766,19 @@ const gui = {
         if (hasError) console.log(`[${info}] RUNTIME error: "${chrome.runtime.lastError.message}"`);
         return hasError;
     },
+    getSafeFileName: function(name) {
+        name = String(name || '');
+        name = name.replace(/\s+/g, ' ').trim();
+        // eslint-disable-next-line no-control-regex
+        name = name.replace(/[\u0000-\u001F\u007F"*/:<>?\\|]+/g, '_');
+        return name;
+    },
     downloadData: function (data, fileName, path) {
         const p2 = n => n.toString().padStart(2, '0');
         const dt = new Date();
         if (fileName.indexOf('%date%')) fileName = fileName.replace(/%date%/g, `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}-${p2(dt.getDate())}`);
         if (fileName.indexOf('%time%')) fileName = fileName.replace(/%time%/g, `${p2(dt.getHours())}${p2(dt.getMinutes())}${p2(dt.getSeconds())}`);
+        fileName = gui.getSafeFileName(fileName);
         const blob = data instanceof Blob ? data : new Blob([typeof data == 'string' ? data : JSON.stringify(data)], {
             type: typeof data == 'string' ? 'text/plain; charset=utf-8' : 'application/json'
         });

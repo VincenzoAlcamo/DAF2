@@ -250,7 +250,7 @@ function getDownloadPath() {
             const filter = currentData.location && mapFilters[currentData.location.filter];
             if (filter) v = filter;
         } else if (t == '$location') v = gui.getString(currentData.location.name_loc);
-        return v;
+        return gui.getSafeFileName(v);
     });
     return path;
 }
@@ -2148,6 +2148,8 @@ async function drawMine(args) {
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             canvas.height = (rows + 1) * TILE_SIZE;
             ctx.putImageData(imgData, 0, TILE_SIZE);
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, TILE_SIZE);
             setCanvasZoom();
         }
         let title = getLocationName(currentData.lid, currentData.location);
