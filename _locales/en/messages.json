@@ -1428,7 +1428,7 @@
 "el@map_option_s":{"message":"Εμφάνιση επιλογής περιοχής"},
 "el@map_option_i":{"message":"Εμφάνισης πληροφοριών τοποθεσίας"},
 "el@map_option_r":{"message":"Εμφάνιση επαναλαμβανόμενων"},
-"el@map_option_t":{"message":"Προσθέστε χάρτη τίτλο"},
+"el@map_option_t":{"message":"Προσθέστε τίτλο χάρτη"},
 "el@map_option_resize":{"message":"Μέγεθος αποθηκευμένης εικόνας"},
 "el@map_export_location":{"message":"Εξαγωγή ορόφων ως αρχεία δεδομένων"},
 "el@map_export_floor":{"message":"Εξαγωγή τωρινού ορόφου ως αρχείο δεδομένων"},
