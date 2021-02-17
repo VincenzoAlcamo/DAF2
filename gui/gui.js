@@ -773,6 +773,12 @@ const gui = {
         name = name.replace(/[\u0000-\u001F\u007F"*/:<>?\\|]+/g, '_');
         return name;
     },
+    getSafeFilePath: function(path) {
+        path = String(path || '');
+        path = path.replace(/[\\/]+/g, '/').replace(/(^\/)|(\/$)/g, '');
+        path = path.split('/').map(gui.getSafeFileName).filter(v => v).join('/');
+        return path;
+    },
     downloadData: function (data, fileName, path) {
         const p2 = n => n.toString().padStart(2, '0');
         const dt = new Date();
@@ -784,7 +790,7 @@ const gui = {
         });
         const url = window.URL.createObjectURL(blob);
         setTimeout(() => window.URL.revokeObjectURL(url), 2000);
-        path = String(path || '').replace(/[\\/]+/g, '/').replace(/(^\/)|(\/$)/g, '');
+        path = gui.getSafeFilePath(path);
         if (path) {
             chrome.downloads.download({
                 url, filename: path + '/' + fileName
