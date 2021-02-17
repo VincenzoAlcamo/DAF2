@@ -5,6 +5,7 @@ let gcTable, gcTableStyle;
 let menu;
 let loadCompleted, styleLoaded;
 let lastFullWindow = false;
+let isOk = false;
 
 function getUnixTime() {
     return Math.floor(Date.now() / 1000);
@@ -693,7 +694,12 @@ function init() {
 
         chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             try {
-                const fn = request && request.action && msgHandlers[request.action];
+                const action = request && request.action;
+                if (!miner && !isOk && (action == 'generator' || action == 'enter_mine' || action == 'visit_camp')) {
+                    isOk = true;
+                    menu.classList.add('ok');
+                }
+                const fn = msgHandlers[action];
                 const response = fn ? fn(request, sender) : undefined;
                 if (response !== undefined) sendResponse(response);
             } catch (e) {
@@ -712,7 +718,7 @@ function init() {
         } else {
             handlers['gcTableCounter'] = setgcTableOptions;
         }
-        const onGenerator = () => {
+        msgHandlers['generator'] = () => {
             if (loadCompleted) return;
             delete msgHandlers['generator'];
             loadCompleted = true;
@@ -741,11 +747,7 @@ function init() {
                 setTimeout(check, prefs.fullWindowTimeout * 1000);
             }
         };
-        msgHandlers['generator'] = () => {
-            menu.classList.add('ok');
-            onGenerator();
-        };
-        setTimeout(onGenerator, 10000);
+        setTimeout(msgHandlers['generator'], 10000);
         msgHandlers['friend_child_charge'] = (request) => {
             updateGCStatus(request.data);
             if (miner) {
