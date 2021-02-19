@@ -66,12 +66,12 @@ function exportInventory() {
     inventory('B', 'building');
 
     data = data.join('\n');
-    gui.downloadData(data, 'DAF_inventory_%date%_%time%.csv');
+    gui.downloadData({ data, filename: 'DAF_inventory_<date>_<time>.csv' });
 }
 
 function exportDebug() {
     const data = gui.getGenerator();
-    gui.downloadData(data, 'DAF_diagnostics_%date%_%time%.json');
+    gui.downloadData({ data, filename: 'DAF_diagnostics_<date>_<time>.json' });
 }
 
 function exportData() {
@@ -87,7 +87,7 @@ function exportData() {
     data.friends = Object.values(bgp.Data.friends).map(friend => Object.assign({}, friend));
     data.friends.forEach(friend => delete friend.img);
     Object.assign(data.preferences = {}, bgp.Preferences.values);
-    gui.downloadData(data, 'DAF_data_%date%_%time%.json');
+    gui.downloadData({ data, filename: 'DAF_data_<date>_<time>.json' });
 }
 
 function importData() {

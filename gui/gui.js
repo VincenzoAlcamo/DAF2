@@ -673,10 +673,10 @@ const gui = {
             avg: avgValue * doubleDropCoeff
         };
     },
-    setupScreenshot: function (element, fileName = 'screenshot.png', screenshot) {
+    setupScreenshot: function (element, filename = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
-        if (!fileName.endsWith('.png')) fileName += '.png';
+        if (!filename.endsWith('.png')) filename += '.png';
         const shot = document.createElement('img');
         shot.src = '/img/gui/screenshot.png';
         shot.className = 'shot';
@@ -716,7 +716,7 @@ const gui = {
             canvas.height = target.naturalHeight;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(target, 0, 0);
-            canvas.toBlob(blob => gui.downloadData(blob, fileName), 'image/png');
+            canvas.toBlob(data => gui.downloadData({ data, filename }), 'image/png');
         });
     },
     setTheme: function () {
@@ -766,41 +766,57 @@ const gui = {
         if (hasError) console.log(`[${info}] RUNTIME error: "${chrome.runtime.lastError.message}"`);
         return hasError;
     },
-    getSafeFileName: function(name) {
+    getSafeFileName: function (name) {
         name = String(name || '');
         name = name.replace(/\s+/g, ' ').trim();
         // eslint-disable-next-line no-control-regex
         name = name.replace(/[\u0000-\u001F\u007F"*/:<>?\\|]+/g, '_');
         return name;
     },
-    getSafeFilePath: function(path) {
+    getSafeFilePath: function (path) {
         path = String(path || '');
         path = path.replace(/[\\/]+/g, '/').replace(/(^\/)|(\/$)/g, '');
         path = path.split('/').map(gui.getSafeFileName).filter(v => v).join('/');
         return path;
     },
-    downloadData: function (data, fileName, path) {
+    downloadData: function ({ data, filename, path, overwrite }) {
         const p2 = n => n.toString().padStart(2, '0');
         const dt = new Date();
-        if (fileName.indexOf('%date%')) fileName = fileName.replace(/%date%/g, `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}-${p2(dt.getDate())}`);
-        if (fileName.indexOf('%time%')) fileName = fileName.replace(/%time%/g, `${p2(dt.getHours())}${p2(dt.getMinutes())}${p2(dt.getSeconds())}`);
-        fileName = gui.getSafeFileName(fileName);
-        const blob = data instanceof Blob ? data : new Blob([typeof data == 'string' ? data : JSON.stringify(data)], {
-            type: typeof data == 'string' ? 'text/plain; charset=utf-8' : 'application/json'
+        filename = String(filename || '').replace(/<[a-z]+>/g, term => {
+            if (term == '<date>') {
+                if (overwrite === undefined) overwrite = true;
+                return `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}-${p2(dt.getDate())}`;
+            }
+            if (term == '<time>') {
+                if (overwrite === undefined) overwrite = true;
+                return `${p2(dt.getHours())}${p2(dt.getMinutes())}${p2(dt.getSeconds())}`;
+            }
+            return term;
         });
-        const url = window.URL.createObjectURL(blob);
+        filename = gui.getSafeFileName(filename);
+        const getBlob = () => {
+            if (data instanceof Blob) return data;
+            if (typeof data == 'string') {
+                let type = 'text/plain';
+                if (filename.endsWith('.json')) type = 'application/json';
+                if (filename.endsWith('.csv')) type = 'text/csv';
+                return new Blob([data], { type });
+            }
+            return new Blob([JSON.stringify(data)], { type: 'application/json' });
+        };
+        const url = window.URL.createObjectURL(getBlob());
         setTimeout(() => window.URL.revokeObjectURL(url), 2000);
         path = gui.getSafeFilePath(path);
-        if (path) {
-            chrome.downloads.download({
-                url, filename: path + '/' + fileName
-            }, () => gui.hasRuntimeError('downloadData'));
+        if (path || overwrite) {
+            const conflictAction = overwrite == 'prompt' ? 'prompt' : (overwrite ? 'overwrite' : 'uniquify');
+            if (path) filename = path + '/' + filename;
+            chrome.downloads.download({ url, filename, conflictAction }, () => gui.hasRuntimeError('downloadData'));
         } else {
             const a = document.createElement('a');
             a.style.display = 'none';
             document.body.appendChild(a);
             a.href = url;
-            a.download = fileName;
+            a.download = filename;
             a.click();
             setTimeout(() => a.parentNode.removeChild(a), 2000);
         }
@@ -1122,5 +1138,5 @@ async function processLanguages() {
         } else delete result[lang + '@ext_name'];
     }
     result = JSON.stringify(result).replace(/},"/g, '},\n"');
-    gui.downloadData(result, 'messages.json');
+    gui.downloadData({ data: result, filename: 'messages.json', overwrite: true });
 }

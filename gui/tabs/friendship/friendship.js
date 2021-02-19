@@ -1005,5 +1005,5 @@ function exportData() {
     data.unshift(header);
     data = data.map(line => line.join('\t'));
     data = data.join('\n');
-    gui.downloadData(data, 'DAF_friends_%date%_%time%.csv');
+    gui.downloadData({ data, filename: 'DAF_friends_<date>_<time>.csv' });
 }

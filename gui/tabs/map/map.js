@@ -259,7 +259,7 @@ function onClickButton(event) {
     const action = event.target.getAttribute('data-action');
     if (action == 'save') {
         if (!currentData || !canvas) return;
-        const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
+        const filename = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
         let canvas2 = canvas;
         if (resize < 100) {
             canvas2 = document.createElement('canvas');
@@ -267,20 +267,20 @@ function onClickButton(event) {
             canvas2.height = Math.round(canvas.height * resize / 100);
             canvas2.getContext('2d').drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height);
         }
-        canvas2.toBlob(blob => gui.downloadData(blob, fileName, getDownloadPath()), 'image/png');
+        canvas2.toBlob(data => gui.downloadData({ data, filename, path: getDownloadPath() }), 'image/png');
     } else if (action == 'options') {
         showAdvancedOptions();
     } else if (action == 'export_location') {
         if (!currentData || !canvas) return;
-        const fileName = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
+        const filename = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
         let data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
         data = data.sort((a, b) => a.level_id - b.level_id);
-        gui.downloadData(data, fileName, getDownloadPath());
+        gui.downloadData({ data, filename, path: getDownloadPath() });
     } else if (action == 'export_floor') {
         if (!currentData || !canvas) return;
-        const fileName = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.map.json`;
+        const filename = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.map.json`;
         const data = [currentData.mine];
-        gui.downloadData(data, fileName, getDownloadPath());
+        gui.downloadData({ data, filename, path: getDownloadPath() });
     } else if (action == 'import') {
         gui.chooseFile(async function (file) {
             const invalidExport = new Error(gui.getMessage('export_invalidexport'));
