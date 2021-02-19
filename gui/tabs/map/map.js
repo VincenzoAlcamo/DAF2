@@ -2142,8 +2142,16 @@ async function drawMine(args) {
     // Print title
     table.style.marginTop = '';
     if (hasOption(OPTION_TITLE)) {
+        let title = getLocationName(currentData.lid, currentData.location);
+        if (currentData.floors.length > 1) {
+            title += ' \u2013 ' + gui.getMessage('map_floor').toUpperCase() + ' ' + Locale.formatNumber(currentData.fid);
+        }
         const THRESHOLD = 8;
-        if (ctx.getImageData(0, 0, canvas.width, TILE_SIZE).data.find((v, i) => v > THRESHOLD && (i & 3) != 3)) {
+        const FIT_TITLE = false;
+        ctx.font = 'bold 48px sans-serif';
+        const width = FIT_TITLE ? Math.min(Math.ceil(ctx.measureText(title).width) + 16, canvas.width) : canvas.width;
+        const height = FIT_TITLE ? 50 : TILE_SIZE;
+        if (ctx.getImageData(Math.floor((canvas.width - width) / 2), Math.floor((TILE_SIZE - height) / 2), width, height).data.find((v, i) => v > THRESHOLD && (i & 3) != 3)) {
             table.style.marginTop = TILE_SIZE + 'px';
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             canvas.height = (rows + 1) * TILE_SIZE;
@@ -2151,10 +2159,6 @@ async function drawMine(args) {
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvas.width, TILE_SIZE);
             setCanvasZoom();
-        }
-        let title = getLocationName(currentData.lid, currentData.location);
-        if (currentData.floors.length > 1) {
-            title += ' \u2013 ' + gui.getMessage('map_floor').toUpperCase() + ' ' + Locale.formatNumber(currentData.fid);
         }
         ctx.font = 'bold 48px sans-serif';
         ctx.textBaseline = 'middle';
