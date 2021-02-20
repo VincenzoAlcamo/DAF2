@@ -306,6 +306,10 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   cursor: grabbing;
 }
 
+.tab_map .map .overlay {
+  position: absolute;
+}
+
 .tab_map .map .line {
   position: absolute;
   height: 10px;
