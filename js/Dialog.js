@@ -43,10 +43,13 @@ Object.assign(Dialog, {
         for (let node = container.firstChild; node; node = node.nextSibling) parent.appendChild(owner.importNode(node, true));
     },
     language: 'en',
-    getMessage: function getMessage(id, ...args) {
-        let text = chrome.i18n.getMessage(Dialog.language + '@' + id, args);
-        if (text == '' && Dialog.language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
-        return text;
+    getMessage: function(id, ...args) {
+        if (Dialog.$L !== Dialog.language) {
+            Dialog.$M = {};
+            const data0 = chrome.i18n.getMessage('en').split('|'), data1 = chrome.i18n.getMessage(Dialog.$L = Dialog.language).split('|');
+            chrome.i18n.getMessage('keys').split('|').forEach((key, index) => Dialog.$M[key] = data1[index] || data0[index]);
+        }
+        return (Dialog.$M[id] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
     },
     onkeydown: function (event) {
         if (event.keyCode == 27 && this.cancelable) {

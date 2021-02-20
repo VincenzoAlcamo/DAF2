@@ -20,11 +20,7 @@ const liInactive = [];
 const FB_OLD = 0, FB_NEW = 1, FB_MOBILE = 2;
 let fbPage, container, unmatchedList, started, countPhotos, captureOneBlock;
 
-function getMessage(id, ...args) {
-    let text = chrome.i18n.getMessage(language + '@' + id, args);
-    if (text == '' && language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
-    return text;
-}
+const getMessage = Dialog.getMessage;
 
 function addFriend(friend) {
     const old = hashById[friend.id];

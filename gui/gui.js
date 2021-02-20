@@ -1111,32 +1111,25 @@ function openWiki(page) {
 
 // eslint-disable-next-line no-unused-vars
 async function processLanguages() {
-    let result = {};
-    result.ext_title = result.ext_name = {
-        message: ''
-    };
+    const langs = {};
     for (const lang of bgp.Data.guiLanguages) {
-        const url = chrome.extension.getURL('/._locales/' + lang + '/messages.json');
-        const response = await fetch(url);
-        const text = await response.text();
-        const items = JSON.parse(text);
+        const messages = langs[lang] = {};
+        const items = JSON.parse(await (await fetch(chrome.extension.getURL('/._locales/' + lang + '/messages.json'))).text());
         for (const [key, item] of Object.entries(items)) {
-            let message = item.message;
-            const placeholders = item.placeholders;
-            if (placeholders) {
+            messages[key] = item.message;
+            if (item.placeholders) {
                 const hash = {};
-                for (const [key, item] of Object.entries(placeholders)) hash[key.toLowerCase()] = item.content;
-                message = message.replace(/\$([a-z][a-z0-9_]*)\$/gi, (t, name) => hash[name.toLowerCase()]);
+                for (const [k, i] of Object.entries(item.placeholders)) hash[k.toLowerCase()] = i.content;
+                messages[key] = item.message.replace(/\$([a-z][a-z0-9_]*)\$/gi, (t, name) => hash[name.toLowerCase()]);
             }
-            result[lang + '@' + key.toLowerCase()] = {
-                message
-            };
         }
-        if (lang == 'en') {
-            result.ext_name = result[lang + '@ext_name'];
-            result.ext_title = result[lang + '@ext_title'];
-        } else delete result[lang + '@ext_name'];
     }
-    result = JSON.stringify(result).replace(/},"/g, '},\n"');
-    gui.downloadData({ data: result, filename: 'messages.json', overwrite: true });
+    const en = langs.en;
+    const keys = Object.keys(en).sort();
+    const result = { ext_name: { message: en.ext_name }, ext_title: { message: en.ext_title }, keys: { message: keys.join('|') } };
+    for (const [lang, messages] of Object.entries(langs)) {
+        result[lang] = { message: keys.map(key => (key in messages ? messages[key] : '')).join('|').replace(/\$/g, '^') };
+    }
+    const data = JSON.stringify(result).replace(/},"/g, '},\n"');
+    gui.downloadData({ data, filename: 'messages.json', overwrite: true });
 }

@@ -27,9 +27,12 @@ function changeLocale(localeId) {
 }
 
 function getMessage(id, ...args) {
-    let text = chrome.i18n.getMessage(languageId + '@' + id, args);
-    if (text == '' && languageId != 'en') text = chrome.i18n.getMessage('en@' + id, args);
-    return text;
+    if (getMessage.$L !== languageId) {
+        getMessage.$M = {};
+        const data0 = chrome.i18n.getMessage('en').split('|'), data1 = chrome.i18n.getMessage(getMessage.$L = languageId).split('|');
+        chrome.i18n.getMessage('keys').split('|').forEach((key, index) => getMessage.$M[key] = data1[index] || data0[index]);
+    }
+    return (getMessage.$M[id] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
 }
 
 // eslint-disable-next-line no-var

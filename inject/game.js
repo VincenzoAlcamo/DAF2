@@ -47,10 +47,12 @@ function htmlEncodeBr(text) {
 }
 
 function getMessage(id, ...args) {
-    const language = prefs.language || 'en';
-    let text = chrome.i18n.getMessage(language + '@' + id, args);
-    if (text == '' && language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
-    return text;
+    if (getMessage.$L !== prefs.language) {
+        getMessage.$M = {};
+        const data0 = chrome.i18n.getMessage('en').split('|'), data1 = chrome.i18n.getMessage(getMessage.$L = prefs.language).split('|');
+        chrome.i18n.getMessage('keys').split('|').forEach((key, index) => getMessage.$M[key] = data1[index] || data0[index]);
+    }
+    return (getMessage.$M[id] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
 }
 
 function getFullWindow() {

@@ -35,11 +35,7 @@ let scrollHandle = 0;
 let links = [];
 let linkCount, oldLabel, mouseX, mouseY, startX, startY, autoOpenElement, autoOpenCount, flagLinks;
 
-function getMessage(id, ...args) {
-    let text = chrome.i18n.getMessage(options.language + '@' + id, args);
-    if (text == '' && options.language != 'en') text = chrome.i18n.getMessage('en@' + id, args);
-    return text;
-}
+const getMessage = Dialog.getMessage;
 
 function addListeners(obj, ...args) {
     args.forEach(fn => obj.addEventListener(fn.name, fn, true));
