@@ -1881,6 +1881,14 @@ async function drawMine(args) {
 
     // Static Addons
     drawAll(addons, 'staticAddonId', (x, y, tileDef, item, img) => {
+        // Clear any static addon that overlaps this one
+        const width = +item.columns;
+        const height = +item.rows;
+        for (let sy = 0; sy < height; sy++) {
+            for (let sx = 0; sx < width; sx++) {
+                if (sx > 0 || sy > 0) delete tileDefs[(y + sy) * cols + x + sx].staticAddonId;
+            }
+        }
         drawAddon(x, y, item, img);
     });
 
