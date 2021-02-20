@@ -439,7 +439,6 @@ function update() {
     btnPack.style.display = lastPack ? '' : 'none';
     btnOffer.style.display = lastOffer ? '' : 'none';
     btnTieredOffer.style.display = lastTieredOffer ? '' : 'none';
-    btnOffer.parentNode.style.display = (lastOffer || lastPack || lastTieredOffer) ? '' : 'none';
 
     container.querySelector('.stats').innerText = gui.getMessage('equipment_sellout', Locale.formatNumber(coins + coins_deco), Locale.formatNumber(coins), Locale.formatNumber(coins_deco));
 
