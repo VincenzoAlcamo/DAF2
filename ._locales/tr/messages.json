@@ -1,0 +1,2192 @@
+{
+    "ext_name": {
+        "message": "DA Friends 2"
+    },
+    "ext_title": {
+        "message": "Diggy's Adventure için Yardımcı Araç"
+    },
+    "menu_resetfullwindow": {
+        "message": "Yüklendiğinde sıfırla"
+    },
+    "menu_fullwindow": {
+        "message": "Tam pencerede oyun"
+    },
+    "menu_fullwindowheader": {
+        "message": "Üstbilgi"
+    },
+    "menu_fullwindowside": {
+        "message": "Yan çubuk"
+    },
+    "menu_fullwindowlock": {
+        "message": "Kilit"
+    },
+    "menu_gctable": {
+        "message": "Gc tablosunu görüntüle"
+    },
+    "menu_gctablecounter": {
+        "message": "Sayaç"
+    },
+    "menu_gctableregion": {
+        "message": "Bölge"
+    },
+    "menu_gccollected": {
+        "message": "Tüm GC toplandı"
+    },
+    "menu_autoclick": {
+        "message": "Facebook'un açılır penceresini otomatik tıklayın"
+    },
+    "menu_nogcpopup": {
+        "message": "GC toplarken açılır pencere yok"
+    },
+    "menu_reloadgame": {
+        "message": "Oyunu yeniden yükler ve yeni bir veri toplamaya zorlar"
+    },
+    "menu_switchportal": {
+        "message": "Portala geç"
+    },
+    "menu_switchfacebook": {
+        "message": "Facebook'a geç"
+    },
+    "menu_on": {
+        "message": "AÇIK"
+    },
+    "menu_off": {
+        "message": "KAPALI"
+    },
+    "gui_timeparts": {
+        "message": "g,s,d,sn"
+    },
+    "gui_card_clicker": {
+        "message": "Bu bölümü daraltmak/genişletmek için tıklayın"
+    },
+    "gui_show": {
+        "message": "Göster"
+    },
+    "gui_all": {
+        "message": "Herşey"
+    },
+    "gui_search": {
+        "message": "Arama"
+    },
+    "gui_filter": {
+        "message": "Filtrele"
+    },
+    "gui_name": {
+        "message": "İsim"
+    },
+    "gui_region_required": {
+        "message": "Bölge\nGereklidir"
+    },
+    "gui_theme_required": {
+        "message": "Bölge/Tema\nGereklidir"
+    },
+    "gui_level_required": {
+        "message": "Level (Seviye)\nGereklidir"
+    },
+    "gui_qty": {
+        "message": "Miktar"
+    },
+    "gui_qty_required": {
+        "message": "Miktar\nGereklidir"
+    },
+    "gui_energy": {
+        "message": "Enerji"
+    },
+    "gui_estimatedenergy": {
+        "message": "Tahmini enerji"
+    },
+    "gui_food": {
+        "message": "Yemek"
+    },
+    "gui_coins": {
+        "message": "Madeni paralar"
+    },
+    "gui_backpack": {
+        "message": "Sırt Çantası"
+    },
+    "gui_clickwiki": {
+        "message": "Wiki Sayfasını açmak için tıklayın."
+    },
+    "gui_from_any": {
+        "message": "bölgelerden veya etkinliklerden"
+    },
+    "gui_from_regions": {
+        "message": "bölgelerden"
+    },
+    "gui_from_events": {
+        "message": "etkinliklerden"
+    },
+    "gui_ingredients": {
+        "message": "Malzemeler"
+    },
+    "gui_event": {
+        "message": "Etkinlik"
+    },
+    "gui_specialweek": {
+        "message": "Özel hafta"
+    },
+    "gui_region": {
+        "message": "Bölge"
+    },
+    "gui_theme": {
+        "message": "Tema"
+    },
+    "gui_year": {
+        "message": "Yıl"
+    },
+    "gui_quest": {
+        "message": "Görev"
+    },
+    "gui_offer": {
+        "message": "Teklif"
+    },
+    "gui_tieredoffer": {
+        "message": "Katmanlı Teklif"
+    },
+    "gui_pack": {
+        "message": "Paket"
+    },
+    "gui_equipment": {
+        "message": "Ekipman"
+    },
+    "gui_shop": {
+        "message": "Dükkan"
+    },
+    "gui_decoration": {
+        "message": "Dekorasyon"
+    },
+    "gui_usable": {
+        "message": "Kullanılabilir"
+    },
+    "gui_token": {
+        "message": "Jeton"
+    },
+    "gui_level": {
+        "message": "Level (Seviye)"
+    },
+    "gui_xp": {
+        "message": "XP (Deneyim)"
+    },
+    "gui_sell_price": {
+        "message": "Satış fiyatı"
+    },
+    "gui_neighbour": {
+        "message": "Komşu"
+    },
+    "gui_friend": {
+        "message": "Arkadaş"
+    },
+    "gui_firstrecorded": {
+        "message": "İlk\nKaydedildi"
+    },
+    "gui_loadingresources": {
+        "message": "Kaynaklar yükleniyor ($NUM$/$TOTAL$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "gui_screenshot_shot": {
+        "message": "Bu bölümün ekran görüntüsünü almak için tıklayın.\nEkran görüntüsü sağda görünecektir.\nLütfen dikkat: sadece görünen alan yakalanır!\nBu özelliği etkinleştirmek için Chrome menüsündeki DAF2 simgesine tıklamanız gerekir."
+    },
+    "gui_screenshot_target": {
+        "message": "Resmi indirmek için tıklayınız.\nBu görüntüyü sağ tıklayıp panoya kopyalamak için \"Görüntüyü kopyala\" yı seçebilirsiniz."
+    },
+    "gui_screenshot_error": {
+        "message": "Ekran görüntüsü alınamıyor"
+    },
+    "gui_screenshot_errorinfo": {
+        "message": "Öncelikle, Chrome menüsünde @DAF2@ simgesine tıklamanız gerekir.\nBu, sayfa kapanana kadar ekran görüntüsü işlevini etkinleştirecektir.\n\nLütfen @DAF2@ simgesine tıklayın ve ardından ekran görüntüsü almayı yeniden deneyin."
+    },
+    "gui_infodated": {
+        "message": "Burada gösterilen bilgiler günceldir ve yalnızca '$VALID$' itibariyle geçerlidir.",
+        "placeholders": {
+            "valid": {
+                "content": "$1"
+            }
+        }
+    },
+    "gui_nonote": {
+        "message": "Not yok"
+    },
+    "gui_minimum": {
+        "message": "Minimum"
+    },
+    "gui_maximum": {
+        "message": "Maksimum"
+    },
+    "gui_average": {
+        "message": "Ortalama"
+    },
+    "gui_loot": {
+        "message": "Ganimet"
+    },
+    "gui_datafrompf": {
+        "message": "Pixel Federation oyun dosyalarından elde edilen veriler"
+    },
+    "gui_gift": {
+        "message": "Hediye"
+    },
+    "gui_gifts": {
+        "message": "Hediyeler"
+    },
+    "gui_day": {
+        "message": "Gün"
+    },
+    "gui_placed": {
+        "message": "Kampa yerleştirildi"
+    },
+    "gui_owned": {
+        "message": "Sahibi"
+    },
+    "gui_limit": {
+        "message": "Limit"
+    },
+    "gui_type": {
+        "message": "Tür"
+    },
+    "gui_width": {
+        "message": "Genişlik"
+    },
+    "gui_height": {
+        "message": "Yükseklik"
+    },
+    "gui_value": {
+        "message": "Değer"
+    },
+    "gui_slot_value": {
+        "message": "Slot Değeri"
+    },
+    "gui_cost": {
+        "message": "Maliyet"
+    },
+    "gui_items_found": {
+        "message": "Ürünler bulundu"
+    },
+    "gui_reset": {
+        "message": "Sıfırla"
+    },
+    "gui_material": {
+        "message": "Malzeme"
+    },
+    "gui_filter_clear": {
+        "message": "Temiz"
+    },
+    "gui_filter_invert": {
+        "message": "Ters çevir"
+    },
+    "gui_advancedfilter": {
+        "message": "Gelişmiş filtre"
+    },
+    "gui_location": {
+        "message": "Yer"
+    },
+    "gui_locked": {
+        "message": "Kilitli"
+    },
+    "gui_noresults": {
+        "message": "Sonuç yok"
+    },
+    "gui_toomanyresults": {
+        "message": "Çok fazla sonuç"
+    },
+    "gui_id": {
+        "message": "Kimlik (Id)"
+    },
+    "gui_date": {
+        "message": "Tarih"
+    },
+    "gui_ctrlclick": {
+        "message": "Tümünü seçmek/seçimi kaldırmak için CTRL'yi kullanın"
+    },
+    "gui_summary": {
+        "message": "Özet"
+    },
+    "dialog_ok": {
+        "message": "Tamam"
+    },
+    "dialog_yes": {
+        "message": "Evet"
+    },
+    "dialog_no": {
+        "message": "Hayır"
+    },
+    "dialog_confirm": {
+        "message": "Onay"
+    },
+    "dialog_cancel": {
+        "message": "İptal"
+    },
+    "dialog_close": {
+        "message": "Kapat"
+    },
+    "dialog_pleasewait": {
+        "message": "Lütfen Bekleyin"
+    },
+    "tab_game": {
+        "message": "Oyuna geç"
+    },
+    "tab_about": {
+        "message": "Hakkında"
+    },
+    "tab_progress": {
+        "message": "İlerleme"
+    },
+    "tab_camp": {
+        "message": "Kamp"
+    },
+    "tab_map": {
+        "message": "Harita"
+    },
+    "tab_kitchen": {
+        "message": "Mutfak"
+    },
+    "tab_foundry": {
+        "message": "Dökümhane"
+    },
+    "tab_pillars": {
+        "message": "Sütunlar"
+    },
+    "tab_neighbors": {
+        "message": "Komşular"
+    },
+    "tab_friendship": {
+        "message": "Arkadaşlık"
+    },
+    "tab_godchild": {
+        "message": "Enerji Çocukları"
+    },
+    "tab_locations": {
+        "message": "Konumlar"
+    },
+    "tab_greenrings": {
+        "message": "Yeşil Yüzükler"
+    },
+    "tab_redrings": {
+        "message": "Kırmızı Yüzükler"
+    },
+    "tab_christmasrings": {
+        "message": "Noel Yüzükleri"
+    },
+    "tab_rewardlinks": {
+        "message": "Ödül Bağlantıları"
+    },
+    "tab_options": {
+        "message": "Seçenekler"
+    },
+    "tab_help": {
+        "message": "Yardım"
+    },
+    "tab_export": {
+        "message": "İçe aktarma/Dışa aktarma"
+    },
+    "tab_equipment": {
+        "message": "Ekipman/Dükkan"
+    },
+    "tab_events": {
+        "message": "Etkinlikler"
+    },
+    "tab_repeat": {
+        "message": "Tekrarlanabilirler"
+    },
+    "tab_dailyreward": {
+        "message": "Günlük Ödül"
+    },
+    "about_version": {
+        "message": "Sürüm: $VERSION$",
+        "placeholders": {
+            "version": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_data": {
+        "message": "Son Veri Anlık Görüntüsü: $TIME$\nOyun Sitesi: $SITE$ ($PLATFORM$)\nKullanıcı Kimliği: #$USERID$\"",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            },
+            "userid": {
+                "content": "$2"
+            },
+            "site": {
+                "content": "$3"
+            },
+            "platform": {
+                "content": "$4"
+            }
+        }
+    },
+    "about_visit": {
+        "message": "Resmi Facebook sayfasını ziyaret edin"
+    },
+    "about_nodata": {
+        "message": "Henüz Oyun Verisi Yüklenmedi, lütfen oyun penceresini yükleyin veya yenileyin."
+    },
+    "about_disclaimer": {
+        "message": "Da Friends 'Fan Kodu'dur ve \"Diggy's Adventure\" oyunun sahibi olan Pixel Federation firması tarafından ne onaylanmakta nede desteklenmektedir. DA Friends eklentisini riski size ait olmak üzere kullanırsınız. İşlevsellik veya kullanılabilirlik açısından açık veya örtülü hiçbir garanti verilmez veya garantiyle birlikte gelmez. Bu uzantı yazarı, kullanımdan kaynaklanan herhangi bir hasar veya kayıptan sorumlu tutulamaz. Bu uzantıyı kullanarak bu şartları kabul etmiş olursunuz."
+    },
+    "about_translators": {
+        "message": "Çevirmenler"
+    },
+    "about_alternate": {
+        "message": "Alternatif hesap yüklendi ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Önceki hesabınızın verileri korunmuştur. Verilerinizi sıfırlamak ve başka bir hesap kullanmak için @RESET@ seçeneğine tıklayın."
+    },
+    "about_reset_ask_title": {
+        "message": "Hesabı sıfırla"
+    },
+    "about_reset_ask_text": {
+        "message": "Başka bir hesap kullanabilmek için verilerinizi sıfırlamak istiyor musunuz?"
+    },
+    "about_reset_ok_title": {
+        "message": "Veriler sıfırlandı"
+    },
+    "about_reset_ok_text": {
+        "message": "Lütfen kullanmak istediğiniz hesapla Diggy's Adventure'yi yeniden yükleyin."
+    },
+    "kitchen_all": {
+        "message": "Tüm tarifler"
+    },
+    "kitchen_only_possible": {
+        "message": "Sadece olası tarifler"
+    },
+    "kitchen_time_to_cook": {
+        "message": "Yemek Zamanı"
+    },
+    "kitchen_energy_hour": {
+        "message": "Saat Başına Enerji"
+    },
+    "kitchen_possible_dishes": {
+        "message": "Olası Yemekler"
+    },
+    "kitchen_possible_energy": {
+        "message": "Olası Enerji"
+    },
+    "kitchen_total_time": {
+        "message": "Pişirme Süresi ($POTS$ Pots)",
+        "placeholders": {
+            "pots": {
+                "content": "$1"
+            }
+        }
+    },
+    "kitchen_food_in_backpack": {
+        "message": "Sırt çantasındaki yiyeceklerden"
+    },
+    "foundry_all": {
+        "message": "Tüm alaşımlar"
+    },
+    "foundry_only_possible": {
+        "message": "Sadece olası alaşımlar"
+    },
+    "foundry_time_to_craft": {
+        "message": "Üretim Zamanı"
+    },
+    "foundry_qty": {
+        "message": "Örs Başına Hazırlanmış"
+    },
+    "foundry_possible_alloys": {
+        "message": "Olası Alaşımlar"
+    },
+    "foundry_total_time": {
+        "message": "Üretim Süresi ($ANVILS$ Örs)",
+        "placeholders": {
+            "anvils": {
+                "content": "$1"
+            }
+        }
+    },
+    "foundry_uplift": {
+        "message": "Artış (XP/saat)"
+    },
+    "foundry_uplift_info": {
+        "message": "Xp, sütunlardan elde edilen değerlere göre 1 saat içinde tek bir örs ile kazanılmıştır."
+    },
+    "camp_your_camp": {
+        "message": "Senin kampın"
+    },
+    "camp_player_name": {
+        "message": "$PLAYER$ adlı kişinin $DATE$ tarihindeki kampı",
+        "placeholders": {
+            "player": {
+                "content": "$1"
+            },
+            "date": {
+                "content": "$2"
+            }
+        }
+    },
+    "camp_no_player": {
+        "message": "Henüz kamp ziyaret edilmedi"
+    },
+    "camp_player": {
+        "message": "Oyuncu"
+    },
+    "camp_total": {
+        "message": "Toplam"
+    },
+    "camp_fill_time": {
+        "message": "Doldurma süresi"
+    },
+    "camp_fill_time_info": {
+        "message": "Enerji çubuğunun boştan tam kapasiteye geçmesi için gereken süre"
+    },
+    "camp_windmill_regen": {
+        "message": "Tek yel değirmeni yenilenmesi"
+    },
+    "camp_windmill_regen_total": {
+        "message": "Toplam yel değirmeni yenilenmesi"
+    },
+    "camp_windmill_num": {
+        "message": "Mevcut yel değirmelerinin sayısı"
+    },
+    "camp_windmill_expiry": {
+        "message": "Yel değirmenleri $TIME$ sonra sona erecek",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_empty": {
+        "message": "Boş slot"
+    },
+    "camp_slot_blocked": {
+        "message": "Engellenen alan"
+    },
+    "camp_regen": {
+        "message": "Yenilenme"
+    },
+    "camp_capacity": {
+        "message": "Kapasite"
+    },
+    "camp_windmills": {
+        "message": "Yel değirmenleri"
+    },
+    "camp_avg_value": {
+        "message": "Slot ortalama"
+    },
+    "camp_min_value": {
+        "message": "Slot minimum"
+    },
+    "camp_max_value": {
+        "message": "Slot maksimum"
+    },
+    "camp_num_slots": {
+        "message": "Slotların sayısı"
+    },
+    "camp_unlock_materials": {
+        "message": "Kampın kilidini açmak için gerekli malzemeler"
+    },
+    "camp_unlock_one": {
+        "message": "1 slotun kilidini açmak net $VALUE$ XP sağlayacaktır.",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_unlock_cost": {
+        "message": "1 slotun kilidi $VALUE$ mücevher veya şu malzemelerle açılabilir:",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_start_date": {
+        "message": "Oynamaya başladınız:\n$STARTED$",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_day_mode": {
+        "message": "Gündüz modu"
+    },
+    "camp_night_mode": {
+        "message": "Gece modu"
+    },
+    "camp_setup_mode": {
+        "message": "Kurulum modu"
+    },
+    "camp_webgl": {
+        "message": "Kampı WEBGL sıralamasında göster"
+    },
+    "camp_discounted": {
+        "message": "İndirimli"
+    },
+    "camp_neighbor": {
+        "message": "Komşunun kampı"
+    },
+    "camp_extra": {
+        "message": "Ekstra"
+    },
+    "map_floor": {
+        "message": "Kat"
+    },
+    "map_floor_current": {
+        "message": "Şu an bulunduğumuz kat"
+    },
+    "map_floor_found": {
+        "message": "Bu kata ait haritayı görüntülemek için tıklayın"
+    },
+    "map_floor_not_found": {
+        "message": "Bu kat henüz ziyaret edilmedi"
+    },
+    "map_remaining_tiles": {
+        "message": "Kalan fayanslar"
+    },
+    "map_special": {
+        "message": "Özel"
+    },
+    "map_quest": {
+        "message": "Görev"
+    },
+    "map_this_floor": {
+        "message": "Bu kat"
+    },
+    "map_all_floors": {
+        "message": "Tüm katlar"
+    },
+    "map_warning": {
+        "message": "Lütfen oyuna girin ve herhangi bir yere gidin, ardından buraya geri dönün!"
+    },
+    "map_button_d": {
+        "message": "Diggy'i göster"
+    },
+    "map_button_t": {
+        "message": "Işınlanmaları göster"
+    },
+    "map_button_e": {
+        "message": "İşaretçileri göster"
+    },
+    "map_button_g": {
+        "message": "Hata ayıklama bilgilerini göster"
+    },
+    "map_button_l": {
+        "message": "Kırılabilir karoları vurgulayın"
+    },
+    "map_button_n": {
+        "message": "Önemli ganimet ile karoları vurgulayın"
+    },
+    "map_button_v": {
+        "message": "Döşeme görünürlüğü kalıcıdır"
+    },
+    "map_button_o": {
+        "message": "Opak fayansları göster"
+    },
+    "map_button_b": {
+        "message": "Bonus göstergesini göster"
+    },
+    "map_button_k": {
+        "message": "Kırılabilir tüm kutucukları gizleyerek arka planı göster"
+    },
+    "map_button_a": {
+        "message": "Tüm fayansları göster"
+    },
+    "map_button_x": {
+        "message": "Giriş ve çıkışları göster"
+    },
+    "map_button_u": {
+        "message": "Orjinal haritayı göster"
+    },
+    "map_button_f": {
+        "message": "Tam haritayı göster"
+    },
+    "map_save": {
+        "message": "Kayıt"
+    },
+    "map_save_tip": {
+        "message": "Haritayı bir resim dosyası olarak kaydedin"
+    },
+    "map_mine_exit": {
+        "message": "Benimkinden çıkar"
+    },
+    "map_goto_floor": {
+        "message": "$NUM$ kata gider",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Başka bir kata gidiyor, ama bu yol henüz alınmadı."
+    },
+    "map_teleport": {
+        "message": "Işınlanma"
+    },
+    "map_hint": {
+        "message": "İpucu"
+    },
+    "map_beacon": {
+        "message": "İşaret"
+    },
+    "map_active": {
+        "message": "Aktif"
+    },
+    "map_not_active": {
+        "message": "Aktif değil"
+    },
+    "map_tile": {
+        "message": "Fayans"
+    },
+    "map_npc": {
+        "message": "Npc"
+    },
+    "map_says": {
+        "message": "Diyor"
+    },
+    "map_godchild": {
+        "message": "Enerji çocuğu"
+    },
+    "map_unknown": {
+        "message": "Bilinmeyen"
+    },
+    "map_yellow": {
+        "message": "Sarı"
+    },
+    "map_red": {
+        "message": "Kırmızı"
+    },
+    "map_blue": {
+        "message": "Mavi"
+    },
+    "map_green": {
+        "message": "Yeşil"
+    },
+    "map_left": {
+        "message": "Sol"
+    },
+    "map_down": {
+        "message": "Aşağı"
+    },
+    "map_right": {
+        "message": "Sağ"
+    },
+    "map_up": {
+        "message": "Yukarı"
+    },
+    "map_require_draggable": {
+        "message": "Sürükleme gerektirir"
+    },
+    "map_require_item": {
+        "message": "Öğe gerektirir"
+    },
+    "map_require_light": {
+        "message": "Işık gerektirir"
+    },
+    "map_emitter": {
+        "message": "Işık yayıcı"
+    },
+    "map_mirror": {
+        "message": "Ayna"
+    },
+    "map_filter": {
+        "message": "Işık filtresi"
+    },
+    "map_draggable": {
+        "message": "Sürüklenebilir"
+    },
+    "map_can_move": {
+        "message": "Taşınabilir"
+    },
+    "map_can_rotate": {
+        "message": "Döndürülebilir"
+    },
+    "map_fixed": {
+        "message": "Düzeltildi"
+    },
+    "map_remove_confirmation": {
+        "message": "Bu madenlerin kaldırılmasını onaylıyor musun?"
+    },
+    "map_option_c": {
+        "message": "Araç ipucunda korrdinatları göster"
+    },
+    "map_option_s": {
+        "message": "Bölge seçiciyi göster"
+    },
+    "map_option_i": {
+        "message": "Konum bilgisini göster"
+    },
+    "map_option_r": {
+        "message": "Tekrarlanabilirleri göster"
+    },
+    "map_option_t": {
+        "message": "Harita başlığı ekleyin"
+    },
+    "map_option_resize": {
+        "message": "Kaydedilen görüntünün boyutu"
+    },
+    "map_export_location": {
+        "message": "Tüm katları veri dosyası olarak dışa aktar"
+    },
+    "map_export_floor": {
+        "message": "Mevcut katı veri dosyası olarak dışa aktar"
+    },
+    "map_import": {
+        "message": "Önceden dışa aktarılan veri dosyasını içe aktar"
+    },
+    "map_downloadfolder": {
+        "message": "Klasörü indir"
+    },
+    "pillars_all": {
+        "message": "Tüm sütunlar"
+    },
+    "pillars_only_possible": {
+        "message": "Yanlızca olası sütunlar"
+    },
+    "pillars_perc_next": {
+        "message": "%\nSonraki"
+    },
+    "pillars_possible": {
+        "message": "Mümkün"
+    },
+    "pillars_totals": {
+        "message": "Toplamlar"
+    },
+    "pillars_current_level": {
+        "message": "Mevcut Seviyeniz (Level)"
+    },
+    "pillars_predicted": {
+        "message": "Tahmin Edilen"
+    },
+    "pillars_predicted_level": {
+        "message": "Öngörülen Seviye (Level)"
+    },
+    "pillars_predicted_gain": {
+        "message": "Seviye atlamalardan beklenen kazanç"
+    },
+    "pillars_ignore": {
+        "message": "Yoksaymak/düşünmek için tıklayın"
+    },
+    "pillars_altclick": {
+        "message": "Tüm miktarları sıfırlamak/ayarlamak için ALT'ı kullanın"
+    },
+    "pillars_maxpossible": {
+        "message": "Mümkün olan maksimum"
+    },
+    "pillars_grid": {
+        "message": "Izgara olarak göster"
+    },
+    "pillars_cap": {
+        "message": "Olası sınır"
+    },
+    "neighbors_lastlevelup": {
+        "message": "Son Seviye Atlama"
+    },
+    "neighbors_lastgiftreceived": {
+        "message": "Alınan Son Hediye"
+    },
+    "neighbors_yourlastvisit": {
+        "message": "Senin son ziyaretin"
+    },
+    "neighbors_all": {
+        "message": "Tümü"
+    },
+    "neighbors_nogift": {
+        "message": "$NUM$ günler hediye yok",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "neighbors_gifts": {
+        "message": "Son @DAYS@ günler içindeki hediyeleri göz önünde bulundurun"
+    },
+    "neighbors_listed": {
+        "message": "Özel liste"
+    },
+    "neighbors_blocks": {
+        "message": "Yeraltı kampında temizlenecek bloklar"
+    },
+    "neighbors_inlist": {
+        "message": "Özel listede"
+    },
+    "neighbors_notinlist": {
+        "message": "Özel listede yok"
+    },
+    "neighbors_withblocks": {
+        "message": "Temizlenecek bloklarla"
+    },
+    "neighbors_unknownblocks": {
+        "message": "Blok durumu bilinmiyor"
+    },
+    "neighbors_withexpiredwindmills": {
+        "message": "Süresi dolmuş yel değirmenleri ile"
+    },
+    "neighbors_found": {
+        "message": "Bulunan komşular: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_giftcount": {
+        "message": "Hediye Sayısı"
+    },
+    "neighbors_giftvalue": {
+        "message": "Hediye Değeri (XP'de)"
+    },
+    "neighbors_efficiency": {
+        "message": "Verimlilik (hediyeler/günler)"
+    },
+    "neighbors_wmtime": {
+        "message": "Yel değirmeni sona erme süresi"
+    },
+    "neighbors_giftinfo": {
+        "message": "Hediyenin tarihi, gönderildiği tarihi değil, DAF'ın hediyeyi ilk kaydettiği zamanı gösterir."
+    },
+    "neighbors_gifttip": {
+        "message": "$NAME$\nXP (Deneyim): $XP$\nGün: $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_gift": {
+        "message": "$DAY$ 'de $NAME$ ($XP$ XP)",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_advancedfilterinfo": {
+        "message": "Aşağıdaki listeden bir veya daha fazla hediye seçerek komşularınıza son @DAYS@ günde gönderdikleri hediyelere göre daha fazla filtre uygulayabilirsiniz."
+    },
+    "neighbors_clearfilter": {
+        "message": "Filtreyi temizle"
+    },
+    "neighbors_gift_tooltip": {
+        "message": "DAF2 etkinken ve kaydederken alınan hediyeler."
+    },
+    "neighbors_sortby": {
+        "message": "Sıralama ölçütü"
+    },
+    "neighbors_totxpstats": {
+        "message": "$DAYS$ gün içinde $COUNT$ hediyeler = $TOTAL$ XP ($AVERAGE$ XP/gün)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Ortalama hediye değeri = $XP$ XP ($AVERAGE$ XP komşu/gün)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_expression": {
+        "message": "Değerlendirilecek bir ifade belirtin"
+    },
+    "friendship_collectfriends": {
+        "message": "Arkadaş toplayın"
+    },
+    "friendship_score": {
+        "message": "Puan"
+    },
+    "friendship_scoretooltip": {
+        "message": "Aşağıdaki gibi güven uyumu:\n100 = Aynı Facebook kimliği\n99 = Elle eşleştirme\n95 = Aynı profil resmi\n90 = Aynı tam ad\n80 = Aynı ad ve soyad\n70 = Aynı ad ve soyadı (ters çevrildi)\n60 = Çince karakterler eşleşiyor"
+    },
+    "friendship_action": {
+        "message": "Aksiyon"
+    },
+    "friendship_actionignore": {
+        "message": "Bu arkadaş eşleşme için kabul edilir\nEşleşme sırasında bu arkadaşı yok saymak için tıklayın"
+    },
+    "friendship_actionregard": {
+        "message": "Bu arkadaş eşleşmede yok sayıldı\nBu arkadaşı değerlendirmek için tıklayın"
+    },
+    "friendship_actionunlink": {
+        "message": "Eşleşmeyi kaldırmak için tıklayın"
+    },
+    "friendship_actionmanual": {
+        "message": "Bu komşuyu manuel olarak eşleştirmek için tıklayın"
+    },
+    "friendship_actiondelete": {
+        "message": "Bu arkadaşı kalıcı olarak silmek için tıklayın"
+    },
+    "friendship_matchplayertitle": {
+        "message": "Bu maçı iptal etmek için buraya tıklayın"
+    },
+    "friendship_accountdisabled": {
+        "message": "Hesap devredışı"
+    },
+    "friendship_disabledaccountsdetected": {
+        "message": "Devre dışı bırakılan hesaplar tespit edildi."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Devre dışı bırakılan ve/veya eşleşmeyen hesaplar tespit edildi."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Arkadaşlarını bu sayfadan kaldırabilirsin.\n\nLütfen Facebook hesaplarının geçici olarak devre dışı bırakılabileceğini ve daha sonra etkinleştirilebileceğini unutmayın."
+    },
+    "friendship_confirmcollect": {
+        "message": "Onaylamak için EVET'e, daha fazla denemek için HAYIR'a basın.\n\nİşlemi iptal etmek için istediğiniz zaman bu pencereyi kapatabilirisiniz."
+    },
+    "friendship_speedupcollect": {
+        "message": "Hızlandırma koleksiyonu?"
+    },
+    "friendship_filter_a": {
+        "message": "Arkadaşlar: $FRIENDS$, Komşular: $NEIGHBOURS$",
+        "placeholders": {
+            "friends": {
+                "content": "$1"
+            },
+            "neighbours": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_filter_d": {
+        "message": "Devre dışı bırakılan Facebook hesapları: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_m": {
+        "message": "Eşleşen arkadaşlar ve komşular: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_g": {
+        "message": "Resme göre eşleşen arkadaşlar ve komşular: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_h": {
+        "message": "Manuel eşleşen arkadaşlar ve komşular: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_i": {
+        "message": "Yoksayılan arkadaşlar: $ NUM $",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_f": {
+        "message": "Eşleşmeyen arkadaşlar: $ NUM $",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_u": {
+        "message": "Gözardı edilen ve/veya eşleşmeyen arkadaşlar: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_n": {
+        "message": "Eşleşmeyen komşular: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_s": {
+        "message": "Eşleşmeyen arkadaşlar ve komşular: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectpreamble": {
+        "message": "Burada Facebook arkadaşlarınızı toplayabilir ve komşularınızla eşleştirebilirsiniz."
+    },
+    "friendship_collectstandard": {
+        "message": "Standart"
+    },
+    "friendship_collectstandardinfo": {
+        "message": "Bu yöntem güvenilirdir, ancak çok yavaştır. (birkaç dakika sürebilir)"
+    },
+    "friendship_collectunmatched": {
+        "message": "Eşsiz"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Bu yöntem 'Standart' yöntemle aynıdır, ancak arkadaş toplamaz.\r\nBunun yerine, size şu anda eşsiz olan tüm arkadaşları gösterecek, böylece onları manuel olarak kaldırabilirsiniz."
+    },
+    "friendship_disabledinfo": {
+        "message": "Devre dışı bırakılan hesapları tespit edebilir."
+    },
+    "friendship_collectmatch": {
+        "message": "Eşleşme"
+    },
+    "friendship_collectmatchinfo": {
+        "message": "Bu, arkadaşlarınız ve komşularınız arasındaki otomatik maçı gerçekleştirecek.\r\nArkadaş listeniz yenilenmeyecek.\r\nGöz ardı edilen ve 90'dan büyük puana sahip arkadaşlar otomatik olarak eşleştirilmez.\r\nArkadaş koleksiyonunuzun sonunda eşleştirme yine de yapılacaktır."
+    },
+    "friendship_matchbyimage": {
+        "message": "Profil resmine göre eşleştirilsin mi?"
+    },
+    "friendship_confirmwarning": {
+        "message": "Bu işlem birkaç dakika sürebilir.\n\nLütfen devam etmek istediğinizi onaylayın."
+    },
+    "friendship_confirmcollection": {
+        "message": "Koleksiyon sonucunu onaylıyor musunuz?"
+    },
+    "friendship_cc_maybe": {
+        "message": "Emin değilseniz"
+    },
+    "friendship_collecterror": {
+        "message": "Bir şeyler yanlış gitti."
+    },
+    "friendship_manualhelp": {
+        "message": "Lütfen DAF2 sayfasını yenileyin, \"$FRIENDSHIP$\" sekmesine gidin, \"$COLLECT$\" ı tıklayın ve \"$MATCH$\" seçin",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_analyzingmatches": {
+        "message": "Veriler analiz ediliyor, $PERCENT$ % ($NUM$ / $TOTAL$)",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            },
+            "num": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_collectstat": {
+        "message": "Toplanan arkadaşlar: $COUNT$",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_manualmatchhelp": {
+        "message": "Bu komşuyu eşleştirmek için eşleşmeyen bir arkadaş bulmalı ve ⭐ sembolünün olduğu hücreye tıklamalısın."
+    },
+    "friendship_friendupdateinfo": {
+        "message": "Facebook Arkadaş Listesi $DATE$ tarihinde güncellendi",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_totalfriends": {
+        "message": "Arkadaşlar: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_totalneighbours": {
+        "message": "Komşular: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_timewarning": {
+        "message": "Lütfen \"$COLLECT$\" düğmesini tıklayın ve \"$METHOD$\" yöntemini seçin.",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_info": {
+        "message": "$NUM$ Komşular = $GC$ Enerji çocukları",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "gc": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_stat": {
+        "message": "Enerji çocukları: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_next": {
+        "message": "Ek bir GC (Enerji çocukları) almak için $NUM$ daha fazla komşu eklemelisiniz.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "godchild_next0": {
+        "message": "Mümkün olan maksimum GC (Enerji çocukları) sayısına ulaştınız."
+    },
+    "godchild_next1": {
+        "message": "Ek bir GC (Enerji çocukları) almak için sadece bir komşu daha eklemelisiniz."
+    },
+    "progress_measure": {
+        "message": "Ölçü"
+    },
+    "progress_attained": {
+        "message": "Ulaşıldı"
+    },
+    "progress_goal": {
+        "message": "Hedef"
+    },
+    "progress_remaining": {
+        "message": "Kalan fayanslar"
+    },
+    "progress_progress": {
+        "message": "İlerleme"
+    },
+    "progress_achievements": {
+        "message": "Başarılar"
+    },
+    "progress_treasures": {
+        "message": "Hazineler"
+    },
+    "progress_overall": {
+        "message": "Genel"
+    },
+    "progress_hidecompleted": {
+        "message": "Tamamlananları gizle"
+    },
+    "progress_grouplocations": {
+        "message": "Grup konumları"
+    },
+    "progress_showdates": {
+        "message": "Yer tarihleri"
+    },
+    "progress_energyinfo": {
+        "message": "Burada gösterilen enerji, kalan fayans sayısının ortalama döşeme maliyeti ile çarpılmasıyla tahmin edilir.\r\nOrtalama fayans maliyeti, tamamlama bonusuna ve toplam fayans sayısına bağlıdır."
+    },
+    "progress_averagetilecost": {
+        "message": "Ortalama fayans maliyeti"
+    },
+    "progress_achievementnextstep": {
+        "message": "Sonraki adım = $NEXT$",
+        "placeholders": {
+            "next": {
+                "content": "$1"
+            }
+        }
+    },
+    "progress_start": {
+        "message": "Başladı"
+    },
+    "progress_end": {
+        "message": "Bitti"
+    },
+    "progress_duration": {
+        "message": "Süresi"
+    },
+    "progress_subtotal": {
+        "message": "Ara -Toplam"
+    },
+    "progress_grandtotal": {
+        "message": "Genel-Toplam"
+    },
+    "progress_playtime": {
+        "message": "$STARTED$ oynamaya başladınız ve $DURATION$ karşılığında oynuyorsunuz ($NOW$ olarak)",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            },
+            "duration": {
+                "content": "$2"
+            },
+            "now": {
+                "content": "$3"
+            }
+        }
+    },
+    "progress_levelrange": {
+        "message": "$FROM$ ile $TO$ arasında",
+        "placeholders": {
+            "from": {
+                "content": "$1"
+            },
+            "to": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_id": {
+        "message": "Ödül Kimliği"
+    },
+    "rewardlinks_insertdate": {
+        "message": "Ekleme tarihi"
+    },
+    "rewardlinks_collectdate": {
+        "message": "Toplama tarihi"
+    },
+    "rewardlinks_collectmaterial": {
+        "message": "Ödül Bulundu"
+    },
+    "rewardlinks_owner": {
+        "message": "Sahip"
+    },
+    "rewardlinks_expired": {
+        "message": "SÜRESİ DOLAN LİNK"
+    },
+    "rewardlinks_collected": {
+        "message": "ÖNCEDEN TOPLANDI"
+    },
+    "rewardlinks_maxreached": {
+        "message": "GÜNLÜK MAKSİMUM SAYIYA ULAŞILDI"
+    },
+    "rewardlinks_noself": {
+        "message": "KENDİ ÖDÜLÜNÜ ALAMAZSIN"
+    },
+    "rewardlinks_broken": {
+        "message": "KIRIK LİNK"
+    },
+    "rewardlinks_probablyexpired": {
+        "message": "MUHTEMELEN SÜRESİ DOLMUŞ LİNK"
+    },
+    "rewardlinks_background": {
+        "message": "Arka plan?"
+    },
+    "rewardlinks_addlinks": {
+        "message": "Linkleri ekleyin"
+    },
+    "rewardlinks_pasteadd": {
+        "message": "Eklenecek linkleri buraya yapıştırın, ardından \"$CONFIRM$\" düğmesine basın.",
+        "placeholders": {
+            "confirm": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Buraya yapıştırılan herhangi bir link doğrudan eklenecektir."
+    },
+    "rewardlinks_linksadded": {
+        "message": "Eklenen ödül linkleri: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_nolinksadded": {
+        "message": "Hiçbir ödül linki eklenmedi."
+    },
+    "rewardlinks_linksupdated": {
+        "message": "Ödül linkleri güncellendi: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_stats": {
+        "message": "Ödül linkleri: $TOTAL$, Toplanacak: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_allcollected": {
+        "message": "Tüm ödül linkleri toplandı"
+    },
+    "rewardlinks_nexttime": {
+        "message": "Sonraki koleksiyon $DATE$ tarihinde başlıyor",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_countremaining": {
+        "message": "Toplanacak kalan link sayısı: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_collectanyway": {
+        "message": "Yine de bu linki açmak istiyor musunuz?"
+    },
+    "rewardlinks_infocollected": {
+        "message": "Bu link zaten toplandı"
+    },
+    "rewardlinks_infoexpired": {
+        "message": "Bu linkin süresi doldu.\r\nBağlantılar yalnızca $NUM$ gün için geçerlidir.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_infonoself": {
+        "message": "Bu link sizin: kişisel ödüller geçerli değildir."
+    },
+    "rewardlinks_infobroken": {
+        "message": "Bu link bozuk veya çalışmıyor."
+    },
+    "rewardlinks_infomaxreached": {
+        "message": "Maksimum günlük sınıra ulaşılırken bu bağlantı toplandı.\r\nBu şekilde toplanan bağlantılar sonsuza dek kaybolur."
+    },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Koleksiyonu bekleyen başka ödüller var.\r\nBu, günlük limitinizi aşabilir."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Bu linkin süresi muhtemelen dolmuştur.\r\nBağlantı kimliği sırayla oluşturulur ve bu ödül kimliği süresi dolmuş bir ödülün kimliğinden daha düşüktür."
+    },
+    "rewardlinks_removelinks": {
+        "message": "Eski linkleri kaldırın"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Seçileni kaldır"
+    },
+    "rewardlinks_removelinksdays": {
+        "message": "@DAYS@ günden eski toplanamayan ödül linklerini kaldırın.\r\nBu, süresi dolmuş bağlantıları ve önceden toplanmış bağlantıları içerir.\r\n$NUM$ günden eski bağlantılar düzenli aralıklarla kaldırılır.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_removenone": {
+        "message": "Kaldırılacak link yok!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Kaldırılacak bağlantılar : $NUM$ Kaldırılan bağlantılar artık eklenemez.\r\n\r\nKaldırma işlemine devam edilsin mi?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Bu ödül $DATE$ tarihinde eklendi.",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Sıfırla"
+    },
+    "rewardlinks_resetcount": {
+        "message": "\"Sonraki koleksiyon\" bilgilerini sıfırlayabilir ve yine de bu bağlantıyla devam edebilirsiniz."
+    },
+    "rewardlinks_resetexpired": {
+        "message": "\"Muhtemelen süresi dolmuş\" bilgilerini sıfırlayabilir ve yine de bu bağlantıya devam edebilirsiniz."
+    },
+    "rewardlinks_convert": {
+        "message": "Linki dönüştür"
+    },
+    "rewardlinks_noconversion": {
+        "message": "Dönüştürme yok"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Linkleri kısaltın/dönüştürün"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Kısaltmak/dönüştürmek için linkleri buraya yapıştırın"
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Kısaltılmış linkler aşağıda gösterilmiştir (kopyalar kaldırılmıştır)"
+    },
+    "rewardlinks_prefix": {
+        "message": "Önek"
+    },
+    "rewardlinks_newline": {
+        "message": "Yeni satır eklensin mi?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Alan ekle"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Tüm ödüller en son ödülden itibaren $NUM$ saat içinde toplanır.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "export_export": {
+        "message": "Dışa aktarma"
+    },
+    "export_import": {
+        "message": "İçe aktarma"
+    },
+    "export_exportdata": {
+        "message": "Verileri dışa aktarma"
+    },
+    "export_exportinventory": {
+        "message": "Envanteri dışa aktarma"
+    },
+    "export_importdata": {
+        "message": "Verileri içe aktarma"
+    },
+    "export_invalidexportdata": {
+        "message": "Dosya geçerli oynatıcı için geçerli bir DAF dışa aktarma verisi değil!"
+    },
+    "export_invalidexport": {
+        "message": "Dosya geçerli bir dışarı aktarma verisi değil!"
+    },
+    "export_importsuccess": {
+        "message": "Veriler başarıyla içe aktarıldı!"
+    },
+    "export_debugdata": {
+        "message": "Teşhis verilerini dışa aktar"
+    },
+    "rings_showminmax": {
+        "message": "Minimum ve maksimum değerleri göster"
+    },
+    "rings_showxp": {
+        "message": "XP'yi göster"
+    },
+    "rings_playerlevel": {
+        "message": "Oyuncunun seviyesini (level) belirtin"
+    },
+    "rings_stats": {
+        "message": "Sırt çantanızda $NUM$ $NAME$ var.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+    "rings_notdependent": {
+        "message": "Oyuncunun seviyesine (level) bağlı değil."
+    },
+    "rings_averageperring": {
+        "message": "Yüzük başına ortalama XP"
+    },
+    "rings_rings": {
+        "message": "Yüzükler"
+    },
+    "equipment_sellout": {
+        "message": "Kullanılmayan tüm öğeleri satmak size $TOTAL$ diggy parası kazandırır. (ekipman = $EQUIP$ para, dekorasyon = $DECO$ para)",
+        "placeholders": {
+            "total": {
+                "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
+            }
+        }
+    },
+    "equipment_notonsale": {
+        "message": "Artık indirimde değil"
+    },
+    "equipment_quantities": {
+        "message": "Miktar"
+    },
+    "equipment_owned": {
+        "message": "Mevcut"
+    },
+    "equipment_inshop": {
+        "message": "Dükkanda"
+    },
+    "equipment_from": {
+        "message": "Nereden"
+    },
+    "equipment_affordable": {
+        "message": "Uygun fiyatlı"
+    },
+    "equipment_useful": {
+        "message": "Yararlı"
+    },
+    "equipment_gain": {
+        "message": "Kazanç"
+    },
+    "equipment_gain_info": {
+        "message": "Kazanç, kampınızdaki minimum slot değerine bağlıdır."
+    },
+    "equipment_free": {
+        "message": "ÜCRETSİZ"
+    },
+    "equipment_hidemax": {
+        "message": "İzin verilen en fazla gizleme"
+    },
+    "equipment_price_info": {
+        "message": "Burada gösterilen fiyat bu ekipman için değil,\nama bu ekipmanı içeren paket/teklif içindir."
+    },
+    "equipment_level_none": {
+        "message": "Bir önemi yok"
+    },
+    "equipment_level_eq": {
+        "message": "Kesinlikle"
+    },
+    "equipment_level_le": {
+        "message": "En çok"
+    },
+    "equipment_level_ge": {
+        "message": "En azından"
+    },
+    "equipment_level_your": {
+        "message": "Senin seviyen (level)"
+    },
+    "equipment_level_this": {
+        "message": "Bu seviye"
+    },
+    "equipment_include_material": {
+        "message": "Bu malzemeleri dahil et"
+    },
+    "equipment_exclude_material": {
+        "message": "Bu malzemeleri hariç tut"
+    },
+    "equipment_current": {
+        "message": "Şu anki, geçerli"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Geçmişte oyununuzda bu fiyata özel bir paket satın aldıysanız, bu fiyata bir sonraki paketi satın almanın mümkün olmadığını lütfen unutmayın.\r\nBu durumda mevcut en düşük fiyat seviyesi yaklaşık 5,5 Amerikan Doları'dır."
+    },
+    "equipment_slotslower": {
+        "message": "Bundan daha az güce sahip slotlar"
+    },
+    "events_year": {
+        "message": "Yıl"
+    },
+    "events_end": {
+        "message": "Son"
+    },
+    "events_quests": {
+        "message": "Görevler"
+    },
+    "events_achievements": {
+        "message": "Başarılar"
+    },
+    "events_pieces": {
+        "message": "Hazinenin parçaları"
+    },
+    "events_locations": {
+        "message": "Konumlar"
+    },
+    "events_materials": {
+        "message": "Özel malzemeler"
+    },
+    "events_completed": {
+        "message": "Tamamlandı"
+    },
+    "events_total": {
+        "message": "Toplam"
+    },
+    "events_medal": {
+        "message": "Madalya"
+    },
+    "events_story_maps": {
+        "message": "Hikaye haritaları"
+    },
+    "events_challenges": {
+        "message": "Zorluklar"
+    },
+    "events_repeatables": {
+        "message": "Tekrarlanabilirler"
+    },
+    "events_active": {
+        "message": "Aktif"
+    },
+    "events_rerelease": {
+        "message": "Satın Alınan/Hediye Edilen"
+    },
+    "events_complete": {
+        "message": "Tamamlandı"
+    },
+    "events_incomplete": {
+        "message": "Tamamlanmamış"
+    },
+    "events_notdone": {
+        "message": "Bitmedi"
+    },
+    "events_segmented": {
+        "message": "Parçalı"
+    },
+    "events_yourprogress": {
+        "message": "Senin ilerlemen"
+    },
+    "events_rewards": {
+        "message": "Ödüller"
+    },
+    "events_finalreward": {
+        "message": "Final (son) ödül"
+    },
+    "events_notsegmented": {
+        "message": "Bölümlere ayrılmamış"
+    },
+    "events_tiles": {
+        "message": "Fayans"
+    },
+    "events_chance": {
+        "message": "Şans"
+    },
+    "events_clearbonus": {
+        "message": "Temizleme bonusu"
+    },
+    "events_gemstones": {
+        "message": "Değerli taşlar"
+    },
+    "repeat_name": {
+        "message": "İsim"
+    },
+    "repeat_region_event": {
+        "message": "Bölge/Etkinlik"
+    },
+    "repeat_cooldown": {
+        "message": "Yenileme"
+    },
+    "repeat_cooldown_time": {
+        "message": "Saat"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Mücevher"
+    },
+    "repeat_reset": {
+        "message": "Sıfırla"
+    },
+    "repeat_bonus": {
+        "message": "Tamamlama Bonusu"
+    },
+    "repeat_progress": {
+        "message": "İlerleme"
+    },
+    "repeat_progress_current": {
+        "message": "Kırılan fayanslar"
+    },
+    "repeat_progress_total": {
+        "message": "Tüm fayanslar"
+    },
+    "repeat_time": {
+        "message": "Madenin tekrar hazır olacağı zaman"
+    },
+    "repeat_show_all": {
+        "message": "Tüm tekrarlanabilirler"
+    },
+    "repeat_show_selected": {
+        "message": "Yalnızca seçili tekrarlanabilirler"
+    },
+    "repeat_ready": {
+        "message": "HAZIR"
+    },
+    "repeat_show_ready": {
+        "message": "Hazır?"
+    },
+    "repeat_postcard": {
+        "message": "Kartpostal haftası hazır mı?"
+    },
+    "dailyreward_stats": {
+        "message": "Günlük ödül mevcut seviyenize ($LEVEL$) ve bölgenize ($REGION$) bağlıdır.",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "$DATE$ tarihinde toplandı",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "dailyreward_formula": {
+        "message": "Formül"
+    },
+    "specialweek_end": {
+        "message": "$FINISH$ ile bitiyor",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_debris_discount": {
+        "message": "Izgara kilidi açma indirimli hafta $PERCENT$%",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_production": {
+        "message": "Çift üretim haftası"
+    },
+    "specialweek_half_prod_time": {
+        "message": "Yarı zamanlı üretim haftası"
+    },
+    "specialweek_double_drop": {
+        "message": "Çift malzeme haftası"
+    },
+    "specialweek_gifts": {
+        "message": "Çift hediye haftası"
+    },
+    "specialweek_postcards": {
+        "message": "Kartpostal haftası"
+    },
+    "specialweek_material_seller": {
+        "message": "Eski malzemeler için tüccar"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Ücretsiz eski etkinlik (kullanmak zorundasınız)"
+    },
+    "specialweek_mystery_box": {
+        "message": "Gizemli kutu"
+    },
+    "specialweek_find_the_pair": {
+        "message": "Çifti bul"
+    },
+    "options_section_ingame": {
+        "message": "Oyun içi seçenekler"
+    },
+    "options_injectgame": {
+        "message": "DAF'ı etkinleştir\r\nDAF'ı oyun içinde etkinleştirin.\r\nEtkinleştirilmezse, aşağıdaki seçeneklerin hiçbir etkisi olmaz."
+    },
+    "options_fullwindow": {
+        "message": "Tam pencere\nOyunu tam pencerede görüntüleyin"
+    },
+    "options_fullwindowheader": {
+        "message": "Üstbilgi\nTam penceredeyken sayfa üstbilgisini görüntüleyin"
+    },
+    "options_fullwindowside": {
+        "message": "Yan\nTam pencerede değilken kenar çubuğunu (Facebook) gizle"
+    },
+    "options_fullwindowlock": {
+        "message": "Tam pencereyi kilitle\r\nOyunun tam pencereden çıkmasını engeller."
+    },
+    "options_resetfullwindow": {
+        "message": "Yükendiğinde sıfırla\nOyunu her yüklediğinizde, \"Tam pencere\" ve \"Tam pencere - Yan\" sıfırlanır."
+    },
+    "options_resetfullwindow_warning": {
+        "message": "Oyunu yüklerken sorun yaşıyorsanız bu seçenek etkinleştirilmelidir."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Otomatik tam pencere\r\nVeriler yüklendiğinde otomatik olarak tam pencere ayarlar (DAF2 yeşile döner)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Evet, $NUM$ saniye sonra",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "options_gctable": {
+        "message": "Enerji Çocukları Tablosu\r\nOyunun altında Enerji Çocukları bulunan tüm komşuları göster"
+    },
+    "options_gctablecounter": {
+        "message": "Sayaç\nSayaç göster"
+    },
+    "options_gctableregion": {
+        "message": "Bölge\nKomşunun bölgesini işaretlemek için renkleri kullanın"
+    },
+    "options_autoclick": {
+        "message": "Otomatik tıklama\nFacebook'un açılır pencerelerini otomatik olarak onaylayın"
+    },
+    "options_nogcpopup": {
+        "message": "Enerji Çocukları açılır penceresi size gözükmez.\nEnerji Çocukları toplarken açılır pencere gösterilmez."
+    },
+    "options_autogc": {
+        "message": "Otomatik, Enerji Çocuklarının bulunduğu kampı değiştirme\nEnerji Çocukları topladıktan sonra diğer kampa, otomatik geçin."
+    },
+    "options_section_general": {
+        "message": "Genel seçenekler"
+    },
+    "options_autologin": {
+        "message": "Portala otomatik oturum açma\nPortal oturumunu otomatik açar."
+    },
+    "options_darktheme": {
+        "message": "Koyu tema"
+    },
+    "options_shrinkmenu": {
+        "message": "Menü genişliği\nSol dikey menünün genişliğini azaltın"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Sayfanın genişliği küçük olduğunda"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Her zaman kompakt (daraltılmış) bir menü kullanın"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Her zaman genişletilmiş menü kullan"
+    },
+    "options_disablealtguard": {
+        "message": "Diğer hesapta sıfırla\r\nBu seçeneği ayarlarsanız, alternatif bir hesap yüklediğinizde mevcut DAF2 verilerinizin üzerine yazılır."
+    },
+    "options_disablealtguard_warning": {
+        "message": "DİKKAT: Bu seçeneği etkinleştirirseniz risk size aittir!"
+    },
+    "options_section_rewardlinks": {
+        "message": "Ödül linkleri"
+    },
+    "options_rewardsclose": {
+        "message": "Otomatik kapat\r\nÖdül toplandıktan sonra sayfayı otomatik olarak kapatın."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Mücevher hariç\nMücevher bulunduğunda açılır pencere açık kalır."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Hatalar hariç\nHata bulunduğunda açılır pencere açık kalır."
+    },
+    "options_rewardssummary": {
+        "message": "Özet tablosu ekle\nSayfa otomatik olarak kapatılmazsa, en alta bir özet tablo ekle"
+    },
+    "options_linkgrabenabled": {
+        "message": "Link Tutucu (Link Grabber)\r\nFacebook içindeki Link Tutucuyu (Link Grabber) etkinleştirin.\r\nEtkinleştirilmezse, aşağıdaki seçeneklerin hiçbir etkisi olmaz."
+    },
+    "options_linkgrabbutton": {
+        "message": "Fare (mouse) düğmesi\r\nBağlantı Yakalayıcı'yı tetikleyen fare düğmesini seçin"
+    },
+    "options_linkgrabkey": {
+        "message": "İsteğe bağlı anahtar\r\nFare düğmesine ek olarak basmak için isteğe bağlı bir tuş seçin"
+    },
+    "options_linkgrabsort": {
+        "message": "Linkleri sırala"
+    },
+    "options_linkgrabconvert": {
+        "message": "Linkleri dönüştür"
+    },
+    "options_modifier_none": {
+        "message": "Hiçbiri"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Sol"
+    },
+    "options_button_middle": {
+        "message": "Orta"
+    },
+    "options_button_right": {
+        "message": "Sağ"
+    },
+    "options_sort_none": {
+        "message": "Hiçbiri"
+    },
+    "options_sort_ascending": {
+        "message": "Artan"
+    },
+    "options_sort_descending": {
+        "message": "Azalan"
+    },
+    "options_language": {
+        "message": "Dil\nKullanmak istediğiniz dili seçin"
+    },
+    "options_locale": {
+        "message": "Yerelleştirme\nSayıları, tarihleri ve listeleri biçimlendirmek için kullanılır."
+    },
+    "options_locale_browser": {
+        "message": "Tarayıcının ayarını kullan"
+    },
+    "options_gamelanguage": {
+        "message": "Oyun Dili\r\nOyunun mesajları için dil"
+    },
+    "options_section_badges": {
+        "message": "Rozetler"
+    },
+    "options_badgegccounter": {
+        "message": "Enerji Çocuğu Sayacı\r\nToplanacak, kalan Enerji Çocuğu sayısına sahip bir rozet gösterir"
+    },
+    "options_badgegcenergy": {
+        "message": "Enerji Çocuğu (GC) Enerji\r\nKomşunun Enerji Çocuğundan aldığı enerjiyi rozet olarak gösterir"
+    },
+    "options_badgerepeatables": {
+        "message": "Tekrarlanabilirler\nSeçilen tekrarlanabilirler hazır olduğunda rozet olarak gösterilir"
+    },
+    "options_badgeluckycards": {
+        "message": "Şanslı Kartlar\nŞanslı kart çadırı hazır olduğunda bir rozet gösterilir"
+    },
+    "options_badgetimeoffset": {
+        "message": "Zaman farkı\r\nRozet bu kadar saniye önceden gösterilecektir."
+    },
+    "options_badgesound": {
+        "message": "Ses Efekti\r\nRozet görüntülendiğinde çalınacak ses efekti:"
+    },
+    "options_badgevolume": {
+        "message": "Ses Seviyesi\r\nSes efektinin ses seviyesi:"
+    },
+    "calc_operators": {
+        "message": "Operatörler"
+    },
+    "calc_arithmetic": {
+        "message": "Aritmetik"
+    },
+    "calc_comparison": {
+        "message": "Karşılaştırma"
+    },
+    "calc_logical": {
+        "message": "Mantıksal"
+    },
+    "calc_functions": {
+        "message": "Fonksiyonlar"
+    },
+    "calc_variables": {
+        "message": "Değişkenler"
+    },
+    "calc_examples": {
+        "message": "Örnekler"
+    },
+    "calc_error_1": {
+        "message": "Sözdizimi hatası"
+    },
+    "calc_error_2": {
+        "message": "İşlevin parantez içine ihtiyacı var"
+    },
+    "calc_error_3": {
+        "message": "Kapanış parantezi eksik"
+    },
+    "calc_error_4": {
+        "message": "Çok fazla kapatma parantezi var"
+    },
+    "linkgrabber_selected": {
+        "message": "Linkler: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Panoya kopyala"
+    },
+    "linkgrabber_fn_send": {
+        "message": "DAF'a gönder"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "İptal"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Linkleri yenile"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Ödül Kimliğini (ID) Göster/Gizle"
+    },
+    "linkgrabber_added": {
+        "message": "Eklenen ödül linkleri: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Panoya koyalanan linkler: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    }
+}

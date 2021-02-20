@@ -75,19 +75,19 @@
         "message": "Név"
     },
     "gui_region_required": {
-        "message": "Szükséges\n Régió"
+        "message": "Szükséges\nRégió"
     },
     "gui_theme_required": {
-        "message": "Szükséges\n Régió/Téma"
+        "message": "Szükséges\nRégió/Téma"
     },
     "gui_level_required": {
-        "message": "Szükséges\n Szint"
+        "message": "Szükséges\nSzint"
     },
     "gui_qty": {
         "message": "Mennyiség"
     },
     "gui_qty_required": {
-        "message": "Szükséges\n Mennyiség"
+        "message": "Szükséges\nMennyiség"
     },
     "gui_energy": {
         "message": "Energia"
@@ -177,7 +177,7 @@
         "message": "Barát"
     },
     "gui_firstrecorded": {
-        "message": "Első\n feljegyzés"
+        "message": "Első\nBelépés"
     },
     "gui_loadingresources": {
         "message": "Erőforrások betöltése ($NUM$/$TOTAL$)",
@@ -191,7 +191,7 @@
         }
     },
     "gui_screenshot_shot": {
-        "message": "Kattints, hogy képernyőképet csinálj erről a szekcióról.\n A képernyőkép a jobb oldalon jelenik meg.\n Kerlek vedd figyelembe, hogy csak a látható részt rögzíti!\n Kattints a DAF2 ikonra, hogy engedélyezd ezt a funkciót."
+        "message": "Kattints, hogy képernyőképet csinálj erről a szekcióról.\nA képernyőkép a jobb oldalon jelenik meg.\nKerlek vedd figyelembe, hogy csak a látható részt rögzíti!\nKattints a DAF2 ikonra, hogy engedélyezd ezt a funkciót."
     },
     "gui_screenshot_target": {
         "message": "Kattints a kép letöltéséhez.\nKattints jobb gonbbal a képen és válaszd ki a \"Kép másolása\"-t, hogy a vágólapra másold."
@@ -607,7 +607,7 @@
         }
     },
     "camp_start_date": {
-        "message": "Elkezdtél játszani:\n$STARTED$",
+        "message": "Elkezdtél játszani:\n $STARTED$",
         "placeholders": {
             "started": {
                 "content": "$1"
@@ -663,7 +663,7 @@
         "message": "Minden szint"
     },
     "map_warning": {
-        "message": "Kérlek, először adj meg bármilyen helyet"
+        "message": "Kérlek, először lépj be a játékban bármelyik helyszínre, majd térj vissza ide!"
     },
     "map_button_d": {
         "message": "Mutasd Diggyt"
@@ -717,7 +717,7 @@
         "message": "Bánya kijárat"
     },
     "map_goto_floor": {
-        "message": "A(z) $NUM$ emeletre megy",
+        "message": "A(z) $NUM$ emeletre visz",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -725,7 +725,7 @@
         }
     },
     "map_goto_unknown": {
-        "message": "Másik emeletre megy, de ezt az utat még nem jártad meg"
+        "message": "Másik emeletre visz, de ezt az utat még nem jártad meg"
     },
     "map_teleport": {
         "message": "Teleport"
@@ -1067,10 +1067,10 @@
         "message": "Letiltott és/vagy nem egyező fiókokat észleltem."
     },
     "friendship_unfriendinfo": {
-        "message": "Erről az oldalról barátkozhatsz velük.\r\n\r\nKérjük, vegye figyelembe, hogy a facebook-fiókokat ideiglenesen letilthatják, és később engedélyezhetik is."
+        "message": "Erről az oldalról barátkozhatsz velük.\n\nKérjük, vegye figyelembe, hogy a facebook-fiókokat ideiglenesen letilthatják, és később engedélyezhetik is."
     },
     "friendship_confirmcollect": {
-        "message": "Nyomd meg az IGEN-t az elfogadáshoz, NEM-t a további próbálkozáshoz.\n\nBármikor bezárhatod ezt az ablakot,\nhogy töröld ezt a műveletet.\n"
+        "message": "Nyomd meg az IGEN-t az elfogadáshoz, NEM-t a további próbálkozáshoz.\n\nBármikor bezárhatod ezt az ablakot,\nhogy töröld ezt a műveletet."
     },
     "friendship_speedupcollect": {
         "message": "Felgyorsítod a gyűjtést?"
@@ -1186,7 +1186,7 @@
         "message": "Összehasonlítás profilkép alapján?"
     },
     "friendship_confirmwarning": {
-        "message": "Ez a művelet több percet is igénybe vehet.\r\n\r\nKérlek erősítsd meg, hogy folytatod."
+        "message": "Ez a művelet több percet is igénybe vehet.\n\n Kérlek erősítsd meg, hogy folytatod."
     },
     "friendship_confirmcollection": {
         "message": "Megerősíti a gyűjtési eredményt?"
@@ -1266,6 +1266,17 @@
             }
         }
     },
+    "friendship_timewarning": {
+        "message": "Úgy tűnik, hogy régóta nem végeztél barátgyűjtést.\n Kattints a \"$COLLECT$\" gombra és válaszd a \"$METHOD$\" módszert.",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
     "godchild_info": {
         "message": "$NUM$ szomszéd = $GC$ Isten gyermek",
         "placeholders": {
@@ -1334,6 +1345,9 @@
     },
     "progress_showdates": {
         "message": "Helyszín dátumok"
+    },
+    "progress_energyinfo": {
+        "message": "Az itt látható energiát úgy becsüljük meg, hogy megszorozzuk a megmaradt kövek számát a kövek átlagértékével.\nA kövek átlagértéke a teljesítési bónuszon és a kövek számának alapján alapul."
     },
     "progress_averagetilecost": {
         "message": "Kő átlag"
@@ -1505,14 +1519,39 @@
     "rewardlinks_infobroken": {
         "message": "Ez a link rossz vagy nem működik."
     },
+    "rewardlinks_infomaxreached": {
+        "message": "Ezt a linket összegyűjtöttük, amíg elértük a maximális napi korlátot.\nAz ilyen úton gyűjtött linkek örökre elvesznek."
+    },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Vannak még más jutalmak is amelyeknek a gyűjtése fel van függsztve.\nEz meghaladhatja a napi limitet."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Ez a link valószínűleg lejárt.\nA linkek azonosítója egymás után jön létre, és ennek a jutalomnak az azonosítója alacsonyabb, mint a lejárt jutalom azonosítója."
+    },
     "rewardlinks_removelinks": {
         "message": "Régi linkek eltávolítása"
     },
     "rewardlinks_removeselected": {
         "message": "Kijelöltek eltávolítása"
     },
+    "rewardlinks_removelinksdays": {
+        "message": "Távolítsa el a @DAYS@ napnál régebbi, nem gyűjthető jutalom linkeket.\nIde tartoznak a lejárt és a már összegyűjtött linkek.\nA(z) $NUM$ napnál régebbi linkeket rendszeresen eltávolítjuk.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
     "rewardlinks_removenone": {
         "message": "Nincsenek eltávolítható linkek!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Eltávolítható linkek: $NUM$\nAz eltávolított linkeket már nem lehet hozzáadni.\n\nFolytatod az eltávolítást?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "rewardlinks_rewardinfo": {
         "message": "Ezt a jutalmat hozzáadták $DATE$ napon",
@@ -1528,23 +1567,179 @@
     "rewardlinks_resetcount": {
         "message": "Alaphelyzetbe állíthatod a \"Következő gyűjtés\" információkat és így folytatod ezzel a linkkel."
     },
+    "rewardlinks_resetexpired": {
+        "message": "Visszaállíthatod a \"Valószínűleg lejárt\" információt és folytathatod ezzel a linkkel."
+    },
     "rewardlinks_convert": {
         "message": "Link konvertálása"
+    },
+    "rewardlinks_noconversion": {
+        "message": "Nincs konvertálás"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Linkek rövidítése/konvertálása"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Ide illeszd be a linkeket a rövidítéshez/konvertáláshoz."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "A rövidített linkek az alábbikban láthatóak (az ismétlődéseket eltávolítottuk)."
+    },
+    "rewardlinks_prefix": {
+        "message": "Előtag"
+    },
+    "rewardlinks_newline": {
+        "message": "Új sor hozzáadása?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Szóköz hozzáadása"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Az összes jutalmat a legutóbbi jutalomtól számított $NUM$ órán belül gyűjtöttük be.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "export_export": {
+        "message": "Mentés"
+    },
+    "export_import": {
+        "message": "Betöltés"
+    },
+    "export_exportdata": {
+        "message": "Adat mentése"
+    },
+    "export_exportinventory": {
+        "message": "Leltár mentése"
+    },
+    "export_importdata": {
+        "message": "Adat betöltése"
+    },
+    "export_invalidexportdata": {
+        "message": "A fájl nem egy érvényes mentett DAF adata az aktuális játékosnak."
+    },
+    "export_invalidexport": {
+        "message": "A fájl nem tartalmaz érvényes mentett adatokat!"
+    },
+    "export_importsuccess": {
+        "message": "Az adatok betöltése befejeződött!"
+    },
+    "export_debugdata": {
+        "message": "Diagnoszikai adatok mentése"
+    },
+    "rings_showminmax": {
+        "message": "Mutasd a minimum és maximum értékeket"
+    },
+    "rings_showxp": {
+        "message": "Mutasd az XP-t"
+    },
+    "rings_playerlevel": {
+        "message": "Add meg a játékos szintjét"
+    },
+    "rings_stats": {
+        "message": "Van $NUM$ $NAME$ a hátizsákodban.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+    "rings_notdependent": {
+        "message": "Nem függ a játékos szintjétől"
+    },
+    "rings_averageperring": {
+        "message": "Átlag XP / gyűrű"
+    },
+    "rings_rings": {
+        "message": "Gyűrűk"
+    },
+    "equipment_sellout": {
+        "message": "Az összes fel nem használt tárgy eladásával $TOTAL$ érmét szerezhetsz (felszerelés = $EQUIP$ érme, dekorációk = $DECO$ érme)",
+        "placeholders": {
+            "total": {
+                "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
+            }
+        }
+    },
+    "equipment_notonsale": {
+        "message": "Már nem eladó"
+    },
+    "equipment_quantities": {
+        "message": "Darab"
+    },
+    "equipment_owned": {
+        "message": "Tulajdonodban van"
     },
     "equipment_inshop": {
         "message": "Boltban"
     },
+    "equipment_from": {
+        "message": "Alapján"
+    },
+    "equipment_affordable": {
+        "message": "Megfizethető"
+    },
+    "equipment_useful": {
+        "message": "Használható"
+    },
+    "equipment_gain": {
+        "message": "Nyereség"
+    },
+    "equipment_gain_info": {
+        "message": "A nyereség a táborodban a cella minimláis értékén alapul"
+    },
     "equipment_free": {
         "message": "INGYENES"
     },
+    "equipment_hidemax": {
+        "message": "Készek elrejtése"
+    },
+    "equipment_price_info": {
+        "message": "Az itt feltüntetett ár nem erre a tárgyra vonatkozik,\nhanem arra a csomagra/ajánlatra amely ezt a tárgyat tartalmazza."
+    },
+    "equipment_level_none": {
+        "message": "Nem számít"
+    },
     "equipment_level_eq": {
         "message": "Pontosan"
+    },
+    "equipment_level_le": {
+        "message": "Leginkább"
+    },
+    "equipment_level_ge": {
+        "message": "Legkevésbé"
     },
     "equipment_level_your": {
         "message": "szinted"
     },
     "equipment_level_this": {
         "message": "ez a szint"
+    },
+    "equipment_include_material": {
+        "message": "Tartalmazza ezeket az anyagokat"
+    },
+    "equipment_exclude_material": {
+        "message": "Kivéve ezeket az anyagokat"
+    },
+    "equipment_current": {
+        "message": "Jelenleg"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Felhívjuk figyelmét, hogy ha a játékban korábban egy speciális csomagot vásárolt ilyen áron, akkor nem lehet további csomagot vásárolni ezen az áron.\nEbben az esetben a legalacsonyabb elérhető árszint körülbelül 5.5 USD."
+    },
+    "equipment_slotslower": {
+        "message": "Cellák ennél kevesebb energiával"
     },
     "events_year": {
         "message": "Év"
@@ -1632,6 +1827,9 @@
     },
     "repeat_region_event": {
         "message": "Régió / Esemény"
+    },
+    "repeat_cooldown": {
+        "message": "Várkozási idő"
     },
     "repeat_cooldown_time": {
         "message": "Idő"
@@ -1758,6 +1956,23 @@
     "options_resetfullwindow": {
         "message": "Újratöltés\nMindig amikor betöltöd a játékot, a \"Teljes képernyő\" és \"Teljes képernyő - Oldalsáv\" visszaállnak"
     },
+    "options_resetfullwindow_warning": {
+        "message": "Ezt a beállítást engedélyezned kell, ha problémákat tapasztalsz a játék betöltésekor."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Automatikus teljes képernyő\nAutomatikusan teljesképernyőre vált amikor az adatok betöltődtek (DAF2 zöldre vált)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Igen, $NUM$ másodperc múlva",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "options_gctable": {
+        "message": "GC táblázat\nMutasd az összes szomszédot akinél GC van a játékban"
+    },
     "options_gctablecounter": {
         "message": "Számláló\nSzámláló megjelenítése"
     },
@@ -1766,6 +1981,63 @@
     },
     "options_autoclick": {
         "message": "Automatikus kattintás\nAutomatikusan kattintson a Facebook felugró ablakira"
+    },
+    "options_nogcpopup": {
+        "message": "Nincsenek GC felugró ablakok\nNincs felugró ablak a GC begyűjtésekor"
+    },
+    "options_autogc": {
+        "message": "Automatikus GC tábor váltás\nAutomatikusan vált tábort a GC begyűjtése után"
+    },
+    "options_section_general": {
+        "message": "Általános opciók"
+    },
+    "options_autologin": {
+        "message": "Portal automatikus belépés\nAutomatikusan belép a Portal oldalon"
+    },
+    "options_darktheme": {
+        "message": "Sötét téma"
+    },
+    "options_shrinkmenu": {
+        "message": "Menü szélesség\nCsökkentheted a bal oldali függőleges menü szélességét"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Amikor az oldal szélessége kicsi"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Mindig az összezárt menüt használja"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Mindig a kibontott menüt használja"
+    },
+    "options_disablealtguard": {
+        "message": "Visszaállítás egy másik fiókra\nHa beállítod ezt az opciót, a másik fiók betöltése felülírja az aktuális DAF2 adatokat."
+    },
+    "options_disablealtguard_warning": {
+        "message": "VIGYÁZAT: ezt a lehetőséget csak a saját felelősségedre engedélyezd!"
+    },
+    "options_section_rewardlinks": {
+        "message": "Jualom linkek"
+    },
+    "options_rewardsclose": {
+        "message": "Automata bezárás\nAutomatikusan bezárja az oldalt miután begyűjtötte a jutalmat."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Kivéve gemnél\nNe zárja be automatikusan amikor gemet talál."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Kivéve hibánál\nNe zárja be automatikusan amikor hibát talál."
+    },
+    "options_rewardssummary": {
+        "message": "Összefoglaló táblázat hozzáadása\nHa az oldal nem automatikusan záródik hozzáad egy összefoglaló táblázatot az aljára."
+    },
+    "options_linkgrabenabled": {
+        "message": "Link Gyűjtő\nEngedélyezd a Link Gyűjtést a Facebookon belül.\nHa nincs engedélyezve, a következő opcióknak nincs hatása."
+    },
+    "options_linkgrabbutton": {
+        "message": "Egér gomb\nVálaszd ki az egér gombot amely elindítja a Link Gyűjtőt"
+    },
+    "options_linkgrabkey": {
+        "message": "Másodlagos billentyű\nVálassz ki az egérgomb mellé egy másodlagos billentyűt amit megnyomhatsz"
     },
     "options_linkgrabsort": {
         "message": "Linkek sorbarendezése"
