@@ -1042,11 +1042,20 @@ async function calcMine(mine, flagAddImages) {
             // else toggle active
             if (value == '0') {
                 removeBeacon(tileDef);
-            } else {
-                const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-                if (!beaconPart) return false;
-                beaconPart.active = value ? value.split('_')[3] == '1' : !beaconPart.active;
+                return;
             }
+            let active;
+            if (value) {
+                const v = value.split('_');
+                tileDef.miscId = +v[1] || 0;
+                tileDef.beaconPart = +v[2] || 0;
+                active = v[3] == '1';
+            }
+            const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
+            if (!beaconPart) return false;
+            if (active === undefined) active = !beaconPart.active;
+            // beaconPart.active = active;
+            if (!setBeaconPartActive(tileDef, beacons[tileDef.miscId], beaconPart, active)) return false;
         },
         'drag': (tileDef, _value, values) => {
             // one value = set that drag (draggableid or draggableid_status)
@@ -1578,7 +1587,7 @@ async function drawMine(args) {
     };
     const addDrop = (x, y, drops) => {
         const s = drops.filter(d => !d.hidden && (isAdmin || !d.forAdmin)).map(d => `\n${Locale.formatNumber(d.amount)} \xd7 ${gui.getObjectName(d.type, d.id)}`).join('');
-        addTitle(x, y, gui.getMessageAndValue('gui_loot', s));
+        if (s) addTitle(x, y, gui.getMessageAndValue('gui_loot', s));
     };
 
     const drawTeleport = (teleport) => {
