@@ -135,13 +135,12 @@ function computeItemGain(item) {
     const [gainD, gainsD, numLessD, percLessD] = getGain(campReg);
     const [gainN, gainsN, numLessN, percLessN] = getGain(campCap);
     if (gainD == 0 && gainN == 0) return '';
-    if (campReg !== campCap) title.push(gui.getMessage('camp_day_mode').toUpperCase());
-    title.push(gui.getMessageAndValue('equipment_gain', gainD) + (gainsD.length > 1 && gainD > 0 ? ' (' + gainsD.join(' + ') + ')' : ''));
+    const getGainText = (campName, gain, gains) =>
+        gui.getMessage('equipment_gain') + (campName ? ' (' + campName + ')' : '') + ': ' + gain + (gains.length > 1 && gain > 0 ? ' (' + gains.join(' + ') + ')' : '');
+    title.push(getGainText(campReg !== campCap ? gui.getMessage('camp_day_mode') : '', gainD, gainsD));
     title.push(gui.getMessageAndValue('equipment_slotslower', numLessD + ` (${percLessD}%)`));
     if (campReg !== campCap) {
-        title.push('');
-        title.push(gui.getMessage('camp_night_mode').toUpperCase());
-        title.push(gui.getMessageAndValue('equipment_gain', gainN) + (gainsN.length > 1 && gainN > 0 ? ' (' + gainsN.join(' + ') + ')' : ''));
+        title.push('\n' + getGainText(gui.getMessage('camp_night_mode'), gainN, gainsN));
         title.push(gui.getMessageAndValue('equipment_slotslower', numLessN + ` (${percLessN}%)`));
     }
     return title.join('\n');
@@ -951,9 +950,10 @@ function updateItem(div) {
         costClass += ' dot2';
     }
     costTitle = costTitle.join('\n');
+    const type = item.type == 'capacity' || item.type == 'regen' ? 'building' : item.type;
+    if (type == 'building' && item.gainTitle === undefined) item.gainTitle = computeItemGain(item);
     if (div.tagName == 'TR') {
         let htm = '';
-        const type = item.type == 'capacity' || item.type == 'regen' ? 'building' : item.type;
         htm += Html.br`<td><img class="building tooltip-event" src="${gui.getObjectImage(type, item.oid)}"></td>`;
         htm += Html.br`<td>${item.name}`;
         if (saleMessageId) {
@@ -1056,6 +1056,7 @@ function updateItem(div) {
         if (item.event) title += '\n' + gui.getMessageAndValue('gui_event', gui.getObjectName('event', item.event));
         if (item.level) title += '\n' + gui.getMessageAndValue('gui_level_required', Locale.formatNumber(item.level)).replace(/\n+/g, ' ');
         if (item.rskin && item.rskin != 1) title += '\n' + gui.getMessageAndValue('gui_theme_required', gui.getObjectName('skin', item.rskin)).replace(/\n+/g, ' ');
+        if (item.gainTitle) title += '\n\n' + item.gainTitle;
         div.firstElementChild.title = title;
     }
     const badge = div.querySelector('.offer[data-type]');
