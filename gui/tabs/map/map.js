@@ -41,10 +41,10 @@ function applyViewed(tileDefs, viewed) {
 
     } catch (e) { }
 }
-function getViewed(tileDefs) {
+function getViewed(tileDefs, setAllVisibility) {
     const length = Math.ceil(tileDefs.length / 8);
     const a = new Uint8Array(length);
-    for (const tileDef of tileDefs.filter(t => t.viewed)) {
+    for (const tileDef of tileDefs.filter(t => setAllVisibility ? t.show : t.viewed)) {
         const index = tileDef.tileIndex;
         a[Math.floor(index / 8)] |= 1 << (index % 8);
     }
@@ -232,7 +232,7 @@ function addQuestDrop(lid, type, id, value) {
 
 function isCheckAllowed(check) {
     const flag = check.getAttribute('data-flag');
-    if ('LEGOBKAUF'.indexOf(flag) >= 0 && bgp.Data.adminLevel < 2) return false;
+    if ('LEGOBKAUF'.indexOf(flag) >= 0 && !isAdmin) return false;
     return true;
 }
 
@@ -256,6 +256,23 @@ function getDownloadPath() {
     return path;
 }
 
+function prepareFloorData(data, unclear) {
+    data = data.sort((a, b) => a.level_id - b.level_id);
+    if (unclear) {
+        data = data.map(mine => {
+            mine = Object.assign({}, mine);
+            if (mine._p.o) {
+                mine.packedTiles = mine._p.o.packed;
+                ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => mine[key] = mine._p.o[key]);
+            }
+            delete mine.actions;
+            calcMine(mine, { setAllVisibility: true });
+            return mine;
+        });
+    }
+    return data;
+}
+
 function onClickButton(event) {
     const action = event.target.getAttribute('data-action');
     if (action == 'save') {
@@ -274,13 +291,12 @@ function onClickButton(event) {
     } else if (action == 'export_location') {
         if (!currentData || !canvas) return;
         const filename = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
-        let data = bgp.Data.mineCache.filter(m => m.id == currentData.lid);
-        data = data.sort((a, b) => a.level_id - b.level_id);
+        const data = prepareFloorData(bgp.Data.mineCache.filter(m => m.id == currentData.lid), event.ctrlKey && isAdmin);
         gui.downloadData({ data, filename, path: getDownloadPath() });
     } else if (action == 'export_floor') {
         if (!currentData || !canvas) return;
         const filename = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.map.json`;
-        const data = [currentData.mine];
+        const data = prepareFloorData([currentData.mine], event.ctrlKey && isAdmin);
         gui.downloadData({ data, filename, path: getDownloadPath() });
     } else if (action == 'import') {
         gui.chooseFile(async function (file) {
@@ -476,7 +492,7 @@ function onTableClick(event) {
 }
 
 function update() {
-    isAdmin = bgp.Data.adminLevel > 0;
+    isAdmin = bgp.Data.adminLevel >= 2;
     canShowBonus = canShowBeacon = false;
     checks.forEach(check => {
         const flag = check.getAttribute('data-flag');
@@ -648,7 +664,7 @@ function isValidTile(tileDef, beaconPart) {
     return tileDef.isTile;
 }
 
-async function calcMine(mine, flagAddImages) {
+async function calcMine(mine, { addImages = false, setAllVisibility = false } = {}) {
     if (!mine) return;
     mine.processed = gui.getUnixTime();
 
@@ -676,7 +692,7 @@ async function calcMine(mine, flagAddImages) {
     if (eid) rid = segmented ? generator.events_region[eid] || generator.region : 1;
 
     const isInvalidCoords = (x, y) => y < 0 || y >= rows || x < 0 || x >= cols;
-    const addAsset = (item) => flagAddImages && item && addImage(item.mobile_asset);
+    const addAsset = (item) => addImages && item && addImage(item.mobile_asset);
 
     const data = { mine, lid, fid, eid, segmented, rid, cols, rows, resetCount, location, isRepeatable };
 
@@ -1321,7 +1337,7 @@ async function calcMine(mine, flagAddImages) {
         if (tileDef.npcId) tileDef.solid |= 128;
     }
 
-    mine._p.vis = getViewed(tileDefs);
+    mine._p.vis = getViewed(tileDefs, setAllVisibility);
 
     return data;
 }
@@ -1432,7 +1448,7 @@ function getMineList(groupLocations, showRepeatables, currentMine, selection) {
 
 async function processMine(selectedMine, args) {
 
-    currentData = await calcMine(determineCurrentMine(selectedMine), true);
+    currentData = await calcMine(determineCurrentMine(selectedMine), { addImages: true });
     if (!currentData) return;
     setLastViewedMine(currentData.mine);
     setWaitHandler();
@@ -1458,7 +1474,7 @@ async function processMine(selectedMine, args) {
 
     await addExtensionImages();
     // for debugging purposes
-    if (bgp.Data.adminLevel >= 2) window.mineData = currentData;
+    if (isAdmin) window.mineData = currentData;
     // window.subtiles = subtiles;
     // window.allQuestDrops = allQuestDrops;
     return drawMine(args);
@@ -1512,7 +1528,7 @@ async function drawMine(args) {
         const found = findMine(lid, floorId);
         if (found && floorId != fid) {
             const recalc = (found.processed || 0) < found.time || numQuestDrops !== allQuestDropsFlags[`${lid}_${floorId}`];
-            if (recalc) await calcMine(found, false);
+            if (recalc) await calcMine(found);
         }
     }
     if (Object.keys(allQuestDrops[lid] || {}).length !== allQuestDropsFlags[`${lid}_${fid}`]) currentData = await calcMine(currentData.mine);
