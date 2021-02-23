@@ -65,6 +65,7 @@ const getLastViewedMine = () => {
 const TILE_SIZE = 62;
 const IMG_DIGGY = '/img/gui/diggy.png';
 const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
+const IMG_DEFAULT_NPC = '/img/gui/default_npc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 
@@ -1328,6 +1329,7 @@ async function calcMine(mine, flagAddImages) {
 async function addExtensionImages() {
     addImage(IMG_DIGGY);
     addImage(IMG_DEFAULT_GC);
+    addImage(IMG_DEFAULT_NPC);
     addImage(IMG_SHADOWS);
     addImage(IMG_BEAMS);
 
@@ -1938,6 +1940,7 @@ async function drawMine(args) {
             if (!img) img = images[IMG_DEFAULT_GC].img;
         } else {
             addTitle(x, y, gui.getMessage('map_npc'), true);
+            if (!img) img = images[IMG_DEFAULT_NPC].img;
         }
         if (item.idle_text) {
             const hint = gui.getString(item.idle_text);
