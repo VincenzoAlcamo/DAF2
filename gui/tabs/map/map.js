@@ -265,7 +265,12 @@ function prepareFloorData(data, unclear) {
                 mine.packedTiles = mine._p.o.packed;
                 ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => mine[key] = mine._p.o[key]);
             }
+            delete mine.processed;
             delete mine.actions;
+            delete mine.numTiles;
+            delete mine.cost;
+            delete mine.numSpecial;
+            delete mine.numQuest;
             calcMine(mine, { setAllVisibility: true });
             return mine;
         });
@@ -1951,30 +1956,23 @@ async function drawMine(args) {
     // Npcs
     drawAll(npcs, 'npcId', (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
-        if (+item.pick_child) {
-            addTitle(x, y, gui.getMessage('map_godchild'), true);
-            if (!img) img = images[IMG_DEFAULT_GC].img;
-        } else {
-            addTitle(x, y, gui.getMessage('map_npc'), true);
-            if (!img) img = images[IMG_DEFAULT_NPC].img;
-        }
+        addTitle(x, y, gui.getMessage(+item.pick_child ? 'map_godchild': 'map_npc'), true);
         if (item.idle_text) {
             const hint = gui.getString(item.idle_text);
             if (hint) addTitle(x, y, gui.getMessageAndValue('map_says', gui.getWrappedText('\u201c' + hint + '\u201d')));
         }
-        if (img) {
-            const width = +item.columns;
-            const height = +item.rows;
-            const sw = img.naturalWidth;
-            const sh = img.naturalHeight;
-            const rx = width / sw;
-            const ry = height / sh;
-            // console.log(width, height, sw, sh, rx, ry);
-            transform((x + width / 2) * TILE_SIZE, (y + height / 2) * TILE_SIZE, item.orientation == 'right', false, 0);
-            // ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE - sh);
-            ctx.drawImage(img, 0, 0, sw, sh, x * TILE_SIZE, y * TILE_SIZE - (height - 1) * TILE_SIZE, width * TILE_SIZE / rx * ry, height * TILE_SIZE);
-            resetTransformation();
-        }
+        const isPlaceholder = !img;
+        if (isPlaceholder) img = images[+item.pick_child ? IMG_DEFAULT_GC : IMG_DEFAULT_NPC].img;
+        const width = +item.columns;
+        const height = +item.rows;
+        const sw = img.naturalWidth;
+        const sh = img.naturalHeight;
+        const factorX = isPlaceholder ? 1 : (height / sh) / (width / sw);
+        // console.log(width, height, sw, sh, rx, ry);
+        transform((x + width / 2) * TILE_SIZE, (y + height / 2) * TILE_SIZE, item.orientation == 'right', false, 0);
+        // ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE - sh);
+        ctx.drawImage(img, 0, 0, sw, sh, x * TILE_SIZE, y * TILE_SIZE - (height - 1) * TILE_SIZE, width * TILE_SIZE * factorX, height * TILE_SIZE);
+        resetTransformation();
         if (tileDef.npcLoot && tileDef.npcLoot.length) {
             addDrop(x, y, tileDef.npcLoot);
         }
