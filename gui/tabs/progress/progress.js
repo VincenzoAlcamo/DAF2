@@ -212,7 +212,7 @@ function refreshPlayTime() {
     const now = new Date();
     const started = new Date(+gui.getGenerator().registered_on * 1000);
     const playing = Math.floor((now - started) / 1000);
-    container.querySelector('.progress_playtime').innerText = gui.getMessage('progress_playTime', Locale.formatDateTime(started), gui.getDuration(playing), Locale.formatDateTime(now));
+    container.querySelector('.progress_playtime').innerText = gui.getMessage('progress_playtime', Locale.formatDateTime(started), gui.getDuration(playing), Locale.formatDateTime(now));
 }
 
 function setInspected(row, inspected) {
