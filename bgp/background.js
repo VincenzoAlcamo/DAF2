@@ -27,12 +27,12 @@ function changeLocale(localeId) {
 }
 
 function getMessage(id, ...args) {
-    if (getMessage.$L !== languageId) {
-        getMessage.$M = {};
-        const data0 = chrome.i18n.getMessage('en').split('|'), data1 = chrome.i18n.getMessage(getMessage.$L = languageId).split('|');
-        chrome.i18n.getMessage('keys').split('|').forEach((key, index) => getMessage.$M[key] = data1[index] || data0[index]);
+    const $L = languageId;
+    if (getMessage.$L !== $L) {
+        const $M = getMessage.$M = {}, split = (key) => chrome.i18n.getMessage(key).split('|'), m0 = split('en'), m1 = split(getMessage.$L = $L);
+        split('keys').forEach((key, index) => $M[key] = m1[index] || m0[index]);
     }
-    return (getMessage.$M[id] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
+    return (getMessage.$M[id.toLowerCase()] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
 }
 
 // eslint-disable-next-line no-var

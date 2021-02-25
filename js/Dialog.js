@@ -43,13 +43,13 @@ Object.assign(Dialog, {
         for (let node = container.firstChild; node; node = node.nextSibling) parent.appendChild(owner.importNode(node, true));
     },
     language: 'en',
-    getMessage: function(id, ...args) {
-        if (Dialog.$L !== Dialog.language) {
-            Dialog.$M = {};
-            const data0 = chrome.i18n.getMessage('en').split('|'), data1 = chrome.i18n.getMessage(Dialog.$L = Dialog.language).split('|');
-            chrome.i18n.getMessage('keys').split('|').forEach((key, index) => Dialog.$M[key] = data1[index] || data0[index]);
+    getMessage: function getMessage(id, ...args) {
+        const $L = Dialog.language;
+        if (getMessage.$L !== $L) {
+            const $M = getMessage.$M = {}, split = (key) => chrome.i18n.getMessage(key).split('|'), m0 = split('en'), m1 = split(getMessage.$L = $L);
+            split('keys').forEach((key, index) => $M[key] = m1[index] || m0[index]);
         }
-        return (Dialog.$M[id] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
+        return (getMessage.$M[id.toLowerCase()] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
     },
     onkeydown: function (event) {
         if (event.keyCode == 27 && this.cancelable) {
