@@ -1267,7 +1267,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     let numQuest = 0;
     const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
     const checkLoot = (tileDef, loot) => {
-        for (const drop of loot) {
+        for (const drop of (tileDef.show ? loot : [])) {
             if (drop.hidden || (drop.forAdmin && !isAdmin)) continue;
             const key = drop.type + '_' + drop.id;
             const isQuest = (key in questDrops) || specialDrops[key] === true;
