@@ -267,8 +267,12 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   width: 62px;
   height: 62px;
   background-size: 62px 62px;
-  background-color: #0F0;
+  background-color: #F00;
   display: none;
+}
+
+.tab_map .map .beacon-active .beacon-req {
+  background-color: #0F0;
 }
 
 .tab_map .map .beacon {
@@ -279,6 +283,13 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   border-radius: 7px;
   margin-left: 20px;
   background-color: #F008;
+}
+
+.tab_map .map .beacon-active .beacon {
+  border: 2px solid #FFF;
+  width: 16px;
+  height: 16px;
+  margin-left: 19px;
 }
 
 .tab_map .map.show_beacon .beacon {

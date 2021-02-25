@@ -1186,6 +1186,15 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             delete tileDef.npcLoot;
         } else if (action.action == 'manipulate_object') {
             tileDef.draggableStatus = (tileDef.draggableStatus - 1 + (action.direction == 'right' ? 1 : 3)) % 4 + 1;
+            // check beacon
+            const beaconPart = tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart);
+            if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
+                if (beaconPart.req_drag == 0 || (beaconPart.req_drag == tileDef.draggableId && isRequiredOrientation(beaconPart, tileDef.draggableStatus))) {
+                    setBeaconPartActive(tileDef, beacons[tileDef.miscId], beaconPart, true);
+                } else if (beaconPart.activation == 'pit') {
+                    return true;
+                }
+            }
         } else if (action.action == 'change_level') {
             const id = action.exit_id;
             const obj = asArray(action.direction == 'down' ? mine.exits : mine.entrances).find(e => e.def_id == id);
@@ -1801,6 +1810,7 @@ async function drawMine(args) {
             texts.push(hint ? gui.getWrappedText(gui.getMessageAndValue('map_hint', '\u201c' + hint + '\u201d')) : gui.getMessage('map_hint'));
         }
         if (tileDef.miscType == 'B' && canShowBeacon) {
+            const beaconPart = getMiscItem(tileDef);
             const cell = table.rows[y].cells[x];
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
             if (tileDef.stamina >= 0) {
@@ -1836,6 +1846,7 @@ async function drawMine(args) {
             const div = cell.appendChild(document.createElement('div'));
             div.style.backgroundColor = '#' + (beaconColors[item.activation || ''] || beaconColors.default) + '8';
             div.className = 'beacon';
+            cell.classList.toggle('beacon-active', beaconPart.active);
         }
         if (texts.length) addTitle(x, y, texts.join('\n'), true);
         const img = item && item.mobile_asset && images[item.mobile_asset].img;
