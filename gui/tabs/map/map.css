@@ -268,11 +268,13 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   height: 62px;
   background-size: 62px 62px;
   background-color: #F00;
+  box-shadow: inset 0 0 0px 4px #F00;
   display: none;
 }
 
 .tab_map .map .beacon-active .beacon-req {
   background-color: #0F0;
+  box-shadow: inset 0 0 0px 4px #0F0;
 }
 
 .tab_map .map .beacon {
