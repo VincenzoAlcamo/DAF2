@@ -1989,16 +1989,46 @@ async function drawMine(args) {
         }
     });
 
-    // Special
-    for (const tileDef of (showNotableLoot ? specialTiles : []).filter(t => t.isVisible)) {
-        const w = 8;
-        ctx.fillStyle = tileDef.isQuest ? '#F0F' : '#FF0';
-        const sx = tileDef.x * TILE_SIZE;
-        const sy = tileDef.y * TILE_SIZE;
-        ctx.fillRect(sx - w / 2, sy - w / 2, TILE_SIZE + w, w);
-        ctx.fillRect(sx - w / 2, sy, w, TILE_SIZE);
-        ctx.fillRect(sx + TILE_SIZE - w / 2, sy, w, TILE_SIZE);
-        ctx.fillRect(sx - w / 2, sy + TILE_SIZE - w / 2, TILE_SIZE + w, w);
+    // Special tiles (with overlapped colors)
+    {
+        const SW = 4;
+        const specialTilesToDraw = (showNotableLoot ? specialTiles : []).filter(t => t.isVisible);
+        const tileAt = (x, y) => x >= 0 && x < cols && y >= 0 && y < rows ? tileDefs[y * cols + x] : null;
+        const specialFill = (color, x, y, w, h, t1, t2, t3) => {
+            let [r, g, b] = color;
+            const addCol = t => {
+                if (t && t.color) {
+                    const [r1, g1, b1] = t.color;
+                    r += r1, g += g1, b += b1;
+                    return 1;
+                }
+                return 0;
+            };
+            const num = 1 + addCol(t1) + addCol(t2) + addCol(t3);
+            let max = Math.max(r, g, b);
+            if (max < num) max = max * 1.3;
+            ctx.fillStyle = '#' + Math.round(r * 15 / max).toString(16) + Math.round(g * 15 / max).toString(16) + Math.round(b * 15 / max).toString(16);
+            ctx.fillRect(x, y, w, h);
+        };
+        specialTilesToDraw.forEach(tileDef => {
+            if (tileDef.isQuest) tileDef.color = [1, 0, 1];
+            else if (tileDef.isSpecial) tileDef.color = [1, 1, 0];
+            else tileDef.color = [0, 1, 0];
+        });
+        specialTilesToDraw.forEach(tileDef => {
+            const { x, y } = tileDef;
+            const sx = x * TILE_SIZE, sy = y * TILE_SIZE;
+            const tileLeft = tileAt(x - 1, y), tileUp = tileAt(x, y - 1), tileRight = tileAt(x + 1, y), tileDown = tileAt(x, y + 1);
+            specialFill(tileDef.color, sx - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileLeft);
+            specialFill(tileDef.color, sx + SW, sy - SW, TILE_SIZE - SW * 2, SW * 2, tileUp);
+            specialFill(tileDef.color, sx + TILE_SIZE - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileRight);
+            specialFill(tileDef.color, sx + SW, sy + TILE_SIZE - SW, TILE_SIZE - SW * 2, SW * 2, tileDown);
+            specialFill(tileDef.color, sx - SW, sy - SW, SW * 2, SW * 2, tileLeft, tileUp, tileAt(x - 1, y - 1));
+            specialFill(tileDef.color, sx + TILE_SIZE - SW, sy - SW, SW * 2, SW * 2, tileRight, tileUp, tileAt(x + 1, y - 1));
+            specialFill(tileDef.color, sx - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileLeft, tileDown, tileAt(x - 1, y + 1));
+            specialFill(tileDef.color, sx + TILE_SIZE - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileRight, tileDown, tileAt(x + 1, y + 1));
+        });
+        specialTilesToDraw.forEach(tileDef => delete tileDef.color);
     }
 
     // Entrances/Exits
