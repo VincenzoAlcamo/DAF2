@@ -900,8 +900,9 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     }
 
     // Npcs
-    const max_child = (generator.camp.max_child || 0) + 1;
+    const max_child = (+generator.camp.max_child || 0) + 1;
     const child_charges = 15;
+    const getRndValue = (min, max) => Math.floor(CustomRandomRND(playerUidRnd + (100 * max_child + child_charges + 1) + 20000) % (max - min + 1) + min);
     const setNpc = (tileDef, npcId) => {
         const item = npcs[npcId];
         if (item) {
@@ -909,10 +910,10 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             tileDef.npcId = npcId;
             if (+item.pick_child > 0) {
                 const child = childs[item.pick_child];
-                let energy = Math.floor(CustomRandomRND(playerUidRnd + (100 * max_child + child_charges + 1) + 20000) % (child.max_stamina - child.min_stamina + 1) + child.min_stamina);
+                let energy = getRndValue(+child.min_stamina, +child.max_stamina);
                 tileDef.npcLoot = [];
                 for (const obj of asArray(child.drops).filter(t => +t.region_id == rid)) {
-                    const value = Math.floor(CustomRandomRND(playerUidRnd + (100 * max_child + child_charges + 1) + 20000) % (+obj.max - +obj.min + 1) + +obj.min);
+                    const value = getRndValue(+obj.min, +obj.max);
                     if (obj.type == 'system' && +obj.object_id == 2) {
                         energy += value;
                     } else {
