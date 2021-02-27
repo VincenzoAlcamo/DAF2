@@ -1785,6 +1785,8 @@ async function drawMine(args) {
         delete tileDef.bgaIsFull;
     }
     drawAll(addons, 'backgroundAddonId', (x, y, tileDef, item, img) => {
+        // A previously background addon overlaps this tile
+        if (tileDef.bgaDx > 0 || tileDef.bgaDy > 0) return;
         // If a tile is here
         if (+item.columns == 1 && +item.rows == 1) {
             if (tileDef.tileStatus == 0 && !showBackground && tileDef.stamina >= 0) return;
