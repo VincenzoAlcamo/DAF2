@@ -666,7 +666,7 @@ function changeLevel(e) {
 function isValidTile(tileDef, beaconPart) {
     if (tileDef.stamina < 0) return false;
     if (beaconPart && !beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door')) return true;
-    return tileDef.isTile;
+    return tileDef.isTile || !!tileDef.npcId;
 }
 
 async function calcMine(mine, { addImages = false, setAllVisibility = false } = {}) {
@@ -1308,11 +1308,13 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
                 }
             }
         }
-        if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart)) && hasLoot && tileDef.loot) {
-            tileDef.hasLoot = true;
-            checkLoot(tileDef, tileDef.loot);
+        if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
+            if (hasLoot && tileDef.loot) {
+                tileDef.hasLoot = true;
+                checkLoot(tileDef, tileDef.loot);
+            }
+            if (tileDef.npcId && tileDef.npcLoot) checkLoot(tileDef, tileDef.npcLoot);
         }
-        if (tileDef.npcLoot) checkLoot(tileDef, tileDef.npcLoot);
     }
     mine.numTiles = numTiles;
     mine.cost = cost;
@@ -1967,7 +1969,7 @@ async function drawMine(args) {
     // Npcs
     drawAll(npcs, 'npcId', (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
-        addTitle(x, y, gui.getMessage(+item.pick_child ? 'map_godchild': 'map_npc'), true);
+        addTitle(x, y, gui.getMessage(+item.pick_child ? 'map_godchild' : 'map_npc'), true);
         if (item.idle_text) {
             const hint = gui.getString(item.idle_text);
             if (hint) addTitle(x, y, gui.getMessageAndValue('map_says', gui.getWrappedText('\u201c' + hint + '\u201d')));
