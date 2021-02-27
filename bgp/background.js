@@ -3,7 +3,7 @@
 
 //#region MISCELLANEOUS
 const SECONDS_IN_A_DAY = 86400;
-const MINECACHE_LIMIT = 100;
+const MINECACHE_LIMIT = 200;
 
 function hasRuntimeError(info) {
     // This is necessary to avoid unchecked runtime errors from Chrome
