@@ -86,7 +86,7 @@ let currentData, lastTeleportId;
 let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
-let resize;
+let resize, listMaterial;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
@@ -341,7 +341,7 @@ function showAdvancedOptions() {
     };
     let htm = '';
     htm += Html`<table style="user-select:none"><tr><td>`;
-    htm += Html`<fieldset style="width:300px"><legend>${gui.getMessage('tab_options')}</legend>`;
+    htm += Html`<fieldset style="min-width: 260px;"><legend>${gui.getMessage('tab_options')}</legend>`;
     htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
     htm += addOption(OPTION_REGIONSELECTOR, gui.getMessage('map_option_s'));
     htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
@@ -364,16 +364,42 @@ function showAdvancedOptions() {
     htm += Html`<label style="margin:1px 0">${gui.getMessage('gui_region')}<br><input name="folderregion" type="text" style="width:100%" value="${gui.getPreference('mapDownloadRegion')}"></label>`;
     htm += Html`</fieldset>`;
     htm += Html`</td><td style="text-align:center">`;
+    htm += Html`<fieldset><legend>${gui.getMessage('equipment_include_material')}</legend>`;
+    const materials = gui.getFile('materials');
+    let items = Object.values(materials).map(obj => {
+        if (+obj.event_id || !obj.name_loc) return null;
+        if (obj.name && (obj.name.indexOf('NEOPOUZIVAT') >= 0 || obj.name.indexOf('NEPOUZIVAT') >= 0)) return null;
+        let name = gui.getString(obj.name_loc);
+        name = name.substr(0, 1) + name.substr(1).toLowerCase();
+        return [+obj.def_id, name];
+    }).filter(v => v);
+    items.push([-1, `[ ${gui.getObjectName('system', 1)} ]`]);
+    items.push([-2, `[ ${gui.getObjectName('system', 2)} ]`]);
+    items.push([-3, `[ ${gui.getString('GUI0008')} ]`]);
+    items = items.sort((a, b) => a[1].localeCompare(b[1]));
+    const getValueSelected = (value, flag) => Html`value="${value}"${flag ? ' selected' : ''}`;
+    const list = gui.getArrayOfInt(listMaterial);
+    htm += Html`<select name="materials" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;">`;
+    for (const item of items) {
+        htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+    }
+    htm += Html`</select>`;
+    htm += Html`<br><input data-method="clr.mat" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
+    htm += Html`&#32;<input data-method="inv.mat" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/>`;
+    htm += Html`</fieldset></td><td style="text-align:center">`;
+    htm += Html`<fieldset><legend>${gui.getMessage('events_locations')}</legend>`;
     htm += Html`<select name="mines" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;"></select>`;
-    htm += Html`<br><input data-method="clr" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
-    htm += Html`&#32;<input data-method="inv" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/>`;
+    htm += Html`<br><input data-method="clr.mine" type="button" class="small" value="${gui.getMessage('gui_filter_clear')}"/>`;
+    htm += Html`&#32;<input data-method="inv.mine" type="button" class="small" value="${gui.getMessage('gui_filter_invert')}"/>`;
     htm += Html`&#32;<button data-method="remove" class="small">${gui.getMessage('rewardlinks_removeselected')}</button> `;
-    htm += Html`</td></tr></table>`;
+    htm += Html`</fieldset></td></tr></table>`;
     gui.dialog.show({
         title: gui.getMessage('tab_options'),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
     }, function (method, params) {
+        const arr = method.split('.'), methodArg = arr[1];
+        method = arr[0];
         ALL_OPTIONS_AND_PREFERENCES.forEach(id => params[id] == params[id] == 'on');
         const setNoMines = () => {
             setLastViewedMine(null);
@@ -408,16 +434,17 @@ function showAdvancedOptions() {
         if (method == Dialog.AUTORUN || method == 'flags') {
             const select = gui.dialog.element.querySelector('[name=mines]');
             Dialog.htmlToDOM(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
-            select.size = Math.max(10, Math.min(20, select.querySelectorAll('optgroup,option').length));
+            select.style.height = gui.dialog.element.querySelector('[name=materials]').offsetHeight + 'px';
         }
         if (method == 'clr' || method == 'inv') {
             const fn = method == 'clr' ? o => o.selected = false : o => o.selected = !o.selected;
-            const select = gui.dialog.element.querySelector('[name=mines]');
+            const select = gui.dialog.element.querySelector(`[name=${methodArg == 'mine' ? 'mines' : 'materials'}]`);
             for (const option of select.options) fn(option);
         }
         if (method == Dialog.CONFIRM) {
             ALL_OPTIONS_AND_PREFERENCES.forEach(id => setOption(id, params[id]));
             resize = +params.resize;
+            listMaterial = gui.getArrayOfInt(params.materials).sort(gui.sortNumberAscending).join(',');
             gui.setPreference('mapDownloadEvent', params.folderevent);
             gui.setPreference('mapDownloadRegion', params.folderregion);
             gui.updateTabState(tab);
@@ -601,7 +628,8 @@ function getState() {
         show: checks.map(check => check.checked && isCheckAllowed(check) ? check.getAttribute('data-flag') : '').sort().join('').toLowerCase(),
         options: ALL_OPTIONS.filter(id => !hasOption(id)).join(''),
         resize: resize == 100 ? null : resize,
-        zoom: zoom
+        zoom: zoom,
+        material: listMaterial
     };
 }
 
@@ -616,6 +644,7 @@ function setState(state) {
     resize = +state.resize || 0;
     if (resize < 25 || resize > 100) resize = 100;
     state.resize = resize;
+    listMaterial = state.material;
     setCanvasZoom();
 }
 
@@ -756,7 +785,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         delete tileDef.toDo;
         delete tileDef.staminaLoot;
         if (tileDef.stamina > 0) {
-            tileDef.staminaLoot = [{ type: 'system', id: 1, amount: tileDef.stamina }];
+            tileDef.staminaLoot = [{ type: 'system', id: 1, amount: tileDef.stamina, skip: true }];
             for (const effect of (canShowBonus ? effects : [])) {
                 let rnd = CustomRandomRND(playerUidRnd + 10000 * lid + 1000 * fid + 100 * y + 10 * x + effect.id + resetCount);
                 rnd = rnd % 10001 / 100;
@@ -764,11 +793,11 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
                     const amount = Math.floor(tileDef.stamina * effect.bonus / 100);
                     if (amount > 0) {
                         if (effect.type == 'stamina_bonus_passive_effect') {
-                            tileDef.staminaLoot.push({ type: 'system', id: 2, amount, forAdmin: true });
+                            tileDef.staminaLoot.push({ type: 'system', id: 2, amount, skip: true, forAdmin: true });
                             tileDef.isBonusEnergy = true;
                         }
                         if (effect.type == 'xp_bonus_passive_effect') {
-                            tileDef.staminaLoot.push({ type: 'system', id: 1, amount, forAdmin: true });
+                            tileDef.staminaLoot.push({ type: 'system', id: 1, amount, skip: true, forAdmin: true });
                             tileDef.isBonusXp = true;
                         }
                     }
@@ -1261,23 +1290,18 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     allQuestDropsFlags[`${lid}_${fid}`] = Object.keys(allQuestDrops[lid] || {}).length;
 
     // Check loot
-    let numTiles = 0;
-    let cost = 0;
-    let numSpecial = 0;
-    let numQuest = 0;
+    let numTiles = 0, cost = 0, numSpecial = 0, numQuest = 0, numMaterial = 0;
     const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
-    const checkLoot = (tileDef, loot) => {
-        for (const drop of (tileDef.show ? loot : [])) {
-            if (drop.hidden || (drop.forAdmin && !isAdmin)) continue;
-            const key = drop.type + '_' + drop.id;
-            const isQuest = (key in questDrops) || specialDrops[key] === true;
-            const isSpecial = !isQuest && (specialDrops[key] === false || drop.type == 'artifact');
-            if (isSpecial) { tileDef.isSpecial = true; numSpecial++; }
-            if (isQuest) { tileDef.isQuest = true; numQuest++; }
-        }
-    };
+    const materialDrops = {};
+    gui.getArrayOfInt(listMaterial).forEach(id => {
+        let key = 'material_' + id;
+        if (id == -1 || id == -2) key = 'system_' + (-id);
+        if (id == -3) key = 'usable';
+        if (key == 'material_1') key = 'coins';
+        materialDrops[key] = true;
+    });
     for (const tileDef of tileDefs) {
-        tileDef.isSpecial = tileDef.isQuest = false;
+        tileDef.isSpecial = tileDef.isQuest = tileDef.isMaterial = false;
         tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0 && !showBackground;
         let hasLoot = false;
         if (tileDef.isTile) {
@@ -1309,17 +1333,31 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             }
         }
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
-            if (hasLoot && tileDef.loot) {
-                tileDef.hasLoot = true;
-                checkLoot(tileDef, tileDef.loot);
+            if (hasLoot && tileDef.loot) tileDef.hasLoot = true;
+            const loot = [].concat((hasLoot && tileDef.loot) || [], (tileDef.npcId && tileDef.npcLoot) || []);
+            let numCoins = 0;
+            for (const drop of (tileDef.show && loot ? loot : [])) {
+                if (drop.hidden || drop.skip || (drop.forAdmin && !isAdmin)) continue;
+                const key = drop.type + '_' + drop.id;
+                if (key == 'material_1') numCoins++;
+                const isQuest = (key in questDrops) || specialDrops[key] === true;
+                const isSpecial = !isQuest && (specialDrops[key] === false || drop.type == 'artifact');
+                const isMaterial = key in materialDrops || drop.type in materialDrops;
+                if (isSpecial) tileDef.isSpecial = true;
+                if (isQuest) tileDef.isQuest = true;
+                if (isMaterial) tileDef.isMaterial = true;
             }
-            if (tileDef.npcId && tileDef.npcLoot) checkLoot(tileDef, tileDef.npcLoot);
+            if (numCoins > 0 && 'coins' in materialDrops && (numCoins > 1 || tileDef.stamina == 0)) tileDef.isMaterial = true;
+            if (tileDef.isSpecial) numSpecial++;
+            if (tileDef.isQuest) numQuest++;
+            if (tileDef.isMaterial) numMaterial++;
         }
     }
     mine.numTiles = numTiles;
     mine.cost = cost;
     mine.numSpecial = numSpecial;
     mine.numQuest = numQuest;
+    mine.numMaterial = numMaterial;
 
     // Transparency
     for (const tileDef of tileDefs) tileDef.solid = 0;
@@ -1868,7 +1906,7 @@ async function drawMine(args) {
         const cell = table.rows[y].cells[x];
         cell.classList.toggle('tile', tileDef.isTile);
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
-            if (tileDef.isSpecial || tileDef.isQuest) specialTiles.push(tileDef);
+            if (tileDef.isSpecial || tileDef.isQuest || tileDef.isMaterial) specialTiles.push(tileDef);
             if (tileDef.isBonusXp) cell.classList.add('xp');
             if (tileDef.isBonusEnergy) cell.classList.add('energy');
             if (tileDef.stamina >= 0 && tileDef.tileStatus == 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
@@ -2014,8 +2052,8 @@ async function drawMine(args) {
         };
         specialTilesToDraw.forEach(tileDef => {
             if (tileDef.isQuest) tileDef.color = [1, 0, 1];
+            else if (tileDef.isMaterial) tileDef.color = [0, 1, 0];
             else if (tileDef.isSpecial) tileDef.color = [1, 1, 0];
-            else tileDef.color = [0, 1, 0];
         });
         specialTilesToDraw.forEach(tileDef => {
             const { x, y } = tileDef;
@@ -2179,7 +2217,7 @@ async function drawMine(args) {
 
     // Floors, Tiles & Loot
     let htm = '';
-    let totalTiles = 0, totalCost = 0, totalSpecial = 0, totalQuest = 0, numFound = 0;
+    let totalTiles = 0, totalCost = 0, totalSpecial = 0, totalQuest = 0, totalMaterial = 0, numFound = 0;
     for (const floorId of currentData.floorNumbers) {
         const found = findMine(lid, floorId);
         if (found) {
@@ -2188,6 +2226,7 @@ async function drawMine(args) {
             totalCost += found.cost;
             totalSpecial += found.numSpecial;
             totalQuest += found.numQuest;
+            totalMaterial += found.numMaterial;
         }
         const isCurrent = floorId == fid;
         const title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
@@ -2197,20 +2236,23 @@ async function drawMine(args) {
     Dialog.htmlToDOM(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
     const formatNum = num => typeof num == 'string' ? num : (isNaN(num) ? '?' : Locale.formatNumber(num));
-    const setTable = (row, numTiles, cost, numSpecial, numQuest) => {
+    const setTable = (row, numTiles, cost, numSpecial, numQuest, numMaterial) => {
         row.cells[1].textContent = formatNum(numTiles);
         row.cells[2].textContent = formatNum(cost);
         row.cells[3].textContent = formatNum(numSpecial);
         row.cells[3].style.fontWeight = numSpecial > 0 ? 'bold' : '';
         row.cells[4].textContent = formatNum(numQuest);
         row.cells[4].style.fontWeight = numQuest > 0 ? 'bold' : '';
+        row.cells[5].textContent = formatNum(numMaterial);
+        row.cells[5].style.fontWeight = numMaterial > 0 ? 'bold' : '';
     };
     tableTileInfo.classList.toggle('has-special', totalSpecial > 0);
     tableTileInfo.classList.toggle('has-quest', totalQuest > 0);
-    setTable(tableTileInfo.rows[1], currentData.mine.numTiles, currentData.mine.cost, currentData.mine.numSpecial, currentData.mine.numQuest);
+    tableTileInfo.classList.toggle('has-material', totalMaterial > 0);
+    setTable(tableTileInfo.rows[1], currentData.mine.numTiles, currentData.mine.cost, currentData.mine.numSpecial, currentData.mine.numQuest, currentData.mine.numMaterial);
     const allFound = numFound == currentData.floorNumbers.length;
-    if (!allFound) [totalTiles, totalCost, totalSpecial, totalQuest] = [totalTiles, totalCost, totalSpecial, totalQuest].map(n => '\u2267 ' + Locale.formatNumber(n));
-    setTable(tableTileInfo.rows[2], totalTiles, totalCost, totalSpecial, totalQuest);
+    if (!allFound) [totalTiles, totalCost, totalSpecial, totalQuest, totalMaterial] = [totalTiles, totalCost, totalSpecial, totalQuest, totalMaterial].map(n => '\u2267 ' + Locale.formatNumber(n));
+    setTable(tableTileInfo.rows[2], totalTiles, totalCost, totalSpecial, totalQuest, totalMaterial);
 
     // Icon
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;

@@ -96,6 +96,25 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   color: #000;
 }
 
+.tab_map .toolbar .material {
+  background-color: #0F0;
+  color: #000;
+}
+
+.tab_map .toolbar th.special,
+.tab_map .toolbar th.quest,
+.tab_map .toolbar th.material {
+  padding: 0;
+}
+
+.tab_map .toolbar .special img,
+.tab_map .toolbar .quest img,
+.tab_map .toolbar .material img {
+  max-width: 18px;
+  max-height: 18px;
+  margin: -2px;
+}
+
 /*#endregion*/
 
 .tab_map .tile-info {
@@ -103,7 +122,8 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 }
 
 .tab_map .tile-info table:not(.has-special) .special,
-.tab_map .tile-info table:not(.has-quest) .quest {
+.tab_map .tile-info table:not(.has-quest) .quest,
+.tab_map .tile-info table:not(.has-material) .material {
   display: none;
 }
 
