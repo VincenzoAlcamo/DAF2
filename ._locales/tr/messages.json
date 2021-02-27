@@ -21,7 +21,7 @@
         "message": "Kilit"
     },
     "menu_gctable": {
-        "message": "Gc tablosunu görüntüle"
+        "message": "Enerji Çocuğu (GC) tablosunu görüntüle"
     },
     "menu_gctablecounter": {
         "message": "Sayaç"
@@ -30,13 +30,13 @@
         "message": "Bölge"
     },
     "menu_gccollected": {
-        "message": "Tüm GC toplandı"
+        "message": "Tüm Enerji Çocukları (GC) toplandı"
     },
     "menu_autoclick": {
         "message": "Facebook'un açılır penceresini otomatik tıklayın"
     },
     "menu_nogcpopup": {
-        "message": "GC toplarken açılır pencere yok"
+        "message": "Enerji Çocukları (GC) toplarken açılır pencere yok"
     },
     "menu_reloadgame": {
         "message": "Oyunu yeniden yükler ve yeni bir veri toplamaya zorlar"
@@ -1119,7 +1119,7 @@
         }
     },
     "friendship_filter_i": {
-        "message": "Yoksayılan arkadaşlar: $ NUM $",
+        "message": "Yoksayılan arkadaşlar: $NUM$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1127,7 +1127,7 @@
         }
     },
     "friendship_filter_f": {
-        "message": "Eşleşmeyen arkadaşlar: $ NUM $",
+        "message": "Eşleşmeyen arkadaşlar: $NUM$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1300,7 +1300,7 @@
         }
     },
     "godchild_next": {
-        "message": "Ek bir GC (Enerji çocukları) almak için $NUM$ daha fazla komşu eklemelisiniz.",
+        "message": "Ek bir Enerji çocukları (GC) almak için $NUM$ daha fazla komşu eklemelisiniz.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -2094,7 +2094,7 @@
         "message": "Enerji Çocuğu Sayacı\r\nToplanacak, kalan Enerji Çocuğu sayısına sahip bir rozet gösterir"
     },
     "options_badgegcenergy": {
-        "message": "Enerji Çocuğu (GC) Enerji\r\nKomşunun Enerji Çocuğundan aldığı enerjiyi rozet olarak gösterir"
+        "message": "Enerji Çocuğu (GC) Enerjisi\nKomşunun Enerji Çocuğundan aldığı enerjiyi rozet olarak gösterir"
     },
     "options_badgerepeatables": {
         "message": "Tekrarlanabilirler\nSeçilen tekrarlanabilirler hazır olduğunda rozet olarak gösterilir"
@@ -2182,7 +2182,7 @@
         }
     },
     "linkgrabber_copied": {
-        "message": "Panoya koyalanan linkler: $NUM$",
+        "message": "Panoya kopyalanan linkler: $NUM$",
         "placeholders": {
             "num": {
                 "content": "$1"

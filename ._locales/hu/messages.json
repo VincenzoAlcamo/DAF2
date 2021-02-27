@@ -405,7 +405,7 @@
         }
     },
     "about_data": {
-        "message": "Utoló adat rögzítés: $TIME$\nJáték oldal: $SITE$ ($PLATFORM$)\nJátékos ID: #$USERID$",
+        "message": "Utolsó adat rögzítés: $TIME$\nJáték oldal: $SITE$ ($PLATFORM$)\nJátékos ID: #$USERID$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -717,7 +717,7 @@
         "message": "Bánya kijárat"
     },
     "map_goto_floor": {
-        "message": "A(z) $NUM$ emeletre visz",
+        "message": "A(z) $NUM$ szintre visz",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -725,7 +725,7 @@
         }
     },
     "map_goto_unknown": {
-        "message": "Másik emeletre visz, de ezt az utat még nem jártad meg"
+        "message": "Másik szintre visz, de ezt az utat még nem jártad meg"
     },
     "map_teleport": {
         "message": "Teleport"
@@ -833,10 +833,10 @@
         "message": "Mentett kép mérete"
     },
     "map_export_location": {
-        "message": "Minden emelet mentése egy adat fájlba"
+        "message": "Minden szint mentése egy adat fájlba"
     },
     "map_export_floor": {
-        "message": "Az aktuális emelet mentése egy adat fájlba"
+        "message": "Az aktuális szint mentése egy adat fájlba"
     },
     "map_import": {
         "message": "Egy mentett adat fájl betöltése"
