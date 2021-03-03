@@ -265,12 +265,7 @@ function prepareFloorData(data, unclear) {
                 mine.packedTiles = mine._p.o.packed;
                 ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => mine[key] = mine._p.o[key]);
             }
-            delete mine.processed;
-            delete mine.actions;
-            delete mine.numTiles;
-            delete mine.cost;
-            delete mine.numSpecial;
-            delete mine.numQuest;
+            ['processed', 'actions', 'numTiles', 'cost', 'numSpecial', 'numQuest', 'numMaterial', '_t'].forEach(key => delete mine[key]);
             calcMine(mine, { setAllVisibility: true });
             return mine;
         });
@@ -1291,7 +1286,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     allQuestDropsFlags[`${lid}_${fid}`] = Object.keys(allQuestDrops[lid] || {}).length;
 
     // Check loot
-    let numTiles = 0, cost = 0, numSpecial = 0, numQuest = 0, numMaterial = 0;
     const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
     const materialDrops = {};
     gui.getArrayOfInt(listMaterial).forEach(id => {
@@ -1302,12 +1296,12 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         materialDrops[key] = true;
     });
     for (const tileDef of tileDefs) {
-        tileDef.isSpecial = tileDef.isQuest = tileDef.isMaterial = false;
+        delete tileDef.isSpecial;
+        delete tileDef.isQuest;
+        delete tileDef.isMaterial;
         tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0 && !showBackground;
         let hasLoot = false;
         if (tileDef.isTile) {
-            numTiles++;
-            cost += tileDef.stamina;
             if (tileDef.staminaLoot) {
                 tileDef.loot = tileDef.staminaLoot.concat(tileDef.loot || []);
                 delete tileDef.staminaLoot;
@@ -1349,16 +1343,15 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
                 if (isMaterial) tileDef.isMaterial = true;
             }
             if (numCoins > 0 && 'coins' in materialDrops && (numCoins > 1 || tileDef.stamina == 0)) tileDef.isMaterial = true;
-            if (tileDef.isSpecial) numSpecial++;
-            if (tileDef.isQuest) numQuest++;
-            if (tileDef.isMaterial) numMaterial++;
         }
     }
-    mine.numTiles = numTiles;
-    mine.cost = cost;
-    mine.numSpecial = numSpecial;
-    mine.numQuest = numQuest;
-    mine.numMaterial = numMaterial;
+    mine._t = {
+        numTiles: tileDefs.reduce((a, t) => a + (t.isTile ? 1 : 0), 0),
+        cost: tileDefs.reduce((a, t) => a + (t.isTile ? t.stamina : 0), 0),
+        numSpecial: tileDefs.reduce((a, t) => a + (t.isSpecial ? 1 : 0), 0),
+        numQuest: tileDefs.reduce((a, t) => a + (t.isQuest ? 1 : 0), 0),
+        numMaterial: tileDefs.reduce((a, t) => a + (t.isMaterial ? 1 : 0), 0)
+    };
 
     // Transparency
     for (const tileDef of tileDefs) tileDef.solid = 0;
@@ -2229,16 +2222,13 @@ async function drawMine(args) {
 
     // Floors, Tiles & Loot
     let htm = '';
-    let totalTiles = 0, totalCost = 0, totalSpecial = 0, totalQuest = 0, totalMaterial = 0, numFound = 0;
+    const total = { numTiles: 0, cost: 0, numSpecial: 0, numQuest: 0, numMaterial: 0 };
+    let numFound = 0;
     for (const floorId of currentData.floorNumbers) {
-        const found = findMine(lid, floorId);
+        const found = findMine(lid, floorId), _t = found && found._t;
         if (found) {
             numFound++;
-            totalTiles += found.numTiles;
-            totalCost += found.cost;
-            totalSpecial += found.numSpecial;
-            totalQuest += found.numQuest;
-            totalMaterial += found.numMaterial;
+            for (const key of Object.keys(total)) total[key] += (_t && _t[key]) || 0;
         }
         const isCurrent = floorId == fid;
         const title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
@@ -2248,23 +2238,20 @@ async function drawMine(args) {
     Dialog.htmlToDOM(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
     const formatNum = num => typeof num == 'string' ? num : (isNaN(num) ? '?' : Locale.formatNumber(num));
-    const setTable = (row, numTiles, cost, numSpecial, numQuest, numMaterial) => {
-        row.cells[1].textContent = formatNum(numTiles);
-        row.cells[2].textContent = formatNum(cost);
-        row.cells[3].textContent = formatNum(numSpecial);
-        row.cells[3].style.fontWeight = numSpecial > 0 ? 'bold' : '';
-        row.cells[4].textContent = formatNum(numQuest);
-        row.cells[4].style.fontWeight = numQuest > 0 ? 'bold' : '';
-        row.cells[5].textContent = formatNum(numMaterial);
-        row.cells[5].style.fontWeight = numMaterial > 0 ? 'bold' : '';
+    const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }) => {
+        [numTiles, cost, numSpecial, numQuest, numMaterial].forEach((n, i) => {
+            const cell = row.cells[i + 1];
+            cell.textContent = formatNum(n);
+            cell.style.fontWeight = n > 0 && i > 2 ? 'bold' : '';
+        });
     };
-    tableTileInfo.classList.toggle('has-special', totalSpecial > 0);
-    tableTileInfo.classList.toggle('has-quest', totalQuest > 0);
-    tableTileInfo.classList.toggle('has-material', totalMaterial > 0);
-    setTable(tableTileInfo.rows[1], currentData.mine.numTiles, currentData.mine.cost, currentData.mine.numSpecial, currentData.mine.numQuest, currentData.mine.numMaterial);
+    tableTileInfo.classList.toggle('has-special', total.numSpecial > 0);
+    tableTileInfo.classList.toggle('has-quest', total.numQuest > 0);
+    tableTileInfo.classList.toggle('has-material', total.numMaterial > 0);
+    setTable(tableTileInfo.rows[1], currentData.mine._t);
     const allFound = numFound == currentData.floorNumbers.length;
-    if (!allFound) [totalTiles, totalCost, totalSpecial, totalQuest, totalMaterial] = [totalTiles, totalCost, totalSpecial, totalQuest, totalMaterial].map(n => '\u2267 ' + Locale.formatNumber(n));
-    setTable(tableTileInfo.rows[2], totalTiles, totalCost, totalSpecial, totalQuest, totalMaterial);
+    if (!allFound) for (const key of Object.keys(total)) total[key] = '\u2267 ' + Locale.formatNumber(total[key]);
+    setTable(tableTileInfo.rows[2], total);
 
     // Icon
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
