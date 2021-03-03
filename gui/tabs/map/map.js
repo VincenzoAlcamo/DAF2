@@ -7,7 +7,7 @@ export default {
     setState,
     actions: { 'daf_mine_action': markToBeRendered },
     requires: (function () {
-        const requires = ['addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events', 'usables', 'materials', 'tokens', 'achievements', 'quests', 'map_filters'];
+        const requires = ['addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events', 'usables', 'materials', 'tokens', 'achievements', 'quests', 'map_filters', 'tablets'];
         for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
         return requires;
     })()
@@ -569,7 +569,7 @@ function update() {
     for (const quest of Object.values(gui.getFile('quests'))) {
         for (const step of asArray(quest.steps)) {
             for (const obj of asArray(step.objectives)) {
-                if (obj.type == 'get' && obj.location_type == 'floor' && +obj.amount > 0 && obj.object_type != 'create_mine') {
+                if ((obj.type == 'get' || obj.type == 'have') && obj.location_type == 'floor' && +obj.amount > 0 && obj.object_type != 'create_mine') {
                     const { location_id: lid, object_type: type, object_id: id } = obj;
                     if (type == 'material') {
                         const m = materials[id];
@@ -1338,7 +1338,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             const loot = [].concat((hasLoot && tileDef.loot) || [], (tileDef.npcId && tileDef.npcLoot) || []);
             let numCoins = 0;
             for (const drop of (tileDef.show && loot ? loot : [])) {
-                if (drop.hidden || drop.skip || (drop.forAdmin && !isAdmin)) continue;
+                if (drop.skip || (drop.forAdmin && !isAdmin)) continue;
                 const key = drop.type + '_' + drop.id;
                 if (key == 'material_1') numCoins++;
                 const isQuest = (key in questDrops) || specialDrops[key] === true;
