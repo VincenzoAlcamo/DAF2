@@ -701,7 +701,7 @@ async function showOptions() {
         .map(matId => [matId, gui.getObjectName('material', matId)])
         .sort((a, b) => gui.sortTextAscending(a[1], b[1]))
         .forEach(a => {
-            htm += `<tr><th>${a[1]}</th>`;
+            htm += `<tr><th class="pillars-material" style="background-image:url(${gui.getObjectImage('material', a[0], true)})">${a[1]}</th>`;
             htm += `<td><input name="mat_${a[0]}" type="number" min="0" step="1000" style="width:90px" value="${gui.getXp('material', a[0])}"></td></tr>`;
         });
     htm += `</tbody></table>`;

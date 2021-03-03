@@ -117,11 +117,13 @@
   padding: 2px 6px;
 }
 
+.pillars-material,
 .pillars td.material {
   background-size: 22px 22px;
   background-repeat: no-repeat;
   background-position: calc(100% - 2px);
-  padding-right: 26px;
+  padding-right: 26px !important;
+  text-align: right;
 }
 
 .pillars-tooltip {
