@@ -88,6 +88,7 @@ var Preferences = {
             gcTable: false,
             gcTableCounter: true,
             gcTableRegion: true,
+            pillarsXp: '',
             badgeGcCounter: true,
             badgeGcEnergy: true,
             badgeRepeatables: true,

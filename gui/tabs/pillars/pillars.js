@@ -26,8 +26,7 @@ function init() {
     checkGrid = container.querySelector('[name=grid]');
     checkGrid.addEventListener('click', refresh);
 
-    const button = container.querySelector('.toolbar button.ultimate');
-    button.addEventListener('click', calcUltimateLevel);
+    for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -35,6 +34,12 @@ function init() {
     smartTable.fixedFooter.parentNode.classList.add('pillars');
 
     container.addEventListener('tooltip', onTooltip);
+}
+
+function onClickButton(event) {
+    const action = event.target.getAttribute('data-action');
+    if (action == 'ultimate') calcUltimateLevel();
+    if (action == 'options') showOptions();
 }
 
 function update() {
@@ -667,5 +672,48 @@ async function calcUltimateLevel() {
             return;
         }
         button.remove();
+    });
+}
+
+async function showOptions() {
+    const [achievements, productions] = await Promise.all([bgp.Data.getFile('achievements'), bgp.Data.getFile('productions')]);
+    const hashMaterials = {};
+    Object.values(achievements)
+        .filter(a => a.action == 'collect' && a.type == 'material' && +a.hide == 0 && !+a.event_id)
+        .forEach(a => {
+            const matId = +a.object_id;
+            if (matId > 0) hashMaterials[matId] = matId;
+        });
+    Object.values(productions)
+        .filter(p => p.type == 'alloy' && +p.hide == 0 && !+p.event_id)
+        .forEach(p => {
+            const material = p.cargo.find(c => c.type == 'material');
+            const matId = material ? +material.object_id : 0;
+            if (matId > 0) hashMaterials[matId] = matId;
+        });
+    // Exclude Jadeite and Obsidian
+    const listMaterial = Object.values(hashMaterials).filter(matId => !gui.isMaterialXpDefined(matId) && matId != 93 && matId != 270);
+    let htm = '';
+    htm += `<table class="daf-table"><thead>`;
+    htm += `<tr><th>${gui.getMessage('gui_material')}</th><th>${gui.getMessage('gui_xp')}</th></tr>`;
+    htm += `</thead><tbody class="row-coloring">`;
+    listMaterial
+        .map(matId => [matId, gui.getObjectName('material', matId)])
+        .sort((a, b) => gui.sortTextAscending(a[1], b[1]))
+        .forEach(a => {
+            htm += `<tr><th>${a[1]}</th>`;
+            htm += `<td><input name="mat_${a[0]}" type="number" min="0" step="1000" style="width:90px" value="${gui.getXp('material', a[0])}"></td></tr>`;
+        });
+    htm += `</tbody></table>`;
+    gui.dialog.show({
+        title: gui.getMessage('tab_options'),
+        html: htm,
+        style: [Dialog.CONFIRM, Dialog.CANCEL]
+    }, function (method, params) {
+        if (method == Dialog.CONFIRM) {
+            const map = {};
+            Object.keys(params).filter(key => key.startsWith('mat_') && +params[key] > 0).forEach(key => map[key.substr(4)] = +params[key]);
+            gui.setMaterialsXp(map);
+        }
     });
 }

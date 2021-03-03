@@ -63,14 +63,29 @@ const gui = {
     getPillarsInfo: function () {
         const result = bgp.Data.getPillarsInfo();
         gui.expByMaterial = Object.assign({}, result.expByMaterial);
-        // const expByMaterial = gui.expByMaterial;
-        // const estimates = {
-        //     332: 375000, // Superchromium
-        //     331: 7000,   // Chromite ore
-        //     329: 227000, // Opal
-        // };
-        // for (const id in estimates) if (!(id in expByMaterial)) expByMaterial[id] = estimates[id];
+        const estimates = {};
+        String(gui.getPreference('pillarsXp') || '').split(',').forEach(t => {
+            const [matId, xp] = t.split('=').map(n => +n || 0);
+            if (matId > 0 && xp > 0) estimates[matId] = xp;
+        });
+        gui.expByMaterialEstimated = Object.assign(estimates, result.expByMaterial);
         return result;
+    },
+    setMaterialsXp: function (map) {
+        const values = [];
+        const estimates = {};
+        for (const key of Object.keys(map)) {
+            const value = +map[key];
+            if (value > 0) {
+                values.push(`${key}=${value}`);
+                estimates[key] = value;
+            }
+        }
+        gui.setPreference('pillarsXp', values.join(','));
+        gui.expByMaterialEstimated = Object.assign(estimates, gui.expByMaterial);
+    },
+    isMaterialXpDefined: function (id) {
+        return id in gui.expByMaterial;
     },
     getString: function (id) {
         return bgp.Data.getString(id);
@@ -292,7 +307,7 @@ const gui = {
     },
     getXp: function (type, oid) {
         if (type == 'material') {
-            const expByMaterial = gui.expByMaterial;    //bgp.Data.pillars.expByMaterial
+            const expByMaterial = gui.expByMaterialEstimated;
             return (expByMaterial && expByMaterial[oid]) || 0;
         } else if (type == 'usable') {
             const usable = gui.getObject(type, oid);
