@@ -257,19 +257,18 @@ function getDownloadPath() {
 }
 
 function prepareFloorData(data, unclear) {
-    data = data.sort((a, b) => a.level_id - b.level_id);
+    data = data.map(mine => Object.assign({}, mine)).sort((a, b) => a.level_id - b.level_id);
     if (unclear) {
-        data = data.map(mine => {
-            mine = Object.assign({}, mine);
-            if (mine._p.o) {
-                mine.packedTiles = mine._p.o.packed;
-                ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => mine[key] = mine._p.o[key]);
-            }
-            ['processed', 'actions', 'numTiles', 'cost', 'numSpecial', 'numQuest', 'numMaterial', '_t'].forEach(key => delete mine[key]);
+        unclear.num = 0;
+        data.filter(mine => mine._p.o).forEach(mine => {
+            unclear.num++;
+            mine.packedTiles = mine._p.o.packed;
+            ['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => mine[key] = mine._p.o[key]);
+            delete mine.actions;
             calcMine(mine, { setAllVisibility: true });
-            return mine;
         });
     }
+    data.forEach(mine => ['processed', 'numTiles', 'cost', 'numSpecial', 'numQuest', 'numMaterial', '_t'].forEach(key => delete mine[key]));
     return data;
 }
 
@@ -288,16 +287,15 @@ function onClickButton(event) {
         canvas2.toBlob(data => gui.downloadData({ data, filename, path: getDownloadPath() }), 'image/png');
     } else if (action == 'options') {
         showAdvancedOptions();
-    } else if (action == 'export_location') {
+    } else if (action == 'export_location' || action == 'export_floor') {
         if (!currentData || !canvas) return;
-        const filename = `${getLocationName(currentData.lid, currentData.location)}.map.json`;
-        const data = prepareFloorData(bgp.Data.mineCache.filter(m => m.id == currentData.lid), event.ctrlKey && isAdmin);
+        const isLocation = action == 'export_location';
+        const unclear = event.ctrlKey && isAdmin ? {} : null;
+        const data = prepareFloorData(isLocation ? bgp.Data.mineCache.filter(m => m.id == currentData.lid) : [currentData.mine], unclear);
+        const isFull = unclear ? unclear.num == data.length : false;
+        const filename = `${getLocationName(currentData.lid, currentData.location)}${isLocation ? '' : `_floor${currentData.fid}`}.${isFull ? 'full' : ''}map.json`;
         gui.downloadData({ data, filename, path: getDownloadPath() });
-    } else if (action == 'export_floor') {
-        if (!currentData || !canvas) return;
-        const filename = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.map.json`;
-        const data = prepareFloorData([currentData.mine], event.ctrlKey && isAdmin);
-        gui.downloadData({ data, filename, path: getDownloadPath() });
+        if (unclear) gui.toast.show(isFull ? { text: 'All floors were uncleared!' } : { text: 'Not all floors were uncleared!', style: Dialog.CRITICAL });
     } else if (action == 'import') {
         gui.chooseFile(async function (file) {
             const invalidExport = new Error(gui.getMessage('export_invalidexport'));
