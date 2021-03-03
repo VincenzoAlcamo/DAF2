@@ -2071,6 +2071,15 @@ async function drawMine(args) {
             specialFill(tileDef.color, sx - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileLeft, tileDown, tileAt(x - 1, y + 1));
             specialFill(tileDef.color, sx + TILE_SIZE - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileRight, tileDown, tileAt(x + 1, y + 1));
         });
+        specialTilesToDraw.forEach(tileDef => {
+            const { x, y } = tileDef;
+            const sx = x * TILE_SIZE, sy = y * TILE_SIZE;
+            ctx.fillStyle = '#' + tileDef.color.map(v => (v * 15).toString(16)).join('');
+            ctx.fillRect(sx, sy, TILE_SIZE, SW);
+            ctx.fillRect(sx, sy + TILE_SIZE - SW, TILE_SIZE, SW);
+            ctx.fillRect(sx, sy + SW, SW, TILE_SIZE - SW * 2);
+            ctx.fillRect(sx + TILE_SIZE - SW, sy + SW, SW, TILE_SIZE - SW * 2);
+        });
         specialTilesToDraw.forEach(tileDef => delete tileDef.color);
     }
 
