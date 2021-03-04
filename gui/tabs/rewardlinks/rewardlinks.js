@@ -11,7 +11,7 @@ export default {
             clickNextButton();
         }
     },
-    requires: ['materials']
+    requires: ['materials', 'xp']
 };
 
 const SECONDS_IN_A_DAY = 86400;
