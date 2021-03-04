@@ -794,19 +794,19 @@ const gui = {
         path = path.split('/').map(gui.getSafeFileName).filter(v => v).join('/');
         return path;
     },
-    downloadData: function ({ data, filename, path, overwrite }) {
+    getDateParts: function (dt) {
+        if (dt === undefined) dt = new Date();
         const p2 = n => n.toString().padStart(2, '0');
-        const dt = new Date();
-        filename = String(filename || '').replace(/<[a-z]+>/g, term => {
-            if (term == '<date>') {
-                if (overwrite === undefined) overwrite = true;
-                return `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}-${p2(dt.getDate())}`;
-            }
-            if (term == '<time>') {
-                if (overwrite === undefined) overwrite = true;
-                return `${p2(dt.getHours())}${p2(dt.getMinutes())}${p2(dt.getSeconds())}`;
-            }
-            return term;
+        return {
+            date: `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}-${p2(dt.getDate())}`,
+            time: `${p2(dt.getHours())}:${p2(dt.getMinutes())}:${p2(dt.getSeconds())}`
+        };
+    },
+    downloadData: function ({ data, filename, path, overwrite }) {
+        const dp = gui.getDateParts(new Date());
+        filename = String(filename || '').replace(/<([a-z]+)>/g, (t, term) => {
+            if (term in dp) return dp[term].replace(/:/g, '');
+            return t;
         });
         filename = gui.getSafeFileName(filename);
         const getBlob = () => {
