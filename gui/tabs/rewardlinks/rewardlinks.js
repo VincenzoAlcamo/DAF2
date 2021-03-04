@@ -22,7 +22,7 @@ let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollec
 const materialImageCache = {};
 const clicked = {};
 let firstTime = true;
-let autoClick = false;
+let autoClick = 0, gemAutoClick = false;
 let shorten;
 
 //#region LINK HELPER FUNCTIONS
@@ -436,7 +436,7 @@ function onClickTable(event) {
                 update();
             }
             if (method == Dialog.CONFIRM || method == 'reset') showNextReason();
-            else autoClick = false;
+            else autoClick = 0;
         });
     }
 
@@ -447,6 +447,7 @@ function onClickTable(event) {
     const now = gui.getUnixTime();
     let countClicked;
     const wasAutoClicked = target.hasAttribute(TAG_AUTOCLICKED) || event.altKey;
+    if (event.altKey) gemAutoClick = event.ctrlKey;
     target.removeAttribute(TAG_AUTOCLICKED);
     const clickAnyway = target.hasAttribute(TAG_CLICKANYWAY);
     target.removeAttribute(TAG_CLICKANYWAY);
@@ -489,7 +490,7 @@ function onClickTable(event) {
     delete reward.time;
     reward.row.setAttribute('data-status', reward.status);
     clicked[reward.id] = now;
-    if (event.altKey) autoClick = true;
+    if (wasAutoClicked) autoClick = 1;
     // Open link in background?
     if (getState().background) {
         event.preventDefault();
@@ -524,7 +525,9 @@ function setInputChecked(input, checked) {
 }
 
 function clickNextButton() {
-    if (!autoClick) return;
+    if (!autoClick || smartTable.table.querySelector('tr[data-status="1"]')) return;
+    autoClick = 0;
+
     let button = null;
     while (!button) {
         const input = smartTable.table.querySelector('input[type=checkbox]:checked');
@@ -535,9 +538,10 @@ function clickNextButton() {
         else button = input.parentNode.nextElementSibling.firstElementChild;
     }
     if (button) {
+        if (gemAutoClick && getLinksInLastDay().filter(link => link.cmt == 2).length >= 2) return;
         button.setAttribute(TAG_AUTOCLICKED, '1');
         button.click();
-    } else autoClick = false;
+    }
 }
 
 function update() {
@@ -677,11 +681,18 @@ function clearStatus() {
     }
 }
 
-function summary() {
-    const links = Object.values(bgp.Data.getRewardLinks()).filter(link => link.cdt && link.cmt > 0).sort((a, b) => b.cdt - a.cdt);
+function getLinksInLastDay() {
+    let links = Object.values(bgp.Data.getRewardLinks()).filter(link => link.cdt && link.cmt > 0).sort((a, b) => b.cdt - a.cdt);
     const lastDay = links.length ? links[0].cdt - bgp.Data.REWARDLINKS_REFRESH_HOURS * 3600 : 0;
+    links = links.filter(link => link.cdt > lastDay);
+    const limit = bgp.Data.REWARDLINKS_DAILY_LIMIT;
+    if (links.length > limit) links.length = limit;
+    return links;
+}
+
+function summary() {
     const hash = {};
-    links.filter(link => link.cdt > lastDay).filter((link, index) => index < bgp.Data.REWARDLINKS_DAILY_LIMIT).forEach(link => {
+    getLinksInLastDay().forEach(link => {
         const arr = hash[link.cmt];
         if (arr) arr.push(link); else hash[link.cmt] = [link];
     });
