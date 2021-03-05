@@ -2270,7 +2270,7 @@ async function drawMine(args) {
         if (ctx.getImageData(Math.floor((canvas.width - width) / 2), Math.floor((TILE_SIZE - height) / 2), width, height).data.find((v, i) => v > THRESHOLD && (i & 3) != 3)) {
             marginTop = TILE_SIZE;
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            canvas.height = (rows + 1) * TILE_SIZE;
+            canvas.height = canvas.height + TILE_SIZE;
             ctx.putImageData(imgData, 0, TILE_SIZE);
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvas.width, TILE_SIZE);
@@ -2280,7 +2280,7 @@ async function drawMine(args) {
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
         ctx.fillStyle = '#FFF';
-        ctx.fillText(title, Math.floor(TILE_SIZE * cols / 2), Math.floor(TILE_SIZE / 2), cols * TILE_SIZE);
+        ctx.fillText(title, Math.floor(canvas.width / 2), Math.floor(TILE_SIZE / 2), canvas.width);
     }
     table.style.marginTop = map.querySelector('.overlay').style.marginTop = marginTop + 'px';
 
