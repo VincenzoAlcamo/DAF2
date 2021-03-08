@@ -404,6 +404,7 @@ function onClickTable(event) {
     if (!target.classList.contains('reward')) return true;
 
     const reasons = [];
+    const wasAutoClicked = target.hasAttribute(TAG_AUTOCLICKED) || event.altKey;
 
     function pushReason(title, text, action, critical = false) {
         reasons.push({ title, text, critical, action });
@@ -413,6 +414,7 @@ function onClickTable(event) {
         const reason = reasons.shift();
         if (!reason) {
             target.setAttribute(TAG_CLICKANYWAY, '1');
+            if (wasAutoClicked) target.setAttribute(TAG_AUTOCLICKED, '1');
             target.click();
             return;
         }
@@ -446,7 +448,6 @@ function onClickTable(event) {
     if (!reward) return;
     const now = gui.getUnixTime();
     let countClicked;
-    const wasAutoClicked = target.hasAttribute(TAG_AUTOCLICKED) || event.altKey;
     if (event.altKey) gemAutoClick = event.ctrlKey;
     target.removeAttribute(TAG_AUTOCLICKED);
     const clickAnyway = target.hasAttribute(TAG_CLICKANYWAY);
