@@ -806,6 +806,7 @@ async function pixel() {
     htm += Html`<option value="0">Links not yet expired</option>`;
     htm += Html`<option value="1">Upcoming links</option>`;
     htm += Html`</select></label><div class="rewardlinks_pixel"></div>`;
+    const getKey = reward => reward ? `${reward.type}_${reward.object_id}_${+reward.amount}` : '';
     gui.dialog.show({ html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
         if (method == Dialog.AUTORUN || method == 'show') {
             let htm = '';
@@ -817,12 +818,17 @@ async function pixel() {
             htm += Html`<tbody class="row-coloring">`;
             htm += items.filter(item => params.show == 0 || item.start > now).map(item => {
                 let s = Html`<tr><td><span class="from">${Locale.formatDate(item.start)}</span><span class="expires">(${Locale.formatDate(item.end)})</span></td>`;
-                if (item.reward.length == 1 && +item.reward[0].region_id == 0) {
-                    s += Html`<td colspan="${maxRid}">${getReward(item.reward[0])}</td>`;
+                const rewardByRegion = [];
+                let isSingle = true;
+                const firstReward = item.reward[0], firstKey = getKey(firstReward);
+                for (let rid = 1; rid <= maxRid; rid++) {
+                    const found = rewardByRegion[rid - 1] = item.reward.find(r => +r.region_id == rid);
+                    if (getKey(found) != firstKey) isSingle = false;
+                }
+                if (isSingle || (item.reward.length == 1 && +item.reward[0].region_id == 0)) {
+                    s += Html`<td colspan="${maxRid}">${getReward(firstReward)}</td>`;
                 } else {
-                    for (let rid = 1; rid <= maxRid; rid++) {
-                        s += Html`<td>${getReward(item.reward.find(r => +r.region_id == rid))}</td>`;
-                    }
+                    s += rewardByRegion.map(reward => Html`<td>${getReward(reward)}</td>`).join('');
                 }
                 s += Html`</tr>`;
                 return s;
