@@ -847,6 +847,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
                     const tileDef = tileDefs[y * cols + x];
                     if (!tileDef.loot) tileDef.loot = [];
                     const loot = { type: lootType, id: lootId, amount };
+                    if (indexes) loot.random = area_id;
                     if (lootType == 'token') {
                         const t = tokens[lootId];
                         if (!t || +t.visibility != 1) loot.hidden = true;
@@ -1650,7 +1651,18 @@ async function drawMine(args) {
         }
     };
     const addDrop = (x, y, drops) => {
-        const s = drops.filter(d => !d.hidden && (isAdmin || !d.forAdmin)).map(d => `\n${Locale.formatNumber(d.amount)} \xd7 ${gui.getObjectName(d.type, d.id)}`).join('');
+        const cell = table.rows[y].cells[x];
+        const s = drops.filter(d => !d.hidden && (isAdmin || !d.forAdmin)).map(d => {
+            let name = gui.getObjectName(d.type, d.id);
+            if (name.startsWith('#') && d.type == 'token') name = gui.getMessage('gui_token') + name;
+            const random = d.random ? ` (${gui.getMessage('map_random')})` : '';
+            if (d.random) {
+                cell.classList.add('tooltip-event');
+                cell.classList.add('random-loot');
+                cell.classList.add('rl_' + d.random);
+            }
+            return `\n${Locale.formatNumber(d.amount)} \xd7 ${name}${random}`;
+        }).join('');
         if (s) addTitle(x, y, gui.getMessageAndValue('gui_loot', s));
     };
 
@@ -1860,7 +1872,7 @@ async function drawMine(args) {
                 }
                 if (item.req_material) {
                     const token = gui.getObject('token', item.req_material);
-                    const name = token.name_loc ? gui.getString(token.name_loc) : '#' + item.req_material;
+                    const name = token.name_loc ? gui.getString(token.name_loc) : gui.getMessage('gui_token') + '#' + item.req_material;
                     texts.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
                     asset = token.mobile_asset;
                 }
@@ -1886,7 +1898,7 @@ async function drawMine(args) {
         const img = item && item.mobile_asset && images[item.mobile_asset].img;
         if (img) {
             if (tileDef.miscType == 'B') {
-                drawFrame(x, y, img, item.active ? 0 : item.frames - 1, false, false, item.rotation / 90);
+                if (tileDef.tileStatus == 2) drawFrame(x, y, img, item.active ? 0 : item.frames - 1, false, false, item.rotation / 90);
             } else {
                 ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
             }
@@ -2338,15 +2350,38 @@ function pickTreasure(key, x, y, area_id, pieces, artifacts) {
 
 function onTooltip(event) {
     const element = event.target;
+    let listDivToHide = [];
+    let tilesToHide = [];
     const div = element.querySelector('div.beacon-req');
     if (div) {
         const id = div.getAttribute('data-beacon');
-        const list = Array.from(table.querySelectorAll(`.beacon-req[data-beacon="${id}"]`));
-        list.forEach(el => el.style.display = 'block');
+        listDivToHide = Array.from(table.querySelectorAll(`.beacon-req[data-beacon="${id}"]`));
+        listDivToHide.forEach(el => el.style.display = 'block');
+    }
+    if (element.classList.contains('random-loot')) {
+        const hash = {};
+        element.classList.forEach(name => {
+            if (name.startsWith('rl_')) {
+                const id = name.substr(3);
+                const area = asArray(currentData.floor.loot_areas && currentData.floor.loot_areas.loot_area).find(a => a.area_id == id);
+                if (area) {
+                    const tiles = typeof area.tiles == 'string' ? area.tiles.split(';') : [];
+                    tiles.forEach(tile => {
+                        const [y, x] = tile.split(',').map(v => +v);
+                        hash[`${x}_${y}`] = { x, y };
+                    });
+                }
+            }
+        });
+        tilesToHide = Object.values(hash);
+        tilesToHide.forEach(tile => table.rows[tile.y].cells[tile.x].style.boxShadow = 'inset 0px 0px 0px 9px #FFF8');
+    }
+    if (listDivToHide.length || tilesToHide.length) {
         const eventNames = ['mouseleave', 'blur'];
         const autoHide = () => {
             eventNames.forEach(name => element.removeEventListener(name, autoHide));
-            list.forEach(el => el.style.display = 'none');
+            listDivToHide.forEach(el => el.style.display = 'none');
+            tilesToHide.forEach(tile => table.rows[tile.y].cells[tile.x].style.boxShadow = '');
         };
         eventNames.forEach(name => element.addEventListener(name, autoHide));
     }

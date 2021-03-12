@@ -218,32 +218,32 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   border: 0;
   width: 62px;
   height: 62px;
-  background-color: transparent !important;
+  background-color: transparent;
   position: relative;
 }
 
 .tab_map .map.show_tiles td.tile {
   border: 2px solid #AAF;
-  background-color: #AAF6 !important;
+  background-color: #AAF6;
 }
 
 .tab_map .map.show_tiles.show_bonus td.xp {
   border: 2px solid #FF0;
-  background-color: #FF06 !important;
+  background-color: #FF06;
 }
 
 .tab_map .map.show_tiles.show_bonus td.energy {
   border: 2px solid #0F0;
-  background-color: #0F06 !important;
+  background-color: #0F06;
 }
 
 .tab_map .map.show_tiles.show_bonus td.energy.xp {
   border: 2px solid #0FF;
-  background-color: #0FF6 !important;
+  background-color: #0FF6;
 }
 
 .tab_map .map.show_opaque td.opaque {
-  background-color: #F008 !important;
+  background-color: #F008;
 }
 
 /* .tab_map .map.show_opaque td.walkable:not(.hide) {
