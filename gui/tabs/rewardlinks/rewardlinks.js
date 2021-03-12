@@ -384,19 +384,30 @@ function removeLinks(title, rewards) {
     }
 }
 
+let lastClickedRow = null;
 function onClickTable(event) {
     const target = event.target;
     if (!target) return true;
 
     if (target.tagName == 'INPUT') {
         const flag = target.checked;
-        let rows = [target.parentNode.parentNode];
+        const row = target.parentNode.parentNode;
+        let rows = [row];
         if (event.ctrlKey || event.altKey) {
             rows = Array.from(smartTable.table.querySelectorAll('tr[data-id]'));
             if (event.altKey) {
-                const html = target.parentNode.parentNode.cells[5].innerHTML;
+                const html = row.cells[5].innerHTML;
                 rows = rows.filter(row => row.cells[5].innerHTML == html);
             }
+        }
+        if (event.shiftKey) {
+            if (!event.ctrlKey && !event.altKey && lastClickedRow && lastClickedRow.parentNode === row.parentNode) {
+                const baseIndex = row.parentNode.rows[0].rowIndex;
+                const [startIndex, endIndex] = [lastClickedRow.rowIndex, row.rowIndex].sort(gui.sortNumberAscending);
+                rows = Array.from(row.parentNode.rows).slice(startIndex - baseIndex, endIndex - baseIndex + 1);
+            }
+        } else {
+            lastClickedRow = row;
         }
         for (const row of rows) setInputChecked(row.querySelector('input'), flag);
         return;

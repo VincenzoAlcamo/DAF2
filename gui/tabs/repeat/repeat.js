@@ -257,7 +257,7 @@ function calculateItem(item, flagRefreshRow) {
         item.progress = +prog.prog || 0;
         item.total = rotation ? rotation.progress : 0;
         const cmpl = +prog.cmpl || 0;
-        const end = cmpl > 0 ? cmpl + item.cooldown - offset: 0;
+        const end = cmpl > 0 ? cmpl + item.cooldown - offset : 0;
         item.time = end <= now ? 0 : end;
         item.ready = item.time <= now;
         const readyHasChanged = item.ready !== item._ready;
@@ -316,21 +316,32 @@ function toggleSelected(id, flag) {
     }
 }
 
+let lastClickedRow = null;
 function onClickTable(event) {
     const target = event.target;
     if (!target) return true;
     if (target.tagName == 'INPUT') {
         const row = target.parentNode.parentNode;
-        const id = +row.getAttribute('data-id');
+        let rows = [row];
         const flag = target.checked;
         if (event.ctrlKey) {
             // apply to all
             for (const row of smartTable.table.querySelectorAll('tr[data-id]')) {
                 toggleSelected(+row.getAttribute('data-id'), flag);
             }
-        } else {
-            toggleSelected(id, flag);
+            rows = Array.from(smartTable.table.querySelectorAll('tr[data-id]'));
         }
+        if (event.shiftKey) {
+            if (!event.ctrlKey && !event.altKey && lastClickedRow && lastClickedRow.parentNode === row.parentNode) {
+                const baseIndex = row.parentNode.rows[0].rowIndex;
+                const [startIndex, endIndex] = [lastClickedRow.rowIndex, row.rowIndex].sort(gui.sortNumberAscending);
+                rows = Array.from(row.parentNode.rows).slice(startIndex - baseIndex, endIndex - baseIndex + 1);
+            }
+        } else {
+            lastClickedRow = row;
+        }
+        for (const row of rows) toggleSelected(+row.getAttribute('data-id'), flag);
+
         storeSelected();
         return;
     }
