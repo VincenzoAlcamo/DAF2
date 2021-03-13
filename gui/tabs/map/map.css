@@ -367,3 +367,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 .tab_map.show_uncleared .toolbar {
   --tt-bgcol: #c18128;
 }
+
+.tab_map .map .random-pos {
+  box-shadow: inset 0px 0px 0px 9px #FFF8;
+}

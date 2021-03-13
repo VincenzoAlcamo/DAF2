@@ -844,8 +844,8 @@
     "map_downloadfolder": {
         "message": "Download folder"
     },
-    "map_random": {
-        "message": "random"
+    "map_positionrandom": {
+        "message": "Position is random"
     },
     "pillars_all": {
         "message": "All pillars"

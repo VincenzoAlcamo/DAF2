@@ -1650,19 +1650,25 @@ async function drawMine(args) {
             if (item) fn(tileDef.x, tileDef.y, tileDef, item, item.mobile_asset && images[item.mobile_asset].img);
         }
     };
+    const RANDOM_CHAR = '#1';
     const addDrop = (x, y, drops) => {
+        let hasRandom = false;
         const cell = table.rows[y].cells[x];
-        const s = drops.filter(d => !d.hidden && (isAdmin || !d.forAdmin)).map(d => {
+        let s = drops.filter(d => !d.hidden && (isAdmin || !d.forAdmin)).map(d => {
             let name = gui.getObjectName(d.type, d.id);
             if (name.startsWith('#') && d.type == 'token') name = gui.getMessage('gui_token') + name;
-            const random = d.random ? ` (${gui.getMessage('map_random')})` : '';
+            const random = d.random ? ` (${RANDOM_CHAR})` : '';
             if (d.random) {
+                hasRandom = true;
                 cell.classList.add('tooltip-event');
                 cell.classList.add('random-loot');
                 cell.classList.add('rl_' + d.random);
             }
             return `\n${Locale.formatNumber(d.amount)} \xd7 ${name}${random}`;
         }).join('');
+        if (hasRandom) {
+            s += `\n${RANDOM_CHAR} = ${gui.getMessage('map_positionrandom')}`;
+        }
         if (s) addTitle(x, y, gui.getMessageAndValue('gui_loot', s));
     };
 
@@ -2351,7 +2357,8 @@ function pickTreasure(key, x, y, area_id, pieces, artifacts) {
 function onTooltip(event) {
     const element = event.target;
     let listDivToHide = [];
-    let tilesToHide = [];
+    let randomTiles = [];
+    const setRandomTiles = flag => randomTiles.forEach(tile => table.rows[tile.y].cells[tile.x].classList.toggle('random-pos', flag));
     const div = element.querySelector('div.beacon-req');
     if (div) {
         const id = div.getAttribute('data-beacon');
@@ -2373,15 +2380,15 @@ function onTooltip(event) {
                 }
             }
         });
-        tilesToHide = Object.values(hash);
-        tilesToHide.forEach(tile => table.rows[tile.y].cells[tile.x].style.boxShadow = 'inset 0px 0px 0px 9px #FFF8');
+        randomTiles = Object.values(hash);
+        setRandomTiles(true);
     }
-    if (listDivToHide.length || tilesToHide.length) {
+    if (listDivToHide.length || randomTiles.length) {
         const eventNames = ['mouseleave', 'blur'];
         const autoHide = () => {
             eventNames.forEach(name => element.removeEventListener(name, autoHide));
             listDivToHide.forEach(el => el.style.display = 'none');
-            tilesToHide.forEach(tile => table.rows[tile.y].cells[tile.x].style.boxShadow = '');
+            setRandomTiles(false);
         };
         eventNames.forEach(name => element.addEventListener(name, autoHide));
     }
