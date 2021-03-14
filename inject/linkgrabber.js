@@ -35,6 +35,7 @@ let countLabel = null;
 let scrollHandle = 0;
 let autoSend = false;
 let autoSendHandler = null;
+let autoSendLinks = {};
 let showId = true;
 let links = [];
 let linkCount, oldLabel, mouseX, mouseY, startX, startY, autoOpenElement, autoOpenCount, flagLinks;
@@ -52,6 +53,10 @@ function addPassiveListeners(obj, ...args) {
 
 function removeListeners(obj, ...args) {
     args.forEach(fn => obj.removeEventListener(fn.name, fn, true));
+}
+
+function setShowId() {
+    document.body.classList.toggle('DAF-show-id', showId);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -323,9 +328,13 @@ function detect() {
                     setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
                 }
                 total++;
-                if (!(daf.data.id in sent)) toSend++;
-                if (!(daf.data.id in hash)) {
-                    hash[daf.data.id] = true;
+                const id = daf.data.id;
+                if (autoSend && !(id in sent) && !(id in autoSendLinks)) {
+                    autoSendLinks[id] = daf.data;
+                    toSend++;
+                }
+                if (!(id in hash)) {
+                    hash[id] = true;
                     count++;
                 }
             }
@@ -351,26 +360,22 @@ function detect() {
     }
     text += `\nESC = ${getMessage('linkgrabber_fn_cancel')}`;
     if (text != oldLabel) countLabel.innerText = oldLabel = text;
-    if (toSend && autoSend && !autoSendHandler) autoSendHandler = setTimeout(() => sendLinks(true), 500);
+    if (toSend) {
+        if (autoSendHandler) clearTimeout(autoSendHandler);
+        autoSendHandler = setTimeout(sendLinks, 500);
+    }
 }
 
-function setShowId() {
-    document.body.classList.toggle('DAF-show-id', showId);
-}
-
-function showSendResult(count, total) {
-    Dialog(Dialog.TOAST).show({ text: getMessage('linkgrabber_added', count, total) });
-}
-function sendLinks(wasAutoSent) {
+function sendLinks() {
     if (autoSendHandler) clearTimeout(autoSendHandler);
     autoSendHandler = null;
-    const values = collectData(true);
-    const total = values.length;
-    if (!total) return;
-    const toSend = values.filter(l => !(l.id in sent));
-    if (toSend.length == 0) return !wasAutoSent && showSendResult(0, total);
-    toSend.forEach(l => sent[l.id] = true);
-    chrome.runtime.sendMessage({ action: 'addRewardLinks', values: toSend }, (count) => !chrome.runtime.lastError && showSendResult(count, total));
+    collectData(true).filter(l => !(l.id in sent)).forEach(l => autoSendLinks[l.id] = l);
+    const values = Object.values(autoSendLinks);
+    autoSendLinks = {};
+    if (!values.length) return;
+    const showSendResult = (count, total) => Dialog(Dialog.TOAST).show({ text: getMessage('linkgrabber_added', count, total) });
+    values.forEach(l => sent[l.id] = true);
+    chrome.runtime.sendMessage({ action: 'addRewardLinks', values }, (count) => !chrome.runtime.lastError && showSendResult(count, values.length));
 }
 
 const fnHandlers = {
