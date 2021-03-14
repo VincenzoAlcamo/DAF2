@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Pasta de download"
     },
+    "map_positionrandom": {
+        "message": "A posição é aleatória"
+    },
     "pillars_all": {
         "message": "Todos os pilares"
     },

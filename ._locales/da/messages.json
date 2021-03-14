@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Download mappe"
     },
+    "map_positionrandom": {
+        "message": "Posotionen er tilfældig"
+    },
     "pillars_all": {
         "message": "Alle søjler"
     },

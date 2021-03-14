@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Klasörü indir"
     },
+    "map_positionrandom": {
+        "message": "Rastgele konum"
+    },
     "pillars_all": {
         "message": "Tüm sütunlar"
     },
@@ -2169,6 +2172,9 @@
     },
     "linkgrabber_fn_showid": {
         "message": "Ödül Kimliğini (ID) Göster/Gizle"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Otomatik-gönder"
     },
     "linkgrabber_added": {
         "message": "Eklenen ödül linkleri: $NUM$ / $TOTAL$",

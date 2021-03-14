@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Download-Ordner"
     },
+    "map_positionrandom": {
+        "message": "Position ist zufällig"
+    },
     "pillars_all": {
         "message": "Alle Säulen"
     },
@@ -2168,7 +2171,10 @@
         "message": "Links aktualisieren"
     },
     "linkgrabber_fn_showid": {
-        "message": "Belohnungs-ID ein-/ausblenden"
+        "message": "Belohnungs-ID anzeigen"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Automatisch senden"
     },
     "linkgrabber_added": {
         "message": "Belohnungslinks hinzugefügt: $NUM$ / $TOTAL$",

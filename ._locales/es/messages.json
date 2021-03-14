@@ -833,16 +833,19 @@
         "message": "Tamaño de la imágen guardada"
     },
     "map_export_location": {
-        "message": "Exportar todos los pisos"
+        "message": "Exportar todos los minas (pisos)"
     },
     "map_export_floor": {
-        "message": "Exportar el piso ( mina )  actual como archivo"
+        "message": "Exportar mina (piso) actual como archivo"
     },
     "map_import": {
         "message": "Importar un archivo exportado previamente"
     },
     "map_downloadfolder": {
         "message": "Carpeta de descargas"
+    },
+    "map_positionrandom": {
+        "message": "La posición es aleatoria"
     },
     "pillars_all": {
         "message": "Todos los pilares"
@@ -2168,7 +2171,10 @@
         "message": "Refrescar enlaces"
     },
     "linkgrabber_fn_showid": {
-        "message": "Mostrar / Ocultar ID de Recompensa"
+        "message": "Mostrar ID de recompensa"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Enviar automáticamente"
     },
     "linkgrabber_added": {
         "message": "Recompensas con enlaces agregados: $NUM$ / $TOTAL$",

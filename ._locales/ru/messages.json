@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Папка загрузки"
     },
+    "map_positionrandom": {
+        "message": "Случайное расположение"
+    },
     "pillars_all": {
         "message": "Все колонны"
     },

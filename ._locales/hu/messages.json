@@ -803,10 +803,10 @@
         "message": "Húzható"
     },
     "map_can_move": {
-        "message": "Nem mozgatható"
+        "message": "Mozgatható"
     },
     "map_can_rotate": {
-        "message": "Nem forgatható"
+        "message": "Forgatható"
     },
     "map_fixed": {
         "message": "Megjavítva"
@@ -843,6 +843,9 @@
     },
     "map_downloadfolder": {
         "message": "Könyvtár letöltése"
+    },
+    "map_positionrandom": {
+        "message": "A pozíció véletlenszerű"
     },
     "pillars_all": {
         "message": "Minden pillér"
@@ -2168,7 +2171,10 @@
         "message": "Linkek frissítése"
     },
     "linkgrabber_fn_showid": {
-        "message": "Mutat/Elrejt jutalom ID"
+        "message": "Mutasd a jutalom azonosítót"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Automatikus küldés"
     },
     "linkgrabber_added": {
         "message": "Jualom linkek hozzáadva: $NUM$ / $TOTAL$",

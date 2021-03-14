@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Pobierz folder"
     },
+    "map_positionrandom": {
+        "message": "Pozycja jest losowa"
+    },
     "pillars_all": {
         "message": "Wszystkie kolumny"
     },
@@ -2168,7 +2171,10 @@
         "message": "Odśwież linki"
     },
     "linkgrabber_fn_showid": {
-        "message": "Pokaż/Ukryj identyfikator nagród"
+        "message": "Pokaż ID nagród"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Auto-wysyłanie"
     },
     "linkgrabber_added": {
         "message": "Dodane linki z nagrodami: $NUM$ / $TOTAL$",

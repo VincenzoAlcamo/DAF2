@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Φάκελος κατεβάσματος"
     },
+    "map_positionrandom": {
+        "message": "Η τοποθεσία είναι τυχαία"
+    },
     "pillars_all": {
         "message": "Όλοι οι κίονες"
     },

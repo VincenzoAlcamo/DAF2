@@ -844,6 +844,9 @@
     "map_downloadfolder": {
         "message": "Cartella di download"
     },
+    "map_positionrandom": {
+        "message": "La posizione è casuale"
+    },
     "pillars_all": {
         "message": "Tutti i pilastri"
     },
@@ -2168,7 +2171,10 @@
         "message": "Rinfresca i link"
     },
     "linkgrabber_fn_showid": {
-        "message": "Mostra/Nasconde l'Id ricompensa"
+        "message": "Mostra Id ricompensa"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Invia automaticamente"
     },
     "linkgrabber_added": {
         "message": "Link ricompensa aggiunti: $NUM$ / $TOTAL$",
