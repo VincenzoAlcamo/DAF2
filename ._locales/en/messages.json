@@ -2171,7 +2171,10 @@
         "message": "Refresh links"
     },
     "linkgrabber_fn_showid": {
-        "message": "Show/Hide Reward Id"
+        "message": "Show Reward Id"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Auto-send"
     },
     "linkgrabber_added": {
         "message": "Rewards links added: $NUM$ / $TOTAL$",

@@ -23,13 +23,13 @@
   position: absolute;
   z-index: 2147483646;
   border: 1px solid #060;
-  background-color: rgba(0, 255, 0, 0.8);
-  color: #000;
+  background-color: rgba(0, 255, 0, 0.3);
+  color: transparent;
   font: bold 10pt sans-serif !important;
   overflow: hidden;
 }
 
 body.DAF-show-id .DAF-box {
-  background-color: rgba(0, 255, 0, 0.3);
-  color: transparent;
+  background-color: rgba(0, 255, 0, 0.8);
+  color: #000;
 }

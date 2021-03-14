@@ -10,15 +10,16 @@ const options = {
 };
 
 const LEFT_BUTTON = 0;
-const KEY_ESC = 27;
-const KEY_C = 67;
-const KEY_F = 70;
-const KEY_I = 73;
-const KEY_P = 80;
-const KEY_R = 82;
-const KEY_S = 83;
-const KEY_T = 84;
-const KEY_Y = 89;
+const KEY_ESC = '\x1b';
+const KEY_A = 'A';
+const KEY_C = 'C';
+const KEY_F = 'F';
+const KEY_I = 'I';
+const KEY_P = 'P';
+const KEY_R = 'R';
+const KEY_S = 'S';
+const KEY_T = 'T';
+const KEY_Y = 'Y';
 const OS_WIN = 1;
 const OS_LINUX = 0;
 
@@ -32,8 +33,12 @@ let keyPressed = 0;
 let mouseButton = -1;
 let countLabel = null;
 let scrollHandle = 0;
+let autoSend = false;
+let autoSendHandler = null;
+let showId = true;
 let links = [];
 let linkCount, oldLabel, mouseX, mouseY, startX, startY, autoOpenElement, autoOpenCount, flagLinks;
+const sent = {};
 
 const getMessage = Dialog.getMessage;
 
@@ -57,6 +62,7 @@ function initialize() {
     link.rel = 'stylesheet';
     link.href = chrome.extension.getURL('inject/linkgrabber.css');
     document.head.appendChild(link);
+    setShowId();
     addListeners(window, mousedown, keydown, keyup, blur, contextmenu);
     // track preference changes
     chrome.storage.onChanged.addListener(function (changes, area) {
@@ -296,8 +302,7 @@ function detect() {
 
     if (!scrollHandle) scrollHandle = setInterval(scroll, 100);
 
-    let count = 0;
-    let total = 0;
+    let count = 0, total = 0, toSend = 0;
     const hash = {};
     for (const a of links) {
         const daf = a.daf;
@@ -318,6 +323,7 @@ function detect() {
                     setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
                 }
                 total++;
+                if (!(daf.data.id in sent)) toSend++;
                 if (!(daf.data.id in hash)) {
                     hash[daf.data.id] = true;
                     count++;
@@ -330,51 +336,54 @@ function detect() {
         }
     }
 
-    function addFn(key, messageId) {
-        return '\n' + key + ' = ' + getMessage(messageId);
-    }
-
     let text = getMessage('linkgrabber_selected', count, total);
     if (count > 0) {
-        text += addFn('C/F/P', 'linkgrabber_fn_copy');
-        text += addFn('S', 'linkgrabber_fn_send');
+        text += `\n${KEY_C}/${KEY_F}/${KEY_P} = ${getMessage('linkgrabber_fn_copy')}`;
+        text += `\n${KEY_S} = ${getMessage('linkgrabber_fn_send')}`;
     }
-    text += addFn('I', 'linkgrabber_fn_showid');
-    text += addFn('R', 'linkgrabber_fn_refresh');
+    text += `\n${KEY_A} = ${getMessage('linkgrabber_fn_autosend')} [${getMessage(autoSend ? 'menu_on' : 'menu_off')}]`;
+    text += `\n${KEY_I} = ${getMessage('linkgrabber_fn_showid')} [${getMessage(showId ? 'menu_on' : 'menu_off')}]`;
+    text += `\n${KEY_R} = ${getMessage('linkgrabber_fn_refresh')}`;
     if (count == 0) {
         text += `\n\n${getMessage('friendship_collectfriends')}:`;
-        text += `\nT = ${getMessage('friendship_collectstandard')}`;
-        text += `\nY = ${getMessage('friendship_collectstandard')} + ${getMessage('dialog_confirm')}`;
+        text += `\n${KEY_T} = ${getMessage('friendship_collectstandard')}`;
+        text += `\n${KEY_Y} = ${getMessage('friendship_collectstandard')} + ${getMessage('dialog_confirm')}`;
     }
-    text += '\n' + addFn('ESC', 'linkgrabber_fn_cancel');
+    text += `\nESC = ${getMessage('linkgrabber_fn_cancel')}`;
     if (text != oldLabel) countLabel.innerText = oldLabel = text;
+    if (toSend && autoSend && !autoSendHandler) autoSendHandler = setTimeout(() => sendLinks(true), 500);
+}
+
+function setShowId() {
+    document.body.classList.toggle('DAF-show-id', showId);
+}
+
+function showSendResult(count, total) {
+    Dialog(Dialog.TOAST).show({ text: getMessage('linkgrabber_added', count, total) });
+}
+function sendLinks(wasAutoSent) {
+    if (autoSendHandler) clearTimeout(autoSendHandler);
+    autoSendHandler = null;
+    const values = collectData(true);
+    const total = values.length;
+    if (!total) return;
+    const toSend = values.filter(l => !(l.id in sent));
+    if (toSend.length == 0) return !wasAutoSent && showSendResult(0, total);
+    toSend.forEach(l => sent[l.id] = true);
+    chrome.runtime.sendMessage({ action: 'addRewardLinks', values: toSend }, (count) => !chrome.runtime.lastError && showSendResult(count, total));
 }
 
 const fnHandlers = {
-    [KEY_ESC]: (_event) => stop(),
-    [KEY_R]: (_event) => start() + detect(),
-    [KEY_I]: (_event) => document.body.classList.toggle('DAF-show-id'),
-    [KEY_C]: (_event) => copyLinksToClipboard(),
-    [KEY_F]: (_event) => copyLinksToClipboard(3),
-    [KEY_P]: (_event) => copyLinksToClipboard(2),
-    [KEY_T]: (_event) => { stop(); collect(false, 4); },
-    [KEY_Y]: (_event) => { stop(); collect(true, 4); },
-    [KEY_S]: (event) => {
-        const values = collectData(true);
-        if (!event.shiftKey) stop();
-        if (values.length) {
-            chrome.runtime.sendMessage({
-                action: 'addRewardLinks',
-                values: values
-            }, (count) => {
-                if (!chrome.runtime.lastError) {
-                    Dialog(Dialog.TOAST).show({
-                        text: getMessage(count ? 'linkgrabber_added' : 'rewardlinks_nolinksadded', count, values.length)
-                    });
-                }
-            });
-        }
-    }
+    [KEY_ESC]: () => stop(),
+    [KEY_R]: () => { start(); detect(); },
+    [KEY_I]: () => { showId = !showId; setShowId(); detect(); },
+    [KEY_A]: () => { autoSend = !autoSend; detect(); },
+    [KEY_C]: () => copyLinksToClipboard(),
+    [KEY_F]: () => copyLinksToClipboard(3),
+    [KEY_P]: () => copyLinksToClipboard(2),
+    [KEY_T]: () => { stop(); collect(false, 4); },
+    [KEY_Y]: () => { stop(); collect(true, 4); },
+    [KEY_S]: () => sendLinks(false)
 };
 
 function keydown(event) {
@@ -382,10 +391,11 @@ function keydown(event) {
     keyPressed = event.keyCode;
     if (os == OS_LINUX && keyPressed == options.linkGrabKey) stopMenu = true;
     if (!flagActive) return;
-    if (keyPressed in fnHandlers) {
+    const keyChar = String.fromCharCode(keyPressed);
+    if (keyChar in fnHandlers) {
         event.keyCode = 0;
         preventEscalation(event);
-        fnHandlers[keyPressed](event);
+        fnHandlers[keyChar](event);
     }
 }
 
