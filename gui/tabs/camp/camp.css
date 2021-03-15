@@ -463,6 +463,10 @@ html.dark .camp .item.building.img {
   padding: 1px 4px;
 }
 
+.flipthepair .even .chance {
+  background-color: var(--tt-button-hlcol);
+}
+
 .flipthepair .reward img {
   max-width: 48px;
   max-height: 48px;

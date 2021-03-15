@@ -814,14 +814,11 @@ function fillCamp(campLines, numRegSlots, regFirst = true) {
 async function findThePair() {
     await bgp.Data.getFile('tokens');
     await bgp.Data.getFile('events');
-    const data = await bgp.Data.getFile('playboards');
+    const playboards = await bgp.Data.getFile('playboards');
     const generator = gui.getGenerator();
+    const type = +swFindThePair.info;
 
     let htm = '';
-    const types = Object.keys(data).map(key => +key).sort((a, b) => b - a);
-    htm += Html`<label class="with-margin" style="${types.length < 2 ? 'display:none' : ''}">${gui.getMessage('gui_type')} <select name="type" data-method="type">`;
-    for (const key of types) htm += Html`<option value="${key}">${key}</option>`;
-    htm += Html`</select></label>`;
     htm += Html`<label class="with-margin">${gui.getMessage('gui_region')} <select name="rid" data-method="rid">`;
     const maxRid = gui.getMaxRegion();
     for (let rid = 1; rid <= maxRid; rid++) htm += Html`<option value="${rid}"${rid == generator.region ? ' selected' : ''}>${gui.getObjectName('region', rid)}</option>`;
@@ -833,13 +830,24 @@ async function findThePair() {
             htm += Html`<table class="daf-table">`;
             htm += Html`<thead><tr><th colspan="8">${gui.getString('GUI3329')}</th></thead>`;
             htm += Html`<tbody class="chessboard-coloring">`;
-            const playboard = data[params.type];
+            const playboard = playboards[type];
             const rid = params.rid;
-            const totChance = data[params.type].cards.reduce((sum, card) => sum += +card.chance, 0);
+            const totChance = playboard.cards.reduce((sum, card) => sum += +card.chance, 0);
             let col = 0;
-            playboard.cards.forEach(card => {
+            const cards = playboard.cards.sort((a, b) => (+a.group - +b.group) || (+a.def_id - +b.def_id));
+            const hasFirst3 = cards.find(card => +card.first3flips > 0);
+            const firstGroup = +cards[0].group;
+            let groupFlag = true;
+            let lastGroup = firstGroup;
+            cards.forEach(card => {
+                const group = +card.group;
+                if (group != lastGroup) {
+                    lastGroup = group;
+                    groupFlag = !groupFlag;
+                }
+                const isFirst3 = hasFirst3 ? +card.first3flips > 0 : group == firstGroup;
                 if (col == 0) htm += Html`<tr>`;
-                htm += Html`<td class="flip-card">`;
+                htm += Html`<td class="flip-card ${groupFlag ? 'odd' : 'even'}${isFirst3 ? ' dot' : ''}">`;
                 htm += card.rewards.filter(r => +r.region_id == 0 || +r.region_id == rid).map(reward => {
                     let htm = '';
                     const item = packHelper.getItem(reward);
