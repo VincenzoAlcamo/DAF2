@@ -2171,7 +2171,10 @@
         "message": "Επαναφόρτωση Συνδέσμων"
     },
     "linkgrabber_fn_showid": {
-        "message": "Εμφάνιση/Απόκρυψη Id Δώρου"
+        "message": "Εμφάνιση Id Δώρου"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Αυτόματη Αποστολή"
     },
     "linkgrabber_added": {
         "message": "Σύνδεσμοι που προστέθηκαν: $NUM$ / $TOTAL$",

@@ -2171,7 +2171,10 @@
         "message": "Opdater links"
     },
     "linkgrabber_fn_showid": {
-        "message": "Vis/Skjul Præmie Id"
+        "message": "Vis Præmie Id"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Send automatisk"
     },
     "linkgrabber_added": {
         "message": "Præmie links tilføjet: $NUM$ / $TOTAL$",

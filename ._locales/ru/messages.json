@@ -2171,7 +2171,10 @@
         "message": "Обновить ссылки"
     },
     "linkgrabber_fn_showid": {
-        "message": "Показать / скрыть ID наград"
+        "message": "Показать ID награды"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Автоматическая отправка"
     },
     "linkgrabber_added": {
         "message": "Наградных ссылок добавлено: $NUM$ / $TOTAL$",

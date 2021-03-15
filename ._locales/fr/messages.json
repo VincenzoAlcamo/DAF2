@@ -2171,7 +2171,10 @@
         "message": "Actualiser les liens"
     },
     "linkgrabber_fn_showid": {
-        "message": "Afficher ou masquer ID de récompense"
+        "message": "Afficher ID de récompense"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Envoi automatique"
     },
     "linkgrabber_added": {
         "message": "Lien de récompense ajouté: $NUM$ / $TOTAL$",
