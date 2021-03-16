@@ -74,6 +74,7 @@ function init() {
 function update() {
     packHelper.onUpdate();
     swFindThePair = gui.getActiveSpecialWeeks().findThePair;
+    // swFindThePair = { info: '2' };
     buttonFindThePair.style.display = swFindThePair ? '' : 'none';
 
     markToBeRendered(container.querySelector('.camp-player'));
@@ -832,10 +833,9 @@ async function findThePair() {
             htm += Html`<tbody class="chessboard-coloring">`;
             const playboard = playboards[type];
             const rid = params.rid;
-            const totChance = playboard.cards.reduce((sum, card) => sum += +card.chance, 0);
+            // const totChance = playboard.cards.reduce((sum, card) => sum += +card.chance, 0);
             let col = 0;
             const cards = playboard.cards.sort((a, b) => (+a.group - +b.group) || (+a.def_id - +b.def_id));
-            const hasFirst3 = cards.find(card => +card.first3flips > 0);
             const firstGroup = +cards[0].group;
             let groupFlag = true;
             let lastGroup = firstGroup;
@@ -845,14 +845,15 @@ async function findThePair() {
                     lastGroup = group;
                     groupFlag = !groupFlag;
                 }
-                const isFirst3 = hasFirst3 ? +card.first3flips > 0 : group == firstGroup;
+                const isFirst3 = +card.first3flips > 0;
                 if (col == 0) htm += Html`<tr>`;
                 htm += Html`<td class="flip-card ${groupFlag ? 'odd' : 'even'}${isFirst3 ? ' dot' : ''}">`;
                 htm += card.rewards.filter(r => +r.region_id == 0 || +r.region_id == rid).map(reward => {
                     let htm = '';
                     const item = packHelper.getItem(reward);
                     htm += packHelper.getHtml(item);
-                    htm += Html`<div class="chance">${gui.getMessageAndValue('events_chance', Locale.formatNumber(+card.chance / totChance * 100, 1))} %</div>`;
+                    // htm += Html`<div class="chance">${gui.getMessageAndValue('events_chance', Locale.formatNumber(+card.chance / totChance * 100, 1))} %</div>`;
+                    htm += Html`<div class="group">GROUP ${Locale.formatNumber(+card.group)}</div>`;
                     return htm;
                 }).join('');
                 htm += Html`</td>`;
@@ -868,12 +869,14 @@ async function findThePair() {
             col = 0;
             const gemUrl = gui.getObjectImage('material', 2, true);
             const getCost = gems => Html`<div class="reward"><img src="${gemUrl}" class="outlined"></div><div class="qty">${'\xd7 ' + Locale.formatNumber(gems)}</div>`;
+            let gemsSoFar = 0;
             playboard.prices.map(price => { return { gems: +price.gems, order: +price.flip_order }; })
                 .sort((a, b) => a.order - b.order)
                 .forEach(price => {
                     if (col == 0) htm += Html`<tr>`;
                     const gems = +price.gems;
-                    htm += Html`<td><div class="ordinal">${Locale.formatNumber(price.order)}</div>${gems ? getCost(gems) : gui.getMessage('equipment_free')}</td>`;
+                    gemsSoFar += gems;
+                    htm += Html`<td title="Total gems so far: ${Locale.formatNumber(gemsSoFar)}"><div class="ordinal">${Locale.formatNumber(price.order)}</div>${gems ? getCost(gems) : gui.getMessage('equipment_free')}</td>`;
                     col = (col + 1) % 16;
                     if (col == 0) htm += Html`</tr > `;
                 });

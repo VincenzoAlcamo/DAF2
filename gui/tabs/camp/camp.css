@@ -455,7 +455,7 @@ html.dark .camp .item.building.img {
   padding: 0;
 }
 
-.flipthepair .chance {
+.flipthepair .group {
   font-size: 12px;
   background-color: var(--tb-hlcol);
   color: var(--tb-hlfgcol);
@@ -463,7 +463,7 @@ html.dark .camp .item.building.img {
   padding: 1px 4px;
 }
 
-.flipthepair .even .chance {
+.flipthepair .even .group {
   background-color: var(--tt-button-hlcol);
 }
 
@@ -513,4 +513,9 @@ html.dark .camp .item.building.img {
 
 .flipthepair .pack-item .title {
   display: none;
+}
+
+.flipthepair td:hover {
+  background-color: var(--tb-hlcol) !important;
+  cursor: pointer;
 }
