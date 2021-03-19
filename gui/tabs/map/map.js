@@ -83,7 +83,7 @@ const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared;
+let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared, showSolution;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize, listMaterial;
@@ -232,8 +232,7 @@ function addQuestDrop(lid, type, id, value) {
 
 function isCheckAllowed(check) {
     const flag = check.getAttribute('data-flag');
-    if ('LEGOBKAUF'.indexOf(flag) >= 0 && !isAdmin) return false;
-    return true;
+    return 'DTXNV'.indexOf(flag) >= 0 || isAdmin;
 }
 
 function scrollToCenter(x, y, smooth) {
@@ -1538,6 +1537,7 @@ function updateTableFlags() {
     showExit = state.show.includes('x');
     showDebug = state.show.includes('g');
     showAll = state.show.includes('a');
+    showSolution = state.show.includes('s');
     showFull = state.show.includes('f');
     showTiles = state.show.includes('l');
     showViewed = state.show.includes('v');
@@ -1838,6 +1838,7 @@ async function drawMine(args) {
 
     // Misc
     const beaconColors = { default: 'f00', dig: 'ff0', door: '0f0', door_r: '0ff', pit: '00f', push: 'f0f', sensor: 'fff', use: 'f90', visual: '999' };
+    const solutionTiles = [];
     for (const tileDef of tileDefs.filter(t => t.miscType)) {
         const { x, y } = tileDef;
         const item = getMiscItem(tileDef);
@@ -1868,6 +1869,7 @@ async function drawMine(args) {
             if (tileDef.stamina >= 0) {
                 let asset = '';
                 let rotation = 1;
+                let isHidden = false;
                 if (item.req_drag) {
                     texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
                     const draggable = draggables[item.req_drag];
@@ -1881,6 +1883,7 @@ async function drawMine(args) {
                     const name = token.name_loc ? gui.getString(token.name_loc) : gui.getMessage('gui_token') + '#' + item.req_material;
                     texts.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
                     asset = token.mobile_asset;
+                    isHidden = +token.visibility == 0;
                 }
                 if (item.req_light) {
                     texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
@@ -1893,6 +1896,11 @@ async function drawMine(args) {
                     div.setAttribute('data-beacon', tileDef.miscId);
                     div.style.backgroundImage = `url(${url})`;
                     if (rotation > 1) div.style.transform = `rotate(${(rotation - 1) * 90}deg)`;
+                    solutionTiles.push({ x, y, asset, rotation });
+                    if (showSolution && !isHidden && !(asset in images)) {
+                        addImage(asset);
+                        await images[asset].promise;
+                    }
                 }
             }
             const div = cell.appendChild(document.createElement('div'));
@@ -2116,6 +2124,19 @@ async function drawMine(args) {
         }
         addTitle(x, y, `Diggy`, true);
     }
+
+    // Solution
+    ctx.fillStyle = '#0F0';
+    (showSolution ? solutionTiles : []).forEach(tileDef => {
+        const img = tileDef.asset in images && images[tileDef.asset].img;
+        if (img) {
+            const { x, y } = tileDef;
+            ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, (tileDef.rotation - 1) * Math.PI / 2);
+            ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalWidth, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            resetTransformation();
+        }
+    });
 
     // Beams
     const deltas = [[1, 0], [0, 1], [-1, 0], [0, -1]];
