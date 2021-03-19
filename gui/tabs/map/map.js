@@ -775,23 +775,17 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         tileDef.stamina = tile ? +tile.stamina : 0;
         tileDef.shadow = tile ? +tile.shadow : 0;
         delete tileDef.toDo;
-        delete tileDef.staminaLoot;
+        delete tileDef.bonusEnergy;
+        delete tileDef.bonusXp;
         if (tileDef.stamina > 0) {
-            tileDef.staminaLoot = [{ type: 'system', id: 1, amount: tileDef.stamina, skip: true }];
             for (const effect of (canShowBonus ? effects : [])) {
                 let rnd = CustomRandomRND(playerUidRnd + 10000 * lid + 1000 * fid + 100 * y + 10 * x + effect.id + resetCount);
                 rnd = rnd % 10001 / 100;
                 if (rnd <= effect.chance) {
                     const amount = Math.floor(tileDef.stamina * effect.bonus / 100);
                     if (amount > 0) {
-                        if (effect.type == 'stamina_bonus_passive_effect') {
-                            tileDef.staminaLoot.push({ type: 'system', id: 2, amount, skip: true, forAdmin: true });
-                            tileDef.isBonusEnergy = true;
-                        }
-                        if (effect.type == 'xp_bonus_passive_effect') {
-                            tileDef.staminaLoot.push({ type: 'system', id: 1, amount, skip: true, forAdmin: true });
-                            tileDef.isBonusXp = true;
-                        }
+                        if (effect.type == 'stamina_bonus_passive_effect') tileDef.bonusEnergy = amount;
+                        if (effect.type == 'xp_bonus_passive_effect') tileDef.bonusXp = amount;
                     }
                 }
             }
@@ -1300,10 +1294,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0 && !showBackground;
         let hasLoot = false;
         if (tileDef.isTile) {
-            if (tileDef.staminaLoot) {
-                tileDef.loot = tileDef.staminaLoot.concat(tileDef.loot || []);
-                delete tileDef.staminaLoot;
-            }
             hasLoot = true;
         } else if (tileDef.miscType == 'B') {
             const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
@@ -1343,13 +1333,19 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             if (numCoins > 0 && 'coins' in materialDrops && (numCoins > 1 || tileDef.stamina == 0)) tileDef.isMaterial = true;
         }
     }
-    mine._t = {
-        numTiles: tileDefs.reduce((a, t) => a + (t.isTile ? 1 : 0), 0),
-        cost: tileDefs.reduce((a, t) => a + (t.isTile ? t.stamina : 0), 0),
-        numSpecial: tileDefs.reduce((a, t) => a + (t.isSpecial ? 1 : 0), 0),
-        numQuest: tileDefs.reduce((a, t) => a + (t.isQuest ? 1 : 0), 0),
-        numMaterial: tileDefs.reduce((a, t) => a + (t.isMaterial ? 1 : 0), 0)
-    };
+    {
+        let numTiles = 0, cost = 0, numSpecial = 0, numQuest = 0, numMaterial = 0;
+        tileDefs.forEach(tileDef => {
+            if (tileDef.isTile) {
+                numTiles++;
+                cost += tileDef.stamina;
+            }
+            if (tileDef.isSpecial) numSpecial++;
+            if (tileDef.isQuest) numQuest++;
+            if (tileDef.isMaterial) numMaterial++;
+        });
+        mine._t = { numTiles, cost, numSpecial, numQuest, numMaterial };
+    }
 
     // Transparency
     for (const tileDef of tileDefs) tileDef.solid = 0;
@@ -1651,9 +1647,16 @@ async function drawMine(args) {
         }
     };
     const RANDOM_CHAR = '#1';
-    const addDrop = (x, y, drops) => {
+    const addDrop = (x, y, drops, tileDef) => {
         let hasRandom = false;
         const cell = table.rows[y].cells[x];
+        if (tileDef) {
+            const staminaDrops = [];
+            if (tileDef.stamina) staminaDrops.push({ type: 'system', id: 1, amount: tileDef.stamina });
+            if (tileDef.bonusXp) staminaDrops.push({ type: 'system', id: 1, amount: tileDef.bonusXp });
+            if (tileDef.bonusEnergy) staminaDrops.push({ type: 'system', id: 2, amount: tileDef.bonusEnergy });
+            drops = staminaDrops.concat(drops);
+        }
         let s = drops.filter(d => !d.hidden && (isAdmin || !d.forAdmin)).map(d => {
             let name = gui.getObjectName(d.type, d.id);
             if (name.startsWith('#') && d.type == 'token') name = gui.getMessage('gui_token') + name;
@@ -1927,8 +1930,8 @@ async function drawMine(args) {
         cell.classList.toggle('tile', tileDef.isTile);
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
             if (tileDef.isSpecial || tileDef.isQuest || tileDef.isMaterial) specialTiles.push(tileDef);
-            if (tileDef.isBonusXp) cell.classList.add('xp');
-            if (tileDef.isBonusEnergy) cell.classList.add('energy');
+            if (tileDef.bonusXp) cell.classList.add('xp');
+            if (tileDef.bonusEnergy) cell.classList.add('energy');
             if (tileDef.stamina >= 0 && tileDef.tileStatus == 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
         }
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
@@ -2241,7 +2244,7 @@ async function drawMine(args) {
     // Add drop info
     for (const tileDef of tileDefs.filter(t => t.isVisible && t.hasLoot && t.stamina >= 0)) {
         const { x, y } = tileDef;
-        addDrop(x, y, tileDef.loot);
+        addDrop(x, y, tileDef.loot, tileDef);
     }
 
     // Debug info
@@ -2275,21 +2278,18 @@ async function drawMine(args) {
     const div = container.querySelector('[data-id="fid"]');
     Dialog.htmlToDOM(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
-    const formatNum = num => typeof num == 'string' ? num : (isNaN(num) ? '?' : Locale.formatNumber(num));
-    const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }) => {
+    const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }, allFound) => {
         [numTiles, cost, numSpecial, numQuest, numMaterial].forEach((n, i) => {
             const cell = row.cells[i + 1];
-            cell.textContent = formatNum(n);
+            cell.textContent = isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n);
             cell.style.fontWeight = n > 0 && i > 2 ? 'bold' : '';
         });
     };
     tableTileInfo.classList.toggle('has-special', total.numSpecial > 0);
     tableTileInfo.classList.toggle('has-quest', total.numQuest > 0);
     tableTileInfo.classList.toggle('has-material', total.numMaterial > 0);
-    setTable(tableTileInfo.rows[1], currentData.mine._t);
-    const allFound = numFound == currentData.floorNumbers.length;
-    if (!allFound) for (const key of Object.keys(total)) total[key] = '\u2267 ' + Locale.formatNumber(total[key]);
-    setTable(tableTileInfo.rows[2], total);
+    setTable(tableTileInfo.rows[1], currentData.mine._t, true);
+    setTable(tableTileInfo.rows[2], total, numFound == currentData.floorNumbers.length);
 
     // Icon
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
