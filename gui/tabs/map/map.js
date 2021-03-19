@@ -1763,15 +1763,15 @@ async function drawMine(args) {
 
     const TEXTMARKER_WIDTH = 26;
     const TEXTMARKER_RADIUS = 6;
-    const drawTextMarker = (x, y, name) => {
+    const drawTextMarker = (x, y, name, isEntrance) => {
         const cx = (x + 0.5) * TILE_SIZE;
         const cy = (y + 0.5) * TILE_SIZE;
-        ctx.fillStyle = '#FFF';
-        ctx.strokeStyle = '#F00';
+        ctx.fillStyle = isEntrance ? '#090' : '#FFF';
+        ctx.strokeStyle = isEntrance ? '#0F0' : '#F00';
         ctx.lineWidth = 4;
         drawRoundRect(cx - TEXTMARKER_WIDTH, cy - TEXTMARKER_WIDTH, TEXTMARKER_WIDTH * 2, TEXTMARKER_WIDTH * 2, TEXTMARKER_RADIUS, true, true);
         ctx.lineWidth = 1;
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = isEntrance ? '#FFF' : '#000';
         ctx.textAlign = 'center';
         ctx.fillText(name, cx, cy + 3, TILE_SIZE - 16);
     };
@@ -2108,8 +2108,9 @@ async function drawMine(args) {
             const { x, y } = tileDef;
             const door = getMiscItem(tileDef);
             if (door) {
-                const name = door.name || (door.miscType == 'N' && (door.fid == 1 || isRepeatable) ? '\u2196' : '?');
-                drawTextMarker(x, y, name);
+                const isEntrance = door.miscType == 'N' && (door.fid == 1 || isRepeatable);
+                const name = door.name || (isEntrance ? '\u2196' : '?');
+                drawTextMarker(x, y, name, isEntrance);
             }
         }
     }
