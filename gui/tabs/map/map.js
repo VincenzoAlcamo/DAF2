@@ -1799,45 +1799,25 @@ async function drawMine(args) {
     }
     drawAll(addons, 'backgroundAddonId', (x, y, tileDef, item, img) => {
         // A previously background addon overlaps this tile
-        if (tileDef.bgaDx > 0 || tileDef.bgaDy > 0) return;
+        if (tileDef.bga) return;
         // If a tile is here
         if (+item.columns == 1 && +item.rows == 1) {
             if (tileDef.tileStatus == 0 && !showBackground && tileDef.stamina >= 0) return;
             if (tileDef.tileStatus == 0 && tileDef.stamina < 0) return;
         }
-        if (tileDef.foregroundAddonId && (tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0))) return;
+        // I don't know why this was here. Removed due to a bug in Alice's White Rabbit Cottage
+        // if (tileDef.foregroundAddonId && (tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0))) return;
         if (img) {
-            tileDef.bgaIsFull = true;
             const width = +item.columns;
             const height = +item.rows;
             for (let dy = 0; dy < height && y + dy < rows; dy++) {
                 for (let dx = 0; dx < width && x + dx < cols; dx++) {
-                    const tileDef2 = tileDefs[(y + dy) * cols + x + dx];
-                    if (tileDef2.bgaDx !== undefined) {
-                        // Mark previous background addon as not full
-                        tileDefs[(y + dy - tileDef2.bgaDy) * cols + x + dx - tileDef2.bgaDx].bgaIsFull = false;
-                    }
-                    const subtile = subtiles[tileDef2.tileSubtype];
-                    if (tileDef2.tileStatus == 0 && !showBackground && subtile && +subtile.alpha == 0) {
-                        tileDef.bgaIsFull = false;
-                        delete tileDef2.bgaDx;
-                        delete tileDef2.bgaDy;
-                    } else {
-                        tileDef2.bgaDx = dx;
-                        tileDef2.bgaDy = dy;
-                    }
+                    tileDefs[(y + dy) * cols + x + dx].bga = dy * cols + dx;
                 }
             }
+            drawAddon(x, y, item, img);
         }
     });
-    for (const tileDef of tileDefs.filter(t => t.bgaDx !== undefined)) {
-        const { x, y, bgaDx: dx, bgaDy: dy } = tileDef;
-        const tileDef2 = tileDefs[(y - dy) * cols + x - dx];
-        const item = addons[tileDef2.backgroundAddonId];
-        const img = images[item.mobile_asset].img;
-        if (!tileDef2.bgaIsFull) drawAddon(x, y, item, img, dx, dy);
-        else if (dx == 0 && dy == 0) drawAddon(x, y, item, img);
-    }
 
     // Misc
     const beaconColors = { default: 'f00', dig: 'ff0', door: '0f0', door_r: '0ff', pit: '00f', push: 'f0f', sensor: 'fff', use: 'f90', visual: '999' };
