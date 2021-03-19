@@ -2362,7 +2362,7 @@ function onTooltip(event) {
     const div = element.querySelector('div.beacon-req');
     if (div) {
         const id = div.getAttribute('data-beacon');
-        listDivToHide = Array.from(table.querySelectorAll(`.beacon-req[data-beacon="${id}"]`));
+        listDivToHide = Array.from(table.querySelectorAll(event.shiftKey ? `.beacon-req[data-beacon]` : `.beacon-req[data-beacon="${id}"]`));
         listDivToHide.forEach(el => el.style.display = 'block');
     }
     if (element.classList.contains('random-loot')) {

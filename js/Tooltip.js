@@ -12,6 +12,7 @@ Tooltip.init = function () {
             const element = el.closest('.tooltip-event');
             if (element) {
                 const event = new Event('tooltip', { bubbles: true });
+                ['ctrlKey', 'shiftKey', 'altKey'].forEach(name => event[name] = e[name]);
                 element.dispatchEvent(event);
             }
         }
