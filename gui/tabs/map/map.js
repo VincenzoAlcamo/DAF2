@@ -546,7 +546,7 @@ function update() {
         token_1470: true,   // CHINESE JOURNAL
         material_93: false, // JADEITE
         material_270: false,// OBSIDIAN
-        material_2: false,  // GEM
+        // material_2: false,  // GEM
     };
     Object.values(gui.getFile('achievements')).filter(a => +a.event_id > 0 && a.action == 'collect' && a.type == 'material').forEach(a => {
         const key = a.type + '_' + a.object_id;
