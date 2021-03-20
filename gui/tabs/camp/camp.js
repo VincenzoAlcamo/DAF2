@@ -10,7 +10,7 @@ export default {
     actions: {
         'visit_camp': actionVisitCamp
     },
-    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables']
+    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables', 'events']
 };
 
 const NUM_SLOTS = 24;
@@ -828,17 +828,19 @@ async function findThePair() {
     gui.dialog.show({ title: gui.getString('GUI3326'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
         if (method == Dialog.AUTORUN || method == 'type' || method == 'rid') {
             let htm = '';
-            htm += Html`<table class="daf-table">`;
-            htm += Html`<thead><tr><th colspan="8">${gui.getString('GUI3329')}</th></thead>`;
-            htm += Html`<tbody class="chessboard-coloring">`;
             const playboard = playboards[type];
             const rid = params.rid;
             // const totChance = playboard.cards.reduce((sum, card) => sum += +card.chance, 0);
             let col = 0;
             const cards = playboard.cards.sort((a, b) => (+a.group - +b.group) || (+a.def_id - +b.def_id));
-            const firstGroup = +cards[0].group;
+            const firstGroup = +cards[0].group || 0;
+            const hasFirst3 = playboard.cards.find(card => +card.first3flips > 0);
+            const hasGroups = (+cards[cards.length - 1].group || 0) != firstGroup;
             let groupFlag = true;
             let lastGroup = firstGroup;
+            htm += Html`<table class="daf-table">`;
+            htm += Html.br`<thead><tr><th colspan="8">${gui.getString('GUI3329')}${hasFirst3 ? '\n' + gui.getMessage('camp_ftp_dot_info') : ''}${hasGroups ? '\n' + gui.getMessage('camp_ftp_group_info') : ''}</th></thead>`;
+            htm += Html`<tbody class="chessboard-coloring">`;
             cards.forEach(card => {
                 const group = +card.group;
                 if (group != lastGroup) {
@@ -853,7 +855,7 @@ async function findThePair() {
                     const item = packHelper.getItem(reward);
                     htm += packHelper.getHtml(item);
                     // htm += Html`<div class="chance">${gui.getMessageAndValue('events_chance', Locale.formatNumber(+card.chance / totChance * 100, 1))} %</div>`;
-                    htm += Html`<div class="group">GROUP ${Locale.formatNumber(+card.group)}</div>`;
+                    htm += Html`<div class="group">${gui.getMessage('camp_ftp_group', Locale.formatNumber(+card.group))}</div>`;
                     return htm;
                 }).join('');
                 htm += Html`</td>`;
@@ -876,7 +878,7 @@ async function findThePair() {
                     if (col == 0) htm += Html`<tr>`;
                     const gems = +price.gems;
                     gemsSoFar += gems;
-                    htm += Html`<td title="Total gems so far: ${Locale.formatNumber(gemsSoFar)}"><div class="ordinal">${Locale.formatNumber(price.order)}</div>${gems ? getCost(gems) : gui.getMessage('equipment_free')}</td>`;
+                    htm += Html`<td title="${gui.getMessageAndValue('camp_ftp_cumulativegems', Locale.formatNumber(gemsSoFar))}"><div class="ordinal">${Locale.formatNumber(price.order)}</div>${gems ? getCost(gems) : gui.getMessage('equipment_free')}</td>`;
                     col = (col + 1) % 16;
                     if (col == 0) htm += Html`</tr > `;
                 });

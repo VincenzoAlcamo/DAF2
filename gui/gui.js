@@ -635,6 +635,8 @@ const gui = {
                 } else if (item.type == 'prod_time') {
                     item.name = gui.getMessage('specialweek_half_prod_time');
                     if (item.coeficient != 0.5) item.name = `${item.name} (\xd7 ${Locale.formatNumber(item.coeficient)})`;
+                } else if (item.type == 'free_premium_event') {
+                    item.name = gui.getMessage('specialweek_' + item.type, gui.getObjectName('event', item.info));
                 } else {
                     item.name = gui.getMessage('specialweek_' + item.type);
                 }

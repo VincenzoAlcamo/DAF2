@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Extra"
     },
+    "camp_ftp_group": {
+        "message": "GROUP $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Cards marked with a red dot may appear in the first free flips."
+    },
+    "camp_ftp_group_info": {
+        "message": "You will be able to reveal cards from a group only after all cards from the previous group are revealed."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Total gems so far"
+    },
     "map_floor": {
         "message": "Floor"
     },
@@ -1930,7 +1947,12 @@
         "message": "Merchant for old materials"
     },
     "specialweek_free_premium_event": {
-        "message": "Free old event (you have to redeem it)"
+        "message": "Free old event \"$NAME$\" (you have to redeem it)",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Mystery box"
