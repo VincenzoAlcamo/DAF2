@@ -1947,7 +1947,7 @@
         "message": "Merchant for old materials"
     },
     "specialweek_free_premium_event": {
-        "message": "Free old event \"$NAME$\" (you have to redeem it)",
+        "message": "Redeem event \"$NAME$\" for free",
         "placeholders": {
             "name": {
                 "content": "$1"
