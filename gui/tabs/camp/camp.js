@@ -10,7 +10,7 @@ export default {
     actions: {
         'visit_camp': actionVisitCamp
     },
-    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables', 'events']
+    requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables', 'events', 'decorations']
 };
 
 const NUM_SLOTS = 24;
@@ -410,6 +410,12 @@ function updateCamp(div, flagHeaderOnly = false) {
                 htm += Html`</div>`;
             }
         }
+        if (addons.decorations) {
+            htm += Html`<div class="camp_addon camp_addon_on" title="${gui.getString('GUI0006')}:\n${addons.decolist.join('\n')}">`;
+            htm += Html`<div class="camp_addon_img"><img src="/img/gui/deco.png"></div>`;
+            htm += Html.br`<div class="camp_addon_level">${Locale.formatNumber(addons.decorations)}</div>`;
+            htm += Html`</div>`;
+        }
         if (addons.empty) {
             htm += Html`<div class="camp_addon camp_addon_empty" title="${gui.getMessage('camp_slot_empty')}">`;
             htm += Html`<div class="camp_addon_img"><img src="/img/gui/mill.png"></div>`;
@@ -599,6 +605,13 @@ function calculateAddons(camp, generator) {
         arr && arr.filter(o => o).map(map).forEach(o => items[o.id] = o);
         return items;
     };
+    const deco = {};
+    addons.decorations = camp.decorations.length;
+    camp.decorations.forEach(d => deco[d.def_id] = (deco[d.def_id] || 0) + 1);
+    addons.decolist = Object.entries(deco).map(entry => {
+        const name = gui.getObjectName('decoration', entry[0]);
+        return entry[1] == 1 ? name : name + ' \xd7 ' + Locale.formatNumber(entry[1]);
+    }).sort(gui.sortTextAscending);
     if (camp.addon_buildings) {
         const items = getItems(camp.addon_buildings, o => { return { id: +o.def_id, level: +o.level }; });
         addons.hollander = items[6] ? 8 : 5;
