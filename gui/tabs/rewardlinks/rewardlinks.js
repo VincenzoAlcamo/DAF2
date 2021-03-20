@@ -16,13 +16,11 @@ export default {
 
 const SECONDS_IN_A_DAY = 86400;
 const TAG_CLICKANYWAY = 'clickanyway';
-const TAG_AUTOCLICKED = 'autoclicked';
 
-let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert, checkBackground;
+let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert, checkBackground, checkAutoClick;
 const materialImageCache = {};
 const clicked = {};
 let firstTime = true;
-let autoClick = 0, gemAutoClick = false;
 let shorten;
 
 //#region LINK HELPER FUNCTIONS
@@ -110,6 +108,8 @@ function init() {
 
     selectConvert = container.querySelector('[name=convert]');
     selectConvert.addEventListener('input', update);
+
+    checkAutoClick = container.querySelector('[name=autoclick]');
 
     checkBackground = container.querySelector('[name=background]');
     checkBackground.addEventListener('click', saveState);
@@ -415,7 +415,6 @@ function onClickTable(event) {
     if (!target.classList.contains('reward')) return true;
 
     const reasons = [];
-    const wasAutoClicked = target.hasAttribute(TAG_AUTOCLICKED) || event.altKey;
 
     function pushReason(title, text, action, critical = false) {
         reasons.push({ title, text, critical, action });
@@ -425,7 +424,6 @@ function onClickTable(event) {
         const reason = reasons.shift();
         if (!reason) {
             target.setAttribute(TAG_CLICKANYWAY, '1');
-            if (wasAutoClicked) target.setAttribute(TAG_AUTOCLICKED, '1');
             target.click();
             return;
         }
@@ -449,7 +447,7 @@ function onClickTable(event) {
                 update();
             }
             if (method == Dialog.CONFIRM || method == 'reset') showNextReason();
-            else autoClick = 0;
+            else checkAutoClick.checked = false;
         });
     }
 
@@ -459,8 +457,7 @@ function onClickTable(event) {
     if (!reward) return;
     const now = gui.getUnixTime();
     let countClicked;
-    if (event.altKey) gemAutoClick = event.ctrlKey;
-    target.removeAttribute(TAG_AUTOCLICKED);
+    if (event.ctrlKey) checkAutoClick.checked = true;
     const clickAnyway = target.hasAttribute(TAG_CLICKANYWAY);
     target.removeAttribute(TAG_CLICKANYWAY);
     if (!clickAnyway) {
@@ -488,7 +485,7 @@ function onClickTable(event) {
             event.preventDefault();
             // Sort by critical descending
             reasons.sort((a, b) => (a.critical ? 1 : 0) - (b.critical ? 1 : 0)).reverse();
-            if (wasAutoClicked && !reasons[0].critical) {
+            if (checkAutoClick.checked && !reasons[0].critical) {
                 // Clear checkbox and proceed with next link
                 setInputChecked(target.parentNode.parentNode.querySelector('input'), false);
                 setTimeout(clickNextButton, 0);
@@ -502,7 +499,6 @@ function onClickTable(event) {
     delete reward.time;
     reward.row.setAttribute('data-status', reward.status);
     clicked[reward.id] = now;
-    if (wasAutoClicked) autoClick = 1;
     // Open link in background?
     if (getState().background) {
         event.preventDefault();
@@ -537,9 +533,7 @@ function setInputChecked(input, checked) {
 }
 
 function clickNextButton() {
-    if (!autoClick || smartTable.table.querySelector('tr[data-status="1"]')) return;
-    autoClick = 0;
-
+    if (!checkAutoClick.checked || smartTable.table.querySelector('tr[data-status="1"]')) return;
     let button = null;
     while (!button) {
         const input = smartTable.table.querySelector('input[type=checkbox]:checked');
@@ -549,11 +543,8 @@ function clickNextButton() {
         if (!reward || reward.cdt) setInputChecked(input, false);
         else button = input.parentNode.nextElementSibling.firstElementChild;
     }
-    if (button) {
-        if (gemAutoClick && getLinksInLastDay().filter(link => link.cmt == 2).length >= 2) return;
-        button.setAttribute(TAG_AUTOCLICKED, '1');
-        button.click();
-    }
+    if (button) button.click();
+    else checkAutoClick.checked = false;
 }
 
 function update() {

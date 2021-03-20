@@ -1456,6 +1456,9 @@
     "rewardlinks_background": {
         "message": "Background?"
     },
+    "rewardlinks_autoclick": {
+        "message": "Auto-click?"
+    },
     "rewardlinks_addlinks": {
         "message": "Add links"
     },
