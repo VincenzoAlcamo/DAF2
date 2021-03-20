@@ -1335,7 +1335,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     }
     {
         let numTiles = 0, cost = 0, numSpecial = 0, numQuest = 0, numMaterial = 0;
-        tileDefs.forEach(tileDef => {
+        tileDefs.filter(tileDef => tileDef.show).forEach(tileDef => {
             if (tileDef.isTile) {
                 numTiles++;
                 cost += tileDef.stamina;
