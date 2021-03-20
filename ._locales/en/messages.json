@@ -1454,10 +1454,10 @@
         "message": "PROBABLY EXPIRED LINK"
     },
     "rewardlinks_background": {
-        "message": "Background?"
+        "message": "Background\nOpen reward links in background"
     },
     "rewardlinks_autoclick": {
-        "message": "Auto-click?"
+        "message": "Auto-click\nAutomatically click the next selected reward after a reward has been collected"
     },
     "rewardlinks_addlinks": {
         "message": "Add links"

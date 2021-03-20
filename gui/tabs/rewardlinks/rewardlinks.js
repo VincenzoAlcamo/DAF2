@@ -5,6 +5,7 @@ export default {
     update,
     getState,
     setState,
+    onPrefChange,
     actions: {
         'rewards_update': function () {
             update();
@@ -17,7 +18,7 @@ export default {
 const SECONDS_IN_A_DAY = 86400;
 const TAG_CLICKANYWAY = 'clickanyway';
 
-let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert, checkBackground, checkAutoClick;
+let tab, container, smartTable, items, clearStatusHandler, numTotal, numToCollect, selectConvert, checkBackground, checkAutoClick, checkAutoClose;
 const materialImageCache = {};
 const clicked = {};
 let firstTime = true;
@@ -109,6 +110,11 @@ function init() {
     selectConvert = container.querySelector('[name=convert]');
     selectConvert.addEventListener('input', update);
 
+    checkAutoClose = container.querySelector('[name=autoclose]');
+    checkAutoClose.addEventListener('click', () => {
+        gui.setPreference('rewardsClose', checkAutoClose.checked);
+    });
+
     checkAutoClick = container.querySelector('[name=autoclick]');
 
     checkBackground = container.querySelector('[name=background]');
@@ -124,6 +130,14 @@ function init() {
     container.addEventListener('paste', paste);
     container.addEventListener('copy', copy);
     container.addEventListener('cut', cut);
+}
+
+function onPrefChange(changes) {
+    if (changes.rewardsClose) {
+        const autoClose = changes.rewardsClose.newValue != false;
+        checkAutoClose.checked = autoClose;
+        checkAutoClick.disabled = !autoClose;
+    }
 }
 
 function paste(event) {
@@ -485,7 +499,7 @@ function onClickTable(event) {
             event.preventDefault();
             // Sort by critical descending
             reasons.sort((a, b) => (a.critical ? 1 : 0) - (b.critical ? 1 : 0)).reverse();
-            if (checkAutoClick.checked && !reasons[0].critical) {
+            if (checkAutoClick.checked && !checkAutoClick.disabled && !reasons[0].critical) {
                 // Clear checkbox and proceed with next link
                 setInputChecked(target.parentNode.parentNode.querySelector('input'), false);
                 setTimeout(clickNextButton, 0);
@@ -533,7 +547,7 @@ function setInputChecked(input, checked) {
 }
 
 function clickNextButton() {
-    if (!checkAutoClick.checked || smartTable.table.querySelector('tr[data-status="1"]')) return;
+    if (!checkAutoClick.checked || checkAutoClick.disabled || smartTable.table.querySelector('tr[data-status="1"]')) return;
     let button = null;
     while (!button) {
         const input = smartTable.table.querySelector('input[type=checkbox]:checked');
@@ -549,6 +563,7 @@ function clickNextButton() {
 
 function update() {
     gui.updateTabState(tab);
+    onPrefChange({ rewardsClose: { newValue: gui.getPreference('rewardsClose') } });
 
     const tbody = smartTable.tbody[0];
     const now = gui.getUnixTime();

@@ -170,3 +170,12 @@
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
 }
+
+.tab_rewardlinks .toolbar [data-flag]:before {
+  padding: 1px;
+}
+
+.tab_rewardlinks .toolbar input[type=radio][data-flag]:before,
+.tab_rewardlinks .toolbar [data-flag]:before {
+  content: attr(data-flag);
+}
