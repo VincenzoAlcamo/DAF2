@@ -606,8 +606,9 @@ function calculateAddons(camp, generator) {
         return items;
     };
     const deco = {};
-    addons.decorations = camp.decorations.length;
-    camp.decorations.forEach(d => deco[d.def_id] = (deco[d.def_id] || 0) + 1);
+    const campDecorations = camp.decorations || [];
+    addons.decorations = campDecorations.length;
+    campDecorations.forEach(d => deco[d.def_id] = (deco[d.def_id] || 0) + 1);
     addons.decolist = Object.entries(deco).map(entry => {
         const name = gui.getObjectName('decoration', entry[0]);
         return entry[1] == 1 ? name : name + ' \xd7 ' + Locale.formatNumber(entry[1]);
