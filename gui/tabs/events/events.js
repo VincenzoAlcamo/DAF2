@@ -169,6 +169,7 @@ function update() {
         item.year = info.year;
         item.yeartxt = Locale.formatYear(info.year);
         item.gifted = eventsGifted.includes(+item.id);
+        item.maxsegment = 0;
 
         const quests = getQuests(event);
         if (!quests.length) continue;
@@ -202,6 +203,7 @@ function update() {
             item.tachiev += achievement.levels.length;
             const completed = generator.achievs[aid];
             item.cachiev += (completed ? +completed.confirmed_level : 0);
+            (achievement.levels || []).forEach(level => item.maxsegment = (level.reward || []).reduce((max, obj) => Math.max(max, +obj.region_id), item.maxsegment));
         }
         item.pachiev = item.cachiev / (item.tachiev || 1);
 
@@ -260,7 +262,7 @@ function update() {
         else item.status = 'incomplete';
 
         // Segmented events: check event's rewards
-        item.maxsegment = event.reward.reduce((max, obj) => Math.max(max, +obj.region_id), 0);
+        item.maxsegment = event.reward.reduce((max, obj) => Math.max(max, +obj.region_id), item.maxsegment);
         // and quests's rewards
         for (const quest of quests) item.maxsegment = quest.reward.reduce((max, obj) => Math.max(max, +obj.region_id), item.maxsegment);
 
