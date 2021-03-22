@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Extra"
     },
+    "camp_ftp_group": {
+        "message": "GRUPPE $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Mit einem roten Punkt markierte Karten können in den ersten freien Umdrehungen erscheinen."
+    },
+    "camp_ftp_group_info": {
+        "message": "Die Karten einer Gruppe können erst aufdeckt werden, nachdem alle Karten der vorherigen Gruppe aufgedeckt wurden."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Gesamte Gems bis jetzt"
+    },
     "map_floor": {
         "message": "Ebene"
     },
@@ -1437,7 +1454,10 @@
         "message": "VERMUTLICH ABGELAUFENER LINK"
     },
     "rewardlinks_background": {
-        "message": "Hintergrund?"
+        "message": "Hintergrund\nBelohnungslinks im Hintergrund öffnen"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Auto-Klick\nAutomatisches Klicken auf die nächste ausgewählte Belohnung, nachdem eine Belohnung gesammelt wurde."
     },
     "rewardlinks_addlinks": {
         "message": "Link hinzufügen"
@@ -1930,7 +1950,12 @@
         "message": "Händler für alte Materialien"
     },
     "specialweek_free_premium_event": {
-        "message": "Kostenloses altes Event (Muss eingelöst werden.)"
+        "message": "Event \"$NAME$\" kostenlos einlösen",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Geheimnisvolle Box"

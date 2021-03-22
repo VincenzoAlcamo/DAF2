@@ -1930,7 +1930,12 @@
         "message": "Kereskedő a régi nyersanyagokért"
     },
     "specialweek_free_premium_event": {
-        "message": "Ingyenes régi esemény (be kell váltanod)"
+        "message": "Ingyenes régi esemény (be kell váltanod)",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Zsákbamacska"

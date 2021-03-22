@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Extra"
     },
+    "camp_ftp_group": {
+        "message": "GRUPPO $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Le carte marcate con un punto rosso potranno apparire tra i primi giri di carte."
+    },
+    "camp_ftp_group_info": {
+        "message": "Sarai ingrado di rivelare carte di un gruppo solo dopo aver rivelato tutte le carte del gruppo precedente."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Gemme in totale finora"
+    },
     "map_floor": {
         "message": "Piano"
     },
@@ -1437,7 +1454,10 @@
         "message": "LINK PROBABILMENTE SCADUTO"
     },
     "rewardlinks_background": {
-        "message": "In secondo piano?"
+        "message": "In secondo piano\nApre i link ricompensa in secondo piano"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Click automatico\nClicca automaticamente il prossimo link ricompensa selezionato dopo che una ricompensa è stata raccolta\n"
     },
     "rewardlinks_addlinks": {
         "message": "Aggiungi link"
@@ -1930,7 +1950,12 @@
         "message": "Mercante per vecchi materiali"
     },
     "specialweek_free_premium_event": {
-        "message": "Vecchio evento in regalo (dovrai riscattarlo)"
+        "message": "Vecchio evento in regalo (dovrai riscattarlo)",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Scatole misteriose"

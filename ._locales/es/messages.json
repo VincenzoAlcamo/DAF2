@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Extra"
     },
+    "camp_ftp_group": {
+        "message": "GRUPO $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Las cartas marcadas con un punto rojo pueden aparecer en los primeros lanzamientos gratis."
+    },
+    "camp_ftp_group_info": {
+        "message": "Podrás revelar cartas de un grupo solo después de que se revelen todas las cartas del grupo anterior.\n"
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Total de gemas hasta el momento ."
+    },
     "map_floor": {
         "message": "Piso"
     },
@@ -1437,7 +1454,10 @@
         "message": "Enlace problamente expirado"
     },
     "rewardlinks_background": {
-        "message": "Fondo"
+        "message": "Fondo\nAbrir enlaces de recompensa en segundo plano"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Clic automático\nHaga clic automáticamente en la siguiente recompensa seleccionada después de que se haya recolectado la recompensa"
     },
     "rewardlinks_addlinks": {
         "message": "agregar enlaces"
@@ -1802,7 +1822,7 @@
         "message": "Segmentado"
     },
     "events_yourprogress": {
-        "message": "Poregreso"
+        "message": "Progreso"
     },
     "events_rewards": {
         "message": "Recompensa"
@@ -1930,7 +1950,12 @@
         "message": "Comerciante de materiales antiguos"
     },
     "specialweek_free_premium_event": {
-        "message": "Viejo acontecimiento libre (hay que redimir)"
+        "message": "Evento antiguo \"$NAME$\" gratis",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Cajas misteriosas"

@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Έξτρα"
     },
+    "camp_ftp_group": {
+        "message": "ΟΜΑΔΑ $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Οι κάρτες με κόκκινη κουκκίδα μπορεί να εμφανιστούν στα πρώτα δωρεάν γυρίσματα."
+    },
+    "camp_ftp_group_info": {
+        "message": "Μπορείτε να βρείτε κάρτες από την ομάδα μόνο όταν όλες οι κάρτες τις προηγούμενηες ομάδας βρεθούν"
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Συνολικά πετράδια μέχρι τώρα"
+    },
     "map_floor": {
         "message": "Πάτωμα"
     },
@@ -1437,7 +1454,10 @@
         "message": "ΠΙΘΑΝΟΝ ΛΗΓΜΕΝΟΣ ΣΥΝΔΕΣΜΟΣ"
     },
     "rewardlinks_background": {
-        "message": "Φόντο;"
+        "message": "Προσκύνιο\nΆνοιγμα συνδέσμων δώρων στο προσκύνιο"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Αυτόματα κλικ\nΑυτόματο πάτημα του επόμενου δώρου αφού το τωρινό συλλέχθηκε"
     },
     "rewardlinks_addlinks": {
         "message": "Προσθήκη συνδέσμων"
@@ -1930,7 +1950,12 @@
         "message": "Έμπορος για παλιά υλικά"
     },
     "specialweek_free_premium_event": {
-        "message": "Δωρεάν παλιά ιστορία (πρέπει να την εξαργυρώσετε)"
+        "message": "Δωρεάν παλιά ιστορία (πρέπει να την εξαργυρώσετε)",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Μυστηριώδης κουτί"

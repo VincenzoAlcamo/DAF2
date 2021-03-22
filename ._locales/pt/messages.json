@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Extra"
     },
+    "camp_ftp_group": {
+        "message": "GRUPO $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "As cartas marcadas com um ponto vermelho podem aparecer nas primeiras rodadas grátis."
+    },
+    "camp_ftp_group_info": {
+        "message": "Você só poderá revelar cartas de um grupo depois que todas as cartas do grupo anterior forem reveladas."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Total de Gemas até agora"
+    },
     "map_floor": {
         "message": "Andar"
     },
@@ -1437,7 +1454,10 @@
         "message": "PROVAVELMENTE LINK EXPIRADO"
     },
     "rewardlinks_background": {
-        "message": "Fundo?"
+        "message": "Fundo\nAbra links de recompensa em segundo plano"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Clique automático\nClique automaticamente no próximo prêmio selecionado depois que um prêmio for coletado"
     },
     "rewardlinks_addlinks": {
         "message": "Adicionar links"
@@ -1930,7 +1950,12 @@
         "message": "Comerciante de materiais antigos"
     },
     "specialweek_free_premium_event": {
-        "message": "Evento antigo grátis (você precisa resgatá-lo)"
+        "message": "Evento antigo grátis (você precisa resgatá-lo)",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Caixa mistério"

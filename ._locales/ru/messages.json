@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Бонусы"
     },
+    "camp_ftp_group": {
+        "message": "Группа $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Карты с красной точкой могут появиться при первых бесплатных подбрасываниях."
+    },
+    "camp_ftp_group_info": {
+        "message": "Вы сможете раскрыть карты из группы только после того, как будут раскрыты все карты из предыдущей группы."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Итого самоцветов"
+    },
     "map_floor": {
         "message": "Секция"
     },
@@ -1437,7 +1454,10 @@
         "message": "ВЕРОЯТНО ССЫЛКА ПРОСРОЧЕНА"
     },
     "rewardlinks_background": {
-        "message": "Фоновое открытие ссылок"
+        "message": "Фоном\nОткрывать наградные ссылки в фоновом режиме"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Автоклик\nАвтоматически нажимать следующую выбранную награду после получения награды"
     },
     "rewardlinks_addlinks": {
         "message": "Добавить ссылки"
@@ -1930,7 +1950,12 @@
         "message": "Торговец старыми материалами"
     },
     "specialweek_free_premium_event": {
-        "message": "Бесплатное старое событие (вы должны его выкупить)"
+        "message": "Активируйте бесплатное событие \"$NAME$\"",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Таинственная коробка"

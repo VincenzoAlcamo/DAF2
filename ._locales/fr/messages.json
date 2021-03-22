@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Extra"
     },
+    "camp_ftp_group": {
+        "message": "GROUPE $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Les cartes marquées d'un point rouge peuvent apparaître dans les premiers flips gratuits."
+    },
+    "camp_ftp_group_info": {
+        "message": "Vous ne pourrez révéler les cartes d'un groupe qu'après que toutes les cartes du groupe précédent auront été révélées."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Total des gemmes à ce jour"
+    },
     "map_floor": {
         "message": "Salles"
     },
@@ -1437,7 +1454,10 @@
         "message": "LIEN PROBABLEMENT EXPIRÉ"
     },
     "rewardlinks_background": {
-        "message": "Connaissance de base?"
+        "message": "Arrière-plan\nOuvrir les liens de récompense en arrière-plan"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Clic automatique\nCliquez automatiquement sur la prochaine récompense sélectionnée après qu'une récompense a été collectée"
     },
     "rewardlinks_addlinks": {
         "message": "Ajouter"
@@ -1930,7 +1950,12 @@
         "message": "Brocanteur"
     },
     "specialweek_free_premium_event": {
-        "message": "Ancien événement gratuit (vous aurez besoin de le racheter)"
+        "message": "Échangez l'événement gratuit: \"$NAME$\"",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Boîte mystère"

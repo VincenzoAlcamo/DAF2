@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Ekstra"
     },
+    "camp_ftp_group": {
+        "message": "GRUPA $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Karty oznaczone czerwoną kropką mogą pojawić się w pierwszych darmowych rzutach."
+    },
+    "camp_ftp_group_info": {
+        "message": "Będziesz mógł odkryć karty z danej grupy dopiero po tym, jak wszystkie karty z\npoprzedniej grupy zostaną odkryte."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Wszystkie gemy do tej pory"
+    },
     "map_floor": {
         "message": "Piętro"
     },
@@ -1437,7 +1454,10 @@
         "message": "PRAWDOPODOBNIE LINK WYGASŁ"
     },
     "rewardlinks_background": {
-        "message": "Tło?"
+        "message": "Tło\nOtwórz linki z nagrodami w tle"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Auto-klik\nAutomatycznie kliknij następną nagrodę po tym, jak nagroda została zebrana"
     },
     "rewardlinks_addlinks": {
         "message": "Dodaj linki"
@@ -1930,7 +1950,12 @@
         "message": "Sprzedawca starych materiałów"
     },
     "specialweek_free_premium_event": {
-        "message": "Darmowy stary event (musisz go kupić)"
+        "message": "Darmowy stary event \"$NAME$\"",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Tajemnicza skrzynia"

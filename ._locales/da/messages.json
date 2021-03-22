@@ -635,6 +635,23 @@
     "camp_extra": {
         "message": "Ekstra"
     },
+    "camp_ftp_group": {
+        "message": "GRUPPE $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Kort mærket med rød prik kan ses i de første frie vendinger."
+    },
+    "camp_ftp_group_info": {
+        "message": "Du vil kun kunne se kort fra en gruppe, når alle kort fra den forrige gruppe er vist."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Total juvel indtil nu"
+    },
     "map_floor": {
         "message": "Etage"
     },
@@ -1437,7 +1454,10 @@
         "message": "MULIGT UDLØBET LINK"
     },
     "rewardlinks_background": {
-        "message": "Baggrund?"
+        "message": "Baggrund\nÅben belønnings links i baggrunden"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Auto-klik\nKlikker automatisk den næste udvalgte belønning efter en belønning er samlet."
     },
     "rewardlinks_addlinks": {
         "message": "Tilføj links"
@@ -1930,7 +1950,12 @@
         "message": "Købmand for gamle materialer"
     },
     "specialweek_free_premium_event": {
-        "message": "Gratis gammel begivenhed (Du skal indløse/aktivere det)"
+        "message": "Gratis gammel begivenhed (Du skal indløse/aktivere det)",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Mysterie boks"
