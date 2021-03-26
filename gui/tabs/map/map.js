@@ -516,7 +516,7 @@ function onTableClick(event) {
 }
 
 function update() {
-    isAdmin = bgp.Data.adminLevel >= 2;
+    isAdmin = bgp.Data.isMapper;
     canShowBonus = canShowBeacon = false;
     checks.forEach(check => {
         const flag = check.getAttribute('data-flag');
@@ -1043,6 +1043,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             tileDef.beaconPart = part;
             beaconPart.active = state == 1;
             if (beaconPart.frames > 0) addAsset(beaconPart);
+            // if (beaconPart.type == 'two-way') console.log(lid, fid, x, y, beaconPart);
         }
     }
 
@@ -1154,7 +1155,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
                 return false;
             }
             const values = splitString(action.values, ',');
-            const value = values.length == 1 ? values[0] : undefined;
+            const value = values.length >= 1 ? values[0] : undefined;
             const tiles = splitString(action.tiles, ';');
             for (const tile of tiles) {
                 const [y, x] = tile.split(',').map(v => +v);
@@ -1167,9 +1168,9 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     const setBeaconPartActive = (tileDef, beacon, beaconPart, flag) => {
         beaconPart.active = flag;
         if (!beacon) return false;
-        if (beaconPart.active) {
+        if (flag || beaconPart.type == 'two-way') {
             // if (beaconPart.type == 'one-way') removeBeacon(tileDef);
-            if (!asArray(beacon.parts.part).find(p => !p.active)) return executeBeaconActions(beacon);
+            if (!asArray(beacon.parts.part).find(p => p.active != flag)) return executeBeaconActions(beacon);
         }
         return true;
     };
@@ -1222,6 +1223,12 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             const draggableId = tileDef.draggableId;
             const draggable = draggables[draggableId];
             if (!draggable) return false;
+            let beaconPart = tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart);
+            if (beaconPart && beaconPart.active && beaconPart.activation == 'push' && beaconPart.type == 'two-way') {
+                if (beaconPart.req_drag == 0 || (beaconPart.req_drag == draggableId && isRequiredOrientation(beaconPart, tileDef.draggableStatus))) {
+                    setBeaconPartActive(tileDef, beacons[tileDef.miscId], beaconPart, false);
+                }
+            }
             const { direction, type } = action;
             let dx = x, dy = y;
             const applyDirection = _ => {
@@ -1239,7 +1246,8 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             delete tileDef.draggableId;
             delete tileDef.draggableStatus;
             // check pit
-            const beaconPart = dest.miscType == 'B' && getBeaconPart(dest.miscId, dest.beaconPart);
+            if (fid == 7) console.log('check');
+            beaconPart = dest.miscType == 'B' && getBeaconPart(dest.miscId, dest.beaconPart);
             if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
                 if (beaconPart.req_drag == 0 || (beaconPart.req_drag == draggableId && isRequiredOrientation(beaconPart, dest.draggableStatus))) {
                     setBeaconPartActive(dest, beacons[dest.miscId], beaconPart, true);
@@ -1792,32 +1800,38 @@ async function drawMine(args) {
     });
 
     // Background Addons
-    for (const tileDef of tileDefs) {
-        delete tileDef.bgaDx;
-        delete tileDef.bgaDy;
-        delete tileDef.bgaIsFull;
-    }
+    for (const tileDef of tileDefs) delete tileDef.addonDelta;
+    const setAddonInfo = (tileDef, item, flag) => {
+        const { x, y } = tileDef, width = +item.columns, height = +item.rows, pos = y * cols + x;
+        for (let dy = 0; dy < height && y + dy < rows; dy++) {
+            let delta = dy * cols;
+            for (let dx = 0; dx < width && x + dx < cols; dx++, delta++) {
+                const t = tileDefs[pos + delta];
+                if (flag) t.addonDelta = delta; else delete t.addonDelta;
+            }
+        }
+    };
     drawAll(addons, 'backgroundAddonId', (x, y, tileDef, item, img) => {
         // A previously background addon overlaps this tile
-        if (tileDef.bga) return;
+        if (tileDef.addonDelta >= 0) return;
         // If a tile is here
         if (+item.columns == 1 && +item.rows == 1) {
             if (tileDef.tileStatus == 0 && !showBackground && tileDef.stamina >= 0) return;
             if (tileDef.tileStatus == 0 && tileDef.stamina < 0) return;
         }
-        // I don't know why this was here. Removed due to a bug in Alice's White Rabbit Cottage
-        // if (tileDef.foregroundAddonId && (tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0))) return;
-        if (img) {
-            const width = +item.columns;
-            const height = +item.rows;
-            for (let dy = 0; dy < height && y + dy < rows; dy++) {
-                for (let dx = 0; dx < width && x + dx < cols; dx++) {
-                    tileDefs[(y + dy) * cols + x + dx].bga = dy * cols + dx;
-                }
-            }
-            drawAddon(x, y, item, img);
-        }
+        if (img) setAddonInfo(tileDef, item, true);
     });
+    // A foreground addon will remove the background addon on the same tile
+    drawAll(addons, 'foregroundAddonId', (x, y, tileDef, item, img) => {
+        if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) setAddonInfo(tileDef, item, false);
+    });
+    for (const tileDef of tileDefs.filter(t => t.addonDelta >= 0)) {
+        const delta = tileDef.addonDelta, dx = delta % cols, dy = (delta - dx) / cols;
+        delete tileDef.addonDelta;
+        const item = addons[tileDefs[tileDef.y * cols + tileDef.x - delta].backgroundAddonId];
+        const img = item && item.mobile_asset && images[item.mobile_asset].img;
+        if (img) drawAddon(tileDef.x, tileDef.y, item, img, dx, dy);
+    }
 
     // Misc
     const beaconColors = { default: 'f00', dig: 'ff0', door: '0f0', door_r: '0ff', pit: '00f', push: 'f0f', sensor: 'fff', use: 'f90', visual: '999' };

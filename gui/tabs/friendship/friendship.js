@@ -102,7 +102,7 @@ function setState(state) {
 }
 
 function update() {
-    isAdmin = bgp.Data.adminLevel > 0;
+    isAdmin = bgp.Data.isAdmin;
     gui.updateNeighborFriendNames(true);
     refresh();
 }

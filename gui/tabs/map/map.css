@@ -371,3 +371,10 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 .tab_map .map .random-pos {
   box-shadow: inset 0px 0px 0px 9px #FFF8;
 }
+
+.tab_map .toolbar .map-buttons .for-mapper {
+  display: none;
+}
+.is-mapper .tab_map .toolbar .map-buttons:hover .for-mapper {
+  display: inline-block;
+}

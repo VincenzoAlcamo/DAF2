@@ -911,8 +911,8 @@ function onLoad() {
     }, true);
 
     function setAdminLevel() {
-        document.body.classList.toggle('is-admin', bgp.Data.adminLevel > 0);
-        document.body.classList.toggle('is-admin2', bgp.Data.adminLevel > 1);
+        document.body.classList.toggle('is-admin', bgp.Data.isAdmin);
+        document.body.classList.toggle('is-mapper', bgp.Data.isMapper);
     }
 
     chrome.runtime.onMessage.addListener(function onMessage(request, _sender, _sendResponse) {
@@ -965,8 +965,7 @@ function onLoad() {
     let tabId = urlInfo.parameters.tab;
     if (tabId == 'game') tabId = 'about';
     div = gui.getTabMenuItem(tabId);
-    const isAdmin = bgp.Data.adminLevel > 0;
-    if (div && !div.classList.contains('disabled') && (!div.classList.contains('for-admin') || isAdmin)) {
+    if (div && !div.classList.contains('disabled') && (!div.classList.contains('for-admin') || bgp.Data.isAdmin)) {
         const state = Object.assign({}, urlInfo.parameters);
         delete state.tab;
         localStorage.setItem('state_' + tabId, JSON.stringify(state));
@@ -974,7 +973,7 @@ function onLoad() {
         tabId = localStorage.getItem('tab');
         div = gui.getTabMenuItem(tabId);
     }
-    if (!div || div.classList.contains('disabled') || (div.classList.contains('for-admin') && !isAdmin) || bgp.Data.alternateAccountDetected) tabId = 'about';
+    if (!div || div.classList.contains('disabled') || (div.classList.contains('for-admin') && !bgp.Data.isAdmin) || bgp.Data.alternateAccountDetected) tabId = 'about';
     setCurrentTab(tabId);
 }
 
