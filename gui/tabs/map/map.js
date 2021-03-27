@@ -1246,7 +1246,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             delete tileDef.draggableId;
             delete tileDef.draggableStatus;
             // check pit
-            if (fid == 7) console.log('check');
             beaconPart = dest.miscType == 'B' && getBeaconPart(dest.miscId, dest.beaconPart);
             if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
                 if (beaconPart.req_drag == 0 || (beaconPart.req_drag == draggableId && isRequiredOrientation(beaconPart, dest.draggableStatus))) {
