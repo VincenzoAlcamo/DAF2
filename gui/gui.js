@@ -1125,7 +1125,7 @@ function openWiki(page) {
 }
 //#endregion
 
-// eslint-disable-next-line no-unused-vars
+/*eslint-disable no-unused-vars*/
 async function processLanguages() {
     const langs = {};
     for (const lang of bgp.Data.guiLanguages) {
@@ -1149,3 +1149,4 @@ async function processLanguages() {
     const data = JSON.stringify(result).replace(/},"/g, '},\n"');
     gui.downloadData({ data, filename: 'messages.json', overwrite: true });
 }
+function setLicense(v) { gui.setPreference('license', v); }

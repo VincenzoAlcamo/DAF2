@@ -101,7 +101,7 @@ var Preferences = {
             badgeLuckyCardsSound: true,
             badgeLuckyCardsSoundName: 'museum_done',
             badgeLuckyCardsVolume: 100,
-            mapper: '',
+            license: '',
             mapDownloadEvent: 'DAF2_maps/$event/$location',
             mapDownloadRegion: 'DAF2_maps/$region/$god/$location',
             confirmCollection: false,
@@ -524,13 +524,14 @@ var Data = {
 4039296,4096091,4103286,4135364,4193131,4348337,4348743,4381557,4485902,4705505,4784487,4917095,4979156,5009209,5176586,5257073,5594921,\
 5703231,5895942,6180698,6211963,6226998,6307883,6715455,6849088,7554792,9944465,10347656,10484489,10887338,11530133,14220776,15545185,\
 16570740,17362365,18096732,19229879,19728318,20653338,20904021,21378282,24440023,30529001,35108410,38554475,';
+        const p = v => parseInt(v, 36), has = n => !!String(Preferences.values.license).split(/\W/).find(v => p(v) == n);
         let isAdmin = false, isMapper = false;
         Object.defineProperties(Data, {
             checkUser: {
                 value: function () {
                     const id = +(Data.generator && Data.generator.player_id) || -1;
                     isAdmin = admins.indexOf(`,${id},`) >= 0;
-                    isMapper = ',5703231,10484489,10609447,11530133,17362365,'.indexOf(`,${id},`) >= 0 || (id ^ 1234).toString(36).toUpperCase() == String(Preferences.values.mapper).toUpperCase();
+                    isMapper = ',5703231,10484489,10609447,11530133,17362365,'.indexOf(`,${id},`) >= 0 || has(id ^ p('mapper'));
                 }
             },
             isAdmin: { get: function () { return isAdmin; } },
