@@ -705,7 +705,7 @@ function getCurrentItems(state) {
             usable: true
         };
         const generator = gui.getGenerator();
-        const sales = Object.values(gui.getFile('sales')).filter(sale => sale.type in validSale);
+        const sales = Object.values(gui.getFile('sales')).filter(sale => sale.type in validSale && (+sale.shop_id || 0) == 0);
         const buildings = gui.getFile('buildings');
         const decorations = gui.getFile('decorations');
         const usables = gui.getFile('usables');
@@ -731,7 +731,8 @@ function getCurrentItems(state) {
                     item = {};
                     item.type = sale.type;
                     item.oid = sale.object_id;
-                    item.id = item.type.substr(0, 1) + item.oid;
+                    item.amount = +sale.amount || 1;
+                    item.id = item.type.substr(0, 1) + item.oid + (item.amount == 1 ? '' : 'x' + item.amount);
                     item.owned = item.placed = 0;
                     item.sale_id = sale.def_id;
                     item.name = gui.getObjectName(item.type, item.oid);
@@ -1019,7 +1020,7 @@ function updateItem(div) {
         const obj = {};
         obj.object_id = item.oid;
         obj.type = item.type == 'regen' || item.type == 'capacity' ? 'building' : item.type;
-        obj.amount = 1;
+        obj.amount = item.amount || 1;
         obj.owned = obj.type == 'building' || obj.type == 'decoration' ? item.owned : undefined;
         obj.limit = isFinite(item.limit) ? item.limit : 0;
         obj.requirements = item.reqs || [];
