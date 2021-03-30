@@ -793,7 +793,7 @@ const gui = {
     getSafeFilePath: function (path) {
         path = String(path || '');
         path = path.replace(/[\\/]+/g, '/').replace(/(^\/)|(\/$)/g, '');
-        path = path.split('/').map(gui.getSafeFileName).filter(v => v).join('/');
+        path = path.split('/').map(v => gui.getSafeFileName(v.replace(/(\.$)|(^\.)/g, '_'))).filter(v => v).join('/');
         return path;
     },
     getDateParts: function (dt) {
