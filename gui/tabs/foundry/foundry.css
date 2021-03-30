@@ -2,10 +2,7 @@
 .foundry tr td:nth-child(3),
 .foundry tr td:nth-child(4),
 .foundry tr td:nth-child(5),
-.foundry tr td:nth-child(6),
-.foundry tr td:nth-child(7),
-.foundry tr td:nth-child(12),
-.foundry tr.ingredient td:nth-child(1) {
+.foundry tr td:nth-child(12) {
   text-align: center;
 }
 
@@ -15,21 +12,33 @@
   text-align: left;
 }
 
+.foundry tr td:nth-child(6),
+.foundry tr td:nth-child(7),
 .foundry tr td:nth-child(9),
 .foundry tr td:nth-child(10),
 .foundry tr td:nth-child(11),
 .foundry tr td:nth-child(13),
 .foundry tr td:nth-child(14),
+.foundry tr.ingredient td:nth-child(1),
 .foundry tr.ingredient td:nth-child(3) {
   text-align: right;
 }
 
+.foundry td.material2,
 .foundry td.material {
   background-size: 22px 22px;
   background-repeat: no-repeat;
+}
+
+.foundry td.material {
   padding-left: 30px;
   background-position: 4px center;
   cursor: help;
+}
+
+.foundry td.material2 {
+  background-position: calc(100% - 4px) center;
+  padding-right: 30px;
 }
 
 .foundry tr.odd+tr:not(.odd) td,

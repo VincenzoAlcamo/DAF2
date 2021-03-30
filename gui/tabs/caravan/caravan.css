@@ -1,0 +1,54 @@
+.caravan tr td:nth-child(1),
+.caravan tr td:nth-child(3),
+.caravan tr td:nth-child(4),
+.caravan tr td:nth-child(5),
+.caravan tr td:nth-child(12) {
+  text-align: center;
+}
+
+.caravan tr td:nth-child(2),
+.caravan tr td:nth-child(8),
+.caravan tr.ingredient td:nth-child(2) {
+  text-align: left;
+}
+
+.caravan tr td:nth-child(6),
+.caravan tr td:nth-child(7),
+.caravan tr td:nth-child(9),
+.caravan tr td:nth-child(10),
+.caravan tr td:nth-child(11),
+.caravan tr td:nth-child(13),
+.caravan tr td:nth-child(14),
+.caravan tr.ingredient td:nth-child(1),
+.caravan tr.ingredient td:nth-child(3) {
+  text-align: right;
+}
+
+.caravan td.material2,
+.caravan td.material {
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+}
+
+.caravan td.material {
+  padding-left: 30px;
+  background-position: 4px center;
+  cursor: help;
+}
+
+.caravan td.material2 {
+  background-position: calc(100% - 4px) center;
+  padding-right: 30px;
+}
+
+.caravan tr.odd+tr:not(.odd) td,
+.caravan tr:not(.odd)+tr.odd td {
+  border-top-width: 2px;
+}
+
+.caravan.dpw tr td:nth-child(6),
+.caravan.dpw tr td:nth-child(10),
+.caravan.dpw tr td:nth-child(11),
+.caravan tr td:nth-child(14) {
+  background-color: rgba(255, 255, 0, 0.1);
+}

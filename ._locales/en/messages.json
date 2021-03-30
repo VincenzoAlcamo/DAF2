@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "All"
     },
+    "gui_only_possible": {
+        "message": "Only possible"
+    },
     "gui_search": {
         "message": "Search"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Map"
     },
+    "tab_caravan": {
+        "message": "Caravan"
+    },
     "tab_kitchen": {
         "message": "Kitchen"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Please reload Diggy's Adventure with the account you wish to use."
     },
-    "kitchen_all": {
-        "message": "All recipes"
-    },
-    "kitchen_only_possible": {
-        "message": "Only possible recipes"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Time to Cook"
-    },
-    "kitchen_energy_hour": {
-        "message": "Energy\nPer Hour"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Possible\nDishes"
-    },
-    "kitchen_possible_energy": {
-        "message": "Possible\nEnergy"
-    },
-    "kitchen_total_time": {
-        "message": "Cooking Time\n($POTS$ Pots)",
+    "production_total_time": {
+        "message": "Total Time\n(Slots: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Time to produce"
+    },
+    "production_possible": {
+        "message": "Possible"
+    },
+    "production_possible_energy": {
+        "message": "Possible\nEnergy"
+    },
+    "production_energy_hour": {
+        "message": "Energy\nPer Hour"
+    },
+    "production_qty": {
+        "message": "Quantity produced"
+    },
+    "production_uplift": {
+        "message": "Uplift (XP/h)"
+    },
+    "production_uplift_info": {
+        "message": "Xp gained by a single slot in an hour,\nbased on the values obtained from pillars."
+    },
+    "production_req_ticket": {
+        "message": "Requires a ticket?"
     },
     "kitchen_food_in_backpack": {
         "message": "from food in backpack"
-    },
-    "foundry_all": {
-        "message": "All alloys"
-    },
-    "foundry_only_possible": {
-        "message": "Only possible alloys"
-    },
-    "foundry_time_to_craft": {
-        "message": "Time to Craft"
-    },
-    "foundry_qty": {
-        "message": "Crafted per Anvil"
-    },
-    "foundry_possible_alloys": {
-        "message": "Possible\nAlloys"
-    },
-    "foundry_total_time": {
-        "message": "Crafting Time\n($ANVILS$ Anvils)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Uplift (XP/h)"
-    },
-    "foundry_uplift_info": {
-        "message": "Xp gained by a single anvil in an hour,\nbased on the values obtained from pillars."
     },
     "camp_your_camp": {
         "message": "Your camp"

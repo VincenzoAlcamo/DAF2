@@ -1,15 +1,37 @@
 /*global gui Locale SmartTable Html Dialog*/
 export default kitchenFoundry;
 
+const TICKET_ID = 347;
+
 function kitchenFoundry(type) {
     let tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom, selectDPW;
     let swDoubleProduction, swHalfTimeProduction;
 
-    const hasQty = type == 'alloy';
-    const hasEnergy = type == 'recipe';
-    const hasEvent = type == 'recipe';
-    const hasUplift = type == 'alloy';
-    const hasXp = type == 'alloy';
+    let productionType;
+    let getNumSlotsFn = (_generator) => 4;
+    let getUnlockedFn = (_generator) => null;
+    let hasQty, hasLevel, hasTicket, hasEnergy, hasUplift, hasXp, hasEvent;
+
+    hasQty = hasLevel = hasTicket = hasEnergy = hasUplift = hasXp = false;
+    switch (type) {
+        case 'foundry':
+            productionType = 'alloy';
+            hasQty = hasLevel = hasUplift = hasXp = true;
+            getNumSlotsFn = (generator) => (generator.anvils && generator.anvils.length) || 1;
+            getUnlockedFn = (generator) => generator.alloys;
+            break;
+        case 'kitchen':
+            productionType = 'recipe';
+            hasLevel = hasEnergy = hasEvent = true;
+            getNumSlotsFn = (generator) => (generator.pots && generator.pots.length) || 4;
+            getUnlockedFn = (generator) => generator.pot_recipes;
+            break;
+        case 'caravan':
+            getNumSlotsFn = (generator) => (generator.caravans && generator.caravans.length) || 4;
+            productionType = 'destination';
+            hasTicket = hasQty = hasUplift = hasXp = true;
+            break;
+    }
 
     function init() {
         tab = this;
@@ -48,7 +70,16 @@ function kitchenFoundry(type) {
         gui.setSortState(state.sort, smartTable, 'name', 'ingredient');
     }
 
+    function getNumSlots() {
+        return getNumSlotsFn(gui.getGenerator());
+    }
+
     function update() {
+        if (hasTicket) {
+            const img = gui.getObjectImg('material', TICKET_ID, 24, true);
+            const qty = gui.getGenerator().materials[TICKET_ID] || 0;
+            Dialog.htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`);
+        }
         const specialWeeks = gui.getActiveSpecialWeeks();
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
@@ -71,13 +102,6 @@ function kitchenFoundry(type) {
         searchHandler = flag ? setTimeout(refresh, 500) : 0;
     }
 
-    function getNumSlots() {
-        const generator = gui.getGenerator();
-        if (type == 'recipe') return (generator.pots && generator.pots.length) || 4;
-        if (type == 'alloy') return (generator.anvils && generator.anvils.length) || 1;
-        return 4;
-    }
-
     function getProductions() {
         const generator = gui.getGenerator();
         const region = +generator.region;
@@ -87,13 +111,11 @@ function kitchenFoundry(type) {
         const tokens = gui.getFile('tokens');
         const player_events = Object.assign({}, generator.events);
         const events = gui.getFile('events');
-        const slots = getNumSlots();
-
-        let unlocked = type == 'recipe' ? generator.pot_recipes : (type == 'alloy' ? generator.alloys : null);
-        unlocked = [].concat(unlocked || []).map(id => +id);
+        const slots = getNumSlotsFn(generator);
+        const unlocked = [].concat(getUnlockedFn(generator) || []).map(id => +id);
 
         let productions = gui.getFile('productions');
-        productions = Object.values(productions).filter(item => item.type == type && +item.hide == 0);
+        productions = Object.values(productions).filter(item => item.type == productionType && +item.hide == 0);
 
         for (const item of productions) {
             const eid = +item.event_id;
@@ -107,23 +129,26 @@ function kitchenFoundry(type) {
 
         let result = [];
         for (const item of productions) {
-            const cargo = item.cargo.find(item => item.type == 'usable' || item.type == 'material' || (item.type == 'token' && tokens[item.object_id].name_loc != ''));
+            const cargo = item.cargo.find(item => item.type == 'system' || item.type == 'usable' || item.type == 'material' || (item.type == 'token' && tokens[item.object_id].name_loc != ''));
             if (!cargo) continue;
             const p = {};
             p.id = item.def_id;
             p.level = Math.max(+item.req_level, 1);
             p.region = Math.max(+item.region_id, 1);
             p.cargo = cargo;
-            p.name = gui.getString(item.name_loc);
+            p.name = p.gname = gui.getString(item.name_loc);
             // qty is not specified for usables, and it has equal min/max for other types
             // we just get the max, assuming that either it is equal to min or it is undefined
-            p.qty1 = p.qty2 = +cargo.max || 1;
+            p.min = +cargo.min || 1;
+            p.max = +cargo.max || 1;
+            p.qty1 = p.qty2 = Math.floor((p.min + p.max) / 2);
             // Tokens are not doubled (Jade/Obsidian key)
             if (cargo.type != 'token') p.qty2 *= 2;
             let c = null;
             if (cargo.type == 'usable') c = usables[cargo.object_id];
             else if (cargo.type == 'material') c = materials[cargo.object_id];
             else if (cargo.type == 'token') c = tokens[cargo.object_id];
+            else if (cargo.type == 'system') c = gui.getObject(cargo.type, cargo.object_id);
             p.cname = (c && c.name_loc && gui.getString(c.name_loc)) || '';
             p.cdsc = (c && c.desc && gui.getString(c.desc)) || '';
             p.cimg = gui.getObjectImage(cargo.type, cargo.object_id, true);
@@ -139,6 +164,7 @@ function kitchenFoundry(type) {
             let numProd = 0;
             let maxProd = 0;
             p.xp_spent = 0;
+            p.ticket = 0;
             for (const req of item.requirements) {
                 const matId = req.material_id;
                 const mat = materials[matId];
@@ -154,13 +180,30 @@ function kitchenFoundry(type) {
                 maxProd = Math.max(maxProd, ingredient.qty);
                 numProd = p.ingredients.length == 0 ? ingredient.qty : Math.min(numProd, ingredient.qty);
                 p.xp_spent += ((ingredient.required * gui.getXp('material', ingredient.id)) || NaN);
+                if (matId == TICKET_ID) {
+                    p.ticket = 1;
+                    continue;
+                }
                 p.ingredients.push(ingredient);
+            }
+            if (type == 'caravan') {
+                let name;
+                if (cargo.type == 'system') name = gui.getMessageAndValue('gui_xp', p.ingredients[0].name);
+                else name = p.cname + ' \xd7 ' + Locale.formatNumber(p.qty1);
+                p.name = name + '\n' + gui.getString(item.name_loc);
+                p.gname = `${cargo.object_id}${cargo.type}${+cargo.max}_` + item.requirements.map(r => `${r.material_id}x${+r.amount}`).join(',');
+            }
+            if (hasTicket) {
+                const req = p.ingredients[0];
+                p.required = req.required;
+                p.ingredient = req.name;
+                p.available = req.available;
             }
             p.xp = gui.getXp(p.cargo.type, p.cargo.object_id);
             p.uplift = p.uplift2 = NaN;
             if (p.xp_spent > 0 && p.xp > 0) {
-                p.uplift = (p.xp * p.qty1 - p.xp_spent) / (p.time / 3600);
-                p.uplift2 = (p.xp * p.qty2 - p.xp_spent) / (p.time / 3600);
+                p.uplift = Math.floor((p.xp * p.qty1 - p.xp_spent) / (p.time / 3600));
+                p.uplift2 = Math.floor((p.xp * p.qty2 - p.xp_spent) / (p.time / 3600));
             }
             p.numprod = numProd;
             p.total_time = p.time * Math.floor((numProd + slots - 1) / slots) || NaN;
@@ -171,15 +214,16 @@ function kitchenFoundry(type) {
         const hash = {};
         for (const item of result) {
             if (item.eid > 0 && item.region > generator.events_region[item.eid]) continue;
-            hash[item.name] = Math.max(hash[item.name] || 1, item.region);
+            hash[item.gname] = Math.max(hash[item.gname] || 1, item.region);
         }
         // Get only the max region for each distinct name
-        result = result.filter(item => item.region == hash[item.name]);
-
+        result = result.filter(item => item.region == hash[item.gname]);
         return result;
     }
 
     function recreateRowsIfNecessary() {
+        const state = getState();
+        const isDPW = state.dpw ? state.dpw === 'yes' : !!swDoubleProduction;
         function getIngredient(ingredient) {
             return Html.br`<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
@@ -201,10 +245,19 @@ function kitchenFoundry(type) {
                 }
                 htm += Html.br`<td rowspan="${rspan}">${eimage}</td>`;
             }
-            htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.level)}</td>`;
+            if (hasLevel) {
+                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.level)}</td>`;
+            }
+            if (hasTicket) {
+                htm += Html.br`<td rowspan="${rspan}"><img width="24" src="/img/gui/${p.ticket ? 'ticked' : 'unticked'}.png"></td>`;
+            }
             htm += Html.br`<td rowspan="${rspan}">${gui.getDuration(p.time)}</td>`;
             if (hasQty) {
-                htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.qty)}</td>`;
+                const factor = isDPW ? 2 : 1;
+                let qty;
+                if (p.min == p.max) qty = Locale.formatNumber(p.qty);
+                else qty = `${Locale.formatNumber(p.min * factor)} - ${Locale.formatNumber(p.max * factor)}`;
+                htm += Html.br`<td class="material2" rowspan="${rspan}" style="background-image:url(${p.cimg})">${qty}</td>`;
             }
             if (hasEnergy) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.energy)}</td>`;
@@ -312,7 +365,7 @@ function kitchenFoundry(type) {
         gui.collectLazyElements(smartTable.container);
         smartTable.syncLater();
 
-        if (type == 'recipe') {
+        if (type == 'kitchen') {
             let htm = '';
             htm += Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(gui.getBackpackFood()))}</span> (${gui.getMessage('kitchen_food_in_backpack')})`;
             Dialog.htmlToDOM(container.querySelector('.stats'), htm);
@@ -325,6 +378,6 @@ function kitchenFoundry(type) {
         update,
         getState,
         setState,
-        requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks', type == 'alloy' ? 'xp' : '']
+        requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks', hasXp ? 'xp' : '']
     };
 }

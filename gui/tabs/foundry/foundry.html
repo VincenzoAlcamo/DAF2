@@ -2,8 +2,8 @@
     <label>
         <span data-i18n-text="gui_show"></span>
         <select name="show">
-            <option value="" data-i18n-text="foundry_all"></option>
-            <option value="possible" data-i18n-text="foundry_only_possible"></option>
+            <option value="" data-i18n-text="gui_all"></option>
+            <option value="possible" data-i18n-text="gui_only_possible"></option>
         </select>
         <select name="from">
             <option value="" data-i18n-text="gui_from_any"></option>
@@ -33,13 +33,13 @@
                 <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="gui_name"></th>
                 <th rowspan="2" class="sortable only-image" sort-name="region"><img data-i18n-title="gui_region_required" src="/img/gui/map.png" /></th>
                 <th rowspan="2" class="sortable only-image" sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png" /></th>
-                <th rowspan="2" class="sortable only-image" sort-name="time"><img data-i18n-title="foundry_time_to_craft" src="/img/gui/time.png" /></th>
-                <th rowspan="2" class="sortable only-image" sort-name="qty"><img data-i18n-title="foundry_qty" src="/img/gui/anvil.png" /></th>
+                <th rowspan="2" class="sortable only-image" sort-name="time"><img data-i18n-title="production_time" src="/img/gui/time.png" /></th>
+                <th rowspan="2" class="sortable only-image" sort-name="qty"><img data-i18n-title="production_qty" src="/img/gui/anvil.png" /></th>
                 <th colspan="3" data-i18n-text="gui_ingredients"></th>
-                <th rowspan="2" class="sortable" sort-name="output" data-i18n-text="foundry_possible_alloys"></th>
+                <th rowspan="2" class="sortable" sort-name="output" data-i18n-text="production_possible"></th>
                 <th rowspan="2" class="sortable" sort-name="total_xp" data-i18n-text="gui_xp"></th>
-                <th rowspan="2" class="sortable" sort-name="total_time" data-i18n-text="foundry_total_time"></th>
-                <th colspan="2" data-i18n-title="foundry_uplift_info" data-i18n-text="foundry_uplift"></th>
+                <th rowspan="2" class="sortable" sort-name="total_time" data-i18n-text="production_total_time"></th>
+                <th colspan="2" data-i18n-title="production_uplift_info" data-i18n-text="production_uplift"></th>
             </tr>
             <tr>
                 <th class="sortable-sub only-image" sort-name="required"><img class="small" data-i18n-title="gui_qty_required" src="/img/gui/loot.png" /></th>
@@ -51,7 +51,7 @@
         </thead>
         <tbody></tbody>
         <tfoot>
-            <tr><td colspan="11" class="totals"></td></tr>
+            <tr><td colspan="14" class="totals"></td></tr>
         </tfoot>
     </table>
 </div>

@@ -1131,6 +1131,7 @@ td.dot.dot2 {
 }
 
 /*#region GREEN/RED RINGS*/
+.tab_caravan .stats img,
 .tab_greenrings .stats img,
 .tab_redrings .stats img {
   vertical-align: middle;

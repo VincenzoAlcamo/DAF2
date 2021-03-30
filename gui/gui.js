@@ -24,6 +24,7 @@ const tabs = (function () {
     addTab('godchild', 'gc');
     addTab('equipment');
     addTab('events');
+    addTab('caravan');
     addTab('kitchen');
     addTab('foundry');
     addTab('pillars');
