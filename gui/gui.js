@@ -1150,4 +1150,4 @@ async function processLanguages() {
     const data = JSON.stringify(result).replace(/},"/g, '},\n"');
     gui.downloadData({ data, filename: 'messages.json', overwrite: true });
 }
-function setLicense(v) { gui.setPreference('license', v); }
+function setFeatures(v) { gui.setPreference('features', v); }
