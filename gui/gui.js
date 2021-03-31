@@ -1002,6 +1002,7 @@ async function loadTab(tab) {
         tab.requires = tab.requires || [];
         if (tab.requires.includes('xp')) {
             if (!tab.requires.includes('sales')) tab.requires.push('sales');
+            if (!tab.requires.includes('productions')) tab.requires.push('productions');
         }
         tab.requires = tab.requires.filter(name => name && name != 'xp');
         const requires = (tab.requires || []).filter(name => {
@@ -1030,7 +1031,7 @@ async function loadTab(tab) {
 }
 
 function rebuildPillarsInfo(tab) {
-    if (tab.requires.includes('sales')) gui.getPillarsInfo();
+    if (tab.requires.includes('sales') && tab.requires.includes('productions')) gui.getPillarsInfo();
 }
 
 function clickMenu(e) {

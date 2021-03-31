@@ -12,13 +12,9 @@ function hasRuntimeError(info) {
     return hasError;
 }
 
-function getUnixTime() {
-    return Math.floor(Date.now() / 1000);
-}
+function getUnixTime() { return Math.floor(Date.now() / 1000); }
 
-function asArray(t) {
-    return t ? [].concat(t) : [];
-}
+function asArray(t) { return t ? [].concat(t) : []; }
 
 let languageId = 'en';
 
@@ -916,7 +912,7 @@ var Data = {
         // Make sure that all files are loaded, before calling this method
         const time = (Data.generator && Data.generator.time) || 0;
         if (time != Data.pillars.time) {
-            /* New logic using heuristic */
+            // New logic using heuristic
             const expByMaterial = {};
             const sales = Object.values(Data.files['sales']).filter(sale => {
                 // Must be a sale for decoration, non hidden, non-event with only one requirements
@@ -936,8 +932,33 @@ var Data = {
             }).map(sale => +sale.def_id);
             // sort descending by id (newer first)
             sales.sort((a, b) => a - b);
+            // Using caravan information
+            const caravans = {};
+            (Object.values(Data.files['productions'] || {})).forEach(p => {
+                if (p.type != 'destination') return;
+                const cargo = asArray(p.cargo)[0];
+                if (!cargo || cargo.type != 'system' || cargo.object_id != 1) return;
+                let materialId = 0, amount = 0, hasTicket = false;
+                asArray(p.requirements).forEach(r => {
+                    const id = +r.material_id;
+                    if (id == 347) { hasTicket = true; return; }
+                    amount = +r.amount;
+                    materialId = materialId ? -1 : id;
+                });
+                if (materialId > 0 && amount > 0) {
+                    const xp = Math.floor((+cargo.min + +cargo.max) / 2);
+                    const xpByUnit = Math.floor(xp / amount);
+                    if (!(materialId in caravans) || caravans[materialId].xpByUnit < xpByUnit) {
+                        caravans[materialId] = { xp, xpByUnit, amount, hasTicket };
+                    }
+                    if (materialId != 1) {
+                        const exp = Math.floor(xp / amount / (hasTicket ? 1.5 : 1));
+                        expByMaterial[materialId] = Math.max(exp, expByMaterial[materialId] || 0);
+                    }
+                }
+            });
             if (JSON.stringify(Data.pillars.expByMaterial) !== JSON.stringify(expByMaterial)) Data.storeSimple('expByMaterial', expByMaterial);
-            Object.assign(Data.pillars, { time, expByMaterial, sales });
+            Object.assign(Data.pillars, { time, expByMaterial, sales, caravans });
         }
         return Data.pillars;
     },
