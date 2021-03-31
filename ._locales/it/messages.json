@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Tutti"
     },
+    "gui_only_possible": {
+        "message": "Solo i possibili"
+    },
     "gui_search": {
         "message": "Cerca"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Mappa"
     },
+    "tab_caravan": {
+        "message": "Caravan"
+    },
     "tab_kitchen": {
         "message": "Cucina"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Per favore, ricarica Diggy's Adventure con l'account che desideri utilizzare."
     },
-    "kitchen_all": {
-        "message": "Tutte le ricette"
-    },
-    "kitchen_only_possible": {
-        "message": "Solo le ricette possibili"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Tempo\ndi cottura"
-    },
-    "kitchen_energy_hour": {
-        "message": "Energia\nper ora"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Pietanze\npossibili"
-    },
-    "kitchen_possible_energy": {
-        "message": "Energia\npossibile"
-    },
-    "kitchen_total_time": {
-        "message": "Tempo di cottura\n($POTS$ pentole)",
+    "production_total_time": {
+        "message": "Tempo totale\n(Slot: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Tempo per produrre"
+    },
+    "production_possible": {
+        "message": "Possibili"
+    },
+    "production_possible_energy": {
+        "message": "Energia\npossibile"
+    },
+    "production_energy_hour": {
+        "message": "Energia\nper ora"
+    },
+    "production_qty": {
+        "message": "Quantità prodotta"
+    },
+    "production_uplift": {
+        "message": "Guadagno (XP/ora)"
+    },
+    "production_uplift_info": {
+        "message": "Xp guadagnato da un singolo slot all'ora,\nbasato sui valori ottenuti dai pilastri."
+    },
+    "production_req_ticket": {
+        "message": "Richiede un biglietto?"
     },
     "kitchen_food_in_backpack": {
         "message": "dal cibo nello zaino"
-    },
-    "foundry_all": {
-        "message": "Tutte le leghe"
-    },
-    "foundry_only_possible": {
-        "message": "Solo le leghe possibili"
-    },
-    "foundry_time_to_craft": {
-        "message": "Tempo di creazione"
-    },
-    "foundry_qty": {
-        "message": "Creata per incudine"
-    },
-    "foundry_possible_alloys": {
-        "message": "Leghe\nPossibili"
-    },
-    "foundry_total_time": {
-        "message": "Tempo di creazione\n($ANVILS$ incudini)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Guadagno (XP/ora)"
-    },
-    "foundry_uplift_info": {
-        "message": "Xp guadagnati da una singola incudine in un'ora,\nbasato sui valori ottenuti dai pilastri."
     },
     "camp_your_camp": {
         "message": "Il tuo campo"
@@ -1950,7 +1933,7 @@
         "message": "Mercante per vecchi materiali"
     },
     "specialweek_free_premium_event": {
-        "message": "Vecchio evento in regalo (dovrai riscattarlo)",
+        "message": "Riscatta gratis l'evento \"$NAME$\"",
         "placeholders": {
             "name": {
                 "content": "$1"

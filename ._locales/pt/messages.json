@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Tudo"
     },
+    "gui_only_possible": {
+        "message": "Só possivel"
+    },
     "gui_search": {
         "message": "Pesquisa"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Mapa"
     },
+    "tab_caravan": {
+        "message": "Caravana"
+    },
     "tab_kitchen": {
         "message": "Cozinha"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Recarregue o Diggy's Adventure com a conta que deseja usar."
     },
-    "kitchen_all": {
-        "message": "Todas as receitas"
-    },
-    "kitchen_only_possible": {
-        "message": "Apenas receitas possíveis"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Hora de cozinhar"
-    },
-    "kitchen_energy_hour": {
-        "message": "Energia por hora"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Possível\nPratos"
-    },
-    "kitchen_possible_energy": {
-        "message": "Energias possíveis"
-    },
-    "kitchen_total_time": {
-        "message": "Tempo de confeção\n($POTS$ Pots)",
+    "production_total_time": {
+        "message": "Tempo Total\n(Slots: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Tempo de Produção"
+    },
+    "production_possible": {
+        "message": "Possível"
+    },
+    "production_possible_energy": {
+        "message": "Energias possíveis"
+    },
+    "production_energy_hour": {
+        "message": "Energia por hora"
+    },
+    "production_qty": {
+        "message": "Quatidade produzida"
+    },
+    "production_uplift": {
+        "message": "Ganho (XP / h)"
+    },
+    "production_uplift_info": {
+        "message": "Xp ganho por um único slot em uma hora,\ncom base nos valores obtidos nos pilares."
+    },
+    "production_req_ticket": {
+        "message": "Requer Ticket?"
     },
     "kitchen_food_in_backpack": {
         "message": "de comida na mochila"
-    },
-    "foundry_all": {
-        "message": "Todas as ligas"
-    },
-    "foundry_only_possible": {
-        "message": "Apenas ligas possíveis"
-    },
-    "foundry_time_to_craft": {
-        "message": "Tempo de Produção"
-    },
-    "foundry_qty": {
-        "message": "Feito por bigorna"
-    },
-    "foundry_possible_alloys": {
-        "message": "Possíveis\nLigas"
-    },
-    "foundry_total_time": {
-        "message": "Tempo de produção\n($ANVILS$ Anvils)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Ganho (XP / h)"
-    },
-    "foundry_uplift_info": {
-        "message": "Xp ganho por uma única bigorna em uma hora,\ncom base nos valores obtidos nos pilares."
     },
     "camp_your_camp": {
         "message": "Seu acampamento"
@@ -1950,7 +1933,7 @@
         "message": "Comerciante de materiais antigos"
     },
     "specialweek_free_premium_event": {
-        "message": "Evento antigo grátis (você precisa resgatá-lo)",
+        "message": "Resgate o evento \"$NAME$\" gratuitamente",
         "placeholders": {
             "name": {
                 "content": "$1"

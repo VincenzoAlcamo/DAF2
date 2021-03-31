@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Alle"
     },
+    "gui_only_possible": {
+        "message": "Nur möglich"
+    },
     "gui_search": {
         "message": "Suchen\n"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Karte"
     },
+    "tab_caravan": {
+        "message": "Karawane"
+    },
     "tab_kitchen": {
         "message": "Küche"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Bitte lade Diggy's Adventure mit dem Konto neu, das du verwenden möchtest."
     },
-    "kitchen_all": {
-        "message": "Alle Rezepte"
-    },
-    "kitchen_only_possible": {
-        "message": "Nur mögliche Rezepte"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Zubereitungszeit"
-    },
-    "kitchen_energy_hour": {
-        "message": "Energie\npro Stunde"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Mögliche\nGerichte"
-    },
-    "kitchen_possible_energy": {
-        "message": "Mögliche\nEnergie"
-    },
-    "kitchen_total_time": {
-        "message": "Zubereitungszeit\n($POTS$ Töpfe)",
+    "production_total_time": {
+        "message": "Gesamtzeit\n(Stellplätze: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Produktionszeit"
+    },
+    "production_possible": {
+        "message": "Möglich"
+    },
+    "production_possible_energy": {
+        "message": "Mögliche\nEnergie"
+    },
+    "production_energy_hour": {
+        "message": "Energie\npro Stunde"
+    },
+    "production_qty": {
+        "message": "Hergestellte Menge"
+    },
+    "production_uplift": {
+        "message": "Anstieg (XP/h)"
+    },
+    "production_uplift_info": {
+        "message": "Xp, die ein einzelner Slot in einer Stunde erzielt,\nbasierend auf den von den Säulen erhaltenen Werten."
+    },
+    "production_req_ticket": {
+        "message": "Erfordert ein Ticket?"
     },
     "kitchen_food_in_backpack": {
         "message": "aus der Nahrung im Rucksack"
-    },
-    "foundry_all": {
-        "message": "Alle Legierungen"
-    },
-    "foundry_only_possible": {
-        "message": "Nur mögliche Legierungen"
-    },
-    "foundry_time_to_craft": {
-        "message": "Herstellungszeit"
-    },
-    "foundry_qty": {
-        "message": "Herstellung pro Amboss"
-    },
-    "foundry_possible_alloys": {
-        "message": "Mögliche\nLegierungen"
-    },
-    "foundry_total_time": {
-        "message": "Herstellungszeit\n($ANVILS$ Ambosse)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Anstieg (XP/h)"
-    },
-    "foundry_uplift_info": {
-        "message": "XP durch einen einzigen Amboss in einer Stunde gewonnen,\nauf Grundlage der aus den Säulen gewonnenen Werte."
     },
     "camp_your_camp": {
         "message": "Dein Camp"

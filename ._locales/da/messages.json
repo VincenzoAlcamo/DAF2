@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Alle"
     },
+    "gui_only_possible": {
+        "message": "Kun mulige"
+    },
     "gui_search": {
         "message": "Søg"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Kort"
     },
+    "tab_caravan": {
+        "message": "Karavane"
+    },
     "tab_kitchen": {
         "message": "Køkken"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Genindlæs Diggys Adventure med den konto du ønsker at bruge."
     },
-    "kitchen_all": {
-        "message": "Alle opskrifter"
-    },
-    "kitchen_only_possible": {
-        "message": "Kun mulige opskrifter"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Tilberednings tid"
-    },
-    "kitchen_energy_hour": {
-        "message": "Energi\nper time"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Mulige\nPortioner"
-    },
-    "kitchen_possible_energy": {
-        "message": "Mulig\nEnergi"
-    },
-    "kitchen_total_time": {
-        "message": "Tilberedelsestid\n($POTS$ Gryder)",
+    "production_total_time": {
+        "message": "Total Tid\n(Enheder: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Produktionstid"
+    },
+    "production_possible": {
+        "message": "Mulig"
+    },
+    "production_possible_energy": {
+        "message": "Mulig\nEnergi"
+    },
+    "production_energy_hour": {
+        "message": "Energi\nper time"
+    },
+    "production_qty": {
+        "message": "Antal producerede"
+    },
+    "production_uplift": {
+        "message": "Forøgelse (XP/t)"
+    },
+    "production_uplift_info": {
+        "message": "Xp opnået ved en enkelt enhed på  en time,\nBaseret på værdien, der opnåes ved søjler."
+    },
+    "production_req_ticket": {
+        "message": "Kræver en billet?"
     },
     "kitchen_food_in_backpack": {
         "message": "fra mad i rygsækken"
-    },
-    "foundry_all": {
-        "message": "Alle legeringer"
-    },
-    "foundry_only_possible": {
-        "message": "Kun mulige legeringer"
-    },
-    "foundry_time_to_craft": {
-        "message": "Legerings tid"
-    },
-    "foundry_qty": {
-        "message": "Stk pr. armbolt"
-    },
-    "foundry_possible_alloys": {
-        "message": "Mulige\nLegeringer"
-    },
-    "foundry_total_time": {
-        "message": "Arbejdstid\n($ANVILS$ Ambolt)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Forøgelse (XP/t)"
-    },
-    "foundry_uplift_info": {
-        "message": "Xp opnået af en enkelt ambolt på en time,\nbaseret på værdierne opnået fra søjler."
     },
     "camp_your_camp": {
         "message": "Din lejr"
@@ -1950,7 +1933,7 @@
         "message": "Købmand for gamle materialer"
     },
     "specialweek_free_premium_event": {
-        "message": "Gratis gammel begivenhed (Du skal indløse/aktivere det)",
+        "message": "Indløs begivenheden \"$NAME$\" gratis",
         "placeholders": {
             "name": {
                 "content": "$1"

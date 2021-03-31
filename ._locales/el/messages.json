@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Όλοι"
     },
+    "gui_only_possible": {
+        "message": "Μόνο πιθανά"
+    },
     "gui_search": {
         "message": "Αναζήτηση"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Χάρτης"
     },
+    "tab_caravan": {
+        "message": "Καραβάνι"
+    },
     "tab_kitchen": {
         "message": "Κουζίνα"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Παρακαλώ φορτώστε ξανά το Diggy's Adventure με τον λογαριασμό που θέλετε να χρησιμοποιήσετε."
     },
-    "kitchen_all": {
-        "message": "Όλες οι συνταγές"
-    },
-    "kitchen_only_possible": {
-        "message": "Μόνο πιθανές συνταγές"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Χρόνος\nΜαγειρέματος"
-    },
-    "kitchen_energy_hour": {
-        "message": "Ενέργεια\nΑνά Ώρα"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Πιθανά\nΠιάτα"
-    },
-    "kitchen_possible_energy": {
-        "message": "Πιθανή\nΕνέργεια"
-    },
-    "kitchen_total_time": {
-        "message": "Χρόνος Μαγειρέματος\n($POTS$ Κατσαρόλες)",
+    "production_total_time": {
+        "message": "Συνολικος χρόνος\n(Θέσεις: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Χρόνος παραγωγής"
+    },
+    "production_possible": {
+        "message": "Πιθανοί"
+    },
+    "production_possible_energy": {
+        "message": "Πιθανή\nΕνέργεια"
+    },
+    "production_energy_hour": {
+        "message": "Ενέργεια\nΑνά Ώρα"
+    },
+    "production_qty": {
+        "message": "Ποσότητα παραγωγής"
+    },
+    "production_uplift": {
+        "message": "Ανύψωση (Εμπειρία/Ώρα)"
+    },
+    "production_uplift_info": {
+        "message": "Εμπειρία από μια θέση την ώρα βασισμένο στις τιμές το κιώνων"
+    },
+    "production_req_ticket": {
+        "message": "Χρειάζεται εισιτήριο;"
     },
     "kitchen_food_in_backpack": {
         "message": "από το φαγητό στο σακίδιο"
-    },
-    "foundry_all": {
-        "message": "Όλα τα κράματα"
-    },
-    "foundry_only_possible": {
-        "message": "Μόνο πιθανά κράματα"
-    },
-    "foundry_time_to_craft": {
-        "message": "Χρόνος για τη κατασκευή"
-    },
-    "foundry_qty": {
-        "message": "Κατασκευή ανά Αμόνια"
-    },
-    "foundry_possible_alloys": {
-        "message": "Πιθανά\nΚράματα"
-    },
-    "foundry_total_time": {
-        "message": "Χρόνος Κατασκευής\n($ANVILS$ Αμόνια)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Ανύψωση (Εμπειρία/Ώρα)"
-    },
-    "foundry_uplift_info": {
-        "message": "Εμπειρία από ένα αμόνι την ώρα,\nβασισμένο στις τιμές των πυλώνων."
     },
     "camp_your_camp": {
         "message": "Η βάση σας"
@@ -1950,7 +1933,7 @@
         "message": "Έμπορος για παλιά υλικά"
     },
     "specialweek_free_premium_event": {
-        "message": "Δωρεάν παλιά ιστορία (πρέπει να την εξαργυρώσετε)",
+        "message": "Δωρεάν συλλογή συμβάντος \"$NAME$''",
         "placeholders": {
             "name": {
                 "content": "$1"

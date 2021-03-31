@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Все"
     },
+    "gui_only_possible": {
+        "message": "Только возможные"
+    },
     "gui_search": {
         "message": "Поиск"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Карта"
     },
+    "tab_caravan": {
+        "message": "Караван"
+    },
     "tab_kitchen": {
         "message": "Кухня"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Пожалуйста, перезагрузите Приключения Дигги с желаемым аккаунтом."
     },
-    "kitchen_all": {
-        "message": "Все рецепты"
-    },
-    "kitchen_only_possible": {
-        "message": "Только возможные рецепты"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Время готовки"
-    },
-    "kitchen_energy_hour": {
-        "message": "Энергии\nв час"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Возможное\nколичество"
-    },
-    "kitchen_possible_energy": {
-        "message": "Возможная\nэнергия"
-    },
-    "kitchen_total_time": {
-        "message": "Время готовки\n(на $POTS$ котелках)",
+    "production_total_time": {
+        "message": "Всего времени\n(Слотов: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Время пути корована"
+    },
+    "production_possible": {
+        "message": "Можно купить"
+    },
+    "production_possible_energy": {
+        "message": "Возможная\nэнергия"
+    },
+    "production_energy_hour": {
+        "message": "Энергии\nв час"
+    },
+    "production_qty": {
+        "message": "Произведено"
+    },
+    "production_uplift": {
+        "message": "Прирост (Опыт/час)"
+    },
+    "production_uplift_info": {
+        "message": "Прирост опыта от одного каравана в час,\nиз расчета опыта полученного от колонн."
+    },
+    "production_req_ticket": {
+        "message": "Требует билет?"
     },
     "kitchen_food_in_backpack": {
         "message": "из еды в инвентаре"
-    },
-    "foundry_all": {
-        "message": "Все сплавы"
-    },
-    "foundry_only_possible": {
-        "message": "Только возможные сплавы"
-    },
-    "foundry_time_to_craft": {
-        "message": "Время изготовления"
-    },
-    "foundry_qty": {
-        "message": "Изготавливаемое количество одной наковальней"
-    },
-    "foundry_possible_alloys": {
-        "message": "Можно\nсплавить"
-    },
-    "foundry_total_time": {
-        "message": "Время изготовления\n(на $ANVILS$ наковальнях))",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Прирост (Опыт/час)"
-    },
-    "foundry_uplift_info": {
-        "message": "Прирост опыта от одной наковальни в час,\nиз расчета опыта полученного от колонн."
     },
     "camp_your_camp": {
         "message": "Ваш лагерь"

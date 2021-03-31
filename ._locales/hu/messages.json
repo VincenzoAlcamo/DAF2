@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Mind"
     },
+    "gui_only_possible": {
+        "message": "Csak lehetséges"
+    },
     "gui_search": {
         "message": "Keresés"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Térkép"
     },
+    "tab_caravan": {
+        "message": "Karaván"
+    },
     "tab_kitchen": {
         "message": "Konyha"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Kérlek töltsd be újra a Diggy's Adventure játékot a használni kívánt fiókkal."
     },
-    "kitchen_all": {
-        "message": "Minden recept"
-    },
-    "kitchen_only_possible": {
-        "message": "Csak a lehetséges receptek"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Főzési idő"
-    },
-    "kitchen_energy_hour": {
-        "message": "Óránkénti\nEnergia"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Lehetséges\nEdény"
-    },
-    "kitchen_possible_energy": {
-        "message": "Lehetséges\nEnergia"
-    },
-    "kitchen_total_time": {
-        "message": "Főzési idő\n($POTS$ Edényben)",
+    "production_total_time": {
+        "message": "Teljes idő\n(Cella: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Termelési idő"
+    },
+    "production_possible": {
+        "message": "Lehetséges"
+    },
+    "production_possible_energy": {
+        "message": "Lehetséges\nEnergia"
+    },
+    "production_energy_hour": {
+        "message": "Óránkénti\nEnergia"
+    },
+    "production_qty": {
+        "message": "Előállított mennyiség"
+    },
+    "production_uplift": {
+        "message": "Emelkedés (XP/ó)"
+    },
+    "production_uplift_info": {
+        "message": "Egy cellával egy óra alatt szerezhető XP,\na pillérekből kapott értékek alapján."
+    },
+    "production_req_ticket": {
+        "message": "Jegyet igényel?"
     },
     "kitchen_food_in_backpack": {
         "message": "étel a hátizsákodban"
-    },
-    "foundry_all": {
-        "message": "Minden ötvözet"
-    },
-    "foundry_only_possible": {
-        "message": "Csak lehetséges ötvözetek"
-    },
-    "foundry_time_to_craft": {
-        "message": "Készítési idő"
-    },
-    "foundry_qty": {
-        "message": "Üllőnkénti elkészülés"
-    },
-    "foundry_possible_alloys": {
-        "message": "Lehetséges\nÖtvözetek"
-    },
-    "foundry_total_time": {
-        "message": "Készítési idő\n($ANVILS$ Üllőn)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Emelkedés (XP/ó)"
-    },
-    "foundry_uplift_info": {
-        "message": "Egyetlen üllővel egy óra alatt nyert XP,\na pillérekből kapott értékek alapján."
     },
     "camp_your_camp": {
         "message": "Táborod"
@@ -634,6 +617,23 @@
     },
     "camp_extra": {
         "message": "Extra"
+    },
+    "camp_ftp_group": {
+        "message": "CSOPORT $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "A piros ponttal megjelölt kártyák jelenhetnek meg az első ingyenes felfordításoknál."
+    },
+    "camp_ftp_group_info": {
+        "message": "Egy csoport kártyáit csak akkor tudod felfedni, ha az előző csoport összes kártyáját már felfedted."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Az eddigi összes drágakő"
     },
     "map_floor": {
         "message": "Szint"
@@ -1437,7 +1437,10 @@
         "message": "VALÓSZÍNŰLEG LEJÁRT LINK"
     },
     "rewardlinks_background": {
-        "message": "Háttér?"
+        "message": "Háttérben\nJutalom linkek megnyitása a háttérben"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Auto-klikkelés\nAutomatikusan kattintson a következő kiválasztott jutalomra miután egy jutalmat begyűjtöttél."
     },
     "rewardlinks_addlinks": {
         "message": "Linkek hozzáadása"
@@ -1930,7 +1933,7 @@
         "message": "Kereskedő a régi nyersanyagokért"
     },
     "specialweek_free_premium_event": {
-        "message": "Ingyenes régi esemény (be kell váltanod)",
+        "message": "A(z) $NAME$ eseményt ingyen válthatod be",
         "placeholders": {
             "name": {
                 "content": "$1"

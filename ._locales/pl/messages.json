@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Wszystko"
     },
+    "gui_only_possible": {
+        "message": "Tylko możliwe"
+    },
     "gui_search": {
         "message": "Szukaj"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Mapa"
     },
+    "tab_caravan": {
+        "message": "Karawana"
+    },
     "tab_kitchen": {
         "message": "Kuchnia"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Proszę przeładuj Diggy`s Adventure z konta, którego chcesz użyć."
     },
-    "kitchen_all": {
-        "message": "Wszystkie przepisy"
-    },
-    "kitchen_only_possible": {
-        "message": "Tylko możliwe przepisy"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Czas gotowania"
-    },
-    "kitchen_energy_hour": {
-        "message": "Energia\nna godzinę"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Możliwe\ndania"
-    },
-    "kitchen_possible_energy": {
-        "message": "Możliwa\nenergia"
-    },
-    "kitchen_total_time": {
-        "message": "Czas gotowania\n($POTS$ Możliwe)",
+    "production_total_time": {
+        "message": "Czas całkowity\n(Sloty: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Czas produkcji"
+    },
+    "production_possible": {
+        "message": "Możliwe"
+    },
+    "production_possible_energy": {
+        "message": "Możliwa\nenergia"
+    },
+    "production_energy_hour": {
+        "message": "Energia\nna godzinę"
+    },
+    "production_qty": {
+        "message": "Wytworzona ilość"
+    },
+    "production_uplift": {
+        "message": "Wzrost (XP/h)"
+    },
+    "production_uplift_info": {
+        "message": "Xp zdobyte przez pojedynczy slot w ciągu godziny,\nna podstawie wartości uzyskanych z kolumn."
+    },
+    "production_req_ticket": {
+        "message": "Wymaga biletu?"
     },
     "kitchen_food_in_backpack": {
         "message": "z jedzenia w plecaku"
-    },
-    "foundry_all": {
-        "message": "Wszystkie stopy"
-    },
-    "foundry_only_possible": {
-        "message": "Tylko możliwe stopy"
-    },
-    "foundry_time_to_craft": {
-        "message": "Czas na wykonanie"
-    },
-    "foundry_qty": {
-        "message": "Wykonane na kowadle"
-    },
-    "foundry_possible_alloys": {
-        "message": "Możliwe\nstopy"
-    },
-    "foundry_total_time": {
-        "message": "Czas na wykonanie\n($ANVILS$ kowadła)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Wzrost (XP/h)"
-    },
-    "foundry_uplift_info": {
-        "message": "Xp uzyskane przez jedno kowadło na godzinę,\nw oparciu o wartości uzyskane z kolumn."
     },
     "camp_your_camp": {
         "message": "Twój obóz"

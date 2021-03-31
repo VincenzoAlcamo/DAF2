@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Tous"
     },
+    "gui_only_possible": {
+        "message": "Seulement possible"
+    },
     "gui_search": {
         "message": "Rechercher"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Cartes"
     },
+    "tab_caravan": {
+        "message": "Caravane"
+    },
     "tab_kitchen": {
         "message": "Cuisine"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Veuillez recharger Diggy's Adventure avec le compte que vous souhaitez utiliser."
     },
-    "kitchen_all": {
-        "message": "Toutes les recettes"
-    },
-    "kitchen_only_possible": {
-        "message": "Les recettes possibles"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Durée"
-    },
-    "kitchen_energy_hour": {
-        "message": "Énergie\npar heure"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Recettes\npossibles"
-    },
-    "kitchen_possible_energy": {
-        "message": "Énergie\npossible"
-    },
-    "kitchen_total_time": {
-        "message": "Temps de cuisson\n($POTS$ Pots)",
+    "production_total_time": {
+        "message": "Temps total\n(Emplacement: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Il est temps de produire"
+    },
+    "production_possible": {
+        "message": "Possible"
+    },
+    "production_possible_energy": {
+        "message": "Énergie\npossible"
+    },
+    "production_energy_hour": {
+        "message": "Énergie\npar heure"
+    },
+    "production_qty": {
+        "message": "Quantité produite"
+    },
+    "production_uplift": {
+        "message": "Amélioré (XP/h)"
+    },
+    "production_uplift_info": {
+        "message": "L'expérience acquise par un seul emplacement en une heure, sur la base des valeurs obtenues à partir des piliers."
+    },
+    "production_req_ticket": {
+        "message": "Nécessite un billet?"
     },
     "kitchen_food_in_backpack": {
         "message": "de la nourriture dans le sac à dos"
-    },
-    "foundry_all": {
-        "message": "Tous les alliages"
-    },
-    "foundry_only_possible": {
-        "message": "Les alliages possibles"
-    },
-    "foundry_time_to_craft": {
-        "message": "Durée"
-    },
-    "foundry_qty": {
-        "message": "Fabriqué par enclume"
-    },
-    "foundry_possible_alloys": {
-        "message": "Alliages\npossibles"
-    },
-    "foundry_total_time": {
-        "message": "Temps de fabrication\n($ANVILS$ enclumes)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Amélioré (XP/h)"
-    },
-    "foundry_uplift_info": {
-        "message": "Expérience acquise par une seule enclume en une heure,\nsur la base des valeurs obtenues à partir des piliers."
     },
     "camp_your_camp": {
         "message": "Votre camp"

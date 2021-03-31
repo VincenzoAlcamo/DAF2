@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Herşey"
     },
+    "gui_only_possible": {
+        "message": "Sadece mümkün"
+    },
     "gui_search": {
         "message": "Arama"
     },
@@ -342,6 +345,9 @@
     "tab_map": {
         "message": "Harita"
     },
+    "tab_caravan": {
+        "message": "Karavan"
+    },
     "tab_kitchen": {
         "message": "Mutfak"
     },
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Lütfen kullanmak istediğiniz hesapla Diggy's Adventure'yi yeniden yükleyin."
     },
-    "kitchen_all": {
-        "message": "Tüm tarifler"
-    },
-    "kitchen_only_possible": {
-        "message": "Sadece olası tarifler"
-    },
-    "kitchen_time_to_cook": {
-        "message": "Yemek Zamanı"
-    },
-    "kitchen_energy_hour": {
-        "message": "Saat Başına Enerji"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Olası Yemekler"
-    },
-    "kitchen_possible_energy": {
-        "message": "Olası Enerji"
-    },
-    "kitchen_total_time": {
-        "message": "Pişirme Süresi ($POTS$ Pots)",
+    "production_total_time": {
+        "message": "Toplam Zaman\n(Yuvalar: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Üretim zamanı"
+    },
+    "production_possible": {
+        "message": "Mümkün"
+    },
+    "production_possible_energy": {
+        "message": "Olası Enerji"
+    },
+    "production_energy_hour": {
+        "message": "Saat Başına Enerji"
+    },
+    "production_qty": {
+        "message": "Üretilen zaman"
+    },
+    "production_uplift": {
+        "message": "Artış (XP/saat)"
+    },
+    "production_uplift_info": {
+        "message": "Xp bir saat içinde tek bir yuva ile kazanıldı,\nsütunlardan elde edilen değerlere dayanmaktadır."
+    },
+    "production_req_ticket": {
+        "message": "Bilet mi gerekiyor?"
     },
     "kitchen_food_in_backpack": {
         "message": "Sırt çantasındaki yiyeceklerden"
-    },
-    "foundry_all": {
-        "message": "Tüm alaşımlar"
-    },
-    "foundry_only_possible": {
-        "message": "Sadece olası alaşımlar"
-    },
-    "foundry_time_to_craft": {
-        "message": "Üretim Zamanı"
-    },
-    "foundry_qty": {
-        "message": "Örs Başına Hazırlanmış"
-    },
-    "foundry_possible_alloys": {
-        "message": "Olası Alaşımlar"
-    },
-    "foundry_total_time": {
-        "message": "Üretim Süresi ($ANVILS$ Örs)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Artış (XP/saat)"
-    },
-    "foundry_uplift_info": {
-        "message": "Xp, sütunlardan elde edilen değerlere göre 1 saat içinde tek bir örs ile kazanılmıştır."
     },
     "camp_your_camp": {
         "message": "Senin kampın"
@@ -1950,7 +1933,7 @@
         "message": "Eski malzemeler için tüccar"
     },
     "specialweek_free_premium_event": {
-        "message": "\"$NAME$\" etkinliğini ücetsiz kullanın",
+        "message": "\"$NAME$\" etkinliğini ücretsiz kullanın",
         "placeholders": {
             "name": {
                 "content": "$1"
@@ -2196,7 +2179,7 @@
         "message": "Linkleri yenile"
     },
     "linkgrabber_fn_showid": {
-        "message": "Ödül Kimliğini (ID) Göster/Gizle"
+        "message": "Ödül Kimliğini (ID) Göster"
     },
     "linkgrabber_fn_autosend": {
         "message": "Otomatik-gönder"
