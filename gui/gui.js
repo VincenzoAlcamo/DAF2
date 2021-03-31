@@ -1000,7 +1000,9 @@ async function loadTab(tab) {
             document.head.appendChild(link);
         }
         tab.requires = tab.requires || [];
-        if (tab.requires.includes('xp') && !tab.requires.includes('sales')) tab.requires.push('sales');
+        if (tab.requires.includes('xp')) {
+            if (!tab.requires.includes('sales')) tab.requires.push('sales');
+        }
         tab.requires = tab.requires.filter(name => name && name != 'xp');
         const requires = (tab.requires || []).filter(name => {
             const file = bgp.Data.checkFile(name);
@@ -1013,7 +1015,7 @@ async function loadTab(tab) {
             promises.push(bgp.Data.getFile(name).then(_ => advanceProgress()));
         }
         await Promise.all(promises);
-        if (tab.requires.includes('sales')) gui.getPillarsInfo();
+        rebuildPillarsInfo(tab);
         tab.init();
         tab.isLoaded = true;
         tab.mustBeUpdated = true;
@@ -1025,6 +1027,10 @@ async function loadTab(tab) {
         gui.wait.hide();
     }
     if (tab.isLoaded && typeof tab.setState == 'function' && tab.state && typeof tab.state == 'object') tab.setState(tab.state);
+}
+
+function rebuildPillarsInfo(tab) {
+    if (tab.requires.includes('sales')) gui.getPillarsInfo();
 }
 
 function clickMenu(e) {
@@ -1066,7 +1072,7 @@ function updateCurrentTab() {
     if (!currentTab || !currentTab.isLoaded) return;
     if (currentTab.mustBeUpdated) {
         currentTab.mustBeUpdated = false;
-        if (currentTab.requires.includes('sales')) gui.getPillarsInfo();
+        rebuildPillarsInfo(currentTab);
         translate(currentTab.container);
         if (typeof currentTab.update == 'function') currentTab.update();
     }
