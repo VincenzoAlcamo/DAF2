@@ -173,7 +173,7 @@ var Parser = {
 
         return data;
     },
-    parse_localization_revision: 8,
+    parse_localization_revision: 9,
     requiresFullLanguage: false,
     parse_localization: function (text, format) {
         const wanted = {
@@ -181,7 +181,7 @@ var Parser = {
             'EXT': 'Extension',
             'ACNA': 'Achievement',
             'BUNA': 'Building',
-            //'CAOV': 'Caravan',
+            'CAOV': 'Caravan',
             'COL': 'Treasure',
             'DENA': 'Decoration',
             'EVN': 'Event',

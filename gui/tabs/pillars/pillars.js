@@ -667,7 +667,7 @@ async function calcUltimateLevel() {
                     addRow(MILESTONE);
                 }
                 exp += gainExp;
-                addRow('/img/gui/xp.png', `${gui.getMessage('gui_material')} \u2192 ${gui.getMessage('gui_xp')}${isCaravan ? ' (CARAVAN)' : ''}`, gainExp);
+                addRow('/img/gui/xp.png', `${gui.getMessage('gui_material')} \u2192 ${gui.getMessage('gui_xp')}${isCaravan ? ' (CARAVAN DPW)' : ''}`, gainExp);
                 continue;
             }
             break;
