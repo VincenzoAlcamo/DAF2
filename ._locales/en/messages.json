@@ -674,6 +674,9 @@
     "map_button_e": {
         "message": "Show beacons"
     },
+    "map_button_c": {
+        "message": "Show in full colors"
+    },
     "map_button_g": {
         "message": "Show debug info"
     },

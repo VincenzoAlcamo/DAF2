@@ -83,7 +83,7 @@ const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared, showSolution;
+let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared, showSolution, showColors;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize, listMaterial;
@@ -232,7 +232,7 @@ function addQuestDrop(lid, type, id, value) {
 
 function isCheckAllowed(check) {
     const flag = check.getAttribute('data-flag');
-    return 'DTXNV'.indexOf(flag) >= 0 || isAdmin;
+    return 'DTXNVC'.indexOf(flag) >= 0 || isAdmin;
 }
 
 function scrollToCenter(x, y, smooth) {
@@ -1548,6 +1548,7 @@ function updateTableFlags() {
     showNotableLoot = state.show.includes('n');
     showOpaque = state.show.includes('o');
     showUncleared = state.show.includes('u');
+    showColors = state.show.includes('c');
     map.classList.toggle('show_beacon', showBeacon);
     map.classList.toggle('show_tiles', !showBackground && showTiles);
     map.classList.toggle('show_bonus', !showBackground && showBonus);
@@ -2044,6 +2045,24 @@ async function drawMine(args) {
             addDrop(x, y, tileDef.npcLoot);
         }
     });
+
+    // Apply grayscale effect
+    const isGrayscale = (+currentData.floor.params_mask & 2) > 0;
+    checks.forEach(el => {
+        if (el.getAttribute('data-flag') == 'C') el.disabled = !isGrayscale;
+    });
+    if (!showColors && isGrayscale) {
+        const imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+        const pixels = imgData.data;
+        const length = pixels.length;
+        for (let i = 0; i < length; i += 4) {
+            const lightness = 3 * pixels[i] + 4 * pixels[i + 1] + pixels[i + 2] >>> 3;
+            pixels[i] = pixels[i + 1] = pixels[i + 2] = lightness;
+        }
+        ctx.putImageData(imgData, 0, 0);
+    }
+
+    // from this point, only OVERLAYS should be applied
 
     // Special tiles (with overlapped colors)
     {
