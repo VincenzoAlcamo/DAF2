@@ -313,23 +313,28 @@ function kitchenFoundry(type) {
 
         smartTable.showFixed(false);
 
-        sort = gui.getSortInfoText(smartTable.sort);
-        if (sort != oldState.sort) {
-            oldState.sort = sort;
-            const name = smartTable.sort.name;
-            const sortFn = gui.getSortFunctionBySample(name == 'name' ? '' : 0, smartTable.sort.ascending);
-            productions.sort((a, b) => sortFn(a[name], b[name]));
-        }
+        if (type == 'caravan') {
+            const sort = gui.getSortFunction(null, smartTable, 'name');
+            productions = sort(productions);
+        } else {
+            sort = gui.getSortInfoText(smartTable.sort);
+            if (sort != oldState.sort) {
+                oldState.sort = sort;
+                const name = smartTable.sort.name;
+                const sortFn = gui.getSortFunctionBySample(name == 'name' ? '' : 0, smartTable.sort.ascending);
+                productions.sort((a, b) => sortFn(a[name], b[name]));
+            }
 
-        sort = gui.getSortInfoText(smartTable.sortSub);
-        if (sort && sort != oldState.sortSub) {
-            oldState.sortSub = sort;
-            const name = smartTable.sortSub.name;
-            productions.forEach(p => {
-                p.ingredients.sort((a, b) => (name != 'ingredient' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
-                if (!smartTable.sortSub.ascending) p.ingredients.reverse();
-            });
-            flagRecreate = true;
+            sort = gui.getSortInfoText(smartTable.sortSub);
+            if (sort && sort != oldState.sortSub) {
+                oldState.sortSub = sort;
+                const name = smartTable.sortSub.name;
+                productions.forEach(p => {
+                    p.ingredients.sort((a, b) => (name != 'ingredient' ? a[name] - b[name] : 0) || a.name.localeCompare(b.name));
+                    if (!smartTable.sortSub.ascending) p.ingredients.reverse();
+                });
+                flagRecreate = true;
+            }
         }
 
         if (productions[0] && !productions[0].rows) flagRecreate = true;
