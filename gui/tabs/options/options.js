@@ -260,34 +260,7 @@ UI_claim_coin_single_slow_02
     option('shrinkMenu', '', shrinkOptions);
     option('autoLogin');
     option('disableAltGuard', WARNING);
-    continueSection('badges');
-    option('badgeGcCounter');
-    option('badgeGcEnergy');
-    option('badgeRepeatables', WITHSUBOPTIONS);
-    optionEffect('badgeRepeatables');
-    option('badgeLuckyCards', WITHSUBOPTIONS);
-    optionEffect('badgeLuckyCards');
-    endSection();
-    beginSection('ingame');
-    option('fullWindow', WITHSUBOPTIONS);
-    option('fullWindowHeader', SUBOPTION);
-    option('fullWindowSide', SUBOPTION);
-    option('fullWindowLock', SUBOPTION);
-    option('resetFullWindow', SUBOPTION + WARNING);
-    const options = [
-        [0, gui.getMessage('dialog_no')],
-        [1, gui.getMessage('dialog_yes')],
-    ];
-    for (let num = 5; num <= 20; num += 5) options.push([num, gui.getMessage('options_fullwindowtimeout_seconds', num)]);
-    option('fullWindowTimeout', SUBOPTION, options);
-    option('gcTable', WITHSUBOPTIONS);
-    option('gcTableCounter', SUBOPTION);
-    option('gcTableRegion', SUBOPTION);
-    // option('autoClick');
-    option('noGCPopup');
-    option('autoGC');
-    endSection();
-    beginSection('rewardlinks');
+    continueSection('rewardlinks');
     option('rewardsClose', WITHSUBOPTIONS);
     option('rewardsCloseExceptGems', SUBOPTION);
     option('rewardsCloseExceptErrors', SUBOPTION);
@@ -308,16 +281,33 @@ UI_claim_coin_single_slow_02
         optionsKey.push([i, String.fromCharCode(i)]);
     }
     option('linkGrabKey', SUBOPTION, optionsKey);
-    option('linkGrabSort', SUBOPTION, [
-        [0, gui.getMessage('options_sort_none')],
-        [1, gui.getMessage('options_sort_ascending')],
-        [2, gui.getMessage('options_sort_descending')]
-    ]);
-    option('linkGrabConvert', SUBOPTION, [
-        [0, gui.getMessage('rewardlinks_noconversion')],
-        [3, 'Facebook'],
-        [2, 'Portal']
-    ]);
+    endSection();
+    beginSection('ingame');
+    option('fullWindow', WITHSUBOPTIONS);
+    option('fullWindowHeader', SUBOPTION);
+    option('fullWindowSide', SUBOPTION);
+    option('fullWindowLock', SUBOPTION);
+    option('resetFullWindow', SUBOPTION + WARNING);
+    const options = [
+        [0, gui.getMessage('dialog_no')],
+        [1, gui.getMessage('dialog_yes')],
+    ];
+    for (let num = 5; num <= 20; num += 5) options.push([num, gui.getMessage('options_fullwindowtimeout_seconds', num)]);
+    option('fullWindowTimeout', SUBOPTION, options);
+    option('gcTable', WITHSUBOPTIONS);
+    option('gcTableCounter', SUBOPTION);
+    option('gcTableRegion', SUBOPTION);
+    // option('autoClick');
+    option('noGCPopup');
+    option('autoGC');
+    endSection();
+    beginSection('badges');
+    option('badgeGcCounter');
+    option('badgeGcEnergy');
+    option('badgeRepeatables', WITHSUBOPTIONS);
+    optionEffect('badgeRepeatables');
+    option('badgeLuckyCards', WITHSUBOPTIONS);
+    optionEffect('badgeLuckyCards');
     endSection();
 
     Dialog.htmlToDOM(container.querySelector('.scrollable-content'), htm);

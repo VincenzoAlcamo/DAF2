@@ -4,8 +4,7 @@ const options = {
     linkGrabEnabled: true,
     linkGrabButton: 2,
     linkGrabKey: 0,
-    linkGrabSort: 1,
-    linkGrabConvert: 0,
+    shorten: 'a',
     language: 'en'
 };
 
@@ -487,13 +486,57 @@ const LinkData = (function () {
             return 'https://portal.pixelfederation.com/wallpost/diggysadventure?params=' + encodeURIComponent(btoa(json));
         }
         const url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
-        return convert == 3 ? 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url) : url;
+        return convert == 1 ? url : 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url);
     }
 
-    return {
-        getLinkData: getLinkData,
-        getLink: getLink
-    };
+    const separators = ['.', ')', '-'];
+    const prefixes = ['1', '0', 'l', 'u'];
+    function optionsToString(options) {
+        const obj = options || {}, prefix = +obj.prefix;
+        return [
+            ['k', 'o', '', 'f'][+obj.convert] || '', +obj.sort == 1 ? 'a' : +obj.sort == 2 && 'd', prefix > 0 && prefix <= prefixes.length && prefixes[prefix - 1],
+            +obj.newline && 'n', !+obj.addspace && 't', separators.indexOf(obj.separator) >= 0 && obj.separator
+        ].filter(v => v).join('');
+    }
+
+    function stringToOptions(text) {
+        text = String(text || '').toLowerCase();
+        const has = (c) => text.indexOf(c) >= 0;
+        return {
+            convert: has('o') ? 1 : (has('f') ? 3 : (has('k') ? 0 : 2)), sort: has('a') ? 1 : (has('d') ? 2 : 0), prefix: prefixes.findIndex(has) + 1,
+            separator: separators.find(has) || '', newline: has('n'), addspace: !has('t')
+        };
+    }
+
+    function format(arr, options) {
+        if (typeof options === 'string') options = stringToOptions(options);
+        if (options.sort) arr.sort((a, b) => +a.id - +b.id);
+        if (options.sort == 2) arr.reverse();
+        const suffix = options.newline ? '\n' : '';
+        const padLength = options.prefix == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
+        arr = arr.map((item, index) => {
+            let prefix = '';
+            const text = getLink(item, options.convert);
+            if (options.prefix == 3 || options.prefix == 4) {
+                let s = '';
+                for (; ;) {
+                    s = String.fromCharCode(65 + index % 26) + s;
+                    index = Math.floor(index / 26) - 1;
+                    if (index < 0) break;
+                }
+                if (options.prefix == 3) s = s.toLowerCase();
+                prefix += s;
+            } else if (options.prefix) {
+                prefix += (index + 1).toString().padStart(padLength, '0');
+            }
+            if (options.separator) prefix += options.separator;
+            if (prefix && (options.addspace || prefix.match(/[a-z]$/i))) prefix += ' ';
+            return prefix + text + suffix;
+        });
+        return arr.join('\n');
+    }
+
+    return { getLinkData, getLink, format, optionsToString, stringToOptions };
 })();
 //#endregion
 
@@ -554,21 +597,13 @@ function collectData(flagGetUserData) {
     return values;
 }
 
-function collectLinks(convert) {
-    let values = collectData();
-    if (convert === undefined) convert = options.linkGrabConvert;
-    if (convert != 1 && convert != 2 && convert != 3) convert = 0;
-    if (options.linkGrabSort) values.sort((a, b) => a.id - b.id);
-    if (options.linkGrabSort == 2) values.reverse();
-    values = values.map(data => LinkData.getLink(data, convert));
-    return values;
-}
-
 function copyLinksToClipboard(convert) {
-    const values = collectLinks(convert);
+    const values = collectData();
     stop();
     if (values.length) {
-        const text = values.join('\n') + '\n';
+        const formatOptions = LinkData.stringToOptions(options.shorten);
+        if (convert == 1 || convert == 2 || convert == 2) formatOptions.convert = convert;
+        const text = LinkData.format(values, formatOptions) + '\n';
         copyToClipboard(text);
         Dialog(Dialog.TOAST).show({
             text: getMessage('linkgrabber_copied', values.length)

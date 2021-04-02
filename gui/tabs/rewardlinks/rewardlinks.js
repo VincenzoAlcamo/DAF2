@@ -88,13 +88,57 @@ const LinkData = (function () {
             return 'https://portal.pixelfederation.com/wallpost/diggysadventure?params=' + encodeURIComponent(btoa(json));
         }
         const url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
-        return convert == 3 ? 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url) : url;
+        return convert == 1 ? url : 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url);
     }
 
-    return {
-        getLinkData: getLinkData,
-        getLink: getLink
-    };
+    const separators = ['.', ')', '-'];
+    const prefixes = ['1', '0', 'l', 'u'];
+    function optionsToString(options) {
+        const obj = options || {}, prefix = +obj.prefix;
+        return [
+            ['k', 'o', '', 'f'][+obj.convert] || '', +obj.sort == 1 ? 'a' : +obj.sort == 2 && 'd', prefix > 0 && prefix <= prefixes.length && prefixes[prefix - 1],
+            +obj.newline && 'n', !+obj.addspace && 't', separators.indexOf(obj.separator) >= 0 && obj.separator
+        ].filter(v => v).join('');
+    }
+
+    function stringToOptions(text) {
+        text = String(text || '').toLowerCase();
+        const has = (c) => text.indexOf(c) >= 0;
+        return {
+            convert: has('o') ? 1 : (has('f') ? 3 : (has('k') ? 0 : 2)), sort: has('a') ? 1 : (has('d') ? 2 : 0), prefix: prefixes.findIndex(has) + 1,
+            separator: separators.find(has) || '', newline: has('n'), addspace: !has('t')
+        };
+    }
+
+    function format(arr, options) {
+        if (typeof options === 'string') options = stringToOptions(options);
+        if (options.sort) arr.sort((a, b) => +a.id - +b.id);
+        if (options.sort == 2) arr.reverse();
+        const suffix = options.newline ? '\n' : '';
+        const padLength = options.prefix == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
+        arr = arr.map((item, index) => {
+            let prefix = '';
+            const text = getLink(item, options.convert);
+            if (options.prefix == 3 || options.prefix == 4) {
+                let s = '';
+                for (; ;) {
+                    s = String.fromCharCode(65 + index % 26) + s;
+                    index = Math.floor(index / 26) - 1;
+                    if (index < 0) break;
+                }
+                if (options.prefix == 3) s = s.toLowerCase();
+                prefix += s;
+            } else if (options.prefix) {
+                prefix += (index + 1).toString().padStart(padLength, '0');
+            }
+            if (options.separator) prefix += options.separator;
+            if (prefix && (options.addspace || prefix.match(/[a-z]$/i))) prefix += ' ';
+            return prefix + text + suffix;
+        });
+        return arr.join('\n');
+    }
+
+    return { getLinkData, getLink, format, optionsToString, stringToOptions };
 })();
 //#endregion
 
@@ -183,6 +227,10 @@ function onErrorImg(event) {
     }
 }
 
+function setShorten(value) {
+    gui.setPreference('shorten', shorten = value);
+}
+
 function getState() {
     return {
         convert: selectConvert.value,
@@ -195,38 +243,9 @@ function getState() {
 function setState(state) {
     state.convert = gui.setSelectState(selectConvert, state.convert);
     checkBackground.checked = !!state['background'];
-    shorten = formatShorten(parseShorten(state.shorten));
+    setShorten(LinkData.optionsToString(LinkData.stringToOptions(state.shorten)));
     gui.setSortState(state.sort, smartTable, 'id');
     smartTable.setSortInfo();
-}
-
-const shortenSeparators = ['.', ')', '-'];
-const prefixes = ['1', '0', 'l', 'u'];
-function formatShorten(obj) {
-    obj = obj || {};
-    let result = '';
-    if (+obj.convert == 3) result += 'f';
-    if (+obj.sort == 1) result += 'a';
-    if (+obj.sort == 2) result += 'd';
-    const prefix = +obj.prefix;
-    if (prefix > 0 && prefix <= prefixes.length) result += prefixes[prefix - 1];
-    if (+obj.newline) result += 'n';
-    if (!+obj.addspace) result += 't';
-    if (shortenSeparators.indexOf(obj.separator) >= 0) result += obj.separator;
-    return result;
-}
-
-function parseShorten(text) {
-    text = String(text || '');
-    const result = { convert: 2, sort: 0, prefix: 0, separator: '', newline: false, addspace: true };
-    if (text.indexOf('f') >= 0) result.convert = 3;
-    if (text.indexOf('a') >= 0) result.sort = 1;
-    if (text.indexOf('d') >= 0) result.sort = 2;
-    result.prefix = prefixes.findIndex(prefix => text.indexOf(prefix) >= 0) + 1;
-    result.addspace = text.indexOf('t') < 0;
-    result.newline = text.indexOf('n') >= 0;
-    result.separator = shortenSeparators.find(s => text.indexOf(s) >= 0) || '';
-    return result;
 }
 
 function saveState() {
@@ -255,6 +274,7 @@ function short() {
 <thead><tr><th colspan="4">${gui.getMessage('tab_options')}</th></tr></thead>
 <tbody class="row-coloring">
 <tr><td class="no_right_border label">${gui.getMessage('rewardlinks_convert')}</td><td><select data-method="input" name="convert">
+<option value="0">${gui.getMessage('rewardlinks_noconversion')}</option>
 <option value="2">Portal</option>
 <option value="3">Facebook</option>
 </select></td><td class="no_right_border label">${gui.getMessage('options_linkgrabsort')}</td><td><select data-method="input" name="sort">
@@ -291,7 +311,7 @@ function short() {
         style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN]
     }, function (method, params) {
         if (method == Dialog.AUTORUN) {
-            params = parseShorten(shorten);
+            params = LinkData.stringToOptions(shorten);
             gui.dialog.element.querySelector('[name=convert]').value = params.convert;
             gui.dialog.element.querySelector('[name=sort]').value = params.sort;
             gui.dialog.element.querySelector('[name=prefix]').value = params.prefix;
@@ -302,37 +322,12 @@ function short() {
         if (method == 'input') {
             params.newline = params.newline == 'on';
             params.addspace = params.addspace == 'on';
-            const newShorten = formatShorten(params);
+            const newShorten = LinkData.optionsToString(params);
             if (newShorten != shorten) {
-                shorten = newShorten;
+                setShorten(newShorten);
                 gui.updateTabState(tab);
             }
-            const options = parseShorten(shorten);
-            let arr = LinkData.getLinkData(params.links);
-            if (options.sort) arr.sort((a, b) => +a.id - +b.id);
-            if (options.sort == 2) arr.reverse();
-            const suffix = params.newline ? '\n' : '';
-            const padLength = options.prefix == 2 ? Math.max(1, Math.floor(Math.log10(arr.length))) + 1 : 1;
-            arr = arr.map((item, index) => {
-                let prefix = '';
-                const text = LinkData.getLink(item, options.convert);
-                if (options.prefix == 3 || options.prefix == 4) {
-                    let s = '';
-                    for (; ;) {
-                        s = String.fromCharCode(65 + index % 26) + s;
-                        index = Math.floor(index / 26) - 1;
-                        if (index < 0) break;
-                    }
-                    if (options.prefix == 3) s = s.toLowerCase();
-                    prefix += s;
-                } else if (options.prefix) {
-                    prefix += (index + 1).toString().padStart(padLength, '0');
-                }
-                if (options.separator) prefix += options.separator;
-                if (prefix && (options.addspace || prefix.match(/[a-z]$/i))) prefix += ' ';
-                return prefix + text + suffix;
-            });
-            gui.dialog.element.querySelector('[name=result]').value = arr.join('\n');
+            gui.dialog.element.querySelector('[name=result]').value = LinkData.format(LinkData.getLinkData(params.links), shorten);
         }
     });
 }

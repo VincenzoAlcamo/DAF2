@@ -110,6 +110,7 @@ var Preferences = {
             linkGrabKey: 0,
             linkGrabSort: 0,
             linkGrabConvert: 0,
+            shorten: '',
             rewardsRemoveDays: 7,
             rewardsClose: false,
             rewardsSummary: true,
@@ -171,15 +172,10 @@ var Preferences = {
     setValues: function (values) {
         if (!values) return;
         const data = {};
-        let flag = false;
         for (const name of Object.keys(values)) {
-            if (name in Preferences.values) {
-                Preferences.values[name] = values[name];
-                flag = true;
-                data[name] = values[name];
-            }
+            if (name in Preferences.values && Preferences.values[name] != values[name]) Preferences.values[name] = data[name] = values[name];
         }
-        if (flag) chrome.storage.local.set(data);
+        if (Object.keys(data).length) chrome.storage.local.set(data);
     },
     getValues: function (names) {
         let result = {};
@@ -319,7 +315,7 @@ if (loginButton) {
                 chrome.tabs.executeScript(tabId, details, function () {
                     delete details.file;
                     details.code = '';
-                    for (const key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled'])
+                    for (const key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled', 'shorten'])
                         details.code += 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
                     details.code += 'initialize();';
                     chrome.tabs.executeScript(tabId, details, function () { });
