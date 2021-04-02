@@ -191,7 +191,7 @@ function kitchenFoundry(type) {
                 if (cargo.type == 'system') name = gui.getMessageAndValue('gui_xp', p.ingredients[0].name);
                 else name = p.cname + ' \xd7 ' + Locale.formatNumber(p.qty1);
                 p.name = name + '\n' + gui.getString(item.name_loc);
-                p.gname = `${cargo.object_id}${cargo.type}${+cargo.max}_` + item.requirements.map(r => `${r.material_id}x${+r.amount}`).join(',');
+                p.gname = `${cargo.object_id}${cargo.type}${+cargo.max}t${+item.duration}_` + item.requirements.map(r => `${r.material_id}x${+r.amount}`).join(',');
             }
             if (hasTicket) {
                 const req = p.ingredients[0];
@@ -212,9 +212,12 @@ function kitchenFoundry(type) {
 
         // For each production, register the maximum region associated with that production's name
         const hash = {};
+        result.sort((a, b) => a.region - b.region);
         for (const item of result) {
             if (item.eid > 0 && item.region > generator.events_region[item.eid]) continue;
-            hash[item.gname] = Math.max(hash[item.gname] || 1, item.region);
+            let r = hash[item.gname];
+            if (!r || (item.region > r && item.region <= region)) r = item.region;
+            hash[item.gname] = r;
         }
         // Get only the max region for each distinct name
         result = result.filter(item => item.region == hash[item.gname]);
