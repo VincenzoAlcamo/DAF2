@@ -1909,7 +1909,7 @@ async function drawMine(args) {
         const img = item && item.mobile_asset && images[item.mobile_asset].img;
         if (img) {
             if (tileDef.miscType == 'B') {
-                if (tileDef.tileStatus == 2) drawFrame(x, y, img, item.active ? 0 : item.frames - 1, false, false, item.rotation / 90);
+                if (tileDef.tileStatus == 2 || showBackground) drawFrame(x, y, img, item.active ? 0 : item.frames - 1, false, false, item.rotation / 90);
             } else {
                 ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
             }
