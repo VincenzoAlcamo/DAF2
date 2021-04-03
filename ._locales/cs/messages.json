@@ -1,0 +1,1578 @@
+{
+    "ext_name": {
+        "message": "DA Friends 2"
+    },
+    "ext_title": {
+        "message": "Pomocný nástroj pro Diggy‘s Adventure"
+    },
+    "menu_resetfullwindow": {
+        "message": "Resetovat při spuštění"
+    },
+    "menu_fullwindow": {
+        "message": "Hra v celém okně"
+    },
+    "menu_fullwindowheader": {
+        "message": "Záhlaví"
+    },
+    "menu_fullwindowside": {
+        "message": "Postranní lišta"
+    },
+    "menu_fullwindowlock": {
+        "message": "Zámek"
+    },
+    "menu_gctable": {
+        "message": "Zobrazit tabulku božích dětí"
+    },
+    "menu_gctablecounter": {
+        "message": "Počítadlo"
+    },
+    "menu_gctableregion": {
+        "message": "Region"
+    },
+    "menu_gccollected": {
+        "message": "Všechny boží děti jsou posbírané"
+    },
+    "menu_autoclick": {
+        "message": "Automatický odklik vyskakovacího okna Facebooku"
+    },
+    "menu_nogcpopup": {
+        "message": "Bez vyskakovacích oken při sbírání božích dětí"
+    },
+    "menu_reloadgame": {
+        "message": "Znovu spustí hru a vynutí nový sběr dat"
+    },
+    "menu_switchportal": {
+        "message": "Přejít na portál"
+    },
+    "menu_switchfacebook": {
+        "message": "Přejít na Facebook"
+    },
+    "menu_on": {
+        "message": "ZAPNUTO"
+    },
+    "menu_off": {
+        "message": "VYPNUTO"
+    },
+    "gui_timeparts": {
+        "message": "d,h,m,s"
+    },
+    "gui_card_clicker": {
+        "message": "Klikněte pro stažení/roztažení této sekce"
+    },
+    "gui_show": {
+        "message": "Zobrazit"
+    },
+    "gui_all": {
+        "message": "Všechny"
+    },
+    "gui_only_possible": {
+        "message": "Jen dostupné"
+    },
+    "gui_search": {
+        "message": "Hledat"
+    },
+    "gui_filter": {
+        "message": "Filtr"
+    },
+    "gui_name": {
+        "message": "Jméno"
+    },
+    "gui_region_required": {
+        "message": "Požadovaný\nregion"
+    },
+    "gui_theme_required": {
+        "message": "Požadovaný\nregion/téma"
+    },
+    "gui_level_required": {
+        "message": "Požadovaná\núroveň"
+    },
+    "gui_qty": {
+        "message": "Množství"
+    },
+    "gui_qty_required": {
+        "message": "Požadované\nmnožství"
+    },
+    "gui_energy": {
+        "message": "Energie"
+    },
+    "gui_estimatedenergy": {
+        "message": "Odhadovaná energie"
+    },
+    "gui_food": {
+        "message": "Jídlo"
+    },
+    "gui_coins": {
+        "message": "Mince"
+    },
+    "gui_backpack": {
+        "message": "Batoh"
+    },
+    "gui_clickwiki": {
+        "message": "Klikněte pro otevření stránky Wiki."
+    },
+    "gui_from_any": {
+        "message": "z regionů nebo událostí"
+    },
+    "gui_from_regions": {
+        "message": "z regionů"
+    },
+    "gui_from_events": {
+        "message": "z událostí"
+    },
+    "gui_ingredients": {
+        "message": "Ingredience"
+    },
+    "gui_event": {
+        "message": "Událost"
+    },
+    "gui_specialweek": {
+        "message": "Speciální týden"
+    },
+    "gui_region": {
+        "message": "Region"
+    },
+    "gui_theme": {
+        "message": "Téma"
+    },
+    "gui_year": {
+        "message": "Rok"
+    },
+    "gui_quest": {
+        "message": "Úkol"
+    },
+    "gui_offer": {
+        "message": "Nabídka"
+    },
+    "gui_tieredoffer": {
+        "message": "Nabídka za nabídkou"
+    },
+    "gui_pack": {
+        "message": "Balíček"
+    },
+    "gui_equipment": {
+        "message": "Výbava"
+    },
+    "gui_shop": {
+        "message": "Obchod"
+    },
+    "gui_decoration": {
+        "message": "Dekorace"
+    },
+    "gui_usable": {
+        "message": "Spotřební"
+    },
+    "gui_token": {
+        "message": "Žeton"
+    },
+    "gui_level": {
+        "message": "Úroveň"
+    },
+    "gui_xp": {
+        "message": "Zkušenosti"
+    },
+    "gui_sell_price": {
+        "message": "Prodejní cena"
+    },
+    "gui_neighbour": {
+        "message": "Soused"
+    },
+    "gui_friend": {
+        "message": "Přítel"
+    },
+    "gui_firstrecorded": {
+        "message": "Prvně\nzaznamenaný"
+    },
+    "gui_loadingresources": {
+        "message": "Načítání zdrojů ($NUM$/$TOTAL$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "gui_screenshot_shot": {
+        "message": "Klikněte pro screenshot této sekce.\nScreenshot se ukáže vpravo.\nPozor: záběr je pouze na viditelnou oblast!\nPro zprovoznění této funkce musíte kliknout v menu Chrome na ikonu DAF2."
+    },
+    "gui_screenshot_target": {
+        "message": "Klikněte pro stažení obrázku.\nNa obrázek můžete kliknout pravým tlačítkem a vybrat „Kopírovat obrázek“, aby se uložil do schránky."
+    },
+    "gui_screenshot_error": {
+        "message": "Screenshot nelze udělat."
+    },
+    "gui_screenshot_errorinfo": {
+        "message": "Nejdřív musíte kliknout v menu Chrome na ikonu @DAF2@.\nTím se zprovozní funkce screenshotů do té doby, než stránku zavřete.\n\nKlikněte, prosím, na ikonu @DAF2@ a poté zkuste screenshot udělat znovu."
+    },
+    "gui_infodated": {
+        "message": "Informace zobrazené zde byly aktuální a platné pouze k '$VALID$‘",
+        "placeholders": {
+            "valid": {
+                "content": "$1"
+            }
+        }
+    },
+    "gui_nonote": {
+        "message": "Žádné poznámky"
+    },
+    "gui_minimum": {
+        "message": "Minimum"
+    },
+    "gui_maximum": {
+        "message": "Maximum"
+    },
+    "gui_average": {
+        "message": "Průměr"
+    },
+    "gui_loot": {
+        "message": "Kořist"
+    },
+    "gui_datafrompf": {
+        "message": "Data získaná z herních souborů Pixel Federation"
+    },
+    "gui_gift": {
+        "message": "Dárek"
+    },
+    "gui_gifts": {
+        "message": "Dárky"
+    },
+    "gui_day": {
+        "message": "Den"
+    },
+    "gui_placed": {
+        "message": "Umístěno v kempu"
+    },
+    "gui_owned": {
+        "message": "Vlastněno"
+    },
+    "gui_limit": {
+        "message": "Limit"
+    },
+    "gui_type": {
+        "message": "Typ"
+    },
+    "gui_width": {
+        "message": "Šířka"
+    },
+    "gui_height": {
+        "message": "Výška"
+    },
+    "gui_value": {
+        "message": "Hodnota"
+    },
+    "gui_slot_value": {
+        "message": "Hodnota na slot"
+    },
+    "gui_cost": {
+        "message": "Cena"
+    },
+    "gui_items_found": {
+        "message": "Nalezených položek"
+    },
+    "gui_reset": {
+        "message": "Reset"
+    },
+    "gui_material": {
+        "message": "Materiál"
+    },
+    "gui_filter_clear": {
+        "message": "Vyčistit"
+    },
+    "gui_filter_invert": {
+        "message": "Prohodit"
+    },
+    "gui_advancedfilter": {
+        "message": "Pokročilý filtr"
+    },
+    "gui_location": {
+        "message": "Lokace"
+    },
+    "gui_locked": {
+        "message": "Zamčeno"
+    },
+    "gui_noresults": {
+        "message": "Žádné výsledky"
+    },
+    "gui_toomanyresults": {
+        "message": "Příliš mnoho výsledků"
+    },
+    "gui_id": {
+        "message": "ID"
+    },
+    "gui_date": {
+        "message": "Datum"
+    },
+    "gui_ctrlclick": {
+        "message": "Pro výběr všech / zrušení výběru použijte CTRL"
+    },
+    "gui_summary": {
+        "message": "Souhrn"
+    },
+    "dialog_ok": {
+        "message": "OK"
+    },
+    "dialog_yes": {
+        "message": "Ano"
+    },
+    "dialog_no": {
+        "message": "Ne"
+    },
+    "dialog_confirm": {
+        "message": "Potvrdit"
+    },
+    "dialog_cancel": {
+        "message": "Zrušit"
+    },
+    "dialog_close": {
+        "message": "Zavřít"
+    },
+    "dialog_pleasewait": {
+        "message": "Čekejte prosím"
+    },
+    "tab_game": {
+        "message": "Přejít na hru"
+    },
+    "tab_about": {
+        "message": "O DA Friends"
+    },
+    "tab_progress": {
+        "message": "Postup"
+    },
+    "tab_camp": {
+        "message": "Kemp"
+    },
+    "tab_map": {
+        "message": "Mapa"
+    },
+    "tab_caravan": {
+        "message": "Karavana"
+    },
+    "tab_kitchen": {
+        "message": "Kuchyně"
+    },
+    "tab_foundry": {
+        "message": "Slévárna"
+    },
+    "tab_pillars": {
+        "message": "Pilíře"
+    },
+    "tab_neighbors": {
+        "message": "Sousedé"
+    },
+    "tab_friendship": {
+        "message": "Přátelství"
+    },
+    "tab_godchild": {
+        "message": "Boží děti"
+    },
+    "tab_locations": {
+        "message": "Lokace"
+    },
+    "tab_greenrings": {
+        "message": "Zelené prsteny"
+    },
+    "tab_redrings": {
+        "message": "Červené prsteny"
+    },
+    "tab_christmasrings": {
+        "message": "Vánoční prsteny"
+    },
+    "tab_rewardlinks": {
+        "message": "Odkazy na odměny"
+    },
+    "tab_options": {
+        "message": "Možnosti"
+    },
+    "tab_help": {
+        "message": "Pomoc"
+    },
+    "tab_export": {
+        "message": "Import / Export"
+    },
+    "tab_equipment": {
+        "message": "Výbava / Obchod"
+    },
+    "tab_events": {
+        "message": "Události"
+    },
+    "tab_repeat": {
+        "message": "Resetovatelné"
+    },
+    "tab_dailyreward": {
+        "message": "Denní odměna"
+    },
+    "about_version": {
+        "message": "Verze: $VERSION$",
+        "placeholders": {
+            "version": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_data": {
+        "message": "Poslední aktualizace dat: $TIME$\nZe stránky: $SITE$ ($PLATFORM$)\nID uživatele: #$USERID$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            },
+            "userid": {
+                "content": "$2"
+            },
+            "site": {
+                "content": "$3"
+            },
+            "platform": {
+                "content": "$4"
+            }
+        }
+    },
+    "about_visit": {
+        "message": "Navštivte oficiální facebookovou stránku"
+    },
+    "about_nodata": {
+        "message": "Ještě nebyla načtena žádná data, prosím načtěte nebo obnovte stránku hry"
+    },
+    "about_disclaimer": {
+        "message": "Rozšíření DA Friends programují fanoušci a není propagováno ani podporováno společností Pixel Federation, která je autorem hry „Diggy‘s Adventure“.\nPoužíváte DA Friends na vlastní riziko. Nevztahuje se na ně žádná záruka na funkčnost ani použitelnost, ať už přímá nebo nepřímá.\nAutor nenese odpovědnost za jakékoli škody nebo ztráty způsobené používáním.\nPoužíváním tohoto rozšíření s těmito podmínkami souhlasíte."
+    },
+    "about_translators": {
+        "message": "Překladatelé"
+    },
+    "about_alternate": {
+        "message": "Byl načten jiný účet ($ID$).",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "Data předchozího účtu byla zachována.\nPokud chcete tato data resetovat a použít jiný účet, klikněte na @RESET@."
+    },
+    "about_reset_ask_title": {
+        "message": "Obnovit účet"
+    },
+    "about_reset_ask_text": {
+        "message": "Přejete si resetovat data,\nabyste mohli použít jiný účet?"
+    },
+    "about_reset_ok_title": {
+        "message": "Data byla resetována"
+    },
+    "about_reset_ok_text": {
+        "message": "Načtěte prosím znovu Diggy‘s Adventure s účtem, který chcete použít."
+    },
+    "production_total_time": {
+        "message": "Celkový čas\n(slotů: $NUM$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "production_time": {
+        "message": "Čas výroby"
+    },
+    "production_possible": {
+        "message": "Možné"
+    },
+    "production_possible_energy": {
+        "message": "Možná\nenergie"
+    },
+    "production_energy_hour": {
+        "message": "Energie\nza hodinu"
+    },
+    "production_qty": {
+        "message": "Vyrobené množství"
+    },
+    "production_uplift": {
+        "message": "Zlepšení (XP/h)"
+    },
+    "production_uplift_info": {
+        "message": "Zkušenosti získané na jeden slot za hodinu,\nna základě hodnot získaných z pilířů."
+    },
+    "production_req_ticket": {
+        "message": "Je třeba tiket?"
+    },
+    "kitchen_food_in_backpack": {
+        "message": "z jídla v batohu"
+    },
+    "camp_your_camp": {
+        "message": "Váš kemp"
+    },
+    "camp_player_name": {
+        "message": "Kemp hráče $PLAYER$ dne $DATE$",
+        "placeholders": {
+            "player": {
+                "content": "$1"
+            },
+            "date": {
+                "content": "$2"
+            }
+        }
+    },
+    "camp_no_player": {
+        "message": "Ještě jste nenavštívili žádný kemp"
+    },
+    "camp_player": {
+        "message": "Hráč"
+    },
+    "camp_total": {
+        "message": "Celkem"
+    },
+    "camp_fill_time": {
+        "message": "Čas naplnění"
+    },
+    "camp_fill_time_info": {
+        "message": "Doba potřebná pro naplnění energie z prázdné na plnou kapacitu."
+    },
+    "camp_windmill_regen": {
+        "message": "Produkce jedné vrtulky"
+    },
+    "camp_windmill_regen_total": {
+        "message": "Produkce všech vrtulek"
+    },
+    "camp_windmill_num": {
+        "message": "Aktuální počet vrtulek"
+    },
+    "camp_windmill_expiry": {
+        "message": "Vrtulky vyprší v\n$TIME$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_empty": {
+        "message": "Prázdný slot"
+    },
+    "camp_slot_blocked": {
+        "message": "Blokované místo"
+    },
+    "camp_regen": {
+        "message": "Regenerační"
+    },
+    "camp_capacity": {
+        "message": "Kapacitní"
+    },
+    "camp_windmills": {
+        "message": "Vrtulky"
+    },
+    "camp_avg_value": {
+        "message": "Průměr/slot"
+    },
+    "camp_min_value": {
+        "message": "Minimum/slot"
+    },
+    "camp_max_value": {
+        "message": "Maximum/slot"
+    },
+    "camp_num_slots": {
+        "message": "Počet slotů"
+    },
+    "camp_unlock_materials": {
+        "message": "Materiály potřebné k vyčištění kempu"
+    },
+    "camp_unlock_one": {
+        "message": "Vyčištění jednoho slotu vynese $VALUE$ XP",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_unlock_cost": {
+        "message": "Jeden slot je možné odemknout $VALUE$ gemy\nnebo těmito materiály:",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_start_date": {
+        "message": "Začali jste hrát:\n$STARTED$",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_day_mode": {
+        "message": "Denní režim"
+    },
+    "camp_night_mode": {
+        "message": "Noční režim"
+    },
+    "camp_setup_mode": {
+        "message": "Sestavit režim"
+    },
+    "camp_webgl": {
+        "message": "Zobrazit kemp"
+    },
+    "camp_discounted": {
+        "message": "Zlevněno"
+    },
+    "camp_neighbor": {
+        "message": "Sousedův kemp"
+    },
+    "camp_extra": {
+        "message": "Extra"
+    },
+    "camp_ftp_group": {
+        "message": "SKUPINA $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Karty označené červenou tečkou se mohou objevit v prvních třech otočeních."
+    },
+    "camp_ftp_group_info": {
+        "message": "Budete moci otočit karty ze skupiny až poté, co otočíte všechny karty z předchozích skupin."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Dosud celkem gemů"
+    },
+    "map_floor": {
+        "message": "Podlaží"
+    },
+    "map_floor_current": {
+        "message": "Toto je aktuální podlaží"
+    },
+    "map_floor_found": {
+        "message": "Klikněte pro zobrazení mapy tohoto podlaží"
+    },
+    "map_floor_not_found": {
+        "message": "Toto podlaží jste ještě nenavštívili"
+    },
+    "map_remaining_tiles": {
+        "message": "Zbývající políčka"
+    },
+    "map_special": {
+        "message": "Speciální"
+    },
+    "map_quest": {
+        "message": "Úkol"
+    },
+    "map_this_floor": {
+        "message": "Toto podlaží"
+    },
+    "map_all_floors": {
+        "message": "Všechna podlaží"
+    },
+    "map_warning": {
+        "message": "Přejděte prosím do hry a vstupte do kterékoli lokace, potom se vraťte sem!"
+    },
+    "map_button_d": {
+        "message": "Zobrazit Diggyho"
+    },
+    "map_button_t": {
+        "message": "Zobrazit teleporty"
+    },
+    "map_button_e": {
+        "message": "Zobrazit majáky"
+    },
+    "map_button_g": {
+        "message": "Zobrazit informace o odstranění závad"
+    },
+    "map_button_l": {
+        "message": "Zvýraznit rozbitná políčka"
+    },
+    "map_button_n": {
+        "message": "Zvýraznit políčka s významnou kořistí"
+    },
+    "map_button_v": {
+        "message": "Viditelnost políček je trvalá"
+    },
+    "map_button_o": {
+        "message": "Zobrazit políčka"
+    },
+    "map_button_b": {
+        "message": "Zobrazit indikátor bonusu"
+    },
+    "map_button_k": {
+        "message": "Zobrazit pozadí skrytím rozbitných políček"
+    },
+    "map_button_a": {
+        "message": "Zobrazit všechna políčka"
+    },
+    "map_button_x": {
+        "message": "Zobrazit vchody a východy"
+    },
+    "map_button_u": {
+        "message": "Zobrazit původní mapu"
+    },
+    "map_button_f": {
+        "message": "Zobrazit celou mapu"
+    },
+    "map_save": {
+        "message": "Uložit"
+    },
+    "map_save_tip": {
+        "message": "Uložit mapu jako obrázek"
+    },
+    "map_mine_exit": {
+        "message": "Opustí důl"
+    },
+    "map_goto_floor": {
+        "message": "Přejde na podlaží $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Přejde na jiné podlaží, ale touto cestou jste ještě nešli"
+    },
+    "map_teleport": {
+        "message": "Teleport"
+    },
+    "map_hint": {
+        "message": "Nápověda"
+    },
+    "map_beacon": {
+        "message": "Maják"
+    },
+    "map_active": {
+        "message": "aktivní"
+    },
+    "map_not_active": {
+        "message": "neaktivní"
+    },
+    "map_tile": {
+        "message": "Políčko"
+    },
+    "map_npc": {
+        "message": "Cizí postava"
+    },
+    "map_says": {
+        "message": "Říká"
+    },
+    "map_godchild": {
+        "message": "Boží dítě"
+    },
+    "map_unknown": {
+        "message": "Neznámé"
+    },
+    "map_yellow": {
+        "message": "Žlutá"
+    },
+    "map_red": {
+        "message": "Červená"
+    },
+    "map_blue": {
+        "message": "Modrá"
+    },
+    "map_green": {
+        "message": "Zelená"
+    },
+    "map_left": {
+        "message": "Vlevo"
+    },
+    "map_down": {
+        "message": "Dolů"
+    },
+    "map_right": {
+        "message": "Vpravo"
+    },
+    "map_up": {
+        "message": "Nahoru"
+    },
+    "map_require_draggable": {
+        "message": "Vyžaduje přemístitelný objekt"
+    },
+    "map_require_item": {
+        "message": "Vyžaduje položku"
+    },
+    "map_require_light": {
+        "message": "Vyžaduje světlo"
+    },
+    "map_emitter": {
+        "message": "Světelný vysílač"
+    },
+    "map_mirror": {
+        "message": "Zrcadlo"
+    },
+    "map_filter": {
+        "message": "Světelný filtr"
+    },
+    "map_draggable": {
+        "message": "Přemístitelný objekt"
+    },
+    "map_can_move": {
+        "message": "Lze přemístit"
+    },
+    "map_can_rotate": {
+        "message": "Lze otočit"
+    },
+    "map_fixed": {
+        "message": "Pevně na místě"
+    },
+    "map_remove_confirmation": {
+        "message": "Potvrdit odstranění těchto dolů?"
+    },
+    "map_option_c": {
+        "message": "Zobrazit směrovky v popisku"
+    },
+    "map_option_s": {
+        "message": "Zobrazit výběr regionu"
+    },
+    "map_option_i": {
+        "message": "Zobrazit informace o lokaci"
+    },
+    "map_option_r": {
+        "message": "Zobrazit resetovatelné"
+    },
+    "map_option_t": {
+        "message": "Přidat název mapy"
+    },
+    "map_option_resize": {
+        "message": "Velikost uloženého obrázku"
+    },
+    "map_export_location": {
+        "message": "Export všech podlaží jako datový soubor"
+    },
+    "map_export_floor": {
+        "message": "Export aktuálního podlaží jako datový soubor"
+    },
+    "map_import": {
+        "message": "Import dříve exportovaného datového souboru"
+    },
+    "map_downloadfolder": {
+        "message": "Stáhnout složku"
+    },
+    "map_positionrandom": {
+        "message": "Poloha je náhodná"
+    },
+    "pillars_all": {
+        "message": "Všechny pilíře"
+    },
+    "pillars_only_possible": {
+        "message": "Jen dostupné pilíře"
+    },
+    "pillars_perc_next": {
+        "message": "%\n Další"
+    },
+    "pillars_possible": {
+        "message": "Dostupné"
+    },
+    "pillars_totals": {
+        "message": "Celkem"
+    },
+    "pillars_current_level": {
+        "message": "Vaše aktuální úroveň"
+    },
+    "pillars_predicted": {
+        "message": "Předpověď"
+    },
+    "pillars_predicted_level": {
+        "message": "Předvídaná úroveň"
+    },
+    "pillars_predicted_gain": {
+        "message": "Předvídaný zisk ze zvýšení úrovně"
+    },
+    "pillars_ignore": {
+        "message": "Klikněte pro ignorování/započítání"
+    },
+    "pillars_altclick": {
+        "message": "K resetu/nastavení všech hodnot použijte ALT"
+    },
+    "pillars_maxpossible": {
+        "message": "Max dostupné"
+    },
+    "pillars_grid": {
+        "message": "Zobrazit jako mřížku"
+    },
+    "pillars_cap": {
+        "message": "Cap to Possible"
+    },
+    "neighbors_lastlevelup": {
+        "message": "Poslední\nzvýšení úrovně"
+    },
+    "neighbors_lastgiftreceived": {
+        "message": "Poslední\nzískaný dárek"
+    },
+    "neighbors_yourlastvisit": {
+        "message": "Vaše poslední návštěva"
+    },
+    "neighbors_all": {
+        "message": "Všechny"
+    },
+    "neighbors_nogift": {
+        "message": "Žádné dárky za $NUM$ dní",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "neighbors_gifts": {
+        "message": "Započítat dárky za posledních @DAYS@ dní"
+    },
+    "neighbors_listed": {
+        "message": "Vlastní seznam"
+    },
+    "neighbors_blocks": {
+        "message": "V podzemním kempu zbývá vyčistit polí"
+    },
+    "neighbors_inlist": {
+        "message": "Ve vlastním seznamu"
+    },
+    "neighbors_notinlist": {
+        "message": "Není ve vlastním seznamu"
+    },
+    "neighbors_withblocks": {
+        "message": "Zbývá vyčistit polí"
+    },
+    "neighbors_unknownblocks": {
+        "message": "Neznámý stav čištění kempu"
+    },
+    "neighbors_withexpiredwindmills": {
+        "message": "S místem na vrtulky"
+    },
+    "neighbors_found": {
+        "message": "Nalezených sousedů: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_giftcount": {
+        "message": "Počet dárků"
+    },
+    "neighbors_giftvalue": {
+        "message": "Hodnota dárků (v XP)"
+    },
+    "neighbors_efficiency": {
+        "message": "Výkonnost (dárků/dny)"
+    },
+    "neighbors_wmtime": {
+        "message": "Čas vypršení vrtulky"
+    },
+    "neighbors_giftinfo": {
+        "message": "Datum dárku se týká času, kdy DAF tento dárek zaregistroval, ne data, kdy byl poslaný."
+    },
+    "neighbors_gifttip": {
+        "message": "$NAME$\nXP: $XP$\nDen: $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_gift": {
+        "message": "$NAME$ ($XP$ XP) $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_advancedfilterinfo": {
+        "message": "Dále můžete filtrovat sousedy podle dárků, které poslali za posledních @DAYS@ dní výběrem jednoho nebo více dárků z tohoto seznamu."
+    },
+    "neighbors_clearfilter": {
+        "message": "Vyčistit filtr"
+    },
+    "neighbors_gift_tooltip": {
+        "message": "Dárky získané, když byl DAF2 puštěný a zaznamenával."
+    },
+    "neighbors_sortby": {
+        "message": "Seřadit podle"
+    },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ dárků za $DAYS$ dní = $TOTAL$ XP ($AVERAGE$ XP/den)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Průměrná hodnota dárku = $XP$ XP ($AVERAGE$ XP na souseda/den)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_expression": {
+        "message": "Zadejte výraz k vyhodnocení"
+    },
+    "friendship_collectfriends": {
+        "message": "Načíst přátele"
+    },
+    "friendship_score": {
+        "message": "Skóre"
+    },
+    "friendship_scoretooltip": {
+        "message": "Spolehlivost přiřazení je následující:\n100 = Stejné facebookové ID\n99 = Manuální přiřazení\n95 = Stejný profilový obrázek\n90 = Stejné celé jméno\n80 = Stejné křestní jméno a příjmení\n70 = Stejné křestní jméno a příjmení (prohozené)\n60 = Přiřazení čínských znaků"
+    },
+    "friendship_action": {
+        "message": "Akce"
+    },
+    "friendship_actionignore": {
+        "message": "Tento přítel je zařazen do přiřazení\nKlikněte, pokud jej chcete během přiřazování ignorovat"
+    },
+    "friendship_actionregard": {
+        "message": "Tento přítel je ignorován v přiřazení\nKlikněte, pokud jej chcete zařadit"
+    },
+    "friendship_actionunlink": {
+        "message": "Klikněte pro odstranění tohoto přiřazení"
+    },
+    "friendship_actionmanual": {
+        "message": "Klikněte, pokud chcete tohoto souseda přiřadit ručně"
+    },
+    "friendship_actiondelete": {
+        "message": "Klikněte pro definitivní odstranění přítele"
+    },
+    "friendship_matchplayertitle": {
+        "message": "Klikněte zde, pokud chcete toto přiřazení zrušit"
+    },
+    "friendship_accountdisabled": {
+        "message": "Účet je zrušený."
+    },
+    "friendship_disabledaccountsdetected": {
+        "message": "Byly nalezeny zrušené účty."
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Byly nalezeny zrušené a/nebo nepřiřazené účty."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Můžete je odstranit z přátel na této stránce.\n\nVezměte prosím na vědomí, že facebookové účty mohou být blokované dočasně a mohou se později obnovit."
+    },
+    "friendship_confirmcollect": {
+        "message": "Pro potvrzení stiskněte ANO, pro další pokusy NE.\n\nMůžete toto okno kdykoli zavřít\na tím operaci zrušit."
+    },
+    "friendship_speedupcollect": {
+        "message": "Zrychlit sběr?"
+    },
+    "friendship_filter_a": {
+        "message": "Přátelé: $FRIENDS$, sousedé: $NEIGHBOURS$",
+        "placeholders": {
+            "friends": {
+                "content": "$1"
+            },
+            "neighbours": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_filter_d": {
+        "message": "Zrušené facebookové účty: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_m": {
+        "message": "Přiřazení přátelé a sousedé: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_g": {
+        "message": "Přátelé a sousedé přiřazení podle obrázku: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_h": {
+        "message": "Ručně přiřazení přátelé a sousedé: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_i": {
+        "message": "Ignorovaní přátelé: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_f": {
+        "message": "Nepřiřazení přátelé: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_u": {
+        "message": "Ignorovaní a/nebo nepřiřazení přátelé: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_n": {
+        "message": "Nepřiřazení sousedé: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_s": {
+        "message": "Nepřiřazení přátelé a sousedé: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectpreamble": {
+        "message": "Zde můžete načíst facebookové přátele a přiřadit je k sousedům."
+    },
+    "friendship_collectstandard": {
+        "message": "Standardní"
+    },
+    "friendship_collectstandardinfo": {
+        "message": "Tato metoda je spolehlivá, ale velmi pomalá (může trvat několik minut)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Nepřiřazení"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "Tato metoda je stejná jako Standardní, ale nebude načítat přátele.\nMísto toho vám zobrazí všechny aktuálně nepřiřazené přátele, takže je můžete ručně odebrat z přátel."
+    },
+    "friendship_disabledinfo": {
+        "message": "Dokáže rozpoznat zrušené účty."
+    },
+    "friendship_collectmatch": {
+        "message": "Přiřazení"
+    },
+    "friendship_collectmatchinfo": {
+        "message": "Tento postup provede automatické přiřazení přátel a sousedů.\nVáš seznam přátel se neobnoví.\nIgnorovaní přátelé a přátelé se skóre vyšším než 90 se nepřiřadí automaticky.\nPřiřazení proběhne po skončení načítání přátel."
+    },
+    "friendship_matchbyimage": {
+        "message": "Přiřadit podle profilového obrázku?"
+    },
+    "friendship_confirmwarning": {
+        "message": "Tato operace může trvat několik minut.\n\nPotvrďte prosím, že chcete pokračovat."
+    },
+    "friendship_confirmcollection": {
+        "message": "Potvrdit výsledek načítání?"
+    },
+    "friendship_collecterror": {
+        "message": "Něco se pokazilo."
+    },
+    "friendship_manualhelp": {
+        "message": "Obnovte prosím stránku DAF2, přejděte na záložku \"$FRIENDSHIP$\", klikněte na \"$COLLECT$\" a zvolte \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_analyzingmatches": {
+        "message": "Analýza dat, $PERCENT$ % ($NUM$ / $TOTAL$)",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            },
+            "num": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_collectstat": {
+        "message": "Načtení přátelé: $COUNT$",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_manualmatchhelp": {
+        "message": "Pro přiřazení tohoto souseda najděte nepřiřazeného přítele a klikněte na buňku se symbolem ⭐."
+    },
+    "friendship_friendupdateinfo": {
+        "message": "Seznam facebookových přátel byl aktualizován $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_totalfriends": {
+        "message": "Přátelé: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_totalneighbours": {
+        "message": "Sousedé: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_timewarning": {
+        "message": "Zdá se, že jste už dlouho nenačetli přátele.\nKlikněte prosím na tlačítko \"$COLLECT$\" a vyberte metodu \"$METHOD$\".",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_info": {
+        "message": "$NUM$ sousedů = $GC$ božích dětí",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "gc": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_stat": {
+        "message": "Boží děti: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_next": {
+        "message": "Pro získání dalšího božího dítěte musíte přidat $NUM$ sousedů.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "godchild_next0": {
+        "message": "Dosáhli jste maximálního možného počtu božích dětí."
+    },
+    "godchild_next1": {
+        "message": "Pro získání dalšího božího dítěte musíte přidat jen jednoho souseda."
+    },
+    "progress_measure": {
+        "message": "Measure"
+    },
+    "progress_attained": {
+        "message": "Dosaženo"
+    },
+    "progress_goal": {
+        "message": "Cíl"
+    },
+    "progress_remaining": {
+        "message": "Zbývá"
+    },
+    "progress_progress": {
+        "message": "Postup"
+    },
+    "progress_achievements": {
+        "message": "Úspěchy"
+    },
+    "progress_treasures": {
+        "message": "Poklady"
+    },
+    "progress_overall": {
+        "message": "Celkově"
+    },
+    "progress_hidecompleted": {
+        "message": "Skrýt dokončené"
+    },
+    "progress_grouplocations": {
+        "message": "Seskupit lokace"
+    },
+    "progress_showdates": {
+        "message": "Data lokací"
+    },
+    "progress_energyinfo": {
+        "message": "Zobrazená energie je odhad vytvořený násobením počtu zbývajících políček průměrnou cenou políčka.\nPrůměrná cena políčka vychází z bonusu za vyčištění lokace a celkového počtu políček."
+    },
+    "progress_averagetilecost": {
+        "message": "Průměrná cena políčka"
+    },
+    "progress_achievementnextstep": {
+        "message": "Do dalašího kroku = $NEXT$",
+        "placeholders": {
+            "next": {
+                "content": "$1"
+            }
+        }
+    },
+    "progress_start": {
+        "message": "Započato"
+    },
+    "progress_end": {
+        "message": "Dokončeno"
+    },
+    "progress_duration": {
+        "message": "Trvání"
+    },
+    "progress_subtotal": {
+        "message": "Mezisoučet"
+    },
+    "progress_grandtotal": {
+        "message": "Celkový součet"
+    },
+    "progress_playtime": {
+        "message": "Začali jste hrát $STARTED$ a hrajete už $DURATION$ (k $NOW$)",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            },
+            "duration": {
+                "content": "$2"
+            },
+            "now": {
+                "content": "$3"
+            }
+        }
+    },
+    "progress_levelrange": {
+        "message": "Od $FROM$ do $TO$",
+        "placeholders": {
+            "from": {
+                "content": "$1"
+            },
+            "to": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_id": {
+        "message": "ID odměny"
+    },
+    "rewardlinks_insertdate": {
+        "message": "Datum vložení"
+    },
+    "rewardlinks_collectdate": {
+        "message": "Datum převzetí"
+    },
+    "rewardlinks_collectmaterial": {
+        "message": "Odměna nalezena"
+    },
+    "rewardlinks_owner": {
+        "message": "Vlastník"
+    },
+    "rewardlinks_expired": {
+        "message": "ODKAZ VYPRŠEL"
+    },
+    "rewardlinks_collected": {
+        "message": "JIŽ PŘEVZATO"
+    },
+    "rewardlinks_maxreached": {
+        "message": "DOSAŽENO DENNÍ MAXIMUM"
+    },
+    "rewardlinks_noself": {
+        "message": "SEBE NEODMĚŇUJETE"
+    },
+    "rewardlinks_broken": {
+        "message": "NEFUNKČNÍ ODKAZ"
+    },
+    "rewardlinks_probablyexpired": {
+        "message": "ODKAZ NEJSPÍŠ VYPRŠEL"
+    },
+    "rewardlinks_background": {
+        "message": "Pozadí\nOtevřít odkazy na odměnu v pozadí"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Auto-klik\nAutomaticky kliknout na další vybranou odměnu, když byla jiná převzata"
+    },
+    "rewardlinks_addlinks": {
+        "message": "Přidat odkazy"
+    },
+    "rewardlinks_pasteadd": {
+        "message": "Vložte sem odkazy pro přidání, pak stiskněte tlačítko \"$CONFIRM$\"",
+        "placeholders": {
+            "confirm": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Každý odkaz vložený sem se rovnou přidá"
+    },
+    "rewardlinks_linksadded": {
+        "message": "Přidané odkazy na odměnu: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_nolinksadded": {
+        "message": "Nebyly přidané žádné odkazy na odměnu."
+    },
+    "rewardlinks_linksupdated": {
+        "message": "Aktualizované odkazy na odměnu: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_stats": {
+        "message": "Odkazy na odměnu: $TOTAL$, k převzetí: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_allcollected": {
+        "message": "Všechny odkazy na odměnu sebrány."
+    },
+    "rewardlinks_nexttime": {
+        "message": "Příští sběr začíná $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_countremaining": {
+        "message": "Zbývající odkazy k převzetí: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_collectanyway": {
+        "message": "Chcete odkaz přesto otevřít?"
+    },
+    "rewardlinks_infocollected": {
+        "message": "Tento odkaz už jste převzali."
+    },
+    "rewardlinks_infoexpired": {
+        "message": "Tento odkaz vypršel.\nOdkazy platí jen $NUM$ dní.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_infonoself": {
+        "message": "Tento odkaz je váš: sebe nemůžete odměnit."
+    },
+    "rewardlinks_infobroken": {
+        "message": "Tento odkaz je neplatný nebo nefunkční."
+    },
+    "rewardlinks_infomaxreached": {
+        "message": "Tento odkaz byl převzatý po dosažení max. denního limitu.\nOdkazy sebrané tímto způsobem jsou navždy ztracené."
+    },
+    "equipment_owned": {
+        "message": "Vlastněno"
+    },
+    "events_year": {
+        "message": "Rok"
+    },
+    "events_achievements": {
+        "message": "Úspěchy"
+    },
+    "events_locations": {
+        "message": "Lokace"
+    },
+    "events_total": {
+        "message": "Celkem"
+    },
+    "events_repeatables": {
+        "message": "Resetovatelné"
+    },
+    "repeat_progress": {
+        "message": "Postup"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Vlevo"
+    },
+    "options_button_right": {
+        "message": "Vpravo"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Zrušit"
+    },
+    "linkgrabber_added": {
+        "message": "Přidané odkazy na odměnu: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    }
+}

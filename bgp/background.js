@@ -442,6 +442,7 @@ var Data = {
     REWARDLINKS_HISTORY_MAXITEMS: 10000,
     GC_REFRESH_HOURS: 22,
     languages: [
+        new Language('cs', 'CZ', 'Czech', '\u010ce\u0161tina', 'CZ'),
         new Language('da', 'DK', 'Danish', 'Dansk', 'DK'),
         new Language('de', 'DE', 'German', 'Deutsch', 'DE,AT,CH,LI,LU'),
         new Language('el', 'GR', 'Greek', '\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac' /* 'Ελληνικά' */, 'GR'),
@@ -453,17 +454,16 @@ var Data = {
         new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
         new Language('pt', 'PT', 'Portuguese (BR)', 'Portugu\u00eas (BR)', 'PT,BR'),
         new Language('ru', 'RU', 'Russian', '\u0420\u0443\u0441\u0441\u043a\u0438\u0439', 'RU,MD,UA'),
+        new Language('sk', 'SK', 'Slovak', 'Sloven\u010dina', 'SK'),
         new Language('tr', 'TR', 'Turkish', 'T\u00fcrk\u00e7e', 'TR'),
         // OTHER (GAME)
         new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */, 'BG'),
-        new Language('cs', 'CZ', 'Czech', '\u010ce\u0161tina', 'CZ'),
         new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
         new Language('nl', 'NL', 'Dutch ', 'Nederlands', 'NL,BE'),
         new Language('ro', 'RO', 'Romanian', 'Rom\u00e2n\u0103', 'RO,MD'),
         new Language('se', 'SE', 'Swedish', 'Svenska', 'SE,FI'),
-        new Language('sk', 'SK', 'Slovak', 'Sloven\u010dina', 'SK'),
     ],
-    guiLanguages: 'da,de,el,en,es,fr,hu,it,pl,pt,ru,tr'.split(','),
+    guiLanguages: 'cs,da,de,el,en,es,fr,hu,it,pl,pt,ru,sk,tr'.split(','),
     acceptedLanguages: [],
     detectLanguage: function (lang) {
         return [].concat(lang, Data.acceptedLanguages)

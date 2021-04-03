@@ -81,6 +81,11 @@
   font-size: 13pt;
 }
 
+.about_translators b {
+  font-weight: normal;
+  white-space: nowrap;
+}
+
 .about_translators span::after {
   content: ":";
 }
