@@ -183,7 +183,7 @@ function advanced() {
 <span title="The current date and time as the number of seconds from 1st January 1970">now</span>
 <span title="The current date (time is 00:00) as the number of seconds from 1st January 1970">today</span>
 <span title="The number of seconds in a day (86400)\nThis can be helpful for date comparisons: lastgift > today - 7 * day">day</span>
-<span title="The player's region\n1=Egypt\n2=Scandinavia\n3=China\n4=Atlantis\n5=Greece\n6=New World">region</span>
+<span title="The player's region\n${Html(Array.from(Array(gui.getMaxRegion())).map((_, n) => `${n + 1}=${gui.getObjectName('region', n + 1)}`).join('\n'))}">region</span>
 <span title="The player's level">level</span>
 <span title="The last time that player has leveled up${unknown}">levelup</span>
 <span title="The last time that player has gifted you${unknown}">lastgift</span>
@@ -272,7 +272,7 @@ function summary() {
     const now = gui.getUnixTime();
     const gifts = gui.getFile('gifts');
     let select = '<select name="days" data-method="days">';
-    for (let days = 7; days <= 28; days+=7) {
+    for (let days = 7; days <= 28; days += 7) {
         select += Html`<option value="${days}">${Locale.formatNumber(days)}</option>`;
     }
     select += '</select>';
