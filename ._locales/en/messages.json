@@ -2113,6 +2113,9 @@
     "options_badgeluckycards": {
         "message": "Lucky Cards\nShow a badge when the Lucky Cards tent is ready"
     },
+    "options_badgeproductions": {
+        "message": "Productions\nShow a badge when a production is ready or empty"
+    },
     "options_badgetimeoffset": {
         "message": "Time offset\nThe badge will be shown in advance by this amount of seconds."
     },

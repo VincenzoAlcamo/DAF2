@@ -226,7 +226,7 @@ UI_claim_coin_single_slow_01
 UI_claim_coin_single_slow_02
 `;
     function optionEffect(prefName) {
-        option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
+        if (prefName != 'badgeProductions') option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
         let extra = Html.br`<select data-pref="${prefName}SoundName">`;
         extra += sounds.split('\n').sort(gui.sortTextAscending).map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join('');
         extra += Html.br`</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
@@ -304,6 +304,8 @@ UI_claim_coin_single_slow_02
     beginSection('badges');
     option('badgeGcCounter');
     option('badgeGcEnergy');
+    option('badgeProductions', WITHSUBOPTIONS);
+    optionEffect('badgeProductions');
     option('badgeRepeatables', WITHSUBOPTIONS);
     optionEffect('badgeRepeatables');
     option('badgeLuckyCards', WITHSUBOPTIONS);

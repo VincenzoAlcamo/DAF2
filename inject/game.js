@@ -320,6 +320,31 @@ function setBadgetLuckyText() {
     badgeLuckyCards.textContent = text;
 }
 
+function setBadgeProduction(selector, data) {
+    const badge = menu && menu.querySelector(selector);
+    if (!badge) return;
+    if (!badge.getAttribute('data-set')) {
+        badge.setAttribute('data-set', 1);
+        badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
+    }
+    const wasActive = badge.classList.contains('DAF-badge-on');
+    const prevNum = +badge.textContent || 0;
+    const currNum = +data.num;
+    const isActive = currNum > 0;
+    badge.textContent = currNum;
+    badge.classList.toggle('DAF-badge-on', isActive);
+    const flag = isActive && (!wasActive || prevNum < currNum);
+    if (flag) badge.classList.add('animate');
+    return flag;
+}
+function setBadgeProductions(data) {
+    let flag = false;
+    flag |= setBadgeProduction('.DAF-badge-p-c', data.caravan);
+    flag |= setBadgeProduction('.DAF-badge-p-k', data.kitchen);
+    flag |= setBadgeProduction('.DAF-badge-p-f', data.foundry);
+    if (flag) playSound(data.sound, data.volume);
+}
+
 let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
 function setBadgeRep({ list, sound, volume }) {
     list = Array.isArray(list) ? list : [];
@@ -476,6 +501,9 @@ function createMenu() {
         <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
         <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
         <br>
+        <i data-pref="badgeProductions" class="squared-right">${gm1('options_badgeproductions')}</i>
+        <i data-pref="badgeProductionsSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
+        <br>
         <i data-pref="badgeRepeatables" class="squared-right">${gm1('options_badgerepeatables')}</i>
         <i data-pref="badgeRepeatablesSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
         <br>
@@ -494,6 +522,9 @@ function createMenu() {
 <div class="DAF-badges">
     <b class="DAF-badge-gc-counter DAF-badge-img"></b>
     <b class="DAF-badge-gc-energy DAF-badge-img"></b>
+    <b class="DAF-badge-p-c DAF-badge-img" title="${gm('tab_caravan')}">0</b>
+    <b class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
+    <b class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
     <b class="DAF-badge-luckycards DAF-badge-img" title="${htmlEncode(getMessage('options_badgeluckycards').split('\n')[0])}"></b>
     <div class="DAF-badge-rep"></div>
 </div>
@@ -672,7 +703,7 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-    addPrefs('badgeGcCounter,badgeGcEnergy,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
+    addPrefs('badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;
@@ -768,6 +799,7 @@ function init() {
             };
             msgHandlers['repeatables'] = (request) => setBadgeRep(request.data);
             msgHandlers['luckycards'] = (request) => setBadgeLucky(request.data);
+            msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
         }
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();

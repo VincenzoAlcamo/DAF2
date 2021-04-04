@@ -87,6 +87,11 @@ var Preferences = {
             pillarsXp: '',
             badgeGcCounter: true,
             badgeGcEnergy: true,
+            badgeProductions: true,
+            badgeProductionsOffset: 0,
+            badgeProductionsSound: true,
+            badgeProductionsSoundName: 'caravan_enter',
+            badgeProductionsVolume: 100,
             badgeRepeatables: true,
             badgeRepeatablesOffset: 0,
             badgeRepeatablesSound: true,
@@ -738,12 +743,14 @@ var Data = {
                     Synchronize.signal('generator');
                     Data.checkRepeatablesStatus();
                     Data.checkLuckyCards();
+                    Data.checkProductions();
                 });
             });
             // Reset some values and pre-load childs
             Synchronize.energyId = 0;
             Synchronize.repeatables = '';
             Data.getFile('childs');
+            Data.getFile('productions');
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
             tx = Data.db.transaction('Files', 'readwrite');
@@ -902,6 +909,26 @@ var Data = {
         const active = diff <= 0;
         Data.setTimer(Data.checkLuckyCards, diff > 0 ? diff * 1000 : 0);
         Synchronize.signal('luckycards', Synchronize.expandDataWithSound({ active, next }, 'badgeLuckyCards'));
+    },
+    checkProductions: function () {
+        const now = getUnixTime() + Synchronize.offset;
+        let next = now + SECONDS_IN_A_DAY * 1000;
+        const data = {};
+        const expandData = (type, arr) => {
+            const finishName = type == 'caravan' ? 'arrival' : 'finish';
+            const sub = data[type] = { num: 0 };
+            asArray(arr).forEach(o => {
+                const time = +o[finishName];
+                if (time <= now) sub.num++;
+                if (time > now && time < next) next = time;
+            });
+        };
+        expandData('caravan', Data.generator.caravans);
+        expandData('kitchen', Data.generator.pots);
+        expandData('foundry', Data.generator.anvils);
+        const diff = next - now;
+        Data.setTimer(Data.checkProductions, diff > 0 ? diff * 1000 : 0);
+        Synchronize.signal('productions', Synchronize.expandDataWithSound(data, 'badgeProductions'));
     },
     getPillarsInfo: function () {
         // Collect all pillars in the game and compute XP by material
@@ -1638,6 +1665,38 @@ var Synchronize = {
             Synchronize.signal(action, neighbourId);
         }
     },
+    production: function (type, action, task) {
+        let slotName, prodName, finishName = 'finish', arr;
+        if (type == 'c') {
+            slotName = 'caravan_id';
+            prodName = 'dest_id';
+            finishName = 'arrival';
+            arr = Data.generator.caravans;
+        } else if (type == 'k') {
+            slotName = 'pot_id';
+            prodName = 'pot_recipe_id';
+            arr = Data.generator.pots;
+        } else if (type == 'f') {
+            slotName = 'anvil_id';
+            prodName = 'alloy_id';
+            arr = Data.generator.anvils;
+        } else return;
+        const id = task[slotName], prod = asArray(arr).find(p => p[slotName] == id);
+        if (!prod) return;
+        if (action == 'unload') {
+            prod.cargo = 0;
+        } else if (action == 'start') {
+            prod.cargo = 0;
+            const prodId = prod[prodName] = +task[prodName];
+            const items = Data.files.productions, item = items[prodId];
+            prod[finishName] = item ? Math.floor(task.time) + +item.duration : 0;
+            Data.setTimer(Data.checkProductions, 1);
+        } else if (action == 'cancel') {
+            prod.cargo = 0;
+            prod[finishName] = 0;
+            Data.setTimer(Data.checkProductions, 1);
+        }
+    },
     handlers: {
         visit_camp: function (action, _task, taskResponse, _response) {
             if (!taskResponse || !taskResponse.camp) return;
@@ -1792,12 +1851,20 @@ var Synchronize = {
         leave_mine: function (action, task, _taskResponse, _response) {
             Synchronize.signalMineAction({ action, loc_id: +task.loc_id, level: +task.level, cx: +task.cur_column, cy: +task.cur_row });
         },
-        process_waiting_rewards: function (_action, _tast, taskResponse, _response) {
+        process_waiting_rewards: function (_action, _task, taskResponse, _response) {
             if (taskResponse && taskResponse.video_ad_type == 'wheel_of_fortune') {
                 Data.findLuckyCardsAd(+taskResponse.video_ad_watched_at);
                 Data.checkLuckyCards();
             }
         },
+        prod_unload_caravan: (_action, task) => Synchronize.production('c', 'unload', task),
+        prod_send_caravan: (_action, task) => Synchronize.production('c', 'start', task),
+        unload_pot_recipe: (_action, task) => Synchronize.production('k', 'unload', task),
+        start_pot_recipe: (_action, task) => Synchronize.production('k', 'start', task),
+        cancel_pot_recipe: (_action, task) => Synchronize.production('k', 'cancel', task),
+        unload_anvil_alloy: (_action, task) => Synchronize.production('f', 'unload', task),
+        start_anvil_alloy: (_action, task) => Synchronize.production('f', 'start', task),
+        cancel_anvil_alloy: (_action, task) => Synchronize.production('f', 'cancel', task),
         cl_add: function (action, task, taskResponse, _response) {
             Synchronize.setCustomList(action, task, taskResponse);
         },
