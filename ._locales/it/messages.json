@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Modalità pianificazione"
     },
-    "camp_webgl": {
-        "message": "Mostra il campo secondo l'ordine WebGL"
-    },
     "camp_discounted": {
         "message": "Scontato"
     },
@@ -673,6 +670,9 @@
     },
     "map_button_e": {
         "message": "Mostra i segnalatori"
+    },
+    "map_button_c": {
+        "message": "Mostra a colori"
     },
     "map_button_g": {
         "message": "Mostra informazioni di debug"

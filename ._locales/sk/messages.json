@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Nastavovací mód"
     },
-    "camp_webgl": {
-        "message": "Zobraziť kemp"
-    },
     "camp_discounted": {
         "message": "Zlacnené"
     },
@@ -885,6 +882,9 @@
     },
     "pillars_grid": {
         "message": "Zobraziť ako mriežku"
+    },
+    "pillars_cap": {
+        "message": "Cap to Possible"
     },
     "neighbors_lastlevelup": {
         "message": "Posledné zvýšenie úrovne"
@@ -1191,6 +1191,9 @@
     "friendship_confirmcollection": {
         "message": "Potvrdiť výsledok načítania?"
     },
+    "friendship_cc_maybe": {
+        "message": "If unsure"
+    },
     "friendship_collecterror": {
         "message": "Niečo sa pokazilo."
     },
@@ -1309,6 +1312,9 @@
     },
     "godchild_next1": {
         "message": "Pre získanie ďalšieho božieho dieťata musíte pridať len jedného suseda."
+    },
+    "progress_measure": {
+        "message": "Measure"
     },
     "progress_attained": {
         "message": "Dosiahnuté"
@@ -1519,6 +1525,34 @@
     "rewardlinks_infomaxreached": {
         "message": "Tento odkaz bol prevzatý po dosiahnutí maximálneho denného limitu.\nOdkazy prevzaté tímto spôsobom sú navždy stratené."
     },
+    "rewardlinks_removelinks": {
+        "message": "Odstrániť staré odkazy"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Odstrániť označené"
+    },
+    "rewardlinks_removenone": {
+        "message": "Žiadne odkazy na odstránenie!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Odkazy, ktoré budú odstránené: $NUM$\nOdstránené odkazy už nie je možné pridávať.\n\nPokračovať v odstránení?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Táto odmena bola pridaná $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Reset"
+    },
     "export_export": {
         "message": "Export"
     },
@@ -1619,6 +1653,33 @@
     "equipment_price_info": {
         "message": "Tu uvedená cena neplatí pre túto výbavu, ale za balíček/ponuku, ktorý /á obsahoval /a toto vybavenie."
     },
+    "equipment_level_none": {
+        "message": "Nezáleží"
+    },
+    "equipment_level_le": {
+        "message": "Najviac"
+    },
+    "equipment_level_ge": {
+        "message": "Najmenej"
+    },
+    "equipment_level_your": {
+        "message": "Vaša úroveň"
+    },
+    "equipment_level_this": {
+        "message": "V tejto úrovni"
+    },
+    "equipment_include_material": {
+        "message": "Zahrnúť tieto materiály"
+    },
+    "equipment_exclude_material": {
+        "message": "Vylúčiť tieto materiály"
+    },
+    "equipment_current": {
+        "message": "Aktuálne"
+    },
+    "equipment_slotslower": {
+        "message": "Sloty s nižšou spotrebou energie"
+    },
     "events_year": {
         "message": "Rok"
     },
@@ -1667,6 +1728,12 @@
     "events_incomplete": {
         "message": "Nekompletné"
     },
+    "events_notdone": {
+        "message": "Nezačaté"
+    },
+    "events_segmented": {
+        "message": "Rozdelené"
+    },
     "events_yourprogress": {
         "message": "Tvoj pokrok"
     },
@@ -1676,8 +1743,77 @@
     "events_finalreward": {
         "message": "Finálna odmena"
     },
+    "events_notsegmented": {
+        "message": "Nerozdelené"
+    },
     "events_tiles": {
         "message": "Políčka"
+    },
+    "repeat_region_event": {
+        "message": "Región / Udalosť"
+    },
+    "repeat_time": {
+        "message": "Čas, kedy bude baňa opäť dostupná"
+    },
+    "repeat_show_all": {
+        "message": "Všetky resetovateľné"
+    },
+    "repeat_show_selected": {
+        "message": "Iba vybrané resetovateľné"
+    },
+    "repeat_ready": {
+        "message": "PRIPRAVENÝ"
+    },
+    "repeat_show_ready": {
+        "message": "Pripravený?"
+    },
+    "dailyreward_stats": {
+        "message": "Denná odmena je závislá od aktuálnej úrovne ($LEVEL$) a regiónu ($REGION$).",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Zhromaždené dňa $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_end": {
+        "message": "končí $FINISH$",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_production": {
+        "message": "Dvojitý výrobný týždeň"
+    },
+    "specialweek_half_prod_time": {
+        "message": "Polovičný produkčný týždeň"
+    },
+    "specialweek_double_drop": {
+        "message": "Dvojitý materiálový týždeň"
+    },
+    "specialweek_postcards": {
+        "message": "Pohľadnicový týždeň"
+    },
+    "specialweek_material_seller": {
+        "message": "Obchodník zo starým materiálom"
+    },
+    "specialweek_mystery_box": {
+        "message": "Tajomná skrinka"
+    },
+    "specialweek_find_the_pair": {
+        "message": "Nájdite pár"
     },
     "options_section_ingame": {
         "message": "Nastavenia v hre"
@@ -1834,6 +1970,21 @@
     "options_section_badges": {
         "message": "Odznaky"
     },
+    "options_badgerepeatables": {
+        "message": "Resetovatelné\nZobrazí odznak ak bude dostupná resetovatelná lokácia"
+    },
+    "options_badgeluckycards": {
+        "message": "Štastné karty\nKeď je stan Štastných kariet pripravený, zobrazí odznak."
+    },
+    "options_badgetimeoffset": {
+        "message": "Časový posun\nOdznak sa zobrazí vopred o tento počet sekúnd."
+    },
+    "options_badgesound": {
+        "message": "Zvukový efekt\nZvukový efekt, ktorý sa má prehrať keď sa zobrazí odznak."
+    },
+    "options_badgevolume": {
+        "message": "Zvuk\nHlasitosť zvukového efektu."
+    },
     "linkgrabber_selected": {
         "message": "Odkazy: $UNIQUE$ / $TOTAL$",
         "placeholders": {
@@ -1864,7 +2015,7 @@
         "message": "Automatické odoslanie"
     },
     "linkgrabber_added": {
-        "message": "Pridané odkazy na odmeny: $NUM$ / $TOTAL$",
+        "message": "Pridané odkazy na odmenu: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"

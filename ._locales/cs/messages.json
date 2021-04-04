@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Sestavit režim"
     },
-    "camp_webgl": {
-        "message": "Zobrazit kemp"
-    },
     "camp_discounted": {
         "message": "Zlevněno"
     },
@@ -684,7 +681,7 @@
         "message": "Zvýraznit políčka s významnou kořistí"
     },
     "map_button_v": {
-        "message": "Viditelnost políček je trvalá"
+        "message": "Odkrytá políčka zůstanou viditelná"
     },
     "map_button_o": {
         "message": "Zobrazit políčka"
