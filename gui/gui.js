@@ -425,6 +425,9 @@ const gui = {
         }
     },
     updateTabState: function (tab) {
+        const searchInput = tab && tab.container && tab.container.querySelector('.toolbar input[name="search"]');
+        if (searchInput) searchInput.classList.toggle('activated', searchInput.value !== '');
+
         if (tab.isLoaded && typeof tab.getState == 'function') tab.state = tab.getState();
         const text = JSON.stringify(tab.state);
         if (text != 'null' && text != '{}') localStorage.setItem('state_' + tab.id, text);

@@ -816,6 +816,11 @@ thead .stats {
   width: 3.5em;
 }
 
+.toolbar input[name="search"].activated {
+  background-color: var(--tt-button-hlcol);
+  color: var(--tt-button-fgcol);
+}
+
 /* input[type=radio], */
 input[type=checkbox] {
   width: 20px !important;
