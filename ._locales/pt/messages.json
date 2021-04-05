@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Modo de configuração"
     },
-    "camp_webgl": {
-        "message": "Mostrar o acampamento pela ordem em WebGL"
-    },
     "camp_discounted": {
         "message": "Com desconto"
     },
@@ -673,6 +670,9 @@
     },
     "map_button_e": {
         "message": "Mostrar balizas"
+    },
+    "map_button_c": {
+        "message": "Mostrar a cores"
     },
     "map_button_g": {
         "message": "Mostrar informações de depuração"
@@ -2112,6 +2112,9 @@
     },
     "options_badgeluckycards": {
         "message": "Cartas da Sorte\nMostre um marcador quando a tenda das casas da sorte estiver pronta"
+    },
+    "options_badgeproductions": {
+        "message": "Produções\nMostrar um marcador quando um slot de produção estiver pronto ou vazio"
     },
     "options_badgetimeoffset": {
         "message": "Ajuste de tempo\nO marcador será mostrado com antecedência por esta quantidade de segundos."

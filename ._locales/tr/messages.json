@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Kurulum modu"
     },
-    "camp_webgl": {
-        "message": "Kampı WEBGL sıralamasında göster"
-    },
     "camp_discounted": {
         "message": "İndirimli"
     },
@@ -673,6 +670,9 @@
     },
     "map_button_e": {
         "message": "İşaretçileri göster"
+    },
+    "map_button_c": {
+        "message": "Tüm renklerde göster"
     },
     "map_button_g": {
         "message": "Hata ayıklama bilgilerini göster"
@@ -2112,6 +2112,9 @@
     },
     "options_badgeluckycards": {
         "message": "Şanslı Kartlar\nŞanslı kart çadırı hazır olduğunda bir rozet gösterilir"
+    },
+    "options_badgeproductions": {
+        "message": "Üretimler\nBir üretim alanı hazır veya boş olduğunda bir rozet göster"
     },
     "options_badgetimeoffset": {
         "message": "Zaman farkı\r\nRozet bu kadar saniye önceden gösterilecektir."

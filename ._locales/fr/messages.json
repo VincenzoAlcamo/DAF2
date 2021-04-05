@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Mode de configuration"
     },
-    "camp_webgl": {
-        "message": "Afficher le camp dans l'ordre WebGL"
-    },
     "camp_discounted": {
         "message": "À prix réduit"
     },

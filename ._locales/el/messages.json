@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Διάταξη"
     },
-    "camp_webgl": {
-        "message": "Δείξε τη βάση σε WebGL σειρά"
-    },
     "camp_discounted": {
         "message": "Σε προσφορά"
     },
@@ -673,6 +670,9 @@
     },
     "map_button_e": {
         "message": "Εμφάνιση φάρων"
+    },
+    "map_button_c": {
+        "message": "Εμφάνιση με όλα τα χρώματα"
     },
     "map_button_g": {
         "message": "Εμφάνιση πληροφορίας αποσφαλμάτωσης"
@@ -2112,6 +2112,9 @@
     },
     "options_badgeluckycards": {
         "message": "Τυχερές Κάρτες\nΕπίδειξη σήματος όταν η τέντα με τις Τυχερές Κάρτες είναι έτοιμη"
+    },
+    "options_badgeproductions": {
+        "message": "Παραγωγή\nΕμφάνιση σήματος όταν μια θέση παραγωγής είναι έτοιμη ή άδεια"
     },
     "options_badgetimeoffset": {
         "message": "Προγενέστερος Χρόνος\nΤο σήμα εμφανίζεται προγενέστερα κατά τόσο χρόνο"

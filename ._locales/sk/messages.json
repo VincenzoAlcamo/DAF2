@@ -671,6 +671,9 @@
     "map_button_e": {
         "message": "Zobraziť majáky"
     },
+    "map_button_c": {
+        "message": "Zobraziť vo farbách"
+    },
     "map_button_g": {
         "message": "Zobraziť info o ladení"
     },

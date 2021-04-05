@@ -65,6 +65,9 @@
     "gui_all": {
         "message": "Todos"
     },
+    "gui_only_possible": {
+        "message": "Solo posible"
+    },
     "gui_search": {
         "message": "Busqueda"
     },
@@ -277,7 +280,7 @@
         "message": "Limpiar"
     },
     "gui_filter_invert": {
-        "message": "Inverir"
+        "message": "Invertir"
     },
     "gui_advancedfilter": {
         "message": "Filtro avanzado"
@@ -341,6 +344,9 @@
     },
     "tab_map": {
         "message": "Mapa"
+    },
+    "tab_caravan": {
+        "message": "Caravanas"
     },
     "tab_kitchen": {
         "message": "Cocina"
@@ -456,63 +462,40 @@
     "about_reset_ok_text": {
         "message": "Vuelva a cargar Diggy's Adventure con la cuenta que desea utilizar."
     },
-    "kitchen_all": {
-        "message": "Todas las recetas"
-    },
-    "kitchen_only_possible": {
-        "message": "Solo recetas posibles."
-    },
-    "kitchen_time_to_cook": {
-        "message": "Todas las recetas"
-    },
-    "kitchen_energy_hour": {
-        "message": "Energia\npor hora"
-    },
-    "kitchen_possible_dishes": {
-        "message": "Platos\nposibles"
-    },
-    "kitchen_possible_energy": {
-        "message": "Energía\nposible"
-    },
-    "kitchen_total_time": {
-        "message": "Tiempo de coccion\n($POTS$ Ollas)",
+    "production_total_time": {
+        "message": "Tiempo total (Slots: $NUM$)",
         "placeholders": {
-            "pots": {
+            "num": {
                 "content": "$1"
             }
         }
+    },
+    "production_time": {
+        "message": "Tiempo de producción"
+    },
+    "production_possible": {
+        "message": "Posible"
+    },
+    "production_possible_energy": {
+        "message": "Energía\nposible"
+    },
+    "production_energy_hour": {
+        "message": "Energia\npor hora"
+    },
+    "production_qty": {
+        "message": "Cantidad producida"
+    },
+    "production_uplift": {
+        "message": "Ganancia (XP/h)"
+    },
+    "production_uplift_info": {
+        "message": "Punts de experiencia ganada por un solo espacio en una hora,\nbasado en los valores obtenidos de pilares."
+    },
+    "production_req_ticket": {
+        "message": "Requiere ticket ?"
     },
     "kitchen_food_in_backpack": {
         "message": "comida en la mochila"
-    },
-    "foundry_all": {
-        "message": "Todas las aleaciones"
-    },
-    "foundry_only_possible": {
-        "message": "Solo aleaciones posibles"
-    },
-    "foundry_time_to_craft": {
-        "message": "Tiempo de elaboracion"
-    },
-    "foundry_qty": {
-        "message": "Elaboracion en el yunque"
-    },
-    "foundry_possible_alloys": {
-        "message": "Aleaciones"
-    },
-    "foundry_total_time": {
-        "message": "Tiempo de elaboracion\n($ANVILS$ Yunques)",
-        "placeholders": {
-            "anvils": {
-                "content": "$1"
-            }
-        }
-    },
-    "foundry_uplift": {
-        "message": "Ganancia (XP/h)"
-    },
-    "foundry_uplift_info": {
-        "message": "XP ganada por un solo yunque en una hora,\nbasado en los valores obtenidos de los pilares."
     },
     "camp_your_camp": {
         "message": "Tu campamento"
@@ -623,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Modo de configuracion"
     },
-    "camp_webgl": {
-        "message": "Muestra campamento en WebGL"
-    },
     "camp_discounted": {
         "message": "Con descuentos"
     },
@@ -690,6 +670,9 @@
     },
     "map_button_e": {
         "message": "Mostrar balizas"
+    },
+    "map_button_c": {
+        "message": "Mostrar en colores"
     },
     "map_button_g": {
         "message": "Mostrar información de depuración"
@@ -2129,6 +2112,9 @@
     },
     "options_badgeluckycards": {
         "message": "Cartas de la suerte\nMuestra una insignia cuando la carpa de cartas de la suerte este lista."
+    },
+    "options_badgeproductions": {
+        "message": "Producción\nLa insignia se mostrará cuando la produccion esté terminada o no haya produccion"
     },
     "options_badgetimeoffset": {
         "message": "Desplazamiento de tiempo.\nLa insignia se mostrará con antelacion por esa cantidad de segundos"

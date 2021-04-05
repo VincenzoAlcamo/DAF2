@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Indstillings tilstand"
     },
-    "camp_webgl": {
-        "message": "Vis lejr i WEBGL"
-    },
     "camp_discounted": {
         "message": "Tilbud"
     },
@@ -673,6 +670,9 @@
     },
     "map_button_e": {
         "message": "Vis ledestjerne"
+    },
+    "map_button_c": {
+        "message": "Vis i fulde farver"
     },
     "map_button_g": {
         "message": "Vis fejl info"
@@ -2112,6 +2112,9 @@
     },
     "options_badgeluckycards": {
         "message": "Heldige Kort\nVis et skilt når Heldige Kort teltet er klar"
+    },
+    "options_badgeproductions": {
+        "message": "Produktioner\nVis et skilt når en produktions enhed er klar eller tom"
     },
     "options_badgetimeoffset": {
         "message": "Tidsforskydning\nSkiltet vil blive vist forlods med dette antalt sekunder"

@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Tervezési mód"
     },
-    "camp_webgl": {
-        "message": "Mutasd a tábort a WebGL sorrendben"
-    },
     "camp_discounted": {
         "message": "Kedvezményes"
     },

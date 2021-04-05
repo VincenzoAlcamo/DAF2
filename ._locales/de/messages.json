@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Konfigurationsmodus"
     },
-    "camp_webgl": {
-        "message": "Camp in WebGL-Reihenfolge anzeigen"
-    },
     "camp_discounted": {
         "message": "Ermäßigter Preis"
     },
@@ -673,6 +670,9 @@
     },
     "map_button_e": {
         "message": "Leuchtfeuer anzeigen"
+    },
+    "map_button_c": {
+        "message": "Anzeige mit allen Farben"
     },
     "map_button_g": {
         "message": "Debug-Infos anzeigen"
@@ -2112,6 +2112,9 @@
     },
     "options_badgeluckycards": {
         "message": "Glückskarten\nAnzeigen eines Abzeichens, wenn das Glückskartenzelt bereit ist"
+    },
+    "options_badgeproductions": {
+        "message": "Produktionen\nAnzeigen eines Abzeichens, wenn ein Produktionsplatz fertig oder inaktiv ist"
     },
     "options_badgetimeoffset": {
         "message": "Zeitversatz\nDas Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."

@@ -606,9 +606,6 @@
     "camp_setup_mode": {
         "message": "Tryb ustawień"
     },
-    "camp_webgl": {
-        "message": "Pokaż obóz w układzie WebGL"
-    },
     "camp_discounted": {
         "message": "Zniżka"
     },
@@ -673,6 +670,9 @@
     },
     "map_button_e": {
         "message": "Pokaż latarnię"
+    },
+    "map_button_c": {
+        "message": "Pokaż w pełnych kolorach"
     },
     "map_button_g": {
         "message": "Pokaż info debugowania"
@@ -2112,6 +2112,9 @@
     },
     "options_badgeluckycards": {
         "message": "Szczęśliwe karty\nPokaż odznakę, kiedy Szczęśliwe karty będą gotowe"
+    },
+    "options_badgeproductions": {
+        "message": "Produkcja\nPokaż odznakę kiedy slot produkcyjny jest gotowy lub pusty."
     },
     "options_badgetimeoffset": {
         "message": "Przesunięcie czasowe\nOdznaka zostanie pokazana z wyprzedzeniem o kilka sekund."

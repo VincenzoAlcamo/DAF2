@@ -2113,6 +2113,9 @@
     "options_badgeluckycards": {
         "message": "Carte Fortunate\nMostra un segnalino quando la tenda è pronta"
     },
+    "options_badgeproductions": {
+        "message": "Produzioni\nMostra un segnalino quando uno slot di produzione è pronto o vuoto"
+    },
     "options_badgetimeoffset": {
         "message": "Compensazione tempo\nIl segnalino sarà mostrato in anticipo di questo numero di secondi."
     },
