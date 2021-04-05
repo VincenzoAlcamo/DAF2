@@ -119,6 +119,10 @@
   filter: hue-rotate(285deg);
 }
 
+.DAF-menu .hue2 {
+  filter: hue-rotate(90deg);
+}
+
 .DAF-menu li:focus-within>*,
 .DAF-menu li:hover>* {
   display: inline-block;
@@ -272,9 +276,9 @@
 
 .DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
-.DAF-badges.DAF-badgeproductions .DAF-badge-p-c.DAF-badge-on,
-.DAF-badges.DAF-badgeproductions .DAF-badge-p-k.DAF-badge-on,
-.DAF-badges.DAF-badgeproductions .DAF-badge-p-f.DAF-badge-on,
+.DAF-badges.DAF-badgeproductions.DAF-badgecaravan .DAF-badge-p-c.DAF-badge-on,
+.DAF-badges.DAF-badgeproductions.DAF-badgekitchen .DAF-badge-p-k.DAF-badge-on,
+.DAF-badges.DAF-badgeproductions.DAF-badgefoundry .DAF-badge-p-f.DAF-badge-on,
 .DAF-badges.DAF-badgeluckycards .DAF-badge-luckycards.DAF-badge-on,
 .DAF-badges.DAF-badgegcenergy .DAF-badge-gc-energy.DAF-badge-on {
   display: inline-block;

@@ -274,11 +274,13 @@ function setBadge({ selector, text, title, active }) {
     badge.classList.toggle('DAF-badge-on', !!active);
 }
 
+let lastAudio;
 function playSound(sound, volume = 100) {
     if (sound && volume) {
-        const audio = new Audio(sound);
-        audio.volume = +volume / 100;
-        audio.play().then(_ => 0);
+        if (lastAudio) try { lastAudio.pause(); } catch (e) { }
+        lastAudio = new Audio(sound);
+        lastAudio.volume = +volume / 100;
+        lastAudio.play().then(_ => 0).finally(_ => lastAudio = 0);
     }
 }
 
@@ -320,7 +322,7 @@ function setBadgetLuckyText() {
     badgeLuckyCards.textContent = text;
 }
 
-function setBadgeProduction(selector, data) {
+function setBadgeProduction(selector, data, flagActive) {
     const badge = menu && menu.querySelector(selector);
     if (!badge) return;
     if (!badge.getAttribute('data-set')) {
@@ -333,15 +335,15 @@ function setBadgeProduction(selector, data) {
     const isActive = currNum > 0;
     badge.textContent = currNum;
     badge.classList.toggle('DAF-badge-on', isActive);
-    const flag = isActive && (!wasActive || prevNum < currNum);
+    const flag = prefs.badgeProductions && flagActive && isActive && (!wasActive || prevNum < currNum);
     if (flag) badge.classList.add('animate');
     return flag;
 }
 function setBadgeProductions(data) {
     let flag = false;
-    flag |= setBadgeProduction('.DAF-badge-p-c', data.caravan);
-    flag |= setBadgeProduction('.DAF-badge-p-k', data.kitchen);
-    flag |= setBadgeProduction('.DAF-badge-p-f', data.foundry);
+    flag |= setBadgeProduction('.DAF-badge-p-c', data.caravan, prefs.badgeCaravan);
+    flag |= setBadgeProduction('.DAF-badge-p-k', data.kitchen, prefs.badgeKitchen);
+    flag |= setBadgeProduction('.DAF-badge-p-f', data.foundry, prefs.badgeFoundry);
     if (flag) playSound(data.sound, data.volume);
 }
 
@@ -502,6 +504,9 @@ function createMenu() {
         <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
         <br>
         <i data-pref="badgeProductions" class="squared-right">${gm1('options_badgeproductions')}</i>
+        <i data-pref="badgeCaravan" title="" class="squared-right squared-left hue2">${gm1('tab_caravan')}</i>
+        <i data-pref="badgeKitchen" title="" class="squared-right squared-left hue2">${gm1('tab_kitchen')}</i>
+        <i data-pref="badgeFoundry" title="" class="squared-right squared-left hue2">${gm1('tab_foundry')}</i>
         <i data-pref="badgeProductionsSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
         <br>
         <i data-pref="badgeRepeatables" class="squared-right">${gm1('options_badgerepeatables')}</i>
@@ -542,7 +547,7 @@ function createMenu() {
     document.body.appendChild(menu);
     for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
         const prefName = el.getAttribute('data-pref');
-        el.title = el.title || getMessage('options_' + prefName.toLowerCase()).split('\n')[1];
+        if (!el.hasAttribute('title')) el.title = getMessage('options_' + prefName.toLowerCase()).split('\n')[1];
     }
     searchInput = menu.querySelector('[data-action="search"] input');
     searchInput.addEventListener('input', search);
@@ -703,7 +708,7 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-    addPrefs('badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
+    addPrefs('badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;

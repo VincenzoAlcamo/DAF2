@@ -60,6 +60,9 @@ function init() {
         if (prefName.endsWith('Sound')) messageId = 'options_badgesound';
         if (prefName.endsWith('Volume')) messageId = 'options_badgevolume';
         if (prefName.endsWith('Offset')) messageId = 'options_badgetimeoffset';
+        if (prefName == 'badgeCaravan') messageId = 'tab_caravan';
+        if (prefName == 'badgeKitchen') messageId = 'tab_kitchen';
+        if (prefName == 'badgeFoundry') messageId = 'tab_foundry';
         const text = gui.getMessage(messageId);
         const i = text.indexOf('\n');
         const title = i >= 0 ? text.substr(0, i) : text;
@@ -305,6 +308,9 @@ UI_claim_coin_single_slow_02
     option('badgeGcCounter');
     option('badgeGcEnergy');
     option('badgeProductions', WITHSUBOPTIONS);
+    option('badgeCaravan', SUBOPTION);
+    option('badgeKitchen', SUBOPTION);
+    option('badgeFoundry', SUBOPTION);
     optionEffect('badgeProductions');
     option('badgeRepeatables', WITHSUBOPTIONS);
     optionEffect('badgeRepeatables');
