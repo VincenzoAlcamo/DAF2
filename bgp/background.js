@@ -105,6 +105,7 @@ var Preferences = {
             badgeLuckyCardsSound: true,
             badgeLuckyCardsSoundName: 'museum_done',
             badgeLuckyCardsVolume: 100,
+            badgeServerEnergy: false,
             features: '',
             mapDownloadEvent: 'DAF2_maps/$event/$location',
             mapDownloadRegion: 'DAF2_maps/$region/$god/$location',
@@ -1618,6 +1619,9 @@ var Synchronize = {
         Synchronize.offset = Synchronize.time - getUnixTime();
 
         Synchronize.delayedSignals = [];
+
+        const stamina = response && response.global ? response.global.stamina : -1;
+        if (stamina >= 0 && Preferences.getValue('badgeServerEnergy')) Synchronize.signal('serverEnergy', { energy: Locale.formatNumber(stamina) }, true);
 
         // un_gift
         const changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, Synchronize.time);

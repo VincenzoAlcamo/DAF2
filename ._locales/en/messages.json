@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Badges"
     },
+    "options_badgeserverenergy": {
+        "message": "Server energy\nShow a badge with the energy reported by the server.\nThis information is refreshed periodically when the game state is synchronized to the server."
+    },
     "options_badgegccounter": {
         "message": "GC Counter\nShow a badge with the remaining number of GC to collect"
     },

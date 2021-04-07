@@ -305,6 +305,7 @@ UI_claim_coin_single_slow_02
     option('autoGC');
     endSection();
     beginSection('badges');
+    option('badgeServerEnergy');
     option('badgeGcCounter');
     option('badgeGcEnergy');
     option('badgeProductions', WITHSUBOPTIONS);

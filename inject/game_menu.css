@@ -228,6 +228,19 @@
   padding: 0px 5px 0 22px;
 }
 
+.DAF-badges .DAF-badge-energy,
+.DAF-badges .DAF-badge-gc-energy {
+  background-image: url(/img/gui/energy.png);
+  background-color: #0F0;
+  background-size: 22px;
+  background-position: 0px -2px;
+}
+
+.DAF-badges .DAF-badge-energy {
+  background-color: #FFF;
+  color: #A00;
+}
+
 .DAF-badges .DAF-badge-gc-counter {
   background-image: url(/img/gui/gc.png);
   background-color: #0FF;
@@ -274,6 +287,7 @@
   animation: DAF_flash infinite 2s alternate;
 }
 
+.DAF-badges.DAF-badgeserverenergy .DAF-badge-energy.DAF-badge-on,
 .DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
 .DAF-badges.DAF-badgeproductions.DAF-badgecaravan .DAF-badge-p-c.DAF-badge-on,

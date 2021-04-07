@@ -347,6 +347,17 @@ function setBadgeProductions(data) {
     if (flag) playSound(data.sound, data.volume);
 }
 
+function setServerEnergy({ energy }) {
+    const badge = menu && menu.querySelector('.DAF-badge-energy');
+    if (!badge) return;
+    badge.textContent = energy;
+    badge.classList.add('DAF-badge-on');
+    if (!badge.getAttribute('data-set')) {
+        badge.setAttribute('data-set', 1);
+        badge.addEventListener('click', () => badge.classList.remove('DAF-badge-on'));
+    }
+}
+
 let badgeRepContainer, badgeRepCounter1, badgeRepCounter2, badgeRepDivs = {};
 function setBadgeRep({ list, sound, volume }) {
     list = Array.isArray(list) ? list : [];
@@ -456,8 +467,13 @@ function search() {
 
 function createMenu() {
     const gm = (id) => htmlEncodeBr(getMessage(id));
-    const gm1 = (id) => htmlEncodeBr(getMessage(id).split('\n')[0]);
-    const gmSound = htmlEncode(getMessage('options_badgesound').split('\n')[1]);
+    const gmt = (id) => htmlEncode(getMessage(id));
+    const gm0 = (id) => htmlEncode(getMessage(id).split('\n')[0]);
+    const getMessage1 = (id) => {
+        const t = getMessage(id), i = t.indexOf('\n');
+        return t.substr(i + 1);
+    };
+    const gmSound = htmlEncode(getMessage1('options_badgesound'));
     let html = `
 <ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
 <li data-action="about"><b>&nbsp;</b>
@@ -467,8 +483,8 @@ function createMenu() {
     <div><span>${gm('gui_search')}</span><input type="text">
     <br><table style="display:none">
     <thead><tr><td colspan="2">${gm('gui_neighbour')}</td>
-    <td><img src="${chrome.runtime.getURL('/img/gui/map.png')}" title="${gm('gui_region')}" height="20"></td>
-    <td><img src="${chrome.runtime.getURL('/img/gui/level.png')}" title="${gm('gui_level')}" height="20"></td></tr></thead>
+    <td><img src="${chrome.runtime.getURL('/img/gui/map.png')}" title="${gmt('gui_region')}" height="20"></td>
+    <td><img src="${chrome.runtime.getURL('/img/gui/level.png')}" title="${gmt('gui_level')}" height="20"></td></tr></thead>
     <tbody></tbody>
     <tfoot><tr><th colspan="4"></th></tr></tfoot>
     </table>
@@ -492,28 +508,29 @@ function createMenu() {
         <i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
         <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
         <br>
-        <i data-pref="autoGC">${gm1('options_autogc')}</i>
+        <i data-pref="autoGC">${gm0('options_autogc')}</i>
         <br>
-        <i data-pref="noGCPopup">${gm1('options_nogcpopup')}</i>
+        <i data-pref="noGCPopup">${gm0('options_nogcpopup')}</i>
     </div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
     <div>
         <span>${gm('options_section_badges')}</span><br>
-        <i data-pref="badgeGcCounter">${gm1('options_badgegccounter')}</i>
-        <i data-pref="badgeGcEnergy">${gm1('options_badgegcenergy')}</i>
+        <i data-pref="badgeServerEnergy">${gm0('options_badgeserverenergy')}</i>
+        <i data-pref="badgeGcCounter">${gm0('options_badgegccounter')}</i>
+        <i data-pref="badgeGcEnergy">${gm0('options_badgegcenergy')}</i>
         <br>
-        <i data-pref="badgeProductions" class="squared-right">${gm1('options_badgeproductions')}</i>
-        <i data-pref="badgeCaravan" title="" class="squared-right squared-left hue2">${gm1('tab_caravan')}</i>
-        <i data-pref="badgeKitchen" title="" class="squared-right squared-left hue2">${gm1('tab_kitchen')}</i>
-        <i data-pref="badgeFoundry" title="" class="squared-right squared-left hue2">${gm1('tab_foundry')}</i>
-        <i data-pref="badgeProductionsSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
+        <i data-pref="badgeProductions" class="squared-right">${gm0('options_badgeproductions')}</i>
+        <i data-pref="badgeCaravan" title="" class="squared-right squared-left hue2">${gm0('tab_caravan')}</i>
+        <i data-pref="badgeKitchen" title="" class="squared-right squared-left hue2">${gm0('tab_kitchen')}</i>
+        <i data-pref="badgeFoundry" title="" class="squared-right squared-left hue2">${gm0('tab_foundry')}</i>
+        <i data-pref="badgeProductionsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
         <br>
-        <i data-pref="badgeRepeatables" class="squared-right">${gm1('options_badgerepeatables')}</i>
-        <i data-pref="badgeRepeatablesSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
+        <i data-pref="badgeRepeatables" class="squared-right">${gm0('options_badgerepeatables')}</i>
+        <i data-pref="badgeRepeatablesSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
         <br>
-        <i data-pref="badgeLuckyCards" class="squared-right">${gm1('options_badgeluckycards')}</i>
-        <i data-pref="badgeLuckyCardsSound" class="squared-left hue" title="${gmSound}">${gm1('options_badgesound')}</i>
+        <i data-pref="badgeLuckyCards" class="squared-right">${gm0('options_badgeluckycards')}</i>
+        <i data-pref="badgeLuckyCardsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -525,12 +542,13 @@ function createMenu() {
 </li>
 </ul>
 <div class="DAF-badges">
+    <b class="DAF-badge-energy DAF-badge-img"></b>
     <b class="DAF-badge-gc-counter DAF-badge-img"></b>
     <b class="DAF-badge-gc-energy DAF-badge-img"></b>
     <b class="DAF-badge-p-c DAF-badge-img" title="${gm('tab_caravan')}">0</b>
     <b class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
     <b class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
-    <b class="DAF-badge-luckycards DAF-badge-img" title="${htmlEncode(getMessage('options_badgeluckycards').split('\n')[0])}"></b>
+    <b class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
     <div class="DAF-badge-rep"></div>
 </div>
 `;
@@ -547,7 +565,7 @@ function createMenu() {
     document.body.appendChild(menu);
     for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
         const prefName = el.getAttribute('data-pref');
-        if (!el.hasAttribute('title')) el.title = getMessage('options_' + prefName.toLowerCase()).split('\n')[1];
+        if (!el.hasAttribute('title')) el.title = getMessage1('options_' + prefName.toLowerCase());
     }
     searchInput = menu.querySelector('[data-action="search"] input');
     searchInput.addEventListener('input', search);
@@ -708,7 +726,7 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-    addPrefs('badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
+    addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;
@@ -805,6 +823,7 @@ function init() {
             msgHandlers['repeatables'] = (request) => setBadgeRep(request.data);
             msgHandlers['luckycards'] = (request) => setBadgeLucky(request.data);
             msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
+            msgHandlers['serverEnergy'] = (request) => setServerEnergy(request.data);
         }
         window.addEventListener('resize', onResize);
         if (miner) sendMinerPosition();
