@@ -27,6 +27,7 @@ const kinds = {
     events_shelf2: { type: 'events', event: 'def_id', asset: 'shelf_graphics', folder: 'map/webgl_events/' },
     events_shop: { type: 'events', event: 'def_id', asset: 'shop_icon_graphics' },
     journals: { name: 'pic_title' },
+    infos: {},
     map_filters: { folder: 'map/webgl_filters/' },
     map_filters2: { type: 'map_filters', asset: 'mobile_map_asset', folder: 'map/' },
     materials: { event: 'event_id' },
@@ -131,28 +132,31 @@ async function refresh() {
         const $name = kind.name || 'name_loc';
         const $asset = kind.asset || 'mobile_asset';
         const $event = kind.event;
-        let prog = 0;
-        for (const [id, item] of Object.entries(data)) {
-            if (type == 'tiles') {
+        if (type == 'infos') {
+            for (const item of Object.values(data)) {
+                const id = item.pic, asset = id && ('news_item_' + id);
+                if (!id || asset in hashes) continue;
+                const url = cdn_root + 'mobile/img/news/' + encodeURIComponent(asset) + '.png' + versionParameter;
+                allItems[id] = { id, name: item.name, title: item.desc, eid: 0, url };
+            }
+        } else if (type == 'tiles') {
+            for (const item of Object.values(data)) {
                 item.subtypes && item.subtypes.forEach(sub => {
-                    const asset = sub[$asset];
+                    const id = sub.sub_id, asset = sub[$asset];
                     if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) return;
                     hashes[asset] = true;
                     const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
-                    prog++;
-                    allItems[prog] = { id: prog, url };
+                    allItems[id] = { id, url };
                 });
-                continue;
             }
-            const asset = item[$asset];
-            if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) continue;
-            hashes[asset] = true;
-            const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
-
-            const name = item[$name] && gui.getString(item[$name]);
-            const title = item.desc;
-            const eid = $event ? +item[$event] : 0;
-            allItems[id] = { id, name, title, eid, url };
+        } else {
+            for (const [id, item] of Object.entries(data)) {
+                const asset = item[$asset];
+                if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) continue;
+                hashes[asset] = true;
+                const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
+                allItems[id] = { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0, url };
+            }
         }
     }
 
