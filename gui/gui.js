@@ -760,6 +760,12 @@ const gui = {
         document.execCommand('copy', false, null);
         document.removeEventListener('copy', oncopy);
     },
+    addOption: function (select, value, text) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.innerText = text;
+        select.appendChild(option);
+    },
     fileChooser: null,
     chooseFile: function (callback, accept) {
         if (!gui.fileChooser) {

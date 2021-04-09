@@ -15,7 +15,7 @@ export default {
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'xp']
 };
 
-let tab, container, selectShow, selectDays, searchInput, smartTable, searchHandler, palRows, palGifts, isAdmin;
+let tab, container, selectShow, selectDays, selectRegion, searchInput, smartTable, searchHandler, palRows, palGifts, isAdmin;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '', filterExp = 0;
 let showId = false;
@@ -29,7 +29,7 @@ function init() {
     selectShow.addEventListener('change', refresh);
 
     let htm = Html.br(gui.getMessage('neighbors_gifts'));
-    htm = String(htm).replace('@DAYS@', getSelectDays(0));
+    htm = String(htm).replace('@DAYS@', '<br>' + getSelectDays(0));
     Dialog.htmlToDOM(container.querySelector('.toolbar .days'), htm);
     selectDays = container.querySelector('[name=days]');
     selectDays.addEventListener('change', refresh);
@@ -47,6 +47,9 @@ function init() {
         if (action in handlers) handlers[action](event);
     };
     for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
+
+    selectRegion = container.querySelector('[name=region]');
+    selectRegion.addEventListener('change', refresh);
 
     smartTable = new SmartTable(container.querySelector('.data'));
     smartTable.onSort = refresh;
@@ -82,6 +85,7 @@ function getState() {
     const state = {
         show: selectShow.value,
         days: selectDays.value,
+        region: selectRegion.options.length ? selectRegion.value : selectRegion.getAttribute('data-value'),
         search: searchInput.value,
         gift: filterGifts,
         exp: filterExp || undefined,
@@ -93,6 +97,8 @@ function getState() {
 }
 
 function setState(state) {
+    if (selectRegion.options.length) state.region = gui.setSelectState(selectRegion, state.region || '');
+    selectRegion.setAttribute('data-value', state.region);
     const s = String(state.show || '').toLowerCase();
     if (s.length > 6 && s.startsWith('nogift')) {
         const n = +(s.substr(6)) || 0;
@@ -119,7 +125,7 @@ function updateButton() {
     const filterExpression = getFilterExpression();
     const isActive = filterGifts != '' || filterExpression != '';
     const button = container.querySelector('.toolbar button[data-action="advanced"]');
-    button.textContent = gui.getMessage('gui_advancedfilter') + ': ' + gui.getMessage(isActive ? 'menu_on' : 'menu_off');
+    button.textContent = gui.getMessage(isActive ? 'menu_on' : 'menu_off');
     button.classList.toggle('activated', isActive);
 }
 
@@ -418,6 +424,11 @@ function update() {
         giftValues[gift.def_id] = value * +gift.amount;
     }
     gui.updateNeighborFriendNames(true);
+
+    Dialog.htmlToDOM(selectRegion, '');
+    gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
+    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+
     refresh();
 }
 
@@ -640,7 +651,9 @@ function refreshDelayed() {
     const calculator = getCalculator(filterExpression, getCalculatorValueFunctions);
     const friendNames = {};
     for (const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();
+    const rid = selectRegion.value;
     for (const pal of neighbors) {
+        if (rid != 0 && pal.region != rid) continue;
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
         if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
         if (show == 'unknownblocks' && pal.extra.blocks !== undefined) continue;
