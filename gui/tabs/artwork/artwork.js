@@ -52,12 +52,7 @@ function init() {
         setState(getState());
         refresh();
     });
-    Object.keys(kinds).forEach(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.innerText = type.toUpperCase().replace(/[_]/g, ' ');
-        selectShow.appendChild(option);
-    });
+    Object.keys(kinds).forEach(type => gui.addOption(selectShow, type, type.toUpperCase().replace(/[_]/g, ' ')));
 
     selectEvent = container.querySelector('[name=event]');
     selectEvent.addEventListener('change', refresh);
@@ -103,9 +98,6 @@ function update() {
     let lastYearText = '';
     Dialog.htmlToDOM(selectEvent, `<option value="0">${gui.getMessage('gui_all')}</option>`);
     for (const event of allEvents) {
-        const option = document.createElement('option');
-        option.value = '' + event.id;
-        option.innerText = gui.getObjectName('event', event.id);
         const yearText = Locale.formatYear(event.year);
         if (!optGroup || lastYearText != yearText) {
             lastYearText = yearText;
@@ -113,7 +105,7 @@ function update() {
             optGroup.label = gui.getMessageAndValue('events_year', yearText);
             selectEvent.appendChild(optGroup);
         }
-        optGroup.appendChild(option);
+        gui.addOption(optGroup, '' + event.id, gui.getObjectName('event', event.id));
     }
 
     setTimeout(refresh, 100);

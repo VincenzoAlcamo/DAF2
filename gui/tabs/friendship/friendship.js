@@ -51,11 +51,7 @@ function init() {
     friendDisabled = Html`<div class="f-disabled">${gui.getMessage('friendship_accountdisabled')}</div>`;
 
     selectShow = container.querySelector('[name=show]');
-    for (const char of 'admghifuns'.split('')) {
-        const option = document.createElement('option');
-        option.value = char;
-        selectShow.appendChild(option);
-    }
+    for (const char of 'admghifuns'.split('')) gui.addOption(selectShow, char, '');
     selectShow.addEventListener('change', refresh);
 
     searchInput = container.querySelector('[name=search]');

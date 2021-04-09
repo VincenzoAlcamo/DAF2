@@ -41,12 +41,7 @@ function ringLoot(kind) {
         if (selectRegion) {
             selectRegion.addEventListener('change', onInput);
             Dialog.htmlToDOM(selectRegion, '');
-            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
-                const option = document.createElement('option');
-                option.value = '' + rid;
-                option.innerText = gui.getObjectName('region', rid);
-                selectRegion.appendChild(option);
-            }
+            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
         }
 
         checkMinMax = container.querySelector('[name=minmax]');

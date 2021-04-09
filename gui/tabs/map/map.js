@@ -600,12 +600,7 @@ function update() {
 
     const state = getState();
     Dialog.htmlToDOM(selectRegion, '');
-    for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
-        const option = document.createElement('option');
-        option.value = rid ? '' + rid : '';
-        option.innerText = rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress');
-        selectRegion.appendChild(option);
-    }
+    for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, rid ? '' + rid : '', rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress'));
     setState(state);
     updateTableFlags();
 }

@@ -117,13 +117,6 @@ function byEvent(list) {
     return hash;
 }
 
-function addOption(select, value, text) {
-    const option = document.createElement('option');
-    option.value = value;
-    option.innerText = text;
-    select.appendChild(option);
-}
-
 function update() {
     ({ cdn_root, versionParameter } = gui.getGenerator());
     swDoubleDrop = gui.getActiveSpecialWeeks().doubleDrop;
@@ -271,13 +264,13 @@ function update() {
     }
 
     Dialog.htmlToDOM(selectYear, '');
-    addOption(selectYear, '', '');
+    gui.addOption(selectYear, '', '');
     let lastYear = null;
     const items = Object.values(allEvents).sort((a, b) => b.year - a.year);
     for (const item of items) {
         if (item.year && item.yeartxt !== lastYear) {
             lastYear = item.yeartxt;
-            addOption(selectYear, lastYear, lastYear);
+            gui.addOption(selectYear, lastYear, lastYear);
         }
     }
 
@@ -602,14 +595,14 @@ function showInfo() {
     if (isSegmented) yourRegion = item.status == 'notdone' ? Math.min(+generator.region, item.maxsegment) : item.segmented || 1;
     let text = isSegmented ? gui.getMessageAndValue('events_yourprogress', gui.getObjectName('region', yourRegion)) : gui.getMessage('events_yourprogress');
     if (item.status == 'notdone') text += ' (' + gui.getMessage('events_notdone') + ')';
-    addOption(selectRegion, '', text);
+    gui.addOption(selectRegion, '', text);
     // List regions
     if (isSegmented) {
         region = Math.min(region, item.maxsegment);
-        for (let rid = 1; rid <= item.maxsegment; rid++) addOption(selectRegion, rid, gui.getObjectName('region', rid));
+        for (let rid = 1; rid <= item.maxsegment; rid++) gui.addOption(selectRegion, rid, gui.getObjectName('region', rid));
     } else {
         region = Math.min(region, 1);
-        addOption(selectRegion, Math.max(selectedRegion, 1), gui.getMessage('events_notsegmented'));
+        gui.addOption(selectRegion, Math.max(selectedRegion, 1), gui.getMessage('events_notsegmented'));
     }
     selectRegion.value = selectedRegion || '';
     region = region || yourRegion;

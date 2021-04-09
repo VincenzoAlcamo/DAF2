@@ -278,9 +278,6 @@ function update() {
     let lastYearText = '';
     Dialog.htmlToDOM(selectEvent, '');
     for (const event of arrEvents) {
-        const option = document.createElement('option');
-        option.value = '' + event.id;
-        option.innerText = gui.getObjectName('event', event.id);
         const yearText = Locale.formatYear(event.year);
         if (!optGroup || lastYearText != yearText) {
             lastYearText = yearText;
@@ -288,23 +285,15 @@ function update() {
             optGroup.label = gui.getMessageAndValue('events_year', yearText);
             selectEvent.appendChild(optGroup);
         }
-        optGroup.appendChild(option);
+        gui.addOption(optGroup, '' + event.id, gui.getObjectName('event', event.id));
     }
 
     Dialog.htmlToDOM(selectRegion, '');
-    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) {
-        const option = document.createElement('option');
-        option.value = '' + rid;
-        option.innerText = gui.getObjectName('region', rid);
-        selectRegion.appendChild(option);
-    }
+    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
 
     Dialog.htmlToDOM(selectTheme, '');
     for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending)) {
-        const option = document.createElement('option');
-        option.value = '' + skin;
-        option.innerText = gui.getObjectName('skin', skin);
-        selectTheme.appendChild(option);
+        gui.addOption(selectTheme, '' + skin, gui.getObjectName('skin', skin));
     }
 
     setState(state);
