@@ -152,7 +152,7 @@ function showCollectDialog() {
     const numUnmatched = getUnmatched().length;
 
     function addStandardSettings() {
-        let extra = Html.br`<br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
+        let extra = Html.br`<span style="display:none"><br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
         <select id="f_cc" name="confirmCollection">
         <option value="0" ${!confirmCollection ? 'selected' : ''}>${gui.getMessage('friendship_cc_maybe')}</option>
         <option value="1" ${confirmCollection ? 'selected' : ''}>${gui.getMessage('dialog_yes')}</option>
@@ -164,7 +164,7 @@ function showCollectDialog() {
             const i = 2 ** p;
             extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
         }
-        extra += `</select>
+        extra += `</select></span>
         <br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
         <option value="0" ${fbFriendsPage != 1 && fbFriendsPage != 2 ? 'selected' : ''}>A = ${getFbFriendsPageUrl('0')}</option>
@@ -387,8 +387,8 @@ function collectFriends(method) {
                         addVar('language', gui.getPreference('language'));
                         addVar('unmatched', unmatched);
                         addVar('collectMethod', method);
-                        addVar('confirmCollection', getConfirmCollection());
-                        addVar('speedupCollection', getSpeedupCollection());
+                        addVar('confirmCollection', 1 /*getConfirmCollection()*/);
+                        addVar('speedupCollection', 0 /*getSpeedupCollection()*/);
                         details.code = code + 'collect();';
                         chrome.tabs.executeScript(tabId, details, function () {
                             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
