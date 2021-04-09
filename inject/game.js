@@ -276,12 +276,13 @@ function setBadge({ selector, text, title, active }) {
 
 let lastAudio;
 function playSound(sound, volume = 100) {
-    if (sound && volume) {
-        if (lastAudio) try { lastAudio.pause(); } catch (e) { }
-        lastAudio = new Audio(sound);
-        lastAudio.volume = +volume / 100;
-        lastAudio.play().then(_ => 0).finally(_ => lastAudio = 0);
-    }
+    if (!sound || !volume) return;
+    volume = +volume / 100;
+    if (lastAudio && !lastAudio.ended && lastAudio.src == sound) return lastAudio.volume = volume;
+    if (lastAudio) try { lastAudio.pause(); } catch (e) { }
+    lastAudio = new Audio(sound);
+    lastAudio.volume = volume;
+    lastAudio.play().then(_ => 0).finally(_ => lastAudio = null);
 }
 
 let badgeLuckyCards, badgeLuckyCardsNext, badgeLuckyCardsHandler;
