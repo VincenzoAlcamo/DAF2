@@ -4,7 +4,7 @@ export default kitchenFoundry;
 const TICKET_ID = 347;
 
 function kitchenFoundry(type) {
-    let tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom, selectDPW;
+    let tab, container, productions, smartTable, oldState, searchHandler, searchInput, selectShow, selectFrom, selectDPW, selectRegion;
     let swDoubleProduction, swHalfTimeProduction;
 
     let productionType;
@@ -45,6 +45,8 @@ function kitchenFoundry(type) {
         selectDPW.addEventListener('change', refresh);
         searchInput = container.querySelector('[name=search]');
         searchInput.addEventListener('input', () => triggerSearchHandler(true));
+        selectRegion = container.querySelector('[name=region]');
+        if (selectRegion) selectRegion.addEventListener('change', refresh);
 
         smartTable = new SmartTable(container.querySelector('.data'));
         smartTable.onSort = refresh;
@@ -56,6 +58,7 @@ function kitchenFoundry(type) {
         return {
             show: selectShow.value,
             from: selectFrom.style.display == 'none' ? '' : selectFrom.value,
+            region: selectRegion && (selectRegion.options.length ? selectRegion.value : selectRegion.getAttribute('data-value')),
             dpw: selectDPW.value,
             search: searchInput.value,
             sort: gui.getSortState(smartTable, 'name', 'ingredient')
@@ -63,6 +66,10 @@ function kitchenFoundry(type) {
     }
 
     function setState(state) {
+        if (selectRegion) {
+            if (selectRegion.options.length) state.region = gui.setSelectState(selectRegion, state.region || '');
+            selectRegion.setAttribute('data-value', state.region);
+        }
         searchInput.value = state.search || '';
         selectShow.value = state.show == 'possible' ? state.show : '';
         selectFrom.value = state.from == 'region' || state.from == 'event' ? state.from : '';
@@ -93,6 +100,11 @@ function kitchenFoundry(type) {
         for (const el of Array.from(container.querySelectorAll('[sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
+        const state = getState();
+        Dialog.htmlToDOM(selectRegion, '');
+        gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
+        for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+        setState(state);
         oldState = {};
         refresh();
     }
@@ -219,8 +231,12 @@ function kitchenFoundry(type) {
             if (!r || (item.region > r && item.region <= region)) r = item.region;
             hash[item.gname] = r;
         }
-        // Get only the max region for each distinct name
-        result = result.filter(item => item.region == hash[item.gname]);
+        if (type == 'caravan') {
+            result.forEach(item => item.current = item.region == hash[item.gname]);
+        } else {
+            // Get only the max region for each distinct name
+            result = result.filter(item => item.region == hash[item.gname]);
+        }
         return result;
     }
 
@@ -343,7 +359,9 @@ function kitchenFoundry(type) {
         if (productions[0] && !productions[0].rows) flagRecreate = true;
         if (flagRecreate) for (const p of productions) delete p.rows;
 
+        const rid = selectRegion ? +selectRegion.value : 0;
         function isVisible(p) {
+            if (rid != 0 && p.region != rid) return false;
             if (state.show == 'possible' && (p.output == 0 || p.locked)) return false;
             if (state.from == 'region' && p.eid > 0) return false;
             if (state.from == 'event' && p.eid == 0) return false;

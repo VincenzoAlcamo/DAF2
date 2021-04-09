@@ -82,6 +82,7 @@ function getFilterExpression() {
 }
 
 function getState() {
+    console.log('GET', selectRegion.options.length, selectRegion.value, selectRegion.getAttribute('data-value'));
     const state = {
         show: selectShow.value,
         days: selectDays.value,
@@ -97,6 +98,7 @@ function getState() {
 }
 
 function setState(state) {
+    console.log('SET', selectRegion.options.length, state.region);
     if (selectRegion.options.length) state.region = gui.setSelectState(selectRegion, state.region || '');
     selectRegion.setAttribute('data-value', state.region);
     const s = String(state.show || '').toLowerCase();
@@ -425,9 +427,11 @@ function update() {
     }
     gui.updateNeighborFriendNames(true);
 
+    const state = getState();
     Dialog.htmlToDOM(selectRegion, '');
     gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
     for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+    setState(state);
 
     refresh();
 }
@@ -651,7 +655,7 @@ function refreshDelayed() {
     const calculator = getCalculator(filterExpression, getCalculatorValueFunctions);
     const friendNames = {};
     for (const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();
-    const rid = selectRegion.value;
+    const rid = +selectRegion.value;
     for (const pal of neighbors) {
         if (rid != 0 && pal.region != rid) continue;
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
