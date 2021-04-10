@@ -1,5 +1,6 @@
 .DAF-dialog {
   font-size: 12pt;
+  cursor: default;
 }
 
 .DAF-dialog * {
@@ -209,7 +210,7 @@
   content: " ["attr(timer) "]";
 }
 
-.DAF-dialog .DAF-md-title button[value="close"] {
+.DAF-dialog .DAF-md-title button {
   position: absolute;
   width: 28px;
   height: 28px;
@@ -226,9 +227,41 @@
   overflow: hidden;
 }
 
-.DAF-md-title.empty button[value="close"] {
+.DAF-md-title.empty button {
   transform: scale(0.5);
   transform-origin: top right;
+}
+
+.DAF-md-title button[value="close"]:before {
+  content: "\00d7";
+}
+
+.DAF-md-title button[value="hide"]:before {
+  content: "\2227";
+  font-size: 28px;
+  vertical-align: top;
+}
+
+.DAF-md-wait .DAF-md-title button[value="hide"] {
+  transform: scale(0.8);
+  transform-origin: top right;
+}
+
+.DAF-dialog.DAF-md-hidden .DAF-md-title button[value="hide"]:before {
+  content: "\2228";
+}
+
+.DAF-dialog.DAF-md-hidden {
+  align-items: start;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.DAF-dialog.DAF-md-hidden .DAF-md-box {
+  margin: 0 auto;
+}
+
+.DAF-dialog.DAF-md-hidden.DAF-md-show.DAF-md-superscale .DAF-md-content {
+  transform: scale(0.8);
 }
 
 .DAF-md-title.empty>div {

@@ -25,6 +25,7 @@ Object.assign(Dialog, {
     NO: 'no',
     CANCEL: 'cancel',
     CLOSE: 'close',
+    HIDE: 'hide',
     AUTORUN: 'autorun',
     htmlEncodeBr: function (text) {
         return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
@@ -94,7 +95,7 @@ Object.assign(Dialog.prototype, {
             // We stopped using a CSS transform (that blurs the text)
             const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
             Dialog.htmlToDOM(this.element, `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
-            <div class="DAF-md-title"><button title="${Dialog.getMessage('dialog_close')}" value="${Dialog.CLOSE}">&times;</button><div></div></div><div class="DAF-md-body"></div>
+            <div class="DAF-md-title"><button title="${Dialog.getMessage('dialog_close')}" value="${Dialog.CLOSE}"></button><button value="${Dialog.HIDE}"></button><div></div></div><div class="DAF-md-body"></div>
             <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div>`);
             this.form = this.element.getElementsByTagName('form')[0];
             document.body.appendChild(this.element);
@@ -108,7 +109,7 @@ Object.assign(Dialog.prototype, {
         const o = Object.assign({}, this.defaults, options);
         if (this.mode === Dialog.WAIT) {
             o.title = Dialog.getMessage('dialog_pleasewait');
-            o.style = [Dialog.CRITICAL];
+            o.style = [Dialog.CRITICAL, Dialog.HIDE];
             o.cancelable = false;
         }
         this.cancelable = 'cancelable' in o ? !!o.cancelable : true;
@@ -214,6 +215,10 @@ Object.assign(Dialog.prototype, {
                 input.addEventListener(eventName, function (event) {
                     event.stopPropagation();
                     event.preventDefault();
+                    if (method == Dialog.HIDE) {
+                        dialog.element.classList.toggle('DAF-md-hidden');
+                        return;
+                    }
                     dialog.runCallback(method, input, isInput);
                 });
             }
