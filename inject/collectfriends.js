@@ -65,9 +65,6 @@ function interceptData() {
     script.type = 'text/javascript';
     script.appendChild(document.createTextNode(code));
     document.head.prepend(script);
-    document.addEventListener('daf_xhr', function (event) {
-        chrome.runtime.sendMessage({ action: 'daf_xhr', detail: event.detail });
-    });
 }
 
 function getCountPhotos() {
