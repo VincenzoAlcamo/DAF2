@@ -304,6 +304,14 @@ html.dark .camp .item.building.img {
   margin: 2px auto 0px;
 }
 
+.tab_camp .toolbar .setupmode {
+  background-color: #0002;
+  border-radius: 8px;
+  display: inline-block;
+  padding-bottom: 2px;
+  border: 1px solid #0004;
+}
+
 .camp-container {
   display: inline-block;
 }

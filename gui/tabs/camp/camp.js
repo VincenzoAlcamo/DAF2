@@ -15,7 +15,7 @@ export default {
 
 const NUM_SLOTS = 24;
 
-let tab, container, checkDay, checkNight, checkExtra, checkNeighbor, checkSetup, inputRegen;
+let tab, container, checkDay, checkNight, checkExtra, checkNeighbor, checkSetup, selectRegen;
 let regBuildings, capBuildings, campNames;
 let swFindThePair, buttonFindThePair;
 
@@ -45,8 +45,11 @@ function init() {
     checkSetup = container.querySelector('[name=setup]');
     [checkDay, checkNight, checkExtra, checkNeighbor, checkSetup].forEach(input => input.addEventListener('click', toggleFlags));
 
-    inputRegen = container.querySelector('[name=regen]');
-    inputRegen.addEventListener('change', rebuildSetup);
+    selectRegen = container.querySelector('[name=regen]');
+    selectRegen.addEventListener('change', rebuildSetup);
+    Dialog.htmlToDOM(selectRegen, '');
+    for (let i = 144; i >= 0; i--) gui.addOption(selectRegen, i, i);
+    selectRegen.parentNode.querySelector('span').textContent = `${gui.getMessage('camp_regen')} \u2192 ${gui.getMessage('camp_fill_time')}`;
 
     buttonFindThePair = container.querySelector('.toolbar button[data-action="playboard"]');
     buttonFindThePair.textContent = gui.getString('GUI3326');
@@ -107,6 +110,8 @@ function update() {
     regBuildings.sort(fnSort);
     capBuildings.sort(fnSort);
     divWeeks.style.display = htm.length ? '' : 'none';
+
+    rebuildSetupFillTime();
 }
 
 function actionVisitCamp() {
@@ -121,7 +126,7 @@ function markToBeRendered(div) {
 function getState() {
     const getCheck = (id, c) => document.getElementById(id).checked ? c : '';
     const hide = [checkDay, checkNight, checkExtra, checkNeighbor, checkSetup].filter(check => !check.checked).map(check => check.name).join(',');
-    return { hide, regen: inputRegen.value, h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('') };
+    return { hide, regen: selectRegen.value, h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('') };
 }
 
 function getSetupRegen(state) {
@@ -143,7 +148,7 @@ function setState(state) {
         if (state.show == 'night') hide.push('day');
     }
     [checkDay, checkNight, checkExtra, checkNeighbor, checkSetup].forEach(input => input.checked = !hide.includes(input.name));
-    inputRegen.value = getSetupRegen(state);
+    selectRegen.value = getSetupRegen(state);
     container.querySelector('.camp-neighbor').style.display = checkNeighbor.checked ? '' : 'none';
     const campPlayer = container.querySelector('.camp-player');
     campPlayer.classList.toggle('no-addons', !checkExtra.checked);
@@ -155,6 +160,21 @@ function setState(state) {
 function toggleFlags() {
     gui.updateTabState(tab);
     setState(getState());
+}
+
+function rebuildSetupFillTime() {
+    const generator = gui.getGenerator();
+    const camp = generator.camp;
+    let campResult = calculateCamp(camp, []);
+    Dialog.htmlToDOM(selectRegen, '');
+    for (let i = 144; i >= 0; i--) {
+        campResult = calculateCamp(camp, fillCamp(campResult.lines, i));
+        const fillTime = Math.ceil(campResult.cap_tot / campResult.reg_tot * 3600);
+        const time = fillTime ? gui.getDuration(fillTime, 2) : '';
+        let s = Locale.formatNumber(i);
+        if (s.length < 3) s = '\xa0'.repeat((3 - s.length) * 2) + s;
+        gui.addOption(selectRegen, i, `${s} \u2192 ${time}`);
+    }
 }
 
 function rebuildSetup() {
@@ -172,7 +192,7 @@ function rebuildSetup() {
 
 function onClick(event) {
     if (event.target && event.target.hasAttribute('numreg')) {
-        inputRegen.value = +event.target.getAttribute('numreg');
+        selectRegen.value = +event.target.getAttribute('numreg');
         rebuildSetup();
     }
 }
