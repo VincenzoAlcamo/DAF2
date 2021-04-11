@@ -138,10 +138,12 @@
 }
 
 .neighbors-advanced-table textarea {
+  margin-top: 6px;
   width: 100% !important;
 }
 
 .neighbors-advanced-table .expression-error {
+  margin-top: 6px;
   color: #FD9;
   height: 2.2em;
   white-space: nowrap;

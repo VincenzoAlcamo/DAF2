@@ -15,10 +15,9 @@ export default {
     requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'xp']
 };
 
-let tab, container, selectShow, selectDays, selectRegion, searchInput, smartTable, searchHandler, palRows, palGifts, isAdmin;
+let tab, container, selectShow, selectDays, selectRegion, searchInput, checkId, smartTable, searchHandler, palRows, palGifts;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '', filterExp = 0;
-let showId = false;
 const filterExpressions = ','.repeat(4).split(',');
 
 function init() {
@@ -37,11 +36,14 @@ function init() {
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
+    checkId = container.querySelector('[name=id');
+    checkId.addEventListener('click', refresh);
+
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
     Dialog.htmlToDOM(trGifts, Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`);
 
-    const handlers = { advanced, summary };
+    const handlers = { formula, gifts, summary };
     const onClickButton = (event) => {
         const action = event.target.getAttribute('data-action');
         if (action in handlers) handlers[action](event);
@@ -82,7 +84,6 @@ function getFilterExpression() {
 }
 
 function getState() {
-    console.log('GET', selectRegion.options.length, selectRegion.value, selectRegion.getAttribute('data-value'));
     const state = {
         show: selectShow.value,
         days: selectDays.value,
@@ -90,7 +91,7 @@ function getState() {
         search: searchInput.value,
         gift: filterGifts,
         exp: filterExp || undefined,
-        id: showId,
+        id: checkId.checked && bgp.Data.isAdmin,
         sort: gui.getSortState(smartTable)
     };
     filterExpressions.forEach((value, index) => state['exp' + (index + 1)] = value.trim());
@@ -98,7 +99,6 @@ function getState() {
 }
 
 function setState(state) {
-    console.log('SET', selectRegion.options.length, state.region);
     if (selectRegion.options.length) state.region = gui.setSelectState(selectRegion, state.region || '');
     selectRegion.setAttribute('data-value', state.region);
     const s = String(state.show || '').toLowerCase();
@@ -116,7 +116,7 @@ function setState(state) {
         state.exp1 = state.filter;
         delete state.filter;
     }
-    showId = state.id = state.id && isAdmin;
+    checkId.checed = state.id && bgp.Data.isAdmin;
     filterExp = Math.max(0, Math.min(filterExpressions.length, +state.exp || 0)) || undefined;
     filterExpressions.forEach((value, index) => filterExpressions[index] = String(state['exp' + (index + 1)] || '').trim());
     gui.setSortState(state.sort, smartTable, 'name');
@@ -124,11 +124,8 @@ function setState(state) {
 }
 
 function updateButton() {
-    const filterExpression = getFilterExpression();
-    const isActive = filterGifts != '' || filterExpression != '';
-    const button = container.querySelector('.toolbar button[data-action="advanced"]');
-    button.textContent = gui.getMessage(isActive ? 'menu_on' : 'menu_off');
-    button.classList.toggle('activated', isActive);
+    container.querySelector('.toolbar button[data-action="formula"]').classList.toggle('activated', getFilterExpression() != '');
+    container.querySelector('.toolbar button[data-action="gifts"]').classList.toggle('activated', filterGifts != '');
 }
 
 function onInput(event) {
@@ -144,27 +141,7 @@ function onInput(event) {
     }
 }
 
-function advanced() {
-    const state = getState();
-    const gifts = gui.getFile('gifts');
-    const items = [];
-    for (const gid of Object.keys(uniqueGifts)) {
-        const gift = gifts[gid];
-        const amount = +gift.amount;
-        let name = gui.getObjectName(gift.type, gift.object_id);
-        if (amount > 1) name += ' \xd7 ' + Locale.formatNumber(amount);
-        items.push([+gid, gui.getMessage('neighbors_gift', name, Locale.formatNumber(giftValues[gift.def_id]), weekdayNames[gift.day]), giftValues[gift.def_id], gift.day]);
-    }
-
-    function getGiftListHtml(list, sortBy) {
-        const fn = [(a, b) => a[1].localeCompare(b[1]), (a, b) => a[2] - b[2], (a, b) => a[3] - b[3]][sortBy || 0];
-        items.sort(fn);
-        let htm = '';
-        for (const item of items) {
-            htm += Html`<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
-        }
-        return htm;
-    }
+function formula() {
     filterExp = Math.max(0, Math.min(filterExpressions.length, +filterExp || 0));
     const expressions = [''].concat(filterExpressions);
     let htm = '';
@@ -176,9 +153,10 @@ function advanced() {
         htm += Html`  <span class="neighbors-expression">${String(expressions[index] || '').trim()}</span>`;
         htm += Html.br`</label>`;
     });
+    htm += Html.br`<textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3"></textarea><br><div class="expression-error">`;
     const unknown = Html.raw('\nNaN=this information is unknown');
-    htm += Html.br`<textarea type="text" name="expression" data-method="expression" maxlength="500" rows="3"></textarea>
-<br><div class="expression-error"></div>
+    const dateInfo = Html.raw('\nA date value is the number of seconds elapsed from 1st January 1970');
+    htm += Html.br`</td><td>
 <table class="expression-help"><tr><th colspan="3">${gui.getMessage('calc_operators')}</th></tr>
 <tr><th>${gui.getMessage('calc_arithmetic')}</th><th>${gui.getMessage('calc_comparison')}</th><th>${gui.getMessage('calc_logical')}</th></tr>
 <tr><td>- + * / % ** ^</td><td>= == <> != > >= < <=</td><td>&& and || or ! not</td></tr>
@@ -188,58 +166,38 @@ function advanced() {
 <span title="Returns &quot;trueValue&quot; if &quot;expression&quot; is truthy, otherwise returns &quot;falseValue&quot;">if(expression, trueValue, falseValue)</span>
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_variables')}</th></tr><td colspan="3">
-<span title="The current date and time as the number of seconds from 1st January 1970">now</span>
-<span title="The current date (time is 00:00) as the number of seconds from 1st January 1970">today</span>
+<span title="The current date and time${dateInfo}">now</span>
+<span title="The current date (time is 00:00)${dateInfo}">today</span>
 <span title="The number of seconds in a day (86400)\nThis can be helpful for date comparisons: lastgift > today - 7 * day">day</span>
 <span title="The player's region\n${Html(Array.from(Array(gui.getMaxRegion())).map((_, n) => `${n + 1}=${gui.getObjectName('region', n + 1)}`).join('\n'))}">region</span>
 <span title="The player's level">level</span>
-<span title="The last time that player has leveled up${unknown}">levelup</span>
-<span title="The last time that player has gifted you${unknown}">lastgift</span>
-<span title="If that player is in your custom list\n0=NO\n1=YES">list</span>
+<span title="The last time that player has leveled up${unknown}${dateInfo}">levelup</span>
+<span title="The last time that player has gifted you${unknown}${dateInfo}">lastgift</span>
+<span title="Player is in your custom list\n0=NO\n1=YES">list</span>
 <span title="The number of blocks to clear in the underground camp${unknown}">blocks</span>
-<span title="The time when the first windmills will expire\n0=the camp need windmills${unknown}">wmtime</span>
-<span title="The last time you visited that player's camp${unknown}">visit</span>
-<span title="The time that neighbor has been first registered">recorded</span>
+<span title="The time when the first windmills will expire\n0=the camp need windmills${unknown}${dateInfo}">wmtime</span>
+<span title="The last time you visited that player's camp${unknown}${dateInfo}">visit</span>
+<span title="The time that neighbor has been first registered${dateInfo}">recorded</span>
 <span title="The number of gifts received${unknown}">gifts</span>
 <span title="The gift efficiency (0-100)${unknown}">efficiency</span>
+<span title="The value selected for consider gifting days">giftdays</span>
 <span title="The total gift value${unknown}">value</span>
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_examples')}</th></tr>
-<tr><td colspan="3">
-level>100 and level<150
-<br>
-blocks>20 or (region=1 and level<100)
-</td></tr></table>
-</div>`;
-    htm += Html.br`</td><td>`;
-    const info = Html.raw(String(Html.br(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
-    htm += Html.br`<div class="gift-info">${info}</div>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
-    htm += Html.br`<option value="0">${gui.getMessage('gui_gift')}</option>`;
-    htm += Html.br`<option value="1">${gui.getMessage('gui_xp')}</option>`;
-    htm += Html.br`<option value="2">${gui.getMessage('gui_day')}</option>`;
-    htm += Html.br`</select>`;
-    htm += Html.br` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
-    htm += Html.br`<select name="gifts" data-method="gifts" multiple size="${Math.min(18, items.length)}" style="margin:3px;width:100%">`;
-    htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
-    htm += Html.br`</select>`;
-    htm += Html.br`<label style="margin-top:4px" class="for-admin">Show player's ID <input type="checkbox" name="showid" style="vertical-align:middle"${showId ? ' checked' : ''}></label>`;
+<tr><th>${gui.getMessage('neighbors_inlist')}</th><td colspan="2">list = 1</td></tr>
+<tr><th>${gui.getMessage('neighbors_notinlist')}</th><td colspan="2">list = 0</td></tr>
+<tr><th>${gui.getMessage('neighbors_withblocks')}</th><td colspan="2">blocks &gt; 0</td></tr>
+<tr><th>${gui.getMessage('neighbors_unknownblocks')}</th><td colspan="2">isnan(blocks)</td></tr>
+<tr><th>${gui.getMessage('neighbors_withexpiredwindmills')}</th><td colspan="2">wmtime &lt; now</td></tr>
+<tr><th>${gui.getMessage('neighbors_nogift', 'X')}</th><td colspan="2">lastgift &lt; (now - giftdays * day)</td></tr>
+<tr><td colspan="3">level &gt; 100 and level &lt; 150<br>list = 0 and (region &lt;= 2 or level &lt; 300)</td></tr>
+</table>`;
     htm += Html.br`</td></tr></table>`;
     gui.dialog.show({
-        title: gui.getMessage('gui_advancedfilter'),
+        title: gui.getMessageAndValue('gui_advancedfilter', gui.getMessage('dailyreward_formula')),
         html: htm,
         style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
     }, function (method, params) {
-        const list = gui.getArrayOfInt(params.gifts).sort(gui.sortNumberAscending).join(',');
-        if (method == 'clear' || method == 'gifts' || method == Dialog.AUTORUN) {
-            if (method == 'clear') {
-                for (const option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
-                delete params.gifts;
-            }
-            gui.dialog.element.querySelector('.gift-info').classList.toggle('activated', !!params.gifts);
-        }
-        if (method == 'sort') {
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
-        }
         if (method == 'exp' || method == Dialog.AUTORUN) {
             params.expression = params.exp ? expressions[params.exp] : '';
             const textarea = gui.dialog.element.querySelector('[name=expression]');
@@ -267,10 +225,61 @@ blocks>20 or (region=1 and level<100)
             Dialog.htmlToDOM(gui.dialog.element.querySelector('.expression-error'), htm);
         }
         if (method != Dialog.CONFIRM) return;
-        filterGifts = list;
         filterExp = params.exp;
-        showId = params.showid == 'on';
         filterExpressions.forEach((value, index) => filterExpressions[index] = expressions[index + 1]);
+        refresh();
+    });
+}
+
+function gifts() {
+    const state = getState();
+    const gifts = gui.getFile('gifts');
+    const items = [];
+    for (const gid of Object.keys(uniqueGifts)) {
+        const gift = gifts[gid];
+        const amount = +gift.amount;
+        let name = gui.getObjectName(gift.type, gift.object_id);
+        if (amount > 1) name += ' \xd7 ' + Locale.formatNumber(amount);
+        items.push([+gid, gui.getMessage('neighbors_gift', name, Locale.formatNumber(giftValues[gift.def_id]), weekdayNames[gift.day]), giftValues[gift.def_id], gift.day]);
+    }
+    function getGiftListHtml(list, sortBy) {
+        const fn = [(a, b) => a[1].localeCompare(b[1]), (a, b) => a[2] - b[2], (a, b) => a[3] - b[3]][sortBy || 0];
+        items.sort(fn);
+        let htm = '';
+        for (const item of items) {
+            htm += Html`<option value="${item[0]}" ${list.includes(item[0]) ? 'selected' : ''}>${item[1]}</option>`;
+        }
+        return htm;
+    }
+    let htm = '';
+    const info = Html.raw(String(Html.br(gui.getMessage('neighbors_advancedfilterinfo'))).replace('@DAYS@', getSelectDays(state.days)));
+    htm += Html.br`<div class="gift-info" style="max-width:460px">${info}</div>${gui.getMessage('neighbors_sortby')} <select name="sort" data-method="sort">`;
+    htm += Html.br`<option value="0">${gui.getMessage('gui_gift')}</option>`;
+    htm += Html.br`<option value="1">${gui.getMessage('gui_xp')}</option>`;
+    htm += Html.br`<option value="2">${gui.getMessage('gui_day')}</option>`;
+    htm += Html.br`</select>`;
+    htm += Html.br` <input data-method="clear" type="button" value="${gui.getMessage('neighbors_clearfilter')}"/><br/>`;
+    htm += Html.br`<select name="gifts" data-method="gifts" multiple size="${Math.min(18, items.length)}" style="margin:3px;">`;
+    htm += getGiftListHtml(gui.getArrayOfInt(state.gift));
+    htm += Html.br`</select>`;
+    gui.dialog.show({
+        title: gui.getMessage('gui_advancedfilter'),
+        html: htm,
+        style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN]
+    }, function (method, params) {
+        const list = gui.getArrayOfInt(params.gifts).sort(gui.sortNumberAscending).join(',');
+        if (method == 'clear' || method == 'gifts' || method == Dialog.AUTORUN) {
+            if (method == 'clear') {
+                for (const option of gui.dialog.element.querySelectorAll('[name=gifts] option')) option.selected = false;
+                delete params.gifts;
+            }
+            gui.dialog.element.querySelector('.gift-info').classList.toggle('activated', !!params.gifts);
+        }
+        if (method == 'sort') {
+            Dialog.htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
+        }
+        if (method != Dialog.CONFIRM) return;
+        filterGifts = list;
         selectDays.value = params.days;
         refresh();
     });
@@ -388,7 +397,6 @@ function onClick(e) {
 }
 
 function update() {
-    isAdmin = bgp.Data.isAdmin;
     lastGiftDays = 0;
     palRows = {};
     palDays = {};
@@ -449,7 +457,7 @@ function updateRow(row) {
     htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}" class="tooltip-event"/></a></td>`;
     const fullName = gui.getPlayerNameFull(pal);
     htm += Html.br`<td>`;
-    if (isAdmin) htm += Html.br`<span class="id">#${pal.id}</span>`;
+    if (bgp.Data.isAdmin) htm += Html.br`<span class="id">#${pal.id}</span>`;
     if (friend && friend.name == fullName) {
         htm += Html.br`${anchor}${fullName}</a>`;
     } else {
@@ -535,6 +543,7 @@ function getCalculator(expression, getValueFunctions) {
         calculation.defineConstant('now', gui.getUnixTime());
         calculation.defineConstant('today', Math.floor((new Date()).setHours(0, 0, 0, 0) / 1000));
         calculation.defineConstant('day', 86400);
+        calculation.defineConstant('giftdays', Math.max(7, +getState().days || 0));
         const rpn = calculation.parse(expression);
         calculator.errorCode = calculation.errorCode;
         calculator.errorPos = calculation.errorPos;
@@ -685,7 +694,7 @@ function refreshDelayed() {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });
 
-    container.classList.toggle('show-id', isAdmin && !!state.id);
+    container.classList.toggle('show-id', bgp.Data.isAdmin && !!state.id);
 
     scheduledRefresh = setTimeout(function () {
         items = sort(items);
