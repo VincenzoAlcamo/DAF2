@@ -345,7 +345,7 @@ function setBadgeProductions(data) {
     flag |= setBadgeProduction('.DAF-badge-p-c', data.caravan, prefs.badgeCaravan);
     flag |= setBadgeProduction('.DAF-badge-p-k', data.kitchen, prefs.badgeKitchen);
     flag |= setBadgeProduction('.DAF-badge-p-f', data.foundry, prefs.badgeFoundry);
-    if (flag) playSound(data.sound, data.volume);
+    if (flag && prefs.badgeProductionsSound) playSound(data.sound, data.volume);
 }
 
 function setServerEnergy({ energy }) {
