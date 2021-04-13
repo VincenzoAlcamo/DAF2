@@ -100,11 +100,13 @@ function kitchenFoundry(type) {
         for (const el of Array.from(container.querySelectorAll('[sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
-        const state = getState();
-        Dialog.htmlToDOM(selectRegion, '');
-        gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
-        for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
-        setState(state);
+        if (selectRegion) {
+            const state = getState();
+            Dialog.htmlToDOM(selectRegion, '');
+            gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
+            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+            setState(state);
+        }
         oldState = {};
         refresh();
     }
@@ -162,7 +164,6 @@ function kitchenFoundry(type) {
             else if (cargo.type == 'token') c = tokens[cargo.object_id];
             else if (cargo.type == 'system') c = gui.getObject(cargo.type, cargo.object_id);
             p.cname = (c && c.name_loc && gui.getString(c.name_loc)) || '';
-            p.cdsc = (c && c.desc && gui.getString(c.desc)) || '';
             p.cimg = gui.getObjectImage(cargo.type, cargo.object_id, true);
             p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || NaN;
             p.eid = +item.event_id;
@@ -183,7 +184,7 @@ function kitchenFoundry(type) {
                 const ingredient = {
                     id: matId,
                     img: mat && gui.getObjectImage('material', matId, true),
-                    dsc: (mat && mat.desc && gui.getString(mat.desc)) || '',
+                    dsc: gui.getObjectName('material', matId, hasXp ? 'xp+desc' : 'desc', +req.amount),
                     required: +req.amount,
                     available: generator.materials[matId] || 0,
                     name: gui.getObjectName('material', matId)
@@ -244,12 +245,11 @@ function kitchenFoundry(type) {
         const state = getState();
         const isDPW = state.dpw ? state.dpw === 'yes' : !!swDoubleProduction;
         function getIngredient(ingredient) {
-            return Html.br`<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(gui.getWrappedText(ingredient.dsc))}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
+            return Html.br`<td>${Locale.formatNumber(ingredient.required)}</td><td class="material" style="background-image:url(${ingredient.img})" title="${Html(ingredient.dsc)}">${ingredient.name}</td><td class="right">${Locale.formatNumber(ingredient.available)}</td>`;
         }
         for (const p of productions.filter(p => !p.rows)) {
             const rspan = p.ingredients.length;
-            let title = p.cname;
-            if (p.cdsc) title += '\n' + gui.getWrappedText(p.cdsc);
+            const title = hasQty ? p.cname : gui.getObjectName(p.cargo.type, p.cargo.object_id, 'info+xp+desc');
             let htm = '';
             let img = Html.br`<img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/>`;
             if (p.locked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
@@ -276,7 +276,8 @@ function kitchenFoundry(type) {
                 let qty;
                 if (p.min == p.max) qty = Locale.formatNumber(p.qty);
                 else qty = `${Locale.formatNumber(p.min * factor)} - ${Locale.formatNumber(p.max * factor)}`;
-                htm += Html.br`<td class="material2" rowspan="${rspan}" style="background-image:url(${p.cimg})">${qty}</td>`;
+                const ctitle = gui.getObjectName(p.cargo.type, p.cargo.object_id, 'info+xp+desc', qty);
+                htm += Html.br`<td class="material2" rowspan="${rspan}" style="background-image:url(${p.cimg})" title="${Html(ctitle)}">${qty}</td>`;
             }
             if (hasEnergy) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.energy)}</td>`;

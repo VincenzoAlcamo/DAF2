@@ -151,28 +151,38 @@ const gui = {
     getObject: function (type, id) {
         return bgp.Data.getObject(type, id);
     },
-    getObjectName: function (type, id, options = '') {
+    getObjectName: function (type, id, options = '', qty = 1) {
         let name = bgp.Data.getObjectName(type, id);
         if (options) {
+            const extra = [];
             const obj = gui.getObject(type, id);
             if (obj) {
+                if (type == 'material' && options.includes('xp')) {
+                    const xp = gui.getXp(type, id);
+                    if (xp > 0 && qty > 0) {
+                        const textXp = ((xp == 1 || qty == 1) ? '' : Locale.formatNumber(qty) + ' \xd7 ' + Locale.formatNumber(xp) + ' = ') + Locale.formatNumber(xp * qty);
+                        extra.push(gui.getMessageAndValue('gui_xp', textXp));
+                    }
+                }
                 if (type == 'building' && (options.includes('info') || options.includes('building'))) {
                     name += ` (${+obj.columns} \xd7 ${+obj.rows})`;
-                    if (+obj.stamina_reg > 0) name += '\n' + gui.getMessageAndValue('camp_regen', Locale.formatNumber(+obj.stamina_reg));
-                    if (+obj.max_stamina > 0) name += '\n' + gui.getMessageAndValue('camp_capacity', Locale.formatNumber(+obj.max_stamina));
+                    if (+obj.stamina_reg > 0) extra.push(gui.getMessageAndValue('camp_regen', Locale.formatNumber(+obj.stamina_reg)));
+                    if (+obj.max_stamina > 0) extra.push(gui.getMessageAndValue('camp_capacity', Locale.formatNumber(+obj.max_stamina)));
                 }
                 if (options.includes('event') && +obj.event_id) {
                     const eventName = gui.getObjectName('event', obj.event_id);
-                    if (eventName) name += '\n' + gui.getMessageAndValue('gui_event', eventName);
+                    if (eventName) extra.push(gui.getMessageAndValue('gui_event', eventName));
                 }
                 if (type == 'usable' && (options.includes('info') || options.includes('usable'))) {
-                    if (obj.action == 'add_stamina') name += '\n' + gui.getMessageAndValue('gui_energy', Locale.formatNumber(+obj.value));
+                    if (obj.action == 'add_stamina') extra.push(gui.getMessageAndValue('gui_energy', Locale.formatNumber(+obj.value)));
                 }
                 if (options.includes('desc')) {
                     const desc = bgp.Data.getObjectDesc(type, id);
-                    if (desc) name += '\n' + gui.getWrappedText(desc);
+                    if (desc) extra.push(gui.getWrappedText(desc));
                 }
             }
+            if (!options.includes('-name')) extra.unshift(name);
+            name = extra.join('\n');
         }
         return name;
     },
