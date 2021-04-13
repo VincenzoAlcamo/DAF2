@@ -24,23 +24,6 @@
   text-align: right;
 }
 
-.foundry td.material2,
-.foundry td.material {
-  background-size: 22px 22px;
-  background-repeat: no-repeat;
-}
-
-.foundry td.material {
-  padding-left: 30px;
-  background-position: 4px center;
-  cursor: help;
-}
-
-.foundry td.material2 {
-  background-position: calc(100% - 4px) center;
-  padding-right: 30px;
-}
-
 .foundry tr.odd+tr:not(.odd) td,
 .foundry tr:not(.odd)+tr.odd td {
   border-top-width: 2px;

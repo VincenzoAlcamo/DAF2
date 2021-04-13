@@ -1249,6 +1249,26 @@ td.dot.dot2 {
 
 /*#endregion*/
 
+/*#region PRODUCTIONS*/
+.production td.material,
+.production td.material2 {
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+}
+
+.production td.material {
+  padding-left: 30px;
+  background-position: 4px center;
+  cursor: help;
+}
+
+.production td.material2 {
+  background-position: calc(100% - 4px) center;
+  padding-right: 30px;
+}
+
+/*#endregion*/
+
 table.daf-table td.no_right_border,
 td.no_right_border {
   border-right: none;

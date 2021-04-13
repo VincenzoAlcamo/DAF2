@@ -23,14 +23,6 @@
   text-align: right;
 }
 
-.kitchen td.material {
-  background-size: 22px 22px;
-  background-repeat: no-repeat;
-  padding-left: 30px;
-  background-position: 4px center;
-  cursor: help;
-}
-
 .kitchen tr.odd+tr:not(.odd) td,
 .kitchen tr:not(.odd)+tr.odd td {
   border-top-width: 2px;

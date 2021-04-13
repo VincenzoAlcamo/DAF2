@@ -24,23 +24,6 @@
   text-align: right;
 }
 
-.caravan td.material2,
-.caravan td.material {
-  background-size: 22px 22px;
-  background-repeat: no-repeat;
-}
-
-.caravan td.material {
-  padding-left: 30px;
-  background-position: 4px center;
-  cursor: help;
-}
-
-.caravan td.material2 {
-  background-position: calc(100% - 4px) center;
-  padding-right: 30px;
-}
-
 .caravan tr.odd+tr:not(.odd) td,
 .caravan tr:not(.odd)+tr.odd td {
   border-top-width: 2px;
