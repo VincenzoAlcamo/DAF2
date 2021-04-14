@@ -671,6 +671,9 @@
     "map_button_e": {
         "message": "Afficher les balises"
     },
+    "map_button_c": {
+        "message": "Afficher en couleurs"
+    },
     "map_button_g": {
         "message": "Afficher les informations de débogage"
     },
@@ -2098,6 +2101,9 @@
     "options_section_badges": {
         "message": "Badges"
     },
+    "options_badgeserverenergy": {
+        "message": "Énergie du serveur\nMontrez un badge avec l'énergie rapportée par le serveur.\nCes informations sont actualisées périodiquement lorsque l'état du jeu est synchronisé avec le serveur."
+    },
     "options_badgegccounter": {
         "message": "Comptoir des filleuls\nMontrez un badge avec le nombre restant de filleuls à collecter"
     },
@@ -2109,6 +2115,9 @@
     },
     "options_badgeluckycards": {
         "message": "Cartes de la chance\nMontrez un badge lorsque la tente des cartes de la chance est prête"
+    },
+    "options_badgeproductions": {
+        "message": "Productions\nAfficher un badge lorsqu'un emplacement de production est prêt ou vide"
     },
     "options_badgetimeoffset": {
         "message": "Décalage horaire\nLe badge sera affiché à l'avance par ce nombre de secondes."

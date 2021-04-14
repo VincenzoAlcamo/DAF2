@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Segnalini"
     },
+    "options_badgeserverenergy": {
+        "message": "Energia server\nMostra un segnalino con l'energia riportata dal server.\nQuesta informazione è rinfrescata periodicamente quando lo stato del gioco viene sincronizzato col server."
+    },
     "options_badgegccounter": {
         "message": "Contatore Bimbi\nMostra un segnalino con il numero dei bimbi ancora da raccogliere"
     },

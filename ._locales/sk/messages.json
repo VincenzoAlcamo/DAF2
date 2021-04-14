@@ -887,7 +887,7 @@
         "message": "Zobraziť ako mriežku"
     },
     "pillars_cap": {
-        "message": "Cap to Possible"
+        "message": "Obmedziť na dostupné"
     },
     "neighbors_lastlevelup": {
         "message": "Posledné zvýšenie úrovne"
@@ -1195,7 +1195,7 @@
         "message": "Potvrdiť výsledok načítania?"
     },
     "friendship_cc_maybe": {
-        "message": "If unsure"
+        "message": "Ak si nie je istý"
     },
     "friendship_collecterror": {
         "message": "Niečo sa pokazilo."
@@ -1317,7 +1317,7 @@
         "message": "Pre získanie ďalšieho božieho dieťata musíte pridať len jedného suseda."
     },
     "progress_measure": {
-        "message": "Measure"
+        "message": "Názvu"
     },
     "progress_attained": {
         "message": "Dosiahnuté"
@@ -1528,11 +1528,25 @@
     "rewardlinks_infomaxreached": {
         "message": "Tento odkaz bol prevzatý po dosiahnutí maximálneho denného limitu.\nOdkazy prevzaté tímto spôsobom sú navždy stratené."
     },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Existujú ďaľšie odmeny, ktorých zber čaká.\nMôže to prekročiť Váš denný limit."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Platnosť tohto odkazu pravdepodobne vypršala.\nID odkazov sa generuje postupne a toto ID odmeny je nižšie ako ID odmeny, ktorej platnosť vypršala."
+    },
     "rewardlinks_removelinks": {
         "message": "Odstrániť staré odkazy"
     },
     "rewardlinks_removeselected": {
         "message": "Odstrániť označené"
+    },
+    "rewardlinks_removelinksdays": {
+        "message": "Odstránte odkazy, ktoré nemožno zbierať , staršie ako @DAYS@ dní.\nPatria sem odkazy, ktorých platnosť už skončila, a už zhromaždené odkazy.\nOdkazy staršie ako $NUM$ dní sú pravidelne odstraňované.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "rewardlinks_removenone": {
         "message": "Žiadne odkazy na odstránenie!"
@@ -1555,6 +1569,44 @@
     },
     "rewardlinks_reset": {
         "message": "Reset"
+    },
+    "rewardlinks_resetcount": {
+        "message": "Môžete resetovať informáciu \"Ďalšia zbierka\" a pokračovať v tomto odkaze."
+    },
+    "rewardlinks_resetexpired": {
+        "message": "Môžete resetovať informáciu \"Pravdepodobne vypršala platnosť\" a pokračovať v tomto odkaze."
+    },
+    "rewardlinks_convert": {
+        "message": "Prevod odkazu"
+    },
+    "rewardlinks_noconversion": {
+        "message": "Žiadny prevod"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Skrátenie/Prevod odkazov"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Sem vložte odkazy pre skrátenie/prevod."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Skrátené odkazy sú zobrazené nižšie (duplikáty sú odstránené)."
+    },
+    "rewardlinks_prefix": {
+        "message": "Prefix"
+    },
+    "rewardlinks_newline": {
+        "message": "Pridať nový riadok?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Pridať medzeru"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Všetky odmeny zhromaždené do $NUM$ hodín od poslednej odmeny.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
     },
     "export_export": {
         "message": "Export"
@@ -1644,6 +1696,9 @@
     "equipment_affordable": {
         "message": "Cenovo dostupné"
     },
+    "equipment_useful": {
+        "message": "Použiteľné"
+    },
     "equipment_gain": {
         "message": "Zisk"
     },
@@ -1653,11 +1708,17 @@
     "equipment_free": {
         "message": "ZADARMO"
     },
+    "equipment_hidemax": {
+        "message": "Skryť Max"
+    },
     "equipment_price_info": {
         "message": "Tu uvedená cena neplatí pre túto výbavu, ale za balíček/ponuku, ktorý /á obsahoval /a toto vybavenie."
     },
     "equipment_level_none": {
         "message": "Nezáleží"
+    },
+    "equipment_level_eq": {
+        "message": "Presne"
     },
     "equipment_level_le": {
         "message": "Najviac"
@@ -1679,6 +1740,9 @@
     },
     "equipment_current": {
         "message": "Aktuálne"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Upozorňujeme, ak ste si vo svojej hre v minulosti kúpili špeciálny balíček za túto cenu, nie je možné za túto cenu kúpiť ďaľší balíček.\n\nV tomto prípade je najnižšia dostupná cenová hladina približne 5,5 USD."
     },
     "equipment_slotslower": {
         "message": "Sloty s nižšou spotrebou energie"
@@ -1725,6 +1789,9 @@
     "events_active": {
         "message": "Aktívne"
     },
+    "events_rerelease": {
+        "message": "Kúpené/Zadarmo"
+    },
     "events_complete": {
         "message": "Kompletné"
     },
@@ -1747,13 +1814,49 @@
         "message": "Finálna odmena"
     },
     "events_notsegmented": {
-        "message": "Nerozdelené"
+        "message": "Nesegmentované"
     },
     "events_tiles": {
         "message": "Políčka"
     },
+    "events_chance": {
+        "message": "Šanca"
+    },
+    "events_clearbonus": {
+        "message": "Bonus za vyčistenie"
+    },
+    "events_gemstones": {
+        "message": "Drahokamy"
+    },
+    "repeat_name": {
+        "message": "Názov"
+    },
     "repeat_region_event": {
         "message": "Región / Udalosť"
+    },
+    "repeat_cooldown": {
+        "message": "Obnovenie"
+    },
+    "repeat_cooldown_time": {
+        "message": "Čas"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Diamanty"
+    },
+    "repeat_reset": {
+        "message": "Reset"
+    },
+    "repeat_bonus": {
+        "message": "Bonus za dokončenie"
+    },
+    "repeat_progress": {
+        "message": "Postup"
+    },
+    "repeat_progress_current": {
+        "message": "Vykopané políčka"
+    },
+    "repeat_progress_total": {
+        "message": "Celkovo políčka"
     },
     "repeat_time": {
         "message": "Čas, kedy bude baňa opäť dostupná"
@@ -1770,8 +1873,11 @@
     "repeat_show_ready": {
         "message": "Pripravený?"
     },
+    "repeat_postcard": {
+        "message": "Pohľadnicový týždeň je pripravený?"
+    },
     "dailyreward_stats": {
-        "message": "Denná odmena je závislá od aktuálnej úrovne ($LEVEL$) a regiónu ($REGION$).",
+        "message": "Denná odmena vychádza z aktuálnej úrovne ($LEVEL$) a regiónu ($REGION$).",
         "placeholders": {
             "level": {
                 "content": "$1"
@@ -1789,6 +1895,9 @@
             }
         }
     },
+    "dailyreward_formula": {
+        "message": "Formula"
+    },
     "specialweek_end": {
         "message": "končí $FINISH$",
         "placeholders": {
@@ -1797,26 +1906,45 @@
             }
         }
     },
+    "specialweek_debris_discount": {
+        "message": "Týždeň zľavy $PERCENT$% na čistenie kempu",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
     "specialweek_production": {
-        "message": "Dvojitý výrobný týždeň"
+        "message": "Týždeň dvojitej produkcie"
     },
     "specialweek_half_prod_time": {
-        "message": "Polovičný produkčný týždeň"
+        "message": "Týždeň dvojnásobnej rýchlej produkcie"
     },
     "specialweek_double_drop": {
-        "message": "Dvojitý materiálový týždeň"
+        "message": "Týždeň dvojitých materiálov"
+    },
+    "specialweek_gifts": {
+        "message": "Týždeň dvojitých darčekov"
     },
     "specialweek_postcards": {
-        "message": "Pohľadnicový týždeň"
+        "message": "Týždeň pohľadníc"
     },
     "specialweek_material_seller": {
         "message": "Obchodník zo starým materiálom"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Zobrať udalosť \"$NAME$\" zdarma",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
     },
     "specialweek_mystery_box": {
         "message": "Tajomná skrinka"
     },
     "specialweek_find_the_pair": {
-        "message": "Nájdite pár"
+        "message": "Pexeso"
     },
     "options_section_ingame": {
         "message": "Nastavenia v hre"
@@ -1973,11 +2101,23 @@
     "options_section_badges": {
         "message": "Odznaky"
     },
+    "options_badgeserverenergy": {
+        "message": "Server energia\nZobraziť odznak s energiou nahlásenou zo servera.\nTieto informácie sa pravidelne aktualizujú, keď sa stav hry synchronizuje so serverom."
+    },
+    "options_badgegccounter": {
+        "message": "Počítadlo Božích detí\nZobrazí odznak so zvyšným počtom božích detí."
+    },
+    "options_badgegcenergy": {
+        "message": "Energia Božie deti\nZobrazí odznak s energiou božích detí od susedov"
+    },
     "options_badgerepeatables": {
         "message": "Resetovatelné\nZobrazí odznak ak bude dostupná resetovatelná lokácia"
     },
     "options_badgeluckycards": {
         "message": "Štastné karty\nKeď je stan Štastných kariet pripravený, zobrazí odznak."
+    },
+    "options_badgeproductions": {
+        "message": "Produkcia\nZobrazí odznak keď v produkčný slot je pripravený alebo prázdny"
     },
     "options_badgetimeoffset": {
         "message": "Časový posun\nOdznak sa zobrazí vopred o tento počet sekúnd."
@@ -1987,6 +2127,39 @@
     },
     "options_badgevolume": {
         "message": "Zvuk\nHlasitosť zvukového efektu."
+    },
+    "calc_operators": {
+        "message": "Operátory"
+    },
+    "calc_arithmetic": {
+        "message": "Aritmetické"
+    },
+    "calc_comparison": {
+        "message": "Porovnávacie"
+    },
+    "calc_logical": {
+        "message": "Logické"
+    },
+    "calc_functions": {
+        "message": "Funkcie"
+    },
+    "calc_variables": {
+        "message": "Premenné"
+    },
+    "calc_examples": {
+        "message": "Príklady"
+    },
+    "calc_error_1": {
+        "message": "Chyba Syntaxe"
+    },
+    "calc_error_2": {
+        "message": "Funkcia vyžaduje zátvorky"
+    },
+    "calc_error_3": {
+        "message": "Chýba koncová zátvorka"
+    },
+    "calc_error_4": {
+        "message": "Príliš veľa zatváracích zátvoriek"
     },
     "linkgrabber_selected": {
         "message": "Odkazy: $UNIQUE$ / $TOTAL$",

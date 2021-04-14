@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Rozetler"
     },
+    "options_badgeserverenergy": {
+        "message": "Sunucu enerjisi\nSunucu tarafından bildirilen enerjiye sahip bir rozet gösterin.\nBu bilgiler, oyun durumu sunucuyla senkronize edildiğinde periyodik olarak yenilenir."
+    },
     "options_badgegccounter": {
         "message": "Enerji Çocuğu Sayacı\r\nToplanacak, kalan Enerji Çocuğu sayısına sahip bir rozet gösterir"
     },

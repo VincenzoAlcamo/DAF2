@@ -671,6 +671,9 @@
     "map_button_e": {
         "message": "Mutasd a jeladókat"
     },
+    "map_button_c": {
+        "message": "Mutasd színesben"
+    },
     "map_button_g": {
         "message": "Hibakeresési információ megjelenítése"
     },
@@ -2098,6 +2101,9 @@
     "options_section_badges": {
         "message": "Jelvények"
     },
+    "options_badgeserverenergy": {
+        "message": "Szerver energia\nMutass egy jelvényt a szerver által jelentett energiával.\nEzt az információt rendszeresen frissítik, amikor a játék állapotát szinkronizálják a szerverrel."
+    },
     "options_badgegccounter": {
         "message": "GC Számláló\nMutass egy jelvényt a hátralévő GC számával"
     },
@@ -2109,6 +2115,9 @@
     },
     "options_badgeluckycards": {
         "message": "Szerencsekártyák\nMutass egy jelvényt amikor a Szerencsekártya sátor készen áll"
+    },
+    "options_badgeproductions": {
+        "message": "Gyártások\nMutass egy jelvényt, ha egy gyártási hely üres vagy elkészült"
     },
     "options_badgetimeoffset": {
         "message": "Idő eltolás\nA jelvény ennyi másodperccel hamarabb jelenik meg"

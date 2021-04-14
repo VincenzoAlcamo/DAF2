@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Skilt"
     },
+    "options_badgeserverenergy": {
+        "message": "Server Energi\nVis et skilt med den raporterede energi fra serveren.\nInformationen bliver opdateret periodisk når spilstatus synkroniseres med serveren."
+    },
     "options_badgegccounter": {
         "message": "GC Tæller\nVis et skilt med det tilbageværende antal af GC der kan samles"
     },

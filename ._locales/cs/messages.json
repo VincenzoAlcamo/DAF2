@@ -671,6 +671,9 @@
     "map_button_e": {
         "message": "Zobrazit majáky"
     },
+    "map_button_c": {
+        "message": "Zobrazit v plných barvách"
+    },
     "map_button_g": {
         "message": "Zobrazit informace o odstranění závad"
     },
@@ -684,7 +687,7 @@
         "message": "Odkrytá políčka zůstanou viditelná"
     },
     "map_button_o": {
-        "message": "Zobrazit políčka"
+        "message": "Zobrazit zakrytá políčka"
     },
     "map_button_b": {
         "message": "Zobrazit indikátor bonusu"
@@ -851,7 +854,7 @@
         "message": "Jen dostupné pilíře"
     },
     "pillars_perc_next": {
-        "message": "%\n Další"
+        "message": "%\ndalšího"
     },
     "pillars_possible": {
         "message": "Dostupné"
@@ -884,7 +887,7 @@
         "message": "Zobrazit jako mřížku"
     },
     "pillars_cap": {
-        "message": "Cap to Possible"
+        "message": "Omezit na dostupné"
     },
     "neighbors_lastlevelup": {
         "message": "Poslední\nzvýšení úrovně"
@@ -928,7 +931,7 @@
         "message": "Neznámý stav čištění kempu"
     },
     "neighbors_withexpiredwindmills": {
-        "message": "S místem na vrtulky"
+        "message": "S prošlými vrtulkami"
     },
     "neighbors_found": {
         "message": "Nalezených sousedů: $NUM$ / $TOTAL$",
@@ -1191,6 +1194,9 @@
     "friendship_confirmcollection": {
         "message": "Potvrdit výsledek načítání?"
     },
+    "friendship_cc_maybe": {
+        "message": "Pokud je nejistý"
+    },
     "friendship_collecterror": {
         "message": "Něco se pokazilo."
     },
@@ -1311,7 +1317,7 @@
         "message": "Pro získání dalšího božího dítěte musíte přidat jen jednoho souseda."
     },
     "progress_measure": {
-        "message": "Measure"
+        "message": "Kategorie"
     },
     "progress_attained": {
         "message": "Dosaženo"
@@ -1350,7 +1356,7 @@
         "message": "Průměrná cena políčka"
     },
     "progress_achievementnextstep": {
-        "message": "Do dalašího kroku = $NEXT$",
+        "message": "Do dalšího kroku = $NEXT$",
         "placeholders": {
             "next": {
                 "content": "$1"
@@ -1522,26 +1528,536 @@
     "rewardlinks_infomaxreached": {
         "message": "Tento odkaz byl převzatý po dosažení max. denního limitu.\nOdkazy sebrané tímto způsobem jsou navždy ztracené."
     },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Na převzetí čekají ještě další odkazy.\nTy mohou překročit váš denní limit."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Tento odkaz nejspíš vypršel.\nID odkazů se generují postupně a ID této odměny je nižší než ID vypršené odměny."
+    },
+    "rewardlinks_removelinks": {
+        "message": "Odstranit staré odkazy"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Odstranit vybrané"
+    },
+    "rewardlinks_removelinksdays": {
+        "message": "Odstranit odkazy, které už nejde převzít, starší než @DAYS@ dní.\nTo zahrnuje vypršené odkazy a odkazy, které už jsou sebrané.\nOdkazy starší než $NUM$ dní jsou odstraňované pravidelně.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_removenone": {
+        "message": "Není co odstranit!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Odkazy byly odstraněny: $NUM$\nOdstraněné odkazy už nelze přidat.\n\nPokračovat v odstranění?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Tato odměna byla přidána $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Reset"
+    },
+    "rewardlinks_resetcount": {
+        "message": "Můžete resetovat informaci o „Příštím sběru“ a pokračovat tímto odkazem."
+    },
+    "rewardlinks_resetexpired": {
+        "message": "Můžete resetovat informaci o „Pravděpodobně vypršené platnosti“ a pokračovat tímto odkazem."
+    },
+    "rewardlinks_convert": {
+        "message": "Konverze odkazu"
+    },
+    "rewardlinks_noconversion": {
+        "message": "Žádná konverze"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Zkrátit/konvertovat odkazy"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Sem vložte odkazy ke zkrácení/konverzi."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Zkrácené odkazy se zobrazí dole (duplikáty budou odstraněny)."
+    },
+    "rewardlinks_prefix": {
+        "message": "Prefix"
+    },
+    "rewardlinks_newline": {
+        "message": "Přidat nový řádek?"
+    },
+    "rewardlinks_addspace": {
+        "message": "Přidat mezeru"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Všechny odměny byly přebrány v rámci $NUM$ hodin od nejnovější odměny.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "export_export": {
+        "message": "Export"
+    },
+    "export_import": {
+        "message": "Import"
+    },
+    "export_exportdata": {
+        "message": "Exportovat data"
+    },
+    "export_exportinventory": {
+        "message": "Exportovat inventář"
+    },
+    "export_importdata": {
+        "message": "Importovat data"
+    },
+    "export_invalidexportdata": {
+        "message": "Soubor neobsahuje platná data DAF pro aktuálního hráče!"
+    },
+    "export_invalidexport": {
+        "message": "Soubor neobsahuje platná exportovaná data!"
+    },
+    "export_importsuccess": {
+        "message": "Data byla importována úspěšně"
+    },
+    "export_debugdata": {
+        "message": "Exportovat data diagnostiky"
+    },
+    "rings_showminmax": {
+        "message": "Zobrazit minimální a maximální hodnoty"
+    },
+    "rings_showxp": {
+        "message": "Zobrazit zkušenosti"
+    },
+    "rings_playerlevel": {
+        "message": "Určit úroveň hráče"
+    },
+    "rings_stats": {
+        "message": "V batohu máte $NUM$x $NAME$.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+    "rings_notdependent": {
+        "message": "Nezávisí na úrovni hráče"
+    },
+    "rings_averageperring": {
+        "message": "Průměrné zkušenosti na prsten"
+    },
+    "rings_rings": {
+        "message": "Prsteny"
+    },
+    "equipment_sellout": {
+        "message": "Prodej všech nepoužívaných položek vám vynese $TOTAL$ mincí (výbava = $EQUIP$ mincí, dekorace = $DECO$ mincí)",
+        "placeholders": {
+            "total": {
+                "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
+            }
+        }
+    },
+    "equipment_notonsale": {
+        "message": "Už není v akci"
+    },
+    "equipment_quantities": {
+        "message": "Množství"
+    },
     "equipment_owned": {
         "message": "Vlastněno"
+    },
+    "equipment_inshop": {
+        "message": "V obchodě"
+    },
+    "equipment_from": {
+        "message": "Z"
+    },
+    "equipment_affordable": {
+        "message": "Dostupné"
+    },
+    "equipment_useful": {
+        "message": "Užitečné"
+    },
+    "equipment_gain": {
+        "message": "Zisk"
+    },
+    "equipment_gain_info": {
+        "message": "Zisk vychází z minimální hodnoty na slot v kempu"
+    },
+    "equipment_free": {
+        "message": "ZDARMA"
+    },
+    "equipment_hidemax": {
+        "message": "Skrýt maximální"
+    },
+    "equipment_price_info": {
+        "message": "Cena zobrazená zde není za toto vybavení,\nale za balíček/nabídku, která výbavu zahrnovala."
+    },
+    "equipment_level_none": {
+        "message": "Nezáleží"
+    },
+    "equipment_level_eq": {
+        "message": "Přesně"
+    },
+    "equipment_level_le": {
+        "message": "Nejvýše"
+    },
+    "equipment_level_ge": {
+        "message": "Nejméně"
+    },
+    "equipment_level_your": {
+        "message": "vaše úroveň"
+    },
+    "equipment_level_this": {
+        "message": "tato úroveň"
+    },
+    "equipment_include_material": {
+        "message": "Zahrnout tyto materiály"
+    },
+    "equipment_exclude_material": {
+        "message": "Vyloučit tyto materiály"
+    },
+    "equipment_current": {
+        "message": "Aktuální"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Pamatujte prosím, že pokud jste v minulosti ve své hře koupili speciální balíček za tuto cenu, už za ni nebudete moct koupit další balíček.\nV tom případě je nejnižší dostupná cenová hladina přibližně 5,5 USD."
+    },
+    "equipment_slotslower": {
+        "message": "Sloty s nižším výkonem než tento"
     },
     "events_year": {
         "message": "Rok"
     },
+    "events_end": {
+        "message": "Konec"
+    },
+    "events_quests": {
+        "message": "Úkoly"
+    },
     "events_achievements": {
         "message": "Úspěchy"
+    },
+    "events_pieces": {
+        "message": "Části pokladu"
     },
     "events_locations": {
         "message": "Lokace"
     },
+    "events_materials": {
+        "message": "Speciální\nmateriály"
+    },
+    "events_completed": {
+        "message": "Dokončené"
+    },
     "events_total": {
         "message": "Celkem"
+    },
+    "events_medal": {
+        "message": "Medaile"
+    },
+    "events_story_maps": {
+        "message": "Příběhové mapy"
+    },
+    "events_challenges": {
+        "message": "Výzvy"
     },
     "events_repeatables": {
         "message": "Resetovatelné"
     },
+    "events_active": {
+        "message": "Aktivní"
+    },
+    "events_rerelease": {
+        "message": "Koupeno/obdrženo"
+    },
+    "events_complete": {
+        "message": "Dokončené"
+    },
+    "events_incomplete": {
+        "message": "Nedokončené"
+    },
+    "events_notdone": {
+        "message": "Nehrané"
+    },
+    "events_segmented": {
+        "message": "Segmentované"
+    },
+    "events_yourprogress": {
+        "message": "Váš postup"
+    },
+    "events_rewards": {
+        "message": "Odměny"
+    },
+    "events_finalreward": {
+        "message": "Finální odměna"
+    },
+    "events_notsegmented": {
+        "message": "Nesegmentované"
+    },
+    "events_tiles": {
+        "message": "Políčka"
+    },
+    "events_chance": {
+        "message": "Šance"
+    },
+    "events_clearbonus": {
+        "message": "Bonus za vyčištění"
+    },
+    "events_gemstones": {
+        "message": "Drahokamy"
+    },
+    "repeat_name": {
+        "message": "Název"
+    },
+    "repeat_region_event": {
+        "message": "Region/událost"
+    },
+    "repeat_cooldown": {
+        "message": "Obnovení"
+    },
+    "repeat_cooldown_time": {
+        "message": "Čas"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Gemy"
+    },
+    "repeat_reset": {
+        "message": "Reset"
+    },
+    "repeat_bonus": {
+        "message": "Bonus za dokončení"
+    },
     "repeat_progress": {
         "message": "Postup"
+    },
+    "repeat_progress_current": {
+        "message": "Vykopaná políčka"
+    },
+    "repeat_progress_total": {
+        "message": "Políčka celkem"
+    },
+    "repeat_time": {
+        "message": "Doba, kdy bude důl opět k dispozici"
+    },
+    "repeat_show_all": {
+        "message": "Všechny resetovatelné"
+    },
+    "repeat_show_selected": {
+        "message": "Jen vybrané resetovatelné"
+    },
+    "repeat_ready": {
+        "message": "OBNOVENÉ"
+    },
+    "repeat_show_ready": {
+        "message": "Obnovené?"
+    },
+    "repeat_postcard": {
+        "message": "Nachystané na týden pohlednic?"
+    },
+    "dailyreward_stats": {
+        "message": "Denní odměna vychází z vaší aktuální úrovně ($LEVEL$) a regionu ($REGION$).",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Přebráno $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "dailyreward_formula": {
+        "message": "Vzorec"
+    },
+    "specialweek_end": {
+        "message": "končí $FINISH$",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_debris_discount": {
+        "message": "Týden slevy $PERCENT$ % na čištění kempu",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_production": {
+        "message": "Týden produktivity"
+    },
+    "specialweek_half_prod_time": {
+        "message": "Týden polovičního času výroby"
+    },
+    "specialweek_double_drop": {
+        "message": "Týden dvojnásobku materiálů"
+    },
+    "specialweek_gifts": {
+        "message": "Týden obdarovávání"
+    },
+    "specialweek_postcards": {
+        "message": "Týden pohlednic"
+    },
+    "specialweek_material_seller": {
+        "message": "Obchodník se starými materiály"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Přebrat událost \"$NAME$“ zdarma",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_mystery_box": {
+        "message": "Tajná truhla"
+    },
+    "specialweek_find_the_pair": {
+        "message": "Pexeso"
+    },
+    "options_section_ingame": {
+        "message": "Možnosti ve hře"
+    },
+    "options_injectgame": {
+        "message": "Povolit DAF\nPovolit DAF ve hře.\nPokud DAF nepovolíte, následující možnosti se neprojeví"
+    },
+    "options_fullwindow": {
+        "message": "Celá obrazovka\nZobrazit hru na celou obrazovku"
+    },
+    "options_fullwindowheader": {
+        "message": "Záhlaví\nZobrazit při celé obrazovce záhlaví"
+    },
+    "options_fullwindowside": {
+        "message": "Postranní lišta\nSkrýt postranní lištu (Facebook) mimo režim celé obrazovky"
+    },
+    "options_fullwindowlock": {
+        "message": "Zamknout celou obrazovku\nZabrání hře zavírat celou obrazovku"
+    },
+    "options_resetfullwindow": {
+        "message": "Resetovat při spuštění\nVždy, když hru spustíte, resetuje se „Celá obrazovka“ a „Postranní lišta“"
+    },
+    "options_resetfullwindow_warning": {
+        "message": "Tuto možnost byste měli zaškrtnout, pokud máte potíže se spouštěním hry."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Automatická celá obrazovka\nAutomaticky nastaví režim celé obrazovky po načtení dat (DAF2 zezelená)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Ano, po $NUM$ vteřinách",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "options_gctable": {
+        "message": "Tabulka božích dětí\nZobrazit pod hrou všechny sousedy s božími dětmi"
+    },
+    "options_gctablecounter": {
+        "message": "Počítadlo\nZobrazit počítadlo"
+    },
+    "options_gctableregion": {
+        "message": "Region\nPoužít barvy k rozlišení regionu sousedů"
+    },
+    "options_autoclick": {
+        "message": "Autoklik\nAutomaticky potvrdí vyskakovací okno Facebooku"
+    },
+    "options_nogcpopup": {
+        "message": "Bez vyskakovacích oken GC\nŽádná vyskakovací okna při sbírání božích dětí"
+    },
+    "options_autogc": {
+        "message": "Auto změna kempu při GC\nAutomaticky přejde na další kemp při sbírání božích dětí"
+    },
+    "options_section_general": {
+        "message": "Obecné možnosti"
+    },
+    "options_autologin": {
+        "message": "Auto přihlášení na portál\nAutomaticky se přihlásí na portálu"
+    },
+    "options_darktheme": {
+        "message": "Tmavé téma"
+    },
+    "options_shrinkmenu": {
+        "message": "Šířka menu\nZúží šířku levého svislého menu"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Když je malá šířka stránky"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Vždy použít kompaktní menu"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Vždy použít rozšířené menu"
+    },
+    "options_disablealtguard": {
+        "message": "Resetovat na jiném účtu\nPokud zvolíte tuto možnost, přihlášení na jiný účet přepíše vaše aktuální data v DAF2"
+    },
+    "options_disablealtguard_warning": {
+        "message": "POZOR: tuto možnost zaškrtněte na vlastní riziko!"
+    },
+    "options_section_rewardlinks": {
+        "message": "Odkazy na odměny"
+    },
+    "options_rewardsclose": {
+        "message": "Auto-zavření\nAutomaticky zavře stránku po převzetí odměny"
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Výjimka pro gemy\nNezavírat automaticky, když se najde gem."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Výjimka pro chyby\nNezavírat automaticky, když se objeví chyba."
+    },
+    "options_rewardssummary": {
+        "message": "Přidat tabulku souhrnu\nPokud se stránka nezavře automaticky, přidá dospodu tabulku souhrnu."
+    },
+    "options_linkgrabenabled": {
+        "message": "Sběrač odkazů\nPovolí Sběrač odkazů na Facebooku.\nPokud není povoleno, následující možnosti se neprojeví."
+    },
+    "options_linkgrabbutton": {
+        "message": "Tlačítko myši\nZvolte tlačítko myši, které aktivuje Sběrač odkazů"
+    },
+    "options_linkgrabkey": {
+        "message": "Volitelná klávesa\nZvolte klávesu, kterou případně stisknete spolu s tlačítkem myši"
+    },
+    "options_linkgrabsort": {
+        "message": "Třídit odkazy"
+    },
+    "options_linkgrabconvert": {
+        "message": "Konverze odkazů"
+    },
+    "options_modifier_none": {
+        "message": "Žádná"
     },
     "options_modifier_shift": {
         "message": "Shift"
@@ -1553,13 +2069,126 @@
         "message": "Alt"
     },
     "options_button_left": {
-        "message": "Vlevo"
+        "message": "Levé"
+    },
+    "options_button_middle": {
+        "message": "Prostřední"
     },
     "options_button_right": {
-        "message": "Vpravo"
+        "message": "Pravé"
+    },
+    "options_sort_none": {
+        "message": "Žádné"
+    },
+    "options_sort_ascending": {
+        "message": "Vzestupně"
+    },
+    "options_sort_descending": {
+        "message": "Sestupně"
+    },
+    "options_language": {
+        "message": "Jazyk\nZvolte používaný jazyk"
+    },
+    "options_locale": {
+        "message": "Lokalizace\nPoužitá pro formát čísel, dat a seznamů"
+    },
+    "options_locale_browser": {
+        "message": "Použít nastavení prohlížeče"
+    },
+    "options_gamelanguage": {
+        "message": "Jazyk hry\nJazyk zpráv ze hry"
+    },
+    "options_section_badges": {
+        "message": "Symboly"
+    },
+    "options_badgeserverenergy": {
+        "message": "Energie na serveru\nZobrazit symbol s energií hlášenou serverem.\nTato informace se pravidelně obnoví, když se stav hry synchronizuje se serverem."
+    },
+    "options_badgegccounter": {
+        "message": "Počítadlo GC\nZobrazit symbol se zbývajícím počtem neposbíraných božích dětí"
+    },
+    "options_badgegcenergy": {
+        "message": "Energie GC\nZobrazit symbol s energií od božích dětí sousedů"
+    },
+    "options_badgerepeatables": {
+        "message": "Resetovatelné\nZobrazit symbol, když se nějaká resetovatelná lokace obnoví"
+    },
+    "options_badgeluckycards": {
+        "message": "Šťastné karty\nZobrazit symbol, když je stan Šťastných karet připraven"
+    },
+    "options_badgeproductions": {
+        "message": "Produkce\nZobrazit symbol, když je slot produkce dokončený nebo prázdný."
+    },
+    "options_badgetimeoffset": {
+        "message": "Náskok\nSymbol se zobrazí předem o tolik vteřin."
+    },
+    "options_badgesound": {
+        "message": "Zvukový efekt\nZvukový efekt, který se přehraje při zobrazení symbolu."
+    },
+    "options_badgevolume": {
+        "message": "Hlasitost\nHlasitost zvukového efektu"
+    },
+    "calc_operators": {
+        "message": "Operátory"
+    },
+    "calc_arithmetic": {
+        "message": "Aritmetické"
+    },
+    "calc_comparison": {
+        "message": "Srovnání"
+    },
+    "calc_logical": {
+        "message": "Logické"
+    },
+    "calc_functions": {
+        "message": "Funkce"
+    },
+    "calc_variables": {
+        "message": "Proměnné"
+    },
+    "calc_examples": {
+        "message": "Příklady"
+    },
+    "calc_error_1": {
+        "message": "Chyba syntaxe"
+    },
+    "calc_error_2": {
+        "message": "Funkce vyžaduje závorky"
+    },
+    "calc_error_3": {
+        "message": "Chybí koncová závorka"
+    },
+    "calc_error_4": {
+        "message": "Příliš koncových závorek"
+    },
+    "linkgrabber_selected": {
+        "message": "Odkazy: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Kopírovat do schránky"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Odeslat do DAF"
     },
     "linkgrabber_fn_cancel": {
         "message": "Zrušit"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Obnovit odkazy"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Zobrazit ID odměny"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Automatické odeslání"
     },
     "linkgrabber_added": {
         "message": "Přidané odkazy na odměnu: $NUM$ / $TOTAL$",
@@ -1569,6 +2198,14 @@
             },
             "total": {
                 "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Odkazy zkopírované do schránky: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
             }
         }
     }

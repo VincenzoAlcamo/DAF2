@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Insignias"
     },
+    "options_badgeserverenergy": {
+        "message": "Energia del servidor\nMuestra un insignia con la energia reportada desde el servidor.\nEsta informacion se actualiza periodicamente cuando el juego es sincronizado con el servidor"
+    },
     "options_badgegccounter": {
         "message": "Contador niños dioses.\nMuestra una insignia con el numero restante de niños dioses para recolectar"
     },

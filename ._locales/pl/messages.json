@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Odznaki"
     },
+    "options_badgeserverenergy": {
+        "message": "Energia serwera\nPokazuje odznakę z energią zgłoszoną przez serwer.\nTa informacja jest odświeżana okresowo, kiedy gra synchronizuje się\nz serwerem."
+    },
     "options_badgegccounter": {
         "message": "Licznik BD\nPokazuje odznakę z pozostałą liczbą BD do zebrania"
     },

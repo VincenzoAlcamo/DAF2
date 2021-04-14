@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Marcadores"
     },
+    "options_badgeserverenergy": {
+        "message": "Energia do servidor\nMostre um crachá com a energia informada pelo servidor.\nEssas informações são atualizadas periodicamente quando o estado do jogo é sincronizado com o servidor."
+    },
     "options_badgegccounter": {
         "message": "Contador de Afilhados\nMostre um marcador com o número restante de afilhados para coletar"
     },

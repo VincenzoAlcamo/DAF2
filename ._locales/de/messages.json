@@ -2101,6 +2101,9 @@
     "options_section_badges": {
         "message": "Abzeichen"
     },
+    "options_badgeserverenergy": {
+        "message": "Server-Energie\nZeigt ein Abzeichen mit der vom Server gemeldeten Energie an.\nDiese Informationen werden periodisch aktualisiert, wenn der Spielstatus mit dem Server synchronisiert wird."
+    },
     "options_badgegccounter": {
         "message": "GK-Zähler\nZeigt ein Abzeichen mit der verbleibenden Anzahl der einzusammelnden GK's"
     },
