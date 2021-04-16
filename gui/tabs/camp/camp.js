@@ -139,7 +139,7 @@ function setState(state) {
     setCheck('camp_player', 'p');
     setCheck('camp_neighbor', 'n');
     const hide = (state.hide || '').split(',');
-    // compatibilty
+    // compatibility
     if ('no-neighbour' in state) hide.push('neighbor');
     if ('no-addons' in state) hide.push('extra');
     if (!('regen' in state)) {
@@ -166,15 +166,14 @@ function rebuildSetupFillTime() {
     const generator = gui.getGenerator();
     const camp = generator.camp;
     let campResult = calculateCamp(camp, []);
-    Dialog.htmlToDOM(selectRegen, '');
-    for (let i = 144; i >= 0; i--) {
-        campResult = calculateCamp(camp, fillCamp(campResult.lines, i));
+    Array.from(selectRegen.options).forEach(option => {
+        campResult = calculateCamp(camp, fillCamp(campResult.lines, +option.value));
         const fillTime = Math.ceil(campResult.cap_tot / campResult.reg_tot * 3600);
         const time = fillTime ? gui.getDuration(fillTime, 2) : '';
-        let s = Locale.formatNumber(i);
+        let s = Locale.formatNumber(+option.value);
         if (s.length < 3) s = '\xa0'.repeat((3 - s.length) * 2) + s;
-        gui.addOption(selectRegen, i, `${s} \u2192 ${time}`);
-    }
+        option.textContent = `${s} \u2192 ${time}`;
+    });
 }
 
 function rebuildSetup() {
