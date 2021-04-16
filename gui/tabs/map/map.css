@@ -192,7 +192,7 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 
 .tab_map .map.show_opaque table,
 .tab_map .map.show_tiles table {
-  background-color: #000A;
+  background-color: #0006;
 }
 
 .tab_map .map canvas {
