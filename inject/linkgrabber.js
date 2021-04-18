@@ -18,7 +18,6 @@ const KEY_P = 'P';
 const KEY_R = 'R';
 const KEY_S = 'S';
 const KEY_T = 'T';
-const KEY_Y = 'Y';
 const OS_WIN = 1;
 const OS_LINUX = 0;
 
@@ -257,6 +256,7 @@ function start() {
 }
 
 function stop() {
+    if (detectHandler) { clearTimeout(detectHandler); detectHandler = 0; }
     if (flagActive) removeListeners(window, mousemove, mouseup, mousewheel, mouseout);
     flagActive = false;
 
@@ -297,7 +297,12 @@ function scroll() {
     }
 }
 
+let detectHandler = 0;
 function detect() {
+    if (!detectHandler) detectHandler = setTimeout(detectDelayed, 200);
+}
+function detectDelayed() {
+    detectHandler = 0;
     if (!flagBox) {
         if (box.x2 - box.x1 < 5 && box.y2 - box.y1 < 5) return;
         flagLinks = true;
@@ -353,9 +358,7 @@ function detect() {
     text += `\n${KEY_I} = ${getMessage('linkgrabber_fn_showid')} [${getMessage(showId ? 'menu_on' : 'menu_off')}]`;
     text += `\n${KEY_R} = ${getMessage('linkgrabber_fn_refresh')}`;
     if (count == 0) {
-        text += `\n\n${getMessage('friendship_collectfriends')}:`;
-        text += `\n${KEY_T} = ${getMessage('friendship_collectstandard')}`;
-        text += `\n${KEY_Y} = ${getMessage('friendship_collectstandard')} + ${getMessage('dialog_confirm')}`;
+        text += `\n\n${KEY_T} = ${getMessage('friendship_collectfriends')}`;
     }
     text += `\nESC = ${getMessage('linkgrabber_fn_cancel')}`;
     if (text != oldLabel) countLabel.innerText = oldLabel = text;
@@ -385,8 +388,7 @@ const fnHandlers = {
     [KEY_C]: () => copyLinksToClipboard(),
     [KEY_F]: () => copyLinksToClipboard(3),
     [KEY_P]: () => copyLinksToClipboard(2),
-    [KEY_T]: () => { stop(); collect(false, 4); },
-    [KEY_Y]: () => { stop(); collect(true, 4); },
+    [KEY_T]: () => { stop(); askCollect(); },
     [KEY_S]: () => sendLinks(false)
 };
 
@@ -619,6 +621,16 @@ function copyToClipboard(str, mimeType = 'text/plain') {
     document.addEventListener('copy', oncopy);
     document.execCommand('copy', false, null);
     document.removeEventListener('copy', oncopy);
+}
+
+function askCollect() {
+    let html = `<p style="text-align:center">${Dialog.htmlEncodeBr(getMessage('friendship_speedupcollect'))} <select id="f_sc" name="speedupCollection">
+<option value="0" selected>${getMessage('dialog_no')}</option>`;
+    [2, 4, 8].forEach(i => html += `<option value="${i}">\xd7 ${i}</option>`);
+    html += `</select></span><br><br>${Dialog.htmlEncodeBr(getMessage('friendship_confirmwarning'))}`;
+    Dialog(Dialog.MODAL).show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
+        (method, params) => (method == Dialog.CONFIRM) && collect(true, params.speedupCollection)
+    );
 }
 
 function collect(confirmCollection, speedupCollection) {
