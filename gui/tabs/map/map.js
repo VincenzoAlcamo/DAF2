@@ -232,7 +232,7 @@ function addQuestDrop(lid, type, id, value) {
 
 function isCheckAllowed(check) {
     const flag = check.getAttribute('data-flag');
-    return 'DTXNVC'.indexOf(flag) >= 0 || isAdmin;
+    return 'CDNTUVX'.indexOf(flag) >= 0 || isAdmin;
 }
 
 function scrollToCenter(x, y, smooth) {
@@ -289,7 +289,7 @@ function onClickButton(event) {
     } else if (action == 'export_location' || action == 'export_floor') {
         if (!currentData || !canvas) return;
         const isLocation = action == 'export_location';
-        const unclear = event.ctrlKey && isAdmin ? {} : null;
+        const unclear = event.ctrlKey ? {} : null;
         const data = prepareFloorData(isLocation ? bgp.Data.mineCache.filter(m => m.id == currentData.lid) : [currentData.mine], unclear);
         const isFull = unclear ? unclear.num == data.length : false;
         const filename = `${getLocationName(currentData.lid, currentData.location)}${isLocation ? '' : `_floor${currentData.fid}`}.${isFull ? 'full' : ''}map.json`;
