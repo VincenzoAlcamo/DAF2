@@ -108,6 +108,14 @@ html.dark .camp .line {
   cursor: pointer;
 }
 
+.camp-data td[numreg].warn {
+  background-image: url(/img/gui/q-hard.png);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: 1px;
+  padding-left: 22px;
+}
+
 .camp-data td[numreg]:hover,
 .camp-data td[bid]:hover {
   background-color: var(--tb-hlcol);

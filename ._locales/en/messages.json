@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Time required for the energy bar to go from empty to full capacity."
     },
+    "camp_numofregenslots": {
+        "message": "# regeneration slots"
+    },
+    "camp_canbeimproved": {
+        "message": "This camp can be improved"
+    },
+    "camp_showsetup": {
+        "message": "Click here to show the setup mode camp"
+    },
     "camp_windmill_regen": {
         "message": "Single windmill regeneration"
     },

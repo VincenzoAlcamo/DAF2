@@ -49,7 +49,7 @@ function init() {
     selectRegen.addEventListener('change', rebuildSetup);
     Dialog.htmlToDOM(selectRegen, '');
     for (let i = 144; i >= 0; i--) gui.addOption(selectRegen, i, i);
-    selectRegen.parentNode.querySelector('span').textContent = `${gui.getMessage('camp_regen')} \u2192 ${gui.getMessage('camp_fill_time')}`;
+    selectRegen.parentNode.querySelector('span').textContent = `${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`;
 
     buttonFindThePair = container.querySelector('.toolbar button[data-action="playboard"]');
     buttonFindThePair.textContent = gui.getString('GUI3326');
@@ -176,6 +176,8 @@ function rebuildSetupFillTime() {
     });
 }
 
+const getSetupName = (numRegen) => gui.getMessage('camp_setup_mode') + ` (${gui.getMessage('camp_numofregenslots')} = ${Locale.formatNumber(numRegen)})`;
+
 function rebuildSetup() {
     gui.updateTabState(tab);
     const generator = gui.getGenerator();
@@ -184,7 +186,7 @@ function rebuildSetup() {
     campResult = calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState())));
     Dialog.htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2], true));
     let htm = '';
-    htm += Html.br`<table class="camp-caption"><thead><tr><th>${campNames[2]}</th></tr></thead></table>`;
+    htm += Html.br`<table class="camp-caption"><thead><tr><th>${getSetupName(campResult.stat.numRegSlots)}</th></tr></thead></table>`;
     htm += renderCamp(campResult);
     Dialog.htmlToDOM(container.querySelector('.camp-player .camp-container.camp-3'), htm);
 }
@@ -192,6 +194,8 @@ function rebuildSetup() {
 function onClick(event) {
     if (event.target && event.target.hasAttribute('numreg')) {
         selectRegen.value = +event.target.getAttribute('numreg');
+        checkSetup.checked = true;
+        toggleFlags();
         rebuildSetup();
     }
 }
@@ -241,11 +245,14 @@ function getCampSummary(campResult, campName, isSetup) {
     htm += Html.br`<tr><td>${gui.getMessage('camp_max_value')}</td><td bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
     htm += Html.br`<td bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
     htm += Html.br`<tr><td>${gui.getMessage('camp_num_slots')}</td>`;
+    const getTitleSetup = (num) => `${gui.getMessage('camp_showsetup')} (${gui.getMessage('camp_numofregenslots')} = ${num})`;
     if (isSetup) {
-        htm += Html.br`<td numreg="144" title="${gui.getMessageAndValue('camp_regen', gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
-        htm += Html.br`<td numreg="0" title="${gui.getMessageAndValue('camp_capacity', gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+        htm += Html.br`<td numreg="144" title="${getTitleSetup(gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
+        htm += Html.br`<td numreg="0" title="${getTitleSetup(gui.getMessage('gui_minimum'))}">${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
     } else {
-        htm += Html.br`<td numreg="${campResult.stat.numRegSlots}" title="${gui.getMessageAndValue('gui_show', gui.getMessage('camp_setup_mode'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
+        const title = (campResult.canBeImproved ? gui.getMessage('camp_canbeimproved') + '\n' : '') + getTitleSetup(Locale.formatNumber(campResult.stat.numRegSlots));
+        const extra = campResult.canBeImproved ? Html` class="warn"` : '';
+        htm += Html.br`<td numreg="${campResult.stat.numRegSlots}" title="${Html(title)}"${extra}>${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
         htm += Html.br`<td>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
     }
     htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
@@ -302,6 +309,12 @@ function updateCamp(div, flagHeaderOnly = false) {
     camps.sort((a, b) => b.reg_tot - a.reg_tot);
 
     if (isPlayer) {
+        camps.forEach(campResult => {
+            const setupResult = calculateCamp(camp, fillCamp(campResult.lines, campResult.stat.numRegSlots));
+            const weight = Math.sign(setupResult.reg_tot - campResult.reg_tot) + Math.sign(setupResult.cap_tot - campResult.cap_tot);
+            // weight will be: 2 if both stats are better, 1 if one stat is the same and the other is better
+            campResult.canBeImproved = weight >= 1;
+        });
         if (camps.length < 2) camps.push(null);
         camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState()))));
     }
@@ -454,7 +467,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         if (!campResult) return;
         htm += Html.br`<div class="camp-container camp-new camp-${index + 1}">`;
         if (camps.length > 1)
-            htm += Html.br`<table class="camp-caption"><thead><tr><th bid="camp-${index + 1}">${campNames[index]}</th></tr></thead></table>`;
+            htm += Html.br`<table class="camp-caption"><thead><tr><th bid="camp-${index + 1}">${index == 2 ? getSetupName(campResult.stat.numRegSlots) : campNames[index]}</th></tr></thead></table>`;
         htm += renderCamp(campResult);
         htm += Html.br`</div>`;
     });
