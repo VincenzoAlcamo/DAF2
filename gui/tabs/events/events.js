@@ -150,6 +150,7 @@ function update() {
     allEvents = {};
     for (const event of Object.values(events)) {
         if (!event.name_loc) continue;
+        const isSpecialWeek = +event.cooking_event_id > 0 || +event.crafting_event_id > 0;
         const eid = event.def_id;
         const item = {};
         item.id = eid;
@@ -165,7 +166,7 @@ function update() {
         item.maxsegment = 0;
 
         const quests = getQuests(event);
-        if (!quests.length) continue;
+        if (!quests.length && !isSpecialWeek) continue;
         item.tquest = quests.length;
         item.cquest = 0;
         for (const quest of quests) {
@@ -201,7 +202,7 @@ function update() {
         item.pachiev = item.cachiev / (item.tachiev || 1);
 
         // Add the event if it has at least one achievement
-        if (!item.tachiev) continue;
+        if (!item.tachiev && !isSpecialWeek) continue;
         allEvents[item.id] = item;
 
         const collects = collectionsByEvent[eid] || [];
