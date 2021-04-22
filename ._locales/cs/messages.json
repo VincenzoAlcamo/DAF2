@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Doba potřebná pro naplnění energie z prázdné na plnou kapacitu."
     },
+    "camp_numofregenslots": {
+        "message": "Počet slotů regenerace"
+    },
+    "camp_canbeimproved": {
+        "message": "Tento kemp můžete vylepšit"
+    },
+    "camp_showsetup": {
+        "message": "Pro zobrazení režimu sestavení kempu klikněte zde"
+    },
     "camp_windmill_regen": {
         "message": "Produkce jedné vrtulky"
     },

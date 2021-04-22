@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Benötigte Zeit, bis der Energiebalken von der leeren zur vollen Kapazität gelangt."
     },
+    "camp_numofregenslots": {
+        "message": "# Regenerationsstellplätze"
+    },
+    "camp_canbeimproved": {
+        "message": "Dieses Camp kann verbessert werden."
+    },
+    "camp_showsetup": {
+        "message": "Hier klicken, um das Camp im Konfigurationsmodus anzuzeigen."
+    },
     "camp_windmill_regen": {
         "message": "Regeneration einer einzelnen Windmühle"
     },

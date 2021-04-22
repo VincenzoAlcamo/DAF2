@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Idő, amely ahoz szükséges, hogy az energia sávod nulláról teljesen feltöltődjön."
     },
+    "camp_numofregenslots": {
+        "message": "# regeneráció cella"
+    },
+    "camp_canbeimproved": {
+        "message": "Ez a tábot fejleszthető"
+    },
+    "camp_showsetup": {
+        "message": "Kattints ide a tábor beállítási mód megjelenítéséhez"
+    },
     "camp_windmill_regen": {
         "message": "Egy szélmalom regenerációja"
     },

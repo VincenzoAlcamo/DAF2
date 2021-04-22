@@ -194,7 +194,7 @@
         }
     },
     "gui_screenshot_shot": {
-        "message": "Haga click para hacer una captura de pantalla.\nLa captura aparecerá a la derecha\nTenga en cuenta que la captura es solo del area visible\nDebe clickear el icono de DAF2 en el Menu de Chrome para habilitar esta funcion ."
+        "message": "Haga click para hacer una captura de pantalla.\nLa captura aparecerá a la derecha\nTenga en cuenta que la captura es solo del area visible\nDebe clickear el icono de DAF2 en el Menu de Chrome para habilitar esta funcion."
     },
     "gui_screenshot_target": {
         "message": "Click para descargar la imagen.\nPuede utilizar boton derecho del mouse y seleccionar \"Copiar Imagen \"y guardar en el porta papeles"
@@ -431,7 +431,7 @@
         "message": "Visita la pagina oficial en Facebook"
     },
     "about_nodata": {
-        "message": "Aun no se han cargado datos del juego .por favor cargue o actualice la venta del juego"
+        "message": "Aun no se han cargado datos del juego, por favor cargue o actualice la venta del juego"
     },
     "about_disclaimer": {
         "message": "DA Friends es un 'Fan Code' y no es avalado ni respaldado por Pixel Federation, o los autores de \"Diggy's Adventure\".\nSi usas DA Friends lo haces bajo tu propio riesgo. Viene sin garantia ni garantias, ni explícita ni implícita hacia la funcionalidad o la usabilidad.\nEl autor no será responsable por cualquier daño o pérdida causada por su uso.Al utilizar esta extensión, usted acepta estos términos"
@@ -512,7 +512,7 @@
         }
     },
     "camp_no_player": {
-        "message": "Campamto no visitado aún ."
+        "message": "Campamento no visitado aún."
     },
     "camp_player": {
         "message": "Jugador"
@@ -525,6 +525,15 @@
     },
     "camp_fill_time_info": {
         "message": "Tiempo requerido para que la barra de energia pase de estar vacia a estar completa."
+    },
+    "camp_numofregenslots": {
+        "message": "# ranuras de regeneración"
+    },
+    "camp_canbeimproved": {
+        "message": "Este campamento se puede mejorar"
+    },
+    "camp_showsetup": {
+        "message": "Clickee aqui para mostrar el modo de configuración del campamento"
     },
     "camp_windmill_regen": {
         "message": "Regeneracion por molino"
@@ -630,7 +639,7 @@
         "message": "Podrás revelar cartas de un grupo solo después de que se revelen todas las cartas del grupo anterior.\n"
     },
     "camp_ftp_cumulativegems": {
-        "message": "Total de gemas hasta el momento ."
+        "message": "Total de gemas hasta el momento."
     },
     "map_floor": {
         "message": "Piso"
@@ -660,7 +669,7 @@
         "message": "Todos los pisos"
     },
     "map_warning": {
-        "message": "Entra en el juego ingresa a cualquier ubicación y luego regresa aqui ."
+        "message": "Campamento no visitado aún."
     },
     "map_button_d": {
         "message": "Mostrar Diggy"
@@ -725,7 +734,7 @@
         }
     },
     "map_goto_unknown": {
-        "message": "Va a otro piso, pero ese camino aún no ha sido despejado ."
+        "message": "Va a otro piso, pero ese camino aún no ha sido despejado."
     },
     "map_teleport": {
         "message": "Teletrasportación"
@@ -902,7 +911,7 @@
         "message": "Todos"
     },
     "neighbors_nogift": {
-        "message": "Ningun regalo en los ultimos $NUM$ dias .",
+        "message": "Ningun regalo en los ultimos $NUM$ dias.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1073,7 +1082,7 @@
         "message": "Puedes eliminar amigo desde esta pagina\n\nTenga en cuenta que las cuentas de Facebook pueden estar deshabilitadas temporalmente y pueden habilitarse en un momento posterior."
     },
     "friendship_confirmcollect": {
-        "message": "Presione SI para confirmar, NO para intentar más tarde .\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
+        "message": "Presione SI para confirmar, NO para intentar más tarde.\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
     },
     "friendship_speedupcollect": {
         "message": "Recoleccion acelerada?"
@@ -1745,7 +1754,7 @@
         "message": "Tenga en cuenta que si compró un paquete especial en el juego por este precio en el pasado, no será posible comprar ningún otro paquete por este precio.\nEn este caso, el precio más bajo disponible será de aproximadamente 5,5 USD."
     },
     "equipment_slotslower": {
-        "message": "Ranuras con menos potencia que esta ."
+        "message": "Ranuras con menos potencia que esta."
     },
     "events_year": {
         "message": "Año del evento"
@@ -2042,7 +2051,7 @@
         "message": "Añadir tabla de resumen\nSi la página no se cierra automáticamente, agregue una tabla de resumen en la parte inferior."
     },
     "options_linkgrabenabled": {
-        "message": "Recolectar enlace .\nHabilita el recolector de enlaces dentro de Facebook.\nSi no está habilitado, las siguientes opciones no tienen efecto."
+        "message": "Recolectar enlace.\nHabilita el recolector de enlaces dentro de Facebook.\nSi no está habilitado, las siguientes opciones no tienen efecto."
     },
     "options_linkgrabbutton": {
         "message": "Botón del ratón\n\nElige el botón del ratón que activa el recolector de enlaces."

@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Tempo necessario affinché la barra dell'energia passi da vuota a piena capacità."
     },
+    "camp_numofregenslots": {
+        "message": "# slot di rigenerazione"
+    },
+    "camp_canbeimproved": {
+        "message": "Questo campo può essere migliorato"
+    },
+    "camp_showsetup": {
+        "message": "Clicca qui per mostrare il campo in modalità pianificazione"
+    },
     "camp_windmill_regen": {
         "message": "Rigenerazione di un mulino"
     },

@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Den tid det tager at fylde energisøjlen fra tomt til fuld."
     },
+    "camp_numofregenslots": {
+        "message": "# regenererings-enheder"
+    },
+    "camp_canbeimproved": {
+        "message": "Denne lejr kan forbedres"
+    },
+    "camp_showsetup": {
+        "message": "Klik her for at vise opsætning på lejr"
+    },
     "camp_windmill_regen": {
         "message": "Enkelt vindmølle regenerering"
     },

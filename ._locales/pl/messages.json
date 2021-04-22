@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Czas potrzebny do zapełnienia paska energii od zera do pełna."
     },
+    "camp_numofregenslots": {
+        "message": "# sloty regeneracyjne"
+    },
+    "camp_canbeimproved": {
+        "message": "Ten obóz może być poprawiony"
+    },
+    "camp_showsetup": {
+        "message": "Kliknij tutaj aby zobaczyć tryb ustawień obozu"
+    },
     "camp_windmill_regen": {
         "message": "Regeneracja jednego wiatraka"
     },

@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Время необходимое для полного восстановления энергии."
     },
+    "camp_numofregenslots": {
+        "message": "Кол-во слотов регенерации"
+    },
+    "camp_canbeimproved": {
+        "message": "Лагерь можно улучшить"
+    },
+    "camp_showsetup": {
+        "message": "Нажмите здесь, чтобы показать лагерь в режиме настройки"
+    },
     "camp_windmill_regen": {
         "message": "Регенерация одной мельницей"
     },

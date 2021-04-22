@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Le temps nécessaire de la barre d'énergie pour aller de vide à pleine capacité."
     },
+    "camp_numofregenslots": {
+        "message": "# emplacements de régénération"
+    },
+    "camp_canbeimproved": {
+        "message": "Ce camp peut être amélioré"
+    },
+    "camp_showsetup": {
+        "message": "Cliquez ici pour afficher le camp du mode de configuration"
+    },
     "camp_windmill_regen": {
         "message": "Régénération d'un moulin"
     },

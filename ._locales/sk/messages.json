@@ -337,7 +337,7 @@
         "message": "O nás"
     },
     "tab_progress": {
-        "message": "Pokrok"
+        "message": "Postup"
     },
     "tab_camp": {
         "message": "Kemp"
@@ -525,6 +525,15 @@
     },
     "camp_fill_time_info": {
         "message": "Čas potrebný na to aby energetická lišta prešla z prázdnej na plnú kapacitu."
+    },
+    "camp_numofregenslots": {
+        "message": "# počet slotov regenerácie"
+    },
+    "camp_canbeimproved": {
+        "message": "Tento kemp sa dá vylepšiť"
+    },
+    "camp_showsetup": {
+        "message": "Kliknutím tu zobrazíte zostavovací mód kempu"
     },
     "camp_windmill_regen": {
         "message": "Jedna regenerácia vrtuľky"

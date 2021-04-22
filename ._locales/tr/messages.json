@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Enerji çubuğunun boştan tam kapasiteye geçmesi için gereken süre"
     },
+    "camp_numofregenslots": {
+        "message": "# yeniden yenilenme yuvası"
+    },
+    "camp_canbeimproved": {
+        "message": "Bu kamp geliştirilebilir"
+    },
+    "camp_showsetup": {
+        "message": "Kurulum modu kampını göstermek için burayı tıklayın"
+    },
     "camp_windmill_regen": {
         "message": "Tek yel değirmeni yenilenmesi"
     },

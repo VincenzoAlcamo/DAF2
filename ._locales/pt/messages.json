@@ -526,6 +526,15 @@
     "camp_fill_time_info": {
         "message": "Tempo necessário para que a barra de energia passe de vazia à capacidade total."
     },
+    "camp_numofregenslots": {
+        "message": "# espaços de regeneração"
+    },
+    "camp_canbeimproved": {
+        "message": "Este acampamento pode ser melhorado"
+    },
+    "camp_showsetup": {
+        "message": "Clique aqui para mostrar o modo de configuração do acampamento"
+    },
     "camp_windmill_regen": {
         "message": "Regeneração única de moinho de vento"
     },
