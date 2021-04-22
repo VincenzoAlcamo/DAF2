@@ -827,11 +827,10 @@ var Data = {
             const locations = Data.files['locations_' + rid];
             if (!locations) return {};
             for (const loc of Object.values(locations)) {
-                if (+loc.reset_cd <= 0 || ![].concat(loc.rotation).length) continue;
+                if (+loc.test || +loc.reset_cd <= 0 || ![].concat(loc.rotation).length) continue;
                 // Additional checks
                 if (+loc.req_quest_a == 1) continue;
                 const eid = +loc.event_id || 0;
-                if (+loc.test || (!+loc.order_id && eid == 0)) continue;
                 const item = { id: +loc.def_id, cooldown: +loc.reset_cd, name: loc.name_loc, rid, image: loc.mobile_asset, rotation: {} };
                 if (eid) {
                     const event = events[eid];
