@@ -274,15 +274,20 @@ function setBadge({ selector, text, title, active }) {
     badge.classList.toggle('DAF-badge-on', !!active);
 }
 
-let lastAudio;
 function playSound(sound, volume = 100) {
     if (!sound || !volume) return;
     volume = +volume / 100;
-    if (lastAudio && !lastAudio.ended && lastAudio.src == sound) return lastAudio.volume = volume;
-    if (lastAudio) try { lastAudio.pause(); } catch (e) { }
-    lastAudio = new Audio(sound);
-    lastAudio.volume = volume;
-    lastAudio.play().then(_ => 0).finally(_ => lastAudio = null);
+    const last = playSound.last = playSound.last || {};
+    if (last.sound == sound && (!last.ended || last.ended + 2 > getUnixTime())) return;
+    if (last.audio) try { last.audio.pause(); } catch (e) { }
+    const audio = last.audio = new Audio(last.sound = sound);
+    audio.volume = volume;
+    audio.play().then(_ => 0).finally(_ => {
+        if (audio == last.audio) {
+            last.audio = null;
+            last.ended = getUnixTime();
+        }
+    });
 }
 
 let badgeLuckyCards, badgeLuckyCardsNext, badgeLuckyCardsHandler;
