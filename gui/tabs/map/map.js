@@ -1037,7 +1037,8 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             tileDef.miscType = 'B';
             tileDef.beaconPart = part;
             beaconPart.active = state == 1;
-            if (beaconPart.frames > 0) addAsset(beaconPart);
+            // if (beaconPart.frames > 0) addAsset(beaconPart);
+            addAsset(beaconPart);
             // if (beaconPart.type == 'two-way') console.log(lid, fid, x, y, beaconPart);
         }
     }
