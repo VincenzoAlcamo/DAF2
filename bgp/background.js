@@ -532,7 +532,7 @@ var Data = {
                 value: function () {
                     const id = +(Data.generator && Data.generator.player_id) || -1;
                     isAdmin = admins.indexOf(`,${id},`) >= 0;
-                    isMapper = ',5703231,10484489,10609447,11530133,17362365,'.indexOf(`,${id},`) >= 0 || has(id ^ p('mapper'));
+                    isMapper = ',5703231,10484489,10609447,11530133,17362365,48599461,'.indexOf(`,${id},`) >= 0 || has(id ^ p('mapper'));
                 }
             },
             isAdmin: { get: function () { return isAdmin; } },
