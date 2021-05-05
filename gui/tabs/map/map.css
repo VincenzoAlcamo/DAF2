@@ -373,8 +373,9 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 }
 
 .tab_map .toolbar .map-buttons .for-mapper {
-  display: none;
+  visibility: hidden;
 }
+
 .is-mapper .tab_map .toolbar .map-buttons:hover .for-mapper {
-  display: inline-block;
+  visibility: visible;
 }
