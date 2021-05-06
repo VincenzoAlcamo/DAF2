@@ -221,6 +221,28 @@ function init() {
     });
 
     container.addEventListener('tooltip', onTooltip);
+
+    document.body.addEventListener('keydown', onKeydown);
+}
+
+function isValidEvent() {
+    const el = document.activeElement;
+    if (el && el.tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
+    const current = gui.getCurrentTab();
+    return current && current.id == 'map' ? true : false;
+}
+function onKeydown(event) {
+    if (!isValidEvent()) return;
+    if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
+        const key = event.key.toUpperCase();
+        const input = checks.find(el => el.getAttribute('data-flag') == key);
+        if (input && isCheckAllowed(input)) input.click();
+        if (key >= '0' && key <= '9') {
+            const fid = key == '0' ? '10' : key;
+            const input = Array.from(container.querySelectorAll('.toolbar input[type="radio"][data-flag]')).find(el => el.getAttribute('data-flag') == fid);
+            if (input && !input.disabled) input.click();
+        }
+    }
 }
 
 function addQuestDrop(lid, type, id, value) {
