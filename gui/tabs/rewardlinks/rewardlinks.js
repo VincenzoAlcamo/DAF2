@@ -171,9 +171,10 @@ function init() {
     };
     for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
 
-    container.addEventListener('paste', paste);
-    container.addEventListener('copy', copy);
-    container.addEventListener('cut', cut);
+    container.addEventListener('paste', onPaste);
+    container.addEventListener('copy', onCopy);
+    container.addEventListener('cut', onCut);
+    document.body.addEventListener('keydown', onKeydown);
 }
 
 function onPrefChange(changes) {
@@ -184,41 +185,59 @@ function onPrefChange(changes) {
     }
 }
 
-function paste(event) {
-    const pasted = (event.clipboardData || window.clipboardData).getData('text');
+function isValidEvent() {
+    const el = document.activeElement;
+    if (el && el.tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
+    const current = gui.getCurrentTab();
+    return current && current.id == 'rewardlinks' ? true : false;
+}
+function onPaste(event) {
+    if (!isValidEvent()) return;
+    const clipboard = event.clipboardData || window.clipboardData;
+    if (!clipboard) return;
+    const pasted = clipboard.getData('text');
     const numAdded = bgp.Data.addRewardLinks(LinkData.getLinkData(pasted));
     gui.toast.show({ text: gui.getMessage(numAdded ? 'linkgrabber_added' : 'rewardlinks_nolinksadded', numAdded) });
     event.preventDefault();
 }
-function copy() {
+function onCopy() {
+    if (!isValidEvent()) return;
     const state = getState();
     const conversion = state.convert == 'facebook' ? 1 : (state.convert == 'portal' ? 2 : 0);
     const rewards = Object.values(items).filter(item => item.row.classList.contains('selected')).map(reward => LinkData.getLink(reward, conversion));
     if (rewards.length) copyToClipboard(rewards.join('\n') + '\n');
     Dialog(Dialog.TOAST).show({ text: gui.getMessage('linkgrabber_copied', rewards.length) });
 }
-function cut() {
+function onCut() {
+    if (!isValidEvent()) return;
     remove();
 }
-function keydown(event) {
+function onKeydown(event) {
+    if (!isValidEvent()) return;
     const key = event.which || event.keyCode;
-    const ctrl = event.ctrlKey ? event.ctrlKey : (key === 17 ? true : false);
-    if (ctrl) {
-        if (key == 67) copy();
+    if (event.ctrlKey && !event.altKey && !event.shiftKey) {
+        if (key == 67) onCopy();
         // Paste does not work
-        // if (key == 86) paste(event);
-        if (key == 88) cut();
+        // if (key == 86) onPaste(event);
+        if (key == 88) onCut();
     }
+    if (!event.ctrlKey && !event.altKey && !event.shiftKey && key == 46) onCut();
 }
 
 function copyToClipboard(str, mimeType = 'text/plain') {
+    if (copyToClipboard.flag) return;
     function oncopy(event) {
         event.clipboardData.setData(mimeType, str);
         event.preventDefault();
     }
-    document.addEventListener('copy', oncopy);
-    document.execCommand('copy', false, null);
-    document.removeEventListener('copy', oncopy);
+    try {
+        copyToClipboard.flag = true;
+        document.addEventListener('copy', oncopy);
+        document.execCommand('copy', false, null);
+        document.removeEventListener('copy', oncopy);
+    } finally {
+        copyToClipboard.flag = false;
+    }
 }
 
 function onErrorImg(event) {
@@ -629,7 +648,7 @@ function update() {
             if (!firstTime) status = 2;
             // Ctrl-C, Ctrl-X do not get triggered on the container when a checkbox has focus so we have to add a listener for `keydown`
             // Ctrl-V never get triggered and we cannot simulate it since the clipboard is not accessible in that case
-            item.row.querySelector('input').addEventListener('keydown', keydown);
+            // item.row.querySelector('input').addEventListener('keydown', keydown);
         }
         if (status && status != item.status) {
             item.status = status;
