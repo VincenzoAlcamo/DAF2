@@ -226,8 +226,9 @@ function init() {
 }
 
 function isValidEvent() {
-    const el = document.activeElement;
-    if (el && el.tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
+    const el = document.activeElement, tagName = el ? el.tagName : '';
+    if (tagName == 'SELECT') return false;
+    if (tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
     const current = gui.getCurrentTab();
     return current && current.id == 'map' ? true : false;
 }
