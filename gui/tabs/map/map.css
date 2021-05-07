@@ -223,25 +223,40 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 }
 
 .tab_map .map.show_tiles td.tile {
-  border: 2px solid #AAF;
+  border: 2px solid #FFF;
   background-color: #AAF6;
 }
 
 .tab_map .map.show_tiles.show_bonus td.xp {
-  border: 2px solid #FF0;
   background-color: #FF06;
 }
 
 .tab_map .map.show_tiles.show_bonus td.energy {
-  border: 2px solid #0F0;
   background-color: #0F06;
 }
 
 .tab_map .map.show_tiles.show_bonus td.energy.xp {
-  border: 2px solid #0FF;
   background-color: #0FF6;
 }
 
+.tab_map .map.show_tiles td.tile.tile-e {
+  border-right-style: none;
+}
+
+.tab_map .map.show_tiles td.tile.tile-n {
+  border-top-style: none;
+}
+
+.tab_map .map.show_tiles td.tile.tile-s {
+  border-bottom-style: none;
+}
+
+.tab_map .map.show_tiles td.tile.tile-w {
+  border-left-style: none;
+}
+
+.tab_map .map.show_opaque td.opaque.energy,
+.tab_map .map.show_opaque td.opaque.xp,
 .tab_map .map.show_opaque td.opaque {
   background-color: #F008;
 }

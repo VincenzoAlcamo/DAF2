@@ -1946,6 +1946,12 @@ async function drawMine(args) {
         if (!tileDef.isVisible) return;
         const cell = table.rows[y].cells[x];
         cell.classList.toggle('tile', tileDef.isTile);
+        if (tileDef.isTile) {
+            cell.classList.toggle('tile-w', x > 0 && tileDefs[y * cols + x - 1].isTile);
+            cell.classList.toggle('tile-e', x < cols - 1 && tileDefs[y * cols + x + 1].isTile);
+            cell.classList.toggle('tile-n', y > 0 && tileDefs[(y - 1) * cols + x].isTile);
+            cell.classList.toggle('tile-s', y < rows - 1 && tileDefs[(y + 1) * cols + x].isTile);
+        }
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
             if (tileDef.isSpecial || tileDef.isQuest || tileDef.isMaterial) specialTiles.push(tileDef);
             if (tileDef.bonusXp) cell.classList.add('xp');
