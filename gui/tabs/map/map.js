@@ -676,6 +676,7 @@ function addImage(asset, url) {
             };
             img.src = url;
         });
+        return item.promise;
     }
 }
 
@@ -708,7 +709,7 @@ function isValidTile(tileDef, beaconPart) {
     return tileDef.isTile || !!tileDef.npcId;
 }
 
-async function calcMine(mine, { addImages = false, setAllVisibility = false } = {}) {
+async function calcMine(mine, { setAllVisibility = false } = {}) {
     if (!mine) return;
     mine.processed = gui.getUnixTime();
 
@@ -736,7 +737,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     if (eid) rid = segmented ? generator.events_region[eid] || generator.region : 1;
 
     const isInvalidCoords = (x, y) => y < 0 || y >= rows || x < 0 || x >= cols;
-    const addAsset = (item) => addImages && item && addImage(item.mobile_asset);
 
     const data = { mine, lid, fid, eid, segmented, rid, cols, rows, resetCount, location, isRepeatable };
 
@@ -763,7 +763,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     }
 
     const defaultBgId = floor.bg_id;
-    addAsset(backgrounds[defaultBgId]);
 
     const computeTile = tileDef => {
         const { x, y } = tileDef;
@@ -788,8 +787,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         }
         tileDef.tileId = tileId;
         tileDef.tileSubtype = tileSubtype;
-        const item = subtiles[tileDef.tileSubtype];
-        addAsset(item);
         tileDef.stamina = tile ? +tile.stamina : 0;
         tileDef.shadow = tile ? +tile.shadow : 0;
         delete tileDef.toDo;
@@ -874,7 +871,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         const id = obj.id;
         const item = backgrounds[id];
         if (item) {
-            addAsset(item);
             for (const tile of obj.tiles.split(';')) {
                 const [y, x] = tile.split(',').map(v => +v);
                 const tileDef = tileDefs[y * cols + x];
@@ -888,7 +884,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         const id = obj.id;
         const item = addons[id];
         if (item) {
-            addAsset(item);
             const type = item.type;
             obj.tiles.split(';').forEach(tile => {
                 const [y, x] = tile.split(',').map(v => +v);
@@ -911,7 +906,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     const setNpc = (tileDef, npcId) => {
         const item = npcs[npcId];
         if (item) {
-            addAsset(item);
             tileDef.npcId = npcId;
             if (+item.pick_child > 0) {
                 const child = childs[item.pick_child];
@@ -947,7 +941,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         const { def_id: id, row: y, column: x } = obj;
         const item = hints[id];
         if (item) {
-            addAsset(item);
             const tileDef = tileDefs[y * cols + x];
             tileDef.miscId = id;
             tileDef.miscType = 'H';
@@ -984,7 +977,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     });
     const setDoorTile = (door) => {
         if (!door) return;
-        addAsset(door);
         const tileDef = tileDefs[door.y * cols + door.x];
         tileDef.miscId = door.id;
         tileDef.miscType = door.miscType;
@@ -1006,8 +998,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         const { def_id: id, row: y, column: x, state } = obj;
         const item = draggables[id];
         if (item) {
-            addAsset(item);
-            addAsset(draggables[asArray(item.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]]);
             const tileDef = tileDefs[y * cols + x];
             tileDef.draggableId = id;
             tileDef.draggableStatus = state;
@@ -1060,9 +1050,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             tileDef.miscType = 'B';
             tileDef.beaconPart = part;
             beaconPart.active = state == 1;
-            // if (beaconPart.frames > 0) addAsset(beaconPart);
-            addAsset(beaconPart);
-            // if (beaconPart.type == 'two-way') console.log(lid, fid, x, y, beaconPart);
         }
     }
 
@@ -1130,8 +1117,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
                 const draggable = draggables[id];
                 if (!draggable) return false;
                 tileDef.draggableId = id;
-                addAsset(draggable);
-                addAsset(draggables[asArray(draggable.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]]);
                 if (v.length > 1) tileDef.draggableStatus = +v[1];
                 tileDef.draggableStatus = tileDef.draggableStatus || 1;
             }
@@ -1523,7 +1508,7 @@ function getMineList(groupLocations, showRepeatables, currentMine, selection) {
 
 async function processMine(selectedMine, args) {
 
-    currentData = await calcMine(determineCurrentMine(selectedMine), { addImages: true });
+    currentData = await calcMine(determineCurrentMine(selectedMine));
     if (!currentData) return;
     setLastViewedMine(currentData.mine);
     setWaitHandler();
@@ -1674,10 +1659,15 @@ async function drawMine(args) {
         ctx.drawImage(img, xpos * TILE_SIZE, ypos * TILE_SIZE, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         resetTransformation();
     };
-    const drawAll = (items, key, fn) => {
+    const getImg = async (asset) => {
+        const p = addImage(asset);
+        if (p) await p;
+        return asset && images[asset].img;
+    };
+    const drawAll = async (items, key, fn) => {
         for (const tileDef of tileDefs) {
             const item = items[tileDef[key]];
-            if (item) fn(tileDef.x, tileDef.y, tileDef, item, item.mobile_asset && images[item.mobile_asset].img);
+            if (item) fn(tileDef.x, tileDef.y, tileDef, item, await getImg(item && item.mobile_asset));
         }
     };
     const RANDOM_CHAR = '#1';
@@ -1819,7 +1809,7 @@ async function drawMine(args) {
     }
 
     // Backgrounds
-    drawAll(backgrounds, 'bgId', (x, y, tileDef, item, img) => {
+    await drawAll(backgrounds, 'bgId', (x, y, tileDef, item, img) => {
         if (img) {
             ctx.drawImage(img, (x % 4) * TILE_SIZE, (y % 4) * TILE_SIZE, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         }
@@ -1837,7 +1827,7 @@ async function drawMine(args) {
             }
         }
     };
-    drawAll(addons, 'backgroundAddonId', (x, y, tileDef, item, img) => {
+    await drawAll(addons, 'backgroundAddonId', (x, y, tileDef, item, img) => {
         // A previously background addon overlaps this tile
         if (tileDef.addonDelta >= 0) return;
         // If a tile is here
@@ -1848,14 +1838,14 @@ async function drawMine(args) {
         if (img) setAddonInfo(tileDef, item, true);
     });
     // A foreground addon will remove the background addon on the same tile
-    drawAll(addons, 'foregroundAddonId', (x, y, tileDef, item, img) => {
+    await drawAll(addons, 'foregroundAddonId', (x, y, tileDef, item, img) => {
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) setAddonInfo(tileDef, item, false);
     });
     for (const tileDef of tileDefs.filter(t => t.addonDelta >= 0)) {
         const delta = tileDef.addonDelta, dx = delta % cols, dy = (delta - dx) / cols;
         delete tileDef.addonDelta;
         const item = addons[tileDefs[tileDef.y * cols + tileDef.x - delta].backgroundAddonId];
-        const img = item && item.mobile_asset && images[item.mobile_asset].img;
+        const img = await getImg(item && item.mobile_asset);
         if (img) drawAddon(tileDef.x, tileDef.y, item, img, dx, dy);
     }
 
@@ -1932,7 +1922,7 @@ async function drawMine(args) {
             cell.classList.toggle('beacon-active', beaconPart.active);
         }
         if (texts.length) addTitle(x, y, texts.join('\n'), true);
-        const img = item && item.mobile_asset && images[item.mobile_asset].img;
+        const img = await getImg(item && item.mobile_asset);
         if (img) {
             if (tileDef.miscType == 'B') {
                 if (tileDef.tileStatus == 2 || showBackground) drawFrame(x, y, img, item.active ? 0 : item.frames - 1, false, false, item.rotation / 90);
@@ -1944,7 +1934,7 @@ async function drawMine(args) {
 
     // Tiles
     const specialTiles = [];
-    drawAll(subtiles, 'tileSubtype', (x, y, tileDef, item, img) => {
+    await drawAll(subtiles, 'tileSubtype', (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
         const cell = table.rows[y].cells[x];
         cell.classList.toggle('tile', tileDef.isTile);
@@ -1968,7 +1958,7 @@ async function drawMine(args) {
     });
 
     // Foreground Addons
-    drawAll(addons, 'foregroundAddonId', (x, y, tileDef, item, img) => {
+    await drawAll(addons, 'foregroundAddonId', (x, y, tileDef, item, img) => {
         if (tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) drawAddon(x, y, item, img);
     });
 
@@ -2012,7 +2002,7 @@ async function drawMine(args) {
     }
 
     // Static Addons
-    drawAll(addons, 'staticAddonId', (x, y, tileDef, item, img) => {
+    await drawAll(addons, 'staticAddonId', (x, y, tileDef, item, img) => {
         // Clear any static addon that overlaps this one
         const width = +item.columns;
         const height = +item.rows;
@@ -2025,10 +2015,12 @@ async function drawMine(args) {
     });
 
     // Draggables
-    drawAll(draggables, 'draggableId', (x, y, tileDef, item, img) => {
+    await drawAll(draggables, 'draggableId', async (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
         const override = draggables[asArray(item.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]];
-        if (override && override.mobile_asset in images) img = images[override.mobile_asset];
+        const img2 = await getImg(override && override.mobile_asset);
+        if (img2) img = img2;
+        // if (override && override.mobile_asset in images) img = images[override.mobile_asset];
         const cost = override ? +override.stamina : +item.stamina;
         let title = `${gui.getMessage('map_draggable')} #${tileDef.draggableId} (${getOrientationName(tileDef.draggableStatus)})`;
         if (item.type == 'light') title += '\n' + gui.getMessageAndValue('map_emitter', getLightColorName(item.color_light));
@@ -2045,7 +2037,9 @@ async function drawMine(args) {
         }
         addTitle(x, y, title, true);
         const segmentedItem = draggables[asArray(item.overrides).filter(o => +o.region_id == rid).map(o => o.override_drag_id)[0]];
-        if (segmentedItem && segmentedItem.mobile_asset) img = images[segmentedItem.mobile_asset].img;
+        const img3 = await getImg(segmentedItem && segmentedItem.mobile_asset);
+        if (img3) img = img3;
+        // if (segmentedItem && segmentedItem.mobile_asset) img = images[segmentedItem.mobile_asset].img;
         if (img) {
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, (tileDef.draggableStatus - 1) * Math.PI / 2);
             ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
@@ -2054,7 +2048,7 @@ async function drawMine(args) {
     });
 
     // Npcs
-    drawAll(npcs, 'npcId', (x, y, tileDef, item, img) => {
+    await drawAll(npcs, 'npcId', (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
         addTitle(x, y, gui.getMessage(+item.pick_child ? 'map_godchild' : 'map_npc'), true);
         if (item.idle_text) {
@@ -2175,8 +2169,8 @@ async function drawMine(args) {
 
     // Solution
     ctx.fillStyle = '#0F0';
-    (showSolution ? solutionTiles : []).forEach(tileDef => {
-        const img = tileDef.asset in images && images[tileDef.asset].img;
+    (showSolution ? solutionTiles : []).forEach(async (tileDef) => {
+        const img = await getImg(tileDef.asset);
         if (img) {
             const { x, y } = tileDef;
             ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -2191,7 +2185,7 @@ async function drawMine(args) {
     const isInvalidCoords = (x, y) => y < 0 || y >= rows || x < 0 || x >= cols;
     const isTransparent = (x, y) => (tileDefs[y * cols + x].solid & 21) == 0;
     const mirrors = { mirror12: 1, mirror13: 4, mirror23: 2, mirror24: 1, mirror31: 2, mirror34: 3, mirror41: 4, mirror42: 3 };
-    drawAll(draggables, 'draggableId', (x, y, tileDef, item, _img) => {
+    await drawAll(draggables, 'draggableId', (x, y, tileDef, item, _img) => {
         if (item.type == 'light') {
             let color = +item.color_light;
             let rotation = tileDef.draggableStatus;
