@@ -1164,7 +1164,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         }
     };
     layerFns['drag_swap'] = layerFns['drag'];
-    const beaconsExecuted = {};
+    let beaconsExecuted = {};
     const executeBeaconActions = beacon => {
         if (beacon.beacon_id in beaconsExecuted) {
             console.log('beacon actions already executed', beacon);
@@ -1202,6 +1202,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     const executeAction = action => {
         const { x, y } = action;
         let { cx, cy } = action;
+        beaconsExecuted = {};
         if (isInvalidCoords(x, y)) return false;
         const tileDef = tileDefs[y * cols + x];
         if (action.action == 'mine') {
