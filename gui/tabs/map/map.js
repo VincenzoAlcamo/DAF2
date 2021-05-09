@@ -83,10 +83,12 @@ const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles, showViewed, showBonus, showNotableLoot, showOpaque, showUncleared, showSolution, showColors;
+let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles;
+let showViewed, showBonus, showNotableLoot, showMixed, showOpaque, showUncleared, showSolution, showColors;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize, listMaterial;
+let unclearNotableTiles = {};
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
@@ -114,6 +116,7 @@ function setOption(id, flag) {
 function init() {
     tab = this;
     container = tab.container;
+    isAdmin = bgp.Data.isMapper;
 
     tableTileInfo = container.querySelector('.tile-info table');
 
@@ -238,9 +241,10 @@ function activateStateButton(input, state = 1) {
 }
 
 function onStateButtonClick(e) {
-    const input = e.target;
+    const input = e.target, flag2 = input.getAttribute('data-flag2');
     let state = input.checked ? 1 : 0;
-    if (input.getAttribute('data-flag2')) state = input.classList.contains('is-flag2') ? 0 : (input.checked ? 1 : 2);
+    if (flag2) state = input.classList.contains('is-flag2') ? 0 : (input.checked ? 1 : 2);
+    if (state == 2 && !isFlagAllowed(flag2)) state = 0;
     activateStateButton(input, state);
 }
 
@@ -256,8 +260,12 @@ function onKeydown(event) {
     if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
         const key = event.key.toUpperCase();
         const input = checks.find(el => el.getAttribute('data-flag') == key || el.getAttribute('data-flag2') == key);
-        if (input && isCheckAllowed(input)) {
-            activateStateButton(input, getStateButtonFlag(input) == key ? 0 : (input.getAttribute('data-flag2') == key ? 2 : 1));
+        if (input) {
+            const flag1 = input.getAttribute('data-flag'), flag2 = input.getAttribute('data-flag2');
+            let state = getStateButtonFlag(input) == key ? 0 : (flag2 == key ? 2 : 1);
+            if (state == 2 && !isFlagAllowed(flag2)) state = 1;
+            if (state == 1 && !isFlagAllowed(flag1)) state = 0;
+            activateStateButton(input, state);
         }
         if (key >= '0' && key <= '9') {
             const fid = key == '0' ? '10' : key;
@@ -274,9 +282,11 @@ function addQuestDrop(lid, type, id, value) {
     if (!(key in h)) h[key] = value;
 }
 
-function isCheckAllowed(check) {
-    const flag = check.getAttribute('data-flag');
+function isFlagAllowed(flag) {
     return 'CDNTUVX'.indexOf(flag) >= 0 || isAdmin;
+}
+function isCheckAllowed(check) {
+    return isFlagAllowed(check.getAttribute('data-flag'));
 }
 
 function scrollToCenter(x, y, smooth) {
@@ -561,12 +571,8 @@ function onTableClick(event) {
 
 function update() {
     isAdmin = bgp.Data.isMapper;
-    canShowBonus = canShowBeacon = false;
-    checks.forEach(check => {
-        const flag = check.getAttribute('data-flag');
-        if (flag == 'B') canShowBonus = isCheckAllowed(check);
-        if (flag == 'E') canShowBeacon = isCheckAllowed(check);
-    });
+    canShowBonus = isFlagAllowed('B');
+    canShowBeacon = isFlagAllowed('E');
     ({ cdn_root, versionParameter } = gui.getGenerator());
     if (determineCurrentMine()) gui.setLazyRender(map);
     addons = gui.getFile('addons');
@@ -669,7 +675,10 @@ function setState(state) {
     selectRegion.setAttribute('data-value', state.region);
     const flags = String(state.show || '').toUpperCase();
     checks.forEach(check => {
-        const state = flags.includes(check.getAttribute('data-flag2')) ? 2 : (flags.includes(check.getAttribute('data-flag')) ? 1 : 0);
+        const flag1 = check.getAttribute('data-flag'), flag2 = check.getAttribute('data-flag2');
+        let state = flags.includes(flag2) ? 2 : (flags.includes(flag1) ? 1 : 0);
+        if (state == 2 && !isFlagAllowed(flag2)) state = 1;
+        if (state == 1 && !isFlagAllowed(flag1)) state = 0;
         setStateButton(check, state);
     });
     zoom = Math.min(Math.max(2, Math.round(+state.zoom || 5)), 10);
@@ -738,13 +747,11 @@ async function calcMine(mine, { setAllVisibility = false } = {}) {
     mine.processed = gui.getUnixTime();
 
     const { id: lid, level_id: fid, columns: cols, rows } = mine;
-    let { region: rid, tiles: mineTiles, packedTiles } = mine;
+    let { region: rid, tiles: mineTiles } = mine;
 
-    let base = mine;
-    if (showUncleared && mine._p.o) {
-        base = mine._p.o;
-        packedTiles = base.packed;
-    }
+    const isUnclear = !!(showUncleared && mine._p.o);
+    const base = isUnclear ? mine._p.o : mine;
+    const packedTiles = isUnclear ? base.packed : mine.packedTiles;
     if (packedTiles) mineTiles = PackTiles.unpack(packedTiles);
 
     const generator = gui.getGenerator();
@@ -1422,6 +1429,7 @@ async function calcMine(mine, { setAllVisibility = false } = {}) {
     }
 
     mine._p.vis = getViewed(tileDefs, setAllVisibility);
+    if (isUnclear) unclearNotableTiles = { lid, fid, tiles: tileDefs.filter(tileDef => tileDef.isSpecial || tileDef.isQuest) };
 
     return data;
 }
@@ -1580,7 +1588,8 @@ function updateTableFlags() {
     showTiles = state.show.includes('l');
     showViewed = state.show.includes('v');
     showBonus = state.show.includes('b');
-    showNotableLoot = state.show.includes('n');
+    showMixed = state.show.includes('m');
+    showNotableLoot = state.show.includes('n') || showMixed;
     showOpaque = state.show.includes('o');
     showUncleared = state.show.includes('u');
     showColors = state.show.includes('c');
@@ -1619,7 +1628,17 @@ async function drawMine(args) {
     }
     if (Object.keys(allQuestDrops[lid] || {}).length !== allQuestDropsFlags[`${lid}_${fid}`]) currentData = await calcMine(currentData.mine);
 
-    const { rows, cols, rid, tileDefs, beaconParts, doors, hints, teleports, isRepeatable } = currentData;
+    const { rows, cols, rid, beaconParts, doors, hints, teleports, isRepeatable } = currentData;
+
+    const tileDefs = [].concat(currentData.tileDefs);
+    if (!showUncleared && showMixed) {
+        if (unclearNotableTiles.lid != lid || unclearNotableTiles.fid != fid) {
+            showUncleared = true;
+            await calcMine(currentData.mine);
+            showUncleared = false;
+        }
+        if (unclearNotableTiles.tiles) unclearNotableTiles.tiles.forEach(tileDef => tileDefs[tileDef.tileIndex] = tileDef);
+    }
 
     canvas.width = cols * TILE_SIZE;
     canvas.height = rows * TILE_SIZE;

@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Show full map"
     },
+    "map_button_s": {
+        "message": "Show solution"
+    },
+    "map_button_m": {
+        "message": "Mix notable tiles"
+    },
     "map_save": {
         "message": "Save"
     },
