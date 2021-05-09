@@ -173,6 +173,10 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   content: attr(data-flag);
 }
 
+.tab_map .toolbar [data-flag2].is-flag2:before {
+  content: attr(data-flag2);
+}
+
 .tab_map .toolbar div[data-id="info"] {
   line-height: 0.9;
   white-space: pre;

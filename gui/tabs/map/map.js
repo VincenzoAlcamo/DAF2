@@ -197,14 +197,7 @@ function init() {
     checks = Array.from(container.querySelectorAll('.toolbar input[type=checkbox][data-flag]'));
     checks.forEach(el => {
         if (el.previousSibling && el.previousSibling.nodeType == Node.TEXT_NODE) el.previousSibling.remove();
-        el.title = gui.getMessage('map_button_' + el.getAttribute('data-flag').toLowerCase());
-        el.addEventListener('click', e => {
-            updateTableFlags();
-            const flag = e.target.getAttribute('data-flag');
-            if ('UK'.includes(flag)) processMine();
-            else if ('LBE'.includes(flag)) return;
-            else drawMine();
-        });
+        el.addEventListener('click', onStateButtonClick);
     });
 
     container.querySelector('[data-id="lid"]').addEventListener('change', e => processMine(findMine(+e.target.value, -1)));
@@ -225,6 +218,32 @@ function init() {
     document.body.addEventListener('keydown', onKeydown);
 }
 
+function setStateButton(input, state = 0) {
+    const flag = input.getAttribute(state == 2 ? 'data-flag2' : 'data-flag');
+    input.checked = state == 1 || state == 2;
+    input.classList.toggle('is-flag2', state == 2);
+    input.title = gui.getMessage('map_button_' + flag.toLowerCase());
+    return flag;
+}
+function getStateButtonFlag(input) {
+    if (!input.checked || !isCheckAllowed(input)) return '';
+    return input.getAttribute(input.classList.contains('is-flag2') ? 'data-flag2' : 'data-flag');
+}
+function activateStateButton(input, state = 1) {
+    const flag = setStateButton(input, state);
+    updateTableFlags();
+    if ('UK'.includes(flag)) processMine();
+    else if ('LBE'.includes(flag)) return;
+    else drawMine();
+}
+
+function onStateButtonClick(e) {
+    const input = e.target;
+    let state = input.checked ? 1 : 0;
+    if (input.getAttribute('data-flag2')) state = input.classList.contains('is-flag2') ? 0 : (input.checked ? 1 : 2);
+    activateStateButton(input, state);
+}
+
 function isValidEvent() {
     const el = document.activeElement, tagName = el ? el.tagName : '';
     if (tagName == 'SELECT') return false;
@@ -236,8 +255,10 @@ function onKeydown(event) {
     if (!isValidEvent()) return;
     if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
         const key = event.key.toUpperCase();
-        const input = checks.find(el => el.getAttribute('data-flag') == key);
-        if (input && isCheckAllowed(input)) input.click();
+        const input = checks.find(el => el.getAttribute('data-flag') == key || el.getAttribute('data-flag2') == key);
+        if (input && isCheckAllowed(input)) {
+            activateStateButton(input, getStateButtonFlag(input) == key ? 0 : (input.getAttribute('data-flag2') == key ? 2 : 1));
+        }
         if (key >= '0' && key <= '9') {
             const fid = key == '0' ? '10' : key;
             const input = Array.from(container.querySelectorAll('.toolbar input[type="radio"][data-flag]')).find(el => el.getAttribute('data-flag') == fid);
@@ -635,7 +656,7 @@ function markToBeRendered() {
 function getState() {
     return {
         region: selectRegion.options.length ? selectRegion.value : selectRegion.getAttribute('data-value'),
-        show: checks.map(check => check.checked && isCheckAllowed(check) ? check.getAttribute('data-flag') : '').sort().join('').toLowerCase(),
+        show: checks.map(getStateButtonFlag).sort().join('').toLowerCase(),
         options: ALL_OPTIONS.filter(id => !hasOption(id)).join(''),
         resize: resize == 100 ? null : resize,
         zoom: zoom,
@@ -647,7 +668,10 @@ function setState(state) {
     if (selectRegion.options.length) state.region = gui.setSelectState(selectRegion, state.region || '');
     selectRegion.setAttribute('data-value', state.region);
     const flags = String(state.show || '').toUpperCase();
-    checks.forEach(check => check.checked = flags.includes(check.getAttribute('data-flag')));
+    checks.forEach(check => {
+        const state = flags.includes(check.getAttribute('data-flag2')) ? 2 : (flags.includes(check.getAttribute('data-flag')) ? 1 : 0);
+        setStateButton(check, state);
+    });
     zoom = Math.min(Math.max(2, Math.round(+state.zoom || 5)), 10);
     const options = String(state.options || '').toLowerCase();
     ALL_OPTIONS.forEach(id => setOption(id, options.indexOf(id) < 0));
