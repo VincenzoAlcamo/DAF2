@@ -7,7 +7,10 @@ export default {
     setState,
     actions: { 'daf_mine_action': markToBeRendered },
     requires: (function () {
-        const requires = ['addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events', 'usables', 'materials', 'tokens', 'achievements', 'quests', 'map_filters', 'tablets'];
+        const requires = [
+            'addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events',
+            'usables', 'materials', 'tokens', 'achievements', 'quests', 'map_filters', 'tablets', 'location_replaces'
+        ];
         for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
         return requires;
     })()
@@ -605,6 +608,8 @@ function update() {
 
     allQuestDrops = {};
     allQuestDropsFlags = {};
+    const replaces = {};
+    Object.values(gui.getFile('location_replaces')).forEach(r => replaces[r.location_id] = r.replace_id);
     // Quests -> steps -> objectives -> location_type can be:
     // camp, floor, city, bill, map, global_contract_popup, create_mine, crafting_popup
     const materials = gui.getFile('materials');
@@ -618,6 +623,7 @@ function update() {
                         if (!m || +m.event_id == 0) continue;
                     }
                     addQuestDrop(lid, type, id, quest.def_id);
+                    if (lid in replaces) addQuestDrop(replaces[lid], type, id, quest.def_id);
                 }
             }
         }
@@ -1372,7 +1378,7 @@ async function calcMine(mine, { setAllVisibility = false } = {}) {
                 if (drop.skip || (drop.forAdmin && !isAdmin)) continue;
                 const key = drop.type + '_' + drop.id;
                 if (key == 'material_1') numCoins++;
-                const isQuest = (key in questDrops) || specialDrops[key] === true;
+                const isQuest = (key in questDrops) || specialDrops[key] === true || drop.type == 'tablet';
                 const isSpecial = !isQuest && (specialDrops[key] === false || drop.type == 'artifact');
                 const isMaterial = key in materialDrops || drop.type in materialDrops;
                 if (isSpecial) tileDef.isSpecial = true;
@@ -1637,7 +1643,7 @@ async function drawMine(args) {
             await calcMine(currentData.mine);
             showUncleared = false;
         }
-        if (unclearNotableTiles.tiles) unclearNotableTiles.tiles.forEach(tileDef => tileDefs[tileDef.tileIndex] = tileDef);
+        if (unclearNotableTiles.tiles) unclearNotableTiles.tiles.forEach(tileDef => tileDefs[tileDef.tileIndex] = Object.assign({ mixed: true }, tileDef));
     }
 
     canvas.width = cols * TILE_SIZE;
@@ -1987,12 +1993,14 @@ async function drawMine(args) {
             cell.classList.toggle('tile-n', y > 0 && tileDefs[(y - 1) * cols + x].isTile);
             cell.classList.toggle('tile-s', y < rows - 1 && tileDefs[(y + 1) * cols + x].isTile);
         }
+        let isSpecial = tileDef.mixed;
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
-            if (tileDef.isSpecial || tileDef.isQuest || tileDef.isMaterial) specialTiles.push(tileDef);
+            isSpecial |= (tileDef.isSpecial || tileDef.isQuest || tileDef.isMaterial);
             if (tileDef.bonusXp) cell.classList.add('xp');
             if (tileDef.bonusEnergy) cell.classList.add('energy');
             if (tileDef.stamina >= 0 && tileDef.tileStatus == 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
         }
+        if (isSpecial) specialTiles.push(tileDef);
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, +item.rotation / 90 * Math.PI / 2);
             ctx.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
