@@ -203,6 +203,10 @@ function init() {
     checks = Array.from(container.querySelectorAll('.toolbar input[type=checkbox][data-flag]'));
     checks.forEach(el => {
         if (el.previousSibling && el.previousSibling.nodeType == Node.TEXT_NODE) el.previousSibling.remove();
+        const flag1 = el.getAttribute('data-flag'), flag2 = el.getAttribute('data-flag2');
+        let title = `${flag1} = ${gui.getMessage('map_button_' + flag1.toLowerCase())}`;
+        if (flag2 && isFlagAllowed(flag2)) title += `\n${flag2} = ${gui.getMessage('map_button_' + flag2.toLowerCase())}`;
+        el.title = title;
         el.addEventListener('click', onStateButtonClick);
     });
 
@@ -228,7 +232,6 @@ function setStateButton(input, state = 0) {
     const flag = input.getAttribute(state == 2 ? 'data-flag2' : 'data-flag');
     input.checked = state == 1 || state == 2;
     input.classList.toggle('is-flag2', state == 2);
-    input.title = gui.getMessage('map_button_' + flag.toLowerCase());
     return flag;
 }
 function getStateButtonFlag(input) {
@@ -2364,7 +2367,8 @@ async function drawMine(args) {
             for (const key of Object.keys(total)) total[key] += (_t && _t[key]) || 0;
         }
         const isCurrent = floorId == fid;
-        const title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
+        let title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
+        if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
         htm += Html`<input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"'}>`;
     }
     const div = container.querySelector('[data-id="fid"]');
