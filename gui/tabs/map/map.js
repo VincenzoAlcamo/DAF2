@@ -605,7 +605,6 @@ function update() {
         token_1470: true,   // CHINESE JOURNAL
         material_93: false, // JADEITE
         material_270: false,// OBSIDIAN
-        // material_2: false,  // GEM
     };
     Object.values(gui.getFile('achievements')).filter(a => +a.event_id > 0 && a.action == 'collect' && a.type == 'material').forEach(a => {
         const key = a.type + '_' + a.object_id;
@@ -634,6 +633,28 @@ function update() {
             }
         }
     }
+
+    const skipList = {
+        'token_3090': 0,    // generic treasure
+        'material_2': 0,    // gem
+        'material_47': 0,   // amethyst
+        'material_92': 0,   // ruby
+        'material_143': 0,  // topaz
+        'material_149': 0,  // black pearl
+    };
+    for (let rid = gui.getMaxRegion(); rid >= 0; rid--) {
+        Object.values(gui.getFile('locations_' + rid)).forEach(location => {
+            if (!location.loot_drop || +location.reset_cd > 0) return;
+            const lid = location.def_id;
+            const questItems = allQuestDrops[lid] || {};
+            location.loot_drop.split(';').forEach(loot => {
+                const key = loot.replace(':', '_');
+                if (key in skipList || key in specialDrops || key in questItems) return;
+                specialDrops[key] = false;
+            });
+        });
+    }
+
 
     mapFilters = {};
     for (const filter of Object.values(gui.getFile('map_filters'))) {
