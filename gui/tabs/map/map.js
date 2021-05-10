@@ -253,7 +253,6 @@ function onStateButtonClick(e) {
 
 function isValidEvent() {
     const el = document.activeElement, tagName = el ? el.tagName : '';
-    if (tagName == 'SELECT') return false;
     if (tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
     const current = gui.getCurrentTab();
     return current && current.id == 'map' ? true : false;
@@ -269,11 +268,15 @@ function onKeydown(event) {
             if (state == 2 && !isFlagAllowed(flag2)) state = 1;
             if (state == 1 && !isFlagAllowed(flag1)) state = 0;
             activateStateButton(input, state);
+            event.preventDefault();
         }
         if (key >= '0' && key <= '9') {
             const fid = key == '0' ? '10' : key;
             const input = Array.from(container.querySelectorAll('.toolbar input[type="radio"][data-flag]')).find(el => el.getAttribute('data-flag') == fid);
-            if (input && !input.disabled) input.click();
+            if (input && !input.disabled) {
+                event.preventDefault();
+                input.click();
+            }
         }
     }
 }
