@@ -71,6 +71,7 @@ const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
 const IMG_DEFAULT_NPC = '/img/gui/default_npc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
+const IMG_LOGO = '/img/logo/logo.png';
 
 const OPTION_COORDINATES = 'c';
 const OPTION_GROUPLOCATIONS = 'g';
@@ -78,7 +79,10 @@ const OPTION_REGIONSELECTOR = 's';
 const OPTION_LOCATIONINFO = 'i';
 const OPTION_REPEATABLES = 'r';
 const OPTION_TITLE = 't';
-const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_COORDINATES, OPTION_TITLE];
+const OPTION_BLANKS = 'b';
+const OPTION_MARGIN = 'm';
+const OPTION_LOGO = 'l';
+const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_COORDINATES, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO];
 const ALL_OPTIONS_AND_PREFERENCES = [...ALL_OPTIONS, OPTION_REPEATABLES];
 
 let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
@@ -398,11 +402,9 @@ function showAdvancedOptions() {
     htm += Html`<table style="user-select:none"><tr><td>`;
     htm += Html`<fieldset style="min-width: 260px;"><legend>${gui.getMessage('tab_options')}</legend>`;
     htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
-    htm += addOption(OPTION_REGIONSELECTOR, gui.getMessage('map_option_s'));
-    htm += addOption(OPTION_LOCATIONINFO, gui.getMessage('map_option_i'));
-    htm += addOption(OPTION_REPEATABLES, gui.getMessage('map_option_r'));
-    htm += addOption(OPTION_COORDINATES, gui.getMessage('map_option_c'));
-    htm += addOption(OPTION_TITLE, gui.getMessage('map_option_t'));
+    [OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES, OPTION_COORDINATES, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO].forEach(option => {
+        htm += addOption(option, gui.getMessage('map_option_' + option));
+    });
     htm += Html`<label style="margin-top:3px">${gui.getMessage('map_option_resize')} <select name="resize">`;
     const sizes = [100, 80, 75, 66, 60, 50, 40, 33, 25];
     if (resize < 100 && resize > 25 && !sizes.includes(resize)) {
@@ -544,8 +546,10 @@ function onTableMouseMove(event) {
     const line = map.querySelector('.line');
     const circle = map.querySelector('.circle');
     if (tileDef) {
-        const dx = sx - tx;
-        const dy = sy - ty;
+        const table = cell.parentNode.parentNode.parentNode;
+        const offsetX = +table.getAttribute('data-x'), offsetY = +table.getAttribute('data-y');
+        sx -= offsetX, tx -= offsetX, sy -= offsetY, ty -= offsetY;
+        const dx = sx - tx, dy = sy - ty;
         const angle = Math.atan2(dy, dx) + Math.PI;
         const width = (Math.sqrt(dx * dx + dy * dy) - 1) * TILE_SIZE;
         line.style.left = Math.floor((sx + 0.5 + Math.cos(angle) / 2) * TILE_SIZE) + 'px';
@@ -1486,6 +1490,7 @@ async function addExtensionImages() {
     addImage(IMG_DEFAULT_NPC);
     addImage(IMG_SHADOWS);
     addImage(IMG_BEAMS);
+    addImage(IMG_LOGO);
 
     if (!beamsLoaded) {
         await images[IMG_BEAMS].promise;
@@ -2425,6 +2430,39 @@ async function drawMine(args) {
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
     if (imgLocation.src != src) imgLocation.src = src;
 
+    // Trim blank regions
+    const EMPTY_THRESHOLD = 8;
+    const isRegionEmpty = (x, y, width, height) => !ctx.getImageData(x, y, width, height).data.some((v, i) => v > EMPTY_THRESHOLD && (i & 3) != 3);
+    const isTileRowEmpty = (x, y, cols) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, cols * TILE_SIZE, TILE_SIZE);
+    const isTileColumnEmpty = (x, y, rows) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, rows * TILE_SIZE);
+    const isTileEmpty = (x, y) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    let x1 = 0, y1 = 0, x2 = cols - 1, y2 = rows - 1;
+    if (hasOption(OPTION_BLANKS)) {
+        while (y1 < y2 && isTileRowEmpty(x1, y1, x2 - x1 + 1)) y1++;
+        while (y1 < y2 && isTileRowEmpty(x1, y2, x2 - x1 + 1)) y2--;
+        while (x1 < x2 && isTileColumnEmpty(x1, y1, y2 - y1 + 1)) x1++;
+        while (x1 < x2 && isTileColumnEmpty(x2, y1, y2 - y1 + 1)) x2--;
+    }
+    if (x1 > 0 || y1 > 0 || x2 < cols - 1 || y2 < rows - 1) {
+        const width = (x2 - x1 + 1) * TILE_SIZE, height = (y2 - y1 + 1) * TILE_SIZE;
+        const imgData = ctx.getImageData(x1 * TILE_SIZE, y1 * TILE_SIZE, width, height);
+        canvas.width = width;
+        canvas.height = height;
+        ctx.putImageData(imgData, 0, 0);
+        for (let y = 0; y < rows; y++) {
+            const row = tbody.rows[y];
+            if (y < y1 || y > y2) row.style.display = 'none';
+            else for (let x = 0; x < cols; x++) {
+                const cell = row.cells[x];
+                if (x < x1 || x > x2) cell.style.display = 'none';
+            }
+        }
+        table.style.width = width + 'px';
+        table.style.height = height + 'px';
+    }
+    table.setAttribute('data-x', x1);
+    table.setAttribute('data-y', y1);
+
     // Print title
     let marginTop = 0;
     if (hasOption(OPTION_TITLE)) {
@@ -2432,12 +2470,13 @@ async function drawMine(args) {
         if (currentData.floors.length > 1) {
             title += ' \u2013 ' + gui.getMessage('map_floor').toUpperCase() + ' ' + Locale.formatNumber(currentData.fid);
         }
-        const THRESHOLD = 8;
-        const FIT_TITLE = false;
+        const FIT_TITLE = true;
         ctx.font = 'bold 48px sans-serif';
         const width = FIT_TITLE ? Math.min(Math.ceil(ctx.measureText(title).width) + 16, canvas.width) : canvas.width;
         const height = FIT_TITLE ? 50 : TILE_SIZE;
-        if (ctx.getImageData(Math.floor((canvas.width - width) / 2), Math.floor((TILE_SIZE - height) / 2), width, height).data.find((v, i) => v > THRESHOLD && (i & 3) != 3)) {
+        const mustAddRow = !isRegionEmpty(Math.floor((canvas.width - width) / 2), Math.floor((TILE_SIZE - height) / 2), width, height);
+        ctx.fillStyle = '#600';
+        if (mustAddRow) {
             marginTop = TILE_SIZE;
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             canvas.height = canvas.height + TILE_SIZE;
@@ -2450,9 +2489,29 @@ async function drawMine(args) {
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
         ctx.fillStyle = '#FFF';
-        ctx.fillText(title, Math.floor(canvas.width / 2), Math.floor(TILE_SIZE / 2), canvas.width);
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 3;
+        const x = Math.floor(canvas.width / 2), y = Math.floor(TILE_SIZE / 2);
+        ctx.strokeText(title, x, y, canvas.width);
+        ctx.fillText(title, x, y, canvas.width);
     }
     table.style.marginTop = map.querySelector('.overlay').style.marginTop = marginTop + 'px';
+
+    if (hasOption(OPTION_LOGO)) {
+        const img = images[IMG_LOGO].img;
+        const cols = canvas.width / TILE_SIZE, rows = canvas.height / TILE_SIZE;
+        let x = cols - 1, y = 0;
+        while (x > 0 && isTileColumnEmpty(x, y, rows)) x--;
+        if (!isTileEmpty(x, y)) {
+            if (isTileEmpty(0, y)) x = 0;
+            else if (isTileEmpty(x, rows - 1)) y = rows - 1;
+            else if (isTileEmpty(0, rows - 1)) x = 0, y = rows - 1;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.75;
+        ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        ctx.restore();
+    }
 
     setMapVisibility(true);
     lastTeleportId = 0;
