@@ -2430,87 +2430,95 @@ async function drawMine(args) {
     const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
     if (imgLocation.src != src) imgLocation.src = src;
 
-    // Trim blank regions
-    const EMPTY_THRESHOLD = 8;
-    const isRegionEmpty = (x, y, width, height) => !ctx.getImageData(x, y, width, height).data.some((v, i) => v > EMPTY_THRESHOLD && (i & 3) != 3);
-    const isTileRowEmpty = (x, y, cols) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, cols * TILE_SIZE, TILE_SIZE);
-    const isTileColumnEmpty = (x, y, rows) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, rows * TILE_SIZE);
-    const isTileEmpty = (x, y) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-    let x1 = 0, y1 = 0, x2 = cols - 1, y2 = rows - 1;
-    if (hasOption(OPTION_BLANKS)) {
-        while (y1 < y2 && isTileRowEmpty(x1, y1, x2 - x1 + 1)) y1++;
-        while (y1 < y2 && isTileRowEmpty(x1, y2, x2 - x1 + 1)) y2--;
-        while (x1 < x2 && isTileColumnEmpty(x1, y1, y2 - y1 + 1)) x1++;
-        while (x1 < x2 && isTileColumnEmpty(x2, y1, y2 - y1 + 1)) x2--;
-    }
-    if (x1 > 0 || y1 > 0 || x2 < cols - 1 || y2 < rows - 1) {
-        const width = (x2 - x1 + 1) * TILE_SIZE, height = (y2 - y1 + 1) * TILE_SIZE;
-        const imgData = ctx.getImageData(x1 * TILE_SIZE, y1 * TILE_SIZE, width, height);
-        canvas.width = width;
-        canvas.height = height;
-        ctx.putImageData(imgData, 0, 0);
-        for (let y = 0; y < rows; y++) {
-            const row = tbody.rows[y];
-            if (y < y1 || y > y2) row.style.display = 'none';
-            else for (let x = 0; x < cols; x++) {
-                const cell = row.cells[x];
-                if (x < x1 || x > x2) cell.style.display = 'none';
+    // Trim blank regions + add margin + add title + add logo
+    {
+        const EMPTY_THRESHOLD = 8;
+        const isRegionEmpty = (x, y, width, height) => !ctx.getImageData(x, y, width, height).data.some((v, i) => v > EMPTY_THRESHOLD && (i & 3) != 3);
+        const isTileRowEmpty = (x, y, cols) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, cols * TILE_SIZE, TILE_SIZE);
+        const isTileColumnEmpty = (x, y, rows) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, rows * TILE_SIZE);
+        const isTileEmpty = (x, y) => isRegionEmpty(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        let x1 = 0, y1 = 0, x2 = cols - 1, y2 = rows - 1;
+        const margins = { top: 0, left: 0, right: 0, bottom: 0 };
+        if (hasOption(OPTION_BLANKS)) {
+            while (y1 < y2 && isTileRowEmpty(x1, y1, x2 - x1 + 1)) y1++;
+            while (y1 < y2 && isTileRowEmpty(x1, y2, x2 - x1 + 1)) y2--;
+            while (x1 < x2 && isTileColumnEmpty(x1, y1, y2 - y1 + 1)) x1++;
+            while (x1 < x2 && isTileColumnEmpty(x2, y1, y2 - y1 + 1)) x2--;
+            if (hasOption(OPTION_MARGIN)) {
+                if (x1 > 0) x1--; else margins.left++;
+                if (x2 < cols - 1) x2++; else margins.right++;
+                if (y1 > 0) y1--; else margins.top++;
+                if (y2 < rows - 1) y2++; else margins.bottom++;
+            }
+        } else if (hasOption(OPTION_MARGIN)) {
+            if (!isTileRowEmpty(x1, y1, x2 - x1 + 1)) margins.top++;
+            if (!isTileRowEmpty(x1, y2, x2 - x1 + 1)) margins.bottom++;
+            if (!isTileColumnEmpty(x1, y1, y2 - y1 + 1)) margins.left++;
+            if (!isTileColumnEmpty(x2, y1, y2 - y1 + 1)) margins.right++;
+        }
+        let title = getLocationName(currentData.lid, currentData.location);
+        if (currentData.floors.length > 1) title += ' \u2013 ' + gui.getMessage('map_floor').toUpperCase() + ' ' + Locale.formatNumber(currentData.fid);
+        if (hasOption(OPTION_TITLE) && margins.top == 0) {
+            const FIT_TITLE = true;
+            ctx.font = 'bold 48px sans-serif';
+            const maxWidth = (x2 - x1 + 1) * TILE_SIZE;
+            const titleWidth = FIT_TITLE ? Math.min(Math.ceil(ctx.measureText(title).width) + 16, maxWidth) : maxWidth;
+            const titleHeight = FIT_TITLE ? 50 : TILE_SIZE;
+            if (!isRegionEmpty(x1 * TILE_SIZE + Math.floor((maxWidth - titleWidth) / 2), y1 * TILE_SIZE + Math.floor((TILE_SIZE - titleHeight) / 2), titleWidth, titleHeight)) {
+                if (y1 > 0) y1--; else margins.top++;
             }
         }
-        table.style.width = width + 'px';
-        table.style.height = height + 'px';
-    }
-    table.setAttribute('data-x', x1);
-    table.setAttribute('data-y', y1);
+        const marginTop = margins.top * TILE_SIZE, marginLeft = margins.left * TILE_SIZE;
+        if (x1 > 0 || y1 > 0 || x2 < cols - 1 || y2 < rows - 1 || margins.right || margins.bottom || margins.top || margins.left) {
+            const width = (x2 - x1 + 1) * TILE_SIZE, height = (y2 - y1 + 1) * TILE_SIZE;
+            const imgData = ctx.getImageData(x1 * TILE_SIZE, y1 * TILE_SIZE, width, height);
+            canvas.width = width + marginLeft + margins.right * TILE_SIZE;
+            canvas.height = height + marginTop + margins.bottom * TILE_SIZE;
+            ctx.putImageData(imgData, marginLeft, marginTop);
+            for (let y = 0; y < rows; y++) {
+                const row = tbody.rows[y];
+                if (y < y1 || y > y2) row.style.display = 'none';
+                else for (let x = 0; x < cols; x++) {
+                    const cell = row.cells[x];
+                    if (x < x1 || x > x2) cell.style.display = 'none';
+                }
+            }
+            table.style.width = width + 'px';
+            table.style.height = height + 'px';
+        }
+        if (hasOption(OPTION_TITLE)) {
+            ctx.font = 'bold 48px sans-serif';
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#FFF';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            const x = Math.floor(canvas.width / 2), y = Math.floor(TILE_SIZE / 2);
+            ctx.strokeText(title, x, y, canvas.width);
+            ctx.fillText(title, x, y, canvas.width);
+        }
+        const overlay = map.querySelector('.overlay');
+        table.style.marginTop = overlay.style.marginTop = marginTop + 'px';
+        table.style.marginLeft = overlay.style.marginLeft = marginLeft + 'px';
+        table.setAttribute('data-x', x1);
+        table.setAttribute('data-y', y1);
+        setCanvasZoom();
 
-    // Print title
-    let marginTop = 0;
-    if (hasOption(OPTION_TITLE)) {
-        let title = getLocationName(currentData.lid, currentData.location);
-        if (currentData.floors.length > 1) {
-            title += ' \u2013 ' + gui.getMessage('map_floor').toUpperCase() + ' ' + Locale.formatNumber(currentData.fid);
+        if (hasOption(OPTION_LOGO)) {
+            const img = images[IMG_LOGO].img;
+            const cols = canvas.width / TILE_SIZE, rows = canvas.height / TILE_SIZE;
+            let x = cols - 1, y = 0;
+            while (x > 0 && isTileColumnEmpty(x, y, rows)) x--;
+            if (!isTileEmpty(x, y)) {
+                if (isTileEmpty(0, y)) x = 0;
+                else if (isTileEmpty(x, rows - 1)) y = rows - 1;
+                else if (isTileEmpty(0, rows - 1)) x = 0, y = rows - 1;
+            }
+            ctx.save();
+            ctx.globalAlpha = 0.75;
+            ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            ctx.restore();
         }
-        const FIT_TITLE = true;
-        ctx.font = 'bold 48px sans-serif';
-        const width = FIT_TITLE ? Math.min(Math.ceil(ctx.measureText(title).width) + 16, canvas.width) : canvas.width;
-        const height = FIT_TITLE ? 50 : TILE_SIZE;
-        const mustAddRow = !isRegionEmpty(Math.floor((canvas.width - width) / 2), Math.floor((TILE_SIZE - height) / 2), width, height);
-        ctx.fillStyle = '#600';
-        if (mustAddRow) {
-            marginTop = TILE_SIZE;
-            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            canvas.height = canvas.height + TILE_SIZE;
-            ctx.putImageData(imgData, 0, TILE_SIZE);
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, TILE_SIZE);
-            setCanvasZoom();
-        }
-        ctx.font = 'bold 48px sans-serif';
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#FFF';
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 3;
-        const x = Math.floor(canvas.width / 2), y = Math.floor(TILE_SIZE / 2);
-        ctx.strokeText(title, x, y, canvas.width);
-        ctx.fillText(title, x, y, canvas.width);
-    }
-    table.style.marginTop = map.querySelector('.overlay').style.marginTop = marginTop + 'px';
-
-    if (hasOption(OPTION_LOGO)) {
-        const img = images[IMG_LOGO].img;
-        const cols = canvas.width / TILE_SIZE, rows = canvas.height / TILE_SIZE;
-        let x = cols - 1, y = 0;
-        while (x > 0 && isTileColumnEmpty(x, y, rows)) x--;
-        if (!isTileEmpty(x, y)) {
-            if (isTileEmpty(0, y)) x = 0;
-            else if (isTileEmpty(x, rows - 1)) y = rows - 1;
-            else if (isTileEmpty(0, rows - 1)) x = 0, y = rows - 1;
-        }
-        ctx.save();
-        ctx.globalAlpha = 0.75;
-        ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        ctx.restore();
     }
 
     setMapVisibility(true);
