@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Afficher la carte complète"
     },
+    "map_button_s": {
+        "message": "Afficher la solution"
+    },
+    "map_button_m": {
+        "message": "Mélange les carreaux notables"
+    },
     "map_save": {
         "message": "Enregistrer"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Ajouter un titre de la carte"
+    },
+    "map_option_b": {
+        "message": "Supprimer les lignes/colonnes vides"
+    },
+    "map_option_m": {
+        "message": "Assurer des marges autour de l'image"
+    },
+    "map_option_l": {
+        "message": "Ajouter un filigrane de logo"
     },
     "map_option_resize": {
         "message": "Taille de l'image enregistrée"

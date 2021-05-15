@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Pokaż pełną mapę"
     },
+    "map_button_s": {
+        "message": "Pokaż rozwiązanie"
+    },
+    "map_button_m": {
+        "message": "Wymieszaj ważne kostki"
+    },
     "map_save": {
         "message": "Zapisz"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Dodaj nazwę mapy"
+    },
+    "map_option_b": {
+        "message": "Usuń puste wiersze/kolumny"
+    },
+    "map_option_m": {
+        "message": "Utwórz marginesy wokół obrazu"
+    },
+    "map_option_l": {
+        "message": "Dodaj znak wodny"
     },
     "map_option_resize": {
         "message": "Rozmiar zapisanego obrazu"

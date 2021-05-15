@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Mostrar mapa completo"
     },
+    "map_button_s": {
+        "message": "Muestra solucion"
+    },
+    "map_button_m": {
+        "message": "Fusionar baldozas importantes"
+    },
     "map_save": {
         "message": "Guardar"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Añadir título del mapa"
+    },
+    "map_option_b": {
+        "message": "Remover columnas / filas vacías"
+    },
+    "map_option_m": {
+        "message": "Asegurar los márgenes alrededor de la imágen"
+    },
+    "map_option_l": {
+        "message": "Agragar marca de agua al logotipo"
     },
     "map_option_resize": {
         "message": "Tamaño de la imágen guardada"

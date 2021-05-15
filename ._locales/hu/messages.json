@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Mutasd a teljes térképet"
     },
+    "map_button_s": {
+        "message": "Mutasd a megoldást"
+    },
+    "map_button_m": {
+        "message": "Keverd össze a különleges köveket"
+    },
     "map_save": {
         "message": "Mentés"
     },
@@ -838,6 +844,15 @@
     "map_option_t": {
         "message": "Add hozzá a térkép nevét"
     },
+    "map_option_b": {
+        "message": "Távolítsd el az üres oszlopokat/sorokat"
+    },
+    "map_option_m": {
+        "message": "Készíts keretet a kép körül"
+    },
+    "map_option_l": {
+        "message": "Adj hozzá vízjel logót"
+    },
     "map_option_resize": {
         "message": "Mentett kép mérete"
     },
@@ -851,7 +866,7 @@
         "message": "Egy mentett adat fájl betöltése"
     },
     "map_downloadfolder": {
-        "message": "Könyvtár letöltése"
+        "message": "Letöltési könyvtár"
     },
     "map_positionrandom": {
         "message": "A pozíció véletlenszerű"

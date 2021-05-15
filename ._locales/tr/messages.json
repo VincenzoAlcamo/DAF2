@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Tam haritayı göster"
     },
+    "map_button_s": {
+        "message": "Çözümü göster"
+    },
+    "map_button_m": {
+        "message": "Önemli fayansları karıştırın"
+    },
     "map_save": {
         "message": "Kayıt"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Harita başlığı ekleyin"
+    },
+    "map_option_b": {
+        "message": "Boş satırları/sütunları kaldırın"
+    },
+    "map_option_m": {
+        "message": "Resmin etrafında kenar boşlukları sağlayın"
+    },
+    "map_option_l": {
+        "message": "Logo filigranı ekleyin"
     },
     "map_option_resize": {
         "message": "Kaydedilen görüntünün boyutu"

@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Εμφάνιση όλου του χάρτη"
     },
+    "map_button_s": {
+        "message": "Εμφάνιση λύσης"
+    },
+    "map_button_m": {
+        "message": "Ανακάτεμα εμφανισμένων πλακιδίων"
+    },
     "map_save": {
         "message": "Αποθήκευση"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Προσθέστε τίτλο χάρτη"
+    },
+    "map_option_b": {
+        "message": "Αφαίρεση κενών γραμμών/στηλών"
+    },
+    "map_option_m": {
+        "message": "Εξασφάλιση ορίων γύρω της εικόνας"
+    },
+    "map_option_l": {
+        "message": "Προσθήκη λογότυπου"
     },
     "map_option_resize": {
         "message": "Μέγεθος αποθηκευμένης εικόνας"

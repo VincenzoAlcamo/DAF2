@@ -690,7 +690,7 @@
         "message": "Evidenzia le caselle distruggibili"
     },
     "map_button_n": {
-        "message": "Evidenzia le caselle con materiali notevoli"
+        "message": "Evidenzia le caselle con materiali importanti"
     },
     "map_button_v": {
         "message": "La visibilità delle caselle è persistente"
@@ -715,6 +715,12 @@
     },
     "map_button_f": {
         "message": "Mosta l'intera mappa"
+    },
+    "map_button_s": {
+        "message": "Mostra soluzione"
+    },
+    "map_button_m": {
+        "message": "Unisci caselle importanti"
     },
     "map_save": {
         "message": "Salva"
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Aggiungi il titolo della mappa"
+    },
+    "map_option_b": {
+        "message": "Rimuovi righe/colonne vuote"
+    },
+    "map_option_m": {
+        "message": "Garantisci margini attorno all'immagine"
+    },
+    "map_option_l": {
+        "message": "Aggiungi il logo"
     },
     "map_option_resize": {
         "message": "Dimensione dell'immagine salvata"

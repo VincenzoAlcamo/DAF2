@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Komplette Karte anzeigen"
     },
+    "map_button_s": {
+        "message": "Lösung anzeigen"
+    },
+    "map_button_m": {
+        "message": "Bemerkenswerte Kacheln mischen"
+    },
     "map_save": {
         "message": "Speichern"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Titel der Karte hinzufügen"
+    },
+    "map_option_b": {
+        "message": "Entfernen leerer Zeilen/Spalten"
+    },
+    "map_option_m": {
+        "message": "Ränder um das Bild sicherstellen"
+    },
+    "map_option_l": {
+        "message": "Hinzufügen eines Logo-Wasserzeichens"
     },
     "map_option_resize": {
         "message": "Größe des gespeicherten Bildes"

@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Mostrar o mapa completo"
     },
+    "map_button_s": {
+        "message": "Mostrar solução"
+    },
+    "map_button_m": {
+        "message": "Misture peças notáveis"
+    },
     "map_save": {
         "message": "Salve"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Adicione o título do mapa"
+    },
+    "map_option_b": {
+        "message": "Remover linhas / colunas vazias"
+    },
+    "map_option_m": {
+        "message": "Garanta margens ao redor da imagem"
+    },
+    "map_option_l": {
+        "message": "Adicionar marca d'água do logotipo"
     },
     "map_option_resize": {
         "message": "Tamanho da imagem salva"

@@ -126,7 +126,7 @@
         "message": "Begivenhed"
     },
     "gui_specialweek": {
-        "message": "Secial uge"
+        "message": "Special uge"
     },
     "gui_region": {
         "message": "Region"
@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Vis hele kortet"
     },
+    "map_button_s": {
+        "message": "Vis løsning"
+    },
+    "map_button_m": {
+        "message": "Bland se-værdige felter"
+    },
     "map_save": {
         "message": "Gem"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Tilføj kort navn"
+    },
+    "map_option_b": {
+        "message": "Fjern tomme rækker/kolonner"
+    },
+    "map_option_m": {
+        "message": "Sikre margins rundt om billede"
+    },
+    "map_option_l": {
+        "message": "Tilføj vandmærke logo"
     },
     "map_option_resize": {
         "message": "Størrelse på gemt billede"

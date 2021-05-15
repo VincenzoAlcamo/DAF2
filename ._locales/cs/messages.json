@@ -716,6 +716,12 @@
     "map_button_f": {
         "message": "Zobrazit celou mapu"
     },
+    "map_button_s": {
+        "message": "Zobrazit řešení"
+    },
+    "map_button_m": {
+        "message": "Zamíchat významná políčka"
+    },
     "map_save": {
         "message": "Uložit"
     },
@@ -837,6 +843,15 @@
     },
     "map_option_t": {
         "message": "Přidat název mapy"
+    },
+    "map_option_b": {
+        "message": "Odstranit prázdné řady/sloupce"
+    },
+    "map_option_m": {
+        "message": "Zajistit okraje obrázku"
+    },
+    "map_option_l": {
+        "message": "Přidat vodoznak loga"
     },
     "map_option_resize": {
         "message": "Velikost uloženého obrázku"
