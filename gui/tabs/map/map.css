@@ -398,3 +398,70 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 .is-mapper .tab_map .toolbar .map-buttons:hover .for-mapper {
   visibility: visible;
 }
+
+/* FLOOR SELECTOR FLAGS */
+.tab_map .toolbar span.map_flags {
+  display: inline-block;
+  height: 20px;
+  margin-top: 2px;
+}
+
+.tab_map .toolbar span.map_flags_m {
+  box-shadow: inset 0px -10px #0f0;
+}
+
+.tab_map .toolbar span.map_flags_mq {
+  box-shadow: inset 0px -10px #0f0, 0px 3px #F0F;
+}
+
+.tab_map .toolbar span.map_flags_mqs {
+  box-shadow: inset 0px -10px #0f0, 0px -3px #FF0, 0px 3px #F0F;
+}
+
+.tab_map .toolbar span.map_flags_mqst {
+  box-shadow: inset 0px -10px #0f0, 0px 3px #F0F, 0px -3px #FF0, inset 0px 10px #ccc;
+}
+
+.tab_map .toolbar span.map_flags_mqt {
+  box-shadow: inset 0px -10px #0f0, 0px 3px #F0F, inset 0px 10px #ccc;
+}
+
+.tab_map .toolbar span.map_flags_ms {
+  box-shadow: inset 0px -10px #0f0, 0px -3px #FF0;
+}
+
+.tab_map .toolbar span.map_flags_mst {
+  box-shadow: inset 0px -10px #0f0, 0px -3px #FF0, inset 0px 10px #ccc;
+}
+
+.tab_map .toolbar span.map_flags_mt {
+  box-shadow: inset 0px -10px #0f0, inset 0px 10px #ccc;
+}
+
+.tab_map .toolbar span.map_flags_q {
+  box-shadow: 0px 3px #F0F;
+}
+
+.tab_map .toolbar span.map_flags_qs {
+  box-shadow: 0px 3px #F0F, 0px -3px #FF0;
+}
+
+.tab_map .toolbar span.map_flags_qst {
+  box-shadow: 0px 3px #F0F, 0px -3px #FF0, inset 0px 10px #ccc;
+}
+
+.tab_map .toolbar span.map_flags_qt {
+  box-shadow: 0px 3px #F0F, inset 0px 10px #ccc;
+}
+
+.tab_map .toolbar span.map_flags_s {
+  box-shadow: 0px -3px #FF0;
+}
+
+.tab_map .toolbar span.map_flags_st {
+  box-shadow: 0px -3px #FF0, inset 0px 10px #ccc;
+}
+
+.tab_map .toolbar span.map_flags_t {
+  box-shadow: inset 0px 10px #ccc;
+}

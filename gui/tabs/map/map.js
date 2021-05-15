@@ -2401,14 +2401,19 @@ async function drawMine(args) {
     let numFound = 0;
     for (const floorId of currentData.floorNumbers) {
         const found = findMine(lid, floorId), _t = found && found._t;
-        if (found) {
+        let classes = '';
+        if (found && _t) {
             numFound++;
-            for (const key of Object.keys(total)) total[key] += (_t && _t[key]) || 0;
+            for (const key of Object.keys(total)) total[key] += _t[key] || 0;
+            if (_t.numMaterial > 0) classes += 'm';
+            if (_t.numQuest > 0) classes += 'q';
+            if (_t.numSpecial > 0) classes += 's';
+            if (_t.numTiles > 0) classes += 't';
         }
         const isCurrent = floorId == fid;
         let title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
         if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
-        htm += Html`<input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"'}>`;
+        htm += Html`<span class="map_flags map_flags_${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"'}></span>`;
     }
     const div = container.querySelector('[data-id="fid"]');
     Dialog.htmlToDOM(div, htm);
@@ -2485,6 +2490,21 @@ async function drawMine(args) {
             table.style.width = width + 'px';
             table.style.height = height + 'px';
         }
+        if (hasOption(OPTION_LOGO)) {
+            const LOGO_SIZE = Math.floor(TILE_SIZE * 1.8);
+            const img = images[IMG_LOGO].img;
+            const checkLogoEmpty = (x, y) => {
+                const flag = isRegionEmpty(x, y, LOGO_SIZE, LOGO_SIZE);
+                console.log(x, y, flag);
+                return flag ? [x, y] : null;
+            };
+            let x = canvas.width - LOGO_SIZE, y = canvas.height - LOGO_SIZE;
+            [x, y] = checkLogoEmpty(x, 0) || checkLogoEmpty(0, 0) || checkLogoEmpty(x, y) || checkLogoEmpty(0, y) || [x, 0];
+            ctx.save();
+            ctx.globalAlpha = 0.75;
+            ctx.drawImage(img, x, y, LOGO_SIZE, LOGO_SIZE);
+            ctx.restore();
+        }
         if (hasOption(OPTION_TITLE)) {
             ctx.font = 'bold 48px sans-serif';
             ctx.textBaseline = 'middle';
@@ -2502,22 +2522,6 @@ async function drawMine(args) {
         table.setAttribute('data-x', x1);
         table.setAttribute('data-y', y1);
         setCanvasZoom();
-
-        if (hasOption(OPTION_LOGO)) {
-            const LOGO_SIZE = Math.floor(TILE_SIZE * 1.8);
-            const img = images[IMG_LOGO].img;
-            const checkLogoEmpty = (x, y) => {
-                const flag = isRegionEmpty(x, y, LOGO_SIZE, LOGO_SIZE);
-                console.log(x, y, flag);
-                return flag ? [x, y] : null;
-            };
-            let x = canvas.width - LOGO_SIZE, y = canvas.height - LOGO_SIZE;
-            [x, y] = checkLogoEmpty(x, 0) || checkLogoEmpty(0, 0) || checkLogoEmpty(x, y) || checkLogoEmpty(0, y) || [x, 0];
-            ctx.save();
-            ctx.globalAlpha = 0.75;
-            ctx.drawImage(img, x, y, LOGO_SIZE, LOGO_SIZE);
-            ctx.restore();
-        }
     }
 
     setMapVisibility(true);
