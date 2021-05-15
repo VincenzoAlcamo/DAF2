@@ -2495,7 +2495,6 @@ async function drawMine(args) {
             const img = images[IMG_LOGO].img;
             const checkLogoEmpty = (x, y) => {
                 const flag = isRegionEmpty(x, y, LOGO_SIZE, LOGO_SIZE);
-                console.log(x, y, flag);
                 return flag ? [x, y] : null;
             };
             let x = canvas.width - LOGO_SIZE, y = canvas.height - LOGO_SIZE;
