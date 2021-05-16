@@ -246,7 +246,7 @@ function activateStateButton(input, state = 1) {
     const flag = setStateButton(input, state);
     updateTableFlags();
     if ('UK'.includes(flag)) processMine();
-    else if ('LBE'.includes(flag)) return;
+    else if ('LBEO'.includes(flag)) return;
     else drawMine();
 }
 
