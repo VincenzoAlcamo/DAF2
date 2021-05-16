@@ -279,18 +279,21 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   background-image: url(/img/gui/xp.png);
   background-position: 0px 0px;
   background-size: 26px 26px;
+  box-shadow: 0px 0px 12px 4px #ff0;
 }
 
 .tab_map .map.show_bonus td.energy {
   background-image: url(/img/gui/energy.png);
   background-position: -4px 0px;
   background-size: 32px 26px;
+  box-shadow: 0px 0px 12px 4px #0f0;
 }
 
 .tab_map .map.show_bonus td.energy.xp {
   background-image: url(/img/gui/energy.png), url(/img/gui/xp.png);
   background-position: -4px 0px, 16px 0px;
   background-size: 32px 26px, 26px 26px;
+  box-shadow: 0px 0px 12px 4px #0ff;
 }
 
 /* .tab_map .map.show_tiles td:not(.hide).tile:hover,
