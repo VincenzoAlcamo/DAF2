@@ -2460,8 +2460,14 @@ async function drawMine(args) {
         if (currentData.floors.length > 1) title += ' \u2013 ' + gui.getMessage('map_floor').toUpperCase() + ' ' + Locale.formatNumber(currentData.fid);
         if (hasOption(OPTION_TITLE)) {
             const FIT_TITLE = false;
+            const MINWIDTH = 14 * TILE_SIZE;
             ctx.font = 'bold 48px sans-serif';
-            const maxWidth = (x2 - x1 + 1) * TILE_SIZE;
+            let maxWidth = (x2 - x1 + 1) * TILE_SIZE + (margins.left + margins.right) * MARGIN_SIZE;
+            while (maxWidth < MINWIDTH) {
+                margins.left++;
+                margins.right++;
+                maxWidth += 2 * MARGIN_SIZE;
+            }
             const titleWidth = FIT_TITLE ? Math.min(Math.ceil(ctx.measureText(title).width) + 16, maxWidth) : maxWidth;
             let titleHeight = TILE_SIZE * 2 - (FIT_TITLE ? 6 : 0) - (margins.top * MARGIN_SIZE);
             const x = x1 * TILE_SIZE + Math.floor((maxWidth - titleWidth) / 2);
@@ -2490,6 +2496,19 @@ async function drawMine(args) {
             table.style.width = width + 'px';
             table.style.height = height + 'px';
         }
+        const applyTitle = () => {
+            if (!hasOption(OPTION_TITLE)) return;
+            ctx.font = 'bold 48px sans-serif';
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#FFF';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            const x = Math.floor(canvas.width / 2), y = TILE_SIZE;
+            ctx.strokeText(title, x, y, canvas.width);
+            ctx.fillText(title, x, y, canvas.width);
+        };
+        applyTitle();
         if (hasOption(OPTION_LOGO)) {
             const LOGO_SIZE = Math.floor(TILE_SIZE * 1.8);
             const img = images[IMG_LOGO].img;
@@ -2503,17 +2522,7 @@ async function drawMine(args) {
             ctx.globalAlpha = 0.75;
             ctx.drawImage(img, x, y, LOGO_SIZE, LOGO_SIZE);
             ctx.restore();
-        }
-        if (hasOption(OPTION_TITLE)) {
-            ctx.font = 'bold 48px sans-serif';
-            ctx.textBaseline = 'middle';
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#FFF';
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 3;
-            const x = Math.floor(canvas.width / 2), y = TILE_SIZE;
-            ctx.strokeText(title, x, y, canvas.width);
-            ctx.fillText(title, x, y, canvas.width);
+            if (y < LOGO_SIZE) applyTitle();
         }
         const overlay = map.querySelector('.overlay');
         table.style.marginTop = overlay.style.marginTop = marginTop + 'px';
