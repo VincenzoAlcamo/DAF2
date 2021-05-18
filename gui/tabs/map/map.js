@@ -774,7 +774,7 @@ function changeLevel(e) {
 }
 
 function isValidTile(tileDef, beaconPart) {
-    if (tileDef.stamina < 0) return false;
+    if (tileDef.stamina < 0 && !tileDef.npcId) return false;
     if (beaconPart && !beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door')) return true;
     return tileDef.isTile || !!tileDef.npcId;
 }
