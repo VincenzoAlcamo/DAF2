@@ -460,6 +460,7 @@ var Data = {
         new Language('fr', 'FR', 'French', 'Fran\u00e7ais', 'FR,BE,CA,CH,LU,MC'),
         new Language('hu', 'HU', 'Hungarian', 'Magyar', 'HU'),
         new Language('it', 'IT', 'Italian', 'Italiano', 'IT,CH'),
+        new Language('nl', 'NL', 'Dutch ', 'Nederlands', 'NL,BE'),
         new Language('pl', 'PL', 'Polish', 'Polski', 'PL'),
         new Language('pt', 'PT', 'Portuguese (BR)', 'Portugu\u00eas (BR)', 'PT,BR'),
         new Language('ru', 'RU', 'Russian', '\u0420\u0443\u0441\u0441\u043a\u0438\u0439', 'RU,MD,UA'),
@@ -468,11 +469,10 @@ var Data = {
         // OTHER (GAME)
         new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */, 'BG'),
         new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
-        new Language('nl', 'NL', 'Dutch ', 'Nederlands', 'NL,BE'),
         new Language('ro', 'RO', 'Romanian', 'Rom\u00e2n\u0103', 'RO,MD'),
         new Language('se', 'SE', 'Swedish', 'Svenska', 'SE,FI'),
     ],
-    guiLanguages: 'cs,da,de,el,en,es,fr,hu,it,pl,pt,ru,sk,tr'.split(','),
+    guiLanguages: 'cs,da,de,el,en,es,fr,hu,it,nl,pl,pt,ru,sk,tr'.split(','),
     acceptedLanguages: [],
     detectLanguage: function (lang) {
         return [].concat(lang, Data.acceptedLanguages)

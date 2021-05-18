@@ -1,0 +1,2236 @@
+{
+    "ext_name": {
+        "message": "DA Friends 2"
+    },
+    "ext_title": {
+        "message": "Hulptool voor Diggy's Adventure"
+    },
+    "menu_resetfullwindow": {
+        "message": "Reset bij laden"
+    },
+    "menu_fullwindow": {
+        "message": "Spel in volledig venster"
+    },
+    "menu_fullwindowheader": {
+        "message": "Koptekst"
+    },
+    "menu_fullwindowside": {
+        "message": "Zijbalk"
+    },
+    "menu_fullwindowlock": {
+        "message": "Slot"
+    },
+    "menu_gctable": {
+        "message": "Toon GC tabel"
+    },
+    "menu_gctablecounter": {
+        "message": "Teller"
+    },
+    "menu_gctableregion": {
+        "message": "Regio"
+    },
+    "menu_gccollected": {
+        "message": "Alle GC zijn verzameld"
+    },
+    "menu_autoclick": {
+        "message": "Klik automatisch op de pop-up van Facebook"
+    },
+    "menu_nogcpopup": {
+        "message": "Geen pop-ups bij het verzamelen van GC"
+    },
+    "menu_reloadgame": {
+        "message": "Laadt het spel opnieuw en dwingt een nieuwe gegevensverzameling af"
+    },
+    "menu_switchportal": {
+        "message": "Overschakelen naar Portal"
+    },
+    "menu_switchfacebook": {
+        "message": "Overschakelen naar Facebook"
+    },
+    "menu_on": {
+        "message": "AAN"
+    },
+    "menu_off": {
+        "message": "UIT"
+    },
+    "gui_timeparts": {
+        "message": "d,u,m,s"
+    },
+    "gui_card_clicker": {
+        "message": "Klik om deze sectie samen te vouwen / uit te vouwen"
+    },
+    "gui_show": {
+        "message": "Tonen"
+    },
+    "gui_all": {
+        "message": "Alles"
+    },
+    "gui_only_possible": {
+        "message": "Alleen mogelijk"
+    },
+    "gui_search": {
+        "message": "Zoek"
+    },
+    "gui_filter": {
+        "message": "Filter"
+    },
+    "gui_name": {
+        "message": "Naam"
+    },
+    "gui_region_required": {
+        "message": "Regio\nVerplicht"
+    },
+    "gui_theme_required": {
+        "message": "Regio/Thema\nVerplicht"
+    },
+    "gui_level_required": {
+        "message": "Level\nVerplicht"
+    },
+    "gui_qty": {
+        "message": "Hoeveelheid"
+    },
+    "gui_qty_required": {
+        "message": "Hoeveelheid\nVerplicht"
+    },
+    "gui_energy": {
+        "message": "Energie"
+    },
+    "gui_estimatedenergy": {
+        "message": "Gemiddelde energie"
+    },
+    "gui_food": {
+        "message": "Eten"
+    },
+    "gui_coins": {
+        "message": "Munten"
+    },
+    "gui_backpack": {
+        "message": "Rugzak"
+    },
+    "gui_clickwiki": {
+        "message": "Klik om de Wiki pagina te openen"
+    },
+    "gui_from_any": {
+        "message": "van regio's of evenementen"
+    },
+    "gui_from_regions": {
+        "message": "van regio's"
+    },
+    "gui_from_events": {
+        "message": "van evenementen"
+    },
+    "gui_ingredients": {
+        "message": "Ingrediënten"
+    },
+    "gui_event": {
+        "message": "Evenementen"
+    },
+    "gui_specialweek": {
+        "message": "Speciale week"
+    },
+    "gui_region": {
+        "message": "Regio"
+    },
+    "gui_theme": {
+        "message": "Thema"
+    },
+    "gui_year": {
+        "message": "Jaar"
+    },
+    "gui_quest": {
+        "message": "Zoektocht"
+    },
+    "gui_offer": {
+        "message": "Aanbieding"
+    },
+    "gui_tieredoffer": {
+        "message": "Ketting Aanbieding"
+    },
+    "gui_pack": {
+        "message": "Pak"
+    },
+    "gui_equipment": {
+        "message": "Uitrusting"
+    },
+    "gui_shop": {
+        "message": "Winkel"
+    },
+    "gui_decoration": {
+        "message": "Decoratie"
+    },
+    "gui_usable": {
+        "message": "Bruikbaar"
+    },
+    "gui_token": {
+        "message": "Teken"
+    },
+    "gui_level": {
+        "message": "Level"
+    },
+    "gui_xp": {
+        "message": "XP"
+    },
+    "gui_sell_price": {
+        "message": "Verkoop prijs"
+    },
+    "gui_neighbour": {
+        "message": "Buur"
+    },
+    "gui_friend": {
+        "message": "Vriend"
+    },
+    "gui_firstrecorded": {
+        "message": "Eerst\nOpgenomen"
+    },
+    "gui_loadingresources": {
+        "message": "Bronnen laden ($NUM$/$TOTAL$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "gui_screenshot_shot": {
+        "message": "Klik om een schermafbeelding van deze sectie te maken.\nDe schermafbeelding zal rechts verschijnen.\nLet op: alleen het zichtbare gebied is te zien!\nJe moet op het DAF2 icoon in het Chrome menu klikken, om deze functie in te schakelen."
+    },
+    "gui_screenshot_target": {
+        "message": "Klik om de afbeelding te downloaden.\nJe kunt met de rechtermuisknop op deze afbeelding klikken en \"Afbeelding kopiëren\" selecteren om deze naar het klembord te kopiëren."
+    },
+    "gui_screenshot_error": {
+        "message": "Kan geen schermafbeelding maken"
+    },
+    "gui_screenshot_errorinfo": {
+        "message": "Eerst moet je klikken op het @DAF2@ icoon in het Chrome menu.\nDit zal de schermafbeelding functie inschakelen totdat de pagina is gesloten.\n\nKlik op het @DAF2@ icoon, probeer de schermafbeelding dan opnieuw."
+    },
+    "gui_infodated": {
+        "message": "De hier getoonde informatie was actueel en alleen geldig voor '$VALID$'",
+        "placeholders": {
+            "valid": {
+                "content": "$1"
+            }
+        }
+    },
+    "gui_nonote": {
+        "message": "Geen opmerkingen"
+    },
+    "gui_minimum": {
+        "message": "Minimum"
+    },
+    "gui_maximum": {
+        "message": "Maximum"
+    },
+    "gui_average": {
+        "message": "Gemiddelde"
+    },
+    "gui_loot": {
+        "message": "Buit"
+    },
+    "gui_datafrompf": {
+        "message": "Gegevens verkregen uit de spelbestanden van Pixel Federation"
+    },
+    "gui_gift": {
+        "message": "Geschenk"
+    },
+    "gui_gifts": {
+        "message": "Geschenken"
+    },
+    "gui_day": {
+        "message": "Dag"
+    },
+    "gui_placed": {
+        "message": "Geplaatst in het kamp"
+    },
+    "gui_owned": {
+        "message": "Eigendom"
+    },
+    "gui_limit": {
+        "message": "Limiet"
+    },
+    "gui_type": {
+        "message": "Type"
+    },
+    "gui_width": {
+        "message": "Breedte"
+    },
+    "gui_height": {
+        "message": "Hoogte"
+    },
+    "gui_value": {
+        "message": "Waarde"
+    },
+    "gui_slot_value": {
+        "message": "Plaatswaarde"
+    },
+    "gui_cost": {
+        "message": "Kosten"
+    },
+    "gui_items_found": {
+        "message": "Gevonden items"
+    },
+    "gui_reset": {
+        "message": "Reset"
+    },
+    "gui_material": {
+        "message": "Materiaal"
+    },
+    "gui_filter_clear": {
+        "message": "Vrij"
+    },
+    "gui_filter_invert": {
+        "message": "Omkeren"
+    },
+    "gui_advancedfilter": {
+        "message": "Geavanceerde filter"
+    },
+    "gui_location": {
+        "message": "Locatie"
+    },
+    "gui_locked": {
+        "message": "Gesloten"
+    },
+    "gui_noresults": {
+        "message": "Geen resultaten"
+    },
+    "gui_toomanyresults": {
+        "message": "Te veel resultaten"
+    },
+    "gui_id": {
+        "message": "Id"
+    },
+    "gui_date": {
+        "message": "Datum"
+    },
+    "gui_ctrlclick": {
+        "message": "Gebruik CTRL om alles te selecteren/deselecteren"
+    },
+    "gui_summary": {
+        "message": "Samenvatting"
+    },
+    "dialog_ok": {
+        "message": "Ok"
+    },
+    "dialog_yes": {
+        "message": "Ja"
+    },
+    "dialog_no": {
+        "message": "Nee"
+    },
+    "dialog_confirm": {
+        "message": "Bevestig"
+    },
+    "dialog_cancel": {
+        "message": "Annuleer"
+    },
+    "dialog_close": {
+        "message": "Sluit"
+    },
+    "dialog_pleasewait": {
+        "message": "Wacht alsjeblieft"
+    },
+    "tab_game": {
+        "message": "Overschakelen naar spel"
+    },
+    "tab_about": {
+        "message": "Over"
+    },
+    "tab_progress": {
+        "message": "Voortgang"
+    },
+    "tab_camp": {
+        "message": "Kamp"
+    },
+    "tab_map": {
+        "message": "Kaart"
+    },
+    "tab_caravan": {
+        "message": "Karavaan"
+    },
+    "tab_kitchen": {
+        "message": "Keuken"
+    },
+    "tab_foundry": {
+        "message": "Smederij"
+    },
+    "tab_pillars": {
+        "message": "Zuilen"
+    },
+    "tab_neighbors": {
+        "message": "Buren"
+    },
+    "tab_friendship": {
+        "message": "Vriendschap"
+    },
+    "tab_godchild": {
+        "message": "Gods kinderen"
+    },
+    "tab_locations": {
+        "message": "Locaties"
+    },
+    "tab_greenrings": {
+        "message": "Groene Ringen"
+    },
+    "tab_redrings": {
+        "message": "Rode Ringen"
+    },
+    "tab_christmasrings": {
+        "message": "Kerst Ringen"
+    },
+    "tab_rewardlinks": {
+        "message": "Beloninglinks"
+    },
+    "tab_options": {
+        "message": "Opties"
+    },
+    "tab_help": {
+        "message": "Help"
+    },
+    "tab_export": {
+        "message": "Importeren / Exporteren"
+    },
+    "tab_equipment": {
+        "message": "Uitrusting / Winkel"
+    },
+    "tab_events": {
+        "message": "Evenementen"
+    },
+    "tab_repeat": {
+        "message": "Herhaalbare"
+    },
+    "tab_dailyreward": {
+        "message": "Dagelijkse beloning"
+    },
+    "about_version": {
+        "message": "Versie: $VERSION$",
+        "placeholders": {
+            "version": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_data": {
+        "message": "Laatste data momentopname: $TIME$\nSpelsite: $SITE$ ($PLATFORM$)\nGebruikers Id: #$USERID$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            },
+            "userid": {
+                "content": "$2"
+            },
+            "site": {
+                "content": "$3"
+            },
+            "platform": {
+                "content": "$4"
+            }
+        }
+    },
+    "about_visit": {
+        "message": "Bezoek de officiële Facebook pagina"
+    },
+    "about_nodata": {
+        "message": "Er zijn nog geen spelgegevens geladen, laad of vernieuw het spelvenster"
+    },
+    "about_disclaimer": {
+        "message": "DA Friends is 'Fan Code' en wordt niet onderschreven of ondersteund door Pixel Federatie, de makers van het spel \"Diggy's Adventure\".\nJe gebruikt DA Friends op eigen risico. Het wordt geleverd zonder garantie, noch expliciet of impliciet met betrekking tot functionaliteit of bruikbaarheid.\nDe auteur kan niet aansprakelijk worden gesteld voor enige schade of verlies veroorzaakt door gebruik ervan:.\nDoor deze extensie te gebuiken, ga je akkoord met de voorwaarden."
+    },
+    "about_translators": {
+        "message": "Vertaler"
+    },
+    "about_alternate": {
+        "message": "Er is een alternatief account geladen ($ID$)",
+        "placeholders": {
+            "id": {
+                "content": "$1"
+            }
+        }
+    },
+    "about_reset": {
+        "message": "De gegevens van je vorige account zijn bewaard gebleven.\nOm je gegevens te resetten en een ander account te gebruiken, klik @RESET@"
+    },
+    "about_reset_ask_title": {
+        "message": "Reset account"
+    },
+    "about_reset_ask_text": {
+        "message": "Wil je je gegevens resetten\nzodat je een ander account kunt gebruiken?"
+    },
+    "about_reset_ok_title": {
+        "message": "Gegevens zijn gereset"
+    },
+    "about_reset_ok_text": {
+        "message": "Laad Diggy's Adventure opnieuw met het account dat je wilt gebruiken."
+    },
+    "production_total_time": {
+        "message": "Totale Tijd\n(Slots: $NUM$)",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "production_time": {
+        "message": "Tijd om te produceren"
+    },
+    "production_possible": {
+        "message": "Mogelijk"
+    },
+    "production_possible_energy": {
+        "message": "Mogelijke\nEnergie"
+    },
+    "production_energy_hour": {
+        "message": "Energie\nPer Uur"
+    },
+    "production_qty": {
+        "message": "Geproduceerde hoeveelheid"
+    },
+    "production_uplift": {
+        "message": "Verheffen (XP/u)"
+    },
+    "production_uplift_info": {
+        "message": "Xp gewonnen met 1 plaats in een uur,\ngebaseerd op de waarden verkregen uit zuilen."
+    },
+    "production_req_ticket": {
+        "message": "Ticket nodig?"
+    },
+    "kitchen_food_in_backpack": {
+        "message": "van voedsel uit rugzak"
+    },
+    "camp_your_camp": {
+        "message": "Je kamp"
+    },
+    "camp_player_name": {
+        "message": "$PLAYER$'s kamp op $DATE$",
+        "placeholders": {
+            "player": {
+                "content": "$1"
+            },
+            "date": {
+                "content": "$2"
+            }
+        }
+    },
+    "camp_no_player": {
+        "message": "Er is nog geen kamp bezocht"
+    },
+    "camp_player": {
+        "message": "Speler"
+    },
+    "camp_total": {
+        "message": "Totaal"
+    },
+    "camp_fill_time": {
+        "message": "Vul tijd"
+    },
+    "camp_fill_time_info": {
+        "message": "Tijd die nodig is om de energiebalk van leeg naar vol te laten gaan."
+    },
+    "camp_numofregenslots": {
+        "message": "# vernieuwing plaatsen"
+    },
+    "camp_canbeimproved": {
+        "message": "Dit kamp kan worden verbeterd"
+    },
+    "camp_showsetup": {
+        "message": "Klik hier om de setup mode van het kamp te tonen"
+    },
+    "camp_windmill_regen": {
+        "message": "Regeneratie van een enkele windmolen"
+    },
+    "camp_windmill_regen_total": {
+        "message": "Totale regeneratie van de windmolen"
+    },
+    "camp_windmill_num": {
+        "message": "Huidig aantal windmolens"
+    },
+    "camp_windmill_expiry": {
+        "message": "Windmolens vervallen op\n$TIME$",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_slot_empty": {
+        "message": "Lege plaats"
+    },
+    "camp_slot_blocked": {
+        "message": "Geblokkeerde ruimte"
+    },
+    "camp_regen": {
+        "message": "Regeneratie"
+    },
+    "camp_capacity": {
+        "message": "Capaciteit"
+    },
+    "camp_windmills": {
+        "message": "Windmolens"
+    },
+    "camp_avg_value": {
+        "message": "Gemiddelde plaats"
+    },
+    "camp_min_value": {
+        "message": "Minimum plaats"
+    },
+    "camp_max_value": {
+        "message": "Maximum plaats"
+    },
+    "camp_num_slots": {
+        "message": "Aantal plaatsen"
+    },
+    "camp_unlock_materials": {
+        "message": "Materialen die nodig zijn om het kamp te ontgrendelen"
+    },
+    "camp_unlock_one": {
+        "message": "Het ontgrendelen van 1 plaats levert $VALUE$ XP op",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_unlock_cost": {
+        "message": "1 plaats kan worden ontgrendeld met $VALUE$ gems\nof met deze materialen:",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_start_date": {
+        "message": "Je begon te spelen:\n$STARTED$",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_day_mode": {
+        "message": "Dag modus"
+    },
+    "camp_night_mode": {
+        "message": "Nacht modus"
+    },
+    "camp_setup_mode": {
+        "message": "Setup modus"
+    },
+    "camp_discounted": {
+        "message": "Verdisconteerd"
+    },
+    "camp_neighbor": {
+        "message": "Kamp van de buren"
+    },
+    "camp_extra": {
+        "message": "Extra"
+    },
+    "camp_ftp_group": {
+        "message": "GROEP $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "camp_ftp_dot_info": {
+        "message": "Kaarten gemarkeerd met een rode stip kunnen verschijnen tijdens de eerste vrije draai."
+    },
+    "camp_ftp_group_info": {
+        "message": "Je kunt pas kaarten van een groep onthullen nadat alle kaarten van de vorige groep zijn onthuld."
+    },
+    "camp_ftp_cumulativegems": {
+        "message": "Totaal aantal gems tot nu toe"
+    },
+    "map_floor": {
+        "message": "Verdieping"
+    },
+    "map_floor_current": {
+        "message": "Dit is de huidige verdieping"
+    },
+    "map_floor_found": {
+        "message": "Klik om de kaart van deze verdieping te laten zien"
+    },
+    "map_floor_not_found": {
+        "message": "Deze verdieping is nog niet bezocht"
+    },
+    "map_remaining_tiles": {
+        "message": "Overgebleven tegels"
+    },
+    "map_special": {
+        "message": "Speciaal"
+    },
+    "map_quest": {
+        "message": "Zoektocht"
+    },
+    "map_this_floor": {
+        "message": "Deze verdieping"
+    },
+    "map_all_floors": {
+        "message": "Alle verdiepingen"
+    },
+    "map_warning": {
+        "message": "Ga alsjeblieft in het spel en ga een locatie binnen, kom dan hier terug!"
+    },
+    "map_button_d": {
+        "message": "Toon Diggy"
+    },
+    "map_button_t": {
+        "message": "Toon telepoorten"
+    },
+    "map_button_e": {
+        "message": "Toon bakens"
+    },
+    "map_button_c": {
+        "message": "Toon in volle kleuren"
+    },
+    "map_button_g": {
+        "message": "Toon foutopsporingsinfo"
+    },
+    "map_button_l": {
+        "message": "Markeer breekbare tegels"
+    },
+    "map_button_n": {
+        "message": "Markeer tegels met een opmerkelijke buit"
+    },
+    "map_button_v": {
+        "message": "Tegelzichtbaarheid is blijvend"
+    },
+    "map_button_o": {
+        "message": "Toon ondoorzichtige tegels"
+    },
+    "map_button_b": {
+        "message": "Toon bonus indicator"
+    },
+    "map_button_k": {
+        "message": "Toon achtergrond door alle breekbare tegels te verbergen"
+    },
+    "map_button_a": {
+        "message": "Toon alle tegels"
+    },
+    "map_button_x": {
+        "message": "Toon in- en uitgangen"
+    },
+    "map_button_u": {
+        "message": "Toon originele kaart"
+    },
+    "map_button_f": {
+        "message": "Toon volledige kaart"
+    },
+    "map_button_s": {
+        "message": "Toon oplossing"
+    },
+    "map_button_m": {
+        "message": "Meng opmerkelijke tegels"
+    },
+    "map_save": {
+        "message": "Bewaar"
+    },
+    "map_save_tip": {
+        "message": "Bewaar de kaart als een afbeelding"
+    },
+    "map_mine_exit": {
+        "message": "Uitgangen mijn"
+    },
+    "map_goto_floor": {
+        "message": "Gaat naar verdieping $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "map_goto_unknown": {
+        "message": "Gaat naar een andere verdieping, maar dit pad is nog niet ingeslagen"
+    },
+    "map_teleport": {
+        "message": "Telepoort"
+    },
+    "map_hint": {
+        "message": "Hint"
+    },
+    "map_beacon": {
+        "message": "Baken"
+    },
+    "map_active": {
+        "message": "actief"
+    },
+    "map_not_active": {
+        "message": "niet actief"
+    },
+    "map_tile": {
+        "message": "Tegel"
+    },
+    "map_npc": {
+        "message": "Npc"
+    },
+    "map_says": {
+        "message": "Zegt"
+    },
+    "map_godchild": {
+        "message": "Godskind"
+    },
+    "map_unknown": {
+        "message": "Onbekend"
+    },
+    "map_yellow": {
+        "message": "Geel"
+    },
+    "map_red": {
+        "message": "Rood"
+    },
+    "map_blue": {
+        "message": "Blauw"
+    },
+    "map_green": {
+        "message": "Groen"
+    },
+    "map_left": {
+        "message": "Links"
+    },
+    "map_down": {
+        "message": "Beneden"
+    },
+    "map_right": {
+        "message": "Rechts"
+    },
+    "map_up": {
+        "message": "Omhoog"
+    },
+    "map_require_draggable": {
+        "message": "Vereist slepen"
+    },
+    "map_require_item": {
+        "message": "Vereist item"
+    },
+    "map_require_light": {
+        "message": "Vereist licht"
+    },
+    "map_emitter": {
+        "message": "Lichtzender"
+    },
+    "map_mirror": {
+        "message": "Spiegel"
+    },
+    "map_filter": {
+        "message": "Lichtfilter"
+    },
+    "map_draggable": {
+        "message": "Sleepbaar"
+    },
+    "map_can_move": {
+        "message": "Kan verplaatst worden"
+    },
+    "map_can_rotate": {
+        "message": "Kan geroteerd worden"
+    },
+    "map_fixed": {
+        "message": "Is gemaakt"
+    },
+    "map_remove_confirmation": {
+        "message": "Bevestig de verwijdering van deze mijnen?"
+    },
+    "map_option_c": {
+        "message": "Toon coördinaten in tooltip"
+    },
+    "map_option_s": {
+        "message": "Toon regio in keuzeknop"
+    },
+    "map_option_i": {
+        "message": "Toon locatie info"
+    },
+    "map_option_r": {
+        "message": "Toon herhaalbare"
+    },
+    "map_option_t": {
+        "message": "Voeg kaarttitel toe"
+    },
+    "map_option_b": {
+        "message": "Verwijder lege rijen/kolommen"
+    },
+    "map_option_m": {
+        "message": "Zorg voor marges rond de afbeelding"
+    },
+    "map_option_l": {
+        "message": "Voeg logo watermerk toe"
+    },
+    "map_option_resize": {
+        "message": "Grootte van bewaarde afbeelding"
+    },
+    "map_export_location": {
+        "message": "Exporteer alle verdiepingen als gegevensbestand"
+    },
+    "map_export_floor": {
+        "message": "Exportrer de huidige verdieping als gegevensbestand"
+    },
+    "map_import": {
+        "message": "Importeer een eerder geëxporteerd gegevensbestand"
+    },
+    "map_downloadfolder": {
+        "message": "Download map"
+    },
+    "map_positionrandom": {
+        "message": "Positie is willekeurig"
+    },
+    "pillars_all": {
+        "message": "Alle zuilen"
+    },
+    "pillars_only_possible": {
+        "message": "Alleen mogelijke zuilen"
+    },
+    "pillars_perc_next": {
+        "message": "%\nVolgende"
+    },
+    "pillars_possible": {
+        "message": "Mogelijk"
+    },
+    "pillars_totals": {
+        "message": "Totalen"
+    },
+    "pillars_current_level": {
+        "message": "Je huidige level"
+    },
+    "pillars_predicted": {
+        "message": "Voorspelbaar"
+    },
+    "pillars_predicted_level": {
+        "message": "Voorspelbaar level"
+    },
+    "pillars_predicted_gain": {
+        "message": "Voorspelde winst door level-ups"
+    },
+    "pillars_ignore": {
+        "message": "Klik om te negeren/overwegen"
+    },
+    "pillars_altclick": {
+        "message": "Gebruik ALT om alle hoeveelheden te resetten/in te stellen"
+    },
+    "pillars_maxpossible": {
+        "message": "Max mogelijk"
+    },
+    "pillars_grid": {
+        "message": "Toon als rooster"
+    },
+    "pillars_cap": {
+        "message": "Cap mogelijk"
+    },
+    "neighbors_lastlevelup": {
+        "message": "Laatste\nLevel Up"
+    },
+    "neighbors_lastgiftreceived": {
+        "message": "Laatste kado\nOntvangen"
+    },
+    "neighbors_yourlastvisit": {
+        "message": "Je laatste bezoek"
+    },
+    "neighbors_all": {
+        "message": "Alles"
+    },
+    "neighbors_nogift": {
+        "message": "Geen geschenken in $NUM$ dagen",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "neighbors_gifts": {
+        "message": "Overweeg geschenken in laatste @DAYS@ dagen"
+    },
+    "neighbors_listed": {
+        "message": "Aangepaste lijst"
+    },
+    "neighbors_blocks": {
+        "message": "Blokken om op te ruimen in ondergronds kamp"
+    },
+    "neighbors_inlist": {
+        "message": "In aangepaste lijst"
+    },
+    "neighbors_notinlist": {
+        "message": "Niet in aangepaste lijst"
+    },
+    "neighbors_withblocks": {
+        "message": "Met blokken om op te ruimen"
+    },
+    "neighbors_unknownblocks": {
+        "message": "Blokken status onbekend"
+    },
+    "neighbors_withexpiredwindmills": {
+        "message": "Met verlopen windmolens"
+    },
+    "neighbors_found": {
+        "message": "Buren gevonden: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_giftcount": {
+        "message": "Aantal geschenken"
+    },
+    "neighbors_giftvalue": {
+        "message": "Geschenkwaarde (in XP)"
+    },
+    "neighbors_efficiency": {
+        "message": "Efficiëntie (geschenk / dagen)"
+    },
+    "neighbors_wmtime": {
+        "message": "Vervaltijd van windmolen"
+    },
+    "neighbors_giftinfo": {
+        "message": "De datum van het geschenk verwijst naar het tijdstip waarop DAF dat geschenk voor het eerst registreerde, niet de datum waarop het werd verzonden."
+    },
+    "neighbors_gifttip": {
+        "message": "$NAME$\nXP: $XP$\nDag: $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_gift": {
+        "message": "$NAME$ ($XP$ XP) op $DAY$",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "xp": {
+                "content": "$2"
+            },
+            "day": {
+                "content": "$3"
+            }
+        }
+    },
+    "neighbors_advancedfilterinfo": {
+        "message": "Je kunt je buren verder filteren op de geschenken die ze de afgelopen @DAYS@ dagen hebben verzonden door een of meer geschenken uit de volgende lijst te selecteren"
+    },
+    "neighbors_clearfilter": {
+        "message": "Filter wissen"
+    },
+    "neighbors_gift_tooltip": {
+        "message": "Geschenken ontvangen terwijl DAF2 actief was en aan het opnemen was."
+    },
+    "neighbors_sortby": {
+        "message": "Sorteer op"
+    },
+    "neighbors_totxpstats": {
+        "message": "$COUNT$ geschenken in $DAYS$ dagen = $TOTAL$ XP ($AVERAGE$ XP/dag)",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "days": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            },
+            "average": {
+                "content": "$4"
+            }
+        }
+    },
+    "neighbors_avgxpstats": {
+        "message": "Gemiddelde geschenkwaarde = $XP$ XP ($AVERAGE$ XP per buur/dag)",
+        "placeholders": {
+            "xp": {
+                "content": "$1"
+            },
+            "average": {
+                "content": "$2"
+            }
+        }
+    },
+    "neighbors_expression": {
+        "message": "Geef een uiting op om te evalueren"
+    },
+    "friendship_collectfriends": {
+        "message": "Verzamel vrienden"
+    },
+    "friendship_score": {
+        "message": "Score"
+    },
+    "friendship_scoretooltip": {
+        "message": "Match vertrouwen, als volgt:\n100 = Zelfde Facebook id\n 99 = Handmatige match\n 95 = Zelfde profielfoto\n 90 = Zelfde volledige naan\n 80 = Zelfde voornaam en achternaam\n 70 = Zelfde voornaam en achternaam (omgekeerd)\n 60 = Chinese letters match"
+    },
+    "friendship_action": {
+        "message": "Actie"
+    },
+    "friendship_actionignore": {
+        "message": "Deze vriend wordt beschouwd voor de match\nKlik om deze vriend te negeren tijdens de match"
+    },
+    "friendship_actionregard": {
+        "message": "Deze vriend wordt genegeerd voor de match\nKlik om deze vriend te beschouwen"
+    },
+    "friendship_actionunlink": {
+        "message": "Klik om de match te verwijderen"
+    },
+    "friendship_actionmanual": {
+        "message": "Klik om deze buur handmatig te matchen"
+    },
+    "friendship_actiondelete": {
+        "message": "Klik om deze vriend permanent te verwijderen"
+    },
+    "friendship_matchplayertitle": {
+        "message": "Klik hier om deze match te annuleren"
+    },
+    "friendship_accountdisabled": {
+        "message": "Account is uitgeschakeld"
+    },
+    "friendship_disabledaccountsdetected": {
+        "message": "Uitgeschakelde account zijn gedetecteerd"
+    },
+    "friendship_unmatchedaccountsdetected": {
+        "message": "Er zijn uitgeschakelde en/of niet-overeenkomende accounts gedetecteerd."
+    },
+    "friendship_unfriendinfo": {
+        "message": "Je kunt ze vanaf deze pagina ontvrienden.\n\nHoud er rekening mee dat Facebook-accounts tijdelijk kunnen zijn uitgeschakeld en op een later moment kunnen worden ingeschakeld."
+    },
+    "friendship_confirmcollect": {
+        "message": "Druk op JA om te bevestigen, NEE om verder te proberen.\n\nJe kunt dit venster op elk moment sluiten\nom de bewerking te annuleren."
+    },
+    "friendship_speedupcollect": {
+        "message": "Versnel verzameling?"
+    },
+    "friendship_filter_a": {
+        "message": "Vrienden: $FRIENDS$, Buren: $NEIGHBOURS$",
+        "placeholders": {
+            "friends": {
+                "content": "$1"
+            },
+            "neighbours": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_filter_d": {
+        "message": "Uitgeschakelde Facebook accounts: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_m": {
+        "message": "Vrienden en buren die overeenkomen: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_g": {
+        "message": "Vrienden en buren gekoppeld door afbeelding: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_h": {
+        "message": "Vrienden en buren handmatig gekoppeld: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_i": {
+        "message": "Vrienden genegeerd: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_f": {
+        "message": "Vrienden die niet overeenkomen: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_u": {
+        "message": "Vrienden genegeerd en/of niet overeenkomen: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_n": {
+        "message": "Buren die niet overeenkomen: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_filter_s": {
+        "message": "Vrienden en buren die niet overeenkomen: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_collectpreamble": {
+        "message": "Hier kun je je Facebook vrienden verzamelen en matchen met je buren."
+    },
+    "friendship_collectstandard": {
+        "message": "Standaard"
+    },
+    "friendship_collectstandardinfo": {
+        "message": "Deze methode is betrouwbaar, maar erg traag (het kan enkele minuten duren)."
+    },
+    "friendship_collectunmatched": {
+        "message": "Geen match"
+    },
+    "friendship_collectunmatchedinfo": {
+        "message": "This method is the same as the 'Standard' method, but it will not collect friends.\nInstead, it will show you all currently unmatched friends, so you can manually unfriend them."
+    },
+    "friendship_disabledinfo": {
+        "message": "Het kan uitgeschakelde accounts detecteren."
+    },
+    "friendship_collectmatch": {
+        "message": "Match"
+    },
+    "friendship_collectmatchinfo": {
+        "message": "Dit zal de automatische match tussen je vrienden en buren uitvoeren.\nJe vriendenlijst wordt niet vernieuwd.\nGenegeerde vrienden en vrienden met een score hoger dan 90 worden niet automatisch gematcht.\nHet matchen wordt nog steeds uitgevoerd aan het einde van je vriendencollectie."
+    },
+    "friendship_matchbyimage": {
+        "message": "Match op profielafbeelding?"
+    },
+    "friendship_confirmwarning": {
+        "message": "Deze bewerking kan enkele minuten duren.\n\nBevestig alsjeblieft dat je door wilt gaan."
+    },
+    "friendship_confirmcollection": {
+        "message": "Bevestig verzamelingsresultaat?"
+    },
+    "friendship_cc_maybe": {
+        "message": "Bij twijfel"
+    },
+    "friendship_collecterror": {
+        "message": "Er is iets fout gegaan."
+    },
+    "friendship_manualhelp": {
+        "message": "Vernieuw de DAF2 pagina, ga naar \"$FRIENDSHIP$\" tabblad, klik op \"$COLLECT$\" en kies \"$MATCH$\"",
+        "placeholders": {
+            "friendship": {
+                "content": "$1"
+            },
+            "collect": {
+                "content": "$2"
+            },
+            "match": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_analyzingmatches": {
+        "message": "Gegevens analyseren, $PERCENT$ % ($NUM$ / $TOTAL$)",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            },
+            "num": {
+                "content": "$2"
+            },
+            "total": {
+                "content": "$3"
+            }
+        }
+    },
+    "friendship_collectstat": {
+        "message": "Vrienden verzameld: $COUNT$",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_manualmatchhelp": {
+        "message": "Om deze buurman te matchen, moet je een niet-overeenkomende vriend zoeken en op de cel klikken waar het symbool ⭐ staat."
+    },
+    "friendship_friendupdateinfo": {
+        "message": "De Facebook vriendenlijst was bijgewerkt op $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "friendship_totalfriends": {
+        "message": "Vrienden: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_totalneighbours": {
+        "message": "Buren: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "friendship_timewarning": {
+        "message": "Het lijkt erop dat je al lange tijd geen vriendenverzameling hebt uitgevoerd. Klik op de $COLLECT$ knop en kies de $METHOD$ methode.",
+        "placeholders": {
+            "collect": {
+                "content": "$1"
+            },
+            "method": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_info": {
+        "message": "$NUM$ Buren = $GC$ Godskinderen",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "gc": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_stat": {
+        "message": "Godskinderen: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "godchild_next": {
+        "message": "Om een extra GC te krijgen, moet je $NUM$ extra buren toevoegen",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "godchild_next0": {
+        "message": "Je hebt het maximaal mogelijke aantal GC bereikt"
+    },
+    "godchild_next1": {
+        "message": "Om een extra GC te krijgen, hoef je nog maar één buur toe te voegen"
+    },
+    "progress_measure": {
+        "message": "Meten"
+    },
+    "progress_attained": {
+        "message": "Bereikt"
+    },
+    "progress_goal": {
+        "message": "Doel"
+    },
+    "progress_remaining": {
+        "message": "Overgebleven"
+    },
+    "progress_progress": {
+        "message": "Voortgang"
+    },
+    "progress_achievements": {
+        "message": "Prestaties"
+    },
+    "progress_treasures": {
+        "message": "Schatten"
+    },
+    "progress_overall": {
+        "message": "Algemeen"
+    },
+    "progress_hidecompleted": {
+        "message": "Verbergen compleet"
+    },
+    "progress_grouplocations": {
+        "message": "Groep locaties"
+    },
+    "progress_showdates": {
+        "message": "Locatie data"
+    },
+    "progress_energyinfo": {
+        "message": "De energie die hier wordt weergegeven, wordt geschat door het aantal resterende tegels te vermenigvuldigen met de gemiddelde tegelkosten.\nDe gemiddelde tegelkosten zijn gebaseerd op de voltooiingsbones en het totale aantal tegels."
+    },
+    "progress_averagetilecost": {
+        "message": "Gemiddelde tegelprijs"
+    },
+    "progress_achievementnextstep": {
+        "message": "Naar de volgende stap = $NEXT$",
+        "placeholders": {
+            "next": {
+                "content": "$1"
+            }
+        }
+    },
+    "progress_start": {
+        "message": "Gestart"
+    },
+    "progress_end": {
+        "message": "Geëindigd"
+    },
+    "progress_duration": {
+        "message": "Looptijd"
+    },
+    "progress_subtotal": {
+        "message": "Subtotaal"
+    },
+    "progress_grandtotal": {
+        "message": "Eindtotaal"
+    },
+    "progress_playtime": {
+        "message": "Je bent begonnen met het spelen van $STARTED$ en hebt gespeeld voor $DURATION$ (zoals bij $NOW$)",
+        "placeholders": {
+            "started": {
+                "content": "$1"
+            },
+            "duration": {
+                "content": "$2"
+            },
+            "now": {
+                "content": "$3"
+            }
+        }
+    },
+    "progress_levelrange": {
+        "message": "Van $FROM$ tot $TO$",
+        "placeholders": {
+            "from": {
+                "content": "$1"
+            },
+            "to": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_id": {
+        "message": "Beloning Id"
+    },
+    "rewardlinks_insertdate": {
+        "message": "Datum invoegen"
+    },
+    "rewardlinks_collectdate": {
+        "message": "Verzamel datum"
+    },
+    "rewardlinks_collectmaterial": {
+        "message": "Beloning gevonden"
+    },
+    "rewardlinks_owner": {
+        "message": "Eigenaar"
+    },
+    "rewardlinks_expired": {
+        "message": "VERLOPEN LINK"
+    },
+    "rewardlinks_collected": {
+        "message": "AL VERZAMELD"
+    },
+    "rewardlinks_maxreached": {
+        "message": "DAGELIJKSE MAX BEREIKT"
+    },
+    "rewardlinks_noself": {
+        "message": "GEEN ZELFBELONING"
+    },
+    "rewardlinks_broken": {
+        "message": "DEFECTE LINK"
+    },
+    "rewardlinks_probablyexpired": {
+        "message": "MOGELIJK VERLOPEN LINK"
+    },
+    "rewardlinks_background": {
+        "message": "Achtergrond\nOpen beloningslinks op de achtergrond"
+    },
+    "rewardlinks_autoclick": {
+        "message": "Auto-klik\nKlik automatisch op de volgende geselecteerde beloning nadat een beloning is verzameld"
+    },
+    "rewardlinks_addlinks": {
+        "message": "Links toevoegen"
+    },
+    "rewardlinks_pasteadd": {
+        "message": "Plak hier de links om toe te voegen, druk dan op de $CONFIRM$ knop",
+        "placeholders": {
+            "confirm": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_pastehere": {
+        "message": "Elke link die hier wordt geplakt, wordt direct toegevoegd"
+    },
+    "rewardlinks_linksadded": {
+        "message": "Beloningslinks toegevoegd: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_nolinksadded": {
+        "message": "Er zijn geen beloningslinks toegevoegd"
+    },
+    "rewardlinks_linksupdated": {
+        "message": "Beloningslinks bijgewerkt: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_stats": {
+        "message": "Beloningslinks: $TOTAL$, Te verzamelen: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "rewardlinks_allcollected": {
+        "message": "Alle beloningslinks verzameld."
+    },
+    "rewardlinks_nexttime": {
+        "message": "Volgende verzameling begint op $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_countremaining": {
+        "message": "Resterende links om te verzamelen: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_collectanyway": {
+        "message": "Wil je deze link toch openen?"
+    },
+    "rewardlinks_infocollected": {
+        "message": "Deze link is al verzameld."
+    },
+    "rewardlinks_infoexpired": {
+        "message": "Deze link is verlopen.\nLinks zijn alleen geldig voor $NUM$ dagen.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_infonoself": {
+        "message": "Deze link is van jou, zelfbeloningen zijn niet geldig."
+    },
+    "rewardlinks_infobroken": {
+        "message": "Deze link is defect of werkt niet."
+    },
+    "rewardlinks_infomaxreached": {
+        "message": "Deze link is verzameld terwijl de dagelijkse limiet werd bereikt.\nLinks verzameld op deze manier zijn voor altijd verloren."
+    },
+    "rewardlinks_infomayexceedlimit": {
+        "message": "Er zijn andere beloningen waarvan de verzameling in afwachting is.\nDit kan je dagelijkse limiet overschrijden."
+    },
+    "rewardlinks_infoprobablyexpired": {
+        "message": "Deze link is waarschijnlijk verlopen.\nLinks-id wordt opeenvolgend gegenereerd en deze belonings-id is lager dan de id van een verlopen beloning."
+    },
+    "rewardlinks_removelinks": {
+        "message": "Verwijder oude links"
+    },
+    "rewardlinks_removeselected": {
+        "message": "Verwijder geselecteerde"
+    },
+    "rewardlinks_removelinksdays": {
+        "message": "Verwijder niet verzamelbare beloningslinks ouder dan @DAYS@ dagen.\nDit omvat zowel verlopen links als reeds verzamelde links.\nLinks ouder dan $NUM$ dagen worden periodiek verwijderd.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_removenone": {
+        "message": "Geen links om te verwijderen!"
+    },
+    "rewardlinks_removeconfirm": {
+        "message": "Links die zullen worden verwijderd: $NUM$\nVerwijderde links kunnen niet langer toegevoegd worden.\n\nDoorgaan met verwijderen?",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_rewardinfo": {
+        "message": "Deze beloning was toegevoegd op $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "rewardlinks_reset": {
+        "message": "Reset"
+    },
+    "rewardlinks_resetcount": {
+        "message": "Je kunt de \"volgende collectie\" informatie resetten en toch doorgaan met deze link."
+    },
+    "rewardlinks_resetexpired": {
+        "message": "Je kunt de \"mogelijk verlopen\" informatie resetten en toch doorgaan met deze link."
+    },
+    "rewardlinks_convert": {
+        "message": "Converteer link"
+    },
+    "rewardlinks_noconversion": {
+        "message": "Geen conversie"
+    },
+    "rewardlinks_shortenlinks": {
+        "message": "Inkorten/omzetten links"
+    },
+    "rewardlinks_shortenlinks_info1": {
+        "message": "Plak hier de links om deze in te korten/om te zetten."
+    },
+    "rewardlinks_shortenlinks_info2": {
+        "message": "Verkorte links worden hieronder weergegeven (duplicaten worden verwijderd)"
+    },
+    "rewardlinks_prefix": {
+        "message": "Voorvoegsel"
+    },
+    "rewardlinks_newline": {
+        "message": "Nieuwe regel toevoegen"
+    },
+    "rewardlinks_addspace": {
+        "message": "Ruimte toevoegen"
+    },
+    "rewardlinks_summaryinfo": {
+        "message": "Alle beloningen verzameld binnen $NUM$ uur na de meest recente beloning.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "export_export": {
+        "message": "Export"
+    },
+    "export_import": {
+        "message": "Import"
+    },
+    "export_exportdata": {
+        "message": "Exporteer gegevens"
+    },
+    "export_exportinventory": {
+        "message": "Exporteer voorraad"
+    },
+    "export_importdata": {
+        "message": "Importeer gegevens"
+    },
+    "export_invalidexportdata": {
+        "message": "Bestand is geen geldig DAF exportgegeven voor deze gebruiker!"
+    },
+    "export_invalidexport": {
+        "message": "Bestand is geen geldig exportgegeven!"
+    },
+    "export_importsuccess": {
+        "message": "Gegevens zijn succesvol geïmporteerd!"
+    },
+    "export_debugdata": {
+        "message": "Diagnostische gegevens exporteren"
+    },
+    "rings_showminmax": {
+        "message": "Toon minimum en maximum waarden"
+    },
+    "rings_showxp": {
+        "message": "Toon XP"
+    },
+    "rings_playerlevel": {
+        "message": "Specificeer spelersniveau"
+    },
+    "rings_stats": {
+        "message": "Je hebt $NUM$ $NAME$ in je rugzak.",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "name": {
+                "content": "$2"
+            }
+        }
+    },
+    "rings_notdependent": {
+        "message": "Niet afhankelijk van het niveau van de speler"
+    },
+    "rings_averageperring": {
+        "message": "Gemiddelde XP per ring"
+    },
+    "rings_rings": {
+        "message": "Ringen"
+    },
+    "equipment_sellout": {
+        "message": "Als je alle ongebruikte items verkoopt, krijg je $TOTAL$ munten ( uitrusting = $EQUIP$ munten, decoraties = $DECO$ munten)",
+        "placeholders": {
+            "total": {
+                "content": "$1"
+            },
+            "equip": {
+                "content": "$2"
+            },
+            "deco": {
+                "content": "$3"
+            }
+        }
+    },
+    "equipment_notonsale": {
+        "message": "Niet meer te koop"
+    },
+    "equipment_quantities": {
+        "message": "Hoeveelheden"
+    },
+    "equipment_owned": {
+        "message": "Eigendom"
+    },
+    "equipment_inshop": {
+        "message": "In de winkel"
+    },
+    "equipment_from": {
+        "message": "Van"
+    },
+    "equipment_affordable": {
+        "message": "Betaalbaar"
+    },
+    "equipment_useful": {
+        "message": "Nuttig"
+    },
+    "equipment_gain": {
+        "message": "Krijgen"
+    },
+    "equipment_gain_info": {
+        "message": "De winst is gebaseerd op de minimale slotwaarde in je kamp"
+    },
+    "equipment_free": {
+        "message": "GRATIS"
+    },
+    "equipment_hidemax": {
+        "message": "Verberg maximum"
+    },
+    "equipment_price_info": {
+        "message": "De hier getoonde prijs is niet voor deze apparatuur, maar voor het pakket/aanbieding dat deze uitrusting bevatte."
+    },
+    "equipment_level_none": {
+        "message": "Doet er niet toe"
+    },
+    "equipment_level_eq": {
+        "message": "Precies"
+    },
+    "equipment_level_le": {
+        "message": "Hoogstens"
+    },
+    "equipment_level_ge": {
+        "message": "Minstens"
+    },
+    "equipment_level_your": {
+        "message": "jouw niveau"
+    },
+    "equipment_level_this": {
+        "message": "dit niveau"
+    },
+    "equipment_include_material": {
+        "message": "Voeg deze materialen toe"
+    },
+    "equipment_exclude_material": {
+        "message": "Sluit deze materialen uit"
+    },
+    "equipment_current": {
+        "message": "Huidig"
+    },
+    "equipment_pfdisclaimer": {
+        "message": "Houd er rekeningmee dat als je in het verleden een speciaal pakket in je spel voor deze prijs hebt gekocht, het niet mogelijk is om een volgend pakket voor deze prijs te kopen.\nIn dit geval is het laagste beschikbare prijsniveau ongeveer 5,5 USD (4,50 Euro)"
+    },
+    "equipment_slotslower": {
+        "message": "Slots met minder vermogen dan dit"
+    },
+    "events_year": {
+        "message": "Jaar"
+    },
+    "events_end": {
+        "message": "Einde"
+    },
+    "events_quests": {
+        "message": "Quests"
+    },
+    "events_achievements": {
+        "message": "Prestaties"
+    },
+    "events_pieces": {
+        "message": "Stukken van de schat"
+    },
+    "events_locations": {
+        "message": "Locaties"
+    },
+    "events_materials": {
+        "message": "Speciaal\nmateriaal"
+    },
+    "events_completed": {
+        "message": "Voltooid"
+    },
+    "events_total": {
+        "message": "Totaal"
+    },
+    "events_medal": {
+        "message": "Medaille"
+    },
+    "events_story_maps": {
+        "message": "Verhaalkaarten"
+    },
+    "events_challenges": {
+        "message": "Uitdagingen"
+    },
+    "events_repeatables": {
+        "message": "Herhaalbare"
+    },
+    "events_active": {
+        "message": "Actief"
+    },
+    "events_rerelease": {
+        "message": "Gekocht/gekregen"
+    },
+    "events_complete": {
+        "message": "Compleet"
+    },
+    "events_incomplete": {
+        "message": "Incompleet"
+    },
+    "events_notdone": {
+        "message": "Niet klaar"
+    },
+    "events_segmented": {
+        "message": "Gesegmenteerd"
+    },
+    "events_yourprogress": {
+        "message": "Je voortgang"
+    },
+    "events_rewards": {
+        "message": "Beloningen"
+    },
+    "events_finalreward": {
+        "message": "Laatste beloning"
+    },
+    "events_notsegmented": {
+        "message": "Niet gesegmenteerd"
+    },
+    "events_tiles": {
+        "message": "Tegels"
+    },
+    "events_chance": {
+        "message": "Kans"
+    },
+    "events_clearbonus": {
+        "message": "Wis bonus"
+    },
+    "events_gemstones": {
+        "message": "Edelstenen"
+    },
+    "repeat_name": {
+        "message": "Naam"
+    },
+    "repeat_region_event": {
+        "message": "Regio / Evenement"
+    },
+    "repeat_cooldown": {
+        "message": "Afkoelen"
+    },
+    "repeat_cooldown_time": {
+        "message": "Tijd"
+    },
+    "repeat_cooldown_gems": {
+        "message": "Edelstenen"
+    },
+    "repeat_reset": {
+        "message": "Resetten"
+    },
+    "repeat_bonus": {
+        "message": "Voltooiingsbonus"
+    },
+    "repeat_progress": {
+        "message": "Voortgang"
+    },
+    "repeat_progress_current": {
+        "message": "Tegels gedolven"
+    },
+    "repeat_progress_total": {
+        "message": "Totale tegels"
+    },
+    "repeat_time": {
+        "message": "Tijd waarop de mijn weer klaar zal zijn"
+    },
+    "repeat_show_all": {
+        "message": "Alle herhaalbare"
+    },
+    "repeat_show_selected": {
+        "message": "Alleen geselecteerde herhaalbare"
+    },
+    "repeat_ready": {
+        "message": "KLAAR"
+    },
+    "repeat_show_ready": {
+        "message": "Klaar?"
+    },
+    "repeat_postcard": {
+        "message": "Postkaartenweek klaar?"
+    },
+    "dailyreward_stats": {
+        "message": "De dagelijkse beloning is gebaseerd op je huidige niveau ($LEVEL$) en regio ($REGION$)",
+        "placeholders": {
+            "level": {
+                "content": "$1"
+            },
+            "region": {
+                "content": "$2"
+            }
+        }
+    },
+    "dailyreward_lastcollect": {
+        "message": "Verzameld op $DATE$",
+        "placeholders": {
+            "date": {
+                "content": "$1"
+            }
+        }
+    },
+    "dailyreward_formula": {
+        "message": "Formule"
+    },
+    "specialweek_end": {
+        "message": "eindigt op $FINISH$",
+        "placeholders": {
+            "finish": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_debris_discount": {
+        "message": "Raster Ontgrendel kortingsweek $PERCENT$%",
+        "placeholders": {
+            "percent": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_production": {
+        "message": "Dubbele productieweek"
+    },
+    "specialweek_half_prod_time": {
+        "message": "Verkorte productieweek"
+    },
+    "specialweek_double_drop": {
+        "message": "Dubbele materiaalweek"
+    },
+    "specialweek_gifts": {
+        "message": "Dubbele geschenkenweek"
+    },
+    "specialweek_postcards": {
+        "message": "Postkaartenweek"
+    },
+    "specialweek_material_seller": {
+        "message": "Koopman voor oude materialen"
+    },
+    "specialweek_free_premium_event": {
+        "message": "Wissel evenement $NAME$ gratis in",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            }
+        }
+    },
+    "specialweek_mystery_box": {
+        "message": "Mysterieuze doos"
+    },
+    "specialweek_find_the_pair": {
+        "message": "Vind het paar"
+    },
+    "options_section_ingame": {
+        "message": "Opties in het spel"
+    },
+    "options_injectgame": {
+        "message": "Schakel DAF in\nSchakel DAF in het spel in.\nIndien niet ingeschakeld, hebben de volgende opties geen effect"
+    },
+    "options_fullwindow": {
+        "message": "Volledig venster\nSpel in volledig venster weergeven"
+    },
+    "options_fullwindowheader": {
+        "message": "Koptekst\nToon de paginakoptekst in volledig venster"
+    },
+    "options_fullwindowside": {
+        "message": "Zijkant\nVerberg de zijbalk (Facebook) als deze niet in volledig venster staat"
+    },
+    "options_fullwindowlock": {
+        "message": "Vergrendel het volledig venster\nVoorkomt dat het spel het volledige venster verlaat."
+    },
+    "options_resetfullwindow": {
+        "message": "Resetten bij laden\nElke keer dat je het spel laadt, \"Volledig venster\" en \"Volledig venster - zijkant\" worden gerest"
+    },
+    "options_resetfullwindow_warning": {
+        "message": "Deze optie moet worden ingeschakeld als je problemen ondervindt bij het laden van het spel."
+    },
+    "options_fullwindowtimeout": {
+        "message": "Automatisch volledig venster\nAutomatisch volledig venster instellen wanneer gegevens zijn geladen (DAF2 wordt groen)"
+    },
+    "options_fullwindowtimeout_seconds": {
+        "message": "Ja, na $NUM$ seconden",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "options_gctable": {
+        "message": "GC tabel\nToon alle buren met GC onder het spel"
+    },
+    "options_gctablecounter": {
+        "message": "Teller\nToon een teller"
+    },
+    "options_gctableregion": {
+        "message": "Regio\nGebruik kleuren on de regio van buren te markeren"
+    },
+    "options_autoclick": {
+        "message": "Automatiche klik\nBevestig automatisch de pop-ups van Facebook"
+    },
+    "options_nogcpopup": {
+        "message": "Geen GC pop-ups\nGeen pop-ups wanneer GC worden verzameld"
+    },
+    "options_autogc": {
+        "message": "Automatisch schakelen kamp GC\nSchakel automatisch van kamp wanneer GC zijn verzameld"
+    },
+    "options_section_general": {
+        "message": "Algemene opties"
+    },
+    "options_autologin": {
+        "message": "Portal automatische login\nAutomatisch inloggen in Portal"
+    },
+    "options_darktheme": {
+        "message": "Donker thema"
+    },
+    "options_shrinkmenu": {
+        "message": "Menubreedte\nVerklein de breedte van het linker verticale menu"
+    },
+    "options_shrinkmenu_0": {
+        "message": "Als de paginabreedte te klein is"
+    },
+    "options_shrinkmenu_1": {
+        "message": "Gebruik altijd een compact menu"
+    },
+    "options_shrinkmenu_2": {
+        "message": "Gebruik altijd een uitgebreid menu"
+    },
+    "options_disablealtguard": {
+        "message": "Reset op alternatief account\nAls je deze optie instelt, worden je huidige DAF2-gegevens overschreven door een alternatief account te laden."
+    },
+    "options_disablealtguard_warning": {
+        "message": "PAS OP: Schakel deze optie in op eigen risico!"
+    },
+    "options_section_rewardlinks": {
+        "message": "Beloningslinks"
+    },
+    "options_rewardsclose": {
+        "message": "Automatisch sluiten\nSluit de pagina automatisch nadat de beloning is verzameld."
+    },
+    "options_rewardscloseexceptgems": {
+        "message": "Behalve edelstenen\nSluit niet automatisch wanneer edelstenen zijn gevonden."
+    },
+    "options_rewardscloseexcepterrors": {
+        "message": "Behalve fouten\nSluit niet automatisch als er een fout gevonden is."
+    },
+    "options_rewardssummary": {
+        "message": "Voeg overzichtstabel toe\nAls de pagina niet automatisch wordt gesloten, voeg je onderaan een overzichtstabel toe."
+    },
+    "options_linkgrabenabled": {
+        "message": "Link Grijper\nSchakel de Link Grijper binnen Facebook in.\nIndien niet ingeschakeld, hebben de volgende opties geen effect."
+    },
+    "options_linkgrabbutton": {
+        "message": "Muisknop\nKies de muisknop die de Link Grijper activeert"
+    },
+    "options_linkgrabkey": {
+        "message": "Optionele toets\nKies een optionele toets om naast de muisknop in te drukken"
+    },
+    "options_linkgrabsort": {
+        "message": "Sorteer links"
+    },
+    "options_linkgrabconvert": {
+        "message": "Converteer links"
+    },
+    "options_modifier_none": {
+        "message": "Geen"
+    },
+    "options_modifier_shift": {
+        "message": "Shift"
+    },
+    "options_modifier_ctrl": {
+        "message": "Ctrl"
+    },
+    "options_modifier_alt": {
+        "message": "Alt"
+    },
+    "options_button_left": {
+        "message": "Links"
+    },
+    "options_button_middle": {
+        "message": "Midden"
+    },
+    "options_button_right": {
+        "message": "Rechts"
+    },
+    "options_sort_none": {
+        "message": "Geen"
+    },
+    "options_sort_ascending": {
+        "message": "Oplopend"
+    },
+    "options_sort_descending": {
+        "message": "Aflopend"
+    },
+    "options_language": {
+        "message": "Taal\nKies de taal die je wil gebruiken"
+    },
+    "options_locale": {
+        "message": "Localisatie\nWordt gebruikt voor het opmaken van getallen, datums en lijsten"
+    },
+    "options_locale_browser": {
+        "message": "Gebruik de browserinstellingen"
+    },
+    "options_gamelanguage": {
+        "message": "Speltaal\nTaal voor berichten van het spel"
+    },
+    "options_section_badges": {
+        "message": "Badges"
+    },
+    "options_badgeserverenergy": {
+        "message": "Serverenergie\nLaat een badge zien met de energie gerapporteerd door de server.\nDeze informatie wordt periodiek ververst wanneer de spelstatus wordt gesynchroniseerd met de server."
+    },
+    "options_badgegccounter": {
+        "message": "GC Teller\nLaat een badge zien met het resterende aantal GC om te verzamelen"
+    },
+    "options_badgegcenergy": {
+        "message": "GC Energie\nLaat een badge zien met de energie van een GC van een buur"
+    },
+    "options_badgerepeatables": {
+        "message": "Herhaalbare\nLaat een badge zien wanneer elke geselecteerde herhaalbare klaar is"
+    },
+    "options_badgeluckycards": {
+        "message": "Lucky Cards\nLaat een badge zien wanneer de Lucky Cards tent klaar is"
+    },
+    "options_badgeproductions": {
+        "message": "Producties\nLaat een badge zien wanneer een productieruimte klaar of leeg is"
+    },
+    "options_badgetimeoffset": {
+        "message": "Tijdverschuiving\nDe badge wordt dit aantal seconden van tevoren weergegeven."
+    },
+    "options_badgesound": {
+        "message": "Geluidsffect\nHet geluidseffect dat wordt afgespeeld wanneer de batch wordt weergegeven."
+    },
+    "options_badgevolume": {
+        "message": "Volume\nHet volume van het geluidseffect."
+    },
+    "calc_operators": {
+        "message": "Operatoren"
+    },
+    "calc_arithmetic": {
+        "message": "Rekenkundig"
+    },
+    "calc_comparison": {
+        "message": "Vergelijking"
+    },
+    "calc_logical": {
+        "message": "Logisch"
+    },
+    "calc_functions": {
+        "message": "Functies"
+    },
+    "calc_variables": {
+        "message": "Variabelen"
+    },
+    "calc_examples": {
+        "message": "Voorbeelden"
+    },
+    "calc_error_1": {
+        "message": "Syntax fout"
+    },
+    "calc_error_2": {
+        "message": "Functie heeft haakjes nodig"
+    },
+    "calc_error_3": {
+        "message": "Mist haakjes sluiten"
+    },
+    "calc_error_4": {
+        "message": "Te veel haakjes sluiten"
+    },
+    "linkgrabber_selected": {
+        "message": "Links: $UNIQUE$ / $TOTAL$",
+        "placeholders": {
+            "unique": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_fn_copy": {
+        "message": "Kopieer naar klembord"
+    },
+    "linkgrabber_fn_send": {
+        "message": "Verstuur naar DAF"
+    },
+    "linkgrabber_fn_cancel": {
+        "message": "Annuleer"
+    },
+    "linkgrabber_fn_refresh": {
+        "message": "Ververs links"
+    },
+    "linkgrabber_fn_showid": {
+        "message": "Toon belonings-ID"
+    },
+    "linkgrabber_fn_autosend": {
+        "message": "Automatisch verzenden"
+    },
+    "linkgrabber_added": {
+        "message": "Beloningslinks toegevoegd: $NUM$ / $TOTAL$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "linkgrabber_copied": {
+        "message": "Links gekopieerd naar het klembord: $NUM$",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    }
+}
