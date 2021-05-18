@@ -1371,8 +1371,15 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     for (const tileDef of tileDefs.filter(t => t.toDo)) computeTile(tileDef);
 
     // Add beacon requirements as quest loot
-    for (const beacon of Object.values(beaconParts).filter(b => !b.active && b.req_material > 0)) {
-        addQuestDrop(lid, 'token', beacon.req_material, 'beacon');
+    // for (const beaconPart of Object.values(beaconParts).filter(b => !b.active && b.req_material > 0)) {
+    //     addQuestDrop(lid, 'token', beaconPart.req_material, 'beacon');
+    // }
+    for (const floor of floors) {
+        for (const beacon of asArray(floor.beacons && floor.beacons.beacon)) {
+            for (const beaconPart of asArray(beacon.parts && beacon.parts.part).filter(b => b.req_material > 0)) {
+                addQuestDrop(lid, 'token', beaconPart.req_material, 'beacon');
+            }
+        }
     }
     allQuestDropsFlags[`${lid}_${fid}`] = Object.keys(allQuestDrops[lid] || {}).length;
 
