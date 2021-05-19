@@ -266,8 +266,9 @@ function isValidEvent() {
 }
 function onKeydown(event) {
     if (!isValidEvent()) return;
-    if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
-        const key = event.key.toUpperCase();
+    const key = event.key.toUpperCase();
+    const hasModifiers = event.ctrlKey || event.altKey || event.shiftKey;
+    if (!hasModifiers) {
         const input = checks.find(el => el.getAttribute('data-flag') == key || el.getAttribute('data-flag2') == key);
         if (input) {
             const flag1 = input.getAttribute('data-flag'), flag2 = input.getAttribute('data-flag2');
@@ -2195,9 +2196,18 @@ async function drawMine(args) {
 
     // Special tiles (with overlapped colors)
     {
+        const tilesByPosition = {};
+        const tileAt = (x, y) => tilesByPosition[`${x},${y}`];
+        (showNotableLoot ? specialTiles : []).forEach(tileDef => {
+            if (!tileDef.isVisible) return;
+            const color = tileDef.isQuest ? [1, 0, 1] : (tileDef.isSpecial ? [1, 1, 0] : (tileDef.isMaterial ? [0, 1, 0] : null));
+            if (color) {
+                const { x, y } = tileDef;
+                tilesByPosition[`${x},${y}`] = { x, y, color };
+            }
+        });
+        const specialTilesToDraw = Object.values(tilesByPosition);
         const SW = 4;
-        const specialTilesToDraw = (showNotableLoot ? specialTiles : []).filter(t => t.isVisible);
-        const tileAt = (x, y) => x >= 0 && x < cols && y >= 0 && y < rows ? tileDefs[y * cols + x] : null;
         const specialFill = (color, x, y, w, h, t1, t2, t3) => {
             let [r, g, b] = color;
             const addCol = t => {
@@ -2214,34 +2224,26 @@ async function drawMine(args) {
             ctx.fillStyle = '#' + Math.round(r * 15 / max).toString(16) + Math.round(g * 15 / max).toString(16) + Math.round(b * 15 / max).toString(16);
             ctx.fillRect(x, y, w, h);
         };
-        specialTilesToDraw.forEach(tileDef => {
-            if (tileDef.isQuest) tileDef.color = [1, 0, 1];
-            else if (tileDef.isMaterial) tileDef.color = [0, 1, 0];
-            else if (tileDef.isSpecial) tileDef.color = [1, 1, 0];
-        });
-        specialTilesToDraw.forEach(tileDef => {
-            const { x, y } = tileDef;
+        specialTilesToDraw.forEach(({ x, y, color }) => {
             const sx = x * TILE_SIZE, sy = y * TILE_SIZE;
             const tileLeft = tileAt(x - 1, y), tileUp = tileAt(x, y - 1), tileRight = tileAt(x + 1, y), tileDown = tileAt(x, y + 1);
-            specialFill(tileDef.color, sx - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileLeft);
-            specialFill(tileDef.color, sx + SW, sy - SW, TILE_SIZE - SW * 2, SW * 2, tileUp);
-            specialFill(tileDef.color, sx + TILE_SIZE - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileRight);
-            specialFill(tileDef.color, sx + SW, sy + TILE_SIZE - SW, TILE_SIZE - SW * 2, SW * 2, tileDown);
-            specialFill(tileDef.color, sx - SW, sy - SW, SW * 2, SW * 2, tileLeft, tileUp, tileAt(x - 1, y - 1));
-            specialFill(tileDef.color, sx + TILE_SIZE - SW, sy - SW, SW * 2, SW * 2, tileRight, tileUp, tileAt(x + 1, y - 1));
-            specialFill(tileDef.color, sx - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileLeft, tileDown, tileAt(x - 1, y + 1));
-            specialFill(tileDef.color, sx + TILE_SIZE - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileRight, tileDown, tileAt(x + 1, y + 1));
+            specialFill(color, sx - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileLeft);
+            specialFill(color, sx + SW, sy - SW, TILE_SIZE - SW * 2, SW * 2, tileUp);
+            specialFill(color, sx + TILE_SIZE - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileRight);
+            specialFill(color, sx + SW, sy + TILE_SIZE - SW, TILE_SIZE - SW * 2, SW * 2, tileDown);
+            specialFill(color, sx - SW, sy - SW, SW * 2, SW * 2, tileLeft, tileUp, tileAt(x - 1, y - 1));
+            specialFill(color, sx + TILE_SIZE - SW, sy - SW, SW * 2, SW * 2, tileRight, tileUp, tileAt(x + 1, y - 1));
+            specialFill(color, sx - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileLeft, tileDown, tileAt(x - 1, y + 1));
+            specialFill(color, sx + TILE_SIZE - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileRight, tileDown, tileAt(x + 1, y + 1));
         });
-        specialTilesToDraw.forEach(tileDef => {
-            const { x, y } = tileDef;
+        specialTilesToDraw.forEach(({ x, y, color }) => {
             const sx = x * TILE_SIZE, sy = y * TILE_SIZE;
-            ctx.fillStyle = '#' + tileDef.color.map(v => (v * 15).toString(16)).join('');
+            ctx.fillStyle = '#' + color.map(v => (v * 15).toString(16)).join('');
             ctx.fillRect(sx, sy, TILE_SIZE, SW);
             ctx.fillRect(sx, sy + TILE_SIZE - SW, TILE_SIZE, SW);
             ctx.fillRect(sx, sy + SW, SW, TILE_SIZE - SW * 2);
             ctx.fillRect(sx + TILE_SIZE - SW, sy + SW, SW, TILE_SIZE - SW * 2);
         });
-        specialTilesToDraw.forEach(tileDef => delete tileDef.color);
     }
 
     // Entrances/Exits
