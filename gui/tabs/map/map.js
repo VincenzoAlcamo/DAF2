@@ -296,6 +296,12 @@ function addQuestDrop(lid, type, id, value) {
     if (!(key in h)) h[key] = value;
 }
 
+function deleteWormsFrom(map) {
+    delete map['token_168'];    // WORM
+    delete map['token_1461'];   // WORM FOR EELS
+    delete map['token_4122'];   // LEECH
+}
+
 function isFlagAllowed(flag) {
     return 'CDNTUVX'.indexOf(flag) >= 0 || isAdmin;
 }
@@ -659,7 +665,7 @@ function update() {
             });
         });
     }
-
+    deleteWormsFrom(specialDrops);
 
     mapFilters = {};
     for (const filter of Object.values(gui.getFile('map_filters'))) {
@@ -1386,6 +1392,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 
     // Check loot
     const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
+    deleteWormsFrom(questDrops);
     const materialDrops = {};
     gui.getArrayOfInt(listMaterial).forEach(id => {
         let key = 'material_' + id;
