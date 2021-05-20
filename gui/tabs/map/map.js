@@ -1394,6 +1394,12 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     }
     allQuestDropsFlags[`${lid}_${fid}`] = Object.keys(allQuestDrops[lid] || {}).length;
 
+    // Store beacon active
+    tileDefs.filter(t => t.miscType == 'B').forEach(tileDef => {
+        const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
+        if (beaconPart) tileDef.beaconActive = beaconPart.active;
+    });
+
     // Check loot
     const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
     deleteWormsFrom(questDrops);
@@ -1989,7 +1995,6 @@ async function drawMine(args) {
             texts.push(hint ? gui.getWrappedText(gui.getMessageAndValue('map_hint', '\u201c' + hint + '\u201d')) : gui.getMessage('map_hint'));
         }
         if (tileDef.miscType == 'B' && canShowBeacon) {
-            const beaconPart = getMiscItem(tileDef);
             const cell = table.rows[y].cells[x];
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
             if (tileDef.stamina >= 0) {
@@ -2032,13 +2037,13 @@ async function drawMine(args) {
             const div = cell.appendChild(document.createElement('div'));
             div.style.backgroundColor = '#' + (beaconColors[item.activation || ''] || beaconColors.default) + '8';
             div.className = 'beacon';
-            cell.classList.toggle('beacon-active', beaconPart.active);
+            cell.classList.toggle('beacon-active', tileDef.beaconActive);
         }
         if (texts.length) addTitle(x, y, texts.join('\n'), true);
         const img = await getImg(item && item.mobile_asset);
         if (img) {
             if (tileDef.miscType == 'B') {
-                if (tileDef.tileStatus == 2 || showBackground) drawFrame(x, y, img, item.active ? 0 : item.frames - 1, false, false, item.rotation / 90);
+                if (tileDef.tileStatus == 2 || showBackground) drawFrame(x, y, img, tileDef.beaconActive ? 0 : item.frames - 1, false, false, item.rotation / 90);
             } else {
                 ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
             }
