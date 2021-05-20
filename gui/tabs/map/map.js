@@ -985,10 +985,14 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     const getRndValue = (min, max) => Math.floor(CustomRandomRND(playerUidRnd + (100 * max_child + child_charges + 1) + 20000) % (max - min + 1) + min);
     const setNpc = (tileDef, npcId) => {
         const item = npcs[npcId];
+        delete tileDef.npcId;
+        delete tileDef.npcLoot;
+        delete tileDef.isGC;
         if (item) {
             addAsset(item);
             tileDef.npcId = npcId;
             if (+item.pick_child > 0) {
+                tileDef.isGC = true;
                 const child = childs[item.pick_child];
                 let energy = getRndValue(+child.min_stamina, +child.max_stamina);
                 tileDef.npcLoot = [];
@@ -1494,7 +1498,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     }
 
     mine._p.vis = getViewed(tileDefs, setAllVisibility);
-    if (isUnclear) unclearNotableTiles = { lid, fid, tiles: tileDefs.filter(tileDef => tileDef.isSpecial || tileDef.isQuest) };
+    if (isUnclear) unclearNotableTiles = { lid, fid, tiles: tileDefs.filter(tileDef => tileDef.isSpecial || tileDef.isQuest || tileDef.isGC) };
 
     return data;
 }
