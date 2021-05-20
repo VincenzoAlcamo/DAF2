@@ -2178,7 +2178,7 @@ async function drawMine(args) {
         const isPlaceholder = !img;
         if (isPlaceholder) img = images[+item.pick_child ? IMG_DEFAULT_GC : IMG_DEFAULT_NPC].img;
         const width = +item.columns;
-        const height = +item.rows;
+        const height = +item.rows * 1.15;
         const sw = img.naturalWidth;
         const sh = img.naturalHeight;
         const factorX = isPlaceholder ? 1 : (height / sh) / (width / sw);
