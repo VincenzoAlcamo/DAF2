@@ -39,6 +39,11 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   padding: 2px 4px;
 }
 
+.tab_map .toolbar label.actions button {
+  height: 20px;
+  padding-top: 0;
+}
+
 /*#region table*/
 .tab_map .toolbar table {
   border: 0;
@@ -296,12 +301,6 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   box-shadow: 0px 0px 12px 4px #0ff;
 }
 
-/* .tab_map .map.show_tiles td:not(.hide).tile:hover,
-.tab_map .map td:not(.hide):hover {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-  outline: 2px solid #FFF;
-} */
-
 .tab_map .map .beacon-req {
   position: absolute;
   left: 0;
@@ -386,7 +385,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   display: none;
 }
 
-.tab_map.show_uncleared .toolbar {
+.tab_map.is_uncleared .toolbar {
   --tt-bgcol: #c18128;
 }
 
@@ -394,11 +393,11 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   box-shadow: inset 0px 0px 0px 9px #FFF8;
 }
 
-.tab_map .toolbar .map-buttons .for-mapper {
+.tab_map .toolbar .for-mapper {
   visibility: hidden;
 }
 
-.is-mapper .tab_map .toolbar .map-buttons:hover .for-mapper {
+.is-mapper .tab_map .toolbar label:hover .for-mapper {
   visibility: visible;
 }
 
@@ -467,4 +466,67 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 
 .tab_map .toolbar span.map_flags_t {
   box-shadow: inset 0px 10px #ccc;
+}
+
+/* EDITS */
+.tab_map .map.show_edits td:not(.hide):hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  outline: 2px solid #FFF;
+}
+
+.tab_map .map.show_edits table {
+  background-color: #4686;
+}
+
+.tab_map .map.show_edits td[data-mix="1"] {
+  background-color: #0FF8;
+}
+
+.tab_map .map.show_edits td[data-mix="0"] {
+  background-color: #F008;
+}
+
+.tab_map .map.show_edits td[data-col] {
+  outline: 4px solid var(--brcol);
+  border: 4px solid var(--brcol);
+}
+
+.tab_map .map td[data-col="0"] {
+  --brcol: #000;
+}
+
+.tab_map .map td[data-col="1"] {
+  --brcol: #F00;
+}
+
+.tab_map .map td[data-col="2"] {
+  --brcol: #0F0;
+}
+
+.tab_map .map td[data-col="3"] {
+  --brcol: #FF0;
+}
+
+.tab_map .map td[data-col="4"] {
+  --brcol: #00F;
+}
+
+.tab_map .map td[data-col="5"] {
+  --brcol: #F0F;
+}
+
+.tab_map .map td[data-col="6"] {
+  --brcol: #0FF;
+}
+
+.tab_map .map td[data-col="7"] {
+  --brcol: #FFF;
+}
+
+.tab_map .map td[data-col="8"] {
+  --brcol: #FA0;
+}
+
+.tab_map .map td[data-col="9"] {
+  --brcol: #AAF;
 }

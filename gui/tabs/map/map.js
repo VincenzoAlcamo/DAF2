@@ -65,6 +65,9 @@ const getLastViewedMine = () => {
     } catch (e) { return null; }
 };
 
+const getTileKey = (x, y) => `${x},${y}`;
+const isTileMixable = (tileDef) => tileDef.isSpecial || tileDef.isQuest || tileDef.isGC;
+
 const TILE_SIZE = 62;
 const IMG_DIGGY = '/img/gui/diggy.png';
 const IMG_DEFAULT_GC = '/img/gui/default_gc.png';
@@ -95,7 +98,8 @@ let showViewed, showBonus, showNotableLoot, showMixed, showOpaque, showUncleared
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize, listMaterial;
-let unclearNotableTiles = {};
+let unclearTilesToMix = {};
+let isEditMode = false, hasPendingEdits = false;
 
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
@@ -268,6 +272,61 @@ function onKeydown(event) {
     if (!isValidEvent()) return;
     const key = event.key.toUpperCase();
     const hasModifiers = event.ctrlKey || event.altKey || event.shiftKey;
+    if (key == 'I' && !hasModifiers && isAdmin) {
+        toggleEditMode();
+        event.preventDefault();
+        return;
+    }
+    const isUncleared = container.classList.contains('is_uncleared');
+    const td = isEditMode && container.querySelector('.map td:hover');
+    if (td) {
+        const mine = currentData.mine, x = td.cellIndex, y = td.parentNode.rowIndex;
+        const tileDef = currentData.tileDefs[y * mine.columns + x];
+        const isMixed = !isUncleared && td.hasAttribute('data-mix');
+        event.preventDefault();
+        const getEdit = () => {
+            const eName = isUncleared || isMixed ? 'ue' : 'e', eKey = getTileKey(x, y);
+            const edits = mine._p[eName];
+            return (edits && edits[eKey]) || {};
+        };
+        const storeEdit = (edit) => {
+            const eName = isUncleared || isMixed ? 'ue' : 'e', eKey = getTileKey(x, y);
+            let edits = mine._p[eName];
+            if (Object.keys(edit).length == 0) {
+                // Delete
+                if (!edits || !(eKey in edits)) return;
+                delete edits[eKey];
+            } else {
+                if (!edits) edits = mine._p[eName] = {};
+                edits[eKey] = edit;
+            }
+            hasPendingEdits = true;
+        };
+        if (key >= '0' && key <= '9') {
+            const edit = getEdit();
+            const col = +key;
+            if (edit.c == col || (col == 0 && edit.c > 0)) delete edit.c; else edit.c = col;
+            td.setAttribute('data-col', edit.c);
+            return storeEdit(edit);
+        }
+        if (key == 'M') {
+            if (isUncleared) {
+                const edit = getEdit();
+                const isMixable = isTileMixable(tileDef);
+                const m = isMixable ? 0 : 1;
+                if (edit.m === m) delete edit.m; else edit.m = m;
+                if (!isMixable && edit.m !== 1) td.removeAttribute('data-mix');
+                else td.setAttribute('data-mix', edit.m === 0 ? 0 : 1);
+                return storeEdit(edit);
+            } else if (td.hasAttribute('data-mix')) {
+                const edit = getEdit();
+                if (edit.m) delete edit.m; else edit.m = 1;
+                td.setAttribute('data-mix', edit.m === 1 ? 1 : 0);
+                return storeEdit(edit);
+            }
+        }
+        if (key != 'U') return;
+    }
     if (!hasModifiers) {
         const input = checks.find(el => el.getAttribute('data-flag') == key || el.getAttribute('data-flag2') == key);
         if (input) {
@@ -275,6 +334,7 @@ function onKeydown(event) {
             let state = getStateButtonFlag(input) == key ? 0 : (flag2 == key ? 2 : 1);
             if (state == 2 && !isFlagAllowed(flag2)) state = 1;
             if (state == 1 && !isFlagAllowed(flag1)) state = 0;
+            if (key == 'U' && isUncleared && isEditMode) unclearTilesToMix = {};
             activateStateButton(input, state);
             event.preventDefault();
         }
@@ -345,6 +405,16 @@ function prepareFloorData(data, unclear) {
     return data;
 }
 
+function toggleEditMode() {
+    isEditMode = !isEditMode;
+    updateTableFlags();
+    if (!isEditMode && hasPendingEdits) {
+        unclearTilesToMix = {};
+        drawMine();
+    }
+    hasPendingEdits = false;
+}
+
 function onClickButton(event) {
     const action = event.target.getAttribute('data-action');
     if (action == 'save') {
@@ -360,6 +430,8 @@ function onClickButton(event) {
         canvas2.toBlob(data => gui.downloadData({ data, filename, path: getDownloadPath() }), 'image/png');
     } else if (action == 'options') {
         showAdvancedOptions();
+    } else if (action == 'edit') {
+        toggleEditMode();
     } else if (action == 'export_location' || action == 'export_floor') {
         if (!currentData || !canvas) return;
         const isLocation = action == 'export_location';
@@ -1504,7 +1576,16 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     }
 
     mine._p.vis = getViewed(tileDefs, setAllVisibility);
-    if (isUnclear) unclearNotableTiles = { lid, fid, tiles: tileDefs.filter(tileDef => tileDef.isSpecial || tileDef.isQuest || tileDef.isGC) };
+    if (isUnclear) {
+        const edits = mine._p.ue || {};
+        unclearTilesToMix = {
+            lid, fid, tiles: tileDefs.filter(tileDef => {
+                const edit = edits[getTileKey(tileDef.x, tileDef.y)];
+                const m = edit ? edit.m : undefined;
+                return m === undefined ? isTileMixable(tileDef) : m === 1;
+            })
+        };
+    }
 
     return data;
 }
@@ -1673,6 +1754,8 @@ function updateTableFlags() {
     map.classList.toggle('show_tiles', !showBackground && showTiles);
     map.classList.toggle('show_bonus', !showBackground && showBonus);
     map.classList.toggle('show_opaque', showOpaque);
+    map.classList.toggle('show_edits', isEditMode);
+    container.querySelector('.toolbar button[data-action="edit"]').classList.toggle('activated', isEditMode);
 }
 
 function setMapVisibility(flag) {
@@ -1687,7 +1770,8 @@ async function drawMine(args) {
     updateTableFlags();
     let base = currentData && currentData.mine;
     if (showUncleared && base && base._p.o) base = base._p.o;
-    container.classList.toggle('show_uncleared', base ? base !== currentData.mine : false);
+    const isUncleared = base ? base !== currentData.mine : false;
+    container.classList.toggle('is_uncleared', isUncleared);
     if (!currentData) {
         clearWaitHandler();
         return;
@@ -1708,12 +1792,12 @@ async function drawMine(args) {
 
     const tileDefs = [].concat(currentData.tileDefs);
     if (!showUncleared && showMixed) {
-        if (unclearNotableTiles.lid != lid || unclearNotableTiles.fid != fid) {
+        if (unclearTilesToMix.lid != lid || unclearTilesToMix.fid != fid) {
             showUncleared = true;
             await calcMine(currentData.mine);
             showUncleared = false;
         }
-        if (unclearNotableTiles.tiles) unclearNotableTiles.tiles.forEach(tileDef => tileDefs[tileDef.tileIndex] = Object.assign({ mixed: true }, tileDef));
+        if (unclearTilesToMix.tiles) unclearTilesToMix.tiles.forEach(tileDef => tileDefs[tileDef.tileIndex] = Object.assign({ mixed: true }, tileDef));
     }
 
     canvas.width = cols * TILE_SIZE;
@@ -2051,7 +2135,6 @@ async function drawMine(args) {
     }
 
     // Tiles
-    const specialTiles = [];
     await drawAll(subtiles, 'tileSubtype', (x, y, tileDef, item, img) => {
         if (!tileDef.isVisible) return;
         const cell = table.rows[y].cells[x];
@@ -2062,14 +2145,11 @@ async function drawMine(args) {
             cell.classList.toggle('tile-n', y > 0 && tileDefs[(y - 1) * cols + x].isTile);
             cell.classList.toggle('tile-s', y < rows - 1 && tileDefs[(y + 1) * cols + x].isTile);
         }
-        let isSpecial = tileDef.mixed;
         if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
-            isSpecial |= (tileDef.isSpecial || tileDef.isQuest || tileDef.isMaterial);
             if (tileDef.bonusXp) cell.classList.add('xp');
             if (tileDef.bonusEnergy) cell.classList.add('energy');
             if (tileDef.stamina >= 0 && tileDef.tileStatus == 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
         }
-        if (isSpecial) specialTiles.push(tileDef);
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, +item.rotation / 90 * Math.PI / 2);
             ctx.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -2213,18 +2293,35 @@ async function drawMine(args) {
     // Special tiles (with overlapped colors)
     {
         const tilesByPosition = {};
-        const tileAt = (x, y) => tilesByPosition[`${x},${y}`];
-        (showNotableLoot ? specialTiles : []).forEach(tileDef => {
-            if (!tileDef.isVisible) return;
-            const color = tileDef.isQuest ? [1, 0, 1] : (tileDef.isSpecial ? [1, 1, 0] : (tileDef.isMaterial ? [0, 1, 0] : null));
-            if (color) {
-                const { x, y } = tileDef;
-                tilesByPosition[`${x},${y}`] = { x, y, color };
+        const tileAt = (x, y) => tilesByPosition[getTileKey(x, y)];
+        const unclearEdits = currentData.mine._p.ue || {}, edits = currentData.mine._p.e || {};
+        const colors = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1], [1, .7, 0], [.7, .7, 1]];
+        tileDefs.forEach(tileDef => {
+            const { x, y } = tileDef, tileKey = getTileKey(x, y);
+            let cell = null;
+            const getCell = () => cell || (cell = table.rows[y].cells[x]);
+            const getColor = (tileDef) => {
+                if (!tileDef.isVisible) return null;
+                const edit = tileDef.mixed || isUncleared ? unclearEdits[tileKey] : edits[tileKey];
+                if (edit && 'c' in edit) {
+                    getCell().setAttribute('data-col', edit.c);
+                    return edit.c ? colors[edit.c] : null;
+                }
+                return tileDef.isQuest ? [1, 0, 1] : (tileDef.isSpecial ? [1, 1, 0] : (tileDef.isMaterial ? [0, 1, 0] : null));
+            };
+            if (isUncleared) {
+                const edit = unclearEdits[tileKey];
+                const m = (edit && 'm' in edit) ? edit.m : isTileMixable(tileDef) ? 1 : -1;
+                if (m >= 0) getCell().setAttribute('data-mix', m);
+            }
+            const color = getColor(tileDef);
+            if (color && showNotableLoot) {
+                tilesByPosition[tileKey] = { x, y, color };
             }
         });
-        const specialTilesToDraw = Object.values(tilesByPosition);
+        const outlinedTiles = Object.values(tilesByPosition);
         const SW = 4;
-        const specialFill = (color, x, y, w, h, t1, t2, t3) => {
+        const fillRectBlended = (color, x, y, w, h, t1, t2, t3) => {
             let [r, g, b] = color;
             const addCol = t => {
                 if (t && t.color) {
@@ -2240,21 +2337,21 @@ async function drawMine(args) {
             ctx.fillStyle = '#' + Math.round(r * 15 / max).toString(16) + Math.round(g * 15 / max).toString(16) + Math.round(b * 15 / max).toString(16);
             ctx.fillRect(x, y, w, h);
         };
-        specialTilesToDraw.forEach(({ x, y, color }) => {
+        outlinedTiles.forEach(({ x, y, color }) => {
             const sx = x * TILE_SIZE, sy = y * TILE_SIZE;
             const tileLeft = tileAt(x - 1, y), tileUp = tileAt(x, y - 1), tileRight = tileAt(x + 1, y), tileDown = tileAt(x, y + 1);
-            specialFill(color, sx - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileLeft);
-            specialFill(color, sx + SW, sy - SW, TILE_SIZE - SW * 2, SW * 2, tileUp);
-            specialFill(color, sx + TILE_SIZE - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileRight);
-            specialFill(color, sx + SW, sy + TILE_SIZE - SW, TILE_SIZE - SW * 2, SW * 2, tileDown);
-            specialFill(color, sx - SW, sy - SW, SW * 2, SW * 2, tileLeft, tileUp, tileAt(x - 1, y - 1));
-            specialFill(color, sx + TILE_SIZE - SW, sy - SW, SW * 2, SW * 2, tileRight, tileUp, tileAt(x + 1, y - 1));
-            specialFill(color, sx - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileLeft, tileDown, tileAt(x - 1, y + 1));
-            specialFill(color, sx + TILE_SIZE - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileRight, tileDown, tileAt(x + 1, y + 1));
+            fillRectBlended(color, sx - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileLeft);
+            fillRectBlended(color, sx + SW, sy - SW, TILE_SIZE - SW * 2, SW * 2, tileUp);
+            fillRectBlended(color, sx + TILE_SIZE - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileRight);
+            fillRectBlended(color, sx + SW, sy + TILE_SIZE - SW, TILE_SIZE - SW * 2, SW * 2, tileDown);
+            fillRectBlended(color, sx - SW, sy - SW, SW * 2, SW * 2, tileLeft, tileUp, tileAt(x - 1, y - 1));
+            fillRectBlended(color, sx + TILE_SIZE - SW, sy - SW, SW * 2, SW * 2, tileRight, tileUp, tileAt(x + 1, y - 1));
+            fillRectBlended(color, sx - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileLeft, tileDown, tileAt(x - 1, y + 1));
+            fillRectBlended(color, sx + TILE_SIZE - SW, sy + TILE_SIZE - SW, SW * 2, SW * 2, tileRight, tileDown, tileAt(x + 1, y + 1));
         });
-        specialTilesToDraw.forEach(({ x, y, color }) => {
+        outlinedTiles.forEach(({ x, y, color }) => {
             const sx = x * TILE_SIZE, sy = y * TILE_SIZE;
-            ctx.fillStyle = '#' + color.map(v => (v * 15).toString(16)).join('');
+            ctx.fillStyle = '#' + color.map(v => Math.round(v * 15).toString(16)).join('');
             ctx.fillRect(sx, sy, TILE_SIZE, SW);
             ctx.fillRect(sx, sy + TILE_SIZE - SW, TILE_SIZE, SW);
             ctx.fillRect(sx, sy + SW, SW, TILE_SIZE - SW * 2);
@@ -2419,6 +2516,13 @@ async function drawMine(args) {
         title = title.replace(/\{\n\s+/g, '{   ');
         addTitle(tileDef.x, tileDef.y, title, true);
     }
+
+    // Add mixed attribute
+    tileDefs.filter(t => t.mixed).forEach(tileDef => {
+        const { x, y } = tileDef;
+        const cell = table.rows[y].cells[x];
+        cell.setAttribute('data-mix', 1);
+    });
 
     // Floors, Tiles & Loot
     let htm = '';
@@ -2630,7 +2734,7 @@ function onTooltip(event) {
                     const tiles = typeof area.tiles == 'string' ? area.tiles.split(';') : [];
                     tiles.forEach(tile => {
                         const [y, x] = tile.split(',').map(v => +v);
-                        hash[`${x}_${y}`] = { x, y };
+                        hash[getTileKey(x, y)] = { x, y };
                     });
                 }
             }
