@@ -301,6 +301,8 @@ function onKeydown(event) {
                 edits[eKey] = edit;
             }
             hasPendingEdits = true;
+            unclearTilesToMix = {};
+            bgp.Data.saveMine(mine);
         };
         if (key >= '0' && key <= '9') {
             const edit = getEdit();
@@ -408,10 +410,7 @@ function prepareFloorData(data, unclear) {
 function toggleEditMode() {
     isEditMode = !isEditMode;
     updateTableFlags();
-    if (!isEditMode && hasPendingEdits) {
-        unclearTilesToMix = {};
-        drawMine();
-    }
+    if (!isEditMode && hasPendingEdits) drawMine();
     hasPendingEdits = false;
 }
 
