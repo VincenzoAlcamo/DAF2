@@ -2041,7 +2041,7 @@ async function drawMine(args) {
     });
     // A foreground addon will remove the background addon on the same tile
     await drawAll(addons, 'foregroundAddonId', (x, y, tileDef, item, img) => {
-        if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) setAddonInfo(tileDef, item, false);
+        if (+item.solid && img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) setAddonInfo(tileDef, item, false);
     });
     for (const tileDef of tileDefs.filter(t => t.addonDelta >= 0)) {
         const delta = tileDef.addonDelta, dx = delta % cols, dy = (delta - dx) / cols;
