@@ -2080,7 +2080,9 @@ async function drawMine(args) {
         if (tileDef.miscType == 'B' && canShowBeacon) {
             const cell = table.rows[y].cells[x];
             texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
-            if (tileDef.stamina >= 0) {
+            // Solution should be shown anyway?
+            // if (tileDef.stamina >= 0) {
+            {
                 let asset = '';
                 let rotation = 1;
                 let isHidden = false;
