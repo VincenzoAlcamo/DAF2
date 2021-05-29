@@ -185,13 +185,7 @@ function onPrefChange(changes) {
     }
 }
 
-function isValidEvent() {
-    const el = document.activeElement, tagName = el ? el.tagName : '';
-    if (tagName == 'SELECT') return false;
-    if (tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
-    const current = gui.getCurrentTab();
-    return current && current.id == 'rewardlinks' ? true : false;
-}
+const isValidEvent = () => gui.isValidEventForTab('rewardlinks');
 function onPaste(event) {
     if (!isValidEvent()) return;
     const clipboard = event.clipboardData || window.clipboardData;

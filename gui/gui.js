@@ -242,6 +242,14 @@ const gui = {
     getCurrentTab: function () {
         return currentTab;
     },
+    isValidEventForTab: function (tabId) {
+        if (gui.dialog.visible || gui.wait.visible) return false;
+        const el = document.activeElement, tagName = el ? el.tagName : '';
+        if (tagName == 'SELECT') return false;
+        if (tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
+        const current = gui.getCurrentTab();
+        return current && current.id == tabId ? true : false;
+    },
     getDuration: function (drn, flagReduced) {
         drn = Math.floor(drn);
         if (drn <= 90) return Locale.formatNumber(drn) + gui.timeParts[3];

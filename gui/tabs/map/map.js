@@ -262,13 +262,7 @@ function onStateButtonClick(e) {
     activateStateButton(input, state);
 }
 
-function isValidEvent() {
-    if (gui.dialog.visible || gui.wait.visible) return false;
-    const el = document.activeElement, tagName = el ? el.tagName : '';
-    if (tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
-    const current = gui.getCurrentTab();
-    return current && current.id == 'map' ? true : false;
-}
+const isValidEvent = () => gui.isValidEventForTab('map');
 function onKeydown(event) {
     if (!isValidEvent()) return;
     const key = event.key.toUpperCase();
