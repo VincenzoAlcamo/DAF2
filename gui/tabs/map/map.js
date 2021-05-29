@@ -263,6 +263,7 @@ function onStateButtonClick(e) {
 }
 
 function isValidEvent() {
+    if (gui.dialog.visible || gui.wait.visible) return false;
     const el = document.activeElement, tagName = el ? el.tagName : '';
     if (tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
     const current = gui.getCurrentTab();
