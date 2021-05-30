@@ -450,11 +450,38 @@ function onKeydown(event) {
             bgp.Data.saveMine(mine);
         };
         if (key >= '0' && key <= '9') {
-            const edit = getEdit();
             const col = +key;
-            if (edit.c == col || (col == 0 && edit.c > 0)) delete edit.c; else edit.c = col;
-            td.setAttribute('data-col', edit.c);
-            return storeEdit(edit);
+            if (event.altKey) {
+                const teleport = currentData.teleports[tileDef.teleportId];
+                if (!teleport) return;
+                const target = currentData.teleports[teleport.target_teleport_id];
+                const isBidi = target && target.target_teleport_id == teleport.teleport_id;
+                const eKey = 'tc_' + teleport.teleport_id;
+                const eKey2 = isBidi ? 'tc_' + teleport.target_teleport_id : null;
+                const td2 = isBidi ? table.rows[target.row].cells[target.column] : null;
+                const edits = mine._p.e;
+                let edit = edits && edits[eKey];
+                if (edit == col || (col == 0 && edit > 0)) {
+                    delete edits[eKey];
+                    if (eKey2) delete edits[eKey2];
+                    edit = null;
+                } else {
+                    edit = edits[eKey] = col;
+                    if (eKey2) edits[eKey2] = col;
+                }
+                td.setAttribute('data-tcol', edit);
+                if (td2) td2.setAttribute('data-tcol', edit);
+                hasPendingEdits = true;
+                unclearTilesToMix = {};
+                bgp.Data.saveMine(mine);
+                return;
+            } else {
+                const edit = getEdit();
+                if (edit.c == col || (col == 0 && edit.c > 0)) delete edit.c; else edit.c = col;
+                td.setAttribute('data-col', edit.c);
+                storeEdit(edit);
+                return;
+            }
         }
         if (key == 'M') {
             if (isUncleared) {
@@ -469,7 +496,8 @@ function onKeydown(event) {
                 const edit = getEdit();
                 if (edit.m) delete edit.m; else edit.m = 1;
                 td.setAttribute('data-mix', edit.m === 1 ? 1 : 0);
-                return storeEdit(edit);
+                storeEdit(edit);
+                return;
             }
         }
         if (key != 'U') return;
@@ -572,7 +600,7 @@ function saveImage() {
 async function saveAllImages() {
     const { lid, fid, mine, floorNumbers } = currentData;
     await saveImage();
-    for(const floorId of floorNumbers) {
+    for (const floorId of floorNumbers) {
         const found = findMine(lid, floorId);
         if (found && floorId != fid) {
             await processMine(found);
@@ -2050,6 +2078,8 @@ async function drawMine(args) {
     await (bgp.Data.checkLocalization() || Promise.resolve(0));
     await Promise.all(Object.values(images).map(i => i.promise));
 
+    const specialColors = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1], [1, .7, 0], [.7, .7, 1]];
+
     const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
     const getMiscItem = (tileDef) => {
         if (tileDef.miscType == 'N' || tileDef.miscType == 'X') return doors[fid + '_' + tileDef.miscType.toLowerCase() + '_' + tileDef.miscId];
@@ -2142,7 +2172,15 @@ async function drawMine(args) {
         // Show only one arrow for bidirectional teleports
         if (isBidi && sx + sy * cols > tx + ty * cols) return;
 
-        const base = isBidi ? mapSettings['arrow2'] : mapSettings['arrow'];
+        let base = isBidi ? mapSettings['arrow2'] : mapSettings['arrow'];
+        const edits = currentData.mine._p.e;
+        const tKey = 'tc_' + teleport.teleport_id;
+        if (edits && tKey in edits) {
+            const col = specialColors[edits[tKey]];
+            base = Object.assign({}, base);
+            base.color = '#' + col.map(n => Math.floor(n * 15).toString(16)).join('');
+            base.border.color = '#' + col.map(n => Math.floor(n * 15 / 4).toString(16)).join('');
+        }
 
         const width = base.width;
         const arrowWidth = width * 3;
@@ -2539,7 +2577,6 @@ async function drawMine(args) {
         const tilesByPosition = {};
         const tileAt = (x, y) => tilesByPosition[getTileKey(x, y)];
         const unclearEdits = currentData.mine._p.ue || {}, edits = currentData.mine._p.e || {};
-        const colors = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1], [1, .7, 0], [.7, .7, 1]];
         tileDefs.forEach(tileDef => {
             const { x, y } = tileDef, tileKey = getTileKey(x, y);
             let cell = null;
@@ -2549,7 +2586,7 @@ async function drawMine(args) {
                 const edit = tileDef.mixed || isUncleared ? unclearEdits[tileKey] : edits[tileKey];
                 if (edit && 'c' in edit) {
                     getCell().setAttribute('data-col', edit.c);
-                    return edit.c ? colors[edit.c] : null;
+                    return edit.c ? specialColors[edit.c] : null;
                 }
                 return tileDef.isQuest ? [1, 0, 1] : (tileDef.isSpecial ? [1, 1, 0] : (tileDef.isMaterial ? [0, 1, 0] : null));
             };
@@ -2688,21 +2725,26 @@ async function drawMine(args) {
     });
 
     // Teleports (where only one end is hidden)
-    for (const tileDef of tileDefs.filter(t => t.teleportId)) {
-        const teleport = teleports[tileDef.teleportId];
-        const target = teleport && teleports[teleport.target_teleport_id];
-        if (!teleport || !target) continue;
-        const targetTileDef = tileDefs[target.row * cols + target.column];
-        if (tileDef.isVisible) {
-            addTitle(tileDef.x, tileDef.y, gui.getMessage('map_teleport'), true);
-            if (targetTileDef.isVisible) {
-                // Both ends are visible
+    {
+        const edits = currentData.mine._p.e || {};
+        for (const tileDef of tileDefs.filter(t => t.teleportId)) {
+            const teleport = teleports[tileDef.teleportId];
+            const target = teleport && teleports[teleport.target_teleport_id];
+            if (!teleport || !target) continue;
+            const targetTileDef = tileDefs[target.row * cols + target.column];
+            if (tileDef.isVisible) {
                 const cell = table.rows[tileDef.y].cells[tileDef.x];
-                cell.setAttribute('data-action', `goto_${fid}_${targetTileDef.x}_${targetTileDef.y}`);
-                cell.classList.add('teleport');
+                const col = edits['tc_' + teleport.teleport_id];
+                if (col) cell.setAttribute('data-tcol', col);
+                addTitle(tileDef.x, tileDef.y, gui.getMessage('map_teleport'), true);
+                if (targetTileDef.isVisible) {
+                    // Both ends are visible
+                    cell.setAttribute('data-action', `goto_${fid}_${targetTileDef.x}_${targetTileDef.y}`);
+                    cell.classList.add('teleport');
+                }
             }
+            if (showTeleport && tileDef.isVisible != targetTileDef.isVisible) drawTeleport(teleport);
         }
-        if (showTeleport && tileDef.isVisible != targetTileDef.isVisible) drawTeleport(teleport);
     }
 
     // Hide tiles
