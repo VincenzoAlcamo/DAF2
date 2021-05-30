@@ -113,6 +113,7 @@ var Preferences = {
             speedupCollection: 0,
             matchByImage: true,
             mapShowRepeatables: true,
+            mapSettings: '',
             fbFriendsPage: 0,
             linkGrabEnabled: false,
             linkGrabButton: 2,

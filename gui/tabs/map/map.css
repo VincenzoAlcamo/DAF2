@@ -530,3 +530,89 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 .tab_map .map td[data-col="9"] {
   --brcol: #AAF;
 }
+
+.tab_map .grid-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "MAP_TOOLBAR MAP_TOOLBAR""MAP_PROPERTIES MAP_MAP";
+  overflow: hidden;
+  height: 100%;
+}
+
+.tab_map .toolbar {
+  grid-area: MAP_TOOLBAR;
+}
+
+.tab_map .properties {
+  grid-area: MAP_PROPERTIES;
+  width: 200px;
+  background-color: #AAA;
+  overflow-y: scroll;
+}
+
+.tab_map .scrollable-content {
+  grid-area: MAP_MAP;
+}
+
+.tab_map .properties table {
+  border: 0;
+}
+
+.tab_map .properties th,
+.tab_map .properties tr td,
+.tab_map .properties tr td input {
+  color: #000;
+}
+
+.tab_map .properties tr td input {
+  background-color: #FFF;
+}
+
+.tab_map .properties th {
+  text-align: left;
+  background-color: #0082;
+  padding-bottom: 0;
+}
+
+.tab_map .properties tr td {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.tab_map .properties tr td img {
+  width: 16px;
+  height: 16px;
+  margin-left: -16px;
+  float: right;
+  cursor: pointer;
+}
+
+.tab_map .properties tr td:first-child {
+  text-align: right;
+}
+
+.tab_map .properties tr.level0 {
+  background-color: #AAA;
+}
+
+.tab_map .properties tr.level0 th {
+  padding-left: 4px;
+}
+
+.tab_map .properties tr.level1 {
+  background-color: #CCC;
+}
+
+.tab_map .properties tr.level1 th {
+  padding-left: 20px;
+}
+
+.tab_map .properties tr.level2 {
+  background-color: #EEE;
+}
+
+.tab_map .properties tr.level2 th {
+  padding-left: 36px;
+}

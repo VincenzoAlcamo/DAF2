@@ -67,6 +67,7 @@ const getLastViewedMine = () => {
 
 const getTileKey = (x, y) => `${x},${y}`;
 const isTileMixable = (tileDef) => tileDef.isSpecial || tileDef.isQuest || tileDef.isGC;
+const isKeyForDoor = (key) => key.startsWith('t_') || key.startsWith('n_') || key.startsWith('x_');
 
 const TILE_SIZE = 62;
 const IMG_DIGGY = '/img/gui/diggy.png';
@@ -101,6 +102,89 @@ let resize, listMaterial;
 let unclearTilesToMix = {};
 let isEditMode = false, hasPendingEdits = false;
 
+//#region SETTINGS
+let mapSettings = {};
+
+const getDoorSettings = (prefix, width, color, roundness, borderWidth, borderColor, textColor) => {
+    return {
+        [prefix + '.width']: { type: 'int', min: 20, max: TILE_SIZE / 2, default: width },
+        [prefix + '.color']: { type: 'color', default: color },
+        [prefix + '.roundness']: { type: 'int', min: 0, max: 100, default: roundness },
+        [prefix + '.border.width']: { type: 'int', min: 0, max: 8, default: borderWidth },
+        [prefix + '.border.color']: { type: 'color', default: borderColor },
+        [prefix + '.text.color']: { type: 'color', default: textColor },
+    };
+};
+const getArrowSettings = (prefix, width, color, borderWidth, borderColor) => {
+    return {
+        [prefix + '.width']: { type: 'int', min: 1, max: 5, default: width },
+        [prefix + '.color']: { type: 'color', default: color },
+        [prefix + '.border.width']: { type: 'int', min: 0, max: 2, default: borderWidth },
+        [prefix + '.border.color']: { type: 'color', default: borderColor },
+    };
+};
+const defaultMapSettings = Object.assign({},
+    {
+        'solution.color': { type: 'color', default: toColor('#0F0') }
+    },
+    getDoorSettings('door', 26, toColor('#FFF'), 20, 4, toColor('#F00'), toColor('#000')),
+    getDoorSettings('entrance', 26, toColor('#090'), 20, 4, toColor('#0F0'), toColor('#FFF')),
+    getDoorSettings('teleport', 26, toColor('#FFF'), 20, 4, toColor('#F00'), toColor('#000')),
+    getArrowSettings('arrow', 3, toColor('#F8C'), 1, toColor('#400')),
+    getArrowSettings('arrow2', 3, toColor('#F00'), 1, toColor('#440'))
+);
+
+function toColor(value) {
+    value = String(value);
+    if (value[0] == '#') value = value.substr(1);
+    if (value.match(/^([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i)) {
+        if (value.length <= 4) value = value.split('').map(v => v + v).join('');
+        return '#' + value.toLowerCase();
+    }
+    return null;
+}
+function setMapSettings(obj, value) {
+    if (typeof obj == 'string') obj = { [obj]: value };
+    const result = {};
+    const scan = (prefix, obj) => {
+        if (!obj || typeof obj != 'object') return;
+        Object.entries(obj).forEach(([key, value]) => {
+            if (value && typeof value == 'object') return scan(prefix + key + '.', value);
+            const name = prefix + key;
+            const def = defaultMapSettings[name], type = def && def.type;
+            if (type == 'int') {
+                value = (value === null || value === undefined) ? NaN : +value;
+                value = Math.max(def.min, Math.min(def.max, isNaN(value) ? +def.default || 0 : value));
+            } else if (type == 'color') {
+                value = toColor(value) || def.default;
+            } else return;
+            if (typeof value === 'string' || !isNaN(value)) result[name] = value;
+        });
+    };
+    const oldValue = JSON.stringify(mapSettings);
+    Object.entries(defaultMapSettings).forEach(([key, value]) => result[key] = value.default);
+    if (obj !== null) {
+        scan('', mapSettings);
+        scan('', obj);
+    }
+    mapSettings = {};
+    Object.entries(result).forEach(([key, value]) => {
+        let base = mapSettings, i;
+        while ((i = key.indexOf('.')) > 0) {
+            base = base[key.substr(0, i)] = base[key.substr(0, i)] || {};
+            key = key.substr(i + 1);
+        }
+        base[key] = value;
+    });
+    const newValue = JSON.stringify(mapSettings);
+    if (newValue != oldValue) {
+        gui.setPreference('mapSettings', newValue);
+        processMine();
+    }
+    return mapSettings;
+}
+//#endregion
+
 const lightColors = [gui.getMessage('map_unknown'), gui.getMessage('map_yellow'), gui.getMessage('map_red'), gui.getMessage('map_blue'), gui.getMessage('map_green')];
 const getLightColorName = (id) => lightColors[id] || lightColors[0];
 
@@ -130,6 +214,72 @@ function init() {
     isAdmin = bgp.Data.isMapper;
 
     tableTileInfo = container.querySelector('.tile-info table');
+
+    {
+        mapSettings = {};
+        const parseJSON = (value) => { try { return JSON.parse(value); } catch (e) { return null; } };
+        setMapSettings(parseJSON(gui.getPreference('mapSettings')));
+        const keys = Object.keys(defaultMapSettings).map(s => {
+            const i = s.lastIndexOf('.');
+            return [s.substr(0, i), s.substr(i + 1)];
+        }).sort((a, b) => gui.sortTextAscending(a[0], b[0]) || gui.sortTextAscending(a[1], b[1])).map(v => v[0] + '.' + v[1]);
+        let htm = '<table style="width:100%">';
+        const parts = [];
+        keys.forEach(key => {
+            const keyParts = key.split('.');
+            let base = mapSettings;
+            for (let i = 0; i < keyParts.length - 1; i++) {
+                const name = keyParts[i];
+                base = base[name];
+                const partialKey = keyParts.slice(0, i + 1).join('.');
+                if (partialKey != parts[i]) {
+                    parts[i] = partialKey;
+                    parts.length = i + 1;
+                    htm += Html`<tr class="level${i}"><th colspan="2">${name.toUpperCase()}</th></tr>`;
+                }
+            }
+            const name = keyParts[keyParts.length - 1];
+            const value = base[name];
+            htm += Html`<tr class="level${keyParts.length - 1}"><td>${name}</td><td>`;
+            const def = defaultMapSettings[key];
+            if (def.type == 'color') {
+                const color = toColor(value);
+                htm += Html`<input name="${key}" type="color" value="${color}">`;
+                htm += Html`<img class="${def.default == color ? 'hidden' : ''}" src="/img/gui/check_no.png">`;
+            } else if (def.type == 'int') {
+                const step = Math.max(1, Math.floor((def.max - def.min) / 10));
+                htm += Html`<input name="${key}" style="width:50px" type="number" min="${def.min}" max="${def.max}" step="${step}" value="${value}">`;
+                htm += Html`<img class="${def.default == value ? 'hidden' : ''}" src="/img/gui/check_no.png">`;
+            }
+            htm += Html`</td></tr>`;
+        });
+        htm += `</table>`;
+        const parent = container.querySelector('.properties');
+        Dialog.htmlToDOM(parent, htm);
+        let settings = {}, handler = null;
+        const onInput = (event) => {
+            const input = event.target;
+            const img = input.nextElementSibling;
+            let value = input.value;
+            if (input.type == 'number') value = +value;
+            if (input.type == 'color') value = toColor(value);
+            settings[input.name] = value;
+            img.classList.toggle('hidden', value == defaultMapSettings[input.name].default);
+            if (handler) clearTimeout(handler);
+            handler = setTimeout(() => {
+                setMapSettings(settings);
+                settings = {};
+            }, 1000);
+        };
+        const onClick = (event) => {
+            const img = event.target;
+            const target = img.previousElementSibling;
+            target.value = defaultMapSettings[target.name].default;
+            onInput({ target });
+        };
+        parent.querySelectorAll('input').forEach(input => input.addEventListener('input', onInput));
+        parent.querySelectorAll('img').forEach(img => img.addEventListener('click', onClick));
+    }
 
     const slider = container.querySelector('.scrollable-content');
     map = slider.querySelector('.map');
@@ -331,7 +481,6 @@ function onKeydown(event) {
             let state = getStateButtonFlag(input) == key ? 0 : (flag2 == key ? 2 : 1);
             if (state == 2 && !isFlagAllowed(flag2)) state = 1;
             if (state == 1 && !isFlagAllowed(flag1)) state = 0;
-            if (key == 'U' && isUncleared && isEditMode) unclearTilesToMix = {};
             activateStateButton(input, state);
             event.preventDefault();
         }
@@ -432,6 +581,14 @@ async function saveAllImages() {
     }
     await processMine(mine);
 }
+
+function toggleSettings() {
+    const el = container.querySelector('.properties');
+    const flag = el.classList.contains('hidden');
+    el.classList.toggle('hidden', !flag);
+    container.querySelector('.toolbar button[data-action="settings"]').classList.toggle('activated', flag);
+}
+
 function toggleEditMode() {
     isEditMode = !isEditMode;
     updateTableFlags();
@@ -448,6 +605,8 @@ function onClickButton(event) {
         showAdvancedOptions();
     } else if (action == 'edit') {
         toggleEditMode();
+    } else if (action == 'settings') {
+        toggleSettings();
     } else if (action == 'export_location' || action == 'export_floor') {
         if (!currentData || !canvas) return;
         const isLocation = action == 'export_location';
@@ -661,6 +820,46 @@ function onTableMouseMove(event) {
 
 function onTableClick(event) {
     const cell = findTableCell(event);
+    if (isAdmin && event.ctrlKey) {
+        let mine = currentData.mine;
+        const x = cell.cellIndex, y = cell.parentNode.rowIndex, tileDef = currentData.tileDefs[y * currentData.cols + x];
+        let value = undefined, key, key2;
+        if (tileDef && (tileDef.miscType == 'X' || tileDef.miscType == 'N')) {
+            const action = cell.getAttribute('data-action');
+            if (!action || !action.startsWith('goto')) return;
+            const door1 = currentData.doors[`${currentData.fid}_p_${x}_${y}`];
+            const door2 = door1 && currentData.doors[door1.to];
+            if (!door1 || !door2) return;
+            const door = door1.miscType == 'X' ? door1 : door2;
+            mine = bgp.Data.mineCache.find(m => m.id == currentData.lid && m.level_id == door.fid);
+            if (!mine) return;
+            key = `x_${door.id}`;
+            value = prompt('Enter door name', door.name);
+        } else {
+            const teleports = currentData.teleports;
+            const teleport = teleports[tileDef.teleportId];
+            if (!teleport) return;
+            key = `t_${tileDef.teleportId}`;
+            const target = teleports[teleport.target_teleport_id];
+            const isBidi = target && target.target_teleport_id == teleport.teleport_id;
+            key2 = isBidi ? `t_${teleport.target_teleport_id}` : null;
+            value = prompt('Enter teleport name', teleport.name);
+        }
+        if (value === undefined || value === null) return;
+        value = value.trim().substr(0, 3);
+        let edits = mine._p.e;
+        if (!value && !edits) return;
+        if (!edits) edits = mine._p.e = {};
+        if (!value && !(key in edits) && !(key2 in edits)) return;
+        Object.entries(edits).forEach(([key, v]) => {
+            if (isKeyForDoor(key) && v == value) delete edits[key];
+        });
+        if (value) edits[key] = value; else delete edits[key];
+        if (key2) if (value) edits[key2] = value; else delete edits[key2];
+        bgp.Data.saveMine(mine);
+        processMine();
+        return;
+    }
     const dataAction = cell && cell.getAttribute('data-action');
     if (!dataAction) return;
     const arr = dataAction.split('_');
@@ -1123,6 +1322,9 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 
     // Entrances and exits
     const doors = data.doors = {};
+    const usedNames = {};
+    const edits = mine._p.e || {};
+    Object.entries(edits).forEach(([key, value]) => { if (isKeyForDoor(key)) usedNames[value] = value; });
     const locationMines = {};
     locationMines[mine.level_id] = mine;
     bgp.Data.mineCache.filter(m => m.id == lid).forEach(m => locationMines[m.level_id] = m);
@@ -1135,9 +1337,16 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     };
     floors.forEach(floor => {
         const fid = floor.def_id;
+        const mine = locationMines[fid], edits = (mine && mine._p.e) || {};
+        Object.entries(edits).forEach(([key, value]) => { if (key.startsWith('x_')) usedNames[value] = value; });
         asArray(floor.exits && floor.exits.exit).forEach(exit => {
             const { exit_id: id, mobile_asset } = exit;
-            const name = String.fromCharCode(65 + numExits % 26) + (numExits >= 26 ? Math.floor((numExits - 26) / 26) + 1 : '');
+            const key = `x_${id}`;
+            let name = edits[key];
+            if (!name) {
+                name = String.fromCharCode(65 + numExits % 26) + (numExits >= 26 ? Math.floor((numExits - 26) / 26) + 1 : '');
+                for (let index = 1; name in usedNames; name = `d${index++}`);
+            }
             numExits++;
             doors[fid + '_x_' + id] = { fid, miscType: 'X', id, mobile_asset, name };
         });
@@ -1145,7 +1354,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
             const { entrance_id: id, mobile_asset } = entrance;
             doors[fid + '_n_' + id] = { fid, miscType: 'N', id, mobile_asset };
         });
-        const mine = locationMines[fid];
         for (const obj of asArray(mine && mine.entrances)) setDoorPosition(doors[fid + '_n_' + obj.def_id], obj.column, obj.row);
         for (const obj of asArray(mine && mine.exits)) setDoorPosition(doors[fid + '_x_' + obj.def_id], obj.column, obj.row);
     });
@@ -1246,7 +1454,13 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     sortedTeleports.forEach(teleport => {
         const target = teleports[teleport.target_teleport_id];
         const isBidi = target.target_teleport_id == teleport.teleport_id;
-        teleport.name = (isBidi && target.name) ? target.name : Locale.formatNumber(++teleportIndex);
+        let name = edits[`t_${teleport.teleport_id}`];
+        if (!name && isBidi) name = edits[`t_${teleport.target_teleport_id}`] || target.name;
+        while (!name) {
+            name = Locale.formatNumber(++teleportIndex);
+            if (name in usedNames) name = null;
+        }
+        teleport.name = name;
     });
 
     // Execute all queued actions
@@ -1845,7 +2059,6 @@ async function drawMine(args) {
 
     const ctx = canvas.getContext('2d');
     ctx.lineWidth = 1;
-    const resetTransformation = () => ctx.setTransform(1, 0, 0, 1, 0, 0);
     const transform = (cx, cy, flipX, flipY, rotation) => {
         ctx.translate(cx, cy);
         if (flipX || flipY) ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1);
@@ -1874,9 +2087,10 @@ async function drawMine(args) {
         const columns = Math.round(sw / TILE_SIZE);
         const xpos = frame % columns;
         const ypos = Math.floor(frame / columns);
+        ctx.save();
         transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, flipX, flipY, rotation * Math.PI / 2);
         ctx.drawImage(img, xpos * TILE_SIZE, ypos * TILE_SIZE, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        resetTransformation();
+        ctx.restore();
     };
     const getImg = async (asset) => {
         const p = addImage(asset);
@@ -1928,8 +2142,11 @@ async function drawMine(args) {
         // Show only one arrow for bidirectional teleports
         if (isBidi && sx + sy * cols > tx + ty * cols) return;
 
-        const width = 3;
+        const base = isBidi ? mapSettings['arrow2'] : mapSettings['arrow'];
+
+        const width = base.width;
         const arrowWidth = width * 3;
+        const arrowHeight = Math.floor(width * 20 / 3);
         const addSegment = (p, angle, length) => [p[0] + length * Math.cos(angle), p[1] + length * Math.sin(angle)];
 
         const ps = [(sx + 0.5) * TILE_SIZE, (sy + 0.5) * TILE_SIZE];
@@ -1949,36 +2166,39 @@ async function drawMine(args) {
         }
 
         const p2 = addSegment(p1, angle + Math.PI / 2, width);
-        const p3 = addSegment(p2, angle, length - 20);
+        const p3 = addSegment(p2, angle, length - arrowHeight);
         const p4 = addSegment(p3, angle + Math.PI / 2, arrowWidth);
         const p5 = addSegment(p1, angle, length);
 
         const p6 = addSegment(p1, angle - Math.PI / 2, width);
-        const p7 = addSegment(p6, angle, length - 20);
+        const p7 = addSegment(p6, angle, length - arrowHeight);
         const p8 = addSegment(p7, angle - Math.PI / 2, arrowWidth);
 
         let path;
         if (isBidi) {
             const angle2 = angle + Math.PI;
             const p9 = addSegment(p5, angle2 + Math.PI / 2, width);
-            const p10 = addSegment(p9, angle2, length - 20);
+            const p10 = addSegment(p9, angle2, length - arrowHeight);
             const p11 = addSegment(p10, angle2 + Math.PI / 2, arrowWidth);
             const p12 = addSegment(p5, angle2 - Math.PI / 2, width);
-            const p13 = addSegment(p12, angle2, length - 20);
+            const p13 = addSegment(p12, angle2, length - arrowHeight);
             const p14 = addSegment(p13, angle2 - Math.PI / 2, arrowWidth);
             path = [p1, p14, p13, p3, p4, p5, p8, p7, p10, p11];
         } else {
             path = [p2, p3, p4, p5, p8, p7, p6];
         }
 
-        ctx.strokeStyle = isBidi ? '#440' : '#400';
-        ctx.fillStyle = isBidi ? '#F00' : '#F8C';
+        ctx.save();
+        ctx.strokeStyle = base.border.color;
+        ctx.fillStyle = base.color;
+        ctx.lineWidth = base.border.width;
         ctx.beginPath();
         ctx.moveTo(path[0][0], path[0][1]);
         for (let i = 1; i < path.length; i++) ctx.lineTo(path[i][0], path[i][1]);
         ctx.closePath();
         ctx.fill();
-        ctx.stroke();
+        if (base.border.width) ctx.stroke();
+        ctx.restore();
     };
 
     const drawRoundRect = (x, y, width, height, radius, fill, stroke) => {
@@ -2007,19 +2227,22 @@ async function drawMine(args) {
         if (stroke) ctx.stroke();
     };
 
-    const TEXTMARKER_WIDTH = 26;
-    const TEXTMARKER_RADIUS = 6;
-    const drawTextMarker = (x, y, name, isEntrance) => {
+    const drawTextMarker = (x, y, name, base) => {
+        const TEXTMARKER_WIDTH = base.width;
+        const TEXTMARKER_BORDER = base.border.width;
+        const TEXTMARKER_RADIUS = Math.floor((TEXTMARKER_WIDTH + TEXTMARKER_BORDER) * base.roundness / 100);
         const cx = (x + 0.5) * TILE_SIZE;
         const cy = (y + 0.5) * TILE_SIZE;
-        ctx.fillStyle = isEntrance ? '#090' : '#FFF';
-        ctx.strokeStyle = isEntrance ? '#0F0' : '#F00';
-        ctx.lineWidth = 4;
-        drawRoundRect(cx - TEXTMARKER_WIDTH, cy - TEXTMARKER_WIDTH, TEXTMARKER_WIDTH * 2, TEXTMARKER_WIDTH * 2, TEXTMARKER_RADIUS, true, true);
+        ctx.save();
+        ctx.fillStyle = base.color;
+        ctx.strokeStyle = base.border.color;
+        ctx.lineWidth = TEXTMARKER_BORDER;
+        drawRoundRect(cx - TEXTMARKER_WIDTH, cy - TEXTMARKER_WIDTH, TEXTMARKER_WIDTH * 2, TEXTMARKER_WIDTH * 2, TEXTMARKER_RADIUS, true, TEXTMARKER_BORDER > 0);
         ctx.lineWidth = 1;
-        ctx.fillStyle = isEntrance ? '#FFF' : '#000';
+        ctx.fillStyle = base.text.color;
         ctx.textAlign = 'center';
         ctx.fillText(name, cx, cy + 3, TILE_SIZE - 16);
+        ctx.restore();
     };
 
     // Set visibility
@@ -2169,9 +2392,10 @@ async function drawMine(args) {
             if (tileDef.stamina >= 0 && tileDef.tileStatus == 0) addTitle(x, y, `${gui.getMessage('map_tile')} (${gui.getMessageAndValue('gui_cost', Locale.formatNumber(tileDef.stamina))})`, true);
         }
         if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
+            ctx.save();
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, +item.rotation / 90 * Math.PI / 2);
             ctx.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-            resetTransformation();
+            ctx.restore();
         }
     });
 
@@ -2259,9 +2483,10 @@ async function drawMine(args) {
         if (img3) img = img3;
         // if (segmentedItem && segmentedItem.mobile_asset) img = images[segmentedItem.mobile_asset].img;
         if (img) {
+            ctx.save();
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, (tileDef.draggableStatus - 1) * Math.PI / 2);
             ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
-            resetTransformation();
+            ctx.restore();
         }
     });
 
@@ -2281,10 +2506,11 @@ async function drawMine(args) {
         const sh = img.naturalHeight;
         const factorX = isPlaceholder ? 1 : (height / sh) / (width / sw);
         // console.log(width, height, sw, sh, rx, ry);
+        ctx.save();
         transform((x + width / 2) * TILE_SIZE, (y + height / 2) * TILE_SIZE, item.orientation == 'right', false, 0);
         // ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE - sh);
         ctx.drawImage(img, 0, 0, sw, sh, x * TILE_SIZE, y * TILE_SIZE - (height - 1) * TILE_SIZE, width * TILE_SIZE * factorX, height * TILE_SIZE);
-        resetTransformation();
+        ctx.restore();
         if (tileDef.npcLoot && tileDef.npcLoot.length) {
             addDrop(x, y, tileDef.npcLoot);
         }
@@ -2387,7 +2613,7 @@ async function drawMine(args) {
             if (door) {
                 const isEntrance = door.miscType == 'N' && (door.fid == 1 || isRepeatable);
                 const name = door.name || (isEntrance ? '\u2196' : '?');
-                drawTextMarker(x, y, name, isEntrance);
+                drawTextMarker(x, y, name, isEntrance ? mapSettings.entrance : mapSettings.door);
             }
         }
     }
@@ -2404,15 +2630,16 @@ async function drawMine(args) {
     }
 
     // Solution
-    ctx.fillStyle = '#0F0';
     (showSolution ? solutionTiles : []).forEach(async (tileDef) => {
         const img = await getImg(tileDef.asset);
         if (img) {
             const { x, y } = tileDef;
+            ctx.save();
+            ctx.fillStyle = mapSettings.solution.color;
             ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, (tileDef.rotation - 1) * Math.PI / 2);
             ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalWidth, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-            resetTransformation();
+            ctx.restore();
         }
     });
 
@@ -2507,12 +2734,12 @@ async function drawMine(args) {
         if (targetTileDef.isVisible) drawTeleport(teleport);
     }
 
-    // Teleports merker
+    // Teleports marker
     for (const tileDef of (showExit ? tileDefs.filter(t => t.isVisible && t.teleportId) : [])) {
         const teleport = teleports[tileDef.teleportId];
         const target = teleport && teleports[teleport.target_teleport_id];
         if (!teleport || !target) continue;
-        drawTextMarker(tileDef.x, tileDef.y, teleport.name);
+        drawTextMarker(tileDef.x, tileDef.y, teleport.name, mapSettings.teleport);
     }
 
     // Add drop info
@@ -2645,6 +2872,7 @@ async function drawMine(args) {
         }
         const applyTitle = () => {
             if (!hasOption(OPTION_TITLE)) return;
+            ctx.save();
             ctx.font = 'bold 48px sans-serif';
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'center';
@@ -2654,6 +2882,7 @@ async function drawMine(args) {
             const x = Math.floor(canvas.width / 2), y = TILE_SIZE;
             ctx.strokeText(title, x, y, canvas.width);
             ctx.fillText(title, x, y, canvas.width);
+            ctx.restore();
         };
         applyTitle();
         if (hasOption(OPTION_LOGO)) {
