@@ -402,6 +402,36 @@ function prepareFloorData(data, unclear) {
     return data;
 }
 
+function saveImage() {
+    return new Promise((resolve, _reject) => {
+        const filename = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
+        const path = getDownloadPath();
+        let canvas2 = canvas;
+        if (resize < 100) {
+            canvas2 = document.createElement('canvas');
+            canvas2.width = Math.round(canvas.width * resize / 100);
+            canvas2.height = Math.round(canvas.height * resize / 100);
+            canvas2.getContext('2d').drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height);
+        }
+        canvas2.toBlob(data => {
+            gui.downloadData({ data, filename, path });
+            resolve();
+        }, 'image/png');
+    });
+}
+
+async function saveAllImages() {
+    const { lid, fid, mine, floorNumbers } = currentData;
+    await saveImage();
+    for(const floorId of floorNumbers) {
+        const found = findMine(lid, floorId);
+        if (found && floorId != fid) {
+            await processMine(found);
+            await saveImage();
+        }
+    }
+    await processMine(mine);
+}
 function toggleEditMode() {
     isEditMode = !isEditMode;
     updateTableFlags();
@@ -413,15 +443,7 @@ function onClickButton(event) {
     const action = event.target.getAttribute('data-action');
     if (action == 'save') {
         if (!currentData || !canvas) return;
-        const filename = `${getLocationName(currentData.lid, currentData.location)}_floor${currentData.fid}.png`;
-        let canvas2 = canvas;
-        if (resize < 100) {
-            canvas2 = document.createElement('canvas');
-            canvas2.width = Math.round(canvas.width * resize / 100);
-            canvas2.height = Math.round(canvas.height * resize / 100);
-            canvas2.getContext('2d').drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height);
-        }
-        canvas2.toBlob(data => gui.downloadData({ data, filename, path: getDownloadPath() }), 'image/png');
+        if (event.ctrlKey && isAdmin) saveAllImages(); else saveImage();
     } else if (action == 'options') {
         showAdvancedOptions();
     } else if (action == 'edit') {
