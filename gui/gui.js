@@ -221,6 +221,7 @@ const gui = {
         let end = (event && +event.end) || 0;
         if (!end && eid == 14) end = 1393326000;
         if (!end && eid == 15) end = 1395745200;
+        if (eid == 136) end = 1606219200;
         // Fix bug in Halloween 2019 end date
         const start = (event && +event.start) || 0;
         if ((end - start) / 86400 > 28) end = start + 14 * 86400;
