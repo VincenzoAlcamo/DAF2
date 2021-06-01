@@ -74,7 +74,7 @@ Object.assign(SmartTable.prototype, {
             setTimeout(() => {
                 const height = thead1.offsetHeight;
                 if (thead1.tagName == 'THEAD') {
-                    // table.style.marginBottom = (height ? -height - 2 : 0) + 'px';
+                    thead1.parentNode.style.marginTop = Math.max(0, thead2.offsetHeight - thead1.offsetHeight) + 'px';
                     table.style.marginBottom = (-table.offsetHeight) + 'px';
                 } else table.style.marginTop = (height ? -height - 1 : 0) + 'px';
             }, 0);
