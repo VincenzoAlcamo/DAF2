@@ -694,7 +694,11 @@ function getCurrentItems(state) {
             usable: true
         };
         const generator = gui.getGenerator();
-        const sales = Object.values(gui.getFile('sales')).filter(sale => sale.type in validSale && (+sale.shop_id || 0) == 0);
+        const sales = Object.values(gui.getFile('sales')).filter(sale => {
+            if (!(sale.type in validSale)) return false;
+            const shopId = +sale.shop_id || 0;
+            return shopId == 0 || shopId == 2;
+        });
         const buildings = gui.getFile('buildings');
         const decorations = gui.getFile('decorations');
         const usables = gui.getFile('usables');
