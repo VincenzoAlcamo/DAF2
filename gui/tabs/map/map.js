@@ -102,6 +102,27 @@ let resize, listMaterial;
 let unclearTilesToMix = {};
 let isEditMode = false, hasPendingEdits = false;
 
+//#region QUEUE
+const queue = {
+    list: [],
+    add(fn) {
+        this.list.push(fn);
+        setTimeout(() => this.process(), 0);
+    },
+    async process() {
+        if (!this.list.length || this.isProcessing) return;
+        try {
+            this.isProcessing = true;
+            const promise = this.list.shift();
+            if (promise) await promise();
+        } finally {
+            this.isProcessing = false;
+        }
+        this.process();
+    }
+};
+//#endregion
+
 //#region SETTINGS
 let mapSettings = {};
 
@@ -179,7 +200,7 @@ function setMapSettings(obj, value) {
     const newValue = JSON.stringify(mapSettings);
     if (newValue != oldValue) {
         gui.setPreference('mapSettings', newValue);
-        processMine();
+        queue.add(processMine);
     }
     return mapSettings;
 }
@@ -356,7 +377,7 @@ function init() {
     setCanvasZoom();
 
     selectRegion = container.querySelector('[name=region]');
-    selectRegion.addEventListener('change', () => processMine());
+    selectRegion.addEventListener('change', () => queue.add(processMine));
 
     checks = Array.from(container.querySelectorAll('.toolbar input[type=checkbox][data-flag]'));
     checks.forEach(el => {
@@ -368,7 +389,12 @@ function init() {
         el.addEventListener('click', onStateButtonClick);
     });
 
-    container.querySelector('[data-id="lid"]').addEventListener('change', e => processMine(findMine(+e.target.value, -1)));
+    container.querySelector('[data-id="lid"]').addEventListener('change', e => {
+        const mine = findMine(+e.target.value, -1);
+        if (mine) {
+            queue.add(async () => await processMine(mine));
+        }
+    });
 
     for (const button of container.querySelectorAll('.toolbar button[data-action]')) button.addEventListener('click', onClickButton);
 
@@ -377,9 +403,7 @@ function init() {
     imgLocation.addEventListener('error', () => imgLocation.style.display = 'none');
 
     container.querySelector('.toolbar .warning').classList.toggle('hidden', !!determineCurrentMine());
-    container.addEventListener('render', function () {
-        setTimeout(processMine, 0);
-    });
+    container.addEventListener('render', () => queue.add(processMine));
 
     container.addEventListener('tooltip', onTooltip);
 
@@ -399,9 +423,9 @@ function getStateButtonFlag(input) {
 function activateStateButton(input, state = 1) {
     const flag = setStateButton(input, state);
     updateTableFlags();
-    if ('UK'.includes(flag)) processMine();
+    if ('UK'.includes(flag)) queue.add(processMine);
     else if ('LBEO'.includes(flag)) return;
-    else drawMine();
+    else queue.add(drawMine);
 }
 
 function onStateButtonClick(e) {
@@ -620,7 +644,7 @@ function toggleSettings() {
 function toggleEditMode() {
     isEditMode = !isEditMode;
     updateTableFlags();
-    if (!isEditMode && hasPendingEdits) drawMine();
+    if (!isEditMode && hasPendingEdits) queue.add(drawMine);
     hasPendingEdits = false;
 }
 
@@ -663,7 +687,8 @@ function onClickButton(event) {
                     delay: 2000,
                     style: [Dialog.CLOSE]
                 });
-                processMine(bgp.Data.mineCache[0]);
+                const mine = bgp.Data.mineCache[0];
+                queue.add(async () => await processMine(mine));
             } catch (error) {
                 gui.dialog.show({
                     title: gui.getMessage('gui_export'),
@@ -789,8 +814,10 @@ function showAdvancedOptions() {
             gui.updateTabState(tab);
         }
         if (method == Dialog.CONFIRM || (method == Dialog.CANCEL && flagReprocess)) {
-            if (determineCurrentMine()) processMine();
-            else setNoMines();
+            queue.add(async () => {
+                if (determineCurrentMine()) await processMine();
+                else setNoMines();
+            });
         }
     });
 }
@@ -885,7 +912,7 @@ function onTableClick(event) {
         if (value) edits[key] = value; else delete edits[key];
         if (key2) if (value) edits[key2] = value; else delete edits[key2];
         bgp.Data.saveMine(mine);
-        processMine();
+        queue.add(processMine);
         return;
     }
     const dataAction = cell && cell.getAttribute('data-action');
@@ -899,7 +926,9 @@ function onTableClick(event) {
         if (fid == currentData.fid) scrollToCenter(x, y, true);
         else {
             const found = findMine(currentData.lid, fid);
-            if (found) processMine(found, { x, y });
+            if (found) {
+                queue.add(async () => await processMine(found, { x, y }));
+            }
         }
     }
 }
@@ -1092,7 +1121,9 @@ function addTitle(x, y, text, isBlockTitle) {
 function changeLevel(e) {
     if (!currentData || e.target.disabled) return;
     const found = findMine(currentData.lid, +e.target.getAttribute('data-flag'));
-    if (found) processMine(found);
+    if (found) {
+        queue.add(async () => await processMine(found));
+    }
 }
 
 function isValidTile(tileDef, beaconPart) {
@@ -1984,7 +2015,7 @@ async function processMine(selectedMine, args) {
     if (isAdmin) window.mineData = currentData;
     // window.subtiles = subtiles;
     // window.allQuestDrops = allQuestDrops;
-    return drawMine(args);
+    await drawMine(args);
 }
 
 function updateTableFlags() {
