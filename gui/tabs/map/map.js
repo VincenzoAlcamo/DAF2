@@ -94,7 +94,7 @@ const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles, specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground, showBeacon, showTeleport, showDiggy, showExit, showDebug, showAll, showFull, showTiles;
+let showBackground, showBeacon, showTeleportArrow, showDiggy, showExitMarker, showTeleportMarker, showDebug, showAll, showFull, showTiles;
 let showViewed, showBonus, showNotableLoot, showMixed, showOpaque, showUncleared, showSolution, showColors;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
@@ -379,13 +379,15 @@ function init() {
     selectRegion = container.querySelector('[name=region]');
     selectRegion.addEventListener('change', () => queue.add(processMine));
 
-    checks = Array.from(container.querySelectorAll('.toolbar input[type=checkbox][data-flag]'));
+    checks = Array.from(container.querySelectorAll('.toolbar input[type=checkbox][data-flags]'));
     checks.forEach(el => {
         if (el.previousSibling && el.previousSibling.nodeType == Node.TEXT_NODE) el.previousSibling.remove();
-        const flag1 = el.getAttribute('data-flag'), flag2 = el.getAttribute('data-flag2');
-        let title = `${flag1} = ${gui.getMessage('map_button_' + flag1.toLowerCase())}`;
-        if (flag2 && isFlagAllowed(flag2)) title += `\n${flag2} = ${gui.getMessage('map_button_' + flag2.toLowerCase())}`;
-        el.title = title;
+        const flags = el.getAttribute('data-flags').split(',');
+        el.title = flags.map(flag => {
+            if (!isFlagAllowed(flag)) return '';
+            const text = gui.getMessage('map_button_' + flag.toLowerCase());
+            return text && `${flag} = ${text}`;
+        }).filter(v => v).join('');
         el.addEventListener('click', onStateButtonClick);
     });
 
@@ -411,14 +413,19 @@ function init() {
 }
 
 function setStateButton(input, state = 0) {
-    const flag = input.getAttribute(state == 2 ? 'data-flag2' : 'data-flag');
-    input.checked = state == 1 || state == 2;
-    input.classList.toggle('is-flag2', state == 2);
+    const flags = (input.getAttribute('data-flags') || '').split(',');
+    state = Math.max(0, Math.min(state, flags.length));
+    const flag = state ? flags[state - 1] : '';
+    input.setAttribute('data-flag', flag);
+    input.checked = state > 0;
+    const caption = flags[state ? state - 1 : 0];
+    const replacement = { 1: '¹', 2: '²', 3: '³' };
+    input.setAttribute('data-flag-caption', caption.replace(/[123]/, c => replacement[c]));
     return flag;
 }
 function getStateButtonFlag(input) {
-    if (!input.checked || !isCheckAllowed(input)) return '';
-    return input.getAttribute(input.classList.contains('is-flag2') ? 'data-flag2' : 'data-flag');
+    const flag = input.getAttribute('data-flag') || '';
+    return input.checked && isFlagAllowed(flag) ? flag : '';
 }
 function activateStateButton(input, state = 1) {
     const flag = setStateButton(input, state);
@@ -429,10 +436,12 @@ function activateStateButton(input, state = 1) {
 }
 
 function onStateButtonClick(e) {
-    const input = e.target, flag2 = input.getAttribute('data-flag2');
-    let state = input.checked ? 1 : 0;
-    if (flag2) state = input.classList.contains('is-flag2') ? 0 : (input.checked ? 1 : 2);
-    if (state == 2 && !isFlagAllowed(flag2)) state = 0;
+    const input = e.target;
+    const flags = (',' + input.getAttribute('data-flags')).split(',');
+    const flag = input.getAttribute('data-flag') || '';
+    let state = flags.indexOf(flag) + 1;
+    while (state < flags.length && !isFlagAllowed(flags[state])) state++;
+    if (state >= flags.length) state = 0;
     activateStateButton(input, state);
 }
 
@@ -527,12 +536,13 @@ function onKeydown(event) {
         if (key != 'U') return;
     }
     if (!hasModifiers) {
-        const input = checks.find(el => el.getAttribute('data-flag') == key || el.getAttribute('data-flag2') == key);
+        const input = checks.find(el => el.getAttribute('data-flags').split(',').find(v => v.startsWith(key) && isFlagAllowed(v)));
         if (input) {
-            const flag1 = input.getAttribute('data-flag'), flag2 = input.getAttribute('data-flag2');
-            let state = getStateButtonFlag(input) == key ? 0 : (flag2 == key ? 2 : 1);
-            if (state == 2 && !isFlagAllowed(flag2)) state = 1;
-            if (state == 1 && !isFlagAllowed(flag1)) state = 0;
+            const arr = (',' + input.getAttribute('data-flags')).split(',');
+            const flag = getStateButtonFlag(input);
+            let state = arr.indexOf(flag) + 1;
+            while (state < arr.length && (!isFlagAllowed(arr[state]) || !arr[state].startsWith(key))) state++;
+            if (state >= arr.length) state = 0;
             activateStateButton(input, state);
             event.preventDefault();
         }
@@ -562,9 +572,6 @@ function deleteWormsFrom(map) {
 
 function isFlagAllowed(flag) {
     return 'CDNTUVX'.indexOf(flag) >= 0 || isAdmin;
-}
-function isCheckAllowed(check) {
-    return isFlagAllowed(check.getAttribute('data-flag'));
 }
 
 function scrollToCenter(x, y, smooth) {
@@ -1063,10 +1070,9 @@ function setState(state) {
     selectRegion.setAttribute('data-value', state.region);
     const flags = String(state.show || '').toUpperCase();
     checks.forEach(check => {
-        const flag1 = check.getAttribute('data-flag'), flag2 = check.getAttribute('data-flag2');
-        let state = flags.includes(flag2) ? 2 : (flags.includes(flag1) ? 1 : 0);
-        if (state == 2 && !isFlagAllowed(flag2)) state = 1;
-        if (state == 1 && !isFlagAllowed(flag1)) state = 0;
+        const arr = (check.getAttribute('data-flags') || '').split(',');
+        const flag = arr.reverse().find(flag => isFlagAllowed(flag) && flags.includes(flag));
+        const state = arr.indexOf(flag) + 1;
         setStateButton(check, state);
     });
     zoom = Math.min(Math.max(2, Math.round(+state.zoom || 5)), 10);
@@ -2024,9 +2030,10 @@ function updateTableFlags() {
     gui.updateTabState(tab);
     showBackground = state.show.includes('k');
     showBeacon = state.show.includes('e');
-    showTeleport = state.show.includes('t');
+    showTeleportArrow = state.show.includes('t');
     showDiggy = state.show.includes('d');
-    showExit = state.show.includes('x');
+    showExitMarker = state.show.includes('x') && !state.show.includes('x2');
+    showTeleportMarker = state.show.includes('x') && !state.show.includes('x1');
     showDebug = state.show.includes('g');
     showAll = state.show.includes('a');
     showSolution = state.show.includes('s');
@@ -2588,7 +2595,7 @@ async function drawMine(args) {
     // Apply grayscale effect
     const isGrayscale = (+currentData.floor.params_mask & 2) > 0;
     checks.forEach(el => {
-        if (el.getAttribute('data-flag') == 'C') el.disabled = !isGrayscale;
+        if (el.getAttribute('data-flags') == 'C') el.disabled = !isGrayscale;
     });
     if (!showColors && isGrayscale) {
         const imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -2672,7 +2679,7 @@ async function drawMine(args) {
     }
 
     // Entrances/Exits
-    if (showExit) {
+    if (showExitMarker) {
         ctx.font = 'bold 40px sans-serif';
         ctx.textBaseline = 'middle';
         for (const tileDef of tileDefs.filter(t => (t.miscType == 'N' || t.miscType == 'X') && t.stamina >= 0)) {
@@ -2774,7 +2781,7 @@ async function drawMine(args) {
                     cell.classList.add('teleport');
                 }
             }
-            if (showTeleport && tileDef.isVisible != targetTileDef.isVisible) drawTeleport(teleport);
+            if (showTeleportArrow && tileDef.isVisible != targetTileDef.isVisible) drawTeleport(teleport);
         }
     }
 
@@ -2799,7 +2806,7 @@ async function drawMine(args) {
     // }
 
     // Teleports (where both ends are visible)
-    for (const tileDef of tileDefs.filter(t => showTeleport && t.isVisible && t.teleportId)) {
+    for (const tileDef of tileDefs.filter(t => showTeleportArrow && t.isVisible && t.teleportId)) {
         const teleport = teleports[tileDef.teleportId];
         const target = teleport && teleports[teleport.target_teleport_id];
         if (!teleport || !target) continue;
@@ -2808,11 +2815,15 @@ async function drawMine(args) {
     }
 
     // Teleports marker
-    for (const tileDef of (showExit ? tileDefs.filter(t => t.isVisible && t.teleportId) : [])) {
-        const teleport = teleports[tileDef.teleportId];
-        const target = teleport && teleports[teleport.target_teleport_id];
-        if (!teleport || !target) continue;
-        drawTextMarker(tileDef.x, tileDef.y, teleport.name, mapSettings.teleport);
+    if (showTeleportMarker) {
+        ctx.font = 'bold 40px sans-serif';
+        ctx.textBaseline = 'middle';
+        for (const tileDef of tileDefs.filter(t => t.isVisible && t.teleportId)) {
+            const teleport = teleports[tileDef.teleportId];
+            const target = teleport && teleports[teleport.target_teleport_id];
+            if (!teleport || !target) continue;
+            drawTextMarker(tileDef.x, tileDef.y, teleport.name, mapSettings.teleport);
+        }
     }
 
     // Add drop info

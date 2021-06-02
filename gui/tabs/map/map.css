@@ -170,7 +170,7 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 }
 
 .tab_map .toolbar [data-flag]:before {
-  padding: 1px;
+  line-height: 20px;
 }
 
 .tab_map .toolbar input[type=radio][data-flag]:before,
@@ -178,8 +178,8 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
   content: attr(data-flag);
 }
 
-.tab_map .toolbar [data-flag2].is-flag2:before {
-  content: attr(data-flag2);
+.tab_map .toolbar [data-flag-caption]:before {
+  content: attr(data-flag-caption);
 }
 
 .tab_map .toolbar div[data-id="info"] {
