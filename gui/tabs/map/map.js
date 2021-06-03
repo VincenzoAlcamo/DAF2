@@ -189,7 +189,8 @@ function setMapSettings(obj, value) {
         scan('', obj);
     }
     mapSettings = {};
-    Object.entries(result).forEach(([key, value]) => {
+    Object.keys(result).sort().forEach(key => {
+        const value = result[key];
         let base = mapSettings, i;
         while ((i = key.indexOf('.')) > 0) {
             base = base[key.substr(0, i)] = base[key.substr(0, i)] || {};
@@ -360,7 +361,7 @@ function createSettingsTable() {
     const parts = [];
     keys.forEach(key => {
         const keyParts = key.split('.');
-        if (keyParts[0] == 'solution') return;
+        if (!isAdmin && keyParts[0] == 'solution') return;
         let base = mapSettings;
         for (let i = 0; i < keyParts.length - 1; i++) {
             const name = keyParts[i];
