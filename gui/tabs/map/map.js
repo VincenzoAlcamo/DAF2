@@ -1071,7 +1071,7 @@ function setState(state) {
     const flags = String(state.show || '').toUpperCase();
     checks.forEach(check => {
         const arr = (check.getAttribute('data-flags') || '').split(',');
-        const flag = arr.reverse().find(flag => isFlagAllowed(flag) && flags.includes(flag));
+        const flag = [].concat(arr).reverse().find(flag => isFlagAllowed(flag) && flags.includes(flag));
         const state = arr.indexOf(flag) + 1;
         setStateButton(check, state);
     });
