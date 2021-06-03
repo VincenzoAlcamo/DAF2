@@ -88,15 +88,7 @@ function exportData() {
 
 function importData() {
     gui.chooseFile(function (file) {
-        new Promise(function (resolve, _reject) {
-            if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw new Error(gui.getMessage('export_invalidexport'));
-            const reader = new FileReader();
-            reader.onload = function () {
-                const data = JSON.parse(reader.result);
-                resolve(data);
-            };
-            reader.readAsText(file);
-        }).then(function (data) {
+        gui.readFile(file).then(function (data) {
             if (data.player_id != bgp.Data.generator.player_id) throw new Error(gui.getMessage('export_invalidexportdata'));
             const extras = data.extras || {};
             const neighbours = bgp.Data.getNeighbours();

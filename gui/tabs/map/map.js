@@ -236,71 +236,10 @@ function init() {
 
     tableTileInfo = container.querySelector('.tile-info table');
 
-    {
-        mapSettings = {};
-        const parseJSON = (value) => { try { return JSON.parse(value); } catch (e) { return null; } };
-        setMapSettings(parseJSON(gui.getPreference('mapSettings')));
-        const keys = Object.keys(defaultMapSettings).map(s => {
-            const i = s.lastIndexOf('.');
-            return [s.substr(0, i), s.substr(i + 1)];
-        }).sort((a, b) => gui.sortTextAscending(a[0], b[0]) || gui.sortTextAscending(a[1], b[1])).map(v => v[0] + '.' + v[1]);
-        let htm = '<table style="width:100%">';
-        const parts = [];
-        keys.forEach(key => {
-            const keyParts = key.split('.');
-            let base = mapSettings;
-            for (let i = 0; i < keyParts.length - 1; i++) {
-                const name = keyParts[i];
-                base = base[name];
-                const partialKey = keyParts.slice(0, i + 1).join('.');
-                if (partialKey != parts[i]) {
-                    parts[i] = partialKey;
-                    parts.length = i + 1;
-                    htm += Html`<tr class="level${i}"><th colspan="2">${name.toUpperCase()}</th></tr>`;
-                }
-            }
-            const name = keyParts[keyParts.length - 1];
-            const value = base[name];
-            htm += Html`<tr class="level${keyParts.length - 1}"><td>${name}</td><td>`;
-            const def = defaultMapSettings[key];
-            if (def.type == 'color') {
-                const color = toColor(value);
-                htm += Html`<input name="${key}" type="color" value="${color}">`;
-                htm += Html`<img class="${def.default == color ? 'hidden' : ''}" src="/img/gui/check_no.png">`;
-            } else if (def.type == 'int') {
-                const step = Math.max(1, Math.floor((def.max - def.min) / 10));
-                htm += Html`<input name="${key}" style="width:50px" type="number" min="${def.min}" max="${def.max}" step="${step}" value="${value}">`;
-                htm += Html`<img class="${def.default == value ? 'hidden' : ''}" src="/img/gui/check_no.png">`;
-            }
-            htm += Html`</td></tr>`;
-        });
-        htm += `</table>`;
-        const parent = container.querySelector('.properties');
-        Dialog.htmlToDOM(parent, htm);
-        let settings = {}, handler = null;
-        const onInput = (event) => {
-            const input = event.target;
-            const img = input.nextElementSibling;
-            let value = input.value;
-            if (input.type == 'number') value = +value;
-            if (input.type == 'color') value = toColor(value);
-            settings[input.name] = value;
-            img.classList.toggle('hidden', value == defaultMapSettings[input.name].default);
-            if (handler) clearTimeout(handler);
-            handler = setTimeout(() => {
-                setMapSettings(settings);
-                settings = {};
-            }, 1000);
-        };
-        const onClick = (event) => {
-            const img = event.target;
-            const target = img.previousElementSibling;
-            target.value = defaultMapSettings[target.name].default;
-            onInput({ target });
-        };
-        parent.querySelectorAll('input').forEach(input => input.addEventListener('input', onInput));
-        parent.querySelectorAll('img').forEach(img => img.addEventListener('click', onClick));
-    }
+    mapSettings = {};
+    const parseJSON = (value) => { try { return JSON.parse(value); } catch (e) { return null; } };
+    setMapSettings(parseJSON(gui.getPreference('mapSettings')));
+    createSettingsTable();
 
     const slider = container.querySelector('.scrollable-content');
     map = slider.querySelector('.map');
@@ -410,6 +349,70 @@ function init() {
     container.addEventListener('tooltip', onTooltip);
 
     document.body.addEventListener('keydown', onKeydown);
+}
+
+function createSettingsTable() {
+    const keys = Object.keys(defaultMapSettings).map(s => {
+        const i = s.lastIndexOf('.');
+        return [s.substr(0, i), s.substr(i + 1)];
+    }).sort((a, b) => gui.sortTextAscending(a[0], b[0]) || gui.sortTextAscending(a[1], b[1])).map(v => v[0] + '.' + v[1]);
+    let htm = '<table style="width:100%">';
+    const parts = [];
+    keys.forEach(key => {
+        const keyParts = key.split('.');
+        if (keyParts[0] == 'solution') return;
+        let base = mapSettings;
+        for (let i = 0; i < keyParts.length - 1; i++) {
+            const name = keyParts[i];
+            base = base[name];
+            const partialKey = keyParts.slice(0, i + 1).join('.');
+            if (partialKey != parts[i]) {
+                parts[i] = partialKey;
+                parts.length = i + 1;
+                htm += Html`<tr class="level${i}"><th colspan="2">${name.toUpperCase()}</th></tr>`;
+            }
+        }
+        const name = keyParts[keyParts.length - 1];
+        const value = base[name];
+        htm += Html`<tr class="level${keyParts.length - 1}"><td>${name}</td><td>`;
+        const def = defaultMapSettings[key];
+        if (def.type == 'color') {
+            const color = toColor(value);
+            htm += Html`<input name="${key}" type="color" value="${color}">`;
+            htm += Html`<img class="${def.default == color ? 'hidden' : ''}" src="/img/gui/check_no.png" title="${gui.getMessage('map_default')}">`;
+        } else if (def.type == 'int') {
+            const step = Math.max(1, Math.floor((def.max - def.min) / 10));
+            htm += Html`<input name="${key}" style="width:50px" type="number" min="${def.min}" max="${def.max}" step="${step}" value="${value}">`;
+            htm += Html`<img class="${def.default == value ? 'hidden' : ''}" src="/img/gui/check_no.png" title="${gui.getMessage('map_default')}">`;
+        }
+        htm += Html`</td></tr>`;
+    });
+    htm += `</table>`;
+    const parent = container.querySelector('.properties .table');
+    Dialog.htmlToDOM(parent, htm);
+    let settings = {}, handler = null;
+    const onInput = (event) => {
+        const input = event.target;
+        const img = input.nextElementSibling;
+        let value = input.value;
+        if (input.type == 'number') value = +value;
+        if (input.type == 'color') value = toColor(value);
+        settings[input.name] = value;
+        img.classList.toggle('hidden', value == defaultMapSettings[input.name].default);
+        if (handler) clearTimeout(handler);
+        handler = setTimeout(() => {
+            setMapSettings(settings);
+            settings = {};
+        }, 1000);
+    };
+    const onClick = (event) => {
+        const img = event.target;
+        const target = img.previousElementSibling;
+        target.value = defaultMapSettings[target.name].default;
+        onInput({ target });
+    };
+    parent.querySelectorAll('input').forEach(input => input.addEventListener('input', onInput));
+    parent.querySelectorAll('img').forEach(img => img.addEventListener('click', onClick));
 }
 
 function setStateButton(input, state = 0) {
@@ -666,6 +669,23 @@ function onClickButton(event) {
         toggleEditMode();
     } else if (action == 'settings') {
         toggleSettings();
+    } else if (action == 'settings-reset') {
+        setMapSettings(null);
+        createSettingsTable();
+    } else if (action == 'settings-export') {
+        gui.downloadData({ data: mapSettings, filename: 'map-settings.json' });
+    } else if (action == 'settings-import') {
+        gui.chooseFile(async function (file) {
+            try {
+                const data = await gui.readFile(file);
+                mapSettings = {};
+                setMapSettings(data);
+                createSettingsTable();
+                gui.toast.show({ text: gui.getMessage('export_importsuccess'), delay: 2000, style: [Dialog.CLOSE] });
+            } catch (error) {
+                gui.dialog.show({ title: gui.getMessage('export_import'), text: error.message || error, style: [Dialog.CRITICAL, Dialog.OK] });
+            }
+        });
     } else if (action == 'export_location' || action == 'export_floor') {
         if (!currentData || !canvas) return;
         const isLocation = action == 'export_location';
@@ -677,31 +697,18 @@ function onClickButton(event) {
         if (unclear) gui.toast.show(isFull ? { text: 'All floors were uncleared!' } : { text: 'Not all floors were uncleared!', style: Dialog.CRITICAL });
     } else if (action == 'import') {
         gui.chooseFile(async function (file) {
-            const invalidExport = new Error(gui.getMessage('export_invalidexport'));
             try {
-                if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw invalidExport;
-                const data = await (new Promise(function (resolve, _reject) {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(JSON.parse(reader.result));
-                    reader.readAsText(file);
-                }));
+                const invalidExport = new Error(gui.getMessage('export_invalidexport'));
+                const data = await gui.readFile(file);
                 if (!Array.isArray(data) || data.length == 0) throw invalidExport;
                 const lid = data[0].id;
                 for (const mine of data) if (mine.id != lid || !(+mine.level_id > 0)) throw invalidExport;
                 bgp.Data.addMine(data);
-                gui.toast.show({
-                    text: gui.getMessage('export_importsuccess'),
-                    delay: 2000,
-                    style: [Dialog.CLOSE]
-                });
+                gui.toast.show({ text: gui.getMessage('export_importsuccess'), delay: 2000, style: [Dialog.CLOSE] });
                 const mine = bgp.Data.mineCache[0];
                 queue.add(async () => await processMine(mine));
             } catch (error) {
-                gui.dialog.show({
-                    title: gui.getMessage('gui_export'),
-                    text: error.message || error,
-                    style: [Dialog.CRITICAL, Dialog.OK]
-                });
+                gui.dialog.show({ title: gui.getMessage('gui_export'), text: error.message || error, style: [Dialog.CRITICAL, Dialog.OK] });
             }
         }, '.json');
     }

@@ -867,6 +867,17 @@ const gui = {
             setTimeout(() => a.parentNode.removeChild(a), 2000);
         }
     },
+    readFile: function(file) {
+        return new Promise(function (resolve, _reject) {
+            if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw new Error(gui.getMessage('export_invalidexport'));
+            const reader = new FileReader();
+            reader.onload = function () {
+                const data = JSON.parse(reader.result);
+                resolve(data);
+            };
+            reader.readAsText(file);
+        });
+    },
     captureElement: function (element) {
         return new Promise(function (resolve, reject) {
             const rect = element.getBoundingClientRect();

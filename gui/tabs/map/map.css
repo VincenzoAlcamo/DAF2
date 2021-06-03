@@ -385,7 +385,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   display: none;
 }
 
-.tab_map.is_uncleared .toolbar {
+.tab_map.is_uncleared .grid-container>.toolbar {
   --tt-bgcol: #c18128;
 }
 
@@ -659,4 +659,17 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 
 .tab_map .properties tr.level2 th {
   padding-left: 36px;
+}
+
+.tab_map .properties .toolbar {
+  padding: 1px;
+}
+
+.tab_map .properties .toolbar button {
+  width: 32px;
+  border-radius: 4px;
+  font-size: 25px;
+  padding: 0;
+  line-height: 26px;
+  font-weight: bold;
 }

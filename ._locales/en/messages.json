@@ -871,6 +871,12 @@
     "map_positionrandom": {
         "message": "Position is random"
     },
+    "map_settings": {
+        "message": "Settings"
+    },
+    "map_default": {
+        "message": "Reset to default"
+    },
     "pillars_all": {
         "message": "All pillars"
     },
