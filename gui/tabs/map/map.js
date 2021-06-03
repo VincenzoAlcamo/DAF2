@@ -1254,6 +1254,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         computeTile(tileDef);
     });
     applyViewed(tileDefs, mine._p.vis);
+    for (const tileDef of tileDefs) if (tileDef.viewed) tileDef.show = true;
 
     // Loot
     const filterByRegion = a => {
@@ -1454,56 +1455,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         }
     }
 
-    // Beacons
-    const beacons = data.beacons = {};
-    const beaconParts = data.beaconParts = {};
-    const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
-    for (const beacon of asArray(floor.beacons && floor.beacons.beacon)) {
-        const id = beacon.beacon_id;
-        const copy = Object.assign({}, beacon);
-        beacons[id] = copy;
-        copy.parts = {};
-        copy.parts.part = asArray(beacon.parts && beacon.parts.part).map(beaconPart => {
-            const copy = Object.assign({}, beaconPart);
-            copy.active = false;
-            delete copy.mobile_asset_cn;
-            delete copy.mobile_sound_asset;
-            delete copy.sound_clip;
-            delete copy.sound_library;
-            delete copy.gr_library;
-            delete copy.gr_clip;
-            beaconParts[`${id}_${beaconPart.part_id}`] = copy;
-            return copy;
-        });
-        // Show flag
-        const parts = copy.parts.part;
-        const activableParts = parts.filter(p => {
-            return p.activation != 'door_r' || p.req_material > 0 || p.req_drag > 0 || p.req_light > 0;
-        });
-        if (parts.length && parts.length == activableParts.length) {
-            for (const action of asArray(beacon.actions.action).filter(a => a.layer == 'vision')) {
-                const values = splitString(action.values, ',');
-                if (values.length == 1 && +values[0] != 1) continue;
-                for (const tile of splitString(action.tiles, ';')) {
-                    const [y, x] = tile.split(',').map(v => +v);
-                    if (!isInvalidCoords(x, y)) tileDefs[y * cols + x].show = true;
-                }
-            }
-        }
-    }
-    for (const obj of asArray(base.beacons)) {
-        const { def_id: id, row: y, column: x, part, state } = obj;
-        const beaconPart = getBeaconPart(id, part);
-        if (beaconPart) {
-            const tileDef = tileDefs[y * cols + x];
-            tileDef.miscId = id;
-            tileDef.miscType = 'B';
-            tileDef.beaconPart = part;
-            beaconPart.active = state == 1;
-            addAsset(beaconPart);
-        }
-    }
-
     // Teleports
     const teleports = data.teleports = {};
     for (const teleport of asArray(floor.teleports && floor.teleports.teleport)) teleports[teleport.teleport_id] = teleport;
@@ -1527,6 +1478,62 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         }
         teleport.name = name;
     });
+
+    // Beacons
+    const beaconIsTeleport = {};
+    Object.values(teleports).forEach(t => beaconIsTeleport[t.beacon_id] = true);
+    const beacons = data.beacons = {};
+    const beaconParts = data.beaconParts = {};
+    const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
+    for (const beacon of asArray(floor.beacons && floor.beacons.beacon)) {
+        const id = beacon.beacon_id;
+        const copy = Object.assign({}, beacon);
+        beacons[id] = copy;
+        copy.parts = {};
+        copy.parts.part = asArray(beacon.parts && beacon.parts.part).map(beaconPart => {
+            const copy = Object.assign({}, beaconPart);
+            copy.active = false;
+            delete copy.mobile_asset_cn;
+            delete copy.mobile_sound_asset;
+            delete copy.sound_clip;
+            delete copy.sound_library;
+            delete copy.gr_library;
+            delete copy.gr_clip;
+            beaconParts[`${id}_${beaconPart.part_id}`] = copy;
+            return copy;
+        });
+        // Show flag
+        let activable = id in beaconIsTeleport;
+        if (!activable) {
+            const parts = copy.parts.part;
+            const activableParts = parts.filter(p => {
+                return p.activation != 'door_r' || p.req_material > 0 || p.req_drag > 0 || p.req_light > 0;
+            });
+            activable = parts.length && parts.length == activableParts.length;
+        }
+        if (activable) {
+            for (const action of asArray(beacon.actions.action).filter(a => a.layer == 'vision')) {
+                const values = splitString(action.values, ',');
+                if (values.length == 1 && +values[0] != 1) continue;
+                for (const tile of splitString(action.tiles, ';')) {
+                    const [y, x] = tile.split(',').map(v => +v);
+                    if (!isInvalidCoords(x, y)) tileDefs[y * cols + x].show = true;
+                }
+            }
+        }
+    }
+    for (const obj of asArray(base.beacons)) {
+        const { def_id: id, row: y, column: x, part, state } = obj;
+        const beaconPart = getBeaconPart(id, part);
+        if (beaconPart) {
+            const tileDef = tileDefs[y * cols + x];
+            tileDef.miscId = id;
+            tileDef.miscType = 'B';
+            tileDef.beaconPart = part;
+            beaconPart.active = state == 1;
+            addAsset(beaconPart);
+        }
+    }
 
     // Execute all queued actions
     const isRequiredOrientation = (beaconPart, status) => {
