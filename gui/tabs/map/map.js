@@ -387,7 +387,7 @@ function init() {
             if (!isFlagAllowed(flag)) return '';
             const text = gui.getMessage('map_button_' + flag.toLowerCase());
             return text && `${flag} = ${text}`;
-        }).filter(v => v).join('');
+        }).filter(v => v).join('\n');
         el.addEventListener('click', onStateButtonClick);
     });
 
