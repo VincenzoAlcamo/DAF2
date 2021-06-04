@@ -376,7 +376,7 @@ if (loginButton) {
             }
         } else if (urlInfo.hostname == 'portal.pixelfederation.com') {
             const arr = urlInfo.pathname.split('/');
-            if (arr[2] == 'diggysadventure') {
+            if (arr[2] == 'diggysadventure' && (!arr[3] || arr[3].startsWith('?') || arr[3].startsWith('#'))) {
                 result.isGame = result.isPortal = true;
             }
         }
