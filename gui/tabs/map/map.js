@@ -146,7 +146,8 @@ const getArrowSettings = (prefix, width, color, borderWidth, borderColor) => {
 };
 const defaultMapSettings = Object.assign({},
     {
-        'solution.color': { type: 'color', default: toColor('#0F0') }
+        'solution.color': { type: 'color', default: toColor('#0F0') },
+        'title.color': { type: 'color', default: toColor('#FFF') }
     },
     getDoorSettings('door', 26, toColor('#FFF'), 20, 4, toColor('#F00'), toColor('#000')),
     getDoorSettings('entrance', 26, toColor('#090'), 20, 4, toColor('#0F0'), toColor('#FFF')),
@@ -2975,7 +2976,7 @@ async function drawMine(args) {
             ctx.font = 'bold 48px sans-serif';
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'center';
-            ctx.fillStyle = '#FFF';
+            ctx.fillStyle = mapSettings.title.color;
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 3;
             const x = Math.floor(canvas.width / 2), y = TILE_SIZE;
