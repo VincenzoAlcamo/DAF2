@@ -871,6 +871,12 @@
     "map_positionrandom": {
         "message": "A posição é aleatória"
     },
+    "map_settings": {
+        "message": "Definições"
+    },
+    "map_default": {
+        "message": "Restaurar ao padrão"
+    },
     "pillars_all": {
         "message": "Todos os pilares"
     },

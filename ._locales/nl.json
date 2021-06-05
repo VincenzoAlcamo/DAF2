@@ -871,6 +871,12 @@
     "map_positionrandom": {
         "message": "Positie is willekeurig"
     },
+    "map_settings": {
+        "message": "Instellingen"
+    },
+    "map_default": {
+        "message": "Terugzetten naar standaard"
+    },
     "pillars_all": {
         "message": "Alle zuilen"
     },

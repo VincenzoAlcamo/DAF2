@@ -869,7 +869,13 @@
         "message": "Download mappe"
     },
     "map_positionrandom": {
-        "message": "Posotionen er tilfældig"
+        "message": "Positionen er tilfældig"
+    },
+    "map_settings": {
+        "message": "Indstillinger"
+    },
+    "map_default": {
+        "message": "Sæt tilbage til standard"
     },
     "pillars_all": {
         "message": "Alle søjler"

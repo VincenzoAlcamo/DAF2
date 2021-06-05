@@ -871,6 +871,12 @@
     "map_positionrandom": {
         "message": "Poloha je náhodná"
     },
+    "map_settings": {
+        "message": "Nastavení"
+    },
+    "map_default": {
+        "message": "Resetovat hodnoty"
+    },
     "pillars_all": {
         "message": "Všechny pilíře"
     },

@@ -871,6 +871,12 @@
     "map_positionrandom": {
         "message": "Rastgele konum"
     },
+    "map_settings": {
+        "message": "Ayarlar"
+    },
+    "map_default": {
+        "message": "Varsayılana sıfırla"
+    },
     "pillars_all": {
         "message": "Tüm sütunlar"
     },

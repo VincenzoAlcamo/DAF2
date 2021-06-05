@@ -871,6 +871,12 @@
     "map_positionrandom": {
         "message": "Position ist zufällig"
     },
+    "map_settings": {
+        "message": "Einstellungen"
+    },
+    "map_default": {
+        "message": "Auf Standardwerte zurücksetzen"
+    },
     "pillars_all": {
         "message": "Alle Säulen"
     },
