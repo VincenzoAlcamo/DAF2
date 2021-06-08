@@ -360,6 +360,7 @@ function createSettingsTable() {
     }).sort((a, b) => gui.sortTextAscending(a[0], b[0]) || gui.sortTextAscending(a[1], b[1])).map(v => v[0] + '.' + v[1]);
     let htm = '<table style="width:100%">';
     const parts = [];
+    let isOdd = false;
     keys.forEach(key => {
         const keyParts = key.split('.');
         if (!isAdmin && keyParts[0] == 'solution') return;
@@ -371,12 +372,15 @@ function createSettingsTable() {
             if (partialKey != parts[i]) {
                 parts[i] = partialKey;
                 parts.length = i + 1;
-                htm += Html`<tr class="level${i}"><th colspan="2">${name.toUpperCase()}</th></tr>`;
+                const text = name.toUpperCase();
+                if (i == 0) isOdd = !isOdd;
+                htm += Html`<tr class="l${i}${isOdd ? ' odd' : ''}"><th colspan="2">${text}</th></tr>`;
             }
         }
         const name = keyParts[keyParts.length - 1];
+        const text = name.toLowerCase();
         const value = base[name];
-        htm += Html`<tr class="level${keyParts.length - 1}"><td>${name}</td><td>`;
+        htm += Html`<tr class="l${keyParts.length - 2}${isOdd ? ' odd' : ''}"><td>${text}</td><td>`;
         const def = defaultMapSettings[key];
         if (def.type == 'color') {
             const color = toColor(value);

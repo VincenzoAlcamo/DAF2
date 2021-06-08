@@ -604,25 +604,10 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   border: 0;
 }
 
-.tab_map .properties th,
-.tab_map .properties tr td,
-.tab_map .properties tr td input {
-  color: #000;
-}
-
-.tab_map .properties tr td input {
-  background-color: #FFF;
-}
-
-.tab_map .properties th {
-  text-align: left;
-  background-color: #0082;
-  padding-bottom: 0;
-}
-
 .tab_map .properties tr td {
   padding-top: 1px;
   padding-bottom: 1px;
+  border: none;
 }
 
 .tab_map .properties tr td img {
@@ -635,30 +620,46 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 
 .tab_map .properties tr td:first-child {
   text-align: right;
+  border-left: none;
 }
 
-.tab_map .properties tr.level0 {
-  background-color: #AAA;
+.tab_map .properties tr td:nth-child(2) {
+  background-color: var(--tr-bgcol2);
 }
 
-.tab_map .properties tr.level0 th {
-  padding-left: 4px;
+.tab_map .properties tr {
+  --col: 30deg;
+  --c1: hsl(var(--col) 40% 70%);
+  --c2: hsl(var(--col) 40% 55%)
+}
+.tab_map .properties tr.odd {
+  --col: 60deg;
 }
 
-.tab_map .properties tr.level1 {
-  background-color: #CCC;
+.tab_map .properties th {
+  text-align: left;
+  padding-bottom: 0;
+  border: none;
+  color: hsl(var(--col) 40% 10%);
 }
 
-.tab_map .properties tr.level1 th {
-  padding-left: 20px;
+.tab_map .properties tr.l0 th {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px);
+  padding-left: 8px;
+  border-top: 1px solid var(--tb-brcol);
 }
 
-.tab_map .properties tr.level2 {
-  background-color: #EEE;
+.tab_map .properties tr.l0 td:first-child {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--tr-bgcol) 8px);
 }
 
-.tab_map .properties tr.level2 th {
-  padding-left: 36px;
+.tab_map .properties tr.l1 th {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--c2) 8px);
+  padding-left: 16px;
+}
+
+.tab_map .properties tr.l1 td:first-child {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--c2) 8px, var(--c2) 16px, var(--tr-bgcol) 16px);
 }
 
 .tab_map .properties .toolbar {
@@ -666,10 +667,12 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 }
 
 .tab_map .properties .toolbar button {
-  width: 32px;
   border-radius: 4px;
   font-size: 25px;
-  padding: 0;
-  line-height: 26px;
-  font-weight: bold;
+  padding: 2px 4px;
+}
+
+.tab_map .properties .toolbar button img {
+  max-width: 24px;
+  max-height: 24px;
 }
