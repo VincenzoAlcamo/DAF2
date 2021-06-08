@@ -37,6 +37,7 @@ function init() {
 
     selectShow = container.querySelector('[name=show]');
     selectShow.addEventListener('change', refresh);
+    selectShow.querySelector('option[value="notcomplete"]').text = `${gui.getMessage('events_incomplete')} + ${gui.getMessage('events_notdone')}`;
 
     selectType = container.querySelector('[name=type]');
     selectType.addEventListener('change', refresh);
@@ -355,6 +356,7 @@ function refresh() {
         if (show == 'active' && item.end < now) return false;
         if (show == 'rerelease' && !item.start) return false;
         if ((show == 'complete' || show == 'incomplete' || show == 'notdone') && show != item.status) return false;
+        if (show == 'notcomplete'  && item.status == 'complete') return false;
         if (not_event == (item.tcollect > 0)) return false;
         if (year && item.yeartxt != year) return false;
         if (not_segmented == item.issegmented) return false;
