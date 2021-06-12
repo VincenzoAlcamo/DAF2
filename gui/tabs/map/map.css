@@ -1,3 +1,21 @@
+html {
+  --map-marker-special: #FF0;
+  --map-marker-quest: #F0F;
+  --map-marker-material: #0F0;
+  --map-marker-tile: #CCC;
+  --map-marker-arrow: #FF0;
+  --map-marker-color-0: #000;
+  --map-marker-color-1: #F00;
+  --map-marker-color-2: #0F0;
+  --map-marker-color-3: #FF0;
+  --map-marker-color-4: #00F;
+  --map-marker-color-5: #F0F;
+  --map-marker-color-6: #0FF;
+  --map-marker-color-7: #FFF;
+  --map-marker-color-8: #FA0;
+  --map-marker-color-9: #AAF;
+}
+
 body:not(.map-rendered) .tab_map .toolbar label:not(.actions),
 body:not(.map-rendered) .tab_map .toolbar label.actions button[data-action="save"],
 body:not(.map-rendered) .tab_map .toolbar img.location,
@@ -92,17 +110,17 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 }
 
 .tab_map .toolbar .special {
-  background-color: #FF0;
+  background-color: var(--map-marker-special);
   color: #000;
 }
 
 .tab_map .toolbar .quest {
-  background-color: #F0F;
+  background-color: var(--map-marker-quest);
   color: #000;
 }
 
 .tab_map .toolbar .material {
-  background-color: #0F0;
+  background-color: var(--map-marker-material);
   color: #000;
 }
 
@@ -367,7 +385,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 .tab_map .map .line {
   position: absolute;
   height: 10px;
-  background-color: #FF0;
+  background-color: var(--map-marker-arrow);
   border: 2px solid #000;
   transform-origin: 0px 5px;
   border-radius: 5px;
@@ -378,7 +396,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   position: absolute;
   height: 84px;
   width: 84px;
-  border: 10px solid #FF0;
+  border: 10px solid var(--map-marker-arrow);
   border-radius: 84px;
   margin-top: -11px;
   margin-left: -11px;
@@ -409,59 +427,59 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 }
 
 .tab_map .toolbar span.map_flags_m {
-  box-shadow: inset 0px -10px #0f0;
+  box-shadow: inset 0px -10px var(--map-marker-material);
 }
 
 .tab_map .toolbar span.map_flags_mq {
-  box-shadow: inset 0px -10px #0f0, 0px 3px #F0F;
+  box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest);
 }
 
 .tab_map .toolbar span.map_flags_mqs {
-  box-shadow: inset 0px -10px #0f0, 0px -3px #FF0, 0px 3px #F0F;
+  box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special), 0px 3px var(--map-marker-quest);
 }
 
 .tab_map .toolbar span.map_flags_mqst {
-  box-shadow: inset 0px -10px #0f0, 0px 3px #F0F, 0px -3px #FF0, inset 0px 10px #ccc;
+  box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_mqt {
-  box-shadow: inset 0px -10px #0f0, 0px 3px #F0F, inset 0px 10px #ccc;
+  box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_ms {
-  box-shadow: inset 0px -10px #0f0, 0px -3px #FF0;
+  box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special);
 }
 
 .tab_map .toolbar span.map_flags_mst {
-  box-shadow: inset 0px -10px #0f0, 0px -3px #FF0, inset 0px 10px #ccc;
+  box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_mt {
-  box-shadow: inset 0px -10px #0f0, inset 0px 10px #ccc;
+  box-shadow: inset 0px -10px var(--map-marker-material), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_q {
-  box-shadow: 0px 3px #F0F;
+  box-shadow: 0px 3px var(--map-marker-quest);
 }
 
 .tab_map .toolbar span.map_flags_qs {
-  box-shadow: 0px 3px #F0F, 0px -3px #FF0;
+  box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special);
 }
 
 .tab_map .toolbar span.map_flags_qst {
-  box-shadow: 0px 3px #F0F, 0px -3px #FF0, inset 0px 10px #ccc;
+  box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_qt {
-  box-shadow: 0px 3px #F0F, inset 0px 10px #ccc;
+  box-shadow: 0px 3px var(--map-marker-quest), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_s {
-  box-shadow: 0px -3px #FF0;
+  box-shadow: 0px -3px var(--map-marker-special);
 }
 
 .tab_map .toolbar span.map_flags_st {
-  box-shadow: 0px -3px #FF0, inset 0px 10px #ccc;
+  box-shadow: 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_t {
@@ -496,83 +514,83 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 }
 
 .tab_map .map td[data-col="0"] {
-  --col: #000;
+  --col: var(--map-marker-color-0);
 }
 
 .tab_map .map td[data-tcol="0"] {
-  --tcol: #000;
+  --tcol: var(--map-marker-color-0);
 }
 
 .tab_map .map td[data-col="1"] {
-  --col: #F00;
+  --col: var(--map-marker-color-1);
 }
 
 .tab_map .map td[data-tcol="1"] {
-  --tcol: #F00;
+  --tcol: var(--map-marker-color-1);
 }
 
 .tab_map .map td[data-col="2"] {
-  --col: #0F0;
+  --col: var(--map-marker-color-2);
 }
 
 .tab_map .map td[data-tcol="2"] {
-  --tcol: #0F0;
+  --tcol: var(--map-marker-color-2);
 }
 
 .tab_map .map td[data-col="3"] {
-  --col: #FF0;
+  --col: var(--map-marker-color-3);
 }
 
 .tab_map .map td[data-tcol="3"] {
-  --tcol: #FF0;
+  --tcol: var(--map-marker-color-3);
 }
 
 .tab_map .map td[data-col="4"] {
-  --col: #00F;
+  --col: var(--map-marker-color-4);
 }
 
 .tab_map .map td[data-tcol="4"] {
-  --tcol: #00F;
+  --tcol: var(--map-marker-color-4);
 }
 
 .tab_map .map td[data-col="5"] {
-  --col: #F0F;
+  --col: var(--map-marker-color-5);
 }
 
 .tab_map .map td[data-tcol="5"] {
-  --tcol: #F0F;
+  --tcol: var(--map-marker-color-5);
 }
 
 .tab_map .map td[data-col="6"] {
-  --col: #0FF;
+  --col: var(--map-marker-color-6);
 }
 
 .tab_map .map td[data-tcol="6"] {
-  --tcol: #0FF;
+  --tcol: var(--map-marker-color-6);
 }
 
 .tab_map .map td[data-col="7"] {
-  --col: #FFF;
+  --col: var(--map-marker-color-7);
 }
 
 .tab_map .map td[data-tcol="7"] {
-  --tcol: #FFF;
+  --tcol: var(--map-marker-color-7);
 }
 
 .tab_map .map td[data-col="8"] {
-  --col: #FA0;
+  --col: var(--map-marker-color-8);
 }
 
 .tab_map .map td[data-tcol="8"] {
-  --tcol: #FA0;
+  --tcol: var(--map-marker-color-8);
 }
 
 .tab_map .map td[data-col="9"] {
-  --col: #AAF;
+  --col: var(--map-marker-color-9);
 }
 
 .tab_map .map td[data-tcol="9"] {
-  --tcol: #AAF;
+  --tcol: var(--map-marker-color-9);
 }
 
 .tab_map .grid-container {
@@ -632,6 +650,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
   --c1: hsl(var(--col) 40% 70%);
   --c2: hsl(var(--col) 40% 55%)
 }
+
 .tab_map .properties tr.odd {
   --col: 60deg;
 }

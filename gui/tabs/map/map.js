@@ -126,34 +126,51 @@ const queue = {
 //#region SETTINGS
 let mapSettings = {};
 
+const colorSetting = (color, css) => { return { type: 'color', default: toColor(color), css }; };
+const intSetting = (num, min, max) => { return { type: 'int', min, max, default: num }; };
 const getDoorSettings = (prefix, width, color, roundness, borderWidth, borderColor, textColor) => {
     return {
-        [prefix + '.width']: { type: 'int', min: 20, max: TILE_SIZE / 2, default: width },
-        [prefix + '.color']: { type: 'color', default: color },
-        [prefix + '.roundness']: { type: 'int', min: 0, max: 100, default: roundness },
-        [prefix + '.border.width']: { type: 'int', min: 0, max: 8, default: borderWidth },
-        [prefix + '.border.color']: { type: 'color', default: borderColor },
-        [prefix + '.text.color']: { type: 'color', default: textColor },
+        [prefix + '.width']: intSetting(width, 20, TILE_SIZE / 2),
+        [prefix + '.color']: colorSetting(color),
+        [prefix + '.roundness']: intSetting(roundness, 0, 100),
+        [prefix + '.border.width']: intSetting(borderWidth, 0, 8),
+        [prefix + '.border.color']: colorSetting(borderColor),
+        [prefix + '.text.color']: colorSetting(textColor),
     };
 };
 const getArrowSettings = (prefix, width, color, borderWidth, borderColor) => {
     return {
-        [prefix + '.width']: { type: 'int', min: 1, max: 5, default: width },
-        [prefix + '.color']: { type: 'color', default: color },
-        [prefix + '.border.width']: { type: 'int', min: 0, max: 2, default: borderWidth },
-        [prefix + '.border.color']: { type: 'color', default: borderColor },
+        [prefix + '.width']: intSetting(width, 1, 5),
+        [prefix + '.color']: colorSetting(color),
+        [prefix + '.border.width']: intSetting(borderWidth, 0, 2),
+        [prefix + '.border.color']: colorSetting(borderColor),
     };
 };
 const defaultMapSettings = Object.assign({},
     {
-        'solution.color': { type: 'color', default: toColor('#0F0') },
-        'title.color': { type: 'color', default: toColor('#FFF') }
+        'solution.color': colorSetting('#0F0'),
+        'title.color': colorSetting('#FFF'),
+        'marker.arrow': colorSetting('#FF0', true),
+        'marker.special': colorSetting('#FF0', true),
+        'marker.quest': colorSetting('#F0F', true),
+        'marker.material': colorSetting('#0F0', true),
+        'marker.tile': colorSetting('#CCC', true),
+        'marker.color.0': colorSetting('#000', true),
+        'marker.color.1': colorSetting('#F00', true),
+        'marker.color.2': colorSetting('#0F0', true),
+        'marker.color.3': colorSetting('#FF0', true),
+        'marker.color.4': colorSetting('#00F', true),
+        'marker.color.5': colorSetting('#F0F', true),
+        'marker.color.6': colorSetting('#0FF', true),
+        'marker.color.7': colorSetting('#FFF', true),
+        'marker.color.8': colorSetting('#FA0', true),
+        'marker.color.9': colorSetting('#AAF', true),
     },
-    getDoorSettings('door', 26, toColor('#FFF'), 20, 4, toColor('#F00'), toColor('#000')),
-    getDoorSettings('entrance', 26, toColor('#090'), 20, 4, toColor('#0F0'), toColor('#FFF')),
-    getDoorSettings('teleport', 26, toColor('#FFF'), 20, 4, toColor('#F00'), toColor('#000')),
-    getArrowSettings('arrow', 3, toColor('#F8C'), 1, toColor('#400')),
-    getArrowSettings('arrow2', 3, toColor('#F00'), 1, toColor('#440'))
+    getDoorSettings('door', 26, '#FFF', 20, 4, '#F00', '#000'),
+    getDoorSettings('entrance', 26, '#090', 20, 4, '#0F0', '#FFF'),
+    getDoorSettings('teleport', 26, '#FFF', 20, 4, '#F00', '#000'),
+    getArrowSettings('arrow', 3, '#F8C', 1, '#400'),
+    getArrowSettings('arrow2', 3, '#F00', 1, '#440')
 );
 
 function toColor(value) {
@@ -164,6 +181,10 @@ function toColor(value) {
         return '#' + value.toLowerCase();
     }
     return null;
+}
+function toTripletColor(value) {
+    const s = toColor(value);
+    return s && [parseInt(value.substring(1, 3), 16) / 255, parseInt(value.substring(3, 5), 16) / 255, parseInt(value.substring(5, 7), 16) / 255];
 }
 function setMapSettings(obj, value) {
     if (typeof obj == 'string') obj = { [obj]: value };
@@ -192,6 +213,7 @@ function setMapSettings(obj, value) {
     mapSettings = {};
     Object.keys(result).sort().forEach(key => {
         const value = result[key];
+        if (defaultMapSettings[key].css) document.documentElement.style.setProperty('--map-' + key.replace(/\./g, '-'), value);
         let base = mapSettings, i;
         while ((i = key.indexOf('.')) > 0) {
             base = base[key.substr(0, i)] = base[key.substr(0, i)] || {};
@@ -2136,7 +2158,8 @@ async function drawMine(args) {
     await (bgp.Data.checkLocalization() || Promise.resolve(0));
     await Promise.all(Object.values(images).map(i => i.promise));
 
-    const specialColors = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1], [1, .7, 0], [.7, .7, 1]];
+    // const specialColors = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1], [1, .7, 0], [.7, .7, 1]];
+    const specialColors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => toTripletColor(mapSettings.marker.color[n]));
 
     const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
     const getMiscItem = (tileDef) => {
@@ -2634,7 +2657,11 @@ async function drawMine(args) {
     {
         const tilesByPosition = {};
         const tileAt = (x, y) => tilesByPosition[getTileKey(x, y)];
+        const hex2 = (n) => { const c = Math.round(n * 255).toString(16); return c.length == 1 ? '0' + c : c; };
         const unclearEdits = currentData.mine._p.ue || {}, edits = currentData.mine._p.e || {};
+        const specialColor = toTripletColor(mapSettings.marker.special);
+        const questColor = toTripletColor(mapSettings.marker.quest);
+        const materialColor = toTripletColor(mapSettings.marker.material);
         tileDefs.forEach(tileDef => {
             const { x, y } = tileDef, tileKey = getTileKey(x, y);
             let cell = null;
@@ -2646,7 +2673,7 @@ async function drawMine(args) {
                     getCell().setAttribute('data-col', edit.c);
                     return edit.c ? specialColors[edit.c] : null;
                 }
-                return tileDef.isQuest ? [1, 0, 1] : (tileDef.isSpecial ? [1, 1, 0] : (tileDef.isMaterial ? [0, 1, 0] : null));
+                return tileDef.isQuest ? questColor : (tileDef.isSpecial ? specialColor : (tileDef.isMaterial ? materialColor : null));
             };
             if (isUncleared) {
                 const edit = unclearEdits[tileKey];
@@ -2671,9 +2698,7 @@ async function drawMine(args) {
                 return 0;
             };
             const num = 1 + addCol(t1) + addCol(t2) + addCol(t3);
-            let max = Math.max(r, g, b);
-            if (max < num) max = max * 1.3;
-            ctx.fillStyle = '#' + Math.round(r * 15 / max).toString(16) + Math.round(g * 15 / max).toString(16) + Math.round(b * 15 / max).toString(16);
+            ctx.fillStyle = '#' + hex2(r / num) + hex2(g / num) + hex2(b / num);
             ctx.fillRect(x, y, w, h);
         };
         outlinedTiles.forEach(({ x, y, color }) => {
@@ -2690,7 +2715,7 @@ async function drawMine(args) {
         });
         outlinedTiles.forEach(({ x, y, color }) => {
             const sx = x * TILE_SIZE, sy = y * TILE_SIZE;
-            ctx.fillStyle = '#' + color.map(v => Math.round(v * 15).toString(16)).join('');
+            ctx.fillStyle = '#' + color.map(hex2).join('');
             ctx.fillRect(sx, sy, TILE_SIZE, SW);
             ctx.fillRect(sx, sy + TILE_SIZE - SW, TILE_SIZE, SW);
             ctx.fillRect(sx, sy + SW, SW, TILE_SIZE - SW * 2);
