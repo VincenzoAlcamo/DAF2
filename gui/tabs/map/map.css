@@ -483,7 +483,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 }
 
 .tab_map .toolbar span.map_flags_t {
-  box-shadow: inset 0px 10px #ccc;
+  box-shadow: inset 0px 10px var(--map-marker-tile);
 }
 
 /* EDITS */

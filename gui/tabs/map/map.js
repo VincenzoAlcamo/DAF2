@@ -126,8 +126,8 @@ const queue = {
 //#region SETTINGS
 let mapSettings = {};
 
-const colorSetting = (color, css) => { return { type: 'color', default: toColor(color), css }; };
-const intSetting = (num, min, max) => { return { type: 'int', min, max, default: num }; };
+const colorSetting = (color, extra) => Object.assign({ type: 'color', default: toColor(color) }, extra);
+const intSetting = (num, min, max, extra) => Object.assign({ type: 'int', min, max, default: num }, extra);
 const getDoorSettings = (prefix, width, color, roundness, borderWidth, borderColor, textColor) => {
     return {
         [prefix + '.width']: intSetting(width, 20, TILE_SIZE / 2),
@@ -146,25 +146,26 @@ const getArrowSettings = (prefix, width, color, borderWidth, borderColor) => {
         [prefix + '.border.color']: colorSetting(borderColor),
     };
 };
+const CSS = { css: true };
 const defaultMapSettings = Object.assign({},
     {
-        'solution.color': colorSetting('#0F0'),
+        'solution.color': colorSetting('#0F0', { admin: true }),
         'title.color': colorSetting('#FFF'),
-        'marker.arrow': colorSetting('#FF0', true),
-        'marker.special': colorSetting('#FF0', true),
-        'marker.quest': colorSetting('#F0F', true),
-        'marker.material': colorSetting('#0F0', true),
-        'marker.tile': colorSetting('#CCC', true),
-        'marker.color.0': colorSetting('#000', true),
-        'marker.color.1': colorSetting('#F00', true),
-        'marker.color.2': colorSetting('#0F0', true),
-        'marker.color.3': colorSetting('#FF0', true),
-        'marker.color.4': colorSetting('#00F', true),
-        'marker.color.5': colorSetting('#F0F', true),
-        'marker.color.6': colorSetting('#0FF', true),
-        'marker.color.7': colorSetting('#FFF', true),
-        'marker.color.8': colorSetting('#FA0', true),
-        'marker.color.9': colorSetting('#AAF', true),
+        'marker.arrow': colorSetting('#FF0', CSS),
+        'marker.special': colorSetting('#FF0', CSS),
+        'marker.quest': colorSetting('#F0F', CSS),
+        'marker.material': colorSetting('#0F0', CSS),
+        'marker.tile': colorSetting('#CCC', CSS),
+        'marker.color.0': colorSetting('#000', CSS),
+        'marker.color.1': colorSetting('#F00', CSS),
+        'marker.color.2': colorSetting('#0F0', CSS),
+        'marker.color.3': colorSetting('#FF0', CSS),
+        'marker.color.4': colorSetting('#00F', CSS),
+        'marker.color.5': colorSetting('#F0F', CSS),
+        'marker.color.6': colorSetting('#0FF', CSS),
+        'marker.color.7': colorSetting('#FFF', CSS),
+        'marker.color.8': colorSetting('#FA0', CSS),
+        'marker.color.9': colorSetting('#AAF', CSS),
     },
     getDoorSettings('door', 26, '#FFF', 20, 4, '#F00', '#000'),
     getDoorSettings('entrance', 26, '#090', 20, 4, '#0F0', '#FFF'),
@@ -376,16 +377,19 @@ function init() {
 }
 
 function createSettingsTable() {
-    const keys = Object.keys(defaultMapSettings).map(s => {
+    const keys = Object.keys(defaultMapSettings).filter(key => {
+        return isAdmin || defaultMapSettings[key].admin;
+    }).map(s => {
         const i = s.lastIndexOf('.');
         return [s.substr(0, i), s.substr(i + 1)];
-    }).sort((a, b) => gui.sortTextAscending(a[0], b[0]) || gui.sortTextAscending(a[1], b[1])).map(v => v[0] + '.' + v[1]);
+    }).sort((a, b) => {
+        return gui.sortTextAscending(a[0], b[0]) || gui.sortTextAscending(a[1], b[1]);
+    }).map(v => v[0] + '.' + v[1]);
     let htm = '<table style="width:100%">';
     const parts = [];
     let isOdd = false;
     keys.forEach(key => {
         const keyParts = key.split('.');
-        if (!isAdmin && keyParts[0] == 'solution') return;
         let base = mapSettings;
         for (let i = 0; i < keyParts.length - 1; i++) {
             const name = keyParts[i];
