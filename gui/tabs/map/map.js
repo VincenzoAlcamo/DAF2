@@ -1,4 +1,6 @@
 /*global bgp gui Dialog Locale Html PackTiles*/
+import ThemeEditor from '../../themeEditor.js';
+
 export default {
     hasCSS: true,
     init,
@@ -101,6 +103,7 @@ let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize, listMaterial;
 let unclearTilesToMix = {};
 let isEditMode = false, hasPendingEdits = false;
+const theme = new ThemeEditor();
 
 //#region QUEUE
 const queue = {
@@ -124,124 +127,56 @@ const queue = {
 //#endregion
 
 //#region SETTINGS
-let mapSettings = {};
-
-function toColor(value) {
-    value = String(value);
-    if (value[0] == '#') value = value.substr(1);
-    if (value.match(/^([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i)) {
-        if (value.length <= 4) value = value.split('').map(v => v + v).join('');
-        return '#' + value.toLowerCase();
-    }
-    return null;
-}
-function toTripletColor(value) {
-    const s = toColor(value);
-    return s && [parseInt(value.substring(1, 3), 16) / 255, parseInt(value.substring(3, 5), 16) / 255, parseInt(value.substring(5, 7), 16) / 255];
-}
-function getLuma(color) {
-    const rgb = (typeof color === 'string') ? toTripletColor(color) : color;
-    const luma = (0.2126 * rgb[0]) + (0.7152 * rgb[1]) + (0.0722 * rgb[2]); // SMPTE C, Rec. 709 weightings
-    return luma;
-}
-
-const colorSetting = (color, extra) => Object.assign({ type: 'color', default: toColor(color) }, extra);
-const intSetting = (num, min, max, extra) => Object.assign({ type: 'int', min, max, default: num }, extra);
-const getDoorSettings = (prefix, width, color, roundness, borderWidth, borderColor, textColor) => {
-    return {
-        [prefix + '.width']: intSetting(width, 20, TILE_SIZE / 2),
-        [prefix + '.color']: colorSetting(color),
-        [prefix + '.roundness']: intSetting(roundness, 0, 100),
-        [prefix + '.border.width']: intSetting(borderWidth, 0, 8),
-        [prefix + '.border.color']: colorSetting(borderColor),
-        [prefix + '.text.color']: colorSetting(textColor),
+function getThemeDefaults() {
+    const INT = ThemeEditor.Int;
+    const COL = ThemeEditor.Color;
+    const CSS = { css: true };
+    const CONTRAST = { contrast: 'fg' };
+    const DOOR = (prefix, width, color, roundness, borderWidth, borderColor, textColor) => {
+        return {
+            [prefix + '.width']: INT(width, 20, TILE_SIZE / 2),
+            [prefix + '.color']: COL(color),
+            [prefix + '.roundness']: INT(roundness, 0, 100),
+            [prefix + '.border.width']: INT(borderWidth, 0, 8),
+            [prefix + '.border.color']: COL(borderColor),
+            [prefix + '.text.color']: COL(textColor),
+        };
     };
-};
-const getArrowSettings = (prefix, width, color, borderWidth, borderColor) => {
-    return {
-        [prefix + '.width']: intSetting(width, 1, 5),
-        [prefix + '.color']: colorSetting(color),
-        [prefix + '.border.width']: intSetting(borderWidth, 0, 2),
-        [prefix + '.border.color']: colorSetting(borderColor),
+    const ARROW = (prefix, width, color, borderWidth, borderColor) => {
+        return {
+            [prefix + '.width']: INT(width, 1, 5),
+            [prefix + '.color']: COL(color),
+            [prefix + '.border.width']: INT(borderWidth, 0, 2),
+            [prefix + '.border.color']: COL(borderColor),
+        };
     };
-};
-const CSS = { css: true };
-const CSS_CONTRAST = { css: true, contrast: 'fg' };
-const defaultMapSettings = Object.assign({},
-    {
-        'solution.color': colorSetting('#0F0', { admin: true }),
-        'title.color': colorSetting('#FFF'),
-        'marker.arrow': colorSetting('#FF0', CSS),
-        'marker.special': colorSetting('#FF0', CSS_CONTRAST),
-        'marker.quest': colorSetting('#F0F', CSS_CONTRAST),
-        'marker.material': colorSetting('#0F0', CSS_CONTRAST),
-        'marker.tile': colorSetting('#CCC', CSS),
-        'marker.color.0': colorSetting('#000', CSS),
-        'marker.color.1': colorSetting('#F00', CSS),
-        'marker.color.2': colorSetting('#0F0', CSS),
-        'marker.color.3': colorSetting('#FF0', CSS),
-        'marker.color.4': colorSetting('#00F', CSS),
-        'marker.color.5': colorSetting('#F0F', CSS),
-        'marker.color.6': colorSetting('#0FF', CSS),
-        'marker.color.7': colorSetting('#FFF', CSS),
-        'marker.color.8': colorSetting('#FA0', CSS),
-        'marker.color.9': colorSetting('#AAF', CSS),
-    },
-    getDoorSettings('door', 26, '#FFF', 20, 4, '#F00', '#000'),
-    getDoorSettings('entrance', 26, '#090', 20, 4, '#0F0', '#FFF'),
-    getDoorSettings('teleport', 26, '#FFF', 20, 4, '#F00', '#000'),
-    getArrowSettings('arrow', 3, '#F8C', 1, '#400'),
-    getArrowSettings('arrow2', 3, '#F00', 1, '#440')
-);
+    const defaults = Object.assign({},
+        {
+            'solution.color': COL('#0F0', { admin: true }),
+            'title.color': COL('#FFF'),
+            'marker.arrow': COL('#FF0', CSS),
+            'marker.special': COL('#FF0', CSS, CONTRAST),
+            'marker.quest': COL('#F0F', CSS, CONTRAST),
+            'marker.material': COL('#0F0', CSS, CONTRAST),
+            'marker.tile': COL('#CCC', CSS),
+        },
+        DOOR('door', 26, '#FFF', 20, 4, '#F00', '#000'),
+        DOOR('entrance', 26, '#090', 20, 4, '#0F0', '#FFF'),
+        DOOR('teleport', 26, '#FFF', 20, 4, '#F00', '#000'),
+        ARROW('arrow', 3, '#F8C', 1, '#400'),
+        ARROW('arrow2', 3, '#F00', 1, '#440')
+    );
+    ['#000', '#F00', '#0F0', '#FF0', '#00F', '#F0F', '#0FF', '#FFF', '#FA0', '#AAF'].forEach((col, i) => defaults['marker.color.' + i] = COL(col, CSS));
+    return defaults;
+}
 
-function setMapSettings(obj, value) {
-    if (typeof obj == 'string') obj = { [obj]: value };
-    const result = {};
-    const scan = (prefix, obj) => {
-        if (!obj || typeof obj != 'object') return;
-        Object.entries(obj).forEach(([key, value]) => {
-            if (value && typeof value == 'object') return scan(prefix + key + '.', value);
-            const name = prefix + key;
-            const def = defaultMapSettings[name], type = def && def.type;
-            if (type == 'int') {
-                value = (value === null || value === undefined) ? NaN : +value;
-                value = Math.max(def.min, Math.min(def.max, isNaN(value) ? +def.default || 0 : value));
-            } else if (type == 'color') {
-                value = toColor(value) || def.default;
-            } else return;
-            if (typeof value === 'string' || !isNaN(value)) result[name] = value;
-        });
-    };
-    const oldValue = JSON.stringify(mapSettings);
-    Object.entries(defaultMapSettings).forEach(([key, value]) => result[key] = value.default);
-    if (obj !== null) {
-        scan('', mapSettings);
-        scan('', obj);
-    }
-    mapSettings = {};
-    Object.keys(result).sort().forEach(key => {
-        const value = result[key];
-        const isCss = defaultMapSettings[key].css, contrastSuffix = defaultMapSettings[key].contrast;
-        const contrastValue = contrastSuffix && getLuma(value) >= 0.647 ? '#000' : '#fff';
-        const cssName = isCss ? '--map-' + key.replace(/\./g, '-') : key;
-        if (isCss) {
-            document.documentElement.style.setProperty(cssName, value);
-            if (contrastSuffix) document.documentElement.style.setProperty(cssName + contrastSuffix, contrastValue);
-        }
-        let base = mapSettings, i;
-        while ((i = key.indexOf('.')) > 0) {
-            base = base[key.substr(0, i)] = base[key.substr(0, i)] || {};
-            key = key.substr(i + 1);
-        }
-        base[key] = value;
-        if (contrastSuffix) base[key + contrastSuffix] = contrastValue;
-    });
-    const newValue = JSON.stringify(mapSettings);
-    if (newValue != oldValue) {
+function setMapTheme(obj) {
+    theme.applySettings(obj);
+    const newValue = JSON.stringify(theme.settings);
+    if (newValue != gui.getPreference('mapSettings')) {
         gui.setPreference('mapSettings', newValue);
         queue.add(processMine);
     }
-    return mapSettings;
 }
 //#endregion
 
@@ -275,10 +210,17 @@ function init() {
 
     tableTileInfo = container.querySelector('.tile-info table');
 
-    mapSettings = {};
     const parseJSON = (value) => { try { return JSON.parse(value); } catch (e) { return null; } };
-    setMapSettings(parseJSON(gui.getPreference('mapSettings')));
-    createSettingsTable();
+    theme.init({
+        defaults: getThemeDefaults(),
+        settings: parseJSON(gui.getPreference('mapSettings')),
+        cssPrefix: 'map-',
+        isAdmin: isAdmin,
+        table: container.querySelector('.properties .table'),
+        tableCallback: setMapTheme,
+        tableDelay: 1000
+    });
+    theme.createSettingsTable();
 
     const slider = container.querySelector('.scrollable-content');
     map = slider.querySelector('.map');
@@ -388,77 +330,6 @@ function init() {
     container.addEventListener('tooltip', onTooltip);
 
     document.body.addEventListener('keydown', onKeydown);
-}
-
-function createSettingsTable() {
-    const keys = Object.keys(defaultMapSettings).filter(key => {
-        return isAdmin || defaultMapSettings[key].admin;
-    }).map(s => {
-        const i = s.lastIndexOf('.');
-        return [s.substr(0, i), s.substr(i + 1)];
-    }).sort((a, b) => {
-        return gui.sortTextAscending(a[0], b[0]) || gui.sortTextAscending(a[1], b[1]);
-    }).map(v => v[0] + '.' + v[1]);
-    let htm = '<table style="width:100%">';
-    const parts = [];
-    let isOdd = false;
-    keys.forEach(key => {
-        const keyParts = key.split('.');
-        let base = mapSettings;
-        for (let i = 0; i < keyParts.length - 1; i++) {
-            const name = keyParts[i];
-            base = base[name];
-            const partialKey = keyParts.slice(0, i + 1).join('.');
-            if (partialKey != parts[i]) {
-                parts[i] = partialKey;
-                parts.length = i + 1;
-                const text = name.toUpperCase();
-                if (i == 0) isOdd = !isOdd;
-                htm += Html`<tr class="l${i}${isOdd ? ' odd' : ''}"><th colspan="2">${text}</th></tr>`;
-            }
-        }
-        const name = keyParts[keyParts.length - 1];
-        const text = name.toLowerCase();
-        const value = base[name];
-        htm += Html`<tr class="l${keyParts.length - 2}${isOdd ? ' odd' : ''}"><td>${text}</td><td>`;
-        const def = defaultMapSettings[key];
-        if (def.type == 'color') {
-            const color = toColor(value);
-            htm += Html`<input name="${key}" type="color" value="${color}">`;
-            htm += Html`<img class="${def.default == color ? 'hidden' : ''}" src="/img/gui/check_no.png" title="${gui.getMessage('map_default')}">`;
-        } else if (def.type == 'int') {
-            const step = Math.max(1, Math.floor((def.max - def.min) / 10));
-            htm += Html`<input name="${key}" style="width:50px" type="number" min="${def.min}" max="${def.max}" step="${step}" value="${value}">`;
-            htm += Html`<img class="${def.default == value ? 'hidden' : ''}" src="/img/gui/check_no.png" title="${gui.getMessage('map_default')}">`;
-        }
-        htm += Html`</td></tr>`;
-    });
-    htm += `</table>`;
-    const parent = container.querySelector('.properties .table');
-    Dialog.htmlToDOM(parent, htm);
-    let settings = {}, handler = null;
-    const onInput = (event) => {
-        const input = event.target;
-        const img = input.nextElementSibling;
-        let value = input.value;
-        if (input.type == 'number') value = +value;
-        if (input.type == 'color') value = toColor(value);
-        settings[input.name] = value;
-        img.classList.toggle('hidden', value == defaultMapSettings[input.name].default);
-        if (handler) clearTimeout(handler);
-        handler = setTimeout(() => {
-            setMapSettings(settings);
-            settings = {};
-        }, 1000);
-    };
-    const onClick = (event) => {
-        const img = event.target;
-        const target = img.previousElementSibling;
-        target.value = defaultMapSettings[target.name].default;
-        onInput({ target });
-    };
-    parent.querySelectorAll('input').forEach(input => input.addEventListener('input', onInput));
-    parent.querySelectorAll('img').forEach(img => img.addEventListener('click', onClick));
 }
 
 function setStateButton(input, state = 0) {
@@ -694,7 +565,7 @@ function toggleSettings() {
     const el = container.querySelector('.properties');
     const flag = el.classList.contains('hidden');
     el.classList.toggle('hidden', !flag);
-    container.querySelector('.toolbar button[data-action="settings"]').classList.toggle('activated', flag);
+    container.querySelector('.toolbar button[data-action="theme"]').classList.toggle('activated', flag);
 }
 
 function toggleEditMode() {
@@ -716,17 +587,17 @@ function onClickButton(event) {
     } else if (action == 'theme') {
         toggleSettings();
     } else if (action == 'theme-reset') {
-        setMapSettings(null);
-        createSettingsTable();
+        setMapTheme(null);
+        theme.createSettingsTable();
     } else if (action == 'theme-export') {
-        gui.downloadData({ data: mapSettings, filename: 'daf2-map-theme.json' });
+        gui.downloadData({ data: theme.settings, filename: 'daf2-map-theme.json' });
     } else if (action == 'theme-import') {
         gui.chooseFile(async function (file) {
             try {
                 const data = await gui.readFile(file);
-                mapSettings = {};
-                setMapSettings(data);
-                createSettingsTable();
+                theme.settings = {};
+                setMapTheme(data);
+                theme.createSettingsTable();
                 gui.toast.show({ text: gui.getMessage('export_importsuccess'), delay: 2000, style: [Dialog.CLOSE] });
             } catch (error) {
                 gui.dialog.show({ title: gui.getMessage('export_import'), text: error.message || error, style: [Dialog.CRITICAL, Dialog.OK] });
@@ -994,7 +865,7 @@ function onTableClick(event) {
 }
 
 function update() {
-    isAdmin = bgp.Data.isMapper;
+    isAdmin = theme.isAdmin = bgp.Data.isMapper;
     canShowBonus = isFlagAllowed('B');
     canShowBeacon = isFlagAllowed('E');
     ({ cdn_root, versionParameter } = gui.getGenerator());
@@ -2120,6 +1991,7 @@ function setMapVisibility(flag) {
 }
 
 async function drawMine(args) {
+    const themeSettings = theme.settings;
     setMapVisibility(false);
     setWaitHandler();
     gui.updateTabState(tab);
@@ -2177,7 +2049,7 @@ async function drawMine(args) {
     await Promise.all(Object.values(images).map(i => i.promise));
 
     // const specialColors = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1], [1, .7, 0], [.7, .7, 1]];
-    const specialColors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => toTripletColor(mapSettings.marker.color[n]));
+    const specialColors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => ThemeEditor.toTripletColor(themeSettings.marker.color[n]));
 
     const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
     const getMiscItem = (tileDef) => {
@@ -2271,7 +2143,7 @@ async function drawMine(args) {
         // Show only one arrow for bidirectional teleports
         if (isBidi && sx + sy * cols > tx + ty * cols) return;
 
-        let base = isBidi ? mapSettings['arrow2'] : mapSettings['arrow'];
+        let base = isBidi ? themeSettings['arrow2'] : themeSettings['arrow'];
         const edits = currentData.mine._p.e;
         const tKey = 'tc_' + teleport.teleport_id;
         if (edits && tKey in edits) {
@@ -2677,9 +2549,9 @@ async function drawMine(args) {
         const tileAt = (x, y) => tilesByPosition[getTileKey(x, y)];
         const hex2 = (n) => { const c = Math.round(n * 255).toString(16); return c.length == 1 ? '0' + c : c; };
         const unclearEdits = currentData.mine._p.ue || {}, edits = currentData.mine._p.e || {};
-        const specialColor = toTripletColor(mapSettings.marker.special);
-        const questColor = toTripletColor(mapSettings.marker.quest);
-        const materialColor = toTripletColor(mapSettings.marker.material);
+        const specialColor = ThemeEditor.toTripletColor(themeSettings.marker.special);
+        const questColor = ThemeEditor.toTripletColor(themeSettings.marker.quest);
+        const materialColor = ThemeEditor.toTripletColor(themeSettings.marker.material);
         tileDefs.forEach(tileDef => {
             const { x, y } = tileDef, tileKey = getTileKey(x, y);
             let cell = null;
@@ -2751,7 +2623,7 @@ async function drawMine(args) {
             if (door) {
                 const isEntrance = door.miscType == 'N' && (door.fid == 1 || isRepeatable);
                 const name = door.name || (isEntrance ? '\u2196' : '?');
-                drawTextMarker(x, y, name, isEntrance ? mapSettings.entrance : mapSettings.door);
+                drawTextMarker(x, y, name, isEntrance ? themeSettings.entrance : themeSettings.door);
             }
         }
     }
@@ -2773,7 +2645,7 @@ async function drawMine(args) {
         if (img) {
             const { x, y } = tileDef;
             ctx.save();
-            ctx.fillStyle = mapSettings.solution.color;
+            ctx.fillStyle = themeSettings.solution.color;
             ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, (tileDef.rotation - 1) * Math.PI / 2);
             ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalWidth, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -2885,7 +2757,7 @@ async function drawMine(args) {
             const teleport = teleports[tileDef.teleportId];
             const target = teleport && teleports[teleport.target_teleport_id];
             if (!teleport || !target) continue;
-            drawTextMarker(tileDef.x, tileDef.y, teleport.name, mapSettings.teleport);
+            drawTextMarker(tileDef.x, tileDef.y, teleport.name, themeSettings.teleport);
         }
     }
 
@@ -3023,7 +2895,7 @@ async function drawMine(args) {
             ctx.font = 'bold 48px sans-serif';
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'center';
-            ctx.fillStyle = mapSettings.title.color;
+            ctx.fillStyle = themeSettings.title.color;
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 3;
             const x = Math.floor(canvas.width / 2), y = TILE_SIZE;
