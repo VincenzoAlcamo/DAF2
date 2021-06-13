@@ -1,7 +1,10 @@
 html {
   --map-marker-special: #FF0;
+  --map-marker-specialfg: #000;
   --map-marker-quest: #F0F;
+  --map-marker-questfg: #000;
   --map-marker-material: #0F0;
+  --map-marker-materialfg: #000;
   --map-marker-tile: #CCC;
   --map-marker-arrow: #FF0;
   --map-marker-color-0: #000;
@@ -111,17 +114,17 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 
 .tab_map .toolbar .special {
   background-color: var(--map-marker-special);
-  color: #000;
+  color: var(--map-marker-specialfg);
 }
 
 .tab_map .toolbar .quest {
   background-color: var(--map-marker-quest);
-  color: #000;
+  color: var(--map-marker-questfg);
 }
 
 .tab_map .toolbar .material {
   background-color: var(--map-marker-material);
-  color: #000;
+  color: var(--map-marker-materialfg);
 }
 
 .tab_map .toolbar th.special,

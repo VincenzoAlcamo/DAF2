@@ -126,6 +126,25 @@ const queue = {
 //#region SETTINGS
 let mapSettings = {};
 
+function toColor(value) {
+    value = String(value);
+    if (value[0] == '#') value = value.substr(1);
+    if (value.match(/^([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i)) {
+        if (value.length <= 4) value = value.split('').map(v => v + v).join('');
+        return '#' + value.toLowerCase();
+    }
+    return null;
+}
+function toTripletColor(value) {
+    const s = toColor(value);
+    return s && [parseInt(value.substring(1, 3), 16) / 255, parseInt(value.substring(3, 5), 16) / 255, parseInt(value.substring(5, 7), 16) / 255];
+}
+function getLuma(color) {
+    const rgb = (typeof color === 'string') ? toTripletColor(color) : color;
+    const luma = (0.2126 * rgb[0]) + (0.7152 * rgb[1]) + (0.0722 * rgb[2]); // SMPTE C, Rec. 709 weightings
+    return luma;
+}
+
 const colorSetting = (color, extra) => Object.assign({ type: 'color', default: toColor(color) }, extra);
 const intSetting = (num, min, max, extra) => Object.assign({ type: 'int', min, max, default: num }, extra);
 const getDoorSettings = (prefix, width, color, roundness, borderWidth, borderColor, textColor) => {
@@ -147,14 +166,15 @@ const getArrowSettings = (prefix, width, color, borderWidth, borderColor) => {
     };
 };
 const CSS = { css: true };
+const CSS_CONTRAST = { css: true, contrast: 'fg' };
 const defaultMapSettings = Object.assign({},
     {
         'solution.color': colorSetting('#0F0', { admin: true }),
         'title.color': colorSetting('#FFF'),
         'marker.arrow': colorSetting('#FF0', CSS),
-        'marker.special': colorSetting('#FF0', CSS),
-        'marker.quest': colorSetting('#F0F', CSS),
-        'marker.material': colorSetting('#0F0', CSS),
+        'marker.special': colorSetting('#FF0', CSS_CONTRAST),
+        'marker.quest': colorSetting('#F0F', CSS_CONTRAST),
+        'marker.material': colorSetting('#0F0', CSS_CONTRAST),
         'marker.tile': colorSetting('#CCC', CSS),
         'marker.color.0': colorSetting('#000', CSS),
         'marker.color.1': colorSetting('#F00', CSS),
@@ -174,19 +194,6 @@ const defaultMapSettings = Object.assign({},
     getArrowSettings('arrow2', 3, '#F00', 1, '#440')
 );
 
-function toColor(value) {
-    value = String(value);
-    if (value[0] == '#') value = value.substr(1);
-    if (value.match(/^([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i)) {
-        if (value.length <= 4) value = value.split('').map(v => v + v).join('');
-        return '#' + value.toLowerCase();
-    }
-    return null;
-}
-function toTripletColor(value) {
-    const s = toColor(value);
-    return s && [parseInt(value.substring(1, 3), 16) / 255, parseInt(value.substring(3, 5), 16) / 255, parseInt(value.substring(5, 7), 16) / 255];
-}
 function setMapSettings(obj, value) {
     if (typeof obj == 'string') obj = { [obj]: value };
     const result = {};
@@ -214,13 +221,20 @@ function setMapSettings(obj, value) {
     mapSettings = {};
     Object.keys(result).sort().forEach(key => {
         const value = result[key];
-        if (defaultMapSettings[key].css) document.documentElement.style.setProperty('--map-' + key.replace(/\./g, '-'), value);
+        const isCss = defaultMapSettings[key].css, contrastSuffix = defaultMapSettings[key].contrast;
+        const contrastValue = contrastSuffix && getLuma(value) >= 0.647 ? '#000' : '#fff';
+        const cssName = isCss ? '--map-' + key.replace(/\./g, '-') : key;
+        if (isCss) {
+            document.documentElement.style.setProperty(cssName, value);
+            if (contrastSuffix) document.documentElement.style.setProperty(cssName + contrastSuffix, contrastValue);
+        }
         let base = mapSettings, i;
         while ((i = key.indexOf('.')) > 0) {
             base = base[key.substr(0, i)] = base[key.substr(0, i)] || {};
             key = key.substr(i + 1);
         }
         base[key] = value;
+        if (contrastSuffix) base[key + contrastSuffix] = contrastValue;
     });
     const newValue = JSON.stringify(mapSettings);
     if (newValue != oldValue) {
@@ -691,7 +705,7 @@ function toggleEditMode() {
 }
 
 function onClickButton(event) {
-    const action = event.target.getAttribute('data-action');
+    const action = this.getAttribute('data-action');
     if (action == 'save') {
         if (!currentData || !canvas) return;
         if (event.ctrlKey && isAdmin) saveAllImages(); else saveImage();
@@ -699,14 +713,14 @@ function onClickButton(event) {
         showAdvancedOptions();
     } else if (action == 'edit') {
         toggleEditMode();
-    } else if (action == 'settings') {
+    } else if (action == 'theme') {
         toggleSettings();
-    } else if (action == 'settings-reset') {
+    } else if (action == 'theme-reset') {
         setMapSettings(null);
         createSettingsTable();
-    } else if (action == 'settings-export') {
-        gui.downloadData({ data: mapSettings, filename: 'map-settings.json' });
-    } else if (action == 'settings-import') {
+    } else if (action == 'theme-export') {
+        gui.downloadData({ data: mapSettings, filename: 'daf2-map-theme.json' });
+    } else if (action == 'theme-import') {
         gui.chooseFile(async function (file) {
             try {
                 const data = await gui.readFile(file);
