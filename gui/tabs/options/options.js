@@ -1,4 +1,6 @@
 /*global bgp chrome gui Html Dialog Locale*/
+import ThemeEditor from '../../themeEditor.js';
+
 export default {
     hasCSS: true,
     init: init,
@@ -9,12 +11,104 @@ export default {
 };
 
 let tab, container, searchInput;
+const theme = new ThemeEditor();
+
+function getThemeDefaults() {
+    const CSS = { /*css: true*/ };
+    const COL = (value) => ThemeEditor.Color(value, CSS);
+    const defaults = Object.assign({},
+        {
+            'vm.brcol': COL('#000'),
+            'vm.bgcol': COL('#999'),
+            'vm.item.bgcol': COL('#CCC'),
+            'vm.item.fgcol': COL('#333'),
+            'vm.item.hov.bgcol': COL('#EE9'),
+            'vm.item.hov.fgcol': COL('#006'),
+            'vm.item.sel.bgcol': COL('#E7E7E7'),
+            'vm.item.sel.fgcol': COL('#000'),
+            'ssb.thumb.hov.bgcol': COL('#FF0'),
+            'tb.brcol': COL('#368'),
+            'tb.fgcol': COL('#000'),
+            'tb.hlcol': COL('#FF0'),
+            'tb.hlfgcol': COL('#000'),
+            'th.fgcol': COL('#FFF'),
+            'th.bgcol': COL('#28B'),
+            'td.brcol': COL('#AAA'),
+            'tr.bgcol': COL('#F5F5F5'),
+            'tr.bgcol2': COL('#E7E7E7'),
+            'crd.fgcol': COL('#FFF'),
+            'crd.brcol': COL('#777'),
+            'crd.bgcol': COL('#A6A6A6'),
+            'crd.bgcol2': COL('#E7E7E7'),
+            'tt.fgcol': COL('#FFF'),
+            'tt.bgcol': COL('#378'),
+            'tt.button.bgcol': COL('#9CE'),
+            'tt.button.fgcol': COL('#000'),
+            'tt.button.hlcol': COL('#4F4'),
+            'tt.outline': COL('#000'),
+            'tt.outlined.fgcol': COL('#FFA'),
+            'tt.input.bgcol': COL('#FFF'),
+            'tt.input.fgcol': COL('#000'),
+            'tt.input.brcol': COL('#000'),
+            'pb.brcol': COL('#000'),
+            'pb.bgcol': COL('#678'),
+            'pb.fgcol': COL('#AE8'),
+            'pb.fgcol2': COL('#EE8'),
+            'pb.fgcol3': COL('#8EE'),
+            'outline.color': COL('#000'),
+            'warn.bgcol': COL('#F40'),
+            'warn.fgcol': COL('#FFF'),
+            'success.bgcol': COL('#0A0'),
+            'success.fgcol': COL('#FFF'),
+        },
+    );
+    return defaults;
+}
+
+function setTheme(obj) {
+    theme.applySettings(obj);
+    // const newValue = JSON.stringify(theme.settings);
+    // if (newValue != gui.getPreference('mapSettings')) {
+    //     gui.setPreference('mapSettings', newValue);
+    //     queue.add(processMine);
+    // }
+}
+//#endregion
 
 function init() {
     tab = this;
     container = tab.container;
 
     let htm = '';
+
+    theme.init({
+        defaults: getThemeDefaults(),
+        settings: null,
+        table: container.querySelector('.properties .table'),
+        tableCallback: setTheme,
+        tableDelay: 1000,
+        replacements: {
+            vm: 'vertical menu',
+            pb: 'progress bar',
+            crd: 'card',
+            tt: 'toolbar',
+            tb: 'table',
+            td: 'table cell',
+            th: 'table heading',
+            tr: 'table row',
+            hov: 'hover',
+            sel: 'selected',
+            bgcol: 'back color',
+            bgcol2: 'back color 2',
+            brcol: 'border color',
+            fgcol: 'fore color',
+            fgcol2: 'fore color 2',
+            fgcol3: 'fore color 3',
+            hlcol: 'highlight',
+            hlfgcol: 'highlight fore'
+        }
+    });
+    theme.createSettingsTable();
 
     const CRITICAL = 'C';
     const WITHSUBOPTIONS = 'P';

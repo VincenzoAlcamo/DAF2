@@ -1539,3 +1539,131 @@ div.equipment_mask {
 }
 
 /*#endregion*/
+
+/*#region THEME PANEL PROPERTIES*/
+.theme-panel {
+  width: 200px;
+  background-color: #AAA;
+  overflow-y: scroll;
+}
+
+.theme-panel table {
+  border: 0;
+}
+
+.theme-panel tr td {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border: none;
+}
+
+.theme-panel tr td img {
+  width: 16px;
+  height: 16px;
+  margin-left: -16px;
+  margin-top: 1px;
+  float: right;
+  cursor: pointer;
+}
+
+.theme-panel tr td input {
+  width: 50px;
+  height: 19px;
+}
+
+.theme-panel tr td:first-child {
+  text-align: right;
+  border-left: none;
+  width: 100%;
+}
+
+.theme-panel tr td:nth-child(2) {
+  background-color: var(--tr-bgcol2);
+  min-width: 74px;
+  padding-right: 2px;
+}
+
+.theme-panel tr {
+  --col: 30deg;
+  --c1: hsl(var(--col) 40% 70%);
+  --c2: hsl(var(--col) 40% 58%);
+  --c3: hsl(var(--col) 40% 48%);
+}
+
+.theme-panel tr.odd {
+  --col: 60deg;
+}
+
+.theme-panel th {
+  text-align: left;
+  padding-bottom: 0;
+  border: none;
+  color: hsl(var(--col) 40% 10%);
+}
+
+.theme-panel tr.l0 th {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px);
+  padding-left: 8px;
+  border-top: 1px solid var(--tb-brcol);
+}
+
+.theme-panel tr.l0 td:first-child {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--tr-bgcol) 8px);
+}
+
+.theme-panel tr.l1 th {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--c2) 8px);
+  padding-left: 16px;
+}
+
+.theme-panel tr.l1 td:first-child {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--c2) 8px, var(--c2) 16px, var(--tr-bgcol) 16px);
+}
+
+.theme-panel tr.l2 th {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--c2) 8px, var(--c2) 16px, var(--c3) 16px);
+  padding-left: 24px;
+}
+
+.theme-panel tr.l2 td:first-child {
+  background: linear-gradient(90deg, var(--c1) 0px, var(--c1) 8px, var(--c2) 8px, var(--c2) 16px, var(--c3) 16px, var(--c3) 24px, var(--tr-bgcol) 24px);
+}
+
+.theme-panel .toolbar {
+  padding: 1px;
+}
+
+.theme-panel .toolbar button {
+  border-radius: 4px;
+  font-size: 25px;
+  padding: 2px 4px;
+}
+
+.theme-panel .toolbar button img {
+  max-width: 24px;
+  max-height: 24px;
+}
+
+.grid-theme-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "TOOLBAR TOOLBAR""THEME CONTENT";
+  overflow: hidden;
+  height: 100%;
+}
+
+.grid-theme-container>.toolbar {
+  grid-area: TOOLBAR;
+}
+
+.grid-theme-container>.theme-panel {
+  grid-area: THEME;
+}
+
+.grid-theme-container .scrollable-content {
+  grid-area: CONTENT;
+}
+
+/*#endregion*/

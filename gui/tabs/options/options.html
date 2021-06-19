@@ -1,7 +1,17 @@
-<div class="toolbar">
-    <label>
-        <span data-i18n-text="gui_search"></span>
-        <input name="search" type="text" maxlength="40">
-    </label>
+<div class="grid-theme-container">
+    <div class="toolbar">
+        <label>
+            <span data-i18n-text="gui_search"></span>
+            <input name="search" type="text" maxlength="40">
+        </label>
+    </div>
+    <div class="theme-panel properties hidden">
+        <div class="toolbar">
+            <button data-action="theme-export" data-i18n-title="export_export"><img src="/img/gui/exp.png"></button>
+            <button data-action="theme-import" data-i18n-title="export_import"><img src="/img/gui/imp.png"></button>
+            <button data-action="theme-reset" data-i18n-title="map_default"><img src="/img/gui/check_no.png"></button>
+        </div>
+        <div class="table"></div>
+    </div>
+    <div class="scrollable-content"></div>
 </div>
-<div class="scrollable-content"></div>

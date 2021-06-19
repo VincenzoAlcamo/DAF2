@@ -8,12 +8,13 @@ class ThemeEditor {
     init(config) {
         if (!config) config = {};
         this.defaults = config.defaults || {};
-        this.settings = config.settings || {};
-        this.cssPrefix = config.cssPrefix || {};
+        this.cssPrefix = config.cssPrefix || '';
         this.isAdmin = !!config.isAdmin;
         this.table = config.table;
         this.tableCallback = config.tableCallback;
         this.tableDelay = +config.tableDelay || 500;
+        this.replacements = config.replacements || {};
+        this.applySettings(config.settings);
     }
 
     applySettings(obj, value) {
@@ -62,7 +63,7 @@ class ThemeEditor {
     createSettingsTable() {
         const { defaults, settings } = this;
         const keys = Object.keys(defaults).filter(key => {
-            return this.isAdmin || defaults[key].admin;
+            return this.isAdmin || !defaults[key].admin;
         }).map(s => {
             const i = s.lastIndexOf('.');
             return [s.substr(0, i), s.substr(i + 1)];
@@ -82,13 +83,13 @@ class ThemeEditor {
                 if (partialKey != parts[i]) {
                     parts[i] = partialKey;
                     parts.length = i + 1;
-                    const text = name.toUpperCase();
+                    const text = (this.replacements[name] || name).toUpperCase();
                     if (i == 0) isOdd = !isOdd;
                     htm += Html`<tr class="l${i}${isOdd ? ' odd' : ''}"><th colspan="2">${text}</th></tr>`;
                 }
             }
             const name = keyParts[keyParts.length - 1];
-            const text = name.toLowerCase();
+            const text = (this.replacements[name] || name).toLowerCase();
             const value = base[name];
             htm += Html`<tr class="l${keyParts.length - 2}${isOdd ? ' odd' : ''}"><td>${text}</td><td>`;
             const def = defaults[key];
@@ -98,7 +99,7 @@ class ThemeEditor {
                 htm += Html`<img class="${def.default == color ? 'hidden' : ''}" src="/img/gui/check_no.png" title="${gui.getMessage('map_default')}">`;
             } else if (def.type == 'int') {
                 const step = Math.max(1, Math.floor((def.max - def.min) / 10));
-                htm += Html`<input name="${key}" style="width:50px" type="number" min="${def.min}" max="${def.max}" step="${step}" value="${value}">`;
+                htm += Html`<input name="${key}" type="number" min="${def.min}" max="${def.max}" step="${step}" value="${value}">`;
                 htm += Html`<img class="${def.default == value ? 'hidden' : ''}" src="/img/gui/check_no.png" title="${gui.getMessage('map_default')}">`;
             }
             htm += Html`</td></tr>`;

@@ -126,7 +126,7 @@ const queue = {
 };
 //#endregion
 
-//#region SETTINGS
+//#region THEME
 function getThemeDefaults() {
     const INT = ThemeEditor.Int;
     const COL = ThemeEditor.Color;
@@ -561,7 +561,7 @@ async function saveAllImages() {
     await processMine(mine);
 }
 
-function toggleSettings() {
+function toggleThemeEditor() {
     const el = container.querySelector('.properties');
     const flag = el.classList.contains('hidden');
     el.classList.toggle('hidden', !flag);
@@ -585,7 +585,7 @@ function onClickButton(event) {
     } else if (action == 'edit') {
         toggleEditMode();
     } else if (action == 'theme') {
-        toggleSettings();
+        toggleThemeEditor();
     } else if (action == 'theme-reset') {
         setMapTheme(null);
         theme.createSettingsTable();
