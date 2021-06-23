@@ -756,6 +756,7 @@ var Data = {
             Synchronize.repeatables = '';
             Data.getFile('childs');
             Data.getFile('productions');
+            Data.getFile('special_weeks');
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
             tx = Data.db.transaction('Files', 'readwrite');
@@ -1537,6 +1538,26 @@ var Data = {
         }
         return data;
     },
+    isFasterProduction: function () {
+        const weeks = Data.files.special_weeks;
+        if (weeks !== Data.ifp_data) {
+            Data.ifp_data = weeks;
+            delete Data.ifp_start;
+            Object.values(weeks).forEach(sw => {
+                if (sw.type == 'prod_time') {
+                    const start = +sw.start;
+                    if (!Data.ifp_start || start > Data.ifp_start) {
+                        Data.ifp_start = start;
+                        Data.ifp_finish = +sw.finish;
+                    }
+                }
+            });
+        }
+        const start = Data.ifp_start;
+        if (!start) return false;
+        const now = getUnixTime();
+        return now >= start && now < Data.ifp_finish;
+    },
     getConfigValue: function (name, defaultValue = 0) {
         let result = NaN;
         try {
@@ -1695,8 +1716,8 @@ var Synchronize = {
         } else if (action == 'start') {
             prod.cargo = 0;
             const prodId = prod[prodName] = +task[prodName];
-            const items = Data.files.productions, item = items[prodId];
-            prod[finishName] = item ? Math.floor(task.time) + +item.duration : 0;
+            const items = Data.files.productions, item = items && items[prodId];
+            prod[finishName] = item ? Math.floor(task.time) + Math.floor(+item.duration * (Data.isFasterProduction() ? 0.5 : 1)) : 0;
             Data.setTimer(Data.checkProductions, 1);
         } else if (action == 'cancel') {
             prod.cargo = 0;
