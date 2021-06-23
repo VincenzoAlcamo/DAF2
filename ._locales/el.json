@@ -871,9 +871,6 @@
     "map_positionrandom": {
         "message": "Η τοποθεσία είναι τυχαία"
     },
-    "map_settings": {
-        "message": "Ρυθμίσεις"
-    },
     "map_default": {
         "message": "Επαναφορά σε προεπιλεγμένα"
     },

@@ -871,9 +871,6 @@
     "map_positionrandom": {
         "message": "A pozíció véletlenszerű"
     },
-    "map_settings": {
-        "message": "Beállítások"
-    },
     "map_default": {
         "message": "Visszaállítás alapértékre"
     },

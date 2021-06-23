@@ -871,9 +871,6 @@
     "map_positionrandom": {
         "message": "Случайное расположение"
     },
-    "map_settings": {
-        "message": "Настройки"
-    },
     "map_default": {
         "message": "Сбросить настройку"
     },

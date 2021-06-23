@@ -871,9 +871,6 @@
     "map_positionrandom": {
         "message": "Positionen er tilfældig"
     },
-    "map_settings": {
-        "message": "Indstillinger"
-    },
     "map_default": {
         "message": "Sæt tilbage til standard"
     },
