@@ -786,25 +786,28 @@ const gui = {
         select.appendChild(option);
     },
     fileChooser: null,
-    chooseFile: function (callback, accept) {
-        if (!gui.fileChooser) {
+    chooseFile: function (callback, accept, multiple) {
+        let input = gui.fileChooser;
+        if (!input) {
             const form = document.createElement('form');
-            gui.fileChooser = document.createElement('input');
-            gui.fileChooser.type = 'file';
-            gui.fileChooser.addEventListener('change', function () {
+            input = gui.fileChooser = document.createElement('input');
+            input.type = 'file';
+            input.addEventListener('change', function () {
                 const callback = gui.fileChooserCallback;
                 delete gui.fileChooserCallback;
                 try {
-                    if (callback) callback(gui.fileChooser.files[0]);
+                    const files = Array.from(input.files);
+                    if (callback) callback(input.multiple ? files : files[0]);
                 } finally {
                     form.reset();
                 }
             });
-            form.appendChild(gui.fileChooser);
+            form.appendChild(input);
         }
-        gui.fileChooser.accept = accept || '';
         gui.fileChooserCallback = callback;
-        gui.fileChooser.click();
+        input.accept = accept || '';
+        input.multiple = !!multiple;
+        input.click();
     },
     hasRuntimeError: function (info) {
         // This is necessary to avoid unchecked runtime errors from Chrome
