@@ -119,6 +119,7 @@ html.dark .camp .line {
 .camp-data td[numreg]:hover,
 .camp-data td[bid]:hover {
   background-color: var(--tb-hlcol);
+  color: var(--tb-hlfgcol);
 }
 
 .camp .item {
@@ -255,12 +256,20 @@ html.dark .camp .item.building.img {
 
 .camp .item.capacity.selected {
   --hicolor: #0167CD;
-  background-color: #00FFFF;
+  background-color: #0FF;
 }
 
 .camp .item.regen.selected {
   --hicolor: #177516;
-  background-color: #FFFF00;
+  background-color: #FF0;
+}
+
+html.dark .camp .item.capacity.selected {
+  --hicolor: #0FF;
+}
+
+html.dark .camp .item.regen.selected {
+  --hicolor: #FF0;
 }
 
 .camp .item.capacity.selected,
