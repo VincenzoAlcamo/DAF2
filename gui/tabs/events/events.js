@@ -159,6 +159,7 @@ function update() {
         item.gems = (+event.premium > 0 ? +event.gems_price : 0) || NaN;
         const edata = eventData[eid];
         const info = gui.getEventInfo(event);
+        if (!info.valid) continue;
         item.start = (edata && +edata.started) || NaN;
         item.end = (edata && +edata.finished) || info.end;
         item.year = info.year;

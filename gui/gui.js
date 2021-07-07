@@ -224,12 +224,13 @@ const gui = {
         if (eid == 136) end = 1606219200;
         // Fix bug in Halloween 2019 end date
         const start = (event && +event.start) || 0;
-        if ((end - start) / 86400 > 28) end = start + 14 * 86400;
-        return {
-            end,
-            // compute the year as END - 14 days
-            year: end - 14 * 86400
-        };
+        if (start > 0 && (end - start) / 86400 > 28) end = start + 14 * 86400;
+        // compute the year as END - 14 days
+        const year = Math.max(0, end - 14 * 86400);
+        let valid = true;
+        // Animal Hospital
+        if (eid == 148 && year == 0) valid = false;
+        return { end, year, valid };
     },
     getLocProg: function (lid) {
         const prog = bgp.Data.loc_prog[lid];
@@ -870,7 +871,7 @@ const gui = {
             setTimeout(() => a.parentNode.removeChild(a), 2000);
         }
     },
-    readFile: function(file) {
+    readFile: function (file) {
         return new Promise(function (resolve, _reject) {
             if (!file.name.toLowerCase().endsWith('.json') && file.type != 'application/json') throw new Error(gui.getMessage('export_invalidexport'));
             const reader = new FileReader();
