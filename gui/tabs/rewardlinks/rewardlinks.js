@@ -160,6 +160,7 @@ function init() {
     });
 
     checkAutoClick = container.querySelector('[name=autoclick]');
+    checkAutoClick.addEventListener('click', clickNextButton);
 
     checkBackground = container.querySelector('[name=background]');
     checkBackground.addEventListener('click', saveState);
@@ -567,7 +568,10 @@ function clickNextButton() {
         else button = input.parentNode.nextElementSibling.firstElementChild;
     }
     if (button) button.click();
-    else checkAutoClick.checked = false;
+    else {
+        checkAutoClick.checked = false;
+        gui.toast.show({ text: gui.getMessage('rewardlinks_autoclick_end'), style: [Dialog.CLOSE] });
+    }
 }
 
 function update() {
