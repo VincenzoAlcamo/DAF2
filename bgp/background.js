@@ -561,7 +561,7 @@ var Data = {
         Data.pillars = {};
         Data.loc_prog = {};
         tx.objectStore('Files').getAll().then(values => {
-            const mineCache = [];
+            const mineCache = Data.mineCache = {};
             for (const file of values) {
                 if (file.id == 'generator') Data.setGenerator(file.data);
                 if (file.id == 'localization') Data.storeLocalization(file);
@@ -569,9 +569,12 @@ var Data = {
                 if (file.id == 'repeatables') Data.repeatables = file.data || {};
                 if (file.id == 'expByMaterial') Data.pillars.expByMaterial = file.data;
                 if (file.id == 'loc_prog') Data.loc_prog = file.data;
-                if (file.id.startsWith('mine_')) mineCache.push(file.data);
+                if (file.id.startsWith('mine_')) {
+                    const { id: lid, level_id: fid } = file.data;
+                    mineCache[lid] = mineCache[lid] || {};
+                    mineCache[lid][fid] = file.data;
+                }
             }
-            Data.mineCache = mineCache.sort((a, b) => b.time - a.time);
         });
         tx.objectStore('Neighbours').getAll().then(values => {
             for (const pal of values) {
@@ -1372,13 +1375,16 @@ var Data = {
     lastEnteredMine: null,
     lastEnteredMineProgress: null,
     lastViewedMine: null,
-    mineCache: [],
+    mineCache: {},
     addMine: function (mine, progress) {
         const mines = asArray(mine).reverse();
         for (const mine of mines) {
             const { id: lid, level_id: fid } = mine;
-            const index = Data.mineCache.findIndex(m => m.id == lid && m.level_id == fid);
-            mine._p = mine._p || (index >= 0 ? Data.mineCache[index]._p : null) || { links: {} };
+            let mines = Data.mineCache[lid];
+            if (!mines) mines = Data.mineCache[lid] = {};
+            const old = mines[fid];
+            mines[fid] = mine;
+            mine._p = mine._p || (old && old._p) || { links: {} };
             if (mine.tiles) {
                 const packed = PackTiles.pack(mine.tiles);
                 delete mine.tiles;
@@ -1391,30 +1397,24 @@ var Data = {
                     }
                 }
             }
-            if (index >= 0) Data.mineCache.splice(index, 1);
-            Data.mineCache.unshift(mine);
         }
         Data.saveMine(mine);
-        if (Data.mineCache.length <= MINECACHE_LIMIT) return;
-        // Cache is at its limit, get all the mine id in the cache order
-        const hash = {};
-        const list = [];
-        const listRep = [];
+        const keys = Object.keys(Data.mineCache);
+        if (keys.length <= MINECACHE_LIMIT) return;
+        // Cache is at its limit, find the lowest used one
         const showRepeatables = Preferences.getValue('mapShowRepeatables');
-        Data.mineCache.forEach((m, index) => {
-            if (!(m.id in hash)) {
-                hash[m.id] = true;
-                if (showRepeatables || index == 0 || !(m.id in Data.repeatables)) list.push(m.id);
-                else listRep.push(m.id);
-            }
+        let removeId = 0, removeIsRep = false, removeTime = +Infinity;
+        keys.forEach(lid => {
+            const isRep = lid in Data.repeatables;
+            if (!showRepeatables && !isRep && removeIsRep) return;
+            const time = Object.values(Data.mineCache[lid]).reduce((time, mine) => Math.max(time, mine.time), 0);
+            if (time > removeTime) return;
+            removeId = lid;
+            removeIsRep = isRep;
+            removeTime = time;
         });
-        if (!showRepeatables) listRep.forEach(id => list.push(id));
-        while (Data.mineCache.length >= MINECACHE_LIMIT) {
-            // Get the last used location id and remove all mines for that location
-            const removeId = list.pop();
-            Data.removeMine(Data.mineCache.filter(m => m.id == removeId));
-            Data.mineCache = Data.mineCache.filter(m => m.id != removeId);
-        }
+        Data.removeMine(Object.values(Data.mineCache[removeId]));
+        delete Data.mineCache[removeId];
     },
     setLastEnteredMine: function (mine) {
         mine.entered = getUnixTime();
@@ -1460,12 +1460,11 @@ var Data = {
         Data.saveMine(mine, true);
     },
     removeStoredMines: function (mineId) {
-        const minesId = asArray(mineId).map(o => +o || 0);
-        const mines = Data.mineCache.filter(m => minesId.includes(m.id));
-        if (mines.length) {
-            Data.removeMine(mines);
-            Data.mineCache = Data.mineCache.filter(m => !minesId.includes(m.id));
-        }
+        asArray(mineId).forEach(lid => {
+            if (!(lid in Data.mineCache)) return;
+            Data.removeMine(Object.values(Data.mineCache));
+            delete Data.mineCache[lid];
+        });
     },
     //#endregion
     //#region FILES

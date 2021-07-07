@@ -57,7 +57,16 @@ function getViewed(tileDefs, setAllVisibility) {
 }
 
 const getMapKey = (mine) => mine ? JSON.stringify([mine.id, mine.level_id]) : '';
-const findMine = (lid, fid) => bgp.Data.mineCache.find(m => m.id == lid && (m.level_id == fid || fid == -1));
+const findMine = (lid, fid) => {
+    const mines = bgp.Data.mineCache[lid];
+    if (!mines) return null;
+    if (fid > 0) return mines[fid];
+    let max = null;
+    Object.values(mines).forEach(mine => {
+        if (!max || mine.time > max.time) max = mine;
+    });
+    return max;
+};
 const setLastViewedMine = (mine) => bgp.Data.lastViewedMine = getMapKey(mine);
 const getLastViewedMine = () => {
     try {
@@ -607,27 +616,35 @@ function onClickButton(event) {
         if (!currentData || !canvas) return;
         const isLocation = action == 'export_location';
         const unclear = event.ctrlKey ? {} : null;
-        const data = prepareFloorData(isLocation ? bgp.Data.mineCache.filter(m => m.id == currentData.lid) : [currentData.mine], unclear);
+        const data = prepareFloorData(isLocation ? Object.values(bgp.Data.mineCache[currentData.lid]) : [currentData.mine], unclear);
         const isFull = unclear ? unclear.num == data.length : false;
         const filename = `${getLocationName(currentData.lid, currentData.location)}${isLocation ? '' : `_floor${currentData.fid}`}.${isFull ? 'full' : ''}map.json`;
         gui.downloadData({ data, filename, path: getDownloadPath() });
         if (unclear) gui.toast.show(isFull ? { text: 'All floors were uncleared!' } : { text: 'Not all floors were uncleared!', style: Dialog.CRITICAL });
     } else if (action == 'import') {
-        gui.chooseFile(async function (file) {
-            try {
-                const invalidExport = new Error(gui.getMessage('export_invalidexport'));
-                const data = await gui.readFile(file);
-                if (!Array.isArray(data) || data.length == 0) throw invalidExport;
-                const lid = data[0].id;
-                for (const mine of data) if (mine.id != lid || !(+mine.level_id > 0)) throw invalidExport;
-                bgp.Data.addMine(data);
-                gui.toast.show({ text: gui.getMessage('export_importsuccess'), delay: 2000, style: [Dialog.CLOSE] });
-                const mine = bgp.Data.mineCache[0];
-                queue.add(async () => await processMine(mine));
-            } catch (error) {
-                gui.dialog.show({ title: gui.getMessage('gui_export'), text: error.message || error, style: [Dialog.CRITICAL, Dialog.OK] });
+        gui.chooseFile(async function (files) {
+            let lastLid = 0, lastError = '';
+            for (const file of files) {
+                try {
+                    const invalidExport = new Error(gui.getMessage('export_invalidexport'));
+                    const data = await gui.readFile(file);
+                    if (!Array.isArray(data) || data.length == 0) throw invalidExport;
+                    const lid = data[0].id;
+                    for (const mine of data) if (mine.id != lid || !(+mine.level_id > 0)) throw invalidExport;
+                    bgp.Data.addMine(data);
+                    lastLid = lid;
+                } catch (error) {
+                    lastError = error.message || error;
+                }
             }
-        }, '.json');
+            if (lastLid) {
+                const mine = findMine(lastLid, -1);
+                queue.add(async () => await processMine(mine));
+                gui.toast.show({ text: gui.getMessage('export_importsuccess'), delay: 2000, style: [Dialog.CLOSE] });
+            } else {
+                gui.dialog.show({ title: gui.getMessage('gui_export'), text: lastError, style: [Dialog.CRITICAL, Dialog.OK] });
+            }
+        }, '.json', true);
     }
 }
 
@@ -715,7 +732,7 @@ function showAdvancedOptions() {
                 dialog.remove();
                 if (method == Dialog.CONFIRM) {
                     bgp.Data.removeStoredMines(mines);
-                    if (bgp.Data.mineCache.length == 0) {
+                    if (Object.keys(bgp.Data.mineCache).length == 0) {
                         gui.dialog.hide();
                         setNoMines();
                     } else {
@@ -817,7 +834,7 @@ function onTableClick(event) {
             const door2 = door1 && currentData.doors[door1.to];
             if (!door1 || !door2) return;
             const door = door1.miscType == 'X' ? door1 : door2;
-            mine = bgp.Data.mineCache.find(m => m.id == currentData.lid && m.level_id == door.fid);
+            mine = findMine(currentData.lid, door.fid);
             if (!mine) return;
             key = `x_${door.id}`;
             value = prompt('Enter door name', door.name);
@@ -1317,7 +1334,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     Object.entries(edits).forEach(([key, value]) => { if (isKeyForDoor(key)) usedNames[value] = value; });
     const locationMines = {};
     locationMines[mine.level_id] = mine;
-    bgp.Data.mineCache.filter(m => m.id == lid).forEach(m => locationMines[m.level_id] = m);
+    if (lid in bgp.Data.mineCache) Object.values(bgp.Data.mineCache[lid]).forEach(m => locationMines[m.level_id] = m);
     let numExits = 0;
     const setDoorPosition = (door, x, y) => {
         if (!door) return;
@@ -1864,7 +1881,15 @@ function determineCurrentMine(selectedMine) {
         return mine;
     };
 
-    return isValid(selectedMine) || isValid(getLastViewedMine()) || isValid(bgp.Data.lastEnteredMine) || bgp.Data.mineCache.find(isValid) || false;
+    let mine = isValid(selectedMine) || isValid(getLastViewedMine()) || isValid(bgp.Data.lastEnteredMine);
+    if (!mine) {
+        Object.values(bgp.Data.mineCache).forEach(mines => {
+            Object.values(mines).forEach(m => {
+                if (m.time > (mine ? mine.time : 0) && isValid(m)) mine = m;
+            });
+        });
+    }
+    return mine;
 }
 
 function setWaitHandler() {
@@ -1904,7 +1929,7 @@ function getMineList(groupLocations, showRepeatables, currentMine, selection) {
         options[id] = [groupName + ' ' + name, `<option value="${id}"${selection.indexOf(',' + id + ',') >= 0 ? ' selected' : ''}>${name}</option>`, groupName];
     };
     if (currentMine) addOption(currentMine.id, currentMine.region);
-    for (const m of bgp.Data.mineCache) addOption(m.id, m.region);
+    Object.values(bgp.Data.mineCache).forEach(mines => Object.values(mines).forEach(m => addOption(m.id, m.region)));
     const values = Object.values(options);
     values.sort((a, b) => gui.sortTextAscending(a[0], b[0]));
     let htm = '';
