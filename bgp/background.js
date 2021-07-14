@@ -1462,7 +1462,7 @@ var Data = {
     removeStoredMines: function (mineId) {
         asArray(mineId).forEach(lid => {
             if (!(lid in Data.mineCache)) return;
-            Data.removeMine(Object.values(Data.mineCache));
+            Data.removeMine(Object.values(Data.mineCache[lid]));
             delete Data.mineCache[lid];
         });
     },
