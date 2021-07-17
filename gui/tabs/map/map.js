@@ -1487,15 +1487,23 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         delete tileDef.beaconPart;
     };
     const layerFns = {
-        'misc': (tileDef, value, _values) => {
+        'misc': (tileDef, value, values) => {
             // 0 = remove
             // B_beaconid_partid_active = set active
+            // more value = use the next
             // else toggle active
             if (value == '0') {
                 removeBeacon(tileDef);
                 return;
             }
             let active;
+            if (values.length > 1) {
+                const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
+                const current = beaconPart ? tileDef.miscType + '_' + tileDef.miscId + '_' + tileDef.beaconPart + '_' + (beaconPart.active ? '1' : '0') : '';
+                let index = values.indexOf(current) + 1;
+                if (index == values.length) index = 0;
+                value = values[index];
+            }
             if (value) {
                 const v = value.split('_');
                 tileDef.miscId = +v[1] || 0;
