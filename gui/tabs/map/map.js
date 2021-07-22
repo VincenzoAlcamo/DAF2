@@ -1593,7 +1593,8 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
     const setBeaconPartActive = (tileDef, beacon, beaconPart, flag) => {
         beaconPart.active = flag;
         if (!beacon) return false;
-        if (flag || beaconPart.type == 'two-way') {
+        // two-way beacon does always trigger ?
+        if (flag || (beaconPart.type == 'two-way' && asArray(beacon.parts.part).length == 1)) {
             // if (beaconPart.type == 'one-way') removeBeacon(tileDef);
             if (!asArray(beacon.parts.part).find(p => p.active != flag)) return executeBeaconActions(beacon);
         }
