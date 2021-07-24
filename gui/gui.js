@@ -218,19 +218,22 @@ const gui = {
     getEventInfo: function (event) {
         if (typeof event == 'number') event = bgp.Data.files.events[event];
         const eid = event ? +event.def_id : 0;
+        const tutorial = +event.tutorial_event_id > 0;
         let end = (event && +event.end) || 0;
         if (!end && eid == 14) end = 1393326000;
         if (!end && eid == 15) end = 1395745200;
+        // Fix end date for tutorial events
+        if (!end && tutorial) {
+            const event2 = gui.getEventInfo(eid - 1);
+            if (event2 && event2.eid) end = event2.end + 86400;
+        }
         if (eid == 136) end = 1606219200;
         // Fix bug in Halloween 2019 end date
         const start = (event && +event.start) || 0;
         if (start > 0 && (end - start) / 86400 > 28) end = start + 14 * 86400;
         // compute the year as END - 14 days
         const year = Math.max(0, end - 14 * 86400);
-        let valid = true;
-        // Animal Hospital
-        if (eid == 148 && year == 0) valid = false;
-        return { end, year, valid };
+        return { eid, end, year, tutorial };
     },
     getLocProg: function (lid) {
         const prog = bgp.Data.loc_prog[lid];

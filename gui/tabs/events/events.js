@@ -159,7 +159,7 @@ function update() {
         item.gems = (+event.premium > 0 ? +event.gems_price : 0) || NaN;
         const edata = eventData[eid];
         const info = gui.getEventInfo(event);
-        if (!info.valid) continue;
+        item.tutorial = info.tutorial;
         item.start = (edata && +edata.started) || NaN;
         item.end = (edata && +edata.finished) || info.end;
         item.year = info.year;
@@ -402,13 +402,15 @@ function refresh() {
     smartTable.syncLater();
 }
 
+const tutorialInfo = Html`<br><div class="tutorial warning">Tutorial Event</div>`;
+
 function updateRow(row) {
     const id = row.getAttribute('data-eid');
     const item = allEvents[id];
     let htm = '';
     let img = item.img && Html`<img src="${item.img}" title="${item.name}" style="height:32px" class="tooltip-event">`;
     htm += Html.br`<td>${img}</td>`;
-    htm += Html.br`<td>${item.name}</td>`;
+    htm += Html.br`<td>${item.name}${item.tutorial ? tutorialInfo : ''}</td>`;
     htm += Html.br`<td>${item.year ? Locale.formatYear(item.year) : ''}</td>`;
     img = '';
     if (item.issegmented) {

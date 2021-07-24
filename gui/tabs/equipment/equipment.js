@@ -232,7 +232,7 @@ function update() {
             events[eid] = region;
         }
         const info = gui.getEventInfo(event);
-        if (info.valid) allEvents[eid] = { id: eid, year: info.year };
+        allEvents[eid] = { id: eid, year: info.year };
     }
 
     allItems = {};
