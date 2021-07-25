@@ -278,10 +278,11 @@ function playSound(sound, volume = 100) {
     if (!sound || !volume) return;
     volume = +volume / 100;
     const last = playSound.last = playSound.last || {};
-    if (last.sound == sound && (!last.ended || last.ended + 2 > getUnixTime())) return;
+    if (last.sound == sound && (!last.ended || last.ended + 5 > getUnixTime())) return;
     if (last.audio) try { last.audio.pause(); } catch (e) { }
     const audio = last.audio = new Audio(last.sound = sound);
     audio.volume = volume;
+    last.ended = 0;
     audio.play().then(_ => 0).finally(_ => {
         if (audio == last.audio) {
             last.audio = null;
