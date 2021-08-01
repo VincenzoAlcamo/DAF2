@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Auto-klik\nKlik automatisch op de volgende geselecteerde beloning nadat een beloning is verzameld"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Er kunnen geen geselecteerde links worden aangeklikt.\nVerlopen of geclaimde links worden altijd genegeerd."
+    },
     "rewardlinks_addlinks": {
         "message": "Links toevoegen"
     },

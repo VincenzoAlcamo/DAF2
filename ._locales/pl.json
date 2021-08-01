@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Auto-klik\nAutomatycznie kliknij następną nagrodę po tym, jak nagroda została zebrana"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Żadne wybrane linki nie można kliknąć.\nWygasłe lub zebrane linki są zawsze ignorowane."
+    },
     "rewardlinks_addlinks": {
         "message": "Dodaj linki"
     },

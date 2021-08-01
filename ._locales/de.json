@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Auto-Klick\nAutomatisches Klicken auf die nächste ausgewählte Belohnung, nachdem eine Belohnung gesammelt wurde."
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Es können keine ausgewählten Links angeklickt werden.\nAbgelaufene oder beanspruchte Links werden immer ignoriert."
+    },
     "rewardlinks_addlinks": {
         "message": "Link hinzufügen"
     },

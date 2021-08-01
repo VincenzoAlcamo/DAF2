@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Auto-klik\nKlikker automatisk den næste udvalgte belønning efter en belønning er samlet."
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Ingen valgte links kan klikkes på.\nUdløbne links eller links, der er taget, bliver altid ignoreret."
+    },
     "rewardlinks_addlinks": {
         "message": "Tilføj links"
     },

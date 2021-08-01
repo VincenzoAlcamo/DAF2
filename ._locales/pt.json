@@ -144,7 +144,7 @@
         "message": "Oferta"
     },
     "gui_tieredoffer": {
-        "message": "Oferta em camadas"
+        "message": "Oferta progressiva"
     },
     "gui_pack": {
         "message": "Pacote"
@@ -1468,6 +1468,9 @@
     },
     "rewardlinks_autoclick": {
         "message": "Clique automático\nClique automaticamente no próximo prêmio selecionado depois que um prêmio for coletado"
+    },
+    "rewardlinks_autoclick_end": {
+        "message": "Nenhum link selecionado pode ser clicado.\nLinks expirados ou reivindicados são sempre ignorados."
     },
     "rewardlinks_addlinks": {
         "message": "Adicionar links"

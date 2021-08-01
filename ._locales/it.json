@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Click automatico\nClicca automaticamente il prossimo link ricompensa selezionato dopo che una ricompensa è stata raccolta\n"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Nessun link selezionato può essere cliccato.\nI link già raccolti o scaduti sono sempre ignorati."
+    },
     "rewardlinks_addlinks": {
         "message": "Aggiungi link"
     },

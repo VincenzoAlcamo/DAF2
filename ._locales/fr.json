@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Clic automatique\nCliquez automatiquement sur la prochaine récompense sélectionnée après qu'une récompense a été collectée"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Aucun lien sélectionné ne peut être cliqué.\nLes liens expirés ou réclamés sont toujours ignorés."
+    },
     "rewardlinks_addlinks": {
         "message": "Ajouter"
     },

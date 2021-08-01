@@ -1469,8 +1469,11 @@
     "rewardlinks_autoclick": {
         "message": "Clic automático\nHaga clic automáticamente en la siguiente recompensa seleccionada después de que se haya recolectado la recompensa"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "No se puede hacer clic en los enlaces seleccionados.\nLos enlaces vencidos o reclamados son ignorados."
+    },
     "rewardlinks_addlinks": {
-        "message": "agregar enlaces"
+        "message": "Agregar enlaces"
     },
     "rewardlinks_pasteadd": {
         "message": "Pegue aquí los enlaces para agregar, luego presione el botón \"$CONFIRM$\"",
@@ -1553,7 +1556,7 @@
         "message": "Este enlace está roto o no funciona."
     },
     "rewardlinks_infomaxreached": {
-        "message": "Este enlace se ha recopilado mientras se alcanzó el límite máximo diario.\nLos enlaces recogidos de esta manera se pierden para siempre.."
+        "message": "Este enlace se ha recogido mientras se alcanzó el límite máximo diario.\nLos enlaces recogidos de esta manera se pierden para siempre."
     },
     "rewardlinks_infomayexceedlimit": {
         "message": "Hay otras recompensas cuya recolección está pendiente.Esto puede exceder su límite diario."

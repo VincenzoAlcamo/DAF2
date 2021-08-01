@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Auto-klik\nAutomaticky kliknúť na ďalšiu vybranú odmenu, keď bola iná už prebratá"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Nie je možné kliknúť na žiadne vybrané odkazy.\nVypršané alebo prevzaté odkazy sú vždy ignorované."
+    },
     "rewardlinks_addlinks": {
         "message": "Pridať odkazy"
     },

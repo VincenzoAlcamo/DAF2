@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Auto-klik\nAutomaticky kliknout na další vybranou odměnu, když byla jiná převzata"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Nelze kliknout na žádný z vybraných odkazů.\nProšlé a sebrané odměny se ignorují."
+    },
     "rewardlinks_addlinks": {
         "message": "Přidat odkazy"
     },

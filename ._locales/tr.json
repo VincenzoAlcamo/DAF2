@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Otomatik-tıklama\nBir ödül toplandıktan sonra seçilen sonraki ödülü otomatik olarak tıklayın"
     },
+    "rewardlinks_autoclick_end": {
+        "message": "Seçilen bağlantıların hiçbiri tıklanamaz.\nSüresi dolan veya talep edilen bağlantılar her zaman yoksayılır."
+    },
     "rewardlinks_addlinks": {
         "message": "Linkleri ekleyin"
     },
