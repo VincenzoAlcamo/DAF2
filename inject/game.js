@@ -561,7 +561,7 @@ function createMenu() {
 `;
     // remove spaces
     html = html.replace(/>\s+/g, '>');
-    addStylesheet(chrome.extension.getURL('inject/game_menu.css'), function () {
+    addStylesheet(chrome.runtime.getURL('inject/game_menu.css'), function () {
         styleLoaded = true;
         showMenu();
     });
@@ -710,7 +710,7 @@ function init() {
         // Set body height to 100% so we can use height:100% in miner
         document.body.style.height = '100%';
         // insert link for condensed font
-        addStylesheet(chrome.extension.getURL('inject/game_gctable.css'), function () {
+        addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'), function () {
             gcTableStyle = true;
         });
     } else {

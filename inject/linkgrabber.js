@@ -63,7 +63,7 @@ function initialize() {
     const link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = chrome.extension.getURL('inject/linkgrabber.css');
+    link.href = chrome.runtime.getURL('inject/linkgrabber.css');
     document.head.appendChild(link);
     setShowId();
     addListeners(window, mousedown, keydown, keyup, blur, contextmenu);

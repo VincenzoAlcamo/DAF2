@@ -5,7 +5,7 @@ if (!document.getElementById('DAF-md-style'))
         id: 'DAF-md-style',
         type: 'text/css',
         rel: 'stylesheet',
-        href: chrome.extension ? chrome.extension.getURL('css/Dialog.css') : 'Dialog.css'
+        href: chrome.runtime ? chrome.runtime.getURL('css/Dialog.css') : 'Dialog.css'
     }));
 
 function Dialog(mode = Dialog.MODAL) {

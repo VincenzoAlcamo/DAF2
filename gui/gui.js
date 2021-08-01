@@ -1184,7 +1184,7 @@ async function processLanguages() {
     const langs = {};
     for (const lang of bgp.Data.guiLanguages) {
         const messages = langs[lang] = {};
-        const items = JSON.parse(await (await fetch(chrome.extension.getURL('/._locales/' + lang + '.json'))).text());
+        const items = JSON.parse(await (await fetch(chrome.runtime.getURL('/._locales/' + lang + '.json'))).text());
         for (const [key, item] of Object.entries(items)) {
             messages[key] = item.message;
             if (item.placeholders) {

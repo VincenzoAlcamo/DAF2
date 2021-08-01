@@ -237,7 +237,7 @@ var Message = {
 var Tab = {
     gameTabId: null,
     guiTabId: null,
-    GUI_URL: chrome.extension.getURL('gui/gui.html'),
+    GUI_URL: chrome.runtime.getURL('gui/gui.html'),
     tabExcluded: {},
     init: function () {
         chrome.tabs.onUpdated.addListener(Tab.onUpdated);
