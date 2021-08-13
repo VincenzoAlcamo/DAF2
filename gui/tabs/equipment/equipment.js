@@ -430,7 +430,7 @@ function update() {
     let title = gui.getMessage('equipment_gain') + '\n' + gui.getMessage('equipment_gain_info') + ':';
     title += '\n' + gui.getMessage('camp_capacity') + ' = ' + Locale.formatNumber(minCapacity);
     title += '\n' + gui.getMessage('camp_regen') + ' = ' + Locale.formatNumber(minRegen);
-    Array.from(container.querySelectorAll('thead [sort-name=gain] img')).forEach(el => {
+    Array.from(container.querySelectorAll('thead [data-sort-name=gain] img')).forEach(el => {
         el.title = title;
     });
     refresh();

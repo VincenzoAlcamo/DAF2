@@ -30,7 +30,7 @@
   background-color: rgba(255, 0, 0, 0.2);
 }
 
-.equipment th[sort-name=type] img {
+.equipment th[data-sort-name=type] img {
   width: 24px;
   height: 24px;
   margin: -4px 0;

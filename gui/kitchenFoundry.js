@@ -97,7 +97,7 @@ function kitchenFoundry(type) {
         const divWeeks = container.querySelector('.toolbar .weeks');
         Dialog.htmlToDOM(divWeeks, htm.join(''));
         divWeeks.style.display = htm.length ? '' : 'none';
-        for (const el of Array.from(container.querySelectorAll('[sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
+        for (const el of Array.from(container.querySelectorAll('[data-sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
         if (selectRegion) {

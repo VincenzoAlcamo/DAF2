@@ -91,7 +91,7 @@ Object.assign(SmartTable.prototype, {
         for (el = e.target; el && el.tagName != 'TABLE'; el = el.parentNode)
             if (el.tagName == 'TH') break;
         if (!el || el.tagName != 'TH' || !(el.classList.contains('sortable') || el.classList.contains('sortable-sub'))) return;
-        const name = el.getAttribute('sort-name');
+        const name = el.getAttribute('data-sort-name');
         if (!name) return;
         if (this.hasSortableSub) {
             const sortInfo = el.classList.contains('sortable-sub') ? this.sortSub : this.sort;
@@ -114,7 +114,7 @@ Object.assign(SmartTable.prototype, {
     isValidSortName: function (name, isSub) {
         if (!this.header || !name) return false;
         for (const el of this.header.querySelectorAll(this.hasSortableSub && isSub ? 'th.sortable-sub' : 'th.sortable')) {
-            if (el.getAttribute('sort-name') == name) return true;
+            if (el.getAttribute('data-sort-name') == name) return true;
         }
         return false;
     },
@@ -134,7 +134,7 @@ Object.assign(SmartTable.prototype, {
         for (const thead of [this.header, this.fixedHeader]) {
             if (!thead) continue;
             for (const el of thead.querySelectorAll('th.sortable-sub,th.sortable')) {
-                const name = el.getAttribute('sort-name');
+                const name = el.getAttribute('data-sort-name');
                 let isSub = false;
                 let sortInfo = null;
                 if (name == this.sort.name) {
