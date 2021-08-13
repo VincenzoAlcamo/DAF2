@@ -36,7 +36,7 @@ function init() {
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
-    checkId = container.querySelector('[name=id');
+    checkId = container.querySelector('[name=showid]');
     checkId.addEventListener('click', refresh);
 
     trGifts = document.createElement('tr');
@@ -116,7 +116,7 @@ function setState(state) {
         state.exp1 = state.filter;
         delete state.filter;
     }
-    checkId.checed = state.id && bgp.Data.isAdmin;
+    checkId.checked = state.id && bgp.Data.isAdmin;
     filterExp = Math.max(0, Math.min(filterExpressions.length, +state.exp || 0)) || undefined;
     filterExpressions.forEach((value, index) => filterExpressions[index] = String(state['exp' + (index + 1)] || '').trim());
     gui.setSortState(state.sort, smartTable, 'name');

@@ -1,5 +1,17 @@
-/*global chrome Locale Dialog UrlInfo Html Tooltip imported_tabs*/
+/*global chrome Locale DOMPurify Dialog UrlInfo Html Tooltip imported_tabs*/
 const bgp = chrome.extension.getBackgroundPage();
+
+DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+    // set all elements owning target to target=_blank
+    if ('target' in node) {
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener');
+    }
+});
+function htmlToDOM(parent, html) {
+    parent.innerHTML = DOMPurify.sanitize(html);
+    if (DOMPurify.removed.length) console.warn('removed', DOMPurify.removed);
+}
 
 let currentTab = null;
 const tabs = (function () {
@@ -943,7 +955,7 @@ function onLoad() {
     }
     htm += Html`<li class="last"></li>`;
     let div = document.querySelector('.vertical-menu');
-    Dialog.htmlToDOM(div, htm);
+    htmlToDOM(div, htm);
     div.addEventListener('click', clickMenu, true);
     div.addEventListener('scroll', e => e.target.style.setProperty('--scroll-y', (-e.target.scrollTop - 1)) + 'px', true);
 
@@ -1057,7 +1069,7 @@ async function loadTab(tab) {
         });
         resource_count += requires.length;
         const promises = [];
-        promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => Dialog.htmlToDOM(container, text))));
+        promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => htmlToDOM(container, text))));
         for (const name of requires) {
             promises.push(bgp.Data.getFile(name).then(_ => advanceProgress()));
         }
@@ -1067,7 +1079,7 @@ async function loadTab(tab) {
         tab.isLoaded = true;
         tab.mustBeUpdated = true;
     } catch (e) {
-        Dialog.htmlToDOM(container, Html.br`Error: ${e}`);
+        htmlToDOM(container, Html.br`Error: ${e}`);
         console.error(e);
     } finally {
         container.style.display = '';
@@ -1129,7 +1141,7 @@ function updateCurrentTab() {
 //#region TEXT INFO
 function translate(parent) {
     for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
-    for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Dialog.htmlToDOM(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
+    for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) htmlToDOM(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
 }
 //#endregion
 

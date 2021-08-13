@@ -65,7 +65,7 @@ function init() {
 
     trRegion = container.querySelector('.trRegion');
 
-    container.querySelector('[name=close]').addEventListener('click', () => {
+    container.querySelector('[data-action=close]').addEventListener('click', () => {
         selectedEventId = selectedInfo = null;
         showInfo();
     });
