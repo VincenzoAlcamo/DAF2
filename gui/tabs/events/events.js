@@ -357,7 +357,7 @@ function refresh() {
         if (show == 'active' && item.end < now) return false;
         if (show == 'rerelease' && !item.start) return false;
         if ((show == 'complete' || show == 'incomplete' || show == 'notdone') && show != item.status) return false;
-        if (show == 'notcomplete'  && item.status == 'complete') return false;
+        if (show == 'notcomplete' && item.status == 'complete') return false;
         if (not_event == (item.tcollect > 0)) return false;
         if (year && item.yeartxt != year) return false;
         if (not_segmented == item.issegmented) return false;
@@ -471,6 +471,7 @@ function updateRow(row) {
     item.row = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
     item.row.setAttribute('data-eid', id);
     row.replaceWith(item.row);
+    return item.row;
 }
 
 function onTooltip(event) {
@@ -484,7 +485,7 @@ function onTooltip(event) {
     const img = item.img_missing ? img2 : img1;
     const imgFull = img && Html`<img src="${img}" class="full">`;
     let htm = '';
-    htm += Html.br`<div class="events-tooltip"><img src="${item.img}"}" class="outlined"/>${imgFull}<span>${item.name}</span>`;
+    htm += Html.br`<div class="events-tooltip"><img src="${item.img}" class="outlined"/>${imgFull}<span>${item.name}</span>`;
     if (description != '#') htm += Html.br`<span class="desc">${description}</span>`;
     htm += Html.br`</div>`;
     Tooltip.show(element, htm, 'e');
@@ -541,7 +542,7 @@ function showInfo() {
     };
 
     const event = selectedEventId ? gui.getFile('events')[selectedEventId] : null;
-    const row = selectedEventId && event ? smartTable.tbody[0].querySelector('tr[data-eid="' + selectedEventId + '"]') : null;
+    let row = selectedEventId && event ? smartTable.tbody[0].querySelector('tr[data-eid="' + selectedEventId + '"]') : null;
 
     ensureSmartTableExtra();
     if (trRegion.parentNode) trRegion.parentNode.removeChild(trRegion);
@@ -564,7 +565,7 @@ function showInfo() {
 
     if (row.getAttribute('data-lazy') !== null) {
         row.removeAttribute('data-lazy');
-        updateRow(row);
+        row = updateRow(row);
     }
     htmlToDOM(fixedBody, '');
     const clone = row.cloneNode(true);
