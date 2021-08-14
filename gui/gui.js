@@ -757,6 +757,12 @@ const gui = {
             avg: avgValue * doubleDropCoeff
         };
     },
+    createCanvas: function(width, height) {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        return canvas;
+    },
     setupScreenshot: function (element, filename = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
@@ -790,9 +796,7 @@ const gui = {
         });
         target.addEventListener('click', function () {
             if (!target.classList.contains('ready')) return;
-            const canvas = document.createElement('canvas');
-            canvas.width = target.naturalWidth;
-            canvas.height = target.naturalHeight;
+            const canvas = gui.createCanvas(target.naturalWidth, target.naturalHeight);
             const ctx = canvas.getContext('2d');
             ctx.drawImage(target, 0, 0);
             canvas.toBlob(data => gui.downloadData({ data, filename }), 'image/png');
@@ -938,9 +942,7 @@ const gui = {
                     const sy = Math.floor(rect.top * ratio);
                     const sw = Math.ceil(rect.width * ratio);
                     const sh = Math.ceil(rect.height * ratio);
-                    const canvas = document.createElement('canvas');
-                    canvas.width = sw;
-                    canvas.height = sh;
+                    const canvas = gui.createCanvas(sw, sh);
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(image, sx, sy, sw, sh, 0, 0, sw, sh);
                     dataUrl = canvas.toDataURL('image/png');

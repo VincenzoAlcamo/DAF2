@@ -545,9 +545,7 @@ function saveImage() {
         const path = getDownloadPath();
         let canvas2 = canvas;
         if (resize < 100) {
-            canvas2 = document.createElement('canvas');
-            canvas2.width = Math.round(canvas.width * resize / 100);
-            canvas2.height = Math.round(canvas.height * resize / 100);
+            canvas2 = gui.createCanvas(Math.round(canvas.width * resize / 100), Math.round(canvas.height * resize / 100));
             canvas2.getContext('2d').drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height);
         }
         canvas2.toBlob(data => {
@@ -1853,9 +1851,7 @@ async function addExtensionImages() {
     if (!beamsLoaded) {
         await images[IMG_BEAMS].promise;
         const img = images[IMG_BEAMS].img;
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
+        const canvas = gui.createCanvas(img.naturalWidth, img.naturalHeight);
         const ctx = canvas.getContext('2d');
         const len = canvas.width * canvas.height * 4;
         for (let i = 1; i <= 4; i++) {

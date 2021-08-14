@@ -645,9 +645,7 @@ const MATCH_THRESHOLD = 0.02;
 // const MATCH_MAXDIFF = Math.floor(MATCH_WIDTH * MATCH_HEIGHT * 0.01);
 
 function drawImage(img) {
-    const canvas = document.createElement('canvas');
-    canvas.width = MATCH_WIDTH;
-    canvas.height = MATCH_HEIGHT;
+    const canvas = gui.createCanvas(MATCH_WIDTH, MATCH_HEIGHT);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     return canvas;
