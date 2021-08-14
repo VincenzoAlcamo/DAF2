@@ -47,7 +47,7 @@ function init() {
 
     selectRegen = container.querySelector('[name=regen]');
     selectRegen.addEventListener('change', rebuildSetup);
-    Dialog.htmlToDOM(selectRegen, '');
+    htmlToDOM(selectRegen, '');
     for (let i = 144; i >= 0; i--) gui.addOption(selectRegen, i, i);
     selectRegen.parentNode.querySelector('span').textContent = `${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`;
 
@@ -88,7 +88,7 @@ function update() {
     for (const sw of specialWeeks.items) {
         if (sw.name) htm.push(Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
     }
-    Dialog.htmlToDOM(divWeeks, htm.join(''));
+    htmlToDOM(divWeeks, htm.join(''));
     const buildings = gui.getFile('buildings');
     regBuildings = [];
     capBuildings = [];

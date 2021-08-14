@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Html Locale Tooltip Dialog*/
+/*global bgp gui htmlToDOM SmartTable Html Locale Tooltip*/
 export default {
     hasCSS: true,
     init,
@@ -123,7 +123,7 @@ function update() {
     swDoubleDrop = gui.getActiveSpecialWeeks().doubleDrop;
     const divWarning = container.querySelector('.toolbar .warning');
     if (swDoubleDrop) {
-        Dialog.htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
+        htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
         divWarning.style.display = '';
     } else {
         divWarning.style.display = 'none';
@@ -266,7 +266,7 @@ function update() {
         item.segmented = item.issegmented ? eventsRegion[eid] || 0 : -1;
     }
 
-    Dialog.htmlToDOM(selectYear, '');
+    htmlToDOM(selectYear, '');
     gui.addOption(selectYear, '', '');
     let lastYear = null;
     const items = Object.values(allEvents).sort((a, b) => b.year - a.year);
@@ -375,7 +375,7 @@ function refresh() {
     items = sort(items);
 
     const tbody = smartTable.tbody[0];
-    Dialog.htmlToDOM(tbody, '');
+    htmlToDOM(tbody, '');
     const totals = {};
     const keys = ['tquest', 'cquest', 'cachiev', 'tachiev', 'ccollect', 'tcollect', 'locations', 'repeatables', 'challenges', 'maps'];
     keys.forEach(key => totals[key] = 0);
@@ -386,7 +386,7 @@ function refresh() {
             row = item.row = document.createElement('tr');
             row.setAttribute('data-eid', item.id);
             row.setAttribute('height', 44);
-            row.setAttribute('lazy-render', '');
+            row.setAttribute('data-lazy', '');
         }
         tbody.appendChild(row);
     }
@@ -468,7 +468,9 @@ function updateRow(row) {
         htm += gui.getObjectImg(matId > 0 ? 'material' : 'token', Math.abs(matId), size, true, 'desc');
     });
     htm += Html.br`</td>`;
-    Dialog.htmlToDOM(row, htm);
+    item.row = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+    item.row.setAttribute('data-eid', id);
+    row.replaceWith(item.row);
 }
 
 function onTooltip(event) {
@@ -560,11 +562,11 @@ function showInfo() {
     const showTotalLoot = !!state.totals;
     const showEnergy = !!state.energy;
 
-    if (row.getAttribute('lazy-render') !== null) {
-        row.removeAttribute('lazy-render');
+    if (row.getAttribute('data-lazy') !== null) {
+        row.removeAttribute('data-lazy');
         updateRow(row);
     }
-    Dialog.htmlToDOM(fixedBody, '');
+    htmlToDOM(fixedBody, '');
     const clone = row.cloneNode(true);
     for (const info of INFOS) clone.classList.remove(PREFIX_HILIGHT + info);
     clone.classList.add(PREFIX_SET + selectedInfo);
@@ -595,7 +597,7 @@ function showInfo() {
     checkTotals.parentNode.style.visibility = isLoc && selectedInfo != 'loc3' ? '' : 'hidden';
     checkEnergy.parentNode.style.visibility = isLoc && selectedInfo != 'loc3' && showProgress ? '' : 'hidden';
 
-    Dialog.htmlToDOM(selectRegion, '');
+    htmlToDOM(selectRegion, '');
     // Your progress
     let yourRegion = 1;
     if (isSegmented) yourRegion = item.status == 'notdone' ? Math.min(+generator.region, item.maxsegment) : item.segmented || 1;
@@ -689,7 +691,7 @@ function showInfo() {
             return reward.amount > 0;
         });
         const cells = showRewards(rewards, MAX_REWARDS_PER_ROW, { raw: true, filter: true });
-        for (let i = 0; i < cells.length && cell; i++, cell = cell.nextSibling) Dialog.htmlToDOM(cell, cells[i]);
+        for (let i = 0; i < cells.length && cell; i++, cell = cell.nextSibling) htmlToDOM(cell, cells[i]);
     };
 
     let lootPlaceholder = '';
@@ -1018,7 +1020,9 @@ function showInfo() {
     }
 
     htm += Html.br`</td>`;
-    Dialog.htmlToDOM(trInfo, htm);
+    const row2 = htmlToDOM.tr(null, '<tr class="infoRow">' + htm + '</tr>')[0];
+    trInfo.replaceWith(row2);
+    trInfo = row2;
 }
 
 function getQuests(event) {
