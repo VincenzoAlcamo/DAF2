@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Html Locale Tooltip Dialog*/
+/*global bgp gui htmlToDOM SmartTable Html Locale Tooltip Dialog*/
 import packHelper from '../../packHelper.js';
 
 export default {
@@ -273,7 +273,7 @@ function update() {
     const arrEvents = Object.values(allEvents).filter(event => event.sale).sort((a, b) => b.year - a.year);
     let optGroup = null;
     let lastYearText = '';
-    Dialog.htmlToDOM(selectEvent, '');
+    htmlToDOM(selectEvent, '');
     for (const event of arrEvents) {
         const yearText = Locale.formatYear(event.year);
         if (!optGroup || lastYearText != yearText) {
@@ -285,10 +285,10 @@ function update() {
         gui.addOption(optGroup, '' + event.id, gui.getObjectName('event', event.id));
     }
 
-    Dialog.htmlToDOM(selectRegion, '');
+    htmlToDOM(selectRegion, '');
     for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
 
-    Dialog.htmlToDOM(selectTheme, '');
+    htmlToDOM(selectTheme, '');
     for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending)) {
         gui.addOption(selectTheme, '' + skin, gui.getObjectName('skin', skin));
     }
@@ -862,7 +862,7 @@ function refresh() {
     items = sort(items);
 
     const tbody = smartTable.tbody[0];
-    Dialog.htmlToDOM(tbody, '');
+    htmlToDOM(tbody, '');
     if (showAsGrid) {
         const row = document.createElement('tr');
         tbody.appendChild(row);
@@ -878,7 +878,7 @@ function refresh() {
                 div = item.div = document.createElement('div');
                 div.setAttribute('data-id', item.id);
                 div.className = 'pack-item-placeholder';
-                div.setAttribute('lazy-render', '');
+                div.setAttribute('data-lazy', '');
             }
             parent.appendChild(div);
         }
@@ -890,7 +890,7 @@ function refresh() {
                 row = item.row = document.createElement('tr');
                 row.setAttribute('data-id', item.id);
                 row.setAttribute('height', 65);
-                row.setAttribute('lazy-render', '');
+                row.setAttribute('data-lazy', '');
             }
             tbody.appendChild(row);
         }
@@ -1005,7 +1005,9 @@ function updateItem(div) {
             }
         }
         htm += Html.br`</td>`;
-        Dialog.htmlToDOM(div, htm);
+        item.row = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+        item.row.setAttribute('data-id', id);
+        div.replaceWith(item.row);
     } else {
         const obj = {};
         obj.object_id = item.oid;
@@ -1017,12 +1019,12 @@ function updateItem(div) {
         const packItem = packHelper.getItem(obj);
         packItem.title = gui.getObjectName(obj.type, obj.object_id);
         const html = packHelper.getHtml(packItem);
-        Dialog.htmlToDOM(div, html);
+        htmlToDOM(div, html);
         const costEl = div.querySelector('.cost');
         costEl.className = costClass;
         if (saleMessageId) {
             let badge = document.createElement('div');
-            Dialog.htmlToDOM(badge, badgeHtml);
+            htmlToDOM(badge, badgeHtml);
             badge = badge.firstElementChild;
             let title = badge.title;
             badge.removeAttribute('title');

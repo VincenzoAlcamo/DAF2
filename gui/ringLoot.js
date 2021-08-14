@@ -1,4 +1,4 @@
-/*global bgp gui Html Locale Dialog*/
+/*global bgp gui htmlToDOM Html Locale Dialog*/
 
 export default ringLoot;
 
@@ -40,7 +40,7 @@ function ringLoot(kind) {
         selectRegion = container.querySelector('[name=region]');
         if (selectRegion) {
             selectRegion.addEventListener('change', onInput);
-            Dialog.htmlToDOM(selectRegion, '');
+            htmlToDOM(selectRegion, '');
             for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
         }
 
@@ -135,7 +135,7 @@ function ringLoot(kind) {
         if (tokenId) {
             const img = gui.getObjectImg('token', tokenId, 24, true);
             const qty = gui.getGenerator().tokens[tokenId] || 0;
-            Dialog.htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`);
+            htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`);
         }
 
         if (kind == 'green' || kind == 'christmas') {
@@ -144,7 +144,7 @@ function ringLoot(kind) {
         }
         const divWarning = container.querySelector('.toolbar .warning');
         if (swDoubleDrop) {
-            Dialog.htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
+            htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
             divWarning.style.display = '';
         } else {
             divWarning.style.display = 'none';
@@ -171,7 +171,7 @@ function ringLoot(kind) {
 
         floorData = {};
         const parent = container.querySelector('.scrollable-content');
-        Dialog.htmlToDOM(parent, '');
+        htmlToDOM(parent, '');
         let index = 0;
         for (const mine of mines) {
             const lid = mine.def_id;
@@ -256,7 +256,7 @@ function ringLoot(kind) {
             htm += Html.br`<div></div>`;
             const div = document.createElement('div');
             div.className = 'card rings';
-            Dialog.htmlToDOM(div, htm);
+            htmlToDOM(div, htm);
             parent.appendChild(div);
             const input = div.querySelector('input');
             input.addEventListener('click', function () {
@@ -444,7 +444,7 @@ function ringLoot(kind) {
         htm += Html.br`</tfoot>`;
         htm += Html.br`</table>`;
         parent = parent.parentNode.querySelector('div');
-        Dialog.htmlToDOM(parent, htm);
+        htmlToDOM(parent, htm);
         for (const input of parent.querySelectorAll('input[type=checkbox].xp,button.loot')) {
             input.addEventListener('click', onChestClick);
         }
@@ -542,7 +542,7 @@ function ringLoot(kind) {
                 max = Math.max(1, Math.min(9999, params.max));
                 if (max != params.max) gui.dialog.element.querySelector('[name=max]').value = max;
                 recomputeTotals();
-                Dialog.htmlToDOM(gui.dialog.element.querySelector('.loot-data'), getTBody());
+                htmlToDOM.tr(gui.dialog.element.querySelector('.loot-data'), getTBody());
                 gui.dialog.element.querySelector('.num-rings').textContent = gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests));
                 gui.dialog.element.querySelector('.total1').textContent = Locale.formatNumber(totalXp);
                 gui.dialog.element.querySelector('.total2').textContent = Locale.formatNumber(max * totalXp);

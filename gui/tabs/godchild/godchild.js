@@ -1,4 +1,4 @@
-/*global bgp gui Locale Html Dialog*/
+/*global bgp gui htmlToDOM Locale Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -30,7 +30,7 @@ function setTableRegion() {
 }
 
 function update() {
-    Dialog.htmlToDOM(gcTable, '');
+    htmlToDOM(gcTable, '');
     const neighbours = bgp.Data.getNeighbours();
     numNeighbours = Object.values(neighbours).length - 1;
     maxGC = gui.getChildrenMax(numNeighbours) + 1;
@@ -102,7 +102,7 @@ function updateStatus() {
     htm += Html.br`</span>`;
     const nextTxt = bgp.Data.getGCInfo().nexttxt;
     if (nextTxt) htm += Html.br`<br>${nextTxt}`;
-    for (const div of container.querySelectorAll('.tab_godchild .stats')) Dialog.htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.tab_godchild .stats')) htmlToDOM(div, htm);
     container.querySelector('.tab_godchild .screenshot .shot').style.display = tot > 0 ? '' : 'none';
     const next = gui.getChildrenNext(numNeighbours);
     const nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', Locale.formatNumber(next));

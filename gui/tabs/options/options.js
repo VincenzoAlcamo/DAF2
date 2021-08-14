@@ -1,4 +1,4 @@
-/*global bgp chrome gui Html Dialog Locale*/
+/*global bgp chrome gui htmlToDOM Html Locale*/
 import ThemeEditor from '../../themeEditor.js';
 
 export default {
@@ -413,7 +413,7 @@ UI_claim_coin_single_slow_02
     optionEffect('badgeLuckyCards');
     endSection();
 
-    Dialog.htmlToDOM(container.querySelector('.scrollable-content'), htm);
+    htmlToDOM(container.querySelector('.scrollable-content'), htm);
 
     for (const item of container.querySelectorAll('.open_href')) {
         item.addEventListener('click', function (event) {

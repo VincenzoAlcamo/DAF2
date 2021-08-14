@@ -938,6 +938,6 @@ async function findThePair() {
 function onTooltip(event) {
     const element = event.target;
     const bid = parseInt(element.getAttribute('data-bid'));
-    const htm = Html.br`<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/></div>`;
+    const htm = Html.br`<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"/></div>`;
     Tooltip.show(element, htm, 'bb');
 }

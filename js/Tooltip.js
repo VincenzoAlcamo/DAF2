@@ -1,4 +1,4 @@
-/*global Dialog*/
+/*global htmlToDOM*/
 const Tooltip = {};
 Tooltip.init = function () {
     this.tip = document.createElement('span');
@@ -29,7 +29,7 @@ Tooltip.show = function (el, html, direction) {
     const tip = this.tip;
     tip.className = 'Tooltip';
     tip.style.display = '';
-    Dialog.htmlToDOM(tip, html);
+    htmlToDOM(tip, html);
     const height = this.tip.offsetHeight;
     const width = this.tip.offsetWidth;
     const box = el.getBoundingClientRect();
