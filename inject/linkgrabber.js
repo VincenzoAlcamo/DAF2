@@ -624,16 +624,13 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 }
 
 function askCollect() {
-    let html = `<p style="text-align:center">${Dialog.htmlEncodeBr(getMessage('friendship_speedupcollect'))} <select id="f_sc" name="speedupCollection">
-<option value="0" selected>${getMessage('dialog_no')}</option>`;
-    [2, 4, 8].forEach(i => html += `<option value="${i}">\xd7 ${i}</option>`);
-    html += `</select></span><br><br>${Dialog.htmlEncodeBr(getMessage('friendship_confirmwarning'))}`;
+    const html = `<p style="text-align:center">${Dialog.htmlEncodeBr(getMessage('friendship_confirmwarning'))}`;
     Dialog(Dialog.MODAL).show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
-        (method, params) => (method == Dialog.CONFIRM) && collect(true, params.speedupCollection)
+        (method) => (method == Dialog.CONFIRM) && collect(true)
     );
 }
 
-function collect(confirmCollection, speedupCollection) {
+function collect(confirmCollection) {
     const autoClose = false;
     const collectMethod = 'standard';
     const unmatched = '';
@@ -660,34 +657,6 @@ function collect(confirmCollection, speedupCollection) {
         } catch (e) { }
     }
 
-    function interceptData() {
-        const code = `
-        (function() {
-            const XHR = XMLHttpRequest.prototype;
-            const send = XHR.send;
-            const open = XHR.open;
-            XHR.open = function(method, url) {
-                this.url = url;
-                return open.apply(this, arguments);
-            }
-            XHR.send = function(e) {
-                if(e && this.url.indexOf('/graphql/') >= 0 && e.indexOf('variables') >= 0 && e.indexOf('count%22%3A8') >= 0) {
-                    e = e.replace('count%22%3A8', 'count%22%3A${speedupCollection * 8}');
-                    return send.call(this, e);
-                }
-                return send.apply(this, arguments);
-            };
-        })();
-        `;
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.appendChild(document.createTextNode(code));
-        document.head.prepend(script);
-        document.addEventListener('daf_xhr', function (event) {
-            chrome.runtime.sendMessage({ action: 'daf_xhr', detail: event.detail });
-        });
-    }
-
     function getCountPhotos() {
         return document.querySelectorAll('a[href$="photos"]').length;
     }
@@ -712,7 +681,6 @@ function collect(confirmCollection, speedupCollection) {
             }
         }
         if (container) {
-            if (fbPage == FB_NEW && speedupCollection > 1) interceptData();
             clearInterval(handler);
             wait.hide();
             started = Date.now();

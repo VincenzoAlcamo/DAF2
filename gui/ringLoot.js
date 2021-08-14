@@ -254,9 +254,7 @@ function ringLoot(kind) {
                 htm += Html.br`<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html`<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
             }
             htm += Html.br`<div></div>`;
-            const div = document.createElement('div');
-            div.className = 'card rings';
-            htmlToDOM(div, htm);
+            const div = htmlToDOM(null, '<div class="card rings">' + htm + '</div>');
             parent.appendChild(div);
             const input = div.querySelector('input');
             input.addEventListener('click', function () {

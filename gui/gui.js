@@ -9,18 +9,18 @@ DOMPurify.addHook('afterSanitizeAttributes', function(node) {
         node.setAttribute('rel', 'noopener');
     }
 });
+const htmlToDOMElement = document.createElement('div');
 function htmlToDOM(parent, html) {
     const clean = DOMPurify.sanitize(html);
+    if (parent === null) parent = htmlToDOMElement;
     parent.innerHTML = clean;
     if (DOMPurify.removed.length) {
         console.warn('removed', DOMPurify.removed);
     }
-    return parent;
+    return parent.firstElementChild;
 }
-const offlineDOMRenderer = document.createElement('div');
 htmlToDOM.tr = function(tbody, html) {
-    htmlToDOM(offlineDOMRenderer, '<table>' + html + '</table>');
-    const rows = offlineDOMRenderer.querySelectorAll('tr');
+    const rows = htmlToDOM(null, '<table>' + html + '</table>').querySelectorAll('tr');
     if (tbody) {
         htmlToDOM(tbody, '');
         rows.forEach(row => tbody.appendChild(row));
@@ -761,15 +761,10 @@ const gui = {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
         if (!filename.endsWith('.png')) filename += '.png';
-        const shot = document.createElement('img');
-        shot.src = '/img/gui/screenshot.png';
-        shot.className = 'shot';
-        shot.title = gui.getMessage('gui_screenshot_shot');
-        screenshot.appendChild(shot);
-        const target = document.createElement('img');
-        target.className = 'target';
-        target.title = gui.getMessage('gui_screenshot_target');
-        screenshot.appendChild(target);
+        const htm = Html`<img src="/img/gui/screenshot.png" class="shot" title="${gui.getMessage('gui_screenshot_shot')}"><img class="target" title="${gui.getMessage('gui_screenshot_target')}">`;
+        htmlToDOM(screenshot, htm);
+        const shot = screenshot.querySelector('.shot');
+        const target = screenshot.querySelector('.target');
         shot.addEventListener('click', function (event) {
             event.stopPropagation();
             event.preventDefault();
@@ -833,9 +828,8 @@ const gui = {
     chooseFile: function (callback, accept, multiple) {
         let input = gui.fileChooser;
         if (!input) {
-            const form = document.createElement('form');
-            input = gui.fileChooser = document.createElement('input');
-            input.type = 'file';
+            input = gui.fileChooser = document.querySelector('input[type=file]');
+            const form = input.parentNode;
             input.addEventListener('change', function () {
                 const callback = gui.fileChooserCallback;
                 delete gui.fileChooserCallback;
@@ -846,7 +840,6 @@ const gui = {
                     form.reset();
                 }
             });
-            form.appendChild(input);
         }
         gui.fileChooserCallback = callback;
         input.accept = accept || '';
