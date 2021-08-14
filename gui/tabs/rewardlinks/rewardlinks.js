@@ -639,7 +639,7 @@ function update() {
             htm += Html.br`<td translate="no">`;
             if (item.cid || item.cpi) htm += Html.br`<img data-lazy="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
             htm += `</td>`;
-            item.row = htmlToDOM.tr(htm);
+            item.row = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
             item.row.setAttribute('data-id', item.id);
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             item.mtx = item.row.cells[4].textContent;

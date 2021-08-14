@@ -296,11 +296,11 @@ function kitchenFoundry(type) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift)}</td>`;
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift2)}</td>`;
             }
-            const row = htmlToDOM.tr(htm);
+            const row = htmlToDOM.tr(null, '<tr>' + htm + '<tr>')[0];
             row.setAttribute('data-id', p.id);
             p.rows = [row];
             for (let i = 1; i < p.ingredients.length; i++) {
-                const row = htmlToDOM.tr(getIngredient(p.ingredients[i]));
+                const row = htmlToDOM.tr(null, '<tr>' + getIngredient(p.ingredients[i]) + '</tr>')[0];
                 row.classList.add('ingredient');
                 p.rows.push(row);
             }

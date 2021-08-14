@@ -1,4 +1,4 @@
-/*global chrome bgp gui Locale Dialog SmartTable Html Tooltip*/
+/*global chrome bgp gui htmlToDOM Locale Dialog SmartTable Html Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -427,7 +427,7 @@ function showStats() {
         gui.wait.setText(analyzingText);
         htm += Html.br`${analyzingText}`;
     }
-    Dialog.htmlToDOM(container.querySelector('.stats'), htm);
+    htmlToDOM(container.querySelector('.stats'), htm);
 
     const params = {
         'a': [Locale.formatNumber(numFriends), Locale.formatNumber(numNeighbours)],
@@ -446,9 +446,9 @@ function showStats() {
     }
 
     htm = Html.br`${gui.getMessage('friendship_totalfriends', Locale.formatNumber(numFriendsShown), Locale.formatNumber(numFriends))}`;
-    for (const div of container.querySelectorAll('.numfriends')) Dialog.htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.numfriends')) htmlToDOM(div, htm);
     htm = Html.br`${gui.getMessage('friendship_totalneighbours', Locale.formatNumber(numNeighboursShown), Locale.formatNumber(numNeighbours))}`;
-    for (const div of container.querySelectorAll('.numneighbours')) Dialog.htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.numneighbours')) htmlToDOM(div, htm);
 
     htm = '';
     if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400) {
@@ -456,7 +456,7 @@ function showStats() {
         htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collectfriends'), method));
     }
     const div = container.querySelector('.warning');
-    Dialog.htmlToDOM(div, htm);
+    htmlToDOM(div, htm);
     div.style.display = htm ? '' : 'none';
 }
 
@@ -494,7 +494,11 @@ function updateRow(row) {
     } else {
         htm += Html.br`<td></td><td></td><td></td><td></td><td></td>`;
     }
-    Dialog.htmlToDOM(row, htm);
+    const row2 = htmlToDOM.tr(null, htm)[0];
+    row.replaceWith(row2);
+    row = row2;
+    if (friend) row.setAttribute('data-friend-id', friend.id);
+    if (pal) row.setAttribute('data-pal-id', pal.id);
     const isIgnored = friend ? friend.score == -1 : false;
     const isNotMatched = friend && !pal ? !isIgnored : false;
     row.classList.toggle('f-ignored', isIgnored);
@@ -508,7 +512,7 @@ function refresh() {
     triggerSearchHandler(false);
     gui.updateTabState(tab);
 
-    Dialog.htmlToDOM(smartTable.tbody[0], '');
+    htmlToDOM(smartTable.tbody[0], '');
     showStats();
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
@@ -586,17 +590,17 @@ function refreshDelayed() {
         if (isRowVisible(friend, pal)) {
             numFriendsShown++;
             if (pal) numNeighboursShown++;
-            arr.push([friend, pal, '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" lazy-render height="61"></tr>']);
+            arr.push([friend, pal, '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" data-lazy height="61"></tr>']);
         }
     }
     for (const pal of Object.values(notmatched)) {
         if (isRowVisible(null, pal)) {
             numNeighboursShown++;
-            arr.push([null, pal, '<tr data-pal-id="' + pal.id + '" lazy-render height="61"></tr>']);
+            arr.push([null, pal, '<tr data-pal-id="' + pal.id + '" data-lazy height="61"></tr>']);
         }
     }
     arr = sort(arr);
-    Dialog.htmlToDOM(smartTable.tbody[0], arr.map(item => item[2]).join(''));
+    htmlToDOM.tr(smartTable.tbody[0], arr.map(item => item[2]).join(''));
     showStats();
 
     scheduledRefresh = setTimeout(function () {

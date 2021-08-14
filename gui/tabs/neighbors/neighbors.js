@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Locale Dialog Html Tooltip Calculation*/
+/*global bgp gui htmlToDOM SmartTable Locale Dialog Html Tooltip Calculation*/
 
 export default {
     hasCSS: true,
@@ -29,7 +29,7 @@ function init() {
 
     let htm = Html.br(gui.getMessage('neighbors_gifts'));
     htm = String(htm).replace('@DAYS@', '<br>' + getSelectDays(0));
-    Dialog.htmlToDOM(container.querySelector('.toolbar .days'), htm);
+    htmlToDOM(container.querySelector('.toolbar .days'), htm);
     selectDays = container.querySelector('[name=days]');
     selectDays.addEventListener('change', refresh);
 
@@ -41,7 +41,7 @@ function init() {
 
     trGifts = document.createElement('tr');
     trGifts.className = 'giftrow';
-    Dialog.htmlToDOM(trGifts, Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`);
+    htmlToDOM(trGifts, Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`);
 
     const handlers = { formula, gifts, summary };
     const onClickButton = (event) => {
@@ -222,7 +222,7 @@ function formula() {
                 if (post.length > 15) post = post.substring(0, 15) + '\u2025';
                 htm = Html`<b>${message}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
             }
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('.expression-error'), htm);
+            htmlToDOM(gui.dialog.element.querySelector('.expression-error'), htm);
         }
         if (method != Dialog.CONFIRM) return;
         filterExp = params.exp;
@@ -276,7 +276,7 @@ function gifts() {
             gui.dialog.element.querySelector('.gift-info').classList.toggle('activated', !!params.gifts);
         }
         if (method == 'sort') {
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
+            htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
         }
         if (method != Dialog.CONFIRM) return;
         filterGifts = list;
@@ -339,7 +339,7 @@ function summary() {
             });
             htm += Html`</tbody>`;
             htm += Html`</table>`;
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('.neighbors_summary'), htm);
+            htmlToDOM(gui.dialog.element.querySelector('.neighbors_summary'), htm);
         }
     });
 }
@@ -365,7 +365,7 @@ function onClick(e) {
     }
     row.classList.add('show-gifts');
     const giftContainer = trGifts.querySelector('.giftlist');
-    Dialog.htmlToDOM(giftContainer, '');
+    htmlToDOM(giftContainer, '');
     giftContainer.style.width = (row.offsetWidth - 2) + 'px';
     row.parentNode.insertBefore(trGifts, row.nextSibling);
     const id = row.getAttribute('data-pal-id');
@@ -393,7 +393,7 @@ function onClick(e) {
         if (piece == '') continue;
         htm += piece + Html.br`<span>${formatDayMonthTime(palGift[2])}</span></div>`;
     }
-    Dialog.htmlToDOM(giftContainer, htm);
+    htmlToDOM(giftContainer, htm);
 }
 
 function update() {
@@ -404,7 +404,7 @@ function update() {
         const row = document.createElement('tr');
         row.setAttribute('data-pal-id', pal.id);
         row.setAttribute('height', 61);
-        row.setAttribute('lazy-render', '');
+        row.setAttribute('data-lazy', '');
         palRows[pal.id] = row;
         palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
     }
@@ -436,7 +436,7 @@ function update() {
     gui.updateNeighborFriendNames(true);
 
     const state = getState();
-    Dialog.htmlToDOM(selectRegion, '');
+    htmlToDOM(selectRegion, '');
     gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
     for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
     setState(state);
@@ -508,7 +508,9 @@ function updateRow(row) {
     htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
     htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
     htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
-    Dialog.htmlToDOM(row, htm);
+    const row2 = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+    row2.setAttribute('data-pal-id', id);
+    row.replaceWith(row2);
 }
 
 let scheduledRefresh;
@@ -519,7 +521,7 @@ function refresh() {
     updateButton();
 
     //smartTable.showFixed(false);
-    Dialog.htmlToDOM(smartTable.tbody[0], '');
+    htmlToDOM(smartTable.tbody[0], '');
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
     scheduledRefresh = setTimeout(refreshDelayed, 50);
@@ -635,7 +637,7 @@ function refreshDelayed() {
             giftTotal += value;
             giftCount += gifts.length;
             palGifts[pal.id] = gifts;
-            palRows[pal.id].setAttribute('lazy-render', '');
+            palRows[pal.id].setAttribute('data-lazy', '');
             const days = -palDays[pal.id];
             palEfficiency[pal.id] = Math.min(100, Math.ceil((days < 7 ? NaN : gifts.length / Math.min(days, giftDays)) * 100));
         }
@@ -644,7 +646,7 @@ function refreshDelayed() {
         const realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
         let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
         text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
-        Dialog.htmlToDOM(container.querySelector('.stats'), Html.br(text));
+        htmlToDOM(container.querySelector('.stats'), Html.br(text));
     }
 
     const giftFilter = {};
@@ -689,7 +691,7 @@ function refreshDelayed() {
         items.push(pal);
     }
 
-    Dialog.htmlToDOM(smartTable.tbody[0], '');
+    htmlToDOM(smartTable.tbody[0], '');
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });
