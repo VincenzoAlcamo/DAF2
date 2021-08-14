@@ -100,15 +100,15 @@ html.dark .camp .line {
   margin-right: var(--size);
 }
 
-.camp-data td[bid] {
+.camp-data td[data-bid] {
   cursor: help;
 }
 
-.camp-data td[numreg] {
+.camp-data td[data-numreg] {
   cursor: pointer;
 }
 
-.camp-data td[numreg].warn {
+.camp-data td[data-numreg].warn {
   background-image: url(/img/gui/q-hard.png);
   background-size: 18px;
   background-repeat: no-repeat;
@@ -116,8 +116,8 @@ html.dark .camp .line {
   padding-left: 22px;
 }
 
-.camp-data td[numreg]:hover,
-.camp-data td[bid]:hover {
+.camp-data td[data-numreg]:hover,
+.camp-data td[data-bid]:hover {
   background-color: var(--tb-hlcol);
   color: var(--tb-hlfgcol);
 }

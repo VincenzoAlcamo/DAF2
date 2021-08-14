@@ -1,4 +1,4 @@
-/*global bgp gui Locale Html Dialog Tooltip*/
+/*global bgp gui htmlToDOM Locale Html Dialog Tooltip*/
 import packHelper from '../../packHelper.js';
 
 export default {
@@ -184,16 +184,16 @@ function rebuildSetup() {
     const camp = generator.camp;
     let campResult = calculateCamp(camp, []);
     campResult = calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState())));
-    Dialog.htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2], true));
+    htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2], true));
     let htm = '';
     htm += Html.br`<table class="camp-caption"><thead><tr><th>${getSetupName(campResult.stat.numRegSlots)}</th></tr></thead></table>`;
     htm += renderCamp(campResult);
-    Dialog.htmlToDOM(container.querySelector('.camp-player .camp-container.camp-3'), htm);
+    htmlToDOM(container.querySelector('.camp-player .camp-container.camp-3'), htm);
 }
 
 function onClick(event) {
-    if (event.target && event.target.hasAttribute('numreg')) {
-        selectRegen.value = +event.target.getAttribute('numreg');
+    if (event.target && event.target.hasAttribute('data-numreg')) {
+        selectRegen.value = +event.target.getAttribute('data-numreg');
         checkSetup.checked = true;
         toggleFlags();
         rebuildSetup();
@@ -204,18 +204,18 @@ function onMouseMove(event) {
     let el = event.target;
     let bid = [];
     while (!el.classList.contains('card')) {
-        if (el.hasAttribute('bid')) bid = el.getAttribute('bid').split(',');
+        if (el.hasAttribute('data-bid')) bid = el.getAttribute('data-bid').split(',');
         el = el.parentNode;
     }
     let selected = Array.from(el.querySelectorAll('.item.building')).filter(el => {
         el.classList.remove('selected', 'selected-first', 'selected-last');
-        return bid.includes(el.getAttribute('bid'));
+        return bid.includes(el.getAttribute('data-bid'));
     });
     if ((bid == 'camp-1' || bid == 'camp-2') && checkSetup.checked) {
         const setupItems = Array.from(el.querySelectorAll(`.camp-container.camp-3 .item.building`));
         selected = Array.from(el.querySelectorAll(`.camp-container.${bid} .item.building`)).filter(el => {
-            const bid = el.getAttribute('bid');
-            const foundAt = setupItems.findIndex(el => el.getAttribute('bid') == bid);
+            const bid = el.getAttribute('data-bid');
+            const foundAt = setupItems.findIndex(el => el.getAttribute('data-bid') == bid);
             if (foundAt >= 0) setupItems.splice(foundAt, 1);
             return foundAt < 0;
         });
@@ -240,19 +240,19 @@ function getCampSummary(campResult, campName, isSetup) {
     htm += Html.br`<thead><tr class="energy_capacity"><th>${campName}</th><th><img src="/img/gui/camp_energy.png" title="${gui.getMessage('camp_regen')}"></th><th><img src="/img/gui/camp_capacity.png" title="${gui.getMessage('camp_capacity')}"></th></tr></thead>`;
     htm += Html.br`<tbody>`;
     htm += Html.br`<tr><td>${gui.getMessage('camp_total')}</td><td>${Locale.formatNumber(reg_total)}</td><td>${Locale.formatNumber(cap_total)}</td></tr>`;
-    htm += Html.br`<tr><td>${gui.getMessage('camp_min_value')}</td><td bid="${campResult.stat.reg.min.join(',')}">${Locale.formatNumber(campResult.reg_min)}</td>`;
-    htm += Html.br`<td bid="${campResult.stat.cap.min.join(',')}">${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
-    htm += Html.br`<tr><td>${gui.getMessage('camp_max_value')}</td><td bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
-    htm += Html.br`<td bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_min_value')}</td><td data-bid="${campResult.stat.reg.min.join(',')}">${Locale.formatNumber(campResult.reg_min)}</td>`;
+    htm += Html.br`<td data-bid="${campResult.stat.cap.min.join(',')}">${Locale.formatNumber(campResult.cap_min)}</td></tr>`;
+    htm += Html.br`<tr><td>${gui.getMessage('camp_max_value')}</td><td data-bid="${campResult.stat.reg.max.join(',')}">${Locale.formatNumber(campResult.reg_max)}</td>`;
+    htm += Html.br`<td data-bid="${campResult.stat.cap.max.join(',')}">${Locale.formatNumber(campResult.cap_max)}</td></tr>`;
     htm += Html.br`<tr><td>${gui.getMessage('camp_num_slots')}</td>`;
     const getTitleSetup = (num) => `${gui.getMessage('camp_showsetup')} (${gui.getMessage('camp_numofregenslots')} = ${num})`;
     if (isSetup) {
-        htm += Html.br`<td numreg="144" title="${getTitleSetup(gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
-        htm += Html.br`<td numreg="0" title="${getTitleSetup(gui.getMessage('gui_minimum'))}">${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+        htm += Html.br`<td data-numreg="144" title="${getTitleSetup(gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
+        htm += Html.br`<td data-numreg="0" title="${getTitleSetup(gui.getMessage('gui_minimum'))}">${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
     } else {
         const title = (campResult.canBeImproved ? gui.getMessage('camp_canbeimproved') + '\n' : '') + getTitleSetup(Locale.formatNumber(campResult.stat.numRegSlots));
         const extra = campResult.canBeImproved ? Html` class="warn"` : '';
-        htm += Html.br`<td numreg="${campResult.stat.numRegSlots}" title="${Html(title)}"${extra}>${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
+        htm += Html.br`<td data-numreg="${campResult.stat.numRegSlots}" title="${Html(title)}"${extra}>${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
         htm += Html.br`<td>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
     }
     htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
@@ -295,9 +295,9 @@ function updateCamp(div, flagHeaderOnly = false) {
 
     div.querySelector('img').setAttribute('src', pal ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png');
     // div.querySelector('span').textContent = campName;
-    Dialog.htmlToDOM(div.querySelector('span'), Html`${campName}<span class="screenshot"></span>`);
+    htmlToDOM(div.querySelector('span'), Html`${campName}<span class="screenshot"></span>`);
     gui.setupScreenshot(div, campName);
-    Dialog.htmlToDOM(div.querySelector('div'), '');
+    htmlToDOM(div.querySelector('div'), '');
     if (flagHeaderOnly || !camp) return;
 
     const campResult = calculateCamp(camp, true);
@@ -467,12 +467,12 @@ function updateCamp(div, flagHeaderOnly = false) {
         if (!campResult) return;
         htm += Html.br`<div class="camp-container camp-new camp-${index + 1}">`;
         if (camps.length > 1)
-            htm += Html.br`<table class="camp-caption"><thead><tr><th bid="camp-${index + 1}">${index == 2 ? getSetupName(campResult.stat.numRegSlots) : campNames[index]}</th></tr></thead></table>`;
+            htm += Html.br`<table class="camp-caption"><thead><tr><th data-bid="camp-${index + 1}">${index == 2 ? getSetupName(campResult.stat.numRegSlots) : campNames[index]}</th></tr></thead></table>`;
         htm += renderCamp(campResult);
         htm += Html.br`</div>`;
     });
 
-    Dialog.htmlToDOM(div.querySelector('div'), htm);
+    htmlToDOM(div.querySelector('div'), htm);
 }
 
 function calculateCamp(camp, current = true) {
@@ -796,7 +796,7 @@ function renderCamp(campResult) {
                 strength = Math.round(strength * 1000) / 1000;
             }
             htm += Html.br`<div class="item ${kind}" style="--w:${width};--h:${slot.height};--v:${strength}${exStyle}" title="${Html(title)}"`;
-            if (bid) htm += Html.br` bid="${bid}"`;
+            if (bid) htm += Html.br` data-bid="${bid}"`;
             htm += Html.br`>${colValues}</div>`;
             i += width;
         }
@@ -930,14 +930,14 @@ async function findThePair() {
                 });
             htm += Html`<tbody>`;
             htm += Html`</table > `;
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('.flipthepair'), htm);
+            htmlToDOM(gui.dialog.element.querySelector('.flipthepair'), htm);
         }
     });
 }
 
 function onTooltip(event) {
     const element = event.target;
-    const bid = parseInt(element.getAttribute('bid'));
+    const bid = parseInt(element.getAttribute('data-bid'));
     const htm = Html.br`<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"}"/></div>`;
     Tooltip.show(element, htm, 'bb');
 }

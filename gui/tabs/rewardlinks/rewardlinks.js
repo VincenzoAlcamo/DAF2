@@ -1,4 +1,4 @@
-/*global bgp gui SmartTable Dialog Html Locale*/
+/*global bgp gui htmlToDOM SmartTable Dialog Html Locale*/
 export default {
     hasCSS: true,
     init,
@@ -615,7 +615,7 @@ function update() {
             if (item.cmt != rewardLink.cmt) {
                 flagUpdated = true;
                 item.cmt = rewardLink.cmt;
-                Dialog.htmlToDOM(item.row.cells[4], materialHTML(item.cmt));
+                htmlToDOM(item.row.cells[4], materialHTML(item.cmt));
                 item.mtx = item.row.cells[4].textContent;
                 if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             }
@@ -625,23 +625,22 @@ function update() {
                 item.cid = rewardLink.cid;
                 item.cpi = rewardLink.cpi;
                 item.cnm = cnm;
-                Dialog.htmlToDOM(item.row.cells[5], (item.cid || item.cpi) ? Html.br`<img src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
+                htmlToDOM(item.row.cells[5], (item.cid || item.cpi) ? Html.br`<img src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
             }
             if (flagUpdated) status = 3;
         } else {
             item = Object.assign({}, rewardLink);
             item.cnm = item.cnm || '';
             item.conversion = conversion;
-            item.row = document.createElement('tr');
-            item.row.setAttribute('data-id', item.id);
             let htm = '';
-            htm += Html.br`<td><input type="checkbox" title="${gui.getMessage('gui_ctrlclick')}"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
+            htm += Html.br`<td><input type="checkbox" title="${gui.getMessage('gui_ctrlclick')}"></td><td><a class="reward" data-target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
             htm += Html.br`<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
             htm += Html.br`<td>${materialHTML(item.cmt)}</td>`;
             htm += Html.br`<td translate="no">`;
-            if (item.cid || item.cpi) htm += Html.br`<img lazy-src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
+            if (item.cid || item.cpi) htm += Html.br`<img data-lazy="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
             htm += `</td>`;
-            Dialog.htmlToDOM(item.row, htm);
+            item.row = htmlToDOM.tr(htm);
+            item.row.setAttribute('data-id', item.id);
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             item.mtx = item.row.cells[4].textContent;
             if (!firstTime) status = 2;
@@ -790,7 +789,7 @@ function showStats() {
     const element = container.querySelector('.stats');
     element.textContent = text + (flagNext ? textNext : '');
     element.classList.toggle('wait', flagNext);
-    Dialog.htmlToDOM(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
+    htmlToDOM(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
 
     text = gui.getMessage('rewardlinks_stats', Locale.formatNumber(numToCollect), Locale.formatNumber(numTotal));
     Array.from(smartTable.container.querySelectorAll('tfoot td')).forEach(cell => {
@@ -865,7 +864,7 @@ async function pixel() {
             }).join('');
             htm += Html`<tbody>`;
             htm += Html`</table>`;
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('.rewardlinks_pixel'), htm);
+            htmlToDOM(gui.dialog.element.querySelector('.rewardlinks_pixel'), htm);
         }
     });
 }

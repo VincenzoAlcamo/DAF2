@@ -1,4 +1,4 @@
-/*global Dialog gui bgp Html Tooltip Locale SmartTable*/
+/*global gui htmlToDOM bgp Html Tooltip Locale SmartTable*/
 export default {
     hasCSS: true,
     init,
@@ -96,7 +96,7 @@ function update() {
     }).sort((a, b) => b.year - a.year);
     let optGroup = null;
     let lastYearText = '';
-    Dialog.htmlToDOM(selectEvent, `<option value="0">${gui.getMessage('gui_all')}</option>`);
+    htmlToDOM(selectEvent, `<option value="0">${gui.getMessage('gui_all')}</option>`);
     for (const event of allEvents) {
         const yearText = Locale.formatYear(event.year);
         if (!optGroup || lastYearText != yearText) {
@@ -163,11 +163,11 @@ async function refresh() {
     const values = Object.values(allItems);
     const items = values.filter(isVisible);
     for (const item of items) {
-        htm += Html`<div data-id="${item.id}" class="item" lazy-render></div>`;
+        htm += Html`<div data-id="${item.id}" class="item" data-lazy></div>`;
     }
     const grid = container.querySelector('.grid');
     gui.removeLazyElements(grid);
-    Dialog.htmlToDOM(grid, htm);
+    htmlToDOM(grid, htm);
     Array.from(container.querySelectorAll('.totals')).forEach(cell => {
         cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(values.length));
     });

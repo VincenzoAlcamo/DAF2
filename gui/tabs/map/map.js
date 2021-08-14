@@ -1,4 +1,4 @@
-/*global bgp gui Dialog Locale Html PackTiles*/
+/*global bgp gui htmlToDOM Dialog Locale Html PackTiles*/
 import ThemeEditor from '../../themeEditor.js';
 
 export default {
@@ -745,7 +745,7 @@ function showAdvancedOptions() {
         }
         if (method == Dialog.AUTORUN || method == 'flags') {
             const select = gui.dialog.element.querySelector('[name=mines]');
-            Dialog.htmlToDOM(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
+            htmlToDOM(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
             select.style.height = gui.dialog.element.querySelector('[name=materials]').offsetHeight + 'px';
         }
         if (method == 'clr' || method == 'inv') {
@@ -985,7 +985,7 @@ function update() {
     }).filter(t => t);
 
     const state = getState();
-    Dialog.htmlToDOM(selectRegion, '');
+    htmlToDOM(selectRegion, '');
     for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, rid ? '' + rid : '', rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress'));
     setState(state);
     updateTableFlags();
@@ -1963,7 +1963,7 @@ async function processMine(selectedMine, args) {
     setWaitHandler();
 
     const htm = getMineList(hasOption(OPTION_GROUPLOCATIONS), hasOption(OPTION_REPEATABLES), currentData.mine, currentData.lid);
-    Dialog.htmlToDOM(container.querySelector('[data-id="lid"]'), htm);
+    htmlToDOM(container.querySelector('[data-id="lid"]'), htm);
 
     const regionName = gui.getObjectName('region', currentData.rid);
     const div = container.querySelector('[data-id="info"]');
@@ -2068,7 +2068,7 @@ async function drawMine(args) {
     document.body.classList.add('map-rendered');
 
     const tbody = table.querySelector('tbody');
-    Dialog.htmlToDOM(tbody, '');
+    htmlToDOM(tbody, '');
     for (let y = 0; y < rows; y++) {
         const row = tbody.insertRow();
         for (let x = 0; x < cols; x++) {
@@ -2760,7 +2760,7 @@ async function drawMine(args) {
         const { x, y } = tileDef;
         ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         const cell = table.rows[y].cells[x];
-        Dialog.htmlToDOM(cell, '');
+        htmlToDOM(cell, '');
         Array.from(cell.attributes).map(a => a.name).filter(n => n == 'class' || n == 'title' || n.startsWith('data-')).forEach(n => cell.removeAttribute(n));
     }
 
@@ -2840,10 +2840,10 @@ async function drawMine(args) {
         const isCurrent = floorId == fid;
         let title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
         if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
-        htm += Html`<span class="map_flags map_flags_${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"'}></span>`;
+        htm += Html`<span class="map_flags map_flags_${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"></span>`;
     }
     const div = container.querySelector('[data-id="fid"]');
-    Dialog.htmlToDOM(div, htm);
+    htmlToDOM(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
     const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }, allFound) => {
         [numTiles, cost, numSpecial, numQuest, numMaterial].forEach((n, i) => {

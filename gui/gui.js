@@ -2,16 +2,26 @@
 const bgp = chrome.extension.getBackgroundPage();
 
 DOMPurify.addHook('afterSanitizeAttributes', function(node) {
-    // set all elements owning target to target=_blank
-    if ('target' in node) {
+    // set all elements owning target and having the attribute `data-target`=_blank
+    if ('target' in node && node.getAttribute('data-target') === '_blank') {
+        node.removeAttribute('data-target');
         node.setAttribute('target', '_blank');
         node.setAttribute('rel', 'noopener');
     }
 });
 function htmlToDOM(parent, html) {
-    parent.innerHTML = DOMPurify.sanitize(html);
-    if (DOMPurify.removed.length) console.warn('removed', DOMPurify.removed);
+    const clean = DOMPurify.sanitize(html);
+    parent.innerHTML = clean;
+    if (DOMPurify.removed.length) {
+        console.warn('removed', DOMPurify.removed);
+    }
+    return parent;
 }
+const offlineDOMRenderer = document.createElement('div');
+htmlToDOM.tr = function(html) {
+    htmlToDOM(offlineDOMRenderer, '<table><tr>' + html + '</tr></table>');
+    return offlineDOMRenderer.querySelector('tr');
+};
 
 let currentTab = null;
 const tabs = (function () {
@@ -435,6 +445,18 @@ const gui = {
                 element.dispatchEvent(event);
                 element.removeAttribute('lazy-render');
             }
+            if (element.hasAttribute('data-lazy')) {
+                const src = element.getAttribute('data-lazy');
+                if (src !== '') {
+                    element.setAttribute('src', src);
+                } else {
+                    const event = new Event('render', {
+                        bubbles: true
+                    });
+                    element.dispatchEvent(event);
+                }
+                element.removeAttribute('data-lazy');
+            }
         }
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     },
@@ -448,14 +470,15 @@ const gui = {
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     }),
     collectLazyElements: function (container) {
-        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.observe(item));
+        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render],*[data-lazy]')).forEach(item => this.lazyObserver.observe(item));
     },
     removeLazyElements: function (container) {
-        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.unobserve(item));
+        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render],*[data-lazy]')).forEach(item => this.lazyObserver.unobserve(item));
     },
     setLazyRender: function (element) {
         if (element) {
             element.setAttribute('lazy-render', '');
+            element.setAttribute('data-lazy', '');
             gui.lazyObserver.observe(element);
         }
     },
@@ -938,7 +961,9 @@ function notifyVisibility(tab, visible) {
 
 function onLoad() {
     bgp.Data.requiresFullLanguage = false;
-    gui.isFirefox = getComputedStyle(document.body.querySelector('.mozTest')).textDecorationStyle === 'wavy';
+    const divMozTest = document.body.querySelector('.mozTest');
+    gui.isFirefox = getComputedStyle(divMozTest).textDecorationStyle === 'wavy';
+    divMozTest.remove();
     const currentLanguage = gui.getPreference('language');
     const currentLocale = gui.getPreference('locale');
     gui.timeParts = gui.getMessage('gui_timeparts').split(',');
