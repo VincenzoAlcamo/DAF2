@@ -400,16 +400,16 @@ function update() {
     lastGiftDays = 0;
     palRows = {};
     palDays = {};
-    for (const pal of Object.values(bgp.Data.getNeighbours())) {
-        const row = document.createElement('tr');
-        row.setAttribute('data-pal-id', pal.id);
-        row.setAttribute('height', 61);
-        row.setAttribute('data-lazy', '');
-        palRows[pal.id] = row;
-        palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
-    }
+    const pals = Object.assign({}, bgp.Data.getNeighbours());
     // Remove Mr.Bill
-    delete palRows[1];
+    delete pals[1];
+    const htm = Object.values(pals).map(pal => {
+        palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
+        return Html`<tr data-pal-id="${pal.id}" height="61" data-lazy></tr>`;
+    }).join('');
+    const rows = htmlToDOM.tr(null, htm);
+    rows.forEach(row => palRows[row.getAttribute('data-pal-id')] = row);
+
     weekdayNames = {};
     for (let day = 1; day <= 7; day++) {
         // The 1st January 2018 was a Monday (1 = Monday)
@@ -508,7 +508,7 @@ function updateRow(row) {
     htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
     htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
     htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
-    const row2 = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+    const row2 = palRows[id] = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
     row2.setAttribute('data-pal-id', id);
     row.replaceWith(row2);
 }

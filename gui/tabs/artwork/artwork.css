@@ -4,6 +4,7 @@
   justify-content: center;
   --width: 200px;
   --height: 200px;
+  min-width: var(--width);
 }
 
 .tab_artwork .grid .item {

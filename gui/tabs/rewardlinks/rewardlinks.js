@@ -270,7 +270,7 @@ function saveState() {
 function add() {
     gui.dialog.show({
         title: gui.getMessage('rewardlinks_addlinks'),
-        html: Html.br`${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" name="links"></textarea>`,
+        html: Html.br`${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" data-name="links"></textarea>`,
         defaultButton: 'links',
         style: [Dialog.CONFIRM, Dialog.CANCEL]
     }, function (method, params) {
@@ -297,7 +297,7 @@ function short() {
 <option value="1">${gui.getMessage('options_sort_ascending')}</option>
 <option value="2">${gui.getMessage('options_sort_descending')}</option>
 </select></td></tr>
-<tr><td class="no_right_border label">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" name="prefix">
+<tr><td class="no_right_border label">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" data-name="prefix">
 <option value="0"></option>
 <option value="1">1</option>
 <option value="2">01</option>
@@ -314,7 +314,7 @@ function short() {
 <table class="daf-table" style="margin-top:2px">
 <thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info1')}</th></tr></thead>
 <tbody class="row-coloring"><tr><td style="text-align:center">
-<textarea data-method="input" cols="60" rows="5" name="links" style="padding:2px"></textarea>
+<textarea data-method="input" cols="60" rows="5" data-name="links" style="padding:2px"></textarea>
 </td></tr></tbody>
 <thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info2')}</th></tr></thead>
 <tbody class="row-coloring"><tr><td style="text-align:center">
@@ -329,7 +329,7 @@ function short() {
             params = LinkData.stringToOptions(shorten);
             gui.dialog.element.querySelector('[name=convert]').value = params.convert;
             gui.dialog.element.querySelector('[name=sort]').value = params.sort;
-            gui.dialog.element.querySelector('[name=prefix]').value = params.prefix;
+            gui.dialog.element.querySelector('[data-name=prefix]').value = params.prefix;
             gui.dialog.element.querySelector('[name=addspace]').checked = params.addspace;
             gui.dialog.element.querySelector('[name=separator]').value = params.separator;
             gui.dialog.element.querySelector('[name=newline]').checked = params.newline;

@@ -1,4 +1,4 @@
-/*global chrome*/
+/*global chrome DOMPurify*/
 // Inject stylesheet
 if (!document.getElementById('DAF-md-style'))
     document.head.appendChild(Object.assign(document.createElement('link'), {
@@ -31,6 +31,14 @@ Object.assign(Dialog, {
         return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
     },
     htmlToDOM: function (parent, html) {
+        if ('DOMPurify' in window) {
+            const clean = DOMPurify.sanitize(html);
+            parent.innerHTML = clean;
+            if (DOMPurify.removed.length) {
+                console.warn('removed', DOMPurify.removed);
+            }
+            return;
+        }
         while (parent.firstChild) parent.firstChild.remove();
         if (html === null || html === undefined || html === '') return;
         html = String(html);
@@ -237,7 +245,7 @@ Object.assign(Dialog.prototype, {
             } else params[name] = value;
         }
         Array.from(this.form.elements).forEach(e => {
-            const name = e.name;
+            const name = e.getAttribute('data-name') || e.name; // DOMPurify fix
             let value = e.value;
             const type = e.tagName == 'INPUT' ? e.type.toUpperCase() : e.tagName;
             switch (type) {
