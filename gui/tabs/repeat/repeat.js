@@ -110,6 +110,11 @@ function update() {
             repeatables[item.id] = item;
         }
     }
+    // Create rows
+    let htm = '';
+    htm = Object.values(repeatables).map(item => Html`<tr data-id="${item.id}" height="40" data-lazy></tr>`).join('');
+    const rows = htmlToDOM.tr(null, htm);
+    rows.forEach(row => repeatables[row.getAttribute('data-id')].row = row);
     const specialWeeks = gui.getActiveSpecialWeeks();
     swPostcards = specialWeeks.postcards;
     showSpecialWeeks([specialWeeks.doubleDrop, specialWeeks.postcards]);
@@ -184,16 +189,7 @@ function refresh() {
 
     const tbody = smartTable.tbody[0];
     htmlToDOM(tbody, '');
-    for (const item of items) {
-        let row = item.row;
-        if (!row) {
-            row = item.row = document.createElement('tr');
-            row.setAttribute('data-id', item.id);
-            row.setAttribute('height', 40);
-            row.setAttribute('lazy-render', '');
-        }
-        tbody.appendChild(row);
-    }
+    items.forEach(item => tbody.appendChild(item.row));
     gui.collectLazyElements(tbody);
     smartTable.syncLater();
     refreshItems();

@@ -250,8 +250,8 @@ function tableClick(event) {
         row.removeAttribute('data-pal-id');
         flagModified = true;
         if (isRowVisible(null, pal)) {
-            const row2 = row.parentNode.appendChild(document.createElement('tr'));
-            row2.setAttribute('data-pal-id', pal.id);
+            const row2 = htmlToDOM.tr(null, `<tr data-pal-id="${pal.id}"></tr>`)[0];
+            row.parentNode.appendChild(row2);
             updateRow(row2);
         }
         pal = null;

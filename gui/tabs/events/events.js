@@ -266,6 +266,12 @@ function update() {
         item.segmented = item.issegmented ? eventsRegion[eid] || 0 : -1;
     }
 
+    // Create rows
+    let htm = '';
+    htm = Object.values(allEvents).map(item => Html`<tr data-eid="${item.id}" height="44" data-lazy></tr>`).join('');
+    const rows = htmlToDOM.tr(null, htm);
+    rows.forEach(row => allEvents[row.getAttribute('data-eid')].row = row);
+
     htmlToDOM(selectYear, '');
     gui.addOption(selectYear, '', '');
     let lastYear = null;
@@ -381,14 +387,7 @@ function refresh() {
     keys.forEach(key => totals[key] = 0);
     for (const item of items) {
         keys.forEach(key => totals[key] += item[key]);
-        let row = item.row;
-        if (!row) {
-            row = item.row = document.createElement('tr');
-            row.setAttribute('data-eid', item.id);
-            row.setAttribute('height', 44);
-            row.setAttribute('data-lazy', '');
-        }
-        tbody.appendChild(row);
+        tbody.appendChild(item.row);
     }
     Array.from(container.querySelectorAll('.events tfoot td[data-key]')).forEach(cell => {
         const key = cell.getAttribute('data-key');

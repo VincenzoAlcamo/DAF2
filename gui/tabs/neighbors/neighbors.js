@@ -39,9 +39,7 @@ function init() {
     checkId = container.querySelector('[name=showid]');
     checkId.addEventListener('click', refresh);
 
-    trGifts = document.createElement('tr');
-    trGifts.className = 'giftrow';
-    htmlToDOM(trGifts, Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`);
+    trGifts = htmlToDOM.tr(null, Html.br`<tr class="giftrow"><td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td></tr>`)[0];
 
     const handlers = { formula, gifts, summary };
     const onClickButton = (event) => {

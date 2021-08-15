@@ -30,7 +30,7 @@ function setTableRegion() {
 }
 
 function update() {
-    htmlToDOM(gcTable, '');
+    // htmlToDOM(gcTable, '');
     const neighbours = bgp.Data.getNeighbours();
     numNeighbours = Object.values(neighbours).length - 1;
     maxGC = gui.getChildrenMax(numNeighbours) + 1;
@@ -42,22 +42,18 @@ function update() {
         list.sort((a, b) => a.index - b.index);
     }
     setTableRegion();
-    for (const pal of list) {
+    const htm = list.map(pal => {
         const isValid = pal.region;
-        const div = gcTable.appendChild(document.createElement('div'));
-        div.setAttribute('data-pal-id', pal.id);
-        div.className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' collected');
-        div.style.backgroundImage = isValid ? 'url(' + gui.getNeighborAvatarUrl(pal) + ')' : 'url(/img/gui/anon.png)';
-        const d = div.appendChild(document.createElement('div'));
-        d.textContent = pal.level || 0;
-        if (pal.id == 1 || !isValid) d.style.visibility = 'hidden';
-        const elName = document.createElement('div');
-        elName.textContent = pal.name || 'Player ' + pal.id;
-        elName.appendChild(document.createElement('br'));
-        elName.appendChild(document.createElement('b')).classList.add('energy');
-        div.appendChild(elName);
-        updateEnergy(pal.id);
-    }
+        const url = isValid ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png';
+        const className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' collected');
+        let htm = Html`<div data-pal-id="${pal.id}" style="background-image:url(${url})" class="${className}">`;
+        htm += Html`<div style="${pal.id == 1 || !isValid ? 'visibility:hidden' : ''}">${pal.level || 0}</div>`;
+        htm += Html`<div>${pal.name || 'Player ' + pal.id}<br><b class="energy"></b></div>`;
+        htm += Html`</div>`;
+        return htm;
+    }).join('');
+    htmlToDOM(gcTable, htm);
+    list.forEach(pal => updateEnergy(pal.id));
     updateStatus();
 }
 

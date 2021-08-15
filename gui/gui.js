@@ -1139,8 +1139,8 @@ async function setCurrentTab(tabId) {
     });
     const tab = tabs[tabId];
     if (!tab.container) {
-        tab.container = document.querySelector('.main-container').appendChild(document.createElement('div'));
-        tab.container.classList.add('tab_' + tabId);
+        tab.container = htmlToDOM(null, `<div class="tab_${tab.id}"></div>`);
+        document.querySelector('.main-container').appendChild(tab.container);
         await loadTab(tab);
     }
     notifyVisibility(currentTab, false);

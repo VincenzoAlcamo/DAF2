@@ -271,27 +271,28 @@ function update() {
     }
 
     const arrEvents = Object.values(allEvents).filter(event => event.sale).sort((a, b) => b.year - a.year);
-    let optGroup = null;
     let lastYearText = '';
-    htmlToDOM(selectEvent, '');
+    let htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
     for (const event of arrEvents) {
         const yearText = Locale.formatYear(event.year);
-        if (!optGroup || lastYearText != yearText) {
+        if (lastYearText != yearText) {
+            if (lastYearText) htm += '</optgroup>';
             lastYearText = yearText;
-            optGroup = document.createElement('optgroup');
-            optGroup.label = gui.getMessageAndValue('events_year', yearText);
-            selectEvent.appendChild(optGroup);
+            htm += Html`<optgroup label="${gui.getMessageAndValue('events_year', yearText)}">`;
         }
-        gui.addOption(optGroup, '' + event.id, gui.getObjectName('event', event.id));
+        htm += Html`<option value="${event.id}">${gui.getObjectName('event', event.id)}</option>`;
     }
+    if (lastYearText) htm += '</optgroup>';
+    htmlToDOM(selectEvent, htm);
 
-    htmlToDOM(selectRegion, '');
-    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+    htm = '';
+    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+    htmlToDOM(selectRegion, htm);
 
-    htmlToDOM(selectTheme, '');
-    for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending)) {
-        gui.addOption(selectTheme, '' + skin, gui.getObjectName('skin', skin));
-    }
+    htm = '';
+    for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending))
+        htm += Html`<option value="${skin}">${gui.getObjectName('skin', skin)}</option>`;
+    htmlToDOM(selectTheme, htm);
 
     setState(state);
 
