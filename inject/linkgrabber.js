@@ -626,12 +626,13 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 function askCollect() {
     const html = `<p style="text-align:center">${Dialog.htmlEncodeBr(getMessage('friendship_confirmwarning'))}`;
     Dialog(Dialog.MODAL).show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
-        (method) => (method == Dialog.CONFIRM) && collect(true)
+        (method) => (method == Dialog.CONFIRM) && collect()
     );
 }
 
-function collect(confirmCollection) {
+function collect() {
     const autoClose = false;
+    const confirmCollection = true;
     const collectMethod = 'standard';
     const unmatched = '';
     const wait = Dialog(Dialog.WAIT);

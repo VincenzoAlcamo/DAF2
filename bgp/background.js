@@ -109,8 +109,6 @@ var Preferences = {
             features: '',
             mapDownloadEvent: 'DAF2_maps/$event/$location',
             mapDownloadRegion: 'DAF2_maps/$region/$god/$location',
-            confirmCollection: false,
-            speedupCollection: 0,
             matchByImage: true,
             mapShowRepeatables: true,
             mapSettings: '',

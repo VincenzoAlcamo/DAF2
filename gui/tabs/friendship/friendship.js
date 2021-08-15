@@ -103,15 +103,6 @@ function update() {
     refresh();
 }
 
-function getConfirmCollection() {
-    return !!gui.getPreference('confirmCollection');
-}
-
-function getSpeedupCollection() {
-    const result = parseInt(gui.getPreference('speedupCollection'));
-    return result >= 0 && result <= 8 ? result : 0;
-}
-
 function getMatchByImage() {
     return !!gui.getPreference('matchByImage');
 }
@@ -141,27 +132,12 @@ function getUnmatched() {
 }
 
 function showCollectDialog() {
-    let confirmCollection = getConfirmCollection();
-    let speedupCollection = getSpeedupCollection();
     let matchByImage = getMatchByImage();
     let fbFriendsPage = getFbFriendsPage();
     const numUnmatched = getUnmatched().length;
 
     function addStandardSettings() {
-        let extra = Html.br`<span style="display:none"><br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
-        <select id="f_cc" name="confirmCollection">
-        <option value="0" ${!confirmCollection ? 'selected' : ''}>${gui.getMessage('friendship_cc_maybe')}</option>
-        <option value="1" ${confirmCollection ? 'selected' : ''}>${gui.getMessage('dialog_yes')}</option>
-        </select>
-        <br><label for="f_sc">${gui.getMessage('friendship_speedupcollect')}</label>
-        <select id="f_sc" name="speedupCollection">
-        <option value="0" ${speedupCollection == 0 ? 'selected' : ''}>${gui.getMessage('dialog_no')}</option>`;
-        for (let p = 1; p <= 3; p++) {
-            const i = 2 ** p;
-            extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
-        }
-        extra += `</select></span>
-        <br><label for="f_fv">${gui.getMessage('gui_type')}</label>
+        const extra = Html.br`<label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
         <option value="0" ${fbFriendsPage != 1 && fbFriendsPage != 2 ? 'selected' : ''}>A = ${getFbFriendsPageUrl('0')}</option>
         <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B = ${getFbFriendsPageUrl(1)}</option>
@@ -198,8 +174,6 @@ ${method == 'match' ? addMatchSettings() : ''}
     }
 
     function setStandardOptions(params) {
-        confirmCollection = setNewValue('confirmCollection', confirmCollection, !!(parseInt(params.confirmCollection)));
-        speedupCollection = setNewValue('speedupCollection', confirmCollection, parseInt(params.speedupCollection));
         fbFriendsPage = setNewValue('fbFriendsPage', fbFriendsPage, parseInt(params.fbFriendsPage) || 0);
     }
 
@@ -383,8 +357,6 @@ function collectFriends(method) {
                         addVar('language', gui.getPreference('language'));
                         addVar('unmatched', unmatched);
                         addVar('collectMethod', method);
-                        addVar('confirmCollection', 1 /*getConfirmCollection()*/);
-                        addVar('speedupCollection', 0 /*getSpeedupCollection()*/);
                         details.code = code + 'collect();';
                         chrome.tabs.executeScript(tabId, details, function () {
                             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);

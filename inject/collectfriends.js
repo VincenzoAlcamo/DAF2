@@ -4,8 +4,7 @@ let language = 'en';
 let collectMethod = 'standard';
 // eslint-disable-next-line no-unused-vars
 let unmatched = '';
-let confirmCollection = false;
-let speedupCollection = 0;
+let confirmCollection = true;
 /*eslint-enable prefer-const*/
 
 const autoClose = true;
@@ -42,31 +41,6 @@ function scrollWindow() {
     } catch (e) { }
 }
 
-function interceptData() {
-    const code = `
-    (function() {
-        const XHR = XMLHttpRequest.prototype;
-        const send = XHR.send;
-        const open = XHR.open;
-        XHR.open = function(method, url) {
-            this.url = url;
-            return open.apply(this, arguments);
-        }
-        XHR.send = function(e) {
-            if(e && this.url.indexOf('/graphql/') >= 0 && e.indexOf('variables') >= 0 && e.indexOf('count%22%3A8') >= 0) {
-                e = e.replace('count%22%3A8', 'count%22%3A${speedupCollection * 8}');
-                return send.call(this, e);
-            }
-            return send.apply(this, arguments);
-        };
-    })();
-    `;
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.appendChild(document.createTextNode(code));
-    document.head.prepend(script);
-}
-
 function getCountPhotos() {
     return document.querySelectorAll('a[href$="photos"]').length;
 }
@@ -94,7 +68,6 @@ function collect() {
             }
         }
         if (container) {
-            if (fbPage == FB_NEW && speedupCollection > 1) interceptData();
             clearInterval(handler);
             wait.hide();
             started = Date.now();
