@@ -1,12 +1,13 @@
 /*global chrome DOMPurify*/
 // Inject stylesheet
-if (!document.getElementById('DAF-md-style'))
-    document.head.appendChild(Object.assign(document.createElement('link'), {
-        id: 'DAF-md-style',
-        type: 'text/css',
-        rel: 'stylesheet',
-        href: chrome.runtime ? chrome.runtime.getURL('css/Dialog.css') : 'Dialog.css'
-    }));
+if (!document.getElementById('DAF-md-style')) {
+    const link = document.createElement('link');
+    link.id = 'DAF-md-style';
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = chrome.runtime ? chrome.runtime.getURL('css/Dialog.css') : 'Dialog.css';
+    document.head.appendChild(link);
+}
 
 function Dialog(mode = Dialog.MODAL) {
     if (!(this instanceof Dialog)) return new Dialog(mode);

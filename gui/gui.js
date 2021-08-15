@@ -822,12 +822,6 @@ const gui = {
         document.execCommand('copy', false, null);
         document.removeEventListener('copy', oncopy);
     },
-    addOption: function (select, value, text) {
-        const option = document.createElement('option');
-        option.value = value;
-        option.innerText = text;
-        select.appendChild(option);
-    },
     fileChooser: null,
     chooseFile: function (callback, accept, multiple) {
         let input = gui.fileChooser;
@@ -1061,6 +1055,15 @@ function onLoad() {
     setCurrentTab(tabId);
 }
 
+function addStylesheet(href, onLoad) {
+    const link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = href;
+    if (onLoad) link.addEventListener('load', onLoad);
+    document.head.appendChild(link);
+}
+
 async function loadTab(tab) {
     const container = tab.container;
     let state = null;
@@ -1068,20 +1071,12 @@ async function loadTab(tab) {
     tab.state = state && typeof state === 'object' ? state : {};
     let resource_count = 0;
     let resource_value = 0;
-    const advanceProgress = () => gui.wait.show({
-        text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count)
-    });
+    const advanceProgress = () => gui.wait.show({ text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count) });
     try {
         container.style.display = 'none';
         const tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
         Object.assign(tab, imported_tabs[tab.id]);
-        if (tab.hasCSS) {
-            const link = document.createElement('link');
-            link.setAttribute('rel', 'stylesheet');
-            link.setAttribute('type', 'text/css');
-            link.setAttribute('href', tabBasePath + '.css');
-            document.head.appendChild(link);
-        }
+        if (tab.hasCSS) addStylesheet(tabBasePath + '.css');
         tab.requires = tab.requires || [];
         if (tab.requires.includes('xp')) {
             if (!tab.requires.includes('sales')) tab.requires.push('sales');

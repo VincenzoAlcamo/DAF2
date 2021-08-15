@@ -57,14 +57,19 @@ function setShowId() {
     document.body.classList.toggle('DAF-show-id', showId);
 }
 
-// eslint-disable-next-line no-unused-vars
-function initialize() {
-    Dialog.language = options.language;
+function addStylesheet(href, onLoad) {
     const link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = chrome.runtime.getURL('inject/linkgrabber.css');
+    link.href = href;
+    if (onLoad) link.addEventListener('load', onLoad);
     document.head.appendChild(link);
+}
+
+// eslint-disable-next-line no-unused-vars
+function initialize() {
+    Dialog.language = options.language;
+    addStylesheet(chrome.runtime.getURL('inject/linkgrabber.css'));
     setShowId();
     addListeners(window, mousedown, keydown, keyup, blur, contextmenu);
     // track preference changes

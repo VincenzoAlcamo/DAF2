@@ -983,8 +983,10 @@ function update() {
     }).filter(t => t);
 
     const state = getState();
-    htmlToDOM(selectRegion, '');
-    for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, rid ? '' + rid : '', rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress'));
+    let htm = '';
+    for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++)
+        htm += Html`<option value="${rid ? '' + rid : ''}">${rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress')}</option>`;
+    htmlToDOM(selectRegion, htm);
     setState(state);
     updateTableFlags();
 }
@@ -2386,11 +2388,10 @@ async function drawMine(args) {
                 if (asset) {
                     const url = cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
                     cell.classList.add('tooltip-event');
-                    const div = cell.appendChild(document.createElement('div'));
-                    div.className = 'beacon-req';
-                    div.setAttribute('data-beacon', tileDef.miscId);
-                    div.style.backgroundImage = `url(${url})`;
-                    if (rotation > 1) div.style.transform = `rotate(${(rotation - 1) * 90}deg)`;
+                    let style = `background-image:url(${url})`;
+                    if (rotation > 1) style += `;transform:rotate(${(rotation - 1) * 90}deg)`;
+                    const div = htmlToDOM(null, Html`<div class="beacon-req" data-beacon="${tileDef.miscId}" style="${style}"></div>`);
+                    cell.appendChild(div);
                     solutionTiles.push({ x, y, asset, rotation });
                     if (showSolution && !isHidden && !(asset in images)) {
                         addImage(asset);
@@ -2398,9 +2399,8 @@ async function drawMine(args) {
                     }
                 }
             }
-            const div = cell.appendChild(document.createElement('div'));
-            div.style.backgroundColor = '#' + (beaconColors[item.activation || ''] || beaconColors.default) + '8';
-            div.className = 'beacon';
+            const div = htmlToDOM(null, Html`<div class="beacon" style="background-color:#${beaconColors[item.activation || ''] || beaconColors.default}8"></div>`);
+            cell.appendChild(div);
             cell.classList.toggle('beacon-active', tileDef.beaconActive);
         }
         if (texts.length) addTitle(x, y, texts.join('\n'), true);

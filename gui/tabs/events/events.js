@@ -272,16 +272,16 @@ function update() {
     const rows = htmlToDOM.tr(null, htm);
     rows.forEach(row => allEvents[row.getAttribute('data-eid')].row = row);
 
-    htmlToDOM(selectYear, '');
-    gui.addOption(selectYear, '', '');
+    htm = '';
     let lastYear = null;
     const items = Object.values(allEvents).sort((a, b) => b.year - a.year);
     for (const item of items) {
         if (item.year && item.yeartxt !== lastYear) {
             lastYear = item.yeartxt;
-            gui.addOption(selectYear, lastYear, lastYear);
+            htm += Html`<option value="${lastYear}">${lastYear}</option>`;
         }
     }
+    htmlToDOM(selectYear, htm);
 
     setState(state);
 
@@ -597,23 +597,27 @@ function showInfo() {
     checkTotals.parentNode.style.visibility = isLoc && selectedInfo != 'loc3' ? '' : 'hidden';
     checkEnergy.parentNode.style.visibility = isLoc && selectedInfo != 'loc3' && showProgress ? '' : 'hidden';
 
-    htmlToDOM(selectRegion, '');
+    htm = '';
     // Your progress
     let yourRegion = 1;
     if (isSegmented) yourRegion = item.status == 'notdone' ? Math.min(+generator.region, item.maxsegment) : item.segmented || 1;
     let text = isSegmented ? gui.getMessageAndValue('events_yourprogress', gui.getObjectName('region', yourRegion)) : gui.getMessage('events_yourprogress');
     if (item.status == 'notdone') text += ' (' + gui.getMessage('events_notdone') + ')';
-    gui.addOption(selectRegion, '', text);
+    htm += Html`<option value="">${text}</option>`;
     // List regions
     if (isSegmented) {
         region = Math.min(region, item.maxsegment);
-        for (let rid = 1; rid <= item.maxsegment; rid++) gui.addOption(selectRegion, rid, gui.getObjectName('region', rid));
+        for (let rid = 1; rid <= item.maxsegment; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
     } else {
         region = Math.min(region, 1);
-        gui.addOption(selectRegion, Math.max(selectedRegion, 1), gui.getMessage('events_notsegmented'));
+        htm += Html`<option value="${Math.max(selectedRegion, 1)}">${gui.getMessage('events_notsegmented')}</option>`;
     }
+    htmlToDOM(selectRegion, htm);
     selectRegion.value = selectedRegion || '';
     region = region || yourRegion;
+
+    htm = '';
+    htm += Html.br`<td colspan="21">`;
 
     const augmentTotalRewards = (totals, rewards) => {
         for (const reward of rewards) {

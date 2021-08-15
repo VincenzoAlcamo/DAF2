@@ -47,8 +47,9 @@ function init() {
 
     selectRegen = container.querySelector('[name=regen]');
     selectRegen.addEventListener('change', rebuildSetup);
-    htmlToDOM(selectRegen, '');
-    for (let i = 144; i >= 0; i--) gui.addOption(selectRegen, i, i);
+    let htm = '';
+    for (let i = 144; i >= 0; i--) htm += Html`<option value="${i}">${i}</option>`;
+    htmlToDOM(selectRegen, htm);
     selectRegen.parentNode.querySelector('span').textContent = `${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`;
 
     buttonFindThePair = container.querySelector('.toolbar button[data-action="playboard"]');

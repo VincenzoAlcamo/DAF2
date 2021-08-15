@@ -102,9 +102,9 @@ function kitchenFoundry(type) {
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
         if (selectRegion) {
             const state = getState();
-            htmlToDOM(selectRegion, '');
-            gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
-            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+            let htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
+            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+            htmlToDOM(selectRegion, htm);
             setState(state);
         }
         oldState = {};

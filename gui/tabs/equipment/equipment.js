@@ -863,37 +863,19 @@ function refresh() {
     items = sort(items);
 
     const tbody = smartTable.tbody[0];
-    htmlToDOM(tbody, '');
     if (showAsGrid) {
-        const row = document.createElement('tr');
-        tbody.appendChild(row);
-        const td = row.insertCell();
-        td.classList.add('grid-container');
-        td.colSpan = 16;
-        const parent = document.createElement('div');
-        parent.style.display = 'none';
-        td.appendChild(parent);
+        htmlToDOM.tr(tbody, Html`<tr><td colspan="16" class="grid-container"><div style="display:none"></div></td></tr>`);
+        const parent = tbody.querySelector('div');
         for (const item of items) {
-            let div = item.div;
-            if (!div) {
-                div = item.div = document.createElement('div');
-                div.setAttribute('data-id', item.id);
-                div.className = 'pack-item-placeholder';
-                div.setAttribute('data-lazy', '');
-            }
-            parent.appendChild(div);
+            if (!item.div) item.div = htmlToDOM(null, Html`<div data-id="${item.id}" class="pack-item-placeholder" data-lazy></div>`);
+            parent.appendChild(item.div);
         }
         setTimeout(() => parent.style.display = '', 50);
     } else {
+        htmlToDOM(tbody, '');
         for (const item of items) {
-            let row = item.row;
-            if (!row) {
-                row = item.row = document.createElement('tr');
-                row.setAttribute('data-id', item.id);
-                row.setAttribute('height', 65);
-                row.setAttribute('data-lazy', '');
-            }
-            tbody.appendChild(row);
+            if (!item.row) item.row = htmlToDOM.tr(null, Html`<tr data-id="${item.id}" height="65" data-lazy></tr>`)[0];
+            tbody.appendChild(item.row);
         }
     }
     gui.collectLazyElements(tbody);
@@ -1024,9 +1006,9 @@ function updateItem(div) {
         const costEl = div.querySelector('.cost');
         costEl.className = costClass;
         if (saleMessageId) {
-            let badge = document.createElement('div');
-            htmlToDOM(badge, badgeHtml);
-            badge = badge.firstElementChild;
+            if (price) badgeHtml += Html`<span>${price.currency + ' ' + Locale.formatNumber(+price.amount, 2)}</span>`;
+            const badge = htmlToDOM(null, badgeHtml);
+            if (badge.nextElementSibling) costEl.appendChild(badge.nextElementSibling);
             let title = badge.title;
             badge.removeAttribute('title');
             costEl.insertBefore(badge, costEl.firstChild);
@@ -1036,11 +1018,6 @@ function updateItem(div) {
                 title += '\n' + Locale.formatDateTime(start) + ' - ' + Locale.formatDateTime(end);
             }
             costTitle = title + (costTitle ? '\n' + costTitle : '');
-            if (price) {
-                const span = document.createElement('span');
-                span.textContent = price.currency + ' ' + Locale.formatNumber(+price.amount, 2);
-                costEl.appendChild(span);
-            }
         }
         costEl.title = costTitle;
         if (item.sale_id > 0 && item.hide) div.classList.add('notinshop');

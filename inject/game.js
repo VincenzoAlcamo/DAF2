@@ -30,15 +30,6 @@ function forceResize(delay = 0) {
     setTimeout(() => window.dispatchEvent(new Event('resize')), delay);
 }
 
-function addStylesheet(href, onLoad) {
-    const link = document.createElement('link');
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-    link.href = href;
-    if (onLoad) link.addEventListener('load', onLoad);
-    document.head.appendChild(link);
-}
-
 function htmlEncode(text) {
     return text === undefined || text === null ? '' : String(text).replace(/[&<>'"]/g, c => '&#' + c.charCodeAt(0) + ';');
 }
@@ -57,6 +48,15 @@ function getMessage(id, ...args) {
 
 function getFullWindow() {
     return prefs.fullWindow && loadCompleted;
+}
+
+function addStylesheet(href, onLoad) {
+    const link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = href;
+    if (onLoad) link.addEventListener('load', onLoad);
+    document.head.appendChild(link);
 }
 
 let resizeCount = 2;
@@ -140,40 +140,6 @@ function onFullWindow() {
         }
     }
 }
-
-// function autoClickHandler() {
-//     if (event.animationName !== 'DAF_anim' || !prefs.autoClick) return;
-//     var element = event.target;
-//     var form = element.form;
-//     if (!form) return;
-//     // guard against payments
-//     if (element.getAttribute('data-testid') == 'pay_button') return;
-//     if (form.action.indexOf('pay') >= 0) return;
-//     if (form.action.indexOf('/app_requests/') < 0 && form.action.indexOf('/share/') < 0) return;
-//     // find root node for dialog, so we can send it in background
-//     var parent = element;
-//     while (parent.parentNode.tagName != 'BODY') {
-//         parent = parent.parentNode;
-//     }
-//     // this is the Invite dialog
-//     if (parent.querySelector('.profileBrowserDialog')) return;
-//     parent.style.zIndex = -1;
-//     // click the confirm button
-//     element.click();
-// }
-
-// function onAutoClick() {
-//     var autoClick = prefs.autoClick;
-//     if (autoClick == autoClickAttached) return;
-//     if (autoClick && !autoClickStyle) {
-//         autoClickStyle = document.createElement('style');
-//         autoClickStyle.innerHTML = `@keyframes DAF_anim { from { outline: 1px solid transparent } to { outline: 0px solid transparent } }
-// button.layerConfirm[name=__CONFIRM__] { animation-duration: 0.001s; animation-name: DAF_anim; }`;
-//         document.head.appendChild(autoClickStyle);
-//     }
-//     autoClickAttached = autoClick;
-//     document[autoClick ? 'addEventListener' : 'removeEventListener']('animationstart', autoClickHandler, false);
-// }
 
 function onNoGCPopup() {
     document.body.setAttribute('daf_nogc', prefs.noGCPopup ? '1' : '0');
@@ -473,6 +439,7 @@ function search() {
 
 
 function createMenu() {
+    addStylesheet(chrome.runtime.getURL('inject/game_menu.css'), () => { styleLoaded = true; showMenu(); });
     const gm = (id) => htmlEncodeBr(getMessage(id));
     const gmt = (id) => htmlEncode(getMessage(id));
     const gm0 = (id) => htmlEncode(getMessage(id).split('\n')[0]);
@@ -561,10 +528,6 @@ function createMenu() {
 `;
     // remove spaces
     html = html.replace(/>\s+/g, '>');
-    addStylesheet(chrome.runtime.getURL('inject/game_menu.css'), function () {
-        styleLoaded = true;
-        showMenu();
-    });
     menu = document.createElement('div');
     menu.classList.add('DAF-menu-container');
     menu.style.display = 'none';
@@ -710,9 +673,7 @@ function init() {
         // Set body height to 100% so we can use height:100% in miner
         document.body.style.height = '100%';
         // insert link for condensed font
-        addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'), function () {
-            gcTableStyle = true;
-        });
+        addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'), () => { gcTableStyle = true; });
     } else {
         for (const item of String(location.search).substr(1).split('&'))
             if (item.split('=')[0] == 'flash') isWebGL = false;

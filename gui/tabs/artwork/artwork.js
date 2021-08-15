@@ -52,7 +52,8 @@ function init() {
         setState(getState());
         refresh();
     });
-    Object.keys(kinds).forEach(type => gui.addOption(selectShow, type, type.toUpperCase().replace(/[_]/g, ' ')));
+    const htm = Object.keys(kinds).map(type => Html`<option value="${type}">${type.toUpperCase().replace(/[_]/g, ' ')}</option>`).join('');
+    htmlToDOM(selectShow, htm);
 
     selectEvent = container.querySelector('[name=event]');
     selectEvent.addEventListener('change', refresh);
