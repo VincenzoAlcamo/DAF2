@@ -1,3 +1,4 @@
+/*global htmlToDOM*/
 const resizeObserver = new ResizeObserver(function (entries) {
     for (const entry of entries) {
         const element = entry.target;
@@ -11,8 +12,8 @@ const resizeObserver = new ResizeObserver(function (entries) {
 function SmartTable(table) {
     this.table = table;
     const parent = this.table.parentNode;
-    this.container = parent.insertBefore(document.createElement('div'), this.table);
-    this.container.className = 'sticky-container';
+    this.container = htmlToDOM(null, `<div class="sticky-container"></div>`);
+    parent.insertBefore(this.container, this.table);
     this.sort = {};
     this.sortSub = {};
     this.container.appendChild(this.table);
@@ -34,8 +35,8 @@ Object.assign(SmartTable.prototype, {
         this.header = this.table.querySelector('thead');
         if (this.header) {
             this.hasSortableSub = !!this.header.querySelector('th.sortable-sub');
-            tableHeader = this.container.insertBefore(document.createElement('table'), this.container.firstChild);
-            tableHeader.className = 'sticky-header';
+            tableHeader = htmlToDOM(null, `<table class="sticky-header"></table>`);
+            this.container.insertBefore(tableHeader, this.container.firstChild);
             this.header.style.visibility = '';
             tableHeader.appendChild(this.fixedHeader = this.header.cloneNode(true));
             this.header.style.visibility = 'hidden';
@@ -48,8 +49,8 @@ Object.assign(SmartTable.prototype, {
         this.fixedFooter = null;
         this.footer = this.table.querySelector('tfoot');
         if (this.footer) {
-            tableFooter = this.container.appendChild(document.createElement('table'));
-            tableFooter.className = 'sticky-footer';
+            tableFooter = htmlToDOM(null, `<table class="sticky-footer"></table>`);
+            this.container.appendChild(tableFooter);
             this.footer.style.visibility = '';
             tableFooter.appendChild(this.fixedFooter = this.footer.cloneNode(true));
             this.footer.style.visibility = 'hidden';

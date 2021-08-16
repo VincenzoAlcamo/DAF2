@@ -1,4 +1,4 @@
-/*global chrome Dialog*/
+/*global chrome htmlEncode htmlToDOM addStylesheet Dialog*/
 
 const options = {
     linkGrabEnabled: true,
@@ -57,15 +57,6 @@ function setShowId() {
     document.body.classList.toggle('DAF-show-id', showId);
 }
 
-function addStylesheet(href, onLoad) {
-    const link = document.createElement('link');
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-    link.href = href;
-    if (onLoad) link.addEventListener('load', onLoad);
-    document.head.appendChild(link);
-}
-
 // eslint-disable-next-line no-unused-vars
 function initialize() {
     Dialog.language = options.language;
@@ -116,12 +107,10 @@ function mousedown(event) {
 
     // create the box
     if (box == null) {
-        box = document.body.appendChild(document.createElement('span'));
-        box.className = 'DAF-selector';
-        box.style.visibility = 'hidden';
-        countLabel = document.body.appendChild(document.createElement('span'));
-        countLabel.className = 'DAF-counter';
-        countLabel.style.visibility = 'hidden';
+        box = htmlToDOM(null, `<span class="DAF-selector" style="visibility:hidden"></span>`);
+        document.body.appendChild(box);
+        countLabel = htmlToDOM(null, `<span class="DAF-counter" style="visibility:hidden"></span>`);
+        document.body.appendChild(countLabel);
     }
 
     // update position
@@ -331,9 +320,8 @@ function detectDelayed() {
             if (daf.data) {
                 selected = true;
                 if (daf.box == null) {
-                    daf.box = document.body.appendChild(document.createElement('span'));
-                    daf.box.textContent = daf.data.id;
-                    daf.box.className = 'DAF-box';
+                    daf.box = htmlToDOM(null, `<span class="DAF-box">${daf.data.id}</span>`);
+                    document.body.appendChild(daf.box);
                     setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
                 }
                 total++;
@@ -629,7 +617,7 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 }
 
 function askCollect() {
-    const html = `<p style="text-align:center">${Dialog.htmlEncodeBr(getMessage('friendship_confirmwarning'))}`;
+    const html = `<p style="text-align:center">${htmlEncode.br(getMessage('friendship_confirmwarning'))}`;
     Dialog(Dialog.MODAL).show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
         (method) => (method == Dialog.CONFIRM) && collect()
     );

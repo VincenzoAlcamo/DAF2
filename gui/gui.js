@@ -740,10 +740,7 @@ const gui = {
         };
     },
     createCanvas: function(width, height) {
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        return canvas;
+        return htmlToDOM(null, `<canvas width="${width}" height="${height}"></canvas>`);
     },
     setupScreenshot: function (element, filename = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
@@ -878,13 +875,10 @@ const gui = {
             if (path) filename = path + '/' + filename;
             chrome.downloads.download({ url, filename, conflictAction }, () => gui.hasRuntimeError('downloadData'));
         } else {
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            document.body.appendChild(a);
+            // DOMPurify does not support object urls
+            const a = htmlToDOM(null, Html`<a download="${filename}"></a>`);
             a.href = url;
-            a.download = filename;
             a.click();
-            setTimeout(() => a.parentNode.removeChild(a), 2000);
         }
     },
     readFile: function (file) {

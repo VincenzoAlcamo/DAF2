@@ -525,9 +525,8 @@ function ensureSmartTableExtra() {
         smartTable.tbody.push(tbodyInfo);
     }
     if (!trInfo) {
-        trInfo = document.createElement('tr');
+        trInfo = tbodyInfo.insertRow();
         trInfo.className = 'inforow';
-        tbodyInfo.appendChild(trInfo);
     }
     fixedBody.style.display = tbodyInfo.style.display = 'none';
 }

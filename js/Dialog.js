@@ -71,13 +71,12 @@ Object.assign(Dialog.prototype, {
     create: function (force) {
         if (!this.element || force) {
             this.remove();
-            this.element = document.createElement('div');
-            this.element.className = 'DAF-dialog DAF-md-superscale ' + (this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal') + (this.mode === Dialog.WAIT ? ' DAF-md-wait' : '');
             // We stopped using a CSS transform (that blurs the text)
             const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
-            htmlToDOM(this.element, `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
+            this.element = htmlToDOM(null, `<div class="DAF-dialog DAF-md-superscale ${this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal'}${this.mode === Dialog.WAIT ? ' DAF-md-wait' : ''}">
+            <div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
             <div class="DAF-md-title"><button title="${Dialog.getMessage('dialog_close')}" value="${Dialog.CLOSE}"></button><button value="${Dialog.HIDE}"></button><div></div></div><div class="DAF-md-body"></div>
-            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div>`);
+            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div></div>`);
             this.form = this.element.getElementsByTagName('form')[0];
             document.body.appendChild(this.element);
         }

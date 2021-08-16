@@ -1,9 +1,7 @@
 /*global htmlToDOM*/
 const Tooltip = {};
 Tooltip.init = function () {
-    this.tip = document.createElement('span');
-    this.tip.className = 'Tooltip';
-    this.tip.style.display = 'none';
+    this.tip = htmlToDOM(null, `<span class="Tooltip" style="display:none"></span>`);
     document.body.appendChild(this.tip);
     document.addEventListener('mouseover', function (e) {
         const el = e.target;
