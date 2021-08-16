@@ -341,31 +341,13 @@ function collectFriends(method) {
         setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 20000);
         chrome.tabs.get(tabId, function (tab) {
             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-            waitForTab(tab).then(function () {
-                const details = {
-                    file: '/js/Dialog.js',
-                    runAt: 'document_end',
-                    allFrames: false,
-                    frameId: 0
-                };
-                chrome.tabs.executeScript(tabId, details, function () {
-                    if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-                    details.file = '/inject/collectfriends.js';
-                    chrome.tabs.executeScript(tabId, details, function () {
-                        if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-                        delete details.file;
-                        let code = '';
-                        const addVar = (name, value) => code += name + '=' + JSON.stringify(value) + ';';
-                        addVar('language', gui.getPreference('language'));
-                        addVar('unmatched', unmatched);
-                        addVar('collectMethod', method);
-                        details.code = code + 'collect();';
-                        chrome.tabs.executeScript(tabId, details, function () {
-                            if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-                        });
-                    });
-                });
-            });
+            const addVar = (name, value) => name + '=' + JSON.stringify(value) + ';';
+            const params = {
+                file: ['/js/purify.min.js', '/inject/common.js', '/js/Dialog.js', '/inject/collectfriends.js'],
+                code: `${addVar('language', gui.getPreference('language'))}${addVar('unmatched', unmatched)}${addVar('collectMethod', method)}collect()`,
+                runAt: 'document_end', allFrames: false, frameId: 0
+            };
+            waitForTab(tab).then(() => executeScriptPromise(tabId, params));
         });
     });
 }
@@ -386,6 +368,29 @@ function waitForTab(tab) {
         }
         chrome.tabs.onUpdated.addListener(onUpdated);
     });
+}
+
+function executeScriptPromise(tabId, params) {
+    const asArray = (value) => value ? (Array.isArray(value) ? value : [value]) : [];
+    const files = asArray(params.file), code = asArray(params.code);
+    params = Object.assign({}, params);
+    const nextFile = () => {
+        delete params.file;
+        delete params.code;
+        if (files.length) params.file = files.shift();
+        else if (code.length) params.code = code.shift();
+        else return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            chrome.tabs.executeScript(tabId, params, function () {
+                if (chrome.runtime.lastError) {
+                    console.log(chrome.runtime.lastError);
+                    reject(chrome.runtime.lastError);
+                }
+                return nextFile();
+            });
+        });
+    };
+    return nextFile();
 }
 
 function showStats() {

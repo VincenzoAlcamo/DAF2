@@ -432,4 +432,16 @@
   border-top-right-radius: 16px;
 }
 
+.DAF-menu .DAF-search-region,
+.DAF-menu .DAF-search-level {
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.DAF-menu .DAF-search-region {
+  background-image: url(/img/gui/map.png);
+}
+.DAF-menu .DAF-search-level {
+  background-image: url(/img/gui/level.png);
+}
 /*#endregion*/

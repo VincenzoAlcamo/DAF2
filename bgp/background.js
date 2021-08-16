@@ -231,6 +231,29 @@ var Message = {
 //#endregion
 
 //#region TAB LISTENER (WEBNAVIGATION)
+function executeScriptPromise(tabId, params) {
+    const asArray = (value) => value ? (Array.isArray(value) ? value : [value]) : [];
+    const files = asArray(params.file), code = asArray(params.code);
+    params = Object.assign({}, params);
+    const nextFile = () => {
+        delete params.file;
+        delete params.code;
+        if (files.length) params.file = files.shift();
+        else if (code.length) params.code = code.shift();
+        else return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            chrome.tabs.executeScript(tabId, params, function () {
+                if (chrome.runtime.lastError) {
+                    console.log(chrome.runtime.lastError);
+                    reject(chrome.runtime.lastError);
+                }
+                return nextFile();
+            });
+        });
+    };
+    return nextFile();
+}
+
 // eslint-disable-next-line no-var
 var Tab = {
     gameTabId: null,
@@ -276,7 +299,7 @@ var Tab = {
     onAutoLoginCompleted: function (details) {
         if (!Preferences.getValue('autoLogin')) return;
         console.log('injecting auto portal login');
-        chrome.tabs.executeScript(details.tabId, {
+        const params = {
             code: `
 // Privacy policy
 var el = document.querySelector('.alert__action[data-announcement="privacy_policy"]');
@@ -295,41 +318,29 @@ if (loginButton) {
     loginButton.click();
     handler = setInterval(tryLogin, 500);
 }
-            `,
+`,
             allFrames: false,
             frameId: 0
-        });
+        };
+        executeScriptPromise(details.tabId, params);
     },
     onRewardNavigation: function (details) {
-        chrome.tabs.executeScript(details.tabId, {
-            file: '/inject/rewardlink.js',
-            runAt: 'document_end',
-            allFrames: false,
-            frameId: details.frameId
-        });
+        const params = { file: '/inject/rewardlink.js', runAt: 'document_end', allFrames: false, frameId: details.frameId };
+        executeScriptPromise(details.tabId, params);
     },
     onFBNavigation: function (details) {
         const tabId = details.tabId;
         if (details.frameId == 0 && Preferences.getValue('linkGrabEnabled') && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
             console.log('Injecting LinkGrabber');
-            const details = {
-                file: '/js/Dialog.js',
-                runAt: 'document_end',
-                allFrames: false,
-                frameId: 0
+            const code = ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled', 'shorten'].map(key => {
+                return 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
+            }).join('') + 'initialize();';
+            const params = {
+                file: ['/js/purify.min.js', '/inject/common.js', '/js/Dialog.js', '/inject/linkgrabber.js'],
+                code,
+                runAt: 'document_end', allFrames: false, frameId: 0
             };
-            chrome.tabs.executeScript(tabId, details, function () {
-                details.file = '/inject/linkgrabber.js';
-                chrome.tabs.executeScript(tabId, details, function () {
-                    delete details.file;
-                    details.code = '';
-                    for (const key of ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled', 'shorten'])
-                        details.code += 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
-                    details.code += 'initialize();';
-                    chrome.tabs.executeScript(tabId, details, function () { });
-                });
-            });
-
+            executeScriptPromise(tabId, params).then(() => executeScriptPromise(tabId, params));
         }
     },
     onRemoved: function (tabId, _removeInfo) {

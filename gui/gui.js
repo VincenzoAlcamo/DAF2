@@ -1,24 +1,6 @@
-/*global chrome Locale DOMPurify Dialog UrlInfo Html Tooltip imported_tabs*/
+/*global chrome Locale htmlToDOM addStylesheet Dialog UrlInfo Html Tooltip imported_tabs*/
 const bgp = chrome.extension.getBackgroundPage();
 
-DOMPurify.addHook('afterSanitizeAttributes', function(node) {
-    // set all elements owning target and having the attribute `data-target`=_blank
-    if ('target' in node && node.getAttribute('data-target') === '_blank') {
-        node.removeAttribute('data-target');
-        node.setAttribute('target', '_blank');
-        node.setAttribute('rel', 'noopener');
-    }
-});
-const htmlToDOMElement = document.createElement('div');
-function htmlToDOM(parent, html) {
-    const clean = DOMPurify.sanitize(html);
-    if (parent === null) parent = htmlToDOMElement;
-    parent.innerHTML = clean;
-    if (DOMPurify.removed.length) {
-        console.warn('removed', DOMPurify.removed);
-    }
-    return parent.firstElementChild;
-}
 htmlToDOM.tr = function(tbody, html) {
     const rows = htmlToDOM(null, '<table>' + html + '</table>').querySelectorAll('tr');
     if (tbody) {
@@ -1053,15 +1035,6 @@ function onLoad() {
     }
     if (!div || div.classList.contains('disabled') || (div.classList.contains('for-admin') && !bgp.Data.isAdmin) || bgp.Data.alternateAccountDetected) tabId = 'about';
     setCurrentTab(tabId);
-}
-
-function addStylesheet(href, onLoad) {
-    const link = document.createElement('link');
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-    link.href = href;
-    if (onLoad) link.addEventListener('load', onLoad);
-    document.head.appendChild(link);
 }
 
 async function loadTab(tab) {
