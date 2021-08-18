@@ -150,7 +150,13 @@ function ringLoot(kind) {
         } else {
             divWarning.style.display = 'none';
         }
-        if (selectDMW) selectDMW.querySelector('option[value=""]').textContent = '(' + gui.getMessage(swDoubleDrop ? 'dialog_yes' : 'dialog_no').toLowerCase() + ')';
+        if (selectDMW) {
+            const oldValue = selectDMW.value;
+            const htm = `<option value="">(${gui.getMessage(swDoubleDrop ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
+<option value="yes">${gui.getMessage('dialog_yes')}</option><option value="no">${gui.getMessage('dialog_no')}</option>`;
+            htmlToDOM(selectDMW, htm);
+            selectDMW.value = oldValue;
+        }
 
         const seconds = (kind == 'green' ? 168 : 2) * 3600;
         const eid = kind == 'green' ? 0 : 20;
@@ -308,6 +314,7 @@ function ringLoot(kind) {
     }
 
     function refresh() {
+        gui.updateTabState(tab);
         setStateFlags();
         let level = inputLevel ? inputLevel.value : 0;
         if (level < 1 || level > 999) level = +gui.getGenerator().level;
@@ -542,9 +549,9 @@ function ringLoot(kind) {
                 if (max != params.max) gui.dialog.element.querySelector('[name=max]').value = max;
                 recomputeTotals();
                 htmlToDOM.tr(gui.dialog.element.querySelector('.loot-data'), getTBody());
-                gui.dialog.element.querySelector('.num-rings').textContent = gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests));
-                gui.dialog.element.querySelector('.total1').textContent = Locale.formatNumber(totalXp);
-                gui.dialog.element.querySelector('.total2').textContent = Locale.formatNumber(max * totalXp);
+                htmlToDOM(gui.dialog.element.querySelector('.num-rings'), Html(gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests))));
+                htmlToDOM(gui.dialog.element.querySelector('.total1'), Html(Locale.formatNumber(totalXp)));
+                htmlToDOM(gui.dialog.element.querySelector('.total2'), Html(Locale.formatNumber(max * totalXp)));
                 // showDetailedLoot(lid, params.dmw);
             }
         });

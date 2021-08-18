@@ -1964,19 +1964,21 @@ async function processMine(selectedMine, args) {
     htmlToDOM(container.querySelector('[data-id="lid"]'), htm);
 
     const regionName = gui.getObjectName('region', currentData.rid);
-    const div = container.querySelector('[data-id="info"]');
-    const divCaption = container.querySelector('[data-id="info-caption"]');
+    let caption, info;
     if (currentData.eid) {
-        divCaption.textContent = gui.getMessage('gui_event') + (currentData.segmented ? ' \u2013 ' + regionName : '');
-        div.textContent = gui.getObjectName('event', currentData.eid).replace(/\s+/g, ' ') + (currentData.isRepeatable ? '\n' + gui.getString('MAP002') : '');
+        caption = gui.getMessage('gui_event') + (currentData.segmented ? ' \u2013 ' + regionName : '');
+        info = gui.getObjectName('event', currentData.eid).replace(/\s+/g, ' ') + (currentData.isRepeatable ? '\n' + gui.getString('MAP002') : '');
     } else {
-        divCaption.textContent = regionName;
-        div.textContent = mapFilters[currentData.location.filter] || '';
+        caption = regionName;
+        info = mapFilters[currentData.location.filter] || '';
     }
+    htmlToDOM(container.querySelector('[data-id="info-caption"]'), Html(caption));
+    const divInfo = container.querySelector('[data-id="info"]');
+    htmlToDOM(divInfo, Html(info));
 
     tableTileInfo.classList.toggle('is-repeatable', +currentData.location.reset_cd > 0);
 
-    div.parentNode.classList.toggle('hidden', !hasOption(OPTION_LOCATIONINFO));
+    divInfo.parentNode.classList.toggle('hidden', !hasOption(OPTION_LOCATIONINFO));
     selectRegion.parentNode.classList.toggle('hidden', !currentData || !currentData.segmented || !hasOption(OPTION_REGIONSELECTOR));
 
     await addExtensionImages();
@@ -2844,7 +2846,7 @@ async function drawMine(args) {
     const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }, allFound) => {
         [numTiles, cost, numSpecial, numQuest, numMaterial].forEach((n, i) => {
             const cell = row.cells[i + 1];
-            cell.textContent = isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n);
+            htmlToDOM(cell, Html(isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n)));
             cell.style.fontWeight = n > 0 && i > 2 ? 'bold' : '';
         });
     };

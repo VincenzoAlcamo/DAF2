@@ -42,7 +42,7 @@ function refresh() {
     // }
     const calculation = new Calculation();
     calculation.defineConstant('level', level);
-    divStats.textContent = Html.br`${gui.getMessage('dailyreward_stats', Locale.formatNumber(level), gui.getObjectName('region', rid))}`;
+    htmlToDOM(divStats, Html.br`${gui.getMessage('dailyreward_stats', Locale.formatNumber(level), gui.getObjectName('region', rid))}`);
     let htm = '';
     for (const reward of visibleRewards) {
         const item = reward.segmentation.find(o => +o.region_id == rid);

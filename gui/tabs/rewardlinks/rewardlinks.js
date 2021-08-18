@@ -787,7 +787,7 @@ function showStats() {
     }
     const textNext = next > now ? gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(next)) : '';
     const element = container.querySelector('.stats');
-    element.textContent = text + (flagNext ? textNext : '');
+    htmlToDOM(element, Html(text + (flagNext ? textNext : '')));
     element.classList.toggle('wait', flagNext);
     htmlToDOM(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
 

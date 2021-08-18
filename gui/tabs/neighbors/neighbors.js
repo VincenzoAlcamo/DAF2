@@ -208,7 +208,7 @@ function formula() {
         if (method == 'expression') {
             const expression = +params.exp ? params.expression : '';
             expressions[params.exp] = expression.trim();
-            gui.dialog.element.querySelector(`label[for=exp${params.exp}] span`).textContent = params.expression;
+            htmlToDOM(gui.dialog.element.querySelector(`label[for=exp${params.exp}] span`), Html(params.expression));
             const calculator = getCalculator(expression, {});
             let htm = '';
             if (calculator.errorCode) {
@@ -571,7 +571,7 @@ function getCalculator(expression, getValueFunctions) {
 function refreshDelayed() {
     scheduledRefresh = 0;
     const state = getState();
-    selectShow.querySelector('option[value="nogift"]').textContent = gui.getMessage('neighbors_nogift', Locale.formatNumber(+state.days));
+    htmlToDOM(selectShow.querySelector('option[value="nogift"]'), Html(gui.getMessage('neighbors_nogift', Locale.formatNumber(+state.days))));
 
     const getSortValueFunctions = {
         name: pal => palNames[pal.id] || '',

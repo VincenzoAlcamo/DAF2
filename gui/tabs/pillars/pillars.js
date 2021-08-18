@@ -682,7 +682,7 @@ async function calcUltimateLevel() {
         style: [Dialog.OK, Dialog.AUTORUN],
     }, function (method) {
         const element = gui.dialog.element;
-        element.querySelector('.pillars-u-level').textContent = Locale.formatNumber(level);
+        htmlToDOM(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
         const buttonShow = gui.dialog.element.querySelector('[data-method="details"]');
         const buttonCaravan = gui.dialog.element.querySelector('[data-method="caravan"]');
         if (method == Dialog.AUTORUN) {
@@ -701,7 +701,7 @@ async function calcUltimateLevel() {
         if (method == 'caravan') {
             isCaravan = !isCaravan;
             htmlToDOM.tr(element.querySelector('.pillars-u-details'), getBody());
-            element.querySelector('.pillars-u-level').textContent = Locale.formatNumber(level);
+            htmlToDOM(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
             buttonCaravan.style.backgroundColor = isCaravan ? 'green' : '';
             return;
         }

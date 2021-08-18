@@ -50,10 +50,10 @@ function init() {
     let htm = '';
     for (let i = 144; i >= 0; i--) htm += Html`<option value="${i}">${i}</option>`;
     htmlToDOM(selectRegen, htm);
-    selectRegen.parentNode.querySelector('span').textContent = `${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`;
+    htmlToDOM(selectRegen.parentNode.querySelector('span'), Html`${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`);
 
     buttonFindThePair = container.querySelector('.toolbar button[data-action="playboard"]');
-    buttonFindThePair.textContent = gui.getString('GUI3326');
+    htmlToDOM(buttonFindThePair, Html(gui.getString('GUI3326')));
     buttonFindThePair.addEventListener('click', findThePair);
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
@@ -173,7 +173,7 @@ function rebuildSetupFillTime() {
         const time = fillTime ? gui.getDuration(fillTime, 2) : '';
         let s = Locale.formatNumber(+option.value);
         if (s.length < 3) s = '\xa0'.repeat((3 - s.length) * 2) + s;
-        option.textContent = `${s} \u2192 ${time}`;
+        htmlToDOM(option, Html`${s} \u2192 ${time}`);
     });
 }
 
@@ -295,7 +295,6 @@ function updateCamp(div, flagHeaderOnly = false) {
     }
 
     div.querySelector('img').setAttribute('src', pal ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png');
-    // div.querySelector('span').textContent = campName;
     htmlToDOM(div.querySelector('span'), Html`${campName}<span class="screenshot"></span>`);
     gui.setupScreenshot(div, campName);
     htmlToDOM(div.querySelector('div'), '');

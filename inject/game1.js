@@ -63,7 +63,7 @@ function onFullWindow() {
 function setBadge({ selector, text, title, active }) {
     const badge = menu && menu.querySelector(selector);
     if (!badge) return;
-    badge.textContent = text || '';
+    htmlToDOM(badge, htmlEncode(text || ''));
     badge.title = title || '';
     badge.classList.toggle('DAF-badge-on', !!active);
 }
@@ -104,7 +104,7 @@ const setBadgeLuckyCards = (function () {
                 if (diff) text = String(diff).padStart(2, '0') + ':' + text;
             }
         }
-        badge.textContent = text;
+        htmlToDOM(badge, htmlEncode(text));
     }
     return function setBadgeLuckyCards({ active, sound, volume, next }) {
         active = !!active;
@@ -127,7 +127,7 @@ function setBadgeProductions({ caravan, kitchen, foundry, sound, volume }) {
         const prevNum = +badge.textContent || 0;
         const currNum = +data.num;
         const isActive = currNum > 0;
-        badge.textContent = currNum;
+        htmlToDOM(badge, htmlEncode(currNum));
         badge.classList.toggle('DAF-badge-on', isActive);
         const flag = prefs.badgeProductions && flagActive && isActive && (!wasActive || prevNum < currNum);
         if (flag) badge.classList.add('animate');
@@ -177,7 +177,7 @@ function setBadgeRepeatables({ list, sound, volume }) {
 function updateGCStatus(data) {
     if (!menu) return;
     const el = menu.querySelector('[data-value=status]');
-    el.textContent = data.count ? getMessage('godchild_stat', data.count, data.max) : el.textContent = getMessage('menu_gccollected');
+    htmlToDOM(el, htmlEncode(data.count ? getMessage('godchild_stat', data.count, data.max) : getMessage('menu_gccollected')));
     el.title = data.nexttxt || '';
     el.style.display = '';
     setBadge({ selector: '.DAF-badge-gc-counter', text: data.count, title: data.nexttxt, active: data.count > 0 });

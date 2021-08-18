@@ -477,7 +477,7 @@ function infoLevel(row) {
     parent.insertBefore(rowSlider, nextRow);
     rowSlider.querySelector('input').addEventListener('input', function () {
         sliderLevel = this.value;
-        rowSlider.querySelector('.slider-val').textContent = Locale.formatNumber(sliderLevel);
+        htmlToDOM(rowSlider.querySelector('.slider-val'), Html(Locale.formatNumber(sliderLevel)));
         const row = addRowLevel(level, sliderLevel);
         rowLevel.replaceWith(row);
         rowLevel = row;

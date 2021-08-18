@@ -484,7 +484,7 @@ UI_claim_coin_single_slow_02
             value = parseInt(value, 10) || 0;
             value = String(Math.max(min, Math.min(max, value)));
         }
-        if (input.type == 'range') input.nextElementSibling.textContent = Locale.formatNumber(value);
+        if (input.type == 'range') htmlToDOM(input.nextElementSibling, Html(Locale.formatNumber(value)));
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, name == 'darkTheme' ? 0 : 500);
         changes[name] = value;
@@ -570,7 +570,7 @@ function refresh() {
             if (input.type == 'checkbox') input.checked = value === true || value == 1;
             if (input.type == 'range') {
                 input.value = value;
-                input.nextElementSibling.textContent = Locale.formatNumber(value);
+                htmlToDOM(input.nextElementSibling, Html(Locale.formatNumber(value)));
             }
         }
     }

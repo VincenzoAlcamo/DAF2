@@ -72,7 +72,7 @@ function gcTable_remove(div) {
     const heightBefore = gcTable.offsetHeight;
     if (div) {
         div.parentNode.removeChild(div);
-        gcTable.firstChild.firstChild.textContent = gcTable.childNodes.length - 1;
+        htmlToDOM(gcTable.firstChild.firstChild, htmlEncode(gcTable.childNodes.length - 1));
         const heightAfter = gcTable.offsetHeight;
         // scrollbar was hidden and we are in full window?
         if (heightBefore > heightAfter && fullWindow) {

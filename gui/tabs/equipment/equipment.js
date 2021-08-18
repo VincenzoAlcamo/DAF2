@@ -531,7 +531,7 @@ function setState(state) {
 function updateButton() {
     const flag = !!(filterSkin || filterMaterial || filterLevelComparison || filterHideMax);
     const button = container.querySelector('.toolbar button.advanced');
-    button.textContent = gui.getMessage(flag ? 'menu_on' : 'menu_off');
+    htmlToDOM(button, Html(gui.getMessage(flag ? 'menu_on' : 'menu_off')));
     button.classList.toggle('activated', flag);
 
     const setDisplay = (el, flag) => el.style.display = flag ? '' : 'none';

@@ -70,7 +70,7 @@ function updateEnergy(id) {
             energy += child ? +child.friend_stamina * qty : 0;
         }
     }
-    div.querySelector('b').textContent = energy ? Locale.formatNumber(energy) : '?';
+    htmlToDOM(div.querySelector('b'), Html(energy ? Locale.formatNumber(energy) : '?'));
     const isValid = pal.region;
     let title = gui.getPlayerNameFull(pal);
     if (isValid) title += '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', pal.region));
