@@ -141,13 +141,14 @@ function setBadgeProductions({ caravan, kitchen, foundry, sound, volume }) {
 }
 
 function setBadgeRepeatables({ list, sound, volume }) {
+    const ADD = 1000;
     const badge = menu.querySelector('.DAF-badge-rep');
     list = Array.isArray(list) ? list : [];
-    list.forEach((item, index) => { item.index = 1000 + index; item.isNew = true; });
+    list.forEach((item, index) => item.index = index);
     badge.querySelectorAll('[data-lid]').forEach((div, index) => {
         const lid = +div.getAttribute('data-lid');
         const item = list.find(item => +item.lid == lid);
-        if (item) { item.index = index; item.isNew = div.classList.contains('new'); }
+        if (item) item.index = ADD + index;
     });
     badge.classList.toggle('DAF-badge-on', list.length > 0);
     const MAXVISIBLE = 8;
@@ -166,9 +167,11 @@ function setBadgeRepeatables({ list, sound, volume }) {
         return `<div data-lid="${item.lid}" class="${className}" title="${htmlEncode(title)}" style="${style}"></div>`;
     }).join('') + counter('no-hover', numVisible) + counter('on-hover', MAXVISIBLE, true) + `</b>`;
     htmlToDOM(badge, html);
-    const isNew = list.length && list[list.length - 1].isNew;
-    if (isNew && prefs.badgeRepeatables) playSound(sound, volume);
-    badge.classList.toggle('animate', isNew);
+    const isNew = list.find(item => item.index < ADD);
+    if (isNew) {
+        if (prefs.badgeRepeatables) playSound(sound, volume);
+        badge.classList.add('animate');
+    }
 }
 
 function updateGCStatus(data) {
@@ -326,10 +329,7 @@ function createMenu() {
     });
     menu.addEventListener('click', onMenuClick);
     menu.querySelectorAll('.DAF-badges [data-animate]').forEach(badge => {
-        badge.addEventListener('mouseenter', () => {
-            badge.classList.remove('animate');
-            badge.querySelectorAll('.new').forEach(el => el.classList.remove('new'));
-        });
+        badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
     });
     menu.querySelectorAll('.DAF-badges [data-close]').forEach(badge => {
         badge.addEventListener('click', () => badge.classList.remove('DAF-badge-on'));
