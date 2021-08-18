@@ -325,7 +325,7 @@ if (loginButton) {
         executeScriptPromise(details.tabId, params);
     },
     onRewardNavigation: function (details) {
-        const params = { file: '/inject/rewardlink.js', runAt: 'document_end', allFrames: false, frameId: details.frameId };
+        const params = { file: ['/js/purify.min.js', '/inject/rewardlink.js'], runAt: 'document_end', allFrames: false, frameId: details.frameId };
         executeScriptPromise(details.tabId, params);
     },
     onFBNavigation: function (details) {
