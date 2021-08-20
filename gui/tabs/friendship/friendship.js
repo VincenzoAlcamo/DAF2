@@ -139,7 +139,7 @@ function showCollectDialog() {
     const numUnmatched = getUnmatched().length;
 
     function addStandardSettings() {
-        const extra = Html.br`<label for="f_fv">${gui.getMessage('gui_type')}</label>
+        const extra = Html.br`<br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
         <option value="0" ${fbFriendsPage != 1 && fbFriendsPage != 2 ? 'selected' : ''}>A = ${getFbFriendsPageUrl('0')}</option>
         <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B = ${getFbFriendsPageUrl(1)}</option>
