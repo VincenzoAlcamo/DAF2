@@ -63,6 +63,8 @@ function collect() {
             const i = document.querySelector('a > i.profpic');
             if (i) {
                 container = i.parentElement.parentElement.parentElement.parentElement.parentElement;
+                // Fix for Firefox
+                if (!container.id && container.parentElement.id) container = container.parentElement;
                 fbPage = FB_MOBILE;
                 captureOneBlock = captureOneBlockMobile;
             }
