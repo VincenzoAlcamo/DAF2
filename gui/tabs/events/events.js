@@ -273,6 +273,7 @@ function update() {
     rows.forEach(row => allEvents[row.getAttribute('data-eid')].row = row);
 
     htm = '';
+    htm += Html`<option value=""></option>`;
     let lastYear = null;
     const items = Object.values(allEvents).sort((a, b) => b.year - a.year);
     for (const item of items) {
@@ -401,7 +402,7 @@ function refresh() {
     smartTable.syncLater();
 }
 
-const tutorialInfo = Html`<br><div class="tutorial warning">Tutorial Event</div>`;
+const tutorialInfo = Html`<br><div class="tutorial warning">${gui.getMessage('events_tutorial')}</div>`;
 
 function updateRow(row) {
     const id = row.getAttribute('data-eid');

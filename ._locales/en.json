@@ -1858,6 +1858,9 @@
     "events_gemstones": {
         "message": "Gemstones"
     },
+    "events_tutorial": {
+        "message": "Tutorial Event"
+    },
     "repeat_name": {
         "message": "Name"
     },
