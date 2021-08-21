@@ -1,4 +1,4 @@
-/*global chrome bgp gui htmlToDOM Locale Dialog SmartTable Html Tooltip*/
+/*global chrome bgp gui Locale Dialog SmartTable Html Tooltip*/
 export default {
     hasCSS: true,
     init: init,
@@ -53,7 +53,7 @@ function init() {
     selectShow = container.querySelector('[name=show]');
     let htm = '';
     for (const char of 'admghifuns'.split('')) htm += Html`<option value="${char}"></option>`;
-    htmlToDOM(selectShow, htm);
+    Html.set(selectShow, htm);
     selectShow.addEventListener('change', refresh);
 
     searchInput = container.querySelector('[name=search]');
@@ -252,7 +252,7 @@ function tableClick(event) {
         row.removeAttribute('data-pal-id');
         flagModified = true;
         if (isRowVisible(null, pal)) {
-            const row2 = htmlToDOM.tr(null, `<tr data-pal-id="${pal.id}"></tr>`)[0];
+            const row2 = Html.get(`<tr data-pal-id="${pal.id}"></tr>`)[0];
             row.parentNode.appendChild(row2);
             updateRow(row2);
         }
@@ -343,7 +343,7 @@ function collectFriends(method) {
             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
             const addVar = (name, value) => name + '=' + JSON.stringify(value) + ';';
             const params = {
-                file: ['/js/purify.min.js', '/inject/common.js', '/js/Dialog.js', '/inject/collectfriends.js'],
+                file: ['/js/purify.min.js', '/js/Html.js', '/js/Dialog.js', '/inject/collectfriends.js'],
                 code: `${addVar('language', gui.getPreference('language'))}${addVar('unmatched', unmatched)}${addVar('collectMethod', method)}collect()`,
                 runAt: 'document_end', allFrames: false, frameId: 0
             };
@@ -406,7 +406,7 @@ function showStats() {
         gui.wait.setText(analyzingText);
         htm += Html.br`${analyzingText}`;
     }
-    htmlToDOM(container.querySelector('.stats'), htm);
+    Html.set(container.querySelector('.stats'), htm);
 
     const params = {
         'a': [Locale.formatNumber(numFriends), Locale.formatNumber(numNeighbours)],
@@ -425,9 +425,9 @@ function showStats() {
     }
 
     htm = Html.br`${gui.getMessage('friendship_totalfriends', Locale.formatNumber(numFriendsShown), Locale.formatNumber(numFriends))}`;
-    for (const div of container.querySelectorAll('.numfriends')) htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.numfriends')) Html.set(div, htm);
     htm = Html.br`${gui.getMessage('friendship_totalneighbours', Locale.formatNumber(numNeighboursShown), Locale.formatNumber(numNeighbours))}`;
-    for (const div of container.querySelectorAll('.numneighbours')) htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.numneighbours')) Html.set(div, htm);
 
     htm = '';
     if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400) {
@@ -435,7 +435,7 @@ function showStats() {
         htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collectfriends'), method));
     }
     const div = container.querySelector('.warning');
-    htmlToDOM(div, htm);
+    Html.set(div, htm);
     div.style.display = htm ? '' : 'none';
 }
 
@@ -473,7 +473,7 @@ function updateRow(row) {
     } else {
         htm += Html.br`<td></td><td></td><td></td><td></td><td></td>`;
     }
-    const row2 = htmlToDOM.tr(null, htm)[0];
+    const row2 = Html.get(`<tr>${htm}</tr>`)[0];
     row.replaceWith(row2);
     row = row2;
     if (friend) row.setAttribute('data-friend-id', friend.id);
@@ -491,7 +491,7 @@ function refresh() {
     triggerSearchHandler(false);
     gui.updateTabState(tab);
 
-    htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
     showStats();
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
@@ -579,7 +579,7 @@ function refreshDelayed() {
         }
     }
     arr = sort(arr);
-    htmlToDOM.tr(smartTable.tbody[0], arr.map(item => item[2]).join(''));
+    Html.set(smartTable.tbody[0], arr.map(item => item[2]).join(''));
     showStats();
 
     scheduledRefresh = setTimeout(function () {

@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM Html Locale Dialog*/
+/*global bgp gui Html Locale Dialog*/
 
 export default ringLoot;
 
@@ -42,7 +42,7 @@ function ringLoot(kind) {
             selectRegion.addEventListener('change', onInput);
             let htm = '';
             for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
-            htmlToDOM(selectRegion, htm);
+            Html.set(selectRegion, htm);
         }
 
         checkMinMax = container.querySelector('[name=minmax]');
@@ -136,7 +136,7 @@ function ringLoot(kind) {
         if (tokenId) {
             const img = gui.getObjectImg('token', tokenId, 24, true);
             const qty = gui.getGenerator().tokens[tokenId] || 0;
-            htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`);
+            Html.set(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`);
         }
 
         if (kind == 'green' || kind == 'christmas') {
@@ -145,7 +145,7 @@ function ringLoot(kind) {
         }
         const divWarning = container.querySelector('.toolbar .warning');
         if (swDoubleDrop) {
-            htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
+            Html.set(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
             divWarning.style.display = '';
         } else {
             divWarning.style.display = 'none';
@@ -154,7 +154,7 @@ function ringLoot(kind) {
             const oldValue = selectDMW.value;
             const htm = `<option value="">(${gui.getMessage(swDoubleDrop ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
 <option value="yes">${gui.getMessage('dialog_yes')}</option><option value="no">${gui.getMessage('dialog_no')}</option>`;
-            htmlToDOM(selectDMW, htm);
+            Html.set(selectDMW, htm);
             selectDMW.value = oldValue;
         }
 
@@ -178,7 +178,7 @@ function ringLoot(kind) {
 
         floorData = {};
         const parent = container.querySelector('.scrollable-content');
-        htmlToDOM(parent, '');
+        Html.set(parent, '');
         let index = 0;
         for (const mine of mines) {
             const lid = mine.def_id;
@@ -261,7 +261,7 @@ function ringLoot(kind) {
                 htm += Html.br`<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${kind == 'green' ? gui.getRegionImg(mine.region_id) : Html`<img src="/img/gui/redrings.png">`}<span>${gui.getString(mine.name_loc)}</span></label>`;
             }
             htm += Html.br`<div></div>`;
-            const div = htmlToDOM(null, '<div class="card rings">' + htm + '</div>');
+            const div = Html.get('<div class="card rings">' + htm + '</div>')[0];
             parent.appendChild(div);
             const input = div.querySelector('input');
             input.addEventListener('click', function () {
@@ -450,7 +450,7 @@ function ringLoot(kind) {
         htm += Html.br`</tfoot>`;
         htm += Html.br`</table>`;
         parent = parent.parentNode.querySelector('div');
-        htmlToDOM(parent, htm);
+        Html.set(parent, htm);
         for (const input of parent.querySelectorAll('input[type=checkbox].xp,button.loot')) {
             input.addEventListener('click', onChestClick);
         }
@@ -548,10 +548,11 @@ function ringLoot(kind) {
                 max = Math.max(1, Math.min(9999, params.max));
                 if (max != params.max) gui.dialog.element.querySelector('[name=max]').value = max;
                 recomputeTotals();
-                htmlToDOM.tr(gui.dialog.element.querySelector('.loot-data'), getTBody());
-                htmlToDOM(gui.dialog.element.querySelector('.num-rings'), Html(gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests))));
-                htmlToDOM(gui.dialog.element.querySelector('.total1'), Html(Locale.formatNumber(totalXp)));
-                htmlToDOM(gui.dialog.element.querySelector('.total2'), Html(Locale.formatNumber(max * totalXp)));
+                const el = gui.dialog.element;
+                Html.set(el.querySelector('.loot-data'), getTBody());
+                Html.set(el.querySelector('.num-rings'), Html(gui.getMessageAndValue('rings_rings', Locale.formatNumber(max * numChests))));
+                Html.set(el.querySelector('.total1'), Html(Locale.formatNumber(totalXp)));
+                Html.set(el.querySelector('.total2'), Html(Locale.formatNumber(max * totalXp)));
                 // showDetailedLoot(lid, params.dmw);
             }
         });

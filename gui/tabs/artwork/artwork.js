@@ -1,4 +1,4 @@
-/*global gui htmlToDOM bgp Html Tooltip Locale SmartTable*/
+/*global gui bgp Html Tooltip Locale SmartTable*/
 export default {
     hasCSS: true,
     init,
@@ -53,7 +53,7 @@ function init() {
         refresh();
     });
     const htm = Object.keys(kinds).map(type => Html`<option value="${type}">${type.toUpperCase().replace(/[_]/g, ' ')}</option>`).join('');
-    htmlToDOM(selectShow, htm);
+    Html.set(selectShow, htm);
 
     selectEvent = container.querySelector('[name=event]');
     selectEvent.addEventListener('change', refresh);
@@ -106,7 +106,7 @@ function update() {
         htm += Html`<option value="${event.id}">${gui.getObjectName('event', event.id)}</option>`;
     }
     if (lastYearText) htm += '</optgroup>';
-    htmlToDOM(selectEvent, htm);
+    Html.set(selectEvent, htm);
     setState(state);
 
     setTimeout(refresh, 100);
@@ -168,7 +168,7 @@ async function refresh() {
     }
     const grid = container.querySelector('.grid');
     gui.removeLazyElements(grid);
-    htmlToDOM(grid, htm);
+    Html.set(grid, htm);
     Array.from(container.querySelectorAll('.totals')).forEach(cell => {
         cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(values.length));
     });
@@ -184,7 +184,7 @@ function updateItem(el) {
     const title = item.title && gui.getString(item.title);
     el.title = [item.name, gui.getWrappedText(title)].filter(t => t).join('\n');
     const htm = Html`<img class="tooltip-event" src="${item.url}">`;
-    htmlToDOM(el, htm);
+    Html.set(el, htm);
 }
 
 function onTooltip(event) {

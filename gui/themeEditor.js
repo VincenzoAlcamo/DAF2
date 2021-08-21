@@ -1,4 +1,4 @@
-/*global Html gui htmlToDOM*/
+/*global Html gui*/
 
 class ThemeEditor {
     constructor(config) {
@@ -105,7 +105,7 @@ class ThemeEditor {
             htm += Html`</td></tr>`;
         });
         htm += `</table>`;
-        htmlToDOM(this.table, htm);
+        Html.set(this.table, htm);
         let newSettings = {}, handler = null;
         const onInput = (event) => {
             const input = event.target;

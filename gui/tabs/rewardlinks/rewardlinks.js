@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM SmartTable Dialog Html Locale*/
+/*global bgp gui SmartTable Dialog Html Locale*/
 export default {
     hasCSS: true,
     init,
@@ -615,7 +615,7 @@ function update() {
             if (item.cmt != rewardLink.cmt) {
                 flagUpdated = true;
                 item.cmt = rewardLink.cmt;
-                htmlToDOM(item.row.cells[4], materialHTML(item.cmt));
+                Html.set(item.row.cells[4], materialHTML(item.cmt));
                 item.mtx = item.row.cells[4].textContent;
                 if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             }
@@ -625,7 +625,7 @@ function update() {
                 item.cid = rewardLink.cid;
                 item.cpi = rewardLink.cpi;
                 item.cnm = cnm;
-                htmlToDOM(item.row.cells[5], (item.cid || item.cpi) ? Html.br`<img src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
+                Html.set(item.row.cells[5], (item.cid || item.cpi) ? Html.br`<img src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
             }
             if (flagUpdated) status = 3;
         } else {
@@ -639,7 +639,7 @@ function update() {
             htm += Html.br`<td translate="no">`;
             if (item.cid || item.cpi) htm += Html.br`<img data-lazy="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
             htm += `</td>`;
-            item.row = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+            item.row = Html.get('<tr>' + htm + '</tr>')[0];
             item.row.setAttribute('data-id', item.id);
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             item.mtx = item.row.cells[4].textContent;
@@ -787,9 +787,9 @@ function showStats() {
     }
     const textNext = next > now ? gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(next)) : '';
     const element = container.querySelector('.stats');
-    htmlToDOM(element, Html(text + (flagNext ? textNext : '')));
+    Html.set(element, Html(text + (flagNext ? textNext : '')));
     element.classList.toggle('wait', flagNext);
-    htmlToDOM(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
+    Html.set(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
 
     text = gui.getMessage('rewardlinks_stats', Locale.formatNumber(numToCollect), Locale.formatNumber(numTotal));
     Array.from(smartTable.container.querySelectorAll('tfoot td')).forEach(cell => {
@@ -864,7 +864,7 @@ async function pixel() {
             }).join('');
             htm += Html`<tbody>`;
             htm += Html`</table>`;
-            htmlToDOM(gui.dialog.element.querySelector('.rewardlinks_pixel'), htm);
+            Html.set(gui.dialog.element.querySelector('.rewardlinks_pixel'), htm);
         }
     });
 }

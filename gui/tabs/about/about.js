@@ -1,4 +1,4 @@
-/*global chrome bgp gui htmlToDOM Dialog Locale Html*/
+/*global chrome bgp gui Dialog Locale Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -113,7 +113,7 @@ function rnd() {
 rnd.seed = Date.now();
 
 function setHtml(div, html) {
-    htmlToDOM(div, html || '');
+    Html.set(div, html || '');
     div.style.display = html ? '' : 'none';
 }
 

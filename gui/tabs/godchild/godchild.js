@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM Locale Html*/
+/*global bgp gui Locale Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -30,7 +30,6 @@ function setTableRegion() {
 }
 
 function update() {
-    // htmlToDOM(gcTable, '');
     const neighbours = bgp.Data.getNeighbours();
     numNeighbours = Object.values(neighbours).length - 1;
     maxGC = gui.getChildrenMax(numNeighbours) + 1;
@@ -52,7 +51,7 @@ function update() {
         htm += Html`</div>`;
         return htm;
     }).join('');
-    htmlToDOM(gcTable, htm);
+    Html.set(gcTable, htm);
     list.forEach(pal => updateEnergy(pal.id));
     updateStatus();
 }
@@ -70,7 +69,7 @@ function updateEnergy(id) {
             energy += child ? +child.friend_stamina * qty : 0;
         }
     }
-    htmlToDOM(div.querySelector('b'), Html(energy ? Locale.formatNumber(energy) : '?'));
+    Html.set(div.querySelector('b'), Html(energy ? Locale.formatNumber(energy) : '?'));
     const isValid = pal.region;
     let title = gui.getPlayerNameFull(pal);
     if (isValid) title += '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', pal.region));
@@ -98,7 +97,7 @@ function updateStatus() {
     htm += Html.br`</span>`;
     const nextTxt = bgp.Data.getGCInfo().nexttxt;
     if (nextTxt) htm += Html.br`<br>${nextTxt}`;
-    for (const div of container.querySelectorAll('.tab_godchild .stats')) htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.tab_godchild .stats')) Html.set(div, htm);
     container.querySelector('.tab_godchild .screenshot .shot').style.display = tot > 0 ? '' : 'none';
     const next = gui.getChildrenNext(numNeighbours);
     const nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', Locale.formatNumber(next));

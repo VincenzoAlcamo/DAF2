@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM SmartTable Locale Dialog Html Tooltip Calculation*/
+/*global bgp gui SmartTable Locale Dialog Html Tooltip Calculation*/
 
 export default {
     hasCSS: true,
@@ -29,7 +29,7 @@ function init() {
 
     let htm = Html.br(gui.getMessage('neighbors_gifts'));
     htm = String(htm).replace('@DAYS@', '<br>' + getSelectDays(0));
-    htmlToDOM(container.querySelector('.toolbar .days'), htm);
+    Html.set(container.querySelector('.toolbar .days'), htm);
     selectDays = container.querySelector('[name=days]');
     selectDays.addEventListener('change', refresh);
 
@@ -39,7 +39,7 @@ function init() {
     checkId = container.querySelector('[name=showid]');
     checkId.addEventListener('click', refresh);
 
-    trGifts = htmlToDOM.tr(null, Html.br`<tr class="giftrow"><td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td></tr>`)[0];
+    trGifts = Html.get(Html.br`<tr class="giftrow"><td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td></tr>`)[0];
 
     const handlers = { formula, gifts, summary };
     const onClickButton = (event) => {
@@ -208,7 +208,7 @@ function formula() {
         if (method == 'expression') {
             const expression = +params.exp ? params.expression : '';
             expressions[params.exp] = expression.trim();
-            htmlToDOM(gui.dialog.element.querySelector(`label[for=exp${params.exp}] span`), Html(params.expression));
+            Html.set(gui.dialog.element.querySelector(`label[for=exp${params.exp}] span`), Html(params.expression));
             const calculator = getCalculator(expression, {});
             let htm = '';
             if (calculator.errorCode) {
@@ -220,7 +220,7 @@ function formula() {
                 if (post.length > 15) post = post.substring(0, 15) + '\u2025';
                 htm = Html`<b>${message}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
             }
-            htmlToDOM(gui.dialog.element.querySelector('.expression-error'), htm);
+            Html.set(gui.dialog.element.querySelector('.expression-error'), htm);
         }
         if (method != Dialog.CONFIRM) return;
         filterExp = params.exp;
@@ -274,7 +274,7 @@ function gifts() {
             gui.dialog.element.querySelector('.gift-info').classList.toggle('activated', !!params.gifts);
         }
         if (method == 'sort') {
-            htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
+            Html.set(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
         }
         if (method != Dialog.CONFIRM) return;
         filterGifts = list;
@@ -337,7 +337,7 @@ function summary() {
             });
             htm += Html`</tbody>`;
             htm += Html`</table>`;
-            htmlToDOM(gui.dialog.element.querySelector('.neighbors_summary'), htm);
+            Html.set(gui.dialog.element.querySelector('.neighbors_summary'), htm);
         }
     });
 }
@@ -363,7 +363,7 @@ function onClick(e) {
     }
     row.classList.add('show-gifts');
     const giftContainer = trGifts.querySelector('.giftlist');
-    htmlToDOM(giftContainer, '');
+    Html.set(giftContainer, '');
     giftContainer.style.width = (row.offsetWidth - 2) + 'px';
     row.parentNode.insertBefore(trGifts, row.nextSibling);
     const id = row.getAttribute('data-pal-id');
@@ -391,7 +391,7 @@ function onClick(e) {
         if (piece == '') continue;
         htm += piece + Html.br`<span>${formatDayMonthTime(palGift[2])}</span></div>`;
     }
-    htmlToDOM(giftContainer, htm);
+    Html.set(giftContainer, htm);
 }
 
 function update() {
@@ -406,7 +406,7 @@ function update() {
         palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
         return Html`<tr data-pal-id="${pal.id}" height="61" data-lazy></tr>`;
     }).join('');
-    const rows = htmlToDOM.tr(null, htm);
+    const rows = Html.get(htm);
     rows.forEach(row => palRows[row.getAttribute('data-pal-id')] = row);
 
     weekdayNames = {};
@@ -437,7 +437,7 @@ function update() {
     const state = getState();
     htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
     for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
-    htmlToDOM(selectRegion, htm);
+    Html.set(selectRegion, htm);
     setState(state);
 
     refresh();
@@ -507,7 +507,7 @@ function updateRow(row) {
     htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
     htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
     htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
-    const row2 = palRows[id] = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+    const row2 = palRows[id] = Html.get('<tr>' + htm + '</tr>')[0];
     row2.setAttribute('data-pal-id', id);
     row.replaceWith(row2);
 }
@@ -520,7 +520,7 @@ function refresh() {
     updateButton();
 
     //smartTable.showFixed(false);
-    htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
     scheduledRefresh = setTimeout(refreshDelayed, 50);
@@ -571,7 +571,7 @@ function getCalculator(expression, getValueFunctions) {
 function refreshDelayed() {
     scheduledRefresh = 0;
     const state = getState();
-    htmlToDOM(selectShow.querySelector('option[value="nogift"]'), Html(gui.getMessage('neighbors_nogift', Locale.formatNumber(+state.days))));
+    Html.set(selectShow.querySelector('option[value="nogift"]'), Html(gui.getMessage('neighbors_nogift', Locale.formatNumber(+state.days))));
 
     const getSortValueFunctions = {
         name: pal => palNames[pal.id] || '',
@@ -645,7 +645,7 @@ function refreshDelayed() {
         const realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
         let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
         text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
-        htmlToDOM(container.querySelector('.stats'), Html.br(text));
+        Html.set(container.querySelector('.stats'), Html.br(text));
     }
 
     const giftFilter = {};
@@ -690,7 +690,7 @@ function refreshDelayed() {
         items.push(pal);
     }
 
-    htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });

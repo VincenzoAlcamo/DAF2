@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM SmartTable Html Locale Tooltip Dialog*/
+/*global bgp gui SmartTable Html Locale Tooltip Dialog*/
 import packHelper from '../../packHelper.js';
 
 export default {
@@ -283,16 +283,16 @@ function update() {
         htm += Html`<option value="${event.id}">${gui.getObjectName('event', event.id)}</option>`;
     }
     if (lastYearText) htm += '</optgroup>';
-    htmlToDOM(selectEvent, htm);
+    Html.set(selectEvent, htm);
 
     htm = '';
     for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
-    htmlToDOM(selectRegion, htm);
+    Html.set(selectRegion, htm);
 
     htm = '';
     for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending))
         htm += Html`<option value="${skin}">${gui.getObjectName('skin', skin)}</option>`;
-    htmlToDOM(selectTheme, htm);
+    Html.set(selectTheme, htm);
 
     setState(state);
 
@@ -531,7 +531,7 @@ function setState(state) {
 function updateButton() {
     const flag = !!(filterSkin || filterMaterial || filterLevelComparison || filterHideMax);
     const button = container.querySelector('.toolbar button.advanced');
-    htmlToDOM(button, Html(gui.getMessage(flag ? 'menu_on' : 'menu_off')));
+    Html.set(button, Html(gui.getMessage(flag ? 'menu_on' : 'menu_off')));
     button.classList.toggle('activated', flag);
 
     const setDisplay = (el, flag) => el.style.display = flag ? '' : 'none';
@@ -864,17 +864,17 @@ function refresh() {
 
     const tbody = smartTable.tbody[0];
     if (showAsGrid) {
-        htmlToDOM.tr(tbody, Html`<tr><td colspan="16" class="grid-container"><div style="display:none"></div></td></tr>`);
+        Html.set(tbody, Html`<tr><td colspan="16" class="grid-container"><div style="display:none"></div></td></tr>`);
         const parent = tbody.querySelector('div');
         for (const item of items) {
-            if (!item.div) item.div = htmlToDOM(null, Html`<div data-id="${item.id}" class="pack-item-placeholder" data-lazy></div>`);
+            if (!item.div) item.div = Html.get(Html`<div data-id="${item.id}" class="pack-item-placeholder" data-lazy></div>`)[0];
             parent.appendChild(item.div);
         }
         setTimeout(() => parent.style.display = '', 50);
     } else {
-        htmlToDOM(tbody, '');
+        Html.set(tbody, '');
         for (const item of items) {
-            if (!item.row) item.row = htmlToDOM.tr(null, Html`<tr data-id="${item.id}" height="65" data-lazy></tr>`)[0];
+            if (!item.row) item.row = Html.get(Html`<tr data-id="${item.id}" height="65" data-lazy></tr>`)[0];
             tbody.appendChild(item.row);
         }
     }
@@ -988,7 +988,7 @@ function updateItem(div) {
             }
         }
         htm += Html.br`</td>`;
-        item.row = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+        item.row = Html.get('<tr>' + htm + '</tr>')[0];
         item.row.setAttribute('data-id', id);
         div.replaceWith(item.row);
     } else {
@@ -1002,12 +1002,12 @@ function updateItem(div) {
         const packItem = packHelper.getItem(obj);
         packItem.title = gui.getObjectName(obj.type, obj.object_id);
         const html = packHelper.getHtml(packItem);
-        htmlToDOM(div, html);
+        Html.set(div, html);
         const costEl = div.querySelector('.cost');
         costEl.className = costClass;
         if (saleMessageId) {
             if (price) badgeHtml += Html`<span>${price.currency + ' ' + Locale.formatNumber(+price.amount, 2)}</span>`;
-            const badge = htmlToDOM(null, badgeHtml);
+            const badge = Html.get(badgeHtml)[0];
             if (badge.nextElementSibling) costEl.appendChild(badge.nextElementSibling);
             let title = badge.title;
             badge.removeAttribute('title');

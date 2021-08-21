@@ -1,4 +1,4 @@
-/*global chrome htmlEncode htmlToDOM addStylesheet Dialog*/
+/*global chrome Html Dialog*/
 
 const options = {
     linkGrabEnabled: true,
@@ -60,7 +60,7 @@ function setShowId() {
 // eslint-disable-next-line no-unused-vars
 function initialize() {
     Dialog.language = options.language;
-    addStylesheet(chrome.runtime.getURL('inject/linkgrabber.css'));
+    Html.addStylesheet(chrome.runtime.getURL('inject/linkgrabber.css'));
     setShowId();
     addListeners(window, mousedown, keydown, keyup, blur, contextmenu);
     // track preference changes
@@ -107,9 +107,9 @@ function mousedown(event) {
 
     // create the box
     if (box == null) {
-        box = htmlToDOM(null, `<span class="DAF-selector" style="visibility:hidden"></span>`);
+        box = Html.get(`<span class="DAF-selector" style="visibility:hidden"></span>`)[0];
         document.body.appendChild(box);
-        countLabel = htmlToDOM(null, `<span class="DAF-counter" style="visibility:hidden"></span>`);
+        countLabel = Html.get(`<span class="DAF-counter" style="visibility:hidden"></span>`)[0];
         document.body.appendChild(countLabel);
     }
 
@@ -320,7 +320,7 @@ function detectDelayed() {
             if (daf.data) {
                 selected = true;
                 if (daf.box == null) {
-                    daf.box = htmlToDOM(null, `<span class="DAF-box">${daf.data.id}</span>`);
+                    daf.box = Html.get(`<span class="DAF-box">${daf.data.id}</span>`)[0];
                     document.body.appendChild(daf.box);
                     setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
                 }
@@ -617,7 +617,7 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 }
 
 function askCollect() {
-    const html = `<p style="text-align:center">${htmlEncode.br(getMessage('friendship_confirmwarning'))}`;
+    const html = `<p style="text-align:center">${Html.br(getMessage('friendship_confirmwarning'))}`;
     Dialog(Dialog.MODAL).show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
         (method) => (method == Dialog.CONFIRM) && collect()
     );

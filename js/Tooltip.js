@@ -1,7 +1,7 @@
-/*global htmlToDOM*/
+/*global Html*/
 const Tooltip = {};
 Tooltip.init = function () {
-    this.tip = htmlToDOM(null, `<span class="Tooltip" style="display:none"></span>`);
+    this.tip = Html.get(`<span class="Tooltip" style="display:none"></span>`)[0];
     document.body.appendChild(this.tip);
     document.addEventListener('mouseover', function (e) {
         const el = e.target;
@@ -27,7 +27,7 @@ Tooltip.show = function (el, html, direction) {
     const tip = this.tip;
     tip.className = 'Tooltip';
     tip.style.display = '';
-    htmlToDOM(tip, html);
+    Html.set(tip, html);
     const height = this.tip.offsetHeight;
     const width = this.tip.offsetWidth;
     const box = el.getBoundingClientRect();

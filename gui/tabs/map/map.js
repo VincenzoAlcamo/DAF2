@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM Dialog Locale Html PackTiles*/
+/*global bgp gui Dialog Locale Html PackTiles*/
 import ThemeEditor from '../../themeEditor.js';
 
 export default {
@@ -743,7 +743,7 @@ function showAdvancedOptions() {
         }
         if (method == Dialog.AUTORUN || method == 'flags') {
             const select = gui.dialog.element.querySelector('[name=mines]');
-            htmlToDOM(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
+            Html.set(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
             select.style.height = gui.dialog.element.querySelector('[name=materials]').offsetHeight + 'px';
         }
         if (method == 'clr' || method == 'inv') {
@@ -986,7 +986,7 @@ function update() {
     let htm = '';
     for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++)
         htm += Html`<option value="${rid ? '' + rid : ''}">${rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress')}</option>`;
-    htmlToDOM(selectRegion, htm);
+    Html.set(selectRegion, htm);
     setState(state);
     updateTableFlags();
 }
@@ -1961,7 +1961,7 @@ async function processMine(selectedMine, args) {
     setWaitHandler();
 
     const htm = getMineList(hasOption(OPTION_GROUPLOCATIONS), hasOption(OPTION_REPEATABLES), currentData.mine, currentData.lid);
-    htmlToDOM(container.querySelector('[data-id="lid"]'), htm);
+    Html.set(container.querySelector('[data-id="lid"]'), htm);
 
     const regionName = gui.getObjectName('region', currentData.rid);
     let caption, info;
@@ -1972,9 +1972,9 @@ async function processMine(selectedMine, args) {
         caption = regionName;
         info = mapFilters[currentData.location.filter] || '';
     }
-    htmlToDOM(container.querySelector('[data-id="info-caption"]'), Html(caption));
+    Html.set(container.querySelector('[data-id="info-caption"]'), Html(caption));
     const divInfo = container.querySelector('[data-id="info"]');
-    htmlToDOM(divInfo, Html(info));
+    Html.set(divInfo, Html(info));
 
     tableTileInfo.classList.toggle('is-repeatable', +currentData.location.reset_cd > 0);
 
@@ -2068,7 +2068,7 @@ async function drawMine(args) {
     document.body.classList.add('map-rendered');
 
     const tbody = table.querySelector('tbody');
-    htmlToDOM(tbody, '');
+    Html.set(tbody, '');
     for (let y = 0; y < rows; y++) {
         const row = tbody.insertRow();
         for (let x = 0; x < cols; x++) {
@@ -2392,7 +2392,7 @@ async function drawMine(args) {
                     cell.classList.add('tooltip-event');
                     let style = `background-image:url(${url})`;
                     if (rotation > 1) style += `;transform:rotate(${(rotation - 1) * 90}deg)`;
-                    const div = htmlToDOM(null, Html`<div class="beacon-req" data-beacon="${tileDef.miscId}" style="${style}"></div>`);
+                    const div = Html.get(Html`<div class="beacon-req" data-beacon="${tileDef.miscId}" style="${style}"></div>`)[0];
                     cell.appendChild(div);
                     solutionTiles.push({ x, y, asset, rotation });
                     if (showSolution && !isHidden && !(asset in images)) {
@@ -2401,7 +2401,7 @@ async function drawMine(args) {
                     }
                 }
             }
-            const div = htmlToDOM(null, Html`<div class="beacon" style="background-color:#${beaconColors[item.activation || ''] || beaconColors.default}8"></div>`);
+            const div = Html.get(Html`<div class="beacon" style="background-color:#${beaconColors[item.activation || ''] || beaconColors.default}8"></div>`)[0];
             cell.appendChild(div);
             cell.classList.toggle('beacon-active', tileDef.beaconActive);
         }
@@ -2758,7 +2758,7 @@ async function drawMine(args) {
         const { x, y } = tileDef;
         ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         const cell = table.rows[y].cells[x];
-        htmlToDOM(cell, '');
+        Html.set(cell, '');
         Array.from(cell.attributes).map(a => a.name).filter(n => n == 'class' || n == 'title' || n.startsWith('data-')).forEach(n => cell.removeAttribute(n));
     }
 
@@ -2841,12 +2841,12 @@ async function drawMine(args) {
         htm += Html`<span class="map_flags map_flags_${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"></span>`;
     }
     const div = container.querySelector('[data-id="fid"]');
-    htmlToDOM(div, htm);
+    Html.set(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
     const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }, allFound) => {
         [numTiles, cost, numSpecial, numQuest, numMaterial].forEach((n, i) => {
             const cell = row.cells[i + 1];
-            htmlToDOM(cell, Html(isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n)));
+            Html.set(cell, Html(isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n)));
             cell.style.fontWeight = n > 0 && i > 2 ? 'bold' : '';
         });
     };

@@ -1,4 +1,4 @@
-/*global chrome htmlToDOM addStylesheet htmlEncode*/
+/*global chrome Html*/
 // TOP PAGE
 let prefs, handlers, msgHandlers, isFacebook, originalHeight, header;
 let menu, loadCompleted, styleLoaded;
@@ -63,7 +63,7 @@ function onFullWindow() {
 function setBadge({ selector, text, title, active }) {
     const badge = menu && menu.querySelector(selector);
     if (!badge) return;
-    htmlToDOM(badge, htmlEncode(text || ''));
+    Html.set(badge, Html(text || ''));
     badge.title = title || '';
     badge.classList.toggle('DAF-badge-on', !!active);
 }
@@ -104,7 +104,7 @@ const setBadgeLuckyCards = (function () {
                 if (diff) text = String(diff).padStart(2, '0') + ':' + text;
             }
         }
-        htmlToDOM(badge, htmlEncode(text));
+        Html.set(badge, Html(text));
     }
     return function setBadgeLuckyCards({ active, sound, volume, next }) {
         active = !!active;
@@ -127,7 +127,7 @@ function setBadgeProductions({ caravan, kitchen, foundry, sound, volume }) {
         const prevNum = +badge.textContent || 0;
         const currNum = +data.num;
         const isActive = currNum > 0;
-        htmlToDOM(badge, htmlEncode(currNum));
+        Html.set(badge, Html(currNum));
         badge.classList.toggle('DAF-badge-on', isActive);
         const flag = prefs.badgeProductions && flagActive && isActive && (!wasActive || prevNum < currNum);
         if (flag) badge.classList.add('animate');
@@ -158,15 +158,15 @@ function setBadgeRepeatables({ list, sound, volume }) {
         const rest = list.slice(num);
         const flag = rest.length > 0;
         const title = flag && addTitle ? rest.map(data => `${data.name} (${data.rname})`).join('\n') : '';
-        return `<span class="${className}" style="${flag ? '' : 'display:none'}" title="${htmlEncode(title)}">${flag ? '+' + rest.length : ''}</span>`;
+        return `<span class="${className}" style="${flag ? '' : 'display:none'}" title="${Html(title)}">${flag ? '+' + rest.length : ''}</span>`;
     };
     const html = `<b>` + list.map((item, index) => {
         const title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
         const style = `background-image:url(${item.image})${index >= MAXVISIBLE ? ';display:none' : ''}`;
         const className = `${item.isNew ? 'new' : ''} ${index >= numVisible ? 'on-hover' : ''}`;
-        return `<div data-lid="${item.lid}" class="${className}" title="${htmlEncode(title)}" style="${style}"></div>`;
+        return `<div data-lid="${item.lid}" class="${className}" title="${Html(title)}" style="${style}"></div>`;
     }).join('') + counter('no-hover', numVisible) + counter('on-hover', MAXVISIBLE, true) + `</b>`;
-    htmlToDOM(badge, html);
+    Html.set(badge, html);
     const isNew = list.find(item => item.index < ADD);
     if (isNew) {
         if (prefs.badgeRepeatables) playSound(sound, volume);
@@ -177,7 +177,7 @@ function setBadgeRepeatables({ list, sound, volume }) {
 function updateGCStatus(data) {
     if (!menu) return;
     const el = menu.querySelector('[data-value=status]');
-    htmlToDOM(el, htmlEncode(data.count ? getMessage('godchild_stat', data.count, data.max) : getMessage('menu_gccollected')));
+    Html.set(el, Html(data.count ? getMessage('godchild_stat', data.count, data.max) : getMessage('menu_gccollected')));
     el.title = data.nexttxt || '';
     el.style.display = '';
     setBadge({ selector: '.DAF-badge-gc-counter', text: data.count, title: data.nexttxt, active: data.count > 0 });
@@ -189,11 +189,11 @@ function search() {
     searchHandler = setTimeout(() => {
         const container = menu.querySelector('.DAF-search-results');
         container.style.display = 'none';
-        htmlToDOM(container, '');
+        Html.set(container, '');
         const text = searchInput.value.trim();
         if (text) chrome.runtime.sendMessage({ action: 'searchNeighbor', text }, ({ count, list }) => {
             if (chrome.runtime.lastError) return;
-            const gm = (id) => htmlEncode(getMessage(id));
+            const gm = (id) => Html(getMessage(id));
             let html = `<table>`;
             if (list.length) {
                 html += `
@@ -206,27 +206,27 @@ function search() {
                     html += `<td><img src="${pal.pic || `https://graph.facebook.com/v2.8/${pal.fb_id}/picture`}"></td>`;
                     html += `<td>`;
                     if (!pal.furl || pal.fn != pal.name) {
-                        html += `${htmlEncode(pal.name)}`;
+                        html += `${Html(pal.name)}`;
                         if (pal.fn) {
                             html += `<br>`;
-                            if (!pal.furl) html += `<i>${htmlEncode(pal.fn)}</i>`;
+                            if (!pal.furl) html += `<i>${Html(pal.fn)}</i>`;
                         }
                     }
                     if (pal.furl && pal.fn) {
-                        html += `<a data-target="_blank" href="${htmlEncode(pal.furl)}">${htmlEncode(pal.fn)}</a>`;
+                        html += `<a data-target="_blank" href="${Html(pal.furl)}">${Html(pal.fn)}</a>`;
                     }
                     html += `</td>`;
-                    html += `<td><img data-src="${htmlEncode(pal.rimage)}" title="${htmlEncode(pal.rname)}"></td>`;
-                    html += `<td>${htmlEncode(pal.level)}</td>`;
+                    html += `<td><img data-src="${Html(pal.rimage)}" title="${Html(pal.rname)}"></td>`;
+                    html += `<td>${Html(pal.level)}</td>`;
                     html += `</tr>`;
                 });
                 html += `</tbody>`;
                 if (count - list.length > 0) html += `<tfoot><tr><th colspan="4">${gm('gui_toomanyresults')} (${count})</th></tr></tfoot>`;
             } else {
-                html += `<tfoot><tr><th>${htmlEncode(getMessage('gui_noresults'))}</th></tr></tfoot>`;
+                html += `<tfoot><tr><th>${Html(getMessage('gui_noresults'))}</th></tr></tfoot>`;
             }
             html += `</table>`;
-            htmlToDOM(container, html);
+            Html.set(container, html);
             container.querySelectorAll('img[data-src]').forEach(img => img.src = chrome.runtime.getURL(img.getAttribute('data-src')));
             container.style.display = 'block';
         });
@@ -234,14 +234,14 @@ function search() {
 }
 
 function createMenu() {
-    addStylesheet(chrome.runtime.getURL('inject/game_menu.css'), () => { styleLoaded = true; showMenu(); });
-    const gm = (id) => htmlEncode.br(getMessage(id));
-    const gm0 = (id) => htmlEncode(getMessage(id).split('\n')[0]);
+    Html.addStylesheet(chrome.runtime.getURL('inject/game_menu.css'), () => { styleLoaded = true; showMenu(); });
+    const gm = (id) => Html.br(getMessage(id));
+    const gm0 = (id) => Html(getMessage(id).split('\n')[0]);
     const getMessage1 = (id) => {
         const t = getMessage(id), i = t.indexOf('\n');
         return t.substr(i + 1);
     };
-    const gmSound = htmlEncode(getMessage1('options_badgesound'));
+    const gmSound = Html(getMessage1('options_badgesound'));
     let html = `
 <ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
 <li data-action="about"><b>&nbsp;</b>
@@ -316,7 +316,7 @@ function createMenu() {
 `;
     // remove spaces
     html = html.replace(/>\s+/g, '>');
-    menu = htmlToDOM(null, `<div class="DAF-menu-container" style="display:none">${html}</div>`);
+    menu = Html.get(`<div class="DAF-menu-container" style="display:none">${html}</div>`)[0];
     document.body.appendChild(menu);
     for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
         const prefName = el.getAttribute('data-pref');

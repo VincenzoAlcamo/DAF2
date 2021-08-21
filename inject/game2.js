@@ -1,4 +1,4 @@
-/*global chrome htmlToDOM addStylesheet htmlEncode*/
+/*global chrome Html*/
 // GAME PAGE
 let prefs, handlers, msgHandlers, miner;
 let gcTable, gcTableStyle;
@@ -72,7 +72,7 @@ function gcTable_remove(div) {
     const heightBefore = gcTable.offsetHeight;
     if (div) {
         div.parentNode.removeChild(div);
-        htmlToDOM(gcTable.firstChild.firstChild, htmlEncode(gcTable.childNodes.length - 1));
+        Html.set(gcTable.firstChild.firstChild, Html(gcTable.childNodes.length - 1));
         const heightAfter = gcTable.offsetHeight;
         // scrollbar was hidden and we are in full window?
         if (heightBefore > heightAfter && fullWindow) {
@@ -107,7 +107,7 @@ function ongcTable(forceRefresh = false, simulate = 0) {
             const max = (result && result.max) || 0;
             const regions = (result && result.regions) || {};
             if (!gcTable) {
-                gcTable = htmlToDOM(null, `<div class="DAF-gc-bar DAF-gc-flipped" style="display:none"></div>`);
+                gcTable = Html.get(`<div class="DAF-gc-bar DAF-gc-flipped" style="display:none"></div>`)[0];
                 miner.parentNode.insertBefore(gcTable, miner.nextSibling);
                 gcTable.addEventListener('click', function (e) {
                     for (let div = e.ctrlKey && e.target; div && div !== gcTable; div = div.parentNode)
@@ -123,12 +123,12 @@ function ongcTable(forceRefresh = false, simulate = 0) {
                 let fullName = item.name;
                 if (item.surname) fullName += ' ' + item.surname;
                 const title = fullName + '\n' + getMessage('gui_region') + ': ' + (regions[item.region] || item.region);
-                htm += `<div id="${id}" class="${className}" style="${style}" title="${htmlEncode(title)}">`;
+                htm += `<div id="${id}" class="${className}" style="${style}" title="${Html(title)}">`;
                 htm += `<div style="${item.id == 1 ? 'visibility:hidden' : ''}">${item.level}</div>`;
-                htm += `<div>${htmlEncode(item.name)}</div>`;
+                htm += `<div>${Html(item.name)}</div>`;
                 htm += `</div>`;
             });
-            htmlToDOM(gcTable, htm);
+            Html.set(gcTable, htm);
             setgcTableOptions();
             if (gcTable_isEmpty()) return gcTable_remove(null);
             setTimeout(function () {
@@ -220,7 +220,7 @@ function init() {
     // Set body height to 100% so we can use height:100% in miner
     document.body.style.height = '100%';
     // insert link for condensed font
-    addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'), () => { gcTableStyle = true; });
+    Html.addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'), () => { gcTableStyle = true; });
     interceptData();
 
     handlers = {};

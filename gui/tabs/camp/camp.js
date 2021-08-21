@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM Locale Html Dialog Tooltip*/
+/*global bgp gui Locale Html Dialog Tooltip*/
 import packHelper from '../../packHelper.js';
 
 export default {
@@ -49,11 +49,11 @@ function init() {
     selectRegen.addEventListener('change', rebuildSetup);
     let htm = '';
     for (let i = 144; i >= 0; i--) htm += Html`<option value="${i}">${i}</option>`;
-    htmlToDOM(selectRegen, htm);
-    htmlToDOM(selectRegen.parentNode.querySelector('span'), Html`${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`);
+    Html.set(selectRegen, htm);
+    Html.set(selectRegen.parentNode.querySelector('span'), Html`${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`);
 
     buttonFindThePair = container.querySelector('.toolbar button[data-action="playboard"]');
-    htmlToDOM(buttonFindThePair, Html(gui.getString('GUI3326')));
+    Html.set(buttonFindThePair, Html(gui.getString('GUI3326')));
     buttonFindThePair.addEventListener('click', findThePair);
 
     ['camp-player', 'camp-neighbor'].forEach(className => {
@@ -89,7 +89,7 @@ function update() {
     for (const sw of specialWeeks.items) {
         if (sw.name) htm.push(Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
     }
-    htmlToDOM(divWeeks, htm.join(''));
+    Html.set(divWeeks, htm.join(''));
     const buildings = gui.getFile('buildings');
     regBuildings = [];
     capBuildings = [];
@@ -173,7 +173,7 @@ function rebuildSetupFillTime() {
         const time = fillTime ? gui.getDuration(fillTime, 2) : '';
         let s = Locale.formatNumber(+option.value);
         if (s.length < 3) s = '\xa0'.repeat((3 - s.length) * 2) + s;
-        htmlToDOM(option, Html`${s} \u2192 ${time}`);
+        Html.set(option, Html`${s} \u2192 ${time}`);
     });
 }
 
@@ -185,11 +185,11 @@ function rebuildSetup() {
     const camp = generator.camp;
     let campResult = calculateCamp(camp, []);
     campResult = calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState())));
-    htmlToDOM(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2], true));
+    Html.set(container.querySelector('.camp-player .camp-summary.camp-3'), getCampSummary(campResult, campNames[2], true));
     let htm = '';
     htm += Html.br`<table class="camp-caption"><thead><tr><th>${getSetupName(campResult.stat.numRegSlots)}</th></tr></thead></table>`;
     htm += renderCamp(campResult);
-    htmlToDOM(container.querySelector('.camp-player .camp-container.camp-3'), htm);
+    Html.set(container.querySelector('.camp-player .camp-container.camp-3'), htm);
 }
 
 function onClick(event) {
@@ -295,9 +295,9 @@ function updateCamp(div, flagHeaderOnly = false) {
     }
 
     div.querySelector('img').setAttribute('src', pal ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png');
-    htmlToDOM(div.querySelector('span'), Html`${campName}<span class="screenshot"></span>`);
+    Html.set(div.querySelector('span'), Html`${campName}<span class="screenshot"></span>`);
     gui.setupScreenshot(div, campName);
-    htmlToDOM(div.querySelector('div'), '');
+    Html.set(div.querySelector('div'), '');
     if (flagHeaderOnly || !camp) return;
 
     const campResult = calculateCamp(camp, true);
@@ -472,7 +472,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         htm += Html.br`</div>`;
     });
 
-    htmlToDOM(div.querySelector('div'), htm);
+    Html.set(div.querySelector('div'), htm);
 }
 
 function calculateCamp(camp, current = true) {
@@ -930,7 +930,7 @@ async function findThePair() {
                 });
             htm += Html`<tbody>`;
             htm += Html`</table > `;
-            htmlToDOM(gui.dialog.element.querySelector('.flipthepair'), htm);
+            Html.set(gui.dialog.element.querySelector('.flipthepair'), htm);
         }
     });
 }

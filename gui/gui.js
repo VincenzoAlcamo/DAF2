@@ -1,14 +1,5 @@
-/*global chrome Locale htmlToDOM addStylesheet Dialog UrlInfo Html Tooltip imported_tabs*/
+/*global chrome Locale Dialog UrlInfo Html Tooltip imported_tabs*/
 const bgp = chrome.extension.getBackgroundPage();
-
-htmlToDOM.tr = function(tbody, html) {
-    const rows = htmlToDOM(null, '<table>' + html + '</table>').querySelectorAll('tr');
-    if (tbody) {
-        htmlToDOM(tbody, '');
-        rows.forEach(row => tbody.appendChild(row));
-    }
-    return rows;
-};
 
 let currentTab = null;
 const tabs = (function () {
@@ -421,17 +412,17 @@ const gui = {
         let maxItemsAtOnce = 20;
         while (maxItemsAtOnce-- && gui.lazyElements.length) {
             const element = gui.lazyElements.pop();
-            if (element.hasAttribute('lazy-src')) {
-                element.setAttribute('src', element.getAttribute('lazy-src'));
-                element.removeAttribute('lazy-src');
-            }
-            if (element.hasAttribute('lazy-render')) {
-                const event = new Event('render', {
-                    bubbles: true
-                });
-                element.dispatchEvent(event);
-                element.removeAttribute('lazy-render');
-            }
+            // if (element.hasAttribute('lazy-src')) {
+            //     element.setAttribute('src', element.getAttribute('lazy-src'));
+            //     element.removeAttribute('lazy-src');
+            // }
+            // if (element.hasAttribute('lazy-render')) {
+            //     const event = new Event('render', {
+            //         bubbles: true
+            //     });
+            //     element.dispatchEvent(event);
+            //     element.removeAttribute('lazy-render');
+            // }
             if (element.hasAttribute('data-lazy')) {
                 const src = element.getAttribute('data-lazy');
                 if (src !== '') {
@@ -457,14 +448,13 @@ const gui = {
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     }),
     collectLazyElements: function (container) {
-        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render],*[data-lazy]')).forEach(item => this.lazyObserver.observe(item));
+        if (container) Array.from(container.querySelectorAll('*[data-lazy]')).forEach(item => this.lazyObserver.observe(item));
     },
     removeLazyElements: function (container) {
-        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render],*[data-lazy]')).forEach(item => this.lazyObserver.unobserve(item));
+        if (container) Array.from(container.querySelectorAll('*[data-lazy]')).forEach(item => this.lazyObserver.unobserve(item));
     },
     setLazyRender: function (element) {
         if (element) {
-            element.setAttribute('lazy-render', '');
             element.setAttribute('data-lazy', '');
             gui.lazyObserver.observe(element);
         }
@@ -740,14 +730,14 @@ const gui = {
         };
     },
     createCanvas: function(width, height) {
-        return htmlToDOM(null, `<canvas width="${width}" height="${height}"></canvas>`);
+        return Html.get(`<canvas width="${width}" height="${height}"></canvas>`)[0];
     },
     setupScreenshot: function (element, filename = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
         if (!filename.endsWith('.png')) filename += '.png';
         const htm = Html`<img src="/img/gui/screenshot.png" class="shot" title="${gui.getMessage('gui_screenshot_shot')}"><img class="target" title="${gui.getMessage('gui_screenshot_target')}">`;
-        htmlToDOM(screenshot, htm);
+        Html.set(screenshot, htm);
         const shot = screenshot.querySelector('.shot');
         const target = screenshot.querySelector('.target');
         shot.addEventListener('click', function (event) {
@@ -876,7 +866,7 @@ const gui = {
             chrome.downloads.download({ url, filename, conflictAction }, () => gui.hasRuntimeError('downloadData'));
         } else {
             // DOMPurify does not support object urls
-            const a = htmlToDOM(null, Html`<a download="${filename}"></a>`);
+            const a = Html.get(Html`<a download="${filename}"></a>`)[0];
             a.href = url;
             a.click();
         }
@@ -950,7 +940,7 @@ function onLoad() {
     }
     htm += Html`<li class="last"></li>`;
     let div = document.querySelector('.vertical-menu');
-    htmlToDOM(div, htm);
+    Html.set(div, htm);
     div.addEventListener('click', clickMenu, true);
     div.addEventListener('scroll', e => e.target.style.setProperty('--scroll-y', (-e.target.scrollTop - 1)) + 'px', true);
 
@@ -1043,7 +1033,7 @@ async function loadTab(tab) {
         container.style.display = 'none';
         const tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
         Object.assign(tab, imported_tabs[tab.id]);
-        if (tab.hasCSS) addStylesheet(tabBasePath + '.css');
+        if (tab.hasCSS) Html.addStylesheet(tabBasePath + '.css');
         tab.requires = tab.requires || [];
         if (tab.requires.includes('xp')) {
             if (!tab.requires.includes('sales')) tab.requires.push('sales');
@@ -1056,7 +1046,7 @@ async function loadTab(tab) {
         });
         resource_count += requires.length;
         const promises = [];
-        promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => htmlToDOM(container, text))));
+        promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => Html.set(container, text))));
         for (const name of requires) {
             promises.push(bgp.Data.getFile(name).then(_ => advanceProgress()));
         }
@@ -1066,7 +1056,7 @@ async function loadTab(tab) {
         tab.isLoaded = true;
         tab.mustBeUpdated = true;
     } catch (e) {
-        htmlToDOM(container, Html.br`Error: ${e}`);
+        Html.set(container, Html.br`Error: ${e}`);
         console.error(e);
     } finally {
         container.style.display = '';
@@ -1101,7 +1091,7 @@ async function setCurrentTab(tabId) {
     });
     const tab = tabs[tabId];
     if (!tab.container) {
-        tab.container = htmlToDOM(null, `<div class="tab_${tab.id}"></div>`);
+        tab.container = Html.get(`<div class="tab_${tab.id}"></div>`)[0];
         document.querySelector('.main-container').appendChild(tab.container);
         await loadTab(tab);
     }
@@ -1128,7 +1118,7 @@ function updateCurrentTab() {
 //#region TEXT INFO
 function translate(parent) {
     for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
-    for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) htmlToDOM(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
+    for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Html.set(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
 }
 //#endregion
 

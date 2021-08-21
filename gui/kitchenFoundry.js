@@ -1,4 +1,4 @@
-/*global gui htmlToDOM Locale SmartTable Html*/
+/*global gui Locale SmartTable Html*/
 export default kitchenFoundry;
 
 const TICKET_ID = 347;
@@ -85,7 +85,7 @@ function kitchenFoundry(type) {
         if (hasTicket) {
             const img = gui.getObjectImg('material', TICKET_ID, 24, true);
             const qty = gui.getGenerator().materials[TICKET_ID] || 0;
-            htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`);
+            Html.set(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`);
         }
         const specialWeeks = gui.getActiveSpecialWeeks();
         swDoubleProduction = specialWeeks.doubleProduction;
@@ -94,22 +94,22 @@ function kitchenFoundry(type) {
         let htm;
         htm = `<option value="">(${gui.getMessage(swDoubleProduction ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
 <option value="yes">${gui.getMessage('dialog_yes')}</option><option value="no">${gui.getMessage('dialog_no')}</option>`;
-        htmlToDOM(selectDPW, htm);
+        Html.set(selectDPW, htm);
         selectDPW.value = oldValue;
         htm = '';
         if (swDoubleProduction) htm += Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`;
         if (swHalfTimeProduction) htm += Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`;
         const divWeeks = container.querySelector('.toolbar .weeks');
-        htmlToDOM(divWeeks, htm);
+        Html.set(divWeeks, htm);
         divWeeks.style.display = htm.length ? '' : 'none';
-        for (const el of Array.from(container.querySelectorAll('[data-sort-name="total_time"]'))) htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
+        for (const el of Array.from(container.querySelectorAll('[data-sort-name="total_time"]'))) Html.set(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
         if (selectRegion) {
             const state = getState();
             let htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
             for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
-            htmlToDOM(selectRegion, htm);
+            Html.set(selectRegion, htm);
             setState(state);
         }
         oldState = {};
@@ -301,11 +301,11 @@ function kitchenFoundry(type) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift)}</td>`;
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift2)}</td>`;
             }
-            const row = htmlToDOM.tr(null, '<tr>' + htm + '<tr>')[0];
+            const row = Html.get('<tr>' + htm + '<tr>')[0];
             row.setAttribute('data-id', p.id);
             p.rows = [row];
             for (let i = 1; i < p.ingredients.length; i++) {
-                const row = htmlToDOM.tr(null, '<tr>' + getIngredient(p.ingredients[i]) + '</tr>')[0];
+                const row = Html.get('<tr>' + getIngredient(p.ingredients[i]) + '</tr>')[0];
                 row.classList.add('ingredient');
                 p.rows.push(row);
             }
@@ -375,7 +375,7 @@ function kitchenFoundry(type) {
 
         let isOdd = false;
         const tbody = smartTable.tbody[0];
-        htmlToDOM(tbody, '');
+        Html.set(tbody, '');
         const total = productions.length;
         const items = productions.filter(isVisible);
         recreateRowsIfNecessary();
@@ -398,7 +398,7 @@ function kitchenFoundry(type) {
         if (type == 'kitchen') {
             let htm = '';
             htm += Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(gui.getBackpackFood()))}</span> (${gui.getMessage('kitchen_food_in_backpack')})`;
-            htmlToDOM(container.querySelector('.stats'), htm);
+            Html.set(container.querySelector('.stats'), htm);
         }
     }
 

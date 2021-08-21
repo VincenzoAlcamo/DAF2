@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM SmartTable Html Locale Tooltip*/
+/*global bgp gui SmartTable Html Locale Tooltip*/
 export default {
     hasCSS: true,
     init,
@@ -123,7 +123,7 @@ function update() {
     swDoubleDrop = gui.getActiveSpecialWeeks().doubleDrop;
     const divWarning = container.querySelector('.toolbar .warning');
     if (swDoubleDrop) {
-        htmlToDOM(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
+        Html.set(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
         divWarning.style.display = '';
     } else {
         divWarning.style.display = 'none';
@@ -269,7 +269,7 @@ function update() {
     // Create rows
     let htm = '';
     htm = Object.values(allEvents).map(item => Html`<tr data-eid="${item.id}" height="44" data-lazy></tr>`).join('');
-    const rows = htmlToDOM.tr(null, htm);
+    const rows = Html.get(htm);
     rows.forEach(row => allEvents[row.getAttribute('data-eid')].row = row);
 
     htm = '';
@@ -281,7 +281,7 @@ function update() {
             htm += Html`<option value="${lastYear}">${lastYear}</option>`;
         }
     }
-    htmlToDOM(selectYear, htm);
+    Html.set(selectYear, htm);
 
     setState(state);
 
@@ -381,7 +381,7 @@ function refresh() {
     items = sort(items);
 
     const tbody = smartTable.tbody[0];
-    htmlToDOM(tbody, '');
+    Html.set(tbody, '');
     const totals = {};
     const keys = ['tquest', 'cquest', 'cachiev', 'tachiev', 'ccollect', 'tcollect', 'locations', 'repeatables', 'challenges', 'maps'];
     keys.forEach(key => totals[key] = 0);
@@ -467,7 +467,7 @@ function updateRow(row) {
         htm += gui.getObjectImg(matId > 0 ? 'material' : 'token', Math.abs(matId), size, true, 'desc');
     });
     htm += Html.br`</td>`;
-    item.row = htmlToDOM.tr(null, '<tr>' + htm + '</tr>')[0];
+    item.row = Html.get('<tr>' + htm + '</tr>')[0];
     item.row.setAttribute('data-eid', id);
     row.replaceWith(item.row);
     return item.row;
@@ -565,7 +565,7 @@ function showInfo() {
         row.removeAttribute('data-lazy');
         row = updateRow(row);
     }
-    htmlToDOM(fixedBody, '');
+    Html.set(fixedBody, '');
     const clone = row.cloneNode(true);
     for (const info of INFOS) clone.classList.remove(PREFIX_HILIGHT + info);
     clone.classList.add(PREFIX_SET + selectedInfo);
@@ -611,7 +611,7 @@ function showInfo() {
         region = Math.min(region, 1);
         htm += Html`<option value="${Math.max(selectedRegion, 1)}">${gui.getMessage('events_notsegmented')}</option>`;
     }
-    htmlToDOM(selectRegion, htm);
+    Html.set(selectRegion, htm);
     selectRegion.value = selectedRegion || '';
     region = region || yourRegion;
 
@@ -694,7 +694,7 @@ function showInfo() {
             return reward.amount > 0;
         });
         const cells = showRewards(rewards, MAX_REWARDS_PER_ROW, { raw: true, filter: true });
-        for (let i = 0; i < cells.length && cell; i++, cell = cell.nextSibling) htmlToDOM(cell, cells[i]);
+        for (let i = 0; i < cells.length && cell; i++, cell = cell.nextSibling) Html.set(cell, cells[i]);
     };
 
     let lootPlaceholder = '';
@@ -1023,7 +1023,7 @@ function showInfo() {
     }
 
     htm += Html.br`</td>`;
-    const row2 = htmlToDOM.tr(null, '<tr class="infoRow">' + htm + '</tr>')[0];
+    const row2 = Html.get('<tr class="infoRow">' + htm + '</tr>')[0];
     trInfo.replaceWith(row2);
     trInfo = row2;
 }

@@ -1,4 +1,4 @@
-/*global htmlToDOM*/
+/*global Html*/
 const resizeObserver = new ResizeObserver(function (entries) {
     for (const entry of entries) {
         const element = entry.target;
@@ -12,7 +12,7 @@ const resizeObserver = new ResizeObserver(function (entries) {
 function SmartTable(table) {
     this.table = table;
     const parent = this.table.parentNode;
-    this.container = htmlToDOM(null, `<div class="sticky-container"></div>`);
+    this.container = Html.get(`<div class="sticky-container"></div>`)[0];
     parent.insertBefore(this.container, this.table);
     this.sort = {};
     this.sortSub = {};
@@ -35,7 +35,7 @@ Object.assign(SmartTable.prototype, {
         this.header = this.table.querySelector('thead');
         if (this.header) {
             this.hasSortableSub = !!this.header.querySelector('th.sortable-sub');
-            tableHeader = htmlToDOM(null, `<table class="sticky-header"></table>`);
+            tableHeader = Html.get(`<table class="sticky-header"></table>`)[0];
             this.container.insertBefore(tableHeader, this.container.firstChild);
             this.header.style.visibility = '';
             tableHeader.appendChild(this.fixedHeader = this.header.cloneNode(true));
@@ -49,7 +49,7 @@ Object.assign(SmartTable.prototype, {
         this.fixedFooter = null;
         this.footer = this.table.querySelector('tfoot');
         if (this.footer) {
-            tableFooter = htmlToDOM(null, `<table class="sticky-footer"></table>`);
+            tableFooter = Html.get(`<table class="sticky-footer"></table>`)[0];
             this.container.appendChild(tableFooter);
             this.footer.style.visibility = '';
             tableFooter.appendChild(this.fixedFooter = this.footer.cloneNode(true));

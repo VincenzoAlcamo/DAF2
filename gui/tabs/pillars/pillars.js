@@ -1,4 +1,4 @@
-/*global bgp gui htmlToDOM SmartTable Locale Html Tooltip Dialog*/
+/*global bgp gui SmartTable Locale Html Tooltip Dialog*/
 export default {
     hasCSS: true,
     init,
@@ -224,9 +224,9 @@ function refreshTotals() {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
             const levelup = levelups[level - 1];
             let div = parent.querySelectorAll('div');
-            htmlToDOM(div[1], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`);
-            htmlToDOM(div[2], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`);
-            htmlToDOM(div[3], Html`${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`);
+            Html.set(div[1], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`);
+            Html.set(div[2], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`);
+            Html.set(div[3], Html`${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`);
             div = parent.querySelector('progress');
             div.setAttribute('value', xp);
             div.setAttribute('max', levelup.xp);
@@ -275,7 +275,7 @@ function refreshTotals() {
     if (gain.food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(gain.food))}</span>`);
     if (gain.coins) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(gain.coins))}</span>`);
     gains = gains.join(', ');
-    for (const el of Array.from(container.querySelectorAll('.pillars-gain'))) htmlToDOM(el, gains);
+    for (const el of Array.from(container.querySelectorAll('.pillars-gain'))) Html.set(el, gains);
     gains = [];
     gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('pillars_maxpossible', Locale.formatNumber(tot))}</span>`);
     gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_xp', Locale.formatNumber(maxXp))}</span>`);
@@ -284,7 +284,7 @@ function refreshTotals() {
     if (maxGain.food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxGain.food))}</span>`);
     if (maxGain.coins) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxGain.coins))}</span>`);
     gains = gains.join(', ');
-    htmlToDOM(container.querySelector('.stats'), gains);
+    Html.set(container.querySelector('.stats'), gains);
 }
 
 function refresh() {
@@ -292,7 +292,7 @@ function refresh() {
     gui.updateTabState(tab);
 
     smartTable.showFixed(false);
-    htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
 
     const state = getState();
     const generator = gui.getGenerator();
@@ -363,7 +363,7 @@ function refresh() {
         htm = `<tr>` + htm + `</tr>`;
     }
     smartTable.tbody[0].classList.toggle('chessboard-coloring', state.grid);
-    htmlToDOM.tr(smartTable.tbody[0], htm);
+    Html.set(smartTable.tbody[0], htm);
     Array.from(smartTable.tbody[0].querySelectorAll('input[type=checkbox]')).forEach(input => {
         input.addEventListener('click', updatePillar);
     });
@@ -682,7 +682,7 @@ async function calcUltimateLevel() {
         style: [Dialog.OK, Dialog.AUTORUN],
     }, function (method) {
         const element = gui.dialog.element;
-        htmlToDOM(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
+        Html.set(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
         const buttonShow = gui.dialog.element.querySelector('[data-method="details"]');
         const buttonCaravan = gui.dialog.element.querySelector('[data-method="caravan"]');
         if (method == Dialog.AUTORUN) {
@@ -700,8 +700,8 @@ async function calcUltimateLevel() {
         }
         if (method == 'caravan') {
             isCaravan = !isCaravan;
-            htmlToDOM.tr(element.querySelector('.pillars-u-details'), getBody());
-            htmlToDOM(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
+            Html.set(element.querySelector('.pillars-u-details'), getBody());
+            Html.set(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
             buttonCaravan.style.backgroundColor = isCaravan ? 'green' : '';
             return;
         }
