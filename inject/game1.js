@@ -278,7 +278,7 @@ function createMenu() {
 <li data-action="badges"><b>&nbsp;</b>
     <div>
         <span>${gm('options_section_badges')}</span><br>
-        <i data-pref="badgeServerEnergy">${gm0('options_badgeserverenergy')}</i>
+        <i data-pref="badgeServerEnergy" style="display:none">${gm0('options_badgeserverenergy')}</i>
         <i data-pref="badgeGcCounter">${gm0('options_badgegccounter')}</i>
         <i data-pref="badgeGcEnergy">${gm0('options_badgegcenergy')}</i>
         <br>

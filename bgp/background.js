@@ -1650,8 +1650,8 @@ var Synchronize = {
 
         Synchronize.delayedSignals = [];
 
-        const stamina = response && response.global ? response.global.stamina : -1;
-        if (stamina >= 0 && Preferences.getValue('badgeServerEnergy')) Synchronize.signal('serverEnergy', { energy: Locale.formatNumber(stamina) }, true);
+        // const stamina = response && response.global ? response.global.stamina : -1;
+        // if (stamina >= 0 && Preferences.getValue('badgeServerEnergy')) Synchronize.signal('serverEnergy', { energy: Locale.formatNumber(stamina) }, true);
 
         // un_gift
         const changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, Synchronize.time);
