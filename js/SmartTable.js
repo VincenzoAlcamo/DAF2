@@ -1,3 +1,4 @@
+/*global Html*/
 const resizeObserver = new ResizeObserver(function (entries) {
     for (const entry of entries) {
         const element = entry.target;
@@ -11,8 +12,8 @@ const resizeObserver = new ResizeObserver(function (entries) {
 function SmartTable(table) {
     this.table = table;
     const parent = this.table.parentNode;
-    this.container = parent.insertBefore(document.createElement('div'), this.table);
-    this.container.className = 'sticky-container';
+    this.container = Html.get(`<div class="sticky-container"></div>`)[0];
+    parent.insertBefore(this.container, this.table);
     this.sort = {};
     this.sortSub = {};
     this.container.appendChild(this.table);
@@ -34,8 +35,8 @@ Object.assign(SmartTable.prototype, {
         this.header = this.table.querySelector('thead');
         if (this.header) {
             this.hasSortableSub = !!this.header.querySelector('th.sortable-sub');
-            tableHeader = this.container.insertBefore(document.createElement('table'), this.container.firstChild);
-            tableHeader.className = 'sticky-header';
+            tableHeader = Html.get(`<table class="sticky-header"></table>`)[0];
+            this.container.insertBefore(tableHeader, this.container.firstChild);
             this.header.style.visibility = '';
             tableHeader.appendChild(this.fixedHeader = this.header.cloneNode(true));
             this.header.style.visibility = 'hidden';
@@ -48,8 +49,8 @@ Object.assign(SmartTable.prototype, {
         this.fixedFooter = null;
         this.footer = this.table.querySelector('tfoot');
         if (this.footer) {
-            tableFooter = this.container.appendChild(document.createElement('table'));
-            tableFooter.className = 'sticky-footer';
+            tableFooter = Html.get(`<table class="sticky-footer"></table>`)[0];
+            this.container.appendChild(tableFooter);
             this.footer.style.visibility = '';
             tableFooter.appendChild(this.fixedFooter = this.footer.cloneNode(true));
             this.footer.style.visibility = 'hidden';
@@ -91,7 +92,7 @@ Object.assign(SmartTable.prototype, {
         for (el = e.target; el && el.tagName != 'TABLE'; el = el.parentNode)
             if (el.tagName == 'TH') break;
         if (!el || el.tagName != 'TH' || !(el.classList.contains('sortable') || el.classList.contains('sortable-sub'))) return;
-        const name = el.getAttribute('sort-name');
+        const name = el.getAttribute('data-sort-name');
         if (!name) return;
         if (this.hasSortableSub) {
             const sortInfo = el.classList.contains('sortable-sub') ? this.sortSub : this.sort;
@@ -114,7 +115,7 @@ Object.assign(SmartTable.prototype, {
     isValidSortName: function (name, isSub) {
         if (!this.header || !name) return false;
         for (const el of this.header.querySelectorAll(this.hasSortableSub && isSub ? 'th.sortable-sub' : 'th.sortable')) {
-            if (el.getAttribute('sort-name') == name) return true;
+            if (el.getAttribute('data-sort-name') == name) return true;
         }
         return false;
     },
@@ -134,7 +135,7 @@ Object.assign(SmartTable.prototype, {
         for (const thead of [this.header, this.fixedHeader]) {
             if (!thead) continue;
             for (const el of thead.querySelectorAll('th.sortable-sub,th.sortable')) {
-                const name = el.getAttribute('sort-name');
+                const name = el.getAttribute('data-sort-name');
                 let isSub = false;
                 let sortInfo = null;
                 if (name == this.sort.name) {

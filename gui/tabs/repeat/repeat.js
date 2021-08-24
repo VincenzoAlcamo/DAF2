@@ -1,4 +1,4 @@
-/*global gui SmartTable Html Locale Dialog*/
+/*global gui SmartTable Html Locale*/
 export default {
     hasCSS: true,
     init: init,
@@ -110,6 +110,11 @@ function update() {
             repeatables[item.id] = item;
         }
     }
+    // Create rows
+    let htm = '';
+    htm = Object.values(repeatables).map(item => Html`<tr data-id="${item.id}" height="40" data-lazy></tr>`).join('');
+    const rows = Html.get(htm);
+    rows.forEach(row => repeatables[row.getAttribute('data-id')].row = row);
     const specialWeeks = gui.getActiveSpecialWeeks();
     swPostcards = specialWeeks.postcards;
     showSpecialWeeks([specialWeeks.doubleDrop, specialWeeks.postcards]);
@@ -126,7 +131,7 @@ function showSpecialWeeks(items) {
         if (sw && sw.name) htm.push(Html.br`${sw.name}: ${sw.ends}`);
     }
     const divWarning = container.querySelector('.toolbar .warning');
-    Dialog.htmlToDOM(divWarning, htm.join('<br>'));
+    Html.set(divWarning, htm.join('<br>'));
     divWarning.style.display = htm.length ? '' : 'none';
 }
 
@@ -183,17 +188,8 @@ function refresh() {
     items = sort(items);
 
     const tbody = smartTable.tbody[0];
-    Dialog.htmlToDOM(tbody, '');
-    for (const item of items) {
-        let row = item.row;
-        if (!row) {
-            row = item.row = document.createElement('tr');
-            row.setAttribute('data-id', item.id);
-            row.setAttribute('height', 40);
-            row.setAttribute('lazy-render', '');
-        }
-        tbody.appendChild(row);
-    }
+    Html.set(tbody, '');
+    items.forEach(item => tbody.appendChild(item.row));
     gui.collectLazyElements(tbody);
     smartTable.syncLater();
     refreshItems();
@@ -239,7 +235,10 @@ function updateRow(row) {
     htm += Html.br`<td class="postcard"></td>`;
     htm += Html.br`<td class="time"><span class="relative"></span><span class="absolute"></span></td>`;
     row.classList.toggle('selected', item.selected);
-    Dialog.htmlToDOM(row, htm);
+    item.row = Html.get('<tr>' + htm + '</tr>')[0];
+    item.row.setAttribute('data-id', id);
+    item.row.classList.toggle('selected', item.selected);
+    row.replaceWith(item.row);
     item._ready = item._readyText = null;
     calculateItem(item, true);
 }
@@ -278,7 +277,7 @@ function calculateItem(item, flagRefreshRow) {
             }
             if (item._postcard !== item.postcard) {
                 item._postcard = item.postcard;
-                Dialog.htmlToDOM(row.querySelector('td.postcard'), item.postcard ? ticked : unticked);
+                Html.set(row.querySelector('td.postcard'), item.postcard ? ticked : unticked);
             }
             if (readyHasChanged || !item.ready) {
                 if (readyHasChanged) row.classList.toggle('ready', item.ready);

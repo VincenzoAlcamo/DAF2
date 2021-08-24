@@ -1,12 +1,9 @@
-/*global chrome*/
+/*global chrome Html*/
 // Inject stylesheet
-if (!document.getElementById('DAF-md-style'))
-    document.head.appendChild(Object.assign(document.createElement('link'), {
-        id: 'DAF-md-style',
-        type: 'text/css',
-        rel: 'stylesheet',
-        href: chrome.runtime ? chrome.runtime.getURL('css/Dialog.css') : 'Dialog.css'
-    }));
+if (!document.getElementById('DAF-md-style')) {
+    const link = Html.addStylesheet(chrome.runtime ? chrome.runtime.getURL('css/Dialog.css') : 'Dialog.css');
+    link.id = 'DAF-md-style';
+}
 
 function Dialog(mode = Dialog.MODAL) {
     if (!(this instanceof Dialog)) return new Dialog(mode);
@@ -27,22 +24,6 @@ Object.assign(Dialog, {
     CLOSE: 'close',
     HIDE: 'hide',
     AUTORUN: 'autorun',
-    htmlEncodeBr: function (text) {
-        return text === undefined || text === null ? '' : String(text).replace(/[&<>'"\n]/g, c => c == '\n' ? '<br>' : '&#' + c.charCodeAt(0) + ';');
-    },
-    htmlToDOM: function (parent, html) {
-        while (parent.firstChild) parent.firstChild.remove();
-        if (html === null || html === undefined || html === '') return;
-        html = String(html);
-        const getBody = html => (new DOMParser()).parseFromString(html, 'text/html').body;
-        let container;
-        const first3 = html.substring(0, 3).toLowerCase();
-        if (first3 == '<td' || first3 == '<th') container = getBody(`<table><tr>${html}</tr></table>`).querySelector('tr');
-        else if (first3 == '<tr') container = getBody(`<table>${html}</table>`).querySelector('tbody');
-        else container = getBody(html);
-        const owner = parent.ownerDocument;
-        for (let node = container.firstChild; node; node = node.nextSibling) parent.appendChild(owner.importNode(node, true));
-    },
     language: 'en',
     getMessage: function getMessage(id, ...args) {
         const $L = Dialog.language;
@@ -90,13 +71,13 @@ Object.assign(Dialog.prototype, {
     create: function (force) {
         if (!this.element || force) {
             this.remove();
-            this.element = document.createElement('div');
-            this.element.className = 'DAF-dialog DAF-md-superscale ' + (this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal') + (this.mode === Dialog.WAIT ? ' DAF-md-wait' : '');
             // We stopped using a CSS transform (that blurs the text)
             const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
-            Dialog.htmlToDOM(this.element, `<div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
+            const htm = `<div class="DAF-dialog DAF-md-superscale ${this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal'}${this.mode === Dialog.WAIT ? ' DAF-md-wait' : ''}">
+            <div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
             <div class="DAF-md-title"><button title="${Dialog.getMessage('dialog_close')}" value="${Dialog.CLOSE}"></button><button value="${Dialog.HIDE}"></button><div></div></div><div class="DAF-md-body"></div>
-            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div>`);
+            <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div></div>`;
+            this.element = Html.get(htm)[0];
             this.form = this.element.getElementsByTagName('form')[0];
             document.body.appendChild(this.element);
         }
@@ -176,7 +157,7 @@ Object.assign(Dialog.prototype, {
     setTitle: function (title) {
         const el = this.create().element.querySelector('.DAF-md-title div');
         if (el) {
-            Dialog.htmlToDOM(el, Dialog.htmlEncodeBr(title).replace(/\v([^\v]*)/g, '<sub>$1</sub>'));
+            Html.set(el, String(Html.br(title)).replace(/\v([^\v]*)/g, '<sub>$1</sub>'));
             el.parentNode.classList.toggle('empty', !title);
         }
         return this;
@@ -184,7 +165,7 @@ Object.assign(Dialog.prototype, {
     setHtml: function (html) {
         const el = this.create().element.getElementsByClassName('DAF-md-body')[0];
         if (el) {
-            Dialog.htmlToDOM(el, html);
+            Html.set(el, html);
             el.style.display = el.firstChild ? '' : 'none';
         }
         return this.setStyle();
@@ -194,7 +175,7 @@ Object.assign(Dialog.prototype, {
             return this.show({
                 text: text
             });
-        return this.setHtml(Dialog.htmlEncodeBr(text));
+        return this.setHtml(Html.br(text));
     },
     setStyle: function (style) {
         if (style === null || style === undefined) style = this.lastStyle;
@@ -237,7 +218,7 @@ Object.assign(Dialog.prototype, {
             } else params[name] = value;
         }
         Array.from(this.form.elements).forEach(e => {
-            const name = e.name;
+            const name = e.getAttribute('data-name') || e.name; // DOMPurify fix
             let value = e.value;
             const type = e.tagName == 'INPUT' ? e.type.toUpperCase() : e.tagName;
             switch (type) {

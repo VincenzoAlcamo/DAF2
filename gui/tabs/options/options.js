@@ -1,4 +1,4 @@
-/*global bgp chrome gui Html Dialog Locale*/
+/*global bgp chrome gui Html Locale*/
 import ThemeEditor from '../../themeEditor.js';
 
 export default {
@@ -399,7 +399,7 @@ UI_claim_coin_single_slow_02
     option('autoGC');
     endSection();
     beginSection('badges');
-    option('badgeServerEnergy');
+    // option('badgeServerEnergy');
     option('badgeGcCounter');
     option('badgeGcEnergy');
     option('badgeProductions', WITHSUBOPTIONS);
@@ -413,7 +413,7 @@ UI_claim_coin_single_slow_02
     optionEffect('badgeLuckyCards');
     endSection();
 
-    Dialog.htmlToDOM(container.querySelector('.scrollable-content'), htm);
+    Html.set(container.querySelector('.scrollable-content'), htm);
 
     for (const item of container.querySelectorAll('.open_href')) {
         item.addEventListener('click', function (event) {
@@ -484,7 +484,7 @@ UI_claim_coin_single_slow_02
             value = parseInt(value, 10) || 0;
             value = String(Math.max(min, Math.min(max, value)));
         }
-        if (input.type == 'range') input.nextElementSibling.textContent = Locale.formatNumber(value);
+        if (input.type == 'range') Html.set(input.nextElementSibling, Html(Locale.formatNumber(value)));
         if (handler) clearTimeout(handler);
         handler = setTimeout(applyChanges, name == 'darkTheme' ? 0 : 500);
         changes[name] = value;
@@ -570,7 +570,7 @@ function refresh() {
             if (input.type == 'checkbox') input.checked = value === true || value == 1;
             if (input.type == 'range') {
                 input.value = value;
-                input.nextElementSibling.textContent = Locale.formatNumber(value);
+                Html.set(input.nextElementSibling, Html(Locale.formatNumber(value)));
             }
         }
     }

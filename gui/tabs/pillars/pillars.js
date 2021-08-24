@@ -143,7 +143,7 @@ function toggleCap() {
 function updatePillar(e) {
     const el = e.target;
     const td = el.parentNode;
-    const did = parseInt(td.getAttribute('did'));
+    const did = parseInt(td.getAttribute('data-did'));
     const pillar = pillars.find(pillar => pillar.did == did);
     const state = getState();
     let recalcOthers = false;
@@ -203,7 +203,7 @@ function updateQty(pillar, state) {
     state = state || getState();
     const max = state.uncapped ? 999 : pillar.possible;
     setQty(pillar, Math.min(Math.max(pillar.qty, 0), max));
-    const input = container.querySelector('td[did="' + pillar.did + '"] input[type=number]');
+    const input = container.querySelector('td[data-did="' + pillar.did + '"] input[type=number]');
     if (input) {
         input.value = pillar.qty;
         input.max = max;
@@ -224,9 +224,9 @@ function refreshTotals() {
         Array.from(container.querySelectorAll(className)).forEach(parent => {
             const levelup = levelups[level - 1];
             let div = parent.querySelectorAll('div');
-            Dialog.htmlToDOM(div[1], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`);
-            Dialog.htmlToDOM(div[2], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`);
-            Dialog.htmlToDOM(div[3], Html`${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`);
+            Html.set(div[1], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(xp)}`);
+            Html.set(div[2], Html`${gui.getMessage('gui_level')}: ${Locale.formatNumber(level + 1)}<br/>${gui.getMessage('gui_xp')}: ${Locale.formatNumber(levelup.xp)}`);
+            Html.set(div[3], Html`${Locale.formatNumber(xp / levelup.xp * 100, 2)}%`);
             div = parent.querySelector('progress');
             div.setAttribute('value', xp);
             div.setAttribute('max', levelup.xp);
@@ -275,7 +275,7 @@ function refreshTotals() {
     if (gain.food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(gain.food))}</span>`);
     if (gain.coins) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(gain.coins))}</span>`);
     gains = gains.join(', ');
-    for (const el of Array.from(container.querySelectorAll('.pillars-gain'))) Dialog.htmlToDOM(el, gains);
+    for (const el of Array.from(container.querySelectorAll('.pillars-gain'))) Html.set(el, gains);
     gains = [];
     gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('pillars_maxpossible', Locale.formatNumber(tot))}</span>`);
     gains.push(Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_xp', Locale.formatNumber(maxXp))}</span>`);
@@ -284,7 +284,7 @@ function refreshTotals() {
     if (maxGain.food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxGain.food))}</span>`);
     if (maxGain.coins) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxGain.coins))}</span>`);
     gains = gains.join(', ');
-    Dialog.htmlToDOM(container.querySelector('.stats'), gains);
+    Html.set(container.querySelector('.stats'), gains);
 }
 
 function refresh() {
@@ -292,7 +292,7 @@ function refresh() {
     gui.updateTabState(tab);
 
     smartTable.showFixed(false);
-    Dialog.htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
 
     const state = getState();
     const generator = gui.getGenerator();
@@ -338,11 +338,11 @@ function refresh() {
                 htm += `</tr><tr>`;
                 index = 1;
             }
-            htm += Html.br`<td class="image grid${pillar.excluded ? ' excluded' : ''}" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"/>${htmInputs}</td>`;
+            htm += Html.br`<td class="image grid${pillar.excluded ? ' excluded' : ''}" data-did="${pillar.did}"><img height="50" data-lazy="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"/>${htmInputs}</td>`;
         } else {
             isOdd = !isOdd;
             htm += Html.br`<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
-            htm += Html.br`<td class="image" did="${pillar.did}"><img height="50" lazy-src="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"></td>`;
+            htm += Html.br`<td class="image" data-did="${pillar.did}"><img height="50" data-lazy="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"></td>`;
             htm += Html.br`<td>${pillar.name}</td>`;
             htm += Html.br`<td>${gui.getRegionImg(pillar.region)}</td>`;
             htm += Html.br`<td>${Locale.formatNumber(pillar.level)}</td>`;
@@ -352,7 +352,7 @@ function refresh() {
             htm += Html.br`<td class="material" style="background-image:url(${pillar.matimg})" title="${Html(pillar.mname)}">${Locale.formatNumber(pillar.available)}</td>`;
             htm += Html.br`<td>${Locale.formatNumber(pillar.perc_next, 2)}%</td>`;
             htm += Html.br`<td>${Locale.formatNumber(pillar.possible)}</td>`;
-            htm += Html.br`<td did="${pillar.did}">${htmInputs}</td>`;
+            htm += Html.br`<td data-did="${pillar.did}">${htmInputs}</td>`;
             htm += Html.br`<td>${Locale.formatNumber(pillar.predicted_xp)}</td>`;
             htm += Html.br`<td>${Locale.formatNumber(pillar.predicted_coins)}</td>`;
             htm += Html.br`</tr>`;
@@ -363,7 +363,7 @@ function refresh() {
         htm = `<tr>` + htm + `</tr>`;
     }
     smartTable.tbody[0].classList.toggle('chessboard-coloring', state.grid);
-    Dialog.htmlToDOM(smartTable.tbody[0], htm);
+    Html.set(smartTable.tbody[0], htm);
     Array.from(smartTable.tbody[0].querySelectorAll('input[type=checkbox]')).forEach(input => {
         input.addEventListener('click', updatePillar);
     });
@@ -378,9 +378,9 @@ function refresh() {
 function onTooltip(event) {
     const element = event.target;
     element.removeAttribute('title');
-    const did = parseInt(element.parentNode.getAttribute('did'));
+    const did = parseInt(element.parentNode.getAttribute('data-did'));
     const pillar = pillars.find(pillar => pillar.did == did);
-    const htm = Html.br`<div class="pillars-tooltip"><img src="${pillar.img}"}" class="outlined"/><span>${pillar.name}</span></div>`;
+    const htm = Html.br`<div class="pillars-tooltip"><img src="${pillar.img}" class="outlined"/><span>${pillar.name}</span></div>`;
     Tooltip.show(element, htm);
 }
 
@@ -682,7 +682,7 @@ async function calcUltimateLevel() {
         style: [Dialog.OK, Dialog.AUTORUN],
     }, function (method) {
         const element = gui.dialog.element;
-        element.querySelector('.pillars-u-level').textContent = Locale.formatNumber(level);
+        Html.set(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
         const buttonShow = gui.dialog.element.querySelector('[data-method="details"]');
         const buttonCaravan = gui.dialog.element.querySelector('[data-method="caravan"]');
         if (method == Dialog.AUTORUN) {
@@ -700,8 +700,8 @@ async function calcUltimateLevel() {
         }
         if (method == 'caravan') {
             isCaravan = !isCaravan;
-            Dialog.htmlToDOM(element.querySelector('.pillars-u-details'), getBody());
-            element.querySelector('.pillars-u-level').textContent = Locale.formatNumber(level);
+            Html.set(element.querySelector('.pillars-u-details'), getBody());
+            Html.set(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
             buttonCaravan.style.backgroundColor = isCaravan ? 'green' : '';
             return;
         }

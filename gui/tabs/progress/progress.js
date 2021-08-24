@@ -1,4 +1,4 @@
-/*global bgp gui Html Locale SmartTable Dialog*/
+/*global bgp gui Html Locale SmartTable*/
 
 export default {
     hasCSS: true,
@@ -195,7 +195,7 @@ function refresh() {
         htm += getTimes(item.isCompleted, item.bt, item.et);
         htm += Html.br`</tr>`;
     }
-    Dialog.htmlToDOM(smartTable.table.querySelector('tbody'), htm);
+    Html.set(smartTable.table.querySelector('tbody'), htm);
     container.classList.toggle('no-dates', !state.dates);
     container.classList.toggle('no-energy', !state.energy);
 
@@ -350,13 +350,12 @@ function showDetail(show) {
                 group.url = url + sub.ma + '.png' + versionParameter;
                 group.ma = sub.ma;
                 if (level == 0) {
-                    group.row = document.createElement('tr');
+                    group.row = Html.get(Html`<tr><td colspan="2">${gui.getString(sub.gname)}</td></tr>`)[0];
                     group.row.setAttribute('height', 31);
                     group.row.setAttribute('data-level', '1');
                     if (state.groups) {
                         group.row.setAttribute('data-id', item.id + REGION_SEPARATOR + sub.seq);
                     } else group.row.classList.add('header');
-                    Dialog.htmlToDOM(group.row, Html`<td colspan="2">${gui.getString(sub.gname)}</td>`);
                     parent.insertBefore(group.row, nextRow);
                 }
                 initGroupTotals(group.total = {});
@@ -375,11 +374,10 @@ function showDetail(show) {
             if (!sub.name) sub.name = gui.getString(sub.name_loc);
             htm += Html`<td>${sub.img}</td><td>${sub.name}${info}</td>` + getProgress(sub);
             htm += getTimes(isCompleted, sub.bt, sub.et);
-            sub.row = document.createElement('tr');
+            sub.row = Html.get('<tr>' + htm + '</tr>')[0];
             if (sub.id) sub.row.setAttribute('data-id', sub.id);
             sub.row.title = getTitle(sub);
             sub.row.setAttribute('data-level', level + (state.groups ? 1 : 2));
-            Dialog.htmlToDOM(sub.row, htm);
         }
         isOdd = !isOdd;
         sub.row.classList.toggle('odd', isOdd);
@@ -409,10 +407,14 @@ function showDetail(show) {
             let htm = '';
             htm += Html`<td class="filter ${group.ma == 'father' || group.ma == 'main' ? group.ma : ''}" style="background-image:url(${group.url})"></td><td>${gui.getString(group.name)}</td>` + getProgress(total);
             htm += getTimes(isCompleted, total.bt, total.et);
-            Dialog.htmlToDOM(group.row, htm);
+            const row = group.row;
+            group.row = Html.get('<tr>' + htm + '</tr>')[0];
+            group.row.setAttribute('data-level', row.getAttribute('data-level'));
+            group.row.setAttribute('data-id', row.getAttribute('data-id'));
             total.name = group.name && gui.getString(group.name);
             group.row.title = getTitle(total);
             group.row.classList.toggle('inspect', (!state.hidecompleted || !isCompleted) && state.groups);
+            row.replaceWith(group.row);
         }
         // Sub total
         if ((group.row && !state.groups) || (group.name && level == 1)) updateGroupSubTotal(group);
@@ -421,16 +423,15 @@ function showDetail(show) {
     function updateGroupSubTotal(group, isGrandTotal) {
         const total = isGrandTotal ? group.grandtotal : group.subtotal;
         if (total.qty <= 0) return;
-        const row = document.createElement('tr');
-        row.setAttribute('data-level', '2');
-        row.classList.add(isGrandTotal ? 'grandtotal' : 'subtotal');
-        row.title = getTitle(total);
         const isCompleted = total.value == total.max;
         let htm = '';
         const caption = gui.getMessage(isGrandTotal ? 'progress_grandtotal' : 'progress_subtotal');
         htm += Html`<td></td><td>${caption} (${gui.getMessageAndValue('events_locations', Locale.formatNumber(total.qty))})</td>` + getProgress(total);
         htm += getTimes(isCompleted, total.bt, total.et);
-        Dialog.htmlToDOM(row, htm);
+        const row = Html.get('<tr>' + htm + '</tr>')[0];
+        row.setAttribute('data-level', '2');
+        row.classList.add(isGrandTotal ? 'grandtotal' : 'subtotal');
+        row.title = getTitle(total);
         parent.insertBefore(row, nextRow);
     }
 }
@@ -459,13 +460,10 @@ function infoLevel(row) {
     const xp = +gui.getGenerator().exp;
     sliderLevel = sliderLevel || (level + 1);
 
-    setRowLevel(addRow(), 1, levelSums.length);
+    addRowLevel(1, levelSums.length);
 
-    const rowLevel = addRow();
-    setRowLevel(rowLevel, level, sliderLevel);
+    let rowLevel = addRowLevel(level, sliderLevel);
 
-    const rowSlider = addRow();
-    rowSlider.className = 'slider';
     let htm = '';
     htm += Html.br`<td colspan="6">`;
     htm += Html.br`<input type="range" step="1" value="${sliderLevel}" min="${level + 1}" max="${maxLevel}">`;
@@ -475,27 +473,25 @@ function infoLevel(row) {
     htm += Html.br`</td>`;
     htm += Html.br`<td class="energy"></td><td></td>`;
     htm += getTimes(false, 0, 0);
-    Dialog.htmlToDOM(rowSlider, htm);
+    const rowSlider = Html.get('<tr class="slider" data-level="1">' + htm + '</tr>')[0];
+    parent.insertBefore(rowSlider, nextRow);
     rowSlider.querySelector('input').addEventListener('input', function () {
         sliderLevel = this.value;
-        rowSlider.querySelector('.slider-val').textContent = Locale.formatNumber(sliderLevel);
-        setRowLevel(rowLevel, level, sliderLevel);
+        Html.set(rowSlider.querySelector('.slider-val'), Html(Locale.formatNumber(sliderLevel)));
+        const row = addRowLevel(level, sliderLevel);
+        rowLevel.replaceWith(row);
+        rowLevel = row;
     });
 
-    function addRow() {
-        const row = document.createElement('tr');
-        row.setAttribute('data-level', '1');
-        parent.insertBefore(row, nextRow);
-        return row;
-    }
-
-    function setRowLevel(row, levelFrom, levelTo) {
+    function addRowLevel(levelFrom, levelTo) {
         const value = levelSums[level - 1] + xp - levelSums[levelFrom - 1];
         const max = levelSums[levelTo - 1] - levelSums[levelFrom - 1];
         let htm = '';
         htm += Html`<td><img src="/img/gui/xp.png" height="24"></td><td>${gui.getMessage('progress_levelrange', Locale.formatNumber(levelFrom), Locale.formatNumber(levelTo))}</td>` + getProgress({ value, max, energy: 0, bonus: 0 });
         htm += getTimes(false, 0, 0);
-        Dialog.htmlToDOM(row, htm);
+        const row = Html.get('<tr data-level="1">' + htm + '<tr>')[0];
+        parent.insertBefore(row, nextRow);
+        return row;
     }
 }
 

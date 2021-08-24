@@ -1,4 +1,4 @@
-/*global Dialog gui bgp Html Tooltip Locale SmartTable*/
+/*global gui bgp Html Tooltip Locale SmartTable*/
 export default {
     hasCSS: true,
     init,
@@ -52,7 +52,8 @@ function init() {
         setState(getState());
         refresh();
     });
-    Object.keys(kinds).forEach(type => gui.addOption(selectShow, type, type.toUpperCase().replace(/[_]/g, ' ')));
+    const htm = Object.keys(kinds).map(type => Html`<option value="${type}">${type.toUpperCase().replace(/[_]/g, ' ')}</option>`).join('');
+    Html.set(selectShow, htm);
 
     selectEvent = container.querySelector('[name=event]');
     selectEvent.addEventListener('change', refresh);
@@ -80,9 +81,7 @@ function getState() {
 
 function setState(state) {
     state.show = gui.setSelectState(selectShow, state.show);
-    if (allEvents) {
-        state.event = gui.setSelectState(selectEvent, state.event);
-    }
+    if (allEvents) state.event = gui.setSelectState(selectEvent, state.event);
     selectEvent.setAttribute('data-value', state.event);
     selectEvent.disabled = !(state.show in kinds) || !kinds[state.show].event;
     searchInput.value = state.search || '';
@@ -90,23 +89,25 @@ function setState(state) {
 
 function update() {
     ({ cdn_root, versionParameter } = gui.getGenerator());
+    const state = getState();
     allEvents = Object.values(gui.getFile('events')).map(event => {
         const info = gui.getEventInfo(event);
         return { id: event.def_id, year: info.year };
     }).sort((a, b) => b.year - a.year);
-    let optGroup = null;
     let lastYearText = '';
-    Dialog.htmlToDOM(selectEvent, `<option value="0">${gui.getMessage('gui_all')}</option>`);
+    let htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
     for (const event of allEvents) {
         const yearText = Locale.formatYear(event.year);
-        if (!optGroup || lastYearText != yearText) {
+        if (lastYearText != yearText) {
+            if (lastYearText) htm += '</optgroup>';
             lastYearText = yearText;
-            optGroup = document.createElement('optgroup');
-            optGroup.label = gui.getMessageAndValue('events_year', yearText);
-            selectEvent.appendChild(optGroup);
+            htm += Html`<optgroup label="${gui.getMessageAndValue('events_year', yearText)}">`;
         }
-        gui.addOption(optGroup, '' + event.id, gui.getObjectName('event', event.id));
+        htm += Html`<option value="${event.id}">${gui.getObjectName('event', event.id)}</option>`;
     }
+    if (lastYearText) htm += '</optgroup>';
+    Html.set(selectEvent, htm);
+    setState(state);
 
     setTimeout(refresh, 100);
 }
@@ -163,11 +164,11 @@ async function refresh() {
     const values = Object.values(allItems);
     const items = values.filter(isVisible);
     for (const item of items) {
-        htm += Html`<div data-id="${item.id}" class="item" lazy-render></div>`;
+        htm += Html`<div data-id="${item.id}" class="item" data-lazy></div>`;
     }
     const grid = container.querySelector('.grid');
     gui.removeLazyElements(grid);
-    Dialog.htmlToDOM(grid, htm);
+    Html.set(grid, htm);
     Array.from(container.querySelectorAll('.totals')).forEach(cell => {
         cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(values.length));
     });
@@ -182,10 +183,8 @@ function updateItem(el) {
     if (item.name) el.setAttribute('data-name', item.name);
     const title = item.title && gui.getString(item.title);
     el.title = [item.name, gui.getWrappedText(title)].filter(t => t).join('\n');
-    const img = document.createElement('img');
-    img.classList.add('tooltip-event');
-    img.src = item.url;
-    el.appendChild(img);
+    const htm = Html`<img class="tooltip-event" src="${item.url}">`;
+    Html.set(el, htm);
 }
 
 function onTooltip(event) {

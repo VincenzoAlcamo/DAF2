@@ -270,7 +270,7 @@ function saveState() {
 function add() {
     gui.dialog.show({
         title: gui.getMessage('rewardlinks_addlinks'),
-        html: Html.br`${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" name="links"></textarea>`,
+        html: Html.br`${gui.getMessage('rewardlinks_pasteadd', gui.getMessage('dialog_confirm'))}<br/><textarea cols="60" rows="8" data-name="links"></textarea>`,
         defaultButton: 'links',
         style: [Dialog.CONFIRM, Dialog.CANCEL]
     }, function (method, params) {
@@ -297,7 +297,7 @@ function short() {
 <option value="1">${gui.getMessage('options_sort_ascending')}</option>
 <option value="2">${gui.getMessage('options_sort_descending')}</option>
 </select></td></tr>
-<tr><td class="no_right_border label">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" name="prefix">
+<tr><td class="no_right_border label">${gui.getMessage('rewardlinks_prefix')}</td><td><select data-method="input" data-name="prefix">
 <option value="0"></option>
 <option value="1">1</option>
 <option value="2">01</option>
@@ -314,7 +314,7 @@ function short() {
 <table class="daf-table" style="margin-top:2px">
 <thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info1')}</th></tr></thead>
 <tbody class="row-coloring"><tr><td style="text-align:center">
-<textarea data-method="input" cols="60" rows="5" name="links" style="padding:2px"></textarea>
+<textarea data-method="input" cols="60" rows="5" data-name="links" style="padding:2px"></textarea>
 </td></tr></tbody>
 <thead><tr><th>${gui.getMessage('rewardlinks_shortenlinks_info2')}</th></tr></thead>
 <tbody class="row-coloring"><tr><td style="text-align:center">
@@ -329,7 +329,7 @@ function short() {
             params = LinkData.stringToOptions(shorten);
             gui.dialog.element.querySelector('[name=convert]').value = params.convert;
             gui.dialog.element.querySelector('[name=sort]').value = params.sort;
-            gui.dialog.element.querySelector('[name=prefix]').value = params.prefix;
+            gui.dialog.element.querySelector('[data-name=prefix]').value = params.prefix;
             gui.dialog.element.querySelector('[name=addspace]').checked = params.addspace;
             gui.dialog.element.querySelector('[name=separator]').value = params.separator;
             gui.dialog.element.querySelector('[name=newline]').checked = params.newline;
@@ -615,7 +615,7 @@ function update() {
             if (item.cmt != rewardLink.cmt) {
                 flagUpdated = true;
                 item.cmt = rewardLink.cmt;
-                Dialog.htmlToDOM(item.row.cells[4], materialHTML(item.cmt));
+                Html.set(item.row.cells[4], materialHTML(item.cmt));
                 item.mtx = item.row.cells[4].textContent;
                 if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             }
@@ -625,23 +625,22 @@ function update() {
                 item.cid = rewardLink.cid;
                 item.cpi = rewardLink.cpi;
                 item.cnm = cnm;
-                Dialog.htmlToDOM(item.row.cells[5], (item.cid || item.cpi) ? Html.br`<img src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
+                Html.set(item.row.cells[5], (item.cid || item.cpi) ? Html.br`<img src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}` : '');
             }
             if (flagUpdated) status = 3;
         } else {
             item = Object.assign({}, rewardLink);
             item.cnm = item.cnm || '';
             item.conversion = conversion;
-            item.row = document.createElement('tr');
-            item.row.setAttribute('data-id', item.id);
             let htm = '';
-            htm += Html.br`<td><input type="checkbox" title="${gui.getMessage('gui_ctrlclick')}"></td><td><a class="reward" target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
+            htm += Html.br`<td><input type="checkbox" title="${gui.getMessage('gui_ctrlclick')}"></td><td><a class="reward" data-target="_blank" href="${LinkData.getLink(rewardLink, conversion)}">${item.id}</a></td><td>${Locale.formatDateTime(item.adt)}</td>`;
             htm += Html.br`<td>${item.cdt ? Locale.formatDateTime(item.cdt) : ''}</td>`;
             htm += Html.br`<td>${materialHTML(item.cmt)}</td>`;
             htm += Html.br`<td translate="no">`;
-            if (item.cid || item.cpi) htm += Html.br`<img lazy-src="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
+            if (item.cid || item.cpi) htm += Html.br`<img data-lazy="${item.cpi || gui.getFBFriendAvatarUrl(item.cid)}"/>${item.cnm}`;
             htm += `</td>`;
-            Dialog.htmlToDOM(item.row, htm);
+            item.row = Html.get('<tr>' + htm + '</tr>')[0];
+            item.row.setAttribute('data-id', item.id);
             if (item.cmt && item.cmt != -6) item.row.classList.add('collected');
             item.mtx = item.row.cells[4].textContent;
             if (!firstTime) status = 2;
@@ -788,9 +787,9 @@ function showStats() {
     }
     const textNext = next > now ? gui.getMessage('rewardlinks_nexttime', Locale.formatDateTime(next)) : '';
     const element = container.querySelector('.stats');
-    element.textContent = text + (flagNext ? textNext : '');
+    Html.set(element, Html(text + (flagNext ? textNext : '')));
     element.classList.toggle('wait', flagNext);
-    Dialog.htmlToDOM(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
+    Html.set(container.querySelector('.info'), Html.br(flagNext ? '' : textNext));
 
     text = gui.getMessage('rewardlinks_stats', Locale.formatNumber(numToCollect), Locale.formatNumber(numTotal));
     Array.from(smartTable.container.querySelectorAll('tfoot td')).forEach(cell => {
@@ -865,7 +864,7 @@ async function pixel() {
             }).join('');
             htm += Html`<tbody>`;
             htm += Html`</table>`;
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('.rewardlinks_pixel'), htm);
+            Html.set(gui.dialog.element.querySelector('.rewardlinks_pixel'), htm);
         }
     });
 }

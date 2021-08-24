@@ -113,7 +113,7 @@ function rnd() {
 rnd.seed = Date.now();
 
 function setHtml(div, html) {
-    Dialog.htmlToDOM(div, html || '');
+    Html.set(div, html || '');
     div.style.display = html ? '' : 'none';
 }
 

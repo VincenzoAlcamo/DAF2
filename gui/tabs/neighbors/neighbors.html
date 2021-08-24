@@ -32,7 +32,7 @@
     </label>
     <label class="for-admin">
         <span data-i18n-text="gui_id"></span>
-        <input name="id" type="checkbox">
+        <input name="showid" type="checkbox">
     </label>
     <div class="stats"></div>
 </div>
@@ -41,22 +41,22 @@
         <thead>
             <tr>
                 <th rowspan="2"><img data-wiki-page="Neighbors" data-i18n-title="tab_neighbors+gui_clickwiki" src="/img/gui/neighbors.png" /></th>
-                <th rowspan="2" class="sortable" sort-name="name" data-i18n-text="gui_neighbour"></th>
-                <th rowspan="2" class="sortable" sort-name="region"><img data-i18n-title="gui_region" src="/img/gui/map.png" /></th>
-                <th rowspan="2" class="sortable" sort-name="level"><img data-i18n-title="gui_level" src="/img/gui/level.png" /></th>
-                <th rowspan="2" class="sortable" sort-name="levelup" data-i18n-text="neighbors_lastlevelup"></th>
-                <th rowspan="2" class="sortable" sort-name="recorded" data-i18n-text="gui_firstrecorded"></th>
-                <th rowspan="2" class="sortable" sort-name="list"><img data-i18n-title="neighbors_listed" src="/img/gui/list.png" /></th>
-                <th rowspan="2" class="sortable" sort-name="blocks"><img data-i18n-title="neighbors_blocks" src="/img/gui/bomb.png" /></th>
-                <th rowspan="2" class="sortable" sort-name="wmtime"><img data-i18n-title="neighbors_wmtime" src="/img/gui/windmill.png" /></th>
-                <th rowspan="2" class="sortable" sort-name="visit"><img data-i18n-title="neighbors_yourlastvisit" src="/img/gui/time.png" /></th>
-                <th rowspan="2" class="sortable help" sort-name="lastgift" data-i18n-text="neighbors_lastgiftreceived" data-i18n-title="gui_datafrompf"></th>
+                <th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_neighbour"></th>
+                <th rowspan="2" class="sortable" data-sort-name="region"><img data-i18n-title="gui_region" src="/img/gui/map.png" /></th>
+                <th rowspan="2" class="sortable" data-sort-name="level"><img data-i18n-title="gui_level" src="/img/gui/level.png" /></th>
+                <th rowspan="2" class="sortable" data-sort-name="levelup" data-i18n-text="neighbors_lastlevelup"></th>
+                <th rowspan="2" class="sortable" data-sort-name="recorded" data-i18n-text="gui_firstrecorded"></th>
+                <th rowspan="2" class="sortable" data-sort-name="list"><img data-i18n-title="neighbors_listed" src="/img/gui/list.png" /></th>
+                <th rowspan="2" class="sortable" data-sort-name="blocks"><img data-i18n-title="neighbors_blocks" src="/img/gui/bomb.png" /></th>
+                <th rowspan="2" class="sortable" data-sort-name="wmtime"><img data-i18n-title="neighbors_wmtime" src="/img/gui/windmill.png" /></th>
+                <th rowspan="2" class="sortable" data-sort-name="visit"><img data-i18n-title="neighbors_yourlastvisit" src="/img/gui/time.png" /></th>
+                <th rowspan="2" class="sortable help" data-sort-name="lastgift" data-i18n-text="neighbors_lastgiftreceived" data-i18n-title="gui_datafrompf"></th>
                 <th colspan="3" class="help" data-i18n-text="gui_gifts" data-i18n-title="neighbors_gift_tooltip"></th>
             </tr>
             <tr>
-                <th class="sortable only-image" sort-name="gifts"><img class="small" data-i18n-title="neighbors_giftcount" src="/img/gui/gift.png" /></th>
-                <th class="sortable only-image" sort-name="value"><img class="small" data-i18n-title="neighbors_giftvalue" src="/img/gui/pillars.png" /></th>
-                <th class="sortable only-image" sort-name="efficiency"><img class="small" data-i18n-title="neighbors_efficiency" src="/img/gui/avg.png" /></th>
+                <th class="sortable only-image" data-sort-name="gifts"><img class="small" data-i18n-title="neighbors_giftcount" src="/img/gui/gift.png" /></th>
+                <th class="sortable only-image" data-sort-name="value"><img class="small" data-i18n-title="neighbors_giftvalue" src="/img/gui/pillars.png" /></th>
+                <th class="sortable only-image" data-sort-name="efficiency"><img class="small" data-i18n-title="neighbors_efficiency" src="/img/gui/avg.png" /></th>
             </tr>
     </thead>
         <tbody class="row-coloring"></tbody>

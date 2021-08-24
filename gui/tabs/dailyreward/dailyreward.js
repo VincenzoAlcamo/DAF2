@@ -1,4 +1,4 @@
-/*global gui Html Locale Calculation Dialog*/
+/*global gui Html Locale Calculation*/
 export default {
     hasCSS: true,
     init,
@@ -20,8 +20,8 @@ function update() {
 }
 
 function refresh() {
-    Dialog.htmlToDOM(divRewards, '');
-    Dialog.htmlToDOM(divStats, '');
+    Html.set(divRewards, '');
+    Html.set(divStats, '');
 
     const generator = gui.getGenerator();
     const rid = +generator.region;
@@ -42,7 +42,7 @@ function refresh() {
     // }
     const calculation = new Calculation();
     calculation.defineConstant('level', level);
-    divStats.textContent = Html.br`${gui.getMessage('dailyreward_stats', Locale.formatNumber(level), gui.getObjectName('region', rid))}`;
+    Html.set(divStats, Html.br`${gui.getMessage('dailyreward_stats', Locale.formatNumber(level), gui.getObjectName('region', rid))}`);
     let htm = '';
     for (const reward of visibleRewards) {
         const item = reward.segmentation.find(o => +o.region_id == rid);
@@ -67,5 +67,5 @@ function refresh() {
         htm += Html`<div class="amount"><span class="outlined">${Locale.formatNumber(qty)}</span></div>`;
         htm += Html`</div>`;
     }
-    Dialog.htmlToDOM(divRewards, htm);
+    Html.set(divRewards, htm);
 }

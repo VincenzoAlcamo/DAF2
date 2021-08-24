@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "__MSG_ext_name__",
-    "version": "2.0.0.118",
+    "version": "2.0.1.119",
     "default_locale": "en",
     "description": "__MSG_ext_title__",
     "minimum_chrome_version": "71",
@@ -40,14 +40,21 @@
 
     "content_scripts": [{
         "matches": [
-            "https://portal.pixelfederation.com/_da/miner/*",
             "https://portal.pixelfederation.com/*/diggysadventure/*",
-            "https://apps.facebook.com/diggysadventure/*",
-            "https://diggysadventure.com/miner/*"
+            "https://apps.facebook.com/diggysadventure/*"
         ],
         "all_frames": true,
         "run_at": "document_end",
-        "js": ["inject/game.js"]
+        "js": ["js/purify.min.js", "js/Html.js", "inject/game1.js"]
+    },{
+        "matches": [
+            "https://portal.pixelfederation.com/_da/miner/*",
+            "https://diggysadventure.com/miner/*"
+        ],
+        "exclude_globs": ["*/wallpost.php*"],
+        "all_frames": true,
+        "run_at": "document_end",
+        "js": ["js/purify.min.js", "js/Html.js", "inject/game2.js"]
     }],
 
     "background": {

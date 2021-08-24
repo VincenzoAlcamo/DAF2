@@ -1,4 +1,4 @@
-/*global chrome Dialog*/
+/*global chrome Html Dialog*/
 
 const options = {
     linkGrabEnabled: true,
@@ -60,11 +60,7 @@ function setShowId() {
 // eslint-disable-next-line no-unused-vars
 function initialize() {
     Dialog.language = options.language;
-    const link = document.createElement('link');
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-    link.href = chrome.runtime.getURL('inject/linkgrabber.css');
-    document.head.appendChild(link);
+    Html.addStylesheet(chrome.runtime.getURL('inject/linkgrabber.css'));
     setShowId();
     addListeners(window, mousedown, keydown, keyup, blur, contextmenu);
     // track preference changes
@@ -111,12 +107,10 @@ function mousedown(event) {
 
     // create the box
     if (box == null) {
-        box = document.body.appendChild(document.createElement('span'));
-        box.className = 'DAF-selector';
-        box.style.visibility = 'hidden';
-        countLabel = document.body.appendChild(document.createElement('span'));
-        countLabel.className = 'DAF-counter';
-        countLabel.style.visibility = 'hidden';
+        box = Html.get(`<span class="DAF-selector" style="visibility:hidden"></span>`)[0];
+        document.body.appendChild(box);
+        countLabel = Html.get(`<span class="DAF-counter" style="visibility:hidden"></span>`)[0];
+        document.body.appendChild(countLabel);
     }
 
     // update position
@@ -326,9 +320,8 @@ function detectDelayed() {
             if (daf.data) {
                 selected = true;
                 if (daf.box == null) {
-                    daf.box = document.body.appendChild(document.createElement('span'));
-                    daf.box.textContent = daf.data.id;
-                    daf.box.className = 'DAF-box';
+                    daf.box = Html.get(`<span class="DAF-box">${daf.data.id}</span>`)[0];
+                    document.body.appendChild(daf.box);
                     setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
                 }
                 total++;
@@ -624,17 +617,15 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 }
 
 function askCollect() {
-    let html = `<p style="text-align:center">${Dialog.htmlEncodeBr(getMessage('friendship_speedupcollect'))} <select id="f_sc" name="speedupCollection">
-<option value="0" selected>${getMessage('dialog_no')}</option>`;
-    [2, 4, 8].forEach(i => html += `<option value="${i}">\xd7 ${i}</option>`);
-    html += `</select></span><br><br>${Dialog.htmlEncodeBr(getMessage('friendship_confirmwarning'))}`;
+    const html = `<p style="text-align:center">${Html.br(getMessage('friendship_confirmwarning'))}`;
     Dialog(Dialog.MODAL).show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
-        (method, params) => (method == Dialog.CONFIRM) && collect(true, params.speedupCollection)
+        (method) => (method == Dialog.CONFIRM) && collect()
     );
 }
 
-function collect(confirmCollection, speedupCollection) {
+function collect() {
     const autoClose = false;
+    const confirmCollection = true;
     const collectMethod = 'standard';
     const unmatched = '';
     const wait = Dialog(Dialog.WAIT);
@@ -660,34 +651,6 @@ function collect(confirmCollection, speedupCollection) {
         } catch (e) { }
     }
 
-    function interceptData() {
-        const code = `
-        (function() {
-            const XHR = XMLHttpRequest.prototype;
-            const send = XHR.send;
-            const open = XHR.open;
-            XHR.open = function(method, url) {
-                this.url = url;
-                return open.apply(this, arguments);
-            }
-            XHR.send = function(e) {
-                if(e && this.url.indexOf('/graphql/') >= 0 && e.indexOf('variables') >= 0 && e.indexOf('count%22%3A8') >= 0) {
-                    e = e.replace('count%22%3A8', 'count%22%3A${speedupCollection * 8}');
-                    return send.call(this, e);
-                }
-                return send.apply(this, arguments);
-            };
-        })();
-        `;
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.appendChild(document.createTextNode(code));
-        document.head.prepend(script);
-        document.addEventListener('daf_xhr', function (event) {
-            chrome.runtime.sendMessage({ action: 'daf_xhr', detail: event.detail });
-        });
-    }
-
     function getCountPhotos() {
         return document.querySelectorAll('a[href$="photos"]').length;
     }
@@ -707,12 +670,13 @@ function collect(confirmCollection, speedupCollection) {
             const i = document.querySelector('a > i.profpic');
             if (i) {
                 container = i.parentElement.parentElement.parentElement.parentElement.parentElement;
+                // Fix for Firefox
+                if (!container.id && container.parentElement.id) container = container.parentElement;
                 fbPage = FB_MOBILE;
                 captureOneBlock = captureOneBlockMobile;
             }
         }
         if (container) {
-            if (fbPage == FB_NEW && speedupCollection > 1) interceptData();
             clearInterval(handler);
             wait.hide();
             started = Date.now();

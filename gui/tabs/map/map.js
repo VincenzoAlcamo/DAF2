@@ -545,9 +545,7 @@ function saveImage() {
         const path = getDownloadPath();
         let canvas2 = canvas;
         if (resize < 100) {
-            canvas2 = document.createElement('canvas');
-            canvas2.width = Math.round(canvas.width * resize / 100);
-            canvas2.height = Math.round(canvas.height * resize / 100);
+            canvas2 = gui.createCanvas(Math.round(canvas.width * resize / 100), Math.round(canvas.height * resize / 100));
             canvas2.getContext('2d').drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas2.width, canvas2.height);
         }
         canvas2.toBlob(data => {
@@ -745,7 +743,7 @@ function showAdvancedOptions() {
         }
         if (method == Dialog.AUTORUN || method == 'flags') {
             const select = gui.dialog.element.querySelector('[name=mines]');
-            Dialog.htmlToDOM(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
+            Html.set(select, getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines));
             select.style.height = gui.dialog.element.querySelector('[name=materials]').offsetHeight + 'px';
         }
         if (method == 'clr' || method == 'inv') {
@@ -985,8 +983,10 @@ function update() {
     }).filter(t => t);
 
     const state = getState();
-    Dialog.htmlToDOM(selectRegion, '');
-    for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, rid ? '' + rid : '', rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress'));
+    let htm = '';
+    for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++)
+        htm += Html`<option value="${rid ? '' + rid : ''}">${rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress')}</option>`;
+    Html.set(selectRegion, htm);
     setState(state);
     updateTableFlags();
 }
@@ -1853,9 +1853,7 @@ async function addExtensionImages() {
     if (!beamsLoaded) {
         await images[IMG_BEAMS].promise;
         const img = images[IMG_BEAMS].img;
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
+        const canvas = gui.createCanvas(img.naturalWidth, img.naturalHeight);
         const ctx = canvas.getContext('2d');
         const len = canvas.width * canvas.height * 4;
         for (let i = 1; i <= 4; i++) {
@@ -1963,22 +1961,24 @@ async function processMine(selectedMine, args) {
     setWaitHandler();
 
     const htm = getMineList(hasOption(OPTION_GROUPLOCATIONS), hasOption(OPTION_REPEATABLES), currentData.mine, currentData.lid);
-    Dialog.htmlToDOM(container.querySelector('[data-id="lid"]'), htm);
+    Html.set(container.querySelector('[data-id="lid"]'), htm);
 
     const regionName = gui.getObjectName('region', currentData.rid);
-    const div = container.querySelector('[data-id="info"]');
-    const divCaption = container.querySelector('[data-id="info-caption"]');
+    let caption, info;
     if (currentData.eid) {
-        divCaption.textContent = gui.getMessage('gui_event') + (currentData.segmented ? ' \u2013 ' + regionName : '');
-        div.textContent = gui.getObjectName('event', currentData.eid).replace(/\s+/g, ' ') + (currentData.isRepeatable ? '\n' + gui.getString('MAP002') : '');
+        caption = gui.getMessage('gui_event') + (currentData.segmented ? ' \u2013 ' + regionName : '');
+        info = gui.getObjectName('event', currentData.eid).replace(/\s+/g, ' ') + (currentData.isRepeatable ? '\n' + gui.getString('MAP002') : '');
     } else {
-        divCaption.textContent = regionName;
-        div.textContent = mapFilters[currentData.location.filter] || '';
+        caption = regionName;
+        info = mapFilters[currentData.location.filter] || '';
     }
+    Html.set(container.querySelector('[data-id="info-caption"]'), Html(caption));
+    const divInfo = container.querySelector('[data-id="info"]');
+    Html.set(divInfo, Html(info));
 
     tableTileInfo.classList.toggle('is-repeatable', +currentData.location.reset_cd > 0);
 
-    div.parentNode.classList.toggle('hidden', !hasOption(OPTION_LOCATIONINFO));
+    divInfo.parentNode.classList.toggle('hidden', !hasOption(OPTION_LOCATIONINFO));
     selectRegion.parentNode.classList.toggle('hidden', !currentData || !currentData.segmented || !hasOption(OPTION_REGIONSELECTOR));
 
     await addExtensionImages();
@@ -2068,7 +2068,7 @@ async function drawMine(args) {
     document.body.classList.add('map-rendered');
 
     const tbody = table.querySelector('tbody');
-    Dialog.htmlToDOM(tbody, '');
+    Html.set(tbody, '');
     for (let y = 0; y < rows; y++) {
         const row = tbody.insertRow();
         for (let x = 0; x < cols; x++) {
@@ -2390,11 +2390,10 @@ async function drawMine(args) {
                 if (asset) {
                     const url = cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
                     cell.classList.add('tooltip-event');
-                    const div = cell.appendChild(document.createElement('div'));
-                    div.className = 'beacon-req';
-                    div.setAttribute('data-beacon', tileDef.miscId);
-                    div.style.backgroundImage = `url(${url})`;
-                    if (rotation > 1) div.style.transform = `rotate(${(rotation - 1) * 90}deg)`;
+                    let style = `background-image:url(${url})`;
+                    if (rotation > 1) style += `;transform:rotate(${(rotation - 1) * 90}deg)`;
+                    const div = Html.get(Html`<div class="beacon-req" data-beacon="${tileDef.miscId}" style="${style}"></div>`)[0];
+                    cell.appendChild(div);
                     solutionTiles.push({ x, y, asset, rotation });
                     if (showSolution && !isHidden && !(asset in images)) {
                         addImage(asset);
@@ -2402,9 +2401,8 @@ async function drawMine(args) {
                     }
                 }
             }
-            const div = cell.appendChild(document.createElement('div'));
-            div.style.backgroundColor = '#' + (beaconColors[item.activation || ''] || beaconColors.default) + '8';
-            div.className = 'beacon';
+            const div = Html.get(Html`<div class="beacon" style="background-color:#${beaconColors[item.activation || ''] || beaconColors.default}8"></div>`)[0];
+            cell.appendChild(div);
             cell.classList.toggle('beacon-active', tileDef.beaconActive);
         }
         if (texts.length) addTitle(x, y, texts.join('\n'), true);
@@ -2760,7 +2758,7 @@ async function drawMine(args) {
         const { x, y } = tileDef;
         ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         const cell = table.rows[y].cells[x];
-        Dialog.htmlToDOM(cell, '');
+        Html.set(cell, '');
         Array.from(cell.attributes).map(a => a.name).filter(n => n == 'class' || n == 'title' || n.startsWith('data-')).forEach(n => cell.removeAttribute(n));
     }
 
@@ -2840,15 +2838,15 @@ async function drawMine(args) {
         const isCurrent = floorId == fid;
         let title = gui.getMessage(isCurrent ? 'map_floor_current' : (found ? 'map_floor_found' : 'map_floor_not_found'));
         if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
-        htm += Html`<span class="map_flags map_flags_${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"'}></span>`;
+        htm += Html`<span class="map_flags map_flags_${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''}${found ? '' : ' disabled'} title="${title}"></span>`;
     }
     const div = container.querySelector('[data-id="fid"]');
-    Dialog.htmlToDOM(div, htm);
+    Html.set(div, htm);
     Array.from(div.querySelectorAll('input')).forEach(e => e.addEventListener('click', changeLevel));
     const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }, allFound) => {
         [numTiles, cost, numSpecial, numQuest, numMaterial].forEach((n, i) => {
             const cell = row.cells[i + 1];
-            cell.textContent = isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n);
+            Html.set(cell, Html(isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n)));
             cell.style.fontWeight = n > 0 && i > 2 ? 'bold' : '';
         });
     };

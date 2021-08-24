@@ -1,4 +1,4 @@
-/*global bgp gui Locale Html Dialog*/
+/*global bgp gui Locale Html*/
 export default {
     hasCSS: true,
     init: init,
@@ -30,7 +30,6 @@ function setTableRegion() {
 }
 
 function update() {
-    Dialog.htmlToDOM(gcTable, '');
     const neighbours = bgp.Data.getNeighbours();
     numNeighbours = Object.values(neighbours).length - 1;
     maxGC = gui.getChildrenMax(numNeighbours) + 1;
@@ -42,22 +41,18 @@ function update() {
         list.sort((a, b) => a.index - b.index);
     }
     setTableRegion();
-    for (const pal of list) {
+    const htm = list.map(pal => {
         const isValid = pal.region;
-        const div = gcTable.appendChild(document.createElement('div'));
-        div.setAttribute('data-pal-id', pal.id);
-        div.className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' collected');
-        div.style.backgroundImage = isValid ? 'url(' + gui.getNeighborAvatarUrl(pal) + ')' : 'url(/img/gui/anon.png)';
-        const d = div.appendChild(document.createElement('div'));
-        d.textContent = pal.level || 0;
-        if (pal.id == 1 || !isValid) d.style.visibility = 'hidden';
-        const elName = document.createElement('div');
-        elName.textContent = pal.name || 'Player ' + pal.id;
-        elName.appendChild(document.createElement('br'));
-        elName.appendChild(document.createElement('b')).classList.add('energy');
-        div.appendChild(elName);
-        updateEnergy(pal.id);
-    }
+        const url = isValid ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png';
+        const className = 'DAF-gc-pal' + (isValid ? ' DAF-gc-reg' + pal.region : '') + (pal.spawned ? '' : ' collected');
+        let htm = Html`<div data-pal-id="${pal.id}" style="background-image:url(${url})" class="${className}">`;
+        htm += Html`<div style="${pal.id == 1 || !isValid ? 'visibility:hidden' : ''}">${pal.level || 0}</div>`;
+        htm += Html`<div>${pal.name || 'Player ' + pal.id}<br><b class="energy"></b></div>`;
+        htm += Html`</div>`;
+        return htm;
+    }).join('');
+    Html.set(gcTable, htm);
+    list.forEach(pal => updateEnergy(pal.id));
     updateStatus();
 }
 
@@ -74,7 +69,7 @@ function updateEnergy(id) {
             energy += child ? +child.friend_stamina * qty : 0;
         }
     }
-    div.querySelector('b').textContent = energy ? Locale.formatNumber(energy) : '?';
+    Html.set(div.querySelector('b'), Html(energy ? Locale.formatNumber(energy) : '?'));
     const isValid = pal.region;
     let title = gui.getPlayerNameFull(pal);
     if (isValid) title += '\n' + gui.getMessageAndValue('gui_region', gui.getObjectName('region', pal.region));
@@ -102,7 +97,7 @@ function updateStatus() {
     htm += Html.br`</span>`;
     const nextTxt = bgp.Data.getGCInfo().nexttxt;
     if (nextTxt) htm += Html.br`<br>${nextTxt}`;
-    for (const div of container.querySelectorAll('.tab_godchild .stats')) Dialog.htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.tab_godchild .stats')) Html.set(div, htm);
     container.querySelector('.tab_godchild .screenshot .shot').style.display = tot > 0 ? '' : 'none';
     const next = gui.getChildrenNext(numNeighbours);
     const nextInfo = next == 0 ? gui.getMessage('godchild_next0') : next == 1 ? gui.getMessage('godchild_next1') : gui.getMessage('godchild_next', Locale.formatNumber(next));

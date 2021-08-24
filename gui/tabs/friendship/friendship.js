@@ -51,7 +51,9 @@ function init() {
     friendDisabled = Html`<div class="f-disabled">${gui.getMessage('friendship_accountdisabled')}</div>`;
 
     selectShow = container.querySelector('[name=show]');
-    for (const char of 'admghifuns'.split('')) gui.addOption(selectShow, char, '');
+    let htm = '';
+    for (const char of 'admghifuns'.split('')) htm += Html`<option value="${char}"></option>`;
+    Html.set(selectShow, htm);
     selectShow.addEventListener('change', refresh);
 
     searchInput = container.querySelector('[name=search]');
@@ -103,15 +105,6 @@ function update() {
     refresh();
 }
 
-function getConfirmCollection() {
-    return !!gui.getPreference('confirmCollection');
-}
-
-function getSpeedupCollection() {
-    const result = parseInt(gui.getPreference('speedupCollection'));
-    return result >= 0 && result <= 8 ? result : 0;
-}
-
 function getMatchByImage() {
     return !!gui.getPreference('matchByImage');
 }
@@ -141,27 +134,12 @@ function getUnmatched() {
 }
 
 function showCollectDialog() {
-    let confirmCollection = getConfirmCollection();
-    let speedupCollection = getSpeedupCollection();
     let matchByImage = getMatchByImage();
     let fbFriendsPage = getFbFriendsPage();
     const numUnmatched = getUnmatched().length;
 
     function addStandardSettings() {
-        let extra = Html.br`<span style="display:none"><br><label for="f_cc">${gui.getMessage('friendship_confirmcollection')}</label>
-        <select id="f_cc" name="confirmCollection">
-        <option value="0" ${!confirmCollection ? 'selected' : ''}>${gui.getMessage('friendship_cc_maybe')}</option>
-        <option value="1" ${confirmCollection ? 'selected' : ''}>${gui.getMessage('dialog_yes')}</option>
-        </select>
-        <br><label for="f_sc">${gui.getMessage('friendship_speedupcollect')}</label>
-        <select id="f_sc" name="speedupCollection">
-        <option value="0" ${speedupCollection == 0 ? 'selected' : ''}>${gui.getMessage('dialog_no')}</option>`;
-        for (let p = 1; p <= 3; p++) {
-            const i = 2 ** p;
-            extra += Html.br`<option value="${i}" ${speedupCollection == i ? 'selected' : ''}>\xd7 ${Locale.formatNumber(i)}</option>`;
-        }
-        extra += `</select></span>
-        <br><label for="f_fv">${gui.getMessage('gui_type')}</label>
+        const extra = Html.br`<br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
         <option value="0" ${fbFriendsPage != 1 && fbFriendsPage != 2 ? 'selected' : ''}>A = ${getFbFriendsPageUrl('0')}</option>
         <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B = ${getFbFriendsPageUrl(1)}</option>
@@ -198,8 +176,6 @@ ${method == 'match' ? addMatchSettings() : ''}
     }
 
     function setStandardOptions(params) {
-        confirmCollection = setNewValue('confirmCollection', confirmCollection, !!(parseInt(params.confirmCollection)));
-        speedupCollection = setNewValue('speedupCollection', confirmCollection, parseInt(params.speedupCollection));
         fbFriendsPage = setNewValue('fbFriendsPage', fbFriendsPage, parseInt(params.fbFriendsPage) || 0);
     }
 
@@ -276,8 +252,8 @@ function tableClick(event) {
         row.removeAttribute('data-pal-id');
         flagModified = true;
         if (isRowVisible(null, pal)) {
-            const row2 = row.parentNode.appendChild(document.createElement('tr'));
-            row2.setAttribute('data-pal-id', pal.id);
+            const row2 = Html.get(`<tr data-pal-id="${pal.id}"></tr>`)[0];
+            row.parentNode.appendChild(row2);
             updateRow(row2);
         }
         pal = null;
@@ -365,33 +341,13 @@ function collectFriends(method) {
         setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 20000);
         chrome.tabs.get(tabId, function (tab) {
             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-            waitForTab(tab).then(function () {
-                const details = {
-                    file: '/js/Dialog.js',
-                    runAt: 'document_end',
-                    allFrames: false,
-                    frameId: 0
-                };
-                chrome.tabs.executeScript(tabId, details, function () {
-                    if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-                    details.file = '/inject/collectfriends.js';
-                    chrome.tabs.executeScript(tabId, details, function () {
-                        if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-                        delete details.file;
-                        let code = '';
-                        const addVar = (name, value) => code += name + '=' + JSON.stringify(value) + ';';
-                        addVar('language', gui.getPreference('language'));
-                        addVar('unmatched', unmatched);
-                        addVar('collectMethod', method);
-                        addVar('confirmCollection', 1 /*getConfirmCollection()*/);
-                        addVar('speedupCollection', 0 /*getSpeedupCollection()*/);
-                        details.code = code + 'collect();';
-                        chrome.tabs.executeScript(tabId, details, function () {
-                            if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-                        });
-                    });
-                });
-            });
+            const addVar = (name, value) => name + '=' + JSON.stringify(value) + ';';
+            const params = {
+                file: ['/js/purify.min.js', '/js/Html.js', '/js/Dialog.js', '/inject/collectfriends.js'],
+                code: `${addVar('language', gui.getPreference('language'))}${addVar('unmatched', unmatched)}${addVar('collectMethod', method)}collect()`,
+                runAt: 'document_end', allFrames: false, frameId: 0
+            };
+            waitForTab(tab).then(() => executeScriptPromise(tabId, params));
         });
     });
 }
@@ -414,6 +370,29 @@ function waitForTab(tab) {
     });
 }
 
+function executeScriptPromise(tabId, params) {
+    const asArray = (value) => value ? (Array.isArray(value) ? value : [value]) : [];
+    const files = asArray(params.file), code = asArray(params.code);
+    params = Object.assign({}, params);
+    const nextFile = () => {
+        delete params.file;
+        delete params.code;
+        if (files.length) params.file = files.shift();
+        else if (code.length) params.code = code.shift();
+        else return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            chrome.tabs.executeScript(tabId, params, function () {
+                if (chrome.runtime.lastError) {
+                    console.log(chrome.runtime.lastError);
+                    reject(chrome.runtime.lastError);
+                }
+                return nextFile();
+            });
+        });
+    };
+    return nextFile();
+}
+
 function showStats() {
     let htm = '';
     if (numToAnalyze == numAnalyzed || numToAnalyze == 0) {
@@ -427,7 +406,7 @@ function showStats() {
         gui.wait.setText(analyzingText);
         htm += Html.br`${analyzingText}`;
     }
-    Dialog.htmlToDOM(container.querySelector('.stats'), htm);
+    Html.set(container.querySelector('.stats'), htm);
 
     const params = {
         'a': [Locale.formatNumber(numFriends), Locale.formatNumber(numNeighbours)],
@@ -446,9 +425,9 @@ function showStats() {
     }
 
     htm = Html.br`${gui.getMessage('friendship_totalfriends', Locale.formatNumber(numFriendsShown), Locale.formatNumber(numFriends))}`;
-    for (const div of container.querySelectorAll('.numfriends')) Dialog.htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.numfriends')) Html.set(div, htm);
     htm = Html.br`${gui.getMessage('friendship_totalneighbours', Locale.formatNumber(numNeighboursShown), Locale.formatNumber(numNeighbours))}`;
-    for (const div of container.querySelectorAll('.numneighbours')) Dialog.htmlToDOM(div, htm);
+    for (const div of container.querySelectorAll('.numneighbours')) Html.set(div, htm);
 
     htm = '';
     if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400) {
@@ -456,7 +435,7 @@ function showStats() {
         htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collectfriends'), method));
     }
     const div = container.querySelector('.warning');
-    Dialog.htmlToDOM(div, htm);
+    Html.set(div, htm);
     div.style.display = htm ? '' : 'none';
 }
 
@@ -494,7 +473,11 @@ function updateRow(row) {
     } else {
         htm += Html.br`<td></td><td></td><td></td><td></td><td></td>`;
     }
-    Dialog.htmlToDOM(row, htm);
+    const row2 = Html.get(`<tr>${htm}</tr>`)[0];
+    row.replaceWith(row2);
+    row = row2;
+    if (friend) row.setAttribute('data-friend-id', friend.id);
+    if (pal) row.setAttribute('data-pal-id', pal.id);
     const isIgnored = friend ? friend.score == -1 : false;
     const isNotMatched = friend && !pal ? !isIgnored : false;
     row.classList.toggle('f-ignored', isIgnored);
@@ -508,7 +491,7 @@ function refresh() {
     triggerSearchHandler(false);
     gui.updateTabState(tab);
 
-    Dialog.htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
     showStats();
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
@@ -586,17 +569,17 @@ function refreshDelayed() {
         if (isRowVisible(friend, pal)) {
             numFriendsShown++;
             if (pal) numNeighboursShown++;
-            arr.push([friend, pal, '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" lazy-render height="61"></tr>']);
+            arr.push([friend, pal, '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" data-lazy height="61"></tr>']);
         }
     }
     for (const pal of Object.values(notmatched)) {
         if (isRowVisible(null, pal)) {
             numNeighboursShown++;
-            arr.push([null, pal, '<tr data-pal-id="' + pal.id + '" lazy-render height="61"></tr>']);
+            arr.push([null, pal, '<tr data-pal-id="' + pal.id + '" data-lazy height="61"></tr>']);
         }
     }
     arr = sort(arr);
-    Dialog.htmlToDOM(smartTable.tbody[0], arr.map(item => item[2]).join(''));
+    Html.set(smartTable.tbody[0], arr.map(item => item[2]).join(''));
     showStats();
 
     scheduledRefresh = setTimeout(function () {
@@ -641,9 +624,7 @@ const MATCH_THRESHOLD = 0.02;
 // const MATCH_MAXDIFF = Math.floor(MATCH_WIDTH * MATCH_HEIGHT * 0.01);
 
 function drawImage(img) {
-    const canvas = document.createElement('canvas');
-    canvas.width = MATCH_WIDTH;
-    canvas.height = MATCH_HEIGHT;
+    const canvas = gui.createCanvas(MATCH_WIDTH, MATCH_HEIGHT);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     return canvas;

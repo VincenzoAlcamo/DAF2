@@ -1,4 +1,4 @@
-/*global chrome*/
+/*global chrome DOMPurify*/
 const reFacebook = /https?:\/\/diggysadventure\.com\/miner\/wallpost.php\?.*wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
 const rePortal = /https?:\/\/portal\.pixelfederation\.com\/_da\/miner\/wallpost.php\?.*wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
 const reMaterial = /material_([0-9]+)\.png/;
@@ -82,7 +82,7 @@ if (data) {
     }, function (htm) {
         const div = document.getElementsByClassName('playerIdInfo')[0];
         if (!chrome.runtime.lastError && div && htm) {
-            const p = div.ownerDocument.importNode((new DOMParser()).parseFromString(`<div>${htm}</div>`, 'text/html').body.querySelector('div'), true);
+            const p = DOMPurify.sanitize(`<div>${htm}</div>`, { RETURN_DOM: true, RETURN_DOM_IMPORT: true }).firstElementChild;
             div.parentNode.insertBefore(p, div);
         }
     });

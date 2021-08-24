@@ -143,10 +143,10 @@ const gui = {
     },
     getFBFriendAnchor: function (fb_id, uri) {
         uri = uri || ('https://www.facebook.com/' + fb_id);
-        return Html`<a target="_blank" href="${uri}" class="limit-width" translate="no">`;
+        return Html`<a data-target="_blank" href="${uri}" class="limit-width" translate="no">`;
     },
     getFriendAnchor: function (friend) {
-        return Html`<a target="_blank" href="${friend.uri}" translate="no" title="${friend.name}">`;
+        return Html`<a data-target="_blank" href="${friend.uri}" translate="no" title="${friend.name}">`;
     },
     getObject: function (type, id) {
         return bgp.Data.getObject(type, id);
@@ -412,16 +412,28 @@ const gui = {
         let maxItemsAtOnce = 20;
         while (maxItemsAtOnce-- && gui.lazyElements.length) {
             const element = gui.lazyElements.pop();
-            if (element.hasAttribute('lazy-src')) {
-                element.setAttribute('src', element.getAttribute('lazy-src'));
-                element.removeAttribute('lazy-src');
-            }
-            if (element.hasAttribute('lazy-render')) {
-                const event = new Event('render', {
-                    bubbles: true
-                });
-                element.dispatchEvent(event);
-                element.removeAttribute('lazy-render');
+            // if (element.hasAttribute('lazy-src')) {
+            //     element.setAttribute('src', element.getAttribute('lazy-src'));
+            //     element.removeAttribute('lazy-src');
+            // }
+            // if (element.hasAttribute('lazy-render')) {
+            //     const event = new Event('render', {
+            //         bubbles: true
+            //     });
+            //     element.dispatchEvent(event);
+            //     element.removeAttribute('lazy-render');
+            // }
+            if (element.hasAttribute('data-lazy')) {
+                const src = element.getAttribute('data-lazy');
+                if (src !== '') {
+                    element.setAttribute('src', src);
+                } else {
+                    const event = new Event('render', {
+                        bubbles: true
+                    });
+                    element.dispatchEvent(event);
+                }
+                element.removeAttribute('data-lazy');
             }
         }
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
@@ -436,14 +448,14 @@ const gui = {
         if (gui.lazyElements.length && !gui.lazyElementsTimeout) gui.lazyElementsTimeout = requestIdleCallback(gui.lazyElementsHandler);
     }),
     collectLazyElements: function (container) {
-        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.observe(item));
+        if (container) Array.from(container.querySelectorAll('*[data-lazy]')).forEach(item => this.lazyObserver.observe(item));
     },
     removeLazyElements: function (container) {
-        if (container) Array.from(container.querySelectorAll('img[lazy-src],*[lazy-render]')).forEach(item => this.lazyObserver.unobserve(item));
+        if (container) Array.from(container.querySelectorAll('*[data-lazy]')).forEach(item => this.lazyObserver.unobserve(item));
     },
     setLazyRender: function (element) {
         if (element) {
-            element.setAttribute('lazy-render', '');
+            element.setAttribute('data-lazy', '');
             gui.lazyObserver.observe(element);
         }
     },
@@ -717,19 +729,17 @@ const gui = {
             avg: avgValue * doubleDropCoeff
         };
     },
+    createCanvas: function(width, height) {
+        return Html.get(`<canvas width="${width}" height="${height}"></canvas>`)[0];
+    },
     setupScreenshot: function (element, filename = 'screenshot.png', screenshot) {
         screenshot = screenshot || element.querySelector('.screenshot');
         if (!screenshot) return;
         if (!filename.endsWith('.png')) filename += '.png';
-        const shot = document.createElement('img');
-        shot.src = '/img/gui/screenshot.png';
-        shot.className = 'shot';
-        shot.title = gui.getMessage('gui_screenshot_shot');
-        screenshot.appendChild(shot);
-        const target = document.createElement('img');
-        target.className = 'target';
-        target.title = gui.getMessage('gui_screenshot_target');
-        screenshot.appendChild(target);
+        const htm = Html`<img src="/img/gui/screenshot.png" class="shot" title="${gui.getMessage('gui_screenshot_shot')}"><img class="target" title="${gui.getMessage('gui_screenshot_target')}">`;
+        Html.set(screenshot, htm);
+        const shot = screenshot.querySelector('.shot');
+        const target = screenshot.querySelector('.target');
         shot.addEventListener('click', function (event) {
             event.stopPropagation();
             event.preventDefault();
@@ -755,9 +765,7 @@ const gui = {
         });
         target.addEventListener('click', function () {
             if (!target.classList.contains('ready')) return;
-            const canvas = document.createElement('canvas');
-            canvas.width = target.naturalWidth;
-            canvas.height = target.naturalHeight;
+            const canvas = gui.createCanvas(target.naturalWidth, target.naturalHeight);
             const ctx = canvas.getContext('2d');
             ctx.drawImage(target, 0, 0);
             canvas.toBlob(data => gui.downloadData({ data, filename }), 'image/png');
@@ -783,19 +791,12 @@ const gui = {
         document.execCommand('copy', false, null);
         document.removeEventListener('copy', oncopy);
     },
-    addOption: function (select, value, text) {
-        const option = document.createElement('option');
-        option.value = value;
-        option.innerText = text;
-        select.appendChild(option);
-    },
     fileChooser: null,
     chooseFile: function (callback, accept, multiple) {
         let input = gui.fileChooser;
         if (!input) {
-            const form = document.createElement('form');
-            input = gui.fileChooser = document.createElement('input');
-            input.type = 'file';
+            input = gui.fileChooser = document.querySelector('input[type=file]');
+            const form = input.parentNode;
             input.addEventListener('change', function () {
                 const callback = gui.fileChooserCallback;
                 delete gui.fileChooserCallback;
@@ -806,7 +807,6 @@ const gui = {
                     form.reset();
                 }
             });
-            form.appendChild(input);
         }
         gui.fileChooserCallback = callback;
         input.accept = accept || '';
@@ -865,13 +865,10 @@ const gui = {
             if (path) filename = path + '/' + filename;
             chrome.downloads.download({ url, filename, conflictAction }, () => gui.hasRuntimeError('downloadData'));
         } else {
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            document.body.appendChild(a);
+            // DOMPurify does not support object urls
+            const a = Html.get(Html`<a download="${filename}"></a>`)[0];
             a.href = url;
-            a.download = filename;
             a.click();
-            setTimeout(() => a.parentNode.removeChild(a), 2000);
         }
     },
     readFile: function (file) {
@@ -905,9 +902,7 @@ const gui = {
                     const sy = Math.floor(rect.top * ratio);
                     const sw = Math.ceil(rect.width * ratio);
                     const sh = Math.ceil(rect.height * ratio);
-                    const canvas = document.createElement('canvas');
-                    canvas.width = sw;
-                    canvas.height = sh;
+                    const canvas = gui.createCanvas(sw, sh);
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(image, sx, sy, sw, sh, 0, 0, sw, sh);
                     dataUrl = canvas.toDataURL('image/png');
@@ -926,7 +921,9 @@ function notifyVisibility(tab, visible) {
 
 function onLoad() {
     bgp.Data.requiresFullLanguage = false;
-    gui.isFirefox = getComputedStyle(document.body.querySelector('.mozTest')).textDecorationStyle === 'wavy';
+    const divMozTest = document.body.querySelector('.mozTest');
+    gui.isFirefox = getComputedStyle(divMozTest).textDecorationStyle === 'wavy';
+    divMozTest.remove();
     const currentLanguage = gui.getPreference('language');
     const currentLocale = gui.getPreference('locale');
     gui.timeParts = gui.getMessage('gui_timeparts').split(',');
@@ -943,7 +940,7 @@ function onLoad() {
     }
     htm += Html`<li class="last"></li>`;
     let div = document.querySelector('.vertical-menu');
-    Dialog.htmlToDOM(div, htm);
+    Html.set(div, htm);
     div.addEventListener('click', clickMenu, true);
     div.addEventListener('scroll', e => e.target.style.setProperty('--scroll-y', (-e.target.scrollTop - 1)) + 'px', true);
 
@@ -1031,20 +1028,12 @@ async function loadTab(tab) {
     tab.state = state && typeof state === 'object' ? state : {};
     let resource_count = 0;
     let resource_value = 0;
-    const advanceProgress = () => gui.wait.show({
-        text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count)
-    });
+    const advanceProgress = () => gui.wait.show({ text: gui.getMessage('gui_loadingresources', ++resource_value, resource_count) });
     try {
         container.style.display = 'none';
         const tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
         Object.assign(tab, imported_tabs[tab.id]);
-        if (tab.hasCSS) {
-            const link = document.createElement('link');
-            link.setAttribute('rel', 'stylesheet');
-            link.setAttribute('type', 'text/css');
-            link.setAttribute('href', tabBasePath + '.css');
-            document.head.appendChild(link);
-        }
+        if (tab.hasCSS) Html.addStylesheet(tabBasePath + '.css');
         tab.requires = tab.requires || [];
         if (tab.requires.includes('xp')) {
             if (!tab.requires.includes('sales')) tab.requires.push('sales');
@@ -1057,7 +1046,7 @@ async function loadTab(tab) {
         });
         resource_count += requires.length;
         const promises = [];
-        promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => Dialog.htmlToDOM(container, text))));
+        promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => Html.set(container, text))));
         for (const name of requires) {
             promises.push(bgp.Data.getFile(name).then(_ => advanceProgress()));
         }
@@ -1067,7 +1056,7 @@ async function loadTab(tab) {
         tab.isLoaded = true;
         tab.mustBeUpdated = true;
     } catch (e) {
-        Dialog.htmlToDOM(container, Html.br`Error: ${e}`);
+        Html.set(container, Html.br`Error: ${e}`);
         console.error(e);
     } finally {
         container.style.display = '';
@@ -1102,8 +1091,8 @@ async function setCurrentTab(tabId) {
     });
     const tab = tabs[tabId];
     if (!tab.container) {
-        tab.container = document.querySelector('.main-container').appendChild(document.createElement('div'));
-        tab.container.classList.add('tab_' + tabId);
+        tab.container = Html.get(`<div class="tab_${tab.id}"></div>`)[0];
+        document.querySelector('.main-container').appendChild(tab.container);
         await loadTab(tab);
     }
     notifyVisibility(currentTab, false);
@@ -1129,7 +1118,7 @@ function updateCurrentTab() {
 //#region TEXT INFO
 function translate(parent) {
     for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
-    for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Dialog.htmlToDOM(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
+    for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Html.set(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
 }
 //#endregion
 

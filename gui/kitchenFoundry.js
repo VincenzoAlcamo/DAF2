@@ -1,4 +1,4 @@
-/*global gui Locale SmartTable Html Dialog*/
+/*global gui Locale SmartTable Html*/
 export default kitchenFoundry;
 
 const TICKET_ID = 347;
@@ -85,26 +85,31 @@ function kitchenFoundry(type) {
         if (hasTicket) {
             const img = gui.getObjectImg('material', TICKET_ID, 24, true);
             const qty = gui.getGenerator().materials[TICKET_ID] || 0;
-            Dialog.htmlToDOM(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`);
+            Html.set(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`);
         }
         const specialWeeks = gui.getActiveSpecialWeeks();
         swDoubleProduction = specialWeeks.doubleProduction;
         swHalfTimeProduction = specialWeeks.halfTimeProduction;
-        selectDPW.querySelector('option[value=""]').textContent = '(' + gui.getMessage(swDoubleProduction ? 'dialog_yes' : 'dialog_no').toLowerCase() + ')';
-        const htm = [];
-        if (swDoubleProduction) htm.push(Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`);
-        if (swHalfTimeProduction) htm.push(Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`);
+        const oldValue = selectDPW.value;
+        let htm;
+        htm = `<option value="">(${gui.getMessage(swDoubleProduction ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
+<option value="yes">${gui.getMessage('dialog_yes')}</option><option value="no">${gui.getMessage('dialog_no')}</option>`;
+        Html.set(selectDPW, htm);
+        selectDPW.value = oldValue;
+        htm = '';
+        if (swDoubleProduction) htm += Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`;
+        if (swHalfTimeProduction) htm += Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`;
         const divWeeks = container.querySelector('.toolbar .weeks');
-        Dialog.htmlToDOM(divWeeks, htm.join(''));
+        Html.set(divWeeks, htm);
         divWeeks.style.display = htm.length ? '' : 'none';
-        for (const el of Array.from(container.querySelectorAll('[sort-name="total_time"]'))) Dialog.htmlToDOM(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
+        for (const el of Array.from(container.querySelectorAll('[data-sort-name="total_time"]'))) Html.set(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
         if (selectRegion) {
             const state = getState();
-            Dialog.htmlToDOM(selectRegion, '');
-            gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
-            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+            let htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
+            for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+            Html.set(selectRegion, htm);
             setState(state);
         }
         oldState = {};
@@ -251,7 +256,7 @@ function kitchenFoundry(type) {
             const rspan = p.ingredients.length;
             const title = hasQty ? p.cname : gui.getObjectName(p.cargo.type, p.cargo.object_id, 'info+xp+desc');
             let htm = '';
-            let img = Html.br`<img lazy-src="${p.cimg}" width="32" height="32" title="${Html(title)}"/>`;
+            let img = Html.br`<img data-lazy="${p.cimg}" width="32" height="32" title="${Html(title)}"/>`;
             if (p.locked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
             htm += Html.br`<td rowspan="${rspan}">${img}</td>`;
             htm += Html.br`<td rowspan="${rspan}">${p.name}</td>`;
@@ -260,7 +265,7 @@ function kitchenFoundry(type) {
                 let eimage = '';
                 if (p.eid != 0) {
                     const wikiPage = ''; // wikiEvents[p.eid]
-                    eimage = Html.br`<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" lazy-src="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
+                    eimage = Html.br`<img class="wiki" data-wiki-page="${wikiPage || 'Events'}" data-lazy="${p.eimg}" width="32" height="32" title="${Html(p.ename)}"/>`;
                 }
                 htm += Html.br`<td rowspan="${rspan}">${eimage}</td>`;
             }
@@ -296,14 +301,12 @@ function kitchenFoundry(type) {
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift)}</td>`;
                 htm += Html.br`<td rowspan="${rspan}">${Locale.formatNumber(p.uplift2)}</td>`;
             }
-            const row = document.createElement('tr');
+            const row = Html.get('<tr>' + htm + '<tr>')[0];
             row.setAttribute('data-id', p.id);
-            Dialog.htmlToDOM(row, htm);
             p.rows = [row];
             for (let i = 1; i < p.ingredients.length; i++) {
-                const row = document.createElement('tr');
+                const row = Html.get('<tr>' + getIngredient(p.ingredients[i]) + '</tr>')[0];
                 row.classList.add('ingredient');
-                Dialog.htmlToDOM(row, getIngredient(p.ingredients[i]));
                 p.rows.push(row);
             }
         }
@@ -372,7 +375,7 @@ function kitchenFoundry(type) {
 
         let isOdd = false;
         const tbody = smartTable.tbody[0];
-        Dialog.htmlToDOM(tbody, '');
+        Html.set(tbody, '');
         const total = productions.length;
         const items = productions.filter(isVisible);
         recreateRowsIfNecessary();
@@ -395,7 +398,7 @@ function kitchenFoundry(type) {
         if (type == 'kitchen') {
             let htm = '';
             htm += Html`<span class="outlined nowrap">${gui.getMessageAndValue('gui_energy', Locale.formatNumber(gui.getBackpackFood()))}</span> (${gui.getMessage('kitchen_food_in_backpack')})`;
-            Dialog.htmlToDOM(container.querySelector('.stats'), htm);
+            Html.set(container.querySelector('.stats'), htm);
         }
     }
 

@@ -29,19 +29,17 @@ function init() {
 
     let htm = Html.br(gui.getMessage('neighbors_gifts'));
     htm = String(htm).replace('@DAYS@', '<br>' + getSelectDays(0));
-    Dialog.htmlToDOM(container.querySelector('.toolbar .days'), htm);
+    Html.set(container.querySelector('.toolbar .days'), htm);
     selectDays = container.querySelector('[name=days]');
     selectDays.addEventListener('change', refresh);
 
     searchInput = container.querySelector('[name=search]');
     searchInput.addEventListener('input', () => triggerSearchHandler(true));
 
-    checkId = container.querySelector('[name=id');
+    checkId = container.querySelector('[name=showid]');
     checkId.addEventListener('click', refresh);
 
-    trGifts = document.createElement('tr');
-    trGifts.className = 'giftrow';
-    Dialog.htmlToDOM(trGifts, Html.br`<td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td>`);
+    trGifts = Html.get(Html.br`<tr class="giftrow"><td colspan="14"><div>${gui.getMessage('neighbors_giftinfo')}</div><div class="giftlist slick-scrollbar"></div></td></tr>`)[0];
 
     const handlers = { formula, gifts, summary };
     const onClickButton = (event) => {
@@ -116,7 +114,7 @@ function setState(state) {
         state.exp1 = state.filter;
         delete state.filter;
     }
-    checkId.checed = state.id && bgp.Data.isAdmin;
+    checkId.checked = state.id && bgp.Data.isAdmin;
     filterExp = Math.max(0, Math.min(filterExpressions.length, +state.exp || 0)) || undefined;
     filterExpressions.forEach((value, index) => filterExpressions[index] = String(state['exp' + (index + 1)] || '').trim());
     gui.setSortState(state.sort, smartTable, 'name');
@@ -210,7 +208,7 @@ function formula() {
         if (method == 'expression') {
             const expression = +params.exp ? params.expression : '';
             expressions[params.exp] = expression.trim();
-            gui.dialog.element.querySelector(`label[for=exp${params.exp}] span`).textContent = params.expression;
+            Html.set(gui.dialog.element.querySelector(`label[for=exp${params.exp}] span`), Html(params.expression));
             const calculator = getCalculator(expression, {});
             let htm = '';
             if (calculator.errorCode) {
@@ -222,7 +220,7 @@ function formula() {
                 if (post.length > 15) post = post.substring(0, 15) + '\u2025';
                 htm = Html`<b>${message}:</b><br>${pre}<b class="culprit">${c}</b>${post}`;
             }
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('.expression-error'), htm);
+            Html.set(gui.dialog.element.querySelector('.expression-error'), htm);
         }
         if (method != Dialog.CONFIRM) return;
         filterExp = params.exp;
@@ -276,7 +274,7 @@ function gifts() {
             gui.dialog.element.querySelector('.gift-info').classList.toggle('activated', !!params.gifts);
         }
         if (method == 'sort') {
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
+            Html.set(gui.dialog.element.querySelector('[name=gifts]'), getGiftListHtml(list, params.sort));
         }
         if (method != Dialog.CONFIRM) return;
         filterGifts = list;
@@ -339,7 +337,7 @@ function summary() {
             });
             htm += Html`</tbody>`;
             htm += Html`</table>`;
-            Dialog.htmlToDOM(gui.dialog.element.querySelector('.neighbors_summary'), htm);
+            Html.set(gui.dialog.element.querySelector('.neighbors_summary'), htm);
         }
     });
 }
@@ -365,7 +363,7 @@ function onClick(e) {
     }
     row.classList.add('show-gifts');
     const giftContainer = trGifts.querySelector('.giftlist');
-    Dialog.htmlToDOM(giftContainer, '');
+    Html.set(giftContainer, '');
     giftContainer.style.width = (row.offsetWidth - 2) + 'px';
     row.parentNode.insertBefore(trGifts, row.nextSibling);
     const id = row.getAttribute('data-pal-id');
@@ -393,23 +391,24 @@ function onClick(e) {
         if (piece == '') continue;
         htm += piece + Html.br`<span>${formatDayMonthTime(palGift[2])}</span></div>`;
     }
-    Dialog.htmlToDOM(giftContainer, htm);
+    Html.set(giftContainer, htm);
 }
 
 function update() {
+    let htm;
     lastGiftDays = 0;
     palRows = {};
     palDays = {};
-    for (const pal of Object.values(bgp.Data.getNeighbours())) {
-        const row = document.createElement('tr');
-        row.setAttribute('data-pal-id', pal.id);
-        row.setAttribute('height', 61);
-        row.setAttribute('lazy-render', '');
-        palRows[pal.id] = row;
-        palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
-    }
+    const pals = Object.assign({}, bgp.Data.getNeighbours());
     // Remove Mr.Bill
-    delete palRows[1];
+    delete pals[1];
+    htm = Object.values(pals).map(pal => {
+        palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
+        return Html`<tr data-pal-id="${pal.id}" height="61" data-lazy></tr>`;
+    }).join('');
+    const rows = Html.get(htm);
+    rows.forEach(row => palRows[row.getAttribute('data-pal-id')] = row);
+
     weekdayNames = {};
     for (let day = 1; day <= 7; day++) {
         // The 1st January 2018 was a Monday (1 = Monday)
@@ -436,9 +435,9 @@ function update() {
     gui.updateNeighborFriendNames(true);
 
     const state = getState();
-    Dialog.htmlToDOM(selectRegion, '');
-    gui.addOption(selectRegion, '', gui.getMessage('gui_all'));
-    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+    htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
+    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+    Html.set(selectRegion, htm);
     setState(state);
 
     refresh();
@@ -508,7 +507,9 @@ function updateRow(row) {
     htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
     htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
     htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
-    Dialog.htmlToDOM(row, htm);
+    const row2 = palRows[id] = Html.get('<tr>' + htm + '</tr>')[0];
+    row2.setAttribute('data-pal-id', id);
+    row.replaceWith(row2);
 }
 
 let scheduledRefresh;
@@ -519,7 +520,7 @@ function refresh() {
     updateButton();
 
     //smartTable.showFixed(false);
-    Dialog.htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
 
     if (scheduledRefresh) clearTimeout(scheduledRefresh);
     scheduledRefresh = setTimeout(refreshDelayed, 50);
@@ -570,7 +571,7 @@ function getCalculator(expression, getValueFunctions) {
 function refreshDelayed() {
     scheduledRefresh = 0;
     const state = getState();
-    selectShow.querySelector('option[value="nogift"]').textContent = gui.getMessage('neighbors_nogift', Locale.formatNumber(+state.days));
+    Html.set(selectShow.querySelector('option[value="nogift"]'), Html(gui.getMessage('neighbors_nogift', Locale.formatNumber(+state.days))));
 
     const getSortValueFunctions = {
         name: pal => palNames[pal.id] || '',
@@ -635,7 +636,7 @@ function refreshDelayed() {
             giftTotal += value;
             giftCount += gifts.length;
             palGifts[pal.id] = gifts;
-            palRows[pal.id].setAttribute('lazy-render', '');
+            palRows[pal.id].setAttribute('data-lazy', '');
             const days = -palDays[pal.id];
             palEfficiency[pal.id] = Math.min(100, Math.ceil((days < 7 ? NaN : gifts.length / Math.min(days, giftDays)) * 100));
         }
@@ -644,7 +645,7 @@ function refreshDelayed() {
         const realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
         let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
         text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
-        Dialog.htmlToDOM(container.querySelector('.stats'), Html.br(text));
+        Html.set(container.querySelector('.stats'), Html.br(text));
     }
 
     const giftFilter = {};
@@ -689,7 +690,7 @@ function refreshDelayed() {
         items.push(pal);
     }
 
-    Dialog.htmlToDOM(smartTable.tbody[0], '');
+    Html.set(smartTable.tbody[0], '');
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
         cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
     });

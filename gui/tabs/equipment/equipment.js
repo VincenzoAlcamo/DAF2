@@ -271,27 +271,28 @@ function update() {
     }
 
     const arrEvents = Object.values(allEvents).filter(event => event.sale).sort((a, b) => b.year - a.year);
-    let optGroup = null;
     let lastYearText = '';
-    Dialog.htmlToDOM(selectEvent, '');
+    let htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
     for (const event of arrEvents) {
         const yearText = Locale.formatYear(event.year);
-        if (!optGroup || lastYearText != yearText) {
+        if (lastYearText != yearText) {
+            if (lastYearText) htm += '</optgroup>';
             lastYearText = yearText;
-            optGroup = document.createElement('optgroup');
-            optGroup.label = gui.getMessageAndValue('events_year', yearText);
-            selectEvent.appendChild(optGroup);
+            htm += Html`<optgroup label="${gui.getMessageAndValue('events_year', yearText)}">`;
         }
-        gui.addOption(optGroup, '' + event.id, gui.getObjectName('event', event.id));
+        htm += Html`<option value="${event.id}">${gui.getObjectName('event', event.id)}</option>`;
     }
+    if (lastYearText) htm += '</optgroup>';
+    Html.set(selectEvent, htm);
 
-    Dialog.htmlToDOM(selectRegion, '');
-    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) gui.addOption(selectRegion, '' + rid, gui.getObjectName('region', rid));
+    htm = '';
+    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+    Html.set(selectRegion, htm);
 
-    Dialog.htmlToDOM(selectTheme, '');
-    for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending)) {
-        gui.addOption(selectTheme, '' + skin, gui.getObjectName('skin', skin));
-    }
+    htm = '';
+    for (const skin of Object.values(allSkins).filter(skin => gui.getRegionFromSkin(skin) == 0).sort(gui.sortNumberAscending))
+        htm += Html`<option value="${skin}">${gui.getObjectName('skin', skin)}</option>`;
+    Html.set(selectTheme, htm);
 
     setState(state);
 
@@ -430,7 +431,7 @@ function update() {
     let title = gui.getMessage('equipment_gain') + '\n' + gui.getMessage('equipment_gain_info') + ':';
     title += '\n' + gui.getMessage('camp_capacity') + ' = ' + Locale.formatNumber(minCapacity);
     title += '\n' + gui.getMessage('camp_regen') + ' = ' + Locale.formatNumber(minRegen);
-    Array.from(container.querySelectorAll('thead [sort-name=gain] img')).forEach(el => {
+    Array.from(container.querySelectorAll('thead [data-sort-name=gain] img')).forEach(el => {
         el.title = title;
     });
     refresh();
@@ -530,7 +531,7 @@ function setState(state) {
 function updateButton() {
     const flag = !!(filterSkin || filterMaterial || filterLevelComparison || filterHideMax);
     const button = container.querySelector('.toolbar button.advanced');
-    button.textContent = gui.getMessage(flag ? 'menu_on' : 'menu_off');
+    Html.set(button, Html(gui.getMessage(flag ? 'menu_on' : 'menu_off')));
     button.classList.toggle('activated', flag);
 
     const setDisplay = (el, flag) => el.style.display = flag ? '' : 'none';
@@ -862,37 +863,19 @@ function refresh() {
     items = sort(items);
 
     const tbody = smartTable.tbody[0];
-    Dialog.htmlToDOM(tbody, '');
     if (showAsGrid) {
-        const row = document.createElement('tr');
-        tbody.appendChild(row);
-        const td = row.insertCell();
-        td.classList.add('grid-container');
-        td.colSpan = 16;
-        const parent = document.createElement('div');
-        parent.style.display = 'none';
-        td.appendChild(parent);
+        Html.set(tbody, Html`<tr><td colspan="16" class="grid-container"><div style="display:none"></div></td></tr>`);
+        const parent = tbody.querySelector('div');
         for (const item of items) {
-            let div = item.div;
-            if (!div) {
-                div = item.div = document.createElement('div');
-                div.setAttribute('data-id', item.id);
-                div.className = 'pack-item-placeholder';
-                div.setAttribute('lazy-render', '');
-            }
-            parent.appendChild(div);
+            if (!item.div) item.div = Html.get(Html`<div data-id="${item.id}" class="pack-item-placeholder" data-lazy></div>`)[0];
+            parent.appendChild(item.div);
         }
         setTimeout(() => parent.style.display = '', 50);
     } else {
+        Html.set(tbody, '');
         for (const item of items) {
-            let row = item.row;
-            if (!row) {
-                row = item.row = document.createElement('tr');
-                row.setAttribute('data-id', item.id);
-                row.setAttribute('height', 65);
-                row.setAttribute('lazy-render', '');
-            }
-            tbody.appendChild(row);
+            if (!item.row) item.row = Html.get(Html`<tr data-id="${item.id}" height="65" data-lazy></tr>`)[0];
+            tbody.appendChild(item.row);
         }
     }
     gui.collectLazyElements(tbody);
@@ -1005,7 +988,9 @@ function updateItem(div) {
             }
         }
         htm += Html.br`</td>`;
-        Dialog.htmlToDOM(div, htm);
+        item.row = Html.get('<tr>' + htm + '</tr>')[0];
+        item.row.setAttribute('data-id', id);
+        div.replaceWith(item.row);
     } else {
         const obj = {};
         obj.object_id = item.oid;
@@ -1017,13 +1002,13 @@ function updateItem(div) {
         const packItem = packHelper.getItem(obj);
         packItem.title = gui.getObjectName(obj.type, obj.object_id);
         const html = packHelper.getHtml(packItem);
-        Dialog.htmlToDOM(div, html);
+        Html.set(div, html);
         const costEl = div.querySelector('.cost');
         costEl.className = costClass;
         if (saleMessageId) {
-            let badge = document.createElement('div');
-            Dialog.htmlToDOM(badge, badgeHtml);
-            badge = badge.firstElementChild;
+            if (price) badgeHtml += Html`<span>${price.currency + ' ' + Locale.formatNumber(+price.amount, 2)}</span>`;
+            const badge = Html.get(badgeHtml)[0];
+            if (badge.nextElementSibling) costEl.appendChild(badge.nextElementSibling);
             let title = badge.title;
             badge.removeAttribute('title');
             costEl.insertBefore(badge, costEl.firstChild);
@@ -1033,11 +1018,6 @@ function updateItem(div) {
                 title += '\n' + Locale.formatDateTime(start) + ' - ' + Locale.formatDateTime(end);
             }
             costTitle = title + (costTitle ? '\n' + costTitle : '');
-            if (price) {
-                const span = document.createElement('span');
-                span.textContent = price.currency + ' ' + Locale.formatNumber(+price.amount, 2);
-                costEl.appendChild(span);
-            }
         }
         costEl.title = costTitle;
         if (item.sale_id > 0 && item.hide) div.classList.add('notinshop');
