@@ -62,14 +62,19 @@ function getItem({ type, object_id, amount, portal, limit, owned, requirements }
     } else if (type == 'decoration') {
         sort = 6;
         caption = Html`<span class="with-deco">${Locale.formatNumber(amount)}</span>`;
-    } else if (type == 'system') {
+    } else if (type == 'diggy_skin') {
         sort = 7;
+        title = gui.getString('GUI3192');
+    } else if (type == 'system') {
+        sort = 8;
         kind = oid == 2 ? 'energy' : 'xp';
         caption = Html`<span class="with-${kind}">${Locale.formatNumber(amount)}</span>`;
     } else {
         return null;
     }
-    if (!caption) caption = Html`<span>${Locale.formatNumber(amount)}</span>`;
+    if (amount == 1 && ['diggy_skin', 'decoration'].includes(type)) caption = '';
+    else if (!caption) caption = Html`<span>${Locale.formatNumber(amount)}</span>`;
+    // if (amount == 1 && ['diggy_skin', 'decoration'].contains(type)) caption = 'one';
     if (!title) title = gui.getObjectName(type, oid);
     return Object.assign(item, { kind, value, sort, caption, title });
 }
