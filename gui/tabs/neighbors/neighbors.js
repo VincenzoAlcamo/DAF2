@@ -436,7 +436,7 @@ function update() {
 
     const state = getState();
     htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
-    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
+    for (let rid = 1, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++) htm += Html`<option value="${rid}">${gui.getObjectName('region', rid)}</option>`;
     Html.set(selectRegion, htm);
     setState(state);
 
