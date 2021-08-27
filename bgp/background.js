@@ -499,6 +499,12 @@ var Data = {
         Data.generator = generator;
         Data.checkUser();
     },
+    setTeam: function (team) {
+        const playerId = team && team.me && team.me.player_id;
+        const modified = playerId && Data.generator && playerId == Data.generator.player_id && JSON.stringify(Data.team) !== JSON.stringify(team);
+        if (modified) Data.team = team;
+        return modified;
+    },
     init: async function () {
         await new Promise(function (resolve, _reject) {
             chrome.i18n.getAcceptLanguages(items => {
@@ -570,21 +576,28 @@ var Data = {
         Data.repeatables = {};
         Data.pillars = {};
         Data.loc_prog = {};
+        Data.team = null;
         tx.objectStore('Files').getAll().then(values => {
             const mineCache = Data.mineCache = {};
+            let team = null;
+            const handlers = {
+                generator: (file) => Data.setGenerator(file.data),
+                team: (file) => team = file.data,
+                localization: (file) => Data.storeLocalization(file),
+                gcInfo: (_file) => Data.removegcInfo(),
+                repeatables: (file) => Data.repeatables = file.data || {},
+                expByMaterial: (file) => Data.pillars.expByMaterial = file.data,
+                loc_prog: (file) => Data.loc_prog = file.data,
+            };
             for (const file of values) {
-                if (file.id == 'generator') Data.setGenerator(file.data);
-                if (file.id == 'localization') Data.storeLocalization(file);
-                if (file.id == 'gcInfo') Data.removegcInfo();
-                if (file.id == 'repeatables') Data.repeatables = file.data || {};
-                if (file.id == 'expByMaterial') Data.pillars.expByMaterial = file.data;
-                if (file.id == 'loc_prog') Data.loc_prog = file.data;
-                if (file.id.startsWith('mine_')) {
+                if (file.id in handlers) handlers[file.id](file);
+                else if (file.id.startsWith('mine_')) {
                     const { id: lid, level_id: fid } = file.data;
                     mineCache[lid] = mineCache[lid] || {};
                     mineCache[lid][fid] = file.data;
                 }
             }
+            Data.setTeam(team);
         });
         tx.objectStore('Neighbours').getAll().then(values => {
             for (const pal of values) {
@@ -1320,24 +1333,27 @@ var Data = {
     getString: function (id) {
         return id in Data.localization.data ? Data.localization.data[id] : '#' + id;
     },
+    objectCollections: {
+        'region': () => Data.colRegions,
+        'skin': () => Data.colSkins,
+        'system': () => Data.colSystems,
+        'addon_building': () => Data.colAddonBuildings,
+        'material': () => Data.files.materials,
+        'usable': () => Data.files.usables,
+        'token': () => Data.files.tokens,
+        'building': () => Data.files.buildings,
+        'decoration': () => Data.files.decorations,
+        'event': () => Data.files.events,
+        'production': () => Data.files.productions,
+        'tablet': () => Data.files.tablets,
+        'windmill': () => Data.files.windmills,
+        'collection': () => Data.files.collections,
+        'artifact': () => Data.files.artifacts,
+        'diggy_skin': () => Data.files.diggy_skins,
+        'g_team': () => Data.files.g_teams,
+    },
     getObjectCollection: function (type) {
-        if (type == 'region') return Data.colRegions;
-        else if (type == 'skin') return Data.colSkins;
-        else if (type == 'system') return Data.colSystems;
-        else if (type == 'addon_building') return Data.colAddonBuildings;
-        else if (type == 'material') return Data.files.materials;
-        else if (type == 'usable') return Data.files.usables;
-        else if (type == 'token') return Data.files.tokens;
-        else if (type == 'building') return Data.files.buildings;
-        else if (type == 'decoration') return Data.files.decorations;
-        else if (type == 'event') return Data.files.events;
-        else if (type == 'production') return Data.files.productions;
-        else if (type == 'tablet') return Data.files.tablets;
-        else if (type == 'windmill') return Data.files.windmills;
-        else if (type == 'collection') return Data.files.collections;
-        else if (type == 'artifact') return Data.files.artifacts;
-        else if (type == 'diggy_skin') return Data.files.diggy_skins;
-        return null;
+        return type in Data.objectCollections ? Data.objectCollections[type]() : null;
     },
     getObject: function (type, id) {
         if (type == 'eventpass_xp') return Data.colEventpassXp[1];
@@ -1998,6 +2014,19 @@ var Synchronize = {
         if (isError) return Badge.setIcon('red').setBackgroundColor('red');
         const isSend = type == 'send', isOk = type == 'ok';
         if (!isSend && !isOk) return;
+        if (kind == 'team' && isOk) {
+            const data = Parser.parse('any', response);
+            let team = data && Array.isArray(data.records) && data.records[0];
+            const me = team && team.me;
+            team = team && team.team;
+            if (team && me) {
+                team.me = me;
+                if (Data.setTeam(team)) {
+                    Data.storeSimple(kind, team);
+                    Synchronize.signal('team_changed');
+                }
+            }
+        }
         const isGenerator = kind == 'generator', isSynchronize = kind == 'synchronize';
         if (!isGenerator && !isSynchronize) return;
         const parameters = {};
@@ -2023,10 +2052,7 @@ var Synchronize = {
                 return Badge.setIcon('grey').setText('READ').setBackgroundColor('green');
             }
             Badge.setText('');
-            const file = {};
-            file.id = kind;
-            file.time = getUnixTime();
-            file.data = Parser.parse(kind, response);
+            const file = { id: kind, time: getUnixTime(), data: Parser.parse(kind, response) };
             if (file.data && file.data.neighbours) {
                 Synchronize.time = +file.data.time;
                 Synchronize.offset = Synchronize.time - file.time;

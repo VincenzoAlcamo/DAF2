@@ -9,6 +9,7 @@
             <option value="unknownblocks" data-i18n-text="neighbors_unknownblocks"></option>
             <option value="expiredwm" data-i18n-text="neighbors_withexpiredwindmills"></option>
             <option value="nogift" data-i18n-text="neighbors_nogift"></option>
+            <option value="team"></option>
         </select>
     </label>
     <label class="days"></label>
@@ -34,7 +35,10 @@
         <span data-i18n-text="gui_id"></span>
         <input name="showid" type="checkbox">
     </label>
-    <div class="stats"></div>
+    <div class="stats">
+        <div class="team-info"></div>
+        <div class="gift-info"></div>
+    </div>
 </div>
 <div class="scrollable-content no-overflow">
     <table class="neighbors data">
@@ -44,6 +48,7 @@
                 <th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_neighbour"></th>
                 <th rowspan="2" class="sortable" data-sort-name="region"><img data-i18n-title="gui_region" src="/img/gui/map.png" /></th>
                 <th rowspan="2" class="sortable" data-sort-name="level"><img data-i18n-title="gui_level" src="/img/gui/level.png" /></th>
+                <th rowspan="2" class="sortable team-score" data-sort-name="score" data-i18n-text="friendship_score"></th>
                 <th rowspan="2" class="sortable" data-sort-name="levelup" data-i18n-text="neighbors_lastlevelup"></th>
                 <th rowspan="2" class="sortable" data-sort-name="recorded" data-i18n-text="gui_firstrecorded"></th>
                 <th rowspan="2" class="sortable" data-sort-name="list"><img data-i18n-title="neighbors_listed" src="/img/gui/list.png" /></th>
@@ -62,7 +67,7 @@
         <tbody class="row-coloring"></tbody>
         <tfoot>
             <tr>
-                <td colspan="13"></td>
+                <td colspan="14"></td>
             </tr>
         </tfoot>
     </table>

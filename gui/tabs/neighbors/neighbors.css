@@ -16,11 +16,11 @@
   min-height: 61px;
 }
 
-.neighbors tr th[rowspan=2]:nth-child(1) {
+.neighbors tr th[rowspan='2']:nth-child(1) {
   min-width: 61px;
 }
 
-.neighbors tr th[rowspan=2]:nth-child(2) {
+.neighbors tr th[rowspan='2']:nth-child(2) {
   min-width: 180px;
   max-width: 300px;
 }
@@ -78,27 +78,37 @@
   margin-top: -48px;
   height: 48px;
   padding-left: 4px;
-  color: #FF0;
+  color: #ff0;
   font-style: normal;
 }
 
 .neighbors .giftlist i,
 .neighbors .giftlist b,
 .neighbors .giftlist img {
-  filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color)) drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
+  filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color))
+    drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
 }
 
 .neighbors .giftRow div {
   font-size: 11px;
 }
 
+.tab_neighbors .neighbors div.extra span + span {
+  margin-left: 4px;
+}
+
 .neighbors span.id {
   display: none;
   font-weight: bold;
+  background-color: #44a;
+  color: #fff;
+  padding: 0 2px;
+  border-radius: 4px;
+  font-size: 12px;
 }
 
 .tab_neighbors.show-id span.id {
-  display: block;
+  display: inline-block;
 }
 
 .neighbors .friend {
@@ -144,7 +154,7 @@
 
 .neighbors-advanced-table .expression-error {
   margin-top: 6px;
-  color: #FD9;
+  color: #fd9;
   height: 2.2em;
   white-space: nowrap;
 }
@@ -163,14 +173,14 @@
 .neighbors-advanced-table .expression-help td {
   width: 33%;
   padding: 2px;
-  border: 1px solid #FFF;
+  border: 1px solid #fff;
   font-size: smaller;
 }
 
 .neighbors-advanced-table .expression-help th {
   color: #333;
-  background-color: #99E;
-  border: 1px solid #FFF;
+  background-color: #99e;
+  border: 1px solid #fff;
   font-size: smaller;
   padding: 1px;
 }
@@ -238,4 +248,49 @@
   max-width: 48px;
   max-height: 48px;
   transform: translateY(-50%);
+}
+
+.tab_neighbors.show-team .toolbar .gift-info,
+.tab_neighbors:not(.show-team) .toolbar .team-info,
+.tab_neighbors:not(.show-team) .neighbors .team-img,
+.tab_neighbors:not(.show-team) .neighbors .team-score,
+.tab_neighbors:not(.show-team) .neighbors .team-name,
+.tab_neighbors:not(.show-team) .neighbors .team-badge {
+  display: none;
+}
+
+.neighbors .team-img {
+  margin-right: 4px;
+}
+
+.neighbors .team-img.team-no-pal {
+  margin-right: 54px;
+}
+
+.neighbors .team-badge {
+  font-weight: bold;
+}
+
+.neighbors .team-badge {
+  background-color: #f00;
+  border-radius: 4px;
+  color: white;
+  font-size: 11px;
+  padding: 0 2px;
+}
+
+.neighbors .team-name {
+  font-weight: bold;
+}
+
+.tab_neighbors .toolbar .team-info table {
+  border: 0;
+}
+
+.tab_neighbors .toolbar .team-info table td {
+  padding: 0;
+  border: 0;
+  background-color: var(--tt-bgcol);
+  color: var(--tt-fgcol);
+  font-size: 16px;
 }

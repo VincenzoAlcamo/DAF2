@@ -10,15 +10,21 @@ export default {
         'cl_add': markNeighbor,
         'cl_remove': markNeighbor,
         'visit_camp': markNeighbor,
-        'place_windmill': markNeighbor
+        'place_windmill': markNeighbor,
+        'team_changed': () => {
+            updateTeamMembers();
+            const state = getState();
+            if (state.show == 'team') refresh();
+        }
     },
-    requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'xp']
+    requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'g_teams', 'xp']
 };
 
 let tab, container, selectShow, selectDays, selectRegion, searchInput, checkId, smartTable, searchHandler, palRows, palGifts;
 let trGifts, giftValues, lastGiftDays, giftCache, weekdayNames, uniqueGifts, palDays, palEfficiency;
 let filterGifts = '', filterExp = 0;
 const filterExpressions = ','.repeat(4).split(',');
+let teamMembers = {};
 
 function init() {
     tab = this;
@@ -394,6 +400,52 @@ function onClick(e) {
     Html.set(giftContainer, htm);
 }
 
+function updateTeamMembers() {
+    // Mark "to be refreshed" all previous rows
+    if (teamMembers) {
+        for (const id of Object.keys(teamMembers)) {
+            const row = palRows[id];
+            if (row) row.setAttribute('data-lazy', '');
+        }
+    }
+    teamMembers = {};
+    const generator = bgp.Data.generator;
+    const team = bgp.Data.team;
+    if (team && team.members) {
+        for (const m of team.members) {
+            const pal = {
+                id: m.player_id, level: +m.level || 1, name: m.name || '', extra: {},
+                country: m.country, logo_id: m.logo_id, score: +m.score, badge: m.badge
+            };
+            if (pal.id == generator.player_id) {
+                pal.region = +generator.region;
+                pal.extra.timeCreated = +generator.registered_on;
+                palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
+            }
+            teamMembers[pal.id] = pal;
+            let row = palRows[pal.id];
+            if (!row) row = palRows[pal.id] = Html.get(Html`<tr data-pal-id="${pal.id}" height="61" data-lazy></tr>`)[0];
+            row.setAttribute('data-lazy', '');
+        }
+    }
+    const option = selectShow.querySelector('option[value=team]');
+    Html.set(option, Html`${gui.getProperCase(gui.getString('GUI3223'))}`);
+    option.disabled = Object.keys(teamMembers).length == 0;
+
+    let htm = '';
+    if (team) {
+        htm += Html.br`<table>`;
+        htm += Html.br`<tr>`;
+        htm += Html.br`<td rowspan="2"><img height="50" style="margin-right:8px" src="${gui.getObjectImage('g_team', team.logo_id)}"></td>`;
+        htm += Html.br`<td style="font-weight:bold">${team.name}</td>`;
+        htm += Html.br`<td style="text-align:right">${gui.getMessageAndValue('friendship_score', Locale.formatNumber(team.score))}</td>`;
+        htm += Html.br`</tr>`;
+        htm += Html.br`<tr><td colspan="2"><span style="display:inline-block;max-width:400px">${team.description}</span></td></tr>`;
+        htm += Html.br`</table>`;
+    }
+    Html.set(container.querySelector('.toolbar .team-info'), htm);
+}
+
 function update() {
     let htm;
     lastGiftDays = 0;
@@ -440,6 +492,8 @@ function update() {
     Html.set(selectRegion, htm);
     setState(state);
 
+    updateTeamMembers();
+
     refresh();
 }
 
@@ -449,37 +503,71 @@ function markNeighbor(neighborId) {
 
 function updateRow(row) {
     const id = row.getAttribute('data-pal-id');
-    const pal = bgp.Data.getNeighbour(id);
+    const teamMember = teamMembers[id];
+    const pal = bgp.Data.getNeighbour(id) || teamMember;
+    if (!pal) return;
+    const isOnlyTeamMember = pal === teamMember;
     const friend = Object.values(bgp.Data.getFriends()).find(friend => friend.uid == id);
     const anchor = friend ? gui.getFriendAnchor(friend) : Html.raw('<a class="no-link">');
     let htm = '';
-    htm += Html.br`<td>${anchor}<img height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}" class="tooltip-event"/></a></td>`;
+    htm += Html.br`<td>`;
+    if (teamMember) htm += Html.br`<img class="team-img ${isOnlyTeamMember ? 'team-no-pal' : ''} tooltip-event" height="50" width="50" src="${gui.getObjectImage('g_team', teamMember.logo_id)}"/>`;
+    if (!isOnlyTeamMember) htm += Html.br`${anchor}<img class="tooltip-event" height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}"/></a>`;
+    htm += Html.br`</td>`;
     const fullName = gui.getPlayerNameFull(pal);
     htm += Html.br`<td>`;
+    htm += Html.br`<div class="extra">`;
+    if (teamMember) htm += Html.br`<span class="team-name">${teamMember.name}</span>`;
+    if (teamMember && teamMember.badge == 'leader') htm += Html.br`<span class="team-badge">${gui.getString('GUI3254')}</span>`;
     if (bgp.Data.isAdmin) htm += Html.br`<span class="id">#${pal.id}</span>`;
+    htm += Html.br`</div>`;
+    let addBr = false;
     if (friend && friend.name == fullName) {
         htm += Html.br`${anchor}${fullName}</a>`;
+        addBr = true;
     } else {
-        htm += Html.br`<a class="no-link">${fullName}</a>`;
-        if (friend) htm += Html.br`<br>${anchor}${friend.name}</a>`;
-        else if (pal.extra.fn && pal.extra.fn != fullName) htm += Html.br`<br><span class="friendname">${pal.extra.fn}</span>`;
+        if (!teamMember || fullName != teamMember.name) {
+            htm += Html.br`<a class="no-link">${fullName}</a>`;
+            addBr = true;
+        }
+        let extra = '';
+        if (friend) extra = Html.br`${anchor}${friend.name}</a>`;
+        else if (pal.extra.fn && pal.extra.fn != fullName) extra = Html.br`<span class="friendname">${pal.extra.fn}</span>`;
+        if (extra) {
+            htm += (addBr ? `<br>` : '') + extra;
+            addBr = true;
+        }
     }
-    htm += Html.br`<br><input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
-    htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;
+    if (!isOnlyTeamMember) {
+        if (addBr) { htm += Html.br`<br>`; addBr = false; }
+        htm += Html.br`<input class="note n-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${pal.extra.note}"></td>`;
+    }
+    if (pal.region) {
+        htm += Html.br`<td>${gui.getRegionImg(pal.region)}</td>`;
+    } else {
+        htm += Html.br`<td></td>`;
+    }
     htm += Html.br`<td>${Locale.formatNumber(pal.level)}</td>`;
+    htm += Html.br`<td class="team-score">${teamMember ? Locale.formatNumber(teamMember.score) : ''}</td>`;
     if (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) {
         htm += Html.br`<td title="${Locale.formatDate(pal.extra.timeLevel)} (${Locale.formatNumber(pal.extra.lastLevel)})">${Locale.formatDays(pal.extra.timeLevel)}</td>`;
     } else {
         htm += Html.br`<td></td>`;
     }
-    htm += Html.br`<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDaysNum(palDays[pal.id])}</td>`;
+    if (pal.extra.timeCreated) {
+        htm += Html.br`<td>${Locale.formatDate(pal.extra.timeCreated)}<br>${Locale.formatDaysNum(palDays[pal.id])}</td>`;
+    } else {
+        htm += Html.br`<td></td>`;
+    }
     if (pal.c_list > 0) {
         htm += Html.br`<td><img src="/img/gui/clist.png"></td>`;
     } else {
         htm += Html.br`<td></td>`;
     }
     const blocks = pal.extra.blocks;
-    if (blocks === undefined) {
+    if (isOnlyTeamMember) {
+        htm += Html.br`<td></td>`;
+    } else if (blocks === undefined) {
         htm += Html.br`<td><img src="/img/gui/check_na.png"></td>`;
     } else {
         htm += blocks === 0 ? Html.br`<td><img src="/img/gui/check_yes.png"></td>` : Html.br`<td><span class="camp_blocks">${blocks}</span></td>`;
@@ -501,12 +589,16 @@ function updateRow(row) {
         htm += Html.br`<td></td>`;
     }
     const gifts = palGifts[pal.id];
-    const count = gifts.length;
-    const className = count > 0 ? 'has-gifts' : '';
-    const efficiency = palEfficiency[id];
-    htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
-    htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
-    htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
+    if (gifts) {
+        const count = gifts.length;
+        const className = count > 0 ? 'has-gifts' : '';
+        const efficiency = palEfficiency[id];
+        htm += Html.br`<td class="${className}">${Locale.formatNumber(count)}</td>`;
+        htm += Html.br`<td class="${className}">${Locale.formatNumber(gifts._value)}</td>`;
+        htm += Html.br`<td class="${className}">${isNaN(efficiency) ? '' : Locale.formatNumber(efficiency) + ' %'}</td>`;
+    } else {
+        htm += Html.br`<td></td><td></td><td></td>`;
+    }
     const row2 = palRows[id] = Html.get('<tr>' + htm + '</tr>')[0];
     row2.setAttribute('data-pal-id', id);
     row.replaceWith(row2);
@@ -577,6 +669,7 @@ function refreshDelayed() {
         name: pal => palNames[pal.id] || '',
         region: pal => +pal.region,
         level: pal => +pal.level,
+        score: pal => teamMembers[pal.id] ? teamMembers[pal.id].score : +pal.level,
         levelup: pal => (pal.extra.lastLevel && pal.extra.lastLevel != pal.level) ? -pal.extra.timeLevel : 0,
         lastgift: pal => pal.extra.lastGift || 0,
         list: pal => +pal.c_list ? 0 : 1,
@@ -605,9 +698,9 @@ function refreshDelayed() {
         if (days) days = getDateAgo(days); else show = '';
     }
 
-    let neighbors = Object.assign({}, bgp.Data.getNeighbours());
-    delete neighbors[1];
-    neighbors = Object.values(neighbors);
+    const allNeighbors = Object.assign({}, bgp.Data.getNeighbours());
+    delete allNeighbors[1];
+    let neighbors = Object.values(allNeighbors);
 
     const giftDays = Math.max(7, +state.days || 0);
     const giftThreshold = getDateAgo(giftDays - 1);
@@ -645,7 +738,7 @@ function refreshDelayed() {
         const realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
         let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
         text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
-        Html.set(container.querySelector('.stats'), Html.br(text));
+        Html.set(container.querySelector('.stats .gift-info'), Html.br(text));
     }
 
     const giftFilter = {};
@@ -666,6 +759,16 @@ function refreshDelayed() {
     const friendNames = {};
     for (const friend of Object.values(bgp.Data.getFriends())) friendNames[friend.uid] = '\t' + friend.name.toUpperCase();
     const rid = +selectRegion.value;
+    if (show == 'team') {
+        const team = bgp.Data.team;
+        if (team && team.members) {
+            neighbors = [];
+            for (const m of team.members) {
+                const pal = allNeighbors[m.player_id] || teamMembers[m.player_id];
+                neighbors.push(pal);
+            }
+        }
+    }
     for (const pal of neighbors) {
         if (rid != 0 && pal.region != rid) continue;
         if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
@@ -674,7 +777,8 @@ function refreshDelayed() {
         if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
         else if (show == 'nogift' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
         const fullname = gui.getPlayerNameFull(pal).toUpperCase();
-        if (fnSearch && !fnSearch(fullname + '\t\n' + (pal.extra.note || '') + '\t' + (friendNames[pal.id] || '') + '\t' + (pal.extra.fn || ''))) continue;
+        const teamMember = show == 'team' ? teamMembers[pal.id] : null;
+        if (fnSearch && !fnSearch(`${fullname}\t\n${pal.extra.note || ''}\t${teamMember ? teamMember.name : ''}\t${friendNames[pal.id] || ''}\t${pal.extra.fn || ''}`)) continue;
         if (applyGiftFilter) {
             let flag = false;
             for (const palGift of (palGifts[pal.id] || [])) {
@@ -686,16 +790,17 @@ function refreshDelayed() {
             if (!flag) continue;
         }
         if (calculator.hasValidExpression && !calculator.evaluate(pal)) continue;
-        palNames[pal.id] = fullname;
+        palNames[pal.id] = teamMember ? teamMember.name : fullname;
         items.push(pal);
     }
 
     Html.set(smartTable.tbody[0], '');
     Array.from(container.querySelectorAll('.neighbors tfoot td')).forEach(cell => {
-        cell.innerText = gui.getMessage('neighbors_found', items.length, neighbors.length);
+        Html.set(cell, Html(gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(neighbors.length))));
     });
 
     container.classList.toggle('show-id', bgp.Data.isAdmin && !!state.id);
+    container.classList.toggle('show-team', state.show == 'team');
 
     scheduledRefresh = setTimeout(function () {
         items = sort(items);
@@ -711,11 +816,6 @@ function refreshDelayed() {
 
 function onTooltip(event) {
     const element = event.target;
-    const pal_id = element.parentNode.parentNode.parentNode.getAttribute('data-pal-id');
-    const pal = pal_id && bgp.Data.getNeighbour(pal_id);
-    const fb_image = gui.getNeighborAvatarUrl(pal);
-    if (fb_image) {
-        const htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${fb_image}"/></div>`;
-        Tooltip.show(element, htm);
-    }
+    const htm = Html.br`<div class="neighbors-tooltip"><img width="108" height="108" src="${element.src}"/></div>`;
+    Tooltip.show(element, htm);
 }

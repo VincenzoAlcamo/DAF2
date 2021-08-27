@@ -196,6 +196,7 @@ function interceptData() {
         if (this.url.indexOf('/graph.facebook.com') > 0) this.addEventListener('load', () => dispatch('ok', 'graph', null, this.response));
         else if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
         else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
+        else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
         if (kind) {
             const request = arguments[0];
             const error = () => dispatch('error', kind, null, null);

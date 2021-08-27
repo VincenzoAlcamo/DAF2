@@ -26,6 +26,7 @@ const kinds = {
     events_shelf: { type: 'events', event: 'def_id', asset: 'shelf_graphics', folder: 'map/' },
     events_shelf2: { type: 'events', event: 'def_id', asset: 'shelf_graphics', folder: 'map/webgl_events/' },
     events_shop: { type: 'events', event: 'def_id', asset: 'shop_icon_graphics' },
+    g_teams: {},
     journals: { name: 'pic_title' },
     infos: {},
     map_filters: { folder: 'map/webgl_filters/' },
