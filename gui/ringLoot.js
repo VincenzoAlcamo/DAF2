@@ -324,6 +324,10 @@ function ringLoot(kind) {
         for (const data of Object.values(floorData)) showLoot(level, data.mine.def_id, rid);
     }
 
+    function getLootAvg(avg) {
+        return avg >= 400 ? Math.floor(avg) : Math.floor(avg * 10) / 10;
+    }
+
     function showLoot(otherLevel, lid, rid) {
         const state = getState();
         const isDMW = state.dmw ? state.dmw === 'yes' : !!swDoubleDrop;
@@ -402,7 +406,7 @@ function ringLoot(kind) {
                     loot.avg += loot2.avg;
                 }
             }
-            loot.avg = Math.floor(loot.avg);
+            loot.avg = getLootAvg(loot.avg);
             return loot;
         };
 
@@ -414,8 +418,8 @@ function ringLoot(kind) {
 
             const loot = calculateLoot(lootArea, level);
             const loot2 = calculateLoot(lootArea, otherLevel);
-            lootArea.exp = loot.avg * matXp;
-            lootArea.exp2 = loot2.avg * matXp;
+            lootArea.exp = Math.floor(loot.avg * matXp);
+            lootArea.exp2 = Math.floor(loot2.avg * matXp);
 
             if (lootArea.chest != lastChest) odd = !odd;
             htm += Html.br`<tr class="${(odd ? 'odd' : '') + (loot.notRandom ? ' not-random' : '')}">`;
@@ -491,8 +495,8 @@ function ringLoot(kind) {
             }
             totals = Object.values(totals);
             for (const total of totals) {
-                total.avg = Math.floor(total.avg);
-                total.txp = total.avg * total.xp;
+                total.avg = getLootAvg(total.avg);
+                total.txp = Math.floor(total.avg * total.xp);
             }
             totals.sort((a, b) => b.txp - a.txp);
             let txp = +data.mine.reward_exp || 0;
