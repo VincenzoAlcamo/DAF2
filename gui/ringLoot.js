@@ -2,6 +2,8 @@
 
 export default ringLoot;
 
+const MAX_LEVEL = 1999;
+
 function ringLoot(kind) {
 
     let tokenId, locations;
@@ -87,7 +89,7 @@ function ringLoot(kind) {
             selected
         };
         if (checkLevel) {
-            result[checkLevel.checked ? 'level' : 'no-level'] = (level >= 1 && level <= 999 ? level : +gui.getGenerator().level);
+            result[checkLevel.checked ? 'level' : 'no-level'] = (level >= 1 && level <= MAX_LEVEL ? level : +gui.getGenerator().level);
         }
         return result;
     }
@@ -110,7 +112,7 @@ function ringLoot(kind) {
         if (checkLevel) {
             checkLevel.checked = 'level' in state;
             const level = parseInt(state.level || state['no-level']) || 0;
-            inputLevel.value = level >= 1 && level <= 999 ? level : +gui.getGenerator().level;
+            inputLevel.value = level >= 1 && level <= MAX_LEVEL ? level : +gui.getGenerator().level;
         }
         for (const data of Object.values(floorData || {})) setCheck('loot_' + data.mine.def_id, data.index);
         checkMinMax.checked = !!state.minmax;
@@ -126,7 +128,7 @@ function ringLoot(kind) {
 
     function onBlur() {
         const level = parseInt(inputLevel.value) || 0;
-        if (level < 1 || level > 999) {
+        if (level < 1 || level > MAX_LEVEL) {
             inputLevel.value = +gui.getGenerator().level;
             onInput();
         }
@@ -317,7 +319,7 @@ function ringLoot(kind) {
         gui.updateTabState(tab);
         setStateFlags();
         let level = inputLevel ? inputLevel.value : 0;
-        if (level < 1 || level > 999) level = +gui.getGenerator().level;
+        if (level < 1 || level > MAX_LEVEL) level = +gui.getGenerator().level;
         const rid = selectRegion ? +selectRegion.value : 0;
         for (const data of Object.values(floorData)) showLoot(level, data.mine.def_id, rid);
     }
