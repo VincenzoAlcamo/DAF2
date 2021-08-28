@@ -273,6 +273,7 @@
   margin-right: 54px;
 }
 
+.neighbors .team-name,
 .neighbors .team-badge {
   font-weight: bold;
 }
