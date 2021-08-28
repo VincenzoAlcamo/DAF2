@@ -434,16 +434,16 @@ function updateTeamMembers() {
 
     let htm = '';
     if (team) {
-        htm += Html.br`<table>`;
+        htm += Html.br`<div class="team-info"><table>`;
         htm += Html.br`<tr>`;
-        htm += Html.br`<td rowspan="2"><img height="50" style="margin-right:8px" src="${gui.getObjectImage('g_team', team.logo_id)}"></td>`;
-        htm += Html.br`<td style="font-weight:bold">${team.name}</td>`;
-        htm += Html.br`<td style="text-align:right">${gui.getMessageAndValue('friendship_score', Locale.formatNumber(team.score))}</td>`;
+        htm += Html.br`<td rowspan="2"><img class="avatar team-logo" src="${gui.getObjectImage('g_team', team.logo_id)}"></td>`;
+        htm += Html.br`<td class="team-name">${team.name}</td>`;
+        htm += Html.br`<td class="team-score">${gui.getMessageAndValue('friendship_score', Locale.formatNumber(team.score))}</td>`;
         htm += Html.br`</tr>`;
-        htm += Html.br`<tr><td colspan="2"><span style="display:inline-block;max-width:400px">${team.description}</span></td></tr>`;
-        htm += Html.br`</table>`;
+        htm += Html.br`<tr><td colspan="2"><span class="team-desc">${team.description}</span></td></tr>`;
+        htm += Html.br`</table></div>`;
     }
-    Html.set(container.querySelector('.toolbar .team-info'), htm);
+    Html.set(container.querySelector('.team-stats'), htm);
 }
 
 function update() {
@@ -511,8 +511,8 @@ function updateRow(row) {
     const anchor = friend ? gui.getFriendAnchor(friend) : Html.raw('<a class="no-link">');
     let htm = '';
     htm += Html.br`<td>`;
-    if (teamMember) htm += Html.br`<img class="team-img ${isOnlyTeamMember ? 'team-no-pal' : ''} tooltip-event" height="50" width="50" src="${gui.getObjectImage('g_team', teamMember.logo_id)}"/>`;
-    if (!isOnlyTeamMember) htm += Html.br`${anchor}<img class="tooltip-event" height="50" width="50" src="${gui.getNeighborAvatarUrl(pal)}"/></a>`;
+    if (teamMember) htm += Html.br`<img class="avatar tooltip-event team-img ${isOnlyTeamMember ? 'team-no-pal' : ''}" src="${gui.getObjectImage('g_team', teamMember.logo_id)}"/>`;
+    if (!isOnlyTeamMember) htm += Html.br`${anchor}<img class="avatar tooltip-event" src="${gui.getNeighborAvatarUrl(pal)}"/></a>`;
     htm += Html.br`</td>`;
     const fullName = gui.getPlayerNameFull(pal);
     htm += Html.br`<td>`;
@@ -738,7 +738,7 @@ function refreshDelayed() {
         const realGiftDays = Math.min(Math.ceil((Date.now() - dt.getTime()) / 86400000), giftDays);
         let text = gui.getMessage('neighbors_totxpstats', Locale.formatNumber(giftCount), Locale.formatNumber(realGiftDays), Locale.formatNumber(giftTotal), Locale.formatNumber(Math.floor(giftTotal / realGiftDays)));
         text += '\n' + gui.getMessage('neighbors_avgxpstats', Locale.formatNumber(giftTotal / giftCount, 1), Locale.formatNumber(giftTotal / neighbors.length / realGiftDays, 1));
-        Html.set(container.querySelector('.stats .gift-info'), Html.br(text));
+        Html.set(container.querySelector('.gift-stats'), Html.br(text));
     }
 
     const giftFilter = {};

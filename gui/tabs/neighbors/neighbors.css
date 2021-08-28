@@ -1,3 +1,9 @@
+.tab_neighbors img.avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: scale-down;
+}
+
 .neighbors tr td {
   text-align: center;
 }
@@ -100,7 +106,7 @@
 .neighbors span.id {
   display: none;
   font-weight: bold;
-  background-color: #44a;
+  background-color: #448;
   color: #fff;
   padding: 0 2px;
   border-radius: 4px;
@@ -250,8 +256,8 @@
   transform: translateY(-50%);
 }
 
-.tab_neighbors.show-team .toolbar .gift-info,
-.tab_neighbors:not(.show-team) .toolbar .team-info,
+.tab_neighbors.show-team .toolbar .gift-stats,
+.tab_neighbors:not(.show-team) .toolbar .team-stats,
 .tab_neighbors:not(.show-team) .neighbors .team-img,
 .tab_neighbors:not(.show-team) .neighbors .team-score,
 .tab_neighbors:not(.show-team) .neighbors .team-name,
@@ -279,18 +285,41 @@
   padding: 0 2px;
 }
 
-.neighbors .team-name {
-  font-weight: bold;
+.tab_neighbors .team-info {
+  padding: 2px 8px 2px 4px;
+  display: inline-block;
+  border: 1px solid #0006;
+  backdrop-filter: brightness(0.7);
+  border-radius: 10px;
 }
 
-.tab_neighbors .toolbar .team-info table {
+.tab_neighbors .team-info table {
   border: 0;
 }
 
-.tab_neighbors .toolbar .team-info table td {
+.tab_neighbors .team-info table tr {
+  background-color: transparent;
+}
+
+.tab_neighbors .team-info table td {
   padding: 0;
   border: 0;
-  background-color: var(--tt-bgcol);
+  background-color: transparent;
   color: var(--tt-fgcol);
   font-size: 16px;
+}
+
+.tab_neighbors .team-info img.team-logo {
+  margin-right: 6px;
+}
+.tab_neighbors .team-info .team-name {
+  font-weight: bold;
+  padding-right: 16px;
+}
+.tab_neighbors .team-info .team-score {
+  text-align: right;
+}
+.tab_neighbors .team-info .team-desc {
+  display: inline-block;
+  max-width: 400px;
 }
