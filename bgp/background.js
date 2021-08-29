@@ -106,6 +106,10 @@ var Preferences = {
             badgeLuckyCardsSoundName: 'museum_done',
             badgeLuckyCardsVolume: 100,
             badgeServerEnergy: false,
+            badgeWindmills: true,
+            badgeWindmillsSound: true,
+            badgeWindmillsSoundName: 'enter_location',
+            badgeWindmillsVolume: 100,
             features: '',
             mapDownloadEvent: 'DAF2_maps/$event/$location',
             mapDownloadRegion: 'DAF2_maps/$region/$god/$location',
@@ -1755,6 +1759,8 @@ var Synchronize = {
             if (!taskResponse || !taskResponse.camp) return;
             const neighbourId = taskResponse.neigh_id;
             const camp = Data.lastVisitedCamp = taskResponse.camp;
+            const wmtime = Data.getCampWindmillTime(Data.lastVisitedCamp);
+            Synchronize.signal('windmills', wmtime || neighbourId == 1 ? { active: 0 } : Synchronize.expandDataWithSound({ active: 1 }, 'badgeWindmills'));
             camp.neigh_id = neighbourId;
             camp.time = Synchronize.time;
             const pal = Data.getNeighbour(neighbourId);
@@ -1779,7 +1785,7 @@ var Synchronize = {
                     if (isFinite(n)) blocks += n - 24;
                 }
                 pal.extra.blocks = blocks;
-                pal.extra.wmtime = Data.getCampWindmillTime(camp);
+                pal.extra.wmtime = wmtime;
                 Data.saveNeighbour(pal);
             }
             Synchronize.signal(action, neighbourId);
@@ -1802,10 +1808,12 @@ var Synchronize = {
                     Data.saveNeighbour(pal);
                     Synchronize.signal(action, neighbourId, true);
                 }
+                if (wmtime) Synchronize.signal('windmills', { active: 0 });
             }
         },
         enter_mine: function (action, task, taskResponse, _response) {
             Synchronize.signalEnergy(0);
+            Synchronize.signal('windmills', { active: 0 });
             const loc_id = +task.loc_id || 0;
             const prog = Synchronize.setLastLocation(loc_id);
             if (prog && taskResponse) {

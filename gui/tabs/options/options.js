@@ -323,7 +323,7 @@ UI_claim_coin_single_slow_01
 UI_claim_coin_single_slow_02
 `;
     function optionEffect(prefName) {
-        if (prefName != 'badgeProductions') option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
+        if (prefName != 'badgeProductions' && prefName != 'badgeWindmills') option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
         let extra = Html.br`<select data-pref="${prefName}SoundName">`;
         extra += sounds.split('\n').sort(gui.sortTextAscending).map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join('');
         extra += Html.br`</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
@@ -411,6 +411,8 @@ UI_claim_coin_single_slow_02
     optionEffect('badgeRepeatables');
     option('badgeLuckyCards', WITHSUBOPTIONS);
     optionEffect('badgeLuckyCards');
+    option('badgeWindmills', WITHSUBOPTIONS);
+    optionEffect('badgeWindmills');
     endSection();
 
     Html.set(container.querySelector('.scrollable-content'), htm);

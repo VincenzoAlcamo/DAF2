@@ -120,6 +120,17 @@ const setBadgeLuckyCards = (function () {
     };
 })();
 
+function setBadgeWindmills({ active, sound, volume }) {
+    active = !!active;
+    const badge = menu.querySelector('.DAF-badge-windmills');
+    const wasActive = badge.classList.contains('DAF-badge-on');
+    badge.classList.toggle('DAF-badge-on', active);
+    if (active && !wasActive) {
+        badge.classList.add('animate');
+        playSound(sound, volume);
+    }
+}
+
 function setBadgeProductions({ caravan, kitchen, foundry, sound, volume }) {
     function setProduction(selector, data, flagActive) {
         const badge = menu.querySelector(selector);
@@ -293,6 +304,9 @@ function createMenu() {
         <br>
         <i data-pref="badgeLuckyCards" class="squared-right">${gm0('options_badgeluckycards')}</i>
         <i data-pref="badgeLuckyCardsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+        <br>
+        <i data-pref="badgeWindmills" class="squared-right">${gm0('options_badgewindmills')}</i>
+        <i data-pref="badgeWindmillsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -307,6 +321,7 @@ function createMenu() {
     <b data-close class="DAF-badge-energy DAF-badge-img"></b>
     <b class="DAF-badge-gc-counter DAF-badge-img"></b>
     <b class="DAF-badge-gc-energy DAF-badge-img"></b>
+    <b data-animate class="DAF-badge-windmills DAF-badge-img" title="${gm('camp_needs_windmills')}"></b>
     <b data-animate class="DAF-badge-p-c DAF-badge-img" title="${gm('tab_caravan')}">0</b>
     <b data-animate class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
     <b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
@@ -400,7 +415,8 @@ function init() {
     const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
     addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
     addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-    addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry,badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound');
+    addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
+    addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 
     function setPref(name, value) {
         if (!(name in prefs)) return;
@@ -476,6 +492,7 @@ function init() {
         };
         msgHandlers['repeatables'] = (request) => setBadgeRepeatables(request.data);
         msgHandlers['luckycards'] = (request) => setBadgeLuckyCards(request.data);
+        msgHandlers['windmills'] = (request) => setBadgeWindmills(request.data);
         msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
         msgHandlers['serverEnergy'] = (request) => setBadge({ selector: '.DAF-badge-energy', text: request.data.energy, active: true });
         window.addEventListener('resize', onResize);

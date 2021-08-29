@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Windmills"
     },
+    "camp_needs_windmills": {
+        "message": "Camp needs windmills"
+    },
     "camp_avg_value": {
         "message": "Slot average"
     },
@@ -2160,6 +2163,9 @@
     },
     "options_badgevolume": {
         "message": "Volume\nThe volume of the sound effect."
+    },
+    "options_badgewindmills": {
+        "message": "Windmills\nShow a badge when a neighbor's camp needs windmills"
     },
     "calc_operators": {
         "message": "Operators"
