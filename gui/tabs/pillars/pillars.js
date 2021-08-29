@@ -730,15 +730,15 @@ async function showOptions() {
     // Exclude Jadeite and Obsidian
     const listMaterial = Object.values(hashMaterials).filter(matId => !gui.isMaterialXpDefined(matId) && matId != 93 && matId != 270);
     let htm = '';
-    htm += `<table class="daf-table"><thead>`;
-    htm += `<tr><th>${gui.getMessage('gui_material')}</th><th>${gui.getMessage('gui_xp')}</th></tr>`;
-    htm += `</thead><tbody class="row-coloring">`;
+    htm += Html`<table class="daf-table"><thead>`;
+    htm += Html`<tr><th>${gui.getMessage('gui_material')}</th><th>${gui.getMessage('gui_xp')}</th></tr>`;
+    htm += Html`</thead><tbody class="row-coloring">`;
     listMaterial
         .map(matId => [matId, gui.getObjectName('material', matId)])
         .sort((a, b) => gui.sortTextAscending(a[1], b[1]))
         .forEach(a => {
-            htm += `<tr><th class="pillars-material" style="background-image:url(${gui.getObjectImage('material', a[0], true)})">${a[1]}</th>`;
-            htm += `<td><input name="mat_${a[0]}" type="number" min="0" step="1000" style="width:90px" value="${gui.getXp('material', a[0])}"></td></tr>`;
+            htm += Html`<tr><th class="pillars-material" style="background-image:url(${gui.getObjectImage('material', a[0], true)})">${a[1]}</th>`;
+            htm += Html`<td><input name="mat_${a[0]}" type="number" min="0" step="1000" style="width:90px" value="${gui.getXp('material', a[0])}"></td></tr>`;
         });
     htm += `</tbody></table>`;
     gui.dialog.show({
