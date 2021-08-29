@@ -1913,9 +1913,19 @@ var Synchronize = {
             Synchronize.signalMineAction({ action, loc_id: +task.loc_id, level: +task.level, cx: +task.cur_column, cy: +task.cur_row });
         },
         process_waiting_rewards: function (_action, _task, taskResponse, _response) {
-            if (taskResponse && taskResponse.video_ad_type == 'wheel_of_fortune') {
-                Data.findLuckyCardsAd(+taskResponse.video_ad_watched_at);
-                Data.checkLuckyCards();
+            if (taskResponse && taskResponse.result == 'OK') {
+                const type = taskResponse.video_ad_type;
+                const items = asArray(Data.generator && Data.generator.video_ad && Data.generator.video_ad.item);
+                const item = items.find(item => item.type == type);
+                if (item) {
+                    item.counter = taskResponse.video_ad_counter;
+                    item.watched_at = taskResponse.video_ad_watched_at;
+                    item.stack_counter = taskResponse.video_ad_stack_counter;
+                }
+                if (type == 'wheel_of_fortune') {
+                    Data.findLuckyCardsAd(+taskResponse.video_ad_watched_at);
+                    Data.checkLuckyCards();
+                }
             }
         },
         prod_unload_caravan: (_action, task) => Synchronize.production('c', 'unload', task),

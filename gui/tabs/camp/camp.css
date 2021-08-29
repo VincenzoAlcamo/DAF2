@@ -544,3 +544,18 @@ html.dark .camp .item.regen.selected {
   background-color: var(--tb-hlcol) !important;
   cursor: pointer;
 }
+
+.ads_limit_warning {
+  max-width: 320px;
+  padding: 2px 4px 2px 48px;
+  background-image: url(/img/gui/q-hard.png);
+  background-repeat: no-repeat;
+  background-color: #620;
+  color: #FFF;
+  background-position: 8px 50%;
+  border: 2px solid #C00;
+  border-radius: 8px;
+  text-align: left;
+  margin: 0 auto 4px;
+  font-size: 15px;
+}

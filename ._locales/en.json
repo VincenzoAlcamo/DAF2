@@ -644,6 +644,12 @@
     "camp_ftp_cumulativegems": {
         "message": "Total gems so far"
     },
+    "camp_ads_limit": {
+        "message": "Ads limit"
+    },
+    "camp_ads_limit_info": {
+        "message": "This is only an indication and does not represent the real possibility of displaying an advertisement."
+    },
     "map_floor": {
         "message": "Floor"
     },
