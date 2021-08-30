@@ -23,6 +23,7 @@ const materialImageCache = {};
 const clicked = {};
 let firstTime = true;
 let shorten;
+let lastClickedTime, nextClickHandler;
 
 //#region LINK HELPER FUNCTIONS
 const LinkData = (function () {
@@ -522,6 +523,7 @@ function onClickTable(event) {
     reward.status = 1;
     delete reward.time;
     reward.row.setAttribute('data-status', reward.status);
+    lastClickedTime = target.href.indexOf('.facebook.') >= 0 ? now : 0;
     clicked[reward.id] = now;
     // Open link in background?
     if (getState().background) {
@@ -567,8 +569,16 @@ function clickNextButton() {
         if (!reward || reward.cdt) setInputChecked(input, false);
         else button = input.parentNode.nextElementSibling.firstElementChild;
     }
-    if (button) button.click();
-    else {
+    if (button) {
+        const DELAY = 2;
+        if (nextClickHandler) clearTimeout(nextClickHandler);
+        const offset = gui.getUnixTime() - (lastClickedTime || 0);
+        const timeout = (offset >= 0 && offset <= DELAY ? DELAY - offset : 0) * 1000;
+        nextClickHandler = setTimeout(() => {
+            nextClickHandler = 0;
+            button.click();
+        }, timeout);
+    } else {
         checkAutoClick.checked = false;
         gui.toast.show({ text: gui.getMessage('rewardlinks_autoclick_end'), style: [Dialog.CLOSE] });
     }
