@@ -650,6 +650,9 @@
     "camp_ads_limit_info": {
         "message": "This is only an indication and does not represent the real possibility of displaying an advertisement."
     },
+    "camp_ads_limit_info2": {
+        "message": "The third-party ad provider may apply a different limit as they are beyond the control of Pixel Federation."
+    },
     "map_floor": {
         "message": "Floor"
     },

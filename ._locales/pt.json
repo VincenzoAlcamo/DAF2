@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Moinhos de vento"
     },
+    "camp_needs_windmills": {
+        "message": "Acampamento precisa de moinhos"
+    },
     "camp_avg_value": {
         "message": "Média do espaço"
     },
@@ -640,6 +643,12 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Total de Gemas até agora"
+    },
+    "camp_ads_limit": {
+        "message": "Limite de anúncios"
+    },
+    "camp_ads_limit_info": {
+        "message": "Esta é apenas uma indicação e não representa a possibilidade real de exibição de um anúncio."
     },
     "map_floor": {
         "message": "Andar"
@@ -1858,6 +1867,9 @@
     "events_gemstones": {
         "message": "Gemas"
     },
+    "events_tutorial": {
+        "message": "Evento Tutorial"
+    },
     "repeat_name": {
         "message": "Nome"
     },
@@ -2157,6 +2169,9 @@
     },
     "options_badgevolume": {
         "message": "Volume\nO volume do efeito sonoro."
+    },
+    "options_badgewindmills": {
+        "message": "Moinhos\nMostrar marcador quando o vizinho precisa de Moinhos"
     },
     "calc_operators": {
         "message": "Operadores"

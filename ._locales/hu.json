@@ -1469,6 +1469,9 @@
     "rewardlinks_autoclick": {
         "message": "Auto-klikkelés\nAutomatikusan kattintson a következő kiválasztott jutalomra miután egy jutalmat begyűjtöttél."
     },
+    "rewardlinks_autoclick_end": {
+        "message": "A kiválasztott linkekre nem lehet kattintani.\nA lejárt vagy igényelt linkeket mindig figyelmen kívül hagyja a rendszer."
+    },
     "rewardlinks_addlinks": {
         "message": "Linkek hozzáadása"
     },
@@ -2200,7 +2203,7 @@
         }
     },
     "linkgrabber_fn_copy": {
-        "message": "Másolás váglólapra"
+        "message": "Másolás vágólapra"
     },
     "linkgrabber_fn_send": {
         "message": "Elküldés a DAF-nak"
@@ -2229,7 +2232,7 @@
         }
     },
     "linkgrabber_copied": {
-        "message": "Linkek másolva a vágólapra: $NUM$",
+        "message": "Vágólapra másolt linkek: $NUM$",
         "placeholders": {
             "num": {
                 "content": "$1"

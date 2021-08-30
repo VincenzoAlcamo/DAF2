@@ -867,19 +867,21 @@ async function adsLimit() {
     const generator = gui.getGenerator();
     const items = asArray(generator && generator.video_ad && generator.video_ad.item);
     const midnight = +generator.server_midnight - 86400;
+    const offset = bgp.Synchronize.offset;
     let htm = '';
-    htm += Html`<div class="ads_limit_warning">${gui.getMessage('camp_ads_limit_info')}</div>`;
+    htm += Html`<div class="ads_limit_warning">${gui.getMessage('camp_ads_limit_info')}<br>${gui.getMessage('camp_ads_limit_info2')}</div>`;
     htm += Html`<table class="daf-table"><thead>`;
     htm += Html.br`<tr><th>${gui.getMessage('gui_type')}</th><th>${gui.getMessage('gui_limit')}</th><th>${gui.getMessage('gui_date')}</th></tr>`;
     htm += Html`</thead><tbody class="row-coloring">`;
     Object.values(videoads).forEach(videoad => {
         const type = videoad.type;
         const found = items.find(item => item.type == type);
+        if (!found) return;
         htm += Html`<tr><td>${gui.getProperCase(type.replace(/_/g, ' '))}</td>`;
         let text = (found && +found.watched_at < midnight) ? '0' : Locale.formatNumber(found && found.counter);
         if (text) text += ' / ';
         htm += Html`<td style="text-align:center">${text}${Locale.formatNumber(+videoad.daily_limit)}</td>`;
-        htm += Html`<td style="text-align:center">${Locale.formatDateTimeFull(found && found.watched_at)}</td>`;
+        htm += Html`<td style="text-align:center">${Locale.formatDateTimeFull(found && (found.watched_at - offset))}</td>`;
         htm += Html`</tr>`;
     });
     htm += Html`</tbody></table>`;

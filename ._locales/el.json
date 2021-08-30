@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Ανεμόμυλοι"
     },
+    "camp_needs_windmills": {
+        "message": "Η βάση θέλει ανεμόμυλους"
+    },
     "camp_avg_value": {
         "message": "Μέσος Όρος Υποδοχής"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Συνολικά πετράδια μέχρι τώρα"
+    },
+    "camp_ads_limit": {
+        "message": "Όριο διαφημίσεων"
+    },
+    "camp_ads_limit_info": {
+        "message": "Αυτό είναι μόνο μια ένδειξη και δεν αναπαριστά την αληθινή πιθανότητα εμφάνισης διαφήμισης"
+    },
+    "camp_ads_limit_info2": {
+        "message": "Ο τρίτος πάροχος διαφημίσεων μπορεί να θέσει διαφορετικό όριο, κάτι το οποίο είναι εκτός ελέγχου της Pixel Federation"
     },
     "map_floor": {
         "message": "Πάτωμα"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Πολύτιμοι Λίθοι"
     },
+    "events_tutorial": {
+        "message": "Συμβάν Οδηγιών"
+    },
     "repeat_name": {
         "message": "Όνομα"
     },
@@ -2153,10 +2168,13 @@
         "message": "Προγενέστερος Χρόνος\nΤο σήμα εμφανίζεται προγενέστερα κατά τόσο χρόνο"
     },
     "options_badgesound": {
-        "message": "Ηχητικό Εφέ\nΟ ήχος που ακούγεται όταν το σήμα εμφανίζεται"
+        "message": "Windmills Show a"
     },
     "options_badgevolume": {
         "message": "Ένταση\nΗ ένταση του ήχου"
+    },
+    "options_badgewindmills": {
+        "message": "Ανεμόμυλοι\nΕμφάνιση συμβόλου όταν μια βάση γείτονα έχει ανεμόμυλους"
     },
     "calc_operators": {
         "message": "Τελεστές"

@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Mulini a vento"
     },
+    "camp_needs_windmills": {
+        "message": "Il campo ha bisogno di mulini"
+    },
     "camp_avg_value": {
         "message": "Media a colonna"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Gemme in totale finora"
+    },
+    "camp_ads_limit": {
+        "message": "Limiti Ad"
+    },
+    "camp_ads_limit_info": {
+        "message": "Questa è solo un'indicazione e non rappresenta la reale possibilità di visualizzare un annuncio pubblicitario."
+    },
+    "camp_ads_limit_info2": {
+        "message": "Il fornitore di annunci di terze parti può applicare un limite diverso: questo non dipende da Pixel Federation."
     },
     "map_floor": {
         "message": "Piano"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Preziosi"
     },
+    "events_tutorial": {
+        "message": "Evento Tutorial"
+    },
     "repeat_name": {
         "message": "Nome"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Volume\nIl volume dell'effetto sonoro."
+    },
+    "options_badgewindmills": {
+        "message": "Mulini\nMostra un segnalino quando il campo del vicino ha bisogno di mulini"
     },
     "calc_operators": {
         "message": "Operatori"

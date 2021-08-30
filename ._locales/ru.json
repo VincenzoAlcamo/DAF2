@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Мельницы"
     },
+    "camp_needs_windmills": {
+        "message": "Лагерю нужны мельницы"
+    },
     "camp_avg_value": {
         "message": "Среднее на ячейку"
     },
@@ -640,6 +643,12 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Итого самоцветов"
+    },
+    "camp_ads_limit": {
+        "message": "Лимит рекламы"
+    },
+    "camp_ads_limit_info": {
+        "message": "Это всего лишь счетчик, а не реальная возможность показа рекламы."
     },
     "map_floor": {
         "message": "Секция"
@@ -1857,6 +1866,9 @@
     },
     "events_gemstones": {
         "message": "Драгоценные камни"
+    },
+    "events_tutorial": {
+        "message": "Учебное событие"
     },
     "repeat_name": {
         "message": "Наименование"

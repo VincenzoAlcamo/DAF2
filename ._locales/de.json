@@ -21,7 +21,7 @@
         "message": "Sperre"
     },
     "menu_gctable": {
-        "message": "Götterkinder-Tabelle anzeigen"
+        "message": "Gotteskinder-Tabelle anzeigen"
     },
     "menu_gctablecounter": {
         "message": "Anzahl"
@@ -30,7 +30,7 @@
         "message": "Region"
     },
     "menu_gccollected": {
-        "message": "Alle Götterkinder wurden gesammelt."
+        "message": "Alle Gotteskinder wurden gesammelt."
     },
     "menu_autoclick": {
         "message": "Automatisches Klicken auf das Popup von Facebook"
@@ -364,7 +364,7 @@
         "message": "Freundschaften"
     },
     "tab_godchild": {
-        "message": "Götterkinder"
+        "message": "Gotteskinder"
     },
     "tab_locations": {
         "message": "Standorte"
@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Windmühlen"
     },
+    "camp_needs_windmills": {
+        "message": "Dieses Camp braucht Windmühlen."
+    },
     "camp_avg_value": {
         "message": "Stellplatz Durchschnitt"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Gesamte Gems bis jetzt"
+    },
+    "camp_ads_limit": {
+        "message": "Limit für Anzeigen"
+    },
+    "camp_ads_limit_info": {
+        "message": "Dies ist nur ein Hinweis und stellt nicht die tatsächliche Verfügbarkeit einer bestimmten Anzeige dar."
+    },
+    "camp_ads_limit_info2": {
+        "message": "Der Drittanbieter der Werbung kann andere Grenzwerte anwenden, da diese außerhalb der Kontrolle von Pixel Federation liegen."
     },
     "map_floor": {
         "message": "Ebene"
@@ -767,7 +779,7 @@
         "message": "sagt"
     },
     "map_godchild": {
-        "message": "Götterkind"
+        "message": "Gotteskind"
     },
     "map_unknown": {
         "message": "Unbekannt"
@@ -1308,7 +1320,7 @@
         }
     },
     "godchild_info": {
-        "message": "$NUM$ Nachbarn = $GC$ Götterkinder",
+        "message": "$NUM$ Nachbarn = $GC$ Gotteskinder",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1319,7 +1331,7 @@
         }
     },
     "godchild_stat": {
-        "message": "Götterkinder: $NUM$ / $TOTAL$",
+        "message": "Gotteskinder: $NUM$ / $TOTAL$",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1330,7 +1342,7 @@
         }
     },
     "godchild_next": {
-        "message": "Um ein zusätzliches Götterkind zu erhalten, musst du $NUM$ weitere Nachbarn hinzufügen.",
+        "message": "Um ein zusätzliches Gotteskind zu erhalten, musst du $NUM$ weitere Nachbarn hinzufügen.",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1338,10 +1350,10 @@
         }
     },
     "godchild_next0": {
-        "message": "Die maximal mögliche Anzahl von Götterkindern wurde erreicht."
+        "message": "Die maximal mögliche Anzahl von Gotteskindern wurde erreicht."
     },
     "godchild_next1": {
-        "message": "Um ein zusätzliches Götterkind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
+        "message": "Um ein zusätzliches Gotteskind zu erhalten, musst du nur noch einen weiteren Nachbarn hinzufügen."
     },
     "progress_measure": {
         "message": "Messung"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Edelsteine"
     },
+    "events_tutorial": {
+        "message": "Tutorial-Veranstaltung"
+    },
     "repeat_name": {
         "message": "Name"
     },
@@ -2012,7 +2027,7 @@
         }
     },
     "options_gctable": {
-        "message": "Götterkinder-Tabelle\nZeigt alle Nachbarn mit Götterkindern unter dem Spiel."
+        "message": "Gotteskinder-Tabelle\nZeigt alle Nachbarn mit Gotteskindern unter dem Spiel."
     },
     "options_gctablecounter": {
         "message": "Zähler / Anzahl\nDen Zähler / Anzahl anzeigen"
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Lautstärke\nDie Lautstärke des Klangeffekts."
+    },
+    "options_badgewindmills": {
+        "message": "Windmühlen\nZeigt ein Abzeichen, wenn das Camp eines Nachbarn Windmühlen braucht."
     },
     "calc_operators": {
         "message": "Operatoren"

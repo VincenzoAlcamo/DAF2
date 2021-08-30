@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Yel değirmenleri"
     },
+    "camp_needs_windmills": {
+        "message": "Kampın yel değirmenlerine ihtiyacı var"
+    },
     "camp_avg_value": {
         "message": "Slot ortalama"
     },
@@ -640,6 +643,12 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Şimdiye kadarki toplam mücevher sayısı"
+    },
+    "camp_ads_limit": {
+        "message": "Reklam sınırı"
+    },
+    "camp_ads_limit_info": {
+        "message": "Bu sadece bir göstergedir ve bir reklamın gösterilmesinin gerçek olasılığını temsil etmez."
     },
     "map_floor": {
         "message": "Kat"
@@ -1858,6 +1867,9 @@
     "events_gemstones": {
         "message": "Değerli taşlar"
     },
+    "events_tutorial": {
+        "message": "Eğitim Etkinliği"
+    },
     "repeat_name": {
         "message": "İsim"
     },
@@ -2157,6 +2169,9 @@
     },
     "options_badgevolume": {
         "message": "Ses Seviyesi\r\nSes efektinin ses seviyesi:"
+    },
+    "options_badgewindmills": {
+        "message": "yel değirmenleri\nBir komşunun kampının yel değirmenlerine ihtiyacı olduğunda bir rozet gösterin"
     },
     "calc_operators": {
         "message": "Operatörler"

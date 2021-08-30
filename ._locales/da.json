@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Vindmøller"
     },
+    "camp_needs_windmills": {
+        "message": "Lejr mangler vindmøller"
+    },
     "camp_avg_value": {
         "message": "Gennemsnit"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Total juvel indtil nu"
+    },
+    "camp_ads_limit": {
+        "message": "Annonce grænse"
+    },
+    "camp_ads_limit_info": {
+        "message": "Dette er kun en indikation og repræsenterer ikke den reelle mulighed for at vise en annonce."
+    },
+    "camp_ads_limit_info2": {
+        "message": "Tredjeparts annonceudbyder anvender muligvis en anden begrænsning, da de ikke kontrolleres af Pixel Federation."
     },
     "map_floor": {
         "message": "Etage"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Juveler"
     },
+    "events_tutorial": {
+        "message": "Vejledt Begivenhed"
+    },
     "repeat_name": {
         "message": "Navn"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Lydstyrke\nLyd effektens lydstyrke."
+    },
+    "options_badgewindmills": {
+        "message": "Vindmøller\nVis et skilt, når en nabos lejr mangler vindmøller"
     },
     "calc_operators": {
         "message": "Aktører"

@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Windmolens"
     },
+    "camp_needs_windmills": {
+        "message": "Kamp heeft windmolens nodig"
+    },
     "camp_avg_value": {
         "message": "Gemiddelde plaats"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Totaal aantal gems tot nu toe"
+    },
+    "camp_ads_limit": {
+        "message": "Advertentielimiet"
+    },
+    "camp_ads_limit_info": {
+        "message": "Dit is slechts een indicatie en geeft niet de reële mogelijkheid weer om een advertentie weer te geven."
+    },
+    "camp_ads_limit_info2": {
+        "message": "De externe advertentieprovider kan een andere limiet toepassen omdat deze buiten de controle van Pixel Federation valt."
     },
     "map_floor": {
         "message": "Verdieping"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Edelstenen"
     },
+    "events_tutorial": {
+        "message": "Studie evenement"
+    },
     "repeat_name": {
         "message": "Naam"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Volume\nHet volume van het geluidseffect."
+    },
+    "options_badgewindmills": {
+        "message": "Windmolens\nToon een badge wanneer het kamp van een buur windmolens nodig heeft."
     },
     "calc_operators": {
         "message": "Operatoren"

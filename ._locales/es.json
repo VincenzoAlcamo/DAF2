@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Molinos"
     },
+    "camp_needs_windmills": {
+        "message": "Campamento que necesita molinos"
+    },
     "camp_avg_value": {
         "message": "Ranura promedio"
     },
@@ -641,6 +644,15 @@
     "camp_ftp_cumulativegems": {
         "message": "Total de gemas hasta el momento."
     },
+    "camp_ads_limit": {
+        "message": "Limite de anuncios"
+    },
+    "camp_ads_limit_info": {
+        "message": "Esto es solo una indicacion y no representa la posibilidad real de mostrar un anuncio"
+    },
+    "camp_ads_limit_info2": {
+        "message": "El proveedor de publicidad de terceros puede aplicar un limite diferente, ya que esta fuera del control de Pixel Federation."
+    },
     "map_floor": {
         "message": "Piso"
     },
@@ -648,7 +660,7 @@
         "message": "Piso actual"
     },
     "map_floor_found": {
-        "message": "Pinche aqui para mostrar el piso acuto"
+        "message": "Pinche aqui para mostrar el piso actual"
     },
     "map_floor_not_found": {
         "message": "Piso no visitado aun"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Gemas"
     },
+    "events_tutorial": {
+        "message": "Tutorial de evento"
+    },
     "repeat_name": {
         "message": "Nombre"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Volumen\nVolumen del efecto de sonido"
+    },
+    "options_badgewindmills": {
+        "message": "Molinos . Muestra una insignia cuando un vecino necesita molinos."
     },
     "calc_operators": {
         "message": "Operadores"

@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Moulins à vent"
     },
+    "camp_needs_windmills": {
+        "message": "Le camp a besoin de moulins à vent"
+    },
     "camp_avg_value": {
         "message": "Emplacement moyen"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Total des gemmes à ce jour"
+    },
+    "camp_ads_limit": {
+        "message": "Limite de publicité"
+    },
+    "camp_ads_limit_info": {
+        "message": "Ceci n'est qu'une indication et ne représente pas la possibilité réelle d'afficher une publicité."
+    },
+    "camp_ads_limit_info2": {
+        "message": "Le fournisseur de publicité tiers peut appliquer une limite différente car ils sont indépendants de la volonté de Pixel Federation."
     },
     "map_floor": {
         "message": "Salles"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Pierres précieuses"
     },
+    "events_tutorial": {
+        "message": "Événement de tutoriel"
+    },
     "repeat_name": {
         "message": "Mines"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Le volume\nLe volume de l'effet sonore."
+    },
+    "options_badgewindmills": {
+        "message": "Moulins à vent\nMontrez un badge lorsque le camp d'un voisin a besoin de moulins à vent"
     },
     "calc_operators": {
         "message": "Les opérateurs"
