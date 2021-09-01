@@ -866,7 +866,10 @@ async function adsLimit() {
     const videoads = await bgp.Data.getFile('video_ads');
     const generator = gui.getGenerator();
     const items = asArray(generator && generator.video_ad && generator.video_ad.item);
-    const midnight = +generator.server_midnight - 86400;
+    let midnight = +generator.server_midnight;
+    const now = gui.getUnixTime();
+    while (midnight - 86400 > now) midnight -= 86400;
+    while (midnight + 86400 <= now) midnight += 86400;
     const offset = bgp.Synchronize.offset;
     let htm = '';
     htm += Html`<div class="ads_limit_warning">${gui.getMessage('camp_ads_limit_info')}<br>${gui.getMessage('camp_ads_limit_info2')}</div>`;
