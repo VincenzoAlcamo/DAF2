@@ -316,8 +316,9 @@ function createMenu() {
         <i data-pref="badgeWindmillsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
     </div>
 </li>
-<li data-action="ads"><b title="${gm('camp_ads_limit')}">&nbsp;</b>
+<li data-action="ads"><b>&nbsp;</b>
     <div>
+        <span>${gm('camp_ads_limit')}</span><br>
         <p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
         <table class="DAF-table"><thead><tr><td>${gm('gui_type')}</td><td>${gm('gui_limit')}</td><td>${gm('gui_date')}</td></tr></thead><tbody></tbody></table>
     </div>
