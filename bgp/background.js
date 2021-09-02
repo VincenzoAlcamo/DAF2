@@ -787,6 +787,7 @@ var Data = {
             Data.getFile('childs');
             Data.getFile('productions');
             Data.getFile('special_weeks');
+            Data.getFile('video_ads');
         } else {
             if (file.id == 'localization') Data.storeLocalization(file);
             tx = Data.db.transaction('Files', 'readwrite');
@@ -1497,6 +1498,28 @@ var Data = {
         });
     },
     //#endregion
+    //#region ADS
+    getAdsInfo: function () {
+        const generator = Data.generator;
+        const videoads = Data.files.video_ads;
+        if (!videoads || !generator) return [];
+        const items = asArray(generator && generator.video_ad && generator.video_ad.item);
+        let midnight = +generator.server_midnight - 86400;
+        const now = getUnixTime();
+        while (midnight + 86400 <= now) midnight += 86400;
+        const offset = Synchronize.offset;
+        const getProperCase = (value) => String(value || '').replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
+        const values = [];
+        Object.values(videoads).forEach(videoad => {
+            const type = videoad.type, found = items.find(item => item.type == type);
+            if (!found) return;
+            const limit = `${(found && +found.watched_at < midnight) ? '0' : Locale.formatNumber(found && found.counter)} / ${Locale.formatNumber(+videoad.daily_limit)}`;
+            values.push({ text: getProperCase(type.replace(/_/g, ' ')), limit, date: Locale.formatDateTimeFull(found && (found.watched_at - offset)) });
+        });
+        values.sort((a, b) => a.text.localeCompare(b.text));
+        return values;
+    },
+    //#endregion
     //#region FILES
     unusedFiles: {
         'buildings_actions': true
@@ -1926,6 +1949,7 @@ var Synchronize = {
                     Data.findLuckyCardsAd(+taskResponse.video_ad_watched_at);
                     Data.checkLuckyCards();
                 }
+                Synchronize.signal('ads_info', Data.getAdsInfo());
             }
         },
         prod_unload_caravan: (_action, task) => Synchronize.production('c', 'unload', task),
@@ -2126,6 +2150,9 @@ async function init() {
         },
         getGCInfo: function () {
             return Data.getGCInfo();
+        },
+        getAdsInfo: function () {
+            return Data.getAdsInfo();
         },
         getGCList: function (request) {
             const neighbours = Object.values(Data.neighbours);

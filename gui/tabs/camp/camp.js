@@ -1,8 +1,6 @@
 /*global bgp gui Locale Html Dialog Tooltip*/
 import packHelper from '../../packHelper.js';
 
-function asArray(t) { return t ? [].concat(t) : []; }
-
 export default {
     hasCSS: true,
     init,
@@ -863,30 +861,15 @@ function fillCamp(campLines, numRegSlots, regFirst = true) {
 }
 
 async function adsLimit() {
-    const videoads = await bgp.Data.getFile('video_ads');
-    const generator = gui.getGenerator();
-    const items = asArray(generator && generator.video_ad && generator.video_ad.item);
-    let midnight = +generator.server_midnight - 86400;
-    const now = gui.getUnixTime();
-    while (midnight + 86400 <= now) midnight += 86400;
-    const offset = bgp.Synchronize.offset;
+    await bgp.Data.getFile('video_ads');
+    const items = Html.raw(bgp.Data.getAdsInfo().map(item => {
+        return Html`<tr><td>${item.text}</td><td style="text-align:center">${item.limit}</td><td style="text-align:center">${item.date}</td></tr>`;
+    }).join(''));
     let htm = '';
     htm += Html`<div class="ads_limit_warning">${gui.getMessage('camp_ads_limit_info')}<br>${gui.getMessage('camp_ads_limit_info2')}</div>`;
     htm += Html`<table class="daf-table"><thead>`;
     htm += Html.br`<tr><th>${gui.getMessage('gui_type')}</th><th>${gui.getMessage('gui_limit')}</th><th>${gui.getMessage('gui_date')}</th></tr>`;
-    htm += Html`</thead><tbody class="row-coloring">`;
-    Object.values(videoads).forEach(videoad => {
-        const type = videoad.type;
-        const found = items.find(item => item.type == type);
-        if (!found) return;
-        htm += Html`<tr><td>${gui.getProperCase(type.replace(/_/g, ' '))}</td>`;
-        let text = (found && +found.watched_at < midnight) ? '0' : Locale.formatNumber(found && found.counter);
-        if (text) text += ' / ';
-        htm += Html`<td style="text-align:center">${text}${Locale.formatNumber(+videoad.daily_limit)}</td>`;
-        htm += Html`<td style="text-align:center">${Locale.formatDateTimeFull(found && (found.watched_at - offset))}</td>`;
-        htm += Html`</tr>`;
-    });
-    htm += Html`</tbody></table>`;
+    htm += Html`</thead><tbody class="row-coloring">${items}</tbody></table>`;
     gui.dialog.show({ title: gui.getMessage('camp_ads_limit'), html: htm, style: [Dialog.CLOSE] });
 }
 

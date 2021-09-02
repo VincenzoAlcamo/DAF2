@@ -185,6 +185,13 @@ function setBadgeRepeatables({ list, sound, volume }) {
     }
 }
 
+function updateAdsInfo(data) {
+    const li = menu.querySelector('[data-action="ads"]');
+    const flag = data && data.length;
+    li.style.display = flag ? '' : 'none';
+    if (flag) Html.set(li.querySelector('tbody'), data.map(item => Html`<tr><td>${item.text}</td><td>${item.limit}</td><td>${item.date}</td></tr>`).join(''));
+}
+
 function updateGCStatus(data) {
     if (!menu) return;
     const el = menu.querySelector('[data-value=status]');
@@ -205,7 +212,7 @@ function search() {
         if (text) chrome.runtime.sendMessage({ action: 'searchNeighbor', text }, ({ count, list }) => {
             if (chrome.runtime.lastError) return;
             const gm = (id) => Html(getMessage(id));
-            let html = `<table>`;
+            let html = `<table class="DAF-table">`;
             if (list.length) {
                 html += `
 <thead><tr><td colspan="2">${gm('gui_neighbour')}</td>
@@ -307,6 +314,12 @@ function createMenu() {
         <br>
         <i data-pref="badgeWindmills" class="squared-right">${gm0('options_badgewindmills')}</i>
         <i data-pref="badgeWindmillsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+    </div>
+</li>
+<li data-action="ads"><b title="${gm('camp_ads_limit')}">&nbsp;</b>
+    <div>
+        <p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
+        <table class="DAF-table"><thead><tr><td>${gm('gui_type')}</td><td>${gm('gui_limit')}</td><td>${gm('gui_date')}</td></tr></thead><tbody></tbody></table>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -463,9 +476,8 @@ function init() {
             loadCompleted = true;
             onFullWindow();
             showMenu();
-            chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) {
-                updateGCStatus(result);
-            });
+            chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) { updateGCStatus(result); });
+            chrome.runtime.sendMessage({ action: 'getAdsInfo' }, function (result) { updateAdsInfo(result); });
             if (!getFullWindow() && prefs.fullWindowTimeout > 0) {
                 let eventAttached = false;
                 const check = () => {
@@ -483,9 +495,8 @@ function init() {
             }
         };
         setTimeout(msgHandlers['generator'], 10000);
-        msgHandlers['friend_child_charge'] = (request) => {
-            updateGCStatus(request.data);
-        };
+        msgHandlers['friend_child_charge'] = (request) => updateGCStatus(request.data);
+        msgHandlers['ads_info'] = (request) => updateAdsInfo(request.data);
         msgHandlers['gc-energy'] = (request) => {
             const energy = (request.data && +request.data.energy) || 0;
             setBadge({ selector: '.DAF-badge-gc-energy', text: energy, title: (request.data && request.data.title) || getMessage('gui_energy'), active: energy > 0 });

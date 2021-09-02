@@ -186,6 +186,10 @@
   background-image: url("/img/gui/badge.png");
 }
 
+.DAF-menu li[data-action="ads"] b {
+  background-image: url("/img/gui/ads.png");
+}
+
 .DAF-menu li[data-action="search"] b {
   background-image: url("/img/gui/friendship.png");
 }
@@ -364,33 +368,64 @@
   }
 }
 
-.DAF-menu li[data-action="search"] table {
+.DAF-menu table.DAF-table {
   border: 2px solid #36648B;
   border-spacing: 0;
   border-collapse: collapse;
 }
 
-.DAF-menu li[data-action="search"] thead tr,
-.DAF-menu li[data-action="search"] tfoot tr {
+.DAF-menu table.DAF-table thead tr,
+.DAF-menu table.DAF-table tfoot tr {
   background-color: #2281C0;
   color: #FFFFFF;
 }
 
-.DAF-menu li[data-action="search"] tbody tr {
+.DAF-menu table.DAF-table tbody tr {
   color: #000000;
   background-color: #F5F5F5;
 }
 
-.DAF-menu li[data-action="search"] tbody tr:nth-child(odd) {
+.DAF-menu table.DAF-table tbody tr:nth-child(odd) {
   background-color: #E7E7E7;
 }
 
-.DAF-menu li[data-action="search"] th,
-.DAF-menu li[data-action="search"] td {
+.DAF-menu table.DAF-table th,
+.DAF-menu table.DAF-table td {
   padding: 2px;
   border: 1px solid #88A6;
 }
 
+.DAF-menu table.DAF-table thead td {
+  font-weight: bold;
+}
+
+.DAF-ads_limit_warning {
+  width: 460px;
+  padding: 2px 4px 2px 48px;
+  background-image: url(/img/gui/q-hard.png);
+  background-repeat: no-repeat;
+  background-color: #620;
+  color: #FFF;
+  background-position: 8px 50%;
+  border: 2px solid #C00;
+  border-radius: 8px;
+  text-align: left;
+  margin: 0 auto 4px;
+  font-size: 15px !important;
+  white-space: normal;
+}
+
+.DAF-menu li[data-action="ads"] tbody td:nth-child(3) {
+  font-size: 12px !important;
+}
+
+.DAF-menu li[data-action="ads"] td,
+.DAF-menu li[data-action="ads"] th {
+  padding: 3px 5px;
+}
+
+.DAF-menu li[data-action="ads"] td:nth-child(2),
+.DAF-menu li[data-action="ads"] td:nth-child(3),
 .DAF-menu li[data-action="search"] thead td:nth-child(2),
 .DAF-menu li[data-action="search"] thead td:nth-child(3),
 .DAF-menu li[data-action="search"] td:nth-child(3) {
