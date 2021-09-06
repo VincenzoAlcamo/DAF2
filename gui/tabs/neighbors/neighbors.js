@@ -173,19 +173,20 @@ function formula() {
 <span title="The current date and time${dateInfo}">now</span>
 <span title="The current date (time is 00:00)${dateInfo}">today</span>
 <span title="The number of seconds in a day (86400)\nThis can be helpful for date comparisons: lastgift > today - 7 * day">day</span>
-<span title="The player's region\n${Html(Array.from(Array(gui.getMaxRegion())).map((_, n) => `${n + 1}=${gui.getObjectName('region', n + 1)}`).join('\n'))}">region</span>
-<span title="The player's level">level</span>
-<span title="The last time that player has leveled up${unknown}${dateInfo}">levelup</span>
-<span title="The last time that player has gifted you${unknown}${dateInfo}">lastgift</span>
-<span title="Player is in your custom list\n0=NO\n1=YES">list</span>
+<br>
 <span title="The number of blocks to clear in the underground camp${unknown}">blocks</span>
-<span title="The time when the first windmills will expire\n0=the camp need windmills${unknown}${dateInfo}">wmtime</span>
-<span title="The last time you visited that player's camp${unknown}${dateInfo}">visit</span>
-<span title="The time that neighbor has been first registered${dateInfo}">recorded</span>
-<span title="The number of gifts received${unknown}">gifts</span>
 <span title="The gift efficiency (0-100)${unknown}">efficiency</span>
 <span title="The value selected for consider gifting days">giftdays</span>
+<span title="The number of gifts received${unknown}">gifts</span>
+<span title="The last time that player has gifted you${unknown}${dateInfo}">lastgift</span>
+<span title="The player's level">level</span>
+<span title="The last time that player has leveled up${unknown}${dateInfo}">levelup</span>
+<span title="Player is in your custom list\n0=NO\n1=YES">list</span>
+<span title="The time that neighbor has been first registered${dateInfo}">recorded</span>
+<span title="The player's region\n${Html(Array.from(Array(gui.getMaxRegion())).map((_, n) => `${n + 1}=${gui.getObjectName('region', n + 1)}`).join('\n'))}">region</span>
 <span title="The total gift value${unknown}">value</span>
+<span title="The last time you visited that player's camp${unknown}${dateInfo}">visit</span>
+<span title="The time when the first windmills will expire\n0=the camp need windmills${unknown}${dateInfo}">wmtime</span>
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_examples')}</th></tr>
 <tr><th>${gui.getMessage('neighbors_inlist')}</th><td colspan="2">list = 1</td></tr>
