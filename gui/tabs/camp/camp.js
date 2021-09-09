@@ -354,7 +354,7 @@ function updateCamp(div, flagHeaderOnly = false) {
         htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, isPlayer ? campNames[index] : '', index == 2) + Html.br`</td>`;
     });
 
-    const wind_count = (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0;
+    const wind_count = Math.min(camp.windmill_limit, (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0);
     const wind_expiry = bgp.Data.getCampWindmillTime(camp);
     // table Windmills
     htm += Html.br`<td><table class="camp-data row-coloring">`;
