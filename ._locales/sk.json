@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Vrtuľka"
     },
+    "camp_needs_windmills": {
+        "message": "Kemp potrebuje veterné mlyny"
+    },
     "camp_avg_value": {
         "message": "Priemer slot"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Zatiaľ celkom drahokamov"
+    },
+    "camp_ads_limit": {
+        "message": "Reklamný limit"
+    },
+    "camp_ads_limit_info": {
+        "message": "Toto je len indikácia a nepredstavuje skutočnú možnosť zobrazenia reklamy."
+    },
+    "camp_ads_limit_info2": {
+        "message": "Poskytovateľ reklamy tretej strany môže použiť iny limit, pretože sú mimo kontroly spoločnosti Pixel Federation."
     },
     "map_floor": {
         "message": "Poschodie"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Drahokamy"
     },
+    "events_tutorial": {
+        "message": "Výučbová udalosť"
+    },
     "repeat_name": {
         "message": "Názov"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Zvuk\nHlasitosť zvukového efektu."
+    },
+    "options_badgewindmills": {
+        "message": "Veterné mlyny\nUkáže odznak ak susedov kemp potrebuje veterné mlyny"
     },
     "calc_operators": {
         "message": "Operátory"

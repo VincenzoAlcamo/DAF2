@@ -650,6 +650,9 @@
     "camp_ads_limit_info": {
         "message": "Bu sadece bir göstergedir ve bir reklamın gösterilmesinin gerçek olasılığını temsil etmez."
     },
+    "camp_ads_limit_info2": {
+        "message": "Üçüncü taraf reklam sağlayıcısı, Pixel Federation'ın kontrolü dışında olduğu için farklı bir sınır uygulayabilir."
+    },
     "map_floor": {
         "message": "Kat"
     },

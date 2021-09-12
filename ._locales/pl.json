@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Wiatraki"
     },
+    "camp_needs_windmills": {
+        "message": "Obóz potrzebuje wiatraków"
+    },
     "camp_avg_value": {
         "message": "Średnio"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Wszystkie gemy do tej pory"
+    },
+    "camp_ads_limit": {
+        "message": "Limit reklam"
+    },
+    "camp_ads_limit_info": {
+        "message": "Jest to tylko wskazówka i nie oznacza rzeczywistej możliwości wyświetlenia reklamy."
+    },
+    "camp_ads_limit_info2": {
+        "message": "Zewnętrzny dostawca reklam może zastosować inny limit, ponieważ jest on poza\nkontrolą Pixel Federation."
     },
     "map_floor": {
         "message": "Piętro"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Klejnoty"
     },
+    "events_tutorial": {
+        "message": "Samouczek wydarzenia"
+    },
     "repeat_name": {
         "message": "Nazwa"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Głośność\nGłośność efektów dźwiękowych."
+    },
+    "options_badgewindmills": {
+        "message": "Wiatraki\nPokaż odznakę, gdy sąsiad potrzebuje wiatraków"
     },
     "calc_operators": {
         "message": "Użytkownicy"

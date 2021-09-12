@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Vrtulky"
     },
+    "camp_needs_windmills": {
+        "message": "Kemp potřebuje vrtulky"
+    },
     "camp_avg_value": {
         "message": "Průměr/slot"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Dosud celkem gemů"
+    },
+    "camp_ads_limit": {
+        "message": "Limit reklam"
+    },
+    "camp_ads_limit_info": {
+        "message": "Jde pouze o odhad a nelze tedy určit reálnou pravděpodobnost zobrazení reklamy."
+    },
+    "camp_ads_limit_info2": {
+        "message": "Poskytovatel reklam může mít nastavený jiný limit, který Pixel Federation neovlivní."
     },
     "map_floor": {
         "message": "Podlaží"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Drahokamy"
     },
+    "events_tutorial": {
+        "message": "Výuková událost"
+    },
     "repeat_name": {
         "message": "Název"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Hlasitost\nHlasitost zvukového efektu"
+    },
+    "options_badgewindmills": {
+        "message": "Vrtulky\nUkázat symbol, pokud některý sousedův kemp potřebuje vrtulky"
     },
     "calc_operators": {
         "message": "Operátory"

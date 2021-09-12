@@ -650,6 +650,9 @@
     "camp_ads_limit_info": {
         "message": "Esta é apenas uma indicação e não representa a possibilidade real de exibição de um anúncio."
     },
+    "camp_ads_limit_info2": {
+        "message": "O provedor de anúncios terceirizado pode aplicar um limite diferente, pois estão além do controle da Pixel Federation."
+    },
     "map_floor": {
         "message": "Andar"
     },

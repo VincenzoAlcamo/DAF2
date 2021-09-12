@@ -567,6 +567,9 @@
     "camp_windmills": {
         "message": "Szélmalmok"
     },
+    "camp_needs_windmills": {
+        "message": "A tábornak szélmalmok kellenek"
+    },
     "camp_avg_value": {
         "message": "Cella átlag"
     },
@@ -640,6 +643,15 @@
     },
     "camp_ftp_cumulativegems": {
         "message": "Az eddigi összes drágakő"
+    },
+    "camp_ads_limit": {
+        "message": "Hirdetési limit"
+    },
+    "camp_ads_limit_info": {
+        "message": "Ez csak egy jelzés, és nem jelenti a hirdetés megjelenítésének valós lehetőségét."
+    },
+    "camp_ads_limit_info2": {
+        "message": "A harmadik fél hirdetésszolgáltató más korlátot alkalmazhat, mivel azokra a Pixel Federationnek nincs ráhatása."
     },
     "map_floor": {
         "message": "Szint"
@@ -1858,6 +1870,9 @@
     "events_gemstones": {
         "message": "Drágakövek"
     },
+    "events_tutorial": {
+        "message": "Oktató esemény"
+    },
     "repeat_name": {
         "message": "Név"
     },
@@ -2157,6 +2172,9 @@
     },
     "options_badgevolume": {
         "message": "Hangerő\nA hang effektus hangereje."
+    },
+    "options_badgewindmills": {
+        "message": "Szélmalmok\nMutass egy jelvényt, ha a szomszéd táborának szélmalomra van szüksége"
     },
     "calc_operators": {
         "message": "Műveleti jelek"
