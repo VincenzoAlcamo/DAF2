@@ -97,7 +97,8 @@ const OPTION_TITLE = 't';
 const OPTION_BLANKS = 'b';
 const OPTION_MARGIN = 'm';
 const OPTION_LOGO = 'l';
-const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_COORDINATES, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO];
+const OPTION_ACHIEVEMENT = 'a';
+const ALL_OPTIONS = [OPTION_GROUPLOCATIONS, OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_COORDINATES, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO, OPTION_ACHIEVEMENT];
 const ALL_OPTIONS_AND_PREFERENCES = [...ALL_OPTIONS, OPTION_REPEATABLES];
 
 let tab, container, map, table, canvas, zoom, cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
@@ -655,7 +656,7 @@ function showAdvancedOptions() {
     htm += Html`<table style="user-select:none"><tr><td>`;
     htm += Html`<fieldset style="min-width: 260px;"><legend>${gui.getMessage('tab_options')}</legend>`;
     htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
-    [OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES, OPTION_COORDINATES, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO].forEach(option => {
+    [OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES, OPTION_COORDINATES, OPTION_ACHIEVEMENT, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO].forEach(option => {
         htm += addOption(option, gui.getMessage('map_option_' + option));
     });
     htm += Html`<label style="margin-top:3px">${gui.getMessage('map_option_resize')} <select name="resize">`;
@@ -899,17 +900,17 @@ function update() {
         }
     }
     specialDrops = {
-        token_215: true,    // FATHER'S JOURNAL PAGE
-        token_505: true,    // CODED FATHER'S NORDIC JOURNAL 1
-        token_802: true,    // CODED FATHER'S NORDIC JOURNAL 2
-        token_818: true,    // CODED FATHER'S NORDIC JOURNAL 3
-        token_1470: true,   // CHINESE JOURNAL
-        material_93: false, // JADEITE
-        material_270: false,// OBSIDIAN
+        token_215: 'Q',    // FATHER'S JOURNAL PAGE
+        token_505: 'Q',    // CODED FATHER'S NORDIC JOURNAL 1
+        token_802: 'Q',    // CODED FATHER'S NORDIC JOURNAL 2
+        token_818: 'Q',    // CODED FATHER'S NORDIC JOURNAL 3
+        token_1470: 'Q',   // CHINESE JOURNAL
+        material_93: 'M', // JADEITE
+        material_270: 'M',// OBSIDIAN
     };
     Object.values(gui.getFile('achievements')).filter(a => +a.event_id > 0 && a.action == 'collect' && a.type == 'material').forEach(a => {
         const key = a.type + '_' + a.object_id;
-        specialDrops[key] = false;
+        specialDrops[key] = 'A';
     });
 
     allQuestDrops = {};
@@ -951,7 +952,7 @@ function update() {
             location.loot_drop.split(';').forEach(loot => {
                 const key = loot.replace(':', '_');
                 if (key in skipList || key in specialDrops || key in questItems) return;
-                specialDrops[key] = false;
+                specialDrops[key] = 'L';
             });
         });
     }
@@ -1735,6 +1736,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         if (key == 'material_1') key = 'coins';
         materialDrops[key] = true;
     });
+    const noAchievements = !hasOption(OPTION_ACHIEVEMENT);
     for (const tileDef of tileDefs) {
         delete tileDef.isSpecial;
         delete tileDef.isQuest;
@@ -1771,8 +1773,10 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
                 if (drop.skip || (drop.forAdmin && !isAdmin)) continue;
                 const key = drop.type + '_' + drop.id;
                 if (key == 'material_1') numCoins++;
-                const isQuest = (key in questDrops) || specialDrops[key] === true || drop.type == 'tablet';
-                const isSpecial = !isQuest && (specialDrops[key] === false || drop.type == 'artifact');
+                let sd = specialDrops[key];
+                if (sd === 'A' && noAchievements) sd = undefined;
+                const isQuest = (key in questDrops) || sd === 'Q' || drop.type == 'tablet';
+                const isSpecial = !isQuest && (sd !== undefined || drop.type == 'artifact');
                 const isMaterial = key in materialDrops || drop.type in materialDrops;
                 if (isSpecial) tileDef.isSpecial = true;
                 if (isQuest) tileDef.isQuest = true;
