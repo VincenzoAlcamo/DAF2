@@ -80,7 +80,7 @@ function init() {
 function update() {
     packHelper.onUpdate();
     swFindThePair = gui.getActiveSpecialWeeks().findThePair;
-    swFindThePair = { info: '2' };
+    // swFindThePair = { info: '2' };
     buttonFindThePair.style.display = swFindThePair ? '' : 'none';
 
     markToBeRendered(container.querySelector('.camp-player'));
