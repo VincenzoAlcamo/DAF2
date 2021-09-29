@@ -656,8 +656,12 @@ function showAdvancedOptions() {
     htm += Html`<table style="user-select:none"><tr><td>`;
     htm += Html`<fieldset style="min-width: 260px;"><legend>${gui.getMessage('tab_options')}</legend>`;
     htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
-    [OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES, OPTION_COORDINATES, OPTION_ACHIEVEMENT, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO].forEach(option => {
-        htm += addOption(option, gui.getMessage('map_option_' + option));
+    [OPTION_REGIONSELECTOR, OPTION_LOCATIONINFO, OPTION_REPEATABLES, OPTION_COORDINATES, isAdmin && OPTION_ACHIEVEMENT, OPTION_TITLE, OPTION_BLANKS, OPTION_MARGIN, OPTION_LOGO].forEach(option => {
+        if (option) {
+            let text = gui.getMessage('map_option_' + option);
+            if (option == OPTION_ACHIEVEMENT) text = 'Special drop for achievements';
+            htm += addOption(option, text);
+        }
     });
     htm += Html`<label style="margin-top:3px">${gui.getMessage('map_option_resize')} <select name="resize">`;
     const sizes = [100, 80, 75, 66, 60, 50, 40, 33, 25];
@@ -1020,6 +1024,7 @@ function setState(state) {
     zoom = Math.min(Math.max(2, Math.round(+state.zoom || 5)), 10);
     const options = String(state.options || '').toLowerCase();
     ALL_OPTIONS.forEach(id => setOption(id, options.indexOf(id) < 0));
+    if (!isAdmin) setOption(OPTION_ACHIEVEMENT, true);
     resize = +state.resize || 0;
     if (resize < 25 || resize > 100) resize = 100;
     state.resize = resize;
