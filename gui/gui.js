@@ -219,18 +219,22 @@ const gui = {
         if (typeof event == 'number') event = bgp.Data.files.events[event];
         const eid = event ? +event.def_id : 0;
         const tutorial = +event.tutorial_event_id > 0;
-        let end = (event && +event.end) || 0;
-        if (!end && eid == 14) end = 1393326000;
-        if (!end && eid == 15) end = 1395745200;
-        // Fix end date for tutorial events
-        if (!end && tutorial) {
-            const event2 = gui.getEventInfo(eid - 1);
-            if (event2 && event2.eid) end = event2.end + 86400;
-        }
-        if (eid == 136) end = 1606219200;
-        // Fix bug in Halloween 2019 end date
-        const start = (event && +event.start) || 0;
-        if (start > 0 && (end - start) / 86400 > 28) end = start + 14 * 86400;
+        const end = (function() {
+            const end = (event && +event.end) || 0;
+            if (!end && eid == 14) return 1393326000;
+            if (!end && eid == 15) return 1395745200;
+            if (eid == 113) return 1563321600;   // SUPERHEROES 3
+            if (eid == 136) return 1606219200;   // CANDYLAND
+            // Fix end date for tutorial events
+            if (!end && tutorial) {
+                const event2 = gui.getEventInfo(eid - 1);
+                if (event2 && event2.eid) return event2.end + 86400;
+            }
+            // Fix bug in Halloween 2019 end date
+            const start = (event && +event.start) || 0;
+            if (start > 0 && (end - start) / 86400 > 28) return start + 14 * 86400;
+            return end;
+        })();
         // compute the year as END - 14 days
         const year = Math.max(0, end - 14 * 86400);
         return { eid, end, year, tutorial };
@@ -1123,10 +1127,10 @@ function translate(parent) {
 //#endregion
 
 //#region WIKI
-const WIKI_URL = 'https://wiki.diggysadventure.com/index.php';
+const WIKI_URL = 'https://diggysadventure.fandom.com';
 
 function openWiki(page) {
-    const url = page && page.indexOf('://') > 0 ? page : WIKI_URL + (page ? '?title=' + page : '');
+    const url = page && page.indexOf('://') > 0 ? page : WIKI_URL + (page ? '/wiki/' + page : '');
     const urlInfo = new UrlInfo(url);
 
     chrome.tabs.query({}, function (tabs) {
