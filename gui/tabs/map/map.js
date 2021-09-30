@@ -758,6 +758,7 @@ function showAdvancedOptions() {
         }
         if (method == Dialog.CONFIRM) {
             ALL_OPTIONS_AND_PREFERENCES.forEach(id => setOption(id, params[id]));
+            if (!isAdmin) setOption(OPTION_ACHIEVEMENT, true);
             resize = +params.resize;
             listMaterial = gui.getArrayOfInt(params.materials).sort(gui.sortNumberAscending).join(',');
             gui.setPreference('mapDownloadEvent', params.folderevent);
