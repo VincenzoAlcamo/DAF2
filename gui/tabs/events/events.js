@@ -27,7 +27,7 @@ const RINGS_BY_EVENT = {
 
 
 let tab, container, smartTable, searchInput, searchHandler, selectShow, selectYear, selectSegmented, selectShop, selectRegion, selectType, checkTotals, checkEnergy;
-let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop;
+let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop, swPostcards;
 let selectedRegion, selectedInfo, selectedEventId;
 let lootChecks, cdn_root, versionParameter;
 
@@ -120,17 +120,12 @@ function byEvent(list) {
 
 function update() {
     ({ cdn_root, versionParameter } = gui.getGenerator());
-    swDoubleDrop = gui.getActiveSpecialWeeks().doubleDrop;
-    const divWarning = container.querySelector('.toolbar .warning');
-    if (swDoubleDrop) {
-        Html.set(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
-        divWarning.style.display = '';
-    } else {
-        divWarning.style.display = 'none';
-    }
+    const specialWeeks = gui.getSpecialWeeks();
+    swDoubleDrop = specialWeeks.active.refresh_drop;
+    swPostcards = specialWeeks.active.postcards;
+    gui.showSpecialWeeks(container, [swDoubleDrop, swPostcards]);
 
-    const specialWeeks = gui.getFile('special_weeks');
-    const eventsGifted = Object.values(specialWeeks).filter(sw => sw.type == 'free_premium_event').map(sw => +sw.info);
+    const eventsGifted = (specialWeeks.free_premium_event || []).map(sw => +sw.info);
 
     const state = getState();
     const achievements = gui.getFile('achievements');
@@ -872,7 +867,7 @@ function showInfo() {
                 const ovr = location.overrides && location.overrides.find(ovr => +ovr.region_id == region);
                 const clearXp = ovr ? +ovr.override_reward_exp : +location.reward_exp;
                 const eventpassXp = +location.eventpass_xp;
-                const rewards = [{ type: 'system', object_id: 1, amount: clearXp }];
+                const rewards = [{ type: 'system', object_id: 1, amount: clearXp * (swPostcards ? 10 : 1) }];
                 if (eventpassXp) rewards.push({ type: 'eventpass_xp', object_id: 1, amount: eventpassXp });
                 const loc = Object.assign({}, location);
                 loc.rewards = rewards;

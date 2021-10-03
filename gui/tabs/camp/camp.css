@@ -317,10 +317,6 @@ html.dark .camp .item.regen.selected {
   margin-bottom: -8px;
 }
 
-.tab_camp .toolbar .weeks .warning:not(:last-child) {
-  margin: 2px auto 0px;
-}
-
 .tab_camp .toolbar .setupmode {
   background-color: #0002;
   border-radius: 8px;

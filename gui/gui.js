@@ -607,11 +607,7 @@ const gui = {
         if (save) bgp.Data.saveNeighbour(list);
         return list;
     },
-    getActiveSpecialWeeks: function () {
-        // requires special_weeks
-        const result = {};
-        result.items = [];
-        result.types = {};
+    getSpecialWeeks: function () {
         // Drop in repeatables  :   refresh_drop (multiplier = coeficient)
         //                          double_drop (obsolete, multiplier = 2)
         // Double gifts         :   gifts
@@ -631,65 +627,70 @@ const gui = {
         // camp_particle_effect
         // camp_snow_skin
         const now = gui.getUnixTime();
-        for (const sw of Object.values(gui.getFile('special_weeks'))) {
-            const start = +sw.start;
-            const finish = +sw.finish;
-            const isActive = start <= now && now <= finish;
-            // if ([154, 156, 158, 162, 170, 174, 175, 176, 177].includes(+sw.def_id)) isActive = true;
-            if (isActive) {
-                const item = {
-                    id: sw.def_id,
-                    type: sw.type,
-                    coeficient: +sw.coeficient,
-                    priority: +sw.priority || 0,
-                    info: +sw.info,
-                    start: start,
-                    finish: finish
-                };
-
-                // Checks for obsolete values (this check may be obsolete as well)
-                if (item.type == 'double_drop') {
-                    item.type = 'refresh_drop';
-                    item.coeficient = 2;
-                } else if (item.type == 'double_gifts') {
-                    item.type = 'gifts';
-                } else if (item.type == 'double_prod') {
-                    item.type = 'production';
-                } else if (item.type == 'half_prod_time') {
-                    item.type = 'prod_time';
-                    item.coeficient = 0.5;
-                }
-
-                const old = result.types[item.type];
-                if (old && old.priority >= item.priority) continue;
-                if (old) result.items = result.items.filter(item => item != old);
-                result.items.push(item);
-                result.types[item.type] = item;
-                if (item.type == 'debris_discount') {
-                    // the coeficient may be right, but the game uses this fixed value
-                    item.coeficient = 0.8;
-                    const percent = 100 - Math.round(item.coeficient * 100);
-                    item.name = gui.getMessage('specialweek_' + item.type, percent);
-                } else if (item.type == 'refresh_drop') {
-                    item.name = `${gui.getMessage('specialweek_double_drop')} (${gui.getMessage('gui_loot')} \xd7 ${Locale.formatNumber(item.coeficient)})`;
-                } else if (item.type == 'prod_time') {
-                    item.name = gui.getMessage('specialweek_half_prod_time');
-                    if (item.coeficient != 0.5) item.name = `${item.name} (\xd7 ${Locale.formatNumber(item.coeficient)})`;
-                } else if (item.type == 'free_premium_event') {
-                    item.name = gui.getMessage('specialweek_' + item.type, gui.getObjectName('event', item.info));
+        class SpecialWeek {
+            get name() {
+                if (this.type == 'debris_discount') {
+                    const percent = 100 - Math.round(this.coeficient * 100);
+                    return gui.getMessage('specialweek_' + this.type, percent);
+                } else if (this.type == 'refresh_drop') {
+                    return `${gui.getMessage('specialweek_double_drop')} (${gui.getMessage('gui_loot')} \xd7 ${Locale.formatNumber(this.coeficient)})`;
+                } else if (this.type == 'prod_time') {
+                    const name = gui.getMessage('specialweek_half_prod_time');
+                    return this.coeficient != 0.5 ? `${this.name} (\xd7 ${Locale.formatNumber(this.coeficient)})` : name;
+                } else if (this.type == 'free_premium_event') {
+                    return gui.getMessage('specialweek_' + this.type, gui.getObjectName('event', this.info));
                 } else {
-                    item.name = gui.getMessage('specialweek_' + item.type);
+                    return gui.getMessage('specialweek_' + this.type);
                 }
-                item.ends = gui.getMessage('specialweek_end', Locale.formatDateTime(item.finish));
+            }
+            get ends() {
+                return gui.getMessage('specialweek_end', Locale.formatDateTime(this.finish));
             }
         }
-        result.debrisDiscount = result.types['debris_discount'];
-        result.doubleProduction = result.types['production'];
-        result.halfTimeProduction = result.types['prod_time'];
-        result.doubleDrop = result.types['refresh_drop'];
-        result.postcards = result.types['postcards'];
-        result.findThePair = result.types['find_the_pair'];
+        const result = { types: {}, active: {} };
+        for (const sw of Object.values(gui.getFile('special_weeks'))) {
+            const { def_id: id, info } = sw;
+            let { type, start, finish, coeficient, priority } = sw;
+            [start, finish, coeficient, priority] = [+start, +finish, +coeficient, +priority || 0];
+            if (type == 'double_drop') {
+                type = 'refresh_drop';
+                coeficient = 2;
+            } else if (type == 'double_gifts') {
+                type = 'gifts';
+            } else if (type == 'double_prod') {
+                type = 'production';
+            } else if (type == 'half_prod_time') {
+                type = 'prod_time';
+                coeficient = 0.5;
+            } else if (type == 'debris_discount') {
+                // the coeficient may be right, but the game uses this fixed value
+                coeficient = 0.8;
+            }
+            let active = start <= now && now <= finish;
+            if ([154, 156, 158, 162, 170, 174, 175, 176, 177, 263].includes(+id)) active = true;
+            const item = Object.assign(new SpecialWeek(), { id, type, active, start, finish, coeficient, priority, info });
+            if (type in result.types) result.types[type].push(item); else result.types[type] = [item];
+            if (active && (!(type in result.active) || (result.active[type].priority < item.priority))) result.active[type] = item;
+        }
         return result;
+    },
+    showSpecialWeeks: function (container, weeks) {
+        const toolbar = container.querySelector('.toolbar');
+        let divWeeks = toolbar.querySelector('.weeks');
+        if (!divWeeks) {
+            divWeeks = Html.get('<div class="weeks"></div>')[0];
+            toolbar.appendChild(divWeeks);
+        }
+        const htm = weeks.filter(sw => {
+            if (!sw || !sw.name) return false;
+            if (sw.type == 'free_premium_event') {
+                const event = bgp.Data.generator.events[sw.info];
+                if (event && event.started >= sw.start && event.started <= sw.finish) return false;
+            }
+            return true;
+        }).map(sw => Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
+        Html.set(divWeeks, htm.join(''));
+        divWeeks.style.display = htm.length ? '' : 'none';
     },
     calculateLoot: function (lootArea, level, swDoubleDrop) {
         const min = +lootArea.min || 0;

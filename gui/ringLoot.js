@@ -31,7 +31,7 @@ function ringLoot(kind) {
     } else throw 'Invalid kind "' + kind + '"';
     requires = requires.concat(locations);
 
-    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, checkLevel, checkXp, selectRegion, selectDMW;
+    let tab, container, floorData, checkMinMax, inputLevel, swDoubleDrop, swPostcards, checkLevel, checkXp, selectRegion, selectDMW;
     let checkState = {};
     let selectState = [];
 
@@ -141,17 +141,12 @@ function ringLoot(kind) {
             Html.set(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('token', tokenId))}`);
         }
 
+        const specialWeeks = gui.getSpecialWeeks();
         if (kind == 'green' || kind == 'christmas') {
-            const specialWeeks = gui.getActiveSpecialWeeks();
-            swDoubleDrop = specialWeeks.doubleDrop;
+            swDoubleDrop = specialWeeks.active.refresh_drop;
+            swPostcards = specialWeeks.active.postcards;
         }
-        const divWarning = container.querySelector('.toolbar .warning');
-        if (swDoubleDrop) {
-            Html.set(divWarning, Html.br`${swDoubleDrop.name}: ${swDoubleDrop.ends}`);
-            divWarning.style.display = '';
-        } else {
-            divWarning.style.display = 'none';
-        }
+        gui.showSpecialWeeks(container, [swPostcards, swDoubleDrop]);
         if (selectDMW) {
             const oldValue = selectDMW.value;
             const htm = `<option value="">(${gui.getMessage(swDoubleDrop ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
@@ -500,7 +495,7 @@ function ringLoot(kind) {
             }
             totals.sort((a, b) => b.txp - a.txp);
             let txp = +data.mine.reward_exp || 0;
-            if (gui.getActiveSpecialWeeks().postcards) txp *= 10;
+            if (swPostcards) txp *= 10;
             totals.push({ type: 'system', oid: 1, txp, name: gui.getMessage('events_clearbonus').toUpperCase() });
             totalXp = 0;
             for (const total of totals) totalXp += total.txp;

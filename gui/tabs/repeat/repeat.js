@@ -115,24 +115,11 @@ function update() {
     htm = Object.values(repeatables).map(item => Html`<tr data-id="${item.id}" height="40" data-lazy></tr>`).join('');
     const rows = Html.get(htm);
     rows.forEach(row => repeatables[row.getAttribute('data-id')].row = row);
-    const specialWeeks = gui.getActiveSpecialWeeks();
-    swPostcards = specialWeeks.postcards;
-    showSpecialWeeks([specialWeeks.doubleDrop, specialWeeks.postcards]);
+    const specialWeeks = gui.getSpecialWeeks();
+    swPostcards = specialWeeks.active.postcards;
+    gui.showSpecialWeeks(container, [specialWeeks.active.refresh_drop, swPostcards]);
     storeSelected();
     refresh();
-}
-
-function showSpecialWeeks(items) {
-    if (!Array.isArray(items)) {
-        items = gui.getActiveSpecialWeeks().items;
-    }
-    const htm = [];
-    for (const sw of items) {
-        if (sw && sw.name) htm.push(Html.br`${sw.name}: ${sw.ends}`);
-    }
-    const divWarning = container.querySelector('.toolbar .warning');
-    Html.set(divWarning, htm.join('<br>'));
-    divWarning.style.display = htm.length ? '' : 'none';
 }
 
 function getState() {

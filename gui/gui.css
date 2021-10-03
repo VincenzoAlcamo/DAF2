@@ -1668,3 +1668,8 @@ div.equipment_mask {
 }
 
 /*#endregion*/
+
+/* Add a margin */
+.toolbar .weeks .warning:not(:last-child) {
+  margin: 2px auto 0px;
+}

@@ -87,21 +87,15 @@ function kitchenFoundry(type) {
             const qty = gui.getGenerator().materials[TICKET_ID] || 0;
             Html.set(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`);
         }
-        const specialWeeks = gui.getActiveSpecialWeeks();
-        swDoubleProduction = specialWeeks.doubleProduction;
-        swHalfTimeProduction = specialWeeks.halfTimeProduction;
+        const specialWeeks = gui.getSpecialWeeks();
+        swDoubleProduction = specialWeeks.active.production;
+        swHalfTimeProduction = specialWeeks.active.prod_time;
         const oldValue = selectDPW.value;
-        let htm;
-        htm = `<option value="">(${gui.getMessage(swDoubleProduction ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
+        const htm = `<option value="">(${gui.getMessage(swDoubleProduction ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
 <option value="yes">${gui.getMessage('dialog_yes')}</option><option value="no">${gui.getMessage('dialog_no')}</option>`;
         Html.set(selectDPW, htm);
         selectDPW.value = oldValue;
-        htm = '';
-        if (swDoubleProduction) htm += Html.br`<div class="warning">${swDoubleProduction.name}: ${swDoubleProduction.ends}</div>`;
-        if (swHalfTimeProduction) htm += Html.br`<div class="warning">${swHalfTimeProduction.name}: ${swHalfTimeProduction.ends}</div>`;
-        const divWeeks = container.querySelector('.toolbar .weeks');
-        Html.set(divWeeks, htm);
-        divWeeks.style.display = htm.length ? '' : 'none';
+        gui.showSpecialWeeks(container, [swDoubleProduction, swHalfTimeProduction]);
         for (const el of Array.from(container.querySelectorAll('[data-sort-name="total_time"]'))) Html.set(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
         productions = getProductions();
         selectFrom.style.display = productions.find(p => p.eid != 0) ? '' : 'none';

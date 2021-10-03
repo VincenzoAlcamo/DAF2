@@ -17,7 +17,7 @@ const NUM_SLOTS = 24;
 
 let tab, container, checkDay, checkNight, checkExtra, checkNeighbor, checkSetup, selectRegen;
 let regBuildings, capBuildings, campNames;
-let swFindThePair, buttonFindThePair;
+let swFindThePair, buttonFindThePair, swDiscount;
 
 const addonsMeta = [
     { name: 'diggy_skin', title: 'GUI3178', type: '', id: 0, desc: '' },
@@ -79,23 +79,15 @@ function init() {
 
 function update() {
     packHelper.onUpdate();
-    swFindThePair = gui.getActiveSpecialWeeks().findThePair;
-    // swFindThePair = { info: '2' };
+    const specialWeeks = gui.getSpecialWeeks();
+    swFindThePair = specialWeeks.active.find_the_pair;
     buttonFindThePair.style.display = swFindThePair ? '' : 'none';
+    swDiscount = specialWeeks.active.debris_discount;
+    gui.showSpecialWeeks(container, Object.values(specialWeeks.active));
 
     markToBeRendered(container.querySelector('.camp-player'));
     markToBeRendered(container.querySelector('.camp-neighbor'));
-    const divWeeks = container.querySelector('.toolbar .weeks');
-    const specialWeeks = gui.getActiveSpecialWeeks();
-    const htm = [];
-    for (const sw of specialWeeks.items) {
-        if (sw.type == 'free_premium_event') {
-            const event = bgp.Data.generator.events[sw.info];
-            if (event && event.started >= sw.start && event.started <= sw.finish) continue;
-        }
-        if (sw.name) htm.push(Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
-    }
-    Html.set(divWeeks, htm.join(''));
+
     const buildings = gui.getFile('buildings');
     regBuildings = [];
     capBuildings = [];
@@ -116,7 +108,6 @@ function update() {
     const fnSort = (a, b) => (b.value - a.value) || (b.widht - a.width);
     regBuildings.sort(fnSort);
     capBuildings.sort(fnSort);
-    divWeeks.style.display = htm.length ? '' : 'none';
 
     rebuildSetupFillTime();
 }
@@ -378,7 +369,6 @@ function updateCamp(div, flagHeaderOnly = false) {
     htm += Html.br`</table></td>`;
 
     if (campResult.blocks[2].blocked || campResult.blocks[3].blocked || campResult.blocks[4].blocked) {
-        const swDiscount = gui.getActiveSpecialWeeks().debrisDiscount;
         const mat = {};
         const matDiscount = {};
         Object.values(campResult.blocks).forEach(block => {
