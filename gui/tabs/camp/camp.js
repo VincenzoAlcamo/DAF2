@@ -17,7 +17,7 @@ const NUM_SLOTS = 24;
 
 let tab, container, checkDay, checkNight, checkExtra, checkNeighbor, checkSetup, selectRegen;
 let regBuildings, capBuildings, campNames;
-let swFindThePair, buttonFindThePair, swDiscount;
+let buttonFindThePair, swDiscount;
 
 const addonsMeta = [
     { name: 'diggy_skin', title: 'GUI3178', type: '', id: 0, desc: '' },
@@ -80,8 +80,7 @@ function init() {
 function update() {
     packHelper.onUpdate();
     const specialWeeks = gui.getSpecialWeeks();
-    swFindThePair = specialWeeks.active.find_the_pair;
-    buttonFindThePair.style.display = swFindThePair ? '' : 'none';
+    buttonFindThePair.style.display = specialWeeks.types.find_the_pair ? '' : 'none';
     swDiscount = specialWeeks.active.debris_discount;
     gui.showSpecialWeeks(container, Object.values(specialWeeks.active));
 
@@ -872,18 +871,35 @@ async function findThePair() {
     await bgp.Data.getFile('events');
     const playboards = await bgp.Data.getFile('playboards');
     const generator = gui.getGenerator();
-    const type = +swFindThePair.info;
 
     let htm = '';
-    htm += Html`<label class="with-margin">${gui.getMessage('gui_region')} <select name="rid" data-method="rid">`;
+    htm += Html`<label class="with-margin">${gui.getMessage('gui_date')} <select name="sw" data-method="sw">`;
+    const weeks = gui.getSpecialWeeks().types.find_the_pair;
+    weeks.sort((a, b) => a.start - b.start);
+    weeks.forEach((sw, index) => {
+        htm += Html`<option value="${sw.id}" ${index == weeks.length - 1 ? 'selected' : ''}>${Locale.formatDateTime(sw.start)} - ${Locale.formatDateTime(sw.finish)}</option>`;
+    });
+    htm += Html`</select></label>`;
+    htm += Html`<label class="with-margin">${gui.getMessage('gui_type')} <select name="type" data-method="type">`;
+    htm += Html`</select></label><br>`;
+    htm += Html`<label class="with-margin" style="display:inline-block;margin-top:2px">${gui.getMessage('gui_region')} <select name="rid" data-method="rid">`;
     const maxRid = gui.getMaxRegion();
     for (let rid = 1; rid <= maxRid; rid++) htm += Html`<option value="${rid}"${rid == generator.region ? ' selected' : ''}>${gui.getObjectName('region', rid)}</option>`;
     htm += Html`</select></label>`;
     htm += Html`<div class="flipthepair"></div>`;
     gui.dialog.show({ title: gui.getString('GUI3326'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
-        if (method == Dialog.AUTORUN || method == 'type' || method == 'rid') {
+        if (method == Dialog.AUTORUN || method == 'sw') {
+            const sw = bgp.Data.files.special_weeks[params.sw];
+            const types = gui.getArrayOfInt(sw.info);
+            const htm = types.map((type, index) => Html`<option value="${type}">${String.fromCharCode(65 + index)}</option>`);
+            const select = gui.dialog.element.querySelector('select[name=type]');
+            Html.set(select, htm.concat(''));
+            select.parentNode.style.display = types.length > 1 ? '' : 'none';
+            params.type = types[0];
+        }
+        if (method == Dialog.AUTORUN || method == 'sw' || method == 'type' || method == 'rid') {
             let htm = '';
-            const playboard = playboards[type];
+            const playboard = playboards[params.type];
             const rid = params.rid;
             // const totChance = playboard.cards.reduce((sum, card) => sum += +card.chance, 0);
             let col = 0;
