@@ -666,8 +666,8 @@ const gui = {
                 // the coeficient may be right, but the game uses this fixed value
                 coeficient = 0.8;
             }
-            let active = start <= now && now <= finish;
-            if ([154, 156, 158, 162, 170, 174, 175, 176, 177, 263].includes(+id)) active = true;
+            const active = start <= now && now <= finish;
+            // if ([154, 156, 158, 162, 170, 174, 175, 176, 177, 263].includes(+id)) active = true;
             const item = Object.assign(new SpecialWeek(), { id, type, active, start, finish, coeficient, priority, info });
             if (type in result.types) result.types[type].push(item); else result.types[type] = [item];
             if (active && (!(type in result.active) || (result.active[type].priority < item.priority))) result.active[type] = item;
