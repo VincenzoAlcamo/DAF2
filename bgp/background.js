@@ -1134,8 +1134,17 @@ var Data = {
         Object.values(oldFriendsById).forEach(friend => oldFriendsByUri[friend.uri] = friend);
         const friends = {};
         const now = getUnixTime();
+        // Determine if there is a common prefix for all names (must have at least 10 friends), so we can remove it
+        let prefixLen = 0;
+        while(newFriends.length >= 10) {
+            prefixLen++;
+            const prefix = newFriends[0].name.substr(0, prefixLen);
+            const friend = newFriends.find(friend => friend.name.substr(0, prefixLen) !== prefix);
+            if (friend) { prefixLen--; break; }
+        }
         // We retain the old association (score and uid)
         for (const friend of newFriends) {
+            if (prefixLen) friend.name = friend.name.substr(prefixLen);
             friend.tc = now;
             let oldFriend = oldFriendsById[friend.id];
             if (oldFriend) {
