@@ -89,6 +89,10 @@ function update() {
     const specialWeeks = gui.getActiveSpecialWeeks();
     const htm = [];
     for (const sw of specialWeeks.items) {
+        if (sw.type == 'free_premium_event') {
+            const event = bgp.Data.generator.events[sw.info];
+            if (event && event.started >= sw.start && event.started <= sw.finish) continue;
+        }
         if (sw.name) htm.push(Html.br`<div class="warning">${sw.name}: ${sw.ends}</div>`);
     }
     Html.set(divWeeks, htm.join(''));

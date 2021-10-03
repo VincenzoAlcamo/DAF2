@@ -219,7 +219,7 @@ const gui = {
         if (typeof event == 'number') event = bgp.Data.files.events[event];
         const eid = event ? +event.def_id : 0;
         const tutorial = +event.tutorial_event_id > 0;
-        const end = (function() {
+        const end = (function () {
             const end = (event && +event.end) || 0;
             if (!end && eid == 14) return 1393326000;
             if (!end && eid == 15) return 1395745200;
@@ -651,14 +651,11 @@ const gui = {
                 if (item.type == 'double_drop') {
                     item.type = 'refresh_drop';
                     item.coeficient = 2;
-                }
-                if (item.type == 'double_gifts') {
+                } else if (item.type == 'double_gifts') {
                     item.type = 'gifts';
-                }
-                if (item.type == 'double_prod') {
+                } else if (item.type == 'double_prod') {
                     item.type = 'production';
-                }
-                if (item.type == 'half_prod_time') {
+                } else if (item.type == 'half_prod_time') {
                     item.type = 'prod_time';
                     item.coeficient = 0.5;
                 }
@@ -733,7 +730,7 @@ const gui = {
             avg: avgValue * doubleDropCoeff
         };
     },
-    createCanvas: function(width, height) {
+    createCanvas: function (width, height) {
         return Html.get(`<canvas width="${width}" height="${height}"></canvas>`)[0];
     },
     setupScreenshot: function (element, filename = 'screenshot.png', screenshot) {
