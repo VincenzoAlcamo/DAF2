@@ -651,7 +651,7 @@ function getCalculator(expression, getValueFunctions) {
                 const value = fn ? fn(...ref) : undefined;
                 return values[name] = value;
             };
-            calculator.evaluate = (...args) => {
+            calculator.calculate = (...args) => {
                 ref = args;
                 values = {};
                 return calculation.calc(rpn);
@@ -790,7 +790,7 @@ function refreshDelayed() {
             }
             if (!flag) continue;
         }
-        if (calculator.hasValidExpression && !calculator.evaluate(pal)) continue;
+        if (calculator.hasValidExpression && !calculator.calculate(pal)) continue;
         palNames[pal.id] = teamMember ? teamMember.name : fullname;
         items.push(pal);
     }

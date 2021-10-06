@@ -49,7 +49,7 @@ function refresh() {
         if (!item) continue;
         const id = +reward.def_id;
         const formula = String(item.amount).replace('[level]', 'level');
-        const qty = Math.floor(calculation.eval(formula));
+        const qty = Math.floor(calculation.compute(formula));
         let title = gui.getObjectName(item.type, item.object_id);
         const xp = gui.getXp(item.type, item.object_id);
         if (xp) {

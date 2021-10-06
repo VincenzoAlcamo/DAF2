@@ -145,7 +145,7 @@ class Calculation {
         if (match) return error(4, 'Too many closing parentheses');
         return values.slice(0, values.length - 1); // All done!
     }
-    eval(expression) { return this.calc(this.parse(expression)); }
+    compute(expression) { return this.calc(this.parse(expression)); }
     getVariable(name) {
         if (name in this._variables) return this._variables[name];
         if (this.getExternalVariable) return this.getExternalVariable(name);
