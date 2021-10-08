@@ -867,7 +867,7 @@ function showInfo() {
                 const ovr = location.overrides && location.overrides.find(ovr => +ovr.region_id == region);
                 const clearXp = ovr ? +ovr.override_reward_exp : +location.reward_exp;
                 const eventpassXp = +location.eventpass_xp;
-                const rewards = [{ type: 'system', object_id: 1, amount: clearXp * (swPostcards ? 10 : 1) }];
+                const rewards = [{ type: 'system', object_id: 1, amount: clearXp * (swPostcards && isRepeatables ? 10 : 1) }];
                 if (eventpassXp) rewards.push({ type: 'eventpass_xp', object_id: 1, amount: eventpassXp });
                 const loc = Object.assign({}, location);
                 loc.rewards = rewards;
