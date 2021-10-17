@@ -575,18 +575,29 @@ function calcAchievements(item) {
 
 function calcCollection(item) {
     item.max = item.value = 0;
-    const artifacts = gui.getArrayOfInt(gui.getGenerator().artifacts);
+    const collectedArtifacts = gui.getArrayOfInt(gui.getGenerator().artifacts);
     const rid = +gui.getGenerator().region;
     const collections = Object.values(gui.getFile('collections')).filter(isValidItem);
+    const artifacts = gui.getFile('artifacts');
     const images = {};
     item.rows = [];
+    const locationRegions = {};
+    for (let rid = 1; rid <= gui.getMaxRegion(); rid++) {
+        const locations = gui.getFile('locations_' + rid);
+        Object.keys(locations || {}).forEach(lid => locationRegions[lid] = rid);
+    }
     for (const collection of collections) {
         const pieces = gui.getArrayOfInt(collection.pieces);
         const max = pieces.length;
-        const value = pieces.filter(piece => artifacts.includes(piece)).length;
+        let region_id = +collection.region_id || 1;
+        pieces.forEach(piece => {
+            const artifact = artifacts[piece];
+            const lid = artifact && +artifact.found_in;
+            region_id = Math.max(region_id, locationRegions[lid] || 1);
+        });
+        const value = pieces.filter(piece => collectedArtifacts.includes(piece)).length;
         item.max += max;
         item.value += value;
-        const region_id = +collection.region_id || 1;
         if (region_id <= rid) {
             item.rows.push({
                 img: images[region_id] || (images[region_id] = gui.getRegionImg(region_id, false, 24)),
