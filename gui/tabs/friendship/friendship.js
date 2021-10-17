@@ -340,11 +340,11 @@ function collectFriends(method) {
         bgp.Tab.excludeFromInjection(tabId);
         setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 20000);
         chrome.tabs.get(tabId, function (tab) {
+            const addVar = (name, value) => `CF.${name}=${JSON.stringify(value)};`;
             if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
-            const addVar = (name, value) => name + '=' + JSON.stringify(value) + ';';
             const params = {
                 file: ['/js/purify.min.js', '/js/Html.js', '/js/Dialog.js', '/inject/collectfriends.js'],
-                code: `${addVar('language', gui.getPreference('language'))}${addVar('unmatched', unmatched)}${addVar('collectMethod', method)}collect()`,
+                code: `${addVar('language', gui.getPreference('language'))}${addVar('unmatched', unmatched)}${addVar('method', method)}CF.process()`,
                 runAt: 'document_end', allFrames: false, frameId: 0
             };
             waitForTab(tab).then(() => executeScriptPromise(tabId, params));

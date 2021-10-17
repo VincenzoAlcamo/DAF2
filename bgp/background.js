@@ -341,7 +341,7 @@ if (loginButton) {
                 return 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
             }).join('') + 'initialize();';
             const params = {
-                file: ['/js/purify.min.js', '/js/Html.js', '/js/Dialog.js', '/inject/linkgrabber.js'],
+                file: ['/js/purify.min.js', '/js/Html.js', '/js/Dialog.js', '/inject/collectfriends.js', '/inject/linkgrabber.js'],
                 code,
                 runAt: 'document_end', allFrames: false, frameId: 0
             };
