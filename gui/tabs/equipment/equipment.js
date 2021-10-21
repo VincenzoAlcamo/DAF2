@@ -1137,9 +1137,9 @@ function showOffer(type, id, options) {
             htm += Html.br`</select></td>`;
         }
         const prices = getDistincts(getSelection(Object.assign({}, current, { price: -1 })).map(block => block.price));
-        if (prices.length > 1) {
+        if (prices.length > 0) {
             htm += Html.br`<td>${gui.getMessage(type == 'tier' ? 'gui_type' : 'gui_cost')} <select name="price" data-method="price" style="margin-bottom:2px">`;
-            htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.price);
+            if (prices.length > 1) htm += optionHtml(-1, '[ ' + gui.getMessage('gui_all').toUpperCase() + ' ]', current.price);
             for (const price of prices) htm += optionHtml(price, blocks.find(block => block.price == price).priceText, current.price);
             htm += Html.br`</select></td>`;
         }
