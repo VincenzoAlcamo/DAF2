@@ -11,7 +11,7 @@ export default {
 };
 
 let tab, container, selectShow, searchInput, smartTable, searchHandler, isAdmin;
-let buttonUnlink, buttonIgnore, buttonRegard, buttonManual, friendDisabled;
+let buttonUnlink, buttonIgnore, buttonRegard, buttonManual, buttonsDeleteMatch, friendDisabled;
 let divMatch, matchingId;
 
 let firstTimeManualHelp = localStorage.getItem('manual_match') != '1';
@@ -48,6 +48,7 @@ function init() {
     buttonIgnore = Html`<button data-action="ignore" title="${gui.getMessage('friendship_actionignore')}"></button>`;
     buttonRegard = Html`<button data-action="regard" title="${gui.getMessage('friendship_actionregard')}"></button>`;
     buttonManual = Html`<button data-action="manual" title="${gui.getMessage('friendship_actionmanual')}"></button>`;
+    buttonsDeleteMatch = Html`<button data-action="match" title="${gui.getMessage('friendship_actionmatch')}"></button><button data-action="delete" title="${gui.getMessage('friendship_actiondelete')}"></button>`;
     friendDisabled = Html`<div class="f-disabled">${gui.getMessage('friendship_accountdisabled')}</div>`;
 
     selectShow = container.querySelector('[name=show]');
@@ -228,12 +229,28 @@ function tableClick(event) {
     const el = event.target;
     const fb_id = row.getAttribute('data-friend-id');
     const pal_id = row.getAttribute('data-pal-id');
-    const friend = fb_id && bgp.Data.getFriend(fb_id);
+    let friend = fb_id && bgp.Data.getFriend(fb_id);
     let pal = pal_id && bgp.Data.getNeighbour(pal_id);
-    let flagModified = false;
     const isRowVisible = getRowVisibilityChecker();
     let action = el.tagName == 'BUTTON' ? el.getAttribute('data-action') : null;
     if (el.tagName == 'TD' && el.cellIndex == 3 && smartTable.table.classList.contains('f-matching') && matchingId && friend && (friend.score || 0) <= 0) action = 'match';
+
+    const updateStats = (saveFriend) => {
+        if (isRowVisible(friend, pal)) updateRow(row);
+        else {
+            row.remove();
+            if (pal) numNeighboursShown--;
+            if (friend) numFriendsShown--;
+        }
+        if (friend && saveFriend) {
+            bgp.Data.saveFriend(friend);
+            if (friend.score == 99 && pal) {
+                gui.updateNeighborFriendName(pal, friend);
+                bgp.Data.saveNeighbour(pal);
+            }
+        }
+        showStats();
+    };
 
     if (action == 'match') {
         // MANUAL MATCH
@@ -242,28 +259,46 @@ function tableClick(event) {
         if (row2) row2.remove();
         matchFriendBase(friend, pal, 99);
         row.setAttribute('data-pal-id', pal.id);
-        flagModified = true;
         cancelMatch();
+        updateStats(true);
     } else if (action == 'unlink' && friend && pal) {
         // UNLINK
         numMatched--;
+        if (friend.score == 99) numMatchedManually--;
+        if (friend.score == 95) numMatchedImage--;
         delete friend.uid;
         delete friend.score;
         row.removeAttribute('data-pal-id');
-        flagModified = true;
         if (isRowVisible(null, pal)) {
             const row2 = Html.get(`<tr data-pal-id="${pal.id}"></tr>`)[0];
             row.parentNode.appendChild(row2);
             updateRow(row2);
-        }
+        } else numNeighboursShown--;
         pal = null;
+        updateStats(true);
+    } else if (action == 'delete' && friend) {
+        const removeFriend = () => {
+            delete bgp.Data.friends[friend.id];
+            bgp.Data.removeFriend(friend);
+            numFriends--;
+            if (friend.score == -1) numIgnored--;
+            numFriendsShown--;
+            friend = null;
+            updateStats(false);
+        };
+        if (event.ctrlKey) removeFriend();
+        else gui.dialog.show({
+            title: friend.name,
+            text: gui.getMessage('friendship_confirmdelete'),
+            style: [Dialog.YES, Dialog.NO, Dialog.CLOSE]
+        }, (method) => method == Dialog.YES && removeFriend());
     } else if ((action == 'ignore' || action == 'regard') && friend) {
         // IGNORE or REGARD
         delete friend.uid;
         delete friend.score;
         if (action == 'ignore') friend.score = -1;
-        flagModified = true;
         numIgnored += (action == 'ignore' ? 1 : -1);
+        updateStats(true);
     } else if (action == 'manual' && pal) {
         if (matchingId == pal.id) {
             cancelMatch();
@@ -284,16 +319,6 @@ function tableClick(event) {
                 });
             }
         }
-    }
-    if (flagModified) {
-        if (isRowVisible(friend, pal)) updateRow(row);
-        else row.parentNode.removeChild(row);
-        bgp.Data.saveFriend(friend);
-        if (friend.score == 99 && pal) {
-            gui.updateNeighborFriendName(pal, friend);
-            bgp.Data.saveNeighbour(pal);
-        }
-        showStats();
     }
 }
 
@@ -455,7 +480,7 @@ function updateRow(row) {
             htm += Html.br`<td>${Locale.formatNumber(friend.score)}</td>`;
             htm += Html.br`<td>${buttonUnlink}</td>`;
         } else {
-            htm += Html.br`<td></td><td>${friend.score == -1 ? buttonRegard : buttonIgnore}</td>`;
+            htm += Html.br`<td>${buttonsDeleteMatch}</td><td>${friend.score == -1 ? buttonRegard : buttonIgnore}</td>`;
         }
     } else {
         htm += Html.br`<td></td><td></td><td></td><td></td><td>${buttonManual}</td>`;
@@ -503,7 +528,7 @@ function getRowVisibilityChecker() {
     const fnSearch = gui.getSearchFilter(state.search);
     const show = state.show;
     const fn = {
-        'a': (_friend, _pal) => true,
+        'a': (friend, pal) => friend || pal,
         'd': (friend, _pal) => friend && friend.disabled,
         'm': (friend, pal) => friend && pal,
         'g': (friend, pal) => friend && pal && friend.score == 95,

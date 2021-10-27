@@ -31,11 +31,10 @@
   margin: 0;
   width: 36px;
   height: 36px;
-  background-position: 4px 4px;
+  background-position: center;
 }
 
-.friendship button[data-action],
-table.f-matching tr.f-notmatched td:nth-child(4):after {
+.friendship button[data-action] {
   border: 1px solid var(--tb-brcol);
   border-radius: 20px;
   background-color: var(--th-bgcol);
@@ -44,15 +43,9 @@ table.f-matching tr.f-notmatched td:nth-child(4):after {
   cursor: pointer;
 }
 
-
-table.f-matching tr.f-notmatched td:nth-child(4):after {
-  content: " ";
-  padding: 0;
-  display: inline-block;
-  background-image: url(/img/gui/friendship_star.png);
-  background-position: 5px 5px;
-  width: 34px;
-  height: 34px;
+.friendship.f-matching tr button[data-action="delete"],
+.friendship:not(.f-matching) tr button[data-action="match"] {
+  display: none;
 }
 
 .friendship div.f-disabled {
@@ -65,8 +58,7 @@ table.f-matching tr.f-notmatched td:nth-child(4):after {
 }
 
 .friendship tr.f-ismatching button[data-action="manual"],
-.friendship button[data-action]:hover,
-.friendship.f-matching tr.f-notmatched td:nth-child(4):hover:after {
+.friendship button[data-action]:hover {
   background-color: var(--tb-hlcol);
 }
 
@@ -84,6 +76,10 @@ table.f-matching tr.f-notmatched td:nth-child(4):after {
 
 .friendship button[data-action="delete"] {
   background-image: url(/img/gui/friendship_delete.png);
+}
+
+.friendship button[data-action="match"] {
+  background-image: url(/img/gui/friendship_star.png);
 }
 
 .friendship button[data-action="manual"] {

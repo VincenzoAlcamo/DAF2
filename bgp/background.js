@@ -1125,7 +1125,7 @@ var Data = {
     removeFriend: function (friend) {
         Data.saveFriend(friend, true);
     },
-    friendsCaptured: function (data) {
+    friendsCaptured: function (data, partial) {
         if (!data) return;
         const newFriends = [].concat(data);
         if (newFriends.length == 0) return;
@@ -1136,7 +1136,7 @@ var Data = {
         const now = getUnixTime();
         // Determine if there is a common prefix for all names (must have at least 10 friends), so we can remove it
         let prefixLen = 0;
-        while(newFriends.length >= 10) {
+        while (newFriends.length >= 10) {
             prefixLen++;
             const prefix = newFriends[0].name.substr(0, prefixLen);
             const friend = newFriends.find(friend => friend.name.substr(0, prefixLen) !== prefix);
@@ -1162,13 +1162,18 @@ var Data = {
             delete oldFriendsByUri[friend.uri];
             friends[friend.id] = friend;
         }
-        // We remove all old friends
-        Data.removeFriend(Object.values(oldFriendsById));
-        Data.saveFriend(Object.values(friends));
+        if (partial) {
+            Data.saveFriend(Object.values(friends));
+            Object.entries(oldFriendsById).forEach(([id, friend]) => friends[id] = friend);
+        } else {
+            // We remove all old friends
+            Data.removeFriend(Object.values(oldFriendsById));
+            Data.saveFriend(Object.values(friends));
+        }
         Data.friends = friends;
         Data.friendsCollectDate = now;
         Preferences.setValue('friendsCollectDate', now);
-        chrome.runtime.sendMessage({ action: 'friends_analyze' }, () => hasRuntimeError('FRIENDSCAPTURED'));
+        if (!partial) chrome.runtime.sendMessage({ action: 'friends_analyze' }, () => hasRuntimeError('FRIENDSCAPTURED'));
     },
     //#endregion
     //#region RewardLinks
@@ -2251,7 +2256,7 @@ async function init() {
             return { count: result.length, list };
         },
         friendsCaptured: function (request, sender) {
-            if (request.data) Data.friendsCaptured(request.data);
+            if (request.data) Data.friendsCaptured(request.data, request.partial);
             if (request.close) chrome.tabs.remove(sender.tab.id);
         }
     }).forEach(entry => Message.setHandler(entry[0], entry[1]));

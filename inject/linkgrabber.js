@@ -618,8 +618,12 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 
 function askCollect() {
     CF.autoClose = false;
-    const html = `<p style="text-align:center">${Html.br(getMessage('friendship_confirmwarning'))}`;
-    Dialog(Dialog.MODAL).show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
-        (method) => (method == Dialog.CONFIRM) && CF.process()
+    const html = `<p style="text-align:center">${Html.br(getMessage('friendship_confirmwarning'))}</p>`;
+    const dialog = Dialog(Dialog.MODAL);
+    dialog.show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },
+        (method) => {
+            dialog.remove();
+            if (method == Dialog.CONFIRM) CF.process();
+        }
     );
 }

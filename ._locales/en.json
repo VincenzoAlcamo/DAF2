@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Click to manually match this neighbour"
     },
+    "friendship_actionmatch": {
+        "message": "Click to link this friend to the selected neighbour"
+    },
     "friendship_actiondelete": {
         "message": "Click to permanently delete this friend"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "You can unfriend them from this page.\n\nPlease be aware that Facebook accounts may be temporary disabled and may be enabled at a later moment."
     },
+    "friendship_partial": {
+        "message": "Partial"
+    },
     "friendship_confirmcollect": {
-        "message": "Press YES to confirm, NO to try further.\n\nYou can close this window at any time\nto cancel the operation."
+        "message": "YES = confirm friends and replace the existing ones\nPARTIAL = add friends and keep the existing ones\nNO = try to collect more friends\n\nYou can close this window at any time to cancel the operation."
     },
     "friendship_speedupcollect": {
         "message": "Speedup collection?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "If unsure"
+    },
+    "friendship_confirmdelete": {
+        "message": "This operation cannot be undone.\nYou will need to do a collection to get this friend back on the list.\n\nConfirm the removal?"
     },
     "friendship_collecterror": {
         "message": "Something went wrong."
@@ -2027,13 +2036,13 @@
         }
     },
     "options_gctable": {
-        "message": "GC table\nShow all neighbors with GC beneath the game"
+        "message": "GC table\nShow all neighbours with GC beneath the game"
     },
     "options_gctablecounter": {
         "message": "Counter\nShow a counter"
     },
     "options_gctableregion": {
-        "message": "Region\nUse colors to mark a neighbor's region"
+        "message": "Region\nUse colors to mark a neighbour's region"
     },
     "options_autoclick": {
         "message": "Autoclick\nAutomatically confirm Facebook's popups"
@@ -2153,7 +2162,7 @@
         "message": "GC Counter\nShow a badge with the remaining number of GC to collect"
     },
     "options_badgegcenergy": {
-        "message": "GC Energy\nShow a badge with the energy from a neighbor's GC"
+        "message": "GC Energy\nShow a badge with the energy from a neighbour's GC"
     },
     "options_badgerepeatables": {
         "message": "Repeatables\nShow a badge when any selected repeatable is ready"
@@ -2174,7 +2183,7 @@
         "message": "Volume\nThe volume of the sound effect."
     },
     "options_badgewindmills": {
-        "message": "Windmills\nShow a badge when a neighbor's camp needs windmills"
+        "message": "Windmills\nShow a badge when a neighbour's camp needs windmills"
     },
     "calc_operators": {
         "message": "Operators"

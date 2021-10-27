@@ -144,10 +144,9 @@ Object.assign(Dialog.prototype, {
     },
     runCallback: function (method, input, flagNoHide) {
         const dialog = this;
-        dialog.clearAuto();
         const params = dialog.getParams(method);
         if (input) params.input = input;
-        if (!flagNoHide) dialog.hide();
+        if (!flagNoHide) { dialog.hide(); dialog.clearAuto(); }
         if (dialog.callback) setTimeout(() => dialog.callback(method, dialog.getParams(method)), flagNoHide ? 0 : 100);
     },
     hide: function () {
@@ -179,7 +178,7 @@ Object.assign(Dialog.prototype, {
     },
     setStyle: function (style) {
         if (style === null || style === undefined) style = this.lastStyle;
-        style = this.lastStyle = style instanceof Array ? style : String(style).split(/,|\s/);
+        style = this.lastStyle = (style instanceof Array ? style.join() : String(style)).split(/,|\s/);
         style = style.map(method => method.toLowerCase());
         for (const tag of [Dialog.CRITICAL, Dialog.WIDEST, Dialog.CLOSE]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
         const dialog = this;

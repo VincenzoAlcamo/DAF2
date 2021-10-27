@@ -1,16 +1,15 @@
-/*global chrome Dialog*/
+/*global chrome Dialog Html*/
 // eslint-disable-next-line no-unused-vars
 const CF = {
     language: 'en',
     method: 'standard',
     unmatched: '',
-    confirm: true,
     autoClose: true,
     wait: Dialog(Dialog.WAIT),
     dialog: Dialog(),
 
     process() {
-        const { language, method: collectMethod, unmatched, confirm: confirmCollection, autoClose, wait, dialog } = this;
+        const { language, method: collectMethod, unmatched, autoClose, wait, dialog } = this;
 
         let retries = 10;
         const hashById = {};
@@ -18,10 +17,17 @@ const CF = {
         let ulInactiveParent = null;
         let ulInactive = null;
         const liInactive = [];
-        const FB_OLD = 0, FB_NEW = 1, FB_MOBILE = 2;
-        let fbPage, container, unmatchedList, started, countPhotos, captureOneBlock;
+        let container, unmatchedList, started, captureOneBlock, intervalHandler;
+        const lastTitle = document.title;
 
         const getMessage = Dialog.getMessage;
+
+        function cleanup() {
+            document.title = lastTitle;
+            if (intervalHandler) clearInterval(intervalHandler);
+            intervalHandler = 0;
+            wait.hide();
+        }
 
         function addFriend(friend) {
             const old = hashById[friend.id];
@@ -43,22 +49,16 @@ const CF = {
             } catch (e) { }
         }
 
-        function getCountPhotos() {
-            return document.querySelectorAll('a[href$="photos"]').length;
-        }
-
         function collect() {
             Dialog.language = language;
             wait.show();
-            const handler = setInterval(function () {
+            intervalHandler = setInterval(function () {
                 container = document.getElementById('pagelet_timeline_medley_friends');
-                fbPage = FB_OLD;
                 captureOneBlock = captureOneBlockOld;
                 if (!container) {
                     const img = document.querySelector('a > img[width="80"]');
                     if (img) {
                         container = img.parentElement.parentElement.parentElement.parentElement;
-                        fbPage = FB_NEW;
                         captureOneBlock = captureOneBlockNew;
                     }
                     const i = document.querySelector('a > i.profpic');
@@ -66,15 +66,12 @@ const CF = {
                         container = i.parentElement.parentElement.parentElement.parentElement.parentElement;
                         // Fix for Firefox
                         if (!container.id && container.parentElement.id) container = container.parentElement;
-                        fbPage = FB_MOBILE;
                         captureOneBlock = captureOneBlockMobile;
                     }
                 }
                 if (container) {
-                    clearInterval(handler);
-                    wait.hide();
+                    cleanup();
                     started = Date.now();
-                    countPhotos = getCountPhotos();
                     if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
                     return;
                 } else if (retries > 0) {
@@ -82,8 +79,7 @@ const CF = {
                     wait.setText(retries);
                     scrollWindow();
                 } else {
-                    clearInterval(handler);
-                    wait.hide();
+                    cleanup();
                     dialog.show({
                         text: getMessage('friendship_collecterror'),
                         style: [Dialog.OK, Dialog.CRITICAL]
@@ -107,14 +103,14 @@ const CF = {
             return getMessage('friendship_collectstat', count) + (addTime ? '\n(' + formatTime(Date.now() - started) + ')' : '');
         }
 
-        function sendFriends() {
+        function sendFriends(partial) {
             const viewDisabled = () => { try { ulInactive.firstElementChild.scrollIntoView({ block: 'center' }); } catch (e) { } };
             wait.setText(document.title = getStatInfo(friends.length, true));
             const close = autoClose && !ulInactive;
             chrome.runtime.sendMessage({
                 action: 'friendsCaptured',
                 data: collectMethod == 'unmatched' ? null : friends,
-                close
+                close, partial
             });
             Array.from(container.querySelectorAll('.to-be-removed')).forEach(el => el.remove());
             const showDisabled = () => {
@@ -132,10 +128,10 @@ const CF = {
                     }, viewDisabled);
                 }
             };
-            wait.hide();
+            cleanup();
             if (autoClose) return showDisabled();
             let text = getStatInfo(friends.length);
-            text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collect'), getMessage('friendship_collectmatch'));
+            text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collectfriends'), getMessage('friendship_collectmatch'));
             dialog.show({ text, style: [Dialog.OK] }, showDisabled);
         }
 
@@ -251,9 +247,9 @@ const CF = {
         }
 
         function collectStandard() {
-            let handler = null, countStop = 0, isConfirming = false;
+            let countStop = 0, isConfirming = false;
             unmatchedList = unmatched.split(',');
-            handler = setInterval(capture, 500);
+            intervalHandler = setInterval(capture, 500);
             function capture() {
                 wait.setText(getStatInfo(friends.length, true));
                 const num = captureOneBlock();
@@ -268,31 +264,31 @@ const CF = {
                     countStop++;
                     // if the connection is slow, we may want to try a bit more
                     if (countStop > 20 && !isConfirming) {
-                        // If reached the end of the page, confirm is unnecessary
-                        let endReached = false;
-                        if (fbPage == FB_OLD) endReached = !!document.getElementById('pagelet_timeline_medley_photos');
-                        if (fbPage == FB_NEW) endReached = getCountPhotos() > countPhotos;
-                        if (confirmCollection || !endReached) {
-                            isConfirming = true;
-                            dialog.show({
-                                title: getStatInfo(friends.length),
-                                text: getMessage('friendship_confirmcollect'),
-                                auto: Dialog.NO,
-                                timeout: 30,
-                                style: [Dialog.YES, Dialog.NO]
-                            }, function (method) {
-                                isConfirming = false;
-                                if (method == Dialog.YES) {
-                                    clearInterval(handler);
-                                    sendFriends();
-                                } else if (method == Dialog.NO) {
-                                    countStop = 0;
-                                }
-                            });
-                        } else {
-                            clearInterval(handler);
-                            sendFriends();
-                        }
+                        isConfirming = true;
+                        let html = '';
+                        html += Html.br`<span>${getMessage('friendship_confirmcollect')}</span>`;
+                        html += Html`<button data-method="partial">${getMessage('friendship_partial')}</button>`;
+                        dialog.show({
+                            title: getStatInfo(friends.length), html, auto: Dialog.NO, timeout: 30, style: [Dialog.YES, Dialog.NO, Dialog.AUTORUN, !autoClose && Dialog.CANCEL]
+                        }, function (method) {
+                            const element = this.element, button = element.querySelector('[data-method=partial]');
+                            if (method == Dialog.AUTORUN) {
+                                const parent = element.querySelector('.DAF-md-footer');
+                                parent.insertBefore(button, parent.firstChild);
+                                return;
+                            }
+                            button.remove();
+                            isConfirming = false;
+                            const partial = method == 'partial';
+                            if (method == Dialog.YES || partial) {
+                                cleanup();
+                                sendFriends(partial);
+                            } else if (method == Dialog.CANCEL) {
+                                cleanup();
+                            } else if (method == Dialog.NO) {
+                                countStop = 0;
+                            }
+                        });
                     }
                 }
                 scrollWindow();
