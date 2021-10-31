@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Kliknite, pokiaľ chcete tohto suseda priradiť ručne"
     },
+    "friendship_actionmatch": {
+        "message": "Kliknutím prepojíte tohto priateľa s vybratým susedom"
+    },
     "friendship_actiondelete": {
         "message": "Kliknite pre definitívne odstránenie priateľa"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Môžete ich odstrániť z priateľov na tejto stránke.\n\nZoberte prosím na vedomie, že facebookové účty môžu byť blokované dočasne a môžu sa neskôr obnoviť."
     },
+    "friendship_partial": {
+        "message": "Čiastočný"
+    },
     "friendship_confirmcollect": {
-        "message": "Pre potvrdenie stlačte ANO, pre ďalšie pokusy NIE.\n\nMôžete toto okno kedykoľvek zatvoriť\na tým operáciu zrušiť."
+        "message": "ÁNO = potvrdiť priateľov a nahradiť existujúcich\nPARTIAL = pridať priateľov a ponechat existujúcich\nNIE = skúste nazbierať viac priateľov\n\nToto okno môžete kedykoľvek zatvoriť a operaciu zrušiť."
     },
     "friendship_speedupcollect": {
         "message": "Zrýchliť zber?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Ak si nie je istý"
+    },
+    "friendship_confirmdelete": {
+        "message": "Táto operácia sa nedá vrátiť späť.\nBudete musieť urobiť zbierku, aby ste tohto priateľa dostali späť na zoznam.\n\nPotvrdiť odstránenie?"
     },
     "friendship_collecterror": {
         "message": "Niečo sa pokazilo."

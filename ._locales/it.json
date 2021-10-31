@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Clicca per abbinare manualmente questo vicino"
     },
+    "friendship_actionmatch": {
+        "message": "Clicca per abbinare questo amico al vicino selezionato"
+    },
     "friendship_actiondelete": {
         "message": "Clicca per cancellare permanentemente questo amico"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Puoi togliergli l'amicizia da questa pagina.\n\nTieni presente che gli account Facebook possono essere temporaneamente disabilitati e possono essere abilitati in un momento successivo."
     },
+    "friendship_partial": {
+        "message": "Parziale"
+    },
     "friendship_confirmcollect": {
-        "message": "Premi SI per confermare, NO per provare ancora.\n\nPuoi chiudere questa finestra in qualunque momento,\nper annullare l'operazione."
+        "message": "SI = conferma gli amici e sostituisci quelli esistenti\nPARZIALE = aggiunge gli amici e mantiene quelli esistenti\nNO = prova a collezionare altri amici\n\nPuoi chiudere questa finestra in qualunque momento,\nper annullare l'operazione."
     },
     "friendship_speedupcollect": {
         "message": "Velocizza collezionamento?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Se non sicuro"
+    },
+    "friendship_confirmdelete": {
+        "message": "Questa operazione non può essere annullata.\nDovrai effettuare un colleziona amici per riavere questo amico in lista.\n\nConfermi la rimozione?"
     },
     "friendship_collecterror": {
         "message": "Qualcosa è andato storto."

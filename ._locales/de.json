@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Klicken, um diesen Nachbarn manuell zuzuordnen."
     },
+    "friendship_actionmatch": {
+        "message": "Klicken, um diesen Freund mit dem ausgewählten Nachbarn zu verbinden."
+    },
     "friendship_actiondelete": {
         "message": "Klicken, um diesen Freund dauerhaft zu löschen."
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Du kannst sie von dieser Seite aus entfreunden.\n\nBitte beachten, dass Facebook-Konten vorübergehend deaktiviert und zu einem späteren Zeitpunkt aktiviert werden können."
     },
+    "friendship_partial": {
+        "message": "Teilweise"
+    },
     "friendship_confirmcollect": {
-        "message": "Zur Bestätigung auf JA klicken, NEIN zum weiteren Versuch.\n\nDieses Fenster kann jederzeit geschlossen werden,\num den Vorgang abzubrechen."
+        "message": "JA = Freunde bestätigen und die bestehenden ersetzen\nPARTIAL = Freunde hinzufügen und die bestehenden behalten\nNEIN = versuchen, weitere Freunde zu sammeln\n\nDieses Fenster kann jederzeit geschlossen werden, um den Vorgang abzubrechen."
     },
     "friendship_speedupcollect": {
         "message": "Beschleunigung der Sammlung?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Falls unsicher"
+    },
+    "friendship_confirmdelete": {
+        "message": "Dieser Vorgang kann nicht rückgängig gemacht werden.\nEs muss eine Sammlung durchgeführt werden, um diesen Freund wieder auf die Liste zu setzen.\n\nLöschung bestätigen?"
     },
     "friendship_collecterror": {
         "message": "Etwas ist schiefgegangen."
@@ -2027,13 +2036,13 @@
         }
     },
     "options_gctable": {
-        "message": "Gotteskinder-Tabelle\nZeigt alle Nachbarn mit Gotteskindern unter dem Spiel."
+        "message": "GK-Tabelle\nAlle Nachbarn mit GK unter dem Spiel anzeigen."
     },
     "options_gctablecounter": {
         "message": "Zähler / Anzahl\nDen Zähler / Anzahl anzeigen"
     },
     "options_gctableregion": {
-        "message": "Region\nVerwende Farben, um die Region eines Nachbarn zu markieren."
+        "message": "Region\nFarben verwenden, um die Region eines Nachbarn zu markieren."
     },
     "options_autoclick": {
         "message": "Autoklick\nPopups von Facebook automatisch bestätigen."
@@ -2153,7 +2162,7 @@
         "message": "GK-Zähler\nZeigt ein Abzeichen mit der verbleibenden Anzahl der einzusammelnden GK's"
     },
     "options_badgegcenergy": {
-        "message": "GK Energie\nZeigt ein Abzeichen mit der Energie der GK's eines Nachbarn"
+        "message": "GK-Energie\nAbzeichen mit der Energie eines benachbarten GKs anzeigen."
     },
     "options_badgerepeatables": {
         "message": "Wiederholbare\nAnzeigen eines Abzeichens, wenn eine ausgewählte Wiederholbare bereit ist"
@@ -2174,7 +2183,7 @@
         "message": "Lautstärke\nDie Lautstärke des Klangeffekts."
     },
     "options_badgewindmills": {
-        "message": "Windmühlen\nZeigt ein Abzeichen, wenn das Camp eines Nachbarn Windmühlen braucht."
+        "message": "Windmühlen\nAbzeichen anzeigen, wenn das Camp eines Nachbarn Windmühlen braucht."
     },
     "calc_operators": {
         "message": "Operatoren"

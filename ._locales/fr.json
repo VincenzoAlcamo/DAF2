@@ -657,13 +657,13 @@
         "message": "Salles"
     },
     "map_floor_current": {
-        "message": "C'est la mine actuelle"
+        "message": "Mine actuelle"
     },
     "map_floor_found": {
-        "message": "Cliquez pour afficher la carte de cette mine"
+        "message": "Mine déjà visitée"
     },
     "map_floor_not_found": {
-        "message": "Cette mine n'a pas encore été visitée"
+        "message": "Mine non visitée"
     },
     "map_remaining_tiles": {
         "message": "Tuiles restantes"
@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Cliquez pour faire correspondre ce voisin manuellement"
     },
+    "friendship_actionmatch": {
+        "message": "Cliquez pour lier cet ami au voisin sélectionné"
+    },
     "friendship_actiondelete": {
         "message": "Cliquez pour supprimer définitivement cet ami"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Vous pouvez supprimer l'amitié de cette page.\n\nN'oubliez pas que les comptes Facebook peuvent être temporairement désactivés et peuvent être activés ultérieurement."
     },
+    "friendship_partial": {
+        "message": "Partiel"
+    },
     "friendship_confirmcollect": {
-        "message": "Appuyez sur OUI pour confirmer, sur NON pour essayer plus loin.\n\nVous pouvez fermer cette fenêtre à tout moment\npour annuler l'opération."
+        "message": "OUI = confirmer les amis et remplacer les existants\nPARTIEL = ajouter des amis et garder les existants\nNON = essayez de rassembler plus d'amis\n\nVous pouvez fermer cette fenêtre à tout moment pour annuler l'opération."
     },
     "friendship_speedupcollect": {
         "message": "Accélérer la collecte?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "En cas de doute"
+    },
+    "friendship_confirmdelete": {
+        "message": "Cette opération ne peut pas être annulée.\nVous devrez faire une collecte pour remettre cet ami sur la liste.\n\nConfirmer la suppression ?"
     },
     "friendship_collecterror": {
         "message": "Quelque chose a mal tourné."
@@ -2027,13 +2036,13 @@
         }
     },
     "options_gctable": {
-        "message": "Tableau de filleuls\nAfficher tous les voisins qui ont des filleuls dans la barre en dessous du jeu."
+        "message": "Tableau de filleuls\nAfficher tous les voisins avec des filleuls sous le jeu."
     },
     "options_gctablecounter": {
         "message": "Compteur\nAfficher le compteur de filleuls."
     },
     "options_gctableregion": {
-        "message": "Région\nUtilisez les couleurs pour identifier la région du voisin."
+        "message": "Région\nUtilisez des couleurs pour marquer la région d'un voisin"
     },
     "options_autoclick": {
         "message": "Clic automatique\nConfirmer automatiquement les popups de Facebook."
@@ -2153,7 +2162,7 @@
         "message": "Comptoir des filleuls\nMontrez un badge avec le nombre restant de filleuls à collecter"
     },
     "options_badgegcenergy": {
-        "message": "L'énergie des filleuls\nMontrez un badge avec l'énergie des filleuls d'un voisin"
+        "message": "L'énergie des filleuls\nMontrez un badge avec l'énergie des filleuls d'un voisin."
     },
     "options_badgerepeatables": {
         "message": "Répétables\nAfficher un badge lorsque tout répétable sélectionné est prêt."
@@ -2174,7 +2183,7 @@
         "message": "Le volume\nLe volume de l'effet sonore."
     },
     "options_badgewindmills": {
-        "message": "Moulins à vent\nMontrez un badge lorsque le camp d'un voisin a besoin de moulins à vent"
+        "message": "Moulins à vent\nMontrez un badge lorsque le camp d'un voisin a besoin de moulins à vent."
     },
     "calc_operators": {
         "message": "Les opérateurs"

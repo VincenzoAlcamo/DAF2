@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Klik for at udvælge manuelt"
     },
+    "friendship_actionmatch": {
+        "message": "Klik for at forbinde denne ven til de udvalgte naboer"
+    },
     "friendship_actiondelete": {
         "message": "Klik for at slette denne ven permanent"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Du kan fravælge dem på denne side.\n\nVær opmærksom på at Facebook konti kan være midlertidigt deaktiveret og kan blive aktiveret på et senere tidspunkt."
     },
+    "friendship_partial": {
+        "message": "Delvis"
+    },
     "friendship_confirmcollect": {
-        "message": "Tryk JA for at bekræfte, NEJ for at prøve igen.\n\nDu kan lukke dette vindue på et hvert tidspunkt\nfor at afbryde handlingen."
+        "message": "JA = bekræfter venner og udskifter de eksisterende.\nDELVIS = tilføj venner og behold de eksisterende\nNEJ = prøv at samle flere venner\n\nDu kan lukke dette vindue på et hvert tidspunkt for at afbryde handlingen."
     },
     "friendship_speedupcollect": {
         "message": "Øg hastigheden på indsamling?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Hvis usikker"
+    },
+    "friendship_confirmdelete": {
+        "message": "Denne handling kan ikke ændres.\nDu må udføre en indhentning for at få denne ven tilbage på listen.\n\nBekræft fjernelsen?"
     },
     "friendship_collecterror": {
         "message": "Noget gik galt."
@@ -2165,7 +2174,7 @@
         "message": "Produktioner\nVis et skilt når en produktions enhed er klar eller tom"
     },
     "options_badgetimeoffset": {
-        "message": "Tidsforskydning\nSkiltet vil blive vist forlods med dette antalt sekunder"
+        "message": "Tidsforskydning\nSkiltet vil blive vist forlods med dette antal sekunder"
     },
     "options_badgesound": {
         "message": "Lyd Effekt\nLyd effekten der spilles, når skiltet vises."

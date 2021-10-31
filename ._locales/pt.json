@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Clique para combinar manualmente este vizinho"
     },
+    "friendship_actionmatch": {
+        "message": "Clique para vincular este amigo ao vizinho selecionado"
+    },
     "friendship_actiondelete": {
         "message": "Clique para excluir este amigo permanentemente"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Você pode cancelar a amizade deles nesta página.\n\nEsteja ciente de que as contas do Facebook podem ser desativadas temporariamente e podem ser ativadas posteriormente."
     },
+    "friendship_partial": {
+        "message": "Parcial"
+    },
     "friendship_confirmcollect": {
-        "message": "Pressione SIM para confirmar, NÃO para tentar mais.\n\nVocê pode fechar esta janela a qualquer momento\npara cancelar a operação."
+        "message": "SIM = confirmar amigos e substituir os existentes\nParcial = Adicionar amigos e manter os existentes\nNão = Tentar coletar mais amigos\nPode fechar esta janela em qualquer momento para cacelar a operação"
     },
     "friendship_speedupcollect": {
         "message": "Acelerar a coleta?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Se não tiver certeza"
+    },
+    "friendship_confirmdelete": {
+        "message": "Esta operação não pode ser desfeita.\nVocê precisará fazer uma coleção para colocar esse amigo de volta na lista.\n\nConfirma a remoção?"
     },
     "friendship_collecterror": {
         "message": "Algo deu errado."

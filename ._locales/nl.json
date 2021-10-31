@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Klik om deze buur handmatig te matchen"
     },
+    "friendship_actionmatch": {
+        "message": "Klik om deze vriend te koppelen aan de geselecteerde buur"
+    },
     "friendship_actiondelete": {
         "message": "Klik om deze vriend permanent te verwijderen"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Je kunt ze vanaf deze pagina ontvrienden.\n\nHoud er rekening mee dat Facebook-accounts tijdelijk kunnen zijn uitgeschakeld en op een later moment kunnen worden ingeschakeld."
     },
+    "friendship_partial": {
+        "message": "Gedeeltelijk"
+    },
     "friendship_confirmcollect": {
-        "message": "Druk op JA om te bevestigen, NEE om verder te proberen.\n\nJe kunt dit venster op elk moment sluiten\nom de bewerking te annuleren."
+        "message": "Ja = bevestig vrienden en vervang de bestaande\nGEDEELTELIJK = voeg vrienden toe en hou de bestaande\nNEE = probeer meer vrienden te verzamelen\n\nJe kunt dit venster op elk moment sluiten\nom de bewerking te annuleren."
     },
     "friendship_speedupcollect": {
         "message": "Versnel verzameling?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Bij twijfel"
+    },
+    "friendship_confirmdelete": {
+        "message": "This operation cannot be undone.\nYou will need to do a collection to get this friend back on the list.\n\nConfirm the removal?"
     },
     "friendship_collecterror": {
         "message": "Er is iets fout gegaan."
@@ -2027,13 +2036,13 @@
         }
     },
     "options_gctable": {
-        "message": "GC tabel\nToon alle buren met GC onder het spel"
+        "message": "GC tabe\nToon alle buren met GC onder het spel"
     },
     "options_gctablecounter": {
         "message": "Teller\nToon een teller"
     },
     "options_gctableregion": {
-        "message": "Regio\nGebruik kleuren on de regio van buren te markeren"
+        "message": "Regio\nGebruik kleuren om de regio van buren te markeren"
     },
     "options_autoclick": {
         "message": "Automatiche klik\nBevestig automatisch de pop-ups van Facebook"
@@ -2153,7 +2162,7 @@
         "message": "GC Teller\nLaat een badge zien met het resterende aantal GC om te verzamelen"
     },
     "options_badgegcenergy": {
-        "message": "GC Energie\nLaat een badge zien met de energie van een GC van een buur"
+        "message": "GC Energie\nLaat een badge zien met de energie van een buur's GC"
     },
     "options_badgerepeatables": {
         "message": "Herhaalbare\nLaat een badge zien wanneer elke geselecteerde herhaalbare klaar is"
@@ -2174,7 +2183,7 @@
         "message": "Volume\nHet volume van het geluidseffect."
     },
     "options_badgewindmills": {
-        "message": "Windmolens\nToon een badge wanneer het kamp van een buur windmolens nodig heeft."
+        "message": "Windmolens\nToon een badge wanneer het kamp van een buur windmolens nodig heeft"
     },
     "calc_operators": {
         "message": "Operatoren"

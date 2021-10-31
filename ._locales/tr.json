@@ -1093,6 +1093,9 @@
     "friendship_actionmanual": {
         "message": "Bu komşuyu manuel olarak eşleştirmek için tıklayın"
     },
+    "friendship_actionmatch": {
+        "message": "Bu arkadaşı seçilen komşuya bağlamak için tıklayın"
+    },
     "friendship_actiondelete": {
         "message": "Bu arkadaşı kalıcı olarak silmek için tıklayın"
     },
@@ -1111,8 +1114,11 @@
     "friendship_unfriendinfo": {
         "message": "Arkadaşlarını bu sayfadan kaldırabilirsin.\n\nLütfen Facebook hesaplarının geçici olarak devre dışı bırakılabileceğini ve daha sonra etkinleştirilebileceğini unutmayın."
     },
+    "friendship_partial": {
+        "message": "Kısmi"
+    },
     "friendship_confirmcollect": {
-        "message": "Onaylamak için EVET'e, daha fazla denemek için HAYIR'a basın.\n\nİşlemi iptal etmek için istediğiniz zaman bu pencereyi kapatabilirisiniz."
+        "message": "EVET = arkadaşları onayla ve mevcut olanları değiştir\nPARTIAL = arkadaş ekle ve var olanları koru\nHAYIR = daha fazla arkadaş toplamaya çalış\n\nİşlemi iptal etmek için bu pencereyi istediğiniz zaman kapatabilirsiniz."
     },
     "friendship_speedupcollect": {
         "message": "Hızlandırma koleksiyonu?"
@@ -1235,6 +1241,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Emin değilseniz"
+    },
+    "friendship_confirmdelete": {
+        "message": "Bu işlem geri alınamaz.\nBu arkadaşı tekrar listeye almak için bir koleksiyon yapmanız gerekecek.\n\nKaldırma işlemini onaylıyor musunuz?"
     },
     "friendship_collecterror": {
         "message": "Bir şeyler yanlış gitti."
@@ -2027,13 +2036,13 @@
         }
     },
     "options_gctable": {
-        "message": "Enerji Çocukları Tablosu\r\nOyunun altında Enerji Çocukları bulunan tüm komşuları göster"
+        "message": "GC tablosu\nOyunun altında GC olan tüm komşuları göster"
     },
     "options_gctablecounter": {
         "message": "Sayaç\nSayaç göster"
     },
     "options_gctableregion": {
-        "message": "Bölge\nKomşunun bölgesini işaretlemek için renkleri kullanın"
+        "message": "Bölge\nBir komşunun bölgesini işaretlemek için renkleri kullanın"
     },
     "options_autoclick": {
         "message": "Otomatik tıklama\nFacebook'un açılır pencerelerini otomatik olarak onaylayın"
@@ -2153,7 +2162,7 @@
         "message": "Enerji Çocuğu Sayacı\r\nToplanacak, kalan Enerji Çocuğu sayısına sahip bir rozet gösterir"
     },
     "options_badgegcenergy": {
-        "message": "Enerji Çocuğu (GC) Enerjisi\nKomşunun Enerji Çocuğundan aldığı enerjiyi rozet olarak gösterir"
+        "message": "GC Enerji\nKomşunun GC'sinden gelen enerjiyle bir rozet göster"
     },
     "options_badgerepeatables": {
         "message": "Tekrarlanabilirler\nSeçilen tekrarlanabilirler hazır olduğunda rozet olarak gösterilir"
@@ -2174,7 +2183,7 @@
         "message": "Ses Seviyesi\r\nSes efektinin ses seviyesi:"
     },
     "options_badgewindmills": {
-        "message": "yel değirmenleri\nBir komşunun kampının yel değirmenlerine ihtiyacı olduğunda bir rozet gösterin"
+        "message": "Yel Değirmenleri\nKomşunun kampının yel değirmenlerine ihtiyacı olduğunda rozet göster"
     },
     "calc_operators": {
         "message": "Operatörler"
