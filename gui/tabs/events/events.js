@@ -213,40 +213,25 @@ function update() {
         }
         item.pcollect = item.ccollect / (item.tcollect || 1);
 
-        let locations = gui.getArrayOfInt(event.locations);
-        let xlo = gui.getArrayOfInt(event.extended_locations);
-        for (const lid of xlo) {
-            if (!locations.includes(lid)) locations.push(lid);
-        }
-        locations = locations.filter(lid => {
-            const location = locations0[lid];
+        const mapLocations = {};
+        gui.getArrayOfInt(event.locations).forEach(id => mapLocations[id] = false);
+        gui.getArrayOfInt(event.extended_locations).forEach(id => mapLocations[id] = true);
+        const rep = [], xlo = [], qst = [];
+        Object.keys(mapLocations).forEach(id => {
+            const location = locations0[id];
             // Additional check
-            if (+location.req_quest_a == 1) {
-                xlo = xlo.filter(id => id != lid);
-                return false;
-            }
-            return true;
+            if (!location || +location.req_quest_a == 1) return;
+            if (+location.reset_cd > 0) rep.push(id);
+            else if (mapLocations[id]) xlo.push(id);
+            else qst.push(id);
         });
-        const rep = locations.filter(lid => {
-            const location = locations0[lid];
-            // Additional check
-            if (+location.req_quest_a == 1) {
-                return false;
-            }
-            // Segmented events have an override for completion bonus
-            // if (Array.isArray(location.overrides)) item.maxsegment = location.overrides.reduce((max, obj) => Math.max(max, +obj.region_id), item.maxsegment);
-            if (location && +location.reset_cd > 0) {
-                xlo = xlo.filter(id => id != lid);
-                return true;
-            }
-        });
-        item.loc_qst = locations.filter(lid => !(rep.includes(lid) || xlo.includes(lid)));
-        item.loc_rep = rep;
+        item.loc_qst = qst;
         item.loc_xlo = xlo;
-        item.locations = locations.length;
-        item.repeatables = rep.length;
+        item.loc_rep = rep;
+        item.maps = qst.length;
         item.challenges = xlo.length;
-        item.maps = item.locations - item.repeatables - item.challenges;
+        item.repeatables = rep.length;
+        item.locations = item.maps + item.challenges + item.repeatables;
 
         if (item.cquest == 0 && item.cachiev == 0 && item.ccollect == 0) item.status = 'notdone';
         else if (item.tquest == item.cquest && item.tachiev == item.cachiev && item.tcollect == item.ccollect) item.status = 'complete';
