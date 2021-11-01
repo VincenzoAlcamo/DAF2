@@ -161,7 +161,7 @@ function showCollectDialog() {
     function button(method) {
         const msgId = 'friendship_collect' + method;
         const htm = Html.br`<tr style="border-top:2px solid rgba(0,0,0,0.2)">
-<td style="text-align:right"><button value="${method}">${gui.getMessage(msgId)}</button></td>
+<td style="text-align:right"><button data-method="${method}">${gui.getMessage(msgId)}</button></td>
 <td>${gui.getMessage(msgId + 'info')}
 ${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 ${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}

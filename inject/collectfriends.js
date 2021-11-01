@@ -261,7 +261,7 @@ const CF = {
                         isConfirming = true;
                         let html = '';
                         html += Html.br`<span>${getMessage('friendship_confirmcollect')}</span>`;
-                        html += Html`<button data-footer data-method="partial">${getMessage('friendship_partial')}</button>`;
+                        html += Html`<button class="DAF-on-footer" data-method="partial">${getMessage('friendship_partial')}</button>`;
                         dialog.show({
                             title: getStatInfo(friends.length), html, auto: Dialog.NO, timeout: 30, style: [Dialog.YES, Dialog.NO, !autoClose && Dialog.CANCEL]
                         }, function (method) {

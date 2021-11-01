@@ -474,8 +474,8 @@ async function calcUltimateLevel() {
 
     let htm = '';
     htm += `<div class="pillars-u-level outlined"></div>`;
-    htm += `<button data-footer data-method="details">${gui.getMessage('gui_show')}</button>`;
-    htm += `<button data-footer data-method="caravan">${gui.getMessage('tab_caravan')}</button>`;
+    htm += `<input type="button" class="DAF-on-footer" data-method="details" value="${gui.getMessage('gui_show')}">`;
+    htm += `<input type="button" class="DAF-on-footer" data-method="caravan" value="${gui.getMessage('tab_caravan')}">`;
     htm += `<div class="pillars-u-table" style="display:none">`;
     htm += `<table class="daf-table">`;
     htm += `<thead><tr><th></th><th>${gui.getMessage('gui_xp')}</th><th>${gui.getMessage('gui_energy')}</th></tr></thead>`;

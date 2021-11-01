@@ -167,8 +167,8 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-.DAF-md-footer button {
-  margin: 4px 0 4px 24px;
+.DAF-md-footer button, .DAF-md-footer input[type=button] {
+  margin: 4px 8px;
 }
 
 .DAF-dialog table {
