@@ -474,8 +474,8 @@ async function calcUltimateLevel() {
 
     let htm = '';
     htm += `<div class="pillars-u-level outlined"></div>`;
-    htm += `<button data-method="details">${gui.getMessage('gui_show')}</button>`;
-    htm += `<button data-method="caravan">${gui.getMessage('tab_caravan')}</button>`;
+    htm += `<button data-footer data-method="details">${gui.getMessage('gui_show')}</button>`;
+    htm += `<button data-footer data-method="caravan">${gui.getMessage('tab_caravan')}</button>`;
     htm += `<div class="pillars-u-table" style="display:none">`;
     htm += `<table class="daf-table">`;
     htm += `<thead><tr><th></th><th>${gui.getMessage('gui_xp')}</th><th>${gui.getMessage('gui_energy')}</th></tr></thead>`;
@@ -683,31 +683,17 @@ async function calcUltimateLevel() {
     }, function (method) {
         const element = gui.dialog.element;
         Html.set(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
-        const buttonShow = gui.dialog.element.querySelector('[data-method="details"]');
-        const buttonCaravan = gui.dialog.element.querySelector('[data-method="caravan"]');
-        if (method == Dialog.AUTORUN) {
-            const parent = element.querySelector('.DAF-md-footer');
-            parent.insertBefore(buttonShow, parent.firstChild);
-            parent.insertBefore(buttonCaravan, parent.firstChild);
-            return;
-        }
         if (method == 'details') {
             const table = element.querySelector('.pillars-u-table');
             const flag = table.style.display == 'none';
             table.style.display = flag ? '' : 'none';
-            buttonShow.style.backgroundColor = flag ? 'green' : '';
-            return;
-        }
-        if (method == 'caravan') {
+            gui.dialog.element.querySelector('[data-method="details"]').style.backgroundColor = flag ? 'green' : '';
+        } else if (method == 'caravan') {
             isCaravan = !isCaravan;
             Html.set(element.querySelector('.pillars-u-details'), getBody());
             Html.set(element.querySelector('.pillars-u-level'), Html(Locale.formatNumber(level)));
-            buttonCaravan.style.backgroundColor = isCaravan ? 'green' : '';
-            return;
+            gui.dialog.element.querySelector('[data-method="caravan"]').style.backgroundColor = isCaravan ? 'green' : '';
         }
-        // Remove extra buttons
-        buttonShow.remove();
-        buttonCaravan.remove();
     });
 }
 

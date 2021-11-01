@@ -72,10 +72,10 @@ Object.assign(Dialog.prototype, {
         if (!this.element || force) {
             this.remove();
             // We stopped using a CSS transform (that blurs the text)
-            const button = action => `<button value="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
+            const button = action => `<button data-core data-method="${action}">${Dialog.getMessage('dialog_' + action)}</button>`;
             const htm = `<div class="DAF-dialog DAF-md-superscale ${this.mode === Dialog.TOAST ? 'DAF-toast' : 'DAF-modal'}${this.mode === Dialog.WAIT ? ' DAF-md-wait' : ''}">
             <div class="DAF-md-box"><form action="#" method="get" class="DAF-md-content">
-            <div class="DAF-md-title"><button title="${Dialog.getMessage('dialog_close')}" value="${Dialog.CLOSE}"></button><button value="${Dialog.HIDE}"></button><div></div></div><div class="DAF-md-body"></div>
+            <div class="DAF-md-title"><button title="${Dialog.getMessage('dialog_close')}" data-core data-method="${Dialog.CLOSE}"></button><button data-core data-method="${Dialog.HIDE}"></button><div></div></div><div class="DAF-md-body"></div>
             <div class="DAF-md-footer">${[Dialog.OK, Dialog.CONFIRM, Dialog.YES, Dialog.NO, Dialog.CANCEL].map(button).join('')}</div></form></div></div>`;
             this.element = Html.get(htm)[0];
             this.form = this.element.getElementsByTagName('form')[0];
@@ -128,7 +128,7 @@ Object.assign(Dialog.prototype, {
                         if (this.autoTimer) clearTimeout(this.autoTimer);
                         return this.autoTimer = setTimeout(fn, 1000);
                     }
-                    this.runCallback(autoMethod, this.autoInput, this.autoInput.getAttribute('data-method'));
+                    this.runCallback(autoMethod, this.autoInput, !this.autoInput.getAttribute('data-core'));
                 };
                 fn();
             }
@@ -163,9 +163,15 @@ Object.assign(Dialog.prototype, {
     },
     setHtml: function (html) {
         const el = this.create().element.getElementsByClassName('DAF-md-body')[0];
+        const footer = this.element.querySelector('.DAF-md-footer');
+        if (footer) footer.querySelectorAll(':not([data-core])').forEach(el => el.remove());
         if (el) {
             Html.set(el, html);
             el.style.display = el.firstChild ? '' : 'none';
+            if (footer) {
+                let first = footer.firstChild;
+                el.querySelectorAll('[data-footer][data-method]').forEach(el => first = footer.insertBefore(el, first));
+            }
         }
         return this.setStyle();
     },
@@ -183,12 +189,12 @@ Object.assign(Dialog.prototype, {
         for (const tag of [Dialog.CRITICAL, Dialog.WIDEST, Dialog.CLOSE]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
         const dialog = this;
         dialog.inputs = {};
-        for (const input of this.element.querySelectorAll('button,[data-method]')) {
-            const isInput = input.getAttribute('data-method');
-            const method = isInput ? input.getAttribute('data-method') : input.value.toLowerCase();
+        for (const input of this.element.querySelectorAll('[data-method]')) {
+            const isCustom = !input.hasAttribute('data-core');
+            const method = input.getAttribute('data-method').toLowerCase();
             dialog.inputs[method] = input;
             input.removeAttribute('timer');
-            input.style.display = isInput || style.includes(method) ? '' : 'none';
+            input.style.display = isCustom || style.includes(method) ? '' : 'none';
             if (!input.getAttribute('hasListener')) {
                 input.setAttribute('hasListener', '1');
                 const eventName = input.tagName == 'BUTTON' || input.getAttribute('type') == 'button' ? 'click' : 'input';
@@ -199,7 +205,7 @@ Object.assign(Dialog.prototype, {
                         dialog.element.classList.toggle('DAF-md-hidden');
                         return;
                     }
-                    dialog.runCallback(method, input, isInput);
+                    dialog.runCallback(method, input, isCustom);
                 });
             }
         }

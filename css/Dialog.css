@@ -232,22 +232,22 @@
   transform-origin: top right;
 }
 
-.DAF-md-title button[value="close"]:before {
+.DAF-md-title button[data-method="close"]:before {
   content: "\00d7";
 }
 
-.DAF-md-title button[value="hide"]:before {
+.DAF-md-title button[data-method="hide"]:before {
   content: "\2227";
   font-size: 28px;
   vertical-align: top;
 }
 
-.DAF-md-wait .DAF-md-title button[value="hide"] {
+.DAF-md-wait .DAF-md-title button[data-method="hide"] {
   transform: scale(0.8);
   transform-origin: top right;
 }
 
-.DAF-dialog.DAF-md-hidden .DAF-md-title button[value="hide"]:before {
+.DAF-dialog.DAF-md-hidden .DAF-md-title button[data-method="hide"]:before {
   content: "\2228";
 }
 

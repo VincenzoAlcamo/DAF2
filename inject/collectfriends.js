@@ -210,11 +210,8 @@ const CF = {
                 addFriend({ id, name, uri, img });
                 keep = unmatchedList.includes(id);
                 const node = item.parentElement.parentElement.parentElement;
-                // node.remove();
-                if (keep) {
-                    ulInactive = container;
-                    // liInactive.push(node);
-                } else node.classList.add('to-be-removed');
+                if (keep) ulInactive = container;
+                else node.classList.add('to-be-removed');
             }
             return count;
         }
@@ -237,11 +234,8 @@ const CF = {
                 addFriend({ id, name, uri, img });
                 keep = unmatchedList.includes(id);
                 const node = item.parentElement.parentElement.parentElement;
-                // node.remove();
-                if (keep) {
-                    ulInactive = container;
-                    // liInactive.push(node);
-                } else node.classList.add('to-be-removed');
+                if (keep) ulInactive = container;
+                else node.classList.add('to-be-removed');
             }
             return count;
         }
@@ -267,17 +261,10 @@ const CF = {
                         isConfirming = true;
                         let html = '';
                         html += Html.br`<span>${getMessage('friendship_confirmcollect')}</span>`;
-                        html += Html`<button data-method="partial">${getMessage('friendship_partial')}</button>`;
+                        html += Html`<button data-footer data-method="partial">${getMessage('friendship_partial')}</button>`;
                         dialog.show({
-                            title: getStatInfo(friends.length), html, auto: Dialog.NO, timeout: 30, style: [Dialog.YES, Dialog.NO, Dialog.AUTORUN, !autoClose && Dialog.CANCEL]
+                            title: getStatInfo(friends.length), html, auto: Dialog.NO, timeout: 30, style: [Dialog.YES, Dialog.NO, !autoClose && Dialog.CANCEL]
                         }, function (method) {
-                            const element = this.element, button = element.querySelector('[data-method=partial]');
-                            if (method == Dialog.AUTORUN) {
-                                const parent = element.querySelector('.DAF-md-footer');
-                                parent.insertBefore(button, parent.firstChild);
-                                return;
-                            }
-                            button.remove();
                             isConfirming = false;
                             const partial = method == 'partial';
                             if (method == Dialog.YES || partial) {
