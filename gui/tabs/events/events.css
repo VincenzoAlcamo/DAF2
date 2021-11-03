@@ -12,6 +12,7 @@
 
 .events td.date {
   font-size: 9pt;
+  white-space: nowrap;
 }
 
 .events td.segmented {

@@ -143,6 +143,7 @@ function update() {
     const artifacts = gui.getArrayOfInt(generator.artifacts);
     const eventsRegion = generator.events_region || {};
     const events = gui.getFile('events');
+    const now = gui.getUnixTime();
     allEvents = {};
     for (const event of Object.values(events)) {
         if (!event.name_loc) continue;
@@ -153,6 +154,7 @@ function update() {
         item.name = gui.getString(event.name_loc);
         item.gems = (+event.premium > 0 ? +event.gems_price : 0) || NaN;
         const edata = eventData[eid];
+        if (!edata && +event.start > now) continue;
         const info = gui.getEventInfo(event);
         item.tutorial = info.tutorial;
         item.start = (edata && +edata.started) || NaN;
