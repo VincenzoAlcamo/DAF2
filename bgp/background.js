@@ -1145,7 +1145,7 @@ var Data = {
         // We retain the old association (score and uid)
         for (const friend of newFriends) {
             if (prefixLen) friend.name = friend.name.substr(prefixLen);
-            friend.tc = now;
+            friend.tc = friend.lc = now;
             let oldFriend = oldFriendsById[friend.id];
             if (oldFriend) {
                 delete oldFriendsById[oldFriend.id];

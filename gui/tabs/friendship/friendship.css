@@ -2,13 +2,13 @@
   text-align: center;
 }
 
-.friendship tr td:nth-child(7),
+.friendship tr td:nth-child(8),
 .friendship tr td:nth-child(2) {
   text-align: left;
 }
 
 .friendship tr[lazy-render] td:nth-child(1),
-.friendship tr[lazy-render] td:nth-child(6) {
+.friendship tr[lazy-render] td:nth-child(7) {
   background: no-repeat url(/img/gui/anon.gif) 5px 5px;
 }
 
@@ -17,12 +17,12 @@
 }
 
 .friendship tr th:nth-child(1),
-.friendship tr th:nth-child(6) {
+.friendship tr th:nth-child(7) {
   min-width: 61px;
 }
 
 .friendship tr th:nth-child(2),
-.friendship tr th:nth-child(7) {
+.friendship tr th:nth-child(8) {
   min-width: 180px;
   max-width: 300px;
 }
