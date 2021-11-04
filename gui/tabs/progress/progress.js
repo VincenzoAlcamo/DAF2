@@ -8,7 +8,7 @@ export default {
     setState: setState,
     visibilityChange: visibilityChange,
     requires: (function () {
-        const requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests'];
+        const requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests', 'artifacts'];
         for (let rid = gui.getMaxRegion(); rid > 0; rid--) requires.push('locations_' + rid);
         return requires;
     })()
