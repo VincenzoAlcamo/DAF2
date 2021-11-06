@@ -182,6 +182,9 @@
     "gui_firstrecorded": {
         "message": "Eerst\nOpgenomen"
     },
+    "gui_lastrecorded": {
+        "message": "Laatst\nOpgenomen"
+    },
     "gui_loadingresources": {
         "message": "Bronnen laden ($NUM$/$TOTAL$)",
         "placeholders": {

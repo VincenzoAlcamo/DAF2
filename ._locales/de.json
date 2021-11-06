@@ -182,6 +182,9 @@
     "gui_firstrecorded": {
         "message": "Erste\nAufnahme"
     },
+    "gui_lastrecorded": {
+        "message": "Letzte\nAufnahme"
+    },
     "gui_loadingresources": {
         "message": "Laden von Informationen ($NUM$/$TOTAL$)",
         "placeholders": {

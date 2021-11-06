@@ -182,6 +182,9 @@
     "gui_firstrecorded": {
         "message": "Primeiro\nGravado"
     },
+    "gui_lastrecorded": {
+        "message": "Último\nGravado"
+    },
     "gui_loadingresources": {
         "message": "Carregando recursos ($NUM$ /$TOTAL$)",
         "placeholders": {

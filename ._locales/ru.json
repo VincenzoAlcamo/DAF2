@@ -182,6 +182,9 @@
     "gui_firstrecorded": {
         "message": "Первая\nзапись"
     },
+    "gui_lastrecorded": {
+        "message": "Последняя\nзапись"
+    },
     "gui_loadingresources": {
         "message": "Загрузка ресурсов ($NUM$/$TOTAL$)",
         "placeholders": {

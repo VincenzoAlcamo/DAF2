@@ -182,6 +182,9 @@
     "gui_firstrecorded": {
         "message": "Prvý\nZaznamenaný"
     },
+    "gui_lastrecorded": {
+        "message": "Posledný\nZaznamenaný"
+    },
     "gui_loadingresources": {
         "message": "Načítavajú sa zdroje ($NUM$/$TOTAL$)",
         "placeholders": {

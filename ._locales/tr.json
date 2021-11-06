@@ -180,7 +180,10 @@
         "message": "Arkadaş"
     },
     "gui_firstrecorded": {
-        "message": "İlk\nKaydedildi"
+        "message": "İlk\nKaydedilen"
+    },
+    "gui_lastrecorded": {
+        "message": "Son\r\nKaydedilen"
     },
     "gui_loadingresources": {
         "message": "Kaynaklar yükleniyor ($NUM$/$TOTAL$)",

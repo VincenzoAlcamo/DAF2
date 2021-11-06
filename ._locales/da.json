@@ -182,6 +182,9 @@
     "gui_firstrecorded": {
         "message": "Første\nRegistrering"
     },
+    "gui_lastrecorded": {
+        "message": "Sidste\nRegistrering"
+    },
     "gui_loadingresources": {
         "message": "Load'er resourcer ($NUM$/$TOTAL$)",
         "placeholders": {

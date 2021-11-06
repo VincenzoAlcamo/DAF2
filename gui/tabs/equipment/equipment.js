@@ -785,7 +785,6 @@ function getCurrentItems(state) {
                 if (+sale.event_id == state.event && (+sale.event_region_id == state.region || +sale.event_region_id == 0)) addSale(sale);
             }
         }
-
     }
 }
 

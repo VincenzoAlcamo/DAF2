@@ -182,6 +182,9 @@
     "gui_firstrecorded": {
         "message": "Prima\nRegistrazione"
     },
+    "gui_lastrecorded": {
+        "message": "Ultima\nRegistrazione"
+    },
     "gui_loadingresources": {
         "message": "Sto caricando le risorse ($NUM$/$TOTAL$)",
         "placeholders": {

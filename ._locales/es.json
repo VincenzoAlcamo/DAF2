@@ -180,7 +180,10 @@
         "message": "Amigos"
     },
     "gui_firstrecorded": {
-        "message": "Registro"
+        "message": "Grabado por\nprimera vez"
+    },
+    "gui_lastrecorded": {
+        "message": "Grabado por\núltima vez"
     },
     "gui_loadingresources": {
         "message": "Cargando recursos ($NUM$/$TOTAL$)",
@@ -489,7 +492,7 @@
         "message": "Ganancia (XP/h)"
     },
     "production_uplift_info": {
-        "message": "Punts de experiencia ganada por un solo espacio en una hora,\nbasado en los valores obtenidos de pilares."
+        "message": "Puntos de experiencia ganada por un solo espacio en una hora,\nbasado en los valores obtenidos de pilares."
     },
     "production_req_ticket": {
         "message": "Requiere ticket ?"
@@ -1088,10 +1091,13 @@
         "message": "Este amigo es ignorado para el partido.\nHaga clic para ver a este amigo"
     },
     "friendship_actionunlink": {
-        "message": "Haga clic para eliminar la partida"
+        "message": "Haga clic para eliminar la coincidencia"
     },
     "friendship_actionmanual": {
         "message": "Haga clic para coincidir manualmente con este vecino"
+    },
+    "friendship_actionmatch": {
+        "message": "Haga clic para vincular este amigo al vecino seleccionado"
     },
     "friendship_actiondelete": {
         "message": "Haz clic para borrar permanentemente este amigo."
@@ -1111,8 +1117,11 @@
     "friendship_unfriendinfo": {
         "message": "Puedes eliminar amigo desde esta pagina\n\nTenga en cuenta que las cuentas de Facebook pueden estar deshabilitadas temporalmente y pueden habilitarse en un momento posterior."
     },
+    "friendship_partial": {
+        "message": "Parcial"
+    },
     "friendship_confirmcollect": {
-        "message": "Presione SI para confirmar, NO para intentar más tarde.\n\nPuedes cerrar esta ventana en cualquier momento\npara cancelar la operación."
+        "message": "SÍ = confirmar amigos y reemplazar a los existentes\nPARCIAL = agregar amigos y mantener los existentes\nNO = intenta reunir más amigos\n\nPuede cerrar esta ventana en cualquier momento para cancelar la operación."
     },
     "friendship_speedupcollect": {
         "message": "Recoleccion acelerada?"
@@ -1235,6 +1244,9 @@
     },
     "friendship_cc_maybe": {
         "message": "Si no está seguro"
+    },
+    "friendship_confirmdelete": {
+        "message": "Esta operación no se puede deshacer.\nDeberá hacer una recopilación para que este amigo vuelva a la lista.\n\n¿Confirmar la eliminación?"
     },
     "friendship_collecterror": {
         "message": "Algo no salió bien"
@@ -2174,7 +2186,7 @@
         "message": "Volumen\nVolumen del efecto de sonido"
     },
     "options_badgewindmills": {
-        "message": "Molinos . Muestra una insignia cuando un vecino necesita molinos."
+        "message": "Molinos\nMuestra una insignia cuando un vecino necesita molinos"
     },
     "calc_operators": {
         "message": "Operadores"
