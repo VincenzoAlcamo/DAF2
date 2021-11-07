@@ -484,7 +484,7 @@ function updateRow(row) {
             htm += Html.br`<td>${buttonsDeleteMatch}</td><td>${friend.score == -1 ? buttonRegard : buttonIgnore}</td>`;
         }
     } else {
-        htm += Html.br`<td></td><td></td><td></td><td></td><td>${buttonManual}</td>`;
+        htm += Html.br`<td></td><td></td><td></td><td></td><td></td><td>${buttonManual}</td>`;
     }
     if (pal) {
         const anchor = Html.raw('<a class="no-link" translate="no">');
@@ -596,7 +596,7 @@ function refreshDelayed() {
         if (isRowVisible(friend, pal)) {
             numFriendsShown++;
             if (pal) numNeighboursShown++;
-            arr.push([friend, pal, '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" data-lazy height="61"></tr>']);
+            arr.push([friend, pal, '<tr data-friend-id="' + friend.id + (pal ? '" data-pal-id="' + pal.id : '') + '" data-lazy height="57"></tr>']);
         }
     }
     for (const pal of Object.values(notmatched)) {

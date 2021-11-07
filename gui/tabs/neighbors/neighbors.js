@@ -425,7 +425,7 @@ function updateTeamMembers() {
             }
             teamMembers[pal.id] = pal;
             let row = palRows[pal.id];
-            if (!row) row = palRows[pal.id] = Html.get(Html`<tr data-pal-id="${pal.id}" height="61" data-lazy></tr>`)[0];
+            if (!row) row = palRows[pal.id] = Html.get(Html`<tr data-pal-id="${pal.id}" height="57" data-lazy></tr>`)[0];
             row.setAttribute('data-lazy', '');
         }
     }
@@ -457,7 +457,7 @@ function update() {
     delete pals[1];
     htm = Object.values(pals).map(pal => {
         palDays[pal.id] = Locale.getNumDays(pal.extra.timeCreated);
-        return Html`<tr data-pal-id="${pal.id}" height="61" data-lazy></tr>`;
+        return Html`<tr data-pal-id="${pal.id}" height="57" data-lazy></tr>`;
     }).join('');
     const rows = Html.get(htm);
     rows.forEach(row => palRows[row.getAttribute('data-pal-id')] = row);
