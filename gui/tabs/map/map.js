@@ -1813,7 +1813,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
         if (tileDef.miscType == 'B') {
             const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
             const activation = beaconPart && beaconPart.activation;
-            if (activation == 'pit' && beaconPart.active) tileDef.solid |= 1;
+            if (activation == 'pit' && !beaconPart.active) tileDef.solid |= 1;
             if ((activation == 'use' || activation == 'sensor') || ((activation == 'door_r' || activation == 'door') && !beaconPart.active)) tileDef.solid |= 16;
         }
         if (tileDef.backgroundAddonId) {
