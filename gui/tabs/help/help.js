@@ -1,5 +1,5 @@
 export default {
-    init: init
+	init: init
 };
 
-function init() {}
+function init() { }

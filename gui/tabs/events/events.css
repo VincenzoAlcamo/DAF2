@@ -1,64 +1,64 @@
 .events img.incomplete {
-  filter: saturate(0);
+	filter: saturate(0);
 }
 
 .events tr[data-eid] td {
-  text-align: center;
+	text-align: center;
 }
 
 .events tr[data-eid] td:nth-child(2) {
-  text-align: left;
+	text-align: left;
 }
 
 .events td.date {
-  font-size: 9pt;
-  white-space: nowrap;
+	font-size: 9pt;
+	white-space: nowrap;
 }
 
 .events td.segmented {
-  min-width: 30px;
-  background-image: url(/img/gui/check_yes.png);
-  background-size: 24px;
-  background-repeat: no-repeat;
-  background-position: center center;
+	min-width: 30px;
+	background-image: url(/img/gui/check_yes.png);
+	background-size: 24px;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 .events .cost img {
-  height: 18px;
-  vertical-align: text-bottom;
-  margin-left: 2px;
+	height: 18px;
+	vertical-align: text-bottom;
+	margin-left: 2px;
 }
 
 .events td.materials {
-  padding: 0 5px;
+	padding: 0 5px;
 }
 
 .events-tooltip {
-  padding: 4px;
-  text-align: center;
+	padding: 4px;
+	text-align: center;
 }
 
 .events-tooltip img {
-  max-height: 150px;
-  vertical-align: middle;
+	max-height: 150px;
+	vertical-align: middle;
 }
 
 .events-tooltip img.full {
-  height: 146px;
+	height: 146px;
 }
 
 .events-tooltip span {
-  display: block;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 4px;
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	margin-top: 4px;
 }
 
 .events-tooltip span.desc {
-  font-size: 14px;
-  font-weight: normal;
-  max-width: 500px;
-  margin: auto;
+	font-size: 14px;
+	font-weight: normal;
+	max-width: 500px;
+	margin: auto;
 }
 
 .events tr.hilight-qst td.qst,
@@ -68,9 +68,9 @@
 .events tr.hilight-loc1 td.loc1,
 .events tr.hilight-loc2 td.loc2,
 .events tr.hilight-loc3 td.loc3 {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
-  cursor: zoom-in;
+	background-color: var(--tb-hlcol);
+	color: var(--tb-hlfgcol);
+	cursor: zoom-in;
 }
 
 .events tr.set-qst td.qst,
@@ -80,186 +80,186 @@
 .events tr.set-loc1 td.loc1,
 .events tr.set-loc2 td.loc2,
 .events tr.set-loc3 td.loc3 {
-  background-color: var(--success-bgcol);
-  color: var(--success-fgcol);
-  cursor: default;
+	background-color: var(--success-bgcol);
+	color: var(--success-fgcol);
+	cursor: default;
 }
 
 .events .event-subtable {
-  margin-top: 2px;
+	margin-top: 2px;
 }
 
 .events .event-subtable tfoot {
-  background-color: var(--th-bgcol);
-  color: var(--th-fgcol);
+	background-color: var(--th-bgcol);
+	color: var(--th-fgcol);
 }
 
 .events .event-subtable tfoot td {
-  background-color: #888A;
+	background-color: #888a;
 }
 
 .events .event-subtable .loot,
 .events .event-subtable .rewards {
-  text-align: right;
-  vertical-align: top;
+	text-align: right;
+	vertical-align: top;
 }
 
-.events .event-subtable .loot+.loot,
-.events .event-subtable .rewards+.rewards {
-  padding-left: 4px;
+.events .event-subtable .loot + .loot,
+.events .event-subtable .rewards + .rewards {
+	padding-left: 4px;
 }
 
 .events .event-locations tr.separator td {
-  border-top: 2px solid var(--tb-brcol);
+	border-top: 2px solid var(--tb-brcol);
 }
 
 .events .reset {
-  text-align: center;
+	text-align: center;
 }
 
 .events .rewards span,
 .events .loot span,
 .events .reset span {
-  display: inline-block;
-  cursor: default;
-  margin: 0px 2px;
+	display: inline-block;
+	cursor: default;
+	margin: 0px 2px;
 }
 
 .events .rewards i,
 .events .loot i,
 .events .reset i {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  text-align: center;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	text-align: center;
 }
 
 .events .rewards img,
 .events .loot img,
 .events .reset img {
-  max-height: 24px;
-  max-width: 24px;
-  vertical-align: middle;
-  margin-left: 2px;
+	max-height: 24px;
+	max-width: 24px;
+	vertical-align: middle;
+	margin-left: 2px;
 }
 
 .events .event-quests tr td.level,
 .events .event-treasure tr td.level,
 .events .event-achievement tr td.level {
-  text-align: center;
+	text-align: center;
 }
 
 .events .event-achievement tr td.reached,
 .events .event-locations tr td.energy,
 .events .event-locations tr td.reached {
-  text-align: right;
+	text-align: right;
 }
 
 .events .event-achievement tr td.target,
 .events .event-locations tr td.target {
-  text-align: left;
+	text-align: left;
 }
 
 .events .event-achievement tr td.goal,
 .events .event-locations tr td.goal,
 .events .event-locations tr td.chance {
-  text-align: right;
-  padding-left: 16px;
-  padding-right: 16px;
+	text-align: right;
+	padding-left: 16px;
+	padding-right: 16px;
 }
 
 .events .event-locations tr td.chance,
 .events .event-locations tr td.clear {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 .events .event-quests tr td.final,
 .events .event-treasure tr td.final {
-  text-align: center;
-  font-weight: bold;
+	text-align: center;
+	font-weight: bold;
 }
 
 .events .event-achievement th.icon {
-  background-color: var(--tr-bgcol);
+	background-color: var(--tr-bgcol);
 }
 
 .events .event-treasure th.icon img,
 .events .event-achievement th.icon img {
-  max-width: 128px;
-  max-height: 128px;
+	max-width: 128px;
+	max-height: 128px;
 }
 
 .events.sticky-header tbody {
-  border-bottom: 2px solid var(--tb-brcol);
+	border-bottom: 2px solid var(--tb-brcol);
 }
 
 .events td.toolbar {
-  position: relative;
-  background-color: var(--tb-brcol);
+	position: relative;
+	background-color: var(--tb-brcol);
 }
 
-.events td.toolbar button[name=close] {
-  position: absolute;
-  left: 8px;
+.events td.toolbar button[data-name='close'] {
+	position: absolute;
+	left: 8px;
 }
 
 .events td.toolbar label span {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .events .location_icon,
 .events .location_icon img {
-  width: 32px;
-  height: 32px;
+	width: 32px;
+	height: 32px;
 }
 
 .events .location_name {
-  margin-left: 6px;
-  display: inline-block;
-  vertical-align: middle;
+	margin-left: 6px;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .events .not-completed div.location_icon {
-  border-color: #F00;
+	border-color: #f00;
 }
 
 .events .completed div.location_icon {
-  border-color: #096;
+	border-color: #096;
 }
 
 .events .lootflag {
-  background-size: cover;
-  margin-right: -2px;
-  border: 0;
+	background-size: cover;
+	margin-right: -2px;
+	border: 0;
 }
 
 .events .lootflag:not(:checked) {
-  opacity: 0.7;
-  filter: grayscale(0.8);
+	opacity: 0.7;
+	filter: grayscale(0.8);
 }
 
 .events .lootflag:not(:checked):hover {
-  opacity: 1;
+	opacity: 1;
 }
 
 .events .lootflag:checked:before {
-  content: "";
+	content: '';
 }
 
-.events .lootflag[name="loot_gems"] {
-  background-image: url(/img/gui/rewardlinks.png);
+.events .lootflag[name='loot_gems'] {
+	background-image: url(/img/gui/rewardlinks.png);
 }
 
-.events .lootflag[name="loot_achiev"] {
-  background-image: url(/img/gui/achiev_ok.png);
+.events .lootflag[name='loot_achiev'] {
+	background-image: url(/img/gui/achiev_ok.png);
 }
 
-.events .lootflag[name="loot_xp"] {
-  background-image: url(/img/gui/xp.png);
+.events .lootflag[name='loot_xp'] {
+	background-image: url(/img/gui/xp.png);
 }
 
 .events .tutorial.warning {
-  border-radius: 5px;
-  padding: 0 4px;
-  display: inline-block;
+	border-radius: 5px;
+	padding: 0 4px;
+	display: inline-block;
 }

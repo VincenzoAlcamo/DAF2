@@ -1,87 +1,87 @@
 .options {
-  display: inline-block;
-  vertical-align: top;
-  margin-bottom: 4px;
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 4px;
 }
 
 .options table {
-  width: 400px;
+	width: 400px;
 }
 
 .options h3 {
-  font-size: inherit;
+	font-size: inherit;
 }
 
-.options label>h3 {
-  display: inline-block;
-  margin-right: 8px;
+.options label > h3 {
+	display: inline-block;
+	margin-right: 8px;
 }
 
 .options p {
-  font-size: small;
+	font-size: small;
 }
 
 .options tr td:nth-child(2) {
-  vertical-align: top;
-  padding-top: 7px;
+	vertical-align: top;
+	padding-top: 7px;
 }
 
 .options .critical td:first-child {
-  background-image: -webkit-linear-gradient(top left, rgba(255, 255, 0, 0.2), rgba(255, 255, 255, 0));
+	background-image: -webkit-linear-gradient(top left, rgba(255, 255, 0, 0.2), rgba(255, 255, 255, 0));
 }
 
 .options .suboption td:first-child {
-  padding-left: 32px;
-  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.1), rgba(255, 255, 255, 0));
+	padding-left: 32px;
+	background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.1), rgba(255, 255, 255, 0));
 }
 
 .options .hassuboptions td:first-child {
-  background-image: -webkit-linear-gradient(top left, rgba(0, 255, 255, 0.1), rgba(255, 255, 255, 0));
+	background-image: -webkit-linear-gradient(top left, rgba(0, 255, 255, 0.1), rgba(255, 255, 255, 0));
 }
 
 .options div.warning {
-  border-radius: 4px;
-  padding: 1px 2px;
+	border-radius: 4px;
+	padding: 1px 2px;
 }
 
 .options a {
-  text-decoration: underline;
-  color: unset;
-  font-weight: bold;
+	text-decoration: underline;
+	color: unset;
+	font-weight: bold;
 }
 
 .options a:hover {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
+	background-color: var(--tb-hlcol);
+	color: var(--tb-hlfgcol);
 }
 
 .options .play_sound {
-  padding: 0 4px;
+	padding: 0 4px;
 }
 
-.options input[type=range] {
-  width: 50%;
-  margin-bottom: 12px;
+.options input[type='range'] {
+	width: 50%;
+	margin-bottom: 12px;
 }
 
-.options input[type=range]+span {
-  display: inline-block;
-  line-height: 24px;
-  padding-left: 6px;
-  vertical-align: top;
+.options input[type='range'] + span {
+	display: inline-block;
+	line-height: 24px;
+	padding-left: 6px;
+	vertical-align: top;
 }
 
-.options input[type=range].percent+span:after {
-  content: "%";
+.options input[type='range'].percent + span:after {
+	content: '%';
 }
 
 .options p.time {
-  display: block;
-  float: left;
-  max-width: 70%;
-  margin-right: 8px;
+	display: block;
+	float: left;
+	max-width: 70%;
+	margin-right: 8px;
 }
 
-.options input[type=number].time {
-  width: 60px;
+.options input[type='number'].time {
+	width: 60px;
 }

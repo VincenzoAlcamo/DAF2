@@ -1,294 +1,294 @@
 /*#region MENU */
 
 .DAF-menu-container {
-  z-index: 2000;
-  position: fixed;
-  left: -8px;
-  top: 32px;
-  --logo: url(/img/logo/iconRed.png);
+	z-index: 2000;
+	position: fixed;
+	left: -8px;
+	top: 32px;
+	--logo: url(/img/logo/iconRed.png);
 }
 
 .DAF-menu-container.ok {
-  --logo: url(/img/gui/about.png);
+	--logo: url(/img/gui/about.png);
 }
 
 .DAF-badges b,
 .DAF-menu,
 .DAF-menu * {
-  box-sizing: border-box;
-  font-size: 12pt !important;
-  font-family: Sans-Serif !important;
-  line-height: 1.34;
-  user-select: none;
+	box-sizing: border-box;
+	font-size: 12pt !important;
+	font-family: Sans-Serif !important;
+	line-height: 1.34;
+	user-select: none;
 }
 
 .DAF-menu,
 .DAF-menu b,
 .DAF-menu i,
 .DAF-menu span {
-  display: inline-block;
-  border: 1px solid #000;
-  border-radius: 1em;
-  background-color: #BDF;
-  color: #046;
-  font-style: normal;
+	display: inline-block;
+	border: 1px solid #000;
+	border-radius: 1em;
+	background-color: #bdf;
+	color: #046;
+	font-style: normal;
 }
 
 .DAF-menu {
-  background-color: #FFF;
-  padding: 0;
-  border-left: 0;
-  border-radius: calc(1em + 2px);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  height: calc(1em + 11px);
-  width: calc(1em + 12px);
-  border-width: 2px;
-  transition: 0.6s;
-  background-position: 8px 4px;
-  background-repeat: no-repeat;
-  background-image: var(--logo);
-  background-size: 16px 16px;
+	background-color: #fff;
+	padding: 0;
+	border-left: 0;
+	border-radius: calc(1em + 2px);
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	height: calc(1em + 11px);
+	width: calc(1em + 12px);
+	border-width: 2px;
+	transition: 0.6s;
+	background-position: 8px 4px;
+	background-repeat: no-repeat;
+	background-image: var(--logo);
+	background-size: 16px 16px;
 }
 
 .DAF-menu:focus-within,
 .DAF-menu:hover {
-  height: auto;
-  border-color: transparent;
-  background-color: transparent;
-  background-image: none;
-  padding: 8px 0px 24px 10px;
-  width: 54px;
-  background-position: -14px 24px;
+	height: auto;
+	border-color: transparent;
+	background-color: transparent;
+	background-image: none;
+	padding: 8px 0px 24px 10px;
+	width: 54px;
+	background-position: -14px 24px;
 }
 
 .DAF-menu li {
-  display: none;
-  text-decoration: none;
-  white-space: nowrap;
-  margin-bottom: 2px;
-  border-radius: 1em;
-  padding-right: 2px;
-  cursor: default;
+	display: none;
+	text-decoration: none;
+	white-space: nowrap;
+	margin-bottom: 2px;
+	border-radius: 1em;
+	padding-right: 2px;
+	cursor: default;
 }
 
 .DAF-menu:focus-within li,
 .DAF-menu:hover li {
-  display: inline-block;
+	display: inline-block;
 }
 
 .DAF-menu b {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  margin: 0 6px 0 4px;
-  transition: 0.2s;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-size: 24px 24px;
-  background-position: 2px 2px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	margin: 0 6px 0 4px;
+	transition: 0.2s;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-size: 24px 24px;
+	background-position: 2px 2px;
 }
 
 .DAF-menu div {
-  display: none;
+	display: none;
 }
 
 .DAF-menu span,
 .DAF-menu i {
-  border: 2px solid #202020;
-  margin: -2px 2px 2px 0px;
-  padding: 2px 6px 1px 6px;
-  line-height: 1em;
-  cursor: pointer;
+	border: 2px solid #202020;
+	margin: -2px 2px 2px 0px;
+	padding: 2px 6px 1px 6px;
+	line-height: 1em;
+	cursor: pointer;
 }
 
 .DAF-menu i.squared-right {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-right: -2px;
-  padding-right: 4px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-right: -2px;
+	padding-right: 4px;
 }
 
 .DAF-menu i.squared-left {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  padding-left: 4px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	padding-left: 4px;
 }
 
 .DAF-menu .hue {
-  filter: hue-rotate(285deg);
+	filter: hue-rotate(285deg);
 }
 
 .DAF-menu .hue2 {
-  filter: hue-rotate(90deg);
+	filter: hue-rotate(90deg);
 }
 
-.DAF-menu li:focus-within>*,
-.DAF-menu li:hover>* {
-  display: inline-block;
+.DAF-menu li:focus-within > *,
+.DAF-menu li:hover > * {
+	display: inline-block;
 }
 
-.DAF-menu span[data-value="status"] {
-  background-color: #0FF;
+.DAF-menu span[data-value='status'] {
+	background-color: #0ff;
 }
 
 .DAF-menu li:focus-within b,
 .DAF-menu li:hover b {
-  background-color: #FF0;
-  color: #00F;
-  transform: scale(1.5);
+	background-color: #ff0;
+	color: #00f;
+	transform: scale(1.5);
 }
 
 .DAF-menu li div {
-  position: absolute;
-  padding: 32px 32px 32px 4px;
-  margin-top: -30px;
+	position: absolute;
+	padding: 32px 32px 32px 4px;
+	margin-top: -30px;
 }
 
 .DAF-menu i {
-  background-color: #999;
-  color: #DDD;
+	background-color: #999;
+	color: #ddd;
 }
 
 .DAF-menu .DAF-on {
-  background-color: #0F0;
-  color: #060;
+	background-color: #0f0;
+	color: #060;
 }
 
-.DAF-menu li[data-action="about"] div span:first-child {
-  font-size: 22pt !important;
-  background-color: #FF0;
-  margin-top: -7px;
-  padding: 0px 6px;
+.DAF-menu li[data-action='about'] div span:first-child {
+	font-size: 22pt !important;
+	background-color: #ff0;
+	margin-top: -7px;
+	padding: 0px 6px;
 }
 
-.DAF-menu li[data-action="about"] b {
-  background-image: var(--logo);
-  background-size: 22px 22px;
-  background-position: 4px 3px;
+.DAF-menu li[data-action='about'] b {
+	background-image: var(--logo);
+	background-size: 22px 22px;
+	background-position: 4px 3px;
 }
 
-.DAF-menu li[data-action="fullWindow"] b {
-  background-image: url("/img/gui/zoom.png");
+.DAF-menu li[data-action='fullWindow'] b {
+	background-image: url('/img/gui/zoom.png');
 }
 
-.DAF-menu li[data-action="gc"] b {
-  background-image: url("/img/gui/gc.png");
+.DAF-menu li[data-action='gc'] b {
+	background-image: url('/img/gui/gc.png');
 }
 
-.DAF-menu li[data-action="reloadGame"] b {
-  background-image: url("/img/gui/game.png");
-  background-size: 28px 28px;
-  background-position: 0px 0px;
+.DAF-menu li[data-action='reloadGame'] b {
+	background-image: url('/img/gui/game.png');
+	background-size: 28px 28px;
+	background-position: 0px 0px;
 }
 
-.DAF-menu li[data-action="badges"] b {
-  background-image: url("/img/gui/badge.png");
+.DAF-menu li[data-action='badges'] b {
+	background-image: url('/img/gui/badge.png');
 }
 
-.DAF-menu li[data-action="ads"] b {
-  background-image: url("/img/gui/ads.png");
+.DAF-menu li[data-action='ads'] b {
+	background-image: url('/img/gui/ads.png');
 }
 
-.DAF-menu li[data-action="search"] b {
-  background-image: url("/img/gui/friendship.png");
+.DAF-menu li[data-action='search'] b {
+	background-image: url('/img/gui/friendship.png');
 }
 
-.DAF-menu:not(.DAF-facebook) i[data-pref="fullWindowSide"] {
-  display: none;
+.DAF-menu:not(.DAF-facebook) i[data-pref='fullWindowSide'] {
+	display: none;
 }
 
 .DAF-badges {
-  display: flex;
-  position: fixed;
-  left: 22px;
-  top: 34px;
+	display: flex;
+	position: fixed;
+	left: 22px;
+	top: 34px;
 }
 
-.DAF-menu:focus-within+.DAF-badges,
-.DAF-menu:hover+.DAF-badges {
-  display: none;
+.DAF-menu:focus-within + .DAF-badges,
+.DAF-menu:hover + .DAF-badges {
+	display: none;
 }
 
 .DAF-badges b {
-  border: 2px solid #000;
-  height: 23px;
-  border-radius: 1em;
-  background-color: #BDF;
-  color: #046;
-  font-style: normal;
-  font-size: 14px;
-  cursor: default;
+	border: 2px solid #000;
+	height: 23px;
+	border-radius: 1em;
+	background-color: #bdf;
+	color: #046;
+	font-style: normal;
+	font-size: 14px;
+	cursor: default;
 }
 
-.DAF-badges>* {
-  display: none;
+.DAF-badges > * {
+	display: none;
 }
 
 .DAF-badges .DAF-badge-img {
-  background-position: 2px 0px;
-  background-repeat: no-repeat;
-  background-size: 18px 18px;
-  padding: 0px 5px 0 22px;
+	background-position: 2px 0px;
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	padding: 0px 5px 0 22px;
 }
 
 .DAF-badges .DAF-badge-energy,
 .DAF-badges .DAF-badge-gc-energy {
-  background-image: url(/img/gui/energy.png);
-  background-color: #0F0;
-  background-size: 22px;
-  background-position: 0px -2px;
+	background-image: url(/img/gui/energy.png);
+	background-color: #0f0;
+	background-size: 22px;
+	background-position: 0px -2px;
 }
 
 .DAF-badges .DAF-badge-energy {
-  background-color: #FFF;
-  color: #A00;
+	background-color: #fff;
+	color: #a00;
 }
 
 .DAF-badges .DAF-badge-gc-counter {
-  background-image: url(/img/gui/gc.png);
-  background-color: #0FF;
+	background-image: url(/img/gui/gc.png);
+	background-color: #0ff;
 }
 
 .DAF-badges .DAF-badge-gc-energy {
-  background-image: url(/img/gui/energy.png);
-  background-color: #0F0;
+	background-image: url(/img/gui/energy.png);
+	background-color: #0f0;
 }
 
 .DAF-badges .DAF-badge-luckycards {
-  background-image: url(/img/gui/luckycards.png);
-  background-color: #FF0;
+	background-image: url(/img/gui/luckycards.png);
+	background-color: #ff0;
 }
 
 .DAF-badges .DAF-badge-windmills {
-  background-image: url(/img/gui/windmill.png);
-  background-color: #9f9;
-  padding: 0 13px;
-  background-position: 2px -1px;
-  background-size: 22px;
+	background-image: url(/img/gui/windmill.png);
+	background-color: #9f9;
+	padding: 0 13px;
+	background-position: 2px -1px;
+	background-size: 22px;
 }
 
 .DAF-badges .DAF-badge-p-c {
-  background-image: url(/img/gui/caravan.png);
-  background-color: #FD0;
+	background-image: url(/img/gui/caravan.png);
+	background-color: #fd0;
 }
 
 .DAF-badges .DAF-badge-p-k {
-  background-image: url(/img/gui/kitchen.png);
-  background-color: #FA4;
+	background-image: url(/img/gui/kitchen.png);
+	background-color: #fa4;
 }
 
 .DAF-badges .DAF-badge-p-f {
-  background-image: url(/img/gui/foundry.png);
-  background-color: #6DD;
+	background-image: url(/img/gui/foundry.png);
+	background-color: #6dd;
 }
 
 .DAF-badges .DAF-badge-rep b {
-  background-color: #A00;
-  border-color: #A00;
-  height: 25px;
-  margin-top: -1px;
-  display: inline-block;
+	background-color: #a00;
+	border-color: #a00;
+	height: 25px;
+	margin-top: -1px;
+	display: inline-block;
 }
 
 .DAF-badges .DAF-badge-p-c.animate,
@@ -297,7 +297,7 @@
 .DAF-badges .DAF-badge-luckycards.animate,
 .DAF-badges .DAF-badge-windmills.animate,
 .DAF-badges .DAF-badge-rep.animate b {
-  animation: DAF_flash infinite 2s alternate;
+	animation: DAF_flash infinite 2s alternate;
 }
 
 .DAF-badges.DAF-badgeserverenergy .DAF-badge-energy.DAF-badge-on,
@@ -309,184 +309,184 @@
 .DAF-badges.DAF-badgeproductions.DAF-badgefoundry .DAF-badge-p-f.DAF-badge-on,
 .DAF-badges.DAF-badgeluckycards .DAF-badge-luckycards.DAF-badge-on,
 .DAF-badges.DAF-badgegcenergy .DAF-badge-gc-energy.DAF-badge-on {
-  display: inline-block;
+	display: inline-block;
 }
 
 .DAF-badge-rep div {
-  width: 23px;
-  height: 23px;
-  border-radius: 11px;
-  display: inline-block;
-  background-size: 27px;
-  vertical-align: top;
-  margin: -1px;
-  background-position: -2px -2px;
-  transition: all 0.5s;
+	width: 23px;
+	height: 23px;
+	border-radius: 11px;
+	display: inline-block;
+	background-size: 27px;
+	vertical-align: top;
+	margin: -1px;
+	background-position: -2px -2px;
+	transition: all 0.5s;
 }
 
-.DAF-badge-rep div+div {
-  margin-left: 4px;
+.DAF-badge-rep div + div {
+	margin-left: 4px;
 }
 
 .DAF-badge-rep:not(:hover) .on-hover,
 .DAF-badge-rep:hover .no-hover {
-  display: none;
+	display: none;
 }
 
 .DAF-badge-rep:hover {
-  border: 20px solid transparent;
-  margin: -20px;
-  border-left-width: 6px;
-  margin-left: -6px;
+	border: 20px solid transparent;
+	margin: -20px;
+	border-left-width: 6px;
+	margin-left: -6px;
 }
 
 .DAF-badge-rep div:hover {
-  transform: scale(1.8);
-  width: 27px;
-  height: 27px;
-  background-position: 0 0;
-  margin-right: -5px;
+	transform: scale(1.8);
+	width: 27px;
+	height: 27px;
+	background-position: 0 0;
+	margin-right: -5px;
 }
 
 .DAF-badge-rep span {
-  padding: 0 4px 0 2px;
-  display: inline-block;
-  border-radius: 11px;
-  height: 19px;
-  color: #FFF;
-  margin-left: 2px;
+	padding: 0 4px 0 2px;
+	display: inline-block;
+	border-radius: 11px;
+	height: 19px;
+	color: #fff;
+	margin-left: 2px;
 }
 
 @keyframes DAF_flash {
-  from {
-    filter: contrast(1);
-  }
+	from {
+		filter: contrast(1);
+	}
 
-  to {
-    filter: contrast(3);
-    transform: scale(1.3);
-  }
+	to {
+		filter: contrast(3);
+		transform: scale(1.3);
+	}
 }
 
 .DAF-menu table.DAF-table {
-  border: 2px solid #36648B;
-  border-spacing: 0;
-  border-collapse: collapse;
+	border: 2px solid #36648b;
+	border-spacing: 0;
+	border-collapse: collapse;
 }
 
 .DAF-menu table.DAF-table thead tr,
 .DAF-menu table.DAF-table tfoot tr {
-  background-color: #2281C0;
-  color: #FFFFFF;
+	background-color: #2281c0;
+	color: #ffffff;
 }
 
 .DAF-menu table.DAF-table tbody tr {
-  color: #000000;
-  background-color: #F5F5F5;
+	color: #000000;
+	background-color: #f5f5f5;
 }
 
 .DAF-menu table.DAF-table tbody tr:nth-child(odd) {
-  background-color: #E7E7E7;
+	background-color: #e7e7e7;
 }
 
 .DAF-menu table.DAF-table th,
 .DAF-menu table.DAF-table td {
-  padding: 2px;
-  border: 1px solid #88A6;
+	padding: 2px;
+	border: 1px solid #88a6;
 }
 
 .DAF-menu table.DAF-table thead td {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .DAF-ads_limit_warning {
-  width: 460px;
-  padding: 2px 4px 2px 48px;
-  background-image: url(/img/gui/q-hard.png);
-  background-repeat: no-repeat;
-  background-color: #620;
-  color: #FFF;
-  background-position: 8px 50%;
-  border: 2px solid #C00;
-  border-radius: 8px;
-  text-align: left;
-  margin: 0 auto 4px;
-  font-size: 15px !important;
-  white-space: normal;
+	width: 460px;
+	padding: 2px 4px 2px 48px;
+	background-image: url(/img/gui/q-hard.png);
+	background-repeat: no-repeat;
+	background-color: #620;
+	color: #fff;
+	background-position: 8px 50%;
+	border: 2px solid #c00;
+	border-radius: 8px;
+	text-align: left;
+	margin: 0 auto 4px;
+	font-size: 15px !important;
+	white-space: normal;
 }
 
-.DAF-menu li[data-action="ads"] tbody td:nth-child(3) {
-  font-size: 12px !important;
+.DAF-menu li[data-action='ads'] tbody td:nth-child(3) {
+	font-size: 12px !important;
 }
 
-.DAF-menu li[data-action="ads"] td,
-.DAF-menu li[data-action="ads"] th {
-  padding: 3px 5px;
+.DAF-menu li[data-action='ads'] td,
+.DAF-menu li[data-action='ads'] th {
+	padding: 3px 5px;
 }
 
-.DAF-menu li[data-action="ads"] td:nth-child(2),
-.DAF-menu li[data-action="ads"] td:nth-child(3),
-.DAF-menu li[data-action="search"] thead td:nth-child(2),
-.DAF-menu li[data-action="search"] thead td:nth-child(3),
-.DAF-menu li[data-action="search"] td:nth-child(3) {
-  text-align: center;
+.DAF-menu li[data-action='ads'] td:nth-child(2),
+.DAF-menu li[data-action='ads'] td:nth-child(3),
+.DAF-menu li[data-action='search'] thead td:nth-child(2),
+.DAF-menu li[data-action='search'] thead td:nth-child(3),
+.DAF-menu li[data-action='search'] td:nth-child(3) {
+	text-align: center;
 }
 
-.DAF-menu li[data-action="search"] tbody td:nth-child(2) {
-  min-width: 180px;
+.DAF-menu li[data-action='search'] tbody td:nth-child(2) {
+	min-width: 180px;
 }
 
-.DAF-menu li[data-action="search"] tfoot th:first-child {
-  min-width: 220px;
+.DAF-menu li[data-action='search'] tfoot th:first-child {
+	min-width: 220px;
 }
 
-.DAF-menu li[data-action="search"] td:nth-child(4) {
-  text-align: right;
-  padding-right: 4px;
+.DAF-menu li[data-action='search'] td:nth-child(4) {
+	text-align: right;
+	padding-right: 4px;
 }
 
-.DAF-menu li[data-action="search"] td a {
-  color: #2281C0;
-  text-decoration: underline;
+.DAF-menu li[data-action='search'] td a {
+	color: #2281c0;
+	text-decoration: underline;
 }
 
-.DAF-menu li[data-action="search"] td i {
-  border: 0;
-  background-color: transparent;
-  color: #999;
-  padding: 0;
-  font-style: oblique;
-  cursor: default;
+.DAF-menu li[data-action='search'] td i {
+	border: 0;
+	background-color: transparent;
+	color: #999;
+	padding: 0;
+	font-style: oblique;
+	cursor: default;
 }
 
-.DAF-menu li[data-action="search"]>div>span {
-  border-right-width: 0px;
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-  margin-right: 0px;
-  padding: 4px 4px 3px 6px;
+.DAF-menu li[data-action='search'] > div > span {
+	border-right-width: 0px;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+	margin-right: 0px;
+	padding: 4px 4px 3px 6px;
 }
 
-.DAF-menu li[data-action="search"]>div>input {
-  border: 2px solid #000;
-  width: 160px;
+.DAF-menu li[data-action='search'] > div > input {
+	border: 2px solid #000;
+	width: 160px;
 }
 
-.DAF-menu li[data-action="search"]>div>input:not(:focus) {
-  border-bottom-right-radius: 16px;
-  border-top-right-radius: 16px;
+.DAF-menu li[data-action='search'] > div > input:not(:focus) {
+	border-bottom-right-radius: 16px;
+	border-top-right-radius: 16px;
 }
 
 .DAF-menu .DAF-search-region,
 .DAF-menu .DAF-search-level {
-  background-size: 20px;
-  background-repeat: no-repeat;
-  background-position: center center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 .DAF-menu .DAF-search-region {
-  background-image: url(/img/gui/map.png);
+	background-image: url(/img/gui/map.png);
 }
 .DAF-menu .DAF-search-level {
-  background-image: url(/img/gui/level.png);
+	background-image: url(/img/gui/level.png);
 }
 /*#endregion*/

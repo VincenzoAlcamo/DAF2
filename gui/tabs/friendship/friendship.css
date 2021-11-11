@@ -1,108 +1,108 @@
 .friendship tr td {
-  text-align: center;
+	text-align: center;
 }
 
 .friendship tr td:nth-child(8),
 .friendship tr td:nth-child(2) {
-  text-align: left;
+	text-align: left;
 }
 
 .friendship tr[lazy-render] td:nth-child(1),
 .friendship tr[lazy-render] td:nth-child(7) {
-  background: no-repeat url(/img/gui/anon.gif) 5px 5px;
+	background: no-repeat url(/img/gui/anon.gif) 5px 5px;
 }
 
 .friendship tr td:nth-child(1) {
-  min-height: 61px;
+	min-height: 61px;
 }
 
 .friendship tr th:nth-child(1),
 .friendship tr th:nth-child(7) {
-  min-width: 61px;
+	min-width: 61px;
 }
 
 .friendship tr th:nth-child(2),
 .friendship tr th:nth-child(8) {
-  min-width: 180px;
-  max-width: 300px;
+	min-width: 180px;
+	max-width: 300px;
 }
 
 .friendship button[data-action] {
-  margin: 0;
-  width: 36px;
-  height: 36px;
-  background-position: center;
+	margin: 0;
+	width: 36px;
+	height: 36px;
+	background-position: center;
 }
 
 .friendship button[data-action] {
-  border: 1px solid var(--tb-brcol);
-  border-radius: 20px;
-  background-color: var(--th-bgcol);
-  background-size: 24px;
-  background-repeat: no-repeat;
-  cursor: pointer;
+	border: 1px solid var(--tb-brcol);
+	border-radius: 20px;
+	background-color: var(--th-bgcol);
+	background-size: 24px;
+	background-repeat: no-repeat;
+	cursor: pointer;
 }
 
-.friendship.f-matching tr button[data-action="delete"],
-.friendship:not(.f-matching) tr button[data-action="match"] {
-  display: none;
+.friendship.f-matching tr button[data-action='delete'],
+.friendship:not(.f-matching) tr button[data-action='match'] {
+	display: none;
 }
 
 .friendship div.f-disabled {
-  background-color: var(--warn-bgcol);
-  color: var(--warn-fgcol);
-  font-weight: bold;
-  padding: 0px 4px;
-  border-radius: 4px;
-  white-space: pre;
+	background-color: var(--warn-bgcol);
+	color: var(--warn-fgcol);
+	font-weight: bold;
+	padding: 0px 4px;
+	border-radius: 4px;
+	white-space: pre;
 }
 
-.friendship tr.f-ismatching button[data-action="manual"],
+.friendship tr.f-ismatching button[data-action='manual'],
 .friendship button[data-action]:hover {
-  background-color: var(--tb-hlcol);
+	background-color: var(--tb-hlcol);
 }
 
-.friendship button[data-action="unlink"] {
-  background-image: url(/img/gui/friendship_linked.png);
+.friendship button[data-action='unlink'] {
+	background-image: url(/img/gui/friendship_linked.png);
 }
 
-.friendship button[data-action="ignore"] {
-  background-image: url(/img/gui/friendship_regarded.png);
+.friendship button[data-action='ignore'] {
+	background-image: url(/img/gui/friendship_regarded.png);
 }
 
-.friendship button[data-action="regard"] {
-  background-image: url(/img/gui/friendship_ignored.png);
+.friendship button[data-action='regard'] {
+	background-image: url(/img/gui/friendship_ignored.png);
 }
 
-.friendship button[data-action="delete"] {
-  background-image: url(/img/gui/friendship_delete.png);
+.friendship button[data-action='delete'] {
+	background-image: url(/img/gui/friendship_delete.png);
 }
 
-.friendship button[data-action="match"] {
-  background-image: url(/img/gui/friendship_star.png);
+.friendship button[data-action='match'] {
+	background-image: url(/img/gui/friendship_star.png);
 }
 
-.friendship button[data-action="manual"] {
-  background-image: url(/img/gui/friendship_match.png);
+.friendship button[data-action='manual'] {
+	background-image: url(/img/gui/friendship_match.png);
 }
 
 .tab_friendship .DAF-gc-pal {
-  display: none;
-  width: 80px;
-  height: 101px;
-  background-size: 80px 80px;
-  position: absolute;
-  margin-top: -2px;
-  z-index: 2000;
-  margin-left: -84px;
+	display: none;
+	width: 80px;
+	height: 101px;
+	background-size: 80px 80px;
+	position: absolute;
+	margin-top: -2px;
+	z-index: 2000;
+	margin-left: -84px;
 }
 
 .tab_friendship .DAF-gc-pal div:first-child {
-  width: 28px;
-  height: 18px;
+	width: 28px;
+	height: 18px;
 }
 
 .friendship .friendname {
-  font-style: oblique;
-  opacity: 0.8;
+	font-style: oblique;
+	opacity: 0.8;
 }

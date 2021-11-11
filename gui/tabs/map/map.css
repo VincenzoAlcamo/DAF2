@@ -1,294 +1,294 @@
 html {
-  --map-marker-special: #FF0;
-  --map-marker-specialfg: #000;
-  --map-marker-quest: #F0F;
-  --map-marker-questfg: #000;
-  --map-marker-material: #0F0;
-  --map-marker-materialfg: #000;
-  --map-marker-tile: #CCC;
-  --map-marker-arrow: #FF0;
-  --map-marker-color-0: #000;
-  --map-marker-color-1: #F00;
-  --map-marker-color-2: #0F0;
-  --map-marker-color-3: #FF0;
-  --map-marker-color-4: #00F;
-  --map-marker-color-5: #F0F;
-  --map-marker-color-6: #0FF;
-  --map-marker-color-7: #FFF;
-  --map-marker-color-8: #FA0;
-  --map-marker-color-9: #AAF;
+	--map-marker-special: #ff0;
+	--map-marker-specialfg: #000;
+	--map-marker-quest: #f0f;
+	--map-marker-questfg: #000;
+	--map-marker-material: #0f0;
+	--map-marker-materialfg: #000;
+	--map-marker-tile: #ccc;
+	--map-marker-arrow: #ff0;
+	--map-marker-color-0: #000;
+	--map-marker-color-1: #f00;
+	--map-marker-color-2: #0f0;
+	--map-marker-color-3: #ff0;
+	--map-marker-color-4: #00f;
+	--map-marker-color-5: #f0f;
+	--map-marker-color-6: #0ff;
+	--map-marker-color-7: #fff;
+	--map-marker-color-8: #fa0;
+	--map-marker-color-9: #aaf;
 }
 
 body:not(.map-rendered) .tab_map .toolbar label:not(.actions),
-body:not(.map-rendered) .tab_map .toolbar label.actions button[data-action="save"],
+body:not(.map-rendered) .tab_map .toolbar label.actions button[data-action='save'],
 body:not(.map-rendered) .tab_map .toolbar img.location,
 body.map-rendered .tab_map .toolbar div.warning {
-  display: none;
+	display: none;
 }
 
 body.map-rendered .tab_map {
-  background-color: #000;
+	background-color: #000;
 }
 
 body.map-rendered .tab_map .scrollable-content {
-  margin-left: 0;
+	margin-left: 0;
 }
 
-body.map-rendered ul.vertical-menu li[data-tabid="map"].selected {
-  border-right-color: #000;
+body.map-rendered ul.vertical-menu li[data-tabid='map'].selected {
+	border-right-color: #000;
 }
 
-body.is-admin .tab_map .toolbar button[data-action="admin"] {
-  background-color: var(--tt-button-hlcol);
+body.is-admin .tab_map .toolbar button[data-action='admin'] {
+	background-color: var(--tt-button-hlcol);
 }
 
 .tab_map .toolbar button.small {
-  font-size: 0.8em;
-  margin: 0px 0px 1px 6px;
-  padding: 1px 2px;
+	font-size: 0.8em;
+	margin: 0px 0px 1px 6px;
+	padding: 1px 2px;
 }
 
 .tab_map .toolbar label div {
-  display: inline-block;
-  font-weight: bold;
+	display: inline-block;
+	font-weight: bold;
 }
 
 .tab_map .toolbar .warn {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
-  border-radius: 4px;
-  padding: 2px 4px;
+	background-color: var(--tb-hlcol);
+	color: var(--tb-hlfgcol);
+	border-radius: 4px;
+	padding: 2px 4px;
 }
 
 .tab_map .toolbar label.actions button {
-  height: 20px;
-  padding-top: 0;
+	height: 20px;
+	padding-top: 0;
 }
 
 /*#region table*/
 .tab_map .toolbar table {
-  border: 0;
-  margin: 0px 0 -8px 0;
+	border: 0;
+	margin: 0px 0 -8px 0;
 }
 
 .tab_map .toolbar table tr {
-  background-color: transparent;
+	background-color: transparent;
 }
 
 .tab_map .toolbar table th,
 .tab_map .toolbar table td {
-  border: 0;
-  border-right: 2px solid var(--tt-bgcol);
-  border-left: 2px solid var(--tt-bgcol);
-  padding: 0 2px;
-  color: var(--tt-fgcol);
-  font-size: 12px;
-  text-align: right;
+	border: 0;
+	border-right: 2px solid var(--tt-bgcol);
+	border-left: 2px solid var(--tt-bgcol);
+	padding: 0 2px;
+	color: var(--tt-fgcol);
+	font-size: 12px;
+	text-align: right;
 }
 
 .tab_map .toolbar table tr:first-of-type th {
-  text-align: center;
+	text-align: center;
 }
 
 .tab_map .toolbar table tr th:first-of-type {
-  text-align: left;
+	text-align: left;
 }
 
 .tab_map .toolbar table tr:first-of-type th:first-of-type {
-  text-align: right;
+	text-align: right;
 }
 
 .tab_map .toolbar table tr:first-of-type th {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
 }
 
 .tab_map .toolbar table tr:last-of-type td {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
 }
 
 .tab_map .toolbar .cost {
-  background-color: #0008;
+	background-color: #0008;
 }
 
 .tab_map .toolbar .special {
-  background-color: var(--map-marker-special);
-  color: var(--map-marker-specialfg);
+	background-color: var(--map-marker-special);
+	color: var(--map-marker-specialfg);
 }
 
 .tab_map .toolbar .quest {
-  background-color: var(--map-marker-quest);
-  color: var(--map-marker-questfg);
+	background-color: var(--map-marker-quest);
+	color: var(--map-marker-questfg);
 }
 
 .tab_map .toolbar .material {
-  background-color: var(--map-marker-material);
-  color: var(--map-marker-materialfg);
+	background-color: var(--map-marker-material);
+	color: var(--map-marker-materialfg);
 }
 
 .tab_map .toolbar th.special,
 .tab_map .toolbar th.quest,
 .tab_map .toolbar th.material {
-  padding: 0;
+	padding: 0;
 }
 
 .tab_map .toolbar .special img,
 .tab_map .toolbar .quest img,
 .tab_map .toolbar .material img {
-  max-width: 18px;
-  max-height: 18px;
-  margin: -2px;
+	max-width: 18px;
+	max-height: 18px;
+	margin: -2px;
 }
 
 /*#endregion*/
 
 .tab_map .tile-info {
-  cursor: default;
+	cursor: default;
 }
 
 .tab_map .tile-info table:not(.has-special) .special,
 .tab_map .tile-info table:not(.has-quest) .quest,
 .tab_map .tile-info table:not(.has-material) .material {
-  display: none;
+	display: none;
 }
 
 .tab_map .tile-info table.is-repeatable tr.totals {
-  visibility: hidden;
+	visibility: hidden;
 }
 
-.tab_map .toolbar input[type=radio] {
-  width: 20px !important;
-  height: 20px !important;
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: var(--tt-input-bgcol);
-  border: 1px solid var(--tt-input-brcol);
-  border-radius: 10px;
+.tab_map .toolbar input[type='radio'] {
+	width: 20px !important;
+	height: 20px !important;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: var(--tt-input-bgcol);
+	border: 1px solid var(--tt-input-brcol);
+	border-radius: 10px;
 }
 
-.tab_map .toolbar input[type=radio]:checked {
-  background-color: var(--tt-button-hlcol);
+.tab_map .toolbar input[type='radio']:checked {
+	background-color: var(--tt-button-hlcol);
 }
 
-.tab_map .toolbar input[type=radio]:disabled {
-  opacity: 0.6;
-  background-color: var(--tt-input-brcol);
+.tab_map .toolbar input[type='radio']:disabled {
+	opacity: 0.6;
+	background-color: var(--tt-input-brcol);
 }
 
-.tab_map .toolbar input[type=radio]:before {
-  color: var(--tt-input-brcol);
-  content: ' ';
-  font-weight: bold;
-  font-size: 15px;
-  display: block;
-  margin-top: -1px;
-  text-align: center;
+.tab_map .toolbar input[type='radio']:before {
+	color: var(--tt-input-brcol);
+	content: ' ';
+	font-weight: bold;
+	font-size: 15px;
+	display: block;
+	margin-top: -1px;
+	text-align: center;
 }
 
-.tab_map .toolbar input[type=radio]:disabled:before {
-  color: var(--tt-input-bgcol);
+.tab_map .toolbar input[type='radio']:disabled:before {
+	color: var(--tt-input-bgcol);
 }
 
 .tab_map .toolbar [data-flag]:before {
-  line-height: 20px;
+	line-height: 20px;
 }
 
-.tab_map .toolbar input[type=radio][data-flag]:before,
+.tab_map .toolbar input[type='radio'][data-flag]:before,
 .tab_map .toolbar [data-flag]:before {
-  content: attr(data-flag);
+	content: attr(data-flag);
 }
 
 .tab_map .toolbar [data-flag-caption]:before {
-  content: attr(data-flag-caption);
+	content: attr(data-flag-caption);
 }
 
-.tab_map .toolbar div[data-id="info"] {
-  line-height: 0.9;
-  white-space: pre;
+.tab_map .toolbar div[data-id='info'] {
+	line-height: 0.9;
+	white-space: pre;
 }
 
 .tab_map .map {
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
 }
 
 .tab_map .map table {
-  border: 0;
-  position: absolute;
-  border-collapse: separate;
+	border: 0;
+	position: absolute;
+	border-collapse: separate;
 }
 
 .tab_map .map.show_opaque table,
 .tab_map .map.show_tiles table {
-  background-color: #0006;
+	background-color: #0006;
 }
 
 .tab_map .map canvas {
-  pointer-events: none;
+	pointer-events: none;
 }
 
 .tab_map .map .scaled {
-  transform-origin: top left;
+	transform-origin: top left;
 }
 
 .tab_map .map table,
 .tab_map .map canvas {
-  position: absolute;
-  left: 0;
-  top: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 
 .tab_map .map table tr {
-  background-color: transparent;
+	background-color: transparent;
 }
 
 .tab_map .map td {
-  border: 0;
-  width: 62px;
-  height: 62px;
-  background-color: transparent;
-  position: relative;
+	border: 0;
+	width: 62px;
+	height: 62px;
+	background-color: transparent;
+	position: relative;
 }
 
 .tab_map .map.show_tiles td.tile {
-  border: 2px solid #FFF;
-  background-color: #AAF6;
+	border: 2px solid #fff;
+	background-color: #aaf6;
 }
 
 .tab_map .map.show_tiles.show_bonus td.xp {
-  background-color: #FF06;
+	background-color: #ff06;
 }
 
 .tab_map .map.show_tiles.show_bonus td.energy {
-  background-color: #0F06;
+	background-color: #0f06;
 }
 
 .tab_map .map.show_tiles.show_bonus td.energy.xp {
-  background-color: #0FF6;
+	background-color: #0ff6;
 }
 
 .tab_map .map.show_tiles td.tile.tile-e {
-  border-right-style: none;
+	border-right-style: none;
 }
 
 .tab_map .map.show_tiles td.tile.tile-n {
-  border-top-style: none;
+	border-top-style: none;
 }
 
 .tab_map .map.show_tiles td.tile.tile-s {
-  border-bottom-style: none;
+	border-bottom-style: none;
 }
 
 .tab_map .map.show_tiles td.tile.tile-w {
-  border-left-style: none;
+	border-left-style: none;
 }
 
 .tab_map .map.show_opaque td.opaque.energy,
 .tab_map .map.show_opaque td.opaque.xp,
 .tab_map .map.show_opaque td.opaque {
-  background-color: #F008;
+	background-color: #f008;
 }
 
 /* .tab_map .map.show_opaque td.walkable:not(.hide) {
@@ -297,301 +297,305 @@ body.is-admin .tab_map .toolbar button[data-action="admin"] {
 
 .tab_map .map.show_bonus td.xp,
 .tab_map .map.show_bonus td.energy {
-  background-repeat: no-repeat;
-  background-origin: border-box;
+	background-repeat: no-repeat;
+	background-origin: border-box;
 }
 
 .tab_map .map.show_bonus td.xp {
-  background-image: url(/img/gui/xp.png);
-  background-position: 0px 0px;
-  background-size: 26px 26px;
-  box-shadow: 0px 0px 12px 4px #ff0;
+	background-image: url(/img/gui/xp.png);
+	background-position: 0px 0px;
+	background-size: 26px 26px;
+	box-shadow: 0px 0px 12px 4px #ff0;
 }
 
 .tab_map .map.show_bonus td.energy {
-  background-image: url(/img/gui/energy.png);
-  background-position: -4px 0px;
-  background-size: 32px 26px;
-  box-shadow: 0px 0px 12px 4px #0f0;
+	background-image: url(/img/gui/energy.png);
+	background-position: -4px 0px;
+	background-size: 32px 26px;
+	box-shadow: 0px 0px 12px 4px #0f0;
 }
 
 .tab_map .map.show_bonus td.energy.xp {
-  background-image: url(/img/gui/energy.png), url(/img/gui/xp.png);
-  background-position: -4px 0px, 16px 0px;
-  background-size: 32px 26px, 26px 26px;
-  box-shadow: 0px 0px 12px 4px #0ff;
+	background-image: url(/img/gui/energy.png), url(/img/gui/xp.png);
+	background-position: -4px 0px, 16px 0px;
+	background-size: 32px 26px, 26px 26px;
+	box-shadow: 0px 0px 12px 4px #0ff;
 }
 
 .tab_map .map .beacon-req {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 62px;
-  height: 62px;
-  background-size: 62px 62px;
-  background-color: #F00;
-  box-shadow: inset 0 0 0px 4px #F00;
-  display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 62px;
+	height: 62px;
+	background-size: 62px 62px;
+	background-color: #f00;
+	box-shadow: inset 0 0 0px 4px #f00;
+	display: none;
 }
 
 .tab_map .map .beacon-active .beacon-req {
-  background-color: #0F0;
-  box-shadow: inset 0 0 0px 4px #0F0;
+	background-color: #0f0;
+	box-shadow: inset 0 0 0px 4px #0f0;
 }
 
 .tab_map .map .beacon {
-  display: none;
-  width: 14px;
-  height: 14px;
-  border: 1px solid #000;
-  border-radius: 7px;
-  margin-left: 20px;
-  background-color: #F008;
+	display: none;
+	width: 14px;
+	height: 14px;
+	border: 1px solid #000;
+	border-radius: 7px;
+	margin-left: 20px;
+	background-color: #f008;
 }
 
 .tab_map .map .beacon-active .beacon {
-  border: 2px solid #FFF;
-  width: 16px;
-  height: 16px;
-  margin-left: 19px;
+	border: 2px solid #fff;
+	width: 16px;
+	height: 16px;
+	margin-left: 19px;
 }
 
 .tab_map .map.show_beacon .beacon {
-  display: inline-block;
+	display: inline-block;
 }
 
 .tab_map .map td[title] {
-  cursor: help;
+	cursor: help;
 }
 
 .tab_map .map td[data-action] {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .tab_map img.location {
-  max-width: 40px;
-  max-height: 40px;
-  vertical-align: bottom;
-  margin-right: -6px;
-  cursor: default;
+	max-width: 40px;
+	max-height: 40px;
+	vertical-align: bottom;
+	margin-right: -6px;
+	cursor: default;
 }
 
 body.map-rendered .tab_map .scrollable-content.dragging,
 body.map-rendered .tab_map .scrollable-content.dragging td {
-  cursor: grabbing;
+	cursor: grabbing;
 }
 
 .tab_map .map .overlay {
-  position: absolute;
+	position: absolute;
 }
 
 .tab_map .map .line {
-  position: absolute;
-  height: 10px;
-  background-color: var(--map-marker-arrow);
-  border: 2px solid #000;
-  transform-origin: 0px 5px;
-  border-radius: 5px;
-  display: none;
+	position: absolute;
+	height: 10px;
+	background-color: var(--map-marker-arrow);
+	border: 2px solid #000;
+	transform-origin: 0px 5px;
+	border-radius: 5px;
+	display: none;
 }
 
 .tab_map .map .circle {
-  position: absolute;
-  height: 84px;
-  width: 84px;
-  border: 10px solid var(--map-marker-arrow);
-  border-radius: 84px;
-  margin-top: -11px;
-  margin-left: -11px;
-  display: none;
+	position: absolute;
+	height: 84px;
+	width: 84px;
+	border: 10px solid var(--map-marker-arrow);
+	border-radius: 84px;
+	margin-top: -11px;
+	margin-left: -11px;
+	display: none;
 }
 
-.tab_map.is_uncleared .grid-container>.toolbar {
-  --tt-bgcol: #c18128;
+.tab_map.is_uncleared .grid-container > .toolbar {
+	--tt-bgcol: #c18128;
 }
 
 .tab_map .map .random-pos {
-  box-shadow: inset 0px 0px 0px 9px #FFF8;
+	box-shadow: inset 0px 0px 0px 9px #fff8;
 }
 
 .tab_map .toolbar .for-mapper {
-  visibility: hidden;
+	visibility: hidden;
 }
 
 .is-mapper .tab_map .toolbar label:hover .for-mapper {
-  visibility: visible;
+	visibility: visible;
 }
 
 /* FLOOR SELECTOR FLAGS */
 .tab_map .toolbar span.map_flags {
-  display: inline-block;
-  height: 20px;
-  margin-top: 2px;
+	display: inline-block;
+	height: 20px;
+	margin-top: 2px;
 }
 
 .tab_map .toolbar span.map_flags_m {
-  box-shadow: inset 0px -10px var(--map-marker-material);
+	box-shadow: inset 0px -10px var(--map-marker-material);
 }
 
 .tab_map .toolbar span.map_flags_mq {
-  box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest);
+	box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest);
 }
 
 .tab_map .toolbar span.map_flags_mqs {
-  box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special), 0px 3px var(--map-marker-quest);
+	box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special),
+		0px 3px var(--map-marker-quest);
 }
 
 .tab_map .toolbar span.map_flags_mqst {
-  box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
+	box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest),
+		0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_mqt {
-  box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest), inset 0px 10px var(--map-marker-tile);
+	box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest),
+		inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_ms {
-  box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special);
+	box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special);
 }
 
 .tab_map .toolbar span.map_flags_mst {
-  box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
+	box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special),
+		inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_mt {
-  box-shadow: inset 0px -10px var(--map-marker-material), inset 0px 10px var(--map-marker-tile);
+	box-shadow: inset 0px -10px var(--map-marker-material), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_q {
-  box-shadow: 0px 3px var(--map-marker-quest);
+	box-shadow: 0px 3px var(--map-marker-quest);
 }
 
 .tab_map .toolbar span.map_flags_qs {
-  box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special);
+	box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special);
 }
 
 .tab_map .toolbar span.map_flags_qst {
-  box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
+	box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_qt {
-  box-shadow: 0px 3px var(--map-marker-quest), inset 0px 10px var(--map-marker-tile);
+	box-shadow: 0px 3px var(--map-marker-quest), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_s {
-  box-shadow: 0px -3px var(--map-marker-special);
+	box-shadow: 0px -3px var(--map-marker-special);
 }
 
 .tab_map .toolbar span.map_flags_st {
-  box-shadow: 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
+	box-shadow: 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
 }
 
 .tab_map .toolbar span.map_flags_t {
-  box-shadow: inset 0px 10px var(--map-marker-tile);
+	box-shadow: inset 0px 10px var(--map-marker-tile);
 }
 
 /* EDITS */
 .tab_map .map.show_edits td:not(.hide):hover {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-  outline: 2px solid #FFF;
+	background-color: rgba(255, 255, 255, 0.5) !important;
+	outline: 2px solid #fff;
 }
 
 .tab_map .map.show_edits table {
-  background-color: #4686;
+	background-color: #4686;
 }
 
-.tab_map .map.show_edits td[data-mix="1"] {
-  background-color: #0FF8;
+.tab_map .map.show_edits td[data-mix='1'] {
+	background-color: #0ff8;
 }
 
-.tab_map .map.show_edits td[data-mix="0"] {
-  background-color: #F008;
+.tab_map .map.show_edits td[data-mix='0'] {
+	background-color: #f008;
 }
 
 .tab_map .map.show_edits td[data-col] {
-  outline: 4px solid var(--col);
-  border: 4px solid var(--col);
+	outline: 4px solid var(--col);
+	border: 4px solid var(--col);
 }
 
 .tab_map .map.show_edits td[data-tcol] {
-  border-bottom: 8px solid var(--tcol);
+	border-bottom: 8px solid var(--tcol);
 }
 
-.tab_map .map td[data-col="0"] {
-  --col: var(--map-marker-color-0);
+.tab_map .map td[data-col='0'] {
+	--col: var(--map-marker-color-0);
 }
 
-.tab_map .map td[data-tcol="0"] {
-  --tcol: var(--map-marker-color-0);
+.tab_map .map td[data-tcol='0'] {
+	--tcol: var(--map-marker-color-0);
 }
 
-.tab_map .map td[data-col="1"] {
-  --col: var(--map-marker-color-1);
+.tab_map .map td[data-col='1'] {
+	--col: var(--map-marker-color-1);
 }
 
-.tab_map .map td[data-tcol="1"] {
-  --tcol: var(--map-marker-color-1);
+.tab_map .map td[data-tcol='1'] {
+	--tcol: var(--map-marker-color-1);
 }
 
-.tab_map .map td[data-col="2"] {
-  --col: var(--map-marker-color-2);
+.tab_map .map td[data-col='2'] {
+	--col: var(--map-marker-color-2);
 }
 
-.tab_map .map td[data-tcol="2"] {
-  --tcol: var(--map-marker-color-2);
+.tab_map .map td[data-tcol='2'] {
+	--tcol: var(--map-marker-color-2);
 }
 
-.tab_map .map td[data-col="3"] {
-  --col: var(--map-marker-color-3);
+.tab_map .map td[data-col='3'] {
+	--col: var(--map-marker-color-3);
 }
 
-.tab_map .map td[data-tcol="3"] {
-  --tcol: var(--map-marker-color-3);
+.tab_map .map td[data-tcol='3'] {
+	--tcol: var(--map-marker-color-3);
 }
 
-.tab_map .map td[data-col="4"] {
-  --col: var(--map-marker-color-4);
+.tab_map .map td[data-col='4'] {
+	--col: var(--map-marker-color-4);
 }
 
-.tab_map .map td[data-tcol="4"] {
-  --tcol: var(--map-marker-color-4);
+.tab_map .map td[data-tcol='4'] {
+	--tcol: var(--map-marker-color-4);
 }
 
-.tab_map .map td[data-col="5"] {
-  --col: var(--map-marker-color-5);
+.tab_map .map td[data-col='5'] {
+	--col: var(--map-marker-color-5);
 }
 
-.tab_map .map td[data-tcol="5"] {
-  --tcol: var(--map-marker-color-5);
+.tab_map .map td[data-tcol='5'] {
+	--tcol: var(--map-marker-color-5);
 }
 
-.tab_map .map td[data-col="6"] {
-  --col: var(--map-marker-color-6);
+.tab_map .map td[data-col='6'] {
+	--col: var(--map-marker-color-6);
 }
 
-.tab_map .map td[data-tcol="6"] {
-  --tcol: var(--map-marker-color-6);
+.tab_map .map td[data-tcol='6'] {
+	--tcol: var(--map-marker-color-6);
 }
 
-.tab_map .map td[data-col="7"] {
-  --col: var(--map-marker-color-7);
+.tab_map .map td[data-col='7'] {
+	--col: var(--map-marker-color-7);
 }
 
-.tab_map .map td[data-tcol="7"] {
-  --tcol: var(--map-marker-color-7);
+.tab_map .map td[data-tcol='7'] {
+	--tcol: var(--map-marker-color-7);
 }
 
-.tab_map .map td[data-col="8"] {
-  --col: var(--map-marker-color-8);
+.tab_map .map td[data-col='8'] {
+	--col: var(--map-marker-color-8);
 }
 
-.tab_map .map td[data-tcol="8"] {
-  --tcol: var(--map-marker-color-8);
+.tab_map .map td[data-tcol='8'] {
+	--tcol: var(--map-marker-color-8);
 }
 
-.tab_map .map td[data-col="9"] {
-  --col: var(--map-marker-color-9);
+.tab_map .map td[data-col='9'] {
+	--col: var(--map-marker-color-9);
 }
 
-.tab_map .map td[data-tcol="9"] {
-  --tcol: var(--map-marker-color-9);
+.tab_map .map td[data-tcol='9'] {
+	--tcol: var(--map-marker-color-9);
 }

@@ -23,9 +23,9 @@ import repeat from './tabs/repeat/repeat.js';
 import rewardlinks from './tabs/rewardlinks/rewardlinks.js';
 
 const tabs = {
-    about, artwork, camp, caravan, christmasrings, dailyreward, equipment, events, export: export_,
-    foundry, friendship, godchild, greenrings, help, kitchen, map, neighbors,
-    options, pillars, progress, redrings, repeat, rewardlinks
+	about, artwork, camp, caravan, christmasrings, dailyreward, equipment, events, export: export_,
+	foundry, friendship, godchild, greenrings, help, kitchen, map, neighbors,
+	options, pillars, progress, redrings, repeat, rewardlinks
 };
 
 window.imported_tabs = tabs;

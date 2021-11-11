@@ -1,95 +1,95 @@
 .dailyreward .main {
-  display: flex;
-  flex-direction: row;
-  max-width: 582px;
-  flex-wrap: wrap;
-  margin: 0px 10px 20px;
+	display: flex;
+	flex-direction: row;
+	max-width: 582px;
+	flex-wrap: wrap;
+	margin: 0px 10px 20px;
 }
 
 .dailyreward .item {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 10px 8px;
-  position: relative;
-  --brcol: #336;
-  --g1col: #8aa;
-  --g2col: #46e;
-  --bgcol: #eee;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	margin: 10px 8px;
+	position: relative;
+	--brcol: #336;
+	--g1col: #8aa;
+	--g2col: #46e;
+	--bgcol: #eee;
 }
 
 .dailyreward .item.last {
-  --brcol: #aa0;
-  --g1col: #ee6;
-  --g2col: #f80;
-  --bgcol: #ffa;
+	--brcol: #aa0;
+	--g1col: #ee6;
+	--g2col: #f80;
+	--bgcol: #ffa;
 }
 
 .dailyreward .item.next {
-  --brcol: #088;
-  --g1col: #6af;
-  --g2col: #0f6;
-  --bgcol: #aff;
+	--brcol: #088;
+	--g1col: #6af;
+	--g2col: #0f6;
+	--bgcol: #aff;
 }
 
 .dailyreward .item .disc {
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  background: linear-gradient(30deg, var(--g1col) 0%, var(--g2col) 50%, var(--g1col) 100%);
-  border-radius: 50%;
-  border: 1px solid var(--brcol);
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	background: linear-gradient(30deg, var(--g1col) 0%, var(--g2col) 50%, var(--g1col) 100%);
+	border-radius: 50%;
+	border: 1px solid var(--brcol);
 }
 
 .dailyreward .item .inner {
-  height: 86px;
-  width: 86px;
-  position: absolute;
-  background-color: var(--bgcol);
-  margin: 7px;
-  border-radius: 50%;
-  border: 1px solid var(--brcol);
+	height: 86px;
+	width: 86px;
+	position: absolute;
+	background-color: var(--bgcol);
+	margin: 7px;
+	border-radius: 50%;
+	border: 1px solid var(--brcol);
 }
 
 .dailyreward .item .amount {
-  position: absolute;
-  transform: translateX(-50%);
-  font-size: 21px;
-  margin-top: 85px;
-  color: #fff;
-  background-color: var(--g2col);
-  display: inline-block;
-  padding: 0px 8px;
-  border-radius: 14px;
-  height: 23px;
+	position: absolute;
+	transform: translateX(-50%);
+	font-size: 21px;
+	margin-top: 85px;
+	color: #fff;
+	background-color: var(--g2col);
+	display: inline-block;
+	padding: 0px 8px;
+	border-radius: 14px;
+	height: 23px;
 }
 
 .dailyreward .item img {
-  margin-top: 4px;
+	margin-top: 4px;
 }
 
 .dailyreward .item.last .disc,
 .dailyreward .item.next .disc {
-  animation: dailyreward_rotate 5s linear infinite;
-  width: 110px;
-  height: 110px;
-  margin-top: -5px;
-  margin-left: -5px;
+	animation: dailyreward_rotate 5s linear infinite;
+	width: 110px;
+	height: 110px;
+	margin-top: -5px;
+	margin-left: -5px;
 }
 
 .dailyreward .item.last .amount,
 .dailyreward .item.next .amount {
-  animation: dailyreward_blinker 3s ease-in infinite alternate;
+	animation: dailyreward_blinker 3s ease-in infinite alternate;
 }
 
 @keyframes dailyreward_blinker {
-  to {
-    background-color: transparent;
-  }
+	to {
+		background-color: transparent;
+	}
 }
 
 @keyframes dailyreward_rotate {
-  to {
-    transform: rotate(360deg);
-  }
+	to {
+		transform: rotate(360deg);
+	}
 }

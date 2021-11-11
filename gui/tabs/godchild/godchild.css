@@ -1,60 +1,60 @@
 .tab_godchild .DAF-gc-bar {
-  overflow: hidden;
-  background-color: unset;
-  padding: 8px 12px 12px 8px;
-  text-align: center;
-  white-space: unset;
+	overflow: hidden;
+	background-color: unset;
+	padding: 8px 12px 12px 8px;
+	text-align: center;
+	white-space: unset;
 }
 
 .tab_godchild .DAF-gc-pal {
-  margin-top: 4px;
-  margin-left: 4px;
-  height: 100px;
-  background-color: #FFF;
-  border-color: #0008;
+	margin-top: 4px;
+	margin-left: 4px;
+	height: 100px;
+	background-color: #fff;
+	border-color: #0008;
 }
 
 .tab_godchild .DAF-gc-pal div:last-child {
-  margin-top: 47px;
-  position: unset;
-  height: 36px;
-  background-color: transparent;
+	margin-top: 47px;
+	position: unset;
+	height: 36px;
+	background-color: transparent;
 }
 
 .DAF-gc-show-region .DAF-gc-pal {
-  background-color: var(--rg-col);
+	background-color: var(--rg-col);
 }
 
 .godchild_table thead .outlined {
-  color: var(--tt-outlined-fgcol);
+	color: var(--tt-outlined-fgcol);
 }
 
 .godchild_table:not(.complete):not(:hover) .DAF-gc-pal.collected {
-  opacity: 0.3;
+	opacity: 0.3;
 }
 
 .godchild_table.complete thead tr {
-  background-color: var(--tb-brcol);
+	background-color: var(--tb-brcol);
 }
 
 .godchild_table.complete thead tr span span {
-  animation: rotate-hue 5s infinite, letter-spacing 3s ease-in-out alternate infinite;
+	animation: rotate-hue 5s infinite, letter-spacing 3s ease-in-out alternate infinite;
 }
 
 .godchild_table .DAF-gc-pal b.energy {
-  padding-left: 16px;
-  background-image: url(/img/gui/energy.png);
-  background-repeat: no-repeat;
-  background-size: 19px;
-  background-position: 0px -2px;
+	padding-left: 16px;
+	background-image: url(/img/gui/energy.png);
+	background-repeat: no-repeat;
+	background-size: 19px;
+	background-position: 0px -2px;
 }
 
 @keyframes letter-spacing {
-  0% {
-    letter-spacing: 0px;
-  }
+	0% {
+		letter-spacing: 0px;
+	}
 
-  100% {
-    letter-spacing: 2px;
-  }
+	100% {
+		letter-spacing: 2px;
+	}
 }

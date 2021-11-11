@@ -1,156 +1,155 @@
 .tab_progress tfoot td {
-  text-align: right;
+	text-align: right;
 }
 
 .tab_progress tfoot progress::-webkit-progress-value {
-  background-color: var(--pb-fgcol2);
+	background-color: var(--pb-fgcol2);
 }
 
 .tab_progress.no-dates td.date,
 .tab_progress.no-dates th.date,
 .tab_progress.no-energy td.energy,
 .tab_progress.no-energy th.energy {
-  display: none;
+	display: none;
 }
 
 .progress_table td {
-  text-align: right;
+	text-align: right;
 }
 
 .tab_progress .warning {
-  text-align: center;
+	text-align: center;
 }
 
 .progress_table td.date,
 .progress_table td.date,
 .progress_table td.date {
-  text-align: center;
+	text-align: center;
 }
 
 .progress_table td:nth-child(3) img {
-  /* This forces the image to be centered horizontally */
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+	/* This forces the image to be centered horizontally */
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .progress_table td:nth-child(1) {
-  text-align: right;
-  border-right-width: 0px;
-  padding-right: 0px;
+	text-align: right;
+	border-right-width: 0px;
+	padding-right: 0px;
 }
 
 .progress_table td:nth-child(2) {
-  text-align: left;
-  border-left-width: 0px;
+	text-align: left;
+	border-left-width: 0px;
 }
 
 .progress_table tr.inspect {
-  cursor: zoom-in;
+	cursor: zoom-in;
 }
 
 .progress_table tr.header {
-  background-color: var(--th-bgcol);
-  color: var(--th-fgcol);
+	background-color: var(--th-bgcol);
+	color: var(--th-fgcol);
 }
 
 .progress_table tr.subtotal {
-  background-color: var(--tb-brcol);
-  color: var(--th-fgcol);
+	background-color: var(--tb-brcol);
+	color: var(--th-fgcol);
 }
 
 .progress_table tr.subtotal progress::-webkit-progress-value {
-  background-color: var(--pb-fgcol3);
+	background-color: var(--pb-fgcol3);
 }
 
 .progress_table tr.grandtotal {
-  background-color: var(--th-bgcol);
-  color: var(--th-fgcol);
-  font-weight: bold;
+	background-color: var(--th-bgcol);
+	color: var(--th-fgcol);
+	font-weight: bold;
 }
 
 .progress_table tr.subtotal td:nth-child(2),
 .progress_table tr.grandtotal td:nth-child(2) {
-  text-align: right;
+	text-align: right;
 }
 
 .progress_table tr.inspected {
-  background-color: var(--th-bgcol);
-  color: var(--th-fgcol);
-  cursor: zoom-out;
+	background-color: var(--th-bgcol);
+	color: var(--th-fgcol);
+	cursor: zoom-out;
 }
 
-.progress_table tr.not-inspected[data-level="0"] {
-  background-color: var(--th-bgcol);
-  opacity: 0.5;
+.progress_table tr.not-inspected[data-level='0'] {
+	background-color: var(--th-bgcol);
+	opacity: 0.5;
 }
 
-.progress_table tr.not-inspected[data-level="1"] {
-  background-color: var(--tb-brcol);
-  opacity: 0.5;
+.progress_table tr.not-inspected[data-level='1'] {
+	background-color: var(--tb-brcol);
+	opacity: 0.5;
 }
 
 .progress_table tr.inspect:hover {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
+	background-color: var(--tb-hlcol);
+	color: var(--tb-hlfgcol);
 }
 
 .progress_table td div {
-  font-size: 10pt;
+	font-size: 10pt;
 }
 
-.tab_progress tr[data-level="1"] progress::-webkit-progress-value {
-  background-color: var(--pb-fgcol2);
+.tab_progress tr[data-level='1'] progress::-webkit-progress-value {
+	background-color: var(--pb-fgcol2);
 }
 
 @-moz-document url-prefix() {
-  .tab_progress tfoot progress::-moz-progress-bar {
-    background-color: var(--pb-fgcol2);
-  }
-  .progress_table tr.subtotal progress::-moz-progress-bar {
-    background-color: var(--pb-fgcol3);
-  }
-  .tab_progress tr[data-level="1"] progress::-moz-progress-bar {
-    background-color: var(--pb-fgcol2);
-  }
+	.tab_progress tfoot progress::-moz-progress-bar {
+		background-color: var(--pb-fgcol2);
+	}
+	.progress_table tr.subtotal progress::-moz-progress-bar {
+		background-color: var(--pb-fgcol3);
+	}
+	.tab_progress tr[data-level='1'] progress::-moz-progress-bar {
+		background-color: var(--pb-fgcol2);
+	}
 }
 
 .tab_progress tr.slider {
-  background: var(--tr-bgcol2);
+	background: var(--tr-bgcol2);
 }
 
 .tab_progress .slider td:nth-child(1) {
-  padding-left: 16px;
-  padding-right: 2px;
-  text-align: center;
+	padding-left: 16px;
+	padding-right: 2px;
+	text-align: center;
 }
 
 .tab_progress .slider td.energy,
 .tab_progress .slider td:nth-child(3) {
-  border-right-width: 0;
+	border-right-width: 0;
 }
 
 .tab_progress .slider td:nth-child(3) {
-  border-left-width: 0;
+	border-left-width: 0;
 }
 
-
 .tab_progress .slider input {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .progress_table td.filter {
-  background-repeat: no-repeat;
-  background-size: auto 46px;
-  background-position: -1px -12px;
+	background-repeat: no-repeat;
+	background-size: auto 46px;
+	background-position: -1px -12px;
 }
 
 .progress_table td.filter.father {
-  background-size: auto 28px;
-  background-position: 10px 1px;
+	background-size: auto 28px;
+	background-position: 10px 1px;
 }
 
 .progress_table td.filter.main {
-  background-size: auto 30px;
-  background-position: 12px 0px;
+	background-size: auto 30px;
+	background-position: 12px 0px;
 }

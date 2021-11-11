@@ -1,128 +1,179 @@
 <div class="toolbar vertical">
-    <label>
-        <span data-i18n-text="gui_show"></span>
-        <select name="show">
-            <option value="" data-i18n-text="gui_all"></option>
-            <option value="active" data-i18n-text="events_active"></option>
-            <option value="rerelease" data-i18n-text="events_rerelease"></option>
-            <option value="complete" data-i18n-text="events_complete"></option>
-            <option value="incomplete" data-i18n-text="events_incomplete"></option>
-            <option value="notdone" data-i18n-text="events_notdone"></option>
-            <option value="notcomplete"></option>
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_type"></span>
-        <select name="type">
-            <option value="" data-i18n-text="gui_all"></option>
-            <option value="event" data-i18n-text="gui_event"></option>
-            <option value="sw" data-i18n-text="gui_specialweek"></option>
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_year"></span>
-        <select name="year">
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="events_segmented"></span>
-        <select name="segmented">
-            <option value=""></option>
-            <option value="yes" data-i18n-text="dialog_yes"></option>
-            <option value="no" data-i18n-text="dialog_no"></option>
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="equipment_inshop"></span>
-        <select name="shop">
-            <option value=""></option>
-            <option value="yes" data-i18n-text="dialog_yes"></option>
-            <option value="no" data-i18n-text="dialog_no"></option>
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_search"></span>
-        <input name="search" type="text" maxlength="40">
-    </label>
-    <div class="weeks"></div>
+	<label>
+		<span data-i18n-text="gui_show"></span>
+		<select name="show">
+			<option value="" data-i18n-text="gui_all"></option>
+			<option value="active" data-i18n-text="events_active"></option>
+			<option value="rerelease" data-i18n-text="events_rerelease"></option>
+			<option value="complete" data-i18n-text="events_complete"></option>
+			<option value="incomplete" data-i18n-text="events_incomplete"></option>
+			<option value="notdone" data-i18n-text="events_notdone"></option>
+			<option value="notcomplete"></option>
+		</select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_type"></span>
+		<select name="type">
+			<option value="" data-i18n-text="gui_all"></option>
+			<option value="event" data-i18n-text="gui_event"></option>
+			<option value="sw" data-i18n-text="gui_specialweek"></option>
+		</select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_year"></span>
+		<select name="year"></select>
+	</label>
+	<label>
+		<span data-i18n-text="events_segmented"></span>
+		<select name="segmented">
+			<option value=""></option>
+			<option value="yes" data-i18n-text="dialog_yes"></option>
+			<option value="no" data-i18n-text="dialog_no"></option>
+		</select>
+	</label>
+	<label>
+		<span data-i18n-text="equipment_inshop"></span>
+		<select name="shop">
+			<option value=""></option>
+			<option value="yes" data-i18n-text="dialog_yes"></option>
+			<option value="no" data-i18n-text="dialog_no"></option>
+		</select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_search"></span>
+		<input name="search" type="text" maxlength="40" data-debounce />
+	</label>
+	<div class="weeks"></div>
 </div>
 <div class="scrollable-content no-overflow">
-    <table class="events data">
-        <thead>
-            <tr>
-                <th rowspan="2"><img src="/img/gui/events.png" data-wiki-page="Events" data-i18n-title="tab_events+gui_clickwiki"></th>
-                <th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_event"></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="year"><img src="/img/gui/time.png" data-i18n-title="gui_year"></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="segmented"><img src="/img/gui/segmented.png" data-i18n-title="events_segmented"></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="gems"><img src="/img/gui/shop.png" data-i18n-title="gui_cost"></th>
-                <th rowspan="2" class="sortable" data-sort-name="start" data-i18n-text="progress_start"></th>
-                <th rowspan="2" class="sortable" data-sort-name="end" data-i18n-text="events_end"></th>
-                <th colspan="3" data-i18n-text="events_quests"></th>
-                <th colspan="3" data-i18n-text="events_achievements"></th>
-                <th colspan="3" data-i18n-text="events_pieces"></th>
-                <th colspan="4" data-i18n-text="events_locations"></th>
-                <th rowspan="2" data-i18n-text="events_materials"></th>
-            </tr>
-            <tr>
-                <th class="sortable only-small-image" data-sort-name="cquest"><img class="small" src="/img/gui/tick.png" data-i18n-title="events_completed"></th>
-                <th class="sortable only-small-image" data-sort-name="tquest"><img class="small" src="/img/gui/list.png" data-i18n-title="events_total"></th>
-                <th class="sortable only-small-image" data-sort-name="pquest"><img class="small" src="/img/gui/quest_ok.png" data-i18n-title="events_medal"></th>
-                <th class="sortable only-small-image" data-sort-name="cachiev"><img class="small" src="/img/gui/tick.png" data-i18n-title="events_completed"></th>
-                <th class="sortable only-small-image" data-sort-name="tachiev"><img class="small" src="/img/gui/list.png" data-i18n-title="events_total"></th>
-                <th class="sortable only-small-image" data-sort-name="pachiev"><img class="small" src="/img/gui/achiev_ok.png" data-i18n-title="events_medal"></th>
-                <th class="sortable only-small-image" data-sort-name="ccollect"><img class="small" src="/img/gui/tick.png" data-i18n-title="events_completed"></th>
-                <th class="sortable only-small-image" data-sort-name="tcollect"><img class="small" src="/img/gui/list.png" data-i18n-title="events_total"></th>
-                <th class="sortable only-small-image" data-sort-name="pcollect"><img class="small" src="/img/gui/treasure_ok.png" data-i18n-title="events_medal"></th>
-                <th class="sortable only-small-image" data-sort-name="locations"><img class="small" src="/img/gui/list.png" data-i18n-title="events_total"></th>
-                <th class="sortable only-small-image" data-sort-name="maps"><img class="small" src="/img/gui/q-main.png" data-i18n-title="events_story_maps"></th>
-                <th class="sortable only-small-image" data-sort-name="challenges"><img class="small" src="/img/gui/q-hard.png" data-i18n-title="events_challenges"></th>
-                <th class="sortable only-small-image" data-sort-name="repeatables"><img class="small" src="/img/gui/repeat.png" data-i18n-title="events_repeatables"></th>
-            </tr>
-        </thead>
-        <tbody class="row-coloring">
-            <tr class="trRegion">
-                <td colspan="21" class="toolbar">
-                    <button data-action="close" data-i18n-text="dialog_close"></button>
-                    <label>
-                        <span data-i18n-text="gui_show"></span>
-                        <select name="region"></select>
-                    </label>
-                    <label for="dummy">
-                        <label>
-                            <span data-i18n-text="gui_loot"></span>
-                            <input type="checkbox" name="loot_flag">
-                        </label>
-                        <input type="checkbox" class="lootflag" name="loot_achiev" data-i18n-title="gui_loot+events_achievements">
-                        <input type="checkbox" class="lootflag" name="loot_gems" data-i18n-title="gui_loot+events_gemstones">
-                        <input type="checkbox" class="lootflag" name="loot_xp" data-i18n-title="gui_loot+gui_xp">
-                    </label>
-                    <label>
-                        <span data-i18n-text="pillars_totals"></span>
-                        <input type="checkbox" name="totals">
-                    </label>
-                    <label>
-                        <span data-i18n-text="gui_estimatedenergy"></span>
-                        <input type="checkbox" name="energy">
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="5" data-key="total"></td>
-                <td data-i18n-text="pillars_totals" colspan="2"></td>
-                <td data-key="cquest" class="add_slash"></td>
-                <td data-key="tquest" colspan="2"></td>
-                <td data-key="cachiev" class="add_slash"></td>
-                <td data-key="tachiev" colspan="2"></td>
-                <td data-key="ccollect" class="add_slash"></td>
-                <td data-key="tcollect" colspan="2"></td>
-                <td data-key="locations"></td>
-                <td data-key="maps"></td>
-                <td data-key="challenges"></td>
-                <td data-key="repeatables"></td>
-                <td></td>
-            </tr>
-        </tfoot>
-    </table>
+	<table class="events data">
+		<thead>
+			<tr>
+				<th rowspan="2">
+					<img src="/img/gui/events.png" data-wiki-page="Events" data-i18n-title="tab_events+gui_clickwiki" />
+				</th>
+				<th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_event"></th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="year">
+					<img src="/img/gui/time.png" data-i18n-title="gui_year" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="segmented">
+					<img src="/img/gui/segmented.png" data-i18n-title="events_segmented" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="gems">
+					<img src="/img/gui/shop.png" data-i18n-title="gui_cost" />
+				</th>
+				<th rowspan="2" class="sortable" data-sort-name="start" data-i18n-text="progress_start"></th>
+				<th rowspan="2" class="sortable" data-sort-name="end" data-i18n-text="events_end"></th>
+				<th colspan="3" data-i18n-text="events_quests"></th>
+				<th colspan="3" data-i18n-text="events_achievements"></th>
+				<th colspan="3" data-i18n-text="events_pieces"></th>
+				<th colspan="4" data-i18n-text="events_locations"></th>
+				<th rowspan="2" data-i18n-text="events_materials"></th>
+			</tr>
+			<tr>
+				<th class="sortable only-small-image" data-sort-name="cquest">
+					<img class="small" src="/img/gui/tick.png" data-i18n-title="events_completed" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="tquest">
+					<img class="small" src="/img/gui/list.png" data-i18n-title="events_total" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="pquest">
+					<img class="small" src="/img/gui/quest_ok.png" data-i18n-title="events_medal" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="cachiev">
+					<img class="small" src="/img/gui/tick.png" data-i18n-title="events_completed" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="tachiev">
+					<img class="small" src="/img/gui/list.png" data-i18n-title="events_total" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="pachiev">
+					<img class="small" src="/img/gui/achiev_ok.png" data-i18n-title="events_medal" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="ccollect">
+					<img class="small" src="/img/gui/tick.png" data-i18n-title="events_completed" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="tcollect">
+					<img class="small" src="/img/gui/list.png" data-i18n-title="events_total" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="pcollect">
+					<img class="small" src="/img/gui/treasure_ok.png" data-i18n-title="events_medal" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="locations">
+					<img class="small" src="/img/gui/list.png" data-i18n-title="events_total" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="maps">
+					<img class="small" src="/img/gui/q-main.png" data-i18n-title="events_story_maps" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="challenges">
+					<img class="small" src="/img/gui/q-hard.png" data-i18n-title="events_challenges" />
+				</th>
+				<th class="sortable only-small-image" data-sort-name="repeatables">
+					<img class="small" src="/img/gui/repeat.png" data-i18n-title="events_repeatables" />
+				</th>
+			</tr>
+		</thead>
+		<tbody class="row-coloring">
+			<tr class="trRegion">
+				<td colspan="21" class="toolbar">
+					<button data-name="close" data-i18n-text="dialog_close"></button>
+					<label>
+						<span data-i18n-text="gui_show"></span>
+						<select name="region" data-event="info"></select>
+					</label>
+					<label for="dummy">
+						<label>
+							<span data-i18n-text="gui_loot"></span>
+							<input type="checkbox" name="loot_flag" />
+						</label>
+						<input
+							type="checkbox"
+							class="lootflag"
+							name="loot_achiev"
+							data-event="info"
+							data-i18n-title="gui_loot+events_achievements"
+						/>
+						<input
+							type="checkbox"
+							class="lootflag"
+							name="loot_gems"
+							data-event="info"
+							data-i18n-title="gui_loot+events_gemstones"
+						/>
+						<input
+							type="checkbox"
+							class="lootflag"
+							name="loot_xp"
+							data-event="info"
+							data-i18n-title="gui_loot+gui_xp"
+						/>
+					</label>
+					<label>
+						<span data-i18n-text="pillars_totals"></span>
+						<input type="checkbox" name="totals" data-event="info" />
+					</label>
+					<label>
+						<span data-i18n-text="gui_estimatedenergy"></span>
+						<input type="checkbox" name="energy" data-event="info" />
+					</label>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5" data-key="total"></td>
+				<td data-i18n-text="pillars_totals" colspan="2"></td>
+				<td data-key="cquest" class="add_slash"></td>
+				<td data-key="tquest" colspan="2"></td>
+				<td data-key="cachiev" class="add_slash"></td>
+				<td data-key="tachiev" colspan="2"></td>
+				<td data-key="ccollect" class="add_slash"></td>
+				<td data-key="tcollect" colspan="2"></td>
+				<td data-key="locations"></td>
+				<td data-key="maps"></td>
+				<td data-key="challenges"></td>
+				<td data-key="repeatables"></td>
+				<td></td>
+			</tr>
+		</tfoot>
+	</table>
 </div>

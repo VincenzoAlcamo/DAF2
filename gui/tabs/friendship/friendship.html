@@ -1,54 +1,62 @@
 <div class="toolbar">
-    <div class="stats outlined"></div>
-    <label>
-        <span data-i18n-text="gui_show"></span>
-        <select name="show">
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_search"></span>
-        <input name="search" type="text" maxlength="40">
-    </label>
-    <label>
-        <button data-action="collect" data-i18n-text="friendship_collectfriends"></button>
-    </label>
-    <label>
-        <button data-action="export" data-i18n-text="export_exportdata"></button>
-    </label>
-    <div class="warning"></div>
+	<div class="stats outlined"></div>
+	<label>
+		<span data-i18n-text="gui_show"></span>
+		<select name="show"></select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_search"></span>
+		<input name="search" type="text" maxlength="40" data-debounce />
+	</label>
+	<label>
+		<button name="collect" data-i18n-text="friendship_collectfriends"></button>
+	</label>
+	<label>
+		<button name="export" data-i18n-text="export_exportdata"></button>
+	</label>
+	<div class="warning"></div>
 </div>
 <div class="scrollable-content no-overflow">
-    <table class="friendship data">
-        <thead>
-            <tr>
-                <th>
-                    <img src="/img/gui/friendship.png" />
-                </th>
-                <th class="sortable" data-sort-name="fname" data-i18n-text="gui_friend"></th>
-                <th class="sortable" data-sort-name="frecorded" data-i18n-text="gui_firstrecorded"></th>
-                <th class="sortable" data-sort-name="lrecorded" data-i18n-text="gui_lastrecorded"></th>
-                <th class="sortable help" data-sort-name="score" data-i18n-text="friendship_score" data-i18n-title="friendship_scoretooltip"></th>
-                <th data-i18n-text="friendship_action"></th>
-                <th>
-                    <img data-wiki-page="Neighbors" src="/img/gui/neighbors.png" />
-                </th>
-                <th class="sortable" data-sort-name="name" data-i18n-text="gui_neighbour"></th>
-                <th class="sortable" data-sort-name="level"><img data-i18n-title="gui_level" src="/img/gui/level.png" /></th>
-                <th class="sortable" data-sort-name="region"><img data-i18n-title="gui_region" src="/img/gui/map.png" /></th>
-                <th class="sortable" data-sort-name="recorded" data-i18n-text="gui_firstrecorded"></th>
-            </tr>
-        </thead>
-        <tbody class="row-coloring"></tbody>
-        <tfoot>
-            <tr>
-                <td class="numfriends" colspan="5"></td>
-                <td></td>
-                <td class="numneighbours" colspan="5"></td>
-            </tr>
-        </tfoot>
-    </table>
-    <div class="DAF-gc-pal" data-i18n-title="friendship_matchplayertitle+friendship_manualmatchhelp">
-        <div></div>
-        <div></div>
-    </div>
+	<table class="friendship data">
+		<thead>
+			<tr>
+				<th>
+					<img src="/img/gui/friendship.png" />
+				</th>
+				<th class="sortable" data-sort-name="fname" data-i18n-text="gui_friend"></th>
+				<th class="sortable" data-sort-name="frecorded" data-i18n-text="gui_firstrecorded"></th>
+				<th class="sortable" data-sort-name="lrecorded" data-i18n-text="gui_lastrecorded"></th>
+				<th
+					class="sortable help"
+					data-sort-name="score"
+					data-i18n-text="friendship_score"
+					data-i18n-title="friendship_scoretooltip"
+				></th>
+				<th data-i18n-text="friendship_action"></th>
+				<th>
+					<img data-wiki-page="Neighbors" src="/img/gui/neighbors.png" />
+				</th>
+				<th class="sortable" data-sort-name="name" data-i18n-text="gui_neighbour"></th>
+				<th class="sortable" data-sort-name="level">
+					<img data-i18n-title="gui_level" src="/img/gui/level.png" />
+				</th>
+				<th class="sortable" data-sort-name="region">
+					<img data-i18n-title="gui_region" src="/img/gui/map.png" />
+				</th>
+				<th class="sortable" data-sort-name="recorded" data-i18n-text="gui_firstrecorded"></th>
+			</tr>
+		</thead>
+		<tbody class="row-coloring"></tbody>
+		<tfoot>
+			<tr>
+				<td class="numfriends" colspan="5"></td>
+				<td></td>
+				<td class="numneighbours" colspan="5"></td>
+			</tr>
+		</tfoot>
+	</table>
+	<div class="DAF-gc-pal" data-i18n-title="friendship_matchplayertitle+friendship_manualmatchhelp">
+		<div></div>
+		<div></div>
+	</div>
 </div>

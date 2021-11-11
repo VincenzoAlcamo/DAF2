@@ -1,2272 +1,2272 @@
 ﻿{
-    "ext_name": {
-        "message": "DA Friends 2"
-    },
-    "ext_title": {
-        "message": "Hjælpe værktøjer til Diggy's Adventure"
-    },
-    "menu_resetfullwindow": {
-        "message": "Reset ved opstart"
-    },
-    "menu_fullwindow": {
-        "message": "Spil i fuld skærm"
-    },
-    "menu_fullwindowheader": {
-        "message": "Header"
-    },
-    "menu_fullwindowside": {
-        "message": "Side bar"
-    },
-    "menu_fullwindowlock": {
-        "message": "Lås"
-    },
-    "menu_gctable": {
-        "message": "Vis Gudebørn tabel"
-    },
-    "menu_gctablecounter": {
-        "message": "Tæller"
-    },
-    "menu_gctableregion": {
-        "message": "Region"
-    },
-    "menu_gccollected": {
-        "message": "Alle felter er blevet samlet"
-    },
-    "menu_autoclick": {
-        "message": "Auto klik Facebook's popup"
-    },
-    "menu_nogcpopup": {
-        "message": "Ingen pop-up når du samler Gudebørn"
-    },
-    "menu_reloadgame": {
-        "message": "Genstarter spillet og gennemtvinger en opdatering"
-    },
-    "menu_switchportal": {
-        "message": "Skift til Portal"
-    },
-    "menu_switchfacebook": {
-        "message": "Skift til Facebook"
-    },
-    "menu_on": {
-        "message": "ON"
-    },
-    "menu_off": {
-        "message": "OFF"
-    },
-    "gui_timeparts": {
-        "message": "d,t,m,s"
-    },
-    "gui_card_clicker": {
-        "message": "Klik for at mindske/ udvide denne del"
-    },
-    "gui_show": {
-        "message": "Vis"
-    },
-    "gui_all": {
-        "message": "Alle"
-    },
-    "gui_only_possible": {
-        "message": "Kun mulige"
-    },
-    "gui_search": {
-        "message": "Søg"
-    },
-    "gui_filter": {
-        "message": "Filter"
-    },
-    "gui_name": {
-        "message": "Navn"
-    },
-    "gui_region_required": {
-        "message": "Region\nPåkrævet"
-    },
-    "gui_theme_required": {
-        "message": "Region/Tema\nPåkrævet"
-    },
-    "gui_level_required": {
-        "message": "Level (Niveau)\nPåkrævet"
-    },
-    "gui_qty": {
-        "message": "Antal"
-    },
-    "gui_qty_required": {
-        "message": "Antal\nPåkrævet"
-    },
-    "gui_energy": {
-        "message": "Energi"
-    },
-    "gui_estimatedenergy": {
-        "message": "Estimeret energi"
-    },
-    "gui_food": {
-        "message": "Mad"
-    },
-    "gui_coins": {
-        "message": "Mønter"
-    },
-    "gui_backpack": {
-        "message": "Rygsæk"
-    },
-    "gui_clickwiki": {
-        "message": "Klik for at åbne Wiki siden"
-    },
-    "gui_from_any": {
-        "message": "fra regioner eller begivenheder"
-    },
-    "gui_from_regions": {
-        "message": "fra regioner"
-    },
-    "gui_from_events": {
-        "message": "fra begivenheder"
-    },
-    "gui_ingredients": {
-        "message": "Ingredienser"
-    },
-    "gui_event": {
-        "message": "Begivenhed"
-    },
-    "gui_specialweek": {
-        "message": "Special uge"
-    },
-    "gui_region": {
-        "message": "Region"
-    },
-    "gui_theme": {
-        "message": "Tema"
-    },
-    "gui_year": {
-        "message": "År"
-    },
-    "gui_quest": {
-        "message": "Opgave"
-    },
-    "gui_offer": {
-        "message": "Specialtilbud"
-    },
-    "gui_tieredoffer": {
-        "message": "Gradueret tilbud"
-    },
-    "gui_pack": {
-        "message": "Pakke"
-    },
-    "gui_equipment": {
-        "message": "Lejudstyr"
-    },
-    "gui_shop": {
-        "message": "Butik"
-    },
-    "gui_decoration": {
-        "message": "Dekoration"
-    },
-    "gui_usable": {
-        "message": "Brugbart"
-    },
-    "gui_token": {
-        "message": "Særlig pant"
-    },
-    "gui_level": {
-        "message": "Level (Niveau)"
-    },
-    "gui_xp": {
-        "message": "XP"
-    },
-    "gui_sell_price": {
-        "message": "Salgspris"
-    },
-    "gui_neighbour": {
-        "message": "Nabo"
-    },
-    "gui_friend": {
-        "message": "Ven"
-    },
-    "gui_firstrecorded": {
-        "message": "Første\nRegistrering"
-    },
-    "gui_lastrecorded": {
-        "message": "Sidste\nRegistrering"
-    },
-    "gui_loadingresources": {
-        "message": "Load'er resourcer ($NUM$/$TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "gui_screenshot_shot": {
-        "message": "Klik for at tage et screenshot af denne del.\nScreenshot'et vil derefter kunne ses til højre.\nVær opmærksom på: kun det synlige område kommer på billedet.\nDu skal klikke på DAF2 ikonet i Chrome menuen for at aktivere denne mulighed."
-    },
-    "gui_screenshot_target": {
-        "message": "Klik for at downloade billedet.\nDu kan højreklikke på billedet og vælge \"kopier billede\" for at kopiere det til clipboardet."
-    },
-    "gui_screenshot_error": {
-        "message": "Kan ikke tage screenshot"
-    },
-    "gui_screenshot_errorinfo": {
-        "message": "Du skal først klikke på @DAF2@ ikonet i Chrome menuen.\nDette vil aktivere screenshot funktionen indtil siden er lukket.\n\nKlik på @DAF2@ iconet og prøv at tage screenshot igen."
-    },
-    "gui_infodated": {
-        "message": "Den viste informationen er for tiden kun gyldig '$VALID$'",
-        "placeholders": {
-            "valid": {
-                "content": "$1"
-            }
-        }
-    },
-    "gui_nonote": {
-        "message": "Ingen beskrivelse"
-    },
-    "gui_minimum": {
-        "message": "Minimum"
-    },
-    "gui_maximum": {
-        "message": "Maksimum"
-    },
-    "gui_average": {
-        "message": "Gennemsnit"
-    },
-    "gui_loot": {
-        "message": "Udbytte"
-    },
-    "gui_datafrompf": {
-        "message": "Data fra Pixel Federations spil filer"
-    },
-    "gui_gift": {
-        "message": "Gave"
-    },
-    "gui_gifts": {
-        "message": "Gaver"
-    },
-    "gui_day": {
-        "message": "Dag"
-    },
-    "gui_placed": {
-        "message": "Placeret i lejr"
-    },
-    "gui_owned": {
-        "message": "Ejet"
-    },
-    "gui_limit": {
-        "message": "Grænse"
-    },
-    "gui_type": {
-        "message": "Type"
-    },
-    "gui_width": {
-        "message": "Bredde"
-    },
-    "gui_height": {
-        "message": "Højde"
-    },
-    "gui_value": {
-        "message": "Værdi"
-    },
-    "gui_slot_value": {
-        "message": "Enheds Værdi"
-    },
-    "gui_cost": {
-        "message": "Pris"
-    },
-    "gui_items_found": {
-        "message": "Fundne enheder"
-    },
-    "gui_reset": {
-        "message": "Reset"
-    },
-    "gui_material": {
-        "message": "Materiale"
-    },
-    "gui_filter_clear": {
-        "message": "Ryd"
-    },
-    "gui_filter_invert": {
-        "message": "Vend"
-    },
-    "gui_advancedfilter": {
-        "message": "Avanceret filter"
-    },
-    "gui_location": {
-        "message": "Bane"
-    },
-    "gui_locked": {
-        "message": "Låst"
-    },
-    "gui_noresults": {
-        "message": "Intet resultat"
-    },
-    "gui_toomanyresults": {
-        "message": "For mange resultater"
-    },
-    "gui_id": {
-        "message": "Id"
-    },
-    "gui_date": {
-        "message": "Dato"
-    },
-    "gui_ctrlclick": {
-        "message": "Brug CTRL til at vælge/fravælge alt"
-    },
-    "gui_summary": {
-        "message": "Resume"
-    },
-    "dialog_ok": {
-        "message": "Ok"
-    },
-    "dialog_yes": {
-        "message": "Ja"
-    },
-    "dialog_no": {
-        "message": "Nej"
-    },
-    "dialog_confirm": {
-        "message": "Bekræft"
-    },
-    "dialog_cancel": {
-        "message": "Afbryd"
-    },
-    "dialog_close": {
-        "message": "Luk"
-    },
-    "dialog_pleasewait": {
-        "message": "Vent venligst"
-    },
-    "tab_game": {
-        "message": "Skift til spil"
-    },
-    "tab_about": {
-        "message": "Om"
-    },
-    "tab_progress": {
-        "message": "Fremgang"
-    },
-    "tab_camp": {
-        "message": "Lejr"
-    },
-    "tab_map": {
-        "message": "Kort"
-    },
-    "tab_caravan": {
-        "message": "Karavane"
-    },
-    "tab_kitchen": {
-        "message": "Køkken"
-    },
-    "tab_foundry": {
-        "message": "Støberi"
-    },
-    "tab_pillars": {
-        "message": "Søjler"
-    },
-    "tab_neighbors": {
-        "message": "Naboer"
-    },
-    "tab_friendship": {
-        "message": "Venskab"
-    },
-    "tab_godchild": {
-        "message": "Gudebørn"
-    },
-    "tab_locations": {
-        "message": "Lokationer"
-    },
-    "tab_greenrings": {
-        "message": "Grønne ringe"
-    },
-    "tab_redrings": {
-        "message": "Røde ringe"
-    },
-    "tab_christmasrings": {
-        "message": "Jule Ringe"
-    },
-    "tab_rewardlinks": {
-        "message": "Belønnings links"
-    },
-    "tab_options": {
-        "message": "Muligheder"
-    },
-    "tab_help": {
-        "message": "Hjælp"
-    },
-    "tab_export": {
-        "message": "Import / Eksport"
-    },
-    "tab_equipment": {
-        "message": "Lejudstyr / Butik"
-    },
-    "tab_events": {
-        "message": "Begivenhed"
-    },
-    "tab_repeat": {
-        "message": "Gentagelige"
-    },
-    "tab_dailyreward": {
-        "message": "Daglig Belønning"
-    },
-    "about_version": {
-        "message": "Version: $VERSION$",
-        "placeholders": {
-            "version": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_data": {
-        "message": "Sidste data snapshot: $TIME$\nSpil Side: $SITE$ ($PLATFORM$)\nBruger Id: #$USERID$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            },
-            "userid": {
-                "content": "$2"
-            },
-            "site": {
-                "content": "$3"
-            },
-            "platform": {
-                "content": "$4"
-            }
-        }
-    },
-    "about_visit": {
-        "message": "Besøg den oficielle Facebook side"
-    },
-    "about_nodata": {
-        "message": "Der er ikke blevet loaded nogen spildata endnu, vær venlig at loade eller genstarte spil vinduet"
-    },
-    "about_disclaimer": {
-        "message": "DA venner er 'Fan Code' og er hverken godkendt eller supporteret af Pixel Federation, Forfatterne af spillet \"Diggys Adventure\".\nDu bruger DA venner på egen risiko. Der gives ingen erstatning eller garanti, hverken eksplecit eller implicit mod funktionalitet eller brugbarhed.\nForfatteren vil ikke blive holdt ansvarlig for nogen form for skade eller tab opstået ved brug af DA venner.\nVed at bruge denne udvidelse accepterer du disse betingelser."
-    },
-    "about_translators": {
-        "message": "Oversættere"
-    },
-    "about_alternate": {
-        "message": "En alternativ konto blev loaded ($ID$)",
-        "placeholders": {
-            "id": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_reset": {
-        "message": "Din tidligere kontos data blev bevaret.\nFor at resette dine data og bruge en anden konto - Klik @RESET@"
-    },
-    "about_reset_ask_title": {
-        "message": "Reset konto"
-    },
-    "about_reset_ask_text": {
-        "message": "Vil du resette dine data\nså du kan bruge en anden konto?"
-    },
-    "about_reset_ok_title": {
-        "message": "Data er blevet resat"
-    },
-    "about_reset_ok_text": {
-        "message": "Genindlæs Diggys Adventure med den konto du ønsker at bruge."
-    },
-    "production_total_time": {
-        "message": "Total Tid\n(Enheder: $NUM$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "production_time": {
-        "message": "Produktionstid"
-    },
-    "production_possible": {
-        "message": "Mulig"
-    },
-    "production_possible_energy": {
-        "message": "Mulig\nEnergi"
-    },
-    "production_energy_hour": {
-        "message": "Energi\nper time"
-    },
-    "production_qty": {
-        "message": "Antal producerede"
-    },
-    "production_uplift": {
-        "message": "Forøgelse (XP/t)"
-    },
-    "production_uplift_info": {
-        "message": "Xp opnået ved en enkelt enhed på  en time,\nBaseret på værdien, der opnåes ved søjler."
-    },
-    "production_req_ticket": {
-        "message": "Kræver en billet?"
-    },
-    "kitchen_food_in_backpack": {
-        "message": "fra mad i rygsækken"
-    },
-    "camp_your_camp": {
-        "message": "Din lejr"
-    },
-    "camp_player_name": {
-        "message": "$PLAYER$'s lejr på $DATE$",
-        "placeholders": {
-            "player": {
-                "content": "$1"
-            },
-            "date": {
-                "content": "$2"
-            }
-        }
-    },
-    "camp_no_player": {
-        "message": "Ingen lejr er endnu besøgt"
-    },
-    "camp_player": {
-        "message": "Spiller"
-    },
-    "camp_total": {
-        "message": "Total"
-    },
-    "camp_fill_time": {
-        "message": "Opfyldnings tid"
-    },
-    "camp_fill_time_info": {
-        "message": "Den tid det tager at fylde energisøjlen fra tomt til fuld."
-    },
-    "camp_numofregenslots": {
-        "message": "# regenererings-enheder"
-    },
-    "camp_canbeimproved": {
-        "message": "Denne lejr kan forbedres"
-    },
-    "camp_showsetup": {
-        "message": "Klik her for at vise opsætning på lejr"
-    },
-    "camp_windmill_regen": {
-        "message": "Enkelt vindmølle regenerering"
-    },
-    "camp_windmill_regen_total": {
-        "message": "Total vindmølle regenerering"
-    },
-    "camp_windmill_num": {
-        "message": "Aktuel antal vindmøller"
-    },
-    "camp_windmill_expiry": {
-        "message": "Vindmøller vil udløbe\n$TIME$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_empty": {
-        "message": "Tomt"
-    },
-    "camp_slot_blocked": {
-        "message": "Blokeret"
-    },
-    "camp_regen": {
-        "message": "Regenerering"
-    },
-    "camp_capacity": {
-        "message": "Kapacitet"
-    },
-    "camp_windmills": {
-        "message": "Vindmøller"
-    },
-    "camp_needs_windmills": {
-        "message": "Lejr mangler vindmøller"
-    },
-    "camp_avg_value": {
-        "message": "Gennemsnit"
-    },
-    "camp_min_value": {
-        "message": "minimum"
-    },
-    "camp_max_value": {
-        "message": "maksimum"
-    },
-    "camp_num_slots": {
-        "message": "Antal"
-    },
-    "camp_unlock_materials": {
-        "message": "Nødvendige materialer for at låse lejr op"
-    },
-    "camp_unlock_one": {
-        "message": "Det vil koste $VALUE$ juveler at lukke op for en del",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_unlock_cost": {
-        "message": "En del kan blive låst op med $VALUE$ juveler\neller med disse materialer:",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_start_date": {
-        "message": "Du begyndte at spille:\n$STARTED$",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_day_mode": {
-        "message": "Dag tilstand"
-    },
-    "camp_night_mode": {
-        "message": "Nat tilstand"
-    },
-    "camp_setup_mode": {
-        "message": "Indstillings tilstand"
-    },
-    "camp_discounted": {
-        "message": "Tilbud"
-    },
-    "camp_neighbor": {
-        "message": "Nabo's lejr"
-    },
-    "camp_extra": {
-        "message": "Ekstra"
-    },
-    "camp_ftp_group": {
-        "message": "GRUPPE $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_ftp_dot_info": {
-        "message": "Kort mærket med rød prik kan ses i de første frie vendinger."
-    },
-    "camp_ftp_group_info": {
-        "message": "Du vil kun kunne se kort fra en gruppe, når alle kort fra den forrige gruppe er vist."
-    },
-    "camp_ftp_cumulativegems": {
-        "message": "Total juvel indtil nu"
-    },
-    "camp_ads_limit": {
-        "message": "Annonce grænse"
-    },
-    "camp_ads_limit_info": {
-        "message": "Dette er kun en indikation og repræsenterer ikke den reelle mulighed for at vise en annonce."
-    },
-    "camp_ads_limit_info2": {
-        "message": "Tredjeparts annonceudbyder anvender muligvis en anden begrænsning, da de ikke kontrolleres af Pixel Federation."
-    },
-    "map_floor": {
-        "message": "Etage"
-    },
-    "map_floor_current": {
-        "message": "Det er den nuværende etage"
-    },
-    "map_floor_found": {
-        "message": "Klik for at vise kort over denne etage"
-    },
-    "map_floor_not_found": {
-        "message": "Denne etage er endnu ikke besøgt"
-    },
-    "map_remaining_tiles": {
-        "message": "De sidste felter"
-    },
-    "map_special": {
-        "message": "Speciel"
-    },
-    "map_quest": {
-        "message": "Opgave"
-    },
-    "map_this_floor": {
-        "message": "Denne etage"
-    },
-    "map_all_floors": {
-        "message": "Alle etager"
-    },
-    "map_warning": {
-        "message": "Gå først ind på en bane i spillet og vend så tilbage hertil."
-    },
-    "map_button_d": {
-        "message": "Vis Diggy"
-    },
-    "map_button_t": {
-        "message": "Vis teleporte"
-    },
-    "map_button_e": {
-        "message": "Vis ledestjerne"
-    },
-    "map_button_c": {
-        "message": "Vis i fulde farver"
-    },
-    "map_button_g": {
-        "message": "Vis fejl info"
-    },
-    "map_button_l": {
-        "message": "Fremhæv brudbare felter"
-    },
-    "map_button_n": {
-        "message": "Fremhæv felter med bemærkelsesværdig bytte"
-    },
-    "map_button_v": {
-        "message": "Feltets synlighed er vedvarende"
-    },
-    "map_button_o": {
-        "message": "Vis uigennemsigtige fliser"
-    },
-    "map_button_b": {
-        "message": "Vis bonus indikatorer"
-    },
-    "map_button_k": {
-        "message": "Vis baggrund ved at skjule alle brudbare felter"
-    },
-    "map_button_a": {
-        "message": "Vis alle felter"
-    },
-    "map_button_x": {
-        "message": "Vis ind- og udgange"
-    },
-    "map_button_u": {
-        "message": "Vis originalt kort"
-    },
-    "map_button_f": {
-        "message": "Vis hele kortet"
-    },
-    "map_button_s": {
-        "message": "Vis løsning"
-    },
-    "map_button_m": {
-        "message": "Bland se-værdige felter"
-    },
-    "map_save": {
-        "message": "Gem"
-    },
-    "map_save_tip": {
-        "message": "Gem kortet som en billedfil"
-    },
-    "map_mine_exit": {
-        "message": "Mine udgang"
-    },
-    "map_goto_floor": {
-        "message": "Går til etage $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "map_goto_unknown": {
-        "message": "Går til en anden etage, men denne vej er ikke taget endnu"
-    },
-    "map_teleport": {
-        "message": "Teleort"
-    },
-    "map_hint": {
-        "message": "Hint"
-    },
-    "map_beacon": {
-        "message": "Ledestjerne"
-    },
-    "map_active": {
-        "message": "aktiv"
-    },
-    "map_not_active": {
-        "message": "ikke aktiv"
-    },
-    "map_tile": {
-        "message": "Felt"
-    },
-    "map_npc": {
-        "message": "Ncp"
-    },
-    "map_says": {
-        "message": "Siger"
-    },
-    "map_godchild": {
-        "message": "Gudebarn"
-    },
-    "map_unknown": {
-        "message": "Ukendt"
-    },
-    "map_yellow": {
-        "message": "Gul"
-    },
-    "map_red": {
-        "message": "Rød"
-    },
-    "map_blue": {
-        "message": "Blå"
-    },
-    "map_green": {
-        "message": "Grøn"
-    },
-    "map_left": {
-        "message": "Venstre"
-    },
-    "map_down": {
-        "message": "Ned"
-    },
-    "map_right": {
-        "message": "Højre"
-    },
-    "map_up": {
-        "message": "Op"
-    },
-    "map_require_draggable": {
-        "message": "Skal trækkes"
-    },
-    "map_require_item": {
-        "message": "Kræver emne"
-    },
-    "map_require_light": {
-        "message": "Kræver lys"
-    },
-    "map_emitter": {
-        "message": "Lys udsender"
-    },
-    "map_mirror": {
-        "message": "Spejl"
-    },
-    "map_filter": {
-        "message": "Lys filter"
-    },
-    "map_draggable": {
-        "message": "Trækkes"
-    },
-    "map_can_move": {
-        "message": "Kan flyttes"
-    },
-    "map_can_rotate": {
-        "message": "Kan roteres"
-    },
-    "map_fixed": {
-        "message": "Er lavet"
-    },
-    "map_remove_confirmation": {
-        "message": "Bekræft fjernelsen af disse miner?"
-    },
-    "map_option_c": {
-        "message": "Vis koordinater i værktøjs tip"
-    },
-    "map_option_s": {
-        "message": "Vis regions vælger"
-    },
-    "map_option_i": {
-        "message": "Vis lokations info"
-    },
-    "map_option_r": {
-        "message": "Vis gentagelige"
-    },
-    "map_option_t": {
-        "message": "Tilføj kort navn"
-    },
-    "map_option_b": {
-        "message": "Fjern tomme rækker/kolonner"
-    },
-    "map_option_m": {
-        "message": "Sikre margins rundt om billede"
-    },
-    "map_option_l": {
-        "message": "Tilføj vandmærke logo"
-    },
-    "map_option_resize": {
-        "message": "Størrelse på gemt billede"
-    },
-    "map_export_location": {
-        "message": "Eksporter alle etager som data fil"
-    },
-    "map_export_floor": {
-        "message": "Eksporter nuværende etage som data fil"
-    },
-    "map_import": {
-        "message": "Importer en tidligere eksporteret data fil"
-    },
-    "map_downloadfolder": {
-        "message": "Download mappe"
-    },
-    "map_positionrandom": {
-        "message": "Positionen er tilfældig"
-    },
-    "map_default": {
-        "message": "Sæt tilbage til standard"
-    },
-    "pillars_all": {
-        "message": "Alle søjler"
-    },
-    "pillars_only_possible": {
-        "message": "Kun mulige søjler"
-    },
-    "pillars_perc_next": {
-        "message": "%\nNæste"
-    },
-    "pillars_possible": {
-        "message": "Mulig"
-    },
-    "pillars_totals": {
-        "message": "Totaler"
-    },
-    "pillars_current_level": {
-        "message": "Dit nuværende level"
-    },
-    "pillars_predicted": {
-        "message": "Forventet"
-    },
-    "pillars_predicted_level": {
-        "message": "Forventet level"
-    },
-    "pillars_predicted_gain": {
-        "message": "Forudset gevinst ved at gå et niveau op"
-    },
-    "pillars_ignore": {
-        "message": "Klik for at ignorere / overveje"
-    },
-    "pillars_altclick": {
-        "message": "Brug ALT til at nulstille/indstille alle mængder"
-    },
-    "pillars_maxpossible": {
-        "message": "Max mulige"
-    },
-    "pillars_grid": {
-        "message": "Vis som tabel"
-    },
-    "pillars_cap": {
-        "message": "Skift til mulige"
-    },
-    "neighbors_lastlevelup": {
-        "message": "Sidste\nLevel opnået"
-    },
-    "neighbors_lastgiftreceived": {
-        "message": "Sidste gave\nModtaget"
-    },
-    "neighbors_yourlastvisit": {
-        "message": "Dit sidste besøg"
-    },
-    "neighbors_all": {
-        "message": "Alle"
-    },
-    "neighbors_nogift": {
-        "message": "Ingen gaver i $NUM$ dage",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "neighbors_gifts": {
-        "message": "Modtagne gaver til overvejelse i de sidste @DAYS@ dage"
-    },
-    "neighbors_listed": {
-        "message": "Brugerdefineret liste"
-    },
-    "neighbors_blocks": {
-        "message": "Blokke der kan ryddes i undergrundslejr"
-    },
-    "neighbors_inlist": {
-        "message": "I brugerdefineret liste"
-    },
-    "neighbors_notinlist": {
-        "message": "Ikke i brugerdefineret liste"
-    },
-    "neighbors_withblocks": {
-        "message": "Med blokke der kan ryddes"
-    },
-    "neighbors_unknownblocks": {
-        "message": "Blokkes status ukendt"
-    },
-    "neighbors_withexpiredwindmills": {
-        "message": "Med udløbne vindmøller"
-    },
-    "neighbors_found": {
-        "message": "Fundne naboer:  $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_giftcount": {
-        "message": "Gave tæller"
-    },
-    "neighbors_giftvalue": {
-        "message": "Gave værdi (i XP)"
-    },
-    "neighbors_efficiency": {
-        "message": "Effektivitet (gaver/dag)"
-    },
-    "neighbors_wmtime": {
-        "message": "Vindmølle udløbstid"
-    },
-    "neighbors_giftinfo": {
-        "message": "Gavens dato viser hvornår DAF registrerede den, ikke hvornår den blev sendt."
-    },
-    "neighbors_gifttip": {
-        "message": "$NAME$\nXP: $XP$\nDag: $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_gift": {
-        "message": "$NAME$ ($XP$ XP) på $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_advancedfilterinfo": {
-        "message": "Du kan sortere dine naboer på de gaver de har sendt i de sidste @DAYS@ dage ved at vælge en eller flere gaver fra den følgende liste."
-    },
-    "neighbors_clearfilter": {
-        "message": "Ryd filter"
-    },
-    "neighbors_gift_tooltip": {
-        "message": "Modtagne gaver mens DAF2 har været aktiv og registrerende."
-    },
-    "neighbors_sortby": {
-        "message": "Sorteret efter"
-    },
-    "neighbors_totxpstats": {
-        "message": "$COUNT$ gaver i $DAYS$ dage = $TOTAL$ XP $AVERAGE$ XP/dag",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            },
-            "days": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            },
-            "average": {
-                "content": "$4"
-            }
-        }
-    },
-    "neighbors_avgxpstats": {
-        "message": "Genemsnitlig gave værdi = $XP$ XP ($AVERAGE$ XP per nabo/dag)",
-        "placeholders": {
-            "xp": {
-                "content": "$1"
-            },
-            "average": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_expression": {
-        "message": "Angiv et udtryk for at evaluere"
-    },
-    "friendship_collectfriends": {
-        "message": "Saml venner"
-    },
-    "friendship_score": {
-        "message": "Score"
-    },
-    "friendship_scoretooltip": {
-        "message": "Sammenlign som følger:\n100 = Samme Facebook id\n99 = Manuel sammenligning\n95 = Samme profil billede\n90 = Samme fulde navn\n80 = Samme fornavn og efternavn\n70 = Samme fornavn og efternavn (omvendt)\n60 = Kinesiske tegn sammenligning"
-    },
-    "friendship_action": {
-        "message": "Handling"
-    },
-    "friendship_actionignore": {
-        "message": "Denne ven er med i udvælgelsen\nKlik for at ignorere denne ven i sammenligningen"
-    },
-    "friendship_actionregard": {
-        "message": "Denne ven er ikke med i udvælgelsen\nKlik for at medtage denne ven"
-    },
-    "friendship_actionunlink": {
-        "message": "Klik for at ændre udvælgelsen"
-    },
-    "friendship_actionmanual": {
-        "message": "Klik for at udvælge manuelt"
-    },
-    "friendship_actionmatch": {
-        "message": "Klik for at forbinde denne ven til de udvalgte naboer"
-    },
-    "friendship_actiondelete": {
-        "message": "Klik for at slette denne ven permanent"
-    },
-    "friendship_matchplayertitle": {
-        "message": "Klik her for at afbryde denne udvælgelse"
-    },
-    "friendship_accountdisabled": {
-        "message": "Kontoen er deaktiveret"
-    },
-    "friendship_disabledaccountsdetected": {
-        "message": "Der blev fundet deaktiverede konti."
-    },
-    "friendship_unmatchedaccountsdetected": {
-        "message": "Deaktiverede og/eller ikke sammenlignede konti blev fundet."
-    },
-    "friendship_unfriendinfo": {
-        "message": "Du kan fravælge dem på denne side.\n\nVær opmærksom på at Facebook konti kan være midlertidigt deaktiveret og kan blive aktiveret på et senere tidspunkt."
-    },
-    "friendship_partial": {
-        "message": "Delvis"
-    },
-    "friendship_confirmcollect": {
-        "message": "JA = bekræfter venner og udskifter de eksisterende.\nDELVIS = tilføj venner og behold de eksisterende\nNEJ = prøv at samle flere venner\n\nDu kan lukke dette vindue på et hvert tidspunkt for at afbryde handlingen."
-    },
-    "friendship_speedupcollect": {
-        "message": "Øg hastigheden på indsamling?"
-    },
-    "friendship_filter_a": {
-        "message": "Venner: $FRIENDS$, Naboer: $NEIGHBOURS$",
-        "placeholders": {
-            "friends": {
-                "content": "$1"
-            },
-            "neighbours": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_filter_d": {
-        "message": "Lukkede Facebook konti: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_m": {
-        "message": "Venner og naboer sammenlignet: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_g": {
-        "message": "Venner og naboer sammenlignet ved billede: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_h": {
-        "message": "Venner og naboer sammenlignet manuelt: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_i": {
-        "message": "Ignorerede venner: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_f": {
-        "message": "Ikke sammenlignede venner: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_u": {
-        "message": "Ignorerede eller ikke sammenlignede venner: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_n": {
-        "message": "Ikke sammenlignede naboer: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_s": {
-        "message": "Ikke sammenlignede venner eller naboer: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectpreamble": {
-        "message": "Her kan du samle dine Facebook venner og sammenligne dem med dine naboer."
-    },
-    "friendship_collectstandard": {
-        "message": "Standard"
-    },
-    "friendship_collectstandardinfo": {
-        "message": "Denne metode er troværdig, men meget langsom (det kan tage adskillige minutter)."
-    },
-    "friendship_collectunmatched": {
-        "message": "Ikke sammenlignede"
-    },
-    "friendship_collectunmatchedinfo": {
-        "message": "Denne metode er den samme som Standard metoden, men vil ikke indhente venner.\nI stedet vil den vise dig alle nuværende ikke sammenlignede venner, så du manuelt kan fravælge dem."
-    },
-    "friendship_disabledinfo": {
-        "message": "Den kan finde deaktiverede konti"
-    },
-    "friendship_collectmatch": {
-        "message": "Sammenlign"
-    },
-    "friendship_collectmatchinfo": {
-        "message": "Dette vil lave en automatisk sammenligning mellem dine venner og naboer.\nDin venneliste vil ikke blive opdateret.\nIgnorerede venner og venner med en score på mere end 90 bliver ikke automatisk sammenlignet.\nSammenligning vil stadig blive udført ved afslutningen af din vennesamling."
-    },
-    "friendship_matchbyimage": {
-        "message": "Sammenlign med profil billede?"
-    },
-    "friendship_confirmwarning": {
-        "message": "Denne handling vil tage adskillige minutter.\n\nBekræft venligst at du vil fortsætte."
-    },
-    "friendship_confirmcollection": {
-        "message": "Bekræft indsamlings resultat?"
-    },
-    "friendship_cc_maybe": {
-        "message": "Hvis usikker"
-    },
-    "friendship_confirmdelete": {
-        "message": "Denne handling kan ikke ændres.\nDu må udføre en indhentning for at få denne ven tilbage på listen.\n\nBekræft fjernelsen?"
-    },
-    "friendship_collecterror": {
-        "message": "Noget gik galt."
-    },
-    "friendship_manualhelp": {
-        "message": "Genstart DAF2 siden, gå til \"$FRIENDSHIP$\" fanen, tryk\n\"$COLLECT$\" og vælg \"$MATCH$\"",
-        "placeholders": {
-            "friendship": {
-                "content": "$1"
-            },
-            "collect": {
-                "content": "$2"
-            },
-            "match": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_analyzingmatches": {
-        "message": "Analyserer data, $PERCENT$ % ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            },
-            "num": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_collectstat": {
-        "message": "Venner indhentet: $COUNT$",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_manualmatchhelp": {
-        "message": "For at sammenligne denne nabo, må du finde en ikke sammenlignet ven og klikke på feltet med stjerne symbolet."
-    },
-    "friendship_friendupdateinfo": {
-        "message": "Facebook Vennelisten blev opdateret den $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_totalfriends": {
-        "message": "Venner: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_totalneighbours": {
-        "message": "Naboer: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_timewarning": {
-        "message": "Det ser ud til at det er længe siden at du har lavet en vennesamling.\nKlik på \"$COLLECT$\" knappen og vælg \"$METHOD$\" metode.",
-        "placeholders": {
-            "collect": {
-                "content": "$1"
-            },
-            "method": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_info": {
-        "message": "$NUM$ Naboer = $GC$ Gudebørn",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "gc": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_stat": {
-        "message": "Gudebørn: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_next": {
-        "message": "For at få et ekstra Gudebarn, skal du tilføje $NUM$ naboer mere",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "godchild_next0": {
-        "message": "Du har nået maksimum antal Gudebørn"
-    },
-    "godchild_next1": {
-        "message": "For at få et ekstra Gudebarn, skal du kun tilføje en nabo mere"
-    },
-    "progress_measure": {
-        "message": "Måling"
-    },
-    "progress_attained": {
-        "message": "Opnået"
-    },
-    "progress_goal": {
-        "message": "Mål"
-    },
-    "progress_remaining": {
-        "message": "Rest"
-    },
-    "progress_progress": {
-        "message": "Fremskridt"
-    },
-    "progress_achievements": {
-        "message": "Resultater"
-    },
-    "progress_treasures": {
-        "message": "Skatte"
-    },
-    "progress_overall": {
-        "message": "Overblik"
-    },
-    "progress_hidecompleted": {
-        "message": "Skjul gennemført"
-    },
-    "progress_grouplocations": {
-        "message": "Gruppe lokationer"
-    },
-    "progress_showdates": {
-        "message": "Lokations datoer"
-    },
-    "progress_energyinfo": {
-        "message": "Den viste energi her er estimeret ved at gange antal af rest felter med gennemsnit felt 'pris'.\nDet gennemsnitlige felt pris er baseret på færdiggørelses bonus og det totale antal af felter"
-    },
-    "progress_averagetilecost": {
-        "message": "Gennemsnitlig felt pris"
-    },
-    "progress_achievementnextstep": {
-        "message": "Til næste trin = $NEXT$",
-        "placeholders": {
-            "next": {
-                "content": "$1"
-            }
-        }
-    },
-    "progress_start": {
-        "message": "Begyndt"
-    },
-    "progress_end": {
-        "message": "Sluttet"
-    },
-    "progress_duration": {
-        "message": "Varighed"
-    },
-    "progress_subtotal": {
-        "message": "Sub-Total"
-    },
-    "progress_grandtotal": {
-        "message": "Grand-Total"
-    },
-    "progress_playtime": {
-        "message": "Du begyndte at spille $STARTED$ og har spillet i $DURATION$ (indtil $NOW$)",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            },
-            "duration": {
-                "content": "$2"
-            },
-            "now": {
-                "content": "$3"
-            }
-        }
-    },
-    "progress_levelrange": {
-        "message": "Fra $FROM$ til $TO$",
-        "placeholders": {
-            "from": {
-                "content": "$1"
-            },
-            "to": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_id": {
-        "message": "Belønnings Id"
-    },
-    "rewardlinks_insertdate": {
-        "message": "Indsættelse dato"
-    },
-    "rewardlinks_collectdate": {
-        "message": "Hentet dato"
-    },
-    "rewardlinks_collectmaterial": {
-        "message": "Belønning fundet"
-    },
-    "rewardlinks_owner": {
-        "message": "Ejer"
-    },
-    "rewardlinks_expired": {
-        "message": "ULØBET LINK"
-    },
-    "rewardlinks_collected": {
-        "message": "ALLEREDE HENTET"
-    },
-    "rewardlinks_maxreached": {
-        "message": "DAGLIG MAX NÅET"
-    },
-    "rewardlinks_noself": {
-        "message": "INGEN SELVBELØNNING"
-    },
-    "rewardlinks_broken": {
-        "message": "KNÆKKET LINK"
-    },
-    "rewardlinks_probablyexpired": {
-        "message": "MULIGT UDLØBET LINK"
-    },
-    "rewardlinks_background": {
-        "message": "Baggrund\nÅben belønnings links i baggrunden"
-    },
-    "rewardlinks_autoclick": {
-        "message": "Auto-klik\nKlikker automatisk den næste udvalgte belønning efter en belønning er samlet."
-    },
-    "rewardlinks_autoclick_end": {
-        "message": "Ingen valgte links kan klikkes på.\nUdløbne links eller links, der er taget, bliver altid ignoreret."
-    },
-    "rewardlinks_addlinks": {
-        "message": "Tilføj links"
-    },
-    "rewardlinks_pasteadd": {
-        "message": "Indsæt links her og tryk på \"$CONFIRM$\" knappen",
-        "placeholders": {
-            "confirm": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_pastehere": {
-        "message": "Ethvert link, der sættes ind her, vil blive direkte tilføjet"
-    },
-    "rewardlinks_linksadded": {
-        "message": "Præmie links tilføjet: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_nolinksadded": {
-        "message": "Ingen præmie links blev tilføjet"
-    },
-    "rewardlinks_linksupdated": {
-        "message": "Præmie links opdateret: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_stats": {
-        "message": "Præmie links: $TOTAL$, Der kan hentes: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_allcollected": {
-        "message": "Alle præmier links er hentet"
-    },
-    "rewardlinks_nexttime": {
-        "message": "Næste kollektion starter den $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_countremaining": {
-        "message": "Resterende links: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_collectanyway": {
-        "message": "Vil du åbne dette link alligevel?"
-    },
-    "rewardlinks_infocollected": {
-        "message": "Dette link er allerede hentet."
-    },
-    "rewardlinks_infoexpired": {
-        "message": "Dette link er udløbet.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_infonoself": {
-        "message": "Dette link er dit: selv præmiering er ikke valid."
-    },
-    "rewardlinks_infobroken": {
-        "message": "Dette link er knækket eller virker ikke."
-    },
-    "rewardlinks_infomaxreached": {
-        "message": "Dette link er blevet hentet mens daglig max er nået.\nLinks der er hentet på denne måde er tabt for evigt."
-    },
-    "rewardlinks_infomayexceedlimit": {
-        "message": "Der er andre præmier, der venter på at blive hentet.\nDette kan overstige din daglige begrænsning."
-    },
-    "rewardlinks_infoprobablyexpired": {
-        "message": "Dette link er muligvis udløbet.\nLink id bliver genereret fortløbende og dette præmie id er lavere end et udløbet id."
-    },
-    "rewardlinks_removelinks": {
-        "message": "Fjern gamle links"
-    },
-    "rewardlinks_removeselected": {
-        "message": "Fjern det udvalgte"
-    },
-    "rewardlinks_removelinksdays": {
-        "message": "Fjern ikke aktive præmie links ældre end @DAYS@ dage.\nDette inkluderer udløbne links og links der allerede er hentet.\nLinks ældre end $NUM$ dage bliver fjernet periodisk.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_removenone": {
-        "message": "Der er ingen links at fjerne"
-    },
-    "rewardlinks_removeconfirm": {
-        "message": "Links der vil blive fjernet: $Num$\nFjernede links kan ikke længere tilføjes.\n\nFortsæt med fjernelsen?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_rewardinfo": {
-        "message": "Denne præmie blev tilføjet den $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_reset": {
-        "message": "Nulstil"
-    },
-    "rewardlinks_resetcount": {
-        "message": "Du kan resette \"Næste kollektion\" informationen og fortsætte med dette link alligevel."
-    },
-    "rewardlinks_resetexpired": {
-        "message": "Du kan resette \"Muligvis udløbet\" informationen og fortsætte med dette link alligevel."
-    },
-    "rewardlinks_convert": {
-        "message": "Konverter link"
-    },
-    "rewardlinks_noconversion": {
-        "message": "Ingen konvertering"
-    },
-    "rewardlinks_shortenlinks": {
-        "message": "Forkortede/konverterede links"
-    },
-    "rewardlinks_shortenlinks_info1": {
-        "message": "Indsæt links her, der skal forkortes /konverteres"
-    },
-    "rewardlinks_shortenlinks_info2": {
-        "message": "Forkortede links er vist herunder (duplikater er fjernet)"
-    },
-    "rewardlinks_prefix": {
-        "message": "Præfiks"
-    },
-    "rewardlinks_newline": {
-        "message": "Tilføj ny linje?"
-    },
-    "rewardlinks_addspace": {
-        "message": "Tilføj mellemrum"
-    },
-    "rewardlinks_summaryinfo": {
-        "message": "Alle belønninger indsamlet inden for $NUM$ timer efter den seneste belønning.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "export_export": {
-        "message": "Eksport"
-    },
-    "export_import": {
-        "message": "Import"
-    },
-    "export_exportdata": {
-        "message": "Eksport data"
-    },
-    "export_exportinventory": {
-        "message": "Eksport opgørelse"
-    },
-    "export_importdata": {
-        "message": "Import data"
-    },
-    "export_invalidexportdata": {
-        "message": "Denne fil er ikke valid DAF eksport data for den aktuelle spiller!"
-    },
-    "export_invalidexport": {
-        "message": "Filen har ikke gyldig eksportdata!"
-    },
-    "export_importsuccess": {
-        "message": "Data er blevet importet succefuldt"
-    },
-    "export_debugdata": {
-        "message": "Eksporter diagnostik data"
-    },
-    "rings_showminmax": {
-        "message": "Vis minimum og maksimum værdier"
-    },
-    "rings_showxp": {
-        "message": "Vis XP"
-    },
-    "rings_playerlevel": {
-        "message": "Specificer spillers level"
-    },
-    "rings_stats": {
-        "message": "Du har $NUM$ $NAME$ i din rygsæk.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "name": {
-                "content": "$2"
-            }
-        }
-    },
-    "rings_notdependent": {
-        "message": "Ikke afhængig af spillers level"
-    },
-    "rings_averageperring": {
-        "message": "Gennemsnitlig XP per ring"
-    },
-    "rings_rings": {
-        "message": "Ringe"
-    },
-    "equipment_sellout": {
-        "message": "Salg af alt brugt lejrudstyr gi'r dig $TOTAL$ mønter netto (udstyr = $EQUIP$ mønter, dekorationer = $DECO$ mønter)",
-        "placeholders": {
-            "total": {
-                "content": "$1"
-            },
-            "equip": {
-                "content": "$2"
-            },
-            "deco": {
-                "content": "$3"
-            }
-        }
-    },
-    "equipment_notonsale": {
-        "message": "Ikke længere på udsalg"
-    },
-    "equipment_quantities": {
-        "message": "Antal"
-    },
-    "equipment_owned": {
-        "message": "Ejet"
-    },
-    "equipment_inshop": {
-        "message": "I butik"
-    },
-    "equipment_from": {
-        "message": "Fra"
-    },
-    "equipment_affordable": {
-        "message": "Har råd til"
-    },
-    "equipment_useful": {
-        "message": "Brugbar"
-    },
-    "equipment_gain": {
-        "message": "Forøgelse"
-    },
-    "equipment_gain_info": {
-        "message": "Forøgelse er baseret på laveste lejrudstyr"
-    },
-    "equipment_free": {
-        "message": "Gratis"
-    },
-    "equipment_hidemax": {
-        "message": "Skjul Grænse"
-    },
-    "equipment_price_info": {
-        "message": "Pakkepris - Prisen er ikke for dette udstyr,\nmen for hele den pakke/tilbud, der indeholdt dette udstyr"
-    },
-    "equipment_level_none": {
-        "message": "Betyder ikke noget"
-    },
-    "equipment_level_eq": {
-        "message": "Præcist"
-    },
-    "equipment_level_le": {
-        "message": "Mest"
-    },
-    "equipment_level_ge": {
-        "message": "Mindst"
-    },
-    "equipment_level_your": {
-        "message": "dit level (niveau)"
-    },
-    "equipment_level_this": {
-        "message": "dette level (niveau)"
-    },
-    "equipment_include_material": {
-        "message": "Med disse materialer"
-    },
-    "equipment_exclude_material": {
-        "message": "Uden disse materialer"
-    },
-    "equipment_current": {
-        "message": "Nuværende"
-    },
-    "equipment_pfdisclaimer": {
-        "message": "Bemærk venligst at hvis du har købt en special pakke i dit spil til denne pris før, er det ikke muligt at købe endnu en pakke til denne pris.\nI det tilfælde vil det laveste tilgængelige pris niveau være ca. 5.5 USD."
-    },
-    "equipment_slotslower": {
-        "message": "Enheder med mindre energi/kapacitet end dette"
-    },
-    "events_year": {
-        "message": "År"
-    },
-    "events_end": {
-        "message": "Slut"
-    },
-    "events_quests": {
-        "message": "Eventyr"
-    },
-    "events_achievements": {
-        "message": "Præstationer"
-    },
-    "events_pieces": {
-        "message": "Del af en Skat"
-    },
-    "events_locations": {
-        "message": "Lokationer"
-    },
-    "events_materials": {
-        "message": "Særligt\nmateriale"
-    },
-    "events_completed": {
-        "message": "Fuldført"
-    },
-    "events_total": {
-        "message": "Total"
-    },
-    "events_medal": {
-        "message": "Medalje"
-    },
-    "events_story_maps": {
-        "message": "Historie mappe"
-    },
-    "events_challenges": {
-        "message": "Udfordringer"
-    },
-    "events_repeatables": {
-        "message": "Gentagelige"
-    },
-    "events_active": {
-        "message": "Aktive"
-    },
-    "events_rerelease": {
-        "message": "Købt/fået i gave"
-    },
-    "events_complete": {
-        "message": "Fuldført"
-    },
-    "events_incomplete": {
-        "message": "Ikke fuldført"
-    },
-    "events_notdone": {
-        "message": "Ikke udført"
-    },
-    "events_segmented": {
-        "message": "Regionsopdelt"
-    },
-    "events_yourprogress": {
-        "message": "Din fremgang"
-    },
-    "events_rewards": {
-        "message": "Belønninger"
-    },
-    "events_finalreward": {
-        "message": "Sidste Belønning"
-    },
-    "events_notsegmented": {
-        "message": "Ikke segmenteret"
-    },
-    "events_tiles": {
-        "message": "Felter"
-    },
-    "events_chance": {
-        "message": "Chance"
-    },
-    "events_clearbonus": {
-        "message": "Alt ryddet bonus"
-    },
-    "events_gemstones": {
-        "message": "Juveler"
-    },
-    "events_tutorial": {
-        "message": "Vejledt Begivenhed"
-    },
-    "repeat_name": {
-        "message": "Navn"
-    },
-    "repeat_region_event": {
-        "message": "Region / Begivenhed"
-    },
-    "repeat_cooldown": {
-        "message": "Nedkøling/Genstart"
-    },
-    "repeat_cooldown_time": {
-        "message": "Tid"
-    },
-    "repeat_cooldown_gems": {
-        "message": "Juveler"
-    },
-    "repeat_reset": {
-        "message": "Nulstil"
-    },
-    "repeat_bonus": {
-        "message": "Fuldført bonus"
-    },
-    "repeat_progress": {
-        "message": "Fremskridt"
-    },
-    "repeat_progress_current": {
-        "message": "Mine felter"
-    },
-    "repeat_progress_total": {
-        "message": "Felter ialt"
-    },
-    "repeat_time": {
-        "message": "Tid til minen er klar igen"
-    },
-    "repeat_show_all": {
-        "message": "Alle gentagelige"
-    },
-    "repeat_show_selected": {
-        "message": "Vælg kun gentagelige"
-    },
-    "repeat_ready": {
-        "message": "KLAR"
-    },
-    "repeat_show_ready": {
-        "message": "Klar?"
-    },
-    "repeat_postcard": {
-        "message": "Klar til Postkort uge?"
-    },
-    "dailyreward_stats": {
-        "message": "Den daglige belønning er baseret på dit nuværende level ($LEVEL) og region\n($REGION$)",
-        "placeholders": {
-            "level": {
-                "content": "$1"
-            },
-            "region": {
-                "content": "$2"
-            }
-        }
-    },
-    "dailyreward_lastcollect": {
-        "message": "Indsamlet den $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "dailyreward_formula": {
-        "message": "Formel"
-    },
-    "specialweek_end": {
-        "message": "Slutter den $FINISH$",
-        "placeholders": {
-            "finish": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_debris_discount": {
-        "message": "Ryd blokke tilbuds uge $PERCENT$%",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_production": {
-        "message": "Dobbelt produktions uge"
-    },
-    "specialweek_half_prod_time": {
-        "message": "Halv tid produktions uge"
-    },
-    "specialweek_double_drop": {
-        "message": "Dobbelt materiale uge"
-    },
-    "specialweek_gifts": {
-        "message": "Dobbelt gave uge"
-    },
-    "specialweek_postcards": {
-        "message": "Postkort uge"
-    },
-    "specialweek_material_seller": {
-        "message": "Købmand for gamle materialer"
-    },
-    "specialweek_free_premium_event": {
-        "message": "Indløs begivenheden \"$NAME$\" gratis",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_mystery_box": {
-        "message": "Mysterie boks"
-    },
-    "specialweek_find_the_pair": {
-        "message": "Spil Vendespil"
-    },
-    "options_section_ingame": {
-        "message": "Spil muligheder"
-    },
-    "options_injectgame": {
-        "message": "Aktiver DAF\nAktiver DAF i spillet.\nHvis det ikke er aktiveret, har de følgende indstillinger ingen effekt."
-    },
-    "options_fullwindow": {
-        "message": "Fuld skærm\nVis spillet i fuld skærm"
-    },
-    "options_fullwindowheader": {
-        "message": "Header\nVis side Header når spillet er i fuld skærm"
-    },
-    "options_fullwindowside": {
-        "message": "Side\nSkjul side baren (Facebook) når spillet ikke er i fuld skærm"
-    },
-    "options_fullwindowlock": {
-        "message": "Lås fuld skærm\nDette forhindrer spillet i at lukke fuld skærm vinduet."
-    },
-    "options_resetfullwindow": {
-        "message": "Nulstil ved opstart\nHvergang du starter spillet, bliver \"Fuld skærm\" og \"Fuld skærm - side\" sat tilbage til grundindstillingen."
-    },
-    "options_resetfullwindow_warning": {
-        "message": "Denne mulighed skal være aktiveret, hvis du oplever problemer med at loade spillet."
-    },
-    "options_fullwindowtimeout": {
-        "message": "Automatisk Fuld Skærm\nSætter automatisk til Fuld Skærm når data er blevet indlæst (DAF2 bliver grøn)"
-    },
-    "options_fullwindowtimeout_seconds": {
-        "message": "Ja, efter $NUM$ sekunder",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "options_gctable": {
-        "message": "Gudebørn tabel\nViser alle naboer med Gudebørn under spillet"
-    },
-    "options_gctablecounter": {
-        "message": "Tæller\nVis en Tæller"
-    },
-    "options_gctableregion": {
-        "message": "Region\nBrug farver for at markere en nabos region"
-    },
-    "options_autoclick": {
-        "message": "Autoklik\nAccepterer automatisk Facebook's popups"
-    },
-    "options_nogcpopup": {
-        "message": "Ingen Gudebørn pop-ups\nIngen pop-ups når du samler Gudebørn"
-    },
-    "options_autogc": {
-        "message": "Auto Gudebørn skifte lejr\nSkifter automatiske til næste lejr efter indsamling af Gudebørn"
-    },
-    "options_section_general": {
-        "message": "Generelle instillinger"
-    },
-    "options_autologin": {
-        "message": "Auto login til portal\nLogger automatisk på Portalen"
-    },
-    "options_darktheme": {
-        "message": "Mørkt tema"
-    },
-    "options_shrinkmenu": {
-        "message": "Menu bredde\nReducer bredden af den vertikale menu"
-    },
-    "options_shrinkmenu_0": {
-        "message": "Når sidens bredde er lille"
-    },
-    "options_shrinkmenu_1": {
-        "message": "Brug altid en kompakt menu"
-    },
-    "options_shrinkmenu_2": {
-        "message": "Brug altid en udvidet menu"
-    },
-    "options_disablealtguard": {
-        "message": "Reset på alternativ konto\nHvis du vælger denne mulighed, vil indlæsning af en alternativ konto overskrive dine nuværende DAF2 data."
-    },
-    "options_disablealtguard_warning": {
-        "message": "Pas på: Aktivering af denne mulighed er på egen risiko!"
-    },
-    "options_section_rewardlinks": {
-        "message": "Præmie links"
-    },
-    "options_rewardsclose": {
-        "message": "Auto luk\nAuto luk siden efter præmien er hentet."
-    },
-    "options_rewardscloseexceptgems": {
-        "message": "Undtagen juveler\nLuk ikke automatisk når der er fundet juveler."
-    },
-    "options_rewardscloseexcepterrors": {
-        "message": "Undtagen fejl\nLuk ikke automatisk når der er fundet fejl"
-    },
-    "options_rewardssummary": {
-        "message": "Tilføj sum tabel\nHvis siden ikke lukker automatisk, så tilføj en sum tabel i bunden"
-    },
-    "options_linkgrabenabled": {
-        "message": "Link fanger\nAktiver Link fangeren i Facebook.\nHvis den ikke aktiveres har den følgende mulighed ingen effekt."
-    },
-    "options_linkgrabbutton": {
-        "message": "Muse knap\nVælg den museknap der aktiverer Link fangeren"
-    },
-    "options_linkgrabkey": {
-        "message": "Vilkårlig tast\nVælg en vilkårlig tast til at trykke på som tilføjelse til museknappen"
-    },
-    "options_linkgrabsort": {
-        "message": "Sorter links"
-    },
-    "options_linkgrabconvert": {
-        "message": "Konverter links"
-    },
-    "options_modifier_none": {
-        "message": "Ingen"
-    },
-    "options_modifier_shift": {
-        "message": "Shift"
-    },
-    "options_modifier_ctrl": {
-        "message": "Ctrl"
-    },
-    "options_modifier_alt": {
-        "message": "Alt"
-    },
-    "options_button_left": {
-        "message": "Venstre"
-    },
-    "options_button_middle": {
-        "message": "Midte"
-    },
-    "options_button_right": {
-        "message": "Højre"
-    },
-    "options_sort_none": {
-        "message": "Ingen"
-    },
-    "options_sort_ascending": {
-        "message": "Stigende"
-    },
-    "options_sort_descending": {
-        "message": "Faldende"
-    },
-    "options_language": {
-        "message": "Sprog\nVælg det sprog der skal bruges"
-    },
-    "options_locale": {
-        "message": "Lokalisering\nBliver brugt til formatering af tal, dato'er og lister"
-    },
-    "options_locale_browser": {
-        "message": "Brug browserens indstillinger"
-    },
-    "options_gamelanguage": {
-        "message": "Spil sprog\nSprog til spillets beskeder"
-    },
-    "options_section_badges": {
-        "message": "Skilt"
-    },
-    "options_badgeserverenergy": {
-        "message": "Server Energi\nVis et skilt med den raporterede energi fra serveren.\nInformationen bliver opdateret periodisk når spilstatus synkroniseres med serveren."
-    },
-    "options_badgegccounter": {
-        "message": "GC Tæller\nVis et skilt med det tilbageværende antal af GC der kan samles"
-    },
-    "options_badgegcenergy": {
-        "message": "GC Energi\nVis et skilt med energien fra en nabos GC"
-    },
-    "options_badgerepeatables": {
-        "message": "Gentagelige\nVis et skilt når en valgt gentagelig er klar"
-    },
-    "options_badgeluckycards": {
-        "message": "Heldige Kort\nVis et skilt når Heldige Kort teltet er klar"
-    },
-    "options_badgeproductions": {
-        "message": "Produktioner\nVis et skilt når en produktions enhed er klar eller tom"
-    },
-    "options_badgetimeoffset": {
-        "message": "Tidsforskydning\nSkiltet vil blive vist forlods med dette antal sekunder"
-    },
-    "options_badgesound": {
-        "message": "Lyd Effekt\nLyd effekten der spilles, når skiltet vises."
-    },
-    "options_badgevolume": {
-        "message": "Lydstyrke\nLyd effektens lydstyrke."
-    },
-    "options_badgewindmills": {
-        "message": "Vindmøller\nVis et skilt, når en nabos lejr mangler vindmøller"
-    },
-    "calc_operators": {
-        "message": "Aktører"
-    },
-    "calc_arithmetic": {
-        "message": "Aritmetiske"
-    },
-    "calc_comparison": {
-        "message": "Sammenligning"
-    },
-    "calc_logical": {
-        "message": "Logisk"
-    },
-    "calc_functions": {
-        "message": "Funktioner"
-    },
-    "calc_variables": {
-        "message": "Variabler"
-    },
-    "calc_examples": {
-        "message": "Eksempler"
-    },
-    "calc_error_1": {
-        "message": "Syntax fejl"
-    },
-    "calc_error_2": {
-        "message": "Funktionen mangler parenteser"
-    },
-    "calc_error_3": {
-        "message": "Mangler slut parentes"
-    },
-    "calc_error_4": {
-        "message": "For mange slut parenteser"
-    },
-    "linkgrabber_selected": {
-        "message": "Links: $UNIQUE$ / $TOTAL$",
-        "placeholders": {
-            "unique": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_fn_copy": {
-        "message": "Kopier til clipboard"
-    },
-    "linkgrabber_fn_send": {
-        "message": "Send til DAF"
-    },
-    "linkgrabber_fn_cancel": {
-        "message": "Fortryd"
-    },
-    "linkgrabber_fn_refresh": {
-        "message": "Opdater links"
-    },
-    "linkgrabber_fn_showid": {
-        "message": "Vis Præmie Id"
-    },
-    "linkgrabber_fn_autosend": {
-        "message": "Send automatisk"
-    },
-    "linkgrabber_added": {
-        "message": "Præmie links tilføjet: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_copied": {
-        "message": "Links kopieret til clipboard: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    }
+	"ext_name": {
+		"message": "DA Friends 2"
+	},
+	"ext_title": {
+		"message": "Hjælpe værktøjer til Diggy's Adventure"
+	},
+	"menu_resetfullwindow": {
+		"message": "Reset ved opstart"
+	},
+	"menu_fullwindow": {
+		"message": "Spil i fuld skærm"
+	},
+	"menu_fullwindowheader": {
+		"message": "Header"
+	},
+	"menu_fullwindowside": {
+		"message": "Side bar"
+	},
+	"menu_fullwindowlock": {
+		"message": "Lås"
+	},
+	"menu_gctable": {
+		"message": "Vis Gudebørn tabel"
+	},
+	"menu_gctablecounter": {
+		"message": "Tæller"
+	},
+	"menu_gctableregion": {
+		"message": "Region"
+	},
+	"menu_gccollected": {
+		"message": "Alle felter er blevet samlet"
+	},
+	"menu_autoclick": {
+		"message": "Auto klik Facebook's popup"
+	},
+	"menu_nogcpopup": {
+		"message": "Ingen pop-up når du samler Gudebørn"
+	},
+	"menu_reloadgame": {
+		"message": "Genstarter spillet og gennemtvinger en opdatering"
+	},
+	"menu_switchportal": {
+		"message": "Skift til Portal"
+	},
+	"menu_switchfacebook": {
+		"message": "Skift til Facebook"
+	},
+	"menu_on": {
+		"message": "ON"
+	},
+	"menu_off": {
+		"message": "OFF"
+	},
+	"gui_timeparts": {
+		"message": "d,t,m,s"
+	},
+	"gui_card_clicker": {
+		"message": "Klik for at mindske/ udvide denne del"
+	},
+	"gui_show": {
+		"message": "Vis"
+	},
+	"gui_all": {
+		"message": "Alle"
+	},
+	"gui_only_possible": {
+		"message": "Kun mulige"
+	},
+	"gui_search": {
+		"message": "Søg"
+	},
+	"gui_filter": {
+		"message": "Filter"
+	},
+	"gui_name": {
+		"message": "Navn"
+	},
+	"gui_region_required": {
+		"message": "Region\nPåkrævet"
+	},
+	"gui_theme_required": {
+		"message": "Region/Tema\nPåkrævet"
+	},
+	"gui_level_required": {
+		"message": "Level (Niveau)\nPåkrævet"
+	},
+	"gui_qty": {
+		"message": "Antal"
+	},
+	"gui_qty_required": {
+		"message": "Antal\nPåkrævet"
+	},
+	"gui_energy": {
+		"message": "Energi"
+	},
+	"gui_estimatedenergy": {
+		"message": "Estimeret energi"
+	},
+	"gui_food": {
+		"message": "Mad"
+	},
+	"gui_coins": {
+		"message": "Mønter"
+	},
+	"gui_backpack": {
+		"message": "Rygsæk"
+	},
+	"gui_clickwiki": {
+		"message": "Klik for at åbne Wiki siden"
+	},
+	"gui_from_any": {
+		"message": "fra regioner eller begivenheder"
+	},
+	"gui_from_regions": {
+		"message": "fra regioner"
+	},
+	"gui_from_events": {
+		"message": "fra begivenheder"
+	},
+	"gui_ingredients": {
+		"message": "Ingredienser"
+	},
+	"gui_event": {
+		"message": "Begivenhed"
+	},
+	"gui_specialweek": {
+		"message": "Special uge"
+	},
+	"gui_region": {
+		"message": "Region"
+	},
+	"gui_theme": {
+		"message": "Tema"
+	},
+	"gui_year": {
+		"message": "År"
+	},
+	"gui_quest": {
+		"message": "Opgave"
+	},
+	"gui_offer": {
+		"message": "Specialtilbud"
+	},
+	"gui_tieredoffer": {
+		"message": "Gradueret tilbud"
+	},
+	"gui_pack": {
+		"message": "Pakke"
+	},
+	"gui_equipment": {
+		"message": "Lejudstyr"
+	},
+	"gui_shop": {
+		"message": "Butik"
+	},
+	"gui_decoration": {
+		"message": "Dekoration"
+	},
+	"gui_usable": {
+		"message": "Brugbart"
+	},
+	"gui_token": {
+		"message": "Særlig pant"
+	},
+	"gui_level": {
+		"message": "Level (Niveau)"
+	},
+	"gui_xp": {
+		"message": "XP"
+	},
+	"gui_sell_price": {
+		"message": "Salgspris"
+	},
+	"gui_neighbour": {
+		"message": "Nabo"
+	},
+	"gui_friend": {
+		"message": "Ven"
+	},
+	"gui_firstrecorded": {
+		"message": "Første\nRegistrering"
+	},
+	"gui_lastrecorded": {
+		"message": "Sidste\nRegistrering"
+	},
+	"gui_loadingresources": {
+		"message": "Load'er resourcer ($NUM$/$TOTAL$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"gui_screenshot_shot": {
+		"message": "Klik for at tage et screenshot af denne del.\nScreenshot'et vil derefter kunne ses til højre.\nVær opmærksom på: kun det synlige område kommer på billedet.\nDu skal klikke på DAF2 ikonet i Chrome menuen for at aktivere denne mulighed."
+	},
+	"gui_screenshot_target": {
+		"message": "Klik for at downloade billedet.\nDu kan højreklikke på billedet og vælge \"kopier billede\" for at kopiere det til clipboardet."
+	},
+	"gui_screenshot_error": {
+		"message": "Kan ikke tage screenshot"
+	},
+	"gui_screenshot_errorinfo": {
+		"message": "Du skal først klikke på @DAF2@ ikonet i Chrome menuen.\nDette vil aktivere screenshot funktionen indtil siden er lukket.\n\nKlik på @DAF2@ iconet og prøv at tage screenshot igen."
+	},
+	"gui_infodated": {
+		"message": "Den viste informationen er for tiden kun gyldig '$VALID$'",
+		"placeholders": {
+			"valid": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_nonote": {
+		"message": "Ingen beskrivelse"
+	},
+	"gui_minimum": {
+		"message": "Minimum"
+	},
+	"gui_maximum": {
+		"message": "Maksimum"
+	},
+	"gui_average": {
+		"message": "Gennemsnit"
+	},
+	"gui_loot": {
+		"message": "Udbytte"
+	},
+	"gui_datafrompf": {
+		"message": "Data fra Pixel Federations spil filer"
+	},
+	"gui_gift": {
+		"message": "Gave"
+	},
+	"gui_gifts": {
+		"message": "Gaver"
+	},
+	"gui_day": {
+		"message": "Dag"
+	},
+	"gui_placed": {
+		"message": "Placeret i lejr"
+	},
+	"gui_owned": {
+		"message": "Ejet"
+	},
+	"gui_limit": {
+		"message": "Grænse"
+	},
+	"gui_type": {
+		"message": "Type"
+	},
+	"gui_width": {
+		"message": "Bredde"
+	},
+	"gui_height": {
+		"message": "Højde"
+	},
+	"gui_value": {
+		"message": "Værdi"
+	},
+	"gui_slot_value": {
+		"message": "Enheds Værdi"
+	},
+	"gui_cost": {
+		"message": "Pris"
+	},
+	"gui_items_found": {
+		"message": "Fundne enheder"
+	},
+	"gui_reset": {
+		"message": "Reset"
+	},
+	"gui_material": {
+		"message": "Materiale"
+	},
+	"gui_filter_clear": {
+		"message": "Ryd"
+	},
+	"gui_filter_invert": {
+		"message": "Vend"
+	},
+	"gui_advancedfilter": {
+		"message": "Avanceret filter"
+	},
+	"gui_location": {
+		"message": "Bane"
+	},
+	"gui_locked": {
+		"message": "Låst"
+	},
+	"gui_noresults": {
+		"message": "Intet resultat"
+	},
+	"gui_toomanyresults": {
+		"message": "For mange resultater"
+	},
+	"gui_id": {
+		"message": "Id"
+	},
+	"gui_date": {
+		"message": "Dato"
+	},
+	"gui_ctrlclick": {
+		"message": "Brug CTRL til at vælge/fravælge alt"
+	},
+	"gui_summary": {
+		"message": "Resume"
+	},
+	"dialog_ok": {
+		"message": "Ok"
+	},
+	"dialog_yes": {
+		"message": "Ja"
+	},
+	"dialog_no": {
+		"message": "Nej"
+	},
+	"dialog_confirm": {
+		"message": "Bekræft"
+	},
+	"dialog_cancel": {
+		"message": "Afbryd"
+	},
+	"dialog_close": {
+		"message": "Luk"
+	},
+	"dialog_pleasewait": {
+		"message": "Vent venligst"
+	},
+	"tab_game": {
+		"message": "Skift til spil"
+	},
+	"tab_about": {
+		"message": "Om"
+	},
+	"tab_progress": {
+		"message": "Fremgang"
+	},
+	"tab_camp": {
+		"message": "Lejr"
+	},
+	"tab_map": {
+		"message": "Kort"
+	},
+	"tab_caravan": {
+		"message": "Karavane"
+	},
+	"tab_kitchen": {
+		"message": "Køkken"
+	},
+	"tab_foundry": {
+		"message": "Støberi"
+	},
+	"tab_pillars": {
+		"message": "Søjler"
+	},
+	"tab_neighbors": {
+		"message": "Naboer"
+	},
+	"tab_friendship": {
+		"message": "Venskab"
+	},
+	"tab_godchild": {
+		"message": "Gudebørn"
+	},
+	"tab_locations": {
+		"message": "Lokationer"
+	},
+	"tab_greenrings": {
+		"message": "Grønne ringe"
+	},
+	"tab_redrings": {
+		"message": "Røde ringe"
+	},
+	"tab_christmasrings": {
+		"message": "Jule Ringe"
+	},
+	"tab_rewardlinks": {
+		"message": "Belønnings links"
+	},
+	"tab_options": {
+		"message": "Muligheder"
+	},
+	"tab_help": {
+		"message": "Hjælp"
+	},
+	"tab_export": {
+		"message": "Import / Eksport"
+	},
+	"tab_equipment": {
+		"message": "Lejudstyr / Butik"
+	},
+	"tab_events": {
+		"message": "Begivenhed"
+	},
+	"tab_repeat": {
+		"message": "Gentagelige"
+	},
+	"tab_dailyreward": {
+		"message": "Daglig Belønning"
+	},
+	"about_version": {
+		"message": "Version: $VERSION$",
+		"placeholders": {
+			"version": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_data": {
+		"message": "Sidste data snapshot: $TIME$\nSpil Side: $SITE$ ($PLATFORM$)\nBruger Id: #$USERID$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			},
+			"userid": {
+				"content": "$2"
+			},
+			"site": {
+				"content": "$3"
+			},
+			"platform": {
+				"content": "$4"
+			}
+		}
+	},
+	"about_visit": {
+		"message": "Besøg den oficielle Facebook side"
+	},
+	"about_nodata": {
+		"message": "Der er ikke blevet loaded nogen spildata endnu, vær venlig at loade eller genstarte spil vinduet"
+	},
+	"about_disclaimer": {
+		"message": "DA venner er 'Fan Code' og er hverken godkendt eller supporteret af Pixel Federation, Forfatterne af spillet \"Diggys Adventure\".\nDu bruger DA venner på egen risiko. Der gives ingen erstatning eller garanti, hverken eksplecit eller implicit mod funktionalitet eller brugbarhed.\nForfatteren vil ikke blive holdt ansvarlig for nogen form for skade eller tab opstået ved brug af DA venner.\nVed at bruge denne udvidelse accepterer du disse betingelser."
+	},
+	"about_translators": {
+		"message": "Oversættere"
+	},
+	"about_alternate": {
+		"message": "En alternativ konto blev loaded ($ID$)",
+		"placeholders": {
+			"id": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_reset": {
+		"message": "Din tidligere kontos data blev bevaret.\nFor at resette dine data og bruge en anden konto - Klik @RESET@"
+	},
+	"about_reset_ask_title": {
+		"message": "Reset konto"
+	},
+	"about_reset_ask_text": {
+		"message": "Vil du resette dine data\nså du kan bruge en anden konto?"
+	},
+	"about_reset_ok_title": {
+		"message": "Data er blevet resat"
+	},
+	"about_reset_ok_text": {
+		"message": "Genindlæs Diggys Adventure med den konto du ønsker at bruge."
+	},
+	"production_total_time": {
+		"message": "Total Tid\n(Enheder: $NUM$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"production_time": {
+		"message": "Produktionstid"
+	},
+	"production_possible": {
+		"message": "Mulig"
+	},
+	"production_possible_energy": {
+		"message": "Mulig\nEnergi"
+	},
+	"production_energy_hour": {
+		"message": "Energi\nper time"
+	},
+	"production_qty": {
+		"message": "Antal producerede"
+	},
+	"production_uplift": {
+		"message": "Forøgelse (XP/t)"
+	},
+	"production_uplift_info": {
+		"message": "Xp opnået ved en enkelt enhed på  en time,\nBaseret på værdien, der opnåes ved søjler."
+	},
+	"production_req_ticket": {
+		"message": "Kræver en billet?"
+	},
+	"kitchen_food_in_backpack": {
+		"message": "fra mad i rygsækken"
+	},
+	"camp_your_camp": {
+		"message": "Din lejr"
+	},
+	"camp_player_name": {
+		"message": "$PLAYER$'s lejr på $DATE$",
+		"placeholders": {
+			"player": {
+				"content": "$1"
+			},
+			"date": {
+				"content": "$2"
+			}
+		}
+	},
+	"camp_no_player": {
+		"message": "Ingen lejr er endnu besøgt"
+	},
+	"camp_player": {
+		"message": "Spiller"
+	},
+	"camp_total": {
+		"message": "Total"
+	},
+	"camp_fill_time": {
+		"message": "Opfyldnings tid"
+	},
+	"camp_fill_time_info": {
+		"message": "Den tid det tager at fylde energisøjlen fra tomt til fuld."
+	},
+	"camp_numofregenslots": {
+		"message": "# regenererings-enheder"
+	},
+	"camp_canbeimproved": {
+		"message": "Denne lejr kan forbedres"
+	},
+	"camp_showsetup": {
+		"message": "Klik her for at vise opsætning på lejr"
+	},
+	"camp_windmill_regen": {
+		"message": "Enkelt vindmølle regenerering"
+	},
+	"camp_windmill_regen_total": {
+		"message": "Total vindmølle regenerering"
+	},
+	"camp_windmill_num": {
+		"message": "Aktuel antal vindmøller"
+	},
+	"camp_windmill_expiry": {
+		"message": "Vindmøller vil udløbe\n$TIME$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_slot_empty": {
+		"message": "Tomt"
+	},
+	"camp_slot_blocked": {
+		"message": "Blokeret"
+	},
+	"camp_regen": {
+		"message": "Regenerering"
+	},
+	"camp_capacity": {
+		"message": "Kapacitet"
+	},
+	"camp_windmills": {
+		"message": "Vindmøller"
+	},
+	"camp_needs_windmills": {
+		"message": "Lejr mangler vindmøller"
+	},
+	"camp_avg_value": {
+		"message": "Gennemsnit"
+	},
+	"camp_min_value": {
+		"message": "minimum"
+	},
+	"camp_max_value": {
+		"message": "maksimum"
+	},
+	"camp_num_slots": {
+		"message": "Antal"
+	},
+	"camp_unlock_materials": {
+		"message": "Nødvendige materialer for at låse lejr op"
+	},
+	"camp_unlock_one": {
+		"message": "Det vil koste $VALUE$ juveler at lukke op for en del",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_unlock_cost": {
+		"message": "En del kan blive låst op med $VALUE$ juveler\neller med disse materialer:",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_start_date": {
+		"message": "Du begyndte at spille:\n$STARTED$",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_day_mode": {
+		"message": "Dag tilstand"
+	},
+	"camp_night_mode": {
+		"message": "Nat tilstand"
+	},
+	"camp_setup_mode": {
+		"message": "Indstillings tilstand"
+	},
+	"camp_discounted": {
+		"message": "Tilbud"
+	},
+	"camp_neighbor": {
+		"message": "Nabo's lejr"
+	},
+	"camp_extra": {
+		"message": "Ekstra"
+	},
+	"camp_ftp_group": {
+		"message": "GRUPPE $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_ftp_dot_info": {
+		"message": "Kort mærket med rød prik kan ses i de første frie vendinger."
+	},
+	"camp_ftp_group_info": {
+		"message": "Du vil kun kunne se kort fra en gruppe, når alle kort fra den forrige gruppe er vist."
+	},
+	"camp_ftp_cumulativegems": {
+		"message": "Total juvel indtil nu"
+	},
+	"camp_ads_limit": {
+		"message": "Annonce grænse"
+	},
+	"camp_ads_limit_info": {
+		"message": "Dette er kun en indikation og repræsenterer ikke den reelle mulighed for at vise en annonce."
+	},
+	"camp_ads_limit_info2": {
+		"message": "Tredjeparts annonceudbyder anvender muligvis en anden begrænsning, da de ikke kontrolleres af Pixel Federation."
+	},
+	"map_floor": {
+		"message": "Etage"
+	},
+	"map_floor_current": {
+		"message": "Det er den nuværende etage"
+	},
+	"map_floor_found": {
+		"message": "Klik for at vise kort over denne etage"
+	},
+	"map_floor_not_found": {
+		"message": "Denne etage er endnu ikke besøgt"
+	},
+	"map_remaining_tiles": {
+		"message": "De sidste felter"
+	},
+	"map_special": {
+		"message": "Speciel"
+	},
+	"map_quest": {
+		"message": "Opgave"
+	},
+	"map_this_floor": {
+		"message": "Denne etage"
+	},
+	"map_all_floors": {
+		"message": "Alle etager"
+	},
+	"map_warning": {
+		"message": "Gå først ind på en bane i spillet og vend så tilbage hertil."
+	},
+	"map_button_d": {
+		"message": "Vis Diggy"
+	},
+	"map_button_t": {
+		"message": "Vis teleporte"
+	},
+	"map_button_e": {
+		"message": "Vis ledestjerne"
+	},
+	"map_button_c": {
+		"message": "Vis i fulde farver"
+	},
+	"map_button_g": {
+		"message": "Vis fejl info"
+	},
+	"map_button_l": {
+		"message": "Fremhæv brudbare felter"
+	},
+	"map_button_n": {
+		"message": "Fremhæv felter med bemærkelsesværdig bytte"
+	},
+	"map_button_v": {
+		"message": "Feltets synlighed er vedvarende"
+	},
+	"map_button_o": {
+		"message": "Vis uigennemsigtige fliser"
+	},
+	"map_button_b": {
+		"message": "Vis bonus indikatorer"
+	},
+	"map_button_k": {
+		"message": "Vis baggrund ved at skjule alle brudbare felter"
+	},
+	"map_button_a": {
+		"message": "Vis alle felter"
+	},
+	"map_button_x": {
+		"message": "Vis ind- og udgange"
+	},
+	"map_button_u": {
+		"message": "Vis originalt kort"
+	},
+	"map_button_f": {
+		"message": "Vis hele kortet"
+	},
+	"map_button_s": {
+		"message": "Vis løsning"
+	},
+	"map_button_m": {
+		"message": "Bland se-værdige felter"
+	},
+	"map_save": {
+		"message": "Gem"
+	},
+	"map_save_tip": {
+		"message": "Gem kortet som en billedfil"
+	},
+	"map_mine_exit": {
+		"message": "Mine udgang"
+	},
+	"map_goto_floor": {
+		"message": "Går til etage $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"map_goto_unknown": {
+		"message": "Går til en anden etage, men denne vej er ikke taget endnu"
+	},
+	"map_teleport": {
+		"message": "Teleort"
+	},
+	"map_hint": {
+		"message": "Hint"
+	},
+	"map_beacon": {
+		"message": "Ledestjerne"
+	},
+	"map_active": {
+		"message": "aktiv"
+	},
+	"map_not_active": {
+		"message": "ikke aktiv"
+	},
+	"map_tile": {
+		"message": "Felt"
+	},
+	"map_npc": {
+		"message": "Ncp"
+	},
+	"map_says": {
+		"message": "Siger"
+	},
+	"map_godchild": {
+		"message": "Gudebarn"
+	},
+	"map_unknown": {
+		"message": "Ukendt"
+	},
+	"map_yellow": {
+		"message": "Gul"
+	},
+	"map_red": {
+		"message": "Rød"
+	},
+	"map_blue": {
+		"message": "Blå"
+	},
+	"map_green": {
+		"message": "Grøn"
+	},
+	"map_left": {
+		"message": "Venstre"
+	},
+	"map_down": {
+		"message": "Ned"
+	},
+	"map_right": {
+		"message": "Højre"
+	},
+	"map_up": {
+		"message": "Op"
+	},
+	"map_require_draggable": {
+		"message": "Skal trækkes"
+	},
+	"map_require_item": {
+		"message": "Kræver emne"
+	},
+	"map_require_light": {
+		"message": "Kræver lys"
+	},
+	"map_emitter": {
+		"message": "Lys udsender"
+	},
+	"map_mirror": {
+		"message": "Spejl"
+	},
+	"map_filter": {
+		"message": "Lys filter"
+	},
+	"map_draggable": {
+		"message": "Trækkes"
+	},
+	"map_can_move": {
+		"message": "Kan flyttes"
+	},
+	"map_can_rotate": {
+		"message": "Kan roteres"
+	},
+	"map_fixed": {
+		"message": "Er lavet"
+	},
+	"map_remove_confirmation": {
+		"message": "Bekræft fjernelsen af disse miner?"
+	},
+	"map_option_c": {
+		"message": "Vis koordinater i værktøjs tip"
+	},
+	"map_option_s": {
+		"message": "Vis regions vælger"
+	},
+	"map_option_i": {
+		"message": "Vis lokations info"
+	},
+	"map_option_r": {
+		"message": "Vis gentagelige"
+	},
+	"map_option_t": {
+		"message": "Tilføj kort navn"
+	},
+	"map_option_b": {
+		"message": "Fjern tomme rækker/kolonner"
+	},
+	"map_option_m": {
+		"message": "Sikre margins rundt om billede"
+	},
+	"map_option_l": {
+		"message": "Tilføj vandmærke logo"
+	},
+	"map_option_resize": {
+		"message": "Størrelse på gemt billede"
+	},
+	"map_export_location": {
+		"message": "Eksporter alle etager som data fil"
+	},
+	"map_export_floor": {
+		"message": "Eksporter nuværende etage som data fil"
+	},
+	"map_import": {
+		"message": "Importer en tidligere eksporteret data fil"
+	},
+	"map_downloadfolder": {
+		"message": "Download mappe"
+	},
+	"map_positionrandom": {
+		"message": "Positionen er tilfældig"
+	},
+	"map_default": {
+		"message": "Sæt tilbage til standard"
+	},
+	"pillars_all": {
+		"message": "Alle søjler"
+	},
+	"pillars_only_possible": {
+		"message": "Kun mulige søjler"
+	},
+	"pillars_perc_next": {
+		"message": "%\nNæste"
+	},
+	"pillars_possible": {
+		"message": "Mulig"
+	},
+	"pillars_totals": {
+		"message": "Totaler"
+	},
+	"pillars_current_level": {
+		"message": "Dit nuværende level"
+	},
+	"pillars_predicted": {
+		"message": "Forventet"
+	},
+	"pillars_predicted_level": {
+		"message": "Forventet level"
+	},
+	"pillars_predicted_gain": {
+		"message": "Forudset gevinst ved at gå et niveau op"
+	},
+	"pillars_ignore": {
+		"message": "Klik for at ignorere / overveje"
+	},
+	"pillars_altclick": {
+		"message": "Brug ALT til at nulstille/indstille alle mængder"
+	},
+	"pillars_maxpossible": {
+		"message": "Max mulige"
+	},
+	"pillars_grid": {
+		"message": "Vis som tabel"
+	},
+	"pillars_cap": {
+		"message": "Skift til mulige"
+	},
+	"neighbors_lastlevelup": {
+		"message": "Sidste\nLevel opnået"
+	},
+	"neighbors_lastgiftreceived": {
+		"message": "Sidste gave\nModtaget"
+	},
+	"neighbors_yourlastvisit": {
+		"message": "Dit sidste besøg"
+	},
+	"neighbors_all": {
+		"message": "Alle"
+	},
+	"neighbors_nogift": {
+		"message": "Ingen gaver i $NUM$ dage",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"neighbors_gifts": {
+		"message": "Modtagne gaver til overvejelse i de sidste @DAYS@ dage"
+	},
+	"neighbors_listed": {
+		"message": "Brugerdefineret liste"
+	},
+	"neighbors_blocks": {
+		"message": "Blokke der kan ryddes i undergrundslejr"
+	},
+	"neighbors_inlist": {
+		"message": "I brugerdefineret liste"
+	},
+	"neighbors_notinlist": {
+		"message": "Ikke i brugerdefineret liste"
+	},
+	"neighbors_withblocks": {
+		"message": "Med blokke der kan ryddes"
+	},
+	"neighbors_unknownblocks": {
+		"message": "Blokkes status ukendt"
+	},
+	"neighbors_withexpiredwindmills": {
+		"message": "Med udløbne vindmøller"
+	},
+	"neighbors_found": {
+		"message": "Fundne naboer:  $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_giftcount": {
+		"message": "Gave tæller"
+	},
+	"neighbors_giftvalue": {
+		"message": "Gave værdi (i XP)"
+	},
+	"neighbors_efficiency": {
+		"message": "Effektivitet (gaver/dag)"
+	},
+	"neighbors_wmtime": {
+		"message": "Vindmølle udløbstid"
+	},
+	"neighbors_giftinfo": {
+		"message": "Gavens dato viser hvornår DAF registrerede den, ikke hvornår den blev sendt."
+	},
+	"neighbors_gifttip": {
+		"message": "$NAME$\nXP: $XP$\nDag: $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_gift": {
+		"message": "$NAME$ ($XP$ XP) på $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_advancedfilterinfo": {
+		"message": "Du kan sortere dine naboer på de gaver de har sendt i de sidste @DAYS@ dage ved at vælge en eller flere gaver fra den følgende liste."
+	},
+	"neighbors_clearfilter": {
+		"message": "Ryd filter"
+	},
+	"neighbors_gift_tooltip": {
+		"message": "Modtagne gaver mens DAF2 har været aktiv og registrerende."
+	},
+	"neighbors_sortby": {
+		"message": "Sorteret efter"
+	},
+	"neighbors_totxpstats": {
+		"message": "$COUNT$ gaver i $DAYS$ dage = $TOTAL$ XP $AVERAGE$ XP/dag",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"days": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			},
+			"average": {
+				"content": "$4"
+			}
+		}
+	},
+	"neighbors_avgxpstats": {
+		"message": "Genemsnitlig gave værdi = $XP$ XP ($AVERAGE$ XP per nabo/dag)",
+		"placeholders": {
+			"xp": {
+				"content": "$1"
+			},
+			"average": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_expression": {
+		"message": "Angiv et udtryk for at evaluere"
+	},
+	"friendship_collectfriends": {
+		"message": "Saml venner"
+	},
+	"friendship_score": {
+		"message": "Score"
+	},
+	"friendship_scoretooltip": {
+		"message": "Sammenlign som følger:\n100 = Samme Facebook id\n99 = Manuel sammenligning\n95 = Samme profil billede\n90 = Samme fulde navn\n80 = Samme fornavn og efternavn\n70 = Samme fornavn og efternavn (omvendt)\n60 = Kinesiske tegn sammenligning"
+	},
+	"friendship_action": {
+		"message": "Handling"
+	},
+	"friendship_actionignore": {
+		"message": "Denne ven er med i udvælgelsen\nKlik for at ignorere denne ven i sammenligningen"
+	},
+	"friendship_actionregard": {
+		"message": "Denne ven er ikke med i udvælgelsen\nKlik for at medtage denne ven"
+	},
+	"friendship_actionunlink": {
+		"message": "Klik for at ændre udvælgelsen"
+	},
+	"friendship_actionmanual": {
+		"message": "Klik for at udvælge manuelt"
+	},
+	"friendship_actionmatch": {
+		"message": "Klik for at forbinde denne ven til de udvalgte naboer"
+	},
+	"friendship_actiondelete": {
+		"message": "Klik for at slette denne ven permanent"
+	},
+	"friendship_matchplayertitle": {
+		"message": "Klik her for at afbryde denne udvælgelse"
+	},
+	"friendship_accountdisabled": {
+		"message": "Kontoen er deaktiveret"
+	},
+	"friendship_disabledaccountsdetected": {
+		"message": "Der blev fundet deaktiverede konti."
+	},
+	"friendship_unmatchedaccountsdetected": {
+		"message": "Deaktiverede og/eller ikke sammenlignede konti blev fundet."
+	},
+	"friendship_unfriendinfo": {
+		"message": "Du kan fravælge dem på denne side.\n\nVær opmærksom på at Facebook konti kan være midlertidigt deaktiveret og kan blive aktiveret på et senere tidspunkt."
+	},
+	"friendship_partial": {
+		"message": "Delvis"
+	},
+	"friendship_confirmcollect": {
+		"message": "JA = bekræfter venner og udskifter de eksisterende.\nDELVIS = tilføj venner og behold de eksisterende\nNEJ = prøv at samle flere venner\n\nDu kan lukke dette vindue på et hvert tidspunkt for at afbryde handlingen."
+	},
+	"friendship_speedupcollect": {
+		"message": "Øg hastigheden på indsamling?"
+	},
+	"friendship_filter_a": {
+		"message": "Venner: $FRIENDS$, Naboer: $NEIGHBOURS$",
+		"placeholders": {
+			"friends": {
+				"content": "$1"
+			},
+			"neighbours": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_filter_d": {
+		"message": "Lukkede Facebook konti: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_m": {
+		"message": "Venner og naboer sammenlignet: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_g": {
+		"message": "Venner og naboer sammenlignet ved billede: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_h": {
+		"message": "Venner og naboer sammenlignet manuelt: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_i": {
+		"message": "Ignorerede venner: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_f": {
+		"message": "Ikke sammenlignede venner: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_u": {
+		"message": "Ignorerede eller ikke sammenlignede venner: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_n": {
+		"message": "Ikke sammenlignede naboer: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_s": {
+		"message": "Ikke sammenlignede venner eller naboer: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_collectpreamble": {
+		"message": "Her kan du samle dine Facebook venner og sammenligne dem med dine naboer."
+	},
+	"friendship_collectstandard": {
+		"message": "Standard"
+	},
+	"friendship_collectstandardinfo": {
+		"message": "Denne metode er troværdig, men meget langsom (det kan tage adskillige minutter)."
+	},
+	"friendship_collectunmatched": {
+		"message": "Ikke sammenlignede"
+	},
+	"friendship_collectunmatchedinfo": {
+		"message": "Denne metode er den samme som Standard metoden, men vil ikke indhente venner.\nI stedet vil den vise dig alle nuværende ikke sammenlignede venner, så du manuelt kan fravælge dem."
+	},
+	"friendship_disabledinfo": {
+		"message": "Den kan finde deaktiverede konti"
+	},
+	"friendship_collectmatch": {
+		"message": "Sammenlign"
+	},
+	"friendship_collectmatchinfo": {
+		"message": "Dette vil lave en automatisk sammenligning mellem dine venner og naboer.\nDin venneliste vil ikke blive opdateret.\nIgnorerede venner og venner med en score på mere end 90 bliver ikke automatisk sammenlignet.\nSammenligning vil stadig blive udført ved afslutningen af din vennesamling."
+	},
+	"friendship_matchbyimage": {
+		"message": "Sammenlign med profil billede?"
+	},
+	"friendship_confirmwarning": {
+		"message": "Denne handling vil tage adskillige minutter.\n\nBekræft venligst at du vil fortsætte."
+	},
+	"friendship_confirmcollection": {
+		"message": "Bekræft indsamlings resultat?"
+	},
+	"friendship_cc_maybe": {
+		"message": "Hvis usikker"
+	},
+	"friendship_confirmdelete": {
+		"message": "Denne handling kan ikke ændres.\nDu må udføre en indhentning for at få denne ven tilbage på listen.\n\nBekræft fjernelsen?"
+	},
+	"friendship_collecterror": {
+		"message": "Noget gik galt."
+	},
+	"friendship_manualhelp": {
+		"message": "Genstart DAF2 siden, gå til \"$FRIENDSHIP$\" fanen, tryk\n\"$COLLECT$\" og vælg \"$MATCH$\"",
+		"placeholders": {
+			"friendship": {
+				"content": "$1"
+			},
+			"collect": {
+				"content": "$2"
+			},
+			"match": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_analyzingmatches": {
+		"message": "Analyserer data, $PERCENT$ % ($NUM$ / $TOTAL$)",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			},
+			"num": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_collectstat": {
+		"message": "Venner indhentet: $COUNT$",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_manualmatchhelp": {
+		"message": "For at sammenligne denne nabo, må du finde en ikke sammenlignet ven og klikke på feltet med stjerne symbolet."
+	},
+	"friendship_friendupdateinfo": {
+		"message": "Facebook Vennelisten blev opdateret den $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_totalfriends": {
+		"message": "Venner: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_totalneighbours": {
+		"message": "Naboer: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_timewarning": {
+		"message": "Det ser ud til at det er længe siden at du har lavet en vennesamling.\nKlik på \"$COLLECT$\" knappen og vælg \"$METHOD$\" metode.",
+		"placeholders": {
+			"collect": {
+				"content": "$1"
+			},
+			"method": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_info": {
+		"message": "$NUM$ Naboer = $GC$ Gudebørn",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"gc": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_stat": {
+		"message": "Gudebørn: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_next": {
+		"message": "For at få et ekstra Gudebarn, skal du tilføje $NUM$ naboer mere",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"godchild_next0": {
+		"message": "Du har nået maksimum antal Gudebørn"
+	},
+	"godchild_next1": {
+		"message": "For at få et ekstra Gudebarn, skal du kun tilføje en nabo mere"
+	},
+	"progress_measure": {
+		"message": "Måling"
+	},
+	"progress_attained": {
+		"message": "Opnået"
+	},
+	"progress_goal": {
+		"message": "Mål"
+	},
+	"progress_remaining": {
+		"message": "Rest"
+	},
+	"progress_progress": {
+		"message": "Fremskridt"
+	},
+	"progress_achievements": {
+		"message": "Resultater"
+	},
+	"progress_treasures": {
+		"message": "Skatte"
+	},
+	"progress_overall": {
+		"message": "Overblik"
+	},
+	"progress_hidecompleted": {
+		"message": "Skjul gennemført"
+	},
+	"progress_grouplocations": {
+		"message": "Gruppe lokationer"
+	},
+	"progress_showdates": {
+		"message": "Lokations datoer"
+	},
+	"progress_energyinfo": {
+		"message": "Den viste energi her er estimeret ved at gange antal af rest felter med gennemsnit felt 'pris'.\nDet gennemsnitlige felt pris er baseret på færdiggørelses bonus og det totale antal af felter"
+	},
+	"progress_averagetilecost": {
+		"message": "Gennemsnitlig felt pris"
+	},
+	"progress_achievementnextstep": {
+		"message": "Til næste trin = $NEXT$",
+		"placeholders": {
+			"next": {
+				"content": "$1"
+			}
+		}
+	},
+	"progress_start": {
+		"message": "Begyndt"
+	},
+	"progress_end": {
+		"message": "Sluttet"
+	},
+	"progress_duration": {
+		"message": "Varighed"
+	},
+	"progress_subtotal": {
+		"message": "Sub-Total"
+	},
+	"progress_grandtotal": {
+		"message": "Grand-Total"
+	},
+	"progress_playtime": {
+		"message": "Du begyndte at spille $STARTED$ og har spillet i $DURATION$ (indtil $NOW$)",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			},
+			"duration": {
+				"content": "$2"
+			},
+			"now": {
+				"content": "$3"
+			}
+		}
+	},
+	"progress_levelrange": {
+		"message": "Fra $FROM$ til $TO$",
+		"placeholders": {
+			"from": {
+				"content": "$1"
+			},
+			"to": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_id": {
+		"message": "Belønnings Id"
+	},
+	"rewardlinks_insertdate": {
+		"message": "Indsættelse dato"
+	},
+	"rewardlinks_collectdate": {
+		"message": "Hentet dato"
+	},
+	"rewardlinks_collectmaterial": {
+		"message": "Belønning fundet"
+	},
+	"rewardlinks_owner": {
+		"message": "Ejer"
+	},
+	"rewardlinks_expired": {
+		"message": "ULØBET LINK"
+	},
+	"rewardlinks_collected": {
+		"message": "ALLEREDE HENTET"
+	},
+	"rewardlinks_maxreached": {
+		"message": "DAGLIG MAX NÅET"
+	},
+	"rewardlinks_noself": {
+		"message": "INGEN SELVBELØNNING"
+	},
+	"rewardlinks_broken": {
+		"message": "KNÆKKET LINK"
+	},
+	"rewardlinks_probablyexpired": {
+		"message": "MULIGT UDLØBET LINK"
+	},
+	"rewardlinks_background": {
+		"message": "Baggrund\nÅben belønnings links i baggrunden"
+	},
+	"rewardlinks_autoclick": {
+		"message": "Auto-klik\nKlikker automatisk den næste udvalgte belønning efter en belønning er samlet."
+	},
+	"rewardlinks_autoclick_end": {
+		"message": "Ingen valgte links kan klikkes på.\nUdløbne links eller links, der er taget, bliver altid ignoreret."
+	},
+	"rewardlinks_addlinks": {
+		"message": "Tilføj links"
+	},
+	"rewardlinks_pasteadd": {
+		"message": "Indsæt links her og tryk på \"$CONFIRM$\" knappen",
+		"placeholders": {
+			"confirm": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_pastehere": {
+		"message": "Ethvert link, der sættes ind her, vil blive direkte tilføjet"
+	},
+	"rewardlinks_linksadded": {
+		"message": "Præmie links tilføjet: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_nolinksadded": {
+		"message": "Ingen præmie links blev tilføjet"
+	},
+	"rewardlinks_linksupdated": {
+		"message": "Præmie links opdateret: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_stats": {
+		"message": "Præmie links: $TOTAL$, Der kan hentes: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_allcollected": {
+		"message": "Alle præmier links er hentet"
+	},
+	"rewardlinks_nexttime": {
+		"message": "Næste kollektion starter den $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_countremaining": {
+		"message": "Resterende links: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_collectanyway": {
+		"message": "Vil du åbne dette link alligevel?"
+	},
+	"rewardlinks_infocollected": {
+		"message": "Dette link er allerede hentet."
+	},
+	"rewardlinks_infoexpired": {
+		"message": "Dette link er udløbet.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_infonoself": {
+		"message": "Dette link er dit: selv præmiering er ikke valid."
+	},
+	"rewardlinks_infobroken": {
+		"message": "Dette link er knækket eller virker ikke."
+	},
+	"rewardlinks_infomaxreached": {
+		"message": "Dette link er blevet hentet mens daglig max er nået.\nLinks der er hentet på denne måde er tabt for evigt."
+	},
+	"rewardlinks_infomayexceedlimit": {
+		"message": "Der er andre præmier, der venter på at blive hentet.\nDette kan overstige din daglige begrænsning."
+	},
+	"rewardlinks_infoprobablyexpired": {
+		"message": "Dette link er muligvis udløbet.\nLink id bliver genereret fortløbende og dette præmie id er lavere end et udløbet id."
+	},
+	"rewardlinks_removelinks": {
+		"message": "Fjern gamle links"
+	},
+	"rewardlinks_removeselected": {
+		"message": "Fjern det udvalgte"
+	},
+	"rewardlinks_removelinksdays": {
+		"message": "Fjern ikke aktive præmie links ældre end @DAYS@ dage.\nDette inkluderer udløbne links og links der allerede er hentet.\nLinks ældre end $NUM$ dage bliver fjernet periodisk.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_removenone": {
+		"message": "Der er ingen links at fjerne"
+	},
+	"rewardlinks_removeconfirm": {
+		"message": "Links der vil blive fjernet: $Num$\nFjernede links kan ikke længere tilføjes.\n\nFortsæt med fjernelsen?",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_rewardinfo": {
+		"message": "Denne præmie blev tilføjet den $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_reset": {
+		"message": "Nulstil"
+	},
+	"rewardlinks_resetcount": {
+		"message": "Du kan resette \"Næste kollektion\" informationen og fortsætte med dette link alligevel."
+	},
+	"rewardlinks_resetexpired": {
+		"message": "Du kan resette \"Muligvis udløbet\" informationen og fortsætte med dette link alligevel."
+	},
+	"rewardlinks_convert": {
+		"message": "Konverter link"
+	},
+	"rewardlinks_noconversion": {
+		"message": "Ingen konvertering"
+	},
+	"rewardlinks_shortenlinks": {
+		"message": "Forkortede/konverterede links"
+	},
+	"rewardlinks_shortenlinks_info1": {
+		"message": "Indsæt links her, der skal forkortes /konverteres"
+	},
+	"rewardlinks_shortenlinks_info2": {
+		"message": "Forkortede links er vist herunder (duplikater er fjernet)"
+	},
+	"rewardlinks_prefix": {
+		"message": "Præfiks"
+	},
+	"rewardlinks_newline": {
+		"message": "Tilføj ny linje?"
+	},
+	"rewardlinks_addspace": {
+		"message": "Tilføj mellemrum"
+	},
+	"rewardlinks_summaryinfo": {
+		"message": "Alle belønninger indsamlet inden for $NUM$ timer efter den seneste belønning.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"export_export": {
+		"message": "Eksport"
+	},
+	"export_import": {
+		"message": "Import"
+	},
+	"export_exportdata": {
+		"message": "Eksport data"
+	},
+	"export_exportinventory": {
+		"message": "Eksport opgørelse"
+	},
+	"export_importdata": {
+		"message": "Import data"
+	},
+	"export_invalidexportdata": {
+		"message": "Denne fil er ikke valid DAF eksport data for den aktuelle spiller!"
+	},
+	"export_invalidexport": {
+		"message": "Filen har ikke gyldig eksportdata!"
+	},
+	"export_importsuccess": {
+		"message": "Data er blevet importet succefuldt"
+	},
+	"export_debugdata": {
+		"message": "Eksporter diagnostik data"
+	},
+	"rings_showminmax": {
+		"message": "Vis minimum og maksimum værdier"
+	},
+	"rings_showxp": {
+		"message": "Vis XP"
+	},
+	"rings_playerlevel": {
+		"message": "Specificer spillers level"
+	},
+	"rings_stats": {
+		"message": "Du har $NUM$ $NAME$ i din rygsæk.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"name": {
+				"content": "$2"
+			}
+		}
+	},
+	"rings_notdependent": {
+		"message": "Ikke afhængig af spillers level"
+	},
+	"rings_averageperring": {
+		"message": "Gennemsnitlig XP per ring"
+	},
+	"rings_rings": {
+		"message": "Ringe"
+	},
+	"equipment_sellout": {
+		"message": "Salg af alt brugt lejrudstyr gi'r dig $TOTAL$ mønter netto (udstyr = $EQUIP$ mønter, dekorationer = $DECO$ mønter)",
+		"placeholders": {
+			"total": {
+				"content": "$1"
+			},
+			"equip": {
+				"content": "$2"
+			},
+			"deco": {
+				"content": "$3"
+			}
+		}
+	},
+	"equipment_notonsale": {
+		"message": "Ikke længere på udsalg"
+	},
+	"equipment_quantities": {
+		"message": "Antal"
+	},
+	"equipment_owned": {
+		"message": "Ejet"
+	},
+	"equipment_inshop": {
+		"message": "I butik"
+	},
+	"equipment_from": {
+		"message": "Fra"
+	},
+	"equipment_affordable": {
+		"message": "Har råd til"
+	},
+	"equipment_useful": {
+		"message": "Brugbar"
+	},
+	"equipment_gain": {
+		"message": "Forøgelse"
+	},
+	"equipment_gain_info": {
+		"message": "Forøgelse er baseret på laveste lejrudstyr"
+	},
+	"equipment_free": {
+		"message": "Gratis"
+	},
+	"equipment_hidemax": {
+		"message": "Skjul Grænse"
+	},
+	"equipment_price_info": {
+		"message": "Pakkepris - Prisen er ikke for dette udstyr,\nmen for hele den pakke/tilbud, der indeholdt dette udstyr"
+	},
+	"equipment_level_none": {
+		"message": "Betyder ikke noget"
+	},
+	"equipment_level_eq": {
+		"message": "Præcist"
+	},
+	"equipment_level_le": {
+		"message": "Mest"
+	},
+	"equipment_level_ge": {
+		"message": "Mindst"
+	},
+	"equipment_level_your": {
+		"message": "dit level (niveau)"
+	},
+	"equipment_level_this": {
+		"message": "dette level (niveau)"
+	},
+	"equipment_include_material": {
+		"message": "Med disse materialer"
+	},
+	"equipment_exclude_material": {
+		"message": "Uden disse materialer"
+	},
+	"equipment_current": {
+		"message": "Nuværende"
+	},
+	"equipment_pfdisclaimer": {
+		"message": "Bemærk venligst at hvis du har købt en special pakke i dit spil til denne pris før, er det ikke muligt at købe endnu en pakke til denne pris.\nI det tilfælde vil det laveste tilgængelige pris niveau være ca. 5.5 USD."
+	},
+	"equipment_slotslower": {
+		"message": "Enheder med mindre energi/kapacitet end dette"
+	},
+	"events_year": {
+		"message": "År"
+	},
+	"events_end": {
+		"message": "Slut"
+	},
+	"events_quests": {
+		"message": "Eventyr"
+	},
+	"events_achievements": {
+		"message": "Præstationer"
+	},
+	"events_pieces": {
+		"message": "Del af en Skat"
+	},
+	"events_locations": {
+		"message": "Lokationer"
+	},
+	"events_materials": {
+		"message": "Særligt\nmateriale"
+	},
+	"events_completed": {
+		"message": "Fuldført"
+	},
+	"events_total": {
+		"message": "Total"
+	},
+	"events_medal": {
+		"message": "Medalje"
+	},
+	"events_story_maps": {
+		"message": "Historie mappe"
+	},
+	"events_challenges": {
+		"message": "Udfordringer"
+	},
+	"events_repeatables": {
+		"message": "Gentagelige"
+	},
+	"events_active": {
+		"message": "Aktive"
+	},
+	"events_rerelease": {
+		"message": "Købt/fået i gave"
+	},
+	"events_complete": {
+		"message": "Fuldført"
+	},
+	"events_incomplete": {
+		"message": "Ikke fuldført"
+	},
+	"events_notdone": {
+		"message": "Ikke udført"
+	},
+	"events_segmented": {
+		"message": "Regionsopdelt"
+	},
+	"events_yourprogress": {
+		"message": "Din fremgang"
+	},
+	"events_rewards": {
+		"message": "Belønninger"
+	},
+	"events_finalreward": {
+		"message": "Sidste Belønning"
+	},
+	"events_notsegmented": {
+		"message": "Ikke segmenteret"
+	},
+	"events_tiles": {
+		"message": "Felter"
+	},
+	"events_chance": {
+		"message": "Chance"
+	},
+	"events_clearbonus": {
+		"message": "Alt ryddet bonus"
+	},
+	"events_gemstones": {
+		"message": "Juveler"
+	},
+	"events_tutorial": {
+		"message": "Vejledt Begivenhed"
+	},
+	"repeat_name": {
+		"message": "Navn"
+	},
+	"repeat_region_event": {
+		"message": "Region / Begivenhed"
+	},
+	"repeat_cooldown": {
+		"message": "Nedkøling/Genstart"
+	},
+	"repeat_cooldown_time": {
+		"message": "Tid"
+	},
+	"repeat_cooldown_gems": {
+		"message": "Juveler"
+	},
+	"repeat_reset": {
+		"message": "Nulstil"
+	},
+	"repeat_bonus": {
+		"message": "Fuldført bonus"
+	},
+	"repeat_progress": {
+		"message": "Fremskridt"
+	},
+	"repeat_progress_current": {
+		"message": "Mine felter"
+	},
+	"repeat_progress_total": {
+		"message": "Felter ialt"
+	},
+	"repeat_time": {
+		"message": "Tid til minen er klar igen"
+	},
+	"repeat_show_all": {
+		"message": "Alle gentagelige"
+	},
+	"repeat_show_selected": {
+		"message": "Vælg kun gentagelige"
+	},
+	"repeat_ready": {
+		"message": "KLAR"
+	},
+	"repeat_show_ready": {
+		"message": "Klar?"
+	},
+	"repeat_postcard": {
+		"message": "Klar til Postkort uge?"
+	},
+	"dailyreward_stats": {
+		"message": "Den daglige belønning er baseret på dit nuværende level ($LEVEL) og region\n($REGION$)",
+		"placeholders": {
+			"level": {
+				"content": "$1"
+			},
+			"region": {
+				"content": "$2"
+			}
+		}
+	},
+	"dailyreward_lastcollect": {
+		"message": "Indsamlet den $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"dailyreward_formula": {
+		"message": "Formel"
+	},
+	"specialweek_end": {
+		"message": "Slutter den $FINISH$",
+		"placeholders": {
+			"finish": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_debris_discount": {
+		"message": "Ryd blokke tilbuds uge $PERCENT$%",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_production": {
+		"message": "Dobbelt produktions uge"
+	},
+	"specialweek_half_prod_time": {
+		"message": "Halv tid produktions uge"
+	},
+	"specialweek_double_drop": {
+		"message": "Dobbelt materiale uge"
+	},
+	"specialweek_gifts": {
+		"message": "Dobbelt gave uge"
+	},
+	"specialweek_postcards": {
+		"message": "Postkort uge"
+	},
+	"specialweek_material_seller": {
+		"message": "Købmand for gamle materialer"
+	},
+	"specialweek_free_premium_event": {
+		"message": "Indløs begivenheden \"$NAME$\" gratis",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_mystery_box": {
+		"message": "Mysterie boks"
+	},
+	"specialweek_find_the_pair": {
+		"message": "Spil Vendespil"
+	},
+	"options_section_ingame": {
+		"message": "Spil muligheder"
+	},
+	"options_injectgame": {
+		"message": "Aktiver DAF\nAktiver DAF i spillet.\nHvis det ikke er aktiveret, har de følgende indstillinger ingen effekt."
+	},
+	"options_fullwindow": {
+		"message": "Fuld skærm\nVis spillet i fuld skærm"
+	},
+	"options_fullwindowheader": {
+		"message": "Header\nVis side Header når spillet er i fuld skærm"
+	},
+	"options_fullwindowside": {
+		"message": "Side\nSkjul side baren (Facebook) når spillet ikke er i fuld skærm"
+	},
+	"options_fullwindowlock": {
+		"message": "Lås fuld skærm\nDette forhindrer spillet i at lukke fuld skærm vinduet."
+	},
+	"options_resetfullwindow": {
+		"message": "Nulstil ved opstart\nHvergang du starter spillet, bliver \"Fuld skærm\" og \"Fuld skærm - side\" sat tilbage til grundindstillingen."
+	},
+	"options_resetfullwindow_warning": {
+		"message": "Denne mulighed skal være aktiveret, hvis du oplever problemer med at loade spillet."
+	},
+	"options_fullwindowtimeout": {
+		"message": "Automatisk Fuld Skærm\nSætter automatisk til Fuld Skærm når data er blevet indlæst (DAF2 bliver grøn)"
+	},
+	"options_fullwindowtimeout_seconds": {
+		"message": "Ja, efter $NUM$ sekunder",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"options_gctable": {
+		"message": "Gudebørn tabel\nViser alle naboer med Gudebørn under spillet"
+	},
+	"options_gctablecounter": {
+		"message": "Tæller\nVis en Tæller"
+	},
+	"options_gctableregion": {
+		"message": "Region\nBrug farver for at markere en nabos region"
+	},
+	"options_autoclick": {
+		"message": "Autoklik\nAccepterer automatisk Facebook's popups"
+	},
+	"options_nogcpopup": {
+		"message": "Ingen Gudebørn pop-ups\nIngen pop-ups når du samler Gudebørn"
+	},
+	"options_autogc": {
+		"message": "Auto Gudebørn skifte lejr\nSkifter automatiske til næste lejr efter indsamling af Gudebørn"
+	},
+	"options_section_general": {
+		"message": "Generelle instillinger"
+	},
+	"options_autologin": {
+		"message": "Auto login til portal\nLogger automatisk på Portalen"
+	},
+	"options_darktheme": {
+		"message": "Mørkt tema"
+	},
+	"options_shrinkmenu": {
+		"message": "Menu bredde\nReducer bredden af den vertikale menu"
+	},
+	"options_shrinkmenu_0": {
+		"message": "Når sidens bredde er lille"
+	},
+	"options_shrinkmenu_1": {
+		"message": "Brug altid en kompakt menu"
+	},
+	"options_shrinkmenu_2": {
+		"message": "Brug altid en udvidet menu"
+	},
+	"options_disablealtguard": {
+		"message": "Reset på alternativ konto\nHvis du vælger denne mulighed, vil indlæsning af en alternativ konto overskrive dine nuværende DAF2 data."
+	},
+	"options_disablealtguard_warning": {
+		"message": "Pas på: Aktivering af denne mulighed er på egen risiko!"
+	},
+	"options_section_rewardlinks": {
+		"message": "Præmie links"
+	},
+	"options_rewardsclose": {
+		"message": "Auto luk\nAuto luk siden efter præmien er hentet."
+	},
+	"options_rewardscloseexceptgems": {
+		"message": "Undtagen juveler\nLuk ikke automatisk når der er fundet juveler."
+	},
+	"options_rewardscloseexcepterrors": {
+		"message": "Undtagen fejl\nLuk ikke automatisk når der er fundet fejl"
+	},
+	"options_rewardssummary": {
+		"message": "Tilføj sum tabel\nHvis siden ikke lukker automatisk, så tilføj en sum tabel i bunden"
+	},
+	"options_linkgrabenabled": {
+		"message": "Link fanger\nAktiver Link fangeren i Facebook.\nHvis den ikke aktiveres har den følgende mulighed ingen effekt."
+	},
+	"options_linkgrabbutton": {
+		"message": "Muse knap\nVælg den museknap der aktiverer Link fangeren"
+	},
+	"options_linkgrabkey": {
+		"message": "Vilkårlig tast\nVælg en vilkårlig tast til at trykke på som tilføjelse til museknappen"
+	},
+	"options_linkgrabsort": {
+		"message": "Sorter links"
+	},
+	"options_linkgrabconvert": {
+		"message": "Konverter links"
+	},
+	"options_modifier_none": {
+		"message": "Ingen"
+	},
+	"options_modifier_shift": {
+		"message": "Shift"
+	},
+	"options_modifier_ctrl": {
+		"message": "Ctrl"
+	},
+	"options_modifier_alt": {
+		"message": "Alt"
+	},
+	"options_button_left": {
+		"message": "Venstre"
+	},
+	"options_button_middle": {
+		"message": "Midte"
+	},
+	"options_button_right": {
+		"message": "Højre"
+	},
+	"options_sort_none": {
+		"message": "Ingen"
+	},
+	"options_sort_ascending": {
+		"message": "Stigende"
+	},
+	"options_sort_descending": {
+		"message": "Faldende"
+	},
+	"options_language": {
+		"message": "Sprog\nVælg det sprog der skal bruges"
+	},
+	"options_locale": {
+		"message": "Lokalisering\nBliver brugt til formatering af tal, dato'er og lister"
+	},
+	"options_locale_browser": {
+		"message": "Brug browserens indstillinger"
+	},
+	"options_gamelanguage": {
+		"message": "Spil sprog\nSprog til spillets beskeder"
+	},
+	"options_section_badges": {
+		"message": "Skilt"
+	},
+	"options_badgeserverenergy": {
+		"message": "Server Energi\nVis et skilt med den raporterede energi fra serveren.\nInformationen bliver opdateret periodisk når spilstatus synkroniseres med serveren."
+	},
+	"options_badgegccounter": {
+		"message": "GC Tæller\nVis et skilt med det tilbageværende antal af GC der kan samles"
+	},
+	"options_badgegcenergy": {
+		"message": "GC Energi\nVis et skilt med energien fra en nabos GC"
+	},
+	"options_badgerepeatables": {
+		"message": "Gentagelige\nVis et skilt når en valgt gentagelig er klar"
+	},
+	"options_badgeluckycards": {
+		"message": "Heldige Kort\nVis et skilt når Heldige Kort teltet er klar"
+	},
+	"options_badgeproductions": {
+		"message": "Produktioner\nVis et skilt når en produktions enhed er klar eller tom"
+	},
+	"options_badgetimeoffset": {
+		"message": "Tidsforskydning\nSkiltet vil blive vist forlods med dette antal sekunder"
+	},
+	"options_badgesound": {
+		"message": "Lyd Effekt\nLyd effekten der spilles, når skiltet vises."
+	},
+	"options_badgevolume": {
+		"message": "Lydstyrke\nLyd effektens lydstyrke."
+	},
+	"options_badgewindmills": {
+		"message": "Vindmøller\nVis et skilt, når en nabos lejr mangler vindmøller"
+	},
+	"calc_operators": {
+		"message": "Aktører"
+	},
+	"calc_arithmetic": {
+		"message": "Aritmetiske"
+	},
+	"calc_comparison": {
+		"message": "Sammenligning"
+	},
+	"calc_logical": {
+		"message": "Logisk"
+	},
+	"calc_functions": {
+		"message": "Funktioner"
+	},
+	"calc_variables": {
+		"message": "Variabler"
+	},
+	"calc_examples": {
+		"message": "Eksempler"
+	},
+	"calc_error_1": {
+		"message": "Syntax fejl"
+	},
+	"calc_error_2": {
+		"message": "Funktionen mangler parenteser"
+	},
+	"calc_error_3": {
+		"message": "Mangler slut parentes"
+	},
+	"calc_error_4": {
+		"message": "For mange slut parenteser"
+	},
+	"linkgrabber_selected": {
+		"message": "Links: $UNIQUE$ / $TOTAL$",
+		"placeholders": {
+			"unique": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_fn_copy": {
+		"message": "Kopier til clipboard"
+	},
+	"linkgrabber_fn_send": {
+		"message": "Send til DAF"
+	},
+	"linkgrabber_fn_cancel": {
+		"message": "Fortryd"
+	},
+	"linkgrabber_fn_refresh": {
+		"message": "Opdater links"
+	},
+	"linkgrabber_fn_showid": {
+		"message": "Vis Præmie Id"
+	},
+	"linkgrabber_fn_autosend": {
+		"message": "Send automatisk"
+	},
+	"linkgrabber_added": {
+		"message": "Præmie links tilføjet: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_copied": {
+		"message": "Links kopieret til clipboard: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	}
 }

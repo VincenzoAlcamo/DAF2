@@ -1,96 +1,112 @@
 <div class="grid-theme-container">
-    <div class="toolbar vertical">
-        <img class="location">
-        <label for="map_lid">
-            <span><span data-i18n-text="gui_location"></span><button class="small" data-action="export_location" data-i18n-title="map_export_location" data-i18n-text="export_export"></button></span>
-            <select id="map_lid" data-id="lid"></select>
-        </label>
-        <label for="map_fid">
-            <span><span data-i18n-text="map_floor"></span><button class="small" data-action="export_floor" data-i18n-title="map_export_floor" data-i18n-text="export_export"></button></span>
-            <div data-id="fid"></div>
-        </label>
-        <label>
-            <span data-i18n-text="gui_region"></span>
-            <select name="region"></select>
-        </label>
-        <label>
-            <span data-id="info-caption"></span>
-            <div data-id="info"></div>
-        </label>
-        <label class="tile-info">
-            <table>
-                <tr>
-                    <th colspan="2" data-i18n-text="map_remaining_tiles"></th>
-                    <th class="cost" data-i18n-text="gui_cost"></th>
-                    <th class="special" data-i18n-title="map_special"><img src="/img/gui/chest.png"></th>
-                    <th class="quest" data-i18n-title="map_quest"><img src="/img/gui/medal.png"></th>
-                    <th class="material" data-i18n-title="gui_material"><img src="/img/gui/materials.png"></th>
-                </tr>
-                <tr>
-                    <th data-i18n-text="map_this_floor"></th>
-                    <td></td>
-                    <td class="cost"></td>
-                    <td data-i18n-title="map_special" class="special"></td>
-                    <td data-i18n-title="map_quest" class="quest"></td>
-                    <td data-i18n-title="gui_material" class="material"></td>
-                </tr>
-                <tr class="totals">
-                    <th data-i18n-text="map_all_floors"></th>
-                    <td></td>
-                    <td class="cost"></td>
-                    <td data-i18n-title="map_special" class="special"></td>
-                    <td data-i18n-title="map_quest" class="quest"></td>
-                    <td data-i18n-title="gui_material" class="material"></td>
-                </tr>
-            </table>
-        </label>
-        <label class="map-buttons">
-            <input type="checkbox" data-flags="D">
-            <input type="checkbox" data-flags="T">
-            <input type="checkbox" data-flags="X">
-            <input type="checkbox" data-flags="U">
-            <input type="checkbox" data-flags="N,M">
-            <input type="checkbox" data-flags="V">
-            <input type="checkbox" data-flags="C">
-            <br>
-            <input type="checkbox" data-flags="B" class="for-mapper">
-            <input type="checkbox" data-flags="L,O" class="for-mapper">
-            <input type="checkbox" data-flags="K" class="for-mapper">
-            <input type="checkbox" data-flags="A,F" class="for-mapper">
-            <input type="checkbox" data-flags="E" class="for-mapper">
-            <input type="checkbox" data-flags="G" class="for-mapper">
-            <input type="checkbox" data-flags="S" class="for-mapper">
-        </label>
-        <label class="actions">
-            <button data-action="save" data-i18n-title="map_save_tip" data-i18n-text="map_save"></button>
-            <button data-action="import" data-i18n-title="map_import" data-i18n-text="export_import"></button>
-            <button data-action="options" data-i18n-text="tab_options"></button>
-            <br>
-            <button data-action="theme" data-i18n-text="gui_theme"></button>
-            <button data-action="edit" class="for-mapper">Edit</button>
-        </label>
-        <div class="warning" data-i18n-text="map_warning"></div>
-    </div>
-    <div class="theme-panel properties hidden">
-        <div class="toolbar">
-            <button data-action="theme-export" data-i18n-title="export_export"><img src="/img/gui/exp.png"></button>
-            <button data-action="theme-import" data-i18n-title="export_import"><img src="/img/gui/imp.png"></button>
-            <button data-action="theme-reset" data-i18n-title="map_default"><img src="/img/gui/check_no.png"></button>
-        </div>
-        <div class="table"></div>
-    </div>
-    <div class="scrollable-content">
-        <div class="map">
-            <div class="scaled">
-                <canvas></canvas>
-                <div class="overlay">
-                    <div class="line"></div>
-                    <div class="circle"></div>
-                </div>
-                <table>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+	<div class="toolbar vertical">
+		<img class="location" />
+		<label for="map_lid">
+			<span
+				><span data-i18n-text="gui_location"></span
+				><button
+					class="small"
+					data-action="export_location"
+					data-i18n-title="map_export_location"
+					data-i18n-text="export_export"
+				></button
+			></span>
+			<select id="map_lid" data-id="lid"></select>
+		</label>
+		<label for="map_fid">
+			<span
+				><span data-i18n-text="map_floor"></span
+				><button
+					class="small"
+					data-action="export_floor"
+					data-i18n-title="map_export_floor"
+					data-i18n-text="export_export"
+				></button
+			></span>
+			<div data-id="fid"></div>
+		</label>
+		<label>
+			<span data-i18n-text="gui_region"></span>
+			<select name="region"></select>
+		</label>
+		<label>
+			<span data-id="info-caption"></span>
+			<div data-id="info"></div>
+		</label>
+		<label class="tile-info">
+			<table>
+				<tr>
+					<th colspan="2" data-i18n-text="map_remaining_tiles"></th>
+					<th class="cost" data-i18n-text="gui_cost"></th>
+					<th class="special" data-i18n-title="map_special"><img src="/img/gui/chest.png" /></th>
+					<th class="quest" data-i18n-title="map_quest"><img src="/img/gui/medal.png" /></th>
+					<th class="material" data-i18n-title="gui_material"><img src="/img/gui/materials.png" /></th>
+				</tr>
+				<tr>
+					<th data-i18n-text="map_this_floor"></th>
+					<td></td>
+					<td class="cost"></td>
+					<td data-i18n-title="map_special" class="special"></td>
+					<td data-i18n-title="map_quest" class="quest"></td>
+					<td data-i18n-title="gui_material" class="material"></td>
+				</tr>
+				<tr class="totals">
+					<th data-i18n-text="map_all_floors"></th>
+					<td></td>
+					<td class="cost"></td>
+					<td data-i18n-title="map_special" class="special"></td>
+					<td data-i18n-title="map_quest" class="quest"></td>
+					<td data-i18n-title="gui_material" class="material"></td>
+				</tr>
+			</table>
+		</label>
+		<label class="map-buttons">
+			<input type="checkbox" data-flags="D" />
+			<input type="checkbox" data-flags="T" />
+			<input type="checkbox" data-flags="X" />
+			<input type="checkbox" data-flags="U" />
+			<input type="checkbox" data-flags="N,M" />
+			<input type="checkbox" data-flags="V" />
+			<input type="checkbox" data-flags="C" />
+			<br />
+			<input type="checkbox" data-flags="B" class="for-mapper" />
+			<input type="checkbox" data-flags="L,O" class="for-mapper" />
+			<input type="checkbox" data-flags="K" class="for-mapper" />
+			<input type="checkbox" data-flags="A,F" class="for-mapper" />
+			<input type="checkbox" data-flags="E" class="for-mapper" />
+			<input type="checkbox" data-flags="G" class="for-mapper" />
+			<input type="checkbox" data-flags="S" class="for-mapper" />
+		</label>
+		<label class="actions">
+			<button data-action="save" data-i18n-title="map_save_tip" data-i18n-text="map_save"></button>
+			<button data-action="import" data-i18n-title="map_import" data-i18n-text="export_import"></button>
+			<button data-action="options" data-i18n-text="tab_options"></button>
+			<br />
+			<button data-action="theme" data-i18n-text="gui_theme"></button>
+			<button data-action="edit" class="for-mapper">Edit</button>
+		</label>
+		<div class="warning" data-i18n-text="map_warning"></div>
+	</div>
+	<div class="theme-panel properties hidden">
+		<div class="toolbar">
+			<button data-action="theme-export" data-i18n-title="export_export"><img src="/img/gui/exp.png" /></button>
+			<button data-action="theme-import" data-i18n-title="export_import"><img src="/img/gui/imp.png" /></button>
+			<button data-action="theme-reset" data-i18n-title="map_default"><img src="/img/gui/check_no.png" /></button>
+		</div>
+		<div class="table"></div>
+	</div>
+	<div class="scrollable-content">
+		<div class="map">
+			<div class="scaled">
+				<canvas></canvas>
+				<div class="overlay">
+					<div class="line"></div>
+					<div class="circle"></div>
+				</div>
+				<table>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,53 +1,54 @@
 <div class="toolbar">
-    <div class="stats outlined"></div>
-    <div class="info"></div>
-    <label>
-        <span data-i18n-text="rewardlinks_convert"></span>
-        <select name="convert">
-            <option value="" data-i18n-text="rewardlinks_noconversion"></option>
-            <option value="facebook">Facebook</option>
-            <option value="portal">Portal</option>
-        </select>
-    </label>
-    <label>
-        <input name="autoclose" type="checkbox" data-flag="C" data-i18n-title="options_rewardsclose">
-        <input name="autoclick" type="checkbox" data-flag="A" data-i18n-title="rewardlinks_autoclick">
-        <input name="background" type="checkbox" data-flag="B" data-i18n-title="rewardlinks_background">
-    </label>
-    <label>
-        <button data-action="add" data-i18n-text="rewardlinks_addlinks"></button><input type="text" name="paste" maxlength="0" data-i18n-title="rewardlinks_pastehere">
-    </label>
-    <label>
-        <button data-action="removeold" data-i18n-text="rewardlinks_removelinks"></button>
-    </label>
-    <label>
-        <button data-action="remove" data-i18n-text="rewardlinks_removeselected"></button>
-    </label>
-    <label>
-        <button data-action="short" data-i18n-text="rewardlinks_shortenlinks"></button>
-    </label>
-    <label>
-        <button data-action="summary" data-i18n-text="gui_summary"></button>
-    </label>
-    <label class="for-admin">
-        <button data-action="pixel">Pixel</button>
-    </label>
+	<div class="stats outlined"></div>
+	<div class="info"></div>
+	<label>
+		<span data-i18n-text="rewardlinks_convert"></span>
+		<select name="convert">
+			<option value="" data-i18n-text="rewardlinks_noconversion"></option>
+			<option value="facebook">Facebook</option>
+			<option value="portal">Portal</option>
+		</select>
+	</label>
+	<label>
+		<input name="autoclose" type="checkbox" data-flag="C" data-i18n-title="options_rewardsclose" />
+		<input name="autoclick" type="checkbox" data-flag="A" data-i18n-title="rewardlinks_autoclick" />
+		<input name="background" type="checkbox" data-flag="B" data-i18n-title="rewardlinks_background" />
+	</label>
+	<label>
+		<button name="add" data-i18n-text="rewardlinks_addlinks"></button
+		><input type="text" name="paste" maxlength="0" data-i18n-title="rewardlinks_pastehere" />
+	</label>
+	<label>
+		<button name="removeold" data-i18n-text="rewardlinks_removelinks"></button>
+	</label>
+	<label>
+		<button name="removeselected" data-i18n-text="rewardlinks_removeselected"></button>
+	</label>
+	<label>
+		<button name="short" data-i18n-text="rewardlinks_shortenlinks"></button>
+	</label>
+	<label>
+		<button name="summary" data-i18n-text="gui_summary"></button>
+	</label>
+	<label class="for-admin">
+		<button name="pixel">Pixel</button>
+	</label>
 </div>
 <div class="scrollable-content no-overflow">
-    <table class="rewardlinks_data">
-        <thead>
-            <tr>
-                <th class="sortable" data-sort-name="select"></th>
-                <th class="sortable" data-sort-name="id" data-i18n-text="rewardlinks_id"></th>
-                <th class="sortable" data-sort-name="insert" data-i18n-text="rewardlinks_insertdate"></th>
-                <th class="sortable" data-sort-name="collect" data-i18n-text="rewardlinks_collectdate"></th>
-                <th class="sortable" data-sort-name="reward" data-i18n-text="rewardlinks_collectmaterial"></th>
-                <th class="sortable" data-sort-name="owner" data-i18n-text="rewardlinks_owner"></th>
-            </tr>
-        </thead>
-        <tbody class="row-coloring"></tbody>
-        <tfoot>
-            <td colspan="6"></td>
-        </tfoot>
-    </table>
+	<table class="rewardlinks_data">
+		<thead>
+			<tr>
+				<th class="sortable" data-sort-name="select"></th>
+				<th class="sortable" data-sort-name="id" data-i18n-text="rewardlinks_id"></th>
+				<th class="sortable" data-sort-name="insert" data-i18n-text="rewardlinks_insertdate"></th>
+				<th class="sortable" data-sort-name="collect" data-i18n-text="rewardlinks_collectdate"></th>
+				<th class="sortable" data-sort-name="reward" data-i18n-text="rewardlinks_collectmaterial"></th>
+				<th class="sortable" data-sort-name="owner" data-i18n-text="rewardlinks_owner"></th>
+			</tr>
+		</thead>
+		<tbody class="row-coloring"></tbody>
+		<tfoot>
+			<td colspan="6"></td>
+		</tfoot>
+	</table>
 </div>

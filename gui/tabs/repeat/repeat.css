@@ -1,57 +1,62 @@
 .repeat.data td {
-  text-align: center;
+	text-align: center;
 }
 
 .repeat.data td:nth-child(3) {
-  text-align: left;
+	text-align: left;
 }
 
 .repeat td.reset_gems {
-  text-align: right;
-  padding-right: 12px;
-  padding-left: 12px;
+	text-align: right;
+	padding-right: 12px;
+	padding-left: 12px;
 }
 
 .repeat td.bonus {
-  text-align: right;
+	text-align: right;
 }
 
 .repeat .reset_gems img,
 .repeat .bonus img {
-  height: 18px;
-  vertical-align: text-bottom;
-  margin-left: 2px;
+	height: 18px;
+	vertical-align: text-bottom;
+	margin-left: 2px;
 }
 
 .repeat tbody tr.selected {
-  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.2), rgba(0, 255, 255, 0.1), rgba(255, 255, 128, 0.2));
+	background-image: -webkit-linear-gradient(
+		top left,
+		rgba(0, 0, 255, 0.2),
+		rgba(0, 255, 255, 0.1),
+		rgba(255, 255, 128, 0.2)
+	);
 }
 
 .repeat tr.selected div.location_icon {
-  border-color: #F00;
+	border-color: #f00;
 }
 
 .repeat tr.selected.ready div.location_icon {
-  border-color: #096;
+	border-color: #096;
 }
 
 .repeat tr.ready td.time {
-  font-weight: bold;
-  background-color: var(--success-bgcol);
-  color: var(--success-fgcol);
+	font-weight: bold;
+	background-color: var(--success-bgcol);
+	color: var(--success-fgcol);
 }
 
 .repeat tr:not(.ready) td.time {
-  background-color: var(--warn-bgcol);
-  color: var(--warn-fgcol);
+	background-color: var(--warn-bgcol);
+	color: var(--warn-fgcol);
 }
 
 .repeat td.time .relative {
-  display: block;
+	display: block;
 }
 
 .repeat td.time .absolute {
-  display: block;
-  font-size: 12px;
-  opacity: 0.8;
+	display: block;
+	font-size: 12px;
+	opacity: 0.8;
 }

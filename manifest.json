@@ -1,64 +1,71 @@
 {
-    "manifest_version": 2,
-    "name": "__MSG_ext_name__",
-    "version": "2.0.1.125",
-    "default_locale": "en",
-    "description": "__MSG_ext_title__",
-    "minimum_chrome_version": "71",
-
-    "icons": {
-        "16": "img/logo/iconYellow.png",
-        "128": "img/logo/logo.png"
-    },
-
-    "browser_action": {
-        "default_icon": "img/logo/iconGrey.png"
-    },
-
-    "permissions": [
-        "activeTab",
-        "downloads",
-        "storage",
-        "tabs",
-        "webNavigation",
-        "*://apps.facebook.com/diggysadventure/*",
-        "*://cdn.diggysadventure.com/*",
-        "*://static.diggysadventure.com/*",
-        "*://diggysadventure.com/*",
-        "*://portal.pixelfederation.com/*",
-        "*://web.facebook.com/*",
-        "*://m.facebook.com/*",
-        "*://www.facebook.com/*"
-    ],
-
-    "web_accessible_resources": [
-        "inject/*.css",
-        "css/*.css",
-        "js/*.js",
-        "img/*"
-    ],
-
-    "content_scripts": [{
-        "matches": [
-            "https://portal.pixelfederation.com/*/diggysadventure/*",
-            "https://apps.facebook.com/diggysadventure/*"
-        ],
-        "all_frames": true,
-        "run_at": "document_end",
-        "js": ["js/purify.min.js", "js/Html.js", "inject/game1.js"]
-    },{
-        "matches": [
-            "https://portal.pixelfederation.com/_da/miner/*",
-            "https://diggysadventure.com/miner/*"
-        ],
-        "exclude_globs": ["*/wallpost.php*"],
-        "all_frames": true,
-        "run_at": "document_end",
-        "js": ["js/purify.min.js", "js/Html.js", "inject/game2.js"]
-    }],
-
-    "background": {
-        "page": "bgp/background.html",
-        "persistent": true
-    }
+	"manifest_version": 2,
+	"name": "__MSG_ext_name__",
+	"version": "2.0.1.126",
+	"default_locale": "en",
+	"description": "__MSG_ext_title__",
+	"minimum_chrome_version": "71",
+	"icons": {
+		"16": "img/logo/iconYellow.png",
+		"128": "img/logo/logo.png"
+	},
+	"browser_action": {
+		"default_icon": "img/logo/iconGrey.png"
+	},
+	"permissions": [
+		"activeTab",
+		"downloads",
+		"storage",
+		"tabs",
+		"webNavigation",
+		"*://apps.facebook.com/diggysadventure/*",
+		"*://cdn.diggysadventure.com/*",
+		"*://static.diggysadventure.com/*",
+		"*://diggysadventure.com/*",
+		"*://portal.pixelfederation.com/*",
+		"*://web.facebook.com/*",
+		"*://m.facebook.com/*",
+		"*://www.facebook.com/*"
+	],
+	"web_accessible_resources": [
+		"inject/*.css",
+		"css/*.css",
+		"js/*.js",
+		"img/*"
+	],
+	"content_scripts": [
+		{
+			"matches": [
+				"https://portal.pixelfederation.com/*/diggysadventure/*",
+				"https://apps.facebook.com/diggysadventure/*"
+			],
+			"all_frames": true,
+			"run_at": "document_end",
+			"js": [
+				"js/purify.min.js",
+				"js/Html.js",
+				"inject/game1.js"
+			]
+		},
+		{
+			"matches": [
+				"https://portal.pixelfederation.com/_da/miner/*",
+				"https://diggysadventure.com/miner/*"
+			],
+			"exclude_globs": [
+				"*/wallpost.php*"
+			],
+			"all_frames": true,
+			"run_at": "document_end",
+			"js": [
+				"js/purify.min.js",
+				"js/Html.js",
+				"inject/game2.js"
+			]
+		}
+	],
+	"background": {
+		"page": "bgp/background.html",
+		"persistent": true
+	}
 }

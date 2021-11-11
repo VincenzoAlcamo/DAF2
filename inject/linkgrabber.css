@@ -1,35 +1,35 @@
 .DAF-selector {
-  box-sizing: border-box;
-  position: absolute;
-  z-index: 2147483647;
-  border: 1px solid #f00;
-  background-color: rgba(255, 255, 0, 0.3);
+	box-sizing: border-box;
+	position: absolute;
+	z-index: 2147483647;
+	border: 1px solid #f00;
+	background-color: rgba(255, 255, 0, 0.3);
 }
 
 .DAF-counter {
-  box-sizing: border-box;
-  position: absolute;
-  z-index: 2147483647;
-  background-color: #600;
-  color: #fff;
-  font: 10pt sans-serif !important;
-  padding: 2px 4px;
-  text-align: left;
-  white-space: pre;
+	box-sizing: border-box;
+	position: absolute;
+	z-index: 2147483647;
+	background-color: #600;
+	color: #fff;
+	font: 10pt sans-serif !important;
+	padding: 2px 4px;
+	text-align: left;
+	white-space: pre;
 }
 
 .DAF-box {
-  box-sizing: border-box;
-  position: absolute;
-  z-index: 2147483646;
-  border: 1px solid #060;
-  background-color: rgba(0, 255, 0, 0.3);
-  color: transparent;
-  font: bold 10pt sans-serif !important;
-  overflow: hidden;
+	box-sizing: border-box;
+	position: absolute;
+	z-index: 2147483646;
+	border: 1px solid #060;
+	background-color: rgba(0, 255, 0, 0.3);
+	color: transparent;
+	font: bold 10pt sans-serif !important;
+	overflow: hidden;
 }
 
 body.DAF-show-id .DAF-box {
-  background-color: rgba(0, 255, 0, 0.8);
-  color: #000;
+	background-color: rgba(0, 255, 0, 0.8);
+	color: #000;
 }

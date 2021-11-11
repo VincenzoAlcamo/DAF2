@@ -1,2272 +1,2272 @@
 ﻿{
-    "ext_name": {
-        "message": "DA Friends 2"
-    },
-    "ext_title": {
-        "message": "Helper Tool for Diggy's Adventure"
-    },
-    "menu_resetfullwindow": {
-        "message": "Reset on load"
-    },
-    "menu_fullwindow": {
-        "message": "Game in full window"
-    },
-    "menu_fullwindowheader": {
-        "message": "Header"
-    },
-    "menu_fullwindowside": {
-        "message": "Side bar"
-    },
-    "menu_fullwindowlock": {
-        "message": "Lock"
-    },
-    "menu_gctable": {
-        "message": "Display GC table"
-    },
-    "menu_gctablecounter": {
-        "message": "Counter"
-    },
-    "menu_gctableregion": {
-        "message": "Region"
-    },
-    "menu_gccollected": {
-        "message": "All GC have been collected"
-    },
-    "menu_autoclick": {
-        "message": "Auto click Facebook's popup"
-    },
-    "menu_nogcpopup": {
-        "message": "No popups when collecting GC"
-    },
-    "menu_reloadgame": {
-        "message": "Reloads the game and forces a fresh data collection"
-    },
-    "menu_switchportal": {
-        "message": "Switch to Portal"
-    },
-    "menu_switchfacebook": {
-        "message": "Switch to Facebook"
-    },
-    "menu_on": {
-        "message": "ON"
-    },
-    "menu_off": {
-        "message": "OFF"
-    },
-    "gui_timeparts": {
-        "message": "d,h,m,s"
-    },
-    "gui_card_clicker": {
-        "message": "Click to collapse/expand this section"
-    },
-    "gui_show": {
-        "message": "Show"
-    },
-    "gui_all": {
-        "message": "All"
-    },
-    "gui_only_possible": {
-        "message": "Only possible"
-    },
-    "gui_search": {
-        "message": "Search"
-    },
-    "gui_filter": {
-        "message": "Filter"
-    },
-    "gui_name": {
-        "message": "Name"
-    },
-    "gui_region_required": {
-        "message": "Region\nRequired"
-    },
-    "gui_theme_required": {
-        "message": "Region/Theme\nRequired"
-    },
-    "gui_level_required": {
-        "message": "Level\nRequired"
-    },
-    "gui_qty": {
-        "message": "Quantity"
-    },
-    "gui_qty_required": {
-        "message": "Quantity\nRequired"
-    },
-    "gui_energy": {
-        "message": "Energy"
-    },
-    "gui_estimatedenergy": {
-        "message": "Estimated energy"
-    },
-    "gui_food": {
-        "message": "Food"
-    },
-    "gui_coins": {
-        "message": "Coins"
-    },
-    "gui_backpack": {
-        "message": "Backpack"
-    },
-    "gui_clickwiki": {
-        "message": "Click to open the Wiki Page."
-    },
-    "gui_from_any": {
-        "message": "from regions or events"
-    },
-    "gui_from_regions": {
-        "message": "from regions"
-    },
-    "gui_from_events": {
-        "message": "from events"
-    },
-    "gui_ingredients": {
-        "message": "Ingredients"
-    },
-    "gui_event": {
-        "message": "Event"
-    },
-    "gui_specialweek": {
-        "message": "Special week"
-    },
-    "gui_region": {
-        "message": "Region"
-    },
-    "gui_theme": {
-        "message": "Theme"
-    },
-    "gui_year": {
-        "message": "Year"
-    },
-    "gui_quest": {
-        "message": "Quest"
-    },
-    "gui_offer": {
-        "message": "Offer"
-    },
-    "gui_tieredoffer": {
-        "message": "Tiered Offer"
-    },
-    "gui_pack": {
-        "message": "Pack"
-    },
-    "gui_equipment": {
-        "message": "Equipment"
-    },
-    "gui_shop": {
-        "message": "Shop"
-    },
-    "gui_decoration": {
-        "message": "Decoration"
-    },
-    "gui_usable": {
-        "message": "Usable"
-    },
-    "gui_token": {
-        "message": "Token"
-    },
-    "gui_level": {
-        "message": "Level"
-    },
-    "gui_xp": {
-        "message": "XP"
-    },
-    "gui_sell_price": {
-        "message": "Sell price"
-    },
-    "gui_neighbour": {
-        "message": "Neighbour"
-    },
-    "gui_friend": {
-        "message": "Friend"
-    },
-    "gui_firstrecorded": {
-        "message": "First\nRecorded"
-    },
-    "gui_lastrecorded": {
-        "message": "Last\nRecorded"
-    },
-    "gui_loadingresources": {
-        "message": "Loading resources ($NUM$/$TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "gui_screenshot_shot": {
-        "message": "Click to make a screenshot of this section.\nThe screenshot will appear on the right.\nPlease note: only the visible area is captured!\nYou have to click the DAF2 icon in the Chrome menu, to enable this feature."
-    },
-    "gui_screenshot_target": {
-        "message": "Click to download the image.\nYou can right-click this image and select \"Copy image\" to copy it on the clipboard."
-    },
-    "gui_screenshot_error": {
-        "message": "Cannot make screenshot"
-    },
-    "gui_screenshot_errorinfo": {
-        "message": "First, you have to click the @DAF2@ icon in the Chrome menu.\nThis will enable the screenshot function until the page is closed.\n\nPlease, click the @DAF2@ icon then retry the screenshot."
-    },
-    "gui_infodated": {
-        "message": "The information shown here was current and only valid as at '$VALID$'",
-        "placeholders": {
-            "valid": {
-                "content": "$1"
-            }
-        }
-    },
-    "gui_nonote": {
-        "message": "No note"
-    },
-    "gui_minimum": {
-        "message": "Minimum"
-    },
-    "gui_maximum": {
-        "message": "Maximum"
-    },
-    "gui_average": {
-        "message": "Average"
-    },
-    "gui_loot": {
-        "message": "Loot"
-    },
-    "gui_datafrompf": {
-        "message": "Data obtained from Pixel Federation's game files"
-    },
-    "gui_gift": {
-        "message": "Gift"
-    },
-    "gui_gifts": {
-        "message": "Gifts"
-    },
-    "gui_day": {
-        "message": "Day"
-    },
-    "gui_placed": {
-        "message": "Placed in camp"
-    },
-    "gui_owned": {
-        "message": "Owned"
-    },
-    "gui_limit": {
-        "message": "Limit"
-    },
-    "gui_type": {
-        "message": "Type"
-    },
-    "gui_width": {
-        "message": "Width"
-    },
-    "gui_height": {
-        "message": "Height"
-    },
-    "gui_value": {
-        "message": "Value"
-    },
-    "gui_slot_value": {
-        "message": "Slot Value"
-    },
-    "gui_cost": {
-        "message": "Cost"
-    },
-    "gui_items_found": {
-        "message": "Items found"
-    },
-    "gui_reset": {
-        "message": "Reset"
-    },
-    "gui_material": {
-        "message": "Material"
-    },
-    "gui_filter_clear": {
-        "message": "Clear"
-    },
-    "gui_filter_invert": {
-        "message": "Invert"
-    },
-    "gui_advancedfilter": {
-        "message": "Advanced filter"
-    },
-    "gui_location": {
-        "message": "Location"
-    },
-    "gui_locked": {
-        "message": "Locked"
-    },
-    "gui_noresults": {
-        "message": "No results"
-    },
-    "gui_toomanyresults": {
-        "message": "Too many results"
-    },
-    "gui_id": {
-        "message": "Id"
-    },
-    "gui_date": {
-        "message": "Date"
-    },
-    "gui_ctrlclick": {
-        "message": "Use CTRL to select/deselect all"
-    },
-    "gui_summary": {
-        "message": "Summary"
-    },
-    "dialog_ok": {
-        "message": "Ok"
-    },
-    "dialog_yes": {
-        "message": "Yes"
-    },
-    "dialog_no": {
-        "message": "No"
-    },
-    "dialog_confirm": {
-        "message": "Confirm"
-    },
-    "dialog_cancel": {
-        "message": "Cancel"
-    },
-    "dialog_close": {
-        "message": "Close"
-    },
-    "dialog_pleasewait": {
-        "message": "Please Wait"
-    },
-    "tab_game": {
-        "message": "Switch to game"
-    },
-    "tab_about": {
-        "message": "About"
-    },
-    "tab_progress": {
-        "message": "Progress"
-    },
-    "tab_camp": {
-        "message": "Camp"
-    },
-    "tab_map": {
-        "message": "Map"
-    },
-    "tab_caravan": {
-        "message": "Caravan"
-    },
-    "tab_kitchen": {
-        "message": "Kitchen"
-    },
-    "tab_foundry": {
-        "message": "Foundry"
-    },
-    "tab_pillars": {
-        "message": "Pillars"
-    },
-    "tab_neighbors": {
-        "message": "Neighbours"
-    },
-    "tab_friendship": {
-        "message": "Friendship"
-    },
-    "tab_godchild": {
-        "message": "Gods Children"
-    },
-    "tab_locations": {
-        "message": "Locations"
-    },
-    "tab_greenrings": {
-        "message": "Green Rings"
-    },
-    "tab_redrings": {
-        "message": "Red Rings"
-    },
-    "tab_christmasrings": {
-        "message": "Christmas Rings"
-    },
-    "tab_rewardlinks": {
-        "message": "Reward Links"
-    },
-    "tab_options": {
-        "message": "Options"
-    },
-    "tab_help": {
-        "message": "Help"
-    },
-    "tab_export": {
-        "message": "Import / Export"
-    },
-    "tab_equipment": {
-        "message": "Equipment / Shop"
-    },
-    "tab_events": {
-        "message": "Events"
-    },
-    "tab_repeat": {
-        "message": "Repeatables"
-    },
-    "tab_dailyreward": {
-        "message": "Daily Reward"
-    },
-    "about_version": {
-        "message": "Version: $VERSION$",
-        "placeholders": {
-            "version": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_data": {
-        "message": "Last Data Snapshot: $TIME$\nGame Site: $SITE$ ($PLATFORM$)\nUser Id: #$USERID$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            },
-            "userid": {
-                "content": "$2"
-            },
-            "site": {
-                "content": "$3"
-            },
-            "platform": {
-                "content": "$4"
-            }
-        }
-    },
-    "about_visit": {
-        "message": "Visit the official Facebook page"
-    },
-    "about_nodata": {
-        "message": "No Game Data has been loaded yet, please load or refresh the game window"
-    },
-    "about_disclaimer": {
-        "message": "DA Friends is 'Fan Code' and is neither endorsed nor supported by Pixel Federation, the authors of the game \"Diggy's Adventure\".\nYou use DA Friends at your own risk. It comes with no warranty or guarantee, neither explicit or implicit towards functionality or usability.\nThe author shall not be held liable for any damage or loss caused by its use.\nBy using this extension, you agree to these terms."
-    },
-    "about_translators": {
-        "message": "Translators"
-    },
-    "about_alternate": {
-        "message": "An alternate account was loaded ($ID$).",
-        "placeholders": {
-            "id": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_reset": {
-        "message": "Your previous account's data was preserved.\nTo reset your data and use another account, click @RESET@"
-    },
-    "about_reset_ask_title": {
-        "message": "Reset account"
-    },
-    "about_reset_ask_text": {
-        "message": "Do you want to reset your data\nso you can use another account?"
-    },
-    "about_reset_ok_title": {
-        "message": "Data has been reset"
-    },
-    "about_reset_ok_text": {
-        "message": "Please reload Diggy's Adventure with the account you wish to use."
-    },
-    "production_total_time": {
-        "message": "Total Time\n(Slots: $NUM$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "production_time": {
-        "message": "Time to produce"
-    },
-    "production_possible": {
-        "message": "Possible"
-    },
-    "production_possible_energy": {
-        "message": "Possible\nEnergy"
-    },
-    "production_energy_hour": {
-        "message": "Energy\nPer Hour"
-    },
-    "production_qty": {
-        "message": "Quantity produced"
-    },
-    "production_uplift": {
-        "message": "Uplift (XP/h)"
-    },
-    "production_uplift_info": {
-        "message": "Xp gained by a single slot in an hour,\nbased on the values obtained from pillars."
-    },
-    "production_req_ticket": {
-        "message": "Requires a ticket?"
-    },
-    "kitchen_food_in_backpack": {
-        "message": "from food in backpack"
-    },
-    "camp_your_camp": {
-        "message": "Your camp"
-    },
-    "camp_player_name": {
-        "message": "$PLAYER$'s camp on $DATE$",
-        "placeholders": {
-            "player": {
-                "content": "$1"
-            },
-            "date": {
-                "content": "$2"
-            }
-        }
-    },
-    "camp_no_player": {
-        "message": "No camp was visited yet"
-    },
-    "camp_player": {
-        "message": "Player"
-    },
-    "camp_total": {
-        "message": "Total"
-    },
-    "camp_fill_time": {
-        "message": "Fill time"
-    },
-    "camp_fill_time_info": {
-        "message": "Time required for the energy bar to go from empty to full capacity."
-    },
-    "camp_numofregenslots": {
-        "message": "# regeneration slots"
-    },
-    "camp_canbeimproved": {
-        "message": "This camp can be improved"
-    },
-    "camp_showsetup": {
-        "message": "Click here to show the setup mode camp"
-    },
-    "camp_windmill_regen": {
-        "message": "Single windmill regeneration"
-    },
-    "camp_windmill_regen_total": {
-        "message": "Total windmill regeneration"
-    },
-    "camp_windmill_num": {
-        "message": "Current number of windmills"
-    },
-    "camp_windmill_expiry": {
-        "message": "Windmills will expire on\n$TIME$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_empty": {
-        "message": "Empty slot"
-    },
-    "camp_slot_blocked": {
-        "message": "Blocked space"
-    },
-    "camp_regen": {
-        "message": "Regeneration"
-    },
-    "camp_capacity": {
-        "message": "Capacity"
-    },
-    "camp_windmills": {
-        "message": "Windmills"
-    },
-    "camp_needs_windmills": {
-        "message": "Camp needs windmills"
-    },
-    "camp_avg_value": {
-        "message": "Slot average"
-    },
-    "camp_min_value": {
-        "message": "Slot minimum"
-    },
-    "camp_max_value": {
-        "message": "Slot maximum"
-    },
-    "camp_num_slots": {
-        "message": "Number of slots"
-    },
-    "camp_unlock_materials": {
-        "message": "Materials required to unlock camp"
-    },
-    "camp_unlock_one": {
-        "message": "Unlocking one slot will net $VALUE$ XP",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_unlock_cost": {
-        "message": "One slot can be unlocked with $VALUE$ gems\nor with these materials:",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_start_date": {
-        "message": "You started playing:\n$STARTED$",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_day_mode": {
-        "message": "Day mode"
-    },
-    "camp_night_mode": {
-        "message": "Night mode"
-    },
-    "camp_setup_mode": {
-        "message": "Setup mode"
-    },
-    "camp_discounted": {
-        "message": "Discounted"
-    },
-    "camp_neighbor": {
-        "message": "Neighbour's camp"
-    },
-    "camp_extra": {
-        "message": "Extra"
-    },
-    "camp_ftp_group": {
-        "message": "GROUP $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_ftp_dot_info": {
-        "message": "Cards marked with a red dot may appear in the first free flips."
-    },
-    "camp_ftp_group_info": {
-        "message": "You will be able to reveal cards from a group only after all cards from the previous group are revealed."
-    },
-    "camp_ftp_cumulativegems": {
-        "message": "Total gems so far"
-    },
-    "camp_ads_limit": {
-        "message": "Ads limit"
-    },
-    "camp_ads_limit_info": {
-        "message": "This is only an indication and does not represent the real possibility of displaying an advertisement."
-    },
-    "camp_ads_limit_info2": {
-        "message": "The third-party ad provider may apply a different limit as they are beyond the control of Pixel Federation."
-    },
-    "map_floor": {
-        "message": "Floor"
-    },
-    "map_floor_current": {
-        "message": "This is the current floor"
-    },
-    "map_floor_found": {
-        "message": "Click to show the map for this floor"
-    },
-    "map_floor_not_found": {
-        "message": "This floor has not been visited yet"
-    },
-    "map_remaining_tiles": {
-        "message": "Remaining tiles"
-    },
-    "map_special": {
-        "message": "Special"
-    },
-    "map_quest": {
-        "message": "Quest"
-    },
-    "map_this_floor": {
-        "message": "This floor"
-    },
-    "map_all_floors": {
-        "message": "All floors"
-    },
-    "map_warning": {
-        "message": "Please go in the game and enter any location, then return here!"
-    },
-    "map_button_d": {
-        "message": "Show Diggy"
-    },
-    "map_button_t": {
-        "message": "Show teleports"
-    },
-    "map_button_e": {
-        "message": "Show beacons"
-    },
-    "map_button_c": {
-        "message": "Show in full colors"
-    },
-    "map_button_g": {
-        "message": "Show debug info"
-    },
-    "map_button_l": {
-        "message": "Highlight breakable tiles"
-    },
-    "map_button_n": {
-        "message": "Highlight tiles with notable loot"
-    },
-    "map_button_v": {
-        "message": "Tile visibility is persistent"
-    },
-    "map_button_o": {
-        "message": "Show opaque tiles"
-    },
-    "map_button_b": {
-        "message": "Show bonus indicator"
-    },
-    "map_button_k": {
-        "message": "Show background by hiding all breakable tiles"
-    },
-    "map_button_a": {
-        "message": "Show all tiles"
-    },
-    "map_button_x": {
-        "message": "Show entrances and exits"
-    },
-    "map_button_u": {
-        "message": "Show original map"
-    },
-    "map_button_f": {
-        "message": "Show full map"
-    },
-    "map_button_s": {
-        "message": "Show solution"
-    },
-    "map_button_m": {
-        "message": "Mix notable tiles"
-    },
-    "map_save": {
-        "message": "Save"
-    },
-    "map_save_tip": {
-        "message": "Save the map as an image file"
-    },
-    "map_mine_exit": {
-        "message": "Exits mine"
-    },
-    "map_goto_floor": {
-        "message": "Goes to floor $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "map_goto_unknown": {
-        "message": "Goes to another floor, but this path has not been taken yet"
-    },
-    "map_teleport": {
-        "message": "Teleport"
-    },
-    "map_hint": {
-        "message": "Hint"
-    },
-    "map_beacon": {
-        "message": "Beacon"
-    },
-    "map_active": {
-        "message": "active"
-    },
-    "map_not_active": {
-        "message": "not active"
-    },
-    "map_tile": {
-        "message": "Tile"
-    },
-    "map_npc": {
-        "message": "Npc"
-    },
-    "map_says": {
-        "message": "Says"
-    },
-    "map_godchild": {
-        "message": "Godchild"
-    },
-    "map_unknown": {
-        "message": "Unknown"
-    },
-    "map_yellow": {
-        "message": "Yellow"
-    },
-    "map_red": {
-        "message": "Red"
-    },
-    "map_blue": {
-        "message": "Blue"
-    },
-    "map_green": {
-        "message": "Green"
-    },
-    "map_left": {
-        "message": "Left"
-    },
-    "map_down": {
-        "message": "Down"
-    },
-    "map_right": {
-        "message": "Right"
-    },
-    "map_up": {
-        "message": "Up"
-    },
-    "map_require_draggable": {
-        "message": "Requires draggable"
-    },
-    "map_require_item": {
-        "message": "Requires item"
-    },
-    "map_require_light": {
-        "message": "Requires light"
-    },
-    "map_emitter": {
-        "message": "Light emitter"
-    },
-    "map_mirror": {
-        "message": "Mirror"
-    },
-    "map_filter": {
-        "message": "Light filter"
-    },
-    "map_draggable": {
-        "message": "Draggable"
-    },
-    "map_can_move": {
-        "message": "Can be moved"
-    },
-    "map_can_rotate": {
-        "message": "Can be rotated"
-    },
-    "map_fixed": {
-        "message": "Is fixed"
-    },
-    "map_remove_confirmation": {
-        "message": "Confirm removal of these mines?"
-    },
-    "map_option_c": {
-        "message": "Show coordinates in tooltip"
-    },
-    "map_option_s": {
-        "message": "Show region selector"
-    },
-    "map_option_i": {
-        "message": "Show location info"
-    },
-    "map_option_r": {
-        "message" : "Show repeatables"
-    },
-    "map_option_t": {
-        "message" : "Add map title"
-    },
-    "map_option_b": {
-        "message" : "Remove empty rows/columns"
-    },
-    "map_option_m": {
-        "message" : "Ensure margins around image"
-    },
-    "map_option_l": {
-        "message" : "Add logo watermark"
-    },
-    "map_option_resize": {
-        "message": "Size of saved image"
-    },
-    "map_export_location": {
-        "message": "Export all floors as data file"
-    },
-    "map_export_floor": {
-        "message": "Export the current floor as data file"
-    },
-    "map_import": {
-        "message": "Import a previously exported data file"
-    },
-    "map_downloadfolder": {
-        "message": "Download folder"
-    },
-    "map_positionrandom": {
-        "message": "Position is random"
-    },
-    "map_default": {
-        "message": "Reset to default"
-    },
-    "pillars_all": {
-        "message": "All pillars"
-    },
-    "pillars_only_possible": {
-        "message": "Only possible pillars"
-    },
-    "pillars_perc_next": {
-        "message": "%\nNext"
-    },
-    "pillars_possible": {
-        "message": "Possible"
-    },
-    "pillars_totals": {
-        "message": "Totals"
-    },
-    "pillars_current_level": {
-        "message": "Your Current Level"
-    },
-    "pillars_predicted": {
-        "message": "Predicted"
-    },
-    "pillars_predicted_level": {
-        "message": "Predicted Level"
-    },
-    "pillars_predicted_gain": {
-        "message": "Predicted gain from level ups"
-    },
-    "pillars_ignore": {
-        "message": "Click to ignore/consider"
-    },
-    "pillars_altclick": {
-        "message": "Use ALT to reset/set all quantities"
-    },
-    "pillars_maxpossible": {
-        "message": "Max possible"
-    },
-    "pillars_grid": {
-        "message": "Show as grid"
-    },
-    "pillars_cap": {
-        "message": "Cap to Possible"
-    },
-    "neighbors_lastlevelup": {
-        "message": "Last\nLevel Up"
-    },
-    "neighbors_lastgiftreceived": {
-        "message": "Last Gift\nReceived"
-    },
-    "neighbors_yourlastvisit": {
-        "message": "Your last visit"
-    },
-    "neighbors_all": {
-        "message": "All"
-    },
-    "neighbors_nogift": {
-        "message": "No gifts in $NUM$ days",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "neighbors_gifts": {
-        "message": "Consider gifts in last @DAYS@ days"
-    },
-    "neighbors_listed": {
-        "message": "Custom list"
-    },
-    "neighbors_blocks": {
-        "message": "Blocks to clear in underground camp"
-    },
-    "neighbors_inlist": {
-        "message": "In custom list"
-    },
-    "neighbors_notinlist": {
-        "message": "Not in custom list"
-    },
-    "neighbors_withblocks": {
-        "message": "With blocks to clear"
-    },
-    "neighbors_unknownblocks": {
-        "message": "Blocks state unknown"
-    },
-    "neighbors_withexpiredwindmills": {
-        "message": "With expired windmills"
-    },
-    "neighbors_found": {
-        "message": "Neighbours found: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_giftcount": {
-        "message": "Gift Count"
-    },
-    "neighbors_giftvalue": {
-        "message": "Gift Value (in XP)"
-    },
-    "neighbors_efficiency": {
-        "message": "Efficiency (gifts / days)"
-    },
-    "neighbors_wmtime": {
-        "message": "Windmill expiration time"
-    },
-    "neighbors_giftinfo": {
-        "message": "The date of the gift refers to the time when DAF first registered that gift, not the date it was sent."
-    },
-    "neighbors_gifttip": {
-        "message": "$NAME$\nXP: $XP$\nDay: $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_gift": {
-        "message": "$NAME$ ($XP$ XP) on $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_advancedfilterinfo": {
-        "message": "You can further filter your neighbours by the gifts they have sent in the last @DAYS@ days by selecting one or more gifts from the following list."
-    },
-    "neighbors_clearfilter": {
-        "message": "Clear filter"
-    },
-    "neighbors_gift_tooltip": {
-        "message": "Gifts received while DAF2 was active and recording."
-    },
-    "neighbors_sortby": {
-        "message": "Sort by"
-    },
-    "neighbors_totxpstats": {
-        "message": "$COUNT$ gifts in $DAYS$ days = $TOTAL$ XP ($AVERAGE$ XP/day)",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            },
-            "days": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            },
-            "average": {
-                "content": "$4"
-            }
-        }
-    },
-    "neighbors_avgxpstats": {
-        "message": "Average gift value = $XP$ XP ($AVERAGE$ XP per neighbor/day)",
-        "placeholders": {
-            "xp": {
-                "content": "$1"
-            },
-            "average": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_expression": {
-        "message": "Specify an expression to evaluate"
-    },
-    "friendship_collectfriends": {
-        "message": "Collect friends"
-    },
-    "friendship_score": {
-        "message": "Score"
-    },
-    "friendship_scoretooltip": {
-        "message": "Match confidence, as follows:\n100 = Same Facebook id\n99 = Manual match\n95 = Same profile picture\n90 = Same full name\n80 = Same first name and last name\n70 = Same first name and last name (reversed)\n60 = Chinese characters match"
-    },
-    "friendship_action": {
-        "message": "Action"
-    },
-    "friendship_actionignore": {
-        "message": "This friend is regarded for the match\nClick to ignore this friend during the match"
-    },
-    "friendship_actionregard": {
-        "message": "This friend is ignored for the match\nClick to regard this friend"
-    },
-    "friendship_actionunlink": {
-        "message": "Click to remove the match"
-    },
-    "friendship_actionmanual": {
-        "message": "Click to manually match this neighbour"
-    },
-    "friendship_actionmatch": {
-        "message": "Click to link this friend to the selected neighbour"
-    },
-    "friendship_actiondelete": {
-        "message": "Click to permanently delete this friend"
-    },
-    "friendship_matchplayertitle": {
-        "message": "Click here to cancel this match"
-    },
-    "friendship_accountdisabled": {
-        "message": "Account is disabled"
-    },
-    "friendship_disabledaccountsdetected": {
-        "message": "Disabled accounts were detected."
-    },
-    "friendship_unmatchedaccountsdetected": {
-        "message": "Disabled and/or unmatched accounts were detected."
-    },
-    "friendship_unfriendinfo": {
-        "message": "You can unfriend them from this page.\n\nPlease be aware that Facebook accounts may be temporary disabled and may be enabled at a later moment."
-    },
-    "friendship_partial": {
-        "message": "Partial"
-    },
-    "friendship_confirmcollect": {
-        "message": "YES = confirm friends and replace the existing ones\nPARTIAL = add friends and keep the existing ones\nNO = try to collect more friends\n\nYou can close this window at any time to cancel the operation."
-    },
-    "friendship_speedupcollect": {
-        "message": "Speedup collection?"
-    },
-    "friendship_filter_a": {
-        "message": "Friends: $FRIENDS$, Neighbours: $NEIGHBOURS$",
-        "placeholders": {
-            "friends": {
-                "content": "$1"
-            },
-            "neighbours": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_filter_d": {
-        "message": "Disabled Facebook accounts: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_m": {
-        "message": "Friends and neighbours matched: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_g": {
-        "message": "Friends and neighbours matched by image: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_h": {
-        "message": "Friends and neighbours matched manually: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_i": {
-        "message": "Friends ignored: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_f": {
-        "message": "Friends not matched: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_u": {
-        "message": "Friends ignored and/or not matched: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_n": {
-        "message": "Neighbours not matched: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_s": {
-        "message": "Friends and neighbours not matched: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectpreamble": {
-        "message": "Here you can collect your Facebook friends and match it against your neighbours."
-    },
-    "friendship_collectstandard": {
-        "message": "Standard"
-    },
-    "friendship_collectstandardinfo": {
-        "message": "This method is reliable, but very slow (it may take several minutes)."
-    },
-    "friendship_collectunmatched": {
-        "message": "Unmatched"
-    },
-    "friendship_collectunmatchedinfo": {
-        "message": "This method is the same as the 'Standard' method, but it will not collect friends.\nInstead, it will show you all currently unmatched friends, so you can manually unfriend them."
-    },
-    "friendship_disabledinfo": {
-        "message": "It can detect disabled accounts."
-    },
-    "friendship_collectmatch": {
-        "message": "Match"
-    },
-    "friendship_collectmatchinfo": {
-        "message": "This will perform the automatic match between your friends and neighbours.\nYour friend list will not be refreshed.\nIgnored friends and friends with a score greater than 90 are not automatically matched.\nMatching will still be performed at the end of your friends collection."
-    },
-    "friendship_matchbyimage": {
-        "message": "Match by profile image?"
-    },
-    "friendship_confirmwarning": {
-        "message": "This operation may take several minutes.\n\nPlease confirm that you want to proceed."
-    },
-    "friendship_confirmcollection": {
-        "message": "Confirm collection result?"
-    },
-    "friendship_cc_maybe": {
-        "message": "If unsure"
-    },
-    "friendship_confirmdelete": {
-        "message": "This operation cannot be undone.\nYou will need to do a collection to get this friend back on the list.\n\nConfirm the removal?"
-    },
-    "friendship_collecterror": {
-        "message": "Something went wrong."
-    },
-    "friendship_manualhelp": {
-        "message": "Please refresh the DAF2 page, go to \"$FRIENDSHIP$\" tab, click \"$COLLECT$\" and choose \"$MATCH$\"",
-        "placeholders": {
-            "friendship": {
-                "content": "$1"
-            },
-            "collect": {
-                "content": "$2"
-            },
-            "match": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_analyzingmatches": {
-        "message": "Analyzing data, $PERCENT$ % ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            },
-            "num": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_collectstat": {
-        "message": "Friends collected: $COUNT$",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_manualmatchhelp": {
-        "message": "To match this neighbour you have to find a non matched friend and click on the cell where the symbol \u2b50 is."
-    },
-    "friendship_friendupdateinfo": {
-        "message": "The Facebook Friends List was updated on $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_totalfriends": {
-        "message": "Friends: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_totalneighbours": {
-        "message": "Neighbours: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_timewarning": {
-        "message": "It appears that you have not performed a friend collection in a long time.\nPlease click the \"$COLLECT$\" button and choose the \"$METHOD$\" method.",
-        "placeholders": {
-            "collect": {
-                "content": "$1"
-            },
-            "method": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_info": {
-        "message": "$NUM$ Neighbours = $GC$ Gods children",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "gc": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_stat": {
-        "message": "Gods children: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_next": {
-        "message": "To get an additional GC, you have to add $NUM$ more neighbours",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "godchild_next0": {
-        "message": "You have reached the maximum possible number of GC"
-    },
-    "godchild_next1": {
-        "message": "To get an additional GC, you have to add just one more neighbour"
-    },
-    "progress_measure": {
-        "message": "Measure"
-    },
-    "progress_attained": {
-        "message": "Attained"
-    },
-    "progress_goal": {
-        "message": "Goal"
-    },
-    "progress_remaining": {
-        "message": "Remaining"
-    },
-    "progress_progress": {
-        "message": "Progress"
-    },
-    "progress_achievements": {
-        "message": "Achievements"
-    },
-    "progress_treasures": {
-        "message": "Treasures"
-    },
-    "progress_overall": {
-        "message": "Overall"
-    },
-    "progress_hidecompleted": {
-        "message": "Hide completed"
-    },
-    "progress_grouplocations": {
-        "message": "Group locations"
-    },
-    "progress_showdates": {
-        "message": "Location dates"
-    },
-    "progress_energyinfo": {
-        "message": "The energy shown here is estimated by multiplying the number of remaining tiles by the average tile cost.\nThe average tile cost is based on the completion bonus and the total number of tiles."
-    },
-    "progress_averagetilecost": {
-        "message": "Average tile cost"
-    },
-    "progress_achievementnextstep": {
-        "message": "To next step = $NEXT$",
-        "placeholders": {
-            "next": {
-                "content": "$1"
-            }
-        }
-    },
-    "progress_start": {
-        "message": "Started"
-    },
-    "progress_end": {
-        "message": "Finished"
-    },
-    "progress_duration": {
-        "message": "Duration"
-    },
-    "progress_subtotal": {
-        "message": "Sub-Total"
-    },
-    "progress_grandtotal": {
-        "message": "Grand-Total"
-    },
-    "progress_playtime": {
-        "message": "You started playing $STARTED$ and have been playing for $DURATION$ (as at $NOW$)",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            },
-            "duration": {
-                "content": "$2"
-            },
-            "now": {
-                "content": "$3"
-            }
-        }
-    },
-    "progress_levelrange": {
-        "message": "From $FROM$ to $TO$",
-        "placeholders": {
-            "from": {
-                "content": "$1"
-            },
-            "to": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_id": {
-        "message": "Reward Id"
-    },
-    "rewardlinks_insertdate": {
-        "message": "Insert date"
-    },
-    "rewardlinks_collectdate": {
-        "message": "Collect date"
-    },
-    "rewardlinks_collectmaterial": {
-        "message": "Reward found"
-    },
-    "rewardlinks_owner": {
-        "message": "Owner"
-    },
-    "rewardlinks_expired": {
-        "message": "EXPIRED LINK"
-    },
-    "rewardlinks_collected": {
-        "message": "ALREADY COLLECTED"
-    },
-    "rewardlinks_maxreached": {
-        "message": "DAILY MAX REACHED"
-    },
-    "rewardlinks_noself": {
-        "message": "NO SELF REWARD"
-    },
-    "rewardlinks_broken": {
-        "message": "BROKEN LINK"
-    },
-    "rewardlinks_probablyexpired": {
-        "message": "PROBABLY EXPIRED LINK"
-    },
-    "rewardlinks_background": {
-        "message": "Background\nOpen reward links in background"
-    },
-    "rewardlinks_autoclick": {
-        "message": "Auto-click\nAutomatically click the next selected reward after a reward has been collected"
-    },
-    "rewardlinks_autoclick_end": {
-        "message": "No selected links can be clicked.\nExpired or claimed links are always ignored."
-    },
-    "rewardlinks_addlinks": {
-        "message": "Add links"
-    },
-    "rewardlinks_pasteadd": {
-        "message": "Paste here the links to add, then press the \"$CONFIRM$\" button",
-        "placeholders": {
-            "confirm": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_pastehere": {
-        "message": "Any link pasted here will be directly added"
-    },
-    "rewardlinks_linksadded": {
-        "message": "Rewards links added: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_nolinksadded": {
-        "message": "No reward links were added."
-    },
-    "rewardlinks_linksupdated": {
-        "message": "Rewards links updated: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_stats": {
-        "message": "Reward links: $TOTAL$, To be collected: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_allcollected": {
-        "message": "All reward links collected."
-    },
-    "rewardlinks_nexttime": {
-        "message": "Next collection starts on $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_countremaining": {
-        "message": "Remaining links to collect: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_collectanyway": {
-        "message": "Would you like to open this link anyway?"
-    },
-    "rewardlinks_infocollected": {
-        "message": "This link has already been collected."
-    },
-    "rewardlinks_infoexpired": {
-        "message": "This link has expired.\nLinks are only valid for $NUM$ days.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_infonoself": {
-        "message": "This link is yours: self rewards are not valid."
-    },
-    "rewardlinks_infobroken": {
-        "message": "This link is broken or not working."
-    },
-    "rewardlinks_infomaxreached": {
-        "message": "This link has been collected while the max daily limit was reached.\nLinks collected in this way are lost forever."
-    },
-    "rewardlinks_infomayexceedlimit": {
-        "message": "There are other rewards whose collection is pending.\nThis may exceed your daily limit."
-    },
-    "rewardlinks_infoprobablyexpired": {
-        "message": "This link is probably expired.\nLinks id are generated sequentially and this reward id is lower than the id of an expired reward."
-    },
-    "rewardlinks_removelinks": {
-        "message": "Remove old links"
-    },
-    "rewardlinks_removeselected": {
-        "message": "Remove selected"
-    },
-    "rewardlinks_removelinksdays": {
-        "message": "Remove non-collectable reward links older than @DAYS@ days.\nThis includes expired links and links already collected.\nLinks older than $NUM$ days are removed periodically.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_removenone": {
-        "message": "No links to remove!"
-    },
-    "rewardlinks_removeconfirm": {
-        "message": "Links that will be removed: $NUM$\nRemoved links can no longer be added.\n\nProceed with the removal?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_rewardinfo": {
-        "message": "This reward was added on $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_reset": {
-        "message": "Reset"
-    },
-    "rewardlinks_resetcount": {
-        "message": "You can reset the \"Next collection\" information and proceed with this link anyway."
-    },
-    "rewardlinks_resetexpired": {
-        "message": "You can reset the \"Probably expired\" information and proceed with this link anyway."
-    },
-    "rewardlinks_convert": {
-        "message": "Convert link"
-    },
-    "rewardlinks_noconversion": {
-        "message": "No conversion"
-    },
-    "rewardlinks_shortenlinks": {
-        "message": "Shorten/Convert links"
-    },
-    "rewardlinks_shortenlinks_info1": {
-        "message": "Paste here the links to shorten/convert."
-    },
-    "rewardlinks_shortenlinks_info2": {
-        "message": "Shortened links are shown below (duplicates are removed)."
-    },
-    "rewardlinks_prefix": {
-        "message": "Prefix"
-    },
-    "rewardlinks_newline": {
-        "message": "Add newline?"
-    },
-    "rewardlinks_addspace": {
-        "message": "Add space"
-    },
-    "rewardlinks_summaryinfo": {
-        "message": "All rewards collected within $NUM$ hours of the most recent reward.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "export_export": {
-        "message": "Export"
-    },
-    "export_import": {
-        "message": "Import"
-    },
-    "export_exportdata": {
-        "message": "Export data"
-    },
-    "export_exportinventory": {
-        "message": "Export inventory"
-    },
-    "export_importdata": {
-        "message": "Import data"
-    },
-    "export_invalidexportdata": {
-        "message": "File is not a valid DAF export data for the current player!"
-    },
-    "export_invalidexport": {
-        "message": "File is not a valid export data!"
-    },
-    "export_importsuccess": {
-        "message": "Data has been imported succesfully!"
-    },
-    "export_debugdata": {
-        "message": "Export diagnostics data"
-    },
-    "rings_showminmax": {
-        "message": "Show minimum and maximum values"
-    },
-    "rings_showxp": {
-        "message": "Show XP"
-    },
-    "rings_playerlevel": {
-        "message": "Specify player's level"
-    },
-    "rings_stats": {
-        "message": "You have $NUM$ $NAME$ in your backpack.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "name": {
-                "content": "$2"
-            }
-        }
-    },
-    "rings_notdependent": {
-        "message": "Not dependent on player's level"
-    },
-    "rings_averageperring": {
-        "message": "Average XP per ring"
-    },
-    "rings_rings": {
-        "message": "Rings"
-    },
-    "equipment_sellout": {
-        "message": "Selling all unused items will net you $TOTAL$ coins (equipment = $EQUIP$ coins, decorations = $DECO$ coins)",
-        "placeholders": {
-            "total": {
-                "content": "$1"
-            },
-            "equip": {
-                "content": "$2"
-            },
-            "deco": {
-                "content": "$3"
-            }
-        }
-    },
-    "equipment_notonsale": {
-        "message": "Not on sale anymore"
-    },
-    "equipment_quantities": {
-        "message": "Quantities"
-    },
-    "equipment_owned": {
-        "message": "Owned"
-    },
-    "equipment_inshop": {
-        "message": "In shop"
-    },
-    "equipment_from": {
-        "message": "From"
-    },
-    "equipment_affordable": {
-        "message": "Affordable"
-    },
-    "equipment_useful": {
-        "message": "Useful"
-    },
-    "equipment_gain": {
-        "message": "Gain"
-    },
-    "equipment_gain_info": {
-        "message": "Gain is based on the minimum slot value in your camp"
-    },
-    "equipment_free": {
-        "message": "FREE"
-    },
-    "equipment_hidemax": {
-        "message": "Hide maxed"
-    },
-    "equipment_price_info": {
-        "message": "The price shown here is not for this equipment,\nbut for the pack/offer that included this equipment."
-    },
-    "equipment_level_none": {
-        "message": "Does not matter"
-    },
-    "equipment_level_eq": {
-        "message": "Exactly"
-    },
-    "equipment_level_le": {
-        "message": "At most"
-    },
-    "equipment_level_ge": {
-        "message": "At least"
-    },
-    "equipment_level_your": {
-        "message": "your level"
-    },
-    "equipment_level_this": {
-        "message": "this level"
-    },
-    "equipment_include_material": {
-        "message": "Include these materials"
-    },
-    "equipment_exclude_material": {
-        "message": "Exclude these materials"
-    },
-    "equipment_current": {
-        "message": "Current"
-    },
-    "equipment_pfdisclaimer": {
-        "message": "Please note that if you purchased a special pack in your game for this price in the past, it is not possible to purchase any next pack for this price.\nIn this case, the lowest price level available is approximately 5.5 USD."
-    },
-    "equipment_slotslower": {
-        "message": "Slots with less power than this"
-    },
-    "events_year": {
-        "message": "Year"
-    },
-    "events_end": {
-        "message": "End"
-    },
-    "events_quests": {
-        "message": "Quests"
-    },
-    "events_achievements": {
-        "message": "Achievements"
-    },
-    "events_pieces": {
-        "message": "Treasure's pieces"
-    },
-    "events_locations": {
-        "message": "Locations"
-    },
-    "events_materials": {
-        "message": "Special\nmaterials"
-    },
-    "events_completed": {
-        "message": "Completed"
-    },
-    "events_total": {
-        "message": "Total"
-    },
-    "events_medal": {
-        "message": "Medal"
-    },
-    "events_story_maps": {
-        "message": "Story maps"
-    },
-    "events_challenges": {
-        "message": "Challenges"
-    },
-    "events_repeatables": {
-        "message": "Repeatables"
-    },
-    "events_active": {
-        "message": "Active"
-    },
-    "events_rerelease": {
-        "message": "Bought/Gifted"
-    },
-    "events_complete": {
-        "message": "Complete"
-    },
-    "events_incomplete": {
-        "message": "Incomplete"
-    },
-    "events_notdone": {
-        "message": "Not done"
-    },
-    "events_segmented": {
-        "message": "Segmented"
-    },
-    "events_yourprogress": {
-        "message": "Your progress"
-    },
-    "events_rewards": {
-        "message": "Rewards"
-    },
-    "events_finalreward": {
-        "message": "Final Reward"
-    },
-    "events_notsegmented": {
-        "message": "Not segmented"
-    },
-    "events_tiles": {
-        "message": "Tiles"
-    },
-    "events_chance": {
-        "message": "Chance"
-    },
-    "events_clearbonus": {
-        "message": "Clear bonus"
-    },
-    "events_gemstones": {
-        "message": "Gemstones"
-    },
-    "events_tutorial": {
-        "message": "Tutorial Event"
-    },
-    "repeat_name": {
-        "message": "Name"
-    },
-    "repeat_region_event": {
-        "message": "Region / Event"
-    },
-    "repeat_cooldown": {
-        "message": "Cooldown"
-    },
-    "repeat_cooldown_time": {
-        "message": "Time"
-    },
-    "repeat_cooldown_gems": {
-        "message": "Gems"
-    },
-    "repeat_reset": {
-        "message": "Reset"
-    },
-    "repeat_bonus": {
-        "message": "Completion bonus"
-    },
-    "repeat_progress": {
-        "message": "Progress"
-    },
-    "repeat_progress_current": {
-        "message": "Tiles mined"
-    },
-    "repeat_progress_total": {
-        "message": "Total tiles"
-    },
-    "repeat_time": {
-        "message": "Time when the mine will be ready again"
-    },
-    "repeat_show_all": {
-        "message": "All repeatables"
-    },
-    "repeat_show_selected": {
-        "message": "Selected repeatables only"
-    },
-    "repeat_ready": {
-        "message": "READY"
-    },
-    "repeat_show_ready": {
-        "message": "Ready?"
-    },
-    "repeat_postcard": {
-        "message": "Postcard week ready?"
-    },
-    "dailyreward_stats": {
-        "message": "The daily reward is based on your current level ($LEVEL$) and region ($REGION$).",
-        "placeholders": {
-            "level": {
-                "content": "$1"
-            },
-            "region": {
-                "content": "$2"
-            }
-        }
-    },
-    "dailyreward_lastcollect": {
-        "message": "Collected on $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "dailyreward_formula": {
-        "message": "Formula"
-    },
-    "specialweek_end": {
-        "message": "ends on $FINISH$",
-        "placeholders": {
-            "finish": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_debris_discount": {
-        "message": "Grid Unlock discount week $PERCENT$%",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_production": {
-        "message": "Double production week"
-    },
-    "specialweek_half_prod_time": {
-        "message": "Half time production week"
-    },
-    "specialweek_double_drop": {
-        "message": "Double material week"
-    },
-    "specialweek_gifts": {
-        "message": "Double gifting week"
-    },
-    "specialweek_postcards": {
-        "message": "Postcard week"
-    },
-    "specialweek_material_seller": {
-        "message": "Merchant for old materials"
-    },
-    "specialweek_free_premium_event": {
-        "message": "Redeem event \"$NAME$\" for free",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_mystery_box": {
-        "message": "Mystery box"
-    },
-    "specialweek_find_the_pair": {
-        "message": "Find the Pair"
-    },
-    "options_section_ingame": {
-        "message": "In-Game options"
-    },
-    "options_injectgame": {
-        "message": "Enable DAF\nEnable DAF in-game.\nIf not enabled, the following options have no effect"
-    },
-    "options_fullwindow": {
-        "message": "Full window\nDisplay game in full window"
-    },
-    "options_fullwindowheader": {
-        "message": "Header\nDisplay the page header when in full window"
-    },
-    "options_fullwindowside": {
-        "message": "Side\nHide the sidebar (Facebook) when not in full window"
-    },
-    "options_fullwindowlock": {
-        "message": "Lock full window\nPrevents the game from exiting full window."
-    },
-    "options_resetfullwindow": {
-        "message": "Reset on load\nEvery time you load the game, \"Full window\" and \"Full window - Side\" are reset"
-    },
-    "options_resetfullwindow_warning": {
-        "message": "This option should be enabled if you experience problems loading the game."
-    },
-    "options_fullwindowtimeout": {
-        "message": "Auto full window\nAutomatically set full window when data has been loaded (DAF2 turns green)"
-    },
-    "options_fullwindowtimeout_seconds": {
-        "message": "Yes, after $NUM$ seconds",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "options_gctable": {
-        "message": "GC table\nShow all neighbours with GC beneath the game"
-    },
-    "options_gctablecounter": {
-        "message": "Counter\nShow a counter"
-    },
-    "options_gctableregion": {
-        "message": "Region\nUse colors to mark a neighbour's region"
-    },
-    "options_autoclick": {
-        "message": "Autoclick\nAutomatically confirm Facebook's popups"
-    },
-    "options_nogcpopup": {
-        "message": "No GC popups\nNo popups when collecting GC"
-    },
-    "options_autogc": {
-        "message": "Auto GC switch camp\nAutomatically switch camp after collecting GC"
-    },
-    "options_section_general": {
-        "message": "General options"
-    },
-    "options_autologin": {
-        "message": "Portal auto-login\nAutomatically logins in Portal"
-    },
-    "options_darktheme": {
-        "message": "Dark theme"
-    },
-    "options_shrinkmenu": {
-        "message": "Menu width\nReduce the width of the left vertical menu"
-    },
-    "options_shrinkmenu_0": {
-        "message": "When page's width is small"
-    },
-    "options_shrinkmenu_1": {
-        "message": "Always use a compact menu"
-    },
-    "options_shrinkmenu_2": {
-        "message": "Always use an expanded menu"
-    },
-    "options_disablealtguard": {
-        "message": "Reset on alternate account\nIf you set this option, loading an alternate account will overwrite your current DAF2 data."
-    },
-    "options_disablealtguard_warning": {
-        "message": "BEWARE: enable this option at your own risk!"
-    },
-    "options_section_rewardlinks": {
-        "message": "Reward Links"
-    },
-    "options_rewardsclose": {
-        "message": "Auto-close\nAuto-close the page after the reward has been collected."
-    },
-    "options_rewardscloseexceptgems": {
-        "message": "Except gems\nDo not auto-close when gem found."
-    },
-    "options_rewardscloseexcepterrors": {
-        "message": "Except errors\nDo not auto-close when error found."
-    },
-    "options_rewardssummary": {
-        "message": "Add summary table\nIf the page is not auto-closed, add a summary table at the bottom."
-    },
-    "options_linkgrabenabled": {
-        "message": "Link Grabber\nEnable the Link Grabber inside Facebook.\nIf not enabled, the following options have no effect."
-    },
-    "options_linkgrabbutton": {
-        "message": "Mouse button\nChoose the mouse button that triggers the Link Grabber"
-    },
-    "options_linkgrabkey": {
-        "message": "Optional key\nChoose an optional key to press in addition to the mouse button"
-    },
-    "options_linkgrabsort": {
-        "message": "Sort links"
-    },
-    "options_linkgrabconvert": {
-        "message": "Convert links"
-    },
-    "options_modifier_none": {
-        "message": "None"
-    },
-    "options_modifier_shift": {
-        "message": "Shift"
-    },
-    "options_modifier_ctrl": {
-        "message": "Ctrl"
-    },
-    "options_modifier_alt": {
-        "message": "Alt"
-    },
-    "options_button_left": {
-        "message": "Left"
-    },
-    "options_button_middle": {
-        "message": "Middle"
-    },
-    "options_button_right": {
-        "message": "Right"
-    },
-    "options_sort_none": {
-        "message": "None"
-    },
-    "options_sort_ascending": {
-        "message": "Ascending"
-    },
-    "options_sort_descending": {
-        "message": "Descending"
-    },
-    "options_language": {
-        "message": "Language\nChoose the language to use"
-    },
-    "options_locale": {
-        "message": "Localization\nUsed for formatting numbers, dates and lists"
-    },
-    "options_locale_browser": {
-        "message": "Use browser's setting"
-    },
-    "options_gamelanguage": {
-        "message": "Game Language\nLanguage for game's messages"
-    },
-    "options_section_badges": {
-        "message": "Badges"
-    },
-    "options_badgeserverenergy": {
-        "message": "Server energy\nShow a badge with the energy reported by the server.\nThis information is refreshed periodically when the game state is synchronized to the server."
-    },
-    "options_badgegccounter": {
-        "message": "GC Counter\nShow a badge with the remaining number of GC to collect"
-    },
-    "options_badgegcenergy": {
-        "message": "GC Energy\nShow a badge with the energy from a neighbour's GC"
-    },
-    "options_badgerepeatables": {
-        "message": "Repeatables\nShow a badge when any selected repeatable is ready"
-    },
-    "options_badgeluckycards": {
-        "message": "Lucky Cards\nShow a badge when the Lucky Cards tent is ready"
-    },
-    "options_badgeproductions": {
-        "message": "Productions\nShow a badge when a production slot is ready or empty"
-    },
-    "options_badgetimeoffset": {
-        "message": "Time offset\nThe badge will be shown in advance by this amount of seconds."
-    },
-    "options_badgesound": {
-        "message": "Sound Effect\nThe sound effect to play when the badge is displayed."
-    },
-    "options_badgevolume": {
-        "message": "Volume\nThe volume of the sound effect."
-    },
-    "options_badgewindmills": {
-        "message": "Windmills\nShow a badge when a neighbour's camp needs windmills"
-    },
-    "calc_operators": {
-        "message": "Operators"
-    },
-    "calc_arithmetic": {
-        "message": "Arithmetic"
-    },
-    "calc_comparison": {
-        "message": "Comparison"
-    },
-    "calc_logical": {
-        "message": "Logical"
-    },
-    "calc_functions": {
-        "message": "Functions"
-    },
-    "calc_variables": {
-        "message": "Variables"
-    },
-    "calc_examples": {
-        "message": "Examples"
-    },
-    "calc_error_1": {
-        "message": "Syntax error"
-    },
-    "calc_error_2": {
-        "message": "Function needs parentheses"
-    },
-    "calc_error_3": {
-        "message": "Missing closing parenthesis"
-    },
-    "calc_error_4": {
-        "message": "Too many closing parentheses"
-    },
-    "linkgrabber_selected": {
-        "message": "Links: $UNIQUE$ / $TOTAL$",
-        "placeholders": {
-            "unique": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_fn_copy": {
-        "message": "Copy to clipboard"
-    },
-    "linkgrabber_fn_send": {
-        "message": "Send to DAF"
-    },
-    "linkgrabber_fn_cancel": {
-        "message": "Cancel"
-    },
-    "linkgrabber_fn_refresh": {
-        "message": "Refresh links"
-    },
-    "linkgrabber_fn_showid": {
-        "message": "Show Reward Id"
-    },
-    "linkgrabber_fn_autosend": {
-        "message": "Auto-send"
-    },
-    "linkgrabber_added": {
-        "message": "Rewards links added: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_copied": {
-        "message": "Links copied to clipboard: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    }
+	"ext_name": {
+		"message": "DA Friends 2"
+	},
+	"ext_title": {
+		"message": "Helper Tool for Diggy's Adventure"
+	},
+	"menu_resetfullwindow": {
+		"message": "Reset on load"
+	},
+	"menu_fullwindow": {
+		"message": "Game in full window"
+	},
+	"menu_fullwindowheader": {
+		"message": "Header"
+	},
+	"menu_fullwindowside": {
+		"message": "Side bar"
+	},
+	"menu_fullwindowlock": {
+		"message": "Lock"
+	},
+	"menu_gctable": {
+		"message": "Display GC table"
+	},
+	"menu_gctablecounter": {
+		"message": "Counter"
+	},
+	"menu_gctableregion": {
+		"message": "Region"
+	},
+	"menu_gccollected": {
+		"message": "All GC have been collected"
+	},
+	"menu_autoclick": {
+		"message": "Auto click Facebook's popup"
+	},
+	"menu_nogcpopup": {
+		"message": "No popups when collecting GC"
+	},
+	"menu_reloadgame": {
+		"message": "Reloads the game and forces a fresh data collection"
+	},
+	"menu_switchportal": {
+		"message": "Switch to Portal"
+	},
+	"menu_switchfacebook": {
+		"message": "Switch to Facebook"
+	},
+	"menu_on": {
+		"message": "ON"
+	},
+	"menu_off": {
+		"message": "OFF"
+	},
+	"gui_timeparts": {
+		"message": "d,h,m,s"
+	},
+	"gui_card_clicker": {
+		"message": "Click to collapse/expand this section"
+	},
+	"gui_show": {
+		"message": "Show"
+	},
+	"gui_all": {
+		"message": "All"
+	},
+	"gui_only_possible": {
+		"message": "Only possible"
+	},
+	"gui_search": {
+		"message": "Search"
+	},
+	"gui_filter": {
+		"message": "Filter"
+	},
+	"gui_name": {
+		"message": "Name"
+	},
+	"gui_region_required": {
+		"message": "Region\nRequired"
+	},
+	"gui_theme_required": {
+		"message": "Region/Theme\nRequired"
+	},
+	"gui_level_required": {
+		"message": "Level\nRequired"
+	},
+	"gui_qty": {
+		"message": "Quantity"
+	},
+	"gui_qty_required": {
+		"message": "Quantity\nRequired"
+	},
+	"gui_energy": {
+		"message": "Energy"
+	},
+	"gui_estimatedenergy": {
+		"message": "Estimated energy"
+	},
+	"gui_food": {
+		"message": "Food"
+	},
+	"gui_coins": {
+		"message": "Coins"
+	},
+	"gui_backpack": {
+		"message": "Backpack"
+	},
+	"gui_clickwiki": {
+		"message": "Click to open the Wiki Page."
+	},
+	"gui_from_any": {
+		"message": "from regions or events"
+	},
+	"gui_from_regions": {
+		"message": "from regions"
+	},
+	"gui_from_events": {
+		"message": "from events"
+	},
+	"gui_ingredients": {
+		"message": "Ingredients"
+	},
+	"gui_event": {
+		"message": "Event"
+	},
+	"gui_specialweek": {
+		"message": "Special week"
+	},
+	"gui_region": {
+		"message": "Region"
+	},
+	"gui_theme": {
+		"message": "Theme"
+	},
+	"gui_year": {
+		"message": "Year"
+	},
+	"gui_quest": {
+		"message": "Quest"
+	},
+	"gui_offer": {
+		"message": "Offer"
+	},
+	"gui_tieredoffer": {
+		"message": "Tiered Offer"
+	},
+	"gui_pack": {
+		"message": "Pack"
+	},
+	"gui_equipment": {
+		"message": "Equipment"
+	},
+	"gui_shop": {
+		"message": "Shop"
+	},
+	"gui_decoration": {
+		"message": "Decoration"
+	},
+	"gui_usable": {
+		"message": "Usable"
+	},
+	"gui_token": {
+		"message": "Token"
+	},
+	"gui_level": {
+		"message": "Level"
+	},
+	"gui_xp": {
+		"message": "XP"
+	},
+	"gui_sell_price": {
+		"message": "Sell price"
+	},
+	"gui_neighbour": {
+		"message": "Neighbour"
+	},
+	"gui_friend": {
+		"message": "Friend"
+	},
+	"gui_firstrecorded": {
+		"message": "First\nRecorded"
+	},
+	"gui_lastrecorded": {
+		"message": "Last\nRecorded"
+	},
+	"gui_loadingresources": {
+		"message": "Loading resources ($NUM$/$TOTAL$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"gui_screenshot_shot": {
+		"message": "Click to make a screenshot of this section.\nThe screenshot will appear on the right.\nPlease note: only the visible area is captured!\nYou have to click the DAF2 icon in the Chrome menu, to enable this feature."
+	},
+	"gui_screenshot_target": {
+		"message": "Click to download the image.\nYou can right-click this image and select \"Copy image\" to copy it on the clipboard."
+	},
+	"gui_screenshot_error": {
+		"message": "Cannot make screenshot"
+	},
+	"gui_screenshot_errorinfo": {
+		"message": "First, you have to click the @DAF2@ icon in the Chrome menu.\nThis will enable the screenshot function until the page is closed.\n\nPlease, click the @DAF2@ icon then retry the screenshot."
+	},
+	"gui_infodated": {
+		"message": "The information shown here was current and only valid as at '$VALID$'",
+		"placeholders": {
+			"valid": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_nonote": {
+		"message": "No note"
+	},
+	"gui_minimum": {
+		"message": "Minimum"
+	},
+	"gui_maximum": {
+		"message": "Maximum"
+	},
+	"gui_average": {
+		"message": "Average"
+	},
+	"gui_loot": {
+		"message": "Loot"
+	},
+	"gui_datafrompf": {
+		"message": "Data obtained from Pixel Federation's game files"
+	},
+	"gui_gift": {
+		"message": "Gift"
+	},
+	"gui_gifts": {
+		"message": "Gifts"
+	},
+	"gui_day": {
+		"message": "Day"
+	},
+	"gui_placed": {
+		"message": "Placed in camp"
+	},
+	"gui_owned": {
+		"message": "Owned"
+	},
+	"gui_limit": {
+		"message": "Limit"
+	},
+	"gui_type": {
+		"message": "Type"
+	},
+	"gui_width": {
+		"message": "Width"
+	},
+	"gui_height": {
+		"message": "Height"
+	},
+	"gui_value": {
+		"message": "Value"
+	},
+	"gui_slot_value": {
+		"message": "Slot Value"
+	},
+	"gui_cost": {
+		"message": "Cost"
+	},
+	"gui_items_found": {
+		"message": "Items found"
+	},
+	"gui_reset": {
+		"message": "Reset"
+	},
+	"gui_material": {
+		"message": "Material"
+	},
+	"gui_filter_clear": {
+		"message": "Clear"
+	},
+	"gui_filter_invert": {
+		"message": "Invert"
+	},
+	"gui_advancedfilter": {
+		"message": "Advanced filter"
+	},
+	"gui_location": {
+		"message": "Location"
+	},
+	"gui_locked": {
+		"message": "Locked"
+	},
+	"gui_noresults": {
+		"message": "No results"
+	},
+	"gui_toomanyresults": {
+		"message": "Too many results"
+	},
+	"gui_id": {
+		"message": "Id"
+	},
+	"gui_date": {
+		"message": "Date"
+	},
+	"gui_ctrlclick": {
+		"message": "Use CTRL to select/deselect all"
+	},
+	"gui_summary": {
+		"message": "Summary"
+	},
+	"dialog_ok": {
+		"message": "Ok"
+	},
+	"dialog_yes": {
+		"message": "Yes"
+	},
+	"dialog_no": {
+		"message": "No"
+	},
+	"dialog_confirm": {
+		"message": "Confirm"
+	},
+	"dialog_cancel": {
+		"message": "Cancel"
+	},
+	"dialog_close": {
+		"message": "Close"
+	},
+	"dialog_pleasewait": {
+		"message": "Please Wait"
+	},
+	"tab_game": {
+		"message": "Switch to game"
+	},
+	"tab_about": {
+		"message": "About"
+	},
+	"tab_progress": {
+		"message": "Progress"
+	},
+	"tab_camp": {
+		"message": "Camp"
+	},
+	"tab_map": {
+		"message": "Map"
+	},
+	"tab_caravan": {
+		"message": "Caravan"
+	},
+	"tab_kitchen": {
+		"message": "Kitchen"
+	},
+	"tab_foundry": {
+		"message": "Foundry"
+	},
+	"tab_pillars": {
+		"message": "Pillars"
+	},
+	"tab_neighbors": {
+		"message": "Neighbours"
+	},
+	"tab_friendship": {
+		"message": "Friendship"
+	},
+	"tab_godchild": {
+		"message": "Gods Children"
+	},
+	"tab_locations": {
+		"message": "Locations"
+	},
+	"tab_greenrings": {
+		"message": "Green Rings"
+	},
+	"tab_redrings": {
+		"message": "Red Rings"
+	},
+	"tab_christmasrings": {
+		"message": "Christmas Rings"
+	},
+	"tab_rewardlinks": {
+		"message": "Reward Links"
+	},
+	"tab_options": {
+		"message": "Options"
+	},
+	"tab_help": {
+		"message": "Help"
+	},
+	"tab_export": {
+		"message": "Import / Export"
+	},
+	"tab_equipment": {
+		"message": "Equipment / Shop"
+	},
+	"tab_events": {
+		"message": "Events"
+	},
+	"tab_repeat": {
+		"message": "Repeatables"
+	},
+	"tab_dailyreward": {
+		"message": "Daily Reward"
+	},
+	"about_version": {
+		"message": "Version: $VERSION$",
+		"placeholders": {
+			"version": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_data": {
+		"message": "Last Data Snapshot: $TIME$\nGame Site: $SITE$ ($PLATFORM$)\nUser Id: #$USERID$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			},
+			"userid": {
+				"content": "$2"
+			},
+			"site": {
+				"content": "$3"
+			},
+			"platform": {
+				"content": "$4"
+			}
+		}
+	},
+	"about_visit": {
+		"message": "Visit the official Facebook page"
+	},
+	"about_nodata": {
+		"message": "No Game Data has been loaded yet, please load or refresh the game window"
+	},
+	"about_disclaimer": {
+		"message": "DA Friends is 'Fan Code' and is neither endorsed nor supported by Pixel Federation, the authors of the game \"Diggy's Adventure\".\nYou use DA Friends at your own risk. It comes with no warranty or guarantee, neither explicit or implicit towards functionality or usability.\nThe author shall not be held liable for any damage or loss caused by its use.\nBy using this extension, you agree to these terms."
+	},
+	"about_translators": {
+		"message": "Translators"
+	},
+	"about_alternate": {
+		"message": "An alternate account was loaded ($ID$).",
+		"placeholders": {
+			"id": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_reset": {
+		"message": "Your previous account's data was preserved.\nTo reset your data and use another account, click @RESET@"
+	},
+	"about_reset_ask_title": {
+		"message": "Reset account"
+	},
+	"about_reset_ask_text": {
+		"message": "Do you want to reset your data\nso you can use another account?"
+	},
+	"about_reset_ok_title": {
+		"message": "Data has been reset"
+	},
+	"about_reset_ok_text": {
+		"message": "Please reload Diggy's Adventure with the account you wish to use."
+	},
+	"production_total_time": {
+		"message": "Total Time\n(Slots: $NUM$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"production_time": {
+		"message": "Time to produce"
+	},
+	"production_possible": {
+		"message": "Possible"
+	},
+	"production_possible_energy": {
+		"message": "Possible\nEnergy"
+	},
+	"production_energy_hour": {
+		"message": "Energy\nPer Hour"
+	},
+	"production_qty": {
+		"message": "Quantity produced"
+	},
+	"production_uplift": {
+		"message": "Uplift (XP/h)"
+	},
+	"production_uplift_info": {
+		"message": "Xp gained by a single slot in an hour,\nbased on the values obtained from pillars."
+	},
+	"production_req_ticket": {
+		"message": "Requires a ticket?"
+	},
+	"kitchen_food_in_backpack": {
+		"message": "from food in backpack"
+	},
+	"camp_your_camp": {
+		"message": "Your camp"
+	},
+	"camp_player_name": {
+		"message": "$PLAYER$'s camp on $DATE$",
+		"placeholders": {
+			"player": {
+				"content": "$1"
+			},
+			"date": {
+				"content": "$2"
+			}
+		}
+	},
+	"camp_no_player": {
+		"message": "No camp was visited yet"
+	},
+	"camp_player": {
+		"message": "Player"
+	},
+	"camp_total": {
+		"message": "Total"
+	},
+	"camp_fill_time": {
+		"message": "Fill time"
+	},
+	"camp_fill_time_info": {
+		"message": "Time required for the energy bar to go from empty to full capacity."
+	},
+	"camp_numofregenslots": {
+		"message": "# regeneration slots"
+	},
+	"camp_canbeimproved": {
+		"message": "This camp can be improved"
+	},
+	"camp_showsetup": {
+		"message": "Click here to show the setup mode camp"
+	},
+	"camp_windmill_regen": {
+		"message": "Single windmill regeneration"
+	},
+	"camp_windmill_regen_total": {
+		"message": "Total windmill regeneration"
+	},
+	"camp_windmill_num": {
+		"message": "Current number of windmills"
+	},
+	"camp_windmill_expiry": {
+		"message": "Windmills will expire on\n$TIME$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_slot_empty": {
+		"message": "Empty slot"
+	},
+	"camp_slot_blocked": {
+		"message": "Blocked space"
+	},
+	"camp_regen": {
+		"message": "Regeneration"
+	},
+	"camp_capacity": {
+		"message": "Capacity"
+	},
+	"camp_windmills": {
+		"message": "Windmills"
+	},
+	"camp_needs_windmills": {
+		"message": "Camp needs windmills"
+	},
+	"camp_avg_value": {
+		"message": "Slot average"
+	},
+	"camp_min_value": {
+		"message": "Slot minimum"
+	},
+	"camp_max_value": {
+		"message": "Slot maximum"
+	},
+	"camp_num_slots": {
+		"message": "Number of slots"
+	},
+	"camp_unlock_materials": {
+		"message": "Materials required to unlock camp"
+	},
+	"camp_unlock_one": {
+		"message": "Unlocking one slot will net $VALUE$ XP",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_unlock_cost": {
+		"message": "One slot can be unlocked with $VALUE$ gems\nor with these materials:",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_start_date": {
+		"message": "You started playing:\n$STARTED$",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_day_mode": {
+		"message": "Day mode"
+	},
+	"camp_night_mode": {
+		"message": "Night mode"
+	},
+	"camp_setup_mode": {
+		"message": "Setup mode"
+	},
+	"camp_discounted": {
+		"message": "Discounted"
+	},
+	"camp_neighbor": {
+		"message": "Neighbour's camp"
+	},
+	"camp_extra": {
+		"message": "Extra"
+	},
+	"camp_ftp_group": {
+		"message": "GROUP $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_ftp_dot_info": {
+		"message": "Cards marked with a red dot may appear in the first free flips."
+	},
+	"camp_ftp_group_info": {
+		"message": "You will be able to reveal cards from a group only after all cards from the previous group are revealed."
+	},
+	"camp_ftp_cumulativegems": {
+		"message": "Total gems so far"
+	},
+	"camp_ads_limit": {
+		"message": "Ads limit"
+	},
+	"camp_ads_limit_info": {
+		"message": "This is only an indication and does not represent the real possibility of displaying an advertisement."
+	},
+	"camp_ads_limit_info2": {
+		"message": "The third-party ad provider may apply a different limit as they are beyond the control of Pixel Federation."
+	},
+	"map_floor": {
+		"message": "Floor"
+	},
+	"map_floor_current": {
+		"message": "This is the current floor"
+	},
+	"map_floor_found": {
+		"message": "Click to show the map for this floor"
+	},
+	"map_floor_not_found": {
+		"message": "This floor has not been visited yet"
+	},
+	"map_remaining_tiles": {
+		"message": "Remaining tiles"
+	},
+	"map_special": {
+		"message": "Special"
+	},
+	"map_quest": {
+		"message": "Quest"
+	},
+	"map_this_floor": {
+		"message": "This floor"
+	},
+	"map_all_floors": {
+		"message": "All floors"
+	},
+	"map_warning": {
+		"message": "Please go in the game and enter any location, then return here!"
+	},
+	"map_button_d": {
+		"message": "Show Diggy"
+	},
+	"map_button_t": {
+		"message": "Show teleports"
+	},
+	"map_button_e": {
+		"message": "Show beacons"
+	},
+	"map_button_c": {
+		"message": "Show in full colors"
+	},
+	"map_button_g": {
+		"message": "Show debug info"
+	},
+	"map_button_l": {
+		"message": "Highlight breakable tiles"
+	},
+	"map_button_n": {
+		"message": "Highlight tiles with notable loot"
+	},
+	"map_button_v": {
+		"message": "Tile visibility is persistent"
+	},
+	"map_button_o": {
+		"message": "Show opaque tiles"
+	},
+	"map_button_b": {
+		"message": "Show bonus indicator"
+	},
+	"map_button_k": {
+		"message": "Show background by hiding all breakable tiles"
+	},
+	"map_button_a": {
+		"message": "Show all tiles"
+	},
+	"map_button_x": {
+		"message": "Show entrances and exits"
+	},
+	"map_button_u": {
+		"message": "Show original map"
+	},
+	"map_button_f": {
+		"message": "Show full map"
+	},
+	"map_button_s": {
+		"message": "Show solution"
+	},
+	"map_button_m": {
+		"message": "Mix notable tiles"
+	},
+	"map_save": {
+		"message": "Save"
+	},
+	"map_save_tip": {
+		"message": "Save the map as an image file"
+	},
+	"map_mine_exit": {
+		"message": "Exits mine"
+	},
+	"map_goto_floor": {
+		"message": "Goes to floor $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"map_goto_unknown": {
+		"message": "Goes to another floor, but this path has not been taken yet"
+	},
+	"map_teleport": {
+		"message": "Teleport"
+	},
+	"map_hint": {
+		"message": "Hint"
+	},
+	"map_beacon": {
+		"message": "Beacon"
+	},
+	"map_active": {
+		"message": "active"
+	},
+	"map_not_active": {
+		"message": "not active"
+	},
+	"map_tile": {
+		"message": "Tile"
+	},
+	"map_npc": {
+		"message": "Npc"
+	},
+	"map_says": {
+		"message": "Says"
+	},
+	"map_godchild": {
+		"message": "Godchild"
+	},
+	"map_unknown": {
+		"message": "Unknown"
+	},
+	"map_yellow": {
+		"message": "Yellow"
+	},
+	"map_red": {
+		"message": "Red"
+	},
+	"map_blue": {
+		"message": "Blue"
+	},
+	"map_green": {
+		"message": "Green"
+	},
+	"map_left": {
+		"message": "Left"
+	},
+	"map_down": {
+		"message": "Down"
+	},
+	"map_right": {
+		"message": "Right"
+	},
+	"map_up": {
+		"message": "Up"
+	},
+	"map_require_draggable": {
+		"message": "Requires draggable"
+	},
+	"map_require_item": {
+		"message": "Requires item"
+	},
+	"map_require_light": {
+		"message": "Requires light"
+	},
+	"map_emitter": {
+		"message": "Light emitter"
+	},
+	"map_mirror": {
+		"message": "Mirror"
+	},
+	"map_filter": {
+		"message": "Light filter"
+	},
+	"map_draggable": {
+		"message": "Draggable"
+	},
+	"map_can_move": {
+		"message": "Can be moved"
+	},
+	"map_can_rotate": {
+		"message": "Can be rotated"
+	},
+	"map_fixed": {
+		"message": "Is fixed"
+	},
+	"map_remove_confirmation": {
+		"message": "Confirm removal of these mines?"
+	},
+	"map_option_c": {
+		"message": "Show coordinates in tooltip"
+	},
+	"map_option_s": {
+		"message": "Show region selector"
+	},
+	"map_option_i": {
+		"message": "Show location info"
+	},
+	"map_option_r": {
+		"message": "Show repeatables"
+	},
+	"map_option_t": {
+		"message": "Add map title"
+	},
+	"map_option_b": {
+		"message": "Remove empty rows/columns"
+	},
+	"map_option_m": {
+		"message": "Ensure margins around image"
+	},
+	"map_option_l": {
+		"message": "Add logo watermark"
+	},
+	"map_option_resize": {
+		"message": "Size of saved image"
+	},
+	"map_export_location": {
+		"message": "Export all floors as data file"
+	},
+	"map_export_floor": {
+		"message": "Export the current floor as data file"
+	},
+	"map_import": {
+		"message": "Import a previously exported data file"
+	},
+	"map_downloadfolder": {
+		"message": "Download folder"
+	},
+	"map_positionrandom": {
+		"message": "Position is random"
+	},
+	"map_default": {
+		"message": "Reset to default"
+	},
+	"pillars_all": {
+		"message": "All pillars"
+	},
+	"pillars_only_possible": {
+		"message": "Only possible pillars"
+	},
+	"pillars_perc_next": {
+		"message": "%\nNext"
+	},
+	"pillars_possible": {
+		"message": "Possible"
+	},
+	"pillars_totals": {
+		"message": "Totals"
+	},
+	"pillars_current_level": {
+		"message": "Your Current Level"
+	},
+	"pillars_predicted": {
+		"message": "Predicted"
+	},
+	"pillars_predicted_level": {
+		"message": "Predicted Level"
+	},
+	"pillars_predicted_gain": {
+		"message": "Predicted gain from level ups"
+	},
+	"pillars_ignore": {
+		"message": "Click to ignore/consider"
+	},
+	"pillars_altclick": {
+		"message": "Use ALT to reset/set all quantities"
+	},
+	"pillars_maxpossible": {
+		"message": "Max possible"
+	},
+	"pillars_grid": {
+		"message": "Show as grid"
+	},
+	"pillars_cap": {
+		"message": "Cap to Possible"
+	},
+	"neighbors_lastlevelup": {
+		"message": "Last\nLevel Up"
+	},
+	"neighbors_lastgiftreceived": {
+		"message": "Last Gift\nReceived"
+	},
+	"neighbors_yourlastvisit": {
+		"message": "Your last visit"
+	},
+	"neighbors_all": {
+		"message": "All"
+	},
+	"neighbors_nogift": {
+		"message": "No gifts in $NUM$ days",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"neighbors_gifts": {
+		"message": "Consider gifts in last @DAYS@ days"
+	},
+	"neighbors_listed": {
+		"message": "Custom list"
+	},
+	"neighbors_blocks": {
+		"message": "Blocks to clear in underground camp"
+	},
+	"neighbors_inlist": {
+		"message": "In custom list"
+	},
+	"neighbors_notinlist": {
+		"message": "Not in custom list"
+	},
+	"neighbors_withblocks": {
+		"message": "With blocks to clear"
+	},
+	"neighbors_unknownblocks": {
+		"message": "Blocks state unknown"
+	},
+	"neighbors_withexpiredwindmills": {
+		"message": "With expired windmills"
+	},
+	"neighbors_found": {
+		"message": "Neighbours found: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_giftcount": {
+		"message": "Gift Count"
+	},
+	"neighbors_giftvalue": {
+		"message": "Gift Value (in XP)"
+	},
+	"neighbors_efficiency": {
+		"message": "Efficiency (gifts / days)"
+	},
+	"neighbors_wmtime": {
+		"message": "Windmill expiration time"
+	},
+	"neighbors_giftinfo": {
+		"message": "The date of the gift refers to the time when DAF first registered that gift, not the date it was sent."
+	},
+	"neighbors_gifttip": {
+		"message": "$NAME$\nXP: $XP$\nDay: $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_gift": {
+		"message": "$NAME$ ($XP$ XP) on $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_advancedfilterinfo": {
+		"message": "You can further filter your neighbours by the gifts they have sent in the last @DAYS@ days by selecting one or more gifts from the following list."
+	},
+	"neighbors_clearfilter": {
+		"message": "Clear filter"
+	},
+	"neighbors_gift_tooltip": {
+		"message": "Gifts received while DAF2 was active and recording."
+	},
+	"neighbors_sortby": {
+		"message": "Sort by"
+	},
+	"neighbors_totxpstats": {
+		"message": "$COUNT$ gifts in $DAYS$ days = $TOTAL$ XP ($AVERAGE$ XP/day)",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"days": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			},
+			"average": {
+				"content": "$4"
+			}
+		}
+	},
+	"neighbors_avgxpstats": {
+		"message": "Average gift value = $XP$ XP ($AVERAGE$ XP per neighbor/day)",
+		"placeholders": {
+			"xp": {
+				"content": "$1"
+			},
+			"average": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_expression": {
+		"message": "Specify an expression to evaluate"
+	},
+	"friendship_collectfriends": {
+		"message": "Collect friends"
+	},
+	"friendship_score": {
+		"message": "Score"
+	},
+	"friendship_scoretooltip": {
+		"message": "Match confidence, as follows:\n100 = Same Facebook id\n99 = Manual match\n95 = Same profile picture\n90 = Same full name\n80 = Same first name and last name\n70 = Same first name and last name (reversed)\n60 = Chinese characters match"
+	},
+	"friendship_action": {
+		"message": "Action"
+	},
+	"friendship_actionignore": {
+		"message": "This friend is regarded for the match\nClick to ignore this friend during the match"
+	},
+	"friendship_actionregard": {
+		"message": "This friend is ignored for the match\nClick to regard this friend"
+	},
+	"friendship_actionunlink": {
+		"message": "Click to remove the match"
+	},
+	"friendship_actionmanual": {
+		"message": "Click to manually match this neighbour"
+	},
+	"friendship_actionmatch": {
+		"message": "Click to link this friend to the selected neighbour"
+	},
+	"friendship_actiondelete": {
+		"message": "Click to delete this friend"
+	},
+	"friendship_matchplayertitle": {
+		"message": "Click here to cancel this match"
+	},
+	"friendship_accountdisabled": {
+		"message": "Account is disabled"
+	},
+	"friendship_disabledaccountsdetected": {
+		"message": "Disabled accounts were detected."
+	},
+	"friendship_unmatchedaccountsdetected": {
+		"message": "Disabled and/or unmatched accounts were detected."
+	},
+	"friendship_unfriendinfo": {
+		"message": "You can unfriend them from this page.\n\nPlease be aware that Facebook accounts may be temporary disabled and may be enabled at a later moment."
+	},
+	"friendship_partial": {
+		"message": "Partial"
+	},
+	"friendship_confirmcollect": {
+		"message": "YES = confirm friends and replace the existing ones\nPARTIAL = add friends and keep the existing ones\nNO = try to collect more friends\n\nYou can close this window at any time to cancel the operation."
+	},
+	"friendship_speedupcollect": {
+		"message": "Speedup collection?"
+	},
+	"friendship_filter_a": {
+		"message": "Friends: $FRIENDS$, Neighbours: $NEIGHBOURS$",
+		"placeholders": {
+			"friends": {
+				"content": "$1"
+			},
+			"neighbours": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_filter_d": {
+		"message": "Disabled Facebook accounts: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_m": {
+		"message": "Friends and neighbours matched: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_g": {
+		"message": "Friends and neighbours matched by image: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_h": {
+		"message": "Friends and neighbours matched manually: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_i": {
+		"message": "Friends ignored: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_f": {
+		"message": "Friends not matched: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_u": {
+		"message": "Friends ignored and/or not matched: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_n": {
+		"message": "Neighbours not matched: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_s": {
+		"message": "Friends and neighbours not matched: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_collectpreamble": {
+		"message": "Here you can collect your Facebook friends and match it against your neighbours."
+	},
+	"friendship_collectstandard": {
+		"message": "Standard"
+	},
+	"friendship_collectstandardinfo": {
+		"message": "This method is reliable, but very slow (it may take several minutes)."
+	},
+	"friendship_collectunmatched": {
+		"message": "Unmatched"
+	},
+	"friendship_collectunmatchedinfo": {
+		"message": "This method is the same as the 'Standard' method, but it will not collect friends.\nInstead, it will show you all currently unmatched friends, so you can manually unfriend them."
+	},
+	"friendship_disabledinfo": {
+		"message": "It can detect disabled accounts."
+	},
+	"friendship_collectmatch": {
+		"message": "Match"
+	},
+	"friendship_collectmatchinfo": {
+		"message": "This will perform the automatic match between your friends and neighbours.\nYour friend list will not be refreshed.\nIgnored friends and friends with a score greater than 90 are not automatically matched.\nMatching will still be performed at the end of your friends collection."
+	},
+	"friendship_matchbyimage": {
+		"message": "Match by profile image?"
+	},
+	"friendship_confirmwarning": {
+		"message": "This operation may take several minutes.\n\nPlease confirm that you want to proceed."
+	},
+	"friendship_confirmcollection": {
+		"message": "Confirm collection result?"
+	},
+	"friendship_cc_maybe": {
+		"message": "If unsure"
+	},
+	"friendship_confirmdelete": {
+		"message": "This operation cannot be undone.\nYou will need to do a collection to get this friend back on the list.\n\nConfirm the removal?"
+	},
+	"friendship_collecterror": {
+		"message": "Something went wrong."
+	},
+	"friendship_manualhelp": {
+		"message": "Please refresh the DAF2 page, go to \"$FRIENDSHIP$\" tab, click \"$COLLECT$\" and choose \"$MATCH$\"",
+		"placeholders": {
+			"friendship": {
+				"content": "$1"
+			},
+			"collect": {
+				"content": "$2"
+			},
+			"match": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_analyzingmatches": {
+		"message": "Analyzing data, $PERCENT$ % ($NUM$ / $TOTAL$)",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			},
+			"num": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_collectstat": {
+		"message": "Friends collected: $COUNT$",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_manualmatchhelp": {
+		"message": "To match this neighbour you have to find a non matched friend and click on the cell where the symbol \u2b50 is."
+	},
+	"friendship_friendupdateinfo": {
+		"message": "The Facebook Friends List was updated on $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_totalfriends": {
+		"message": "Friends: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_totalneighbours": {
+		"message": "Neighbours: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_timewarning": {
+		"message": "It appears that you have not performed a friend collection in a long time.\nPlease click the \"$COLLECT$\" button and choose the \"$METHOD$\" method.",
+		"placeholders": {
+			"collect": {
+				"content": "$1"
+			},
+			"method": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_info": {
+		"message": "$NUM$ Neighbours = $GC$ Gods children",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"gc": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_stat": {
+		"message": "Gods children: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_next": {
+		"message": "To get an additional GC, you have to add $NUM$ more neighbours",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"godchild_next0": {
+		"message": "You have reached the maximum possible number of GC"
+	},
+	"godchild_next1": {
+		"message": "To get an additional GC, you have to add just one more neighbour"
+	},
+	"progress_measure": {
+		"message": "Measure"
+	},
+	"progress_attained": {
+		"message": "Attained"
+	},
+	"progress_goal": {
+		"message": "Goal"
+	},
+	"progress_remaining": {
+		"message": "Remaining"
+	},
+	"progress_progress": {
+		"message": "Progress"
+	},
+	"progress_achievements": {
+		"message": "Achievements"
+	},
+	"progress_treasures": {
+		"message": "Treasures"
+	},
+	"progress_overall": {
+		"message": "Overall"
+	},
+	"progress_hidecompleted": {
+		"message": "Hide completed"
+	},
+	"progress_grouplocations": {
+		"message": "Group locations"
+	},
+	"progress_showdates": {
+		"message": "Location dates"
+	},
+	"progress_energyinfo": {
+		"message": "The energy shown here is estimated by multiplying the number of remaining tiles by the average tile cost.\nThe average tile cost is based on the completion bonus and the total number of tiles."
+	},
+	"progress_averagetilecost": {
+		"message": "Average tile cost"
+	},
+	"progress_achievementnextstep": {
+		"message": "To next step = $NEXT$",
+		"placeholders": {
+			"next": {
+				"content": "$1"
+			}
+		}
+	},
+	"progress_start": {
+		"message": "Started"
+	},
+	"progress_end": {
+		"message": "Finished"
+	},
+	"progress_duration": {
+		"message": "Duration"
+	},
+	"progress_subtotal": {
+		"message": "Sub-Total"
+	},
+	"progress_grandtotal": {
+		"message": "Grand-Total"
+	},
+	"progress_playtime": {
+		"message": "You started playing $STARTED$ and have been playing for $DURATION$ (as at $NOW$)",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			},
+			"duration": {
+				"content": "$2"
+			},
+			"now": {
+				"content": "$3"
+			}
+		}
+	},
+	"progress_levelrange": {
+		"message": "From $FROM$ to $TO$",
+		"placeholders": {
+			"from": {
+				"content": "$1"
+			},
+			"to": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_id": {
+		"message": "Reward Id"
+	},
+	"rewardlinks_insertdate": {
+		"message": "Insert date"
+	},
+	"rewardlinks_collectdate": {
+		"message": "Collect date"
+	},
+	"rewardlinks_collectmaterial": {
+		"message": "Reward found"
+	},
+	"rewardlinks_owner": {
+		"message": "Owner"
+	},
+	"rewardlinks_expired": {
+		"message": "EXPIRED LINK"
+	},
+	"rewardlinks_collected": {
+		"message": "ALREADY COLLECTED"
+	},
+	"rewardlinks_maxreached": {
+		"message": "DAILY MAX REACHED"
+	},
+	"rewardlinks_noself": {
+		"message": "NO SELF REWARD"
+	},
+	"rewardlinks_broken": {
+		"message": "BROKEN LINK"
+	},
+	"rewardlinks_probablyexpired": {
+		"message": "PROBABLY EXPIRED LINK"
+	},
+	"rewardlinks_background": {
+		"message": "Background\nOpen reward links in background"
+	},
+	"rewardlinks_autoclick": {
+		"message": "Auto-click\nAutomatically click the next selected reward after a reward has been collected"
+	},
+	"rewardlinks_autoclick_end": {
+		"message": "No selected links can be clicked.\nExpired or claimed links are always ignored."
+	},
+	"rewardlinks_addlinks": {
+		"message": "Add links"
+	},
+	"rewardlinks_pasteadd": {
+		"message": "Paste here the links to add, then press the \"$CONFIRM$\" button",
+		"placeholders": {
+			"confirm": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_pastehere": {
+		"message": "Any link pasted here will be directly added"
+	},
+	"rewardlinks_linksadded": {
+		"message": "Rewards links added: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_nolinksadded": {
+		"message": "No reward links were added."
+	},
+	"rewardlinks_linksupdated": {
+		"message": "Rewards links updated: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_stats": {
+		"message": "Reward links: $TOTAL$, To be collected: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_allcollected": {
+		"message": "All reward links collected."
+	},
+	"rewardlinks_nexttime": {
+		"message": "Next collection starts on $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_countremaining": {
+		"message": "Remaining links to collect: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_collectanyway": {
+		"message": "Would you like to open this link anyway?"
+	},
+	"rewardlinks_infocollected": {
+		"message": "This link has already been collected."
+	},
+	"rewardlinks_infoexpired": {
+		"message": "This link has expired.\nLinks are only valid for $NUM$ days.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_infonoself": {
+		"message": "This link is yours: self rewards are not valid."
+	},
+	"rewardlinks_infobroken": {
+		"message": "This link is broken or not working."
+	},
+	"rewardlinks_infomaxreached": {
+		"message": "This link has been collected while the max daily limit was reached.\nLinks collected in this way are lost forever."
+	},
+	"rewardlinks_infomayexceedlimit": {
+		"message": "There are other rewards whose collection is pending.\nThis may exceed your daily limit."
+	},
+	"rewardlinks_infoprobablyexpired": {
+		"message": "This link is probably expired.\nLinks id are generated sequentially and this reward id is lower than the id of an expired reward."
+	},
+	"rewardlinks_removelinks": {
+		"message": "Remove old links"
+	},
+	"rewardlinks_removeselected": {
+		"message": "Remove selected"
+	},
+	"rewardlinks_removelinksdays": {
+		"message": "Remove non-collectable reward links older than @DAYS@ days.\nThis includes expired links and links already collected.\nLinks older than $NUM$ days are removed periodically.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_removenone": {
+		"message": "No links to remove!"
+	},
+	"rewardlinks_removeconfirm": {
+		"message": "Links that will be removed: $NUM$\nRemoved links can no longer be added.\n\nProceed with the removal?",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_rewardinfo": {
+		"message": "This reward was added on $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_reset": {
+		"message": "Reset"
+	},
+	"rewardlinks_resetcount": {
+		"message": "You can reset the \"Next collection\" information and proceed with this link anyway."
+	},
+	"rewardlinks_resetexpired": {
+		"message": "You can reset the \"Probably expired\" information and proceed with this link anyway."
+	},
+	"rewardlinks_convert": {
+		"message": "Convert link"
+	},
+	"rewardlinks_noconversion": {
+		"message": "No conversion"
+	},
+	"rewardlinks_shortenlinks": {
+		"message": "Shorten/Convert links"
+	},
+	"rewardlinks_shortenlinks_info1": {
+		"message": "Paste here the links to shorten/convert."
+	},
+	"rewardlinks_shortenlinks_info2": {
+		"message": "Shortened links are shown below (duplicates are removed)."
+	},
+	"rewardlinks_prefix": {
+		"message": "Prefix"
+	},
+	"rewardlinks_newline": {
+		"message": "Add newline?"
+	},
+	"rewardlinks_addspace": {
+		"message": "Add space"
+	},
+	"rewardlinks_summaryinfo": {
+		"message": "All rewards collected within $NUM$ hours of the most recent reward.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"export_export": {
+		"message": "Export"
+	},
+	"export_import": {
+		"message": "Import"
+	},
+	"export_exportdata": {
+		"message": "Export data"
+	},
+	"export_exportinventory": {
+		"message": "Export inventory"
+	},
+	"export_importdata": {
+		"message": "Import data"
+	},
+	"export_invalidexportdata": {
+		"message": "File is not a valid DAF export data for the current player!"
+	},
+	"export_invalidexport": {
+		"message": "File is not a valid export data!"
+	},
+	"export_importsuccess": {
+		"message": "Data has been imported succesfully!"
+	},
+	"export_debugdata": {
+		"message": "Export diagnostics data"
+	},
+	"rings_showminmax": {
+		"message": "Show minimum and maximum values"
+	},
+	"rings_showxp": {
+		"message": "Show XP"
+	},
+	"rings_playerlevel": {
+		"message": "Specify player's level"
+	},
+	"rings_stats": {
+		"message": "You have $NUM$ $NAME$ in your backpack.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"name": {
+				"content": "$2"
+			}
+		}
+	},
+	"rings_notdependent": {
+		"message": "Not dependent on player's level"
+	},
+	"rings_averageperring": {
+		"message": "Average XP per ring"
+	},
+	"rings_rings": {
+		"message": "Rings"
+	},
+	"equipment_sellout": {
+		"message": "Selling all unused items will net you $TOTAL$ coins (equipment = $EQUIP$ coins, decorations = $DECO$ coins)",
+		"placeholders": {
+			"total": {
+				"content": "$1"
+			},
+			"equip": {
+				"content": "$2"
+			},
+			"deco": {
+				"content": "$3"
+			}
+		}
+	},
+	"equipment_notonsale": {
+		"message": "Not on sale anymore"
+	},
+	"equipment_quantities": {
+		"message": "Quantities"
+	},
+	"equipment_owned": {
+		"message": "Owned"
+	},
+	"equipment_inshop": {
+		"message": "In shop"
+	},
+	"equipment_from": {
+		"message": "From"
+	},
+	"equipment_affordable": {
+		"message": "Affordable"
+	},
+	"equipment_useful": {
+		"message": "Useful"
+	},
+	"equipment_gain": {
+		"message": "Gain"
+	},
+	"equipment_gain_info": {
+		"message": "Gain is based on the minimum slot value in your camp"
+	},
+	"equipment_free": {
+		"message": "FREE"
+	},
+	"equipment_hidemax": {
+		"message": "Hide maxed"
+	},
+	"equipment_price_info": {
+		"message": "The price shown here is not for this equipment,\nbut for the pack/offer that included this equipment."
+	},
+	"equipment_level_none": {
+		"message": "Does not matter"
+	},
+	"equipment_level_eq": {
+		"message": "Exactly"
+	},
+	"equipment_level_le": {
+		"message": "At most"
+	},
+	"equipment_level_ge": {
+		"message": "At least"
+	},
+	"equipment_level_your": {
+		"message": "your level"
+	},
+	"equipment_level_this": {
+		"message": "this level"
+	},
+	"equipment_include_material": {
+		"message": "Include these materials"
+	},
+	"equipment_exclude_material": {
+		"message": "Exclude these materials"
+	},
+	"equipment_current": {
+		"message": "Current"
+	},
+	"equipment_pfdisclaimer": {
+		"message": "Please note that if you purchased a special pack in your game for this price in the past, it is not possible to purchase any next pack for this price.\nIn this case, the lowest price level available is approximately 5.5 USD."
+	},
+	"equipment_slotslower": {
+		"message": "Slots with less power than this"
+	},
+	"events_year": {
+		"message": "Year"
+	},
+	"events_end": {
+		"message": "End"
+	},
+	"events_quests": {
+		"message": "Quests"
+	},
+	"events_achievements": {
+		"message": "Achievements"
+	},
+	"events_pieces": {
+		"message": "Treasure's pieces"
+	},
+	"events_locations": {
+		"message": "Locations"
+	},
+	"events_materials": {
+		"message": "Special\nmaterials"
+	},
+	"events_completed": {
+		"message": "Completed"
+	},
+	"events_total": {
+		"message": "Total"
+	},
+	"events_medal": {
+		"message": "Medal"
+	},
+	"events_story_maps": {
+		"message": "Story maps"
+	},
+	"events_challenges": {
+		"message": "Challenges"
+	},
+	"events_repeatables": {
+		"message": "Repeatables"
+	},
+	"events_active": {
+		"message": "Active"
+	},
+	"events_rerelease": {
+		"message": "Bought/Gifted"
+	},
+	"events_complete": {
+		"message": "Complete"
+	},
+	"events_incomplete": {
+		"message": "Incomplete"
+	},
+	"events_notdone": {
+		"message": "Not done"
+	},
+	"events_segmented": {
+		"message": "Segmented"
+	},
+	"events_yourprogress": {
+		"message": "Your progress"
+	},
+	"events_rewards": {
+		"message": "Rewards"
+	},
+	"events_finalreward": {
+		"message": "Final Reward"
+	},
+	"events_notsegmented": {
+		"message": "Not segmented"
+	},
+	"events_tiles": {
+		"message": "Tiles"
+	},
+	"events_chance": {
+		"message": "Chance"
+	},
+	"events_clearbonus": {
+		"message": "Clear bonus"
+	},
+	"events_gemstones": {
+		"message": "Gemstones"
+	},
+	"events_tutorial": {
+		"message": "Tutorial Event"
+	},
+	"repeat_name": {
+		"message": "Name"
+	},
+	"repeat_region_event": {
+		"message": "Region / Event"
+	},
+	"repeat_cooldown": {
+		"message": "Cooldown"
+	},
+	"repeat_cooldown_time": {
+		"message": "Time"
+	},
+	"repeat_cooldown_gems": {
+		"message": "Gems"
+	},
+	"repeat_reset": {
+		"message": "Reset"
+	},
+	"repeat_bonus": {
+		"message": "Completion bonus"
+	},
+	"repeat_progress": {
+		"message": "Progress"
+	},
+	"repeat_progress_current": {
+		"message": "Tiles mined"
+	},
+	"repeat_progress_total": {
+		"message": "Total tiles"
+	},
+	"repeat_time": {
+		"message": "Time when the mine will be ready again"
+	},
+	"repeat_show_all": {
+		"message": "All repeatables"
+	},
+	"repeat_show_selected": {
+		"message": "Selected repeatables only"
+	},
+	"repeat_ready": {
+		"message": "READY"
+	},
+	"repeat_show_ready": {
+		"message": "Ready?"
+	},
+	"repeat_postcard": {
+		"message": "Postcard week ready?"
+	},
+	"dailyreward_stats": {
+		"message": "The daily reward is based on your current level ($LEVEL$) and region ($REGION$).",
+		"placeholders": {
+			"level": {
+				"content": "$1"
+			},
+			"region": {
+				"content": "$2"
+			}
+		}
+	},
+	"dailyreward_lastcollect": {
+		"message": "Collected on $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"dailyreward_formula": {
+		"message": "Formula"
+	},
+	"specialweek_end": {
+		"message": "ends on $FINISH$",
+		"placeholders": {
+			"finish": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_debris_discount": {
+		"message": "Grid Unlock discount week $PERCENT$%",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_production": {
+		"message": "Double production week"
+	},
+	"specialweek_half_prod_time": {
+		"message": "Half time production week"
+	},
+	"specialweek_double_drop": {
+		"message": "Double material week"
+	},
+	"specialweek_gifts": {
+		"message": "Double gifting week"
+	},
+	"specialweek_postcards": {
+		"message": "Postcard week"
+	},
+	"specialweek_material_seller": {
+		"message": "Merchant for old materials"
+	},
+	"specialweek_free_premium_event": {
+		"message": "Redeem event \"$NAME$\" for free",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_mystery_box": {
+		"message": "Mystery box"
+	},
+	"specialweek_find_the_pair": {
+		"message": "Find the Pair"
+	},
+	"options_section_ingame": {
+		"message": "In-Game options"
+	},
+	"options_injectgame": {
+		"message": "Enable DAF\nEnable DAF in-game.\nIf not enabled, the following options have no effect"
+	},
+	"options_fullwindow": {
+		"message": "Full window\nDisplay game in full window"
+	},
+	"options_fullwindowheader": {
+		"message": "Header\nDisplay the page header when in full window"
+	},
+	"options_fullwindowside": {
+		"message": "Side\nHide the sidebar (Facebook) when not in full window"
+	},
+	"options_fullwindowlock": {
+		"message": "Lock full window\nPrevents the game from exiting full window."
+	},
+	"options_resetfullwindow": {
+		"message": "Reset on load\nEvery time you load the game, \"Full window\" and \"Full window - Side\" are reset"
+	},
+	"options_resetfullwindow_warning": {
+		"message": "This option should be enabled if you experience problems loading the game."
+	},
+	"options_fullwindowtimeout": {
+		"message": "Auto full window\nAutomatically set full window when data has been loaded (DAF2 turns green)"
+	},
+	"options_fullwindowtimeout_seconds": {
+		"message": "Yes, after $NUM$ seconds",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"options_gctable": {
+		"message": "GC table\nShow all neighbours with GC beneath the game"
+	},
+	"options_gctablecounter": {
+		"message": "Counter\nShow a counter"
+	},
+	"options_gctableregion": {
+		"message": "Region\nUse colors to mark a neighbour's region"
+	},
+	"options_autoclick": {
+		"message": "Autoclick\nAutomatically confirm Facebook's popups"
+	},
+	"options_nogcpopup": {
+		"message": "No GC popups\nNo popups when collecting GC"
+	},
+	"options_autogc": {
+		"message": "Auto GC switch camp\nAutomatically switch camp after collecting GC"
+	},
+	"options_section_general": {
+		"message": "General options"
+	},
+	"options_autologin": {
+		"message": "Portal auto-login\nAutomatically logins in Portal"
+	},
+	"options_darktheme": {
+		"message": "Dark theme"
+	},
+	"options_shrinkmenu": {
+		"message": "Menu width\nReduce the width of the left vertical menu"
+	},
+	"options_shrinkmenu_0": {
+		"message": "When page's width is small"
+	},
+	"options_shrinkmenu_1": {
+		"message": "Always use a compact menu"
+	},
+	"options_shrinkmenu_2": {
+		"message": "Always use an expanded menu"
+	},
+	"options_disablealtguard": {
+		"message": "Reset on alternate account\nIf you set this option, loading an alternate account will overwrite your current DAF2 data."
+	},
+	"options_disablealtguard_warning": {
+		"message": "BEWARE: enable this option at your own risk!"
+	},
+	"options_section_rewardlinks": {
+		"message": "Reward Links"
+	},
+	"options_rewardsclose": {
+		"message": "Auto-close\nAuto-close the page after the reward has been collected."
+	},
+	"options_rewardscloseexceptgems": {
+		"message": "Except gems\nDo not auto-close when gem found."
+	},
+	"options_rewardscloseexcepterrors": {
+		"message": "Except errors\nDo not auto-close when error found."
+	},
+	"options_rewardssummary": {
+		"message": "Add summary table\nIf the page is not auto-closed, add a summary table at the bottom."
+	},
+	"options_linkgrabenabled": {
+		"message": "Link Grabber\nEnable the Link Grabber inside Facebook.\nIf not enabled, the following options have no effect."
+	},
+	"options_linkgrabbutton": {
+		"message": "Mouse button\nChoose the mouse button that triggers the Link Grabber"
+	},
+	"options_linkgrabkey": {
+		"message": "Optional key\nChoose an optional key to press in addition to the mouse button"
+	},
+	"options_linkgrabsort": {
+		"message": "Sort links"
+	},
+	"options_linkgrabconvert": {
+		"message": "Convert links"
+	},
+	"options_modifier_none": {
+		"message": "None"
+	},
+	"options_modifier_shift": {
+		"message": "Shift"
+	},
+	"options_modifier_ctrl": {
+		"message": "Ctrl"
+	},
+	"options_modifier_alt": {
+		"message": "Alt"
+	},
+	"options_button_left": {
+		"message": "Left"
+	},
+	"options_button_middle": {
+		"message": "Middle"
+	},
+	"options_button_right": {
+		"message": "Right"
+	},
+	"options_sort_none": {
+		"message": "None"
+	},
+	"options_sort_ascending": {
+		"message": "Ascending"
+	},
+	"options_sort_descending": {
+		"message": "Descending"
+	},
+	"options_language": {
+		"message": "Language\nChoose the language to use"
+	},
+	"options_locale": {
+		"message": "Localization\nUsed for formatting numbers, dates and lists"
+	},
+	"options_locale_browser": {
+		"message": "Use browser's setting"
+	},
+	"options_gamelanguage": {
+		"message": "Game Language\nLanguage for game's messages"
+	},
+	"options_section_badges": {
+		"message": "Badges"
+	},
+	"options_badgeserverenergy": {
+		"message": "Server energy\nShow a badge with the energy reported by the server.\nThis information is refreshed periodically when the game state is synchronized to the server."
+	},
+	"options_badgegccounter": {
+		"message": "GC Counter\nShow a badge with the remaining number of GC to collect"
+	},
+	"options_badgegcenergy": {
+		"message": "GC Energy\nShow a badge with the energy from a neighbour's GC"
+	},
+	"options_badgerepeatables": {
+		"message": "Repeatables\nShow a badge when any selected repeatable is ready"
+	},
+	"options_badgeluckycards": {
+		"message": "Lucky Cards\nShow a badge when the Lucky Cards tent is ready"
+	},
+	"options_badgeproductions": {
+		"message": "Productions\nShow a badge when a production slot is ready or empty"
+	},
+	"options_badgetimeoffset": {
+		"message": "Time offset\nThe badge will be shown in advance by this amount of seconds."
+	},
+	"options_badgesound": {
+		"message": "Sound Effect\nThe sound effect to play when the badge is displayed."
+	},
+	"options_badgevolume": {
+		"message": "Volume\nThe volume of the sound effect."
+	},
+	"options_badgewindmills": {
+		"message": "Windmills\nShow a badge when a neighbour's camp needs windmills"
+	},
+	"calc_operators": {
+		"message": "Operators"
+	},
+	"calc_arithmetic": {
+		"message": "Arithmetic"
+	},
+	"calc_comparison": {
+		"message": "Comparison"
+	},
+	"calc_logical": {
+		"message": "Logical"
+	},
+	"calc_functions": {
+		"message": "Functions"
+	},
+	"calc_variables": {
+		"message": "Variables"
+	},
+	"calc_examples": {
+		"message": "Examples"
+	},
+	"calc_error_1": {
+		"message": "Syntax error"
+	},
+	"calc_error_2": {
+		"message": "Function needs parentheses"
+	},
+	"calc_error_3": {
+		"message": "Missing closing parenthesis"
+	},
+	"calc_error_4": {
+		"message": "Too many closing parentheses"
+	},
+	"linkgrabber_selected": {
+		"message": "Links: $UNIQUE$ / $TOTAL$",
+		"placeholders": {
+			"unique": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_fn_copy": {
+		"message": "Copy to clipboard"
+	},
+	"linkgrabber_fn_send": {
+		"message": "Send to DAF"
+	},
+	"linkgrabber_fn_cancel": {
+		"message": "Cancel"
+	},
+	"linkgrabber_fn_refresh": {
+		"message": "Refresh links"
+	},
+	"linkgrabber_fn_showid": {
+		"message": "Show Reward Id"
+	},
+	"linkgrabber_fn_autosend": {
+		"message": "Auto-send"
+	},
+	"linkgrabber_added": {
+		"message": "Rewards links added: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_copied": {
+		"message": "Links copied to clipboard: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	}
 }

@@ -1,259 +1,259 @@
 .tab_neighbors img.avatar {
-  width: 50px;
-  height: 50px;
-  object-fit: scale-down;
+	width: 50px;
+	height: 50px;
+	object-fit: scale-down;
 }
 
 .neighbors tr td {
-  text-align: center;
+	text-align: center;
 }
 
 .neighbors tr td:nth-child(2) {
-  text-align: left;
-  padding-top: 0px;
-  padding-bottom: 0px;
+	text-align: left;
+	padding-top: 0px;
+	padding-bottom: 0px;
 }
 
 .neighbors tr[lazy-render] td:nth-child(1) {
-  background: no-repeat url(/img/gui/anon.gif) 5px 5px;
+	background: no-repeat url(/img/gui/anon.gif) 5px 5px;
 }
 
 .neighbors tr td:nth-child(1) {
-  min-height: 61px;
+	min-height: 61px;
 }
 
 .neighbors tr th[rowspan='2']:nth-child(1) {
-  min-width: 61px;
+	min-width: 61px;
 }
 
 .neighbors tr th[rowspan='2']:nth-child(2) {
-  min-width: 180px;
-  max-width: 300px;
+	min-width: 180px;
+	max-width: 300px;
 }
 
 .neighbors td.has-gifts {
-  cursor: zoom-in;
+	cursor: zoom-in;
 }
 
 .neighbors tr.show-gifts td.has-gifts {
-  cursor: zoom-out;
-  color: var(--success-fgcol);
-  background-color: var(--success-bgcol);
+	cursor: zoom-out;
+	color: var(--success-fgcol);
+	background-color: var(--success-bgcol);
 }
 
 .neighbors td.has-gifts:hover {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
+	background-color: var(--tb-hlcol);
+	color: var(--tb-hlfgcol);
 }
 
 .neighbors .giftrow td {
-  padding: 0;
-  background-color: var(--th-bgcol);
-  color: var(--th-fgcol);
+	padding: 0;
+	background-color: var(--th-bgcol);
+	color: var(--th-fgcol);
 }
 
 .neighbors .giftlist {
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
 }
 
 .neighbors .giftlist div {
-  display: inline-block;
-  width: 58px;
-  text-align: center;
-  overflow: hidden;
+	display: inline-block;
+	width: 58px;
+	text-align: center;
+	overflow: hidden;
 }
 
 .neighbors .giftlist img {
-  width: 50px;
-  height: 50px;
+	width: 50px;
+	height: 50px;
 }
 
 .neighbors .giftlist b {
-  display: block;
-  text-align: right;
-  height: 16px;
-  margin-top: -16px;
-  padding-right: 8px;
+	display: block;
+	text-align: right;
+	height: 16px;
+	margin-top: -16px;
+	padding-right: 8px;
 }
 
 .neighbors .giftlist i {
-  display: block;
-  text-align: left;
-  margin-top: -48px;
-  height: 48px;
-  padding-left: 4px;
-  color: #ff0;
-  font-style: normal;
+	display: block;
+	text-align: left;
+	margin-top: -48px;
+	height: 48px;
+	padding-left: 4px;
+	color: #ff0;
+	font-style: normal;
 }
 
 .neighbors .giftlist i,
 .neighbors .giftlist b,
 .neighbors .giftlist img {
-  filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color))
-    drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
+	filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color))
+		drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
 }
 
 .neighbors .giftRow div {
-  font-size: 11px;
+	font-size: 11px;
 }
 
 .tab_neighbors .neighbors div.extra span + span {
-  margin-left: 4px;
+	margin-left: 4px;
 }
 
 .neighbors span.id {
-  display: none;
-  font-weight: bold;
-  background-color: #448;
-  color: #fff;
-  padding: 0 2px;
-  border-radius: 4px;
-  font-size: 12px;
+	display: none;
+	font-weight: bold;
+	background-color: #448;
+	color: #fff;
+	padding: 0 2px;
+	border-radius: 4px;
+	font-size: 12px;
 }
 
 .tab_neighbors.show-id span.id {
-  display: inline-block;
+	display: inline-block;
 }
 
 .neighbors .friend {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-  vertical-align: middle;
+	width: 16px;
+	height: 16px;
+	margin-right: 4px;
+	vertical-align: middle;
 }
 
 .neighbors .friendname {
-  font-style: oblique;
-  opacity: 0.8;
+	font-style: oblique;
+	opacity: 0.8;
 }
 
 .neighbors .camp_blocks {
-  display: inline-block;
-  width: 30;
-  height: 30;
-  text-align: center;
-  background-color: red;
-  border-radius: 16px;
-  padding-top: 7px;
-  color: white;
-  font-size: 12pt;
-  font-weight: bold;
+	display: inline-block;
+	width: 30;
+	height: 30;
+	text-align: center;
+	background-color: red;
+	border-radius: 16px;
+	padding-top: 7px;
+	color: white;
+	font-size: 12pt;
+	font-weight: bold;
 }
 
 .neighbors-advanced-table td {
-  padding: 1px;
-  text-align: center;
-  max-width: 400px;
+	padding: 1px;
+	text-align: center;
+	max-width: 400px;
 }
 
 .neighbors-advanced-table td:nth-child(2) {
-  padding-left: 14px;
-  padding-right: 6px;
+	padding-left: 14px;
+	padding-right: 6px;
 }
 
 .neighbors-advanced-table textarea {
-  margin-top: 6px;
-  width: 100% !important;
+	margin-top: 6px;
+	width: 100% !important;
 }
 
 .neighbors-advanced-table .expression-error {
-  margin-top: 6px;
-  color: #fd9;
-  height: 2.2em;
-  white-space: nowrap;
+	margin-top: 6px;
+	color: #fd9;
+	height: 2.2em;
+	white-space: nowrap;
 }
 
 .neighbors-advanced-table .expression-error .culprit {
-  background-color: red;
-  color: white;
-  padding: 0px 2px 2px;
+	background-color: red;
+	color: white;
+	padding: 0px 2px 2px;
 }
 
 .neighbors-advanced-table .expression-help {
-  width: 100%;
-  margin-top: 6px;
+	width: 100%;
+	margin-top: 6px;
 }
 
 .neighbors-advanced-table .expression-help td {
-  width: 33%;
-  padding: 2px;
-  border: 1px solid #fff;
-  font-size: smaller;
+	width: 33%;
+	padding: 2px;
+	border: 1px solid #fff;
+	font-size: smaller;
 }
 
 .neighbors-advanced-table .expression-help th {
-  color: #333;
-  background-color: #99e;
-  border: 1px solid #fff;
-  font-size: smaller;
-  padding: 1px;
+	color: #333;
+	background-color: #99e;
+	border: 1px solid #fff;
+	font-size: smaller;
+	padding: 1px;
 }
 
 .neighbors-advanced-table .expression-item {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  flex-direction: row;
-  align-items: center;
+	display: flex;
+	width: 100%;
+	overflow: hidden;
+	flex-direction: row;
+	align-items: center;
 }
 
 .neighbors-advanced-table .expression-item * {
-  margin: 0 2px;
+	margin: 0 2px;
 }
 
 .neighbors-advanced-table .expression-item span {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .neighbors-advanced-table .activated {
-  background-color: var(--tt-button-hlcol);
-  color: var(--tt-button-fgcol);
-  border-radius: 4px;
+	background-color: var(--tt-button-hlcol);
+	color: var(--tt-button-fgcol);
+	border-radius: 4px;
 }
 
 .neighbors-advanced-table span[title]:hover {
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
-  cursor: help;
+	background-color: var(--tb-hlcol);
+	color: var(--tb-hlfgcol);
+	cursor: help;
 }
 
 .neighbors_summary {
-  margin-top: 4px;
+	margin-top: 4px;
 }
 
 .neighbors_summary td.gift {
-  text-align: center;
-  padding: 2px 8px 6px;
+	text-align: center;
+	padding: 2px 8px 6px;
 }
 
 .neighbors_summary span.qty {
-  font-size: 22px;
-  font-weight: bold;
+	font-size: 22px;
+	font-weight: bold;
 }
 
 .neighbors_summary span.xp {
-  font-size: 12px;
-  background-color: var(--tb-hlcol);
-  color: var(--tb-hlfgcol);
-  border-radius: 4px;
-  padding: 1px 4px;
+	font-size: 12px;
+	background-color: var(--tb-hlcol);
+	color: var(--tb-hlfgcol);
+	border-radius: 4px;
+	padding: 1px 4px;
 }
 
 .neighbors_summary div.img {
-  width: 50px;
-  height: 50px;
-  padding-top: 25px;
-  margin: auto;
+	width: 50px;
+	height: 50px;
+	padding-top: 25px;
+	margin: auto;
 }
 
 .neighbors_summary img {
-  max-width: 48px;
-  max-height: 48px;
-  transform: translateY(-50%);
+	max-width: 48px;
+	max-height: 48px;
+	transform: translateY(-50%);
 }
 
 .tab_neighbors.show-team .toolbar .gift-stats,
@@ -262,65 +262,65 @@
 .tab_neighbors:not(.show-team) .neighbors .team-score,
 .tab_neighbors:not(.show-team) .neighbors .team-name,
 .tab_neighbors:not(.show-team) .neighbors .team-badge {
-  display: none;
+	display: none;
 }
 
 .neighbors .team-img {
-  margin-right: 4px;
+	margin-right: 4px;
 }
 
 .neighbors .team-img.team-no-pal {
-  margin-right: 54px;
+	margin-right: 54px;
 }
 
 .neighbors .team-name,
 .neighbors .team-badge {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .neighbors .team-badge {
-  background-color: #f00;
-  border-radius: 4px;
-  color: white;
-  font-size: 11px;
-  padding: 0 2px;
+	background-color: #f00;
+	border-radius: 4px;
+	color: white;
+	font-size: 11px;
+	padding: 0 2px;
 }
 
 .tab_neighbors .team-info {
-  padding: 2px 8px 2px 4px;
-  display: inline-block;
-  border: 1px solid #0006;
-  backdrop-filter: brightness(0.7);
-  border-radius: 10px;
+	padding: 2px 8px 2px 4px;
+	display: inline-block;
+	border: 1px solid #0006;
+	backdrop-filter: brightness(0.7);
+	border-radius: 10px;
 }
 
 .tab_neighbors .team-info table {
-  border: 0;
+	border: 0;
 }
 
 .tab_neighbors .team-info table tr {
-  background-color: transparent;
+	background-color: transparent;
 }
 
 .tab_neighbors .team-info table td {
-  padding: 0;
-  border: 0;
-  background-color: transparent;
-  color: var(--tt-fgcol);
-  font-size: 16px;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+	color: var(--tt-fgcol);
+	font-size: 16px;
 }
 
 .tab_neighbors .team-info img.team-logo {
-  margin-right: 6px;
+	margin-right: 6px;
 }
 .tab_neighbors .team-info .team-name {
-  font-weight: bold;
-  padding-right: 16px;
+	font-weight: bold;
+	padding-right: 16px;
 }
 .tab_neighbors .team-info .team-score {
-  text-align: right;
+	text-align: right;
 }
 .tab_neighbors .team-info .team-desc {
-  display: inline-block;
-  max-width: 400px;
+	display: inline-block;
+	max-width: 400px;
 }

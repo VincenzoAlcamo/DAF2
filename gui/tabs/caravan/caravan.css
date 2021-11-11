@@ -3,13 +3,13 @@
 .caravan tr td:nth-child(4),
 .caravan tr td:nth-child(5),
 .caravan tr td:nth-child(12) {
-  text-align: center;
+	text-align: center;
 }
 
 .caravan tr td:nth-child(2),
 .caravan tr td:nth-child(8),
 .caravan tr.ingredient td:nth-child(2) {
-  text-align: left;
+	text-align: left;
 }
 
 .caravan tr td:nth-child(6),
@@ -21,17 +21,17 @@
 .caravan tr td:nth-child(14),
 .caravan tr.ingredient td:nth-child(1),
 .caravan tr.ingredient td:nth-child(3) {
-  text-align: right;
+	text-align: right;
 }
 
-.caravan tr.odd+tr:not(.odd) td,
-.caravan tr:not(.odd)+tr.odd td {
-  border-top-width: 2px;
+.caravan tr.odd + tr:not(.odd) td,
+.caravan tr:not(.odd) + tr.odd td {
+	border-top-width: 2px;
 }
 
 .caravan.dpw tr td:nth-child(6),
 .caravan.dpw tr td:nth-child(10),
 .caravan.dpw tr td:nth-child(11),
 .caravan tr td:nth-child(14) {
-  background-color: rgba(255, 255, 0, 0.1);
+	background-color: rgba(255, 255, 0, 0.1);
 }

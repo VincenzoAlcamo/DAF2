@@ -6,12 +6,12 @@
 .kitchen tr td:nth-child(7),
 .kitchen tr td:nth-child(8),
 .kitchen tr td:nth-child(14) {
-  text-align: center;
+	text-align: center;
 }
 
 .kitchen tr td:nth-child(2),
 .kitchen tr.ingredient td:nth-child(2) {
-  text-align: left;
+	text-align: left;
 }
 
 .kitchen tr td:nth-child(9),
@@ -20,16 +20,16 @@
 .kitchen tr td:nth-child(13),
 .kitchen tr.ingredient td:nth-child(1),
 .kitchen tr.ingredient td:nth-child(3) {
-  text-align: right;
+	text-align: right;
 }
 
-.kitchen tr.odd+tr:not(.odd) td,
-.kitchen tr:not(.odd)+tr.odd td {
-  border-top-width: 2px;
+.kitchen tr.odd + tr:not(.odd) td,
+.kitchen tr:not(.odd) + tr.odd td {
+	border-top-width: 2px;
 }
 
 .kitchen.dpw tr td:nth-child(8),
 .kitchen.dpw tr td:nth-child(12),
 .kitchen.dpw tr td:nth-child(13) {
-  background-color: rgba(255, 255, 0, 0.1);
+	background-color: rgba(255, 255, 0, 0.1);
 }

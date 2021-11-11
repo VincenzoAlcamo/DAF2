@@ -1,57 +1,93 @@
 <div class="toolbar">
-    <label>
-        <span data-i18n-text="gui_show"></span>
-        <select name="show">
-            <option value="" data-i18n-text="gui_all"></option>
-            <option value="possible" data-i18n-text="gui_only_possible"></option>
-        </select>
-        <select name="from">
-            <option value="" data-i18n-text="gui_from_any"></option>
-            <option value="region" data-i18n-text="gui_from_regions"></option>
-            <option value="event" data-i18n-text="gui_from_events"></option>
-        </select>
-    </label>
-    <label data-i18n-title="specialweek_production">
-        <span>DPW</span>
-        <select name="dpw">
-            <option value=""></option>
-            <option value="yes" data-i18n-text="dialog_yes"></option>
-            <option value="no" data-i18n-text="dialog_no"></option>
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_search"></span>
-        <input name="search" type="text" maxlength="40">
-    </label>
-    <div class="stats"></div>
-    <div class="weeks"></div>
+	<label>
+		<span data-i18n-text="gui_show"></span>
+		<select name="show">
+			<option value="" data-i18n-text="gui_all"></option>
+			<option value="possible" data-i18n-text="gui_only_possible"></option>
+		</select>
+		<select name="from">
+			<option value="" data-i18n-text="gui_from_any"></option>
+			<option value="region" data-i18n-text="gui_from_regions"></option>
+			<option value="event" data-i18n-text="gui_from_events"></option>
+		</select>
+	</label>
+	<label data-i18n-title="specialweek_production">
+		<span>DPW</span>
+		<select name="dpw">
+			<option value=""></option>
+			<option value="yes" data-i18n-text="dialog_yes"></option>
+			<option value="no" data-i18n-text="dialog_no"></option>
+		</select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_search"></span>
+		<input name="search" type="text" maxlength="40" data-debounce />
+	</label>
+	<div class="stats"></div>
+	<div class="weeks"></div>
 </div>
 <div class="scrollable-content no-overflow">
-    <table class="kitchen production data">
-        <thead>
-            <tr>
-                <th rowspan="2" class="only-image"><img class="wiki" data-wiki-page="Kitchen" data-i18n-title="tab_kitchen+gui_clickwiki" src="/img/gui/kitchen.png"></th>
-                <th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_name"></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="region"><img data-i18n-title="gui_region_required" src="/img/gui/map.png" /></th>
-                <th rowspan="2" class=""><img data-i18n-title="gui_event" src="/img/gui/events.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="time"><img data-i18n-title="production_time" src="/img/gui/time.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="energy"><img data-i18n-title="gui_energy" src="/img/gui/energy.png" /></th>
-                <th rowspan="2" class="sortable" data-sort-name="energy_per_hour" data-i18n-text="production_energy_hour"></th>
-                <th colspan="3" data-i18n-text="gui_ingredients"></th>
-                <th rowspan="2" class="sortable" data-sort-name="output" data-i18n-text="production_possible"></th>
-                <th rowspan="2" class="sortable" data-sort-name="total_energy" data-i18n-text="production_possible_energy"></th>
-                <th rowspan="2" class="sortable" data-sort-name="total_time" data-i18n-text="production_total_time"></th>
-            </tr>
-            <tr>
-                <th class="sortable-sub only-image" data-sort-name="required"><img class="small" data-i18n-title="gui_qty_required" src="/img/gui/loot.png" /></th>
-                <th class="sortable-sub" data-sort-name="ingredient" data-i18n-text="gui_material"></th>
-                <th class="sortable-sub only-image" data-sort-name="available"><img class="small" data-i18n-title="gui_backpack" src="/img/gui/backpack.png" /></th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-            <tr><td colspan="14" class="totals"></td></tr>
-        </tfoot>
-    </table>
+	<table class="kitchen production data">
+		<thead>
+			<tr>
+				<th rowspan="2" class="only-image">
+					<img
+						class="wiki"
+						data-wiki-page="Kitchen"
+						data-i18n-title="tab_kitchen+gui_clickwiki"
+						src="/img/gui/kitchen.png"
+					/>
+				</th>
+				<th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_name"></th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="region">
+					<img data-i18n-title="gui_region_required" src="/img/gui/map.png" />
+				</th>
+				<th rowspan="2" class=""><img data-i18n-title="gui_event" src="/img/gui/events.png" /></th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="level">
+					<img data-i18n-title="gui_level_required" src="/img/gui/level.png" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="time">
+					<img data-i18n-title="production_time" src="/img/gui/time.png" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="energy">
+					<img data-i18n-title="gui_energy" src="/img/gui/energy.png" />
+				</th>
+				<th
+					rowspan="2"
+					class="sortable"
+					data-sort-name="energy_per_hour"
+					data-i18n-text="production_energy_hour"
+				></th>
+				<th colspan="3" data-i18n-text="gui_ingredients"></th>
+				<th rowspan="2" class="sortable" data-sort-name="output" data-i18n-text="production_possible"></th>
+				<th
+					rowspan="2"
+					class="sortable"
+					data-sort-name="total_energy"
+					data-i18n-text="production_possible_energy"
+				></th>
+				<th
+					rowspan="2"
+					class="sortable"
+					data-sort-name="total_time"
+					data-i18n-text="production_total_time"
+				></th>
+			</tr>
+			<tr>
+				<th class="sortable-sub only-image" data-sort-name="required">
+					<img class="small" data-i18n-title="gui_qty_required" src="/img/gui/loot.png" />
+				</th>
+				<th class="sortable-sub" data-sort-name="ingredient" data-i18n-text="gui_material"></th>
+				<th class="sortable-sub only-image" data-sort-name="available">
+					<img class="small" data-i18n-title="gui_backpack" src="/img/gui/backpack.png" />
+				</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+		<tfoot>
+			<tr>
+				<td colspan="14" class="totals"></td>
+			</tr>
+		</tfoot>
+	</table>
 </div>

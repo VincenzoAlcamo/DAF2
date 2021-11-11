@@ -1,2272 +1,2272 @@
 {
-    "ext_name": {
-        "message": "DA Friends 2"
-    },
-    "ext_title": {
-        "message": "Вспомогательный инструмент для Diggy's Adventure"
-    },
-    "menu_resetfullwindow": {
-        "message": "Сброс при загрузке"
-    },
-    "menu_fullwindow": {
-        "message": "Игра в полноэкранном режиме"
-    },
-    "menu_fullwindowheader": {
-        "message": "Шапка"
-    },
-    "menu_fullwindowside": {
-        "message": "Боковая панель"
-    },
-    "menu_fullwindowlock": {
-        "message": "Зафиксировать"
-    },
-    "menu_gctable": {
-        "message": "Показать таблицу ДБ"
-    },
-    "menu_gctablecounter": {
-        "message": "Счетчик"
-    },
-    "menu_gctableregion": {
-        "message": "Регион"
-    },
-    "menu_gccollected": {
-        "message": "Все Дети Богов собраны"
-    },
-    "menu_autoclick": {
-        "message": "Автоклик в выскакивающих окнах Facebook"
-    },
-    "menu_nogcpopup": {
-        "message": "Отключить всплывающие окна при сборе детей богов"
-    },
-    "menu_reloadgame": {
-        "message": "Перезагрузить игру и обновить данные"
-    },
-    "menu_switchportal": {
-        "message": "Играть на портале"
-    },
-    "menu_switchfacebook": {
-        "message": "Играть на Facebook"
-    },
-    "menu_on": {
-        "message": "ВКЛ"
-    },
-    "menu_off": {
-        "message": "ВЫКЛ"
-    },
-    "gui_timeparts": {
-        "message": "д,ч,м,с"
-    },
-    "gui_card_clicker": {
-        "message": "Свернуть/развернуть секцию"
-    },
-    "gui_show": {
-        "message": "Показать"
-    },
-    "gui_all": {
-        "message": "Все"
-    },
-    "gui_only_possible": {
-        "message": "Только возможные"
-    },
-    "gui_search": {
-        "message": "Поиск"
-    },
-    "gui_filter": {
-        "message": "Фильтр"
-    },
-    "gui_name": {
-        "message": "Название"
-    },
-    "gui_region_required": {
-        "message": "Необходимый\nрегион"
-    },
-    "gui_theme_required": {
-        "message": "Необходимый\nрегион/тема"
-    },
-    "gui_level_required": {
-        "message": "Необходимый\nуровень"
-    },
-    "gui_qty": {
-        "message": "Кол-во"
-    },
-    "gui_qty_required": {
-        "message": "Необходимое\nколичество"
-    },
-    "gui_energy": {
-        "message": "Энергия"
-    },
-    "gui_estimatedenergy": {
-        "message": "Оставшая энергия"
-    },
-    "gui_food": {
-        "message": "Еда"
-    },
-    "gui_coins": {
-        "message": "Монет"
-    },
-    "gui_backpack": {
-        "message": "В инвентаре"
-    },
-    "gui_clickwiki": {
-        "message": "Нажмите, чтобы открыть Wiki страницу."
-    },
-    "gui_from_any": {
-        "message": "Из региона или события"
-    },
-    "gui_from_regions": {
-        "message": "Из региона"
-    },
-    "gui_from_events": {
-        "message": "Из события"
-    },
-    "gui_ingredients": {
-        "message": "Ингридиенты"
-    },
-    "gui_event": {
-        "message": "Событие"
-    },
-    "gui_specialweek": {
-        "message": "Специальная неделя"
-    },
-    "gui_region": {
-        "message": "Регион"
-    },
-    "gui_theme": {
-        "message": "Тема"
-    },
-    "gui_year": {
-        "message": "Год"
-    },
-    "gui_quest": {
-        "message": "Квест"
-    },
-    "gui_offer": {
-        "message": "Спецпредложение"
-    },
-    "gui_tieredoffer": {
-        "message": "Комплексное предложение"
-    },
-    "gui_pack": {
-        "message": "Спецпакет"
-    },
-    "gui_equipment": {
-        "message": "Оборудование"
-    },
-    "gui_shop": {
-        "message": "Магазин"
-    },
-    "gui_decoration": {
-        "message": "Декорации"
-    },
-    "gui_usable": {
-        "message": "Используемые"
-    },
-    "gui_token": {
-        "message": "Кольца"
-    },
-    "gui_level": {
-        "message": "Уровень"
-    },
-    "gui_xp": {
-        "message": "Опыт"
-    },
-    "gui_sell_price": {
-        "message": "Цена продажи"
-    },
-    "gui_neighbour": {
-        "message": "Сосед"
-    },
-    "gui_friend": {
-        "message": "Друг"
-    },
-    "gui_firstrecorded": {
-        "message": "Первая\nзапись"
-    },
-    "gui_lastrecorded": {
-        "message": "Последняя\nзапись"
-    },
-    "gui_loadingresources": {
-        "message": "Загрузка ресурсов ($NUM$/$TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "gui_screenshot_shot": {
-        "message": "Нажмите, чтобы сделать скриншот этого раздела.\nСкриншот появится справа.\nПримечание: на скриншот попадет только видимая часть страницы!\nНеобходимо нажать на значок расширения DAF2 для активации этой функции."
-    },
-    "gui_screenshot_target": {
-        "message": "Нажмите для загрузки скриншота.\nМожно нажать правой кнопкой мыши и выбрать \"Копировать изображение\" для копирования в буфер обмена."
-    },
-    "gui_screenshot_error": {
-        "message": "Невозможно сделать скриншот"
-    },
-    "gui_screenshot_errorinfo": {
-        "message": "Сначала необходимо нажать иконку @DAF2@ в меню Chrome.\nЭто активирует функцию скриншота. Она станет активной до закрытия страницы.\n\nПожалуйста, нажмите на иконку @DAF2@, после повторите попытку сделать скриншот."
-    },
-    "gui_infodated": {
-        "message": "Информация актуальна и действительна только по состоянию на '$VALID$'",
-        "placeholders": {
-            "valid": {
-                "content": "$1"
-            }
-        }
-    },
-    "gui_nonote": {
-        "message": "Нет заметок"
-    },
-    "gui_minimum": {
-        "message": "Минимум"
-    },
-    "gui_maximum": {
-        "message": "Максимум"
-    },
-    "gui_average": {
-        "message": "Среднее"
-    },
-    "gui_loot": {
-        "message": "Добыча"
-    },
-    "gui_datafrompf": {
-        "message": "Данные, полученные из файлов игры Pixel Federation"
-    },
-    "gui_gift": {
-        "message": "Подарок"
-    },
-    "gui_gifts": {
-        "message": "Подарки"
-    },
-    "gui_day": {
-        "message": "День"
-    },
-    "gui_placed": {
-        "message": "Размещено"
-    },
-    "gui_owned": {
-        "message": "Имеется"
-    },
-    "gui_limit": {
-        "message": "Лимит"
-    },
-    "gui_type": {
-        "message": "Тип"
-    },
-    "gui_width": {
-        "message": "Ширина"
-    },
-    "gui_height": {
-        "message": "Высота"
-    },
-    "gui_value": {
-        "message": "Ценность"
-    },
-    "gui_slot_value": {
-        "message": "Ценность на ячейку"
-    },
-    "gui_cost": {
-        "message": "Стоимость"
-    },
-    "gui_items_found": {
-        "message": "Найдено"
-    },
-    "gui_reset": {
-        "message": "Сброс"
-    },
-    "gui_material": {
-        "message": "Материал"
-    },
-    "gui_filter_clear": {
-        "message": "Отчистить"
-    },
-    "gui_filter_invert": {
-        "message": "Инвертировать"
-    },
-    "gui_advancedfilter": {
-        "message": "Расширенный фильтр"
-    },
-    "gui_location": {
-        "message": "Локация"
-    },
-    "gui_locked": {
-        "message": "Заблокировано"
-    },
-    "gui_noresults": {
-        "message": "Нет результатов"
-    },
-    "gui_toomanyresults": {
-        "message": "Слишком много результатов"
-    },
-    "gui_id": {
-        "message": "ID"
-    },
-    "gui_date": {
-        "message": "Дата"
-    },
-    "gui_ctrlclick": {
-        "message": "Ctrl+клик чтобы выбрать/снять все"
-    },
-    "gui_summary": {
-        "message": "Итого"
-    },
-    "dialog_ok": {
-        "message": "Ок"
-    },
-    "dialog_yes": {
-        "message": "Да"
-    },
-    "dialog_no": {
-        "message": "Нет"
-    },
-    "dialog_confirm": {
-        "message": "Подвердить"
-    },
-    "dialog_cancel": {
-        "message": "Отмена"
-    },
-    "dialog_close": {
-        "message": "Закрыть"
-    },
-    "dialog_pleasewait": {
-        "message": "Пожалуйста, ожидайте"
-    },
-    "tab_game": {
-        "message": "Перейти в игру"
-    },
-    "tab_about": {
-        "message": "О расширении"
-    },
-    "tab_progress": {
-        "message": "Прогресс"
-    },
-    "tab_camp": {
-        "message": "Лагерь"
-    },
-    "tab_map": {
-        "message": "Карта"
-    },
-    "tab_caravan": {
-        "message": "Караван"
-    },
-    "tab_kitchen": {
-        "message": "Кухня"
-    },
-    "tab_foundry": {
-        "message": "Литейная"
-    },
-    "tab_pillars": {
-        "message": "Колонны"
-    },
-    "tab_neighbors": {
-        "message": "Соседи"
-    },
-    "tab_friendship": {
-        "message": "Друзья"
-    },
-    "tab_godchild": {
-        "message": "Дети богов"
-    },
-    "tab_locations": {
-        "message": "Локаций"
-    },
-    "tab_greenrings": {
-        "message": "Зелёные кольца"
-    },
-    "tab_redrings": {
-        "message": "Красные кольца"
-    },
-    "tab_christmasrings": {
-        "message": "Рождественские кольца"
-    },
-    "tab_rewardlinks": {
-        "message": "Наградные ссылки"
-    },
-    "tab_options": {
-        "message": "Опции"
-    },
-    "tab_help": {
-        "message": "Помощь"
-    },
-    "tab_export": {
-        "message": "Импорт / Экспорт"
-    },
-    "tab_equipment": {
-        "message": "Оборудование / Магазин"
-    },
-    "tab_events": {
-        "message": "События"
-    },
-    "tab_repeat": {
-        "message": "Повторяющиеся"
-    },
-    "tab_dailyreward": {
-        "message": "Ежедневная награда"
-    },
-    "about_version": {
-        "message": "Версия: $VERSION$",
-        "placeholders": {
-            "version": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_data": {
-        "message": "Дата последней загрузки данных: $TIME$\nСайт игры: $SITE$ ($PLATFORM$)\nID игрока: $USERID$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            },
-            "userid": {
-                "content": "$2"
-            },
-            "site": {
-                "content": "$3"
-            },
-            "platform": {
-                "content": "$4"
-            }
-        }
-    },
-    "about_visit": {
-        "message": "Посетить официальную группу Facebook"
-    },
-    "about_nodata": {
-        "message": "Данные игры еще не загружены, загрузите или обновите окно игры"
-    },
-    "about_disclaimer": {
-        "message": "DA Friends — расширение, созданное фанатами игры. Расширение не подтверждено и не поддерживается Pixel Federation, авторами игры «Diggy's Adventure».\nВы используете DA Friends на свой страх и риск. Расширение предоставляется без каких-либо гарантий, ни явных, ни подразумеваемых в отношении функциональности или удобства использования.\nАвтор не несет ответственности за любой ущерб или убытки, вызванные его использованием.\nИспользуя это расширение, вы соглашаетесь с этими условиями."
-    },
-    "about_translators": {
-        "message": "Переводчики"
-    },
-    "about_alternate": {
-        "message": "Загружена альтернативная учетная запись ($ID$).",
-        "placeholders": {
-            "id": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_reset": {
-        "message": "Данные предыдущей учетной записи были сохранены.\nДля сброса данных и использования другой учетной записи, нажмите @RESET@."
-    },
-    "about_reset_ask_title": {
-        "message": "Сбросить аккаунт"
-    },
-    "about_reset_ask_text": {
-        "message": "Вы хотите сбросить данные,\nчтобы использовать другую учетную запись?"
-    },
-    "about_reset_ok_title": {
-        "message": "Данные были сброшены"
-    },
-    "about_reset_ok_text": {
-        "message": "Пожалуйста, перезагрузите Приключения Дигги с желаемым аккаунтом."
-    },
-    "production_total_time": {
-        "message": "Всего времени\n(Слотов: $NUM$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "production_time": {
-        "message": "Время пути корована"
-    },
-    "production_possible": {
-        "message": "Можно купить"
-    },
-    "production_possible_energy": {
-        "message": "Возможная\nэнергия"
-    },
-    "production_energy_hour": {
-        "message": "Энергии\nв час"
-    },
-    "production_qty": {
-        "message": "Произведено"
-    },
-    "production_uplift": {
-        "message": "Прирост (Опыт/час)"
-    },
-    "production_uplift_info": {
-        "message": "Прирост опыта от одного каравана в час,\nиз расчета опыта полученного от колонн."
-    },
-    "production_req_ticket": {
-        "message": "Требует билет?"
-    },
-    "kitchen_food_in_backpack": {
-        "message": "из еды в инвентаре"
-    },
-    "camp_your_camp": {
-        "message": "Ваш лагерь"
-    },
-    "camp_player_name": {
-        "message": "Лагерь $PLAYER$ на $DATE$",
-        "placeholders": {
-            "player": {
-                "content": "$1"
-            },
-            "date": {
-                "content": "$2"
-            }
-        }
-    },
-    "camp_no_player": {
-        "message": "Лагерь еще не посещён"
-    },
-    "camp_player": {
-        "message": "Игрок"
-    },
-    "camp_total": {
-        "message": "Итого"
-    },
-    "camp_fill_time": {
-        "message": "Время восстановления"
-    },
-    "camp_fill_time_info": {
-        "message": "Время необходимое для полного восстановления энергии."
-    },
-    "camp_numofregenslots": {
-        "message": "Кол-во слотов регенерации"
-    },
-    "camp_canbeimproved": {
-        "message": "Лагерь можно улучшить"
-    },
-    "camp_showsetup": {
-        "message": "Нажмите здесь, чтобы показать лагерь в режиме настройки"
-    },
-    "camp_windmill_regen": {
-        "message": "Регенерация одной мельницей"
-    },
-    "camp_windmill_regen_total": {
-        "message": "Регенерация от размещенных мельниц"
-    },
-    "camp_windmill_num": {
-        "message": "Текущее число мельниц"
-    },
-    "camp_windmill_expiry": {
-        "message": "Мельницы исчезнут\n$TIME$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_empty": {
-        "message": "Количество пустых ячеек"
-    },
-    "camp_slot_blocked": {
-        "message": "Количество заблокированных ячеек"
-    },
-    "camp_regen": {
-        "message": "Регенерация"
-    },
-    "camp_capacity": {
-        "message": "Емкость"
-    },
-    "camp_windmills": {
-        "message": "Мельницы"
-    },
-    "camp_needs_windmills": {
-        "message": "Лагерю нужны мельницы"
-    },
-    "camp_avg_value": {
-        "message": "Среднее на ячейку"
-    },
-    "camp_min_value": {
-        "message": "Мин. ячейка"
-    },
-    "camp_max_value": {
-        "message": "Макс. ячейка"
-    },
-    "camp_num_slots": {
-        "message": "Количество ячеек"
-    },
-    "camp_unlock_materials": {
-        "message": "Материалы для открытия всех ячеек"
-    },
-    "camp_unlock_one": {
-        "message": "Разблокировка одной ячейки принесет $VALUE$ Опыта",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_unlock_cost": {
-        "message": "Одна ячейка может быть разблокирована за $VALUE$ самоцвета(-ов)\nили этими материалами:",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_start_date": {
-        "message": "Вы начали играть:\n$STARTED$",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_day_mode": {
-        "message": "Дневой режим"
-    },
-    "camp_night_mode": {
-        "message": "Ночной режим"
-    },
-    "camp_setup_mode": {
-        "message": "Режим настройки"
-    },
-    "camp_discounted": {
-        "message": "Со скидкой"
-    },
-    "camp_neighbor": {
-        "message": "Лагерь друга"
-    },
-    "camp_extra": {
-        "message": "Бонусы"
-    },
-    "camp_ftp_group": {
-        "message": "Группа $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_ftp_dot_info": {
-        "message": "Карты с красной точкой могут появиться при первых бесплатных подбрасываниях."
-    },
-    "camp_ftp_group_info": {
-        "message": "Вы сможете раскрыть карты из группы только после того, как будут раскрыты все карты из предыдущей группы."
-    },
-    "camp_ftp_cumulativegems": {
-        "message": "Итого самоцветов"
-    },
-    "camp_ads_limit": {
-        "message": "Лимит рекламы"
-    },
-    "camp_ads_limit_info": {
-        "message": "Это всего лишь счетчик, а не реальная возможность показа рекламы."
-    },
-    "camp_ads_limit_info2": {
-        "message": "Сторонний поставщик рекламы может применить другое ограничение, так как Pixel Federation не контролирует его."
-    },
-    "map_floor": {
-        "message": "Секция"
-    },
-    "map_floor_current": {
-        "message": "Текущая секция"
-    },
-    "map_floor_found": {
-        "message": "Кликните, чтобы просмотреть карту этой секции"
-    },
-    "map_floor_not_found": {
-        "message": "Эта секция еще не посещена"
-    },
-    "map_remaining_tiles": {
-        "message": "Осталось плиток"
-    },
-    "map_special": {
-        "message": "Особый материал"
-    },
-    "map_quest": {
-        "message": "Квест"
-    },
-    "map_this_floor": {
-        "message": "Эта секция"
-    },
-    "map_all_floors": {
-        "message": "Все секции"
-    },
-    "map_warning": {
-        "message": "Сначала зайдите в игру и посетите любую локацию"
-    },
-    "map_button_d": {
-        "message": "Показать Дигги"
-    },
-    "map_button_t": {
-        "message": "Показать телепорты"
-    },
-    "map_button_e": {
-        "message": "Показать триггеры"
-    },
-    "map_button_c": {
-        "message": "Показать в цвете"
-    },
-    "map_button_g": {
-        "message": "Показать диагностическую информацию"
-    },
-    "map_button_l": {
-        "message": "Подсветить плитки"
-    },
-    "map_button_n": {
-        "message": "Подсветить плитки с особой добычей"
-    },
-    "map_button_v": {
-        "message": "Постоянная видимость плиток"
-    },
-    "map_button_o": {
-        "message": "Показать непрозрачные плитки"
-    },
-    "map_button_b": {
-        "message": "Показать наличие бонуса на плитке"
-    },
-    "map_button_k": {
-        "message": "Показать фон, скрыв все раскапываемые плитки\n"
-    },
-    "map_button_a": {
-        "message": "Показать все плитки"
-    },
-    "map_button_x": {
-        "message": "Показать входы и выходы"
-    },
-    "map_button_u": {
-        "message": "Показать исходную карту"
-    },
-    "map_button_f": {
-        "message": "Показать всю карту"
-    },
-    "map_button_s": {
-        "message": "Показать решение"
-    },
-    "map_button_m": {
-        "message": "Перемешать значимые плитки"
-    },
-    "map_save": {
-        "message": "Сохранить"
-    },
-    "map_save_tip": {
-        "message": "Сохранить как картинку"
-    },
-    "map_mine_exit": {
-        "message": "Выход из локации"
-    },
-    "map_goto_floor": {
-        "message": "Ведет к секции $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "map_goto_unknown": {
-        "message": "Ведет к другой, еще неизвестной, секции"
-    },
-    "map_teleport": {
-        "message": "Телепорт"
-    },
-    "map_hint": {
-        "message": "Подсказка"
-    },
-    "map_beacon": {
-        "message": "Триггер"
-    },
-    "map_active": {
-        "message": "активно"
-    },
-    "map_not_active": {
-        "message": "неактивно"
-    },
-    "map_tile": {
-        "message": "Плитка"
-    },
-    "map_npc": {
-        "message": "Неигровой персонаж (NPC)"
-    },
-    "map_says": {
-        "message": "Речь"
-    },
-    "map_godchild": {
-        "message": "Дети богов"
-    },
-    "map_unknown": {
-        "message": "Неизвестно"
-    },
-    "map_yellow": {
-        "message": "Желтый"
-    },
-    "map_red": {
-        "message": "Красный"
-    },
-    "map_blue": {
-        "message": "Синий"
-    },
-    "map_green": {
-        "message": "Зеленый"
-    },
-    "map_left": {
-        "message": "Влево"
-    },
-    "map_down": {
-        "message": "Вниз"
-    },
-    "map_right": {
-        "message": "Вправо"
-    },
-    "map_up": {
-        "message": "Вверх"
-    },
-    "map_require_draggable": {
-        "message": "Требуется перетащить"
-    },
-    "map_require_item": {
-        "message": "Требуется предмет"
-    },
-    "map_require_light": {
-        "message": "Требуется свет"
-    },
-    "map_emitter": {
-        "message": "Источник света"
-    },
-    "map_mirror": {
-        "message": "Зеркало"
-    },
-    "map_filter": {
-        "message": "Светофильтр"
-    },
-    "map_draggable": {
-        "message": "Перетаскиваемый"
-    },
-    "map_can_move": {
-        "message": "Можно перемещать"
-    },
-    "map_can_rotate": {
-        "message": "Можно поворачивать"
-    },
-    "map_fixed": {
-        "message": "Фиксированный"
-    },
-    "map_remove_confirmation": {
-        "message": "Действительно удалить эти локации?"
-    },
-    "map_option_c": {
-        "message": "Показывать координаты в подсказке"
-    },
-    "map_option_s": {
-        "message": "Показать выбор региона"
-    },
-    "map_option_i": {
-        "message": "Показать информацию о локации"
-    },
-    "map_option_r": {
-        "message": "Показать повторяемые"
-    },
-    "map_option_t": {
-        "message": "Добавить название карты"
-    },
-    "map_option_b": {
-        "message": "Удалить пустые строки/столбцы"
-    },
-    "map_option_m": {
-        "message": "Поля вокруг изображения"
-    },
-    "map_option_l": {
-        "message": "Добавить водянной знак"
-    },
-    "map_option_resize": {
-        "message": "Масштаб сохраняемого изображения"
-    },
-    "map_export_location": {
-        "message": "Экспорт всех секций в файл"
-    },
-    "map_export_floor": {
-        "message": "Экспорт текущей секций в файл"
-    },
-    "map_import": {
-        "message": "Импорт ранее экспортированного файла"
-    },
-    "map_downloadfolder": {
-        "message": "Папка загрузки"
-    },
-    "map_positionrandom": {
-        "message": "Случайное расположение"
-    },
-    "map_default": {
-        "message": "Сбросить настройку"
-    },
-    "pillars_all": {
-        "message": "Все колонны"
-    },
-    "pillars_only_possible": {
-        "message": "Только возможные колонны"
-    },
-    "pillars_perc_next": {
-        "message": "Собрано\n%"
-    },
-    "pillars_possible": {
-        "message": "Можно купить"
-    },
-    "pillars_totals": {
-        "message": "Итого"
-    },
-    "pillars_current_level": {
-        "message": "Ваш текущий уровень"
-    },
-    "pillars_predicted": {
-        "message": "Расчётное значение"
-    },
-    "pillars_predicted_level": {
-        "message": "Расчётный уровень"
-    },
-    "pillars_predicted_gain": {
-        "message": "Расчётный прирост от повышения уровня"
-    },
-    "pillars_ignore": {
-        "message": "Нажмите, чтобы учитывать/неучитывать при расчёте"
-    },
-    "pillars_altclick": {
-        "message": "Alt+клик чтобы установить/обнулить количество"
-    },
-    "pillars_maxpossible": {
-        "message": "Сейчас возможно купить"
-    },
-    "pillars_grid": {
-        "message": "Показать в сетке"
-    },
-    "pillars_cap": {
-        "message": "Ограничиться возможным количеством"
-    },
-    "neighbors_lastlevelup": {
-        "message": "Последнее\nповышение уровня"
-    },
-    "neighbors_lastgiftreceived": {
-        "message": "Впоследний раз\nподарок был получен"
-    },
-    "neighbors_yourlastvisit": {
-        "message": "Ваш последний визит"
-    },
-    "neighbors_all": {
-        "message": "Все"
-    },
-    "neighbors_nogift": {
-        "message": "Не дарил подарки в течение $NUM$ дня(-ей)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "neighbors_gifts": {
-        "message": "Учитывать подарки в течение @DAYS@ дней(-я)"
-    },
-    "neighbors_listed": {
-        "message": "Лучшие друзья"
-    },
-    "neighbors_blocks": {
-        "message": "Количество заблокированных ячеек"
-    },
-    "neighbors_inlist": {
-        "message": "В лучших друзьях"
-    },
-    "neighbors_notinlist": {
-        "message": "Не в лучших друзьях"
-    },
-    "neighbors_withblocks": {
-        "message": "С заблокированными ячейками"
-    },
-    "neighbors_unknownblocks": {
-        "message": "Состояние ячеек неизвестно"
-    },
-    "neighbors_withexpiredwindmills": {
-        "message": "С исчезнувшими мельницами"
-    },
-    "neighbors_found": {
-        "message": "Соседей найдено: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_giftcount": {
-        "message": "Количество подарков"
-    },
-    "neighbors_giftvalue": {
-        "message": "Ценность подарка (Опыт)"
-    },
-    "neighbors_efficiency": {
-        "message": "Эффективность (Подарки / Дни)"
-    },
-    "neighbors_wmtime": {
-        "message": "Дата исчезновения мельниц"
-    },
-    "neighbors_giftinfo": {
-        "message": "Дата подарка фиксируется, когда расширение впервые зарегистрировало этот подарок, а не когда он был отправлен."
-    },
-    "neighbors_gifttip": {
-        "message": "$NAME$\nОпыт: $XP$\nДень: $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_gift": {
-        "message": "$NAME$ ($XP$ Опыт) в $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_advancedfilterinfo": {
-        "message": "Вы можете дополнительно отфильтровать своих соседей по подаркам, которые они отправили за последние @DAYS@ дня(-ей), выбрав один или несколько подарков из списка."
-    },
-    "neighbors_clearfilter": {
-        "message": "Сбросить фильтр"
-    },
-    "neighbors_gift_tooltip": {
-        "message": "Подарки получены, пока DAF2 был активен."
-    },
-    "neighbors_sortby": {
-        "message": "Сортировать по"
-    },
-    "neighbors_totxpstats": {
-        "message": "Подарков за $DAYS$ дня(-ей): $COUNT$ = $TOTAL$ Опыта ($AVERAGE$ Опыт/День)",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            },
-            "days": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            },
-            "average": {
-                "content": "$4"
-            }
-        }
-    },
-    "neighbors_avgxpstats": {
-        "message": "Средняя ценность подарка = $XP$ Опыта ($AVERAGE$ Опыта от соседа в день)",
-        "placeholders": {
-            "xp": {
-                "content": "$1"
-            },
-            "average": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_expression": {
-        "message": "Укажите выражение для фильтрации:"
-    },
-    "friendship_collectfriends": {
-        "message": "Собрать друзей"
-    },
-    "friendship_score": {
-        "message": "Точность"
-    },
-    "friendship_scoretooltip": {
-        "message": "Точность соответствия:\n100 = Соответствуют Facebook Id\n99 = Соответствие установлено вручную\n95 = Соответствуют аватарки\n90 = Соответствуют ФИО\n80 = Соответствуют имя и фамилия\n70 = Соответствуют имя и фамилия (поменяны местами)\n60 = Соответствуют китайские иероглифы"
-    },
-    "friendship_action": {
-        "message": "Действие"
-    },
-    "friendship_actionignore": {
-        "message": "Этот друг отмечен на сопоставление с соседом\nНажмите, чтобы игнорировать этого друга при сопоставлении с соседями"
-    },
-    "friendship_actionregard": {
-        "message": "Этот друг не участвует в сопоставлении с соседями\nНажмите, чтобы отметить этого друга к сопоставлению с соседями"
-    },
-    "friendship_actionunlink": {
-        "message": "Нажмите, чтобы удалить сопоставление"
-    },
-    "friendship_actionmanual": {
-        "message": "Нажмите, чтобы вручную сопоставить этого соседа с другом"
-    },
-    "friendship_actionmatch": {
-        "message": "Нажмите, чтобы связать этого друга с выбранным соседом"
-    },
-    "friendship_actiondelete": {
-        "message": "Нажмите, чтобы навсегда удалить этого друга"
-    },
-    "friendship_matchplayertitle": {
-        "message": "Нажмите здесь для отмены сопоставления"
-    },
-    "friendship_accountdisabled": {
-        "message": "Аккаунт заблокирован"
-    },
-    "friendship_disabledaccountsdetected": {
-        "message": "Обнаружены заблокированные аккаунты."
-    },
-    "friendship_unmatchedaccountsdetected": {
-        "message": "Обнаружены заблокированные и/или несопоставленные аккаунты."
-    },
-    "friendship_unfriendinfo": {
-        "message": "Вы можете удалить их из друзей на этой странице.\n\nИмейте в виду, что аккаунты Facebook могут быть заблокированы временно и могут быть разблокированы позже."
-    },
-    "friendship_partial": {
-        "message": "Частичный"
-    },
-    "friendship_confirmcollect": {
-        "message": "ДА = подтвердить друзей и заменить существующих\nЧАСТИЧНО = добавить друзей и оставить существующих\nНЕТ = попробовать собрать больше друзей\n\nВы можете закрыть это окно в любой момент для отмены операции."
-    },
-    "friendship_speedupcollect": {
-        "message": "Ускорить сбор?"
-    },
-    "friendship_filter_a": {
-        "message": "Друзей: $FRIENDS$, Соседей: $NEIGHBOURS$",
-        "placeholders": {
-            "friends": {
-                "content": "$1"
-            },
-            "neighbours": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_filter_d": {
-        "message": "Заблокированные аккаунты Facebook: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_m": {
-        "message": "Сопоставленных друзей и соседей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_g": {
-        "message": "Сопоставленных по аватарке друзей и соседей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_h": {
-        "message": "Сопоставленных вручную друзей и соседей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_i": {
-        "message": "Друзей не участвующих в сопоставлении: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_f": {
-        "message": "Несопоставленных друзей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_u": {
-        "message": "Не участвующих в сопоставлениии/или не сопоставленных друзей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_n": {
-        "message": "Несопоставленных соседей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_s": {
-        "message": "Несопоставленных друзей и соседей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectpreamble": {
-        "message": "Здесь вы можете собрать своих друзей с Facebook и сопоставить их с вашими соседями."
-    },
-    "friendship_collectstandard": {
-        "message": "Стандартный"
-    },
-    "friendship_collectstandardinfo": {
-        "message": "Метод надежный, но медленный (может занять несколько минут)."
-    },
-    "friendship_collectunmatched": {
-        "message": "Несопоставленные"
-    },
-    "friendship_collectunmatchedinfo": {
-        "message": "Метод такой же, как и «Стандартный», но не собирает друзей.\nВместо этого он показывает всех несопоставленных друзей и вы сможете вручную удалить их из списка друзей."
-    },
-    "friendship_disabledinfo": {
-        "message": "Может обнаружить отключенные аккаунты."
-    },
-    "friendship_collectmatch": {
-        "message": "Сопоставление"
-    },
-    "friendship_collectmatchinfo": {
-        "message": "Это приведет к автоматическому сопоставлению ваших друзей и соседей.\nВаш список друзей не будет обновлен.\nДрузья не участвующие в сопоставлениии и друзья, с точностью больше 90, не сопоставляются.\nСопоставление по-прежнему будет выполняться в конце сбора друзей."
-    },
-    "friendship_matchbyimage": {
-        "message": "Сопоставлять по аватарке?"
-    },
-    "friendship_confirmwarning": {
-        "message": "Операция может занять несколько минут.\n\nПодтвердите, что хотите продолжить."
-    },
-    "friendship_confirmcollection": {
-        "message": "Подтвердить результат сбора?"
-    },
-    "friendship_cc_maybe": {
-        "message": "Если не точное сопоставление"
-    },
-    "friendship_confirmdelete": {
-        "message": "Эту операцию нельзя отменить.\nВам нужно будет собрать друзей заново, чтобы этот друг вернулся в список.\n\nПодтверждаете удаление?"
-    },
-    "friendship_collecterror": {
-        "message": "Что-то пошло не так."
-    },
-    "friendship_manualhelp": {
-        "message": "Пожалуйста, обновите страницу DAF2, перейдите на вкладку «$FRIENDSHIP$», нажмите «$COLLECT$» и выберите «$MATCH$»",
-        "placeholders": {
-            "friendship": {
-                "content": "$1"
-            },
-            "collect": {
-                "content": "$2"
-            },
-            "match": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_analyzingmatches": {
-        "message": "Анализ данных, $PERCENT$ % ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            },
-            "num": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_collectstat": {
-        "message": "Друзей собрано: $COUNT$",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_manualmatchhelp": {
-        "message": "Чтобы сопоставить этого соседа, вам нужно найти не сопоставленного друга и нажать в его строке на символ ⭐."
-    },
-    "friendship_friendupdateinfo": {
-        "message": "Список друзей обновлен $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_totalfriends": {
-        "message": "Друзей: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_totalneighbours": {
-        "message": "Соседей: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_timewarning": {
-        "message": "Похоже, вы давно не собирали друзей.\nНажмите кнопку «$COLLECT$» и выберите метод «$METHOD$».",
-        "placeholders": {
-            "collect": {
-                "content": "$1"
-            },
-            "method": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_info": {
-        "message": "$NUM$ Соседей = $GC$ Детей богов",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "gc": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_stat": {
-        "message": "Дети богов: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_next": {
-        "message": "Чтобы увеличить количество соседей с детьми богов, вам нужно добавить еще соседей: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "godchild_next0": {
-        "message": "Вы достигли максимально возможного количества соседей с детьми богов"
-    },
-    "godchild_next1": {
-        "message": "Чтобы увеличить количество соседей с детьми богов, вам нужно добавить еще одного соседа"
-    },
-    "progress_measure": {
-        "message": "Наименование"
-    },
-    "progress_attained": {
-        "message": "Выполнено"
-    },
-    "progress_goal": {
-        "message": "Цель"
-    },
-    "progress_remaining": {
-        "message": "Осталось"
-    },
-    "progress_progress": {
-        "message": "Прогресс"
-    },
-    "progress_achievements": {
-        "message": "Достижения"
-    },
-    "progress_treasures": {
-        "message": "Сокровища"
-    },
-    "progress_overall": {
-        "message": "Общий итог"
-    },
-    "progress_hidecompleted": {
-        "message": "Скрывать завершенные"
-    },
-    "progress_grouplocations": {
-        "message": "Группировать локации"
-    },
-    "progress_showdates": {
-        "message": "Даты локаций"
-    },
-    "progress_energyinfo": {
-        "message": "Показанная здесь энергия оценивается путем умножения количества оставшихся плиток на среднюю емкость плитки.\nСредняя емкость плитки зависит от бонуса за очистку локации и общего количества плиток."
-    },
-    "progress_averagetilecost": {
-        "message": "Средняя емкость плитки"
-    },
-    "progress_achievementnextstep": {
-        "message": "До следующего шага = $NEXT$",
-        "placeholders": {
-            "next": {
-                "content": "$1"
-            }
-        }
-    },
-    "progress_start": {
-        "message": "Начато"
-    },
-    "progress_end": {
-        "message": "Завершено"
-    },
-    "progress_duration": {
-        "message": "Время прохождения"
-    },
-    "progress_subtotal": {
-        "message": "Подитог"
-    },
-    "progress_grandtotal": {
-        "message": "Итог"
-    },
-    "progress_playtime": {
-        "message": "Вы начали играть $STARTED$ и играете на протяжении $DURATION$ (по $NOW$)",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            },
-            "duration": {
-                "content": "$2"
-            },
-            "now": {
-                "content": "$3"
-            }
-        }
-    },
-    "progress_levelrange": {
-        "message": "С $FROM$ на $TO$",
-        "placeholders": {
-            "from": {
-                "content": "$1"
-            },
-            "to": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_id": {
-        "message": "ID награды"
-    },
-    "rewardlinks_insertdate": {
-        "message": "Дата добавления"
-    },
-    "rewardlinks_collectdate": {
-        "message": "Дата сбора"
-    },
-    "rewardlinks_collectmaterial": {
-        "message": "Награда"
-    },
-    "rewardlinks_owner": {
-        "message": "Владелец"
-    },
-    "rewardlinks_expired": {
-        "message": "ССЫЛКА ПРОСРОЧЕНА"
-    },
-    "rewardlinks_collected": {
-        "message": "УЖЕ СОБРАНО"
-    },
-    "rewardlinks_maxreached": {
-        "message": "ДОСТИГНУТ ЕЖЕДНЕВНЫЙ ЛИМИТ"
-    },
-    "rewardlinks_noself": {
-        "message": "САМОНАГРАЖДЕНИЕ НЕВОЗМОЖНО"
-    },
-    "rewardlinks_broken": {
-        "message": "ССЫЛКА НЕКОРРЕКТНА"
-    },
-    "rewardlinks_probablyexpired": {
-        "message": "ВЕРОЯТНО ССЫЛКА ПРОСРОЧЕНА"
-    },
-    "rewardlinks_background": {
-        "message": "Фоном\nОткрывать наградные ссылки в фоновом режиме"
-    },
-    "rewardlinks_autoclick": {
-        "message": "Автоклик\nАвтоматически нажимать следующую выбранную награду после получения награды"
-    },
-    "rewardlinks_autoclick_end": {
-        "message": "Выбранные ссылки не могут быть нажаты.\nПросроченные или собранные ссылки всегда пропускаются."
-    },
-    "rewardlinks_addlinks": {
-        "message": "Добавить ссылки"
-    },
-    "rewardlinks_pasteadd": {
-        "message": "Вставьте сюда ссылки для добавления, затем нажмите кнопку «$CONFIRM$»",
-        "placeholders": {
-            "confirm": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_pastehere": {
-        "message": "Любая вставленная ссылка будет добавлена"
-    },
-    "rewardlinks_linksadded": {
-        "message": "Добавлено наградных ссылок: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_nolinksadded": {
-        "message": "Наградные ссылки не добавлены."
-    },
-    "rewardlinks_linksupdated": {
-        "message": "Обновлено наградных ссылок: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_stats": {
-        "message": "Наградных ссылок: $TOTAL$, Подлежащие сбору: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_allcollected": {
-        "message": "Все ссылки собраны."
-    },
-    "rewardlinks_nexttime": {
-        "message": "Следующий сбор возможен $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_countremaining": {
-        "message": "Оставшееся количество ссылок для сбора: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_collectanyway": {
-        "message": "Вы все равно хотите перейти по этой ссылке?"
-    },
-    "rewardlinks_infocollected": {
-        "message": "Эта ссылка уже собрана."
-    },
-    "rewardlinks_infoexpired": {
-        "message": "Срок действия ссылки истек.\nСсылки действительны в течение $NUM$ дня(-ей).",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_infonoself": {
-        "message": "Эта ваша ссылка: самостоятельные вознаграждения недействительны."
-    },
-    "rewardlinks_infobroken": {
-        "message": "Ссылка не корректна или не работает."
-    },
-    "rewardlinks_infomaxreached": {
-        "message": "Ссылка была получена, когда был достигнут ежедневный лимит.\nСобранные таким образом ссылки теряются навсегда."
-    },
-    "rewardlinks_infomayexceedlimit": {
-        "message": "Есть и другие награды, получение которых ожидается.\nЭто может превышать ваш ежедневный лимит."
-    },
-    "rewardlinks_infoprobablyexpired": {
-        "message": "Вероятно, срок действия этой ссылки истек.\nТак как ID ссылок генерируется последовательно, а этот ID награды меньше, чем ID просроченной награды."
-    },
-    "rewardlinks_removelinks": {
-        "message": "Удалить старые ссылки"
-    },
-    "rewardlinks_removeselected": {
-        "message": "Удалить выбранные"
-    },
-    "rewardlinks_removelinksdays": {
-        "message": "Удалить ссылки на несобираемые награды старше @DAYS@ дня(-ей).\nСюда входят ссылки с истекшим сроком действия и уже собранные ссылки.\nСсылки старше $NUM$ дней(-я) периодически удаляются.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_removenone": {
-        "message": "Нет ссылок для удаления!"
-    },
-    "rewardlinks_removeconfirm": {
-        "message": "Количество удаляемых ссылок: $NUM$\nУдаленные ссылки больше не могут быть добавлены.\n\nПродолжить удаление?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_rewardinfo": {
-        "message": "Эта награда была добавлена $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_reset": {
-        "message": "Отключить"
-    },
-    "rewardlinks_resetcount": {
-        "message": "Вы можете отключить предупреждение «Следующая коллекция» и в любом случае перейти по этой ссылке."
-    },
-    "rewardlinks_resetexpired": {
-        "message": "Вы можете отключить предупреждение «Вероятно ссылка просрочена» и в любом случае перейти по этой ссылке."
-    },
-    "rewardlinks_convert": {
-        "message": "Конвертированные ссылки"
-    },
-    "rewardlinks_noconversion": {
-        "message": "Не конвертированные"
-    },
-    "rewardlinks_shortenlinks": {
-        "message": "Сократить/Преобразовать ссылки"
-    },
-    "rewardlinks_shortenlinks_info1": {
-        "message": "Вставьте сюда ссылки для сокращения/преобразования."
-    },
-    "rewardlinks_shortenlinks_info2": {
-        "message": "Сокращенные ссылки ниже (дубликаты удалены)."
-    },
-    "rewardlinks_prefix": {
-        "message": "Префикс"
-    },
-    "rewardlinks_newline": {
-        "message": "Добавить новую строку?"
-    },
-    "rewardlinks_addspace": {
-        "message": "Добавить пробел"
-    },
-    "rewardlinks_summaryinfo": {
-        "message": "Все собраные награды в течение $NUM$ часов с момента получения самой последней награды.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "export_export": {
-        "message": "Экспорт"
-    },
-    "export_import": {
-        "message": "Импорт"
-    },
-    "export_exportdata": {
-        "message": "Экспорт данных"
-    },
-    "export_exportinventory": {
-        "message": "Экспорт инвентаря"
-    },
-    "export_importdata": {
-        "message": "Импорт данных"
-    },
-    "export_invalidexportdata": {
-        "message": "Файл не является файлом с данными DAF для текущего игрока!"
-    },
-    "export_invalidexport": {
-        "message": "Файл не содержит данные для экспорта!"
-    },
-    "export_importsuccess": {
-        "message": "Данные успешно импортированны!"
-    },
-    "export_debugdata": {
-        "message": "Экспорт диагностической информации"
-    },
-    "rings_showminmax": {
-        "message": "Показывать минимальные и максимальные значения"
-    },
-    "rings_showxp": {
-        "message": "Показывать опыт"
-    },
-    "rings_playerlevel": {
-        "message": "Рассчитать для игрока с уровнем"
-    },
-    "rings_stats": {
-        "message": "У вас в инвентаре $NUM$ $NAME$.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "name": {
-                "content": "$2"
-            }
-        }
-    },
-    "rings_notdependent": {
-        "message": "Не зависит от уровня игрока"
-    },
-    "rings_averageperring": {
-        "message": "Среднее количество опыта за кольцо"
-    },
-    "rings_rings": {
-        "message": "Кольца"
-    },
-    "equipment_sellout": {
-        "message": "Продажа всех неиспользованных предметов принесет вам $TOTAL$ монет (оборудование = $EQUIP$ монет, украшения = $DECO$ монет)",
-        "placeholders": {
-            "total": {
-                "content": "$1"
-            },
-            "equip": {
-                "content": "$2"
-            },
-            "deco": {
-                "content": "$3"
-            }
-        }
-    },
-    "equipment_notonsale": {
-        "message": "Больше не продается"
-    },
-    "equipment_quantities": {
-        "message": "Количество"
-    },
-    "equipment_owned": {
-        "message": "Во владении"
-    },
-    "equipment_inshop": {
-        "message": "В магазине"
-    },
-    "equipment_from": {
-        "message": "Из"
-    },
-    "equipment_affordable": {
-        "message": "Доступно"
-    },
-    "equipment_useful": {
-        "message": "Полезное"
-    },
-    "equipment_gain": {
-        "message": "Прирост"
-    },
-    "equipment_gain_info": {
-        "message": "Прирост относительно минимального значения ячейки в лагере"
-    },
-    "equipment_free": {
-        "message": "БЕСПЛАТНО"
-    },
-    "equipment_hidemax": {
-        "message": "Скрыть максимально скупленное оборудование"
-    },
-    "equipment_price_info": {
-        "message": "Цена указана не для этого оборудования,\nно для специального пакета/специального предложения, в которое входило это оборудование."
-    },
-    "equipment_level_none": {
-        "message": "Не важен"
-    },
-    "equipment_level_eq": {
-        "message": "Не больше, не меньше"
-    },
-    "equipment_level_le": {
-        "message": "Не больше"
-    },
-    "equipment_level_ge": {
-        "message": "Не меньше"
-    },
-    "equipment_level_your": {
-        "message": "вашего уровня"
-    },
-    "equipment_level_this": {
-        "message": "уровня"
-    },
-    "equipment_include_material": {
-        "message": "Включая эти материалы"
-    },
-    "equipment_exclude_material": {
-        "message": "Исключая эти материалы"
-    },
-    "equipment_current": {
-        "message": "Текущие"
-    },
-    "equipment_pfdisclaimer": {
-        "message": "Обратите внимание, что если вы ранее покупали специальный набор для игры по этой цене, то приобрести следующий набор по этой цене невозможно.\nВ таком случае самая низкая цена составляет примерно 5,5$."
-    },
-    "equipment_slotslower": {
-        "message": "Ячеек с меньшим значением, чем это"
-    },
-    "events_year": {
-        "message": "Год"
-    },
-    "events_end": {
-        "message": "Заканчивается"
-    },
-    "events_quests": {
-        "message": "Квест"
-    },
-    "events_achievements": {
-        "message": "Достижения"
-    },
-    "events_pieces": {
-        "message": "Части сокровища"
-    },
-    "events_locations": {
-        "message": "Локации"
-    },
-    "events_materials": {
-        "message": "Особые\nматериалы"
-    },
-    "events_completed": {
-        "message": "Завершено"
-    },
-    "events_total": {
-        "message": "Всего"
-    },
-    "events_medal": {
-        "message": "Медаль"
-    },
-    "events_story_maps": {
-        "message": "Сюжетные"
-    },
-    "events_challenges": {
-        "message": "Испытания"
-    },
-    "events_repeatables": {
-        "message": "Повторяющиеся"
-    },
-    "events_active": {
-        "message": "Активные"
-    },
-    "events_rerelease": {
-        "message": "Купленные/Подаренные"
-    },
-    "events_complete": {
-        "message": "Завершенные"
-    },
-    "events_incomplete": {
-        "message": "Незавершенные"
-    },
-    "events_notdone": {
-        "message": "Не выполненные"
-    },
-    "events_segmented": {
-        "message": "Разделено по регионам"
-    },
-    "events_yourprogress": {
-        "message": "Ваш регион"
-    },
-    "events_rewards": {
-        "message": "Награды"
-    },
-    "events_finalreward": {
-        "message": "Финальная награда"
-    },
-    "events_notsegmented": {
-        "message": "Не разделено по регионам"
-    },
-    "events_tiles": {
-        "message": "Плитки"
-    },
-    "events_chance": {
-        "message": "Шанс"
-    },
-    "events_clearbonus": {
-        "message": "Награда за очистку локации"
-    },
-    "events_gemstones": {
-        "message": "Драгоценные камни"
-    },
-    "events_tutorial": {
-        "message": "Учебное событие"
-    },
-    "repeat_name": {
-        "message": "Наименование"
-    },
-    "repeat_region_event": {
-        "message": "Регион / Событие"
-    },
-    "repeat_cooldown": {
-        "message": "Восстановление"
-    },
-    "repeat_cooldown_time": {
-        "message": "Время"
-    },
-    "repeat_cooldown_gems": {
-        "message": "Самоцветы"
-    },
-    "repeat_reset": {
-        "message": "Сброс"
-    },
-    "repeat_bonus": {
-        "message": "Награда за очистку локации"
-    },
-    "repeat_progress": {
-        "message": "Прогресс"
-    },
-    "repeat_progress_current": {
-        "message": "Плиток раскопано"
-    },
-    "repeat_progress_total": {
-        "message": "Всего плиток"
-    },
-    "repeat_time": {
-        "message": "Время, спустя которое локация будет снова готова"
-    },
-    "repeat_show_all": {
-        "message": "Все"
-    },
-    "repeat_show_selected": {
-        "message": "Только выбранные"
-    },
-    "repeat_ready": {
-        "message": "ГОТОВА"
-    },
-    "repeat_show_ready": {
-        "message": "Готова?"
-    },
-    "repeat_postcard": {
-        "message": "Неделя открыток готова?"
-    },
-    "dailyreward_stats": {
-        "message": "Ежедневная награда зависит от вашего текущего уровня ($LEVEL$) и региона ($REGION$).",
-        "placeholders": {
-            "level": {
-                "content": "$1"
-            },
-            "region": {
-                "content": "$2"
-            }
-        }
-    },
-    "dailyreward_lastcollect": {
-        "message": "Собрано $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "dailyreward_formula": {
-        "message": "Формула"
-    },
-    "specialweek_end": {
-        "message": "заканчивается $FINISH$",
-        "placeholders": {
-            "finish": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_debris_discount": {
-        "message": "Неделя $PERCENT$% скидки на раскопку лагеря",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_production": {
-        "message": "Неделя двойного производства"
-    },
-    "specialweek_half_prod_time": {
-        "message": "Двойная скорость производства"
-    },
-    "specialweek_double_drop": {
-        "message": "Неделя двойного материала"
-    },
-    "specialweek_gifts": {
-        "message": "Неделя двойных подарков"
-    },
-    "specialweek_postcards": {
-        "message": "Неделя открыток"
-    },
-    "specialweek_material_seller": {
-        "message": "Торговец старыми материалами"
-    },
-    "specialweek_free_premium_event": {
-        "message": "Активируйте бесплатное событие \"$NAME$\"",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_mystery_box": {
-        "message": "Таинственная коробка"
-    },
-    "specialweek_find_the_pair": {
-        "message": "Найди Пару"
-    },
-    "options_section_ingame": {
-        "message": "Параметры в игре"
-    },
-    "options_injectgame": {
-        "message": "Включить DAF\nВключите DAF в игре.\nЕсли не включить, то следующие параметры не действуют"
-    },
-    "options_fullwindow": {
-        "message": "Полноэкранный режим\nПоказать игру в полноэкранном режиме"
-    },
-    "options_fullwindowheader": {
-        "message": "Шапка\nОтображать шапку страницы в полноэкранном режиме"
-    },
-    "options_fullwindowside": {
-        "message": "Боковая сторона\nСкрыть боковую панель (Facebook), когда не в полноэкранном режиме"
-    },
-    "options_fullwindowlock": {
-        "message": "Фиксация полноэкранного режима\nПредотвращает выход игры из полноэкранного режима."
-    },
-    "options_resetfullwindow": {
-        "message": "Сброс при загрузке\nКаждый раз, когда вы загружаете игру, параметры «Полноэкранный режим» и «Полноэкранный режим - Боковая сторона» сбрасываются"
-    },
-    "options_resetfullwindow_warning": {
-        "message": "Эта опция должна быть включена, если у вас возникли проблемы с загрузкой игры."
-    },
-    "options_fullwindowtimeout": {
-        "message": "Автоматический полноэкранный режим\nАвтоматически активировать полноэкранный режим после загрузки данных (значёк DAF2 становится зеленым)"
-    },
-    "options_fullwindowtimeout_seconds": {
-        "message": "Да, через $NUM$ секунд",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "options_gctable": {
-        "message": "Таблица Детей Богов (ДБ)\nПоказывает внизу таблицу соседей с детьми богов"
-    },
-    "options_gctablecounter": {
-        "message": "Счетчик\nПоказывать счетчик"
-    },
-    "options_gctableregion": {
-        "message": "Регион\nВыделять цветом регион соседа"
-    },
-    "options_autoclick": {
-        "message": "Автоклик\nАвтоматически подтверждать всплывающие окна Facebook"
-    },
-    "options_nogcpopup": {
-        "message": "Без всплывающих окон\nОтключение всплывающих окон при сборе детей богов"
-    },
-    "options_autogc": {
-        "message": "Автосмена лагеря\nАвтоматически переключать лагерь после сбора детей богов"
-    },
-    "options_section_general": {
-        "message": "Общие настройки"
-    },
-    "options_autologin": {
-        "message": "Автовход на портал\nАвтоматический вход в портал"
-    },
-    "options_darktheme": {
-        "message": "Тёмная тема"
-    },
-    "options_shrinkmenu": {
-        "message": "Ширина меню\nУменьшить ширину вертикального меню слева"
-    },
-    "options_shrinkmenu_0": {
-        "message": "Когда окно узкое"
-    },
-    "options_shrinkmenu_1": {
-        "message": "Всегда свернуто"
-    },
-    "options_shrinkmenu_2": {
-        "message": "Всегда развернуто"
-    },
-    "options_disablealtguard": {
-        "message": "Сброс для альтернативного аккаунта\nЕсли вы установите этот параметр, загрузка альтернативной учетной записи перезапишет ваши текущие данные DAF2."
-    },
-    "options_disablealtguard_warning": {
-        "message": "ВНИМАНИЕ: включайте это на свой страх и риск!"
-    },
-    "options_section_rewardlinks": {
-        "message": "Наградные ссылки"
-    },
-    "options_rewardsclose": {
-        "message": "Автозакрытие\nАвтоматически закрывать страницу после получения награды."
-    },
-    "options_rewardscloseexceptgems": {
-        "message": "Кроме самоцветом\nНе закрывать автоматически при обнаружении самоцвета."
-    },
-    "options_rewardscloseexcepterrors": {
-        "message": "Кроме ошибок\nНе закрывать автоматически при обнаружении ошибки."
-    },
-    "options_rewardssummary": {
-        "message": "Добавить сводную таблицу\nЕсли страница не закрывается автоматически, добавить сводную таблицу внизу."
-    },
-    "options_linkgrabenabled": {
-        "message": "Сборщик Ссылок\nВключите сборщик ссылок в Facebook.\nЕсли не включен, следующие параметры не действуют."
-    },
-    "options_linkgrabbutton": {
-        "message": "Кнопка мыши\nВыберите кнопку мыши, которая запускает Сборщик Ссылок"
-    },
-    "options_linkgrabkey": {
-        "message": "Дополнительная клавиша\nВыберите дополнительную клавишу для нажатия в сочетании с кнопкой мыши"
-    },
-    "options_linkgrabsort": {
-        "message": "Сортировать ссылки"
-    },
-    "options_linkgrabconvert": {
-        "message": "Конвертировать ссылки"
-    },
-    "options_modifier_none": {
-        "message": "Нет"
-    },
-    "options_modifier_shift": {
-        "message": "Shift"
-    },
-    "options_modifier_ctrl": {
-        "message": "Ctrl"
-    },
-    "options_modifier_alt": {
-        "message": "Alt"
-    },
-    "options_button_left": {
-        "message": "Левая"
-    },
-    "options_button_middle": {
-        "message": "Средняя"
-    },
-    "options_button_right": {
-        "message": "Правая"
-    },
-    "options_sort_none": {
-        "message": "Нет"
-    },
-    "options_sort_ascending": {
-        "message": "По возрастанию"
-    },
-    "options_sort_descending": {
-        "message": "По убыванию"
-    },
-    "options_language": {
-        "message": "Язык\nВыберите язык для интерфейса DAF2"
-    },
-    "options_locale": {
-        "message": "Локализация\nИспользуется для форматирования чисел, дат и списков"
-    },
-    "options_locale_browser": {
-        "message": "Использовать настройки браузера"
-    },
-    "options_gamelanguage": {
-        "message": "Язык игры\nВыберите язык на котором играете. На этом языке в DAF2 будет отображаться информация об объектах игры (локации, предметы и т.п)."
-    },
-    "options_section_badges": {
-        "message": "Значки"
-    },
-    "options_badgeserverenergy": {
-        "message": "Энергия сервера\nОтображать значок с указанием энергии, сообщенной сервером.\nЭта информация периодически обновляется, когда состояние игры синхронизируется с сервером."
-    },
-    "options_badgegccounter": {
-        "message": "Счетчик ДБ\nОтображать значок с оставшимся количеством Детей Богов для сбора"
-    },
-    "options_badgegcenergy": {
-        "message": "Энергия ДБ\nОтображать значок полученной энергией от сбора Детей Богов у соседа"
-    },
-    "options_badgerepeatables": {
-        "message": "Повторяющиеся\nОтображать значки выбранных и готовых повторяющихся локаций"
-    },
-    "options_badgeluckycards": {
-        "message": "Карты удачи\nОтображать значек, когда карты удачи готовы"
-    },
-    "options_badgeproductions": {
-        "message": "Производство\nОтображать значки, когда слот каравана/литейной/кухни готов или пуст"
-    },
-    "options_badgetimeoffset": {
-        "message": "Смещение времени\nЗначок будет показан заранее на указанное количество секунд."
-    },
-    "options_badgesound": {
-        "message": "Звуковой эффект\nЭффект, который будет воспроизводиться при отображении значка."
-    },
-    "options_badgevolume": {
-        "message": "Громкость\nГромкость звукового эффекта."
-    },
-    "options_badgewindmills": {
-        "message": "Мельницы\nОтображать значек, когда лагерь соседа нуждается в мельницах"
-    },
-    "calc_operators": {
-        "message": "Операторы"
-    },
-    "calc_arithmetic": {
-        "message": "Арифметические"
-    },
-    "calc_comparison": {
-        "message": "Сравнения"
-    },
-    "calc_logical": {
-        "message": "Логические"
-    },
-    "calc_functions": {
-        "message": "Функции"
-    },
-    "calc_variables": {
-        "message": "Переменные"
-    },
-    "calc_examples": {
-        "message": "Примеры"
-    },
-    "calc_error_1": {
-        "message": "Синтаксическая ошибка"
-    },
-    "calc_error_2": {
-        "message": "Функция требует скобок"
-    },
-    "calc_error_3": {
-        "message": "Не хватает закрывающей скобки"
-    },
-    "calc_error_4": {
-        "message": "Слишком много закрывающих скобок"
-    },
-    "linkgrabber_selected": {
-        "message": "Ссылки: $UNIQUE$ / $TOTAL$",
-        "placeholders": {
-            "unique": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_fn_copy": {
-        "message": "Копировать в буферобмена"
-    },
-    "linkgrabber_fn_send": {
-        "message": "Отправить в DAF"
-    },
-    "linkgrabber_fn_cancel": {
-        "message": "Отмена"
-    },
-    "linkgrabber_fn_refresh": {
-        "message": "Обновить ссылки"
-    },
-    "linkgrabber_fn_showid": {
-        "message": "Показать ID награды"
-    },
-    "linkgrabber_fn_autosend": {
-        "message": "Автоматическая отправка"
-    },
-    "linkgrabber_added": {
-        "message": "Наградных ссылок добавлено: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_copied": {
-        "message": "Скопировано ссылок в буфер обмена: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    }
+	"ext_name": {
+		"message": "DA Friends 2"
+	},
+	"ext_title": {
+		"message": "Вспомогательный инструмент для Diggy's Adventure"
+	},
+	"menu_resetfullwindow": {
+		"message": "Сброс при загрузке"
+	},
+	"menu_fullwindow": {
+		"message": "Игра в полноэкранном режиме"
+	},
+	"menu_fullwindowheader": {
+		"message": "Шапка"
+	},
+	"menu_fullwindowside": {
+		"message": "Боковая панель"
+	},
+	"menu_fullwindowlock": {
+		"message": "Зафиксировать"
+	},
+	"menu_gctable": {
+		"message": "Показать таблицу ДБ"
+	},
+	"menu_gctablecounter": {
+		"message": "Счетчик"
+	},
+	"menu_gctableregion": {
+		"message": "Регион"
+	},
+	"menu_gccollected": {
+		"message": "Все Дети Богов собраны"
+	},
+	"menu_autoclick": {
+		"message": "Автоклик в выскакивающих окнах Facebook"
+	},
+	"menu_nogcpopup": {
+		"message": "Отключить всплывающие окна при сборе детей богов"
+	},
+	"menu_reloadgame": {
+		"message": "Перезагрузить игру и обновить данные"
+	},
+	"menu_switchportal": {
+		"message": "Играть на портале"
+	},
+	"menu_switchfacebook": {
+		"message": "Играть на Facebook"
+	},
+	"menu_on": {
+		"message": "ВКЛ"
+	},
+	"menu_off": {
+		"message": "ВЫКЛ"
+	},
+	"gui_timeparts": {
+		"message": "д,ч,м,с"
+	},
+	"gui_card_clicker": {
+		"message": "Свернуть/развернуть секцию"
+	},
+	"gui_show": {
+		"message": "Показать"
+	},
+	"gui_all": {
+		"message": "Все"
+	},
+	"gui_only_possible": {
+		"message": "Только возможные"
+	},
+	"gui_search": {
+		"message": "Поиск"
+	},
+	"gui_filter": {
+		"message": "Фильтр"
+	},
+	"gui_name": {
+		"message": "Название"
+	},
+	"gui_region_required": {
+		"message": "Необходимый\nрегион"
+	},
+	"gui_theme_required": {
+		"message": "Необходимый\nрегион/тема"
+	},
+	"gui_level_required": {
+		"message": "Необходимый\nуровень"
+	},
+	"gui_qty": {
+		"message": "Кол-во"
+	},
+	"gui_qty_required": {
+		"message": "Необходимое\nколичество"
+	},
+	"gui_energy": {
+		"message": "Энергия"
+	},
+	"gui_estimatedenergy": {
+		"message": "Оставшая энергия"
+	},
+	"gui_food": {
+		"message": "Еда"
+	},
+	"gui_coins": {
+		"message": "Монет"
+	},
+	"gui_backpack": {
+		"message": "В инвентаре"
+	},
+	"gui_clickwiki": {
+		"message": "Нажмите, чтобы открыть Wiki страницу."
+	},
+	"gui_from_any": {
+		"message": "Из региона или события"
+	},
+	"gui_from_regions": {
+		"message": "Из региона"
+	},
+	"gui_from_events": {
+		"message": "Из события"
+	},
+	"gui_ingredients": {
+		"message": "Ингридиенты"
+	},
+	"gui_event": {
+		"message": "Событие"
+	},
+	"gui_specialweek": {
+		"message": "Специальная неделя"
+	},
+	"gui_region": {
+		"message": "Регион"
+	},
+	"gui_theme": {
+		"message": "Тема"
+	},
+	"gui_year": {
+		"message": "Год"
+	},
+	"gui_quest": {
+		"message": "Квест"
+	},
+	"gui_offer": {
+		"message": "Спецпредложение"
+	},
+	"gui_tieredoffer": {
+		"message": "Комплексное предложение"
+	},
+	"gui_pack": {
+		"message": "Спецпакет"
+	},
+	"gui_equipment": {
+		"message": "Оборудование"
+	},
+	"gui_shop": {
+		"message": "Магазин"
+	},
+	"gui_decoration": {
+		"message": "Декорации"
+	},
+	"gui_usable": {
+		"message": "Используемые"
+	},
+	"gui_token": {
+		"message": "Кольца"
+	},
+	"gui_level": {
+		"message": "Уровень"
+	},
+	"gui_xp": {
+		"message": "Опыт"
+	},
+	"gui_sell_price": {
+		"message": "Цена продажи"
+	},
+	"gui_neighbour": {
+		"message": "Сосед"
+	},
+	"gui_friend": {
+		"message": "Друг"
+	},
+	"gui_firstrecorded": {
+		"message": "Первая\nзапись"
+	},
+	"gui_lastrecorded": {
+		"message": "Последняя\nзапись"
+	},
+	"gui_loadingresources": {
+		"message": "Загрузка ресурсов ($NUM$/$TOTAL$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"gui_screenshot_shot": {
+		"message": "Нажмите, чтобы сделать скриншот этого раздела.\nСкриншот появится справа.\nПримечание: на скриншот попадет только видимая часть страницы!\nНеобходимо нажать на значок расширения DAF2 для активации этой функции."
+	},
+	"gui_screenshot_target": {
+		"message": "Нажмите для загрузки скриншота.\nМожно нажать правой кнопкой мыши и выбрать \"Копировать изображение\" для копирования в буфер обмена."
+	},
+	"gui_screenshot_error": {
+		"message": "Невозможно сделать скриншот"
+	},
+	"gui_screenshot_errorinfo": {
+		"message": "Сначала необходимо нажать иконку @DAF2@ в меню Chrome.\nЭто активирует функцию скриншота. Она станет активной до закрытия страницы.\n\nПожалуйста, нажмите на иконку @DAF2@, после повторите попытку сделать скриншот."
+	},
+	"gui_infodated": {
+		"message": "Информация актуальна и действительна только по состоянию на '$VALID$'",
+		"placeholders": {
+			"valid": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_nonote": {
+		"message": "Нет заметок"
+	},
+	"gui_minimum": {
+		"message": "Минимум"
+	},
+	"gui_maximum": {
+		"message": "Максимум"
+	},
+	"gui_average": {
+		"message": "Среднее"
+	},
+	"gui_loot": {
+		"message": "Добыча"
+	},
+	"gui_datafrompf": {
+		"message": "Данные, полученные из файлов игры Pixel Federation"
+	},
+	"gui_gift": {
+		"message": "Подарок"
+	},
+	"gui_gifts": {
+		"message": "Подарки"
+	},
+	"gui_day": {
+		"message": "День"
+	},
+	"gui_placed": {
+		"message": "Размещено"
+	},
+	"gui_owned": {
+		"message": "Имеется"
+	},
+	"gui_limit": {
+		"message": "Лимит"
+	},
+	"gui_type": {
+		"message": "Тип"
+	},
+	"gui_width": {
+		"message": "Ширина"
+	},
+	"gui_height": {
+		"message": "Высота"
+	},
+	"gui_value": {
+		"message": "Ценность"
+	},
+	"gui_slot_value": {
+		"message": "Ценность на ячейку"
+	},
+	"gui_cost": {
+		"message": "Стоимость"
+	},
+	"gui_items_found": {
+		"message": "Найдено"
+	},
+	"gui_reset": {
+		"message": "Сброс"
+	},
+	"gui_material": {
+		"message": "Материал"
+	},
+	"gui_filter_clear": {
+		"message": "Отчистить"
+	},
+	"gui_filter_invert": {
+		"message": "Инвертировать"
+	},
+	"gui_advancedfilter": {
+		"message": "Расширенный фильтр"
+	},
+	"gui_location": {
+		"message": "Локация"
+	},
+	"gui_locked": {
+		"message": "Заблокировано"
+	},
+	"gui_noresults": {
+		"message": "Нет результатов"
+	},
+	"gui_toomanyresults": {
+		"message": "Слишком много результатов"
+	},
+	"gui_id": {
+		"message": "ID"
+	},
+	"gui_date": {
+		"message": "Дата"
+	},
+	"gui_ctrlclick": {
+		"message": "Ctrl+клик чтобы выбрать/снять все"
+	},
+	"gui_summary": {
+		"message": "Итого"
+	},
+	"dialog_ok": {
+		"message": "Ок"
+	},
+	"dialog_yes": {
+		"message": "Да"
+	},
+	"dialog_no": {
+		"message": "Нет"
+	},
+	"dialog_confirm": {
+		"message": "Подвердить"
+	},
+	"dialog_cancel": {
+		"message": "Отмена"
+	},
+	"dialog_close": {
+		"message": "Закрыть"
+	},
+	"dialog_pleasewait": {
+		"message": "Пожалуйста, ожидайте"
+	},
+	"tab_game": {
+		"message": "Перейти в игру"
+	},
+	"tab_about": {
+		"message": "О расширении"
+	},
+	"tab_progress": {
+		"message": "Прогресс"
+	},
+	"tab_camp": {
+		"message": "Лагерь"
+	},
+	"tab_map": {
+		"message": "Карта"
+	},
+	"tab_caravan": {
+		"message": "Караван"
+	},
+	"tab_kitchen": {
+		"message": "Кухня"
+	},
+	"tab_foundry": {
+		"message": "Литейная"
+	},
+	"tab_pillars": {
+		"message": "Колонны"
+	},
+	"tab_neighbors": {
+		"message": "Соседи"
+	},
+	"tab_friendship": {
+		"message": "Друзья"
+	},
+	"tab_godchild": {
+		"message": "Дети богов"
+	},
+	"tab_locations": {
+		"message": "Локаций"
+	},
+	"tab_greenrings": {
+		"message": "Зелёные кольца"
+	},
+	"tab_redrings": {
+		"message": "Красные кольца"
+	},
+	"tab_christmasrings": {
+		"message": "Рождественские кольца"
+	},
+	"tab_rewardlinks": {
+		"message": "Наградные ссылки"
+	},
+	"tab_options": {
+		"message": "Опции"
+	},
+	"tab_help": {
+		"message": "Помощь"
+	},
+	"tab_export": {
+		"message": "Импорт / Экспорт"
+	},
+	"tab_equipment": {
+		"message": "Оборудование / Магазин"
+	},
+	"tab_events": {
+		"message": "События"
+	},
+	"tab_repeat": {
+		"message": "Повторяющиеся"
+	},
+	"tab_dailyreward": {
+		"message": "Ежедневная награда"
+	},
+	"about_version": {
+		"message": "Версия: $VERSION$",
+		"placeholders": {
+			"version": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_data": {
+		"message": "Дата последней загрузки данных: $TIME$\nСайт игры: $SITE$ ($PLATFORM$)\nID игрока: $USERID$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			},
+			"userid": {
+				"content": "$2"
+			},
+			"site": {
+				"content": "$3"
+			},
+			"platform": {
+				"content": "$4"
+			}
+		}
+	},
+	"about_visit": {
+		"message": "Посетить официальную группу Facebook"
+	},
+	"about_nodata": {
+		"message": "Данные игры еще не загружены, загрузите или обновите окно игры"
+	},
+	"about_disclaimer": {
+		"message": "DA Friends — расширение, созданное фанатами игры. Расширение не подтверждено и не поддерживается Pixel Federation, авторами игры «Diggy's Adventure».\nВы используете DA Friends на свой страх и риск. Расширение предоставляется без каких-либо гарантий, ни явных, ни подразумеваемых в отношении функциональности или удобства использования.\nАвтор не несет ответственности за любой ущерб или убытки, вызванные его использованием.\nИспользуя это расширение, вы соглашаетесь с этими условиями."
+	},
+	"about_translators": {
+		"message": "Переводчики"
+	},
+	"about_alternate": {
+		"message": "Загружена альтернативная учетная запись ($ID$).",
+		"placeholders": {
+			"id": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_reset": {
+		"message": "Данные предыдущей учетной записи были сохранены.\nДля сброса данных и использования другой учетной записи, нажмите @RESET@."
+	},
+	"about_reset_ask_title": {
+		"message": "Сбросить аккаунт"
+	},
+	"about_reset_ask_text": {
+		"message": "Вы хотите сбросить данные,\nчтобы использовать другую учетную запись?"
+	},
+	"about_reset_ok_title": {
+		"message": "Данные были сброшены"
+	},
+	"about_reset_ok_text": {
+		"message": "Пожалуйста, перезагрузите Приключения Дигги с желаемым аккаунтом."
+	},
+	"production_total_time": {
+		"message": "Всего времени\n(Слотов: $NUM$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"production_time": {
+		"message": "Время пути корована"
+	},
+	"production_possible": {
+		"message": "Можно купить"
+	},
+	"production_possible_energy": {
+		"message": "Возможная\nэнергия"
+	},
+	"production_energy_hour": {
+		"message": "Энергии\nв час"
+	},
+	"production_qty": {
+		"message": "Произведено"
+	},
+	"production_uplift": {
+		"message": "Прирост (Опыт/час)"
+	},
+	"production_uplift_info": {
+		"message": "Прирост опыта от одного каравана в час,\nиз расчета опыта полученного от колонн."
+	},
+	"production_req_ticket": {
+		"message": "Требует билет?"
+	},
+	"kitchen_food_in_backpack": {
+		"message": "из еды в инвентаре"
+	},
+	"camp_your_camp": {
+		"message": "Ваш лагерь"
+	},
+	"camp_player_name": {
+		"message": "Лагерь $PLAYER$ на $DATE$",
+		"placeholders": {
+			"player": {
+				"content": "$1"
+			},
+			"date": {
+				"content": "$2"
+			}
+		}
+	},
+	"camp_no_player": {
+		"message": "Лагерь еще не посещён"
+	},
+	"camp_player": {
+		"message": "Игрок"
+	},
+	"camp_total": {
+		"message": "Итого"
+	},
+	"camp_fill_time": {
+		"message": "Время восстановления"
+	},
+	"camp_fill_time_info": {
+		"message": "Время необходимое для полного восстановления энергии."
+	},
+	"camp_numofregenslots": {
+		"message": "Кол-во слотов регенерации"
+	},
+	"camp_canbeimproved": {
+		"message": "Лагерь можно улучшить"
+	},
+	"camp_showsetup": {
+		"message": "Нажмите здесь, чтобы показать лагерь в режиме настройки"
+	},
+	"camp_windmill_regen": {
+		"message": "Регенерация одной мельницей"
+	},
+	"camp_windmill_regen_total": {
+		"message": "Регенерация от размещенных мельниц"
+	},
+	"camp_windmill_num": {
+		"message": "Текущее число мельниц"
+	},
+	"camp_windmill_expiry": {
+		"message": "Мельницы исчезнут\n$TIME$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_slot_empty": {
+		"message": "Количество пустых ячеек"
+	},
+	"camp_slot_blocked": {
+		"message": "Количество заблокированных ячеек"
+	},
+	"camp_regen": {
+		"message": "Регенерация"
+	},
+	"camp_capacity": {
+		"message": "Емкость"
+	},
+	"camp_windmills": {
+		"message": "Мельницы"
+	},
+	"camp_needs_windmills": {
+		"message": "Лагерю нужны мельницы"
+	},
+	"camp_avg_value": {
+		"message": "Среднее на ячейку"
+	},
+	"camp_min_value": {
+		"message": "Мин. ячейка"
+	},
+	"camp_max_value": {
+		"message": "Макс. ячейка"
+	},
+	"camp_num_slots": {
+		"message": "Количество ячеек"
+	},
+	"camp_unlock_materials": {
+		"message": "Материалы для открытия всех ячеек"
+	},
+	"camp_unlock_one": {
+		"message": "Разблокировка одной ячейки принесет $VALUE$ Опыта",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_unlock_cost": {
+		"message": "Одна ячейка может быть разблокирована за $VALUE$ самоцвета(-ов)\nили этими материалами:",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_start_date": {
+		"message": "Вы начали играть:\n$STARTED$",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_day_mode": {
+		"message": "Дневой режим"
+	},
+	"camp_night_mode": {
+		"message": "Ночной режим"
+	},
+	"camp_setup_mode": {
+		"message": "Режим настройки"
+	},
+	"camp_discounted": {
+		"message": "Со скидкой"
+	},
+	"camp_neighbor": {
+		"message": "Лагерь друга"
+	},
+	"camp_extra": {
+		"message": "Бонусы"
+	},
+	"camp_ftp_group": {
+		"message": "Группа $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_ftp_dot_info": {
+		"message": "Карты с красной точкой могут появиться при первых бесплатных подбрасываниях."
+	},
+	"camp_ftp_group_info": {
+		"message": "Вы сможете раскрыть карты из группы только после того, как будут раскрыты все карты из предыдущей группы."
+	},
+	"camp_ftp_cumulativegems": {
+		"message": "Итого самоцветов"
+	},
+	"camp_ads_limit": {
+		"message": "Лимит рекламы"
+	},
+	"camp_ads_limit_info": {
+		"message": "Это всего лишь счетчик, а не реальная возможность показа рекламы."
+	},
+	"camp_ads_limit_info2": {
+		"message": "Сторонний поставщик рекламы может применить другое ограничение, так как Pixel Federation не контролирует его."
+	},
+	"map_floor": {
+		"message": "Секция"
+	},
+	"map_floor_current": {
+		"message": "Текущая секция"
+	},
+	"map_floor_found": {
+		"message": "Кликните, чтобы просмотреть карту этой секции"
+	},
+	"map_floor_not_found": {
+		"message": "Эта секция еще не посещена"
+	},
+	"map_remaining_tiles": {
+		"message": "Осталось плиток"
+	},
+	"map_special": {
+		"message": "Особый материал"
+	},
+	"map_quest": {
+		"message": "Квест"
+	},
+	"map_this_floor": {
+		"message": "Эта секция"
+	},
+	"map_all_floors": {
+		"message": "Все секции"
+	},
+	"map_warning": {
+		"message": "Сначала зайдите в игру и посетите любую локацию"
+	},
+	"map_button_d": {
+		"message": "Показать Дигги"
+	},
+	"map_button_t": {
+		"message": "Показать телепорты"
+	},
+	"map_button_e": {
+		"message": "Показать триггеры"
+	},
+	"map_button_c": {
+		"message": "Показать в цвете"
+	},
+	"map_button_g": {
+		"message": "Показать диагностическую информацию"
+	},
+	"map_button_l": {
+		"message": "Подсветить плитки"
+	},
+	"map_button_n": {
+		"message": "Подсветить плитки с особой добычей"
+	},
+	"map_button_v": {
+		"message": "Постоянная видимость плиток"
+	},
+	"map_button_o": {
+		"message": "Показать непрозрачные плитки"
+	},
+	"map_button_b": {
+		"message": "Показать наличие бонуса на плитке"
+	},
+	"map_button_k": {
+		"message": "Показать фон, скрыв все раскапываемые плитки\n"
+	},
+	"map_button_a": {
+		"message": "Показать все плитки"
+	},
+	"map_button_x": {
+		"message": "Показать входы и выходы"
+	},
+	"map_button_u": {
+		"message": "Показать исходную карту"
+	},
+	"map_button_f": {
+		"message": "Показать всю карту"
+	},
+	"map_button_s": {
+		"message": "Показать решение"
+	},
+	"map_button_m": {
+		"message": "Перемешать значимые плитки"
+	},
+	"map_save": {
+		"message": "Сохранить"
+	},
+	"map_save_tip": {
+		"message": "Сохранить как картинку"
+	},
+	"map_mine_exit": {
+		"message": "Выход из локации"
+	},
+	"map_goto_floor": {
+		"message": "Ведет к секции $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"map_goto_unknown": {
+		"message": "Ведет к другой, еще неизвестной, секции"
+	},
+	"map_teleport": {
+		"message": "Телепорт"
+	},
+	"map_hint": {
+		"message": "Подсказка"
+	},
+	"map_beacon": {
+		"message": "Триггер"
+	},
+	"map_active": {
+		"message": "активно"
+	},
+	"map_not_active": {
+		"message": "неактивно"
+	},
+	"map_tile": {
+		"message": "Плитка"
+	},
+	"map_npc": {
+		"message": "Неигровой персонаж (NPC)"
+	},
+	"map_says": {
+		"message": "Речь"
+	},
+	"map_godchild": {
+		"message": "Дети богов"
+	},
+	"map_unknown": {
+		"message": "Неизвестно"
+	},
+	"map_yellow": {
+		"message": "Желтый"
+	},
+	"map_red": {
+		"message": "Красный"
+	},
+	"map_blue": {
+		"message": "Синий"
+	},
+	"map_green": {
+		"message": "Зеленый"
+	},
+	"map_left": {
+		"message": "Влево"
+	},
+	"map_down": {
+		"message": "Вниз"
+	},
+	"map_right": {
+		"message": "Вправо"
+	},
+	"map_up": {
+		"message": "Вверх"
+	},
+	"map_require_draggable": {
+		"message": "Требуется перетащить"
+	},
+	"map_require_item": {
+		"message": "Требуется предмет"
+	},
+	"map_require_light": {
+		"message": "Требуется свет"
+	},
+	"map_emitter": {
+		"message": "Источник света"
+	},
+	"map_mirror": {
+		"message": "Зеркало"
+	},
+	"map_filter": {
+		"message": "Светофильтр"
+	},
+	"map_draggable": {
+		"message": "Перетаскиваемый"
+	},
+	"map_can_move": {
+		"message": "Можно перемещать"
+	},
+	"map_can_rotate": {
+		"message": "Можно поворачивать"
+	},
+	"map_fixed": {
+		"message": "Фиксированный"
+	},
+	"map_remove_confirmation": {
+		"message": "Действительно удалить эти локации?"
+	},
+	"map_option_c": {
+		"message": "Показывать координаты в подсказке"
+	},
+	"map_option_s": {
+		"message": "Показать выбор региона"
+	},
+	"map_option_i": {
+		"message": "Показать информацию о локации"
+	},
+	"map_option_r": {
+		"message": "Показать повторяемые"
+	},
+	"map_option_t": {
+		"message": "Добавить название карты"
+	},
+	"map_option_b": {
+		"message": "Удалить пустые строки/столбцы"
+	},
+	"map_option_m": {
+		"message": "Поля вокруг изображения"
+	},
+	"map_option_l": {
+		"message": "Добавить водянной знак"
+	},
+	"map_option_resize": {
+		"message": "Масштаб сохраняемого изображения"
+	},
+	"map_export_location": {
+		"message": "Экспорт всех секций в файл"
+	},
+	"map_export_floor": {
+		"message": "Экспорт текущей секций в файл"
+	},
+	"map_import": {
+		"message": "Импорт ранее экспортированного файла"
+	},
+	"map_downloadfolder": {
+		"message": "Папка загрузки"
+	},
+	"map_positionrandom": {
+		"message": "Случайное расположение"
+	},
+	"map_default": {
+		"message": "Сбросить настройку"
+	},
+	"pillars_all": {
+		"message": "Все колонны"
+	},
+	"pillars_only_possible": {
+		"message": "Только возможные колонны"
+	},
+	"pillars_perc_next": {
+		"message": "Собрано\n%"
+	},
+	"pillars_possible": {
+		"message": "Можно купить"
+	},
+	"pillars_totals": {
+		"message": "Итого"
+	},
+	"pillars_current_level": {
+		"message": "Ваш текущий уровень"
+	},
+	"pillars_predicted": {
+		"message": "Расчётное значение"
+	},
+	"pillars_predicted_level": {
+		"message": "Расчётный уровень"
+	},
+	"pillars_predicted_gain": {
+		"message": "Расчётный прирост от повышения уровня"
+	},
+	"pillars_ignore": {
+		"message": "Нажмите, чтобы учитывать/неучитывать при расчёте"
+	},
+	"pillars_altclick": {
+		"message": "Alt+клик чтобы установить/обнулить количество"
+	},
+	"pillars_maxpossible": {
+		"message": "Сейчас возможно купить"
+	},
+	"pillars_grid": {
+		"message": "Показать в сетке"
+	},
+	"pillars_cap": {
+		"message": "Ограничиться возможным количеством"
+	},
+	"neighbors_lastlevelup": {
+		"message": "Последнее\nповышение уровня"
+	},
+	"neighbors_lastgiftreceived": {
+		"message": "Впоследний раз\nподарок был получен"
+	},
+	"neighbors_yourlastvisit": {
+		"message": "Ваш последний визит"
+	},
+	"neighbors_all": {
+		"message": "Все"
+	},
+	"neighbors_nogift": {
+		"message": "Не дарил подарки в течение $NUM$ дня(-ей)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"neighbors_gifts": {
+		"message": "Учитывать подарки в течение @DAYS@ дней(-я)"
+	},
+	"neighbors_listed": {
+		"message": "Лучшие друзья"
+	},
+	"neighbors_blocks": {
+		"message": "Количество заблокированных ячеек"
+	},
+	"neighbors_inlist": {
+		"message": "В лучших друзьях"
+	},
+	"neighbors_notinlist": {
+		"message": "Не в лучших друзьях"
+	},
+	"neighbors_withblocks": {
+		"message": "С заблокированными ячейками"
+	},
+	"neighbors_unknownblocks": {
+		"message": "Состояние ячеек неизвестно"
+	},
+	"neighbors_withexpiredwindmills": {
+		"message": "С исчезнувшими мельницами"
+	},
+	"neighbors_found": {
+		"message": "Соседей найдено: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_giftcount": {
+		"message": "Количество подарков"
+	},
+	"neighbors_giftvalue": {
+		"message": "Ценность подарка (Опыт)"
+	},
+	"neighbors_efficiency": {
+		"message": "Эффективность (Подарки / Дни)"
+	},
+	"neighbors_wmtime": {
+		"message": "Дата исчезновения мельниц"
+	},
+	"neighbors_giftinfo": {
+		"message": "Дата подарка фиксируется, когда расширение впервые зарегистрировало этот подарок, а не когда он был отправлен."
+	},
+	"neighbors_gifttip": {
+		"message": "$NAME$\nОпыт: $XP$\nДень: $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_gift": {
+		"message": "$NAME$ ($XP$ Опыт) в $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_advancedfilterinfo": {
+		"message": "Вы можете дополнительно отфильтровать своих соседей по подаркам, которые они отправили за последние @DAYS@ дня(-ей), выбрав один или несколько подарков из списка."
+	},
+	"neighbors_clearfilter": {
+		"message": "Сбросить фильтр"
+	},
+	"neighbors_gift_tooltip": {
+		"message": "Подарки получены, пока DAF2 был активен."
+	},
+	"neighbors_sortby": {
+		"message": "Сортировать по"
+	},
+	"neighbors_totxpstats": {
+		"message": "Подарков за $DAYS$ дня(-ей): $COUNT$ = $TOTAL$ Опыта ($AVERAGE$ Опыт/День)",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"days": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			},
+			"average": {
+				"content": "$4"
+			}
+		}
+	},
+	"neighbors_avgxpstats": {
+		"message": "Средняя ценность подарка = $XP$ Опыта ($AVERAGE$ Опыта от соседа в день)",
+		"placeholders": {
+			"xp": {
+				"content": "$1"
+			},
+			"average": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_expression": {
+		"message": "Укажите выражение для фильтрации:"
+	},
+	"friendship_collectfriends": {
+		"message": "Собрать друзей"
+	},
+	"friendship_score": {
+		"message": "Точность"
+	},
+	"friendship_scoretooltip": {
+		"message": "Точность соответствия:\n100 = Соответствуют Facebook Id\n99 = Соответствие установлено вручную\n95 = Соответствуют аватарки\n90 = Соответствуют ФИО\n80 = Соответствуют имя и фамилия\n70 = Соответствуют имя и фамилия (поменяны местами)\n60 = Соответствуют китайские иероглифы"
+	},
+	"friendship_action": {
+		"message": "Действие"
+	},
+	"friendship_actionignore": {
+		"message": "Этот друг отмечен на сопоставление с соседом\nНажмите, чтобы игнорировать этого друга при сопоставлении с соседями"
+	},
+	"friendship_actionregard": {
+		"message": "Этот друг не участвует в сопоставлении с соседями\nНажмите, чтобы отметить этого друга к сопоставлению с соседями"
+	},
+	"friendship_actionunlink": {
+		"message": "Нажмите, чтобы удалить сопоставление"
+	},
+	"friendship_actionmanual": {
+		"message": "Нажмите, чтобы вручную сопоставить этого соседа с другом"
+	},
+	"friendship_actionmatch": {
+		"message": "Нажмите, чтобы связать этого друга с выбранным соседом"
+	},
+	"friendship_actiondelete": {
+		"message": "Нажмите, чтобы навсегда удалить этого друга"
+	},
+	"friendship_matchplayertitle": {
+		"message": "Нажмите здесь для отмены сопоставления"
+	},
+	"friendship_accountdisabled": {
+		"message": "Аккаунт заблокирован"
+	},
+	"friendship_disabledaccountsdetected": {
+		"message": "Обнаружены заблокированные аккаунты."
+	},
+	"friendship_unmatchedaccountsdetected": {
+		"message": "Обнаружены заблокированные и/или несопоставленные аккаунты."
+	},
+	"friendship_unfriendinfo": {
+		"message": "Вы можете удалить их из друзей на этой странице.\n\nИмейте в виду, что аккаунты Facebook могут быть заблокированы временно и могут быть разблокированы позже."
+	},
+	"friendship_partial": {
+		"message": "Частичный"
+	},
+	"friendship_confirmcollect": {
+		"message": "ДА = подтвердить друзей и заменить существующих\nЧАСТИЧНО = добавить друзей и оставить существующих\nНЕТ = попробовать собрать больше друзей\n\nВы можете закрыть это окно в любой момент для отмены операции."
+	},
+	"friendship_speedupcollect": {
+		"message": "Ускорить сбор?"
+	},
+	"friendship_filter_a": {
+		"message": "Друзей: $FRIENDS$, Соседей: $NEIGHBOURS$",
+		"placeholders": {
+			"friends": {
+				"content": "$1"
+			},
+			"neighbours": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_filter_d": {
+		"message": "Заблокированные аккаунты Facebook: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_m": {
+		"message": "Сопоставленных друзей и соседей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_g": {
+		"message": "Сопоставленных по аватарке друзей и соседей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_h": {
+		"message": "Сопоставленных вручную друзей и соседей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_i": {
+		"message": "Друзей не участвующих в сопоставлении: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_f": {
+		"message": "Несопоставленных друзей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_u": {
+		"message": "Не участвующих в сопоставлениии/или не сопоставленных друзей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_n": {
+		"message": "Несопоставленных соседей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_s": {
+		"message": "Несопоставленных друзей и соседей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_collectpreamble": {
+		"message": "Здесь вы можете собрать своих друзей с Facebook и сопоставить их с вашими соседями."
+	},
+	"friendship_collectstandard": {
+		"message": "Стандартный"
+	},
+	"friendship_collectstandardinfo": {
+		"message": "Метод надежный, но медленный (может занять несколько минут)."
+	},
+	"friendship_collectunmatched": {
+		"message": "Несопоставленные"
+	},
+	"friendship_collectunmatchedinfo": {
+		"message": "Метод такой же, как и «Стандартный», но не собирает друзей.\nВместо этого он показывает всех несопоставленных друзей и вы сможете вручную удалить их из списка друзей."
+	},
+	"friendship_disabledinfo": {
+		"message": "Может обнаружить отключенные аккаунты."
+	},
+	"friendship_collectmatch": {
+		"message": "Сопоставление"
+	},
+	"friendship_collectmatchinfo": {
+		"message": "Это приведет к автоматическому сопоставлению ваших друзей и соседей.\nВаш список друзей не будет обновлен.\nДрузья не участвующие в сопоставлениии и друзья, с точностью больше 90, не сопоставляются.\nСопоставление по-прежнему будет выполняться в конце сбора друзей."
+	},
+	"friendship_matchbyimage": {
+		"message": "Сопоставлять по аватарке?"
+	},
+	"friendship_confirmwarning": {
+		"message": "Операция может занять несколько минут.\n\nПодтвердите, что хотите продолжить."
+	},
+	"friendship_confirmcollection": {
+		"message": "Подтвердить результат сбора?"
+	},
+	"friendship_cc_maybe": {
+		"message": "Если не точное сопоставление"
+	},
+	"friendship_confirmdelete": {
+		"message": "Эту операцию нельзя отменить.\nВам нужно будет собрать друзей заново, чтобы этот друг вернулся в список.\n\nПодтверждаете удаление?"
+	},
+	"friendship_collecterror": {
+		"message": "Что-то пошло не так."
+	},
+	"friendship_manualhelp": {
+		"message": "Пожалуйста, обновите страницу DAF2, перейдите на вкладку «$FRIENDSHIP$», нажмите «$COLLECT$» и выберите «$MATCH$»",
+		"placeholders": {
+			"friendship": {
+				"content": "$1"
+			},
+			"collect": {
+				"content": "$2"
+			},
+			"match": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_analyzingmatches": {
+		"message": "Анализ данных, $PERCENT$ % ($NUM$ / $TOTAL$)",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			},
+			"num": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_collectstat": {
+		"message": "Друзей собрано: $COUNT$",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_manualmatchhelp": {
+		"message": "Чтобы сопоставить этого соседа, вам нужно найти не сопоставленного друга и нажать в его строке на символ ⭐."
+	},
+	"friendship_friendupdateinfo": {
+		"message": "Список друзей обновлен $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_totalfriends": {
+		"message": "Друзей: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_totalneighbours": {
+		"message": "Соседей: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_timewarning": {
+		"message": "Похоже, вы давно не собирали друзей.\nНажмите кнопку «$COLLECT$» и выберите метод «$METHOD$».",
+		"placeholders": {
+			"collect": {
+				"content": "$1"
+			},
+			"method": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_info": {
+		"message": "$NUM$ Соседей = $GC$ Детей богов",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"gc": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_stat": {
+		"message": "Дети богов: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_next": {
+		"message": "Чтобы увеличить количество соседей с детьми богов, вам нужно добавить еще соседей: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"godchild_next0": {
+		"message": "Вы достигли максимально возможного количества соседей с детьми богов"
+	},
+	"godchild_next1": {
+		"message": "Чтобы увеличить количество соседей с детьми богов, вам нужно добавить еще одного соседа"
+	},
+	"progress_measure": {
+		"message": "Наименование"
+	},
+	"progress_attained": {
+		"message": "Выполнено"
+	},
+	"progress_goal": {
+		"message": "Цель"
+	},
+	"progress_remaining": {
+		"message": "Осталось"
+	},
+	"progress_progress": {
+		"message": "Прогресс"
+	},
+	"progress_achievements": {
+		"message": "Достижения"
+	},
+	"progress_treasures": {
+		"message": "Сокровища"
+	},
+	"progress_overall": {
+		"message": "Общий итог"
+	},
+	"progress_hidecompleted": {
+		"message": "Скрывать завершенные"
+	},
+	"progress_grouplocations": {
+		"message": "Группировать локации"
+	},
+	"progress_showdates": {
+		"message": "Даты локаций"
+	},
+	"progress_energyinfo": {
+		"message": "Показанная здесь энергия оценивается путем умножения количества оставшихся плиток на среднюю емкость плитки.\nСредняя емкость плитки зависит от бонуса за очистку локации и общего количества плиток."
+	},
+	"progress_averagetilecost": {
+		"message": "Средняя емкость плитки"
+	},
+	"progress_achievementnextstep": {
+		"message": "До следующего шага = $NEXT$",
+		"placeholders": {
+			"next": {
+				"content": "$1"
+			}
+		}
+	},
+	"progress_start": {
+		"message": "Начато"
+	},
+	"progress_end": {
+		"message": "Завершено"
+	},
+	"progress_duration": {
+		"message": "Время прохождения"
+	},
+	"progress_subtotal": {
+		"message": "Подитог"
+	},
+	"progress_grandtotal": {
+		"message": "Итог"
+	},
+	"progress_playtime": {
+		"message": "Вы начали играть $STARTED$ и играете на протяжении $DURATION$ (по $NOW$)",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			},
+			"duration": {
+				"content": "$2"
+			},
+			"now": {
+				"content": "$3"
+			}
+		}
+	},
+	"progress_levelrange": {
+		"message": "С $FROM$ на $TO$",
+		"placeholders": {
+			"from": {
+				"content": "$1"
+			},
+			"to": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_id": {
+		"message": "ID награды"
+	},
+	"rewardlinks_insertdate": {
+		"message": "Дата добавления"
+	},
+	"rewardlinks_collectdate": {
+		"message": "Дата сбора"
+	},
+	"rewardlinks_collectmaterial": {
+		"message": "Награда"
+	},
+	"rewardlinks_owner": {
+		"message": "Владелец"
+	},
+	"rewardlinks_expired": {
+		"message": "ССЫЛКА ПРОСРОЧЕНА"
+	},
+	"rewardlinks_collected": {
+		"message": "УЖЕ СОБРАНО"
+	},
+	"rewardlinks_maxreached": {
+		"message": "ДОСТИГНУТ ЕЖЕДНЕВНЫЙ ЛИМИТ"
+	},
+	"rewardlinks_noself": {
+		"message": "САМОНАГРАЖДЕНИЕ НЕВОЗМОЖНО"
+	},
+	"rewardlinks_broken": {
+		"message": "ССЫЛКА НЕКОРРЕКТНА"
+	},
+	"rewardlinks_probablyexpired": {
+		"message": "ВЕРОЯТНО ССЫЛКА ПРОСРОЧЕНА"
+	},
+	"rewardlinks_background": {
+		"message": "Фоном\nОткрывать наградные ссылки в фоновом режиме"
+	},
+	"rewardlinks_autoclick": {
+		"message": "Автоклик\nАвтоматически нажимать следующую выбранную награду после получения награды"
+	},
+	"rewardlinks_autoclick_end": {
+		"message": "Выбранные ссылки не могут быть нажаты.\nПросроченные или собранные ссылки всегда пропускаются."
+	},
+	"rewardlinks_addlinks": {
+		"message": "Добавить ссылки"
+	},
+	"rewardlinks_pasteadd": {
+		"message": "Вставьте сюда ссылки для добавления, затем нажмите кнопку «$CONFIRM$»",
+		"placeholders": {
+			"confirm": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_pastehere": {
+		"message": "Любая вставленная ссылка будет добавлена"
+	},
+	"rewardlinks_linksadded": {
+		"message": "Добавлено наградных ссылок: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_nolinksadded": {
+		"message": "Наградные ссылки не добавлены."
+	},
+	"rewardlinks_linksupdated": {
+		"message": "Обновлено наградных ссылок: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_stats": {
+		"message": "Наградных ссылок: $TOTAL$, Подлежащие сбору: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_allcollected": {
+		"message": "Все ссылки собраны."
+	},
+	"rewardlinks_nexttime": {
+		"message": "Следующий сбор возможен $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_countremaining": {
+		"message": "Оставшееся количество ссылок для сбора: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_collectanyway": {
+		"message": "Вы все равно хотите перейти по этой ссылке?"
+	},
+	"rewardlinks_infocollected": {
+		"message": "Эта ссылка уже собрана."
+	},
+	"rewardlinks_infoexpired": {
+		"message": "Срок действия ссылки истек.\nСсылки действительны в течение $NUM$ дня(-ей).",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_infonoself": {
+		"message": "Эта ваша ссылка: самостоятельные вознаграждения недействительны."
+	},
+	"rewardlinks_infobroken": {
+		"message": "Ссылка не корректна или не работает."
+	},
+	"rewardlinks_infomaxreached": {
+		"message": "Ссылка была получена, когда был достигнут ежедневный лимит.\nСобранные таким образом ссылки теряются навсегда."
+	},
+	"rewardlinks_infomayexceedlimit": {
+		"message": "Есть и другие награды, получение которых ожидается.\nЭто может превышать ваш ежедневный лимит."
+	},
+	"rewardlinks_infoprobablyexpired": {
+		"message": "Вероятно, срок действия этой ссылки истек.\nТак как ID ссылок генерируется последовательно, а этот ID награды меньше, чем ID просроченной награды."
+	},
+	"rewardlinks_removelinks": {
+		"message": "Удалить старые ссылки"
+	},
+	"rewardlinks_removeselected": {
+		"message": "Удалить выбранные"
+	},
+	"rewardlinks_removelinksdays": {
+		"message": "Удалить ссылки на несобираемые награды старше @DAYS@ дня(-ей).\nСюда входят ссылки с истекшим сроком действия и уже собранные ссылки.\nСсылки старше $NUM$ дней(-я) периодически удаляются.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_removenone": {
+		"message": "Нет ссылок для удаления!"
+	},
+	"rewardlinks_removeconfirm": {
+		"message": "Количество удаляемых ссылок: $NUM$\nУдаленные ссылки больше не могут быть добавлены.\n\nПродолжить удаление?",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_rewardinfo": {
+		"message": "Эта награда была добавлена $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_reset": {
+		"message": "Отключить"
+	},
+	"rewardlinks_resetcount": {
+		"message": "Вы можете отключить предупреждение «Следующая коллекция» и в любом случае перейти по этой ссылке."
+	},
+	"rewardlinks_resetexpired": {
+		"message": "Вы можете отключить предупреждение «Вероятно ссылка просрочена» и в любом случае перейти по этой ссылке."
+	},
+	"rewardlinks_convert": {
+		"message": "Конвертированные ссылки"
+	},
+	"rewardlinks_noconversion": {
+		"message": "Не конвертированные"
+	},
+	"rewardlinks_shortenlinks": {
+		"message": "Сократить/Преобразовать ссылки"
+	},
+	"rewardlinks_shortenlinks_info1": {
+		"message": "Вставьте сюда ссылки для сокращения/преобразования."
+	},
+	"rewardlinks_shortenlinks_info2": {
+		"message": "Сокращенные ссылки ниже (дубликаты удалены)."
+	},
+	"rewardlinks_prefix": {
+		"message": "Префикс"
+	},
+	"rewardlinks_newline": {
+		"message": "Добавить новую строку?"
+	},
+	"rewardlinks_addspace": {
+		"message": "Добавить пробел"
+	},
+	"rewardlinks_summaryinfo": {
+		"message": "Все собраные награды в течение $NUM$ часов с момента получения самой последней награды.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"export_export": {
+		"message": "Экспорт"
+	},
+	"export_import": {
+		"message": "Импорт"
+	},
+	"export_exportdata": {
+		"message": "Экспорт данных"
+	},
+	"export_exportinventory": {
+		"message": "Экспорт инвентаря"
+	},
+	"export_importdata": {
+		"message": "Импорт данных"
+	},
+	"export_invalidexportdata": {
+		"message": "Файл не является файлом с данными DAF для текущего игрока!"
+	},
+	"export_invalidexport": {
+		"message": "Файл не содержит данные для экспорта!"
+	},
+	"export_importsuccess": {
+		"message": "Данные успешно импортированны!"
+	},
+	"export_debugdata": {
+		"message": "Экспорт диагностической информации"
+	},
+	"rings_showminmax": {
+		"message": "Показывать минимальные и максимальные значения"
+	},
+	"rings_showxp": {
+		"message": "Показывать опыт"
+	},
+	"rings_playerlevel": {
+		"message": "Рассчитать для игрока с уровнем"
+	},
+	"rings_stats": {
+		"message": "У вас в инвентаре $NUM$ $NAME$.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"name": {
+				"content": "$2"
+			}
+		}
+	},
+	"rings_notdependent": {
+		"message": "Не зависит от уровня игрока"
+	},
+	"rings_averageperring": {
+		"message": "Среднее количество опыта за кольцо"
+	},
+	"rings_rings": {
+		"message": "Кольца"
+	},
+	"equipment_sellout": {
+		"message": "Продажа всех неиспользованных предметов принесет вам $TOTAL$ монет (оборудование = $EQUIP$ монет, украшения = $DECO$ монет)",
+		"placeholders": {
+			"total": {
+				"content": "$1"
+			},
+			"equip": {
+				"content": "$2"
+			},
+			"deco": {
+				"content": "$3"
+			}
+		}
+	},
+	"equipment_notonsale": {
+		"message": "Больше не продается"
+	},
+	"equipment_quantities": {
+		"message": "Количество"
+	},
+	"equipment_owned": {
+		"message": "Во владении"
+	},
+	"equipment_inshop": {
+		"message": "В магазине"
+	},
+	"equipment_from": {
+		"message": "Из"
+	},
+	"equipment_affordable": {
+		"message": "Доступно"
+	},
+	"equipment_useful": {
+		"message": "Полезное"
+	},
+	"equipment_gain": {
+		"message": "Прирост"
+	},
+	"equipment_gain_info": {
+		"message": "Прирост относительно минимального значения ячейки в лагере"
+	},
+	"equipment_free": {
+		"message": "БЕСПЛАТНО"
+	},
+	"equipment_hidemax": {
+		"message": "Скрыть максимально скупленное оборудование"
+	},
+	"equipment_price_info": {
+		"message": "Цена указана не для этого оборудования,\nно для специального пакета/специального предложения, в которое входило это оборудование."
+	},
+	"equipment_level_none": {
+		"message": "Не важен"
+	},
+	"equipment_level_eq": {
+		"message": "Не больше, не меньше"
+	},
+	"equipment_level_le": {
+		"message": "Не больше"
+	},
+	"equipment_level_ge": {
+		"message": "Не меньше"
+	},
+	"equipment_level_your": {
+		"message": "вашего уровня"
+	},
+	"equipment_level_this": {
+		"message": "уровня"
+	},
+	"equipment_include_material": {
+		"message": "Включая эти материалы"
+	},
+	"equipment_exclude_material": {
+		"message": "Исключая эти материалы"
+	},
+	"equipment_current": {
+		"message": "Текущие"
+	},
+	"equipment_pfdisclaimer": {
+		"message": "Обратите внимание, что если вы ранее покупали специальный набор для игры по этой цене, то приобрести следующий набор по этой цене невозможно.\nВ таком случае самая низкая цена составляет примерно 5,5$."
+	},
+	"equipment_slotslower": {
+		"message": "Ячеек с меньшим значением, чем это"
+	},
+	"events_year": {
+		"message": "Год"
+	},
+	"events_end": {
+		"message": "Заканчивается"
+	},
+	"events_quests": {
+		"message": "Квест"
+	},
+	"events_achievements": {
+		"message": "Достижения"
+	},
+	"events_pieces": {
+		"message": "Части сокровища"
+	},
+	"events_locations": {
+		"message": "Локации"
+	},
+	"events_materials": {
+		"message": "Особые\nматериалы"
+	},
+	"events_completed": {
+		"message": "Завершено"
+	},
+	"events_total": {
+		"message": "Всего"
+	},
+	"events_medal": {
+		"message": "Медаль"
+	},
+	"events_story_maps": {
+		"message": "Сюжетные"
+	},
+	"events_challenges": {
+		"message": "Испытания"
+	},
+	"events_repeatables": {
+		"message": "Повторяющиеся"
+	},
+	"events_active": {
+		"message": "Активные"
+	},
+	"events_rerelease": {
+		"message": "Купленные/Подаренные"
+	},
+	"events_complete": {
+		"message": "Завершенные"
+	},
+	"events_incomplete": {
+		"message": "Незавершенные"
+	},
+	"events_notdone": {
+		"message": "Не выполненные"
+	},
+	"events_segmented": {
+		"message": "Разделено по регионам"
+	},
+	"events_yourprogress": {
+		"message": "Ваш регион"
+	},
+	"events_rewards": {
+		"message": "Награды"
+	},
+	"events_finalreward": {
+		"message": "Финальная награда"
+	},
+	"events_notsegmented": {
+		"message": "Не разделено по регионам"
+	},
+	"events_tiles": {
+		"message": "Плитки"
+	},
+	"events_chance": {
+		"message": "Шанс"
+	},
+	"events_clearbonus": {
+		"message": "Награда за очистку локации"
+	},
+	"events_gemstones": {
+		"message": "Драгоценные камни"
+	},
+	"events_tutorial": {
+		"message": "Учебное событие"
+	},
+	"repeat_name": {
+		"message": "Наименование"
+	},
+	"repeat_region_event": {
+		"message": "Регион / Событие"
+	},
+	"repeat_cooldown": {
+		"message": "Восстановление"
+	},
+	"repeat_cooldown_time": {
+		"message": "Время"
+	},
+	"repeat_cooldown_gems": {
+		"message": "Самоцветы"
+	},
+	"repeat_reset": {
+		"message": "Сброс"
+	},
+	"repeat_bonus": {
+		"message": "Награда за очистку локации"
+	},
+	"repeat_progress": {
+		"message": "Прогресс"
+	},
+	"repeat_progress_current": {
+		"message": "Плиток раскопано"
+	},
+	"repeat_progress_total": {
+		"message": "Всего плиток"
+	},
+	"repeat_time": {
+		"message": "Время, спустя которое локация будет снова готова"
+	},
+	"repeat_show_all": {
+		"message": "Все"
+	},
+	"repeat_show_selected": {
+		"message": "Только выбранные"
+	},
+	"repeat_ready": {
+		"message": "ГОТОВА"
+	},
+	"repeat_show_ready": {
+		"message": "Готова?"
+	},
+	"repeat_postcard": {
+		"message": "Неделя открыток готова?"
+	},
+	"dailyreward_stats": {
+		"message": "Ежедневная награда зависит от вашего текущего уровня ($LEVEL$) и региона ($REGION$).",
+		"placeholders": {
+			"level": {
+				"content": "$1"
+			},
+			"region": {
+				"content": "$2"
+			}
+		}
+	},
+	"dailyreward_lastcollect": {
+		"message": "Собрано $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"dailyreward_formula": {
+		"message": "Формула"
+	},
+	"specialweek_end": {
+		"message": "заканчивается $FINISH$",
+		"placeholders": {
+			"finish": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_debris_discount": {
+		"message": "Неделя $PERCENT$% скидки на раскопку лагеря",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_production": {
+		"message": "Неделя двойного производства"
+	},
+	"specialweek_half_prod_time": {
+		"message": "Двойная скорость производства"
+	},
+	"specialweek_double_drop": {
+		"message": "Неделя двойного материала"
+	},
+	"specialweek_gifts": {
+		"message": "Неделя двойных подарков"
+	},
+	"specialweek_postcards": {
+		"message": "Неделя открыток"
+	},
+	"specialweek_material_seller": {
+		"message": "Торговец старыми материалами"
+	},
+	"specialweek_free_premium_event": {
+		"message": "Активируйте бесплатное событие \"$NAME$\"",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_mystery_box": {
+		"message": "Таинственная коробка"
+	},
+	"specialweek_find_the_pair": {
+		"message": "Найди Пару"
+	},
+	"options_section_ingame": {
+		"message": "Параметры в игре"
+	},
+	"options_injectgame": {
+		"message": "Включить DAF\nВключите DAF в игре.\nЕсли не включить, то следующие параметры не действуют"
+	},
+	"options_fullwindow": {
+		"message": "Полноэкранный режим\nПоказать игру в полноэкранном режиме"
+	},
+	"options_fullwindowheader": {
+		"message": "Шапка\nОтображать шапку страницы в полноэкранном режиме"
+	},
+	"options_fullwindowside": {
+		"message": "Боковая сторона\nСкрыть боковую панель (Facebook), когда не в полноэкранном режиме"
+	},
+	"options_fullwindowlock": {
+		"message": "Фиксация полноэкранного режима\nПредотвращает выход игры из полноэкранного режима."
+	},
+	"options_resetfullwindow": {
+		"message": "Сброс при загрузке\nКаждый раз, когда вы загружаете игру, параметры «Полноэкранный режим» и «Полноэкранный режим - Боковая сторона» сбрасываются"
+	},
+	"options_resetfullwindow_warning": {
+		"message": "Эта опция должна быть включена, если у вас возникли проблемы с загрузкой игры."
+	},
+	"options_fullwindowtimeout": {
+		"message": "Автоматический полноэкранный режим\nАвтоматически активировать полноэкранный режим после загрузки данных (значёк DAF2 становится зеленым)"
+	},
+	"options_fullwindowtimeout_seconds": {
+		"message": "Да, через $NUM$ секунд",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"options_gctable": {
+		"message": "Таблица Детей Богов (ДБ)\nПоказывает внизу таблицу соседей с детьми богов"
+	},
+	"options_gctablecounter": {
+		"message": "Счетчик\nПоказывать счетчик"
+	},
+	"options_gctableregion": {
+		"message": "Регион\nВыделять цветом регион соседа"
+	},
+	"options_autoclick": {
+		"message": "Автоклик\nАвтоматически подтверждать всплывающие окна Facebook"
+	},
+	"options_nogcpopup": {
+		"message": "Без всплывающих окон\nОтключение всплывающих окон при сборе детей богов"
+	},
+	"options_autogc": {
+		"message": "Автосмена лагеря\nАвтоматически переключать лагерь после сбора детей богов"
+	},
+	"options_section_general": {
+		"message": "Общие настройки"
+	},
+	"options_autologin": {
+		"message": "Автовход на портал\nАвтоматический вход в портал"
+	},
+	"options_darktheme": {
+		"message": "Тёмная тема"
+	},
+	"options_shrinkmenu": {
+		"message": "Ширина меню\nУменьшить ширину вертикального меню слева"
+	},
+	"options_shrinkmenu_0": {
+		"message": "Когда окно узкое"
+	},
+	"options_shrinkmenu_1": {
+		"message": "Всегда свернуто"
+	},
+	"options_shrinkmenu_2": {
+		"message": "Всегда развернуто"
+	},
+	"options_disablealtguard": {
+		"message": "Сброс для альтернативного аккаунта\nЕсли вы установите этот параметр, загрузка альтернативной учетной записи перезапишет ваши текущие данные DAF2."
+	},
+	"options_disablealtguard_warning": {
+		"message": "ВНИМАНИЕ: включайте это на свой страх и риск!"
+	},
+	"options_section_rewardlinks": {
+		"message": "Наградные ссылки"
+	},
+	"options_rewardsclose": {
+		"message": "Автозакрытие\nАвтоматически закрывать страницу после получения награды."
+	},
+	"options_rewardscloseexceptgems": {
+		"message": "Кроме самоцветом\nНе закрывать автоматически при обнаружении самоцвета."
+	},
+	"options_rewardscloseexcepterrors": {
+		"message": "Кроме ошибок\nНе закрывать автоматически при обнаружении ошибки."
+	},
+	"options_rewardssummary": {
+		"message": "Добавить сводную таблицу\nЕсли страница не закрывается автоматически, добавить сводную таблицу внизу."
+	},
+	"options_linkgrabenabled": {
+		"message": "Сборщик Ссылок\nВключите сборщик ссылок в Facebook.\nЕсли не включен, следующие параметры не действуют."
+	},
+	"options_linkgrabbutton": {
+		"message": "Кнопка мыши\nВыберите кнопку мыши, которая запускает Сборщик Ссылок"
+	},
+	"options_linkgrabkey": {
+		"message": "Дополнительная клавиша\nВыберите дополнительную клавишу для нажатия в сочетании с кнопкой мыши"
+	},
+	"options_linkgrabsort": {
+		"message": "Сортировать ссылки"
+	},
+	"options_linkgrabconvert": {
+		"message": "Конвертировать ссылки"
+	},
+	"options_modifier_none": {
+		"message": "Нет"
+	},
+	"options_modifier_shift": {
+		"message": "Shift"
+	},
+	"options_modifier_ctrl": {
+		"message": "Ctrl"
+	},
+	"options_modifier_alt": {
+		"message": "Alt"
+	},
+	"options_button_left": {
+		"message": "Левая"
+	},
+	"options_button_middle": {
+		"message": "Средняя"
+	},
+	"options_button_right": {
+		"message": "Правая"
+	},
+	"options_sort_none": {
+		"message": "Нет"
+	},
+	"options_sort_ascending": {
+		"message": "По возрастанию"
+	},
+	"options_sort_descending": {
+		"message": "По убыванию"
+	},
+	"options_language": {
+		"message": "Язык\nВыберите язык для интерфейса DAF2"
+	},
+	"options_locale": {
+		"message": "Локализация\nИспользуется для форматирования чисел, дат и списков"
+	},
+	"options_locale_browser": {
+		"message": "Использовать настройки браузера"
+	},
+	"options_gamelanguage": {
+		"message": "Язык игры\nВыберите язык на котором играете. На этом языке в DAF2 будет отображаться информация об объектах игры (локации, предметы и т.п)."
+	},
+	"options_section_badges": {
+		"message": "Значки"
+	},
+	"options_badgeserverenergy": {
+		"message": "Энергия сервера\nОтображать значок с указанием энергии, сообщенной сервером.\nЭта информация периодически обновляется, когда состояние игры синхронизируется с сервером."
+	},
+	"options_badgegccounter": {
+		"message": "Счетчик ДБ\nОтображать значок с оставшимся количеством Детей Богов для сбора"
+	},
+	"options_badgegcenergy": {
+		"message": "Энергия ДБ\nОтображать значок полученной энергией от сбора Детей Богов у соседа"
+	},
+	"options_badgerepeatables": {
+		"message": "Повторяющиеся\nОтображать значки выбранных и готовых повторяющихся локаций"
+	},
+	"options_badgeluckycards": {
+		"message": "Карты удачи\nОтображать значек, когда карты удачи готовы"
+	},
+	"options_badgeproductions": {
+		"message": "Производство\nОтображать значки, когда слот каравана/литейной/кухни готов или пуст"
+	},
+	"options_badgetimeoffset": {
+		"message": "Смещение времени\nЗначок будет показан заранее на указанное количество секунд."
+	},
+	"options_badgesound": {
+		"message": "Звуковой эффект\nЭффект, который будет воспроизводиться при отображении значка."
+	},
+	"options_badgevolume": {
+		"message": "Громкость\nГромкость звукового эффекта."
+	},
+	"options_badgewindmills": {
+		"message": "Мельницы\nОтображать значек, когда лагерь соседа нуждается в мельницах"
+	},
+	"calc_operators": {
+		"message": "Операторы"
+	},
+	"calc_arithmetic": {
+		"message": "Арифметические"
+	},
+	"calc_comparison": {
+		"message": "Сравнения"
+	},
+	"calc_logical": {
+		"message": "Логические"
+	},
+	"calc_functions": {
+		"message": "Функции"
+	},
+	"calc_variables": {
+		"message": "Переменные"
+	},
+	"calc_examples": {
+		"message": "Примеры"
+	},
+	"calc_error_1": {
+		"message": "Синтаксическая ошибка"
+	},
+	"calc_error_2": {
+		"message": "Функция требует скобок"
+	},
+	"calc_error_3": {
+		"message": "Не хватает закрывающей скобки"
+	},
+	"calc_error_4": {
+		"message": "Слишком много закрывающих скобок"
+	},
+	"linkgrabber_selected": {
+		"message": "Ссылки: $UNIQUE$ / $TOTAL$",
+		"placeholders": {
+			"unique": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_fn_copy": {
+		"message": "Копировать в буферобмена"
+	},
+	"linkgrabber_fn_send": {
+		"message": "Отправить в DAF"
+	},
+	"linkgrabber_fn_cancel": {
+		"message": "Отмена"
+	},
+	"linkgrabber_fn_refresh": {
+		"message": "Обновить ссылки"
+	},
+	"linkgrabber_fn_showid": {
+		"message": "Показать ID награды"
+	},
+	"linkgrabber_fn_autosend": {
+		"message": "Автоматическая отправка"
+	},
+	"linkgrabber_added": {
+		"message": "Наградных ссылок добавлено: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_copied": {
+		"message": "Скопировано ссылок в буфер обмена: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	}
 }

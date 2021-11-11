@@ -1,86 +1,112 @@
 <div class="toolbar">
-    <label>
-        <span data-i18n-text="gui_show"></span>
-        <select name="show">
-            <option value="" data-i18n-text="pillars_all"></option>
-            <option value="possible" data-i18n-text="pillars_only_possible"></option>
-        </select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_search"></span>
-        <input name="search" type="text" maxlength="40">
-    </label>
-    <label>
-        <span data-i18n-text="pillars_cap"></span>
-        <input name="cap" type="checkbox">
-    </label>
-    <label>
-        <span data-i18n-text="pillars_grid"></span>
-        <input name="grid" type="checkbox">
-    </label>
-    <label>
-        <button data-action="options" data-i18n-text="tab_options"></button>
-    </label>
-    <label>
-        <button data-action="ultimate" data-i18n-text="gui_maximum"></button>
-    </label>
-    <div class="stats"></div>
+	<label>
+		<span data-i18n-text="gui_show"></span>
+		<select name="show">
+			<option value="" data-i18n-text="pillars_all"></option>
+			<option value="possible" data-i18n-text="pillars_only_possible"></option>
+		</select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_search"></span>
+		<input name="search" type="text" maxlength="40" data-debounce />
+	</label>
+	<label>
+		<span data-i18n-text="pillars_cap"></span>
+		<input name="cap" type="checkbox" />
+	</label>
+	<label>
+		<span data-i18n-text="pillars_grid"></span>
+		<input name="grid" type="checkbox" />
+	</label>
+	<label>
+		<button name="options" data-i18n-text="tab_options"></button>
+	</label>
+	<label>
+		<button name="ultimate" data-i18n-text="gui_maximum"></button>
+	</label>
+	<div class="stats"></div>
 </div>
 <div class="scrollable-content no-overflow">
-    <table class="pillars data">
-        <thead>
-            <tr>
-                <th rowspan="2" class="firstcol"><img class="wiki" data-wiki-page="Pillars" data-i18n-title="tab_pillars+gui_clickwiki" src="/img/gui/pillars.png"/></th>
-                <th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_name"></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="region"><img data-i18n-title="gui_region_required" src="/img/gui/map.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="level"><img data-i18n-title="gui_level_required" src="/img/gui/level.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="xp"><img data-i18n-title="gui_xp" src="/img/gui/xp.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="coins"><img data-i18n-title="gui_sell_price" src="/img/gui/coin.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="required"><img data-i18n-title="gui_qty_required" src="/img/gui/materials.png" /></th>
-                <th rowspan="2" class="sortable only-image" data-sort-name="available"><img data-i18n-title="gui_backpack" src="/img/gui/backpack.png" /></th>
-                <th rowspan="2" class="sortable" data-sort-name="perc_next" data-i18n-text="pillars_perc_next"></th>
-                <th rowspan="2" class="sortable" data-sort-name="possible" data-i18n-title="pillars_possible"><img src="/img/gui/max.png"></th>
-                <th colspan="3" class="sortable sortable-left colspan3" data-sort-name="excluded" data-i18n-text="pillars_predicted"></th>
-            </tr>
-            <tr>
-                <th class="sortable" data-sort-name="qty" data-i18n-text="gui_qty"></th>
-                <th class="sortable" data-sort-name="predicted_xp" data-i18n-text="gui_xp"></th>
-                <th class="sortable" data-sort-name="predicted_coins" data-i18n-text="gui_coins"></th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-            <tr data-row="1" class="pillars-totals">
-                <th colspan="9" data-i18n-text="pillars_totals"></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr data-row="2">
-                <th colspan="13">
-                    <div class="pillars-progress pillars-current">
-                        <div data-i18n-text="pillars_current_level"></div>
-                        <progress></progress>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                    <div class="pillars-progress pillars-next">
-                        <div data-i18n-text="pillars_predicted_level"></div>
-                        <progress></progress>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </th>
-            </tr>
-            <tr data-row="2">
-                <th colspan="13">
-                    <div class="pillars-current" data-i18n-text="pillars_predicted_gain"></div>
-                    <div class="pillars-next pillars-gain"></div>
-                </th>
-            </tr>
-        </tfoot>
-    </table>
+	<table class="pillars data">
+		<thead>
+			<tr>
+				<th rowspan="2" class="firstcol">
+					<img
+						class="wiki"
+						data-wiki-page="Pillars"
+						data-i18n-title="tab_pillars+gui_clickwiki"
+						src="/img/gui/pillars.png"
+					/>
+				</th>
+				<th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_name"></th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="region">
+					<img data-i18n-title="gui_region_required" src="/img/gui/map.png" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="level">
+					<img data-i18n-title="gui_level_required" src="/img/gui/level.png" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="xp">
+					<img data-i18n-title="gui_xp" src="/img/gui/xp.png" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="coins">
+					<img data-i18n-title="gui_sell_price" src="/img/gui/coin.png" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="required">
+					<img data-i18n-title="gui_qty_required" src="/img/gui/materials.png" />
+				</th>
+				<th rowspan="2" class="sortable only-image" data-sort-name="available">
+					<img data-i18n-title="gui_backpack" src="/img/gui/backpack.png" />
+				</th>
+				<th rowspan="2" class="sortable" data-sort-name="perc_next" data-i18n-text="pillars_perc_next"></th>
+				<th rowspan="2" class="sortable" data-sort-name="possible" data-i18n-title="pillars_possible">
+					<img src="/img/gui/max.png" />
+				</th>
+				<th
+					colspan="3"
+					class="sortable sortable-left colspan3"
+					data-sort-name="excluded"
+					data-i18n-text="pillars_predicted"
+				></th>
+			</tr>
+			<tr>
+				<th class="sortable" data-sort-name="qty" data-i18n-text="gui_qty"></th>
+				<th class="sortable" data-sort-name="predicted_xp" data-i18n-text="gui_xp"></th>
+				<th class="sortable" data-sort-name="predicted_coins" data-i18n-text="gui_coins"></th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+		<tfoot>
+			<tr data-row="1" class="pillars-totals">
+				<th colspan="9" data-i18n-text="pillars_totals"></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr data-row="2">
+				<th colspan="13">
+					<div class="pillars-progress pillars-current">
+						<div data-i18n-text="pillars_current_level"></div>
+						<progress></progress>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+					<div class="pillars-progress pillars-next">
+						<div data-i18n-text="pillars_predicted_level"></div>
+						<progress></progress>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</th>
+			</tr>
+			<tr data-row="2">
+				<th colspan="13">
+					<div class="pillars-current" data-i18n-text="pillars_predicted_gain"></div>
+					<div class="pillars-next pillars-gain"></div>
+				</th>
+			</tr>
+		</tfoot>
+	</table>
 </div>

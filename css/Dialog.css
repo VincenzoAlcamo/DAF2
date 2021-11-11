@@ -1,273 +1,273 @@
 .DAF-dialog {
-  font-size: 12pt;
-  cursor: default;
+	font-size: 12pt;
+	cursor: default;
 }
 
 .DAF-dialog * {
-  font-family: sans-serif;
-  font-size: inherit;
+	font-family: sans-serif;
+	font-size: inherit;
 }
 
 .DAF-dialog {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.DAF-md-wait .DAF-md-content>div {
-  font-size: 18pt;
-  text-align: center;
+.DAF-md-wait .DAF-md-content > div {
+	font-size: 18pt;
+	text-align: center;
 }
 
 .DAF-dialog {
-  position: fixed;
-  width: 100%;
-  visibility: hidden;
-  opacity: 0;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  transition: all 0.3s;
+	position: fixed;
+	width: 100%;
+	visibility: hidden;
+	opacity: 0;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	transition: all 0.3s;
 }
 
 .DAF-modal {
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
 }
 
 .DAF-dialog form {
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 .DAF-dialog.DAF-md-show {
-  opacity: 1;
-  visibility: visible;
+	opacity: 1;
+	visibility: visible;
 }
 
 .DAF-md-box {
-  height: auto;
-  max-width: 640px;
-  min-width: 200px;
-  display: inline-block;
-  pointer-events: all;
+	height: auto;
+	max-width: 640px;
+	min-width: 200px;
+	display: inline-block;
+	pointer-events: all;
 }
 
 .DAF-md-widest .DAF-md-box {
-  max-width: unset;
+	max-width: unset;
 }
 
 .DAF-modal .DAF-md-box {
-  min-width: 500px;
-  margin: auto;
+	min-width: 500px;
+	margin: auto;
 }
 
 .DAF-toast {
-  pointer-events: none;
+	pointer-events: none;
 }
 
 .DAF-toast .DAF-md-box {
-  padding: 2px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  box-shadow: none;
+	padding: 2px;
+	background-color: rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
+	box-shadow: none;
 }
 
 .DAF-md-content {
-  position: relative;
-  border-radius: 6px;
-  margin: 0 auto;
-  background: #66c;
-  border: 1px solid #333;
-  display: flex;
-  flex-direction: column;
-  max-height: 100vh;
+	position: relative;
+	border-radius: 6px;
+	margin: 0 auto;
+	background: #66c;
+	border: 1px solid #333;
+	display: flex;
+	flex-direction: column;
+	max-height: 100vh;
 }
 
 .DAF-md-content form select,
 .DAF-md-content form input,
 .DAF-md-content form textarea {
-  display: initial;
-  width: initial;
-  height: initial;
-  border: initial;
-  font-size: inherit;
-  line-height: initial;
-  padding: initial;
-  outline: initial;
+	display: initial;
+	width: initial;
+	height: initial;
+	border: initial;
+	font-size: inherit;
+	line-height: initial;
+	padding: initial;
+	outline: initial;
 }
 
 .DAF-md-content,
-.DAF-dialog input[type=button],
+.DAF-dialog input[type='button'],
 .DAF-dialog button,
 .DAF-dialog form,
 .DAF-dialog td {
-  color: #fff;
+	color: #fff;
 }
 
 .DAF-md-title {
-  margin: 0;
-  text-align: center;
-  font-size: 2em;
-  font-weight: 300;
-  background: rgba(0, 0, 0, 0.2);
+	margin: 0;
+	text-align: center;
+	font-size: 2em;
+	font-weight: 300;
+	background: rgba(0, 0, 0, 0.2);
 }
 
-.DAF-md-title>div {
-  padding: 0.1em;
-  line-height: 1em;
+.DAF-md-title > div {
+	padding: 0.1em;
+	line-height: 1em;
 }
 
-.DAF-md-title>div sub {
-  display: block;
-  font-size: 20px;
-  line-height: 20px;
+.DAF-md-title > div sub {
+	display: block;
+	font-size: 20px;
+	line-height: 20px;
 }
 
 .DAF-md-footer {
-  margin: 0;
-  text-align: center;
-  font-size: 1em;
-  font-weight: 200;
-  background: rgba(0, 0, 0, 0.05);
-  /* this will account for the left margin on buttons, so they are centered anyway */
-  padding-right: 24px;
+	margin: 0;
+	text-align: center;
+	font-size: 1em;
+	font-weight: 200;
+	background: rgba(0, 0, 0, 0.05);
+	/* this will account for the left margin on buttons, so they are centered anyway */
+	padding-right: 24px;
 }
 
 .DAF-md-body {
-  text-align: center;
-  padding: 1em;
-  flex-grow: 1;
-  overflow: auto;
+	text-align: center;
+	padding: 1em;
+	flex-grow: 1;
+	overflow: auto;
 }
 
-.DAF-dialog input[type=button],
+.DAF-dialog input[type='button'],
 .DAF-dialog button {
-  border: none;
-  padding: 2px 8px;
-  font-size: 1em;
-  letter-spacing: 1px;
-  cursor: pointer;
-  display: inline-block;
-  margin: 0;
-  border-radius: 4px;
-  border: 2px solid rgba(0, 0, 0, 0.4);
-  background: rgba(0, 0, 0, 0.2);
+	border: none;
+	padding: 2px 8px;
+	font-size: 1em;
+	letter-spacing: 1px;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0;
+	border-radius: 4px;
+	border: 2px solid rgba(0, 0, 0, 0.4);
+	background: rgba(0, 0, 0, 0.2);
 }
 
-.DAF-dialog input.small[type=button],
+.DAF-dialog input.small[type='button'],
 .DAF-dialog button.small {
-  font-size: 0.8em;
+	font-size: 0.8em;
 }
 
-.DAF-dialog input[type=button]:hover,
+.DAF-dialog input[type='button']:hover,
 .DAF-dialog button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0.2);
+	border-color: rgba(255, 255, 255, 0.5);
 }
 
-.DAF-md-footer button, .DAF-md-footer input[type=button] {
-  margin: 4px 8px;
+.DAF-md-footer button,
+.DAF-md-footer input[type='button'] {
+	margin: 4px 8px;
 }
 
 .DAF-dialog table {
-  border: 0;
+	border: 0;
 }
 
 .DAF-dialog tr,
 .DAF-dialog tr:nth-child(2) {
-  background: inherit;
+	background: inherit;
 }
 
 .DAF-dialog td {
-  border: 0;
-  vertical-align: top;
+	border: 0;
+	vertical-align: top;
 }
-
 
 /* Effects */
 
 .DAF-md-superscale .DAF-md-content {
-  transform: scale(2);
-  opacity: 0;
-  transition: all 0.3s;
+	transform: scale(2);
+	opacity: 0;
+	transition: all 0.3s;
 }
 
 .DAF-md-show.DAF-md-superscale .DAF-md-content {
-  transform: scale(1);
-  opacity: 1;
+	transform: scale(1);
+	opacity: 1;
 }
 
 /* Content styles */
 
 .DAF-md-critical .DAF-md-content {
-  background: #c43;
-  border-color: #721;
+	background: #c43;
+	border-color: #721;
 }
 
 .DAF-dialog button[timer]:after {
-  content: " ["attr(timer) "]";
+	content: ' [' attr(timer) ']';
 }
 
 .DAF-dialog .DAF-md-title button {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  top: 4px;
-  right: 4px;
-  color: white;
-  background-color: #8008;
-  border-radius: 6px;
-  border: 1px solid #400F;
-  font-size: 32px;
-  line-height: 26px;
-  text-align: center;
-  padding: 0 4px;
-  overflow: hidden;
+	position: absolute;
+	width: 28px;
+	height: 28px;
+	top: 4px;
+	right: 4px;
+	color: white;
+	background-color: #8008;
+	border-radius: 6px;
+	border: 1px solid #400f;
+	font-size: 32px;
+	line-height: 26px;
+	text-align: center;
+	padding: 0 4px;
+	overflow: hidden;
 }
 
 .DAF-md-title.empty button {
-  transform: scale(0.5);
-  transform-origin: top right;
+	transform: scale(0.5);
+	transform-origin: top right;
 }
 
-.DAF-md-title button[data-method="close"]:before {
-  content: "\00d7";
+.DAF-md-title button[data-method='close']:before {
+	content: '\00d7';
 }
 
-.DAF-md-title button[data-method="hide"]:before {
-  content: "\2227";
-  font-size: 28px;
-  vertical-align: top;
+.DAF-md-title button[data-method='hide']:before {
+	content: '\2227';
+	font-size: 28px;
+	vertical-align: top;
 }
 
-.DAF-md-wait .DAF-md-title button[data-method="hide"] {
-  transform: scale(0.8);
-  transform-origin: top right;
+.DAF-md-wait .DAF-md-title button[data-method='hide'] {
+	transform: scale(0.8);
+	transform-origin: top right;
 }
 
-.DAF-dialog.DAF-md-hidden .DAF-md-title button[data-method="hide"]:before {
-  content: "\2228";
+.DAF-dialog.DAF-md-hidden .DAF-md-title button[data-method='hide']:before {
+	content: '\2228';
 }
 
 .DAF-dialog.DAF-md-hidden {
-  align-items: start;
-  background: rgba(0, 0, 0, 0.2);
+	align-items: start;
+	background: rgba(0, 0, 0, 0.2);
 }
 
 .DAF-dialog.DAF-md-hidden .DAF-md-box {
-  margin: 0 auto;
+	margin: 0 auto;
 }
 
 .DAF-dialog.DAF-md-hidden.DAF-md-show.DAF-md-superscale .DAF-md-content {
-  transform: scale(0.8);
+	transform: scale(0.8);
 }
 
-.DAF-md-title.empty>div {
-  display: none;
+.DAF-md-title.empty > div {
+	display: none;
 }
 
-.DAF-md-close .DAF-md-title>div {
-  margin-right: 32px;
+.DAF-md-close .DAF-md-title > div {
+	margin-right: 32px;
 }

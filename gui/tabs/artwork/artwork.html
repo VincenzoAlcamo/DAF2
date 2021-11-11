@@ -1,31 +1,31 @@
 <div class="toolbar">
-    <label>
-        <span data-i18n-text="gui_show"></span>
-        <select name="show"></select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_event"></span>
-        <select name="event"></select>
-    </label>
-    <label>
-        <span data-i18n-text="gui_search"></span>
-        <input name="search" type="text" maxlength="40">
-    </label>
-    <div class="warning">All images are copyright by Pixel Federation</div>
+	<label>
+		<span data-i18n-text="gui_show"></span>
+		<select name="show"></select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_event"></span>
+		<select name="event"></select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_search"></span>
+		<input name="search" type="text" maxlength="40" data-debounce />
+	</label>
+	<div class="warning">All images are copyright by Pixel Federation</div>
 </div>
 <div class="scrollable-content">
-    <table class="data">
-        <tbody>
-            <tr>
-                <td>
-                    <div class="grid"></div>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td class="totals"></td>
-            </tr>
-        </tfoot>
-    </table>
+	<table class="data">
+		<tbody>
+			<tr>
+				<td>
+					<div class="grid"></div>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td class="totals"></td>
+			</tr>
+		</tfoot>
+	</table>
 </div>

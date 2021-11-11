@@ -12,78 +12,78 @@ let data = null;
 let match, div, el;
 
 function getObj(id, typ, sig) {
-    return {
-        id: id,
-        typ: typ,
-        sig: sig
-    };
+	return {
+		id: id,
+		typ: typ,
+		sig: sig
+	};
 }
 
 function getUnixTime() {
-    return Math.floor(Date.now() / 1000);
+	return Math.floor(Date.now() / 1000);
 }
 
 // Facebook reward link
 if (!data) {
-    match = reFacebook.exec(location.href);
-    if (match) data = getObj(match[1], match[2], match[3]);
+	match = reFacebook.exec(location.href);
+	if (match) data = getObj(match[1], match[2], match[3]);
 }
 
 // Portal reward link
 if (!data) {
-    match = rePortal.exec(location.href);
-    if (match) data = getObj(match[1], match[2], match[3]);
+	match = rePortal.exec(location.href);
+	if (match) data = getObj(match[1], match[2], match[3]);
 }
 
 if (data) {
-    data.cdt = getUnixTime();
+	data.cdt = getUnixTime();
 
-    // Material id
-    div = document.getElementsByClassName('reward')[0];
-    match = div && reMaterial.exec(div.style.backgroundImage);
-    if (match) data.cmt = parseInt(match[1]) || 0;
+	// Material id
+	div = document.getElementsByClassName('reward')[0];
+	match = div && reMaterial.exec(div.style.backgroundImage);
+	if (match) data.cmt = parseInt(match[1]) || 0;
 
-    div = document.getElementsByClassName('wp_avatar')[0];
-    // Facebook id
-    el = div && div.getElementsByTagName('img')[0];
-    match = el && reFriend.exec(el.src);
-    if (match) data.cid = match[2];
-    if (el) data.cpi = el.src;
-    // Facebook name
-    el = div && div.getElementsByTagName('p')[0];
-    if (el) data.cnm = el.textContent;
+	div = document.getElementsByClassName('wp_avatar')[0];
+	// Facebook id
+	el = div && div.getElementsByTagName('img')[0];
+	match = el && reFriend.exec(el.src);
+	if (match) data.cid = match[2];
+	if (el) data.cpi = el.src;
+	// Facebook name
+	el = div && div.getElementsByTagName('p')[0];
+	if (el) data.cnm = el.textContent;
 
 
-    div = document.getElementsByClassName('da-receiving-text')[0];
-    if (div) {
-        const text = div.textContent;
-        if ((match = reWait.exec(text))) {
-            // All links collected, retry in xxh yym
-            data.cmt = -3;
-            data.next = data.cdt + (parseInt(match[1]) * 60 + parseInt(match[2])) * 60;
-        } else if (text.match(reExpired)) {
-            // This link can't be clicked - its time has expired.
-            data.cmt = -1;
-        } else if (text.match(reAuto)) {
-            //Nessuna ricompensa. Niente auto-ricompensa.
-            data.cmt = -4;
-        } else if (text.match(reBroken)) {
-            //Error! Diggy had broken his shovel and something went wrong!
-            data.cmt = -5;
-        } else {
-            // Already collected
-            data.cmt = -2;
-        }
-    }
+	div = document.getElementsByClassName('da-receiving-text')[0];
+	if (div) {
+		const text = div.textContent;
+		if ((match = reWait.exec(text))) {
+			// All links collected, retry in xxh yym
+			data.cmt = -3;
+			data.next = data.cdt + (parseInt(match[1]) * 60 + parseInt(match[2])) * 60;
+		} else if (text.match(reExpired)) {
+			// This link can't be clicked - its time has expired.
+			data.cmt = -1;
+		} else if (text.match(reAuto)) {
+			//Nessuna ricompensa. Niente auto-ricompensa.
+			data.cmt = -4;
+		} else if (text.match(reBroken)) {
+			//Error! Diggy had broken his shovel and something went wrong!
+			data.cmt = -5;
+		} else {
+			// Already collected
+			data.cmt = -2;
+		}
+	}
 
-    chrome.runtime.sendMessage({
-        action: 'collectRewardLink',
-        reward: data
-    }, function (htm) {
-        const div = document.getElementsByClassName('playerIdInfo')[0];
-        if (!chrome.runtime.lastError && div && htm) {
-            const p = DOMPurify.sanitize(`<div>${htm}</div>`, { RETURN_DOM: true, RETURN_DOM_IMPORT: true }).firstElementChild;
-            div.parentNode.insertBefore(p, div);
-        }
-    });
+	chrome.runtime.sendMessage({
+		action: 'collectRewardLink',
+		reward: data
+	}, function (htm) {
+		const div = document.getElementsByClassName('playerIdInfo')[0];
+		if (!chrome.runtime.lastError && div && htm) {
+			const p = DOMPurify.sanitize(`<div>${htm}</div>`, { RETURN_DOM: true, RETURN_DOM_IMPORT: true }).firstElementChild;
+			div.parentNode.insertBefore(p, div);
+		}
+	});
 }

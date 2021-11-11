@@ -1,2269 +1,2269 @@
 {
-    "ext_name": {
-        "message": "DA Friends 2"
-    },
-    "ext_title": {
-        "message": "Βοηθητική επέκταση για το Diggy's Adventure"
-    },
-    "menu_resetfullwindow": {
-        "message": "Επαναφορά στη φόρτωση"
-    },
-    "menu_fullwindow": {
-        "message": "Παιχνίδι σε πλήρη οθόνη"
-    },
-    "menu_fullwindowheader": {
-        "message": "Κεφαλίδα"
-    },
-    "menu_fullwindowside": {
-        "message": "Πλευρική Μπάρα"
-    },
-    "menu_fullwindowlock": {
-        "message": "Κλείδωμα"
-    },
-    "menu_gctable": {
-        "message": "Εμφάνιση πίνακα Παιδιών των Θεών"
-    },
-    "menu_gctablecounter": {
-        "message": "Μετρητής"
-    },
-    "menu_gctableregion": {
-        "message": "Περιοχή"
-    },
-    "menu_gccollected": {
-        "message": "Όλα τα Παιδιά Θεών συλλέχτηκαν"
-    },
-    "menu_autoclick": {
-        "message": "Αυτόματη αποδοχή αναδυόμενων παραθύρων του Facebook"
-    },
-    "menu_nogcpopup": {
-        "message": "Όχι αναδυόμενα παράθυρα κατά τη συλλογή Παιδιών Θεών"
-    },
-    "menu_reloadgame": {
-        "message": "Επαναφορτώνει το παιχνίδι και αναγκάζει νέα συλλογή δεδομένων"
-    },
-    "menu_switchportal": {
-        "message": "Αλλαγή σε Portal"
-    },
-    "menu_switchfacebook": {
-        "message": "Αλλαγή σε Facebook"
-    },
-    "menu_on": {
-        "message": "ΑΝΟΙΧΤΟ"
-    },
-    "menu_off": {
-        "message": "ΚΛΕΙΣΤΟ"
-    },
-    "gui_timeparts": {
-        "message": "η,ώ,λ,δ"
-    },
-    "gui_card_clicker": {
-        "message": "Πατήστε για κατάρρευση/μεγέθυνση τομέα"
-    },
-    "gui_show": {
-        "message": "Εμφάνιση"
-    },
-    "gui_all": {
-        "message": "Όλοι"
-    },
-    "gui_only_possible": {
-        "message": "Μόνο πιθανά"
-    },
-    "gui_search": {
-        "message": "Αναζήτηση"
-    },
-    "gui_filter": {
-        "message": "Φίλτρο"
-    },
-    "gui_name": {
-        "message": "Όνομα"
-    },
-    "gui_region_required": {
-        "message": "Απαιτούμενη\nΠεριοχή"
-    },
-    "gui_theme_required": {
-        "message": "Απαιτούμενη\nΠεριοχή/Θέμα"
-    },
-    "gui_level_required": {
-        "message": "Απαιτούμενο\nΕπίπεδο"
-    },
-    "gui_qty": {
-        "message": "Ποσότητας"
-    },
-    "gui_qty_required": {
-        "message": "Απαιτούμενη\nΠοσότητα"
-    },
-    "gui_energy": {
-        "message": "Ενέργεια"
-    },
-    "gui_estimatedenergy": {
-        "message": "Εκτιμώμενη ενέργεια"
-    },
-    "gui_food": {
-        "message": "Φαγητό"
-    },
-    "gui_coins": {
-        "message": "Νομίσματα"
-    },
-    "gui_backpack": {
-        "message": "Αποθήκη"
-    },
-    "gui_clickwiki": {
-        "message": "Πατήστε για να ανοίξετε τη σελίδα Wiki."
-    },
-    "gui_from_any": {
-        "message": "από περιοχές ή ιστορίες"
-    },
-    "gui_from_regions": {
-        "message": "από περιοχές"
-    },
-    "gui_from_events": {
-        "message": "από ιστορίες"
-    },
-    "gui_ingredients": {
-        "message": "Υλικά"
-    },
-    "gui_event": {
-        "message": "Ιστορία"
-    },
-    "gui_specialweek": {
-        "message": "Ειδική εβδομάδα"
-    },
-    "gui_region": {
-        "message": "Περιοχή"
-    },
-    "gui_theme": {
-        "message": "Θέμα"
-    },
-    "gui_year": {
-        "message": "Έτος"
-    },
-    "gui_quest": {
-        "message": "Αποστολή"
-    },
-    "gui_offer": {
-        "message": "Προσφορά"
-    },
-    "gui_tieredoffer": {
-        "message": "Προσφορά Επιπέδου"
-    },
-    "gui_pack": {
-        "message": "Πακέτο"
-    },
-    "gui_equipment": {
-        "message": "Εξοπλισμός"
-    },
-    "gui_shop": {
-        "message": "Μαγαζί"
-    },
-    "gui_decoration": {
-        "message": "Διακοσμητικό"
-    },
-    "gui_usable": {
-        "message": "Μιας χρήσης"
-    },
-    "gui_token": {
-        "message": "Δαχτυλίδι"
-    },
-    "gui_level": {
-        "message": "Επίπεδο"
-    },
-    "gui_xp": {
-        "message": "Εμπειρία"
-    },
-    "gui_sell_price": {
-        "message": "Τιμή Πώλησης"
-    },
-    "gui_neighbour": {
-        "message": "Γείτονας"
-    },
-    "gui_friend": {
-        "message": "Φίλος"
-    },
-    "gui_firstrecorded": {
-        "message": "Πρώτη\nΚαταγραφή"
-    },
-    "gui_loadingresources": {
-        "message": "Φόρτωση πόρων ($NUM$/$TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "gui_screenshot_shot": {
-        "message": "Πατήστε για να βγάλετε φωτογραφία του τομέα.\nΗ φωτογραφία θα εμφανιστεί δεξιά.\nΠροσοχή: Μόνο η ορατή περιοχή θα βγει!\nΠρέπει να πατήσετε το εικονίδιο DAF2 στο μενού του Chrome, για να ενεργοποίησετε αυτή τη λειτουργία."
-    },
-    "gui_screenshot_target": {
-        "message": "Πατήστε για να κατεβάσετε την εικόνα.\nΜπορείτε να κάνετε δεξιά κλικ στην εικόνα και μετά \"Αντιγραφή Εικόνας\" για να την αντιγράψετε στο Πρόχειρο."
-    },
-    "gui_screenshot_error": {
-        "message": "Δεν μπορεί να φτιαχτεί εικόνα."
-    },
-    "gui_screenshot_errorinfo": {
-        "message": "Πρώτα, πρέπει να πατήσετε το εικονίδιο @DAF2@ στο μενού του Chrome.\nΑυτό θα ενεργοποιήσει τη λειτουργία φωτογραφίας μέχρι να κλείσει η σελίδα.\n\nΠαρακαλούμε, πατήστε το εικονίδιο @DAF2@ και μετά δοκιμάστε ξανά."
-    },
-    "gui_infodated": {
-        "message": "Οι πληροφορίες εδώ, ήταν τρέχουσες και έγκυρες από '$VALID$'",
-        "placeholders": {
-            "valid": {
-                "content": "$1"
-            }
-        }
-    },
-    "gui_nonote": {
-        "message": "Καμία σημείωση"
-    },
-    "gui_minimum": {
-        "message": "Ελάχιστα"
-    },
-    "gui_maximum": {
-        "message": "Μέγιστα"
-    },
-    "gui_average": {
-        "message": "Μέσος Όρος"
-    },
-    "gui_loot": {
-        "message": "Αποκτήματα"
-    },
-    "gui_datafrompf": {
-        "message": "Τα δεδομένα λήφθηκαν από τα αρχεία παιχνιδιού της Pixel Federation."
-    },
-    "gui_gift": {
-        "message": "Δώρο"
-    },
-    "gui_gifts": {
-        "message": "Δώρα"
-    },
-    "gui_day": {
-        "message": "Μέρα"
-    },
-    "gui_placed": {
-        "message": "Τοποθετημένο στη βάση"
-    },
-    "gui_owned": {
-        "message": "Σας ανήκουν"
-    },
-    "gui_limit": {
-        "message": "Όριο"
-    },
-    "gui_type": {
-        "message": "Είδος"
-    },
-    "gui_width": {
-        "message": "Πλάτος"
-    },
-    "gui_height": {
-        "message": "Ύψος"
-    },
-    "gui_value": {
-        "message": "Αξία"
-    },
-    "gui_slot_value": {
-        "message": "Αξία Υποδοχής"
-    },
-    "gui_cost": {
-        "message": "Κόστος"
-    },
-    "gui_items_found": {
-        "message": "Αντικείμενα που βρέθηκαν"
-    },
-    "gui_reset": {
-        "message": "Επαναφορά"
-    },
-    "gui_material": {
-        "message": "Υλικό"
-    },
-    "gui_filter_clear": {
-        "message": "Καθαρισμός"
-    },
-    "gui_filter_invert": {
-        "message": "Αντιστροφή"
-    },
-    "gui_advancedfilter": {
-        "message": "Εξελιγμένο φίλτρο"
-    },
-    "gui_location": {
-        "message": "Τοποθεσία"
-    },
-    "gui_locked": {
-        "message": "Κλειδωμένο"
-    },
-    "gui_noresults": {
-        "message": "Κανένα αποτέλεσμα"
-    },
-    "gui_toomanyresults": {
-        "message": "Υπερβολικά πολλά αποτελέσματα"
-    },
-    "gui_id": {
-        "message": "Ταυτότητα"
-    },
-    "gui_date": {
-        "message": "Ημερομηνία"
-    },
-    "gui_ctrlclick": {
-        "message": "Χρησιμοποιείστε το CTRL για επιλογή/ξε-επιλογή όλων"
-    },
-    "gui_summary": {
-        "message": "Περίληψη"
-    },
-    "dialog_ok": {
-        "message": "Εντάξει"
-    },
-    "dialog_yes": {
-        "message": "Ναι"
-    },
-    "dialog_no": {
-        "message": "Όχι"
-    },
-    "dialog_confirm": {
-        "message": "Επιβεβαίωση"
-    },
-    "dialog_cancel": {
-        "message": "Ακύρωση"
-    },
-    "dialog_close": {
-        "message": "Κλείσιμο"
-    },
-    "dialog_pleasewait": {
-        "message": "Παρακαλούμε περιμένετε"
-    },
-    "tab_game": {
-        "message": "Αλλαγή στο παιχνίδι"
-    },
-    "tab_about": {
-        "message": "Σχετικά"
-    },
-    "tab_progress": {
-        "message": "Πρόοδος"
-    },
-    "tab_camp": {
-        "message": "Βάση"
-    },
-    "tab_map": {
-        "message": "Χάρτης"
-    },
-    "tab_caravan": {
-        "message": "Καραβάνι"
-    },
-    "tab_kitchen": {
-        "message": "Κουζίνα"
-    },
-    "tab_foundry": {
-        "message": "Χυτήριο"
-    },
-    "tab_pillars": {
-        "message": "Κίονες"
-    },
-    "tab_neighbors": {
-        "message": "Γείτονες"
-    },
-    "tab_friendship": {
-        "message": "Φιλία"
-    },
-    "tab_godchild": {
-        "message": "Παιδιά Θεών"
-    },
-    "tab_locations": {
-        "message": "Τοποθεσίες"
-    },
-    "tab_greenrings": {
-        "message": "Πράσινα Δαχτυλίδια"
-    },
-    "tab_redrings": {
-        "message": "Κόκκινα Δαχτυλίδια"
-    },
-    "tab_christmasrings": {
-        "message": "Χριστουγεννιάτικα Δαχτυλίδια"
-    },
-    "tab_rewardlinks": {
-        "message": "Σύνδεσμοι Δώρων"
-    },
-    "tab_options": {
-        "message": "Επιλογές"
-    },
-    "tab_help": {
-        "message": "Βοήθεια"
-    },
-    "tab_export": {
-        "message": "Εισαγωγή / Εξαγωγή"
-    },
-    "tab_equipment": {
-        "message": "Εξοπλισμός / Μαγαζί"
-    },
-    "tab_events": {
-        "message": "Ιστορίες"
-    },
-    "tab_repeat": {
-        "message": "Επαναλαμβανόμενα"
-    },
-    "tab_dailyreward": {
-        "message": "Ημερήσιο Έπαθλο"
-    },
-    "about_version": {
-        "message": "Έκδοση: $VERSION$",
-        "placeholders": {
-            "version": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_data": {
-        "message": "Τελευταίο Στιγμιότυπο Δεδομένων: $TIME$\nΙστοσελίδα Παιχνιδιού: $SITE$ (PLATFORM$)\nΑναγνωριστικό Χρήστη: #$USERID$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            },
-            "userid": {
-                "content": "$2"
-            },
-            "site": {
-                "content": "$3"
-            },
-            "platform": {
-                "content": "$4"
-            }
-        }
-    },
-    "about_visit": {
-        "message": "Επισκεφτείτε τη σελίδα στο Facebook"
-    },
-    "about_nodata": {
-        "message": "Δε φορτώθηκαν ακόμα Δεδομένα του Παιχνιδιού, παρακαλώ φορτώστε ή επαναφορτώστε το παράθυρο του παιχνιδιού."
-    },
-    "about_disclaimer": {
-        "message": "Το DA Friends φτιάχτηκε από φαν, και δεν εγκρίθηκε ούτε υποστηρίζετε από τη Pixel Federation, τους δημιουργούς του παιχνιδιού \"Diggy's Adventure\".\nΧρησιμοποιείτε το DA Friends με δικό σας ρίσκο. Δεν έρχεται με καμία εγγύηση, ούτε σαφή ή υπονοούμενη λειτουργικότητα ή χρησιμότητα. Ο δημιουργός δεν πρέπει να κριθεί υπεύθυνος για οποιαδήποτε ζημιά ή απώλεια που προκλήθηκε από τη χρήση του.\nΧρησιμοποιώντας αυτήν την επέκταση, συμφωνείτε με αυτούς τους όρους."
-    },
-    "about_translators": {
-        "message": "Μεταφραστές"
-    },
-    "about_alternate": {
-        "message": "Φορτώθηκε διαφορετικός λογαριασμός ($ID$).",
-        "placeholders": {
-            "id": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_reset": {
-        "message": "Τα δεδομένα του προηγούμενου λογαριασμού σας διατηρήθηκαν.\nΓια επαναφορά των δεδομένων και χρήση διαφορετικού λογαριασμού, πατήστε @RESET@"
-    },
-    "about_reset_ask_title": {
-        "message": "Επαναφορά λογαριασμού"
-    },
-    "about_reset_ask_text": {
-        "message": "Θέλετε να επαναφέρετε τα δεδομένα σας\nώστε να χρησιμοποιήσετε άλλο λογαριασμό;"
-    },
-    "about_reset_ok_title": {
-        "message": "Έγινε επαναφορά δεδομένων"
-    },
-    "about_reset_ok_text": {
-        "message": "Παρακαλώ φορτώστε ξανά το Diggy's Adventure με τον λογαριασμό που θέλετε να χρησιμοποιήσετε."
-    },
-    "production_total_time": {
-        "message": "Συνολικος χρόνος\n(Θέσεις: $NUM$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "production_time": {
-        "message": "Χρόνος παραγωγής"
-    },
-    "production_possible": {
-        "message": "Πιθανοί"
-    },
-    "production_possible_energy": {
-        "message": "Πιθανή\nΕνέργεια"
-    },
-    "production_energy_hour": {
-        "message": "Ενέργεια\nΑνά Ώρα"
-    },
-    "production_qty": {
-        "message": "Ποσότητα παραγωγής"
-    },
-    "production_uplift": {
-        "message": "Ανύψωση (Εμπειρία/Ώρα)"
-    },
-    "production_uplift_info": {
-        "message": "Εμπειρία από μια θέση την ώρα βασισμένο στις τιμές το κιώνων"
-    },
-    "production_req_ticket": {
-        "message": "Χρειάζεται εισιτήριο;"
-    },
-    "kitchen_food_in_backpack": {
-        "message": "από το φαγητό στο σακίδιο"
-    },
-    "camp_your_camp": {
-        "message": "Η βάση σας"
-    },
-    "camp_player_name": {
-        "message": "Η βάση του/της $PLAYER$ στις $DATE$",
-        "placeholders": {
-            "player": {
-                "content": "$1"
-            },
-            "date": {
-                "content": "$2"
-            }
-        }
-    },
-    "camp_no_player": {
-        "message": "Ακόμα καμία επίσκεψη σε βάση"
-    },
-    "camp_player": {
-        "message": "Παίχτης"
-    },
-    "camp_total": {
-        "message": "Σύνολο"
-    },
-    "camp_fill_time": {
-        "message": "Χρόνος γεμίσματος"
-    },
-    "camp_fill_time_info": {
-        "message": "Χρόνος που χρειάζεται η μπάρα ενέργειας για να γεμίσει"
-    },
-    "camp_numofregenslots": {
-        "message": "# θέσεις αναπλήρωσης"
-    },
-    "camp_canbeimproved": {
-        "message": "Αυτή η βάση μπορεί να βελτιωθεί"
-    },
-    "camp_showsetup": {
-        "message": "Πατήστε εδώ για να δείτε την τροποποίηση βάσης"
-    },
-    "camp_windmill_regen": {
-        "message": "Ανανέωση ανεμόμυλων"
-    },
-    "camp_windmill_regen_total": {
-        "message": "Ανανέωση όλων των ανεμόμυλων"
-    },
-    "camp_windmill_num": {
-        "message": "Τωρινός αριθμός ανεμόμυλων"
-    },
-    "camp_windmill_expiry": {
-        "message": "Οι ανεμόμυλοι θα λήξουν στις\n$TIME$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_empty": {
-        "message": "Κενή υποδοχή"
-    },
-    "camp_slot_blocked": {
-        "message": "Μπλοκαρισμένο κενό"
-    },
-    "camp_regen": {
-        "message": "Ανανέωση"
-    },
-    "camp_capacity": {
-        "message": "Χωρητικότητα"
-    },
-    "camp_windmills": {
-        "message": "Ανεμόμυλοι"
-    },
-    "camp_needs_windmills": {
-        "message": "Η βάση θέλει ανεμόμυλους"
-    },
-    "camp_avg_value": {
-        "message": "Μέσος Όρος Υποδοχής"
-    },
-    "camp_min_value": {
-        "message": "Ελάχιστη Υποδοχή"
-    },
-    "camp_max_value": {
-        "message": "Μέγιστη Υποδοχή"
-    },
-    "camp_num_slots": {
-        "message": "Αριθμός Υποδοχών"
-    },
-    "camp_unlock_materials": {
-        "message": "Υλικά για ξεκλείδωμα βάσης"
-    },
-    "camp_unlock_one": {
-        "message": "Το ξεκλείδωμα μιας θέσης προσφέρει $VALUE$ Εμπειρία",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_unlock_cost": {
-        "message": "Μια θέση ξεκλειδώνεται με $VALUE$ πετράδια\nή με αυτά τα υλικά:",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_start_date": {
-        "message": "Αρχίσατε να παίζεται στις:\n$STARTED$",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_day_mode": {
-        "message": "Πρωί"
-    },
-    "camp_night_mode": {
-        "message": "Βράδυ"
-    },
-    "camp_setup_mode": {
-        "message": "Διάταξη"
-    },
-    "camp_discounted": {
-        "message": "Σε προσφορά"
-    },
-    "camp_neighbor": {
-        "message": "Βάση γείτονα"
-    },
-    "camp_extra": {
-        "message": "Έξτρα"
-    },
-    "camp_ftp_group": {
-        "message": "ΟΜΑΔΑ $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_ftp_dot_info": {
-        "message": "Οι κάρτες με κόκκινη κουκκίδα μπορεί να εμφανιστούν στα πρώτα δωρεάν γυρίσματα."
-    },
-    "camp_ftp_group_info": {
-        "message": "Μπορείτε να βρείτε κάρτες από την ομάδα μόνο όταν όλες οι κάρτες τις προηγούμενηες ομάδας βρεθούν"
-    },
-    "camp_ftp_cumulativegems": {
-        "message": "Συνολικά πετράδια μέχρι τώρα"
-    },
-    "camp_ads_limit": {
-        "message": "Όριο διαφημίσεων"
-    },
-    "camp_ads_limit_info": {
-        "message": "Αυτό είναι μόνο μια ένδειξη και δεν αναπαριστά την αληθινή πιθανότητα εμφάνισης διαφήμισης"
-    },
-    "camp_ads_limit_info2": {
-        "message": "Ο τρίτος πάροχος διαφημίσεων μπορεί να θέσει διαφορετικό όριο, κάτι το οποίο είναι εκτός ελέγχου της Pixel Federation"
-    },
-    "map_floor": {
-        "message": "Πάτωμα"
-    },
-    "map_floor_current": {
-        "message": "Τωρινό πάτωμα"
-    },
-    "map_floor_found": {
-        "message": "Πατήστε για εμφάνιση του χάρτη αυτού του ορόφου"
-    },
-    "map_floor_not_found": {
-        "message": "Αυτός ο όροφος δεν έχει επισκεφτεί ακόμα"
-    },
-    "map_remaining_tiles": {
-        "message": "Εναπομείναντα πλακίδια"
-    },
-    "map_special": {
-        "message": "Ειδικά"
-    },
-    "map_quest": {
-        "message": "Αποστολή"
-    },
-    "map_this_floor": {
-        "message": "Αυτός ο όροφος"
-    },
-    "map_all_floors": {
-        "message": "Όλοι οι όροφοι"
-    },
-    "map_warning": {
-        "message": "Παρακαλώ επισκεφθείτε κάποια τοποθεσία στο παιχνίδι και επιστρέψτε εδώ!"
-    },
-    "map_button_d": {
-        "message": "Εμφάνιση Diggy"
-    },
-    "map_button_t": {
-        "message": "Εμφάνιση τηλεμεταφορών"
-    },
-    "map_button_e": {
-        "message": "Εμφάνιση φάρων"
-    },
-    "map_button_c": {
-        "message": "Εμφάνιση με όλα τα χρώματα"
-    },
-    "map_button_g": {
-        "message": "Εμφάνιση πληροφορίας αποσφαλμάτωσης"
-    },
-    "map_button_l": {
-        "message": "Έμφαση εύθραυστων πλακιδίων"
-    },
-    "map_button_n": {
-        "message": "Έμφαση πλακιδίων με καλά περιεχόμενα"
-    },
-    "map_button_v": {
-        "message": "Εμφάνιση εξερευνημένων πλακιδίων"
-    },
-    "map_button_o": {
-        "message": "Εμφάνιση αδιαφανών πλακιδίων"
-    },
-    "map_button_b": {
-        "message": "Εμφάνιση ένδειξης μπόνους"
-    },
-    "map_button_k": {
-        "message": "Εμφάνιση φόντου μέσω απόκρυψης των εύθραυστων πλακιδίων"
-    },
-    "map_button_a": {
-        "message": "Εμφάνιση όλων των πλακιδίων"
-    },
-    "map_button_x": {
-        "message": "Εμφάνιση εισόδων και εξόδων"
-    },
-    "map_button_u": {
-        "message": "Εμφάνιση αρχικού χάρτη"
-    },
-    "map_button_f": {
-        "message": "Εμφάνιση όλου του χάρτη"
-    },
-    "map_button_s": {
-        "message": "Εμφάνιση λύσης"
-    },
-    "map_button_m": {
-        "message": "Ανακάτεμα εμφανισμένων πλακιδίων"
-    },
-    "map_save": {
-        "message": "Αποθήκευση"
-    },
-    "map_save_tip": {
-        "message": "Αποθήκευση χάρτη ως αρχείο εικόνας"
-    },
-    "map_mine_exit": {
-        "message": "Αποχωρεί από ορυχείο"
-    },
-    "map_goto_floor": {
-        "message": "Πηγαίνει στον όροφο $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "map_goto_unknown": {
-        "message": "Πηγαίνει σε άλλον όροφο, αλλά αυτός ο δρόμος δεν έχει παρθεί ξανά"
-    },
-    "map_teleport": {
-        "message": "Τηλεμεταφορά"
-    },
-    "map_hint": {
-        "message": "Βοήθεια"
-    },
-    "map_beacon": {
-        "message": "Φάρος"
-    },
-    "map_active": {
-        "message": "ενεργό"
-    },
-    "map_not_active": {
-        "message": "μη ενεργό"
-    },
-    "map_tile": {
-        "message": "Πλακίδιο"
-    },
-    "map_npc": {
-        "message": "Χαρακτήρες"
-    },
-    "map_says": {
-        "message": "Λέει"
-    },
-    "map_godchild": {
-        "message": "Παιδί θεών"
-    },
-    "map_unknown": {
-        "message": "Άγνωστο"
-    },
-    "map_yellow": {
-        "message": "Κίτρινο"
-    },
-    "map_red": {
-        "message": "Κόκκινο"
-    },
-    "map_blue": {
-        "message": "Μπλε"
-    },
-    "map_green": {
-        "message": "Πράσινο"
-    },
-    "map_left": {
-        "message": "Αριστερό"
-    },
-    "map_down": {
-        "message": "Κάτω"
-    },
-    "map_right": {
-        "message": "Δεξιό"
-    },
-    "map_up": {
-        "message": "Πάνω"
-    },
-    "map_require_draggable": {
-        "message": "Χρειάζεται συρόμενο"
-    },
-    "map_require_item": {
-        "message": "Χρειάζεται αντικείμενο"
-    },
-    "map_require_light": {
-        "message": "Χρειάζεται φως"
-    },
-    "map_emitter": {
-        "message": "Πομπός φωτός"
-    },
-    "map_mirror": {
-        "message": "Καθρέφτης"
-    },
-    "map_filter": {
-        "message": "Φίλτρο φωτός"
-    },
-    "map_draggable": {
-        "message": "Συρόμενο"
-    },
-    "map_can_move": {
-        "message": "Μπορεί να μετακινηθεί"
-    },
-    "map_can_rotate": {
-        "message": "Μπορεί να περιστραφεί"
-    },
-    "map_fixed": {
-        "message": "Φτιαγμένο"
-    },
-    "map_remove_confirmation": {
-        "message": "Επιβεβαίωση διαγραφής αυτών τον ορυχείων;"
-    },
-    "map_option_c": {
-        "message": "Εμφάνιση συντεταγμένων στα εργαλεία"
-    },
-    "map_option_s": {
-        "message": "Εμφάνιση επιλογής περιοχής"
-    },
-    "map_option_i": {
-        "message": "Εμφάνισης πληροφοριών τοποθεσίας"
-    },
-    "map_option_r": {
-        "message": "Εμφάνιση επαναλαμβανόμενων"
-    },
-    "map_option_t": {
-        "message": "Προσθέστε τίτλο χάρτη"
-    },
-    "map_option_b": {
-        "message": "Αφαίρεση κενών γραμμών/στηλών"
-    },
-    "map_option_m": {
-        "message": "Εξασφάλιση ορίων γύρω της εικόνας"
-    },
-    "map_option_l": {
-        "message": "Προσθήκη λογότυπου"
-    },
-    "map_option_resize": {
-        "message": "Μέγεθος αποθηκευμένης εικόνας"
-    },
-    "map_export_location": {
-        "message": "Εξαγωγή ορόφων ως αρχεία δεδομένων"
-    },
-    "map_export_floor": {
-        "message": "Εξαγωγή τωρινού ορόφου ως αρχείο δεδομένων"
-    },
-    "map_import": {
-        "message": "Εισαγωγή όλων των εξαγόμενων αρχείων"
-    },
-    "map_downloadfolder": {
-        "message": "Φάκελος κατεβάσματος"
-    },
-    "map_positionrandom": {
-        "message": "Η τοποθεσία είναι τυχαία"
-    },
-    "map_default": {
-        "message": "Επαναφορά σε προεπιλεγμένα"
-    },
-    "pillars_all": {
-        "message": "Όλοι οι κίονες"
-    },
-    "pillars_only_possible": {
-        "message": "Μόνοι οι πιθανοί κίονες"
-    },
-    "pillars_perc_next": {
-        "message": "%\nΕπόμενου"
-    },
-    "pillars_possible": {
-        "message": "Πιθανοί"
-    },
-    "pillars_totals": {
-        "message": "Σύνολα"
-    },
-    "pillars_current_level": {
-        "message": "Το Επίπεδό σας"
-    },
-    "pillars_predicted": {
-        "message": "Πρόβλεψη"
-    },
-    "pillars_predicted_level": {
-        "message": "Προβλεπόμενο Επίπεδο"
-    },
-    "pillars_predicted_gain": {
-        "message": "Αναμενόμενο κέρδος από αυξήσεις επιπέδων"
-    },
-    "pillars_ignore": {
-        "message": "Πατήστε για να αγνοήσετε/συμπεριλάβετε"
-    },
-    "pillars_altclick": {
-        "message": "Χρησιμοποιείστε το ALR για να θέσετε/ξαναθέσετε όλες τις ποσότητες"
-    },
-    "pillars_maxpossible": {
-        "message": "Το μεγαλύτερο δυνατό"
-    },
-    "pillars_grid": {
-        "message": "Εμφάνιση ως πλέγμα"
-    },
-    "pillars_cap": {
-        "message": "Φράγμα στους 'Προβλεπόμενους Κίονες'"
-    },
-    "neighbors_lastlevelup": {
-        "message": "Τελευταία\nΑνοδος Επιπέδου"
-    },
-    "neighbors_lastgiftreceived": {
-        "message": "Τελευταίο\nΛηφθέν Δώρο"
-    },
-    "neighbors_yourlastvisit": {
-        "message": "Η τελευταία σας επίσκεψη"
-    },
-    "neighbors_all": {
-        "message": "Όλοι"
-    },
-    "neighbors_nogift": {
-        "message": "Κανένα δώρο σε $NUM$ μέρες",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "neighbors_gifts": {
-        "message": "Να μετρηθούν τα δώρα των τελευταίων @DAYS@ ημερών"
-    },
-    "neighbors_listed": {
-        "message": "Προσαρμοσμένη λίστα"
-    },
-    "neighbors_blocks": {
-        "message": "Μπλοκ προς καθάρισμα στην υπόγεια βάση"
-    },
-    "neighbors_inlist": {
-        "message": "Στην προσαρμοσμένη λίστα"
-    },
-    "neighbors_notinlist": {
-        "message": "Όχι στην προσαρμοσμένη λίστα"
-    },
-    "neighbors_withblocks": {
-        "message": "Με μπλοκ προς καθάρισμα"
-    },
-    "neighbors_unknownblocks": {
-        "message": "Κατάσταση μπλοκ άγνωστη"
-    },
-    "neighbors_withexpiredwindmills": {
-        "message": "Με ανεμόμυλους που έληξαν"
-    },
-    "neighbors_found": {
-        "message": "Γείτονες που βρέθηκαν: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_giftcount": {
-        "message": "Αριθμός δώρων"
-    },
-    "neighbors_giftvalue": {
-        "message": "Αξία δώρων (σε Εμπειρία)"
-    },
-    "neighbors_efficiency": {
-        "message": "Αποδοτικότητα (δώρα / μέρες)"
-    },
-    "neighbors_wmtime": {
-        "message": "Ώρα λήξης ανεμόμυλου"
-    },
-    "neighbors_giftinfo": {
-        "message": "Η ημερομηνία του δώρου αναφέρεται στη στιγμή που το DAF κατέγραψε πρώτη φορά το δώρο, όχι το πότε στάλθηκε."
-    },
-    "neighbors_gifttip": {
-        "message": "$NAME$\nΕμπειρία: $XP$\nΜέρα: $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_gift": {
-        "message": "$NAME$ ($XP$ Εμπειρία) στις $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_advancedfilterinfo": {
-        "message": "Μπορείτε να φιλτράρετε τους γείτονές σας με βάση τα δώρα που έστειλαν τις τελευταίες @DAYS@ μέρες επιλέγοντας ένα ή περισσότερα δώρα  από την ακόλουθη λίστα."
-    },
-    "neighbors_clearfilter": {
-        "message": "Καθαρισμός φίλτρου"
-    },
-    "neighbors_gift_tooltip": {
-        "message": "Δώρα που λήφθηκαν ενώ το DAF2 ήταν ενεργό και κατέγραφε."
-    },
-    "neighbors_sortby": {
-        "message": "Ταξινόμηση με"
-    },
-    "neighbors_totxpstats": {
-        "message": "$COUNT$ δώρα σε $DAYS$ μέρες = $TOTAL$ Εμπειρία ($AVERAGE$ Εμπειρία/μέρα)",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            },
-            "days": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            },
-            "average": {
-                "content": "$4"
-            }
-        }
-    },
-    "neighbors_avgxpstats": {
-        "message": "Μέση αξία δώρου = $XP$ Εμπειρία ($AVERAGE$ Εμπειρία για κάθε γείτονα/μέρα)",
-        "placeholders": {
-            "xp": {
-                "content": "$1"
-            },
-            "average": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_expression": {
-        "message": "Δώστε μια έκφραση προς αξιολόγηση"
-    },
-    "friendship_collectfriends": {
-        "message": "Συλλογή φίλων"
-    },
-    "friendship_score": {
-        "message": "Σκορ"
-    },
-    "friendship_scoretooltip": {
-        "message": "Έμπιστο ταίριασμα, ως εξής:\n100 = Ίδιο αναγνωριστικό (id) Facebook\n99 = Δικό σας ταίριασμα\n95 = Ίδια εικόνα προφίλ\n90 = Ίδιο πλήρες όνομα\n80 = Ίδιο όνομα και επώνυμο\n70 = Ίδιο όνομα και επώνυμο (αντίστροφα)\n60 = Ίδιοι κινέζικοι χαρακτήρες"
-    },
-    "friendship_action": {
-        "message": "Πράξη"
-    },
-    "friendship_actionignore": {
-        "message": "Αυτός ο φίλος μετρήθηκε στο ταίριασμα\nΠατήστε για να αγνοηθεί"
-    },
-    "friendship_actionregard": {
-        "message": "Αυτός ο φίλος αγνοήθηκε στο ταίριασμα\nΠατήστε για να μετρηθεί"
-    },
-    "friendship_actionunlink": {
-        "message": "Πατήστε για να αφαιρέσετε το ταίριασμα"
-    },
-    "friendship_actionmanual": {
-        "message": "Πατήστε για να ταιριάξετε εσείς αυτόν τον γείτονα"
-    },
-    "friendship_actionmatch": {
-        "message": "Πατήστε για συσχέτιση αυτού του φίλου με τον επιλεγμένο γείτονα"
-    },
-    "friendship_actiondelete": {
-        "message": "Πατήστε για να αφαιρέστε μόνιμα αυτόν τον φίλο"
-    },
-    "friendship_matchplayertitle": {
-        "message": "Πατήστε για ακύρωση ταιριάσματος"
-    },
-    "friendship_accountdisabled": {
-        "message": "Ο λογαριασμός είναι απενεργοποιημένος"
-    },
-    "friendship_disabledaccountsdetected": {
-        "message": "Οι απενεργοποιημένοι λογαριασμοί βρέθηκαν."
-    },
-    "friendship_unmatchedaccountsdetected": {
-        "message": "Ανιχνεύτηκαν απενεργοποιημένοι και μη ταιριασμένοι λογαριασμοί."
-    },
-    "friendship_unfriendinfo": {
-        "message": "Μπορείτε να τους αφαιρέσετε από αυτή τη σελίδα.\n\nΝα ξέρετε όμως πως λογαριασμοί του Facebook μπορεί να απενεργοποιηθούν προσωρινά και να ενεργοποιηθούν αργότερα."
-    },
-    "friendship_partial": {
-        "message": "Μερική"
-    },
-    "friendship_confirmcollect": {
-        "message": "ΝΑΙ = επιβεβαίωση φίλων και αντικατάσταση παλιών\nΜΕΡΙΚΗ = προσθήκη φίλων και διατήρηση των τωρινών\nΟΧΙ = προσπάθεια συλλογής περισσότερων φίλων\n\nΜπορείτε να κλείσετε αυτό το παράθυρο οποιαδήποτε στιγμή για ακύρωση της διαδικασίας."
-    },
-    "friendship_speedupcollect": {
-        "message": "Επιτάχυνση περισυλλογής;"
-    },
-    "friendship_filter_a": {
-        "message": "Φίλοι: $FRIENDS$, Γείτονες: $NEIGHBOURS$",
-        "placeholders": {
-            "friends": {
-                "content": "$1"
-            },
-            "neighbours": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_filter_d": {
-        "message": "Απενεργοποιημένοι λογαριασμοί Facebook: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_m": {
-        "message": "Φίλοι και Γείτονες που ταίριαξαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_g": {
-        "message": "Φίλοι και Γείτονες που ταίριαξαν από εικόνα: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_h": {
-        "message": "Φίλοι και Γείτονες που ταιριάξατε εσείς: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_i": {
-        "message": "Φίλοι που αγνοήθηκαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_f": {
-        "message": "Φίλοι που δεν ταίριαξαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_u": {
-        "message": "Φίλοι που αγνοήθηκαν και/ή δεν ταίριαξαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_n": {
-        "message": "Γείτονες που δεν ταίριαξαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_s": {
-        "message": "Φίλοι και γείτονες που δεν ταίριαξαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectpreamble": {
-        "message": "Εδώ μπορείτε να συλλέξετε τους φίλους σας στο Facebook και να τους ταιριάξετε με τους γείτονές σας."
-    },
-    "friendship_collectstandard": {
-        "message": "Προεπιλεγμένη"
-    },
-    "friendship_collectstandardinfo": {
-        "message": "Αυτή η μέθοδος είναι έμπιστη, αλλά αρκετά αργή (μπορεί να πάρει μερικά λεπτά)"
-    },
-    "friendship_collectunmatched": {
-        "message": "Μη ταιριασμένοι"
-    },
-    "friendship_collectunmatchedinfo": {
-        "message": "Αυτή η μέθοδος είναι η ίδια με την 'Προεπιλεγμένη', αλλά δε θα συλλέξει φίλους.\nΘα σας δείξει όλους του τωρινούς μη ταιρασμένους φίλους, για να τους διαγράψετε εσείς."
-    },
-    "friendship_disabledinfo": {
-        "message": "Μπορεί να ανιχνεύσει απενεργοποιημένους λογαριασμούς."
-    },
-    "friendship_collectmatch": {
-        "message": "Ταίριασμα"
-    },
-    "friendship_collectmatchinfo": {
-        "message": "Αυτό θα πραγματοποιήσει το αυτόματο ταίριασμα μεταξύ των φίλων και των γειτόνων σας.\nΗ λίστα φίλων σας δεν θα ανανεωθεί.\nΟι φίλοι που αγνοήθηκαν και οι φίλοι με βαθμολογία μεγαλύτερη από 90 δε θα ταιριάξουν αυτόματα.\nΤο ταίριασμα θα εξακολουθεί να εκτελείται στο τέλος της συλλογής φίλων σας."
-    },
-    "friendship_matchbyimage": {
-        "message": "Αντιστοίχιση με εικόνα προφίλ;"
-    },
-    "friendship_confirmwarning": {
-        "message": "Η διαδικασία μπορεί να διαρκέσει μερικά λεπτά.\n\nΠαρακαλούμε επιβεβαιώστε την ενέργεια."
-    },
-    "friendship_confirmcollection": {
-        "message": "Επιβεβαίωση αποτελέσματος συλλογής;"
-    },
-    "friendship_cc_maybe": {
-        "message": "Με αβεβαιότητα"
-    },
-    "friendship_confirmdelete": {
-        "message": "Αυτή η διαδικασία δεν μπορεί να αναστραφεί.\nΘα πρέπει να κάνετε συλλογή για να έχετε ξανά αυτόν τον φίλο στη λιστα.\n\nΕπιβεβαίωση της αφαίρεσης;"
-    },
-    "friendship_collecterror": {
-        "message": "Κάτι πήγε λάθος."
-    },
-    "friendship_manualhelp": {
-        "message": "Παρακαλώ επαναφορτώστε τη σελίδα DAF2, πηγαίντε στην καρτέλα \"$FRIENDSHIP$\", πατήστε \"$COLLECT$\" και διαλέξτε \"$MATCH$\"",
-        "placeholders": {
-            "friendship": {
-                "content": "$1"
-            },
-            "collect": {
-                "content": "$2"
-            },
-            "match": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_analyzingmatches": {
-        "message": "Ανάλυση δεδομένων, $PERCENT$ % ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            },
-            "num": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_collectstat": {
-        "message": "Συλλεγμένη φίλοι: $COUNT$",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_manualmatchhelp": {
-        "message": "Για να ταιριάξετε αυτόν τον γείτονα πρέπει να βρείτε έναν μη ταιριασμένο φίλο και να πατήσετε στο κελί με το ⭐."
-    },
-    "friendship_friendupdateinfo": {
-        "message": "Η λίστα φίλων του Facebook ενημερώθηκε στις $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_totalfriends": {
-        "message": "Φίλοι: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_totalneighbours": {
-        "message": "Γείτονες: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_timewarning": {
-        "message": "Φαίνεται πως δεν έχετε κάνει συλλογή φίλων αρκετό καιρό. Παρακαλώ πατήστε το κουμπί \"$COLLECT$\" και διαλέξτε τη μέθοδο \"$METHOD$\".",
-        "placeholders": {
-            "collect": {
-                "content": "$1"
-            },
-            "method": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_info": {
-        "message": "$NUM$ Γείτονες  = $GC$ Παιδιά θεών",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "gc": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_stat": {
-        "message": "Παιδιά θεών: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_next": {
-        "message": "Για να πάρετε ένα επιπλέον Παιδί Θεών, πρέπει να κάνετε προσθήκη $NUM$ ακόμα γείτονες",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "godchild_next0": {
-        "message": "Φτάσατε στον μέγιστο αριθμό Παιδιών των Θεών"
-    },
-    "godchild_next1": {
-        "message": "Για να πάρετε ένα επιπλέον Παιδί Θεών, πρέπει να κάνετε προσθήκη μόνο έναν ακόμα γείτονα."
-    },
-    "progress_measure": {
-        "message": "Μέτρο"
-    },
-    "progress_attained": {
-        "message": "Επιτεύχθηκε"
-    },
-    "progress_goal": {
-        "message": "Στόχος"
-    },
-    "progress_remaining": {
-        "message": "Απομένει"
-    },
-    "progress_progress": {
-        "message": "Πρόοδος"
-    },
-    "progress_achievements": {
-        "message": "Επιτεύγματα"
-    },
-    "progress_treasures": {
-        "message": "Θησαυροί"
-    },
-    "progress_overall": {
-        "message": "Συνολικά"
-    },
-    "progress_hidecompleted": {
-        "message": "Ολοκλήρωση απόκρυψης"
-    },
-    "progress_grouplocations": {
-        "message": "Ομαδικές τοποθεσίες"
-    },
-    "progress_showdates": {
-        "message": "Ημερομηνίες τοποθεσιών"
-    },
-    "progress_energyinfo": {
-        "message": "Η ενέργεια που εμφανίζεται εδώ προβλέπεται πολλαπλασιάζοντας τον αριθμό των υπολοιπόμενων πλακιδίων με το μέσο κόστος πλακιδίων.\nΤο μέσο κόστος πλακιδίων βασίζεται στο μπόνους ολοκλήρωσης και στο συνολικό αριθμό πλακιδίων."
-    },
-    "progress_averagetilecost": {
-        "message": "Μέσο κόστος πλακιδίων"
-    },
-    "progress_achievementnextstep": {
-        "message": "Για το επόμενο επίπεδο = $NEXT$",
-        "placeholders": {
-            "next": {
-                "content": "$1"
-            }
-        }
-    },
-    "progress_start": {
-        "message": "Άρχισε"
-    },
-    "progress_end": {
-        "message": "Έληξε"
-    },
-    "progress_duration": {
-        "message": "Διάρκεια"
-    },
-    "progress_subtotal": {
-        "message": "Μερικό σύνολο"
-    },
-    "progress_grandtotal": {
-        "message": "Σύνολο"
-    },
-    "progress_playtime": {
-        "message": "Αρχίσατε να παίζετε στις $STARTED$ και παίζεται για $DURATION$ (μέχρι τις $NOW$)",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            },
-            "duration": {
-                "content": "$2"
-            },
-            "now": {
-                "content": "$3"
-            }
-        }
-    },
-    "progress_levelrange": {
-        "message": "Από $FROM$ σε $TO$",
-        "placeholders": {
-            "from": {
-                "content": "$1"
-            },
-            "to": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_id": {
-        "message": "Id Δώρου"
-    },
-    "rewardlinks_insertdate": {
-        "message": "Εισάγετε Ημερομηνία"
-    },
-    "rewardlinks_collectdate": {
-        "message": "Συλλογή ημερομηνίας"
-    },
-    "rewardlinks_collectmaterial": {
-        "message": "Βρέθηκε Δώρο"
-    },
-    "rewardlinks_owner": {
-        "message": "Ιδιοκτήτης"
-    },
-    "rewardlinks_expired": {
-        "message": "ΕΧΕΙ ΛΗΞΕΙ"
-    },
-    "rewardlinks_collected": {
-        "message": "ΕΧΕΙ ΗΔΗ ΣΥΛΛΕΧΤΕΙ"
-    },
-    "rewardlinks_maxreached": {
-        "message": "ΦΤΑΣΑΤΕ ΤΟ ΚΑΘΗΜΕΡΙΝΟ ΟΡΙΟ"
-    },
-    "rewardlinks_noself": {
-        "message": "ΔΙΚΟΣ ΣΑΣ ΣΥΝΔΕΣΜΟΣ"
-    },
-    "rewardlinks_broken": {
-        "message": "ΛΑΘΟΣ ΣΥΝΔΕΣΜΟΣ"
-    },
-    "rewardlinks_probablyexpired": {
-        "message": "ΠΙΘΑΝΟΝ ΛΗΓΜΕΝΟΣ ΣΥΝΔΕΣΜΟΣ"
-    },
-    "rewardlinks_background": {
-        "message": "Προσκύνιο\nΆνοιγμα συνδέσμων δώρων στο προσκύνιο"
-    },
-    "rewardlinks_autoclick": {
-        "message": "Αυτόματα κλικ\nΑυτόματο πάτημα του επόμενου δώρου αφού το τωρινό συλλέχθηκε"
-    },
-    "rewardlinks_autoclick_end": {
-        "message": "Κανένας επιλεγμένος σύνδεσμος δεν μπορεί να πατηθεί.\nΟι ληγμένοι ή ήδη πατημένοι σύνδεσμοι πάντα αγνοούνται."
-    },
-    "rewardlinks_addlinks": {
-        "message": "Προσθήκη συνδέσμων"
-    },
-    "rewardlinks_pasteadd": {
-        "message": "Επικολήστε εδώ τους συνδέσμους και πατήστε \"$CONFIRM$\"",
-        "placeholders": {
-            "confirm": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_pastehere": {
-        "message": "Όποιος σύνδεσμος επικολληθεί εδώ θα προστεθεί κατευθείαν"
-    },
-    "rewardlinks_linksadded": {
-        "message": "Σύνδεσμοι δώρων που προστέθηκαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_nolinksadded": {
-        "message": "Δεν προστέθηκαν σύνδεσμοι."
-    },
-    "rewardlinks_linksupdated": {
-        "message": "Σύνδεσμοι δώρων που ανανεώθηκαν: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_stats": {
-        "message": "Σύνδεσμοι δώρων: $TOTAL$, Προς συλλογή: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_allcollected": {
-        "message": "Συλλέχθηκαν όλοι οι σύνδεσμοι δώρων"
-    },
-    "rewardlinks_nexttime": {
-        "message": "Μπορείτε να συλλέξετε ξανά στις: $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_countremaining": {
-        "message": "Υπόλοιποι σύνδεσμοι προς συλλογή: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_collectanyway": {
-        "message": "Θέλετε να ανοίξετε τον σύνδεσμο ούτως ή άλλως;"
-    },
-    "rewardlinks_infocollected": {
-        "message": "Ο σύνδεσμος έχει συλλεχτεί ήδη."
-    },
-    "rewardlinks_infoexpired": {
-        "message": "Ο σύνδεσμος έληξε.\nΟι σύνδεσμοι ισχύουν μόνο για $NUM$ μέρες.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_infonoself": {
-        "message": "Αυτός ο σύνδεσμος είναι δικό σας, άρα δε συλλέγεται."
-    },
-    "rewardlinks_infobroken": {
-        "message": "Ο σύνδεσμος δεν είναι σωστός ή δε δουλεύει."
-    },
-    "rewardlinks_infomaxreached": {
-        "message": "Αυτός ο σύνδεσμος συλλέχτηκε μετά το ανώτατο καθημερινό όριο.\nΣύνδεσμοι που συλλέγονται έτσι χάνονται για πάντα."
-    },
-    "rewardlinks_infomayexceedlimit": {
-        "message": "Υπάρχουν κι άλλα δώρα προς συλλογή.\nΑυτό μπορεί να ξεπεράσει το καθημερινό όριο."
-    },
-    "rewardlinks_infoprobablyexpired": {
-        "message": "Ο σύνδεσμος είναι πιθανόν ληγμένος.\nΤα id των συνδέσμων δημιουργούνται σειριακά και αυτό είναι μικρότερο ενός ληγμένου."
-    },
-    "rewardlinks_removelinks": {
-        "message": "Αφαίρεση παλιών συνδέσμων"
-    },
-    "rewardlinks_removeselected": {
-        "message": "Αφαίρεση επιλεγομένων"
-    },
-    "rewardlinks_removelinksdays": {
-        "message": "Αφαίρεση μη συλλεγόμενων συνδέσμων πιο παλιών των @DAYS@ ημερών.\nΑυτό περιλαμβάνει σύνδεσμους που έχουν συλλεχτεί η λήξει.\nΣύνδεσμοι πιο παλιοί των $NUM$ ημερών διαγράφονται περιοδικά.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_removenone": {
-        "message": "Δεν υπάρχουν σύνδεσμοι να διαγραφούν!"
-    },
-    "rewardlinks_removeconfirm": {
-        "message": "Σύνδεσμοι προς αφαίρεση: $NUM$\nΟι αφαιρούμενοι σύνδεσμοι δεν μπορούν να προστεθούν ξανά.\n\nΝα συνεχίσει η διαγραφή;",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_rewardinfo": {
-        "message": "Αυτό το δώρο προστέθηκε στις $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_reset": {
-        "message": "Επαναφορά"
-    },
-    "rewardlinks_resetcount": {
-        "message": "Μπορείτε να επαναφέρετε την πληροφορία της \"Επόμενης Συλλογής\" και να συνεχίσετε με τον σύνδεσμο όυτως ή άλλως."
-    },
-    "rewardlinks_resetexpired": {
-        "message": "Μπορείτε να επαναφέρετε την \"Πιθανόν Ληγμένη\" πληροφορία και να συνεχίσετε με τον σύνδεσμο ούτως ή άλλως."
-    },
-    "rewardlinks_convert": {
-        "message": "Μετατροπή συνδέσμου"
-    },
-    "rewardlinks_noconversion": {
-        "message": "Καμία μετατροπή"
-    },
-    "rewardlinks_shortenlinks": {
-        "message": "Σμίκρυνση/Μετατροπή συνδέσμων"
-    },
-    "rewardlinks_shortenlinks_info1": {
-        "message": "Επικολλήστε εδώ για σμίκρυνση/μετατροπή."
-    },
-    "rewardlinks_shortenlinks_info2": {
-        "message": "Οι μικροί σύνδεσμοι φαίνονται κάτω (τα διπλότυπα διαγράφηκαν)."
-    },
-    "rewardlinks_prefix": {
-        "message": "Πρόθημα"
-    },
-    "rewardlinks_newline": {
-        "message": "Προσθήκη νέας γραμμής?"
-    },
-    "rewardlinks_addspace": {
-        "message": "Προσθήκη κενού"
-    },
-    "rewardlinks_summaryinfo": {
-        "message": "Όλα τα δώρα που συλλέχθηκαν μέσα σε $NUM$ ώρες από το τελευταίο συλλεγμένο δώρο",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "export_export": {
-        "message": "Εξαγωγή"
-    },
-    "export_import": {
-        "message": "Εισαγωγή"
-    },
-    "export_exportdata": {
-        "message": "Εξαγωγή δεδομένων"
-    },
-    "export_exportinventory": {
-        "message": "Εξαγωγή αντικειμένων"
-    },
-    "export_importdata": {
-        "message": "Εισαγωγή δεδομένων"
-    },
-    "export_invalidexportdata": {
-        "message": "Το αρχείο δεν είναι έγκυρα εξαγώμενα δεδομένα του DAF για τον τωρινό παίχτη."
-    },
-    "export_invalidexport": {
-        "message": "Το αρχείο δεν είναι σωστά εξαγώμενα δεδομένα!"
-    },
-    "export_importsuccess": {
-        "message": "Τα δεδομένα εισήχθησαν με επιτυχία!"
-    },
-    "export_debugdata": {
-        "message": "Εξαγωγή διαγνωστικών δεδομένων"
-    },
-    "rings_showminmax": {
-        "message": "Δείξε μικρότερες και μεγαλύτερες τιμές"
-    },
-    "rings_showxp": {
-        "message": "Εμφάνιση Εμπειρίας"
-    },
-    "rings_playerlevel": {
-        "message": "Προσδιορίστε επίπεδο παίχτη"
-    },
-    "rings_stats": {
-        "message": "Έχετε $NUM$ $NAME$ στο σακίδιό σας.",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "name": {
-                "content": "$2"
-            }
-        }
-    },
-    "rings_notdependent": {
-        "message": "Δεν εξαρτάται από το επίπεδο παίχτη"
-    },
-    "rings_averageperring": {
-        "message": "Μέση Εμπειρία ανά δαχτυλίδι"
-    },
-    "rings_rings": {
-        "message": "Δαχτυλίδια"
-    },
-    "equipment_sellout": {
-        "message": "Η πώληση όλων των αχρησιμοποίητων αντικειμένων θα σας δώσει $TOTAL$ νομίσματα (εξοπλισμός = $EQUIP$ νομίσματα, διακοσμητικά = $DECO$ νομίσματα)",
-        "placeholders": {
-            "total": {
-                "content": "$1"
-            },
-            "equip": {
-                "content": "$2"
-            },
-            "deco": {
-                "content": "$3"
-            }
-        }
-    },
-    "equipment_notonsale": {
-        "message": "Όχι πια σε προσφορά"
-    },
-    "equipment_quantities": {
-        "message": "Ποσότητες"
-    },
-    "equipment_owned": {
-        "message": "Σας ανήκουν"
-    },
-    "equipment_inshop": {
-        "message": "Στο μαγαζί"
-    },
-    "equipment_from": {
-        "message": "Από"
-    },
-    "equipment_affordable": {
-        "message": "Μπορεί να Αγοραστεί"
-    },
-    "equipment_useful": {
-        "message": "Χρήσιμο"
-    },
-    "equipment_gain": {
-        "message": "Κέρδος"
-    },
-    "equipment_gain_info": {
-        "message": "Το κέρδος βασίζεται στην ελάχιστη τιμή υποδοχής στη βάση σας"
-    },
-    "equipment_free": {
-        "message": "ΔΩΡΕΑΝ"
-    },
-    "equipment_hidemax": {
-        "message": "Κρύψιμο μέγιστου"
-    },
-    "equipment_price_info": {
-        "message": "Η τιμή εδώ δεν είναι για τον εξοπλισμό αυτό,\nαλλά για το πακέτο/προσφορά που τον περιείχε."
-    },
-    "equipment_level_none": {
-        "message": "Δεν έχει σημασία"
-    },
-    "equipment_level_eq": {
-        "message": "Ακριβώς"
-    },
-    "equipment_level_le": {
-        "message": "Το περισσότερο"
-    },
-    "equipment_level_ge": {
-        "message": "Το λιγότερο"
-    },
-    "equipment_level_your": {
-        "message": "το επίπεδό σας"
-    },
-    "equipment_level_this": {
-        "message": "αυτό το επίπεδο"
-    },
-    "equipment_include_material": {
-        "message": "Συμπερίληψη αυτών των υλικών"
-    },
-    "equipment_exclude_material": {
-        "message": "Μη συμπερίληψη αυτών των υλικών"
-    },
-    "equipment_current": {
-        "message": "Τωρινό"
-    },
-    "equipment_pfdisclaimer": {
-        "message": "Αν έχετε αγοράσει ένα σπέσιαλ πακέτο στο παιχνίδι με αυτήν την τιμή στο παρελθόν, δεν είναι δυνατόν να αγοράσετε κάποιο επόμενο πακέτο σε αυτήν την τιμή.\nΣε αυτήν την περίπτωση, η χαμηλότερη διαθέσιμη τιμή είναι περίπου 5.5 USD."
-    },
-    "equipment_slotslower": {
-        "message": "Υποδοχές με λιγότερη ενέργεια από αυτή"
-    },
-    "events_year": {
-        "message": "Έτος"
-    },
-    "events_end": {
-        "message": "Τέλος"
-    },
-    "events_quests": {
-        "message": "Αποστολές"
-    },
-    "events_achievements": {
-        "message": "Επιτεύγματα"
-    },
-    "events_pieces": {
-        "message": "Κομμάτια θησαυρού"
-    },
-    "events_locations": {
-        "message": "Τοποθεσίες"
-    },
-    "events_materials": {
-        "message": "Ειδικά\nυλικά"
-    },
-    "events_completed": {
-        "message": "Ολοκληρωμένη"
-    },
-    "events_total": {
-        "message": "Σύνολο"
-    },
-    "events_medal": {
-        "message": "Μετάλλιο"
-    },
-    "events_story_maps": {
-        "message": "Χάρτες ιστορίας"
-    },
-    "events_challenges": {
-        "message": "Προκλήσεις"
-    },
-    "events_repeatables": {
-        "message": "Επαναλ/νόμενα"
-    },
-    "events_active": {
-        "message": "Ενεργή"
-    },
-    "events_rerelease": {
-        "message": "Αγορασμένη/Δώρο"
-    },
-    "events_complete": {
-        "message": "Ολόκληρη"
-    },
-    "events_incomplete": {
-        "message": "Μη Ολόκληρη"
-    },
-    "events_notdone": {
-        "message": "Όχι τελειωμένη"
-    },
-    "events_segmented": {
-        "message": "Κατακερματισμένη"
-    },
-    "events_yourprogress": {
-        "message": "Η πρόοδός σας"
-    },
-    "events_rewards": {
-        "message": "Βραβεία"
-    },
-    "events_finalreward": {
-        "message": "Τελικό Βραβείο"
-    },
-    "events_notsegmented": {
-        "message": "Όχι τμηματοποιημένο"
-    },
-    "events_tiles": {
-        "message": "Πλακάκια"
-    },
-    "events_chance": {
-        "message": "Πιθανότητα"
-    },
-    "events_clearbonus": {
-        "message": "Μπόνους ολοκλήρωσης"
-    },
-    "events_gemstones": {
-        "message": "Πολύτιμοι Λίθοι"
-    },
-    "events_tutorial": {
-        "message": "Συμβάν Οδηγιών"
-    },
-    "repeat_name": {
-        "message": "Όνομα"
-    },
-    "repeat_region_event": {
-        "message": "Περιοχή / Ιστορία"
-    },
-    "repeat_cooldown": {
-        "message": "Αναμονή"
-    },
-    "repeat_cooldown_time": {
-        "message": "Χρόνος"
-    },
-    "repeat_cooldown_gems": {
-        "message": "Πετράδια"
-    },
-    "repeat_reset": {
-        "message": "Επαναφορά"
-    },
-    "repeat_bonus": {
-        "message": "Μπόνους ολοκλήρωσης"
-    },
-    "repeat_progress": {
-        "message": "Πρόοδος"
-    },
-    "repeat_progress_current": {
-        "message": "Σκαμένα Πλακάκια"
-    },
-    "repeat_progress_total": {
-        "message": "Συνολικά πλακάκια"
-    },
-    "repeat_time": {
-        "message": "Χρόνος στον οποίο θα είναι έτοιμο το ορυχείο"
-    },
-    "repeat_show_all": {
-        "message": "Όλα τα επαναλαμβανόμενα"
-    },
-    "repeat_show_selected": {
-        "message": "Μόνο τα επιλεγμένα επαναλαμβανόμενα"
-    },
-    "repeat_ready": {
-        "message": "ΕΤΟΙΜΟΣ"
-    },
-    "repeat_show_ready": {
-        "message": "Έτοιμος;"
-    },
-    "repeat_postcard": {
-        "message": "Έτοιμο για την εβδομάδα καρτ ποστάλ;"
-    },
-    "dailyreward_stats": {
-        "message": "Το ημερήσιο έπαθλο βασίζεται στο επίπεδό σας ($LEVEL$) και την περιοχή σας ($REGION$)",
-        "placeholders": {
-            "level": {
-                "content": "$1"
-            },
-            "region": {
-                "content": "$2"
-            }
-        }
-    },
-    "dailyreward_lastcollect": {
-        "message": "Συλλέχθει τις $DATE$",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "dailyreward_formula": {
-        "message": "Φόρμουλα"
-    },
-    "specialweek_end": {
-        "message": "τελειώνει στις $FINISH$",
-        "placeholders": {
-            "finish": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_debris_discount": {
-        "message": "Εβδομάδα έκπτωσης $PERCENT$% σε ξεκλείδωμα Πλέγματος",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_production": {
-        "message": "Εβδομάδα διπλής παραγωγής"
-    },
-    "specialweek_half_prod_time": {
-        "message": "Εβδομάδα υποδιπλάσιου χρόνου παραγωγής"
-    },
-    "specialweek_double_drop": {
-        "message": "Εβδομάδα διπλών υλικών"
-    },
-    "specialweek_gifts": {
-        "message": "Εβδομάδα διπλών δώρων"
-    },
-    "specialweek_postcards": {
-        "message": "Εβδομάδα καρτ ποστάλ"
-    },
-    "specialweek_material_seller": {
-        "message": "Έμπορος για παλιά υλικά"
-    },
-    "specialweek_free_premium_event": {
-        "message": "Δωρεάν συλλογή συμβάντος \"$NAME$''",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_mystery_box": {
-        "message": "Μυστηριώδης κουτί"
-    },
-    "specialweek_find_the_pair": {
-        "message": "Βρες το Ζευγάρι"
-    },
-    "options_section_ingame": {
-        "message": "Ρυθμίσεις παιχνιδιού"
-    },
-    "options_injectgame": {
-        "message": "Ενεργοποίηση DAF\nΕνεργοποίηση DAF στο παιχνίδι\nΑν δεν είναι ενεργό, οι επιλογές αυτές δεν έχουν επιρροή"
-    },
-    "options_fullwindow": {
-        "message": "Πλήρης οθόνη\nΕμφάνιση παιχνιδιού σε πλήρη οθόνη"
-    },
-    "options_fullwindowheader": {
-        "message": "Επικεφαλίδα\nΕμφάνιση επικεφαλίδας της σελίδας στην πλήρη οθόνη"
-    },
-    "options_fullwindowside": {
-        "message": "Πλευρά\nΕμφάνιση της πλευρικής μπάρας (Facebook) στην πλήρη οθόνη"
-    },
-    "options_fullwindowlock": {
-        "message": "Κλείδωμα πλήρης οθόνης\nΑποτρέπει το παιχνίδι από το να βγάλει την πλήρης οθόνη."
-    },
-    "options_resetfullwindow": {
-        "message": "Επαναφορά στη φόρτωση\nΚάθε φορά που φορτώνετε το παιχνίδι, οι \"Πλήρης Οθόνη\" και \"Πλήρης οθόνη - Πλευρά\" επαναφέρονται"
-    },
-    "options_resetfullwindow_warning": {
-        "message": "Αυτή η επιλογή πρέπει να ενεργοποιηθεί αν έχετε προβλήματα με τη φόρτωση του παιχνιδιού"
-    },
-    "options_fullwindowtimeout": {
-        "message": "Αυτόματη πλήρη οθόνη\nΑυτόματη ενεργοποίηση πλήρης οθόνης μετά τη φόρτωση των δεδομένων (το DAF2 θα γίνει πράσινο)"
-    },
-    "options_fullwindowtimeout_seconds": {
-        "message": "Ναι, μετά από $NUM$ δευτερόλεπτα",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "options_gctable": {
-        "message": "Πίνακας Παιδιών Θεών\nΕμφάνιση όλων των γειτόνων που έχουν Παιδιά Θεών κάτω από το παιχνίδι"
-    },
-    "options_gctablecounter": {
-        "message": "Μετρητής\nΕμφάνιση μετρητή"
-    },
-    "options_gctableregion": {
-        "message": "Περιοχή\nΧρήση χρωμάτων για μαρκάρισμα περιοχών γειτόνων"
-    },
-    "options_autoclick": {
-        "message": "Αυτόματο κλικ\nΑυτόματη αποδοχή αναδυόμενων παραθύρων του Facebook"
-    },
-    "options_nogcpopup": {
-        "message": "Όχι αναδυόμενα στη συλλογή Παιδιών Θεών\nΌχι αναδυόμενα παράθυρα κατά τη συλλογή Παιδιών Θεών"
-    },
-    "options_autogc": {
-        "message": "Αυτόματη αλλαγή κατασκήνωσης\nΑλλάζει στην επόμενη κατασκήνωση μετά τη συλλογή Παιδιών Θεών"
-    },
-    "options_section_general": {
-        "message": "Γενικές επιλογές"
-    },
-    "options_autologin": {
-        "message": "Αυτόματη σύνδεση Portal\nΣας συνδέσει αυτόματα στο Portal"
-    },
-    "options_darktheme": {
-        "message": "Σκοτεινό θέμα"
-    },
-    "options_shrinkmenu": {
-        "message": "Πλάτος Μενού\nΜείωση του πλάτους του αριστερού κατακόρυφου μενού"
-    },
-    "options_shrinkmenu_0": {
-        "message": "Όταν το πλάτος της σελίδας είναι πολύ μικρό"
-    },
-    "options_shrinkmenu_1": {
-        "message": "Πάντα χρήση συμπαγής μενού"
-    },
-    "options_shrinkmenu_2": {
-        "message": "Πάντα χρήση επεκταμένου μενού"
-    },
-    "options_disablealtguard": {
-        "message": "Επαναφορά σε διαφορετικούς λογαριασμούς\nΑν επιλεχθεί, η φόρτωση ενός διαφορετικού λογαριασμού θα κάνει αντικατάσταση των τωρινών σας δεδομένων του DAF2."
-    },
-    "options_disablealtguard_warning": {
-        "message": "ΠΡΟΣΟΧΗ: Ενεργοποιήστε αυτή τη ρύθμιση με δικό σας ρίσκο"
-    },
-    "options_section_rewardlinks": {
-        "message": "Σύνδεσμοι Δώρων"
-    },
-    "options_rewardsclose": {
-        "message": "Αυτόματο κλείσιμο\nΚλείνει αυτόματα τη σελίδα μετά τη συλλογή του βραβείου."
-    },
-    "options_rewardscloseexceptgems": {
-        "message": "Εκτός τα πετράδια\nΝα μην κλείνει αυτόματα όταν βρίσκονται πετράδια."
-    },
-    "options_rewardscloseexcepterrors": {
-        "message": "Εκτός σφαλμάτων\nΝα μην κλείνει αυτόματα όταν βρίσκονται σφάλματα,"
-    },
-    "options_rewardssummary": {
-        "message": "Προσθήκη πίνακα περίληψης\nΑν η σελίδα δεν κλείνει αυτόματα, προστίθεται κάτω ένας πίνακας περίληψης"
-    },
-    "options_linkgrabenabled": {
-        "message": "Συλλέκτης Συνδέσμων\nΕνεργοποιήστε τον Συλλέκτη Συνδέσμων στο Facebook.\nΑν δεν είναι ενεργός, οι ακόλουθες επιλογές δεν έχουν επίδραση."
-    },
-    "options_linkgrabbutton": {
-        "message": "Κουμπί ποντικιού\nΔιαλέξτε το κουμπί του ποντικιού που ενεργοποιεί το Συλλέκτη Συνδέσμων"
-    },
-    "options_linkgrabkey": {
-        "message": "Προαιρετικό κουμπί\nΔιαλέξτε ένα προαιρετικό κουμπί για να πατάτε, επιπρόσθετα του ποντικιού"
-    },
-    "options_linkgrabsort": {
-        "message": "Ταξινόμηση Συνδέσμων"
-    },
-    "options_linkgrabconvert": {
-        "message": "Μετατροπή Συνδέσμων"
-    },
-    "options_modifier_none": {
-        "message": "Κανένα"
-    },
-    "options_modifier_shift": {
-        "message": "Shift"
-    },
-    "options_modifier_ctrl": {
-        "message": "Ctrl"
-    },
-    "options_modifier_alt": {
-        "message": "Alt"
-    },
-    "options_button_left": {
-        "message": "Αριστερό"
-    },
-    "options_button_middle": {
-        "message": "Μεσαίο"
-    },
-    "options_button_right": {
-        "message": "Δεξιό"
-    },
-    "options_sort_none": {
-        "message": "Καμία"
-    },
-    "options_sort_ascending": {
-        "message": "Αύξουσα"
-    },
-    "options_sort_descending": {
-        "message": "Φθίνουσα"
-    },
-    "options_language": {
-        "message": "Γλώσσα\nΔιαλέξτε τη γλώσσα προς χρήση"
-    },
-    "options_locale": {
-        "message": "Τοπικοποίηση\nΧρησιμοποιείται για τη μορφοποίηση αριθμών, ημερομηνιών και λιστών"
-    },
-    "options_locale_browser": {
-        "message": "Χρήση ρυθμίσεων φυλλομετρητή"
-    },
-    "options_gamelanguage": {
-        "message": "Γλώσσα Παιχνιδιού\nΓλώσσα για μηνύματα του παιχνιδιού"
-    },
-    "options_section_badges": {
-        "message": "Σήματα"
-    },
-    "options_badgeserverenergy": {
-        "message": "Ενέργεια σέρβερ\nΕμφάνιση σήματος με την ενέργεια που δείχνει ο σέρβερ.\nΑυτή η πληροφορία ανανεώνεται περιοδικά όταν η κατάσταση του παιχνιδιού συγχρονίζεται με τον σέρβερ."
-    },
-    "options_badgegccounter": {
-        "message": "Μετρητής Παιδιών Θεών\nΕμφάνιση σήματος με τον υπολοιπόμενο αριθμό Παιδιών Θεών προς συλλογή"
-    },
-    "options_badgegcenergy": {
-        "message": "Ενέργεια Παιδιών Θεών\nΕμφάνιση σήματος με την ενέργεια των Παιδιών Θεών ενός γείτονα"
-    },
-    "options_badgerepeatables": {
-        "message": "Επαναλαμβανόμενα\nΕμφάνιση σήματος όταν οποιοδήποτε επαναλαμβανόμενο είναι έτοιμο"
-    },
-    "options_badgeluckycards": {
-        "message": "Τυχερές Κάρτες\nΕπίδειξη σήματος όταν η τέντα με τις Τυχερές Κάρτες είναι έτοιμη"
-    },
-    "options_badgeproductions": {
-        "message": "Παραγωγή\nΕμφάνιση σήματος όταν μια θέση παραγωγής είναι έτοιμη ή άδεια"
-    },
-    "options_badgetimeoffset": {
-        "message": "Προγενέστερος Χρόνος\nΤο σήμα εμφανίζεται προγενέστερα κατά τόσο χρόνο"
-    },
-    "options_badgesound": {
-        "message": "Windmills Show a"
-    },
-    "options_badgevolume": {
-        "message": "Ένταση\nΗ ένταση του ήχου"
-    },
-    "options_badgewindmills": {
-        "message": "Ανεμόμυλοι\nΕμφάνιση συμβόλου όταν μια βάση γείτονα χρειάζεται ανεμόμυλους"
-    },
-    "calc_operators": {
-        "message": "Τελεστές"
-    },
-    "calc_arithmetic": {
-        "message": "Αριθμητικοί"
-    },
-    "calc_comparison": {
-        "message": "Σύγκρισης"
-    },
-    "calc_logical": {
-        "message": "Λογικοί"
-    },
-    "calc_functions": {
-        "message": "Συναρτήσεις"
-    },
-    "calc_variables": {
-        "message": "Μεταβλητές"
-    },
-    "calc_examples": {
-        "message": "Παραδείγματα"
-    },
-    "calc_error_1": {
-        "message": "Συντακτικό σφάλμα"
-    },
-    "calc_error_2": {
-        "message": "Η συνάρτηση θέλει παρένθεση"
-    },
-    "calc_error_3": {
-        "message": "Έλλειψη δεξιάς παρένθεσης"
-    },
-    "calc_error_4": {
-        "message": "Πολλές δεξιές παρενθέσεις"
-    },
-    "linkgrabber_selected": {
-        "message": "Σύνδεσμοι: $UNIQUE$ / $TOTAL$",
-        "placeholders": {
-            "unique": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_fn_copy": {
-        "message": "Αντιγραφή"
-    },
-    "linkgrabber_fn_send": {
-        "message": "Αποστολή στο DAF"
-    },
-    "linkgrabber_fn_cancel": {
-        "message": "Ακύρωση"
-    },
-    "linkgrabber_fn_refresh": {
-        "message": "Επαναφόρτωση Συνδέσμων"
-    },
-    "linkgrabber_fn_showid": {
-        "message": "Εμφάνιση Id Δώρου"
-    },
-    "linkgrabber_fn_autosend": {
-        "message": "Αυτόματη Αποστολή"
-    },
-    "linkgrabber_added": {
-        "message": "Σύνδεσμοι που προστέθηκαν: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_copied": {
-        "message": "Σύνδεσμοι που αντιγράφονται στο πρόχειρο: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    }
+	"ext_name": {
+		"message": "DA Friends 2"
+	},
+	"ext_title": {
+		"message": "Βοηθητική επέκταση για το Diggy's Adventure"
+	},
+	"menu_resetfullwindow": {
+		"message": "Επαναφορά στη φόρτωση"
+	},
+	"menu_fullwindow": {
+		"message": "Παιχνίδι σε πλήρη οθόνη"
+	},
+	"menu_fullwindowheader": {
+		"message": "Κεφαλίδα"
+	},
+	"menu_fullwindowside": {
+		"message": "Πλευρική Μπάρα"
+	},
+	"menu_fullwindowlock": {
+		"message": "Κλείδωμα"
+	},
+	"menu_gctable": {
+		"message": "Εμφάνιση πίνακα Παιδιών των Θεών"
+	},
+	"menu_gctablecounter": {
+		"message": "Μετρητής"
+	},
+	"menu_gctableregion": {
+		"message": "Περιοχή"
+	},
+	"menu_gccollected": {
+		"message": "Όλα τα Παιδιά Θεών συλλέχτηκαν"
+	},
+	"menu_autoclick": {
+		"message": "Αυτόματη αποδοχή αναδυόμενων παραθύρων του Facebook"
+	},
+	"menu_nogcpopup": {
+		"message": "Όχι αναδυόμενα παράθυρα κατά τη συλλογή Παιδιών Θεών"
+	},
+	"menu_reloadgame": {
+		"message": "Επαναφορτώνει το παιχνίδι και αναγκάζει νέα συλλογή δεδομένων"
+	},
+	"menu_switchportal": {
+		"message": "Αλλαγή σε Portal"
+	},
+	"menu_switchfacebook": {
+		"message": "Αλλαγή σε Facebook"
+	},
+	"menu_on": {
+		"message": "ΑΝΟΙΧΤΟ"
+	},
+	"menu_off": {
+		"message": "ΚΛΕΙΣΤΟ"
+	},
+	"gui_timeparts": {
+		"message": "η,ώ,λ,δ"
+	},
+	"gui_card_clicker": {
+		"message": "Πατήστε για κατάρρευση/μεγέθυνση τομέα"
+	},
+	"gui_show": {
+		"message": "Εμφάνιση"
+	},
+	"gui_all": {
+		"message": "Όλοι"
+	},
+	"gui_only_possible": {
+		"message": "Μόνο πιθανά"
+	},
+	"gui_search": {
+		"message": "Αναζήτηση"
+	},
+	"gui_filter": {
+		"message": "Φίλτρο"
+	},
+	"gui_name": {
+		"message": "Όνομα"
+	},
+	"gui_region_required": {
+		"message": "Απαιτούμενη\nΠεριοχή"
+	},
+	"gui_theme_required": {
+		"message": "Απαιτούμενη\nΠεριοχή/Θέμα"
+	},
+	"gui_level_required": {
+		"message": "Απαιτούμενο\nΕπίπεδο"
+	},
+	"gui_qty": {
+		"message": "Ποσότητας"
+	},
+	"gui_qty_required": {
+		"message": "Απαιτούμενη\nΠοσότητα"
+	},
+	"gui_energy": {
+		"message": "Ενέργεια"
+	},
+	"gui_estimatedenergy": {
+		"message": "Εκτιμώμενη ενέργεια"
+	},
+	"gui_food": {
+		"message": "Φαγητό"
+	},
+	"gui_coins": {
+		"message": "Νομίσματα"
+	},
+	"gui_backpack": {
+		"message": "Αποθήκη"
+	},
+	"gui_clickwiki": {
+		"message": "Πατήστε για να ανοίξετε τη σελίδα Wiki."
+	},
+	"gui_from_any": {
+		"message": "από περιοχές ή ιστορίες"
+	},
+	"gui_from_regions": {
+		"message": "από περιοχές"
+	},
+	"gui_from_events": {
+		"message": "από ιστορίες"
+	},
+	"gui_ingredients": {
+		"message": "Υλικά"
+	},
+	"gui_event": {
+		"message": "Ιστορία"
+	},
+	"gui_specialweek": {
+		"message": "Ειδική εβδομάδα"
+	},
+	"gui_region": {
+		"message": "Περιοχή"
+	},
+	"gui_theme": {
+		"message": "Θέμα"
+	},
+	"gui_year": {
+		"message": "Έτος"
+	},
+	"gui_quest": {
+		"message": "Αποστολή"
+	},
+	"gui_offer": {
+		"message": "Προσφορά"
+	},
+	"gui_tieredoffer": {
+		"message": "Προσφορά Επιπέδου"
+	},
+	"gui_pack": {
+		"message": "Πακέτο"
+	},
+	"gui_equipment": {
+		"message": "Εξοπλισμός"
+	},
+	"gui_shop": {
+		"message": "Μαγαζί"
+	},
+	"gui_decoration": {
+		"message": "Διακοσμητικό"
+	},
+	"gui_usable": {
+		"message": "Μιας χρήσης"
+	},
+	"gui_token": {
+		"message": "Δαχτυλίδι"
+	},
+	"gui_level": {
+		"message": "Επίπεδο"
+	},
+	"gui_xp": {
+		"message": "Εμπειρία"
+	},
+	"gui_sell_price": {
+		"message": "Τιμή Πώλησης"
+	},
+	"gui_neighbour": {
+		"message": "Γείτονας"
+	},
+	"gui_friend": {
+		"message": "Φίλος"
+	},
+	"gui_firstrecorded": {
+		"message": "Πρώτη\nΚαταγραφή"
+	},
+	"gui_loadingresources": {
+		"message": "Φόρτωση πόρων ($NUM$/$TOTAL$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"gui_screenshot_shot": {
+		"message": "Πατήστε για να βγάλετε φωτογραφία του τομέα.\nΗ φωτογραφία θα εμφανιστεί δεξιά.\nΠροσοχή: Μόνο η ορατή περιοχή θα βγει!\nΠρέπει να πατήσετε το εικονίδιο DAF2 στο μενού του Chrome, για να ενεργοποίησετε αυτή τη λειτουργία."
+	},
+	"gui_screenshot_target": {
+		"message": "Πατήστε για να κατεβάσετε την εικόνα.\nΜπορείτε να κάνετε δεξιά κλικ στην εικόνα και μετά \"Αντιγραφή Εικόνας\" για να την αντιγράψετε στο Πρόχειρο."
+	},
+	"gui_screenshot_error": {
+		"message": "Δεν μπορεί να φτιαχτεί εικόνα."
+	},
+	"gui_screenshot_errorinfo": {
+		"message": "Πρώτα, πρέπει να πατήσετε το εικονίδιο @DAF2@ στο μενού του Chrome.\nΑυτό θα ενεργοποιήσει τη λειτουργία φωτογραφίας μέχρι να κλείσει η σελίδα.\n\nΠαρακαλούμε, πατήστε το εικονίδιο @DAF2@ και μετά δοκιμάστε ξανά."
+	},
+	"gui_infodated": {
+		"message": "Οι πληροφορίες εδώ, ήταν τρέχουσες και έγκυρες από '$VALID$'",
+		"placeholders": {
+			"valid": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_nonote": {
+		"message": "Καμία σημείωση"
+	},
+	"gui_minimum": {
+		"message": "Ελάχιστα"
+	},
+	"gui_maximum": {
+		"message": "Μέγιστα"
+	},
+	"gui_average": {
+		"message": "Μέσος Όρος"
+	},
+	"gui_loot": {
+		"message": "Αποκτήματα"
+	},
+	"gui_datafrompf": {
+		"message": "Τα δεδομένα λήφθηκαν από τα αρχεία παιχνιδιού της Pixel Federation."
+	},
+	"gui_gift": {
+		"message": "Δώρο"
+	},
+	"gui_gifts": {
+		"message": "Δώρα"
+	},
+	"gui_day": {
+		"message": "Μέρα"
+	},
+	"gui_placed": {
+		"message": "Τοποθετημένο στη βάση"
+	},
+	"gui_owned": {
+		"message": "Σας ανήκουν"
+	},
+	"gui_limit": {
+		"message": "Όριο"
+	},
+	"gui_type": {
+		"message": "Είδος"
+	},
+	"gui_width": {
+		"message": "Πλάτος"
+	},
+	"gui_height": {
+		"message": "Ύψος"
+	},
+	"gui_value": {
+		"message": "Αξία"
+	},
+	"gui_slot_value": {
+		"message": "Αξία Υποδοχής"
+	},
+	"gui_cost": {
+		"message": "Κόστος"
+	},
+	"gui_items_found": {
+		"message": "Αντικείμενα που βρέθηκαν"
+	},
+	"gui_reset": {
+		"message": "Επαναφορά"
+	},
+	"gui_material": {
+		"message": "Υλικό"
+	},
+	"gui_filter_clear": {
+		"message": "Καθαρισμός"
+	},
+	"gui_filter_invert": {
+		"message": "Αντιστροφή"
+	},
+	"gui_advancedfilter": {
+		"message": "Εξελιγμένο φίλτρο"
+	},
+	"gui_location": {
+		"message": "Τοποθεσία"
+	},
+	"gui_locked": {
+		"message": "Κλειδωμένο"
+	},
+	"gui_noresults": {
+		"message": "Κανένα αποτέλεσμα"
+	},
+	"gui_toomanyresults": {
+		"message": "Υπερβολικά πολλά αποτελέσματα"
+	},
+	"gui_id": {
+		"message": "Ταυτότητα"
+	},
+	"gui_date": {
+		"message": "Ημερομηνία"
+	},
+	"gui_ctrlclick": {
+		"message": "Χρησιμοποιείστε το CTRL για επιλογή/ξε-επιλογή όλων"
+	},
+	"gui_summary": {
+		"message": "Περίληψη"
+	},
+	"dialog_ok": {
+		"message": "Εντάξει"
+	},
+	"dialog_yes": {
+		"message": "Ναι"
+	},
+	"dialog_no": {
+		"message": "Όχι"
+	},
+	"dialog_confirm": {
+		"message": "Επιβεβαίωση"
+	},
+	"dialog_cancel": {
+		"message": "Ακύρωση"
+	},
+	"dialog_close": {
+		"message": "Κλείσιμο"
+	},
+	"dialog_pleasewait": {
+		"message": "Παρακαλούμε περιμένετε"
+	},
+	"tab_game": {
+		"message": "Αλλαγή στο παιχνίδι"
+	},
+	"tab_about": {
+		"message": "Σχετικά"
+	},
+	"tab_progress": {
+		"message": "Πρόοδος"
+	},
+	"tab_camp": {
+		"message": "Βάση"
+	},
+	"tab_map": {
+		"message": "Χάρτης"
+	},
+	"tab_caravan": {
+		"message": "Καραβάνι"
+	},
+	"tab_kitchen": {
+		"message": "Κουζίνα"
+	},
+	"tab_foundry": {
+		"message": "Χυτήριο"
+	},
+	"tab_pillars": {
+		"message": "Κίονες"
+	},
+	"tab_neighbors": {
+		"message": "Γείτονες"
+	},
+	"tab_friendship": {
+		"message": "Φιλία"
+	},
+	"tab_godchild": {
+		"message": "Παιδιά Θεών"
+	},
+	"tab_locations": {
+		"message": "Τοποθεσίες"
+	},
+	"tab_greenrings": {
+		"message": "Πράσινα Δαχτυλίδια"
+	},
+	"tab_redrings": {
+		"message": "Κόκκινα Δαχτυλίδια"
+	},
+	"tab_christmasrings": {
+		"message": "Χριστουγεννιάτικα Δαχτυλίδια"
+	},
+	"tab_rewardlinks": {
+		"message": "Σύνδεσμοι Δώρων"
+	},
+	"tab_options": {
+		"message": "Επιλογές"
+	},
+	"tab_help": {
+		"message": "Βοήθεια"
+	},
+	"tab_export": {
+		"message": "Εισαγωγή / Εξαγωγή"
+	},
+	"tab_equipment": {
+		"message": "Εξοπλισμός / Μαγαζί"
+	},
+	"tab_events": {
+		"message": "Ιστορίες"
+	},
+	"tab_repeat": {
+		"message": "Επαναλαμβανόμενα"
+	},
+	"tab_dailyreward": {
+		"message": "Ημερήσιο Έπαθλο"
+	},
+	"about_version": {
+		"message": "Έκδοση: $VERSION$",
+		"placeholders": {
+			"version": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_data": {
+		"message": "Τελευταίο Στιγμιότυπο Δεδομένων: $TIME$\nΙστοσελίδα Παιχνιδιού: $SITE$ (PLATFORM$)\nΑναγνωριστικό Χρήστη: #$USERID$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			},
+			"userid": {
+				"content": "$2"
+			},
+			"site": {
+				"content": "$3"
+			},
+			"platform": {
+				"content": "$4"
+			}
+		}
+	},
+	"about_visit": {
+		"message": "Επισκεφτείτε τη σελίδα στο Facebook"
+	},
+	"about_nodata": {
+		"message": "Δε φορτώθηκαν ακόμα Δεδομένα του Παιχνιδιού, παρακαλώ φορτώστε ή επαναφορτώστε το παράθυρο του παιχνιδιού."
+	},
+	"about_disclaimer": {
+		"message": "Το DA Friends φτιάχτηκε από φαν, και δεν εγκρίθηκε ούτε υποστηρίζετε από τη Pixel Federation, τους δημιουργούς του παιχνιδιού \"Diggy's Adventure\".\nΧρησιμοποιείτε το DA Friends με δικό σας ρίσκο. Δεν έρχεται με καμία εγγύηση, ούτε σαφή ή υπονοούμενη λειτουργικότητα ή χρησιμότητα. Ο δημιουργός δεν πρέπει να κριθεί υπεύθυνος για οποιαδήποτε ζημιά ή απώλεια που προκλήθηκε από τη χρήση του.\nΧρησιμοποιώντας αυτήν την επέκταση, συμφωνείτε με αυτούς τους όρους."
+	},
+	"about_translators": {
+		"message": "Μεταφραστές"
+	},
+	"about_alternate": {
+		"message": "Φορτώθηκε διαφορετικός λογαριασμός ($ID$).",
+		"placeholders": {
+			"id": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_reset": {
+		"message": "Τα δεδομένα του προηγούμενου λογαριασμού σας διατηρήθηκαν.\nΓια επαναφορά των δεδομένων και χρήση διαφορετικού λογαριασμού, πατήστε @RESET@"
+	},
+	"about_reset_ask_title": {
+		"message": "Επαναφορά λογαριασμού"
+	},
+	"about_reset_ask_text": {
+		"message": "Θέλετε να επαναφέρετε τα δεδομένα σας\nώστε να χρησιμοποιήσετε άλλο λογαριασμό;"
+	},
+	"about_reset_ok_title": {
+		"message": "Έγινε επαναφορά δεδομένων"
+	},
+	"about_reset_ok_text": {
+		"message": "Παρακαλώ φορτώστε ξανά το Diggy's Adventure με τον λογαριασμό που θέλετε να χρησιμοποιήσετε."
+	},
+	"production_total_time": {
+		"message": "Συνολικος χρόνος\n(Θέσεις: $NUM$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"production_time": {
+		"message": "Χρόνος παραγωγής"
+	},
+	"production_possible": {
+		"message": "Πιθανοί"
+	},
+	"production_possible_energy": {
+		"message": "Πιθανή\nΕνέργεια"
+	},
+	"production_energy_hour": {
+		"message": "Ενέργεια\nΑνά Ώρα"
+	},
+	"production_qty": {
+		"message": "Ποσότητα παραγωγής"
+	},
+	"production_uplift": {
+		"message": "Ανύψωση (Εμπειρία/Ώρα)"
+	},
+	"production_uplift_info": {
+		"message": "Εμπειρία από μια θέση την ώρα βασισμένο στις τιμές το κιώνων"
+	},
+	"production_req_ticket": {
+		"message": "Χρειάζεται εισιτήριο;"
+	},
+	"kitchen_food_in_backpack": {
+		"message": "από το φαγητό στο σακίδιο"
+	},
+	"camp_your_camp": {
+		"message": "Η βάση σας"
+	},
+	"camp_player_name": {
+		"message": "Η βάση του/της $PLAYER$ στις $DATE$",
+		"placeholders": {
+			"player": {
+				"content": "$1"
+			},
+			"date": {
+				"content": "$2"
+			}
+		}
+	},
+	"camp_no_player": {
+		"message": "Ακόμα καμία επίσκεψη σε βάση"
+	},
+	"camp_player": {
+		"message": "Παίχτης"
+	},
+	"camp_total": {
+		"message": "Σύνολο"
+	},
+	"camp_fill_time": {
+		"message": "Χρόνος γεμίσματος"
+	},
+	"camp_fill_time_info": {
+		"message": "Χρόνος που χρειάζεται η μπάρα ενέργειας για να γεμίσει"
+	},
+	"camp_numofregenslots": {
+		"message": "# θέσεις αναπλήρωσης"
+	},
+	"camp_canbeimproved": {
+		"message": "Αυτή η βάση μπορεί να βελτιωθεί"
+	},
+	"camp_showsetup": {
+		"message": "Πατήστε εδώ για να δείτε την τροποποίηση βάσης"
+	},
+	"camp_windmill_regen": {
+		"message": "Ανανέωση ανεμόμυλων"
+	},
+	"camp_windmill_regen_total": {
+		"message": "Ανανέωση όλων των ανεμόμυλων"
+	},
+	"camp_windmill_num": {
+		"message": "Τωρινός αριθμός ανεμόμυλων"
+	},
+	"camp_windmill_expiry": {
+		"message": "Οι ανεμόμυλοι θα λήξουν στις\n$TIME$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_slot_empty": {
+		"message": "Κενή υποδοχή"
+	},
+	"camp_slot_blocked": {
+		"message": "Μπλοκαρισμένο κενό"
+	},
+	"camp_regen": {
+		"message": "Ανανέωση"
+	},
+	"camp_capacity": {
+		"message": "Χωρητικότητα"
+	},
+	"camp_windmills": {
+		"message": "Ανεμόμυλοι"
+	},
+	"camp_needs_windmills": {
+		"message": "Η βάση θέλει ανεμόμυλους"
+	},
+	"camp_avg_value": {
+		"message": "Μέσος Όρος Υποδοχής"
+	},
+	"camp_min_value": {
+		"message": "Ελάχιστη Υποδοχή"
+	},
+	"camp_max_value": {
+		"message": "Μέγιστη Υποδοχή"
+	},
+	"camp_num_slots": {
+		"message": "Αριθμός Υποδοχών"
+	},
+	"camp_unlock_materials": {
+		"message": "Υλικά για ξεκλείδωμα βάσης"
+	},
+	"camp_unlock_one": {
+		"message": "Το ξεκλείδωμα μιας θέσης προσφέρει $VALUE$ Εμπειρία",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_unlock_cost": {
+		"message": "Μια θέση ξεκλειδώνεται με $VALUE$ πετράδια\nή με αυτά τα υλικά:",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_start_date": {
+		"message": "Αρχίσατε να παίζεται στις:\n$STARTED$",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_day_mode": {
+		"message": "Πρωί"
+	},
+	"camp_night_mode": {
+		"message": "Βράδυ"
+	},
+	"camp_setup_mode": {
+		"message": "Διάταξη"
+	},
+	"camp_discounted": {
+		"message": "Σε προσφορά"
+	},
+	"camp_neighbor": {
+		"message": "Βάση γείτονα"
+	},
+	"camp_extra": {
+		"message": "Έξτρα"
+	},
+	"camp_ftp_group": {
+		"message": "ΟΜΑΔΑ $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_ftp_dot_info": {
+		"message": "Οι κάρτες με κόκκινη κουκκίδα μπορεί να εμφανιστούν στα πρώτα δωρεάν γυρίσματα."
+	},
+	"camp_ftp_group_info": {
+		"message": "Μπορείτε να βρείτε κάρτες από την ομάδα μόνο όταν όλες οι κάρτες τις προηγούμενηες ομάδας βρεθούν"
+	},
+	"camp_ftp_cumulativegems": {
+		"message": "Συνολικά πετράδια μέχρι τώρα"
+	},
+	"camp_ads_limit": {
+		"message": "Όριο διαφημίσεων"
+	},
+	"camp_ads_limit_info": {
+		"message": "Αυτό είναι μόνο μια ένδειξη και δεν αναπαριστά την αληθινή πιθανότητα εμφάνισης διαφήμισης"
+	},
+	"camp_ads_limit_info2": {
+		"message": "Ο τρίτος πάροχος διαφημίσεων μπορεί να θέσει διαφορετικό όριο, κάτι το οποίο είναι εκτός ελέγχου της Pixel Federation"
+	},
+	"map_floor": {
+		"message": "Πάτωμα"
+	},
+	"map_floor_current": {
+		"message": "Τωρινό πάτωμα"
+	},
+	"map_floor_found": {
+		"message": "Πατήστε για εμφάνιση του χάρτη αυτού του ορόφου"
+	},
+	"map_floor_not_found": {
+		"message": "Αυτός ο όροφος δεν έχει επισκεφτεί ακόμα"
+	},
+	"map_remaining_tiles": {
+		"message": "Εναπομείναντα πλακίδια"
+	},
+	"map_special": {
+		"message": "Ειδικά"
+	},
+	"map_quest": {
+		"message": "Αποστολή"
+	},
+	"map_this_floor": {
+		"message": "Αυτός ο όροφος"
+	},
+	"map_all_floors": {
+		"message": "Όλοι οι όροφοι"
+	},
+	"map_warning": {
+		"message": "Παρακαλώ επισκεφθείτε κάποια τοποθεσία στο παιχνίδι και επιστρέψτε εδώ!"
+	},
+	"map_button_d": {
+		"message": "Εμφάνιση Diggy"
+	},
+	"map_button_t": {
+		"message": "Εμφάνιση τηλεμεταφορών"
+	},
+	"map_button_e": {
+		"message": "Εμφάνιση φάρων"
+	},
+	"map_button_c": {
+		"message": "Εμφάνιση με όλα τα χρώματα"
+	},
+	"map_button_g": {
+		"message": "Εμφάνιση πληροφορίας αποσφαλμάτωσης"
+	},
+	"map_button_l": {
+		"message": "Έμφαση εύθραυστων πλακιδίων"
+	},
+	"map_button_n": {
+		"message": "Έμφαση πλακιδίων με καλά περιεχόμενα"
+	},
+	"map_button_v": {
+		"message": "Εμφάνιση εξερευνημένων πλακιδίων"
+	},
+	"map_button_o": {
+		"message": "Εμφάνιση αδιαφανών πλακιδίων"
+	},
+	"map_button_b": {
+		"message": "Εμφάνιση ένδειξης μπόνους"
+	},
+	"map_button_k": {
+		"message": "Εμφάνιση φόντου μέσω απόκρυψης των εύθραυστων πλακιδίων"
+	},
+	"map_button_a": {
+		"message": "Εμφάνιση όλων των πλακιδίων"
+	},
+	"map_button_x": {
+		"message": "Εμφάνιση εισόδων και εξόδων"
+	},
+	"map_button_u": {
+		"message": "Εμφάνιση αρχικού χάρτη"
+	},
+	"map_button_f": {
+		"message": "Εμφάνιση όλου του χάρτη"
+	},
+	"map_button_s": {
+		"message": "Εμφάνιση λύσης"
+	},
+	"map_button_m": {
+		"message": "Ανακάτεμα εμφανισμένων πλακιδίων"
+	},
+	"map_save": {
+		"message": "Αποθήκευση"
+	},
+	"map_save_tip": {
+		"message": "Αποθήκευση χάρτη ως αρχείο εικόνας"
+	},
+	"map_mine_exit": {
+		"message": "Αποχωρεί από ορυχείο"
+	},
+	"map_goto_floor": {
+		"message": "Πηγαίνει στον όροφο $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"map_goto_unknown": {
+		"message": "Πηγαίνει σε άλλον όροφο, αλλά αυτός ο δρόμος δεν έχει παρθεί ξανά"
+	},
+	"map_teleport": {
+		"message": "Τηλεμεταφορά"
+	},
+	"map_hint": {
+		"message": "Βοήθεια"
+	},
+	"map_beacon": {
+		"message": "Φάρος"
+	},
+	"map_active": {
+		"message": "ενεργό"
+	},
+	"map_not_active": {
+		"message": "μη ενεργό"
+	},
+	"map_tile": {
+		"message": "Πλακίδιο"
+	},
+	"map_npc": {
+		"message": "Χαρακτήρες"
+	},
+	"map_says": {
+		"message": "Λέει"
+	},
+	"map_godchild": {
+		"message": "Παιδί θεών"
+	},
+	"map_unknown": {
+		"message": "Άγνωστο"
+	},
+	"map_yellow": {
+		"message": "Κίτρινο"
+	},
+	"map_red": {
+		"message": "Κόκκινο"
+	},
+	"map_blue": {
+		"message": "Μπλε"
+	},
+	"map_green": {
+		"message": "Πράσινο"
+	},
+	"map_left": {
+		"message": "Αριστερό"
+	},
+	"map_down": {
+		"message": "Κάτω"
+	},
+	"map_right": {
+		"message": "Δεξιό"
+	},
+	"map_up": {
+		"message": "Πάνω"
+	},
+	"map_require_draggable": {
+		"message": "Χρειάζεται συρόμενο"
+	},
+	"map_require_item": {
+		"message": "Χρειάζεται αντικείμενο"
+	},
+	"map_require_light": {
+		"message": "Χρειάζεται φως"
+	},
+	"map_emitter": {
+		"message": "Πομπός φωτός"
+	},
+	"map_mirror": {
+		"message": "Καθρέφτης"
+	},
+	"map_filter": {
+		"message": "Φίλτρο φωτός"
+	},
+	"map_draggable": {
+		"message": "Συρόμενο"
+	},
+	"map_can_move": {
+		"message": "Μπορεί να μετακινηθεί"
+	},
+	"map_can_rotate": {
+		"message": "Μπορεί να περιστραφεί"
+	},
+	"map_fixed": {
+		"message": "Φτιαγμένο"
+	},
+	"map_remove_confirmation": {
+		"message": "Επιβεβαίωση διαγραφής αυτών τον ορυχείων;"
+	},
+	"map_option_c": {
+		"message": "Εμφάνιση συντεταγμένων στα εργαλεία"
+	},
+	"map_option_s": {
+		"message": "Εμφάνιση επιλογής περιοχής"
+	},
+	"map_option_i": {
+		"message": "Εμφάνισης πληροφοριών τοποθεσίας"
+	},
+	"map_option_r": {
+		"message": "Εμφάνιση επαναλαμβανόμενων"
+	},
+	"map_option_t": {
+		"message": "Προσθέστε τίτλο χάρτη"
+	},
+	"map_option_b": {
+		"message": "Αφαίρεση κενών γραμμών/στηλών"
+	},
+	"map_option_m": {
+		"message": "Εξασφάλιση ορίων γύρω της εικόνας"
+	},
+	"map_option_l": {
+		"message": "Προσθήκη λογότυπου"
+	},
+	"map_option_resize": {
+		"message": "Μέγεθος αποθηκευμένης εικόνας"
+	},
+	"map_export_location": {
+		"message": "Εξαγωγή ορόφων ως αρχεία δεδομένων"
+	},
+	"map_export_floor": {
+		"message": "Εξαγωγή τωρινού ορόφου ως αρχείο δεδομένων"
+	},
+	"map_import": {
+		"message": "Εισαγωγή όλων των εξαγόμενων αρχείων"
+	},
+	"map_downloadfolder": {
+		"message": "Φάκελος κατεβάσματος"
+	},
+	"map_positionrandom": {
+		"message": "Η τοποθεσία είναι τυχαία"
+	},
+	"map_default": {
+		"message": "Επαναφορά σε προεπιλεγμένα"
+	},
+	"pillars_all": {
+		"message": "Όλοι οι κίονες"
+	},
+	"pillars_only_possible": {
+		"message": "Μόνοι οι πιθανοί κίονες"
+	},
+	"pillars_perc_next": {
+		"message": "%\nΕπόμενου"
+	},
+	"pillars_possible": {
+		"message": "Πιθανοί"
+	},
+	"pillars_totals": {
+		"message": "Σύνολα"
+	},
+	"pillars_current_level": {
+		"message": "Το Επίπεδό σας"
+	},
+	"pillars_predicted": {
+		"message": "Πρόβλεψη"
+	},
+	"pillars_predicted_level": {
+		"message": "Προβλεπόμενο Επίπεδο"
+	},
+	"pillars_predicted_gain": {
+		"message": "Αναμενόμενο κέρδος από αυξήσεις επιπέδων"
+	},
+	"pillars_ignore": {
+		"message": "Πατήστε για να αγνοήσετε/συμπεριλάβετε"
+	},
+	"pillars_altclick": {
+		"message": "Χρησιμοποιείστε το ALR για να θέσετε/ξαναθέσετε όλες τις ποσότητες"
+	},
+	"pillars_maxpossible": {
+		"message": "Το μεγαλύτερο δυνατό"
+	},
+	"pillars_grid": {
+		"message": "Εμφάνιση ως πλέγμα"
+	},
+	"pillars_cap": {
+		"message": "Φράγμα στους 'Προβλεπόμενους Κίονες'"
+	},
+	"neighbors_lastlevelup": {
+		"message": "Τελευταία\nΑνοδος Επιπέδου"
+	},
+	"neighbors_lastgiftreceived": {
+		"message": "Τελευταίο\nΛηφθέν Δώρο"
+	},
+	"neighbors_yourlastvisit": {
+		"message": "Η τελευταία σας επίσκεψη"
+	},
+	"neighbors_all": {
+		"message": "Όλοι"
+	},
+	"neighbors_nogift": {
+		"message": "Κανένα δώρο σε $NUM$ μέρες",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"neighbors_gifts": {
+		"message": "Να μετρηθούν τα δώρα των τελευταίων @DAYS@ ημερών"
+	},
+	"neighbors_listed": {
+		"message": "Προσαρμοσμένη λίστα"
+	},
+	"neighbors_blocks": {
+		"message": "Μπλοκ προς καθάρισμα στην υπόγεια βάση"
+	},
+	"neighbors_inlist": {
+		"message": "Στην προσαρμοσμένη λίστα"
+	},
+	"neighbors_notinlist": {
+		"message": "Όχι στην προσαρμοσμένη λίστα"
+	},
+	"neighbors_withblocks": {
+		"message": "Με μπλοκ προς καθάρισμα"
+	},
+	"neighbors_unknownblocks": {
+		"message": "Κατάσταση μπλοκ άγνωστη"
+	},
+	"neighbors_withexpiredwindmills": {
+		"message": "Με ανεμόμυλους που έληξαν"
+	},
+	"neighbors_found": {
+		"message": "Γείτονες που βρέθηκαν: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_giftcount": {
+		"message": "Αριθμός δώρων"
+	},
+	"neighbors_giftvalue": {
+		"message": "Αξία δώρων (σε Εμπειρία)"
+	},
+	"neighbors_efficiency": {
+		"message": "Αποδοτικότητα (δώρα / μέρες)"
+	},
+	"neighbors_wmtime": {
+		"message": "Ώρα λήξης ανεμόμυλου"
+	},
+	"neighbors_giftinfo": {
+		"message": "Η ημερομηνία του δώρου αναφέρεται στη στιγμή που το DAF κατέγραψε πρώτη φορά το δώρο, όχι το πότε στάλθηκε."
+	},
+	"neighbors_gifttip": {
+		"message": "$NAME$\nΕμπειρία: $XP$\nΜέρα: $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_gift": {
+		"message": "$NAME$ ($XP$ Εμπειρία) στις $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_advancedfilterinfo": {
+		"message": "Μπορείτε να φιλτράρετε τους γείτονές σας με βάση τα δώρα που έστειλαν τις τελευταίες @DAYS@ μέρες επιλέγοντας ένα ή περισσότερα δώρα  από την ακόλουθη λίστα."
+	},
+	"neighbors_clearfilter": {
+		"message": "Καθαρισμός φίλτρου"
+	},
+	"neighbors_gift_tooltip": {
+		"message": "Δώρα που λήφθηκαν ενώ το DAF2 ήταν ενεργό και κατέγραφε."
+	},
+	"neighbors_sortby": {
+		"message": "Ταξινόμηση με"
+	},
+	"neighbors_totxpstats": {
+		"message": "$COUNT$ δώρα σε $DAYS$ μέρες = $TOTAL$ Εμπειρία ($AVERAGE$ Εμπειρία/μέρα)",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"days": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			},
+			"average": {
+				"content": "$4"
+			}
+		}
+	},
+	"neighbors_avgxpstats": {
+		"message": "Μέση αξία δώρου = $XP$ Εμπειρία ($AVERAGE$ Εμπειρία για κάθε γείτονα/μέρα)",
+		"placeholders": {
+			"xp": {
+				"content": "$1"
+			},
+			"average": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_expression": {
+		"message": "Δώστε μια έκφραση προς αξιολόγηση"
+	},
+	"friendship_collectfriends": {
+		"message": "Συλλογή φίλων"
+	},
+	"friendship_score": {
+		"message": "Σκορ"
+	},
+	"friendship_scoretooltip": {
+		"message": "Έμπιστο ταίριασμα, ως εξής:\n100 = Ίδιο αναγνωριστικό (id) Facebook\n99 = Δικό σας ταίριασμα\n95 = Ίδια εικόνα προφίλ\n90 = Ίδιο πλήρες όνομα\n80 = Ίδιο όνομα και επώνυμο\n70 = Ίδιο όνομα και επώνυμο (αντίστροφα)\n60 = Ίδιοι κινέζικοι χαρακτήρες"
+	},
+	"friendship_action": {
+		"message": "Πράξη"
+	},
+	"friendship_actionignore": {
+		"message": "Αυτός ο φίλος μετρήθηκε στο ταίριασμα\nΠατήστε για να αγνοηθεί"
+	},
+	"friendship_actionregard": {
+		"message": "Αυτός ο φίλος αγνοήθηκε στο ταίριασμα\nΠατήστε για να μετρηθεί"
+	},
+	"friendship_actionunlink": {
+		"message": "Πατήστε για να αφαιρέσετε το ταίριασμα"
+	},
+	"friendship_actionmanual": {
+		"message": "Πατήστε για να ταιριάξετε εσείς αυτόν τον γείτονα"
+	},
+	"friendship_actionmatch": {
+		"message": "Πατήστε για συσχέτιση αυτού του φίλου με τον επιλεγμένο γείτονα"
+	},
+	"friendship_actiondelete": {
+		"message": "Πατήστε για να αφαιρέστε μόνιμα αυτόν τον φίλο"
+	},
+	"friendship_matchplayertitle": {
+		"message": "Πατήστε για ακύρωση ταιριάσματος"
+	},
+	"friendship_accountdisabled": {
+		"message": "Ο λογαριασμός είναι απενεργοποιημένος"
+	},
+	"friendship_disabledaccountsdetected": {
+		"message": "Οι απενεργοποιημένοι λογαριασμοί βρέθηκαν."
+	},
+	"friendship_unmatchedaccountsdetected": {
+		"message": "Ανιχνεύτηκαν απενεργοποιημένοι και μη ταιριασμένοι λογαριασμοί."
+	},
+	"friendship_unfriendinfo": {
+		"message": "Μπορείτε να τους αφαιρέσετε από αυτή τη σελίδα.\n\nΝα ξέρετε όμως πως λογαριασμοί του Facebook μπορεί να απενεργοποιηθούν προσωρινά και να ενεργοποιηθούν αργότερα."
+	},
+	"friendship_partial": {
+		"message": "Μερική"
+	},
+	"friendship_confirmcollect": {
+		"message": "ΝΑΙ = επιβεβαίωση φίλων και αντικατάσταση παλιών\nΜΕΡΙΚΗ = προσθήκη φίλων και διατήρηση των τωρινών\nΟΧΙ = προσπάθεια συλλογής περισσότερων φίλων\n\nΜπορείτε να κλείσετε αυτό το παράθυρο οποιαδήποτε στιγμή για ακύρωση της διαδικασίας."
+	},
+	"friendship_speedupcollect": {
+		"message": "Επιτάχυνση περισυλλογής;"
+	},
+	"friendship_filter_a": {
+		"message": "Φίλοι: $FRIENDS$, Γείτονες: $NEIGHBOURS$",
+		"placeholders": {
+			"friends": {
+				"content": "$1"
+			},
+			"neighbours": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_filter_d": {
+		"message": "Απενεργοποιημένοι λογαριασμοί Facebook: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_m": {
+		"message": "Φίλοι και Γείτονες που ταίριαξαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_g": {
+		"message": "Φίλοι και Γείτονες που ταίριαξαν από εικόνα: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_h": {
+		"message": "Φίλοι και Γείτονες που ταιριάξατε εσείς: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_i": {
+		"message": "Φίλοι που αγνοήθηκαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_f": {
+		"message": "Φίλοι που δεν ταίριαξαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_u": {
+		"message": "Φίλοι που αγνοήθηκαν και/ή δεν ταίριαξαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_n": {
+		"message": "Γείτονες που δεν ταίριαξαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_s": {
+		"message": "Φίλοι και γείτονες που δεν ταίριαξαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_collectpreamble": {
+		"message": "Εδώ μπορείτε να συλλέξετε τους φίλους σας στο Facebook και να τους ταιριάξετε με τους γείτονές σας."
+	},
+	"friendship_collectstandard": {
+		"message": "Προεπιλεγμένη"
+	},
+	"friendship_collectstandardinfo": {
+		"message": "Αυτή η μέθοδος είναι έμπιστη, αλλά αρκετά αργή (μπορεί να πάρει μερικά λεπτά)"
+	},
+	"friendship_collectunmatched": {
+		"message": "Μη ταιριασμένοι"
+	},
+	"friendship_collectunmatchedinfo": {
+		"message": "Αυτή η μέθοδος είναι η ίδια με την 'Προεπιλεγμένη', αλλά δε θα συλλέξει φίλους.\nΘα σας δείξει όλους του τωρινούς μη ταιρασμένους φίλους, για να τους διαγράψετε εσείς."
+	},
+	"friendship_disabledinfo": {
+		"message": "Μπορεί να ανιχνεύσει απενεργοποιημένους λογαριασμούς."
+	},
+	"friendship_collectmatch": {
+		"message": "Ταίριασμα"
+	},
+	"friendship_collectmatchinfo": {
+		"message": "Αυτό θα πραγματοποιήσει το αυτόματο ταίριασμα μεταξύ των φίλων και των γειτόνων σας.\nΗ λίστα φίλων σας δεν θα ανανεωθεί.\nΟι φίλοι που αγνοήθηκαν και οι φίλοι με βαθμολογία μεγαλύτερη από 90 δε θα ταιριάξουν αυτόματα.\nΤο ταίριασμα θα εξακολουθεί να εκτελείται στο τέλος της συλλογής φίλων σας."
+	},
+	"friendship_matchbyimage": {
+		"message": "Αντιστοίχιση με εικόνα προφίλ;"
+	},
+	"friendship_confirmwarning": {
+		"message": "Η διαδικασία μπορεί να διαρκέσει μερικά λεπτά.\n\nΠαρακαλούμε επιβεβαιώστε την ενέργεια."
+	},
+	"friendship_confirmcollection": {
+		"message": "Επιβεβαίωση αποτελέσματος συλλογής;"
+	},
+	"friendship_cc_maybe": {
+		"message": "Με αβεβαιότητα"
+	},
+	"friendship_confirmdelete": {
+		"message": "Αυτή η διαδικασία δεν μπορεί να αναστραφεί.\nΘα πρέπει να κάνετε συλλογή για να έχετε ξανά αυτόν τον φίλο στη λιστα.\n\nΕπιβεβαίωση της αφαίρεσης;"
+	},
+	"friendship_collecterror": {
+		"message": "Κάτι πήγε λάθος."
+	},
+	"friendship_manualhelp": {
+		"message": "Παρακαλώ επαναφορτώστε τη σελίδα DAF2, πηγαίντε στην καρτέλα \"$FRIENDSHIP$\", πατήστε \"$COLLECT$\" και διαλέξτε \"$MATCH$\"",
+		"placeholders": {
+			"friendship": {
+				"content": "$1"
+			},
+			"collect": {
+				"content": "$2"
+			},
+			"match": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_analyzingmatches": {
+		"message": "Ανάλυση δεδομένων, $PERCENT$ % ($NUM$ / $TOTAL$)",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			},
+			"num": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_collectstat": {
+		"message": "Συλλεγμένη φίλοι: $COUNT$",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_manualmatchhelp": {
+		"message": "Για να ταιριάξετε αυτόν τον γείτονα πρέπει να βρείτε έναν μη ταιριασμένο φίλο και να πατήσετε στο κελί με το ⭐."
+	},
+	"friendship_friendupdateinfo": {
+		"message": "Η λίστα φίλων του Facebook ενημερώθηκε στις $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_totalfriends": {
+		"message": "Φίλοι: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_totalneighbours": {
+		"message": "Γείτονες: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_timewarning": {
+		"message": "Φαίνεται πως δεν έχετε κάνει συλλογή φίλων αρκετό καιρό. Παρακαλώ πατήστε το κουμπί \"$COLLECT$\" και διαλέξτε τη μέθοδο \"$METHOD$\".",
+		"placeholders": {
+			"collect": {
+				"content": "$1"
+			},
+			"method": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_info": {
+		"message": "$NUM$ Γείτονες  = $GC$ Παιδιά θεών",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"gc": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_stat": {
+		"message": "Παιδιά θεών: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_next": {
+		"message": "Για να πάρετε ένα επιπλέον Παιδί Θεών, πρέπει να κάνετε προσθήκη $NUM$ ακόμα γείτονες",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"godchild_next0": {
+		"message": "Φτάσατε στον μέγιστο αριθμό Παιδιών των Θεών"
+	},
+	"godchild_next1": {
+		"message": "Για να πάρετε ένα επιπλέον Παιδί Θεών, πρέπει να κάνετε προσθήκη μόνο έναν ακόμα γείτονα."
+	},
+	"progress_measure": {
+		"message": "Μέτρο"
+	},
+	"progress_attained": {
+		"message": "Επιτεύχθηκε"
+	},
+	"progress_goal": {
+		"message": "Στόχος"
+	},
+	"progress_remaining": {
+		"message": "Απομένει"
+	},
+	"progress_progress": {
+		"message": "Πρόοδος"
+	},
+	"progress_achievements": {
+		"message": "Επιτεύγματα"
+	},
+	"progress_treasures": {
+		"message": "Θησαυροί"
+	},
+	"progress_overall": {
+		"message": "Συνολικά"
+	},
+	"progress_hidecompleted": {
+		"message": "Ολοκλήρωση απόκρυψης"
+	},
+	"progress_grouplocations": {
+		"message": "Ομαδικές τοποθεσίες"
+	},
+	"progress_showdates": {
+		"message": "Ημερομηνίες τοποθεσιών"
+	},
+	"progress_energyinfo": {
+		"message": "Η ενέργεια που εμφανίζεται εδώ προβλέπεται πολλαπλασιάζοντας τον αριθμό των υπολοιπόμενων πλακιδίων με το μέσο κόστος πλακιδίων.\nΤο μέσο κόστος πλακιδίων βασίζεται στο μπόνους ολοκλήρωσης και στο συνολικό αριθμό πλακιδίων."
+	},
+	"progress_averagetilecost": {
+		"message": "Μέσο κόστος πλακιδίων"
+	},
+	"progress_achievementnextstep": {
+		"message": "Για το επόμενο επίπεδο = $NEXT$",
+		"placeholders": {
+			"next": {
+				"content": "$1"
+			}
+		}
+	},
+	"progress_start": {
+		"message": "Άρχισε"
+	},
+	"progress_end": {
+		"message": "Έληξε"
+	},
+	"progress_duration": {
+		"message": "Διάρκεια"
+	},
+	"progress_subtotal": {
+		"message": "Μερικό σύνολο"
+	},
+	"progress_grandtotal": {
+		"message": "Σύνολο"
+	},
+	"progress_playtime": {
+		"message": "Αρχίσατε να παίζετε στις $STARTED$ και παίζεται για $DURATION$ (μέχρι τις $NOW$)",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			},
+			"duration": {
+				"content": "$2"
+			},
+			"now": {
+				"content": "$3"
+			}
+		}
+	},
+	"progress_levelrange": {
+		"message": "Από $FROM$ σε $TO$",
+		"placeholders": {
+			"from": {
+				"content": "$1"
+			},
+			"to": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_id": {
+		"message": "Id Δώρου"
+	},
+	"rewardlinks_insertdate": {
+		"message": "Εισάγετε Ημερομηνία"
+	},
+	"rewardlinks_collectdate": {
+		"message": "Συλλογή ημερομηνίας"
+	},
+	"rewardlinks_collectmaterial": {
+		"message": "Βρέθηκε Δώρο"
+	},
+	"rewardlinks_owner": {
+		"message": "Ιδιοκτήτης"
+	},
+	"rewardlinks_expired": {
+		"message": "ΕΧΕΙ ΛΗΞΕΙ"
+	},
+	"rewardlinks_collected": {
+		"message": "ΕΧΕΙ ΗΔΗ ΣΥΛΛΕΧΤΕΙ"
+	},
+	"rewardlinks_maxreached": {
+		"message": "ΦΤΑΣΑΤΕ ΤΟ ΚΑΘΗΜΕΡΙΝΟ ΟΡΙΟ"
+	},
+	"rewardlinks_noself": {
+		"message": "ΔΙΚΟΣ ΣΑΣ ΣΥΝΔΕΣΜΟΣ"
+	},
+	"rewardlinks_broken": {
+		"message": "ΛΑΘΟΣ ΣΥΝΔΕΣΜΟΣ"
+	},
+	"rewardlinks_probablyexpired": {
+		"message": "ΠΙΘΑΝΟΝ ΛΗΓΜΕΝΟΣ ΣΥΝΔΕΣΜΟΣ"
+	},
+	"rewardlinks_background": {
+		"message": "Προσκύνιο\nΆνοιγμα συνδέσμων δώρων στο προσκύνιο"
+	},
+	"rewardlinks_autoclick": {
+		"message": "Αυτόματα κλικ\nΑυτόματο πάτημα του επόμενου δώρου αφού το τωρινό συλλέχθηκε"
+	},
+	"rewardlinks_autoclick_end": {
+		"message": "Κανένας επιλεγμένος σύνδεσμος δεν μπορεί να πατηθεί.\nΟι ληγμένοι ή ήδη πατημένοι σύνδεσμοι πάντα αγνοούνται."
+	},
+	"rewardlinks_addlinks": {
+		"message": "Προσθήκη συνδέσμων"
+	},
+	"rewardlinks_pasteadd": {
+		"message": "Επικολήστε εδώ τους συνδέσμους και πατήστε \"$CONFIRM$\"",
+		"placeholders": {
+			"confirm": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_pastehere": {
+		"message": "Όποιος σύνδεσμος επικολληθεί εδώ θα προστεθεί κατευθείαν"
+	},
+	"rewardlinks_linksadded": {
+		"message": "Σύνδεσμοι δώρων που προστέθηκαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_nolinksadded": {
+		"message": "Δεν προστέθηκαν σύνδεσμοι."
+	},
+	"rewardlinks_linksupdated": {
+		"message": "Σύνδεσμοι δώρων που ανανεώθηκαν: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_stats": {
+		"message": "Σύνδεσμοι δώρων: $TOTAL$, Προς συλλογή: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_allcollected": {
+		"message": "Συλλέχθηκαν όλοι οι σύνδεσμοι δώρων"
+	},
+	"rewardlinks_nexttime": {
+		"message": "Μπορείτε να συλλέξετε ξανά στις: $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_countremaining": {
+		"message": "Υπόλοιποι σύνδεσμοι προς συλλογή: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_collectanyway": {
+		"message": "Θέλετε να ανοίξετε τον σύνδεσμο ούτως ή άλλως;"
+	},
+	"rewardlinks_infocollected": {
+		"message": "Ο σύνδεσμος έχει συλλεχτεί ήδη."
+	},
+	"rewardlinks_infoexpired": {
+		"message": "Ο σύνδεσμος έληξε.\nΟι σύνδεσμοι ισχύουν μόνο για $NUM$ μέρες.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_infonoself": {
+		"message": "Αυτός ο σύνδεσμος είναι δικό σας, άρα δε συλλέγεται."
+	},
+	"rewardlinks_infobroken": {
+		"message": "Ο σύνδεσμος δεν είναι σωστός ή δε δουλεύει."
+	},
+	"rewardlinks_infomaxreached": {
+		"message": "Αυτός ο σύνδεσμος συλλέχτηκε μετά το ανώτατο καθημερινό όριο.\nΣύνδεσμοι που συλλέγονται έτσι χάνονται για πάντα."
+	},
+	"rewardlinks_infomayexceedlimit": {
+		"message": "Υπάρχουν κι άλλα δώρα προς συλλογή.\nΑυτό μπορεί να ξεπεράσει το καθημερινό όριο."
+	},
+	"rewardlinks_infoprobablyexpired": {
+		"message": "Ο σύνδεσμος είναι πιθανόν ληγμένος.\nΤα id των συνδέσμων δημιουργούνται σειριακά και αυτό είναι μικρότερο ενός ληγμένου."
+	},
+	"rewardlinks_removelinks": {
+		"message": "Αφαίρεση παλιών συνδέσμων"
+	},
+	"rewardlinks_removeselected": {
+		"message": "Αφαίρεση επιλεγομένων"
+	},
+	"rewardlinks_removelinksdays": {
+		"message": "Αφαίρεση μη συλλεγόμενων συνδέσμων πιο παλιών των @DAYS@ ημερών.\nΑυτό περιλαμβάνει σύνδεσμους που έχουν συλλεχτεί η λήξει.\nΣύνδεσμοι πιο παλιοί των $NUM$ ημερών διαγράφονται περιοδικά.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_removenone": {
+		"message": "Δεν υπάρχουν σύνδεσμοι να διαγραφούν!"
+	},
+	"rewardlinks_removeconfirm": {
+		"message": "Σύνδεσμοι προς αφαίρεση: $NUM$\nΟι αφαιρούμενοι σύνδεσμοι δεν μπορούν να προστεθούν ξανά.\n\nΝα συνεχίσει η διαγραφή;",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_rewardinfo": {
+		"message": "Αυτό το δώρο προστέθηκε στις $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_reset": {
+		"message": "Επαναφορά"
+	},
+	"rewardlinks_resetcount": {
+		"message": "Μπορείτε να επαναφέρετε την πληροφορία της \"Επόμενης Συλλογής\" και να συνεχίσετε με τον σύνδεσμο όυτως ή άλλως."
+	},
+	"rewardlinks_resetexpired": {
+		"message": "Μπορείτε να επαναφέρετε την \"Πιθανόν Ληγμένη\" πληροφορία και να συνεχίσετε με τον σύνδεσμο ούτως ή άλλως."
+	},
+	"rewardlinks_convert": {
+		"message": "Μετατροπή συνδέσμου"
+	},
+	"rewardlinks_noconversion": {
+		"message": "Καμία μετατροπή"
+	},
+	"rewardlinks_shortenlinks": {
+		"message": "Σμίκρυνση/Μετατροπή συνδέσμων"
+	},
+	"rewardlinks_shortenlinks_info1": {
+		"message": "Επικολλήστε εδώ για σμίκρυνση/μετατροπή."
+	},
+	"rewardlinks_shortenlinks_info2": {
+		"message": "Οι μικροί σύνδεσμοι φαίνονται κάτω (τα διπλότυπα διαγράφηκαν)."
+	},
+	"rewardlinks_prefix": {
+		"message": "Πρόθημα"
+	},
+	"rewardlinks_newline": {
+		"message": "Προσθήκη νέας γραμμής?"
+	},
+	"rewardlinks_addspace": {
+		"message": "Προσθήκη κενού"
+	},
+	"rewardlinks_summaryinfo": {
+		"message": "Όλα τα δώρα που συλλέχθηκαν μέσα σε $NUM$ ώρες από το τελευταίο συλλεγμένο δώρο",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"export_export": {
+		"message": "Εξαγωγή"
+	},
+	"export_import": {
+		"message": "Εισαγωγή"
+	},
+	"export_exportdata": {
+		"message": "Εξαγωγή δεδομένων"
+	},
+	"export_exportinventory": {
+		"message": "Εξαγωγή αντικειμένων"
+	},
+	"export_importdata": {
+		"message": "Εισαγωγή δεδομένων"
+	},
+	"export_invalidexportdata": {
+		"message": "Το αρχείο δεν είναι έγκυρα εξαγώμενα δεδομένα του DAF για τον τωρινό παίχτη."
+	},
+	"export_invalidexport": {
+		"message": "Το αρχείο δεν είναι σωστά εξαγώμενα δεδομένα!"
+	},
+	"export_importsuccess": {
+		"message": "Τα δεδομένα εισήχθησαν με επιτυχία!"
+	},
+	"export_debugdata": {
+		"message": "Εξαγωγή διαγνωστικών δεδομένων"
+	},
+	"rings_showminmax": {
+		"message": "Δείξε μικρότερες και μεγαλύτερες τιμές"
+	},
+	"rings_showxp": {
+		"message": "Εμφάνιση Εμπειρίας"
+	},
+	"rings_playerlevel": {
+		"message": "Προσδιορίστε επίπεδο παίχτη"
+	},
+	"rings_stats": {
+		"message": "Έχετε $NUM$ $NAME$ στο σακίδιό σας.",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"name": {
+				"content": "$2"
+			}
+		}
+	},
+	"rings_notdependent": {
+		"message": "Δεν εξαρτάται από το επίπεδο παίχτη"
+	},
+	"rings_averageperring": {
+		"message": "Μέση Εμπειρία ανά δαχτυλίδι"
+	},
+	"rings_rings": {
+		"message": "Δαχτυλίδια"
+	},
+	"equipment_sellout": {
+		"message": "Η πώληση όλων των αχρησιμοποίητων αντικειμένων θα σας δώσει $TOTAL$ νομίσματα (εξοπλισμός = $EQUIP$ νομίσματα, διακοσμητικά = $DECO$ νομίσματα)",
+		"placeholders": {
+			"total": {
+				"content": "$1"
+			},
+			"equip": {
+				"content": "$2"
+			},
+			"deco": {
+				"content": "$3"
+			}
+		}
+	},
+	"equipment_notonsale": {
+		"message": "Όχι πια σε προσφορά"
+	},
+	"equipment_quantities": {
+		"message": "Ποσότητες"
+	},
+	"equipment_owned": {
+		"message": "Σας ανήκουν"
+	},
+	"equipment_inshop": {
+		"message": "Στο μαγαζί"
+	},
+	"equipment_from": {
+		"message": "Από"
+	},
+	"equipment_affordable": {
+		"message": "Μπορεί να Αγοραστεί"
+	},
+	"equipment_useful": {
+		"message": "Χρήσιμο"
+	},
+	"equipment_gain": {
+		"message": "Κέρδος"
+	},
+	"equipment_gain_info": {
+		"message": "Το κέρδος βασίζεται στην ελάχιστη τιμή υποδοχής στη βάση σας"
+	},
+	"equipment_free": {
+		"message": "ΔΩΡΕΑΝ"
+	},
+	"equipment_hidemax": {
+		"message": "Κρύψιμο μέγιστου"
+	},
+	"equipment_price_info": {
+		"message": "Η τιμή εδώ δεν είναι για τον εξοπλισμό αυτό,\nαλλά για το πακέτο/προσφορά που τον περιείχε."
+	},
+	"equipment_level_none": {
+		"message": "Δεν έχει σημασία"
+	},
+	"equipment_level_eq": {
+		"message": "Ακριβώς"
+	},
+	"equipment_level_le": {
+		"message": "Το περισσότερο"
+	},
+	"equipment_level_ge": {
+		"message": "Το λιγότερο"
+	},
+	"equipment_level_your": {
+		"message": "το επίπεδό σας"
+	},
+	"equipment_level_this": {
+		"message": "αυτό το επίπεδο"
+	},
+	"equipment_include_material": {
+		"message": "Συμπερίληψη αυτών των υλικών"
+	},
+	"equipment_exclude_material": {
+		"message": "Μη συμπερίληψη αυτών των υλικών"
+	},
+	"equipment_current": {
+		"message": "Τωρινό"
+	},
+	"equipment_pfdisclaimer": {
+		"message": "Αν έχετε αγοράσει ένα σπέσιαλ πακέτο στο παιχνίδι με αυτήν την τιμή στο παρελθόν, δεν είναι δυνατόν να αγοράσετε κάποιο επόμενο πακέτο σε αυτήν την τιμή.\nΣε αυτήν την περίπτωση, η χαμηλότερη διαθέσιμη τιμή είναι περίπου 5.5 USD."
+	},
+	"equipment_slotslower": {
+		"message": "Υποδοχές με λιγότερη ενέργεια από αυτή"
+	},
+	"events_year": {
+		"message": "Έτος"
+	},
+	"events_end": {
+		"message": "Τέλος"
+	},
+	"events_quests": {
+		"message": "Αποστολές"
+	},
+	"events_achievements": {
+		"message": "Επιτεύγματα"
+	},
+	"events_pieces": {
+		"message": "Κομμάτια θησαυρού"
+	},
+	"events_locations": {
+		"message": "Τοποθεσίες"
+	},
+	"events_materials": {
+		"message": "Ειδικά\nυλικά"
+	},
+	"events_completed": {
+		"message": "Ολοκληρωμένη"
+	},
+	"events_total": {
+		"message": "Σύνολο"
+	},
+	"events_medal": {
+		"message": "Μετάλλιο"
+	},
+	"events_story_maps": {
+		"message": "Χάρτες ιστορίας"
+	},
+	"events_challenges": {
+		"message": "Προκλήσεις"
+	},
+	"events_repeatables": {
+		"message": "Επαναλ/νόμενα"
+	},
+	"events_active": {
+		"message": "Ενεργή"
+	},
+	"events_rerelease": {
+		"message": "Αγορασμένη/Δώρο"
+	},
+	"events_complete": {
+		"message": "Ολόκληρη"
+	},
+	"events_incomplete": {
+		"message": "Μη Ολόκληρη"
+	},
+	"events_notdone": {
+		"message": "Όχι τελειωμένη"
+	},
+	"events_segmented": {
+		"message": "Κατακερματισμένη"
+	},
+	"events_yourprogress": {
+		"message": "Η πρόοδός σας"
+	},
+	"events_rewards": {
+		"message": "Βραβεία"
+	},
+	"events_finalreward": {
+		"message": "Τελικό Βραβείο"
+	},
+	"events_notsegmented": {
+		"message": "Όχι τμηματοποιημένο"
+	},
+	"events_tiles": {
+		"message": "Πλακάκια"
+	},
+	"events_chance": {
+		"message": "Πιθανότητα"
+	},
+	"events_clearbonus": {
+		"message": "Μπόνους ολοκλήρωσης"
+	},
+	"events_gemstones": {
+		"message": "Πολύτιμοι Λίθοι"
+	},
+	"events_tutorial": {
+		"message": "Συμβάν Οδηγιών"
+	},
+	"repeat_name": {
+		"message": "Όνομα"
+	},
+	"repeat_region_event": {
+		"message": "Περιοχή / Ιστορία"
+	},
+	"repeat_cooldown": {
+		"message": "Αναμονή"
+	},
+	"repeat_cooldown_time": {
+		"message": "Χρόνος"
+	},
+	"repeat_cooldown_gems": {
+		"message": "Πετράδια"
+	},
+	"repeat_reset": {
+		"message": "Επαναφορά"
+	},
+	"repeat_bonus": {
+		"message": "Μπόνους ολοκλήρωσης"
+	},
+	"repeat_progress": {
+		"message": "Πρόοδος"
+	},
+	"repeat_progress_current": {
+		"message": "Σκαμένα Πλακάκια"
+	},
+	"repeat_progress_total": {
+		"message": "Συνολικά πλακάκια"
+	},
+	"repeat_time": {
+		"message": "Χρόνος στον οποίο θα είναι έτοιμο το ορυχείο"
+	},
+	"repeat_show_all": {
+		"message": "Όλα τα επαναλαμβανόμενα"
+	},
+	"repeat_show_selected": {
+		"message": "Μόνο τα επιλεγμένα επαναλαμβανόμενα"
+	},
+	"repeat_ready": {
+		"message": "ΕΤΟΙΜΟΣ"
+	},
+	"repeat_show_ready": {
+		"message": "Έτοιμος;"
+	},
+	"repeat_postcard": {
+		"message": "Έτοιμο για την εβδομάδα καρτ ποστάλ;"
+	},
+	"dailyreward_stats": {
+		"message": "Το ημερήσιο έπαθλο βασίζεται στο επίπεδό σας ($LEVEL$) και την περιοχή σας ($REGION$)",
+		"placeholders": {
+			"level": {
+				"content": "$1"
+			},
+			"region": {
+				"content": "$2"
+			}
+		}
+	},
+	"dailyreward_lastcollect": {
+		"message": "Συλλέχθει τις $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"dailyreward_formula": {
+		"message": "Φόρμουλα"
+	},
+	"specialweek_end": {
+		"message": "τελειώνει στις $FINISH$",
+		"placeholders": {
+			"finish": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_debris_discount": {
+		"message": "Εβδομάδα έκπτωσης $PERCENT$% σε ξεκλείδωμα Πλέγματος",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_production": {
+		"message": "Εβδομάδα διπλής παραγωγής"
+	},
+	"specialweek_half_prod_time": {
+		"message": "Εβδομάδα υποδιπλάσιου χρόνου παραγωγής"
+	},
+	"specialweek_double_drop": {
+		"message": "Εβδομάδα διπλών υλικών"
+	},
+	"specialweek_gifts": {
+		"message": "Εβδομάδα διπλών δώρων"
+	},
+	"specialweek_postcards": {
+		"message": "Εβδομάδα καρτ ποστάλ"
+	},
+	"specialweek_material_seller": {
+		"message": "Έμπορος για παλιά υλικά"
+	},
+	"specialweek_free_premium_event": {
+		"message": "Δωρεάν συλλογή συμβάντος \"$NAME$''",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_mystery_box": {
+		"message": "Μυστηριώδης κουτί"
+	},
+	"specialweek_find_the_pair": {
+		"message": "Βρες το Ζευγάρι"
+	},
+	"options_section_ingame": {
+		"message": "Ρυθμίσεις παιχνιδιού"
+	},
+	"options_injectgame": {
+		"message": "Ενεργοποίηση DAF\nΕνεργοποίηση DAF στο παιχνίδι\nΑν δεν είναι ενεργό, οι επιλογές αυτές δεν έχουν επιρροή"
+	},
+	"options_fullwindow": {
+		"message": "Πλήρης οθόνη\nΕμφάνιση παιχνιδιού σε πλήρη οθόνη"
+	},
+	"options_fullwindowheader": {
+		"message": "Επικεφαλίδα\nΕμφάνιση επικεφαλίδας της σελίδας στην πλήρη οθόνη"
+	},
+	"options_fullwindowside": {
+		"message": "Πλευρά\nΕμφάνιση της πλευρικής μπάρας (Facebook) στην πλήρη οθόνη"
+	},
+	"options_fullwindowlock": {
+		"message": "Κλείδωμα πλήρης οθόνης\nΑποτρέπει το παιχνίδι από το να βγάλει την πλήρης οθόνη."
+	},
+	"options_resetfullwindow": {
+		"message": "Επαναφορά στη φόρτωση\nΚάθε φορά που φορτώνετε το παιχνίδι, οι \"Πλήρης Οθόνη\" και \"Πλήρης οθόνη - Πλευρά\" επαναφέρονται"
+	},
+	"options_resetfullwindow_warning": {
+		"message": "Αυτή η επιλογή πρέπει να ενεργοποιηθεί αν έχετε προβλήματα με τη φόρτωση του παιχνιδιού"
+	},
+	"options_fullwindowtimeout": {
+		"message": "Αυτόματη πλήρη οθόνη\nΑυτόματη ενεργοποίηση πλήρης οθόνης μετά τη φόρτωση των δεδομένων (το DAF2 θα γίνει πράσινο)"
+	},
+	"options_fullwindowtimeout_seconds": {
+		"message": "Ναι, μετά από $NUM$ δευτερόλεπτα",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"options_gctable": {
+		"message": "Πίνακας Παιδιών Θεών\nΕμφάνιση όλων των γειτόνων που έχουν Παιδιά Θεών κάτω από το παιχνίδι"
+	},
+	"options_gctablecounter": {
+		"message": "Μετρητής\nΕμφάνιση μετρητή"
+	},
+	"options_gctableregion": {
+		"message": "Περιοχή\nΧρήση χρωμάτων για μαρκάρισμα περιοχών γειτόνων"
+	},
+	"options_autoclick": {
+		"message": "Αυτόματο κλικ\nΑυτόματη αποδοχή αναδυόμενων παραθύρων του Facebook"
+	},
+	"options_nogcpopup": {
+		"message": "Όχι αναδυόμενα στη συλλογή Παιδιών Θεών\nΌχι αναδυόμενα παράθυρα κατά τη συλλογή Παιδιών Θεών"
+	},
+	"options_autogc": {
+		"message": "Αυτόματη αλλαγή κατασκήνωσης\nΑλλάζει στην επόμενη κατασκήνωση μετά τη συλλογή Παιδιών Θεών"
+	},
+	"options_section_general": {
+		"message": "Γενικές επιλογές"
+	},
+	"options_autologin": {
+		"message": "Αυτόματη σύνδεση Portal\nΣας συνδέσει αυτόματα στο Portal"
+	},
+	"options_darktheme": {
+		"message": "Σκοτεινό θέμα"
+	},
+	"options_shrinkmenu": {
+		"message": "Πλάτος Μενού\nΜείωση του πλάτους του αριστερού κατακόρυφου μενού"
+	},
+	"options_shrinkmenu_0": {
+		"message": "Όταν το πλάτος της σελίδας είναι πολύ μικρό"
+	},
+	"options_shrinkmenu_1": {
+		"message": "Πάντα χρήση συμπαγής μενού"
+	},
+	"options_shrinkmenu_2": {
+		"message": "Πάντα χρήση επεκταμένου μενού"
+	},
+	"options_disablealtguard": {
+		"message": "Επαναφορά σε διαφορετικούς λογαριασμούς\nΑν επιλεχθεί, η φόρτωση ενός διαφορετικού λογαριασμού θα κάνει αντικατάσταση των τωρινών σας δεδομένων του DAF2."
+	},
+	"options_disablealtguard_warning": {
+		"message": "ΠΡΟΣΟΧΗ: Ενεργοποιήστε αυτή τη ρύθμιση με δικό σας ρίσκο"
+	},
+	"options_section_rewardlinks": {
+		"message": "Σύνδεσμοι Δώρων"
+	},
+	"options_rewardsclose": {
+		"message": "Αυτόματο κλείσιμο\nΚλείνει αυτόματα τη σελίδα μετά τη συλλογή του βραβείου."
+	},
+	"options_rewardscloseexceptgems": {
+		"message": "Εκτός τα πετράδια\nΝα μην κλείνει αυτόματα όταν βρίσκονται πετράδια."
+	},
+	"options_rewardscloseexcepterrors": {
+		"message": "Εκτός σφαλμάτων\nΝα μην κλείνει αυτόματα όταν βρίσκονται σφάλματα,"
+	},
+	"options_rewardssummary": {
+		"message": "Προσθήκη πίνακα περίληψης\nΑν η σελίδα δεν κλείνει αυτόματα, προστίθεται κάτω ένας πίνακας περίληψης"
+	},
+	"options_linkgrabenabled": {
+		"message": "Συλλέκτης Συνδέσμων\nΕνεργοποιήστε τον Συλλέκτη Συνδέσμων στο Facebook.\nΑν δεν είναι ενεργός, οι ακόλουθες επιλογές δεν έχουν επίδραση."
+	},
+	"options_linkgrabbutton": {
+		"message": "Κουμπί ποντικιού\nΔιαλέξτε το κουμπί του ποντικιού που ενεργοποιεί το Συλλέκτη Συνδέσμων"
+	},
+	"options_linkgrabkey": {
+		"message": "Προαιρετικό κουμπί\nΔιαλέξτε ένα προαιρετικό κουμπί για να πατάτε, επιπρόσθετα του ποντικιού"
+	},
+	"options_linkgrabsort": {
+		"message": "Ταξινόμηση Συνδέσμων"
+	},
+	"options_linkgrabconvert": {
+		"message": "Μετατροπή Συνδέσμων"
+	},
+	"options_modifier_none": {
+		"message": "Κανένα"
+	},
+	"options_modifier_shift": {
+		"message": "Shift"
+	},
+	"options_modifier_ctrl": {
+		"message": "Ctrl"
+	},
+	"options_modifier_alt": {
+		"message": "Alt"
+	},
+	"options_button_left": {
+		"message": "Αριστερό"
+	},
+	"options_button_middle": {
+		"message": "Μεσαίο"
+	},
+	"options_button_right": {
+		"message": "Δεξιό"
+	},
+	"options_sort_none": {
+		"message": "Καμία"
+	},
+	"options_sort_ascending": {
+		"message": "Αύξουσα"
+	},
+	"options_sort_descending": {
+		"message": "Φθίνουσα"
+	},
+	"options_language": {
+		"message": "Γλώσσα\nΔιαλέξτε τη γλώσσα προς χρήση"
+	},
+	"options_locale": {
+		"message": "Τοπικοποίηση\nΧρησιμοποιείται για τη μορφοποίηση αριθμών, ημερομηνιών και λιστών"
+	},
+	"options_locale_browser": {
+		"message": "Χρήση ρυθμίσεων φυλλομετρητή"
+	},
+	"options_gamelanguage": {
+		"message": "Γλώσσα Παιχνιδιού\nΓλώσσα για μηνύματα του παιχνιδιού"
+	},
+	"options_section_badges": {
+		"message": "Σήματα"
+	},
+	"options_badgeserverenergy": {
+		"message": "Ενέργεια σέρβερ\nΕμφάνιση σήματος με την ενέργεια που δείχνει ο σέρβερ.\nΑυτή η πληροφορία ανανεώνεται περιοδικά όταν η κατάσταση του παιχνιδιού συγχρονίζεται με τον σέρβερ."
+	},
+	"options_badgegccounter": {
+		"message": "Μετρητής Παιδιών Θεών\nΕμφάνιση σήματος με τον υπολοιπόμενο αριθμό Παιδιών Θεών προς συλλογή"
+	},
+	"options_badgegcenergy": {
+		"message": "Ενέργεια Παιδιών Θεών\nΕμφάνιση σήματος με την ενέργεια των Παιδιών Θεών ενός γείτονα"
+	},
+	"options_badgerepeatables": {
+		"message": "Επαναλαμβανόμενα\nΕμφάνιση σήματος όταν οποιοδήποτε επαναλαμβανόμενο είναι έτοιμο"
+	},
+	"options_badgeluckycards": {
+		"message": "Τυχερές Κάρτες\nΕπίδειξη σήματος όταν η τέντα με τις Τυχερές Κάρτες είναι έτοιμη"
+	},
+	"options_badgeproductions": {
+		"message": "Παραγωγή\nΕμφάνιση σήματος όταν μια θέση παραγωγής είναι έτοιμη ή άδεια"
+	},
+	"options_badgetimeoffset": {
+		"message": "Προγενέστερος Χρόνος\nΤο σήμα εμφανίζεται προγενέστερα κατά τόσο χρόνο"
+	},
+	"options_badgesound": {
+		"message": "Windmills Show a"
+	},
+	"options_badgevolume": {
+		"message": "Ένταση\nΗ ένταση του ήχου"
+	},
+	"options_badgewindmills": {
+		"message": "Ανεμόμυλοι\nΕμφάνιση συμβόλου όταν μια βάση γείτονα χρειάζεται ανεμόμυλους"
+	},
+	"calc_operators": {
+		"message": "Τελεστές"
+	},
+	"calc_arithmetic": {
+		"message": "Αριθμητικοί"
+	},
+	"calc_comparison": {
+		"message": "Σύγκρισης"
+	},
+	"calc_logical": {
+		"message": "Λογικοί"
+	},
+	"calc_functions": {
+		"message": "Συναρτήσεις"
+	},
+	"calc_variables": {
+		"message": "Μεταβλητές"
+	},
+	"calc_examples": {
+		"message": "Παραδείγματα"
+	},
+	"calc_error_1": {
+		"message": "Συντακτικό σφάλμα"
+	},
+	"calc_error_2": {
+		"message": "Η συνάρτηση θέλει παρένθεση"
+	},
+	"calc_error_3": {
+		"message": "Έλλειψη δεξιάς παρένθεσης"
+	},
+	"calc_error_4": {
+		"message": "Πολλές δεξιές παρενθέσεις"
+	},
+	"linkgrabber_selected": {
+		"message": "Σύνδεσμοι: $UNIQUE$ / $TOTAL$",
+		"placeholders": {
+			"unique": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_fn_copy": {
+		"message": "Αντιγραφή"
+	},
+	"linkgrabber_fn_send": {
+		"message": "Αποστολή στο DAF"
+	},
+	"linkgrabber_fn_cancel": {
+		"message": "Ακύρωση"
+	},
+	"linkgrabber_fn_refresh": {
+		"message": "Επαναφόρτωση Συνδέσμων"
+	},
+	"linkgrabber_fn_showid": {
+		"message": "Εμφάνιση Id Δώρου"
+	},
+	"linkgrabber_fn_autosend": {
+		"message": "Αυτόματη Αποστολή"
+	},
+	"linkgrabber_added": {
+		"message": "Σύνδεσμοι που προστέθηκαν: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_copied": {
+		"message": "Σύνδεσμοι που αντιγράφονται στο πρόχειρο: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	}
 }
