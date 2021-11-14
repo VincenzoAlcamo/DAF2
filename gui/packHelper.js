@@ -52,21 +52,22 @@ function getItem({ type, object_id, amount, portal, limit, owned, requirements }
 		value = +obj.value;
 		if (obj.action == 'speedup_ctrl') {
 			caption = Html`<span class="with-time">${gui.getDuration(value)}</span>`;
+			sort = 5;
 		} else {
 			caption = Html`<span class="with-energy">${Locale.formatNumber(value)}</span>`;
 		}
 		if (amount > 1) caption = Html`<span class="qty outlined">${Locale.formatNumber(amount) + ' \xd7 '}</span>${caption}`;
 		title = gui.getString('GUI0008');
 	} else if (type == 'token') {
-		sort = 5;
-	} else if (type == 'decoration') {
 		sort = 6;
+	} else if (type == 'decoration') {
+		sort = 7;
 		caption = Html`<span class="with-deco">${Locale.formatNumber(amount)}</span>`;
 	} else if (type == 'diggy_skin') {
-		sort = 7;
+		sort = 8;
 		title = gui.getString('GUI3192');
 	} else if (type == 'system') {
-		sort = 8;
+		sort = 9;
 		kind = oid == 2 ? 'energy' : 'xp';
 		caption = Html`<span class="with-${kind}">${Locale.formatNumber(amount)}</span>`;
 	} else {
