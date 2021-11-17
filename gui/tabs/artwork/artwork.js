@@ -32,7 +32,7 @@ const kinds = {
 	events_shop: { type: 'events', event: 'def_id', asset: 'shop_icon_graphics' },
 	g_teams: {},
 	journals: { name: 'pic_title' },
-	infos: {},
+	// infos: {},
 	map_filters: { folder: 'map/webgl_filters/' },
 	map_filters2: { type: 'map_filters', asset: 'mobile_map_asset', folder: 'map/' },
 	materials: { event: 'event_id' },
