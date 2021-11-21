@@ -395,7 +395,8 @@
 	border: 1px solid #88a6;
 }
 
-.DAF-menu table.DAF-table thead td {
+.DAF-menu table.DAF-table thead td,
+.DAF-menu table.DAF-table tfoot td {
 	font-weight: bold;
 }
 

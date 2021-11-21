@@ -187,9 +187,12 @@ function setBadgeRepeatables({ list, sound, volume }) {
 
 function updateAdsInfo(data) {
 	const li = menu.querySelector('[data-action="ads"]');
-	const flag = data && data.length;
+	const flag = data && data.items.length;
 	li.style.display = flag ? '' : 'none';
-	if (flag) Html.set(li.querySelector('tbody'), data.map(item => Html`<tr><td>${item.text}</td><td>${item.limit}</td><td>${item.date}</td></tr>`).join(''));
+	if (flag) {
+		Html.set(li.querySelector('tbody'), data.items.map(item => Html`<tr><td>${item.text}</td><td>${item.limit}</td><td>${item.date}</td></tr>`).join(''));
+		Html.set(li.querySelector('.total'), data.total);
+	}
 }
 
 function updateGCStatus(data) {
@@ -320,7 +323,11 @@ function createMenu() {
     <div>
         <span>${gm('camp_ads_limit')}</span><br>
         <p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
-        <table class="DAF-table"><thead><tr><td>${gm('gui_type')}</td><td>${gm('gui_limit')}</td><td>${gm('gui_date')}</td></tr></thead><tbody></tbody></table>
+        <table class="DAF-table">
+			<thead><tr><td>${gm('gui_type')}</td><td>${gm('gui_limit')}</td><td>${gm('gui_date')}</td></tr></thead>
+			<tbody></tbody>
+			<tfoot><tr><td>${gm('camp_total')}</td><td class="total"></td><td></td></tr></tfoot>
+		</table>
     </div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>

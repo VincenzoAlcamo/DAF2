@@ -840,14 +840,15 @@ function fillCamp(campLines, numRegSlots, regFirst = true) {
 
 async function adsLimit() {
 	await bgp.Data.getFile('video_ads');
-	const items = Html.raw(bgp.Data.getAdsInfo().map(item => {
-		return Html`<tr><td>${item.text}</td><td style="text-align:center">${item.limit}</td><td style="text-align:center">${item.date}</td></tr>`;
-	}).join(''));
+	const adsInfo = bgp.Data.getAdsInfo();
+	const items = Html.raw(adsInfo.items.map(item => Html`<tr><td>${item.text}</td><td style="text-align:center">${item.limit}</td><td style="text-align:center">${item.date}</td></tr>`).join(''));
 	let htm = '';
 	htm += Html`<div class="ads_limit_warning">${gui.getMessage('camp_ads_limit_info')}<br>${gui.getMessage('camp_ads_limit_info2')}</div>`;
 	htm += Html`<table class="daf-table"><thead>`;
 	htm += Html.br`<tr><th>${gui.getMessage('gui_type')}</th><th>${gui.getMessage('gui_limit')}</th><th>${gui.getMessage('gui_date')}</th></tr>`;
-	htm += Html`</thead><tbody class="row-coloring">${items}</tbody></table>`;
+	htm += Html`</thead><tbody class="row-coloring">${items}</tbody>`;
+	htm += Html.br`<tfoot><tr><th>${gui.getMessage('camp_total')}</th><th>${adsInfo.total}</th><th></th></tr></tfoot>`;
+	htm += Html`</table>`;
 	gui.dialog.show({ title: gui.getMessage('camp_ads_limit'), html: htm, style: [Dialog.CLOSE] });
 }
 
