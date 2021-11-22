@@ -250,12 +250,10 @@ function init() {
 			for (const name in changes) setPref(name, changes[name].newValue);
 		});
 
-		chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+		chrome.runtime.onMessage.addListener(function (request, sender) {
 			try {
 				const action = request && request.action;
-				const fn = msgHandlers[action];
-				const response = fn ? fn(request, sender) : undefined;
-				if (response !== undefined) sendResponse(response);
+				if (action in msgHandlers) msgHandlers[action](request);
 			} catch (e) {
 				console.error('onMessage', e, request, sender);
 			}

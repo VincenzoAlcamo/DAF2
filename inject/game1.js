@@ -4,6 +4,7 @@ let prefs, handlers, msgHandlers, isFacebook, originalHeight, header;
 let menu, loadCompleted, styleLoaded;
 let lastFullWindow = false;
 let isOk = false;
+let msgQueue = [];
 
 function getUnixTime() { return Math.floor(Date.now() / 1000); }
 
@@ -420,7 +421,41 @@ function onMenuClick(e) {
 	}
 }
 
+function docReady(fn) {
+	if (document.readyState === "complete" || document.readyState === "interactive") setTimeout(fn, 1);
+	else document.addEventListener('DOMContentLoaded', fn);
+}
+
+function onMessageQueue(request, sender) {
+	if (request && request.action) msgQueue.push(request);
+}
+
+function onMessage(request, sender) {
+	const action = request && request.action;
+	if (!action) return;
+	if (!isOk && (action == 'generator' || action == 'enter_mine' || action == 'visit_camp')) {
+		isOk = true;
+		menu.classList.add('ok');
+	}
+	try {
+		if (action in msgHandlers) msgHandlers[action](request);
+	} catch (e) {
+		console.error('onMessage', e, request, sender);
+	}
+}
+
 function init() {
+	handlers = {};
+	msgHandlers = {};
+	prefs = {};
+	chrome.runtime.onMessage.addListener(onMessageQueue);
+	docReady(initDOM);
+}
+
+function initDOM() {
+	chrome.runtime.onMessage.removeListener(onMessageQueue);
+	const _msgQueue = msgQueue;
+	msgQueue = null;
 	if (document.getElementById('pagelet_bluebar')) {
 		isFacebook = true;
 		header = document.getElementById('pagelet_bluebar');
@@ -428,11 +463,7 @@ function init() {
 		isFacebook = false;
 		header = document.getElementById('header');
 	} else return;
-	chrome.runtime.sendMessage({ action: 'gameStarted', site: isFacebook ? 'Facebook' : 'Portal' });
 
-	handlers = {};
-	msgHandlers = {};
-	prefs = {};
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
@@ -453,26 +484,14 @@ function init() {
 		}
 		Object.keys(response).forEach(name => setPref(name, response[name]));
 
+		chrome.runtime.onMessage.addListener(onMessage);
+
 		// track preference changes
 		chrome.storage.onChanged.addListener(function (changes, area) {
 			if (area != 'local') return;
 			for (const name in changes) setPref(name, changes[name].newValue);
 		});
 
-		chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-			try {
-				const action = request && request.action;
-				if (!isOk && (action == 'generator' || action == 'enter_mine' || action == 'visit_camp')) {
-					isOk = true;
-					menu.classList.add('ok');
-				}
-				const fn = msgHandlers[action];
-				const response = fn ? fn(request, sender) : undefined;
-				if (response !== undefined) sendResponse(response);
-			} catch (e) {
-				console.error('onMessage', e, request, sender);
-			}
-		});
 		msgHandlers['sendValue'] = (request) => setPref(request.name, request.value);
 
 		handlers['fullWindow'] = onFullWindow;
@@ -518,6 +537,7 @@ function init() {
 		onFullWindow();
 		createMenu();
 		updateMenu();
+		_msgQueue.forEach(request => onMessage(request, null, null));
 	});
 }
 

@@ -40,7 +40,7 @@
 				"https://apps.facebook.com/diggysadventure/*"
 			],
 			"all_frames": true,
-			"run_at": "document_end",
+			"run_at": "document_start",
 			"js": [
 				"js/purify.min.js",
 				"js/Html.js",
