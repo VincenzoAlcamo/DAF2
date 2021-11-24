@@ -537,7 +537,9 @@ function showInfo() {
 	const isSegmented = item.issegmented;
 	let region = selectedRegion || 0;
 	const showProgress = region == 0;
-	const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted;
+	const sw = gui.getSpecialWeeks().active.free_premium_event;
+	const giftedEventId = (sw && +sw.info) || 0;
+	const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted || selectedEventId == giftedEventId;
 
 	const isLoc = selectedInfo && selectedInfo.substr(0, 3) == 'loc';
 	container.querySelector('[name=loot_flag]').parentNode.parentNode.style.visibility = isLoc ? '' : 'hidden';
