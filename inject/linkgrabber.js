@@ -617,6 +617,7 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 }
 
 function askCollect() {
+	CF.language = Dialog.language;
 	CF.autoClose = false;
 	const html = `<p style="text-align:center">${Html.br(getMessage('friendship_confirmwarning'))}</p>`;
 	const dialog = Dialog(Dialog.MODAL);
