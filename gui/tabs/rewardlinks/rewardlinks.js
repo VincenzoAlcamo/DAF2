@@ -759,7 +759,12 @@ function summary() {
 	htm += Html`</table>`;
 	gui.dialog.show({ title: gui.getMessage('gui_summary'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
 		if (method == Dialog.AUTORUN) {
-			gui.dialog.element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
+			const element = gui.dialog.element.querySelector('.DAF-md-content');
+			const shot = Html.get(Html`<span class="screenshot"></span>`)[0];
+			shot.style.marginLeft = '8px';
+			element.querySelector('.DAF-md-title div').appendChild(shot);
+			gui.setupScreenshot(element, 'summary_<date>');
+			element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
 		}
 	});
 }
