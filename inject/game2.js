@@ -263,14 +263,13 @@ function init() {
 		handlers['gcTable'] = ongcTable;
 		handlers['gcTableRegion'] = setgcTableOptions;
 		ongcTable();
-		msgHandlers['generator'] = () => {
+		msgHandlers['generatorReceived'] = () => {
 			if (loadCompleted) return;
-			delete msgHandlers['generator'];
+			delete msgHandlers['generatorReceived'];
 			loadCompleted = true;
 			onFullWindow();
 			ongcTable(true);
 		};
-		setTimeout(msgHandlers['generator'], 10000);
 		msgHandlers['friend_child_charge'] = (request) => {
 			gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
 			if (prefs.autoGC && request.data.skip) {
