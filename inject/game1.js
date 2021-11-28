@@ -503,7 +503,6 @@ function initDOM() {
 			loadCompleted = true;
 			onFullWindow();
 			showMenu();
-			chrome.runtime.sendMessage({ action: 'generatorReceived' });
 			chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) { updateGCStatus(result); });
 			chrome.runtime.sendMessage({ action: 'getAdsInfo' }, function (result) { updateAdsInfo(result); });
 			if (!getFullWindow() && prefs.fullWindowTimeout > 0) {
