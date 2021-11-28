@@ -1100,7 +1100,7 @@
 		"message": "Clique para vincular este amigo ao vizinho selecionado"
 	},
 	"friendship_actiondelete": {
-		"message": "Clique para excluir este amigo permanentemente"
+		"message": "Clique para excluir este amigo"
 	},
 	"friendship_matchplayertitle": {
 		"message": "Clique aqui para cancelar esta correspondência"
@@ -2039,7 +2039,7 @@
 		}
 	},
 	"options_gctable": {
-		"message": "Tabela dos Afilhados\nVer todos os vizinhos com Afilhados abaixo do jogo"
+		"message": "Tabela dos Afilhados\nMostrar todos os vizinhos com Afilhados abaixo do jogo"
 	},
 	"options_gctablecounter": {
 		"message": "Contador\nMostrar um contador"
@@ -2165,7 +2165,7 @@
 		"message": "Contador de Afilhados\nMostre um marcador com o número restante de afilhados para coletar"
 	},
 	"options_badgegcenergy": {
-		"message": "Energia dos afilhados\nMostrar um Marcador com a energia dos afilhados de um vizinho"
+		"message": "Energia dos afilhados\nMostrar um Marcador com a energia dos afilhados de um vizinho com afilhados"
 	},
 	"options_badgerepeatables": {
 		"message": "Renovaveis\nMostrar um marcador quando qualquer renovável selecionada estiver pronta"
@@ -2186,7 +2186,7 @@
 		"message": "Volume\nO volume do efeito sonoro."
 	},
 	"options_badgewindmills": {
-		"message": "Moinhos\nMostrar marcador quando o vizinho precisa de Moinhos"
+		"message": "Moinhos\nMostrar marcador quando o acampamento de um vizinho precisa de Moinhos"
 	},
 	"calc_operators": {
 		"message": "Operadores"

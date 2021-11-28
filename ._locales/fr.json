@@ -1100,7 +1100,7 @@
 		"message": "Cliquez pour lier cet ami au voisin sélectionné"
 	},
 	"friendship_actiondelete": {
-		"message": "Cliquez pour supprimer définitivement cet ami"
+		"message": "Cliquez pour supprimer cet ami"
 	},
 	"friendship_matchplayertitle": {
 		"message": "Cliquez ici pour annuler cet appariement"

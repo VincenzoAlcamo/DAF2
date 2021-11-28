@@ -182,6 +182,9 @@
 	"gui_firstrecorded": {
 		"message": "Első\nBelépés"
 	},
+	"gui_lastrecorded": {
+		"message": "Utolsó\nBelépés"
+	},
 	"gui_loadingresources": {
 		"message": "Erőforrások betöltése ($NUM$/$TOTAL$)",
 		"placeholders": {
@@ -1093,8 +1096,11 @@
 	"friendship_actionmanual": {
 		"message": "Kattints a manuális összehasonlításhoz ennél a szomszédnál"
 	},
+	"friendship_actionmatch": {
+		"message": "Kattints erre a gombra, hogy összekapcsold ezt a barátot a kiválasztott szomszéddal"
+	},
 	"friendship_actiondelete": {
-		"message": "Kattints a barát végleges törléséhez"
+		"message": "Kattints a barát törléséhez"
 	},
 	"friendship_matchplayertitle": {
 		"message": "Kattints ide, hogy megszakítsd az összehasonlítást"
@@ -1111,8 +1117,11 @@
 	"friendship_unfriendinfo": {
 		"message": "Erről az oldalról barátkozhatsz velük.\n\nKérjük, vegye figyelembe, hogy a facebook-fiókokat ideiglenesen letilthatják, és később engedélyezhetik is."
 	},
+	"friendship_partial": {
+		"message": "Részleges"
+	},
 	"friendship_confirmcollect": {
-		"message": "Nyomd meg az IGEN-t az elfogadáshoz, NEM-t a további próbálkozáshoz.\n\nBármikor bezárhatod ezt az ablakot,\nhogy töröld ezt a műveletet."
+		"message": "IGEN = megerősíteni a barátokat és lecserélni a meglévőket\nPARCIÁLIS = barátok hozzáadása és meglévők megtartása\nNEM = még több barát gyűjtése\n\nBármikor bezárhatod ezt az ablakot, hogy töröld ezt a műveletet.\n"
 	},
 	"friendship_speedupcollect": {
 		"message": "Felgyorsítod a gyűjtést?"
@@ -1235,6 +1244,9 @@
 	},
 	"friendship_cc_maybe": {
 		"message": "Ha bizonytalan"
+	},
+	"friendship_confirmdelete": {
+		"message": "Ezt a műveletet nem lehet visszavonni.\nGyűjtést kell végezned, hogy ez a barát visszakerüljön a listára.\n\nMegerősíted az eltávolítást?"
 	},
 	"friendship_collecterror": {
 		"message": "Valami hiba történt."

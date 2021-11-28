@@ -1100,7 +1100,7 @@
 		"message": "Klik for at forbinde denne ven til de udvalgte naboer"
 	},
 	"friendship_actiondelete": {
-		"message": "Klik for at slette denne ven permanent"
+		"message": "Klik for at slette denne ven"
 	},
 	"friendship_matchplayertitle": {
 		"message": "Klik her for at afbryde denne udvælgelse"

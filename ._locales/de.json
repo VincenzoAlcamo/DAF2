@@ -1100,7 +1100,7 @@
 		"message": "Klicken, um diesen Freund mit dem ausgewählten Nachbarn zu verbinden."
 	},
 	"friendship_actiondelete": {
-		"message": "Klicken, um diesen Freund dauerhaft zu löschen."
+		"message": "Klicken, um diesen Freund zu löschen."
 	},
 	"friendship_matchplayertitle": {
 		"message": "Klicken, um diese Übereinstimmung zu löschen."

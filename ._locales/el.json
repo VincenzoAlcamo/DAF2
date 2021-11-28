@@ -182,6 +182,9 @@
 	"gui_firstrecorded": {
 		"message": "Πρώτη\nΚαταγραφή"
 	},
+	"gui_lastrecorded": {
+		"message": "Τελευταία\nΚαταγραφή"
+	},
 	"gui_loadingresources": {
 		"message": "Φόρτωση πόρων ($NUM$/$TOTAL$)",
 		"placeholders": {
@@ -1097,7 +1100,7 @@
 		"message": "Πατήστε για συσχέτιση αυτού του φίλου με τον επιλεγμένο γείτονα"
 	},
 	"friendship_actiondelete": {
-		"message": "Πατήστε για να αφαιρέστε μόνιμα αυτόν τον φίλο"
+		"message": "Πατήστε για αφαίρεση φίλου"
 	},
 	"friendship_matchplayertitle": {
 		"message": "Πατήστε για ακύρωση ταιριάσματος"

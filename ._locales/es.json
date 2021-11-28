@@ -1091,19 +1091,19 @@
 		"message": "Este amigo es ignorado para el partido.\nHaga clic para ver a este amigo"
 	},
 	"friendship_actionunlink": {
-		"message": "Haga clic para eliminar la coincidencia"
+		"message": "Haga click para eliminar la coincidencia"
 	},
 	"friendship_actionmanual": {
-		"message": "Haga clic para coincidir manualmente con este vecino"
+		"message": "Haga click para coincidir manualmente con este vecino"
 	},
 	"friendship_actionmatch": {
-		"message": "Haga clic para vincular este amigo al vecino seleccionado"
+		"message": "Haga click para vincular este amigo al vecino seleccionado"
 	},
 	"friendship_actiondelete": {
-		"message": "Haz clic para borrar permanentemente este amigo."
+		"message": "Haga click para borrar este amigo"
 	},
 	"friendship_matchplayertitle": {
-		"message": "Haga clic para cancelar esta partida"
+		"message": "Haga click para cancelar esta partida"
 	},
 	"friendship_accountdisabled": {
 		"message": "Cuenta desactivada"
@@ -1784,7 +1784,7 @@
 		"message": "tu nivel"
 	},
 	"equipment_level_this": {
-		"message": "este livel"
+		"message": "este nivel"
 	},
 	"equipment_include_material": {
 		"message": "Incluye estos materiales"
@@ -2222,7 +2222,7 @@
 		"message": "Demasiados paréntesis de cierre"
 	},
 	"linkgrabber_selected": {
-		"message": "Links: $UNIQUE$ / $TOTAL$",
+		"message": "enlaces: $UNIQUE$ / $TOTAL$",
 		"placeholders": {
 			"unique": {
 				"content": "$1"
