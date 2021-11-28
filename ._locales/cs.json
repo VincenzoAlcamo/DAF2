@@ -182,6 +182,9 @@
 	"gui_firstrecorded": {
 		"message": "Prvně\nzaznamenaný"
 	},
+	"gui_lastrecorded": {
+		"message": "Posledně zaznamenaný"
+	},
 	"gui_loadingresources": {
 		"message": "Načítání zdrojů ($NUM$/$TOTAL$)",
 		"placeholders": {
@@ -1093,6 +1096,9 @@
 	"friendship_actionmanual": {
 		"message": "Klikněte, pokud chcete tohoto souseda přiřadit ručně"
 	},
+	"friendship_actionmatch": {
+		"message": "Klikněte, pokud chcete tohoto přítele přiřadit k vybranému sousedovi"
+	},
 	"friendship_actiondelete": {
 		"message": "Klikněte pro definitivní odstranění přítele"
 	},
@@ -1111,11 +1117,14 @@
 	"friendship_unfriendinfo": {
 		"message": "Můžete je odstranit z přátel na této stránce.\n\nVezměte prosím na vědomí, že facebookové účty mohou být blokované dočasně a mohou se později obnovit."
 	},
+	"friendship_partial": {
+		"message": "Částečně"
+	},
 	"friendship_confirmcollect": {
-		"message": "Pro potvrzení stiskněte ANO, pro další pokusy NE.\n\nMůžete toto okno kdykoli zavřít\na tím operaci zrušit."
+		"message": "ANO = potvrdit přátele a nahradit existující\nČÁSTEČNĚ = přidat přátele a ponechat existující\nNE = pokusit se načíst více přátel\n\nMůžete toto okno kdykoli zavřít a tím operaci zrušit."
 	},
 	"friendship_speedupcollect": {
-		"message": "Zrychlit sběr?"
+		"message": "Zrychlit načítání?"
 	},
 	"friendship_filter_a": {
 		"message": "Přátelé: $FRIENDS$, sousedé: $NEIGHBOURS$",
@@ -1235,6 +1244,9 @@
 	},
 	"friendship_cc_maybe": {
 		"message": "Pokud je nejistý"
+	},
+	"friendship_confirmdelete": {
+		"message": "Tuto operaci nejde vrátit.\nPro navrácení přítele do seznamu budete muset znovu načíst seznam přátel.\n\nPotvrdit odstranění?"
 	},
 	"friendship_collecterror": {
 		"message": "Něco se pokazilo."
@@ -2027,13 +2039,13 @@
 		}
 	},
 	"options_gctable": {
-		"message": "Tabulka božích dětí\nZobrazit pod hrou všechny sousedy s božími dětmi"
+		"message": "Tabulka BD\nZobrazit pod hrou všechny sousedy s božími dětmi"
 	},
 	"options_gctablecounter": {
 		"message": "Počítadlo\nZobrazit počítadlo"
 	},
 	"options_gctableregion": {
-		"message": "Region\nPoužít barvy k rozlišení regionu sousedů"
+		"message": "Region\nPoužít barvy k rozlišení sousedova regionu"
 	},
 	"options_autoclick": {
 		"message": "Autoklik\nAutomaticky potvrdí vyskakovací okno Facebooku"
@@ -2150,10 +2162,10 @@
 		"message": "Energie na serveru\nZobrazit symbol s energií hlášenou serverem.\nTato informace se pravidelně obnoví, když se stav hry synchronizuje se serverem."
 	},
 	"options_badgegccounter": {
-		"message": "Počítadlo GC\nZobrazit symbol se zbývajícím počtem neposbíraných božích dětí"
+		"message": "Počítadlo BD\nZobrazit symbol se zbývajícím počtem neposbíraných božích dětí"
 	},
 	"options_badgegcenergy": {
-		"message": "Energie GC\nZobrazit symbol s energií od božích dětí sousedů"
+		"message": "Energie BD\nZobrazit symbol s energií od božích dětí sousedů"
 	},
 	"options_badgerepeatables": {
 		"message": "Resetovatelné\nZobrazit symbol, když se nějaká resetovatelná lokace obnoví"
