@@ -449,6 +449,8 @@ function init() {
 	msgHandlers = {};
 	prefs = {};
 	chrome.runtime.onMessage.addListener(onMessageQueue);
+	const site = location.host.startsWith('portal.') ? 'Portal' : 'Facebook';
+	chrome.runtime.sendMessage({ action: 'gameStarted', site }, function (response) { });
 	docReady(initDOM);
 }
 
