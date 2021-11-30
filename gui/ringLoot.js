@@ -8,11 +8,13 @@ function ringLoot(kind) {
 
 	let tokenId, locations;
 	let requires = ['materials', 'usables', 'tokens', 'xp'];
+	// mineid: ringid
 	const christmasMines = {
 		1987: 5605,
 		2284: 6844,
 		2640: 7833,
-		2965: 8996
+		2965: 8996,
+		3254: 10085
 	};
 
 	if (kind == 'green') {
