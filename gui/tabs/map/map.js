@@ -1526,7 +1526,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			(CustomRandomRND(playerUidRnd + (100 * max_child + child_charges + 1) + 20000) % (max - min + 1)) + min
 		);
 	const setNpc = (tileDef, npcId) => {
-		const item = npcs[npcId];
+		const item = npcId && npcs[npcId];
 		delete tileDef.npcId;
 		delete tileDef.npcLoot;
 		delete tileDef.isGC;
@@ -1822,8 +1822,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		},
 		npc: (tileDef, value, _values) => {
 			if (value == '0') {
-				delete tileDef.npcId;
-				delete tileDef.npcLoot;
+				setNpc(tileDef, 0);
 			} else {
 				const npc = npcs[value];
 				if (!npc) return false;
@@ -3027,14 +3026,15 @@ async function drawMine(args) {
 	// Npcs
 	await drawAll(npcs, 'npcId', (x, y, tileDef, item, img) => {
 		if (!tileDef.isVisible) return;
-		addTitle(x, y, gui.getMessage(+item.pick_child ? 'map_godchild' : 'map_npc'), true);
+		const isGC = +item.pick_child;
+		addTitle(x, y, gui.getMessage(isGC ? 'map_godchild' : 'map_npc'), true);
 		if (item.idle_text) {
 			const hint = gui.getString(item.idle_text);
 			if (hint)
 				addTitle(x, y, gui.getMessageAndValue('map_says', gui.getWrappedText('\u201c' + hint + '\u201d')));
 		}
-		const isPlaceholder = !img;
-		if (isPlaceholder) img = images[+item.pick_child ? IMG_DEFAULT_GC : IMG_DEFAULT_NPC].img;
+		const isPlaceholder = !img || isGC;
+		if (isPlaceholder) img = images[isGC ? IMG_DEFAULT_GC : IMG_DEFAULT_NPC].img;
 		const width = +item.columns;
 		const height = +item.rows * 1.15;
 		const sw = img.naturalWidth;
