@@ -2148,7 +2148,8 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				const width = +addon.columns;
 				let index = y * cols + x;
 				for (let dy = 0; dy < height; dy++) {
-					for (let dx = 0; dx < width; dx++) tileDefs[index + dx].solid |= 2;
+					for (let dx = 0; dx < width; dx++)
+						if (index + dx < tileDefs.length) tileDefs[index + dx].solid |= 2;
 					index += cols;
 				}
 			}
