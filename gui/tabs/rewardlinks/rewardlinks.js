@@ -5,6 +5,8 @@ export default {
 		'rewards_update': function () {
 			update();
 			clickNextButton();
+			const el = summaryOpen && gui.dialog.element.querySelector('.rewardlinks_summary');
+			if (el) Html.set(el.parentNode, getSummaryHtml());
 		}
 	},
 	requires: ['materials', 'xp'],
@@ -26,6 +28,7 @@ const clicked = {};
 let firstTime = true;
 let shorten;
 let lastClickedTime, nextClickHandler;
+let summaryOpen;
 
 //#region LINK HELPER FUNCTIONS
 const LinkData = (function () {
@@ -711,9 +714,10 @@ function getLinksInLastDay() {
 	return links;
 }
 
-function summary() {
+function getSummaryHtml() {
 	const hash = {};
-	getLinksInLastDay().forEach(link => {
+	const links = getLinksInLastDay();
+	links.forEach(link => {
 		const arr = hash[link.cmt];
 		if (arr) arr.push(link); else hash[link.cmt] = [link];
 	});
@@ -756,8 +760,14 @@ function summary() {
 		}
 	});
 	htm += Html`</tbody>`;
+	// htm += Html`<tfoot><tr><th colspan="${NUMCOLUMNS * 2}">${gui.getMessageAndValue('gui_items_found', Locale.formatNumber(links.length))}</th></tr></tfoot>`;
 	htm += Html`</table>`;
-	gui.dialog.show({ title: gui.getMessage('gui_summary'), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
+	return htm;
+}
+
+function summary() {
+	summaryOpen = true;
+	gui.dialog.show({ title: gui.getMessage('gui_summary'), html: getSummaryHtml(), style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
 		if (method == Dialog.AUTORUN) {
 			const element = gui.dialog.element.querySelector('.DAF-md-content');
 			const shot = Html.get(Html`<span class="screenshot"></span>`)[0];
@@ -765,7 +775,9 @@ function summary() {
 			element.querySelector('.DAF-md-title div').appendChild(shot);
 			gui.setupScreenshot(element, 'summary_<date>');
 			element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
+			return;
 		}
+		summaryOpen = false;
 	});
 }
 
