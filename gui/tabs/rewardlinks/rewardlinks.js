@@ -33,7 +33,7 @@ let summaryOpen;
 //#region LINK HELPER FUNCTIONS
 const LinkData = (function () {
 	const reLink1 = /https?:\/\/l\.facebook\.com\/l.php\?u=([^&\s]+)(&|\s|$)/g;
-	const reLink2 = /https?:\/\/diggysadventure\.com\/miner\/wallpost_link.php\S*[?&]url=([^&\s]+)(&|\s|$)/g;
+	const reLink2 = /https?:\/\/diggysadventure\.com\/miner\/wallpost_link.php\S*[?&]url=([^&\s]+)(&\S*|\s|$)/g;
 	const reFacebook = /https?:\/\/apps\.facebook\.com\/diggysadventure\/wallpost\.php\?wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
 	const rePortal = /https?:\/\/portal\.pixelfederation\.com\/(([^/]+\/)?gift|wallpost)\/diggysadventure\?params=(([0-9a-zA-Z\-_]|%2B|%2F)+(%3D){0,2})/g;
 
@@ -55,9 +55,9 @@ const LinkData = (function () {
 		href.replace(reLink1, (a, b) => {
 			const url = decodeURIComponent(b);
 			urls.push(url);
-			url.replace(reLink2, (a, b) => urls.push(decodeURIComponent(b)));
+			url.replace(reLink2, (a, b, c) => urls.push(decodeURIComponent(b) + c));
 		});
-		href.replace(reLink2, (a, b) => urls.push(decodeURIComponent(b)));
+		href.replace(reLink2, (a, b, c) => urls.push(decodeURIComponent(b) + c));
 		href = urls.join(' ');
 		if (href.indexOf('://apps.facebook.com/') > 0) {
 			reFacebook.lastIndex = 0;
