@@ -232,7 +232,12 @@ const gui = {
 			}
 			// Fix bug in Halloween 2019 end date
 			const start = (event && +event.start) || 0;
-			if (start > 0 && (end - start) / 86400 > 36) return start + 14 * 86400;
+			if (start > 0 && (end - start) / 86400 > 36) {
+				// Except for Christmas events
+				const y1 = (new Date(start * 1000)).getFullYear();
+				const y2 = (new Date(end * 1000)).getFullYear();
+				if (y1 === y2) return start + 14 * 86400;
+			}
 			return end;
 		})();
 		// compute the year as END - 14 days
