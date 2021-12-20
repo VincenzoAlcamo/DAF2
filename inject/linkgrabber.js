@@ -439,12 +439,13 @@ const LinkData = (function () {
 			};
 		}
 		const urls = [href];
+		const push = (v) => urls.push(v, decodeURIComponent(v));
 		href.replace(reLink1, (a, b) => {
 			const url = decodeURIComponent(b);
 			urls.push(url);
-			url.replace(reLink2, (a, b, c) => urls.push(decodeURIComponent(b) + c));
+			url.replace(reLink2, (a, b, c) => push(decodeURIComponent(b) + c));
 		});
-		href.replace(reLink2, (a, b, c) => urls.push(decodeURIComponent(b) + c));
+		href.replace(reLink2, (a, b, c) => push(decodeURIComponent(b) + c));
 		href = urls.join(' ');
 		if (href.indexOf('://apps.facebook.com/') > 0) {
 			reFacebook.lastIndex = 0;
