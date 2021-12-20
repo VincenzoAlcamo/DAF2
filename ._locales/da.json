@@ -144,7 +144,7 @@
 		"message": "Specialtilbud"
 	},
 	"gui_tieredoffer": {
-		"message": "Gradueret tilbud"
+		"message": "Trin-delt tilbud"
 	},
 	"gui_pack": {
 		"message": "Pakke"
