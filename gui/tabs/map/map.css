@@ -406,7 +406,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 	display: none;
 }
 
-.tab_map.is_uncleared .grid-container > .toolbar {
+.tab_map.is_uncleared .grid-theme-container > .toolbar {
 	--tt-bgcol: #c18128;
 }
 
