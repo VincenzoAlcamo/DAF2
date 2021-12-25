@@ -2878,16 +2878,21 @@ async function drawMine(args) {
 				);
 		}
 		if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
-			ctx.save();
-			transform(
-				(x + 0.5) * TILE_SIZE,
-				(y + 0.5) * TILE_SIZE,
-				false,
-				false,
-				((+item.rotation / 90) * Math.PI) / 2
-			);
-			ctx.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-			ctx.restore();
+			if (item.mobile_asset==='LibraryTextures_empty_tile') {
+				ctx.fillStyle = '#000';
+				ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			} else {
+				ctx.save();
+				transform(
+					(x + 0.5) * TILE_SIZE,
+					(y + 0.5) * TILE_SIZE,
+					false,
+					false,
+					((+item.rotation / 90) * Math.PI) / 2
+				);
+				ctx.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+				ctx.restore();
+			}
 		}
 	});
 
