@@ -2878,7 +2878,7 @@ async function drawMine(args) {
 				);
 		}
 		if (img && tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) {
-			if (item.mobile_asset==='LibraryTextures_empty_tile') {
+			if (tileDef.tileId === 5 || tileDef.tileId === 11) {
 				ctx.fillStyle = '#000';
 				ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 			} else {
