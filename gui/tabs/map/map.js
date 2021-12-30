@@ -1857,11 +1857,9 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		for (const action of asArray(beacon.actions.action)) {
 			const layer = action.layer;
 			if (
-				layer == 'delay' ||
-				layer == 'focus' ||
-				layer == 'force_focus' ||
-				layer == 'force_idle_text' ||
-				layer == 'loot'
+				layer == 'delay' || layer == 'focus' ||
+				layer == 'force_focus' || layer == 'instant_focus' ||
+				layer == 'force_idle_text' || layer == 'loot'
 			)
 				continue;
 			const fn = layerFns[action.layer];
