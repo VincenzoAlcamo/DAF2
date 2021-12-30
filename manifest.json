@@ -36,8 +36,10 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"https://portal.pixelfederation.com/*/diggysadventure/*",
-				"https://apps.facebook.com/diggysadventure/*"
+				"https://portal.pixelfederation.com/*/diggysadventure/",
+				"https://portal.pixelfederation.com/*/diggysadventure/?*",
+				"https://apps.facebook.com/diggysadventure/",
+				"https://apps.facebook.com/diggysadventure/?*"
 			],
 			"all_frames": true,
 			"run_at": "document_start",
