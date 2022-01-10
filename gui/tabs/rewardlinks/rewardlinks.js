@@ -768,14 +768,14 @@ function getSummaryHtml() {
 
 function summary() {
 	summaryOpen = true;
-	gui.dialog.show({ title: gui.getMessage('gui_summary'), html: getSummaryHtml(), style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
+	gui.dialog.show({ title: gui.getMessage('gui_summary'), html: `<div>${getSummaryHtml()}</div>`, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, method => {
 		if (method == Dialog.AUTORUN) {
 			const element = gui.dialog.element.querySelector('.DAF-md-content');
 			const shot = Html.get(Html`<span class="screenshot"></span>`)[0];
 			shot.style.marginLeft = '8px';
 			element.querySelector('.DAF-md-title div').appendChild(shot);
 			gui.setupScreenshot(element, 'summary_<date>');
-			element.querySelector('.rewardlinks_summary').addEventListener('error', onErrorImg, true);
+			element.querySelector('.rewardlinks_summary').parentElement.addEventListener('error', onErrorImg, true);
 			return;
 		}
 		summaryOpen = false;
