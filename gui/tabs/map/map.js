@@ -130,42 +130,15 @@ const ALL_OPTIONS = [
 ];
 const ALL_OPTIONS_AND_PREFERENCES = [...ALL_OPTIONS, OPTION_REPEATABLES];
 
-let tab,
-	container,
-	map,
-	table,
-	canvas,
-	zoom,
-	cdn_root,
-	versionParameter,
-	checks,
-	tableTileInfo,
-	imgLocation,
-	selectRegion;
+let tab, container, map, table, canvas, zoom;
+let cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
 const images = {};
-let addons,
-	backgrounds,
-	draggables,
-	npcs,
-	childs,
-	tiles,
-	subtiles,
-	specialDrops,
-	allQuestDrops,
-	allQuestDropsFlags,
-	mapFilters;
+let addons, backgrounds, draggables, npcs, childs, tiles, subtiles;
+let specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters, allEventMaterials;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground,
-	showBeacon,
-	showTeleportArrow,
-	showDiggy,
-	showExitMarker,
-	showTeleportMarker,
-	showDebug,
-	showAll,
-	showFull,
-	showTiles;
+let showBackground, showBeacon, showTeleportArrow, showDiggy, showExitMarker, showTeleportMarker;
+let showDebug, showAll, showFull, showTiles;
 let showViewed, showBonus, showNotableLoot, showMixed, showOpaque, showUncleared, showSolution, showColors;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
@@ -177,10 +150,15 @@ const theme = new ThemeEditor();
 
 //#region QUEUE
 const queue = {
+	enabled: false,
+	enable() {
+		this.enabled = true;
+		setTimeout(() => this.process(), 0);
+	},
 	list: [],
 	add(fn) {
 		this.list.push(fn);
-		setTimeout(() => this.process(), 0);
+		if (this.enabled) setTimeout(() => this.process(), 0);
 	},
 	async process() {
 		if (!this.list.length || this.isProcessing) return;
@@ -855,6 +833,7 @@ function showAdvancedOptions() {
 	items.push([-1, `[ ${gui.getObjectName('system', 1)} ]`]);
 	items.push([-2, `[ ${gui.getObjectName('system', 2)} ]`]);
 	items.push([-3, `[ ${gui.getString('GUI0008')} ]`]);
+	items.push([-4, `[ ${gui.getMessage('gui_from_events').toUpperCase()} ]`]);
 	items = items.sort((a, b) => a[1].localeCompare(b[1]));
 	const getValueSelected = (value, flag) => Html`value="${value}"${flag ? ' selected' : ''}`;
 	const list = gui.getArrayOfInt(listMaterial);
@@ -1143,6 +1122,11 @@ function update() {
 		}
 	}
 
+	allEventMaterials = [];
+	Object.values(materials).forEach((m) => {
+		if (+m.event_id > 0) allEventMaterials.push(+m.def_id);
+	});
+
 	const skipList = {
 		token_3090: 0, // generic treasure
 		material_2: 0, // gem
@@ -1202,6 +1186,7 @@ function update() {
 	Html.set(selectRegion, htm);
 	setState(state);
 	updateTableFlags();
+	queue.enable();
 }
 
 function markToBeRendered() {
@@ -1847,6 +1832,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		}
 	};
 	layerFns['drag_swap'] = layerFns['drag'];
+	['delay', 'focus', 'force_focus', 'instant_focus', 'force_idle_text', 'loot'].forEach(name => layerFns[name] = 'skip');
 	let beaconsExecuted = {};
 	const executeBeaconActions = (beacon) => {
 		if (beacon.beacon_id in beaconsExecuted) {
@@ -1856,13 +1842,8 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		beaconsExecuted[beacon.beacon_id] = true;
 		for (const action of asArray(beacon.actions.action)) {
 			const layer = action.layer;
-			if (
-				layer == 'delay' || layer == 'focus' ||
-				layer == 'force_focus' || layer == 'instant_focus' ||
-				layer == 'force_idle_text' || layer == 'loot'
-			)
-				continue;
 			const fn = layerFns[action.layer];
+			if (fn === 'skip') continue;
 			if (!fn) {
 				console.log('unknown layer', action);
 				return false;
@@ -2044,6 +2025,10 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		let key = 'material_' + id;
 		if (id == -1 || id == -2) key = 'system_' + -id;
 		if (id == -3) key = 'usable';
+		if (id == -4) {
+			allEventMaterials.forEach((id) => (materialDrops['material_' + id] = true));
+			return;
+		}
 		if (key == 'material_1') key = 'coins';
 		materialDrops[key] = true;
 	});
