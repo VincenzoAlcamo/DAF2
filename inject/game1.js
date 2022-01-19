@@ -238,7 +238,7 @@ function search() {
 						html += `<a data-target="_blank" href="${Html(pal.furl)}">${Html(pal.fn)}</a>`;
 					}
 					html += `</td>`;
-					html += `<td><img data-src="${Html(pal.rimage)}" title="${Html(pal.rname)}"></td>`;
+					html += `<td><img height="32" data-src="${Html(pal.rimage)}" title="${Html(pal.rname)}"></td>`;
 					html += `<td>${Html(pal.level)}</td>`;
 					html += `</tr>`;
 				});
@@ -249,7 +249,10 @@ function search() {
 			}
 			html += `</table>`;
 			Html.set(container, html);
-			container.querySelectorAll('img[data-src]').forEach(img => img.src = chrome.runtime.getURL(img.getAttribute('data-src')));
+			container.querySelectorAll('img[data-src]').forEach(img => {
+				const src = img.getAttribute('data-src');
+				img.src = src[0] == '/' ? chrome.runtime.getURL(src) : src;
+			});
 			container.style.display = 'block';
 		});
 	}, 500);
