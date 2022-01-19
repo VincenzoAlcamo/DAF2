@@ -39,6 +39,7 @@ const kinds = {
 	npcs: { event: 'event_id' },
 	// panteons: { folder: 'panteon/' },
 	quests: { event: 'event_id', name: 'heading_text' },
+	regions: { asset: 'icon_mobile_asset', folder: 'gui/' },
 	tablets: {},
 	tiles: {},
 	tokens: { event: 'event_id' },

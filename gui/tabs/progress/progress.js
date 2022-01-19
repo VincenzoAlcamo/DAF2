@@ -171,7 +171,7 @@ function refresh() {
 		}
 		item.name = item.label;
 		htm += Html.br`<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}" title="${Html(getTitle(item))}">`;
-		let img = Html.br`<img src="${item.icon}"/>`;
+		let img = Html.br`<img height="32" src="${item.icon}"/>`;
 		if (item.isLocked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
 		htm += Html.br`<td>${img}</td>`;
 		htm += Html.br`<td>${item.label.toUpperCase()}</td>`;

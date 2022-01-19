@@ -587,6 +587,7 @@ var Data = {
 			let team = null;
 			const handlers = {
 				generator: (file) => Data.setGenerator(file.data),
+				regions: (file) => Data.initRegions(file.data),
 				team: (file) => team = file.data,
 				localization: (file) => Data.storeLocalization(file),
 				gcInfo: (_file) => Data.removegcInfo(),
@@ -680,6 +681,17 @@ var Data = {
 			setItem(index + 1, name_loc, index == 0 ? 'loot_exp_webgl' : 'loot_energy');
 		});
 		Data.colSystems = col;
+	},
+	initRegions(data) {
+		Object.values(data).forEach(item => {
+			const { name_loc, icon_mobile_asset: mobile_asset } = item;
+			const rid = +item.region_id;
+			const skinId = +item.skin_id;
+			if (!rid) return;
+			Data.colRegions[rid] = { def_id: rid, name_loc, mobile_asset };
+			Data.colSkins[skinId] = { def_id: skinId, name_loc, mobile_asset };
+			Data.region2Skin[rid - 1] = skinId;
+		});
 	},
 	showDBSize() {
 		let db;
@@ -789,6 +801,10 @@ var Data = {
 			Data.getFile('productions');
 			Data.getFile('special_weeks');
 			Data.getFile('video_ads');
+			Data.getFile('regions').then(data => {
+				Data.store({ id: 'regions', data });
+				Data.initRegions(data);
+			});
 		} else {
 			if (file.id == 'localization') Data.storeLocalization(file);
 			tx = Data.db.transaction('Files', 'readwrite');
@@ -1380,19 +1396,21 @@ var Data = {
 		const col = Data.getObjectCollection(type);
 		return col && col[id];
 	},
+	imageFolders: {
+		windmill: 'windmills',
+		region: 'gui',
+		skin: 'gui',
+		decoration: 'decorations',
+		diggy_skin: 'gui/diggy_skin',
+	},
 	getObjectImage(type, id, small) {
 		const item = Data.getObject(type, id);
-		if (!item) return '';
-		const base = Data.generator.cdn_root + 'mobile/graphics/';
-		if (type == 'windmill') return base + 'windmills/greece_windmill.png' + Data.generator.versionParameter;
-		const asset = type == 'event' ? item.shop_icon_graphics : item.mobile_asset;
+		const asset = item && (type == 'windmill' ? 'greece_windmill' : (type == 'event' ? item.shop_icon_graphics : item.mobile_asset));
 		if (!asset) return '';
+		const base = Data.generator.cdn_root + 'mobile/graphics/' + (Data.imageFolders[type] || 'all') + '/';
 		if (asset[0] == '/') return asset;
-		const filename = encodeURIComponent(asset);
-		if (type == 'decoration') return base + 'decorations/' + filename + '.png' + Data.generator.versionParameter;
-		if (type == 'diggy_skin') return base + 'gui/diggy_skin/' + filename + '.png' + Data.generator.versionParameter;
 		const suffix = (small && (type == 'material' || type == 'usable' || type == 'token')) ? '_small' : '';
-		return base + 'all/' + filename + suffix + '.png' + Data.generator.versionParameter;
+		return base + encodeURIComponent(asset) + suffix + '.png' + Data.generator.versionParameter;
 	},
 	getObjectName(type, id) {
 		const item = Data.getObject(type, id);
