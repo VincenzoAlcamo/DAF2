@@ -882,8 +882,7 @@ async function findThePair() {
 			Html.set(select, htm.concat(''));
 			select.parentNode.style.display = types.length > 1 ? '' : 'none';
 			const currentId = generator.find_the_pair && +generator.find_the_pair.playboard_id;
-			if (types.indexOf(currentId) >= 0) select.value = currentId;
-			params.type = types[0];
+			params.type = types.indexOf(currentId) >= 0 ? select.value = currentId : types[0];
 		}
 		if (method == Dialog.AUTORUN || method == 'sw' || method == 'type' || method == 'rid') {
 			let htm = '';
