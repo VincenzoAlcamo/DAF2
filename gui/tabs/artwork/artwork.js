@@ -33,6 +33,8 @@ const kinds = {
 	g_teams: {},
 	journals: { name: 'pic_title' },
 	// infos: {},
+	locations_mobile: { event: 'event_id', folder: 'map/' },
+	locations_webgl: { event: 'event_id', folder: 'map/webgl_locations/' },
 	map_filters: { folder: 'map/webgl_filters/' },
 	map_filters2: { type: 'map_filters', asset: 'mobile_map_asset', folder: 'map/' },
 	materials: { event: 'event_id' },
@@ -110,37 +112,62 @@ async function refresh() {
 		type = state.show;
 		allItems = {};
 		const kind = kinds[type];
-		const data = await bgp.Data.getFile(kind.type || type);
+		const data = type.startsWith('locations') ? null : await bgp.Data.getFile(kind.type || type);
 		const hashes = {};
 		const folder = kind.folder || 'all/';
 		const $name = kind.name || 'name_loc';
 		const $asset = kind.asset || 'mobile_asset';
 		const $event = kind.event;
-		if (type == 'infos') {
+		const addItem = (id, asset, item) => {
+			const oldId = hashes[asset], old = oldId && allItems[oldId];
+			if (old && (old.name || !item.name)) return;
+			delete hashes[oldId];
+			hashes[asset] = id;
+			allItems[id] = item;
+		};
+		const addNormalItems = (data) => {
+			for (const [id, item] of Object.entries(data)) {
+				const asset = item[$asset];
+				if (!asset || asset == 'default' || asset == 'map_x_default') continue;
+				const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
+				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0, url });
+			}
+		};
+		if (type == 'locations_mobile') {
+			const numRegions = bgp.Data.getMaxRegion();
+			for (let rid = 0; rid <= numRegions; rid++) {
+				const data = await bgp.Data.getFile('locations_' + rid);
+				addNormalItems(data);
+			}
+		} else if (type == 'locations_webgl') {
+			const numRegions = bgp.Data.getMaxRegion();
+			for (let rid = 0; rid <= numRegions; rid++) {
+				const data = await bgp.Data.getFile('locations_' + rid);
+				for (const [id, item] of Object.entries(data)) {
+					if (!item.gr_library || !item.gr_clip) continue;
+					const asset = item.gr_library + '_' + item.gr_clip;
+					const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
+					addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0, url });
+				}
+			}
+		} else if (type == 'infos') {
 			for (const item of Object.values(data)) {
 				const id = item.pic, asset = id && ('news_item_' + id);
-				if (!id || asset in hashes) continue;
+				if (!id) continue;
 				const url = cdn_root + 'mobile/img/news/' + encodeURIComponent(asset) + '.png' + versionParameter;
-				allItems[id] = { id, name: item.name, title: item.desc, eid: 0, url };
+				addItem(id, asset, { id, name: item.name, title: item.desc, eid: 0, url });
 			}
 		} else if (type == 'tiles') {
 			for (const item of Object.values(data)) {
 				item.subtypes && item.subtypes.forEach(sub => {
 					const id = sub.sub_id, asset = sub[$asset];
-					if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) return;
-					hashes[asset] = true;
+					if (!asset || asset == 'default' || asset == 'map_x_default') return;
 					const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
-					allItems[id] = { id, url };
+					addItem(id, asset, { id, url });
 				});
 			}
 		} else {
-			for (const [id, item] of Object.entries(data)) {
-				const asset = item[$asset];
-				if (!asset || asset == 'default' || asset == 'map_x_default' || asset in hashes) continue;
-				hashes[asset] = true;
-				const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
-				allItems[id] = { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0, url };
-			}
+			addNormalItems(data);
 		}
 	}
 
