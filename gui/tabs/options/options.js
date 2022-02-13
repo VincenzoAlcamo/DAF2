@@ -217,7 +217,7 @@ function init() {
 		return locales;
 	}
 
-	const sounds = `
+	const uiSounds = `
 ui_button
 ui_tab
 ui_button_2
@@ -319,11 +319,13 @@ UI_claim_coin_single_fast_02
 UI_claim_coin_single_slow_01
 UI_claim_coin_single_slow_02
 `;
+	const hash = {};
+	uiSounds.split('\n').forEach(t => hash[t] = true);
+	const sounds = Object.keys(hash).sort(gui.sortTextAscending);
+	const soundOptions = Html.raw(sounds.map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join(''));
 	function optionEffect(prefName) {
 		if (prefName != 'badgeProductions' && prefName != 'badgeWindmills') option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
-		let extra = Html.br`<select data-pref="${prefName}SoundName">`;
-		extra += sounds.split('\n').sort(gui.sortTextAscending).map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join('');
-		extra += Html.br`</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
+		let extra = Html.br`<select data-pref="${prefName}SoundName">${soundOptions}</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
 		extra += Html.br`<br><label><h3>${gui.getMessage('options_badgevolume').split('\n')[0]}</h3>`;
 		extra += Html.br`<input data-pref="${prefName}Volume" type="range" min="0" max="100" step="5" class="percent"><span></span></label>`;
 		option(`${prefName}Sound`, SUBOPTION, null, Html.raw(extra));

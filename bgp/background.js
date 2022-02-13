@@ -1433,6 +1433,7 @@ var Data = {
 	},
 	getSound(name) {
 		return name && Data.generator && Data.generator.cdn_root + 'webgl_client/embedded_assets/sounds/' + name + '.mp3';
+		// https://cdn.diggysadventure.com/2/mobile/sounds/all/npc_god_male.mp3
 	},
 	//#endregion
 	//#region LAST ENTERED MINE
