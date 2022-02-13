@@ -18,6 +18,7 @@ const KEY_P = 'P';
 const KEY_R = 'R';
 const KEY_S = 'S';
 const KEY_T = 'T';
+const KEY_L = 'L';
 const OS_WIN = 1;
 const OS_LINUX = 0;
 
@@ -352,6 +353,7 @@ function detectDelayed() {
 	text += `\n${KEY_R} = ${getMessage('linkgrabber_fn_refresh')}`;
 	if (count == 0) {
 		text += `\n\n${KEY_T} = ${getMessage('friendship_collectfriends')}`;
+		text += `\n${KEY_L} = ${getMessage('friendship_collectfriends')}: ${getMessage('friendship_partial')}`;
 	}
 	text += `\nESC = ${getMessage('linkgrabber_fn_cancel')}`;
 	if (text != oldLabel) countLabel.innerText = oldLabel = text;
@@ -382,6 +384,7 @@ const fnHandlers = {
 	[KEY_F]: () => copyLinksToClipboard(3),
 	[KEY_P]: () => copyLinksToClipboard(2),
 	[KEY_T]: () => { stop(); askCollect(); },
+	[KEY_L]: () => { stop(); askCollect(true); },
 	[KEY_S]: () => sendLinks(false)
 };
 
@@ -617,9 +620,11 @@ function copyToClipboard(str, mimeType = 'text/plain') {
 	document.removeEventListener('copy', oncopy);
 }
 
-function askCollect() {
+function askCollect(isPartial) {
 	CF.language = Dialog.language;
 	CF.autoClose = false;
+	CF.forcePartial = CF.autoConfirm = CF.keepCollected = isPartial;
+	if (isPartial) return CF.process();
 	const html = `<p style="text-align:center">${Html.br(getMessage('friendship_confirmwarning'))}</p>`;
 	const dialog = Dialog(Dialog.MODAL);
 	dialog.show({ title: getMessage('friendship_collectfriends'), html, style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL] },

@@ -5,11 +5,14 @@ const CF = {
 	method: 'standard',
 	unmatched: '',
 	autoClose: true,
+	forcePartial: false,
+	autoConfirm: false,
+	keepCollected: false,
 	wait: Dialog(Dialog.WAIT),
 	dialog: Dialog(),
 
 	process() {
-		const { language, method: collectMethod, unmatched, autoClose, wait, dialog } = this;
+		const { language, method: collectMethod, unmatched, autoClose, wait, dialog, forcePartial, autoConfirm, keepCollected: removeCollected } = this;
 
 		let retries = 10;
 		const hashById = {};
@@ -211,7 +214,7 @@ const CF = {
 				keep = unmatchedList.includes(id);
 				const node = item.parentElement.parentElement.parentElement;
 				if (keep) ulInactive = container;
-				else node.classList.add('to-be-removed');
+				else if (!keepCollected) node.classList.add('to-be-removed');
 			}
 			return count;
 		}
@@ -235,12 +238,13 @@ const CF = {
 				keep = unmatchedList.includes(id);
 				const node = item.parentElement.parentElement.parentElement;
 				if (keep) ulInactive = container;
-				else node.classList.add('to-be-removed');
+				else if (!forcePartial) node.classList.add('to-be-removed');
 			}
 			return count;
 		}
 
 		function collectStandard() {
+			const maxCount = autoConfirm ? 10 : 20;
 			let countStop = 0, isConfirming = false;
 			unmatchedList = unmatched.split(',');
 			intervalHandler = setInterval(capture, 500);
@@ -257,7 +261,10 @@ const CF = {
 				} else {
 					countStop++;
 					// if the connection is slow, we may want to try a bit more
-					if (countStop > 20 && !isConfirming) {
+					if (autoConfirm && countStop > 6) {
+						cleanup();
+						sendFriends(true);
+					} else if (countStop > 20 && !isConfirming) {
 						isConfirming = true;
 						let html = '';
 						html += Html.br`<span>${getMessage('friendship_confirmcollect')}</span>`;
