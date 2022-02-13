@@ -90,7 +90,7 @@ var Preferences = {
 			badgeProductions: true,
 			badgeProductionsOffset: 0,
 			badgeProductionsSound: true,
-			badgeProductionsSoundName: 'caravan_enter',
+			badgeProductionsSoundName: 'caravan_done',
 			badgeProductionsVolume: 100,
 			badgeCaravan: true,
 			badgeKitchen: true,
