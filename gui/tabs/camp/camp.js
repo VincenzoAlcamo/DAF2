@@ -292,9 +292,9 @@ function updateCamp(div, flagHeaderOnly = false) {
 	if (isPlayer) {
 		camps.forEach(campResult => {
 			const setupResult = calculateCamp(camp, fillCamp(campResult.lines, campResult.stat.numRegSlots));
-			const weight = Math.sign(setupResult.reg_tot - campResult.reg_tot) + Math.sign(setupResult.cap_tot - campResult.cap_tot);
-			// weight will be: 2 if both stats are better, 1 if one stat is the same and the other is better
-			campResult.canBeImproved = weight >= 1;
+			const regDiff = setupResult.reg_tot - campResult.reg_tot, capDiff = setupResult.cap_tot - campResult.cap_tot;
+			// Regeneration is preferred over capacity
+			campResult.canBeImproved = regDiff > 0 || (regDiff == 0 && capDiff > 0);
 		});
 		if (camps.length < 2) camps.push(null);
 		camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState()))));
