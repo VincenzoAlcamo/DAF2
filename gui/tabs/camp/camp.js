@@ -82,14 +82,14 @@ function update() {
 			const cap = +building.max_stamina;
 			const height = +building.rows;
 			const width = +building.columns;
-			const value = (reg > 0 ? reg : cap) / width;
-			const item = { building, qty, width, height, value };
+			const total = (reg > 0 ? reg : cap)
+			const item = { building, qty, width, height, total, value: total / width, isReg: reg > 0 };
 			if (reg > 0) regBuildings.push(item);
 			else if (cap > 0) capBuildings.push(item);
 		}
 	}
-	// Sort by slot value descending, then width descending
-	const fnSort = (a, b) => (b.value - a.value) || (b.widht - a.width);
+	// Sort by slot value descending, then width descending, then height descending
+	const fnSort = (a, b) => (b.value - a.value) || (b.width - a.width) || (b.height - a.height);
 	regBuildings.sort(fnSort);
 	capBuildings.sort(fnSort);
 
@@ -786,55 +786,121 @@ function renderCamp(campResult) {
 	return htm;
 }
 
-function fillCamp(campLines, numRegSlots, regFirst = true) {
-	const blds = [];
-	let numSlots = 0;
-	const lines = Object.values(campLines).map(line => {
-		const copy = Object.assign({}, line);
-		copy.empty = line.slots.length - line.blocked;
-		copy.first = line.isReversed ? line.blocked : 0;
-		copy.last = line.isReversed ? line.slots.length : copy.empty;
-		numSlots += copy.empty;
-		return copy;
-	}).sort((a, b) => a.height - b.height);
-	numRegSlots = Math.min(numSlots, Math.max(0, numRegSlots));
-	let numCapSlots = numSlots - numRegSlots;
-	const regBuildingsRest = regBuildings.map(item => Object.assign({}, item));
-	const capBuildingsRest = capBuildings.map(item => Object.assign({}, item));
-	const tryFind = (num, buildings, atFirst) => {
-		if (num <= 0) return 0;
-		const index = buildings.findIndex(item => {
-			const { height, width } = item;
-			if (width > num) return false;
-			const line = lines.find(line => line.height >= height && line.empty >= width);
-			if (!line) return false;
-			const fromStart = line.isReversed ? !atFirst : atFirst;
-			const placed = { def_id: item.building.def_id, line_id: line.lid, slot: fromStart ? line.first : line.last - width };
-			blds.push(placed);
-			line.empty -= width;
-			if (fromStart) line.first += width; else line.last -= width;
-			return true;
-		});
-		if (index < 0) return 0;
-		const item = buildings[index];
-		if (--item.qty <= 0) buildings.splice(index, 1);
-		return item.width;
-	};
-	let switched = false;
-	for (; ;) {
-		const regPlaced = tryFind(numRegSlots, regBuildingsRest, regFirst);
-		const capPlaced = tryFind(numCapSlots, capBuildingsRest, !regFirst);
-		numRegSlots -= regPlaced;
-		numCapSlots -= capPlaced;
-		numSlots -= (regPlaced + capPlaced);
-		// Cannot add any building
-		if (regPlaced == 0 && capPlaced == 0) {
-			if (switched || numSlots == 0) break;
-			// Switch the quantities, so we try to fill the remaining slots
-			switched = true;
-			[numRegSlots, numCapSlots] = [numCapSlots, numRegSlots];
+function fillCamp(campLines, numRegSlotsOriginal) {
+	function compute(exceptReg, exceptCap) {
+		let numSlots = 0;
+		const lines = Object.values(campLines).map(line => {
+			const copy = Object.assign({}, line, { regblds: [], capblds: [], empty: line.slots.length - line.blocked });
+			numSlots += copy.empty;
+			return copy;
+		}).sort((a, b) => a.height - b.height);
+		let numRegSlots = Math.min(numSlots, Math.max(0, numRegSlotsOriginal));
+		let numCapSlots = numSlots - numRegSlots;
+		const getBuildings = (base, except) => {
+			base = base.map(item => Object.assign({}, item));
+			if (except) {
+				const remove = (building) => {
+					const index = base.findIndex(item => item.building === building);
+					const item = base[index];
+					if (--item.qty <= 0) base.splice(index, 1);
+				};
+				remove(except[0].building);
+				remove(except[1].building);
+			}
+			return base;
+		};
+		const regBuildingsRest = getBuildings(regBuildings, exceptReg);
+		const capBuildingsRest = getBuildings(capBuildings, exceptCap);
+		let totReg = 0, totCap = 0;
+		const tryFind = (num, buildings) => {
+			if (num <= 0) return 0;
+			const index = buildings.findIndex(item => {
+				if (item.width > num) return false;
+				const line = lines.find(line => line.height >= item.height && line.empty >= item.width);
+				if (!line) return false;
+				(item.isReg ? line.regblds : line.capblds).push(item);
+				line.empty -= item.width;
+				return true;
+			});
+			if (index < 0) return 0;
+			const item = buildings[index];
+			if (--item.qty <= 0) buildings.splice(index, 1);
+			if (item.isReg) totReg += item.total; else totCap += item.total;
+			return item.width;
+		};
+		let switched = false;
+		for (; ;) {
+			const regPlaced = tryFind(numRegSlots, regBuildingsRest);
+			const capPlaced = tryFind(numCapSlots, capBuildingsRest);
+			numRegSlots -= regPlaced;
+			numCapSlots -= capPlaced;
+			numSlots -= (regPlaced + capPlaced);
+			// Cannot add any building
+			if (regPlaced == 0 && capPlaced == 0) {
+				if (switched || numSlots == 0) break;
+				// Switch the quantities, so we try to fill the remaining slots
+				switched = true;
+				[numRegSlots, numCapSlots] = [numCapSlots, numRegSlots];
+			}
 		}
+		const tryPlace = (item) => {
+			if (!item || item.width != 2) return false;
+			const minLines = lines.filter(line => {
+				const blds = line.blds = item.isReg ? line.regblds : line.capblds;
+				const bld = blds.length && blds[blds.length - 1];
+				line.min = bld && bld.width == 1 ? bld.value : 0;
+				return line.min > 0;
+			}).sort((a, b) => a.min - b.min);
+			let diff = 0;
+			const minLine = minLines.find(line => {
+				if (line.height < item.height) return false;
+				const arr = line.blds, len = arr.length;
+				return len >= 2 && arr[len - 2].width == 1 && (diff = item.total - arr[len - 1].total - arr[len - 2].total) > 0;
+			});
+			if (minLine) {
+				if (item.isReg) totReg += diff; else totCap += diff;
+				minLine.blds.splice(minLine.blds.length - 2, 2, item);
+				return false;
+			}
+			if ((item.isReg && exceptReg) || (!item.isReg && exceptCap)) return false;
+			const minBlds = [];
+			minLines.forEach(line => {
+				const arr = line.blds;
+				let i = arr.length - 1;
+				minBlds.push(arr[i]);
+				while (--i >= 0) {
+					if (arr[i].width == 1) {
+						minBlds.push(arr[i]);
+						break;
+					}
+				}
+			});
+			minBlds.sort((a, b) => (a.value - b.value) || (b.height - a.height));
+			if (minBlds.length >= 2 && minBlds[0].total + minBlds[1].total < item.total) {
+				const except = [minBlds[0], minBlds[1]];
+				const alternate = compute(item.isReg ? except : exceptReg, !item.isReg ? except : exceptCap);
+				if ((alternate.totReg >= totReg && alternate.totCap > totCap) || (alternate.totReg > totReg && alternate.totCap >= totCap)) {
+					// console.log(`SWITCHED #${numRegSlotsOriginal} REG:${totReg} -> ${alternate.totReg}  CAP:${totCap} -> ${alternate.totCap}`);
+					return alternate;
+				}
+			}
+			return false;
+		};
+		return tryPlace(regBuildingsRest[0]) || tryPlace(capBuildingsRest[0]) || { totReg, totCap, lines };
 	}
+	const { lines } = compute();
+	const blds = [];
+	lines.forEach(line => {
+		let first = line.isReversed ? line.blocked : 0;
+		let last = line.isReversed ? line.slots.length : line.slots.length - line.blocked;
+		const place = (item) => {
+			const fromStart = line.isReversed ^ item.isReg, width = item.width;
+			blds.push({ def_id: item.building.def_id, line_id: line.lid, slot: fromStart ? first : last - width });
+			if (fromStart) first += width; else last -= width;
+		};
+		line.regblds.forEach(place);
+		line.capblds.forEach(place);
+	})
 	return blds;
 }
 
