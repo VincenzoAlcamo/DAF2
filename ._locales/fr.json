@@ -669,7 +669,7 @@
 		"message": "Mine non visitée"
 	},
 	"map_remaining_tiles": {
-		"message": "Tuiles restantes"
+		"message": "Dalles restantes"
 	},
 	"map_special": {
 		"message": "Spécial"
@@ -702,25 +702,25 @@
 		"message": "Afficher les informations de débogage"
 	},
 	"map_button_l": {
-		"message": "Mettre en évidence les tuiles cassables"
+		"message": "Mettre en évidence les dalles cassables"
 	},
 	"map_button_n": {
 		"message": "Mettre en évidence des objets rares"
 	},
 	"map_button_v": {
-		"message": "La visibilité des tuiles est persistante"
+		"message": "La visibilité des dalles est persistante"
 	},
 	"map_button_o": {
-		"message": "Afficher les tuiles opaques"
+		"message": "Afficher les dalles opaques"
 	},
 	"map_button_b": {
 		"message": "Afficher l'indicateur de bonus"
 	},
 	"map_button_k": {
-		"message": "Afficher l'arrière-plan en masquant toutes les tuiles cassables"
+		"message": "Afficher l'arrière-plan en masquant toutes les dalles cassables"
 	},
 	"map_button_a": {
-		"message": "Afficher toutes les tuiles"
+		"message": "Afficher les dalles opaques"
 	},
 	"map_button_x": {
 		"message": "Afficher les entrées et les sorties"
@@ -773,7 +773,7 @@
 		"message": "Inactiver"
 	},
 	"map_tile": {
-		"message": "Tuiles"
+		"message": "Dalles"
 	},
 	"map_npc": {
 		"message": "Personnages"
@@ -1401,10 +1401,10 @@
 		"message": "Date de localisation"
 	},
 	"progress_energyinfo": {
-		"message": "L'énergie indiquée ici est estimée en multipliant le nombre de tuiles restantes par le coût moyen des tuiles.\nLe coût moyen des tuiles est basé sur le bonus d'achèvement et le nombre total de tuiles."
+		"message": "L'énergie indiquée ici est estimée en multipliant le nombre de dalles restantes par le coût moyen des dalles.\nLe coût moyen des dalles est basé sur le bonus d'achèvement et le nombre total de dalles."
 	},
 	"progress_averagetilecost": {
-		"message": "Coût moyen des tuiles"
+		"message": "Coût moyen des dalles"
 	},
 	"progress_achievementnextstep": {
 		"message": "À l'étape suivante = $NEXT$",
@@ -1871,7 +1871,7 @@
 		"message": "Aucun  segmenté"
 	},
 	"events_tiles": {
-		"message": "Tuiles"
+		"message": "Dalles"
 	},
 	"events_chance": {
 		"message": "Chance"
@@ -1907,7 +1907,7 @@
 		"message": "Bonus d'achèvement"
 	},
 	"repeat_progress": {
-		"message": "Tuiles"
+		"message": "Dalles"
 	},
 	"repeat_progress_current": {
 		"message": "Restantes"
