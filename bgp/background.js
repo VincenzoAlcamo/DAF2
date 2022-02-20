@@ -481,13 +481,14 @@ var Data = {
 		new Language('ru', 'RU', 'Russian', '\u0420\u0443\u0441\u0441\u043a\u0438\u0439', 'RU,MD,UA'),
 		new Language('sk', 'SK', 'Slovak', 'Sloven\u010dina', 'SK'),
 		new Language('tr', 'TR', 'Turkish', 'T\u00fcrk\u00e7e', 'TR'),
+		new Language('zh', 'ZH', 'Chinese', '中文', 'ZH'),
 		// OTHER (GAME)
 		new Language('bg', 'BG', 'Bulgarian', '\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438' /* 'български' */, 'BG'),
 		new Language('fi', 'FI', 'Finnish', 'Suomi', 'FI'),
 		new Language('ro', 'RO', 'Romanian', 'Rom\u00e2n\u0103', 'RO,MD'),
 		new Language('se', 'SE', 'Swedish', 'Svenska', 'SE,FI'),
 	],
-	guiLanguages: 'cs,da,de,el,en,es,fr,hu,it,nl,pl,pt,ru,sk,tr'.split(','),
+	guiLanguages: 'cs,da,de,el,en,es,fr,hu,it,nl,pl,pt,ru,sk,tr,zh'.split(','),
 	acceptedLanguages: [],
 	detectLanguage(lang) {
 		return [].concat(lang, Data.acceptedLanguages)
