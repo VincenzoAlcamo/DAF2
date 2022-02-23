@@ -8,7 +8,8 @@ export default {
 	events: {
 		regen: rebuildSetup,
 		playboard: findThePair,
-		luckycards: luckyCards,
+		luckycards: () => luckyCards(true),
+		freeenergy: () => luckyCards(false),
 		ads: adsLimit,
 		input: toggleFlags
 	}
@@ -46,6 +47,7 @@ function init() {
 
 	Html.set(inputs.playboard, Html(gui.getString('GUI3326')));
 	Html.set(inputs.luckycards, Html(gui.getProperCase(gui.getString('GUI3120'))));
+	Html.set(inputs.freeenergy, Html(gui.getProperCase(gui.getString('USNA067'))));
 
 	['camp-player', 'camp-neighbor'].forEach(className => {
 		let div = tab.container.querySelector('.' + className);
@@ -1032,7 +1034,7 @@ async function findThePair() {
 	});
 }
 
-async function luckyCards() {
+async function luckyCards(flag) {
 	await bgp.Data.getFile('tokens');
 	await bgp.Data.getFile('random_rewards');
 	await bgp.Data.getFile('video_ads');
@@ -1042,7 +1044,8 @@ async function luckyCards() {
 	const calculation = new Calculation();
 	calculation.defineConstant('level', level);
 	const randomRewards = gui.getFile('random_rewards');
-	const videoad = bgp.Data.getLuckyCardsVideoAd();
+	const videoad = flag ? bgp.Data.getLuckyCardsVideoAd() : bgp.Data.getVideoAd('no_energy');
+	const title = gui.getProperCase(gui.getString(flag ? 'GUI3120' : 'USNA067'));
 
 	function getRewardsTable(reward, rid, title, wrapCount) {
 		let htm = '';
@@ -1081,24 +1084,26 @@ async function luckyCards() {
 	for (let rid = 1; rid <= maxRid; rid++) htm += Html`<option value="${rid}"${rid == generator.region ? ' selected' : ''}>${gui.getObjectName('region', rid)}</option>`;
 	htm += Html`</select></label>`;
 	htm += Html`<div class="flipthepair"></div>`;
-	gui.dialog.show({ title: gui.getProperCase(gui.getString('GUI3120')), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
+	gui.dialog.show({ title, html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
 		if (method == Dialog.AUTORUN || method == 'rid') {
 			let htm = '';
 			htm += Html`<table><tr>`;
 			getRewards(videoad.reward_ids).forEach((reward, index) => {
 				htm += Html`<td class="innertable">`;
-				htm += getRewardsTable(reward, params.rid, Locale.formatNumber(index + 1), 3);
+				htm += getRewardsTable(reward, params.rid, flag ? Locale.formatNumber(index + 1) : null, flag ? 3 : 5);
 				htm += Html`</td>`;
 			})
 			htm += Html`</tr></table>`;
-			htm += Html`<br><table class="daf-table">`;
-			htm += Html.br`<thead><tr><th colspan="3">${gui.getString('GUI3123')}</th></thead>`;
-			htm += Html`<tbody><tr><td style="background-color:var(--td-brcol)"><table><tr>`;
-			getRewards(videoad.reward_after_x_id).forEach(reward => {
-				htm += '<td class="no-border">' + getRewardsTable(reward, params.rid, null, 10) + '</td>';
-			});
-			htm += Html`</tr></table></td></tr><tbody>`;
-			htm += Html`</table>`;
+			if (flag) {
+				htm += Html`<br><table class="daf-table">`;
+				htm += Html.br`<thead><tr><th colspan="3">${gui.getString('GUI3123')}</th></thead>`;
+				htm += Html`<tbody><tr><td style="background-color:var(--td-brcol)"><table><tr>`;
+				getRewards(videoad.reward_after_x_id).forEach(reward => {
+					htm += '<td class="no-border">' + getRewardsTable(reward, params.rid, null, 10) + '</td>';
+				});
+				htm += Html`</tr></table></td></tr><tbody>`;
+				htm += Html`</table>`;
+			}
 			Html.set(gui.dialog.element.querySelector('.flipthepair'), htm);
 		}
 	});

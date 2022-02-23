@@ -956,9 +956,12 @@ var Data = {
 		}
 		return ad;
 	},
-	getLuckyCardsVideoAd() {
+	getVideoAd(type) {
 		const videoads = Data.files.video_ads;
-		return (videoads ? Object.values(videoads) : []).find(item => item.type == ADTYPE_LUCKYCARDS);
+		return (videoads ? Object.values(videoads) : []).find(item => item.type == type);
+	},
+	getLuckyCardsVideoAd() {
+		return this.getVideoAd(ADTYPE_LUCKYCARDS);
 	},
 	checkLuckyCards() {
 		const ad = Data.getLuckyCardsAd();
