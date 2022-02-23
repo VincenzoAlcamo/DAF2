@@ -345,7 +345,7 @@ UI_claim_coin_single_slow_02
 	extra += Html`<li>${Locale.formatList([Locale.formatDaysNum(1), Locale.formatDaysNum(-1), Locale.formatDaysNum(-3)])}`;
 	extra += Html`</ul>`;
 	option('locale', SUBOPTION, optionLocales, Html.raw(extra));
-	const gameLanguages = languages.map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
+	const gameLanguages = languages.filter(item => item.gameId).map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
 	if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
 	option('darkTheme');
 	const shrinkOptions = [
