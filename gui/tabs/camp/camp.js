@@ -1071,6 +1071,9 @@ async function luckyCards() {
 		htm += Html`</table>`;
 		return htm;
 	}
+	function getRewards(ids) {
+		return gui.getArrayOfInt(ids).map(id => randomRewards[id]).filter(reward => reward);
+	}
 
 	let htm = '';
 	htm += Html`<label class="with-margin" style="display:inline-block;margin-top:2px">${gui.getMessage('gui_region')} <select name="rid" data-method="rid">`;
@@ -1082,9 +1085,7 @@ async function luckyCards() {
 		if (method == Dialog.AUTORUN || method == 'rid') {
 			let htm = '';
 			htm += Html`<table><tr>`;
-			gui.getArrayOfInt(videoad.reward_ids).forEach((id, index) => {
-				let reward = randomRewards[id];
-				if (!reward) return;
+			getRewards(videoad.reward_ids).forEach((reward, index) => {
 				htm += Html`<td class="innertable">`;
 				htm += getRewardsTable(reward, params.rid, Locale.formatNumber(index + 1), 3);
 				htm += Html`</td>`;
@@ -1093,9 +1094,7 @@ async function luckyCards() {
 			htm += Html`<br><table class="daf-table">`;
 			htm += Html.br`<thead><tr><th colspan="3">${gui.getString('GUI3123')}</th></thead>`;
 			htm += Html`<tbody><tr><td style="background-color:var(--td-brcol)"><table><tr>`;
-			gui.getArrayOfInt(videoad.reward_after_x_id).forEach((id, index) => {
-				let reward = randomRewards[id];
-				if (!reward) return;
+			getRewards(videoad.reward_after_x_id).forEach(reward => {
 				htm += '<td class="no-border">' + getRewardsTable(reward, params.rid, null, 10) + '</td>';
 			});
 			htm += Html`</tr></table></td></tr><tbody>`;
