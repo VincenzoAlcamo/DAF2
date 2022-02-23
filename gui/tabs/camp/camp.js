@@ -59,6 +59,11 @@ function init() {
 		div.addEventListener('click', onClick);
 	});
 
+	container.querySelectorAll('.toolbar .camp_warning').forEach(img => {
+		img.style.display = 'none';
+		img.addEventListener('click', onClick);
+	});
+
 	container.addEventListener('tooltip', onTooltip);
 }
 
@@ -174,8 +179,15 @@ function rebuildSetup() {
 }
 
 function onClick(event) {
-	if (event.target && event.target.hasAttribute('data-numreg')) {
-		inputs.regen.value = +event.target.getAttribute('data-numreg');
+	const target = event.target;
+	if (target && target.hasAttribute('data-numreg')) {
+		const numReg = +event.target.getAttribute('data-numreg');
+		if (target.classList.contains('camp_warning')) {
+			inputs[target.classList.contains('day') ? 'day' : 'night'].checked = true;
+			event.preventDefault();
+			event.stopPropagation();
+		}
+		inputs.regen.value = numReg;
 		inputs.setup.checked = true;
 		toggleFlags();
 		rebuildSetup();
@@ -236,6 +248,10 @@ function getCampSummary(campResult, campName, isSetup) {
 		const extra = campResult.canBeImproved ? Html` class="warn"` : '';
 		htm += Html.br`<td data-numreg="${campResult.stat.numRegSlots}" title="${Html(title)}"${extra}>${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
 		htm += Html.br`<td>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+		const imgWarn = container.querySelector(`.toolbar input[name=${campResult.isDay ? 'day' : 'night'}] + .camp_warning`);
+		imgWarn.style.display = campResult.canBeImproved ? 'inline' : 'none';
+		imgWarn.title = campResult.canBeImproved ? title : '';
+		imgWarn.setAttribute('data-numreg', campResult.stat.numRegSlots);
 	}
 	htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
 	htm += Html.br`</tbody>`;
@@ -290,7 +306,8 @@ function updateCamp(div, flagHeaderOnly = false) {
 	camps.sort((a, b) => b.reg_tot - a.reg_tot);
 
 	if (isPlayer) {
-		camps.forEach(campResult => {
+		camps.forEach((campResult,index) => {
+			campResult.isDay = index == 0;
 			const setupResult = calculateCamp(camp, fillCamp(campResult.lines, campResult.stat.numRegSlots));
 			const regDiff = setupResult.reg_tot - campResult.reg_tot, capDiff = setupResult.cap_tot - campResult.cap_tot;
 			// Regeneration is preferred over capacity

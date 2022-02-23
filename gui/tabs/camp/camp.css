@@ -557,3 +557,8 @@ html.dark .camp .item.regen.selected {
 	margin: 0 auto 4px;
 	font-size: 15px;
 }
+
+.tab_camp .toolbar .camp_warning {
+	vertical-align: middle;
+	height: 20px;
+}
