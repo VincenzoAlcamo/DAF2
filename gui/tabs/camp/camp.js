@@ -8,6 +8,7 @@ export default {
 	events: {
 		regen: rebuildSetup,
 		playboard: findThePair,
+		luckycards: luckyCards,
 		ads: adsLimit,
 		input: toggleFlags
 	}
@@ -44,6 +45,7 @@ function init() {
 	Html.set(inputs.regen.parentNode.querySelector('span'), Html`${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`);
 
 	Html.set(inputs.playboard, Html(gui.getString('GUI3326')));
+	Html.set(inputs.luckycards, Html(gui.getProperCase(gui.getString('GUI3120'))));
 
 	['camp-player', 'camp-neighbor'].forEach(className => {
 		let div = tab.container.querySelector('.' + className);
@@ -306,7 +308,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 	camps.sort((a, b) => b.reg_tot - a.reg_tot);
 
 	if (isPlayer) {
-		camps.forEach((campResult,index) => {
+		camps.forEach((campResult, index) => {
 			campResult.isDay = index == 0;
 			const setupResult = calculateCamp(camp, fillCamp(campResult.lines, campResult.stat.numRegSlots));
 			const regDiff = setupResult.reg_tot - campResult.reg_tot, capDiff = setupResult.cap_tot - campResult.cap_tot;
@@ -981,7 +983,7 @@ async function findThePair() {
 			let lastGroup = firstGroup;
 			htm += Html`<table class="daf-table">`;
 			htm += Html.br`<thead><tr><th colspan="8">${gui.getString('GUI3329')}${hasFirst3 ? '\n' + gui.getMessage('camp_ftp_dot_info') : ''}${hasGroups ? '\n' + gui.getMessage('camp_ftp_group_info') : ''}</th></thead>`;
-			htm += Html`<tbody class="chessboard-coloring">`;
+			htm += Html`<tbody class="chessboard-coloring no-dark">`;
 			cards.forEach(card => {
 				const group = +card.group;
 				if (group != lastGroup) {
@@ -990,7 +992,7 @@ async function findThePair() {
 				}
 				const isFirst3 = +card.first3flips > 0;
 				if (col == 0) htm += Html`<tr>`;
-				htm += Html`<td class="flip-card ${groupFlag ? 'odd' : 'even'}${isFirst3 ? ' dot' : ''}">`;
+				htm += Html`<td class="flip-card h ${groupFlag ? 'odd' : 'even'}${isFirst3 ? ' dot' : ''}">`;
 				htm += card.rewards.filter(r => +r.region_id == 0 || +r.region_id == rid).map(reward => {
 					let htm = '';
 					const item = packHelper.getItem(reward);
@@ -1008,7 +1010,7 @@ async function findThePair() {
 			const total = playboard.prices.reduce((s, p) => s += +p.gems, 0);
 			htm += Html`<table class="daf-table flip-table">`;
 			htm += Html`<thead><tr><th colspan="16">${gui.getString('GUI3332')} (${gui.getMessageAndValue('camp_total', Locale.formatNumber(total) + ' ' + gui.getObjectName('material', 2))})</th></thead>`;
-			htm += Html`<tbody class="chessboard-coloring">`;
+			htm += Html`<tbody class="chessboard-coloring no-dark">`;
 			col = 0;
 			const gemUrl = gui.getObjectImage('material', 2, true);
 			const getCost = gems => Html`<div class="reward"><img src="${gemUrl}" class="outlined"></div><div class="qty">${'\xd7 ' + Locale.formatNumber(gems)}</div>`;
@@ -1019,12 +1021,84 @@ async function findThePair() {
 					if (col == 0) htm += Html`<tr>`;
 					const gems = +price.gems;
 					gemsSoFar += gems;
-					htm += Html`<td title="${gui.getMessageAndValue('camp_ftp_cumulativegems', Locale.formatNumber(gemsSoFar))}"><div class="ordinal">${Locale.formatNumber(price.order)}</div>${gems ? getCost(gems) : gui.getMessage('equipment_free')}</td>`;
+					htm += Html`<td class="h" title="${gui.getMessageAndValue('camp_ftp_cumulativegems', Locale.formatNumber(gemsSoFar))}"><div class="ordinal">${Locale.formatNumber(price.order)}</div>${gems ? getCost(gems) : gui.getMessage('equipment_free')}</td>`;
 					col = (col + 1) % 16;
-					if (col == 0) htm += Html`</tr > `;
+					if (col == 0) htm += Html`</tr>`;
 				});
 			htm += Html`<tbody>`;
-			htm += Html`</table > `;
+			htm += Html`</table>`;
+			Html.set(gui.dialog.element.querySelector('.flipthepair'), htm);
+		}
+	});
+}
+
+async function luckyCards() {
+	await bgp.Data.getFile('tokens');
+	await bgp.Data.getFile('random_rewards');
+
+	const generator = gui.getGenerator();
+	const level = +generator.level;
+	const calculation = new Calculation();
+	calculation.defineConstant('level', level);
+	const randomRewards = {};
+	Object.values(bgp.Data.files.random_rewards).forEach(item => randomRewards[item.name] = item);
+
+	function getRewardsTable(reward, rid, title, wrapCount) {
+		let htm = '';
+		const rewards = reward.items.filter(item => +item.region_id == rid);
+		const totalChances = rewards.reduce((a, item) => a + +item.chance, 0);
+		htm += Html`<table class="daf-table">`;
+		if (title) htm += Html.br`<thead><tr><th colspan="3">${title}</th></thead>`;
+		htm += Html`<tbody class="chessboard-coloring no-dark">`;
+		rewards.forEach((reward, index) => {
+			if (index == 0 || index % wrapCount == 0) htm += Html`<tr>`;
+			reward = Object.assign({}, reward);
+			let formula = String(reward.amount);
+			const isFormula = formula.indexOf('[') >= 0 || isNaN(+formula);
+			formula = formula.replace(/\[([a-z]+)\]/g, '$1');
+			htm += Html`<td class="flip-card h${isFormula ? ' dot' : ''}">`;
+			reward.amount = isFormula ? Math.floor(calculation.compute(formula)) : +reward.amount;
+			const item = packHelper.getItem(reward);
+			htm += packHelper.getHtml(item);
+			const chance = +reward.chance / totalChances * 100;
+			const chanceText = Locale.formatNumber(chance, Math.trunc(chance) === chance ? 0 : 1);
+			htm += Html`<div class="group" title="${isFormula ? gui.getMessageAndValue('dailyreward_formula', formula.replace(/(\W)/g, ' $1 ')) : ''}">${gui.getMessageAndValue('events_chance', chanceText + ' %')}</div>`;
+			htm += Html`</td>`;
+			if (index == rewards.length - 1 || index % wrapCount == wrapCount - 1) htm += Html`</tr>`;
+		});
+		htm += Html`<tbody>`;
+		htm += Html`</table>`;
+		return htm;
+	}
+
+	let htm = '';
+	htm += Html`<label class="with-margin" style="display:inline-block;margin-top:2px">${gui.getMessage('gui_region')} <select name="rid" data-method="rid">`;
+	const maxRid = gui.getMaxRegion();
+	for (let rid = 1; rid <= maxRid; rid++) htm += Html`<option value="${rid}"${rid == generator.region ? ' selected' : ''}>${gui.getObjectName('region', rid)}</option>`;
+	htm += Html`</select></label>`;
+	htm += Html`<div class="flipthepair"></div>`;
+	gui.dialog.show({ title: gui.getProperCase(gui.getString('GUI3120')), html: htm, style: [Dialog.CLOSE, Dialog.WIDEST, Dialog.AUTORUN] }, (method, params) => {
+		if (method == Dialog.AUTORUN || method == 'rid') {
+			let htm = '';
+			htm += Html`<table><tr>`;
+			['lucky_cards_video_energy', 'lucky_cards_second_chest', 'lucky_cards_third_chest'].forEach((name, index) => {
+				let reward = randomRewards[name];
+				if (!reward) return;
+				htm += Html`<td class="innertable">`;
+				htm += getRewardsTable(reward, params.rid, Locale.formatNumber(index + 1), 3);
+				htm += Html`</td>`;
+			})
+			htm += Html`</tr></table>`;
+			htm += Html`<br><table class="daf-table">`;
+			htm += Html.br`<thead><tr><th colspan="3">${gui.getString('GUI3123')}</th></thead>`;
+			htm += Html`<tbody><tr><td style="background-color:var(--td-brcol)"><table><tr>`;
+			['lucky_cards_box_XP', 'lucky_cards_box_coins', 'lucky_cards_box_material'].forEach(name => {
+				let reward = randomRewards[name];
+				if (!reward) return;
+				htm += '<td class="no-border">' + getRewardsTable(reward, params.rid, null, 10) + '</td>';
+			});
+			htm += Html`</tr></table></td></tr><tbody>`;
+			htm += Html`</table>`;
 			Html.set(gui.dialog.element.querySelector('.flipthepair'), htm);
 		}
 	});

@@ -538,9 +538,17 @@ html.dark .camp .item.regen.selected {
 	display: none;
 }
 
-.flipthepair td:hover {
+.flipthepair td.h:hover {
 	background-color: var(--tb-hlcol) !important;
 	cursor: pointer;
+}
+
+.flipthepair td.innertable + td.innertable {
+	padding-left: 16px;
+}
+
+.flipthepair .no-border {
+	border: 0;
 }
 
 .ads_limit_warning {

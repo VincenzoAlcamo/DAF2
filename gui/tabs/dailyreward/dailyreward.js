@@ -46,7 +46,7 @@ function refresh() {
 		const item = reward.segmentation.find(o => +o.region_id == rid);
 		if (!item) continue;
 		const id = +reward.def_id;
-		const formula = String(item.amount).replace('[level]', 'level');
+		const formula = String(item.amount).replace(/\[([a-z]+)\]/g, '$1');
 		const qty = Math.floor(calculation.compute(formula));
 		let title = gui.getObjectName(item.type, item.object_id);
 		const xp = gui.getXp(item.type, item.object_id);
