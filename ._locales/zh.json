@@ -102,7 +102,7 @@
         "message": "食物"
     },
     "gui_coins": {
-        "message": "金幣"
+        "message": "硬幣"
     },
     "gui_backpack": {
         "message": "背包"
@@ -1719,7 +1719,7 @@
         "message": "戒指"
     },
     "equipment_sellout": {
-        "message": "賣出所有未使用的物品可得 $TOTAL$ 金幣(裝備= $EQUIP$ 金幣, 裝飾= $DECO$ 金幣)",
+        "message": "賣出所有未使用的物品可得 $TOTAL$ 硬幣(裝備= $EQUIP$ 硬幣, 裝飾= $DECO$ 硬幣)",
         "placeholders": {
             "total": {
                 "content": "$1"
@@ -2001,7 +2001,7 @@
         "message": "神祕禮盒"
     },
     "specialweek_find_the_pair": {
-        "message": "翻牌配對遊戲"
+        "message": "找對"
     },
     "options_section_ingame": {
         "message": "遊戲內選項"
