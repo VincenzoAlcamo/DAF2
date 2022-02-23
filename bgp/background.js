@@ -4,6 +4,8 @@
 //#region MISCELLANEOUS
 const SECONDS_IN_A_DAY = 86400;
 const MINECACHE_LIMIT = 300;
+// const ADTYPE_LUCKYCARDS = 'wheel_of_fortune';
+const ADTYPE_LUCKYCARDS = 'lucky_cards';
 
 function hasRuntimeError(info) {
 	// This is necessary to avoid unchecked runtime errors from Chrome
@@ -940,7 +942,7 @@ var Data = {
 		Data.setTimer(Data.checkRepeatablesStatus, isFinite(time) ? (time - now) * 1000 : 0);
 		Synchronize.signalRepeatables(list);
 	},
-	findLuckyCardsAd(setValue) {
+	getLuckyCardsAd(setValue) {
 		let ad = null;
 		const generator = Data.generator;
 		if (generator) {
@@ -948,17 +950,23 @@ var Data = {
 			if (!video_ad) video_ad = generator.video_ad = {};
 			let item = video_ad.item;
 			if (!Array.isArray(item)) item = video_ad.item = [];
-			ad = item.find(ad => ad.type == 'wheel_of_fortune');
-			if (!ad) item.push(ad = { type: 'wheel_of_fortune' });
+			ad = item.find(ad => ad.type == ADTYPE_LUCKYCARDS);
+			if (!ad) item.push(ad = { type: ADTYPE_LUCKYCARDS });
 			ad.watched_at = setValue || +ad.watched_at || 0;
 		}
 		return ad;
 	},
+	getLuckyCardsVideoAd() {
+		const videoads = Data.files.video_ads;
+		return (videoads ? Object.values(videoads) : []).find(item => item.type == ADTYPE_LUCKYCARDS);
+	},
 	checkLuckyCards() {
-		const ad = Data.findLuckyCardsAd();
+		const ad = Data.getLuckyCardsAd();
+		const videoad = Data.getLuckyCardsVideoAd();
 		const offset = parseInt(Preferences.getValue('badgeLuckyCardsOffset'), 10) || 0;
 		const now = getUnixTime() + offset;
-		const next = ad ? 8 * 3600 + ad.watched_at - Synchronize.offset : 0;
+		const cooldown = (videoad ? +videoad.daily_limit_cooldown || +videoad.cooldown_seconds : 0) || 8 * 3600;
+		const next = ad ? cooldown + ad.watched_at - Synchronize.offset : 0;
 		const diff = next - now;
 		const active = diff <= 0;
 		Data.setTimer(Data.checkLuckyCards, diff > 0 ? diff * 1000 : 0);
@@ -1681,7 +1689,7 @@ var Synchronize = {
 		}
 		if (delayed) return Synchronize.delayedSignals.push(message);
 		chrome.runtime.sendMessage(message, () => hasRuntimeError('SYNC1'));
-		chrome.tabs.sendMessage(Tab.gameTabId, message, () => hasRuntimeError('SYNC2'));
+		if (Tab.gameTabId) chrome.tabs.sendMessage(Tab.gameTabId, message, () => hasRuntimeError('SYNC2'));
 	},
 	signalMineAction(data) {
 		const mine = Data.lastEnteredMine;
@@ -1984,8 +1992,8 @@ var Synchronize = {
 					item.watched_at = taskResponse.video_ad_watched_at;
 					item.stack_counter = taskResponse.video_ad_stack_counter;
 				}
-				if (type == 'wheel_of_fortune') {
-					Data.findLuckyCardsAd(+taskResponse.video_ad_watched_at);
+				if (type == ADTYPE_LUCKYCARDS) {
+					Data.getLuckyCardsAd(+taskResponse.video_ad_watched_at);
 					Data.checkLuckyCards();
 				}
 				Synchronize.signal('ads_info', Data.getAdsInfo());

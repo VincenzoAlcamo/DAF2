@@ -1035,13 +1035,14 @@ async function findThePair() {
 async function luckyCards() {
 	await bgp.Data.getFile('tokens');
 	await bgp.Data.getFile('random_rewards');
+	await bgp.Data.getFile('video_ads');
 
 	const generator = gui.getGenerator();
 	const level = +generator.level;
 	const calculation = new Calculation();
 	calculation.defineConstant('level', level);
-	const randomRewards = {};
-	Object.values(bgp.Data.files.random_rewards).forEach(item => randomRewards[item.name] = item);
+	const randomRewards = gui.getFile('random_rewards');
+	const videoad = bgp.Data.getLuckyCardsVideoAd();
 
 	function getRewardsTable(reward, rid, title, wrapCount) {
 		let htm = '';
@@ -1062,7 +1063,7 @@ async function luckyCards() {
 			htm += packHelper.getHtml(item);
 			const chance = +reward.chance / totalChances * 100;
 			const chanceText = Locale.formatNumber(chance, Math.trunc(chance) === chance ? 0 : 1);
-			htm += Html`<div class="group" title="${isFormula ? gui.getMessageAndValue('dailyreward_formula', formula.replace(/(\W)/g, ' $1 ')) : ''}">${gui.getMessageAndValue('events_chance', chanceText + ' %')}</div>`;
+			htm += Html`<div class="group" title="${isFormula ? gui.getMessageAndValue('dailyreward_formula', formula.replace(/(\W|[\d\.]+)/g, ' $1 ').replace(/\s+/g, ' ').trim()) : ''}">${gui.getMessageAndValue('events_chance', chanceText + ' %')}</div>`;
 			htm += Html`</td>`;
 			if (index == rewards.length - 1 || index % wrapCount == wrapCount - 1) htm += Html`</tr>`;
 		});
@@ -1081,8 +1082,8 @@ async function luckyCards() {
 		if (method == Dialog.AUTORUN || method == 'rid') {
 			let htm = '';
 			htm += Html`<table><tr>`;
-			['lucky_cards_video_energy', 'lucky_cards_second_chest', 'lucky_cards_third_chest'].forEach((name, index) => {
-				let reward = randomRewards[name];
+			gui.getArrayOfInt(videoad.reward_ids).forEach((id, index) => {
+				let reward = randomRewards[id];
 				if (!reward) return;
 				htm += Html`<td class="innertable">`;
 				htm += getRewardsTable(reward, params.rid, Locale.formatNumber(index + 1), 3);
@@ -1092,8 +1093,8 @@ async function luckyCards() {
 			htm += Html`<br><table class="daf-table">`;
 			htm += Html.br`<thead><tr><th colspan="3">${gui.getString('GUI3123')}</th></thead>`;
 			htm += Html`<tbody><tr><td style="background-color:var(--td-brcol)"><table><tr>`;
-			['lucky_cards_box_XP', 'lucky_cards_box_coins', 'lucky_cards_box_material'].forEach(name => {
-				let reward = randomRewards[name];
+			gui.getArrayOfInt(videoad.reward_after_x_id).forEach((id, index) => {
+				let reward = randomRewards[id];
 				if (!reward) return;
 				htm += '<td class="no-border">' + getRewardsTable(reward, params.rid, null, 10) + '</td>';
 			});

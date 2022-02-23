@@ -12,7 +12,7 @@ const CF = {
 	dialog: Dialog(),
 
 	process() {
-		const { language, method: collectMethod, unmatched, autoClose, wait, dialog, forcePartial, autoConfirm, keepCollected: removeCollected } = this;
+		const { language, method: collectMethod, unmatched, autoClose, wait, dialog, forcePartial, autoConfirm, keepCollected } = this;
 
 		let retries = 10;
 		const hashById = {};
