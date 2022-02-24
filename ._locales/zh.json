@@ -171,7 +171,7 @@
         "message": "經驗"
     },
     "gui_sell_price": {
-        "message": "賣出價"
+        "message": "賣價"
     },
     "gui_neighbour": {
         "message": "鄰居"
@@ -186,7 +186,7 @@
         "message": "最後\n記錄"
     },
     "gui_loadingresources": {
-        "message": "載入資源($NUM$/$TOTAL$)",
+        "message": "載入資源中($NUM$/$TOTAL$)",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -414,7 +414,7 @@
         }
     },
     "about_data": {
-        "message": "上次資料截取: $TIME$\n遊戲網站: $SITE$ ($PLATFORM$)\n使用者ID: #$USERID$",
+        "message": "上次資料快照: $TIME$\n遊戲網站: $SITE$ ($PLATFORM$)\n使用者ID: #$USERID$",
         "placeholders": {
             "time": {
                 "content": "$1"
@@ -437,7 +437,7 @@
         "message": "無遊戲資料被載入, 請載入或刷新遊戲視窗"
     },
     "about_disclaimer": {
-        "message": "DA Friends 是 '粉絲寫的代碼' 並且沒有Pixel Federation, \"Diggy's Adventure\"遊戲作者群的背書或支援.\n你使用DA Friends是自負風險的 它的功能或用途無論明示或暗示,都沒有任何保證或承諾\n作者不需要因爲使用它所造成的任何傷害或損失負責\n使用這個擴充套件意味著你同意這些條件"
+        "message": "DA Friends 是 '粉絲自製代碼' 並且沒有Pixel Federation, \"Diggy's Adventure\"遊戲作者群的背書或支援.\n你使用DA Friends是自負風險的 它的功能或用途無論明示或暗示,都沒有任何保證或承諾\n作者不需要因爲使用它所造成的任何傷害或損失負責\n使用這個擴充套件意味著你同意這些條件"
     },
     "about_translators": {
         "message": "翻譯者"
@@ -574,13 +574,13 @@
         "message": "營地需要風車"
     },
     "camp_avg_value": {
-        "message": "每槽平均"
+        "message": "槽平均"
     },
     "camp_min_value": {
-        "message": "槽最小值"
+        "message": "槽最小"
     },
     "camp_max_value": {
-        "message": "槽最大值"
+        "message": "槽最大"
     },
     "camp_num_slots": {
         "message": "槽數"
@@ -708,10 +708,10 @@
         "message": "高亮重要物資磚"
     },
     "map_button_v": {
-        "message": "永遠顯示磚"
+        "message": "永遠顯示每塊地圖"
     },
     "map_button_o": {
-        "message": "顯示透明磚"
+        "message": "顯示透明區塊地圖"
     },
     "map_button_b": {
         "message": "顯示額外的指示"
@@ -2248,7 +2248,7 @@
         "message": "顯示獎勵ID"
     },
     "linkgrabber_fn_autosend": {
-        "message": "自動送出"
+        "message": "自動傳送"
     },
     "linkgrabber_added": {
         "message": "加入獎勵連結: $NUM$ / $TOTAL$",
