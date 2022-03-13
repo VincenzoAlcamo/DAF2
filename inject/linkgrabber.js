@@ -38,6 +38,7 @@ let autoSendLinks = {};
 let showId = true;
 let links = [];
 let linkCount, oldLabel, mouseX, mouseY, startX, startY, autoOpenElement, autoOpenCount, flagLinks;
+let badge, lastMouseMove;
 const sent = {};
 
 const getMessage = Dialog.getMessage;
@@ -60,7 +61,10 @@ function setShowId() {
 
 // eslint-disable-next-line no-unused-vars
 function initialize() {
-	Dialog.language = options.language;
+	badge = Html.get('<div class="DAF-lg-badge">Link Grabber</div>')[0];
+	document.body.appendChild(badge);
+	window.addEventListener('mousemove', (event) => { lastMouseMove = event; });
+	setLanguage();
 	Html.addStylesheet(chrome.runtime.getURL('inject/linkgrabber.css'));
 	setShowId();
 	addListeners(window, mousedown, keydown, keyup, blur, contextmenu);
@@ -69,9 +73,15 @@ function initialize() {
 		if (area != 'local') return;
 		for (const name in changes) {
 			options[name] = changes[name].newValue;
-			if (name == 'language') Dialog.language = options.language;
+			if (name == 'language' || name == 'linkGrabBadge') setLanguage();
 		}
 	});
+}
+
+function setLanguage() {
+	Dialog.language = options.language;
+	Html.set(badge, Html`${getMessage('options_modifier_alt')} + G = ${getMessage('options_linkgrabenabled').split('\n')[0]}`);
+	badge.style.display = options.linkGrabBadge ? '' : 'none';
 }
 
 function allowSelection() {
@@ -100,11 +110,19 @@ function mousedown(event) {
 
 	if (!allowSelection()) return;
 
-	flagActive = true;
-
 	// don't prevent for windows right click as it breaks spell checker
 	// do prevent for left as otherwise the page becomes highlighted
 	if (os == OS_LINUX || (os == OS_WIN && mouseButton == LEFT_BUTTON)) preventEscalation(event);
+
+	// update position
+	startX = event.pageX, startY = event.pageY;
+	mouseX = event.clientX, mouseY = event.clientY;
+
+	activate();
+}
+
+function activate() {
+	flagActive = true;
 
 	// create the box
 	if (box == null) {
@@ -114,9 +132,6 @@ function mousedown(event) {
 		document.body.appendChild(countLabel);
 	}
 
-	// update position
-	startX = event.pageX, startY = event.pageY;
-	mouseX = event.clientX, mouseY = event.clientY;
 	updateBox();
 
 	// setup mouse move and mouse up
@@ -128,6 +143,7 @@ function mousedown(event) {
 function mousemove(event) {
 	preventEscalation(event);
 	if (flagBox || allowSelection()) {
+		if (startX === undefined) { startX = event.pageX, startY = event.pageY; flagBox = flagLinks = true; }
 		mouseX = event.clientX, mouseY = event.clientY;
 
 		// let el = document.elementsFromPoint(mouseX, mouseY).find(el => el !== box && el !== countLabel);
@@ -162,6 +178,7 @@ function mousemove(event) {
 }
 
 function updateBox() {
+	if (startX === undefined) return;
 	let x = mouseX + window.scrollX;
 	let y = mouseY + window.scrollY;
 	const width = Math.max(document.documentElement['clientWidth'], document.body['scrollWidth'], document.documentElement['scrollWidth'], document.body['offsetWidth'], document.documentElement['offsetWidth']);
@@ -392,7 +409,22 @@ function keydown(event) {
 	if (keyPressed == event.keyCode) return;
 	keyPressed = event.keyCode;
 	if (os == OS_LINUX && keyPressed == options.linkGrabKey) stopMenu = true;
-	if (!flagActive) return;
+	if (!flagActive) {
+		if (event.code == 'KeyG' && !event.shiftKey && event.altKey && !event.ctrlKey) {
+			preventEscalation(event);
+			startX = undefined;
+			if (lastMouseMove) {
+				startX = lastMouseMove.pageX, startY = lastMouseMove.pageY;
+				mouseX = lastMouseMove.clientX, mouseY = lastMouseMove.clientY;
+			}
+			activate();
+			if (startX !== undefined) {
+				flagBox = flagLinks = true;
+				detectDelayed();
+			}
+		}
+		return;
+	}
 	const keyChar = String.fromCharCode(keyPressed);
 	if (keyChar in fnHandlers) {
 		event.keyCode = 0;

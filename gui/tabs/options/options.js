@@ -154,10 +154,11 @@ function init() {
 		if (prefName == 'badgeCaravan') messageId = 'tab_caravan';
 		if (prefName == 'badgeKitchen') messageId = 'tab_kitchen';
 		if (prefName == 'badgeFoundry') messageId = 'tab_foundry';
+		if (prefName == 'linkGrabBadge') messageId = 'options_linkgrabenabled';
 		const text = gui.getMessage(messageId);
 		const i = text.indexOf('\n');
 		const title = i >= 0 ? text.substr(0, i) : text;
-		const info = i >= 0 ? text.substr(i + 1) : '';
+		const info = i >= 0 && prefName != 'linkGrabBadge' ? text.substr(i + 1) : '';
 		let warning = '';
 		let className = '';
 		features = features || '';
@@ -399,6 +400,7 @@ UI_claim_coin_single_slow_02
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');
+	option('linkGrabBadge');
 	option('badgeGcCounter');
 	option('badgeGcEnergy');
 	option('badgeProductions', WITHSUBOPTIONS);

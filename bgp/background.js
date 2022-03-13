@@ -124,6 +124,7 @@ var Preferences = {
 			linkGrabKey: 0,
 			linkGrabSort: 0,
 			linkGrabConvert: 0,
+			linkGrabBadge: true,
 			shorten: '',
 			rewardsRemoveDays: 7,
 			rewardsClose: false,
@@ -339,7 +340,7 @@ if (loginButton) {
 		const tabId = details.tabId;
 		if (details.frameId == 0 && Preferences.getValue('linkGrabEnabled') && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
 			console.log('Injecting LinkGrabber');
-			const code = ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled', 'shorten'].map(key => {
+			const code = ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled', 'linkGrabBadge', 'shorten'].map(key => {
 				return 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
 			}).join('') + 'initialize();';
 			const params = {

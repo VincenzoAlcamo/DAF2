@@ -33,3 +33,17 @@ body.DAF-show-id .DAF-box {
 	background-color: rgba(0, 255, 0, 0.8);
 	color: #000;
 }
+
+.DAF-lg-badge {
+	position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: #ff0;
+    color: #000;
+    border: 1px solid #000;
+    border-top: none;
+    border-left: none;
+    border-bottom-right-radius: 8px;
+    padding: 0px 4px 0px 2px;
+    cursor: default;
+}
