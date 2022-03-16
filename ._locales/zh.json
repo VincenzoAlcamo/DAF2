@@ -1,2272 +1,2272 @@
 {
-    "ext_name": {
-        "message": "DA Friends 2"
-    },
-    "ext_title": {
-        "message": "Diggy's Adventure的幫助工具"
-    },
-    "menu_resetfullwindow": {
-        "message": "載入時重新讀取"
-    },
-    "menu_fullwindow": {
-        "message": "遊戲以全視窗運行"
-    },
-    "menu_fullwindowheader": {
-        "message": "標頭"
-    },
-    "menu_fullwindowside": {
-        "message": "側邊欄"
-    },
-    "menu_fullwindowlock": {
-        "message": "鎖定"
-    },
-    "menu_gctable": {
-        "message": "顯示神之子表"
-    },
-    "menu_gctablecounter": {
-        "message": "計數"
-    },
-    "menu_gctableregion": {
-        "message": "國度"
-    },
-    "menu_gccollected": {
-        "message": "全部的神之子都已被收集"
-    },
-    "menu_autoclick": {
-        "message": "自動點擊Facebook的彈出視窗"
-    },
-    "menu_nogcpopup": {
-        "message": "收集神之子時不顯示彈出視窗"
-    },
-    "menu_reloadgame": {
-        "message": "重新載入遊戲並強制資料更新"
-    },
-    "menu_switchportal": {
-        "message": "切換至官網通道"
-    },
-    "menu_switchfacebook": {
-        "message": "切換至Facebook"
-    },
-    "menu_on": {
-        "message": "開啓"
-    },
-    "menu_off": {
-        "message": "關閉"
-    },
-    "gui_timeparts": {
-        "message": "日,時,分,秒"
-    },
-    "gui_card_clicker": {
-        "message": "點擊以收合/展開這區塊"
-    },
-    "gui_show": {
-        "message": "顯示"
-    },
-    "gui_all": {
-        "message": "全部"
-    },
-    "gui_only_possible": {
-        "message": "只顯示可能"
-    },
-    "gui_search": {
-        "message": "搜尋"
-    },
-    "gui_filter": {
-        "message": "篩選"
-    },
-    "gui_name": {
-        "message": "名稱"
-    },
-    "gui_region_required": {
-        "message": "國度\n需求"
-    },
-    "gui_theme_required": {
-        "message": "國度/佈景\n需求"
-    },
-    "gui_level_required": {
-        "message": "等級\n需求"
-    },
-    "gui_qty": {
-        "message": "數量"
-    },
-    "gui_qty_required": {
-        "message": "數量\n需求"
-    },
-    "gui_energy": {
-        "message": "能量"
-    },
-    "gui_estimatedenergy": {
-        "message": "估計能量"
-    },
-    "gui_food": {
-        "message": "食物"
-    },
-    "gui_coins": {
-        "message": "硬幣"
-    },
-    "gui_backpack": {
-        "message": "背包"
-    },
-    "gui_clickwiki": {
-        "message": "點擊以開啓Wiki頁面"
-    },
-    "gui_from_any": {
-        "message": "來自國度或特故"
-    },
-    "gui_from_regions": {
-        "message": "來自國度"
-    },
-    "gui_from_events": {
-        "message": "來自特故"
-    },
-    "gui_ingredients": {
-        "message": "材料"
-    },
-    "gui_event": {
-        "message": "特故"
-    },
-    "gui_specialweek": {
-        "message": "特殊週"
-    },
-    "gui_region": {
-        "message": "國度"
-    },
-    "gui_theme": {
-        "message": "佈景配色"
-    },
-    "gui_year": {
-        "message": "年"
-    },
-    "gui_quest": {
-        "message": "任務"
-    },
-    "gui_offer": {
-        "message": "特賣"
-    },
-    "gui_tieredoffer": {
-        "message": "分層特賣"
-    },
-    "gui_pack": {
-        "message": "禮包"
-    },
-    "gui_equipment": {
-        "message": "裝備"
-    },
-    "gui_shop": {
-        "message": "商店"
-    },
-    "gui_decoration": {
-        "message": "裝飾"
-    },
-    "gui_usable": {
-        "message": "可用品"
-    },
-    "gui_token": {
-        "message": "代幣"
-    },
-    "gui_level": {
-        "message": "等級"
-    },
-    "gui_xp": {
-        "message": "經驗"
-    },
-    "gui_sell_price": {
-        "message": "賣價"
-    },
-    "gui_neighbour": {
-        "message": "鄰居"
-    },
-    "gui_friend": {
-        "message": "朋友"
-    },
-    "gui_firstrecorded": {
-        "message": "初次\n記錄"
-    },
-    "gui_lastrecorded": {
-        "message": "最後\n記錄"
-    },
-    "gui_loadingresources": {
-        "message": "載入資源中($NUM$/$TOTAL$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "gui_screenshot_shot": {
-        "message": "點擊以對此區域截圖\n截圖會顯示在右邊\n請注意: 只有可見區域會被截圖!\n你必需點擊Chrome工具列上的DAF2圖示以啓用此功能"
-    },
-    "gui_screenshot_target": {
-        "message": "點擊以下載圖片\n你可以在圖片上點擊右鍵並選擇\"複製圖片\"複製到剪貼簿"
-    },
-    "gui_screenshot_error": {
-        "message": "無法截圖"
-    },
-    "gui_screenshot_errorinfo": {
-        "message": "首先你必需點擊Chrome工具列上的 @DAF2@ 圖示\n這會啓用截圖的功能直至頁面關閉\n\n請點擊 @DAF2@ 圖示然後重試截圖"
-    },
-    "gui_infodated": {
-        "message": "這裡顯示的資訊僅有效於在 '$VALID$' 更新時",
-        "placeholders": {
-            "valid": {
-                "content": "$1"
-            }
-        }
-    },
-    "gui_nonote": {
-        "message": "無註記"
-    },
-    "gui_minimum": {
-        "message": "最小"
-    },
-    "gui_maximum": {
-        "message": "最大"
-    },
-    "gui_average": {
-        "message": "平均"
-    },
-    "gui_loot": {
-        "message": "獲取物"
-    },
-    "gui_datafrompf": {
-        "message": "資料來自Pixel Federation的遊戲檔案"
-    },
-    "gui_gift": {
-        "message": "禮物"
-    },
-    "gui_gifts": {
-        "message": "禮物"
-    },
-    "gui_day": {
-        "message": "日期"
-    },
-    "gui_placed": {
-        "message": "放置在營地中"
-    },
-    "gui_owned": {
-        "message": "擁有"
-    },
-    "gui_limit": {
-        "message": "上限"
-    },
-    "gui_type": {
-        "message": "種類"
-    },
-    "gui_width": {
-        "message": "寬度"
-    },
-    "gui_height": {
-        "message": "高度"
-    },
-    "gui_value": {
-        "message": "數值"
-    },
-    "gui_slot_value": {
-        "message": "每槽數值"
-    },
-    "gui_cost": {
-        "message": "花費"
-    },
-    "gui_items_found": {
-        "message": "已取得物品"
-    },
-    "gui_reset": {
-        "message": "重設"
-    },
-    "gui_material": {
-        "message": "物資"
-    },
-    "gui_filter_clear": {
-        "message": "清除"
-    },
-    "gui_filter_invert": {
-        "message": "反向全選"
-    },
-    "gui_advancedfilter": {
-        "message": "進階篩選"
-    },
-    "gui_location": {
-        "message": "地點"
-    },
-    "gui_locked": {
-        "message": "已鎖定"
-    },
-    "gui_noresults": {
-        "message": "無結果"
-    },
-    "gui_toomanyresults": {
-        "message": "太多結果"
-    },
-    "gui_id": {
-        "message": "ID"
-    },
-    "gui_date": {
-        "message": "日期"
-    },
-    "gui_ctrlclick": {
-        "message": "按下Ctrl以選擇/取消選擇全部"
-    },
-    "gui_summary": {
-        "message": "總覽"
-    },
-    "dialog_ok": {
-        "message": "OK"
-    },
-    "dialog_yes": {
-        "message": "是"
-    },
-    "dialog_no": {
-        "message": "否"
-    },
-    "dialog_confirm": {
-        "message": "確認"
-    },
-    "dialog_cancel": {
-        "message": "取消"
-    },
-    "dialog_close": {
-        "message": "關閉"
-    },
-    "dialog_pleasewait": {
-        "message": "請稍候"
-    },
-    "tab_game": {
-        "message": "切換至遊戲"
-    },
-    "tab_about": {
-        "message": "關於"
-    },
-    "tab_progress": {
-        "message": "進度"
-    },
-    "tab_camp": {
-        "message": "營地"
-    },
-    "tab_map": {
-        "message": "地圖"
-    },
-    "tab_caravan": {
-        "message": "商隊"
-    },
-    "tab_kitchen": {
-        "message": "廚房"
-    },
-    "tab_foundry": {
-        "message": "鑄造廠"
-    },
-    "tab_pillars": {
-        "message": "聖柱"
-    },
-    "tab_neighbors": {
-        "message": "鄰居"
-    },
-    "tab_friendship": {
-        "message": "好友"
-    },
-    "tab_godchild": {
-        "message": "神之子"
-    },
-    "tab_locations": {
-        "message": "地點"
-    },
-    "tab_greenrings": {
-        "message": "綠戒"
-    },
-    "tab_redrings": {
-        "message": "紅戒"
-    },
-    "tab_christmasrings": {
-        "message": "聖誕戒"
-    },
-    "tab_rewardlinks": {
-        "message": "獎勵連結"
-    },
-    "tab_options": {
-        "message": "選項"
-    },
-    "tab_help": {
-        "message": "幫助"
-    },
-    "tab_export": {
-        "message": "載入/輸出"
-    },
-    "tab_equipment": {
-        "message": "裝備/商店"
-    },
-    "tab_events": {
-        "message": "特故"
-    },
-    "tab_repeat": {
-        "message": "再生坑"
-    },
-    "tab_dailyreward": {
-        "message": "每日獎勵"
-    },
-    "about_version": {
-        "message": "版本: $VERSION$",
-        "placeholders": {
-            "version": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_data": {
-        "message": "上次資料快照: $TIME$\n遊戲網站: $SITE$ ($PLATFORM$)\n使用者ID: #$USERID$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            },
-            "userid": {
-                "content": "$2"
-            },
-            "site": {
-                "content": "$3"
-            },
-            "platform": {
-                "content": "$4"
-            }
-        }
-    },
-    "about_visit": {
-        "message": "拜訪官方Facebook頁面"
-    },
-    "about_nodata": {
-        "message": "無遊戲資料被載入, 請載入或刷新遊戲視窗"
-    },
-    "about_disclaimer": {
-        "message": "DA Friends 是 '粉絲自製代碼' 並且沒有Pixel Federation, \"Diggy's Adventure\"遊戲作者群的背書或支援.\n你使用DA Friends是自負風險的 它的功能或用途無論明示或暗示,都沒有任何保證或承諾\n作者不需要因爲使用它所造成的任何傷害或損失負責\n使用這個擴充套件意味著你同意這些條件"
-    },
-    "about_translators": {
-        "message": "翻譯者"
-    },
-    "about_alternate": {
-        "message": "另外一個帳號已被載入 ($ID$).",
-        "placeholders": {
-            "id": {
-                "content": "$1"
-            }
-        }
-    },
-    "about_reset": {
-        "message": "你前一個帳號的資料已被保存\n要重設你的資料並使用另外一個帳號,點擊 @RESET@"
-    },
-    "about_reset_ask_title": {
-        "message": "重設帳號"
-    },
-    "about_reset_ask_text": {
-        "message": "你是否要重設你的資料\n一遍使用另外一個帳號?"
-    },
-    "about_reset_ok_title": {
-        "message": "資料已被重設"
-    },
-    "about_reset_ok_text": {
-        "message": "請用你所希望的帳號重新載入Diggy's Adventure"
-    },
-    "production_total_time": {
-        "message": "總共時間\n(格數: $NUM$)",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "production_time": {
-        "message": "生產所需時間"
-    },
-    "production_possible": {
-        "message": "最大可能"
-    },
-    "production_possible_energy": {
-        "message": "最大可能\n能量"
-    },
-    "production_energy_hour": {
-        "message": "每小時產生\n能量"
-    },
-    "production_qty": {
-        "message": "生產數量"
-    },
-    "production_uplift": {
-        "message": "提升(經驗/時)"
-    },
-    "production_uplift_info": {
-        "message": "一小時單一槽所獲取的經驗增幅\n是根據聖柱所獲取的數值計算"
-    },
-    "production_req_ticket": {
-        "message": "需要商隊票劵嗎?"
-    },
-    "kitchen_food_in_backpack": {
-        "message": "來自背包裡的食物"
-    },
-    "camp_your_camp": {
-        "message": "你的營地"
-    },
-    "camp_player_name": {
-        "message": "在 $DATE$ 時 $PLAYER$ 的營地",
-        "placeholders": {
-            "player": {
-                "content": "$1"
-            },
-            "date": {
-                "content": "$2"
-            }
-        }
-    },
-    "camp_no_player": {
-        "message": "還沒有造訪任何營地"
-    },
-    "camp_player": {
-        "message": "玩家"
-    },
-    "camp_total": {
-        "message": "總共"
-    },
-    "camp_fill_time": {
-        "message": "補滿時間"
-    },
-    "camp_fill_time_info": {
-        "message": "能量槽從空到滿所需時間"
-    },
-    "camp_numofregenslots": {
-        "message": "#再生格數"
-    },
-    "camp_canbeimproved": {
-        "message": "營地可以改進"
-    },
-    "camp_showsetup": {
-        "message": "點擊這裡以顯示設計模式的營地"
-    },
-    "camp_windmill_regen": {
-        "message": "每個風車的再生值"
-    },
-    "camp_windmill_regen_total": {
-        "message": "全部風車再生值"
-    },
-    "camp_windmill_num": {
-        "message": "現有風車數"
-    },
-    "camp_windmill_expiry": {
-        "message": "風車會在下列時間過期\n$TIME$",
-        "placeholders": {
-            "time": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_slot_empty": {
-        "message": "空槽"
-    },
-    "camp_slot_blocked": {
-        "message": "未清理的空間"
-    },
-    "camp_regen": {
-        "message": "再生"
-    },
-    "camp_capacity": {
-        "message": "存儲"
-    },
-    "camp_windmills": {
-        "message": "風車"
-    },
-    "camp_needs_windmills": {
-        "message": "營地需要風車"
-    },
-    "camp_avg_value": {
-        "message": "槽平均"
-    },
-    "camp_min_value": {
-        "message": "槽最小"
-    },
-    "camp_max_value": {
-        "message": "槽最大"
-    },
-    "camp_num_slots": {
-        "message": "槽數"
-    },
-    "camp_unlock_materials": {
-        "message": "清理營地所需物資"
-    },
-    "camp_unlock_one": {
-        "message": "清理下一個槽會獲得 $VALUE$ 經驗",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_unlock_cost": {
-        "message": "下一個槽可以用 $VALUE$ 的綠鑽清理\n或用這些物資:",
-        "placeholders": {
-            "value": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_start_date": {
-        "message": "你開始遊玩於:\n$STARTED$",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_day_mode": {
-        "message": "日間模式"
-    },
-    "camp_night_mode": {
-        "message": "夜間模式"
-    },
-    "camp_setup_mode": {
-        "message": "設計模式"
-    },
-    "camp_discounted": {
-        "message": "絕版"
-    },
-    "camp_neighbor": {
-        "message": "鄰居的營地"
-    },
-    "camp_extra": {
-        "message": "額外資訊"
-    },
-    "camp_ftp_group": {
-        "message": "第 $NUM$ 群組",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "camp_ftp_dot_info": {
-        "message": "有紅點標記的卡片才可能會在開始免費翻時出現"
-    },
-    "camp_ftp_group_info": {
-        "message": "你只能在把前一群組的卡片全部翻開後才能翻開下一群組的卡片"
-    },
-    "camp_ftp_cumulativegems": {
-        "message": "已花綠鑽"
-    },
-    "camp_ads_limit": {
-        "message": "廣告限額"
-    },
-    "camp_ads_limit_info": {
-        "message": "這只是一個參考, 並不表示顯示廣告的真實可能性"
-    },
-    "camp_ads_limit_info2": {
-        "message": "由於第三方廣告提供者不屬於Pixel Ferderation, 可能會設定一個不同的限額"
-    },
-    "map_floor": {
-        "message": "層"
-    },
-    "map_floor_current": {
-        "message": "現在在這一層"
-    },
-    "map_floor_found": {
-        "message": "點擊以顯示這層的地圖"
-    },
-    "map_floor_not_found": {
-        "message": "這層還沒有去過"
-    },
-    "map_remaining_tiles": {
-        "message": "尚未清空的磚數"
-    },
-    "map_special": {
-        "message": "特殊物品"
-    },
-    "map_quest": {
-        "message": "任務物品"
-    },
-    "map_this_floor": {
-        "message": "這層樓"
-    },
-    "map_all_floors": {
-        "message": "全部樓"
-    },
-    "map_warning": {
-        "message": "請進入遊戲並進入任何一個礦坑，然後再回來這裡!"
-    },
-    "map_button_d": {
-        "message": "顯示Diggy位置"
-    },
-    "map_button_t": {
-        "message": "顯示傳送點"
-    },
-    "map_button_e": {
-        "message": "顯示標記"
-    },
-    "map_button_c": {
-        "message": "以全彩顯示"
-    },
-    "map_button_g": {
-        "message": "顯示除錯資訊"
-    },
-    "map_button_l": {
-        "message": "高亮可敲磚"
-    },
-    "map_button_n": {
-        "message": "高亮重要物資磚"
-    },
-    "map_button_v": {
-        "message": "永遠顯示每塊地圖"
-    },
-    "map_button_o": {
-        "message": "顯示透明區塊地圖"
-    },
-    "map_button_b": {
-        "message": "顯示額外的指示"
-    },
-    "map_button_k": {
-        "message": "隱藏可敲磚以顯示背景"
-    },
-    "map_button_a": {
-        "message": "顯示所有磚"
-    },
-    "map_button_x": {
-        "message": "顯示入口和出口"
-    },
-    "map_button_u": {
-        "message": "顯示原始地圖"
-    },
-    "map_button_f": {
-        "message": "顯示全部地圖"
-    },
-    "map_button_s": {
-        "message": "顯示解法"
-    },
-    "map_button_m": {
-        "message": "混合重要磚"
-    },
-    "map_save": {
-        "message": "儲存"
-    },
-    "map_save_tip": {
-        "message": "以圖片檔儲存地圖"
-    },
-    "map_mine_exit": {
-        "message": "離開礦坑"
-    },
-    "map_goto_floor": {
-        "message": "通往第 $NUM$ 層",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "map_goto_unknown": {
-        "message": "通往另一層, 但這條路還沒走過"
-    },
-    "map_teleport": {
-        "message": "傳送點"
-    },
-    "map_hint": {
-        "message": "提示"
-    },
-    "map_beacon": {
-        "message": "標記"
-    },
-    "map_active": {
-        "message": "啓用中"
-    },
-    "map_not_active": {
-        "message": "未啓用"
-    },
-    "map_tile": {
-        "message": "磚"
-    },
-    "map_npc": {
-        "message": "NPC"
-    },
-    "map_says": {
-        "message": "說"
-    },
-    "map_godchild": {
-        "message": "神之子"
-    },
-    "map_unknown": {
-        "message": "未知"
-    },
-    "map_yellow": {
-        "message": "黃色"
-    },
-    "map_red": {
-        "message": "紅色"
-    },
-    "map_blue": {
-        "message": "藍色"
-    },
-    "map_green": {
-        "message": "綠色"
-    },
-    "map_left": {
-        "message": "左方"
-    },
-    "map_down": {
-        "message": "下方"
-    },
-    "map_right": {
-        "message": "右方"
-    },
-    "map_up": {
-        "message": "上方"
-    },
-    "map_require_draggable": {
-        "message": "需要可移"
-    },
-    "map_require_item": {
-        "message": "需要物品"
-    },
-    "map_require_light": {
-        "message": "需要燈光"
-    },
-    "map_emitter": {
-        "message": "亮光發射器"
-    },
-    "map_mirror": {
-        "message": "鏡子"
-    },
-    "map_filter": {
-        "message": "濾光器"
-    },
-    "map_draggable": {
-        "message": "可移"
-    },
-    "map_can_move": {
-        "message": "可以移動"
-    },
-    "map_can_rotate": {
-        "message": "可以轉向"
-    },
-    "map_fixed": {
-        "message": "已修復"
-    },
-    "map_remove_confirmation": {
-        "message": "確認移除這些礦坑?"
-    },
-    "map_option_c": {
-        "message": "在提示顯示座標"
-    },
-    "map_option_s": {
-        "message": "顯示國度選擇器"
-    },
-    "map_option_i": {
-        "message": "顯示礦坑資訊"
-    },
-    "map_option_r": {
-        "message": "顯示再生坑"
-    },
-    "map_option_t": {
-        "message": "增加地圖擡頭"
-    },
-    "map_option_b": {
-        "message": "清除空白欄/行"
-    },
-    "map_option_m": {
-        "message": "確認圖像外有邊界"
-    },
-    "map_option_l": {
-        "message": "增加浮水印"
-    },
-    "map_option_resize": {
-        "message": "存儲圖像的比例"
-    },
-    "map_export_location": {
-        "message": "以檔案匯出所有樓層"
-    },
-    "map_export_floor": {
-        "message": "匯出現有樓層檔案"
-    },
-    "map_import": {
-        "message": "匯入一個之前匯出的檔案"
-    },
-    "map_downloadfolder": {
-        "message": "下載資料夾"
-    },
-    "map_positionrandom": {
-        "message": "位置隨機"
-    },
-    "map_default": {
-        "message": "重設爲預設值"
-    },
-    "pillars_all": {
-        "message": "所有聖柱"
-    },
-    "pillars_only_possible": {
-        "message": "只顯示可能聖柱"
-    },
-    "pillars_perc_next": {
-        "message": "%\n下一個"
-    },
-    "pillars_possible": {
-        "message": "可能"
-    },
-    "pillars_totals": {
-        "message": "全部"
-    },
-    "pillars_current_level": {
-        "message": "你現在的等級"
-    },
-    "pillars_predicted": {
-        "message": "預計"
-    },
-    "pillars_predicted_level": {
-        "message": "預計等級"
-    },
-    "pillars_predicted_gain": {
-        "message": "預計因爲等級提升獲得的"
-    },
-    "pillars_ignore": {
-        "message": "點擊以忽略/考慮"
-    },
-    "pillars_altclick": {
-        "message": "按Alt以重設/設定數量"
-    },
-    "pillars_maxpossible": {
-        "message": "最大可能"
-    },
-    "pillars_grid": {
-        "message": "以方格顯示"
-    },
-    "pillars_cap": {
-        "message": "設爲最大可能"
-    },
-    "neighbors_lastlevelup": {
-        "message": "上次\n升級"
-    },
-    "neighbors_lastgiftreceived": {
-        "message": "上次\n收到禮物"
-    },
-    "neighbors_yourlastvisit": {
-        "message": "你上次造訪"
-    },
-    "neighbors_all": {
-        "message": "全部"
-    },
-    "neighbors_nogift": {
-        "message": "$NUM$ 天沒收到禮物",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "neighbors_gifts": {
-        "message": "最近 @DAYS@ 的禮物"
-    },
-    "neighbors_listed": {
-        "message": "自定列表"
-    },
-    "neighbors_blocks": {
-        "message": "營地需要清理的數量"
-    },
-    "neighbors_inlist": {
-        "message": "在自定列表中"
-    },
-    "neighbors_notinlist": {
-        "message": "不在自定列表中"
-    },
-    "neighbors_withblocks": {
-        "message": "有需要清理的營地"
-    },
-    "neighbors_unknownblocks": {
-        "message": "需要清理營地數不確定"
-    },
-    "neighbors_withexpiredwindmills": {
-        "message": "有過期的風車"
-    },
-    "neighbors_found": {
-        "message": "已找到的鄰居: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_giftcount": {
-        "message": "禮物計數"
-    },
-    "neighbors_giftvalue": {
-        "message": "禮物價值(以經驗計算)"
-    },
-    "neighbors_efficiency": {
-        "message": "效率(禮物/天)"
-    },
-    "neighbors_wmtime": {
-        "message": "風車過期時間"
-    },
-    "neighbors_giftinfo": {
-        "message": "日期顯示DAF第一次記錄禮物的時間, 不是它送出的時間"
-    },
-    "neighbors_gifttip": {
-        "message": "$NAME$\n經驗: $XP$\n日期: $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_gift": {
-        "message": "$NAME$ ($XP$ XP) 在 $DAY$",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            },
-            "xp": {
-                "content": "$2"
-            },
-            "day": {
-                "content": "$3"
-            }
-        }
-    },
-    "neighbors_advancedfilterinfo": {
-        "message": "你可以進一步以最近@DAYS@天你鄰居送你的禮物來篩選他們, 在下面列表中點擊一個或更多的禮物"
-    },
-    "neighbors_clearfilter": {
-        "message": "清除篩選"
-    },
-    "neighbors_gift_tooltip": {
-        "message": "當DAF2啓用並記錄時所收到的禮物"
-    },
-    "neighbors_sortby": {
-        "message": "排序"
-    },
-    "neighbors_totxpstats": {
-        "message": " $DAYS$ 天的 $COUNT$ 項禮物 = $TOTAL$ 經驗 (每天$AVERAGE$ 經驗)",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            },
-            "days": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            },
-            "average": {
-                "content": "$4"
-            }
-        }
-    },
-    "neighbors_avgxpstats": {
-        "message": "平均禮物價值 = $XP$ 經驗 (每天每鄰居$AVERAGE$經驗)",
-        "placeholders": {
-            "xp": {
-                "content": "$1"
-            },
-            "average": {
-                "content": "$2"
-            }
-        }
-    },
-    "neighbors_expression": {
-        "message": "指定一個項目來評估"
-    },
-    "friendship_collectfriends": {
-        "message": "收集朋友"
-    },
-    "friendship_score": {
-        "message": "分數"
-    },
-    "friendship_scoretooltip": {
-        "message": "配對信賴值如下\n100 = 相同Facebook ID\n99 = 手動配對\n95 = 相同大頭照\n90 = 相同全名\n80 = 相同姓和相同名\n70 = 相同名和相同姓(顛倒)\n60 = 中文字配對"
-    },
-    "friendship_action": {
-        "message": "動作"
-    },
-    "friendship_actionignore": {
-        "message": "這個朋友被接受爲配對\n點擊以忽略配對"
-    },
-    "friendship_actionregard": {
-        "message": "這個朋友被配對忽略\n點擊以接受配對"
-    },
-    "friendship_actionunlink": {
-        "message": "點擊以取消配對"
-    },
-    "friendship_actionmanual": {
-        "message": "點擊以手動配對這個鄰居"
-    },
-    "friendship_actionmatch": {
-        "message": "點擊以把這個朋友連結到所選的鄰居"
-    },
-    "friendship_actiondelete": {
-        "message": "點擊以刪除這個朋友"
-    },
-    "friendship_matchplayertitle": {
-        "message": "點擊這裡以取消這個配對"
-    },
-    "friendship_accountdisabled": {
-        "message": "帳號被停用了"
-    },
-    "friendship_disabledaccountsdetected": {
-        "message": "偵測到被停用的帳號"
-    },
-    "friendship_unmatchedaccountsdetected": {
-        "message": "偵測到被停用或未配對的帳號"
-    },
-    "friendship_unfriendinfo": {
-        "message": "你可以在這個頁面與他們取消朋友關係\n\n請注意Facebook的帳號可能只是暫時停用, 之後可能會再啓用"
-    },
-    "friendship_partial": {
-        "message": "部分"
-    },
-    "friendship_confirmcollect": {
-        "message": "是 = 確認朋友並取代現存的\n部分 = 加朋友並保留現存的\n否 = 試着收集更多朋友\n\n你可以隨時關閉這個視窗以取消"
-    },
-    "friendship_speedupcollect": {
-        "message": "加速收集?"
-    },
-    "friendship_filter_a": {
-        "message": "好友: $FRIENDS$, 鄰居: $NEIGHBOURS$",
-        "placeholders": {
-            "friends": {
-                "content": "$1"
-            },
-            "neighbours": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_filter_d": {
-        "message": "停用的Facebook帳號: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_m": {
-        "message": "朋友與鄰居配對成功: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_g": {
-        "message": "朋友與鄰居用照片配對成功: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_h": {
-        "message": "朋友與鄰居手動配對成功: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_i": {
-        "message": "忽略朋友數: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_f": {
-        "message": "未配對朋友數: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_u": {
-        "message": "朋友忽略或未能配對成功: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_n": {
-        "message": "鄰居未配對成功: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_filter_s": {
-        "message": "朋友和鄰居未配對成功: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_collectpreamble": {
-        "message": "在這裡你可以收集你的Facebook朋友並與你的鄰居配對"
-    },
-    "friendship_collectstandard": {
-        "message": "標準"
-    },
-    "friendship_collectstandardinfo": {
-        "message": "這個方法可靠,但非常慢(它可能會花幾分鐘)"
-    },
-    "friendship_collectunmatched": {
-        "message": "未配對成功"
-    },
-    "friendship_collectunmatchedinfo": {
-        "message": "這個方法與標準一樣,但它不會收集朋友\n它會顯示出所有未配對成功的朋友讓你可以手動解除朋友關係"
-    },
-    "friendship_disabledinfo": {
-        "message": "它可以偵測停用的帳號"
-    },
-    "friendship_collectmatch": {
-        "message": "配對"
-    },
-    "friendship_collectmatchinfo": {
-        "message": "這會你朋友和鄰居之間的自動配對\n你的朋友列表不會被更新\n被忽略的朋友和在90分以上的朋友不會自動配對\n配對會在朋友收集結束時進行"
-    },
-    "friendship_matchbyimage": {
-        "message": "以大頭照配對?"
-    },
-    "friendship_confirmwarning": {
-        "message": "這個任務會用數分鐘\n\n請確認你想要繼續"
-    },
-    "friendship_confirmcollection": {
-        "message": "確認收集結果?"
-    },
-    "friendship_cc_maybe": {
-        "message": "如果不確定"
-    },
-    "friendship_confirmdelete": {
-        "message": "這個任務無法回復\n你會必需收集才能讓這個朋友重回列表\n\n確認移除?"
-    },
-    "friendship_collecterror": {
-        "message": "出問題了"
-    },
-    "friendship_manualhelp": {
-        "message": "請重新載入DAF2頁面,前往\"$FRIENDSHIP$\"分欄, 點擊\"$COLLECT$\"然後選擇\"$MATCH$\"",
-        "placeholders": {
-            "friendship": {
-                "content": "$1"
-            },
-            "collect": {
-                "content": "$2"
-            },
-            "match": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_analyzingmatches": {
-        "message": "分析數據, $PERCENT$ % ($NUM$ / $TOTAL$)",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            },
-            "num": {
-                "content": "$2"
-            },
-            "total": {
-                "content": "$3"
-            }
-        }
-    },
-    "friendship_collectstat": {
-        "message": "已收集朋友: $COUNT$",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_manualmatchhelp": {
-        "message": "要配對這個鄰居, 你必需找到一個未配對的朋友然後點擊⭐的格子"
-    },
-    "friendship_friendupdateinfo": {
-        "message": "Facebook朋友列表在$DATE$更新過",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "friendship_totalfriends": {
-        "message": "朋友數: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_totalneighbours": {
-        "message": "鄰居數: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "friendship_timewarning": {
-        "message": "看來你已經有一段時間沒有收集過朋友了\n請點擊\"$COLLECT$\"按鈕並選擇\"$METHOD$\"模式",
-        "placeholders": {
-            "collect": {
-                "content": "$1"
-            },
-            "method": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_info": {
-        "message": "$NUM$ 鄰居= $GC$ 神之子",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "gc": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_stat": {
-        "message": "神之子: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "godchild_next": {
-        "message": "要取得額外的神之子, 你必需再增加 $NUM$ 位鄰居",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "godchild_next0": {
-        "message": "你已經取得最大數量的神之子了"
-    },
-    "godchild_next1": {
-        "message": "要取得額外的神之子, 你只需再增加一位鄰居"
-    },
-    "progress_measure": {
-        "message": "項目"
-    },
-    "progress_attained": {
-        "message": "已達成"
-    },
-    "progress_goal": {
-        "message": "目標"
-    },
-    "progress_remaining": {
-        "message": "尚缺"
-    },
-    "progress_progress": {
-        "message": "進度"
-    },
-    "progress_achievements": {
-        "message": "成就"
-    },
-    "progress_treasures": {
-        "message": "寶物"
-    },
-    "progress_overall": {
-        "message": "總體"
-    },
-    "progress_hidecompleted": {
-        "message": "隱藏已完成"
-    },
-    "progress_grouplocations": {
-        "message": "收合地圖"
-    },
-    "progress_showdates": {
-        "message": "地圖日期"
-    },
-    "progress_energyinfo": {
-        "message": "這裡顯示的能量是平均磚耗能乘上遺留磚數\n平均磚耗能是根據清空獎勵與總磚數而來"
-    },
-    "progress_averagetilecost": {
-        "message": "平均磚耗能"
-    },
-    "progress_achievementnextstep": {
-        "message": "到下一個=$NEXT$",
-        "placeholders": {
-            "next": {
-                "content": "$1"
-            }
-        }
-    },
-    "progress_start": {
-        "message": "開始時間"
-    },
-    "progress_end": {
-        "message": "結束時間"
-    },
-    "progress_duration": {
-        "message": "經歷"
-    },
-    "progress_subtotal": {
-        "message": "小計"
-    },
-    "progress_grandtotal": {
-        "message": "總計"
-    },
-    "progress_playtime": {
-        "message": "你從 $STARTED$ 開始玩,到現在( $NOW$ )共玩了 $DURATION$",
-        "placeholders": {
-            "started": {
-                "content": "$1"
-            },
-            "duration": {
-                "content": "$2"
-            },
-            "now": {
-                "content": "$3"
-            }
-        }
-    },
-    "progress_levelrange": {
-        "message": "從 $FROM$ 到 $TO$",
-        "placeholders": {
-            "from": {
-                "content": "$1"
-            },
-            "to": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_id": {
-        "message": "獎勵ID"
-    },
-    "rewardlinks_insertdate": {
-        "message": "加入日期"
-    },
-    "rewardlinks_collectdate": {
-        "message": "收集日期"
-    },
-    "rewardlinks_collectmaterial": {
-        "message": "獎勵收穫"
-    },
-    "rewardlinks_owner": {
-        "message": "擁有者"
-    },
-    "rewardlinks_expired": {
-        "message": "過期連結"
-    },
-    "rewardlinks_collected": {
-        "message": "已收集過了"
-    },
-    "rewardlinks_maxreached": {
-        "message": "達到每日上限"
-    },
-    "rewardlinks_noself": {
-        "message": "不能自己收集"
-    },
-    "rewardlinks_broken": {
-        "message": "毀壞的連結"
-    },
-    "rewardlinks_probablyexpired": {
-        "message": "或許是過期連結"
-    },
-    "rewardlinks_background": {
-        "message": "背景\n在背景開啓獎勵連結"
-    },
-    "rewardlinks_autoclick": {
-        "message": "自動點擊\n在收集完獎勵後自動點擊下一個連結"
-    },
-    "rewardlinks_autoclick_end": {
-        "message": "所選的連結都不能打開\n過期或已獲取的連結會被忽略"
-    },
-    "rewardlinks_addlinks": {
-        "message": "加入連結"
-    },
-    "rewardlinks_pasteadd": {
-        "message": "把連結貼在這裡,然後按“$CONFIRM$\"按鈕",
-        "placeholders": {
-            "confirm": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_pastehere": {
-        "message": "任何貼在這裡的連結會被自動加入"
-    },
-    "rewardlinks_linksadded": {
-        "message": "加入的獎勵連接數: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_nolinksadded": {
-        "message": "沒有加入任何獎勵連結"
-    },
-    "rewardlinks_linksupdated": {
-        "message": "更新的獎勵連結數: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_stats": {
-        "message": "獎勵連結: $TOTAL$, 尚待領取:$NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "rewardlinks_allcollected": {
-        "message": "所有獎勵連結都已被領取"
-    },
-    "rewardlinks_nexttime": {
-        "message": "下次領取從 $DATE$ 開始",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_countremaining": {
-        "message": "還沒有領取的連結: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_collectanyway": {
-        "message": "你一定要開啓連結嗎?"
-    },
-    "rewardlinks_infocollected": {
-        "message": "這個連結已經被領取過了"
-    },
-    "rewardlinks_infoexpired": {
-        "message": "這個連結已經過期\n連結只有 $NUM$ 天的有效期",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_infonoself": {
-        "message": "這個連結是你的: 不能獎勵你自己"
-    },
-    "rewardlinks_infobroken": {
-        "message": "這個連結已損毀或不能用"
-    },
-    "rewardlinks_infomaxreached": {
-        "message": "最大每日限額已達到下領取連結\n這樣子領取的連結會永久喪失"
-    },
-    "rewardlinks_infomayexceedlimit": {
-        "message": "已經有其他獎勵領取排程中\n這可能會超過你的每日上限"
-    },
-    "rewardlinks_infoprobablyexpired": {
-        "message": "這個連結大概過期了\n連結ID是流水號產生的, 而這個獎勵ID比一個已經過期的獎勵還小"
-    },
-    "rewardlinks_removelinks": {
-        "message": "移除舊連結"
-    },
-    "rewardlinks_removeselected": {
-        "message": "移除所選"
-    },
-    "rewardlinks_removelinksdays": {
-        "message": "移除超過@DAYS@天無法領取的獎勵連結\n這包含過期的連結和已經領取的連結\n超過$NUM$天的連結會週期性被移除",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_removenone": {
-        "message": "沒有要移除的連結"
-    },
-    "rewardlinks_removeconfirm": {
-        "message": "會被移除的連結: $NUM$\n被移除的連結無法再被加入\n\n要進行移除嗎?",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_rewardinfo": {
-        "message": "這個獎勵在$DATE$被加入",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "rewardlinks_reset": {
-        "message": "重設"
-    },
-    "rewardlinks_resetcount": {
-        "message": "你可以重設\"下次領取\"的資訊並使用這個連結"
-    },
-    "rewardlinks_resetexpired": {
-        "message": "你可以重設\"應該過期\"的資訊並使用這個連結"
-    },
-    "rewardlinks_convert": {
-        "message": "轉換連結"
-    },
-    "rewardlinks_noconversion": {
-        "message": "不轉換"
-    },
-    "rewardlinks_shortenlinks": {
-        "message": "短網址/轉換連結"
-    },
-    "rewardlinks_shortenlinks_info1": {
-        "message": "在這裡貼上要短網址/轉換的連結"
-    },
-    "rewardlinks_shortenlinks_info2": {
-        "message": "短網址連結如下所示(重複的已被移除)"
-    },
-    "rewardlinks_prefix": {
-        "message": "前綴"
-    },
-    "rewardlinks_newline": {
-        "message": "加入新的一行?"
-    },
-    "rewardlinks_addspace": {
-        "message": "加入空格"
-    },
-    "rewardlinks_summaryinfo": {
-        "message": "所有獎勵都在最近獎勵的$NUM$小時內領取",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "export_export": {
-        "message": "匯出"
-    },
-    "export_import": {
-        "message": "匯入"
-    },
-    "export_exportdata": {
-        "message": "匯出資料"
-    },
-    "export_exportinventory": {
-        "message": "匯出內容"
-    },
-    "export_importdata": {
-        "message": "匯入資料"
-    },
-    "export_invalidexportdata": {
-        "message": "檔案不是現有玩家的有效DAF匯出檔案!"
-    },
-    "export_invalidexport": {
-        "message": "檔案不是有效的匯出檔案!"
-    },
-    "export_importsuccess": {
-        "message": "檔案已被成功匯入!\n"
-    },
-    "export_debugdata": {
-        "message": "匯出診斷資料"
-    },
-    "rings_showminmax": {
-        "message": "顯示最大最小值"
-    },
-    "rings_showxp": {
-        "message": "顯示經驗"
-    },
-    "rings_playerlevel": {
-        "message": "指定玩家等級"
-    },
-    "rings_stats": {
-        "message": "你背包內有$NUM$張 $NAME$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "name": {
-                "content": "$2"
-            }
-        }
-    },
-    "rings_notdependent": {
-        "message": "與玩家等級無關"
-    },
-    "rings_averageperring": {
-        "message": "平均每個戒指的經驗"
-    },
-    "rings_rings": {
-        "message": "戒指"
-    },
-    "equipment_sellout": {
-        "message": "賣出所有未使用的物品可得 $TOTAL$ 硬幣(裝備= $EQUIP$ 硬幣, 裝飾= $DECO$ 硬幣)",
-        "placeholders": {
-            "total": {
-                "content": "$1"
-            },
-            "equip": {
-                "content": "$2"
-            },
-            "deco": {
-                "content": "$3"
-            }
-        }
-    },
-    "equipment_notonsale": {
-        "message": "沒在賣了"
-    },
-    "equipment_quantities": {
-        "message": "數量"
-    },
-    "equipment_owned": {
-        "message": "擁有"
-    },
-    "equipment_inshop": {
-        "message": "販賣中"
-    },
-    "equipment_from": {
-        "message": "來自"
-    },
-    "equipment_affordable": {
-        "message": "買得起"
-    },
-    "equipment_useful": {
-        "message": "有用"
-    },
-    "equipment_gain": {
-        "message": "增益"
-    },
-    "equipment_gain_info": {
-        "message": "增益是根據你營地中最小值槽的數值"
-    },
-    "equipment_free": {
-        "message": "免費"
-    },
-    "equipment_hidemax": {
-        "message": "隱藏已買滿的"
-    },
-    "equipment_price_info": {
-        "message": "這裡顯示的不是裝備的價格\n而是包含這個裝備的禮包/特賣"
-    },
-    "equipment_level_none": {
-        "message": "不重要"
-    },
-    "equipment_level_eq": {
-        "message": "剛好"
-    },
-    "equipment_level_le": {
-        "message": "至多"
-    },
-    "equipment_level_ge": {
-        "message": "至少"
-    },
-    "equipment_level_your": {
-        "message": "你的等級"
-    },
-    "equipment_level_this": {
-        "message": "這個等級"
-    },
-    "equipment_include_material": {
-        "message": "包含這些物資"
-    },
-    "equipment_exclude_material": {
-        "message": "除去這些物資"
-    },
-    "equipment_current": {
-        "message": "現在的"
-    },
-    "equipment_pfdisclaimer": {
-        "message": "請注意你如果之前以你自己的名義買了一個這個價錢的大禮包,就不可能再以這個價錢買到任何禮包\n在這個情況下, 最低的價錢大約是5.5美金"
-    },
-    "equipment_slotslower": {
-        "message": "比這個數值更低的槽"
-    },
-    "events_year": {
-        "message": "年"
-    },
-    "events_end": {
-        "message": "結束時間"
-    },
-    "events_quests": {
-        "message": "任務"
-    },
-    "events_achievements": {
-        "message": "成就"
-    },
-    "events_pieces": {
-        "message": "寶物塊數"
-    },
-    "events_locations": {
-        "message": "地點"
-    },
-    "events_materials": {
-        "message": "特別物資"
-    },
-    "events_completed": {
-        "message": "完成"
-    },
-    "events_total": {
-        "message": "總共"
-    },
-    "events_medal": {
-        "message": "獎牌"
-    },
-    "events_story_maps": {
-        "message": "故事地圖"
-    },
-    "events_challenges": {
-        "message": "挑戰"
-    },
-    "events_repeatables": {
-        "message": "再生坑"
-    },
-    "events_active": {
-        "message": "啓用中"
-    },
-    "events_rerelease": {
-        "message": "買/被送"
-    },
-    "events_complete": {
-        "message": "完成"
-    },
-    "events_incomplete": {
-        "message": "未完成"
-    },
-    "events_notdone": {
-        "message": "沒做過"
-    },
-    "events_segmented": {
-        "message": "分區"
-    },
-    "events_yourprogress": {
-        "message": "你的進度"
-    },
-    "events_rewards": {
-        "message": "獎勵"
-    },
-    "events_finalreward": {
-        "message": "完成獎勵"
-    },
-    "events_notsegmented": {
-        "message": "非分區"
-    },
-    "events_tiles": {
-        "message": "磚數"
-    },
-    "events_chance": {
-        "message": "機率"
-    },
-    "events_clearbonus": {
-        "message": "清空獎勵"
-    },
-    "events_gemstones": {
-        "message": "寶石"
-    },
-    "events_tutorial": {
-        "message": "導引特故"
-    },
-    "repeat_name": {
-        "message": "名稱"
-    },
-    "repeat_region_event": {
-        "message": "國度/特故"
-    },
-    "repeat_cooldown": {
-        "message": "冷卻時間"
-    },
-    "repeat_cooldown_time": {
-        "message": "時間"
-    },
-    "repeat_cooldown_gems": {
-        "message": "綠鑽"
-    },
-    "repeat_reset": {
-        "message": "重設"
-    },
-    "repeat_bonus": {
-        "message": "清空獎勵"
-    },
-    "repeat_progress": {
-        "message": "進度"
-    },
-    "repeat_progress_current": {
-        "message": "已敲磚數"
-    },
-    "repeat_progress_total": {
-        "message": "總磚數"
-    },
-    "repeat_time": {
-        "message": "礦坑可再挖時間"
-    },
-    "repeat_show_all": {
-        "message": "全部再生坑"
-    },
-    "repeat_show_selected": {
-        "message": "所選再生坑"
-    },
-    "repeat_ready": {
-        "message": "準備好了"
-    },
-    "repeat_show_ready": {
-        "message": "準備好了?"
-    },
-    "repeat_postcard": {
-        "message": "準備好卡片週?"
-    },
-    "dailyreward_stats": {
-        "message": "每日獎勵是根據你現在等級($LEVEL$)和國度($REGION$)",
-        "placeholders": {
-            "level": {
-                "content": "$1"
-            },
-            "region": {
-                "content": "$2"
-            }
-        }
-    },
-    "dailyreward_lastcollect": {
-        "message": "在 $DATE$ 日收集",
-        "placeholders": {
-            "date": {
-                "content": "$1"
-            }
-        }
-    },
-    "dailyreward_formula": {
-        "message": "公式"
-    },
-    "specialweek_end": {
-        "message": "在 $FINISH$ 結束",
-        "placeholders": {
-            "finish": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_debris_discount": {
-        "message": "清理營地折扣週 $PERCENT$%",
-        "placeholders": {
-            "percent": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_production": {
-        "message": "雙產週"
-    },
-    "specialweek_half_prod_time": {
-        "message": "倍速雙產週"
-    },
-    "specialweek_double_drop": {
-        "message": "雙倍生產週"
-    },
-    "specialweek_gifts": {
-        "message": "雙倍禮物週"
-    },
-    "specialweek_postcards": {
-        "message": "卡片週"
-    },
-    "specialweek_material_seller": {
-        "message": "老物品奸商"
-    },
-    "specialweek_free_premium_event": {
-        "message": "免費領取特故 \"$NAME$\"",
-        "placeholders": {
-            "name": {
-                "content": "$1"
-            }
-        }
-    },
-    "specialweek_mystery_box": {
-        "message": "神祕禮盒"
-    },
-    "specialweek_find_the_pair": {
-        "message": "找對"
-    },
-    "options_section_ingame": {
-        "message": "遊戲內選項"
-    },
-    "options_injectgame": {
-        "message": "啓用DAF\n在遊戲中啓用DAF\n如果不啓用, 以下的選項不會生效"
-    },
-    "options_fullwindow": {
-        "message": "全視窗\n在全視窗下顯示遊戲"
-    },
-    "options_fullwindowheader": {
-        "message": "擡頭\n在全視窗時顯示頁面擡頭"
-    },
-    "options_fullwindowside": {
-        "message": "側邊欄\n當不是全視窗時隱藏側邊欄(Facebook)"
-    },
-    "options_fullwindowlock": {
-        "message": "鎖定全視窗\n防止遊戲離開全視窗"
-    },
-    "options_resetfullwindow": {
-        "message": "載入時重設\n每次你載入遊戲時, \"全視窗\"和\"全視窗-側邊欄\"會重設"
-    },
-    "options_resetfullwindow_warning": {
-        "message": "如果你載入遊戲時會發生問題, 打開選項"
-    },
-    "options_fullwindowtimeout": {
-        "message": "自動全視窗\n當資料載入時自動全視窗(DAF2變綠色)"
-    },
-    "options_fullwindowtimeout_seconds": {
-        "message": "是, 在 $NUM$ 秒後",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    },
-    "options_gctable": {
-        "message": "神之子表\n在遊戲下方顯示所有有神之子的鄰居"
-    },
-    "options_gctablecounter": {
-        "message": "計數\n顯示計數"
-    },
-    "options_gctableregion": {
-        "message": "國度\n用顏色標記鄰居的國度"
-    },
-    "options_autoclick": {
-        "message": "自動點擊\n自動確認Facebook的彈出視窗"
-    },
-    "options_nogcpopup": {
-        "message": "不要神之子的自動彈窗\n當收集神之子時不顯示彈出窗戶"
-    },
-    "options_autogc": {
-        "message": "自動神之子切換營地\n當收集完神之子時自動切換營地"
-    },
-    "options_section_general": {
-        "message": "一般選項"
-    },
-    "options_autologin": {
-        "message": "官網自動登入\n自動登入到官網"
-    },
-    "options_darktheme": {
-        "message": "黑暗介面"
-    },
-    "options_shrinkmenu": {
-        "message": "目錄寬度\n減少左邊垂直目錄的寬度"
-    },
-    "options_shrinkmenu_0": {
-        "message": "當頁面寬比較小時"
-    },
-    "options_shrinkmenu_1": {
-        "message": "總是用簡潔目錄"
-    },
-    "options_shrinkmenu_2": {
-        "message": "總是用展開目錄"
-    },
-    "options_disablealtguard": {
-        "message": "切換帳號時重設\n如果你設定這個選項, 切換帳號時會覆蓋你現有的DAF2資料"
-    },
-    "options_disablealtguard_warning": {
-        "message": "注意: 啓用這個選項時自負風險!"
-    },
-    "options_section_rewardlinks": {
-        "message": "獎勵連結"
-    },
-    "options_rewardsclose": {
-        "message": "自動關閉\n在獎勵領取後自動關閉這個頁面"
-    },
-    "options_rewardscloseexceptgems": {
-        "message": "綠鑽除外\n當發現綠鑽時不要自動關閉頁面"
-    },
-    "options_rewardscloseexcepterrors": {
-        "message": "錯誤除外\n當發生錯誤時不要自動關閉頁面"
-    },
-    "options_rewardssummary": {
-        "message": "增加結果表\n當頁面沒有自動關閉時, 在下面增加一個結果表"
-    },
-    "options_linkgrabenabled": {
-        "message": "連結收集器\n在Facebook上啓用連結收集器\n如果沒啓用, 下面的選項沒有效果"
-    },
-    "options_linkgrabbutton": {
-        "message": "滑鼠按鈕\n選擇觸發連結收集器的滑鼠按鈕"
-    },
-    "options_linkgrabkey": {
-        "message": "可選鍵\n增加按滑鼠時的一個可選擇的配合按鍵"
-    },
-    "options_linkgrabsort": {
-        "message": "整理連結"
-    },
-    "options_linkgrabconvert": {
-        "message": "轉換連結"
-    },
-    "options_modifier_none": {
-        "message": "無"
-    },
-    "options_modifier_shift": {
-        "message": "Shift"
-    },
-    "options_modifier_ctrl": {
-        "message": "Ctrl"
-    },
-    "options_modifier_alt": {
-        "message": "Alt"
-    },
-    "options_button_left": {
-        "message": "左鍵"
-    },
-    "options_button_middle": {
-        "message": "中鍵"
-    },
-    "options_button_right": {
-        "message": "右鍵"
-    },
-    "options_sort_none": {
-        "message": "無"
-    },
-    "options_sort_ascending": {
-        "message": "由小至大"
-    },
-    "options_sort_descending": {
-        "message": "由大至小"
-    },
-    "options_language": {
-        "message": "語言\n選擇要使用的語言"
-    },
-    "options_locale": {
-        "message": "地區化\n用來設定數字格式, 日期和列表"
-    },
-    "options_locale_browser": {
-        "message": "使用瀏覽器的設定"
-    },
-    "options_gamelanguage": {
-        "message": "遊戲語言\n遊戲訊息的語言"
-    },
-    "options_section_badges": {
-        "message": "徽章"
-    },
-    "options_badgeserverenergy": {
-        "message": "伺服器能量\n顯示一個由伺服器回報能量的徽章\n當遊戲跟伺服器同步時, 這個資訊會週期性更新"
-    },
-    "options_badgegccounter": {
-        "message": "神之子計數\n顯示一個還可以收集神之子數量的徽章"
-    },
-    "options_badgegcenergy": {
-        "message": "神之子能量\n顯示一個從鄰居收集神之子可獲能量的徽章"
-    },
-    "options_badgerepeatables": {
-        "message": "再生坑\n顯示一個秀出已選再生坑可挖取時的徽章"
-    },
-    "options_badgeluckycards": {
-        "message": "幸運卡片\n顯示一個當幸運卡片帳篷準備好時的徽章"
-    },
-    "options_badgeproductions": {
-        "message": "生產\n顯示一個當生產槽已準備好或空著時的徽章"
-    },
-    "options_badgetimeoffset": {
-        "message": "時間差\n徽章會在幾秒前顯示"
-    },
-    "options_badgesound": {
-        "message": "音效\n當徽章顯示時要播放的音效"
-    },
-    "options_badgevolume": {
-        "message": "音量\n音效的大小聲"
-    },
-    "options_badgewindmills": {
-        "message": "風車\n當鄰居需要風車時顯示一個徽章"
-    },
-    "calc_operators": {
-        "message": "運算子"
-    },
-    "calc_arithmetic": {
-        "message": "算法"
-    },
-    "calc_comparison": {
-        "message": "比較"
-    },
-    "calc_logical": {
-        "message": "邏輯"
-    },
-    "calc_functions": {
-        "message": "公式"
-    },
-    "calc_variables": {
-        "message": "變數"
-    },
-    "calc_examples": {
-        "message": "例子"
-    },
-    "calc_error_1": {
-        "message": "語法錯誤"
-    },
-    "calc_error_2": {
-        "message": "公式需要括號"
-    },
-    "calc_error_3": {
-        "message": "遺漏下括號"
-    },
-    "calc_error_4": {
-        "message": "太多下括號"
-    },
-    "linkgrabber_selected": {
-        "message": "連結: $UNIQUE$ / $TOTAL$",
-        "placeholders": {
-            "unique": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_fn_copy": {
-        "message": "複製到剪貼簿"
-    },
-    "linkgrabber_fn_send": {
-        "message": "送到DAF"
-    },
-    "linkgrabber_fn_cancel": {
-        "message": "取消"
-    },
-    "linkgrabber_fn_refresh": {
-        "message": "更新連結"
-    },
-    "linkgrabber_fn_showid": {
-        "message": "顯示獎勵ID"
-    },
-    "linkgrabber_fn_autosend": {
-        "message": "自動傳送"
-    },
-    "linkgrabber_added": {
-        "message": "加入獎勵連結: $NUM$ / $TOTAL$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            },
-            "total": {
-                "content": "$2"
-            }
-        }
-    },
-    "linkgrabber_copied": {
-        "message": "被複製到剪貼簿的連結: $NUM$",
-        "placeholders": {
-            "num": {
-                "content": "$1"
-            }
-        }
-    }
+	"ext_name": {
+		"message": "DA Friends 2"
+	},
+	"ext_title": {
+		"message": "Diggy's Adventure的幫助工具"
+	},
+	"menu_resetfullwindow": {
+		"message": "載入時重新讀取"
+	},
+	"menu_fullwindow": {
+		"message": "遊戲以全視窗運行"
+	},
+	"menu_fullwindowheader": {
+		"message": "標頭"
+	},
+	"menu_fullwindowside": {
+		"message": "側邊欄"
+	},
+	"menu_fullwindowlock": {
+		"message": "鎖定"
+	},
+	"menu_gctable": {
+		"message": "顯示神之子表"
+	},
+	"menu_gctablecounter": {
+		"message": "計數"
+	},
+	"menu_gctableregion": {
+		"message": "國度"
+	},
+	"menu_gccollected": {
+		"message": "全部的神之子都已被收集"
+	},
+	"menu_autoclick": {
+		"message": "自動點擊Facebook的彈出視窗"
+	},
+	"menu_nogcpopup": {
+		"message": "收集神之子時不顯示彈出視窗"
+	},
+	"menu_reloadgame": {
+		"message": "重新載入遊戲並強制資料更新"
+	},
+	"menu_switchportal": {
+		"message": "切換至官網通道"
+	},
+	"menu_switchfacebook": {
+		"message": "切換至Facebook"
+	},
+	"menu_on": {
+		"message": "開啓"
+	},
+	"menu_off": {
+		"message": "關閉"
+	},
+	"gui_timeparts": {
+		"message": "日,時,分,秒"
+	},
+	"gui_card_clicker": {
+		"message": "點擊以收合/展開這區塊"
+	},
+	"gui_show": {
+		"message": "顯示"
+	},
+	"gui_all": {
+		"message": "全部"
+	},
+	"gui_only_possible": {
+		"message": "只顯示可能"
+	},
+	"gui_search": {
+		"message": "搜尋"
+	},
+	"gui_filter": {
+		"message": "篩選"
+	},
+	"gui_name": {
+		"message": "名稱"
+	},
+	"gui_region_required": {
+		"message": "國度\n需求"
+	},
+	"gui_theme_required": {
+		"message": "國度/佈景\n需求"
+	},
+	"gui_level_required": {
+		"message": "等級\n需求"
+	},
+	"gui_qty": {
+		"message": "數量"
+	},
+	"gui_qty_required": {
+		"message": "數量\n需求"
+	},
+	"gui_energy": {
+		"message": "能量"
+	},
+	"gui_estimatedenergy": {
+		"message": "估計能量"
+	},
+	"gui_food": {
+		"message": "食物"
+	},
+	"gui_coins": {
+		"message": "硬幣"
+	},
+	"gui_backpack": {
+		"message": "背包"
+	},
+	"gui_clickwiki": {
+		"message": "點擊以開啓Wiki頁面"
+	},
+	"gui_from_any": {
+		"message": "來自國度或特故"
+	},
+	"gui_from_regions": {
+		"message": "來自國度"
+	},
+	"gui_from_events": {
+		"message": "來自特故"
+	},
+	"gui_ingredients": {
+		"message": "材料"
+	},
+	"gui_event": {
+		"message": "特故"
+	},
+	"gui_specialweek": {
+		"message": "特殊週"
+	},
+	"gui_region": {
+		"message": "國度"
+	},
+	"gui_theme": {
+		"message": "佈景配色"
+	},
+	"gui_year": {
+		"message": "年"
+	},
+	"gui_quest": {
+		"message": "任務"
+	},
+	"gui_offer": {
+		"message": "特賣"
+	},
+	"gui_tieredoffer": {
+		"message": "分層特賣"
+	},
+	"gui_pack": {
+		"message": "禮包"
+	},
+	"gui_equipment": {
+		"message": "裝備"
+	},
+	"gui_shop": {
+		"message": "商店"
+	},
+	"gui_decoration": {
+		"message": "裝飾"
+	},
+	"gui_usable": {
+		"message": "可用品"
+	},
+	"gui_token": {
+		"message": "代幣"
+	},
+	"gui_level": {
+		"message": "等級"
+	},
+	"gui_xp": {
+		"message": "經驗"
+	},
+	"gui_sell_price": {
+		"message": "賣價"
+	},
+	"gui_neighbour": {
+		"message": "鄰居"
+	},
+	"gui_friend": {
+		"message": "朋友"
+	},
+	"gui_firstrecorded": {
+		"message": "初次\n記錄"
+	},
+	"gui_lastrecorded": {
+		"message": "最後\n記錄"
+	},
+	"gui_loadingresources": {
+		"message": "載入資源中($NUM$/$TOTAL$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"gui_screenshot_shot": {
+		"message": "點擊以對此區域截圖\n截圖會顯示在右邊\n請注意: 只有可見區域會被截圖!\n你必需點擊Chrome工具列上的DAF2圖示以啓用此功能"
+	},
+	"gui_screenshot_target": {
+		"message": "點擊以下載圖片\n你可以在圖片上點擊右鍵並選擇\"複製圖片\"複製到剪貼簿"
+	},
+	"gui_screenshot_error": {
+		"message": "無法截圖"
+	},
+	"gui_screenshot_errorinfo": {
+		"message": "首先你必需點擊Chrome工具列上的 @DAF2@ 圖示\n這會啓用截圖的功能直至頁面關閉\n\n請點擊 @DAF2@ 圖示然後重試截圖"
+	},
+	"gui_infodated": {
+		"message": "這裡顯示的資訊僅有效於在 '$VALID$' 更新時",
+		"placeholders": {
+			"valid": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_nonote": {
+		"message": "無註記"
+	},
+	"gui_minimum": {
+		"message": "最小"
+	},
+	"gui_maximum": {
+		"message": "最大"
+	},
+	"gui_average": {
+		"message": "平均"
+	},
+	"gui_loot": {
+		"message": "獲取物"
+	},
+	"gui_datafrompf": {
+		"message": "資料來自Pixel Federation的遊戲檔案"
+	},
+	"gui_gift": {
+		"message": "禮物"
+	},
+	"gui_gifts": {
+		"message": "禮物"
+	},
+	"gui_day": {
+		"message": "日期"
+	},
+	"gui_placed": {
+		"message": "放置在營地中"
+	},
+	"gui_owned": {
+		"message": "擁有"
+	},
+	"gui_limit": {
+		"message": "上限"
+	},
+	"gui_type": {
+		"message": "種類"
+	},
+	"gui_width": {
+		"message": "寬度"
+	},
+	"gui_height": {
+		"message": "高度"
+	},
+	"gui_value": {
+		"message": "數值"
+	},
+	"gui_slot_value": {
+		"message": "每槽數值"
+	},
+	"gui_cost": {
+		"message": "花費"
+	},
+	"gui_items_found": {
+		"message": "已取得物品"
+	},
+	"gui_reset": {
+		"message": "重設"
+	},
+	"gui_material": {
+		"message": "物資"
+	},
+	"gui_filter_clear": {
+		"message": "清除"
+	},
+	"gui_filter_invert": {
+		"message": "反向全選"
+	},
+	"gui_advancedfilter": {
+		"message": "進階篩選"
+	},
+	"gui_location": {
+		"message": "地點"
+	},
+	"gui_locked": {
+		"message": "已鎖定"
+	},
+	"gui_noresults": {
+		"message": "無結果"
+	},
+	"gui_toomanyresults": {
+		"message": "太多結果"
+	},
+	"gui_id": {
+		"message": "ID"
+	},
+	"gui_date": {
+		"message": "日期"
+	},
+	"gui_ctrlclick": {
+		"message": "按下Ctrl以選擇/取消選擇全部"
+	},
+	"gui_summary": {
+		"message": "總覽"
+	},
+	"dialog_ok": {
+		"message": "OK"
+	},
+	"dialog_yes": {
+		"message": "是"
+	},
+	"dialog_no": {
+		"message": "否"
+	},
+	"dialog_confirm": {
+		"message": "確認"
+	},
+	"dialog_cancel": {
+		"message": "取消"
+	},
+	"dialog_close": {
+		"message": "關閉"
+	},
+	"dialog_pleasewait": {
+		"message": "請稍候"
+	},
+	"tab_game": {
+		"message": "切換至遊戲"
+	},
+	"tab_about": {
+		"message": "關於"
+	},
+	"tab_progress": {
+		"message": "進度"
+	},
+	"tab_camp": {
+		"message": "營地"
+	},
+	"tab_map": {
+		"message": "地圖"
+	},
+	"tab_caravan": {
+		"message": "商隊"
+	},
+	"tab_kitchen": {
+		"message": "廚房"
+	},
+	"tab_foundry": {
+		"message": "鑄造廠"
+	},
+	"tab_pillars": {
+		"message": "聖柱"
+	},
+	"tab_neighbors": {
+		"message": "鄰居"
+	},
+	"tab_friendship": {
+		"message": "好友"
+	},
+	"tab_godchild": {
+		"message": "神之子"
+	},
+	"tab_locations": {
+		"message": "地點"
+	},
+	"tab_greenrings": {
+		"message": "綠戒"
+	},
+	"tab_redrings": {
+		"message": "紅戒"
+	},
+	"tab_christmasrings": {
+		"message": "聖誕戒"
+	},
+	"tab_rewardlinks": {
+		"message": "獎勵連結"
+	},
+	"tab_options": {
+		"message": "選項"
+	},
+	"tab_help": {
+		"message": "幫助"
+	},
+	"tab_export": {
+		"message": "載入/輸出"
+	},
+	"tab_equipment": {
+		"message": "裝備/商店"
+	},
+	"tab_events": {
+		"message": "特故"
+	},
+	"tab_repeat": {
+		"message": "再生坑"
+	},
+	"tab_dailyreward": {
+		"message": "每日獎勵"
+	},
+	"about_version": {
+		"message": "版本: $VERSION$",
+		"placeholders": {
+			"version": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_data": {
+		"message": "上次資料快照: $TIME$\n遊戲網站: $SITE$ ($PLATFORM$)\n使用者ID: #$USERID$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			},
+			"userid": {
+				"content": "$2"
+			},
+			"site": {
+				"content": "$3"
+			},
+			"platform": {
+				"content": "$4"
+			}
+		}
+	},
+	"about_visit": {
+		"message": "拜訪官方Facebook頁面"
+	},
+	"about_nodata": {
+		"message": "無遊戲資料被載入, 請載入或刷新遊戲視窗"
+	},
+	"about_disclaimer": {
+		"message": "DA Friends 是 '粉絲自製代碼' 並且沒有Pixel Federation, \"Diggy's Adventure\"遊戲作者群的背書或支援.\n你使用DA Friends是自負風險的 它的功能或用途無論明示或暗示,都沒有任何保證或承諾\n作者不需要因爲使用它所造成的任何傷害或損失負責\n使用這個擴充套件意味著你同意這些條件"
+	},
+	"about_translators": {
+		"message": "翻譯者"
+	},
+	"about_alternate": {
+		"message": "另外一個帳號已被載入 ($ID$).",
+		"placeholders": {
+			"id": {
+				"content": "$1"
+			}
+		}
+	},
+	"about_reset": {
+		"message": "你前一個帳號的資料已被保存\n要重設你的資料並使用另外一個帳號,點擊 @RESET@"
+	},
+	"about_reset_ask_title": {
+		"message": "重設帳號"
+	},
+	"about_reset_ask_text": {
+		"message": "你是否要重設你的資料\n一遍使用另外一個帳號?"
+	},
+	"about_reset_ok_title": {
+		"message": "資料已被重設"
+	},
+	"about_reset_ok_text": {
+		"message": "請用你所希望的帳號重新載入Diggy's Adventure"
+	},
+	"production_total_time": {
+		"message": "總共時間\n(格數: $NUM$)",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"production_time": {
+		"message": "生產所需時間"
+	},
+	"production_possible": {
+		"message": "最大可能"
+	},
+	"production_possible_energy": {
+		"message": "最大可能\n能量"
+	},
+	"production_energy_hour": {
+		"message": "每小時產生\n能量"
+	},
+	"production_qty": {
+		"message": "生產數量"
+	},
+	"production_uplift": {
+		"message": "提升(經驗/時)"
+	},
+	"production_uplift_info": {
+		"message": "一小時單一槽所獲取的經驗增幅\n是根據聖柱所獲取的數值計算"
+	},
+	"production_req_ticket": {
+		"message": "需要商隊票劵嗎?"
+	},
+	"kitchen_food_in_backpack": {
+		"message": "來自背包裡的食物"
+	},
+	"camp_your_camp": {
+		"message": "你的營地"
+	},
+	"camp_player_name": {
+		"message": "在 $DATE$ 時 $PLAYER$ 的營地",
+		"placeholders": {
+			"player": {
+				"content": "$1"
+			},
+			"date": {
+				"content": "$2"
+			}
+		}
+	},
+	"camp_no_player": {
+		"message": "還沒有造訪任何營地"
+	},
+	"camp_player": {
+		"message": "玩家"
+	},
+	"camp_total": {
+		"message": "總共"
+	},
+	"camp_fill_time": {
+		"message": "補滿時間"
+	},
+	"camp_fill_time_info": {
+		"message": "能量槽從空到滿所需時間"
+	},
+	"camp_numofregenslots": {
+		"message": "#再生格數"
+	},
+	"camp_canbeimproved": {
+		"message": "營地可以改進"
+	},
+	"camp_showsetup": {
+		"message": "點擊這裡以顯示設計模式的營地"
+	},
+	"camp_windmill_regen": {
+		"message": "每個風車的再生值"
+	},
+	"camp_windmill_regen_total": {
+		"message": "全部風車再生值"
+	},
+	"camp_windmill_num": {
+		"message": "現有風車數"
+	},
+	"camp_windmill_expiry": {
+		"message": "風車會在下列時間過期\n$TIME$",
+		"placeholders": {
+			"time": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_slot_empty": {
+		"message": "空槽"
+	},
+	"camp_slot_blocked": {
+		"message": "未清理的空間"
+	},
+	"camp_regen": {
+		"message": "再生"
+	},
+	"camp_capacity": {
+		"message": "存儲"
+	},
+	"camp_windmills": {
+		"message": "風車"
+	},
+	"camp_needs_windmills": {
+		"message": "營地需要風車"
+	},
+	"camp_avg_value": {
+		"message": "槽平均"
+	},
+	"camp_min_value": {
+		"message": "槽最小"
+	},
+	"camp_max_value": {
+		"message": "槽最大"
+	},
+	"camp_num_slots": {
+		"message": "槽數"
+	},
+	"camp_unlock_materials": {
+		"message": "清理營地所需物資"
+	},
+	"camp_unlock_one": {
+		"message": "清理下一個槽會獲得 $VALUE$ 經驗",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_unlock_cost": {
+		"message": "下一個槽可以用 $VALUE$ 的綠鑽清理\n或用這些物資:",
+		"placeholders": {
+			"value": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_start_date": {
+		"message": "你開始遊玩於:\n$STARTED$",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_day_mode": {
+		"message": "日間模式"
+	},
+	"camp_night_mode": {
+		"message": "夜間模式"
+	},
+	"camp_setup_mode": {
+		"message": "設計模式"
+	},
+	"camp_discounted": {
+		"message": "絕版"
+	},
+	"camp_neighbor": {
+		"message": "鄰居的營地"
+	},
+	"camp_extra": {
+		"message": "額外資訊"
+	},
+	"camp_ftp_group": {
+		"message": "第 $NUM$ 群組",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"camp_ftp_dot_info": {
+		"message": "有紅點標記的卡片才可能會在開始免費翻時出現"
+	},
+	"camp_ftp_group_info": {
+		"message": "你只能在把前一群組的卡片全部翻開後才能翻開下一群組的卡片"
+	},
+	"camp_ftp_cumulativegems": {
+		"message": "已花綠鑽"
+	},
+	"camp_ads_limit": {
+		"message": "廣告限額"
+	},
+	"camp_ads_limit_info": {
+		"message": "這只是一個參考, 並不表示顯示廣告的真實可能性"
+	},
+	"camp_ads_limit_info2": {
+		"message": "由於第三方廣告提供者不屬於Pixel Ferderation, 可能會設定一個不同的限額"
+	},
+	"map_floor": {
+		"message": "層"
+	},
+	"map_floor_current": {
+		"message": "現在在這一層"
+	},
+	"map_floor_found": {
+		"message": "點擊以顯示這層的地圖"
+	},
+	"map_floor_not_found": {
+		"message": "這層還沒有去過"
+	},
+	"map_remaining_tiles": {
+		"message": "尚未清空的磚數"
+	},
+	"map_special": {
+		"message": "特殊物品"
+	},
+	"map_quest": {
+		"message": "任務物品"
+	},
+	"map_this_floor": {
+		"message": "這層樓"
+	},
+	"map_all_floors": {
+		"message": "全部樓"
+	},
+	"map_warning": {
+		"message": "請進入遊戲並進入任何一個礦坑，然後再回來這裡!"
+	},
+	"map_button_d": {
+		"message": "顯示Diggy位置"
+	},
+	"map_button_t": {
+		"message": "顯示傳送點"
+	},
+	"map_button_e": {
+		"message": "顯示標記"
+	},
+	"map_button_c": {
+		"message": "以全彩顯示"
+	},
+	"map_button_g": {
+		"message": "顯示除錯資訊"
+	},
+	"map_button_l": {
+		"message": "高亮可敲磚"
+	},
+	"map_button_n": {
+		"message": "高亮重要物資磚"
+	},
+	"map_button_v": {
+		"message": "永遠顯示每塊地圖"
+	},
+	"map_button_o": {
+		"message": "顯示透明區塊地圖"
+	},
+	"map_button_b": {
+		"message": "顯示額外的指示"
+	},
+	"map_button_k": {
+		"message": "隱藏可敲磚以顯示背景"
+	},
+	"map_button_a": {
+		"message": "顯示所有磚"
+	},
+	"map_button_x": {
+		"message": "顯示入口和出口"
+	},
+	"map_button_u": {
+		"message": "顯示原始地圖"
+	},
+	"map_button_f": {
+		"message": "顯示全部地圖"
+	},
+	"map_button_s": {
+		"message": "顯示解法"
+	},
+	"map_button_m": {
+		"message": "混合重要磚"
+	},
+	"map_save": {
+		"message": "儲存"
+	},
+	"map_save_tip": {
+		"message": "以圖片檔儲存地圖"
+	},
+	"map_mine_exit": {
+		"message": "離開礦坑"
+	},
+	"map_goto_floor": {
+		"message": "通往第 $NUM$ 層",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"map_goto_unknown": {
+		"message": "通往另一層, 但這條路還沒走過"
+	},
+	"map_teleport": {
+		"message": "傳送點"
+	},
+	"map_hint": {
+		"message": "提示"
+	},
+	"map_beacon": {
+		"message": "標記"
+	},
+	"map_active": {
+		"message": "啓用中"
+	},
+	"map_not_active": {
+		"message": "未啓用"
+	},
+	"map_tile": {
+		"message": "磚"
+	},
+	"map_npc": {
+		"message": "NPC"
+	},
+	"map_says": {
+		"message": "說"
+	},
+	"map_godchild": {
+		"message": "神之子"
+	},
+	"map_unknown": {
+		"message": "未知"
+	},
+	"map_yellow": {
+		"message": "黃色"
+	},
+	"map_red": {
+		"message": "紅色"
+	},
+	"map_blue": {
+		"message": "藍色"
+	},
+	"map_green": {
+		"message": "綠色"
+	},
+	"map_left": {
+		"message": "左方"
+	},
+	"map_down": {
+		"message": "下方"
+	},
+	"map_right": {
+		"message": "右方"
+	},
+	"map_up": {
+		"message": "上方"
+	},
+	"map_require_draggable": {
+		"message": "需要可移"
+	},
+	"map_require_item": {
+		"message": "需要物品"
+	},
+	"map_require_light": {
+		"message": "需要燈光"
+	},
+	"map_emitter": {
+		"message": "亮光發射器"
+	},
+	"map_mirror": {
+		"message": "鏡子"
+	},
+	"map_filter": {
+		"message": "濾光器"
+	},
+	"map_draggable": {
+		"message": "可移"
+	},
+	"map_can_move": {
+		"message": "可以移動"
+	},
+	"map_can_rotate": {
+		"message": "可以轉向"
+	},
+	"map_fixed": {
+		"message": "已修復"
+	},
+	"map_remove_confirmation": {
+		"message": "確認移除這些礦坑?"
+	},
+	"map_option_c": {
+		"message": "在提示顯示座標"
+	},
+	"map_option_s": {
+		"message": "顯示國度選擇器"
+	},
+	"map_option_i": {
+		"message": "顯示礦坑資訊"
+	},
+	"map_option_r": {
+		"message": "顯示再生坑"
+	},
+	"map_option_t": {
+		"message": "增加地圖擡頭"
+	},
+	"map_option_b": {
+		"message": "清除空白欄/行"
+	},
+	"map_option_m": {
+		"message": "確認圖像外有邊界"
+	},
+	"map_option_l": {
+		"message": "增加浮水印"
+	},
+	"map_option_resize": {
+		"message": "存儲圖像的比例"
+	},
+	"map_export_location": {
+		"message": "以檔案匯出所有樓層"
+	},
+	"map_export_floor": {
+		"message": "匯出現有樓層檔案"
+	},
+	"map_import": {
+		"message": "匯入一個之前匯出的檔案"
+	},
+	"map_downloadfolder": {
+		"message": "下載資料夾"
+	},
+	"map_positionrandom": {
+		"message": "位置隨機"
+	},
+	"map_default": {
+		"message": "重設爲預設值"
+	},
+	"pillars_all": {
+		"message": "所有聖柱"
+	},
+	"pillars_only_possible": {
+		"message": "只顯示可能聖柱"
+	},
+	"pillars_perc_next": {
+		"message": "%\n下一個"
+	},
+	"pillars_possible": {
+		"message": "可能"
+	},
+	"pillars_totals": {
+		"message": "全部"
+	},
+	"pillars_current_level": {
+		"message": "你現在的等級"
+	},
+	"pillars_predicted": {
+		"message": "預計"
+	},
+	"pillars_predicted_level": {
+		"message": "預計等級"
+	},
+	"pillars_predicted_gain": {
+		"message": "預計因爲等級提升獲得的"
+	},
+	"pillars_ignore": {
+		"message": "點擊以忽略/考慮"
+	},
+	"pillars_altclick": {
+		"message": "按Alt以重設/設定數量"
+	},
+	"pillars_maxpossible": {
+		"message": "最大可能"
+	},
+	"pillars_grid": {
+		"message": "以方格顯示"
+	},
+	"pillars_cap": {
+		"message": "設爲最大可能"
+	},
+	"neighbors_lastlevelup": {
+		"message": "上次\n升級"
+	},
+	"neighbors_lastgiftreceived": {
+		"message": "上次\n收到禮物"
+	},
+	"neighbors_yourlastvisit": {
+		"message": "你上次造訪"
+	},
+	"neighbors_all": {
+		"message": "全部"
+	},
+	"neighbors_nogift": {
+		"message": "$NUM$ 天沒收到禮物",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"neighbors_gifts": {
+		"message": "最近 @DAYS@ 的禮物"
+	},
+	"neighbors_listed": {
+		"message": "自定列表"
+	},
+	"neighbors_blocks": {
+		"message": "營地需要清理的數量"
+	},
+	"neighbors_inlist": {
+		"message": "在自定列表中"
+	},
+	"neighbors_notinlist": {
+		"message": "不在自定列表中"
+	},
+	"neighbors_withblocks": {
+		"message": "有需要清理的營地"
+	},
+	"neighbors_unknownblocks": {
+		"message": "需要清理營地數不確定"
+	},
+	"neighbors_withexpiredwindmills": {
+		"message": "有過期的風車"
+	},
+	"neighbors_found": {
+		"message": "已找到的鄰居: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_giftcount": {
+		"message": "禮物計數"
+	},
+	"neighbors_giftvalue": {
+		"message": "禮物價值(以經驗計算)"
+	},
+	"neighbors_efficiency": {
+		"message": "效率(禮物/天)"
+	},
+	"neighbors_wmtime": {
+		"message": "風車過期時間"
+	},
+	"neighbors_giftinfo": {
+		"message": "日期顯示DAF第一次記錄禮物的時間, 不是它送出的時間"
+	},
+	"neighbors_gifttip": {
+		"message": "$NAME$\n經驗: $XP$\n日期: $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_gift": {
+		"message": "$NAME$ ($XP$ XP) 在 $DAY$",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			},
+			"xp": {
+				"content": "$2"
+			},
+			"day": {
+				"content": "$3"
+			}
+		}
+	},
+	"neighbors_advancedfilterinfo": {
+		"message": "你可以進一步以最近@DAYS@天你鄰居送你的禮物來篩選他們, 在下面列表中點擊一個或更多的禮物"
+	},
+	"neighbors_clearfilter": {
+		"message": "清除篩選"
+	},
+	"neighbors_gift_tooltip": {
+		"message": "當DAF2啓用並記錄時所收到的禮物"
+	},
+	"neighbors_sortby": {
+		"message": "排序"
+	},
+	"neighbors_totxpstats": {
+		"message": " $DAYS$ 天的 $COUNT$ 項禮物 = $TOTAL$ 經驗 (每天$AVERAGE$ 經驗)",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"days": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			},
+			"average": {
+				"content": "$4"
+			}
+		}
+	},
+	"neighbors_avgxpstats": {
+		"message": "平均禮物價值 = $XP$ 經驗 (每天每鄰居$AVERAGE$經驗)",
+		"placeholders": {
+			"xp": {
+				"content": "$1"
+			},
+			"average": {
+				"content": "$2"
+			}
+		}
+	},
+	"neighbors_expression": {
+		"message": "指定一個項目來評估"
+	},
+	"friendship_collectfriends": {
+		"message": "收集朋友"
+	},
+	"friendship_score": {
+		"message": "分數"
+	},
+	"friendship_scoretooltip": {
+		"message": "配對信賴值如下\n100 = 相同Facebook ID\n99 = 手動配對\n95 = 相同大頭照\n90 = 相同全名\n80 = 相同姓和相同名\n70 = 相同名和相同姓(顛倒)\n60 = 中文字配對"
+	},
+	"friendship_action": {
+		"message": "動作"
+	},
+	"friendship_actionignore": {
+		"message": "這個朋友被接受爲配對\n點擊以忽略配對"
+	},
+	"friendship_actionregard": {
+		"message": "這個朋友被配對忽略\n點擊以接受配對"
+	},
+	"friendship_actionunlink": {
+		"message": "點擊以取消配對"
+	},
+	"friendship_actionmanual": {
+		"message": "點擊以手動配對這個鄰居"
+	},
+	"friendship_actionmatch": {
+		"message": "點擊以把這個朋友連結到所選的鄰居"
+	},
+	"friendship_actiondelete": {
+		"message": "點擊以刪除這個朋友"
+	},
+	"friendship_matchplayertitle": {
+		"message": "點擊這裡以取消這個配對"
+	},
+	"friendship_accountdisabled": {
+		"message": "帳號被停用了"
+	},
+	"friendship_disabledaccountsdetected": {
+		"message": "偵測到被停用的帳號"
+	},
+	"friendship_unmatchedaccountsdetected": {
+		"message": "偵測到被停用或未配對的帳號"
+	},
+	"friendship_unfriendinfo": {
+		"message": "你可以在這個頁面與他們取消朋友關係\n\n請注意Facebook的帳號可能只是暫時停用, 之後可能會再啓用"
+	},
+	"friendship_partial": {
+		"message": "部分"
+	},
+	"friendship_confirmcollect": {
+		"message": "是 = 確認朋友並取代現存的\n部分 = 加朋友並保留現存的\n否 = 試着收集更多朋友\n\n你可以隨時關閉這個視窗以取消"
+	},
+	"friendship_speedupcollect": {
+		"message": "加速收集?"
+	},
+	"friendship_filter_a": {
+		"message": "好友: $FRIENDS$, 鄰居: $NEIGHBOURS$",
+		"placeholders": {
+			"friends": {
+				"content": "$1"
+			},
+			"neighbours": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_filter_d": {
+		"message": "停用的Facebook帳號: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_m": {
+		"message": "朋友與鄰居配對成功: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_g": {
+		"message": "朋友與鄰居用照片配對成功: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_h": {
+		"message": "朋友與鄰居手動配對成功: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_i": {
+		"message": "忽略朋友數: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_f": {
+		"message": "未配對朋友數: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_u": {
+		"message": "朋友忽略或未能配對成功: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_n": {
+		"message": "鄰居未配對成功: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_filter_s": {
+		"message": "朋友和鄰居未配對成功: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_collectpreamble": {
+		"message": "在這裡你可以收集你的Facebook朋友並與你的鄰居配對"
+	},
+	"friendship_collectstandard": {
+		"message": "標準"
+	},
+	"friendship_collectstandardinfo": {
+		"message": "這個方法可靠,但非常慢(它可能會花幾分鐘)"
+	},
+	"friendship_collectunmatched": {
+		"message": "未配對成功"
+	},
+	"friendship_collectunmatchedinfo": {
+		"message": "這個方法與標準一樣,但它不會收集朋友\n它會顯示出所有未配對成功的朋友讓你可以手動解除朋友關係"
+	},
+	"friendship_disabledinfo": {
+		"message": "它可以偵測停用的帳號"
+	},
+	"friendship_collectmatch": {
+		"message": "配對"
+	},
+	"friendship_collectmatchinfo": {
+		"message": "這會你朋友和鄰居之間的自動配對\n你的朋友列表不會被更新\n被忽略的朋友和在90分以上的朋友不會自動配對\n配對會在朋友收集結束時進行"
+	},
+	"friendship_matchbyimage": {
+		"message": "以大頭照配對?"
+	},
+	"friendship_confirmwarning": {
+		"message": "這個任務會用數分鐘\n\n請確認你想要繼續"
+	},
+	"friendship_confirmcollection": {
+		"message": "確認收集結果?"
+	},
+	"friendship_cc_maybe": {
+		"message": "如果不確定"
+	},
+	"friendship_confirmdelete": {
+		"message": "這個任務無法回復\n你會必需收集才能讓這個朋友重回列表\n\n確認移除?"
+	},
+	"friendship_collecterror": {
+		"message": "出問題了"
+	},
+	"friendship_manualhelp": {
+		"message": "請重新載入DAF2頁面,前往\"$FRIENDSHIP$\"分欄, 點擊\"$COLLECT$\"然後選擇\"$MATCH$\"",
+		"placeholders": {
+			"friendship": {
+				"content": "$1"
+			},
+			"collect": {
+				"content": "$2"
+			},
+			"match": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_analyzingmatches": {
+		"message": "分析數據, $PERCENT$ % ($NUM$ / $TOTAL$)",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			},
+			"num": {
+				"content": "$2"
+			},
+			"total": {
+				"content": "$3"
+			}
+		}
+	},
+	"friendship_collectstat": {
+		"message": "已收集朋友: $COUNT$",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_manualmatchhelp": {
+		"message": "要配對這個鄰居, 你必需找到一個未配對的朋友然後點擊⭐的格子"
+	},
+	"friendship_friendupdateinfo": {
+		"message": "Facebook朋友列表在$DATE$更新過",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"friendship_totalfriends": {
+		"message": "朋友數: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_totalneighbours": {
+		"message": "鄰居數: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"friendship_timewarning": {
+		"message": "看來你已經有一段時間沒有收集過朋友了\n請點擊\"$COLLECT$\"按鈕並選擇\"$METHOD$\"模式",
+		"placeholders": {
+			"collect": {
+				"content": "$1"
+			},
+			"method": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_info": {
+		"message": "$NUM$ 鄰居= $GC$ 神之子",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"gc": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_stat": {
+		"message": "神之子: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"godchild_next": {
+		"message": "要取得額外的神之子, 你必需再增加 $NUM$ 位鄰居",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"godchild_next0": {
+		"message": "你已經取得最大數量的神之子了"
+	},
+	"godchild_next1": {
+		"message": "要取得額外的神之子, 你只需再增加一位鄰居"
+	},
+	"progress_measure": {
+		"message": "項目"
+	},
+	"progress_attained": {
+		"message": "已達成"
+	},
+	"progress_goal": {
+		"message": "目標"
+	},
+	"progress_remaining": {
+		"message": "尚缺"
+	},
+	"progress_progress": {
+		"message": "進度"
+	},
+	"progress_achievements": {
+		"message": "成就"
+	},
+	"progress_treasures": {
+		"message": "寶物"
+	},
+	"progress_overall": {
+		"message": "總體"
+	},
+	"progress_hidecompleted": {
+		"message": "隱藏已完成"
+	},
+	"progress_grouplocations": {
+		"message": "收合地圖"
+	},
+	"progress_showdates": {
+		"message": "地圖日期"
+	},
+	"progress_energyinfo": {
+		"message": "這裡顯示的能量是平均磚耗能乘上遺留磚數\n平均磚耗能是根據清空獎勵與總磚數而來"
+	},
+	"progress_averagetilecost": {
+		"message": "平均磚耗能"
+	},
+	"progress_achievementnextstep": {
+		"message": "到下一個=$NEXT$",
+		"placeholders": {
+			"next": {
+				"content": "$1"
+			}
+		}
+	},
+	"progress_start": {
+		"message": "開始時間"
+	},
+	"progress_end": {
+		"message": "結束時間"
+	},
+	"progress_duration": {
+		"message": "經歷"
+	},
+	"progress_subtotal": {
+		"message": "小計"
+	},
+	"progress_grandtotal": {
+		"message": "總計"
+	},
+	"progress_playtime": {
+		"message": "你從 $STARTED$ 開始玩,到現在( $NOW$ )共玩了 $DURATION$",
+		"placeholders": {
+			"started": {
+				"content": "$1"
+			},
+			"duration": {
+				"content": "$2"
+			},
+			"now": {
+				"content": "$3"
+			}
+		}
+	},
+	"progress_levelrange": {
+		"message": "從 $FROM$ 到 $TO$",
+		"placeholders": {
+			"from": {
+				"content": "$1"
+			},
+			"to": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_id": {
+		"message": "獎勵ID"
+	},
+	"rewardlinks_insertdate": {
+		"message": "加入日期"
+	},
+	"rewardlinks_collectdate": {
+		"message": "收集日期"
+	},
+	"rewardlinks_collectmaterial": {
+		"message": "獎勵收穫"
+	},
+	"rewardlinks_owner": {
+		"message": "擁有者"
+	},
+	"rewardlinks_expired": {
+		"message": "過期連結"
+	},
+	"rewardlinks_collected": {
+		"message": "已收集過了"
+	},
+	"rewardlinks_maxreached": {
+		"message": "達到每日上限"
+	},
+	"rewardlinks_noself": {
+		"message": "不能自己收集"
+	},
+	"rewardlinks_broken": {
+		"message": "毀壞的連結"
+	},
+	"rewardlinks_probablyexpired": {
+		"message": "或許是過期連結"
+	},
+	"rewardlinks_background": {
+		"message": "背景\n在背景開啓獎勵連結"
+	},
+	"rewardlinks_autoclick": {
+		"message": "自動點擊\n在收集完獎勵後自動點擊下一個連結"
+	},
+	"rewardlinks_autoclick_end": {
+		"message": "所選的連結都不能打開\n過期或已獲取的連結會被忽略"
+	},
+	"rewardlinks_addlinks": {
+		"message": "加入連結"
+	},
+	"rewardlinks_pasteadd": {
+		"message": "把連結貼在這裡,然後按“$CONFIRM$\"按鈕",
+		"placeholders": {
+			"confirm": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_pastehere": {
+		"message": "任何貼在這裡的連結會被自動加入"
+	},
+	"rewardlinks_linksadded": {
+		"message": "加入的獎勵連接數: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_nolinksadded": {
+		"message": "沒有加入任何獎勵連結"
+	},
+	"rewardlinks_linksupdated": {
+		"message": "更新的獎勵連結數: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_stats": {
+		"message": "獎勵連結: $TOTAL$, 尚待領取:$NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"rewardlinks_allcollected": {
+		"message": "所有獎勵連結都已被領取"
+	},
+	"rewardlinks_nexttime": {
+		"message": "下次領取從 $DATE$ 開始",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_countremaining": {
+		"message": "還沒有領取的連結: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_collectanyway": {
+		"message": "你一定要開啓連結嗎?"
+	},
+	"rewardlinks_infocollected": {
+		"message": "這個連結已經被領取過了"
+	},
+	"rewardlinks_infoexpired": {
+		"message": "這個連結已經過期\n連結只有 $NUM$ 天的有效期",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_infonoself": {
+		"message": "這個連結是你的: 不能獎勵你自己"
+	},
+	"rewardlinks_infobroken": {
+		"message": "這個連結已損毀或不能用"
+	},
+	"rewardlinks_infomaxreached": {
+		"message": "最大每日限額已達到下領取連結\n這樣子領取的連結會永久喪失"
+	},
+	"rewardlinks_infomayexceedlimit": {
+		"message": "已經有其他獎勵領取排程中\n這可能會超過你的每日上限"
+	},
+	"rewardlinks_infoprobablyexpired": {
+		"message": "這個連結大概過期了\n連結ID是流水號產生的, 而這個獎勵ID比一個已經過期的獎勵還小"
+	},
+	"rewardlinks_removelinks": {
+		"message": "移除舊連結"
+	},
+	"rewardlinks_removeselected": {
+		"message": "移除所選"
+	},
+	"rewardlinks_removelinksdays": {
+		"message": "移除超過@DAYS@天無法領取的獎勵連結\n這包含過期的連結和已經領取的連結\n超過$NUM$天的連結會週期性被移除",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_removenone": {
+		"message": "沒有要移除的連結"
+	},
+	"rewardlinks_removeconfirm": {
+		"message": "會被移除的連結: $NUM$\n被移除的連結無法再被加入\n\n要進行移除嗎?",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_rewardinfo": {
+		"message": "這個獎勵在$DATE$被加入",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"rewardlinks_reset": {
+		"message": "重設"
+	},
+	"rewardlinks_resetcount": {
+		"message": "你可以重設\"下次領取\"的資訊並使用這個連結"
+	},
+	"rewardlinks_resetexpired": {
+		"message": "你可以重設\"應該過期\"的資訊並使用這個連結"
+	},
+	"rewardlinks_convert": {
+		"message": "轉換連結"
+	},
+	"rewardlinks_noconversion": {
+		"message": "不轉換"
+	},
+	"rewardlinks_shortenlinks": {
+		"message": "短網址/轉換連結"
+	},
+	"rewardlinks_shortenlinks_info1": {
+		"message": "在這裡貼上要短網址/轉換的連結"
+	},
+	"rewardlinks_shortenlinks_info2": {
+		"message": "短網址連結如下所示(重複的已被移除)"
+	},
+	"rewardlinks_prefix": {
+		"message": "前綴"
+	},
+	"rewardlinks_newline": {
+		"message": "加入新的一行?"
+	},
+	"rewardlinks_addspace": {
+		"message": "加入空格"
+	},
+	"rewardlinks_summaryinfo": {
+		"message": "所有獎勵都在最近獎勵的$NUM$小時內領取",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"export_export": {
+		"message": "匯出"
+	},
+	"export_import": {
+		"message": "匯入"
+	},
+	"export_exportdata": {
+		"message": "匯出資料"
+	},
+	"export_exportinventory": {
+		"message": "匯出內容"
+	},
+	"export_importdata": {
+		"message": "匯入資料"
+	},
+	"export_invalidexportdata": {
+		"message": "檔案不是現有玩家的有效DAF匯出檔案!"
+	},
+	"export_invalidexport": {
+		"message": "檔案不是有效的匯出檔案!"
+	},
+	"export_importsuccess": {
+		"message": "檔案已被成功匯入!\n"
+	},
+	"export_debugdata": {
+		"message": "匯出診斷資料"
+	},
+	"rings_showminmax": {
+		"message": "顯示最大最小值"
+	},
+	"rings_showxp": {
+		"message": "顯示經驗"
+	},
+	"rings_playerlevel": {
+		"message": "指定玩家等級"
+	},
+	"rings_stats": {
+		"message": "你背包內有$NUM$張 $NAME$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"name": {
+				"content": "$2"
+			}
+		}
+	},
+	"rings_notdependent": {
+		"message": "與玩家等級無關"
+	},
+	"rings_averageperring": {
+		"message": "平均每個戒指的經驗"
+	},
+	"rings_rings": {
+		"message": "戒指"
+	},
+	"equipment_sellout": {
+		"message": "賣出所有未使用的物品可得 $TOTAL$ 硬幣(裝備= $EQUIP$ 硬幣, 裝飾= $DECO$ 硬幣)",
+		"placeholders": {
+			"total": {
+				"content": "$1"
+			},
+			"equip": {
+				"content": "$2"
+			},
+			"deco": {
+				"content": "$3"
+			}
+		}
+	},
+	"equipment_notonsale": {
+		"message": "沒在賣了"
+	},
+	"equipment_quantities": {
+		"message": "數量"
+	},
+	"equipment_owned": {
+		"message": "擁有"
+	},
+	"equipment_inshop": {
+		"message": "販賣中"
+	},
+	"equipment_from": {
+		"message": "來自"
+	},
+	"equipment_affordable": {
+		"message": "買得起"
+	},
+	"equipment_useful": {
+		"message": "有用"
+	},
+	"equipment_gain": {
+		"message": "增益"
+	},
+	"equipment_gain_info": {
+		"message": "增益是根據你營地中最小值槽的數值"
+	},
+	"equipment_free": {
+		"message": "免費"
+	},
+	"equipment_hidemax": {
+		"message": "隱藏已買滿的"
+	},
+	"equipment_price_info": {
+		"message": "這裡顯示的不是裝備的價格\n而是包含這個裝備的禮包/特賣"
+	},
+	"equipment_level_none": {
+		"message": "不重要"
+	},
+	"equipment_level_eq": {
+		"message": "剛好"
+	},
+	"equipment_level_le": {
+		"message": "至多"
+	},
+	"equipment_level_ge": {
+		"message": "至少"
+	},
+	"equipment_level_your": {
+		"message": "你的等級"
+	},
+	"equipment_level_this": {
+		"message": "這個等級"
+	},
+	"equipment_include_material": {
+		"message": "包含這些物資"
+	},
+	"equipment_exclude_material": {
+		"message": "除去這些物資"
+	},
+	"equipment_current": {
+		"message": "現在的"
+	},
+	"equipment_pfdisclaimer": {
+		"message": "請注意你如果之前以你自己的名義買了一個這個價錢的大禮包,就不可能再以這個價錢買到任何禮包\n在這個情況下, 最低的價錢大約是5.5美金"
+	},
+	"equipment_slotslower": {
+		"message": "比這個數值更低的槽"
+	},
+	"events_year": {
+		"message": "年"
+	},
+	"events_end": {
+		"message": "結束時間"
+	},
+	"events_quests": {
+		"message": "任務"
+	},
+	"events_achievements": {
+		"message": "成就"
+	},
+	"events_pieces": {
+		"message": "寶物塊數"
+	},
+	"events_locations": {
+		"message": "地點"
+	},
+	"events_materials": {
+		"message": "特別物資"
+	},
+	"events_completed": {
+		"message": "完成"
+	},
+	"events_total": {
+		"message": "總共"
+	},
+	"events_medal": {
+		"message": "獎牌"
+	},
+	"events_story_maps": {
+		"message": "故事地圖"
+	},
+	"events_challenges": {
+		"message": "挑戰"
+	},
+	"events_repeatables": {
+		"message": "再生坑"
+	},
+	"events_active": {
+		"message": "啓用中"
+	},
+	"events_rerelease": {
+		"message": "買/被送"
+	},
+	"events_complete": {
+		"message": "完成"
+	},
+	"events_incomplete": {
+		"message": "未完成"
+	},
+	"events_notdone": {
+		"message": "沒做過"
+	},
+	"events_segmented": {
+		"message": "分區"
+	},
+	"events_yourprogress": {
+		"message": "你的進度"
+	},
+	"events_rewards": {
+		"message": "獎勵"
+	},
+	"events_finalreward": {
+		"message": "完成獎勵"
+	},
+	"events_notsegmented": {
+		"message": "非分區"
+	},
+	"events_tiles": {
+		"message": "磚數"
+	},
+	"events_chance": {
+		"message": "機率"
+	},
+	"events_clearbonus": {
+		"message": "清空獎勵"
+	},
+	"events_gemstones": {
+		"message": "寶石"
+	},
+	"events_tutorial": {
+		"message": "導引特故"
+	},
+	"repeat_name": {
+		"message": "名稱"
+	},
+	"repeat_region_event": {
+		"message": "國度/特故"
+	},
+	"repeat_cooldown": {
+		"message": "冷卻時間"
+	},
+	"repeat_cooldown_time": {
+		"message": "時間"
+	},
+	"repeat_cooldown_gems": {
+		"message": "綠鑽"
+	},
+	"repeat_reset": {
+		"message": "重設"
+	},
+	"repeat_bonus": {
+		"message": "清空獎勵"
+	},
+	"repeat_progress": {
+		"message": "進度"
+	},
+	"repeat_progress_current": {
+		"message": "已敲磚數"
+	},
+	"repeat_progress_total": {
+		"message": "總磚數"
+	},
+	"repeat_time": {
+		"message": "礦坑可再挖時間"
+	},
+	"repeat_show_all": {
+		"message": "全部再生坑"
+	},
+	"repeat_show_selected": {
+		"message": "所選再生坑"
+	},
+	"repeat_ready": {
+		"message": "準備好了"
+	},
+	"repeat_show_ready": {
+		"message": "準備好了?"
+	},
+	"repeat_postcard": {
+		"message": "準備好卡片週?"
+	},
+	"dailyreward_stats": {
+		"message": "每日獎勵是根據你現在等級($LEVEL$)和國度($REGION$)",
+		"placeholders": {
+			"level": {
+				"content": "$1"
+			},
+			"region": {
+				"content": "$2"
+			}
+		}
+	},
+	"dailyreward_lastcollect": {
+		"message": "在 $DATE$ 日收集",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"dailyreward_formula": {
+		"message": "公式"
+	},
+	"specialweek_end": {
+		"message": "在 $FINISH$ 結束",
+		"placeholders": {
+			"finish": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_debris_discount": {
+		"message": "清理營地折扣週 $PERCENT$%",
+		"placeholders": {
+			"percent": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_production": {
+		"message": "雙產週"
+	},
+	"specialweek_half_prod_time": {
+		"message": "倍速雙產週"
+	},
+	"specialweek_double_drop": {
+		"message": "雙倍生產週"
+	},
+	"specialweek_gifts": {
+		"message": "雙倍禮物週"
+	},
+	"specialweek_postcards": {
+		"message": "卡片週"
+	},
+	"specialweek_material_seller": {
+		"message": "老物品奸商"
+	},
+	"specialweek_free_premium_event": {
+		"message": "免費領取特故 \"$NAME$\"",
+		"placeholders": {
+			"name": {
+				"content": "$1"
+			}
+		}
+	},
+	"specialweek_mystery_box": {
+		"message": "神祕禮盒"
+	},
+	"specialweek_find_the_pair": {
+		"message": "找對"
+	},
+	"options_section_ingame": {
+		"message": "遊戲內選項"
+	},
+	"options_injectgame": {
+		"message": "啓用DAF\n在遊戲中啓用DAF\n如果不啓用, 以下的選項不會生效"
+	},
+	"options_fullwindow": {
+		"message": "全視窗\n在全視窗下顯示遊戲"
+	},
+	"options_fullwindowheader": {
+		"message": "擡頭\n在全視窗時顯示頁面擡頭"
+	},
+	"options_fullwindowside": {
+		"message": "側邊欄\n當不是全視窗時隱藏側邊欄(Facebook)"
+	},
+	"options_fullwindowlock": {
+		"message": "鎖定全視窗\n防止遊戲離開全視窗"
+	},
+	"options_resetfullwindow": {
+		"message": "載入時重設\n每次你載入遊戲時, \"全視窗\"和\"全視窗-側邊欄\"會重設"
+	},
+	"options_resetfullwindow_warning": {
+		"message": "如果你載入遊戲時會發生問題, 打開選項"
+	},
+	"options_fullwindowtimeout": {
+		"message": "自動全視窗\n當資料載入時自動全視窗(DAF2變綠色)"
+	},
+	"options_fullwindowtimeout_seconds": {
+		"message": "是, 在 $NUM$ 秒後",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	},
+	"options_gctable": {
+		"message": "神之子表\n在遊戲下方顯示所有有神之子的鄰居"
+	},
+	"options_gctablecounter": {
+		"message": "計數\n顯示計數"
+	},
+	"options_gctableregion": {
+		"message": "國度\n用顏色標記鄰居的國度"
+	},
+	"options_autoclick": {
+		"message": "自動點擊\n自動確認Facebook的彈出視窗"
+	},
+	"options_nogcpopup": {
+		"message": "不要神之子的自動彈窗\n當收集神之子時不顯示彈出窗戶"
+	},
+	"options_autogc": {
+		"message": "自動神之子切換營地\n當收集完神之子時自動切換營地"
+	},
+	"options_section_general": {
+		"message": "一般選項"
+	},
+	"options_autologin": {
+		"message": "官網自動登入\n自動登入到官網"
+	},
+	"options_darktheme": {
+		"message": "黑暗介面"
+	},
+	"options_shrinkmenu": {
+		"message": "目錄寬度\n減少左邊垂直目錄的寬度"
+	},
+	"options_shrinkmenu_0": {
+		"message": "當頁面寬比較小時"
+	},
+	"options_shrinkmenu_1": {
+		"message": "總是用簡潔目錄"
+	},
+	"options_shrinkmenu_2": {
+		"message": "總是用展開目錄"
+	},
+	"options_disablealtguard": {
+		"message": "切換帳號時重設\n如果你設定這個選項, 切換帳號時會覆蓋你現有的DAF2資料"
+	},
+	"options_disablealtguard_warning": {
+		"message": "注意: 啓用這個選項時自負風險!"
+	},
+	"options_section_rewardlinks": {
+		"message": "獎勵連結"
+	},
+	"options_rewardsclose": {
+		"message": "自動關閉\n在獎勵領取後自動關閉這個頁面"
+	},
+	"options_rewardscloseexceptgems": {
+		"message": "綠鑽除外\n當發現綠鑽時不要自動關閉頁面"
+	},
+	"options_rewardscloseexcepterrors": {
+		"message": "錯誤除外\n當發生錯誤時不要自動關閉頁面"
+	},
+	"options_rewardssummary": {
+		"message": "增加結果表\n當頁面沒有自動關閉時, 在下面增加一個結果表"
+	},
+	"options_linkgrabenabled": {
+		"message": "連結收集器\n在Facebook上啓用連結收集器\n如果沒啓用, 下面的選項沒有效果"
+	},
+	"options_linkgrabbutton": {
+		"message": "滑鼠按鈕\n選擇觸發連結收集器的滑鼠按鈕"
+	},
+	"options_linkgrabkey": {
+		"message": "可選鍵\n增加按滑鼠時的一個可選擇的配合按鍵"
+	},
+	"options_linkgrabsort": {
+		"message": "整理連結"
+	},
+	"options_linkgrabconvert": {
+		"message": "轉換連結"
+	},
+	"options_modifier_none": {
+		"message": "無"
+	},
+	"options_modifier_shift": {
+		"message": "Shift"
+	},
+	"options_modifier_ctrl": {
+		"message": "Ctrl"
+	},
+	"options_modifier_alt": {
+		"message": "Alt"
+	},
+	"options_button_left": {
+		"message": "左鍵"
+	},
+	"options_button_middle": {
+		"message": "中鍵"
+	},
+	"options_button_right": {
+		"message": "右鍵"
+	},
+	"options_sort_none": {
+		"message": "無"
+	},
+	"options_sort_ascending": {
+		"message": "由小至大"
+	},
+	"options_sort_descending": {
+		"message": "由大至小"
+	},
+	"options_language": {
+		"message": "語言\n選擇要使用的語言"
+	},
+	"options_locale": {
+		"message": "地區化\n用來設定數字格式, 日期和列表"
+	},
+	"options_locale_browser": {
+		"message": "使用瀏覽器的設定"
+	},
+	"options_gamelanguage": {
+		"message": "遊戲語言\n遊戲訊息的語言"
+	},
+	"options_section_badges": {
+		"message": "徽章"
+	},
+	"options_badgeserverenergy": {
+		"message": "伺服器能量\n顯示一個由伺服器回報能量的徽章\n當遊戲跟伺服器同步時, 這個資訊會週期性更新"
+	},
+	"options_badgegccounter": {
+		"message": "神之子計數\n顯示一個還可以收集神之子數量的徽章"
+	},
+	"options_badgegcenergy": {
+		"message": "神之子能量\n顯示一個從鄰居收集神之子可獲能量的徽章"
+	},
+	"options_badgerepeatables": {
+		"message": "再生坑\n顯示一個秀出已選再生坑可挖取時的徽章"
+	},
+	"options_badgeluckycards": {
+		"message": "幸運卡片\n顯示一個當幸運卡片帳篷準備好時的徽章"
+	},
+	"options_badgeproductions": {
+		"message": "生產\n顯示一個當生產槽已準備好或空著時的徽章"
+	},
+	"options_badgetimeoffset": {
+		"message": "時間差\n徽章會在幾秒前顯示"
+	},
+	"options_badgesound": {
+		"message": "音效\n當徽章顯示時要播放的音效"
+	},
+	"options_badgevolume": {
+		"message": "音量\n音效的大小聲"
+	},
+	"options_badgewindmills": {
+		"message": "風車\n當鄰居需要風車時顯示一個徽章"
+	},
+	"calc_operators": {
+		"message": "運算子"
+	},
+	"calc_arithmetic": {
+		"message": "算法"
+	},
+	"calc_comparison": {
+		"message": "比較"
+	},
+	"calc_logical": {
+		"message": "邏輯"
+	},
+	"calc_functions": {
+		"message": "公式"
+	},
+	"calc_variables": {
+		"message": "變數"
+	},
+	"calc_examples": {
+		"message": "例子"
+	},
+	"calc_error_1": {
+		"message": "語法錯誤"
+	},
+	"calc_error_2": {
+		"message": "公式需要括號"
+	},
+	"calc_error_3": {
+		"message": "遺漏下括號"
+	},
+	"calc_error_4": {
+		"message": "太多下括號"
+	},
+	"linkgrabber_selected": {
+		"message": "連結: $UNIQUE$ / $TOTAL$",
+		"placeholders": {
+			"unique": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_fn_copy": {
+		"message": "複製到剪貼簿"
+	},
+	"linkgrabber_fn_send": {
+		"message": "送到DAF"
+	},
+	"linkgrabber_fn_cancel": {
+		"message": "取消"
+	},
+	"linkgrabber_fn_refresh": {
+		"message": "更新連結"
+	},
+	"linkgrabber_fn_showid": {
+		"message": "顯示獎勵ID"
+	},
+	"linkgrabber_fn_autosend": {
+		"message": "自動傳送"
+	},
+	"linkgrabber_added": {
+		"message": "加入獎勵連結: $NUM$ / $TOTAL$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			},
+			"total": {
+				"content": "$2"
+			}
+		}
+	},
+	"linkgrabber_copied": {
+		"message": "被複製到剪貼簿的連結: $NUM$",
+		"placeholders": {
+			"num": {
+				"content": "$1"
+			}
+		}
+	}
 }
