@@ -38,15 +38,16 @@ body.DAF-show-id .DAF-box {
 	position: fixed;
     top: 0px;
     left: 0px;
-    color: #fc0;
     border: 1px solid #000;
     border-top: none;
     border-left: none;
     border-bottom-right-radius: 8px;
     padding: 0px 4px 0px 2px;
     cursor: default;
-	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, #fc0 0%, #fc0 50%, #05b 50%,#05b 100%);
-	--outline-color: #05b;
+	--c1: #05b;
+	--c2: #fc0;
+    color: var(--c2);
+	background: linear-gradient(0deg, var(--c2) 0%, var(--c2) 50%, var(--c1) 50%, var(--c1) 100%);
 	font-weight: bold;
 }
 .DAF-lg-badge span.info {
@@ -56,6 +57,6 @@ body.DAF-show-id .DAF-box {
 	display: inline;
 }
 .outlined {
-	filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color))
-		drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
+	filter: drop-shadow(0px 1px 0px var(--c1)) drop-shadow(0px -1px 0px var(--c1))
+		drop-shadow(1px 0px 0px var(--c1)) drop-shadow(-1px 0px 0px var(--c1));
 }
