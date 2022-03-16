@@ -81,8 +81,8 @@ function initialize() {
 function setLanguage() {
 	const gm0 = (key) => getMessage(key).split('\n')[0];
 	Dialog.language = options.language;
-	let htm = Html`<span class="outlined">${gm0('options_linkgrabenabled')}<span class="info">`;
-	htm += Html`<br>${gm0('options_linkgrabbutton')} (${getMessage(['options_button_left', 'options_button_middle', 'options_button_right'][options.linkGrabButton])})`;
+	let htm = Html`<div class="title">${gm0('options_linkgrabenabled')}</div><div class="info">`;
+	htm += Html`${gm0('options_linkgrabbutton')} (${getMessage(['options_button_left', 'options_button_middle', 'options_button_right'][options.linkGrabButton])})`;
 	const key = +options.linkGrabKey;
 	if (key) {
 		let s = String.fromCharCode(key);
@@ -92,7 +92,7 @@ function setLanguage() {
 		htm += Html` + ${s}`;
 	}
 	htm += Html`<br>${getMessage('options_modifier_alt')} + ${options.linkGrabHotKey}`;
-	htm += Html`</span></span>`;
+	htm += Html`</div>`;
 	Html.set(badge, htm);
 	badge.style.display = options.linkGrabBadge ? '' : 'none';
 }

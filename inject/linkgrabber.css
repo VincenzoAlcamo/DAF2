@@ -36,27 +36,41 @@ body.DAF-show-id .DAF-box {
 
 .DAF-lg-badge {
 	position: fixed;
-    top: 0px;
-    left: 0px;
-    border: 1px solid #000;
-    border-top: none;
-    border-left: none;
-    border-bottom-right-radius: 8px;
-    padding: 0px 4px 0px 2px;
-    cursor: default;
-	--c1: #05b;
-	--c2: #fc0;
-    color: var(--c2);
-	background: linear-gradient(0deg, var(--c2) 0%, var(--c2) 50%, var(--c1) 50%, var(--c1) 100%);
+	top: 0px;
+	left: 0px;
+	border: 1px solid #000;
+	border-top: none;
+	border-left: none;
+	border-bottom-right-radius: 8px;
+	cursor: default;
+	font-weight: bold;
+	background-color: #ff0;
+	color: #000;
+	overflow-y: hidden;
+}
+.DAF-lg-badge div {
+	padding: 0px 4px 0px 2px;
+	transition: all 0s;
+	background-color: #ff0;
+	color: #000;
+}
+.DAF-lg-badge div.title {
 	font-weight: bold;
 }
-.DAF-lg-badge span.info {
-	display: none;
+.DAF-lg-badge div.info {
+	height: 0px;
+	width: 0px;
 }
-.DAF-lg-badge:hover span.info {
-	display: inline;
+.DAF-lg-badge:hover div {
+	transition: color 2s 2s, background-color 2s 2s;
 }
-.outlined {
-	filter: drop-shadow(0px 1px 0px var(--c1)) drop-shadow(0px -1px 0px var(--c1))
-		drop-shadow(1px 0px 0px var(--c1)) drop-shadow(-1px 0px 0px var(--c1));
+.DAF-lg-badge:hover div.info {
+	height: unset;
+	width: unset;
+	background-color: #f7ce00;
+	color: #0058b5;
+}
+.DAF-lg-badge:hover div.title {
+	background-color: #0058b5;
+	color: #f7ce00;
 }
