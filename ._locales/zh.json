@@ -132,7 +132,7 @@
         "message": "國度"
     },
     "gui_theme": {
-        "message": "佈景"
+        "message": "佈景配色"
     },
     "gui_year": {
         "message": "年"
@@ -355,7 +355,7 @@
         "message": "廚房"
     },
     "tab_foundry": {
-        "message": "鐵匠鋪"
+        "message": "鑄造廠"
     },
     "tab_pillars": {
         "message": "聖柱"
@@ -524,7 +524,7 @@
         "message": "總共"
     },
     "camp_fill_time": {
-        "message": "填滿時間"
+        "message": "補滿時間"
     },
     "camp_fill_time_info": {
         "message": "能量槽從空到滿所需時間"
@@ -565,7 +565,7 @@
         "message": "再生"
     },
     "camp_capacity": {
-        "message": "容量"
+        "message": "存儲"
     },
     "camp_windmills": {
         "message": "風車"
@@ -639,7 +639,7 @@
         }
     },
     "camp_ftp_dot_info": {
-        "message": "有紅點標記的卡片可能會在一開始免費翻時出現"
+        "message": "有紅點標記的卡片才可能會在開始免費翻時出現"
     },
     "camp_ftp_group_info": {
         "message": "你只能在把前一群組的卡片全部翻開後才能翻開下一群組的卡片"
@@ -747,7 +747,7 @@
         "message": "離開礦坑"
     },
     "map_goto_floor": {
-        "message": "前往第 $NUM$ 層",
+        "message": "通往第 $NUM$ 層",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -755,7 +755,7 @@
         }
     },
     "map_goto_unknown": {
-        "message": "前往另一層, 但這條路還沒走過"
+        "message": "通往另一層, 但這條路還沒走過"
     },
     "map_teleport": {
         "message": "傳送點"
@@ -1655,7 +1655,7 @@
         "message": "加入空格"
     },
     "rewardlinks_summaryinfo": {
-        "message": "所有獎勵都在最佳獎勵的$NUM$小時內領取",
+        "message": "所有獎勵都在最近獎勵的$NUM$小時內領取",
         "placeholders": {
             "num": {
                 "content": "$1"
@@ -1699,7 +1699,7 @@
         "message": "指定玩家等級"
     },
     "rings_stats": {
-        "message": "你背包內有$NUM$ $NAME$",
+        "message": "你背包內有$NUM$張 $NAME$",
         "placeholders": {
             "num": {
                 "content": "$1"
