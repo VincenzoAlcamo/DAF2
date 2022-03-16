@@ -61,7 +61,7 @@ function setShowId() {
 
 // eslint-disable-next-line no-unused-vars
 function initialize() {
-	badge = Html.get('<div class="DAF-lg-badge">Link Grabber</div>')[0];
+	badge = Html.get('<div class="DAF-lg-badge"></div>')[0];
 	document.body.appendChild(badge);
 	window.addEventListener('mousemove', (event) => { lastMouseMove = event; });
 	setLanguage();
@@ -80,7 +80,7 @@ function initialize() {
 
 function setLanguage() {
 	Dialog.language = options.language;
-	Html.set(badge, Html`${getMessage('options_modifier_alt')} + G = ${getMessage('options_linkgrabenabled').split('\n')[0]}`);
+	Html.set(badge, Html`<span class="outlined">${getMessage('options_modifier_alt')} + G = ${getMessage('options_linkgrabenabled').split('\n')[0]}</span>`);
 	badge.style.display = options.linkGrabBadge ? '' : 'none';
 }
 

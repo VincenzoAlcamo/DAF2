@@ -38,12 +38,17 @@ body.DAF-show-id .DAF-box {
 	position: fixed;
     top: 0px;
     left: 0px;
-    background-color: #ff0;
-    color: #000;
+    color: #fff;
     border: 1px solid #000;
     border-top: none;
     border-left: none;
     border-bottom-right-radius: 8px;
     padding: 0px 4px 0px 2px;
     cursor: default;
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, #fc0 0%, #fc0 50%, #05b 50%,#05b 100%);
+	--outline-color: #000;
+}
+.outlined {
+	filter: drop-shadow(0px 1px 0px var(--outline-color)) drop-shadow(0px -1px 0px var(--outline-color))
+		drop-shadow(1px 0px 0px var(--outline-color)) drop-shadow(-1px 0px 0px var(--outline-color));
 }

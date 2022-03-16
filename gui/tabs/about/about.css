@@ -199,3 +199,16 @@
 .tab_about.bg .box:hover {
 	background-color: rgba(0, 0, 0, 0.1);
 }
+
+/* STOP WAR */
+.about_logo {
+	animation: none;
+}
+.about_logo:before {
+    content: ' ';
+    display: block;
+    height: 60px;
+    position: absolute;
+    width: 514px;
+    backdrop-filter: hue-rotate(150deg);
+}
