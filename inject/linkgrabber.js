@@ -4,6 +4,8 @@ const options = {
 	linkGrabEnabled: true,
 	linkGrabButton: 2,
 	linkGrabKey: 0,
+	linkGrabBadge: true,
+	linkGrabHotKey: 'G',
 	shorten: 'a',
 	language: 'en'
 };
@@ -71,16 +73,27 @@ function initialize() {
 	// track preference changes
 	chrome.storage.onChanged.addListener(function (changes, area) {
 		if (area != 'local') return;
-		for (const name in changes) {
-			options[name] = changes[name].newValue;
-			if (name == 'language' || name == 'linkGrabBadge') setLanguage();
-		}
+		for (const name in changes) options[name] = changes[name].newValue;
+		setLanguage();
 	});
 }
 
 function setLanguage() {
+	const gm0 = (key) => getMessage(key).split('\n')[0];
 	Dialog.language = options.language;
-	Html.set(badge, Html`<span class="outlined">${getMessage('options_modifier_alt')} + G = ${getMessage('options_linkgrabenabled').split('\n')[0]}</span>`);
+	let htm = Html`<span class="outlined">${gm0('options_linkgrabenabled')}<span class="info">`;
+	htm += Html`<br>${gm0('options_linkgrabbutton')} (${getMessage(['options_button_left', 'options_button_middle', 'options_button_right'][options.linkGrabButton])})`;
+	const key = +options.linkGrabKey;
+	if (key) {
+		let s = String.fromCharCode(key);
+		if (key == 16) s = getMessage('options_modifier_shift');
+		if (key == 17) s = getMessage('options_modifier_ctrl');
+		if (key == 18) s = getMessage('options_modifier_alt');
+		htm += Html` + ${s}`;
+	}
+	htm += Html`<br>${getMessage('options_modifier_alt')} + ${options.linkGrabHotKey}`;
+	htm += Html`</span></span>`;
+	Html.set(badge, htm);
 	badge.style.display = options.linkGrabBadge ? '' : 'none';
 }
 
@@ -410,7 +423,7 @@ function keydown(event) {
 	keyPressed = event.keyCode;
 	if (os == OS_LINUX && keyPressed == options.linkGrabKey) stopMenu = true;
 	if (!flagActive) {
-		if (event.code == 'KeyG' && !event.shiftKey && event.altKey && !event.ctrlKey) {
+		if (event.code == 'Key' + options.linkGrabHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
 			preventEscalation(event);
 			startX = undefined;
 			if (lastMouseMove) {

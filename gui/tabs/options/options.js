@@ -154,11 +154,18 @@ function init() {
 		if (prefName == 'badgeCaravan') messageId = 'tab_caravan';
 		if (prefName == 'badgeKitchen') messageId = 'tab_kitchen';
 		if (prefName == 'badgeFoundry') messageId = 'tab_foundry';
-		if (prefName == 'linkGrabBadge') messageId = 'options_linkgrabenabled';
-		const text = gui.getMessage(messageId);
+		if (prefName == 'linkGrabBadge') messageId = 'options_section_badges';
+		let text = gui.getMessage(messageId);
 		const i = text.indexOf('\n');
-		const title = i >= 0 ? text.substr(0, i) : text;
-		const info = i >= 0 && prefName != 'linkGrabBadge' ? text.substr(i + 1) : '';
+		let title = i >= 0 ? text.substr(0, i) : text;
+		let info = i >= 0 ? text.substr(i + 1) : '';
+		if (prefName == 'linkGrabBadge') info = '';
+		if (prefName == 'linkGrabButton') {
+			const s = gui.getMessage('options_linkGrabKey');
+			const i = s.indexOf('\n');
+			title += ' + ' + s.substr(0, i);
+			info += s.substr(i);
+		}
 		let warning = '';
 		let className = '';
 		features = features || '';
@@ -177,6 +184,25 @@ function init() {
 				htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
 			}
 			htm += Html.br`</select>`;
+			if (prefName == 'linkGrabButton') {
+				const optionsKey = [
+					[0, gui.getMessage('options_modifier_none')],
+					[16, gui.getMessage('options_modifier_shift')],
+					[17, gui.getMessage('options_modifier_ctrl')],
+					[18, gui.getMessage('options_modifier_alt')]
+				];
+				for (let i = 65; i < 90; i++) optionsKey.push([i, String.fromCharCode(i)]);
+				htm += Html.br` + <select data-pref="linkGrabKey">`;
+				for (const option of optionsKey) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
+				htm += Html.br`</select>`;
+				htm += Html.br`<br>`;
+				htm += Html.br`<h3 style="margin-top:4px">Hot Key</h3>`;
+				htm += Html.br`${gui.getMessage('options_modifier_alt')} + <select data-pref="linkGrabHotKey">`;
+				const hotkeys = [];
+				for (let i = 65; i < 90; i++) hotkeys.push([String.fromCharCode(i), String.fromCharCode(i)]);
+				for (const option of hotkeys) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
+				htm += Html.br`</select>`;
+			}
 		} else if (type == TEXT) {
 			if (options && typeof options == 'object' && (options.min || options.max)) {
 				if (options.type == 'range') htm += Html.br`<label>`;
@@ -368,16 +394,7 @@ UI_claim_coin_single_slow_02
 		[1, gui.getMessage('options_button_middle')],
 		[2, gui.getMessage('options_button_right')]
 	]);
-	const optionsKey = [
-		[0, gui.getMessage('options_modifier_none')],
-		[16, gui.getMessage('options_modifier_shift')],
-		[17, gui.getMessage('options_modifier_ctrl')],
-		[18, gui.getMessage('options_modifier_alt')]
-	];
-	for (let i = 65; i <= 90; i++) {
-		optionsKey.push([i, String.fromCharCode(i)]);
-	}
-	option('linkGrabKey', SUBOPTION, optionsKey);
+	option('linkGrabBadge', SUBOPTION);
 	endSection();
 	beginSection('ingame');
 	option('fullWindow', WITHSUBOPTIONS);
@@ -400,7 +417,6 @@ UI_claim_coin_single_slow_02
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');
-	option('linkGrabBadge');
 	option('badgeGcCounter');
 	option('badgeGcEnergy');
 	option('badgeProductions', WITHSUBOPTIONS);
