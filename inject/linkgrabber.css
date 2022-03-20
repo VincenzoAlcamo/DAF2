@@ -43,7 +43,6 @@ body.DAF-show-id .DAF-box {
 	border-left: none;
 	border-bottom-right-radius: 8px;
 	cursor: default;
-	font-weight: bold;
 	background-color: #ff0;
 	color: #000;
 	overflow-y: hidden;
@@ -67,10 +66,10 @@ body.DAF-show-id .DAF-box {
 .DAF-lg-badge:hover div.info {
 	height: unset;
 	width: unset;
-	background-color: #f7ce00;
-	color: #0058b5;
+	background-color: #ffd500;
+	color: #005bbb;
 }
 .DAF-lg-badge:hover div.title {
-	background-color: #0058b5;
-	color: #f7ce00;
+	background-color: #005bbb;
+	color: #ffd500;
 }

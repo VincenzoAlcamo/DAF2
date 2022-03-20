@@ -160,11 +160,18 @@ function init() {
 		let title = i >= 0 ? text.substr(0, i) : text;
 		let info = i >= 0 ? text.substr(i + 1) : '';
 		if (prefName == 'linkGrabBadge') info = '';
-		if (prefName == 'linkGrabButton') {
-			const s = gui.getMessage('options_linkGrabKey');
+		if (prefName == 'linkGrabKey') {
+			const s = gui.getMessage('options_linkGrabButton');
 			const i = s.indexOf('\n');
 			title += ' + ' + s.substr(0, i);
 			info += s.substr(i);
+			options = [
+				[0, gui.getMessage('options_modifier_none')],
+				[16, gui.getMessage('options_modifier_shift')],
+				[17, gui.getMessage('options_modifier_ctrl')],
+				[18, gui.getMessage('options_modifier_alt')]
+			];
+			for (let i = 65; i < 90; i++) options.push([i, String.fromCharCode(i)]);
 		}
 		let warning = '';
 		let className = '';
@@ -184,16 +191,10 @@ function init() {
 				htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
 			}
 			htm += Html.br`</select>`;
-			if (prefName == 'linkGrabButton') {
-				const optionsKey = [
-					[0, gui.getMessage('options_modifier_none')],
-					[16, gui.getMessage('options_modifier_shift')],
-					[17, gui.getMessage('options_modifier_ctrl')],
-					[18, gui.getMessage('options_modifier_alt')]
-				];
-				for (let i = 65; i < 90; i++) optionsKey.push([i, String.fromCharCode(i)]);
-				htm += Html.br` + <select data-pref="linkGrabKey">`;
-				for (const option of optionsKey) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
+			if (prefName == 'linkGrabKey') {
+				options = ['left', 'middle', 'right'].map((n, i) => [i, gui.getMessage('options_button_' + n)]);
+				htm += Html.br` + <select data-pref="linkGrabButton">`;
+				for (const option of options) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
 				htm += Html.br`</select>`;
 				htm += Html.br`<br>`;
 				htm += Html.br`<h3 style="margin-top:4px">Hot Key</h3>`;
@@ -375,12 +376,7 @@ UI_claim_coin_single_slow_02
 	const gameLanguages = languages.filter(item => item.gameId).map(item => [item.gameId, item.name + ' - ' + item.nameLocal]);
 	if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
 	option('darkTheme');
-	const shrinkOptions = [
-		[0, gui.getMessage('options_shrinkmenu_0')],
-		[1, gui.getMessage('options_shrinkmenu_1')],
-		[2, gui.getMessage('options_shrinkmenu_2')],
-	];
-	option('shrinkMenu', '', shrinkOptions);
+	option('shrinkMenu', '', [0, 1, 2].map((n, i) => [i, gui.getMessage('options_shrinkmenu_' + n)]));
 	option('autoLogin');
 	option('disableAltGuard', WARNING);
 	continueSection('rewardlinks');
@@ -389,11 +385,7 @@ UI_claim_coin_single_slow_02
 	option('rewardsCloseExceptErrors', SUBOPTION);
 	option('rewardsSummary', SUBOPTION);
 	option('linkGrabEnabled', CRITICAL);
-	option('linkGrabButton', SUBOPTION, [
-		[0, gui.getMessage('options_button_left')],
-		[1, gui.getMessage('options_button_middle')],
-		[2, gui.getMessage('options_button_right')]
-	]);
+	option('linkGrabKey', SUBOPTION);
 	option('linkGrabBadge', SUBOPTION);
 	endSection();
 	beginSection('ingame');
@@ -402,10 +394,7 @@ UI_claim_coin_single_slow_02
 	option('fullWindowSide', SUBOPTION);
 	option('fullWindowLock', SUBOPTION);
 	option('resetFullWindow', SUBOPTION + WARNING);
-	const options = [
-		[0, gui.getMessage('dialog_no')],
-		[1, gui.getMessage('dialog_yes')],
-	];
+	const options = [[0, gui.getMessage('dialog_no')], [1, gui.getMessage('dialog_yes')],];
 	for (let num = 5; num <= 20; num += 5) options.push([num, gui.getMessage('options_fullwindowtimeout_seconds', num)]);
 	option('fullWindowTimeout', SUBOPTION, options);
 	option('gcTable', WITHSUBOPTIONS);
