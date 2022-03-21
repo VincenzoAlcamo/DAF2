@@ -35,24 +35,30 @@ body.DAF-show-id .DAF-box {
 }
 
 .DAF-lg-badge {
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	border: 1px solid #000;
-	border-top: none;
-	border-left: none;
-	border-bottom-right-radius: 8px;
-	cursor: default;
-	background-color: #ff0;
-	color: #000;
-	overflow-y: hidden;
-	min-width: 21px;
-    min-height: 21px;
+    position: fixed;
+    top: -5px;
+    left: -5px;
+    border: 1px solid #000;
+    border-top: none;
+    border-left: none;
+    border-radius: 13px;
+    cursor: default;
+    background-color: #ff0;
+    color: #000;
+    overflow-y: hidden;
+    min-width: 26px;
+    min-height: 26px;
     background-repeat: no-repeat;
-    background-size: 20px;
-    background-position: 0px 0px;
-	background-image: url(/img/gui/about.png);
+    background-size: 16px;
+    background-position: 6px 6px;
+    background-image: url(/img/gui/about.png);
     box-sizing: content-box;
+}
+.DAF-lg-badge:hover {
+	top: 0px;
+    left: 0px;
+    border-radius: 0;
+    border-bottom-right-radius: 15px;
 }
 .DAF-lg-badge div {
 	height: 0;
