@@ -46,26 +46,32 @@ body.DAF-show-id .DAF-box {
 	background-color: #ff0;
 	color: #000;
 	overflow-y: hidden;
+	min-width: 21px;
+    min-height: 21px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 0px 0px;
+	background-image: url(/img/gui/about.png);
+    box-sizing: content-box;
 }
 .DAF-lg-badge div {
+	height: 0;
+	width: 0;
 	padding: 0px 4px 0px 2px;
 	transition: all 0s;
 	background-color: #ff0;
 	color: #000;
+	overflow: hidden;
 }
 .DAF-lg-badge div.title {
 	font-weight: bold;
 }
-.DAF-lg-badge div.info {
-	height: 0px;
-	width: 0px;
-}
 .DAF-lg-badge:hover div {
 	transition: color 2s 2s, background-color 2s 2s;
-}
-.DAF-lg-badge:hover div.info {
 	height: unset;
 	width: unset;
+}
+.DAF-lg-badge:hover div.info {
 	background-color: #ffd500;
 	color: #005bbb;
 }
