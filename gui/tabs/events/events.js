@@ -794,7 +794,7 @@ function showInfo() {
 				}
 				htm += Html.br`<td class="level">${Locale.formatNumber(piece.index)}</td>`;
 				const loc = locations[piece.found_in];
-				htm += Html.br`<td class="${showProgress ? 'no_right_border' : ''}">${gui.getString(loc.name_loc)}</td>`;
+				htm += Html.br`<td class="${showProgress ? 'no_right_border' : ''}">${loc ? gui.getString(loc.name_loc) : '???'}</td>`;
 				const completed = piecesFound.includes(+piece.def_id);
 				if (completed) found++;
 				if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
