@@ -182,8 +182,11 @@
 	"gui_firstrecorded": {
 		"message": "Pierwszy zapis"
 	},
+	"gui_lastrecorded": {
+		"message": "Ostatni\nZapisano"
+	},
 	"gui_loadingresources": {
-		"message": "Załaduj zasoby ($NUM$/$TOTAL$)",
+		"message": "Ładowanie zasobów ($NUM$/$TOTAL$)",
 		"placeholders": {
 			"num": {
 				"content": "$1"
@@ -1093,8 +1096,11 @@
 	"friendship_actionmanual": {
 		"message": "Kliknij, aby automatycznie dopasować sąsiada"
 	},
+	"friendship_actionmatch": {
+		"message": "Kliknij, aby połączyć tego znajomego z wybranym sąsiadem"
+	},
 	"friendship_actiondelete": {
-		"message": "Kliknij, aby stale usunąć tego znajomego"
+		"message": "Kliknij, aby usunąć tego znajomego"
 	},
 	"friendship_matchplayertitle": {
 		"message": "Kliknij tutaj, aby anulować to dopasowanie"
@@ -1111,8 +1117,11 @@
 	"friendship_unfriendinfo": {
 		"message": "Możesz usunąć ich ze znajomych z tej strony.\n\nNależy pamiętać, że konta na Facebooku mogą być tymczasowo zablokowane i mogą zostać włączone w późniejszym czasie."
 	},
+	"friendship_partial": {
+		"message": "Częściowo"
+	},
 	"friendship_confirmcollect": {
-		"message": "Kliknij TAK aby potwierdzić, NIE aby przerwać.\n\nMożesz zamknąć to okno w każdym czasie\naby anulować tą operację."
+		"message": "TAK = potwierdź znajomych i zastąpić istniejących\nCZĘŚCIOWE = dodaj znajomych i zachowaj istniejących\nNIE = spróbuj zebrać więcej znajomych\n\nW każdej chwili możesz zamknąć to okno, aby anulować operację."
 	},
 	"friendship_speedupcollect": {
 		"message": "Przyspieszyć zbieranie?"
@@ -1235,6 +1244,9 @@
 	},
 	"friendship_cc_maybe": {
 		"message": "Jeśli niepewne"
+	},
+	"friendship_confirmdelete": {
+		"message": "Tej operacji nie można cofnąć.\nBędziesz musiał przeprowadzić zbieranie, aby przywrócić znajomego na listę.\n\nPotwierdzić usunięcie?"
 	},
 	"friendship_collecterror": {
 		"message": "Coś poszło nie tak."
@@ -2027,13 +2039,13 @@
 		}
 	},
 	"options_gctable": {
-		"message": "Tabela BD\nPokaż wszystkich sąsiadów z BD poniżej gry"
+		"message": "Tabela BD\nPokaż wszystkich sąsiadów z BD pod grą"
 	},
 	"options_gctablecounter": {
 		"message": "Licznik\nPokaż licznik"
 	},
 	"options_gctableregion": {
-		"message": "Region\nUżyj kolorów aby oznaczyć region sąsiada"
+		"message": "Region\nUżyj kolorów aby zaznaczyć region sąsiada"
 	},
 	"options_autoclick": {
 		"message": "Auto-klik\nAutomatycznie potwierdza okienka Facebooka"
@@ -2153,7 +2165,7 @@
 		"message": "Licznik BD\nPokazuje odznakę z pozostałą liczbą BD do zebrania"
 	},
 	"options_badgegcenergy": {
-		"message": "Energia BD\nPokazuje odznakę energii zbieraną z BD od sąsiadów"
+		"message": "Energia BD\nPokaż odznakę z energią z BD sąsiada"
 	},
 	"options_badgerepeatables": {
 		"message": "Odnawialne\nPokaż odznakę, gdy zaznaczona odnawialna jest gotowa"
@@ -2174,7 +2186,7 @@
 		"message": "Głośność\nGłośność efektów dźwiękowych."
 	},
 	"options_badgewindmills": {
-		"message": "Wiatraki\nPokaż odznakę, gdy sąsiad potrzebuje wiatraków"
+		"message": "Wiatraki\nPokaż odznakę, gdy sąsiad potrzebuje wiatraków w obozie"
 	},
 	"calc_operators": {
 		"message": "Użytkownicy"

@@ -1699,7 +1699,7 @@
 		"message": "指定玩家等級"
 	},
 	"rings_stats": {
-		"message": "你背包內有$NUM$張 $NAME$",
+		"message": "你背包內有$NUM$個$NAME$",
 		"placeholders": {
 			"num": {
 				"content": "$1"
@@ -1975,10 +1975,10 @@
 		"message": "雙產週"
 	},
 	"specialweek_half_prod_time": {
-		"message": "倍速雙產週"
+		"message": "倍速生產週"
 	},
 	"specialweek_double_drop": {
-		"message": "雙倍生產週"
+		"message": "雙倍物料週"
 	},
 	"specialweek_gifts": {
 		"message": "雙倍禮物週"
