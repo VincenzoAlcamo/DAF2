@@ -170,7 +170,7 @@
 	border-bottom-right-radius: 6px;
 }
 
-.tab_rewardlinks .toolbar button[data-action='add'] {
+.tab_rewardlinks .toolbar button[name='add'] {
 	margin-right: 0;
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
