@@ -1051,26 +1051,43 @@ async function luckyCards(flag) {
 		let htm = '';
 		const rewards = reward.items.filter(item => +item.region_id == rid);
 		const totalChances = rewards.reduce((a, item) => a + +item.chance, 0);
+		const map = {};
+		function getInnerTable() {
+			let htm = '';
+			rewards.forEach((reward, index) => {
+				if (index == 0 || index % wrapCount == 0) htm += Html`<tr>`;
+				reward = Object.assign({}, reward);
+				let formula = String(reward.amount);
+				const isFormula = formula.indexOf('[') >= 0 || isNaN(+formula);
+				formula = formula.replace(/\[([a-z]+)\]/g, '$1');
+				htm += Html`<td class="flip-card h${isFormula ? ' dot' : ''}">`;
+				reward.amount = isFormula ? Math.floor(calculation.compute(formula)) : +reward.amount;
+				const item = packHelper.getItem(reward);
+				htm += packHelper.getHtml(item);
+				const chance = +reward.chance / totalChances * 100;
+				const chanceText = Locale.formatNumber(chance, Math.trunc(chance) === chance ? 0 : 1);
+				htm += Html`<div class="group" title="${isFormula ? gui.getMessageAndValue('dailyreward_formula', formula.replace(/(\W|[\d\.]+)/g, ' $1 ').replace(/\s+/g, ' ').trim()) : ''}">${gui.getMessageAndValue('events_chance', chanceText + ' %')}</div>`;
+				htm += Html`</td>`;
+				if (index == rewards.length - 1 || index % wrapCount == wrapCount - 1) htm += Html`</tr>`;
+				const key = `${reward.type}_${reward.object_id}`;
+				// Normalize amount
+				reward.amount *= chance;
+				if (key in map) reward.amount += map[key].amount;
+				map[key] = reward;
+			});
+			return Html.raw(htm);
+		}
+		const innerHtm = getInnerTable();
+		const sums = Object.values(map);
+		if (sums.length === 1 && rewards.length > 1) {
+			const reward = sums[0];
+			title = title ? title + ' \u2013 ' : '';
+			const average = Math.round(reward.amount / 100);
+			title += gui.getMessageAndValue('gui_average', Locale.formatNumber(average) + ' ' + gui.getObjectName(reward.type, reward.object_id));
+		}
 		htm += Html`<table class="daf-table">`;
 		if (title) htm += Html.br`<thead><tr><th colspan="${wrapCount}">${title}</th></thead>`;
-		htm += Html`<tbody class="chessboard-coloring no-dark">`;
-		rewards.forEach((reward, index) => {
-			if (index == 0 || index % wrapCount == 0) htm += Html`<tr>`;
-			reward = Object.assign({}, reward);
-			let formula = String(reward.amount);
-			const isFormula = formula.indexOf('[') >= 0 || isNaN(+formula);
-			formula = formula.replace(/\[([a-z]+)\]/g, '$1');
-			htm += Html`<td class="flip-card h${isFormula ? ' dot' : ''}">`;
-			reward.amount = isFormula ? Math.floor(calculation.compute(formula)) : +reward.amount;
-			const item = packHelper.getItem(reward);
-			htm += packHelper.getHtml(item);
-			const chance = +reward.chance / totalChances * 100;
-			const chanceText = Locale.formatNumber(chance, Math.trunc(chance) === chance ? 0 : 1);
-			htm += Html`<div class="group" title="${isFormula ? gui.getMessageAndValue('dailyreward_formula', formula.replace(/(\W|[\d\.]+)/g, ' $1 ').replace(/\s+/g, ' ').trim()) : ''}">${gui.getMessageAndValue('events_chance', chanceText + ' %')}</div>`;
-			htm += Html`</td>`;
-			if (index == rewards.length - 1 || index % wrapCount == wrapCount - 1) htm += Html`</tr>`;
-		});
-		htm += Html`<tbody>`;
+		htm += Html`<tbody class="chessboard-coloring no-dark">${innerHtm}<tbody>`;
 		htm += Html`</table>`;
 		return htm;
 	}
