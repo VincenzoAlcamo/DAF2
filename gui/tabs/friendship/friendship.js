@@ -348,7 +348,7 @@ function collectFriends(method) {
 		height,
 		left: Math.floor((screen.availWidth - width) / 2),
 		top: Math.floor((screen.availHeight - height) / 2),
-		type: 'popup',
+		// type: 'popup',
 		url
 	}, function (w) {
 		const tabId = w.tabs[0].id;
