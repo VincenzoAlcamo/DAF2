@@ -1052,7 +1052,7 @@ async function luckyCards(flag) {
 		const rewards = reward.items.filter(item => +item.region_id == rid);
 		const totalChances = rewards.reduce((a, item) => a + +item.chance, 0);
 		htm += Html`<table class="daf-table">`;
-		if (title) htm += Html.br`<thead><tr><th colspan="3">${title}</th></thead>`;
+		if (title) htm += Html.br`<thead><tr><th colspan="${wrapCount}">${title}</th></thead>`;
 		htm += Html`<tbody class="chessboard-coloring no-dark">`;
 		rewards.forEach((reward, index) => {
 			if (index == 0 || index % wrapCount == 0) htm += Html`<tr>`;
@@ -1088,9 +1088,10 @@ async function luckyCards(flag) {
 		if (method == Dialog.AUTORUN || method == 'rid') {
 			let htm = '';
 			htm += Html`<table><tr>`;
-			getRewards(videoad.reward_ids).forEach((reward, index) => {
+			const rewards = getRewards(videoad.reward_ids);
+			rewards.forEach((reward, index) => {
 				htm += Html`<td class="innertable">`;
-				htm += getRewardsTable(reward, params.rid, flag ? Locale.formatNumber(index + 1) : null, flag ? 3 : 5);
+				htm += getRewardsTable(reward, params.rid, rewards.length > 1 ? Locale.formatNumber(index + 1) : null, flag ? 3 : 5);
 				htm += Html`</td>`;
 			})
 			htm += Html`</tr></table>`;
