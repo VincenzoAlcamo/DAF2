@@ -864,8 +864,12 @@ const gui = {
 			}
 			return new Blob([JSON.stringify(data)], { type: 'application/json' });
 		};
-		const url = window.URL.createObjectURL(getBlob());
-		setTimeout(() => window.URL.revokeObjectURL(url), 2000);
+		let a, url;
+		setTimeout(() => {
+			if (a) a.remove();
+			if (url) window.URL.revokeObjectURL(url);
+		}, 2000);
+		url = window.URL.createObjectURL(getBlob());
 		path = gui.getSafeFilePath(path);
 		if (path || overwrite) {
 			const conflictAction = overwrite == 'prompt' ? 'prompt' : (overwrite ? 'overwrite' : 'uniquify');
@@ -873,9 +877,10 @@ const gui = {
 			chrome.downloads.download({ url, filename, conflictAction }, () => gui.hasRuntimeError('downloadData'));
 		} else {
 			// DOMPurify does not support object urls
-			const a = Html.get(Html`<a download="${filename}"></a>`)[0];
+			a = Html.get(Html`<a download="${filename}"></a>`)[0];
 			a.href = url;
-			a.click();
+			document.body.appendChild(a);
+			a.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 		}
 	},
 	readFile(file) {
