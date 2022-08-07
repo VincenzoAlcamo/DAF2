@@ -50,6 +50,7 @@ function onFullWindow() {
 	let flagHide = fullWindow;
 	const fn = el => el && (el.style.display = flagHide ? 'none' : '');
 	Array.from(document.querySelectorAll('#pagelet_dock,#footer')).forEach(fn);
+	Array.from(document.querySelectorAll('._fbCanvas__playerTopBarCloseBtn')).forEach(el => fn(el.parentElement));
 	flagHide = fullWindow && !prefs.fullWindowHeader;
 	fn(header);
 	flagHide = fullWindow || prefs.fullWindowSide;
