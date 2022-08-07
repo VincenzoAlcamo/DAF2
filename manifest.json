@@ -31,6 +31,7 @@
 		"inject/*.css",
 		"css/*.css",
 		"js/*.js",
+		"js/*.map",
 		"img/*"
 	],
 	"content_scripts": [
