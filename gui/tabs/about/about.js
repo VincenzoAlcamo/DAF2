@@ -49,10 +49,13 @@ function update() {
 	updateBg();
 }
 
+let updateRetries = 5;
+
 async function updateBg() {
-	const urls = [];
+	let items = [];
 	let cdn_root = 'https://cdn.diggysadventure.com/1/';
 	let versionParameter = '';
+	const excludeIds = gui.getArrayOfInt(sessionStorage.getItem('excludeBg'));
 	rnd.seed = 0;
 	if (gui.hasValidGenerator()) {
 		const generator = gui.getGenerator();
@@ -61,37 +64,48 @@ async function updateBg() {
 		await bgp.Data.getFile('events');
 		let events = gui.getFile('events');
 		if (events) {
-			events = Object.values(events).filter(event => !!event.shelf_graphics && event.shelf_graphics != 'map_x_default');
+			events = Object.values(events).filter(event => !excludeIds.includes(+event.def_id) && !!event.shelf_graphics && event.shelf_graphics != 'map_x_default');
 			const now = gui.getUnixTime();
 			const eventData = generator.events;
-			let items = events.filter(event => {
+			items = events.filter(event => {
 				const eid = event.def_id;
 				const edata = eventData[eid];
 				const end = (edata && +edata.finished) || +event.end || 0;
 				return end > now;
 			});
 			if (!items.length) items = events;
-			items.forEach(event => urls.push('webgl_events/' + event.shelf_graphics));
 		}
 	}
-	if (!urls.length) urls.push('map_bg_egypt', 'map_bg_scand', 'map_bg_china', 'map_bg_atlantis', 'map_bg_greece', 'map_bg_america');
-	if (urls.length) {
+	if (!items.length) ['map_bg_egypt', 'map_bg_scand', 'map_bg_china', 'map_bg_atlantis', 'map_bg_greece', 'map_bg_america'].forEach(src => {
+		items.push({ def_id: 0, shelf_graphics: src });
+	});
+	if (items.length) {
 		// Randomize items
-		for (let i = 0; i < urls.length; i++) {
-			const index = rnd() % (urls.length - i);
-			const a = urls[i];
-			urls[i] = urls[index];
-			urls[index] = a;
+		for (let i = 0; i < items.length; i++) {
+			const index = rnd() % (items.length - i);
+			const a = items[i];
+			items[i] = items[index];
+			items[index] = a;
 		}
 		const timesInADay = 6; // How many times in a day the background changes
-		const index = Math.floor(gui.getUnixTime() / (86400 / timesInADay)) % urls.length;
+		const index = Math.floor(gui.getUnixTime() / (86400 / timesInADay)) % items.length;
+		const event = items[index];
+		const url = (event.def_id ? 'webgl_events/' : '') + event.shelf_graphics;
 		const img = new Image();
 		img.onload = () => {
 			container.classList.add('bg');
 			container.style.backgroundImage = `url(${img.src})`;
 			img.remove();
 		};
-		img.src = `${cdn_root}mobile/graphics/map/${urls[index]}.png${versionParameter}`;
+		img.onerror = () => {
+			const eid = +event.def_id;
+			if (eid && updateRetries-- > 0) {
+				excludeIds.push(+event.def_id);
+				sessionStorage.setItem('excludeBg', excludeIds.join());
+				updateBg();
+			}
+		};
+		img.src = `${cdn_root}mobile/graphics/map/${url}.png${versionParameter}`;
 	}
 }
 

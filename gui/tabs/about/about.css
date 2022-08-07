@@ -8,6 +8,13 @@
 .about_logo .border {
 	position: absolute;
 	height: 120px;
+	z-index: 2;
+}
+
+.about_logo .inner1 {
+	position: absolute;
+	filter: hue-rotate(150deg);
+	clip: rect(auto auto 60px auto);
 }
 
 .about_title {
@@ -203,12 +210,4 @@
 /* STOP WAR */
 .about_logo {
 	animation: none;
-}
-.about_logo:before {
-    content: ' ';
-    display: block;
-    height: 60px;
-    position: absolute;
-    width: 514px;
-    backdrop-filter: hue-rotate(150deg);
 }
