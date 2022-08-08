@@ -133,15 +133,14 @@ const gui = {
 	FB_ANON_FEMALE_IMG: 'data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBwCdASoyADIAPm0sk0WkIqGYDP0AQAbEtIBpOAqR8vvvO+zCp3M5F/ypDPVcAFo8VaiTamuvfoNQ/F5jaFiClqnYAAD++hBpI/d9yd90D8hRGlQZaLknz1bhjUBHwA03kCUnr+UZrKEK7H/RvtF2vwwgGNTfo5enYKkJ23075Nyi25PsFHIttUiGOfXnjtuOyT6lisDClpVR4YKW7iP+LCUUBF1yzvTUONcxCYqsEAAA',
 	getFBFriendAvatarUrl(fb_id, url, size) {
 		fb_id = String(fb_id || '');
-		if (fb_id == '' || fb_id.startsWith('/')) {
-			return url || gui.FB_ANON_MALE_IMG;
-		}
+		if (fb_id == '' || fb_id.startsWith('/') || fb_id.startsWith('#')) return url || gui.FB_ANON_MALE_IMG;
 		return Html.raw('https://graph.facebook.com/v3.2/' + fb_id + '/picture' + (size ? '?width=' + size + '&height=' + size : ''));
 	},
 	getNeighborAvatarUrl(pal) {
 		return pal ? pal.pic_square || gui.getFBFriendAvatarUrl(pal.fb_id) : '';
 	},
 	getFBFriendAnchor(fb_id, uri) {
+		if (!uri && fb_id.startsWith('#')) return Html`<a class="no-link limit-width" translate="no">`;
 		uri = uri || ('https://www.facebook.com/' + fb_id);
 		return Html`<a data-target="_blank" href="${uri}" class="limit-width" translate="no">`;
 	},

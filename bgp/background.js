@@ -284,6 +284,7 @@ var Tab = {
 		const fbFilters = {
 			url: [
 				{ hostEquals: 'www.facebook.com' },
+				{ hostEquals: 'm.facebook.com' },
 				{ hostEquals: 'web.facebook.com' }
 			]
 		};

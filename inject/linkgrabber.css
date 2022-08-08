@@ -53,6 +53,7 @@ body.DAF-show-id .DAF-box {
     background-position: 6px 6px;
     background-image: url(/img/gui/about.png);
     box-sizing: content-box;
+	z-index: 10000;
 }
 .DAF-lg-badge:hover {
 	top: 0px;

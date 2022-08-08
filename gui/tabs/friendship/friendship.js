@@ -12,6 +12,13 @@ export default {
 	}
 };
 
+const FB_FRIENDS_PAGES = [
+	'https://www.facebook.com/me/friends',
+	'https://www.facebook.com/profile.php?sk=friends',
+	'https://m.facebook.com/friends/center/friends',
+	'https://m.facebook.com/me/friends',
+];
+
 let tab, container, inputs, smartTable, isAdmin;
 let buttonUnlink, buttonIgnore, buttonRegard, buttonManual, buttonsDeleteMatch, friendDisabled;
 let divMatch, matchingId;
@@ -101,15 +108,9 @@ function getMatchByImage() {
 }
 
 function getFbFriendsPage() {
-	return gui.getPreference('fbFriendsPage');
-}
-
-function getFbFriendsPageUrl(fbFriendsPage) {
-	switch (fbFriendsPage) {
-		case 1: return 'https://www.facebook.com/profile.php?sk=friends';
-		case 2: return 'https://m.facebook.com/friends/center/friends';
-		default: return 'https://www.facebook.com/me/friends';
-	}
+	const fbFriendsPage = +gui.getPreference('fbFriendsPage');
+	if (fbFriendsPage < 0 || fbFriendsPage >= FB_FRIENDS_PAGES.length) fbFriendsPage = 0;
+	return fbFriendsPage;
 }
 
 function getNeighboursAsNotMatched() {
@@ -132,9 +133,7 @@ function showCollectDialog() {
 	function addStandardSettings() {
 		const extra = Html.br`<br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
-        <option value="0" ${fbFriendsPage != 1 && fbFriendsPage != 2 ? 'selected' : ''}>A = ${getFbFriendsPageUrl('0')}</option>
-        <option value="1" ${fbFriendsPage == 1 ? 'selected' : ''}>B = ${getFbFriendsPageUrl(1)}</option>
-        <option value="2" ${fbFriendsPage == 2 ? 'selected' : ''}>C = ${getFbFriendsPageUrl(2)}</option>
+		${Html.raw(FB_FRIENDS_PAGES.map((url, index) => Html.br`<option value="${index}" ${fbFriendsPage == index ? 'selected' : ''}>${String.fromCharCode(65 + index)} = ${url}</option>`).join(''))}
         </select>`;
 		return Html.raw(extra);
 	}
@@ -342,7 +341,7 @@ function collectFriends(method) {
 	bgp.Tab.excludeFromInjection(0);
 	setTimeout(_ => bgp.Tab.excludeFromInjection(0, false), 20000);
 	const fbFriendsPage = getFbFriendsPage();
-	const url = getFbFriendsPageUrl(fbFriendsPage);
+	const url = FB_FRIENDS_PAGES[fbFriendsPage];
 	chrome.windows.create({
 		width,
 		height,
