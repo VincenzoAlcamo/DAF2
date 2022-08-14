@@ -63,6 +63,8 @@ function setShowId() {
 
 // eslint-disable-next-line no-unused-vars
 function initialize() {
+	CF.language = Dialog.language;
+	if (CF.process(CF.MBASIC)) return;
 	badge = Html.get('<div class="DAF-lg-badge"></div>')[0];
 	document.body.appendChild(badge);
 	window.addEventListener('mousemove', (event) => { lastMouseMove = event; });
@@ -76,8 +78,6 @@ function initialize() {
 		for (const name in changes) options[name] = changes[name].newValue;
 		setLanguage();
 	});
-	CF.language = Dialog.language;
-	CF.process(CF.MBASIC);
 }
 
 function setLanguage() {

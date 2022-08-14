@@ -340,6 +340,7 @@ const CF = {
 		if (param === MBASIC) {
 			const mbasic = sessionStorage.getItem(MBASIC);
 			if (mbasic) collectMBasic(JSON.parse(mbasic));
+			return !!mbasic;
 		} else collect();
 	}
 };
