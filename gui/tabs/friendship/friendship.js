@@ -480,7 +480,7 @@ function updateRow(row) {
 		htm += Html.br`<td>${anchor}${friend.name}</a><br>`;
 		htm += Html.br`<input class="note f-note" type="text" maxlength="50" placeholder="${gui.getMessage('gui_nonote')}" value="${friend.note}">${friend.disabled ? friendDisabled : ''}</td>`;
 		htm += Html.br`<td>${Locale.formatDate(friend.tc)}<br>${Locale.formatDays(friend.tc)}</td>`;
-		htm += Html.br`<td>${Locale.formatDate(friend.lc)}<br>${Locale.formatDays(friend.lc)}</td>`;
+		htm += Html.br`<td title="${Locale.formatTime(friend.lc)}">${Locale.formatDate(friend.lc)}<br>${Locale.formatDays(friend.lc)}</td>`;
 		if (pal) {
 			htm += Html.br`<td>${Locale.formatNumber(friend.score)}</td>`;
 			htm += Html.br`<td>${buttonUnlink}</td>`;
