@@ -198,6 +198,15 @@ function onKeydown(event) {
 	if (!isValidEvent()) return;
 	const key = event.which || event.keyCode;
 	if (event.ctrlKey && !event.altKey && !event.shiftKey) {
+		// SELECT ALL
+		if (key == 65) {
+			const rows = Array.from(smartTable.table.querySelectorAll('tr[data-id]'));
+			// Determine if there is at least one unselected row
+			const flag = !!rows.find(row => !row.querySelector('input').checked);
+			Array.from(rows).forEach(row => setInputChecked(row.querySelector('input'), flag));
+			event.stopPropagation();
+			event.preventDefault();
+		}
 		if (key == 67) onCopy();
 		// Paste does not work
 		// if (key == 86) onPaste(event);
