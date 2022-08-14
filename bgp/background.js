@@ -268,6 +268,7 @@ var Tab = {
 	guiTabId: null,
 	GUI_URL: chrome.runtime.getURL('gui/gui.html'),
 	tabExcluded: {},
+	collectTabId: null,
 	init() {
 		chrome.tabs.onUpdated.addListener(Tab.onUpdated);
 		chrome.tabs.onRemoved.addListener(Tab.onRemoved);
@@ -341,7 +342,7 @@ if (loginButton) {
 	},
 	onFBNavigation(details) {
 		const tabId = details.tabId;
-		if (details.frameId == 0 && Preferences.getValue('linkGrabEnabled') && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
+		if (details.frameId == 0 && (Preferences.getValue('linkGrabEnabled') || tabId === Tab.collectTabId) && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
 			console.log('Injecting LinkGrabber');
 			const code = ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled', 'linkGrabBadge', 'linkGrabHotKey', 'shorten'].map(key => {
 				return 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
@@ -356,9 +357,7 @@ if (loginButton) {
 	},
 	onRemoved(tabId, _removeInfo) {
 		if (tabId == Tab.guiTabId) Tab.guiTabId = null;
-		if (tabId == Tab.gameTabId) {
-			Tab.gameTabId = null;
-		}
+		if (tabId == Tab.gameTabId) Tab.gameTabId = null;
 	},
 	onUpdated(tabId, changeInfo, tab) {
 		if ('url' in changeInfo) Tab.detectTab(tab);
@@ -2296,6 +2295,7 @@ async function init() {
 			return { count: result.length, list };
 		},
 		friendsCaptured(request, sender) {
+			Tab.collectTabId = request.close ? null : sender.tab.id;
 			if (request.data) Data.friendsCaptured(request.data, request.partial, request.forceAnalyze);
 			if (request.close) chrome.tabs.remove(sender.tab.id);
 		}
