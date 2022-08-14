@@ -25,6 +25,7 @@
 		"*://portal.pixelfederation.com/*",
 		"*://web.facebook.com/*",
 		"*://m.facebook.com/*",
+		"*://mbasic.facebook.com/*",
 		"*://www.facebook.com/*"
 	],
 	"web_accessible_resources": [

@@ -76,6 +76,8 @@ function initialize() {
 		for (const name in changes) options[name] = changes[name].newValue;
 		setLanguage();
 	});
+	CF.language = Dialog.language;
+	CF.process(CF.MBASIC);
 }
 
 function setLanguage() {

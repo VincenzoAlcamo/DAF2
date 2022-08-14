@@ -285,6 +285,7 @@ var Tab = {
 			url: [
 				{ hostEquals: 'www.facebook.com' },
 				{ hostEquals: 'm.facebook.com' },
+				{ hostEquals: 'mbasic.facebook.com' },
 				{ hostEquals: 'web.facebook.com' }
 			]
 		};
@@ -1157,7 +1158,7 @@ var Data = {
 	removeFriend(friend) {
 		Data.saveFriend(friend, true);
 	},
-	friendsCaptured(data, partial) {
+	friendsCaptured(data, partial, forceAnalyze) {
 		if (!data) return;
 		const newFriends = [].concat(data);
 		if (newFriends.length == 0) return;
@@ -1205,7 +1206,7 @@ var Data = {
 		Data.friends = friends;
 		Data.friendsCollectDate = now;
 		Preferences.setValue('friendsCollectDate', now);
-		if (!partial) chrome.runtime.sendMessage({ action: 'friends_analyze' }, () => hasRuntimeError('FRIENDSCAPTURED'));
+		if (!partial || forceAnalyze) chrome.runtime.sendMessage({ action: 'friends_analyze' }, () => hasRuntimeError('FRIENDSCAPTURED'));
 	},
 	//#endregion
 	//#region RewardLinks
@@ -2295,7 +2296,7 @@ async function init() {
 			return { count: result.length, list };
 		},
 		friendsCaptured(request, sender) {
-			if (request.data) Data.friendsCaptured(request.data, request.partial);
+			if (request.data) Data.friendsCaptured(request.data, request.partial, request.forceAnalyze);
 			if (request.close) chrome.tabs.remove(sender.tab.id);
 		}
 	}).forEach(entry => Message.setHandler(entry[0], entry[1]));

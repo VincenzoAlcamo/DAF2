@@ -10,9 +10,11 @@ const CF = {
 	keepCollected: false,
 	wait: Dialog(Dialog.WAIT),
 	dialog: Dialog(),
+	MBASIC: 'daf_mbasic',
 
-	process() {
-		const { language, method: collectMethod, unmatched, autoClose, wait, dialog, forcePartial, autoConfirm, keepCollected } = this;
+	process(param) {
+		const { language, method: collectMethod, unmatched, autoClose, wait, dialog, forcePartial, autoConfirm, keepCollected, MBASIC } = this;
+		const MBASIC_QUERY = '#root[role=main] table[role=presentation] a[href]';
 
 		let retries = 10;
 		const hashById = {};
@@ -52,31 +54,39 @@ const CF = {
 			} catch (e) { }
 		}
 
+		function getContainer() {
+			container = document.getElementById('pagelet_timeline_medley_friends');
+			captureOneBlock = captureOneBlockOld;
+			if (container) return;
+			const img = document.querySelector('a > img[width="80"]');
+			if (img) {
+				container = img.parentElement.parentElement.parentElement.parentElement;
+				captureOneBlock = captureOneBlockNew;
+				return;
+			}
+			const i = document.querySelector('a > i.profpic');
+			if (i) {
+				container = i.parentElement.parentElement.parentElement.parentElement.parentElement;
+				// Fix for Firefox
+				if (!container.id && container.parentElement.id) container = container.parentElement;
+				captureOneBlock = captureOneBlockMobile;
+				return;
+			}
+		}
+
 		function collect() {
 			Dialog.language = language;
 			wait.show();
 			intervalHandler = setInterval(function () {
-				container = document.getElementById('pagelet_timeline_medley_friends');
-				captureOneBlock = captureOneBlockOld;
-				if (!container) {
-					const img = document.querySelector('a > img[width="80"]');
-					if (img) {
-						container = img.parentElement.parentElement.parentElement.parentElement;
-						captureOneBlock = captureOneBlockNew;
-					}
-					const i = document.querySelector('a > i.profpic');
-					if (i) {
-						container = i.parentElement.parentElement.parentElement.parentElement.parentElement;
-						// Fix for Firefox
-						if (!container.id && container.parentElement.id) container = container.parentElement;
-						captureOneBlock = captureOneBlockMobile;
-					}
-				}
+				getContainer();
 				if (container) {
 					cleanup();
 					started = Date.now();
 					if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
 					return;
+				} else if (document.querySelector(MBASIC_QUERY)) {
+					cleanup();
+					collectMBasic({ started: Date.now(), count: 0, forcePartial });
 				} else if (retries > 0) {
 					retries--;
 					wait.setText(retries);
@@ -151,7 +161,7 @@ const CF = {
 			if ((i = uri.indexOf('profile.php?id=')) >= 0) {
 				if ((i = uri.indexOf('&', i)) >= 0) uri = uri.substr(0, i);
 			} else if ((i = uri.indexOf('?')) >= 0) uri = uri.substr(0, i);
-			return uri.replace(/\/\/m./, '//www.');
+			return uri.replace(/\/\/m(basic)?\./, '//www.');
 		}
 
 		function getFriendIdFromUri(uri) {
@@ -248,6 +258,39 @@ const CF = {
 			return count;
 		}
 
+		function collectMBasic(info) {
+			started = info.started;
+			wait.setText(document.title = getStatInfo(info.count, true));
+			const items = Array.from(document.querySelectorAll(MBASIC_QUERY));
+			for (const item of items) {
+				const uri = getFriendUri(item.href);
+				const name = item.textContent;
+				let id = getFriendIdFromUri(uri);
+				if (!id && !name) continue;
+				id = id || '#' + name;
+				const img = item.parentElement.previousElementSibling.querySelector('img').src;
+				info.count++;
+				const data = { id, name, uri, img };
+				const disabled = !uri;
+				if (disabled) data.disabled = true;
+				addFriend(data);
+			}
+			wait.setText(document.title = getStatInfo(info.count, true));
+			const a = document.querySelector('#m_more_friends a');
+			const forceAnalyze = !a && !info.forcePartial;
+			if (friends.length) chrome.runtime.sendMessage({ action: 'friendsCaptured', data: friends, close: forceAnalyze, partial: true, forceAnalyze });
+			if (a) {
+				sessionStorage.setItem(MBASIC, JSON.stringify(info));
+				a.click();
+			} else {
+				sessionStorage.removeItem(MBASIC);
+				wait.hide();
+				let text = getStatInfo(info.count);
+				text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collectfriends'), getMessage('friendship_collectmatch'));
+				dialog.show({ text, style: [Dialog.OK] });
+			}
+		}
+
 		function collectStandard() {
 			const maxCount = autoConfirm ? 10 : 20;
 			let countStop = 0, isConfirming = false;
@@ -294,6 +337,9 @@ const CF = {
 			}
 		}
 
-		collect();
+		if (param === MBASIC) {
+			const mbasic = sessionStorage.getItem(MBASIC);
+			if (mbasic) collectMBasic(JSON.parse(mbasic));
+		} else collect();
 	}
 };

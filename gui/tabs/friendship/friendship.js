@@ -17,6 +17,7 @@ const FB_FRIENDS_PAGES = [
 	'https://www.facebook.com/profile.php?sk=friends',
 	'https://m.facebook.com/friends/center/friends',
 	'https://m.facebook.com/me/friends',
+	'https://mbasic.facebook.com/me/friends'
 ];
 
 let tab, container, inputs, smartTable, isAdmin;
@@ -338,8 +339,20 @@ function collectFriends(method) {
 	const width = 1000;
 	const height = 500;
 	const unmatched = method == 'unmatched' ? getUnmatched().join() : '';
-	bgp.Tab.excludeFromInjection(0);
-	setTimeout(_ => bgp.Tab.excludeFromInjection(0, false), 20000);
+	let excludeTabId, excludeTabTimer;
+	const clearExcludeTab = () => {
+		if (excludeTabTimer) clearTimeout(excludeTabTimer);
+		excludeTabTimer = null;
+		if (excludeTabId !== undefined) bgp.Tab.excludeFromInjection(excludeTabId, false);
+		excludeTabId = undefined;
+	};
+	const excludeTab = (tabId) => {
+		clearExcludeTab();
+		excludeTabId = tabId;
+		bgp.Tab.excludeFromInjection(excludeTabId);
+		excludeTabTimer = setTimeout(clearExcludeTab, 20000);
+	};
+	excludeTab(0);
 	const fbFriendsPage = getFbFriendsPage();
 	const url = FB_FRIENDS_PAGES[fbFriendsPage];
 	chrome.windows.create({
@@ -350,10 +363,10 @@ function collectFriends(method) {
 		// type: 'popup',
 		url
 	}, function (w) {
+		clearExcludeTab();
 		const tabId = w.tabs[0].id;
-		bgp.Tab.excludeFromInjection(tabId);
-		setTimeout(_ => bgp.Tab.excludeFromInjection(tabId, false), 20000);
-		chrome.tabs.get(tabId, function (tab) {
+		excludeTab(tabId);
+		chrome.tabs.get(tabId, async function (tab) {
 			const addVar = (name, value) => `CF.${name}=${JSON.stringify(value)};`;
 			if (chrome.runtime.lastError) console.log(chrome.runtime.lastError);
 			const params = {
@@ -361,7 +374,9 @@ function collectFriends(method) {
 				code: `${addVar('language', gui.getPreference('language'))}${addVar('unmatched', unmatched)}${addVar('method', method)}CF.process()`,
 				runAt: 'document_end', allFrames: false, frameId: 0
 			};
-			waitForTab(tab).then(() => executeScriptPromise(tabId, params));
+			await waitForTab(tab)
+			clearExcludeTab();
+			await executeScriptPromise(tabId, params);
 		});
 	});
 }
