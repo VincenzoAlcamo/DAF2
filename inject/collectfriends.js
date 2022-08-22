@@ -14,7 +14,7 @@ const CF = {
 
 	process(param) {
 		const { language, method: collectMethod, unmatched, autoClose, wait, dialog, forcePartial, autoConfirm, keepCollected, MBASIC } = this;
-		const MBASIC_QUERY = '#root[role=main] table[role=presentation] a[href]';
+		const MBASIC_QUERY = '#root table td + td a[href] + div';
 
 		let retries = 10;
 		const hashById = {};
@@ -84,7 +84,7 @@ const CF = {
 					started = Date.now();
 					if (collectMethod == 'standard' || collectMethod == 'unmatched') collectStandard();
 					return;
-				} else if (document.querySelector(MBASIC_QUERY)) {
+				} else if (location.host === 'mbasic.facebook.com' && document.querySelector(MBASIC_QUERY)) {
 					cleanup();
 					collectMBasic({ started: Date.now(), count: 0, forcePartial });
 				} else if (retries > 0) {
@@ -262,7 +262,8 @@ const CF = {
 			started = info.started;
 			wait.setText(document.title = getStatInfo(info.count, true));
 			const items = Array.from(document.querySelectorAll(MBASIC_QUERY));
-			for (const item of items) {
+			for (let item of items) {
+				item = item.previousElementSibling;
 				const uri = getFriendUri(item.href);
 				const name = item.textContent;
 				let id = getFriendIdFromUri(uri);
