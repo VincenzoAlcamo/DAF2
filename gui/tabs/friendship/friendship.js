@@ -7,7 +7,8 @@ export default {
 	events: {
 		show: refresh,
 		search: refresh,
-		collect: showCollectDialog,
+		collect: () => showCollectDialog('standard'),
+		match: () => showCollectDialog('match'),
 		export: exportData
 	}
 };
@@ -126,16 +127,15 @@ function getUnmatched() {
 	return Object.values(bgp.Data.friends).filter(friend => (friend.score || 0) == 0).map(friend => friend.id);
 }
 
-function showCollectDialog() {
+function showCollectDialog(method) {
 	let matchByImage = getMatchByImage();
 	let fbFriendsPage = getFbFriendsPage();
-	const numUnmatched = getUnmatched().length;
 
 	function addStandardSettings() {
 		const extra = Html.br`<br><label for="f_fv">${gui.getMessage('gui_type')}</label>
         <select id="f_fv" name="fbFriendsPage">
 		${Html.raw(FB_FRIENDS_PAGES.map((url, index) => Html.br`<option value="${index}" ${fbFriendsPage == index ? 'selected' : ''}>${String.fromCharCode(65 + index)} = ${url}</option>`).join(''))}
-        </select>`;
+        </select><br>`;
 		return Html.raw(extra);
 	}
 
@@ -144,21 +144,8 @@ function showCollectDialog() {
         <select id="f_mi" name="matchByImage">
         <option value="0" ${!matchByImage ? 'selected' : ''}>${gui.getMessage('dialog_no')}</option>
         <option value="1" ${matchByImage ? 'selected' : ''}>${gui.getMessage('dialog_yes')}</option>
-        </select></label>`;
+        </select></label><br>`;
 		return Html.raw(extra);
-	}
-
-	function button(method) {
-		const msgId = 'friendship_collect' + method;
-		const htm = Html.br`<tr style="border-top:2px solid rgba(0,0,0,0.2)">
-<td style="text-align:right"><button data-method="${method}">${gui.getMessage(msgId)}</button></td>
-<td>${gui.getMessage(msgId + 'info')}
-${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
-${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
-${method == 'standard' ? addStandardSettings() : ''}
-${method == 'match' ? addMatchSettings() : ''}
-</td></tr>`;
-		return htm;
 	}
 
 	function setNewValue(prefName, oldValue, newValue) {
@@ -175,36 +162,20 @@ ${method == 'match' ? addMatchSettings() : ''}
 	}
 
 	gui.dialog.show({
-		title: gui.getMessage('friendship_collectfriends'),
-		html: Html.br`${gui.getMessage('friendship_collectpreamble')}
-<table style="margin-top:16px">
-${button('standard')}
-${numFriends > 0 ? button('unmatched') : ''}
-${numFriends > 0 ? button('match') : ''}
-</table>`,
-		style: ['standard', 'unmatched', 'match', Dialog.CANCEL]
-	}, function (method, params) {
-		setStandardOptions(params);
-		if (numFriends > 0) setMatchOptions(params);
-		if (method == 'standard' || method == 'unmatched' || method == 'match') {
-			gui.dialog.show({
-				title: gui.getMessage('friendship_collectfriends'),
-				html: Html.br`<p style="text-align:left">${gui.getMessage('friendship_collect' + method + 'info')}
+		title: gui.getMessage(method === 'match' ? 'friendship_collectmatch' : 'friendship_collectfriends'),
+		html: Html.br`<p style="text-align:left;max-width:550px">${gui.getMessage('friendship_collect' + method + 'info')}
 ${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
-${method == 'unmatched' ? '\n' + gui.getMessage('friendship_filter_f', Locale.formatNumber(numUnmatched)) : ''}
 </p>
-${method == 'standard' || method == 'unmatched' ? addStandardSettings() : ''}
+${method == 'standard' ? addStandardSettings() : ''}
 ${method == 'standard' || method == 'match' ? addMatchSettings() : ''}
-<br><br>${gui.getMessage('friendship_confirmwarning')}`,
-				style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
-			}, function (confirmation, params) {
-				if (method == 'standard' || method == 'unmatched') setStandardOptions(params);
-				if (method == 'standard' || method == 'match') setMatchOptions(params);
-				if (confirmation != Dialog.CONFIRM) return;
-				if (method == 'standard' || method == 'unmatched') collectFriends(method);
-				else if (method == 'match') matchStoreAndUpdate();
-			});
-		}
+<br>${gui.getMessage('friendship_confirmwarning')}`,
+		style: [Dialog.CONFIRM, Dialog.CANCEL]
+	}, function (confirmation, params) {
+		if (method == 'standard') setStandardOptions(params);
+		if (method == 'standard' || method == 'match') setMatchOptions(params);
+		if (confirmation != Dialog.CONFIRM) return;
+		if (method == 'standard') collectFriends(method);
+		else if (method == 'match') matchStoreAndUpdate();
 	});
 }
 
@@ -567,7 +538,7 @@ function refreshDelayed() {
 	numFriends = friends.length;
 	if (numFriends == 0 && firstTimeCollectPopup) {
 		firstTimeCollectPopup = false;
-		setTimeout(showCollectDialog, 500);
+		setTimeout(() => showCollectDialog('standard'), 500);
 	}
 	numNeighbours = Object.keys(notmatched).length;
 	numMatched = numMatchedImage = numMatchedManually = numDisabled = numIgnored = numFriendsShown = numNeighboursShown = 0;
