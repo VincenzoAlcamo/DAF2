@@ -2,7 +2,7 @@
 // TOP PAGE
 let prefs, handlers, msgHandlers, isFacebook, originalHeight, header;
 let menu, loadCompleted, styleLoaded;
-let lastFullWindow = false;
+let lastFullWindow = undefined;
 let isOk = false;
 let msgQueue = [];
 
@@ -56,8 +56,9 @@ function onFullWindow() {
 	flagHide = fullWindow || prefs.fullWindowSide;
 	fn(document.querySelector('#rightCol'));
 	document.body.style.overflowY = fullWindow ? 'hidden' : '';
-	if (fullWindow != lastFullWindow) {
-		lastFullWindow = fullWindow;
+	const s = [fullWindow, prefs.fullWindowHeader, prefs.fullWindowSide].join();
+	if (s != lastFullWindow) {
+		lastFullWindow = s;
 		onResize();
 	}
 }
