@@ -402,7 +402,7 @@ function updateCamp(div, flagHeaderOnly = false) {
 				htm += Html.br`</tr>`;
 			}
 		}
-		htm += Html.br`<tbody>`;
+		htm += Html.br`</tbody>`;
 		if (swDiscount) {
 			htm += Html.br`<tfoot><tr><th colspan="4" class="warning">${swDiscount.name}<br>${swDiscount.ends}</th></tfoot>`;
 		}
@@ -758,7 +758,7 @@ function renderCamp(campResult) {
 			let colValues = '';
 			let strength = 0;
 			let bid = 0;
-			let exStyle = '';
+			let img = '';
 			while (kind == 'empty' && i + width < NUM_SLOTS && getSlot(i + width).kind == kind) width++;
 			if (width > 1 && (kind == 'empty' || kind == 'block')) title += ' \xd7 ' + width;
 			if (kind == 'block') {
@@ -777,7 +777,7 @@ function renderCamp(campResult) {
 				const url = gui.getObjectImage('building', bid);
 				if (url) {
 					kind += ' img tooltip-event';
-					exStyle = ';background-image:url(' + url + ')';
+					img = Html`<img src="${url}">`;
 				}
 				if (slot.capacity > 0) {
 					kind += ' capacity';
@@ -796,9 +796,9 @@ function renderCamp(campResult) {
 				colValues = Html.raw(String(Html.br`<div class="value">${slot.value}</div>`).repeat(width));
 				strength = Math.round(strength * 1000) / 1000;
 			}
-			htm += Html.br`<div class="item ${kind}" style="--w:${width};--h:${slot.height};--v:${strength}${exStyle}" title="${Html(title)}"`;
+			htm += Html.br`<div class="item ${kind}" style="--w:${width};--h:${slot.height};--v:${strength}" title="${Html(title)}"`;
 			if (bid) htm += Html.br` data-bid="${bid}"`;
-			htm += Html.br`>${colValues}</div>`;
+			htm += Html.br`>${img}${colValues}</div>`;
 			i += width;
 		}
 		htm += Html.br`</div>`;

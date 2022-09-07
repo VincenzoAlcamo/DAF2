@@ -143,6 +143,16 @@ html.dark .camp .line {
 
 .camp .item.building {
 	border: 1px solid rgba(0, 0, 0, 0.5);
+	position: relative;
+}
+
+.camp .item img {
+	max-width: calc(var(--size) * var(--w));
+    max-height: calc(var(--size) * var(--h));
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -50%;
 }
 
 .camp .item.capacity {
