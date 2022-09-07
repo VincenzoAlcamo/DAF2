@@ -346,7 +346,25 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	border: 1px solid #000;
 	border-radius: 7px;
 	margin-left: 20px;
-	background-color: #f008;
+	background-color: var(--col);
+}
+
+.beacon { --col: #f008; }
+.beacon-dig { --col: #ff08; }
+.beacon-door { --col: #0f08; }
+.beacon-door_r { --col: #0ff8; }
+.beacon-pit { --col: #00f8; }
+.beacon-push { --col: #f0f8; }
+.beacon-sensor { --col: #fff8; }
+.beacon-use { --col: #0ffc; border-radius: 0 !important; }
+.beacon-visual { --col: #9998; }
+
+.beacon-activable { animation: beacon-flash 2s infinite; }
+
+@keyframes beacon-flash {
+	0% { background-color: #000; }
+	90% { background-color: var(--col); }
+	100% { background-color: var(--col); }
 }
 
 .tab_map .map .beacon-active .beacon {
@@ -406,7 +424,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 	display: none;
 }
 
-.tab_map.is_uncleared .grid-theme-container > .toolbar {
+.tab_map.is_uncleared .grid-theme-container>.toolbar {
 	--tt-bgcol: #c18128;
 }
 

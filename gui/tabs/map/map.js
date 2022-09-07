@@ -2714,17 +2714,6 @@ async function drawMine(args) {
 	}
 
 	// Misc
-	const beaconColors = {
-		default: 'f00',
-		dig: 'ff0',
-		door: '0f0',
-		door_r: '0ff',
-		pit: '00f',
-		push: 'f0f',
-		sensor: 'fff',
-		use: 'f90',
-		visual: '999'
-	};
 	const solutionTiles = [];
 	for (const tileDef of tileDefs.filter((t) => t.miscType)) {
 		const { x, y } = tileDef;
@@ -2816,10 +2805,8 @@ async function drawMine(args) {
 					}
 				}
 			}
-			const div = Html.get(
-				Html`<div class="beacon" style="background-color:#${beaconColors[item.activation || ''] || beaconColors.default
-					}8"></div>`
-			)[0];
+			const activable = ['use'].includes(item.activation) && (!tileDef.beaconActive || item.type === 'two-way');
+			const div = Html.get(Html`<div class="beacon beacon-${item.activation}${activable ? ' beacon-activable' : ''}"></div>`)[0];
 			cell.appendChild(div);
 			cell.classList.toggle('beacon-active', tileDef.beaconActive);
 		}
