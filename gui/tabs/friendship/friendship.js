@@ -132,10 +132,12 @@ function showCollectDialog(method) {
 	let fbFriendsPage = getFbFriendsPage();
 
 	function addStandardSettings() {
-		const extra = Html.br`<br><label for="f_fv">${gui.getMessage('gui_type')}</label>
-        <select id="f_fv" name="fbFriendsPage">
-		${Html.raw(FB_FRIENDS_PAGES.map((url, index) => Html.br`<option value="${index}" ${fbFriendsPage == index ? 'selected' : ''}>${String.fromCharCode(65 + index)} = ${url}</option>`).join(''))}
-        </select><br>`;
+		const extra = Html.br`<br><label>${gui.getMessage('gui_type')}</label><br>
+<div style="display:inline-block;text-align:left">
+		${Html.raw(FB_FRIENDS_PAGES.map((url, index) => Html.br`
+<input name="fbFriendsPage" id="f_fv${index}" type="radio" value="${index}" ${fbFriendsPage == index ? 'checked' : ''}> <label for="f_fv${index}">${String.fromCharCode(65 + index)} = ${url}</label>
+<a href="${url}" data-target="_blank" class="fb-goto-friend-page">\u2197</a><br>`).join(''))}
+</div><br>`;
 		return Html.raw(extra);
 	}
 

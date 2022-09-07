@@ -106,3 +106,17 @@
 	font-style: oblique;
 	opacity: 0.8;
 }
+
+.fb-goto-friend-page {
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 2px;
+	padding-right: 2px;
+	border-radius: 2px;
+	opacity: 0.5;
+}
+.fb-goto-friend-page:hover {
+	background-color: var(--tb-hlcol);
+	color: var(--tb-fgcol);
+	opacity: 1;
+}
