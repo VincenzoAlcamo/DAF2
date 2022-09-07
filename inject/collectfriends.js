@@ -116,6 +116,12 @@ const CF = {
 			return getMessage('friendship_collectstat', count) + (addTime ? '\n(' + formatTime(Date.now() - started) + ')' : '');
 		}
 
+		function showPartialHelp(count) {
+			let text = getStatInfo(count);
+			text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collectmatch'), getMessage('dialog_confirm'));
+			dialog.show({ text, style: [Dialog.OK] });
+		}
+
 		function sendFriends(partial) {
 			const viewDisabled = () => { try { ulInactive.firstElementChild.scrollIntoView({ block: 'center' }); } catch (e) { } };
 			wait.setText(document.title = getStatInfo(friends.length, true));
@@ -143,9 +149,7 @@ const CF = {
 			};
 			cleanup();
 			if (autoClose) return showDisabled();
-			let text = getStatInfo(friends.length);
-			text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collectfriends'), getMessage('friendship_collectmatch'));
-			dialog.show({ text, style: [Dialog.OK] }, showDisabled);
+			showPartialHelp(friends.length);
 		}
 
 		function getId(d) {
@@ -286,9 +290,7 @@ const CF = {
 			} else {
 				sessionStorage.removeItem(MBASIC);
 				wait.hide();
-				let text = getStatInfo(info.count);
-				text += '\n\n' + getMessage('friendship_manualhelp', getMessage('tab_friendship'), getMessage('friendship_collectfriends'), getMessage('friendship_collectmatch'));
-				dialog.show({ text, style: [Dialog.OK] });
+				showPartialHelp(info.count);
 			}
 		}
 
