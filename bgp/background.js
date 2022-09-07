@@ -1163,6 +1163,9 @@ var Data = {
 		if (newFriends.length == 0) return;
 		const oldFriendsById = Object.assign({}, Data.getFriends());
 		const oldFriendsByUri = {};
+		const numBefore = Object.values(oldFriendsById).length;
+		// We allow at most a loss of 5% of the current friends (or 10 if the player has less than 200 friends)
+		const maxRemove = Math.max(10, Math.floor(numBefore * 0.05));
 		Object.values(oldFriendsById).forEach(friend => oldFriendsByUri[friend.uri] = friend);
 		const friends = {};
 		const now = getUnixTime();
@@ -1194,7 +1197,7 @@ var Data = {
 			delete oldFriendsByUri[friend.uri];
 			friends[friend.id] = friend;
 		}
-		if (partial) {
+		if (partial || Object.values(oldFriendsById).length > maxRemove) {
 			Data.saveFriend(Object.values(friends));
 			Object.entries(oldFriendsById).forEach(([id, friend]) => friends[id] = friend);
 		} else {
