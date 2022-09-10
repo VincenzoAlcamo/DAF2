@@ -2016,7 +2016,7 @@
 		"message": "Testata\nMostra la testata di pagina quando a finestra intera"
 	},
 	"options_fullwindowside": {
-		"message": "Laterale\nNasconde la barra laterale di Facebook quano non si è a finestra intera"
+		"message": "Laterale\nNasconde la barra laterale di Facebook quando non si è a finestra intera"
 	},
 	"options_fullwindowlock": {
 		"message": "Blocca finestra intera\nImpedisce al gioco di uscire da finestra intera."
