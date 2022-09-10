@@ -448,7 +448,7 @@ function onClickTable(event) {
 		}
 		let htm = Html.br(reason.text + '\n\n' + gui.getMessage('rewardlinks_collectanyway'));
 		if (reason.action) {
-			htm += Html.br`<br><table style="margin-top:16px"><tr><td><button value="reset">${gui.getMessage('rewardlinks_reset')}</button></td><td>`;
+			htm += Html.br`<br><table style="margin-top:16px"><tr><td><button data-method="reset" value="reset">${gui.getMessage('rewardlinks_reset')}</button></td><td>`;
 			htm += Html.br`${gui.getMessage('rewardlinks_' + reason.action)}`;
 			htm += Html.br`</td></tr></table>`;
 		}
