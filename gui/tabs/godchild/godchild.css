@@ -38,7 +38,11 @@
 }
 
 .godchild_table.complete thead tr span span {
-	animation: rotate-hue 5s infinite, letter-spacing 3s ease-in-out alternate infinite;
+	border-radius: 4px;
+    padding: 1px 6px;
+    font-size: larger;
+    background-color: var(--success-bgcol);
+    color: var(--success-fgcol);
 }
 
 .godchild_table .DAF-gc-pal b.energy {
@@ -47,14 +51,4 @@
 	background-repeat: no-repeat;
 	background-size: 19px;
 	background-position: 0px -2px;
-}
-
-@keyframes letter-spacing {
-	0% {
-		letter-spacing: 0px;
-	}
-
-	100% {
-		letter-spacing: 2px;
-	}
 }
