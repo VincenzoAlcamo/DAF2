@@ -138,7 +138,10 @@ const LinkData = (function () {
 			} else if (options.prefix) {
 				prefix += (index + 1).toString().padStart(padLength, '0');
 			}
-			if (options.separator) prefix += options.separator;
+			if (options.separator) {
+				if (options.separator === ')' && prefix.length > 0 && prefix.charAt(prefix.length - 1) === '8') prefix += '\u200b';
+				prefix += options.separator;
+			}
 			if (prefix && (options.addspace || prefix.match(/[a-z]$/i))) prefix += ' ';
 			return prefix + text + suffix;
 		});
