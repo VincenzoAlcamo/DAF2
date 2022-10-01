@@ -657,7 +657,7 @@ var Data = {
 
 		// Skins
 		col = {};
-		'MAP005,MAP006,CT002,CT011,MAP018,CT012,CT013,MAP021,MAP038,CT014,CT013,CT016,MAP039,,MAP050'.split(',').forEach(function (name_loc, index) {
+		'MAP005,MAP006,CT002,CT013,MAP018,CT012,CT011,MAP021,MAP038,CT014,CT013,CT016,MAP039,,MAP050'.split(',').forEach(function (name_loc, index) {
 			setItem(index + 1, name_loc, '/img/skins/' + (index + 1) + '.png');
 		});
 		Data.colSkins = col;
