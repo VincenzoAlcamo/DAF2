@@ -41,6 +41,7 @@ let showId = true;
 let links = [];
 let linkCount, oldLabel, mouseX, mouseY, startX, startY, autoOpenElement, autoOpenCount, flagLinks;
 let badge, lastMouseMove;
+let collectDisabled = false;
 const sent = {};
 
 const getMessage = Dialog.getMessage;
@@ -247,18 +248,18 @@ function start() {
 	const oldBoxes = {};
 	Array.from(document.querySelectorAll('.DAF-box')).forEach(div => oldBoxes[div.textContent] = div);
 
-	links = document.links;
+	links = document.querySelectorAll('a[href*=diggysadventure],a[daf]');
 	linkCount = links.length;
 	const offsetLeft = window.scrollX;
 	const offsetTop = window.scrollY;
 	links = Array.from(links).filter(a => {
-		if (a.href.indexOf('diggysadventure') < 0) return false;
-
+		if (!a.hasAttribute('daf')) a.setAttribute('daf', a.href);
+		let daf = a.daf || null;
 		const rect = a.getBoundingClientRect();
 		if (rect.height > 0) {
 			const left = offsetLeft + rect.left;
 			const top = offsetTop + rect.top;
-			const daf = {
+			daf = {
 				x1: Math.floor(left),
 				y1: Math.floor(top),
 				x2: Math.floor(left + rect.width),
@@ -266,6 +267,8 @@ function start() {
 				box: a.daf && a.daf.box
 			};
 			a.daf = daf;
+		}
+		if (daf) {
 			if (daf.box) {
 				delete oldBoxes[daf.box.textContent];
 				setPosition(daf.box, daf.x1, daf.y1 - 1, daf.x2 - daf.x1 + 2, daf.y2 - daf.y1 + 2);
@@ -297,6 +300,7 @@ function stop() {
 	// remove the link boxes
 	Array.from(document.links).filter(a => a && a.daf).forEach(a => delete a.daf);
 	Array.from(document.querySelectorAll('.DAF-box')).forEach(div => div.remove());
+	Array.from(document.querySelectorAll('a[daf]')).forEach(a => a.removeAttribute('daf'));
 	links = [];
 
 	flagLinks = false;
@@ -334,7 +338,7 @@ function detectDelayed() {
 		if (box.x2 - box.x1 < 5 && box.y2 - box.y1 < 5) return;
 		flagLinks = true;
 	}
-	if (flagLinks || linkCount != document.links.length) start();
+	if (flagLinks || document.querySelector('a[href*=diggysadventure]:not(daf)')) start();
 
 	if (!scrollHandle) scrollHandle = setInterval(scroll, 100);
 
@@ -345,10 +349,17 @@ function detectDelayed() {
 		let selected = false;
 		if (daf.y1 <= box.y2 && daf.y2 >= box.y1 && daf.x1 <= box.x2 && daf.x2 >= box.x1) {
 			if (!('data' in daf)) {
-				let href = a.href;
-				if (href.endsWith('/diggysadventure/?hc_location=ufi')) href = a.textContent;
-				const result = LinkData.getLinkData(href);
-				daf.data = result.length ? result[0] : null;
+				let href = a.hasAttribute('daf') ? a.getAttribute('daf') : a.href;
+				if (href !== 'invalid') {
+					if (href.endsWith('/diggysadventure/?hc_location=ufi')) href = a.textContent;
+					const result = LinkData.getLinkData(href);
+					if (result.length) {
+						daf.data = result[0];
+					} else {
+						daf.data = null;
+						a.setAttribute('daf', 'invalid');
+					}
+				}
 			}
 			if (daf.data) {
 				selected = true;
@@ -383,7 +394,8 @@ function detectDelayed() {
 	text += `\n${KEY_A} = ${getMessage('linkgrabber_fn_autosend')} [${getMessage(autoSend ? 'menu_on' : 'menu_off')}]`;
 	text += `\n${KEY_I} = ${getMessage('linkgrabber_fn_showid')} [${getMessage(showId ? 'menu_on' : 'menu_off')}]`;
 	text += `\n${KEY_R} = ${getMessage('linkgrabber_fn_refresh')}`;
-	if (count == 0) {
+	collectDisabled = count > 0;
+	if (!collectDisabled) {
 		text += `\n\n${KEY_T} = ${getMessage('friendship_collectfriends')}`;
 		text += `\n${KEY_L} = ${getMessage('friendship_collectfriends')}: ${getMessage('friendship_partial')}`;
 	}
@@ -415,8 +427,8 @@ const fnHandlers = {
 	[KEY_C]: () => copyLinksToClipboard(),
 	[KEY_F]: () => copyLinksToClipboard(3),
 	[KEY_P]: () => copyLinksToClipboard(2),
-	[KEY_T]: () => { stop(); askCollect(); },
-	[KEY_L]: () => { stop(); askCollect(true); },
+	[KEY_T]: () => { if (collectDisabled) return; stop(); askCollect(); },
+	[KEY_L]: () => { if (collectDisabled) return; stop(); askCollect(true); },
 	[KEY_S]: () => sendLinks(false)
 };
 

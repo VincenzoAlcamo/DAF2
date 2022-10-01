@@ -4,6 +4,7 @@
 	z-index: 2147483647;
 	border: 1px solid #f00;
 	background-color: rgba(255, 255, 0, 0.3);
+	pointer-events: none;
 }
 
 .DAF-counter {
@@ -16,6 +17,7 @@
 	padding: 2px 4px;
 	text-align: left;
 	white-space: pre;
+	pointer-events: none;
 }
 
 .DAF-box {
