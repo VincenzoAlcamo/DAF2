@@ -1218,6 +1218,9 @@
 	"friendship_collectstandardinfo": {
 		"message": "Метод надежный, но медленный (может занять несколько минут)."
 	},
+	"friendship_collectrecent": {
+		"message": "Недавно добавленный"
+	},
 	"friendship_collectunmatched": {
 		"message": "Несопоставленные"
 	},

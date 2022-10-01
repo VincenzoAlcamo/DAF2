@@ -13,6 +13,8 @@ export default {
 	}
 };
 
+const FB_FRIENDS_PAGE_RECENT = 'https://www.facebook.com/me/friends_recent';
+
 const FB_FRIENDS_PAGES = [
 	'https://www.facebook.com/me/friends',
 	'https://www.facebook.com/profile.php?sk=friends',
@@ -127,7 +129,7 @@ function getUnmatched() {
 	return Object.values(bgp.Data.friends).filter(friend => (friend.score || 0) == 0).map(friend => friend.id);
 }
 
-function showCollectDialog(method) {
+function showCollectDialog(collectMethod) {
 	let matchByImage = getMatchByImage();
 	let fbFriendsPage = getFbFriendsPage();
 
@@ -163,21 +165,35 @@ function showCollectDialog(method) {
 		matchByImage = setNewValue('matchByImage', matchByImage, !!(parseInt(params.matchByImage)));
 	}
 
+	const lastCollect = bgp.Data.friendsCollectDate;
+	const addRecent = collectMethod == 'standard' && lastCollect > 0 && ((gui.getUnixTime() - bgp.Data.friendsCollectDate) / 86400) < 30;
+
 	gui.dialog.show({
-		title: gui.getMessage(method === 'match' ? 'friendship_collectmatch' : 'friendship_collectfriends'),
-		html: Html.br`<p style="text-align:left;max-width:550px">${gui.getMessage('friendship_collect' + method + 'info')}
-${method == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
+		title: gui.getMessage(collectMethod === 'match' ? 'friendship_collectmatch' : 'friendship_collectfriends'),
+		html: Html.br`<p style="text-align:left;max-width:550px">${gui.getMessage('friendship_collect' + collectMethod + 'info')}
+${collectMethod == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 </p>
-${method == 'standard' ? addStandardSettings() : ''}
-${method == 'standard' || method == 'match' ? addMatchSettings() : ''}
+${addRecent ? Html.br`<button data-method="recent">${gui.getMessage('friendship_collectrecent')}</button>` : ''}
+${collectMethod == 'standard' ? addStandardSettings() : ''}
+${collectMethod == 'standard' || collectMethod == 'match' ? addMatchSettings() : ''}
 <br>${gui.getMessage('friendship_confirmwarning')}`,
-		style: [Dialog.CONFIRM, Dialog.CANCEL]
-	}, function (confirmation, params) {
-		if (method == 'standard') setStandardOptions(params);
-		if (method == 'standard' || method == 'match') setMatchOptions(params);
-		if (confirmation != Dialog.CONFIRM) return;
-		if (method == 'standard') collectFriends(method);
-		else if (method == 'match') matchStoreAndUpdate();
+		style: [Dialog.AUTORUN, Dialog.CONFIRM, Dialog.CANCEL]
+	}, function (method, params) {
+		const element = gui.dialog.element;
+		const button = element.querySelector('button[data-method=recent]');
+		if (method == Dialog.AUTORUN) {
+			const footer = element.querySelector('.DAF-md-footer');
+			if (button) footer.insertBefore(button, footer.firstElementChild);
+			return;
+		}
+		if (collectMethod == 'standard') setStandardOptions(params);
+		if (collectMethod == 'standard' || collectMethod == 'match') setMatchOptions(params);
+		if (button) button.remove();
+		const isRecent = method == 'recent';
+		if (method == Dialog.CONFIRM || isRecent) {
+			if (collectMethod == 'standard') collectFriends(collectMethod, isRecent);
+			else if (collectMethod == 'match') matchStoreAndUpdate();
+		}
 	});
 }
 
@@ -308,7 +324,7 @@ function onInput(event) {
 	}
 }
 
-function collectFriends(method) {
+function collectFriends(method, isRecent) {
 	const width = 1000;
 	const height = 500;
 	const unmatched = method == 'unmatched' ? getUnmatched().join() : '';
@@ -327,7 +343,7 @@ function collectFriends(method) {
 	};
 	excludeTab(0);
 	const fbFriendsPage = getFbFriendsPage();
-	const url = FB_FRIENDS_PAGES[fbFriendsPage];
+	const url = isRecent ? FB_FRIENDS_PAGE_RECENT : FB_FRIENDS_PAGES[fbFriendsPage];
 	chrome.windows.create({
 		width,
 		height,
@@ -347,6 +363,7 @@ function collectFriends(method) {
 				code: `${addVar('language', gui.getPreference('language'))}${addVar('unmatched', unmatched)}${addVar('method', method)}CF.process()`,
 				runAt: 'document_end', allFrames: false, frameId: 0
 			};
+			if (isRecent) params.code = 'CF.forcePartial=CF.autoConfirm=CF.keepCollected=true;' + params.code;
 			await waitForTab(tab)
 			clearExcludeTab();
 			await executeScriptPromise(tabId, params);

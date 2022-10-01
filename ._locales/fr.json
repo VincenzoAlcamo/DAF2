@@ -1218,6 +1218,9 @@
 	"friendship_collectstandardinfo": {
 		"message": "Cette méthode est fiable mais très lente (cela peut prendre plusieurs minutes)."
 	},
+	"friendship_collectrecent": {
+		"message": "Récemment ajouté"
+	},
 	"friendship_collectunmatched": {
 		"message": "Incomparable"
 	},

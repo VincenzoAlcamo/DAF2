@@ -1100,7 +1100,7 @@
 		"message": "Clicca per abbinare questo amico al vicino selezionato"
 	},
 	"friendship_actiondelete": {
-		"message": "Clicca per cancellare permanentemente questo amico"
+		"message": "Clicca per cancellare questo amico"
 	},
 	"friendship_matchplayertitle": {
 		"message": "Clicca qui per annullare questo abbinamento"
@@ -1217,6 +1217,9 @@
 	},
 	"friendship_collectstandardinfo": {
 		"message": "Questo metodo è affidabile, ma molto lento (può impiegare diversi minuti)."
+	},
+	"friendship_collectrecent": {
+		"message": "Aggiunti di recente"
 	},
 	"friendship_collectunmatched": {
 		"message": "Non abbinati"

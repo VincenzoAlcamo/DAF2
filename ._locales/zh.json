@@ -1218,6 +1218,9 @@
 	"friendship_collectstandardinfo": {
 		"message": "這個方法可靠,但非常慢(它可能會花幾分鐘)"
 	},
+	"friendship_collectrecent": {
+		"message": "最近添加的"
+	},
 	"friendship_collectunmatched": {
 		"message": "未配對成功"
 	},

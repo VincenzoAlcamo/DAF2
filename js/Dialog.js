@@ -188,8 +188,7 @@ Object.assign(Dialog.prototype, {
 	},
 	setStyle(style) {
 		if (style === null || style === undefined) style = this.lastStyle;
-		style = this.lastStyle = (style instanceof Array ? style.join() : String(style)).split(/,|\s/);
-		style = style.map(method => method.toLowerCase());
+		style = this.lastStyle = (style instanceof Array ? style.join() : String(style)).toLowerCase().split(/,|\s/);
 		for (const tag of [Dialog.CRITICAL, Dialog.WIDEST, Dialog.CLOSE]) this.getElement().classList.toggle('DAF-md-' + tag, style.includes(tag));
 		const dialog = this;
 		dialog.inputs = {};

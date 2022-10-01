@@ -1218,6 +1218,9 @@
 	"friendship_collectstandardinfo": {
 		"message": "Ez a módszer megbízható, de nagyon lassú (több percig is eltarthat)."
 	},
+	"friendship_collectrecent": {
+		"message": "Nemrég hozzáadott"
+	},
 	"friendship_collectunmatched": {
 		"message": "Nemegyező"
 	},
@@ -1430,7 +1433,7 @@
 		"message": "Teljes összeg"
 	},
 	"progress_playtime": {
-		"message": "Elkezdtél játszani $STARTED$ and have been playing for $DURATION$ (as at $NOW$)",
+		"message": "Elkezdtél játszani $STARTED$ és már $DURATION$ napja játszol ($NOW$-ig)",
 		"placeholders": {
 			"started": {
 				"content": "$1"

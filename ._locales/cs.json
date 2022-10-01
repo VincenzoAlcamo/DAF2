@@ -1218,6 +1218,9 @@
 	"friendship_collectstandardinfo": {
 		"message": "Tato metoda je spolehlivá, ale velmi pomalá (může trvat několik minut)."
 	},
+	"friendship_collectrecent": {
+		"message": "Nedávno přidané"
+	},
 	"friendship_collectunmatched": {
 		"message": "Nepřiřazení"
 	},

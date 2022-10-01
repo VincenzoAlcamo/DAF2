@@ -1218,6 +1218,9 @@
 	"friendship_collectstandardinfo": {
 		"message": "Deze methode is betrouwbaar, maar erg traag (het kan enkele minuten duren)."
 	},
+	"friendship_collectrecent": {
+		"message": "Recent toegevoegd"
+	},
 	"friendship_collectunmatched": {
 		"message": "Geen match"
 	},

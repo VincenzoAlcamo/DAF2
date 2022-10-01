@@ -129,6 +129,7 @@ const CF = {
 			chrome.runtime.sendMessage({
 				action: 'friendsCaptured',
 				data: collectMethod == 'unmatched' ? null : friends,
+				forceAnalyze: partial && autoClose,
 				close, partial
 			});
 			Array.from(container.querySelectorAll('.to-be-removed')).forEach(el => el.remove());

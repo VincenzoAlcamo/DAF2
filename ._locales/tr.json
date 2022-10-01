@@ -1218,6 +1218,9 @@
 	"friendship_collectstandardinfo": {
 		"message": "Bu yöntem güvenilirdir, ancak çok yavaştır. (birkaç dakika sürebilir)"
 	},
+	"friendship_collectrecent": {
+		"message": "Son zamanlarda eklendi"
+	},
 	"friendship_collectunmatched": {
 		"message": "Eşsiz"
 	},
