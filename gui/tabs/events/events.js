@@ -115,11 +115,16 @@ function update() {
 	const events = gui.getFile('events');
 	const now = gui.getUnixTime();
 	allEvents = {};
-	for (const event of Object.values(events)) {
+
+	const eventsSorted = Object.values(events).sort((a, b) => +a.def_id - +b.def_id);
+	const eventIcons = {};
+	for (const event of eventsSorted) {
 		if (!event.name_loc) continue;
 		const isSpecialWeek = +event.cooking_event_id > 0 || +event.crafting_event_id > 0;
 		const eid = event.def_id;
 		const item = {};
+		item.remaster = (event.name || '').toLowerCase().endsWith('remastered');
+		// if (event.shop_icon_graphics in eventIcons) item.remaster = true;
 		item.id = eid;
 		item.name = gui.getString(event.name_loc);
 		item.gems = (+event.premium > 0 ? +event.gems_price : 0) || NaN;
@@ -173,6 +178,7 @@ function update() {
 		// Add the event if it has at least one achievement
 		if (!item.tachiev && !isSpecialWeek) continue;
 		allEvents[item.id] = item;
+		// eventIcons[event.shop_icon_graphics] = eid;
 
 		const collects = collectionsByEvent[eid] || [];
 		item.tcollect = item.ccollect = 0;
@@ -539,7 +545,7 @@ function showInfo() {
 	const showProgress = region == 0;
 	const sw = gui.getSpecialWeeks().active.free_premium_event;
 	const giftedEventId = (sw && +sw.info) || 0;
-	const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted || selectedEventId == giftedEventId;
+	const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted || selectedEventId == giftedEventId || item.remaster;
 
 	const isLoc = selectedInfo && selectedInfo.substr(0, 3) == 'loc';
 	container.querySelector('[name=loot_flag]').parentNode.parentNode.style.visibility = isLoc ? '' : 'hidden';
