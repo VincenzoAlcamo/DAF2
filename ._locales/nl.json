@@ -1225,7 +1225,7 @@
 		"message": "Geen match"
 	},
 	"friendship_collectunmatchedinfo": {
-		"message": "This method is the same as the 'Standard' method, but it will not collect friends.\nInstead, it will show you all currently unmatched friends, so you can manually unfriend them."
+		"message": "Deze methode is hetzelfde als de 'Standaard'-methode, maar er worden geen vrienden mee verzameld. In plaats daarvan worden alle momenteel niet gematchde vrienden weergegeven, zodat je ze handmatig kunt ontvrienden."
 	},
 	"friendship_disabledinfo": {
 		"message": "Het kan uitgeschakelde accounts detecteren."

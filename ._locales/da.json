@@ -1219,7 +1219,7 @@
 		"message": "Denne metode er troværdig, men meget langsom (det kan tage adskillige minutter)."
 	},
 	"friendship_collectrecent": {
-		"message": "Nylig tilføjet"
+		"message": "Tilføjet for nyligt"
 	},
 	"friendship_collectunmatched": {
 		"message": "Ikke sammenlignede"
