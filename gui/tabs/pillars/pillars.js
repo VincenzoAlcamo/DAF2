@@ -1,9 +1,11 @@
 /*global bgp gui SmartTable Locale Html Tooltip Dialog*/
 export default {
 	init, update, getState, setState,
-	requires: ['materials', 'decorations', 'levelups', 'sales', 'usables', 'xp'],
+	requires: ['materials', 'decorations', 'levelups', 'sales', 'usables', 'productions', 'special_weeks', 'xp',],
 	events: {
 		show: refresh,
+		type: refresh,
+		dpw: refresh,
 		search: refresh,
 		cap: toggleCap,
 		grid: refresh,
@@ -13,8 +15,9 @@ export default {
 };
 
 const GRID_COLUMNS = 10;
+const TICKET_ID = 347;
 
-let tab, container, inputs, smartTable, pillars;
+let tab, container, inputs, smartTable, pillars, pillarsByMaterial, swDoubleProduction, isDPW;
 let pillarsExcluded = [];
 
 function init() {
@@ -33,12 +36,13 @@ function update() {
 	const pillarsInfo = gui.getPillarsInfo();
 	const sales = gui.getFile('sales');
 	const decorations = gui.getFile('decorations');
+	const productions = gui.getFile('productions');
 	const materialInventory = gui.getGenerator().materials;
 	const generator = gui.getGenerator();
 	const level = +generator.level;
 	const region = +generator.region;
 	pillars = [];
-	const pillarsByMaterial = {};
+	pillarsByMaterial = {};
 	for (const saleId of pillarsInfo.sales) {
 		const sale = sales[saleId];
 		const decoration = decorations[sale.object_id];
@@ -46,6 +50,7 @@ function update() {
 		if (decoration && req) {
 			const matId = req.material_id;
 			const pillar = {};
+			pillar.caravan = false;
 			pillar.mid = matId;
 			pillar.did = +decoration.def_id;
 			pillar.img = gui.getObjectImage('decoration', pillar.did);
@@ -67,17 +72,68 @@ function update() {
 			pillarsByMaterial[matId].push(pillar);
 		}
 	}
+	// Caravans
+	const caravans = {};
+	for (const production of Object.values(productions)) {
+		if (production.type !== 'destination') continue;
+		const cargo = production.cargo[0];
+		if (!cargo || cargo.type !== 'system' || +cargo.object_id !== 1 || !production.requirements.find(req => +req.material_id === TICKET_ID)) continue;
+		const req = production.requirements.find(req => +req.material_id !== TICKET_ID);
+		if (!req) continue;
+		const matId = req.material_id;
+		const pillar = {};
+		pillar.caravan = true;
+		pillar.mid = matId;
+		pillar.did = -matId;
+		pillar.img = gui.getObjectImage('material', pillar.mid);
+		pillar.excluded = pillarsExcluded.includes(pillar.did);
+		pillar.name = gui.getMessageAndValue('tab_caravan', gui.getObjectName('material', pillar.mid));
+		pillar.xp = Math.floor((+cargo.min + +cargo.max) / 2);
+		pillar.coins = 0;
+		pillar.mname = gui.getObjectName('material', matId) + '\n' + gui.getMessage('gui_xp') + ': ' + Locale.formatNumber(gui.getXp('material', matId));
+		pillar.required = +req.amount;
+		pillar.available = materialInventory[matId] || 0;
+		pillar.matimg = gui.getObjectImage('material', matId, true);
+		pillar.perc_next = (pillar.available % pillar.required) / pillar.required * 100;
+		pillar.level = +production.req_level;
+		pillar.region = +production.region_id || 1;
+		pillar.possible = level < pillar.level || region < pillar.region ? 0 : Math.floor(pillar.available / pillar.required);
+		pillar.ratio = pillar.xp / pillar.required;
+		if (!(matId in caravans) || caravans[matId].region > pillar.region) caravans[matId] = pillar;
+	}
+	for (const pillar of Object.values(caravans)) {
+		const matId = pillar.mid;
+		pillars.push(pillar);
+		if (!(matId in pillarsByMaterial)) pillarsByMaterial[matId] = [];
+		pillarsByMaterial[matId].push(pillar);
+	}
+
+	const specialWeeks = gui.getSpecialWeeks();
+	swDoubleProduction = specialWeeks.active.production;
+	const oldValue = inputs.dpw.value;
+	const htm = `<option value="">(${gui.getMessage(swDoubleProduction ? 'dialog_yes' : 'dialog_no').toLowerCase()})</option>
+<option value="yes">${gui.getMessage('dialog_yes')}</option><option value="no">${gui.getMessage('dialog_no')}</option>`;
+	Html.set(inputs.dpw, htm);
+	inputs.dpw.value = oldValue;
+	gui.showSpecialWeeks(container, [swDoubleProduction]);
+
+	refresh();
+}
+
+function recalcMaxPossible() {
+	const state = getState();
+	const caravan = state.type == 'caravan' ? true : state.type == '' ? false : undefined;
 	for (const items of Object.values(pillarsByMaterial)) {
 		let available = items[0].available;
 		// Sort by ratio descending, then required ascending
 		items.sort((a, b) => (b.ratio - a.ratio) || (a.required - b.required));
 		items.forEach(pillar => {
-			pillar.max_possible = level < pillar.level || region < pillar.region ? 0 : Math.floor(available / pillar.required);
+			if(caravan !== undefined && caravan !== pillar.caravan) pillar.max_possible = 0;
+			else pillar.max_possible = pillar.possible > 0 ? Math.floor(available / pillar.required) : 0;
 			available -= (pillar.max_possible * pillar.required);
 			setQty(pillar, pillar.max_possible);
 		});
 	}
-	refresh();
 }
 
 function setQty(pillar, qty) {
@@ -89,6 +145,8 @@ function setQty(pillar, qty) {
 function getState() {
 	return {
 		show: inputs.show.value,
+		type: inputs.type.value,
+		dpw: inputs.dpw.value,
 		search: inputs.search.value,
 		uncapped: !inputs.cap.checked,
 		excluded: pillarsExcluded.join(','),
@@ -100,6 +158,8 @@ function getState() {
 function setState(state) {
 	inputs.search.value = state.search || '';
 	inputs.show.value = state.show == 'possible' ? state.show : '';
+	state.type = gui.setSelectState(inputs.type, state.type);
+	state.dpw = gui.setSelectState(inputs.dpw, state.dpw);
 	inputs.cap.checked = !state.uncapped;
 	inputs.grid.checked = !!state.grid;
 	pillarsExcluded = gui.getArrayOfInt(state.excluded);
@@ -191,7 +251,8 @@ function updateQty(pillar, state) {
 		input.max = max;
 		const td = input.parentNode;
 		if (!td.classList.contains('grid')) {
-			td.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_xp);
+			const factor = pillar.caravan && isDPW ? 2 : 1;
+			td.nextElementSibling.innerText = Locale.formatNumber(factor * pillar.predicted_xp);
 			td.nextElementSibling.nextElementSibling.innerText = Locale.formatNumber(pillar.predicted_coins);
 		}
 		td.querySelector('input[type=checkbox]').checked = !pillar.excluded;
@@ -217,11 +278,12 @@ function refreshTotals() {
 	let tot, qty, xp, coins, maxXp, maxCoins;
 	tot = qty = xp = coins = maxXp = maxCoins = 0;
 	pillars.forEach(pillar => {
+		const factor = pillar.caravan && isDPW ? 2 : 1;
 		tot += pillar.max_possible;
 		qty += pillar.qty;
-		xp += pillar.predicted_xp;
+		xp += factor * pillar.predicted_xp;
 		coins += pillar.predicted_coins;
-		maxXp += pillar.max_possible * pillar.xp;
+		maxXp += factor * pillar.max_possible * pillar.xp;
 		maxCoins += pillar.max_possible * pillar.coins;
 	});
 	const generator = gui.getGenerator();
@@ -266,24 +328,32 @@ function refreshTotals() {
 	if (maxGain.food) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_food', Locale.formatNumber(maxGain.food))}</span>`);
 	if (maxGain.coins) gains.push(Html`<span class="nowrap">${gui.getMessageAndValue('gui_coins', Locale.formatNumber(maxGain.coins))}</span>`);
 	gains = gains.join(', ');
-	Html.set(container.querySelector('.stats'), gains);
+
+	const img = gui.getObjectImg('material', TICKET_ID, 24, true);
+	const numTickets = gui.getGenerator().materials[TICKET_ID] || 0;
+	const tickets = Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(numTickets), gui.getObjectName('material', TICKET_ID))}<br>`;
+
+	Html.set(container.querySelector('.stats'), tickets + gains);
 }
 
 function refresh() {
 	gui.updateTabState(tab);
 
+	recalcMaxPossible();
+
 	smartTable.showFixed(false);
 	Html.set(smartTable.tbody[0], '');
 
 	const state = getState();
-	const generator = gui.getGenerator();
-	const level = +generator.level;
-	const region = +generator.region;
 	const fnSearch = gui.getSearchFilter(state.search);
 
+	isDPW = state.dpw ? state.dpw === 'yes' : !!swDoubleProduction;
+	smartTable.table.classList.toggle('dpw', isDPW);
+
+	const caravan = state.type == 'caravan' ? true : state.type == '' ? false : undefined;
 	function isVisible(p) {
-		const isLocked = level < p.level || region < p.region;
-		if (state.show == 'possible' && (p.possible == 0 || isLocked)) return false;
+		if (caravan !== undefined && p.caravan !== caravan) return false;
+		if (state.show == 'possible' && p.possible == 0) return false;
 		if (fnSearch && !fnSearch(p.name.toUpperCase() + (isLocked ? '' : '\t\n\f'))) return false;
 		return true;
 	}
@@ -313,28 +383,30 @@ function refresh() {
 	let index = 0;
 	for (const pillar of pillars.filter(isVisible)) {
 		const htmInputs = Html.br`<input type="checkbox" ${pillar.excluded ? '' : 'checked'} title="${Html(titleIgnore)}"><input type="number" name="${pillar.did}" title="${pillar.name} (${pillar.possible})" value="${pillar.qty}" step="1" min="0" max="${state.uncapped ? 999 : pillar.possible}">`;
+		const imgClass = 'tooltip-event' + (pillar.caravan ? ' caravan' : '');
 		if (state.grid) {
 			index++;
 			if (index > GRID_COLUMNS) {
 				htm += `</tr><tr>`;
 				index = 1;
 			}
-			htm += Html.br`<td class="image grid${pillar.excluded ? ' excluded' : ''}" data-did="${pillar.did}"><img height="50" data-lazy="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"/>${htmInputs}</td>`;
+			htm += Html.br`<td class="image grid${pillar.excluded ? ' excluded' : ''}${pillar.caravan ? ' caravan' : ''}" data-did="${pillar.did}"><img data-lazy="${pillar.img}" title="${Html(pillar.name)}" class="${imgClass}"/>${htmInputs}</td>`;
 		} else {
 			isOdd = !isOdd;
-			htm += Html.br`<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}">`;
-			htm += Html.br`<td class="image" data-did="${pillar.did}"><img height="50" data-lazy="${pillar.img}" title="${Html(pillar.name)}" class="tooltip-event"></td>`;
+			const factor = pillar.caravan && isDPW ? 2 : 1;
+			htm += Html.br`<tr class="${isOdd ? 'odd' : ''}${pillar.excluded ? ' excluded' : ''}${pillar.caravan ? ' caravan' : ''}">`;
+			htm += Html.br`<td class="image" data-did="${pillar.did}"><img data-lazy="${pillar.img}" title="${Html(pillar.name)}" class="${imgClass}"></td>`;
 			htm += Html.br`<td>${pillar.name}</td>`;
 			htm += Html.br`<td>${gui.getRegionImg(pillar.region)}</td>`;
-			htm += Html.br`<td>${Locale.formatNumber(pillar.level)}</td>`;
-			htm += Html.br`<td>${Locale.formatNumber(pillar.xp)}</td>`;
+			htm += Html.br`<td>${pillar.level ? Locale.formatNumber(pillar.level) : ''}</td>`;
+			htm += Html.br`<td>${Locale.formatNumber(factor * pillar.xp)}</td>`;
 			htm += Html.br`<td>${Locale.formatNumber(pillar.coins)}</td>`;
 			htm += Html.br`<td>${Locale.formatNumber(pillar.required)}</td>`;
 			htm += Html.br`<td class="material" style="background-image:url(${pillar.matimg})" title="${Html(pillar.mname)}">${Locale.formatNumber(pillar.available)}</td>`;
 			htm += Html.br`<td>${Locale.formatNumber(pillar.perc_next, 2)}%</td>`;
 			htm += Html.br`<td>${Locale.formatNumber(pillar.possible)}</td>`;
 			htm += Html.br`<td data-did="${pillar.did}">${htmInputs}</td>`;
-			htm += Html.br`<td>${Locale.formatNumber(pillar.predicted_xp)}</td>`;
+			htm += Html.br`<td>${Locale.formatNumber(factor * pillar.predicted_xp)}</td>`;
 			htm += Html.br`<td>${Locale.formatNumber(pillar.predicted_coins)}</td>`;
 			htm += Html.br`</tr>`;
 		}
@@ -546,6 +618,7 @@ async function calcUltimateLevel() {
 			for (const items of Object.values(pillarsByMaterial)) {
 				const mid = items[0].mid;
 				items.forEach(pillar => {
+					if (pillar.caravan) return;
 					const qty = Math.floor(colMaterials[mid] / pillar.required);
 					if (qty) {
 						addRow(gui.getObjectImage('material', mid), `${pillar.name} \xd7 ${number(qty)}`, qty * pillar.xp);

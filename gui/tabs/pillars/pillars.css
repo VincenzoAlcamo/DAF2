@@ -21,13 +21,25 @@
 	text-align: right;
 }
 
+.pillars.dpw tr.caravan td:nth-child(5),
+.pillars.dpw tr.caravan td:nth-child(12),
+.pillars.dpw tr td.caravan {
+	background-color: rgba(255, 255, 0, 0.1) !important;
+}
+
 .pillars tr td.image {
 	padding: 1px 5px;
 }
 
 .pillars tr td.image img {
 	max-height: 50px;
-	max-width: 30px;
+	max-width: 50px;
+}
+
+.pillars tr td.image img.caravan {
+	background-color: var(--tb-hlcol);
+    border: 1px solid #0003;
+    border-radius: 8px;
 }
 
 .pillars tr td.grid img {
@@ -130,6 +142,10 @@
 	padding: 4px;
 	max-width: 200px;
 	text-align: center;
+}
+
+.pillars-tooltip img {
+	max-width: 192px;
 }
 
 .pillars-tooltip span {

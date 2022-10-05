@@ -1,9 +1,25 @@
-<div class="toolbar">
+<div class="toolbar vertical">
 	<label>
 		<span data-i18n-text="gui_show"></span>
 		<select name="show">
-			<option value="" data-i18n-text="pillars_all"></option>
-			<option value="possible" data-i18n-text="pillars_only_possible"></option>
+			<option value="" data-i18n-text="gui_all"></option>
+			<option value="possible" data-i18n-text="gui_only_possible"></option>
+		</select>
+	</label>
+	<label>
+		<span data-i18n-text="gui_type"></span>
+		<select name="type">
+			<option value="all" data-i18n-text="gui_all"></option>
+			<option value="" data-i18n-text="tab_pillars"></option>
+			<option value="caravan" data-i18n-text="tab_caravan"></option>
+		</select>
+	</label>
+	<label data-i18n-title="specialweek_production">
+		<span>DPW</span>
+		<select name="dpw">
+			<option value=""></option>
+			<option value="yes" data-i18n-text="dialog_yes"></option>
+			<option value="no" data-i18n-text="dialog_no"></option>
 		</select>
 	</label>
 	<label>
@@ -18,13 +34,14 @@
 		<span data-i18n-text="pillars_grid"></span>
 		<input name="grid" type="checkbox" />
 	</label>
-	<label>
+	<!-- <label>
 		<button name="options" data-i18n-text="tab_options"></button>
-	</label>
+	</label> -->
 	<label>
 		<button name="ultimate" data-i18n-text="gui_maximum"></button>
 	</label>
 	<div class="stats"></div>
+	<div class="weeks"></div>
 </div>
 <div class="scrollable-content no-overflow">
 	<table class="pillars data">
