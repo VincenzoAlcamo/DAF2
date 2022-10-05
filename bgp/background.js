@@ -1039,7 +1039,8 @@ var Data = {
 				if (materialId > 0 && amount > 0) {
 					const xp = Math.floor((+cargo.min + +cargo.max) / 2);
 					const xpByUnit = Math.floor(xp / amount);
-					if (!(materialId in caravans) || caravans[materialId].xpByUnit < xpByUnit) {
+					const previous = caravans[materialId];
+					if (!previous || previous.xpByUnit < xpByUnit || (previous.xpByUnit == xpByUnit && previous.xp < xp)) {
 						caravans[materialId] = { xp, xpByUnit, amount, hasTicket };
 					}
 					if (materialId != 1) {
