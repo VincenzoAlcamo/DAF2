@@ -4,7 +4,7 @@
 //#region MISCELLANEOUS
 const SECONDS_IN_A_DAY = 86400;
 const MINECACHE_LIMIT = 300;
-// const ADTYPE_LUCKYCARDS = 'wheel_of_fortune';
+const ADTYPE_LUCKYCARDS_OLD = 'wheel_of_fortune';
 const ADTYPE_LUCKYCARDS = 'lucky_cards';
 
 function hasRuntimeError(info) {
@@ -1565,7 +1565,7 @@ var Data = {
 		let total = 0;
 		Object.values(videoads).forEach(videoad => {
 			const type = videoad.type, found = counters.find(item => item.type == type);
-			if (!found) return;
+			if (!found || type == ADTYPE_LUCKYCARDS_OLD) return;
 			const current = (found && +found.watched_at >= midnight && found.counter) || 0;
 			total += current;
 			const limit = `${Locale.formatNumber(current)} / ${Locale.formatNumber(+videoad.daily_limit)}`;
