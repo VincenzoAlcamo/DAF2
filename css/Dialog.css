@@ -131,8 +131,10 @@
 	font-size: 1em;
 	font-weight: 200;
 	background: rgba(0, 0, 0, 0.05);
-	/* this will account for the left margin on buttons, so they are centered anyway */
-	padding-right: 24px;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .DAF-md-body {

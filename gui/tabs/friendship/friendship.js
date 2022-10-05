@@ -165,35 +165,35 @@ function showCollectDialog(collectMethod) {
 		matchByImage = setNewValue('matchByImage', matchByImage, !!(parseInt(params.matchByImage)));
 	}
 
-	const lastCollect = bgp.Data.friendsCollectDate;
-	const addRecent = collectMethod == 'standard' && lastCollect > 0 && ((gui.getUnixTime() - bgp.Data.friendsCollectDate) / 86400) < 30;
+	const isMatch = collectMethod == 'match';
+	const addRecent = !isMatch && !mustRecollect();
+	const hasStandardSettings = !isMatch;
+	const hasMatchSettings = true;
 
 	gui.dialog.show({
-		title: gui.getMessage(collectMethod === 'match' ? 'friendship_collectmatch' : 'friendship_collectfriends'),
+		title: gui.getMessage(isMatch ? 'friendship_collectmatch' : 'friendship_collectfriends'),
 		html: Html.br`<p style="text-align:left;max-width:550px">${gui.getMessage('friendship_collect' + collectMethod + 'info')}
-${collectMethod == 'standard' ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
+${!isMatch ? '\n' + gui.getMessage('friendship_disabledinfo') : ''}
 </p>
-${addRecent ? Html.br`<button data-method="recent">${gui.getMessage('friendship_collectrecent')}</button>` : ''}
-${collectMethod == 'standard' ? addStandardSettings() : ''}
-${collectMethod == 'standard' || collectMethod == 'match' ? addMatchSettings() : ''}
+${addRecent ? Html.br`<button class="DAF-collect" data-method="recent">${gui.getMessage('friendship_collectfriends')}:<br>${gui.getMessage('friendship_collectrecent')}</button>` : ''}
+${!isMatch ? Html.br`<button class="DAF-collect" data-method="standard">${gui.getMessage('friendship_collectfriends')}:<br>${gui.getMessage('gui_all')}</button>` : ''}
+${hasStandardSettings ? addStandardSettings() : ''}
+${hasMatchSettings ? addMatchSettings() : ''}
 <br>${gui.getMessage('friendship_confirmwarning')}`,
-		style: [Dialog.AUTORUN, Dialog.CONFIRM, Dialog.CANCEL]
+		style: [Dialog.AUTORUN, isMatch ? Dialog.CONFIRM : null, Dialog.CANCEL]
 	}, function (method, params) {
 		const element = gui.dialog.element;
-		const button = element.querySelector('button[data-method=recent]');
+		const buttons = element.querySelectorAll('button.DAF-collect');
 		if (method == Dialog.AUTORUN) {
 			const footer = element.querySelector('.DAF-md-footer');
-			if (button) footer.insertBefore(button, footer.firstElementChild);
+			buttons.forEach(button => footer.insertBefore(button, footer.firstChild));
 			return;
 		}
-		if (collectMethod == 'standard') setStandardOptions(params);
-		if (collectMethod == 'standard' || collectMethod == 'match') setMatchOptions(params);
-		if (button) button.remove();
-		const isRecent = method == 'recent';
-		if (method == Dialog.CONFIRM || isRecent) {
-			if (collectMethod == 'standard') collectFriends(collectMethod, isRecent);
-			else if (collectMethod == 'match') matchStoreAndUpdate();
-		}
+		if (hasStandardSettings) setStandardOptions(params);
+		if (hasMatchSettings) setMatchOptions(params);
+		buttons.forEach(button => button.remove());
+		if (method == Dialog.CONFIRM) matchStoreAndUpdate();
+		if (method == 'standard' || method == 'recent') collectFriends(method);
 	});
 }
 
@@ -324,7 +324,9 @@ function onInput(event) {
 	}
 }
 
-function collectFriends(method, isRecent) {
+function collectFriends(method) {
+	const isRecent = method == 'recent'
+	if (isRecent) method = 'standard';
 	const width = 1000;
 	const height = 500;
 	const unmatched = method == 'unmatched' ? getUnmatched().join() : '';
@@ -412,6 +414,10 @@ function executeScriptPromise(tabId, params) {
 	return nextFile();
 }
 
+function mustRecollect() {
+	return bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400;
+}
+
 function showStats() {
 	let htm = '';
 	if (numToAnalyze == numAnalyzed || numToAnalyze == 0) {
@@ -449,8 +455,8 @@ function showStats() {
 	for (const div of container.querySelectorAll('.numneighbours')) Html.set(div, htm);
 
 	htm = '';
-	if (bgp.Data.friendsCollectDate < gui.getUnixTime() - 30 * 86400) {
-		const method = gui.getMessage('friendship_collectstandard');
+	if (mustRecollect()) {
+		const method = gui.getMessageAndValue('friendship_collectfriends', gui.getMessage('gui_all'));
 		htm = Html.br(gui.getMessage('friendship_timewarning', gui.getMessage('friendship_collectfriends'), method));
 	}
 	const div = container.querySelector('.warning');
