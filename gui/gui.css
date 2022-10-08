@@ -323,6 +323,7 @@ progress {
 	height: 14px;
 	margin: 2px 0px;
 	-webkit-appearance: none;
+	appearance: none;
 	border: 2px solid var(--pb-brcol);
 	border-radius: 50px;
 	background: var(--pb-bgcol);
@@ -558,6 +559,7 @@ input[type='range']:hover {
 
 input[type='range']::-webkit-slider-thumb {
 	-webkit-appearance: none;
+	appearance: none;
 	border: 1px solid var(--vm-brcol);
 	height: 24px;
 	width: 16px;

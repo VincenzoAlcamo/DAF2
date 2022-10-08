@@ -1044,7 +1044,7 @@ async function loadTab(tab) {
 		container.style.display = 'none';
 		const tabBasePath = '/gui/tabs/' + tab.id + '/' + tab.id;
 		Object.assign(tab, imported_tabs[tab.id]);
-		if (tab.hasCSS !== false) Html.addStylesheet(tabBasePath + '.css');
+		if (tab.css !== false) await new Promise((resolve) => Html.addStylesheet(tabBasePath + '.css', resolve));
 		tab.requires = tab.requires || [];
 		if (tab.requires.includes('xp')) {
 			if (!tab.requires.includes('sales')) tab.requires.push('sales');
