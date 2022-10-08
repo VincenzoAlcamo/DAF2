@@ -820,6 +820,9 @@ thead .stats {
 	width: 3.5em;
 }
 
+.toolbar input[name='search'] {
+    width: 120px;
+}
 .toolbar input[name='search'].activated {
 	background-color: var(--tt-button-hlcol);
 	color: var(--tt-button-fgcol);
