@@ -1697,7 +1697,10 @@ var Synchronize = {
 			message.action = action;
 			if (data) message.data = data;
 		}
-		if (delayed) return Synchronize.delayedSignals.push(message);
+		if (delayed) {
+			if (delayed === 'single' && Synchronize.delayedSignals.find(msg => msg.action === message.action)) return;
+			return Synchronize.delayedSignals.push(message);
+		}
 		chrome.runtime.sendMessage(message, () => hasRuntimeError('SYNC1'));
 		if (Tab.gameTabId) chrome.tabs.sendMessage(Tab.gameTabId, message, () => hasRuntimeError('SYNC2'));
 	},
@@ -1804,16 +1807,16 @@ var Synchronize = {
 	},
 	production(type, action, task) {
 		let slotName, prodName, finishName = 'finish', arr;
-		if (type == 'c') {
+		if (type == 'caravan') {
 			slotName = 'caravan_id';
 			prodName = 'dest_id';
 			finishName = 'arrival';
 			arr = Data.generator.caravans;
-		} else if (type == 'k') {
+		} else if (type == 'kitchen') {
 			slotName = 'pot_id';
 			prodName = 'pot_recipe_id';
 			arr = Data.generator.pots;
-		} else if (type == 'f') {
+		} else if (type == 'foundry') {
 			slotName = 'anvil_id';
 			prodName = 'alloy_id';
 			arr = Data.generator.anvils;
@@ -1823,7 +1826,7 @@ var Synchronize = {
 		if (action == 'unload') {
 			prod.cargo = 0;
 		} else if (action == 'start') {
-			prod.cargo = 0;
+			prod.cargo = 1;
 			const prodId = prod[prodName] = +task[prodName];
 			const items = Data.files.productions, item = items && items[prodId];
 			prod[finishName] = item ? Math.floor(task.time) + Math.floor(+item.duration * (Data.isFasterProduction() ? 0.5 : 1)) : 0;
@@ -1832,7 +1835,11 @@ var Synchronize = {
 			prod.cargo = 0;
 			prod[finishName] = 0;
 			Data.setTimer(Data.checkProductions, 1);
+		} else if (action == 'speedup') {
+			prod[finishName] = Math.floor(task.time);
+			Data.setTimer(Data.checkProductions, 1);
 		}
+		Synchronize.signal('update_productions', null, 'single');
 	},
 	handlers: {
 		visit_camp(action, _task, taskResponse, _response) {
@@ -2009,14 +2016,18 @@ var Synchronize = {
 				Synchronize.signal('ads_info', Data.getAdsInfo());
 			}
 		},
-		prod_unload_caravan: (_action, task) => Synchronize.production('c', 'unload', task),
-		prod_send_caravan: (_action, task) => Synchronize.production('c', 'start', task),
-		unload_pot_recipe: (_action, task) => Synchronize.production('k', 'unload', task),
-		start_pot_recipe: (_action, task) => Synchronize.production('k', 'start', task),
-		cancel_pot_recipe: (_action, task) => Synchronize.production('k', 'cancel', task),
-		unload_anvil_alloy: (_action, task) => Synchronize.production('f', 'unload', task),
-		start_anvil_alloy: (_action, task) => Synchronize.production('f', 'start', task),
-		cancel_anvil_alloy: (_action, task) => Synchronize.production('f', 'cancel', task),
+		prod_unload_caravan: (_action, task) => Synchronize.production('caravan', 'unload', task),
+		prod_send_caravan: (_action, task) => Synchronize.production('caravan', 'start', task),
+		prod_return_caravan: (_action, task) => Synchronize.production('caravan', 'cancel', task),
+		prod_speedup_caravan: (_action, task) => Synchronize.production('caravan', 'speedup', task),
+		unload_pot_recipe: (_action, task) => Synchronize.production('kitchen', 'unload', task),
+		start_pot_recipe: (_action, task) => Synchronize.production('kitchen', 'start', task),
+		cancel_pot_recipe: (_action, task) => Synchronize.production('kitchen', 'cancel', task),
+		speedup_pot_recipe: (_action, task) => Synchronize.production('kitchen', 'speedup', task),
+		unload_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'unload', task),
+		start_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'start', task),
+		cancel_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'cancel', task),
+		speedup_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'speedup', task),
 		cl_add(action, task, taskResponse, _response) {
 			Synchronize.setCustomList(action, task, taskResponse);
 		},

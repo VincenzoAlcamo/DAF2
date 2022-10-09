@@ -35,30 +35,6 @@
 	height: 50px;
 }
 
-.pillars tr.caravan td.image,
-.pillars tr td.caravan.image {
-	position: relative;
-}
-.pillars tr.caravan td.image:after,
-.pillars tr td.caravan.image:after {
-	display: block;
-	position: absolute;
-	left: calc(50% + 9px);
-	top: calc(50% + 9px);
-	content: " ";
-	width: 16px;
-	height: 16px;
-	background-image: url(/img/gui/caravan.png);
-	background-size: 16px 16px;
-	background-repeat: no-repeat;
-    border-radius: 4px;
-    background-color: var(--tb-hlcol);
-    pointer-events: none;
-}
-.pillars tr td.caravan.image:after {
-    top: 36px;
-}
-
 .pillars tr td.grid img {
 	margin: 1px auto 2px;
 	display: block;
@@ -66,6 +42,10 @@
 
 .pillars td.grid {
 	min-width: 80px;
+}
+
+.pillars td.grid .with-ticket {
+	margin: 0 10px;
 }
 
 .pillars div.qty {
@@ -103,6 +83,19 @@
 	color: #707070;
 	background: transparent;
 	border: 1px solid transparent;
+}
+
+.tab_pillars .production_slot {
+	--outline: var(--success-bgcol);
+	outline: 2px solid var(--outline);
+	border-color: var(--tr-bgcol);
+	cursor: pointer;
+}
+.tab_pillars .production_slot.excluded {
+	--outline: var(--warn-bgcol);
+}
+.tab_pillars .production_slot.excluded > * {
+	filter: sepia(1) opacity(0.6);
 }
 
 .pillars-totals th {

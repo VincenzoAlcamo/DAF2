@@ -1,34 +1,169 @@
 /*global gui Locale SmartTable Html*/
+export { ProductionHelper, TICKET_ID };
 export default kitchenFoundry;
 
 const TICKET_ID = 347;
 
+class ProductionHelper {
+	type = '';
+	productionType = ''
+	slotName = ''
+	minNumSlots = 0;
+	unlockName = '';
+	dpWeeks = null;
+
+	constructor(type) {
+		this.type = type;
+		switch (type) {
+			case 'foundry':
+				this.productionType = 'alloy';
+				this.slotName = 'anvils';
+				this.minNumSlots = 1;
+				this.unlockName = 'alloys';
+				break;
+			case 'kitchen':
+				this.productionType = 'recipe';
+				this.slotName = 'pots';
+				this.minNumSlots = 4;
+				this.unlockName = 'pot_recipes';
+				break;
+			case 'caravan':
+				this.productionType = 'destination';
+				this.slotName = 'caravans';
+				this.minNumSlots = 4;
+				break;
+		}
+	}
+
+	getSlots() {
+		const slots = gui.getGenerator()[this.slotName];
+		return Array.isArray(slots) ? slots : [];
+	}
+
+	getNormalizedSlots() {
+		const slots = this.getSlots().map(slot => this.normalizeSlot(slot));
+		slots.sort((a, b) => a.id - b.id);
+		return slots;
+	}
+
+	normalizeSlot(slot) {
+		let id, prodId, finish;
+		switch (this.type) {
+			case 'caravan':
+				id = +slot.caravan_id;
+				prodId = slot.dest_id;
+				finish = slot.arrival;
+				break;
+			case 'kitchen':
+				id = +slot.pot_id;
+				prodId = slot.pot_recipe_id;
+				finish = slot.finish;
+				break;
+			case 'foundry':
+				id = +slot.anvil_id;
+				prodId = slot.alloy_id;
+				finish = slot.finish;
+				break;
+		}
+		return { id, prodId, finish, cargo: slot.cargo }
+	}
+
+	getNumSlots() {
+		return Math.max(this.minNumSlots, this.getSlots().length);
+	}
+
+	getUnlockedIds() {
+		const arr = gui.getGenerator()[this.unlockName] || null;
+		return (Array.isArray(arr) ? arr : []).map(id => +id);
+	}
+
+	getProductions() {
+		const productions = gui.getFile('productions');
+		return Object.values(productions).filter(item => item.type == this.productionType && +item.hide == 0);
+	}
+
+	getTicketHeader() {
+		const img = gui.getObjectImg('material', TICKET_ID, 24, true);
+		const qty = gui.getGenerator().materials[TICKET_ID] || 0;
+		return Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`;
+	}
+
+	getSlotCargo(slot) {
+		if (!this.dpWeeks) {
+			const specialWeeks = gui.getSpecialWeeks();
+			this.dpWeeks = specialWeeks.production || [];
+		}
+		slot = slot.id ? slot : this.normalizeSlot(slot);
+		const production = slot.cargo ? gui.getFile('productions')[slot.prodId] : null;
+		const cargo = production ? production.cargo[0] : null;
+		if (!cargo) return null;
+		const factor = this.dpWeeks.find(sw => sw.start <= start && sw.end > start) ? 2 : 1;
+		return {
+			min: factor * +cargo.min,
+			max: factor * +cargo.max,
+			type: cargo.type,
+			object_id: +cargo.object_id,
+			hasTicket: this.type == 'caravan' && production.requirements.find(req => +req.material_id == TICKET_ID),
+			material_id: production.requirements.find(req => +req.material_id != TICKET_ID).material_id
+		};
+	}
+
+	getSlotHtml(slot) {
+		slot = slot.id ? slot : this.normalizeSlot(slot);
+		const cargo = this.getSlotCargo(slot);
+
+		let ready, img, imgTitle, title, outTitle, outImg, outValue, small;
+
+		img = '/img/gui/' + this.type + '.png';
+		imgTitle = title = outTitle = outImg = outValue = '';
+
+		if (cargo) {
+			ready = slot.finish <= gui.getUnixTime();
+			if (cargo.min == cargo.max) outValue = Locale.formatNumber(cargo.min);
+			else outValue = `${Locale.formatNumber(cargo.min)} - ${Locale.formatNumber(cargo.max)}`
+			img = gui.getObjectImage(cargo.type, cargo.object_id);
+			title = gui.getObjectName(cargo.type, cargo.object_id);
+			if (cargo.hasTicket) {
+				outImg = img;
+				outTitle = title;
+				img = gui.getObjectImage('material', cargo.material_id);
+				imgTitle = `${gui.getObjectName('material', TICKET_ID)} + ${gui.getObjectName('material', cargo.material_id, 'info+desc')}`;
+				title = `${gui.getObjectName('material', TICKET_ID)}\n+ ${gui.getObjectName('material', cargo.material_id)}`;
+				small = outValue.length >= 9;
+			} else {
+				imgTitle = gui.getObjectName(cargo.type, cargo.object_id, 'info+xp+desc');
+				outValue = '\xd7 ' + outValue;
+			}
+		}
+
+		return Html`
+<div class="production_slot${ready ? ' ready' : ''}">
+	<div class="pic${cargo && cargo.hasTicket ? ' with-ticket' : ''}"><img loading="lazy" src="${img}"${imgTitle ? Html` title="${imgTitle}"` : ''}></div>
+	<div>
+		<div class="title">${Html.br`${title}`}</div>
+		<div class="out${small ? ' small' : ''}"${outTitle ? Html` title="${outTitle}"` : ''}${outImg ? Html` style="background-image:url(${outImg})"` : ''}>${outValue}</div>
+	</div>
+</div>`;
+	}
+}
+
 function kitchenFoundry(type) {
+	const prodHelper = new ProductionHelper(type);
+
 	let tab, container, inputs, productions, smartTable, oldState;
 	let swDoubleProduction, swHalfTimeProduction;
 
-	let productionType;
-	let getNumSlotsFn = (_generator) => 4;
-	let getUnlockedFn = (_generator) => null;
 	let hasQty, hasLevel, hasTicket, hasEnergy, hasUplift, hasXp, hasEvent;
 
 	hasQty = hasLevel = hasTicket = hasEnergy = hasUplift = hasXp = false;
 	switch (type) {
 		case 'foundry':
-			productionType = 'alloy';
 			hasQty = hasLevel = hasUplift = hasXp = true;
-			getNumSlotsFn = (generator) => (generator.anvils && generator.anvils.length) || 1;
-			getUnlockedFn = (generator) => generator.alloys;
 			break;
 		case 'kitchen':
-			productionType = 'recipe';
 			hasLevel = hasEnergy = hasEvent = true;
-			getNumSlotsFn = (generator) => (generator.pots && generator.pots.length) || 4;
-			getUnlockedFn = (generator) => generator.pot_recipes;
 			break;
 		case 'caravan':
-			getNumSlotsFn = (generator) => (generator.caravans && generator.caravans.length) || 4;
-			productionType = 'destination';
 			hasTicket = hasQty = hasUplift = hasXp = true;
 			break;
 	}
@@ -66,16 +201,8 @@ function kitchenFoundry(type) {
 		gui.setSortState(state.sort, smartTable, 'name', 'ingredient');
 	}
 
-	function getNumSlots() {
-		return getNumSlotsFn(gui.getGenerator());
-	}
-
 	function update() {
-		if (hasTicket) {
-			const img = gui.getObjectImg('material', TICKET_ID, 24, true);
-			const qty = gui.getGenerator().materials[TICKET_ID] || 0;
-			Html.set(container.querySelector('.stats'), Html.br`${img}${gui.getMessage('rings_stats', Locale.formatNumber(qty), gui.getObjectName('material', TICKET_ID))}`);
-		}
+		if (hasTicket) Html.set(container.querySelector('.stats'), prodHelper.getTicketHeader());
 		const specialWeeks = gui.getSpecialWeeks();
 		swDoubleProduction = specialWeeks.active.production;
 		swHalfTimeProduction = specialWeeks.active.prod_time;
@@ -85,7 +212,7 @@ function kitchenFoundry(type) {
 		Html.set(inputs.dpw, htm);
 		inputs.dpw.value = oldValue;
 		gui.showSpecialWeeks(container, [swDoubleProduction, swHalfTimeProduction]);
-		for (const el of Array.from(container.querySelectorAll('[data-sort-name="total_time"]'))) Html.set(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), getNumSlots())));
+		for (const el of Array.from(container.querySelectorAll('[data-sort-name="total_time"]'))) Html.set(el, Html.br(gui.getMessage(el.getAttribute('data-i18n-text'), prodHelper.getNumSlots())));
 		productions = getProductions();
 		inputs.from.style.display = productions.find(p => p.eid != 0) ? '' : 'none';
 		if (inputs.region) {
@@ -96,7 +223,17 @@ function kitchenFoundry(type) {
 			setState(state);
 		}
 		oldState = {};
+		updateCurrentProduction();
 		refresh();
+	}
+
+	function updateCurrentProduction() {
+		const parent = container.querySelector('.production_slots');
+		if (!parent) return;
+		const productions = prodHelper.getNormalizedSlots().map(slot => {
+			return prodHelper.getSlotHtml(slot);
+		}).join('');
+		Html.set(parent, productions);
 	}
 
 	function getProductions() {
@@ -108,11 +245,10 @@ function kitchenFoundry(type) {
 		const tokens = gui.getFile('tokens');
 		const player_events = Object.assign({}, generator.events);
 		const events = gui.getFile('events');
-		const slots = getNumSlotsFn(generator);
-		const unlocked = [].concat(getUnlockedFn(generator) || []).map(id => +id);
+		const slots = prodHelper.getNumSlots();
+		const unlocked = prodHelper.getUnlockedIds();
 
-		let productions = gui.getFile('productions');
-		productions = Object.values(productions).filter(item => item.type == productionType && +item.hide == 0);
+		let productions = prodHelper.getProductions();
 
 		for (const item of productions) {
 			const eid = +item.event_id;
@@ -183,10 +319,11 @@ function kitchenFoundry(type) {
 				p.ingredients.push(ingredient);
 			}
 			if (type == 'caravan') {
-				let name;
-				if (cargo.type == 'system') name = gui.getMessageAndValue('gui_xp', p.ingredients[0].name);
-				else name = p.cname + ' \xd7 ' + Locale.formatNumber(p.qty1);
-				p.name = name + '\n' + gui.getString(item.name_loc);
+				if (p.ticket) {
+					p.name = `${gui.getObjectName('material', TICKET_ID)}\n+ ${p.ingredients[0].name}`
+					p.cimg = gui.getObjectImage('material', p.ingredients[0].id, true);
+				}
+				else p.name = p.cname + ' \xd7 ' + Locale.formatNumber(p.qty1);
 				p.gname = `${cargo.object_id}${cargo.type}${+cargo.max}t${+item.duration}_` + item.requirements.map(r => `${r.material_id}x${+r.amount}`).join(',');
 			}
 			if (hasTicket) {
@@ -235,6 +372,7 @@ function kitchenFoundry(type) {
 			const title = hasQty ? p.cname : gui.getObjectName(p.cargo.type, p.cargo.object_id, 'info+xp+desc');
 			let htm = '';
 			let img = Html.br`<img src="${p.cimg}" loading="lazy" width="32" height="32" title="${Html(title)}"/>`;
+			if (p.ticket) img = Html.br`<div class="with-ticket">${img}</div>`
 			if (p.locked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
 			htm += Html.br`<td rowspan="${rspan}">${img}</td>`;
 			htm += Html.br`<td rowspan="${rspan}">${p.name}</td>`;
@@ -382,6 +520,9 @@ function kitchenFoundry(type) {
 	return {
 		init, update, getState, setState,
 		requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks', hasXp ? 'xp' : ''],
+		actions: {
+			'update_productions': updateCurrentProduction,
+		},
 		events: {
 			search: refresh,
 			show: refresh,

@@ -27,10 +27,6 @@
 		<input name="search" type="text" maxlength="40" data-debounce />
 	</label>
 	<label>
-		<span><span data-i18n-text="tab_caravan"></span>: <span data-i18n-text="repeat_ready"></span></span>
-		<input name="ready" type="checkbox" />
-	</label>
-	<label>
 		<span data-i18n-text="pillars_cap"></span>
 		<input name="cap" type="checkbox" />
 	</label>
@@ -38,26 +34,24 @@
 		<span data-i18n-text="pillars_grid"></span>
 		<input name="grid" type="checkbox" />
 	</label>
-	<!-- <label>
-		<button name="options" data-i18n-text="tab_options"></button>
-	</label> -->
 	<label>
 		<button name="ultimate" data-i18n-text="gui_maximum"></button>
 	</label>
 	<div class="stats"></div>
 	<div class="weeks"></div>
 </div>
+<div class="current-production" style="padding-top:8px">
+	<table>
+		<thead><tr><td data-i18n-text="tab_caravan"></td></tr></thead>
+		<tbody><tr><td><div class="production_slots"></div></td></tr></tbody>
+	</table>
+</div>
 <div class="scrollable-content no-overflow">
 	<table class="pillars data">
 		<thead>
 			<tr>
 				<th rowspan="2" class="firstcol">
-					<img
-						class="wiki"
-						data-wiki-page="Pillars"
-						data-i18n-title="tab_pillars+gui_clickwiki"
-						src="/img/gui/pillars.png"
-					/>
+					<img class="wiki" data-wiki-page="Pillars" data-i18n-title="tab_pillars+gui_clickwiki" src="/img/gui/pillars.png" />
 				</th>
 				<th rowspan="2" class="sortable" data-sort-name="name" data-i18n-text="gui_name"></th>
 				<th rowspan="2" class="sortable only-image" data-sort-name="region">
@@ -82,12 +76,7 @@
 				<th rowspan="2" class="sortable" data-sort-name="possible" data-i18n-title="pillars_possible">
 					<img src="/img/gui/max.png" />
 				</th>
-				<th
-					colspan="3"
-					class="sortable sortable-left colspan3"
-					data-sort-name="excluded"
-					data-i18n-text="pillars_predicted"
-				></th>
+				<th colspan="3" class="sortable sortable-left colspan3" data-sort-name="excluded" data-i18n-text="pillars_predicted"></th>
 			</tr>
 			<tr>
 				<th class="sortable" data-sort-name="qty" data-i18n-text="gui_qty"></th>
