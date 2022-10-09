@@ -1825,6 +1825,7 @@ var Synchronize = {
 		if (!prod) return;
 		if (action == 'unload') {
 			prod.cargo = 0;
+			Synchronize.signal('update_productions', null, 'single');
 		} else if (action == 'start') {
 			prod.cargo = 1;
 			const prodId = prod[prodName] = +task[prodName];
@@ -1839,7 +1840,6 @@ var Synchronize = {
 			prod[finishName] = Math.floor(task.time);
 			Data.setTimer(Data.checkProductions, 1);
 		}
-		Synchronize.signal('update_productions', null, 'single');
 	},
 	handlers: {
 		visit_camp(action, _task, taskResponse, _response) {

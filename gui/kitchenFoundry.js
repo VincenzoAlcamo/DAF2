@@ -523,6 +523,7 @@ function kitchenFoundry(type) {
 		requires: ['materials', 'usables', 'tokens', 'productions', 'events', 'special_weeks', hasXp ? 'xp' : ''],
 		actions: {
 			'update_productions': updateCurrentProduction,
+			'productions': updateCurrentProduction,
 		},
 		events: {
 			search: refresh,

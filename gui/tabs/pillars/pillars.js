@@ -6,6 +6,7 @@ export default {
 	requires: ['materials', 'decorations', 'levelups', 'sales', 'usables', 'productions', 'special_weeks', 'xp',],
 	actions: {
 		'update_productions': updateCurrentProduction,
+		'productions': updateCurrentProduction,
 	},
 	events: {
 		show: refresh,
