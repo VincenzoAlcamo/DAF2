@@ -481,6 +481,7 @@ function kitchenFoundry(type) {
 		const rid = inputs.region ? +inputs.region.value : 0;
 		function isVisible(p) {
 			if (rid != 0 && p.region != rid) return false;
+			if (rid == 0 && type == 'caravan' && !p.current) return false;
 			if (state.show == 'possible' && (p.output == 0 || p.locked)) return false;
 			if (state.from == 'region' && p.eid > 0) return false;
 			if (state.from == 'event' && p.eid == 0) return false;
