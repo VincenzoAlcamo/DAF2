@@ -1749,9 +1749,12 @@ div.equipment_mask {
 }
 .production_slot .title {
 	width: 100px;
+	max-height: 2em;
 	font-size: 11px;
-	white-space: nowrap;
 	overflow: hidden;
+}
+.production_slot .pic.with-ticket + div > .title {
+	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 .production_slot .out {

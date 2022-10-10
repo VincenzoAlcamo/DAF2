@@ -182,6 +182,10 @@ function kitchenFoundry(type) {
 		smartTable = new SmartTable(container.querySelector('.data'));
 		smartTable.onSort = refresh;
 
+		container.querySelector('.production_slots').addEventListener('render', function (_event) {
+			prodHelper.updateCurrentProduction(container);
+		});
+
 		setState({});
 	}
 
@@ -235,7 +239,7 @@ function kitchenFoundry(type) {
 	}
 
 	function updateCurrentProduction() {
-		prodHelper.updateCurrentProduction(container);
+		gui.setLazyRender(container.querySelector('.production_slots'));
 	}
 
 	function getProductions() {

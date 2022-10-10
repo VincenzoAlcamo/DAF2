@@ -42,6 +42,22 @@ function init() {
 	smartTable.fixedFooter.parentNode.classList.add('pillars');
 
 	container.addEventListener('tooltip', onTooltip);
+
+	container.querySelector('.production_slots').addEventListener('render', function (_event) {
+		prodHelper.updateCurrentProduction(container);
+		container.querySelectorAll('.production_slot').forEach((div, i) => {
+			const id = TYPE_SLOT + (i + 1);
+			div.title = gui.getMessage('pillars_ignore');
+			div.classList.toggle('excluded', id in slotsExcluded);
+			div.addEventListener('click', () => {
+				if (id in slotsExcluded) delete slotsExcluded[id];
+				else slotsExcluded[id] = true;
+				div.classList.toggle('excluded', id in slotsExcluded);
+				gui.updateTabState(tab);
+				refreshTotals();
+			})
+		})
+	});
 }
 
 function update() {
@@ -136,19 +152,7 @@ function update() {
 }
 
 function updateCurrentProduction() {
-	prodHelper.updateCurrentProduction(container);
-	container.querySelectorAll('.production_slot').forEach((div, i) => {
-		const id = TYPE_SLOT + (i + 1);
-		div.title = gui.getMessage('pillars_ignore');
-		div.classList.toggle('excluded', id in slotsExcluded);
-		div.addEventListener('click', () => {
-			if (id in slotsExcluded) delete slotsExcluded[id];
-			else slotsExcluded[id] = true;
-			div.classList.toggle('excluded', id in slotsExcluded);
-			gui.updateTabState(tab);
-			refreshTotals();
-		})
-	})
+	gui.setLazyRender(container.querySelector('.production_slots'));
 }
 
 function recalcMaxPossible() {
