@@ -137,7 +137,7 @@ class ProductionHelper {
 		}
 
 		return Html`
-<div class="production_slot${ready ? ' ready' : ''}">
+<div class="production_slot${ready ? ' ready' : ''}" data-slot-id="${slot.id}">
 	<div class="pic${cargo && cargo.hasTicket ? ' with-ticket' : ''}"><img loading="lazy" src="${img}"${imgTitle ? Html` title="${imgTitle}"` : ''}></div>
 	<div>
 		<div class="title">${Html.br`${title}`}</div>

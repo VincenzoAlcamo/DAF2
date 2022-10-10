@@ -45,8 +45,8 @@ function init() {
 
 	container.querySelector('.production_slots').addEventListener('render', function (_event) {
 		prodHelper.updateCurrentProduction(container);
-		container.querySelectorAll('.production_slot').forEach((div, i) => {
-			const id = TYPE_SLOT + (i + 1);
+		container.querySelectorAll('.production_slot').forEach(div => {
+			const id = TYPE_SLOT + div.getAttribute('data-slot-id');
 			div.title = gui.getMessage('pillars_ignore');
 			div.classList.toggle('excluded', id in slotsExcluded);
 			div.addEventListener('click', () => {

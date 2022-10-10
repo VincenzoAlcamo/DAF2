@@ -93,6 +93,7 @@
 }
 .tab_pillars .production_slot.excluded {
 	--outline: var(--warn-bgcol);
+	outline-style: dotted;
 }
 .tab_pillars .production_slot.excluded > * {
 	filter: sepia(1) opacity(0.6);
