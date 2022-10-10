@@ -145,6 +145,13 @@ class ProductionHelper {
 	</div>
 </div>`;
 	}
+
+	updateCurrentProduction(container) {
+		const parent = container && container.querySelector('.production_slots');
+		if (!parent) return;
+		const productions = this.getNormalizedSlots().map(slot => this.getSlotHtml(slot)).join('');
+		Html.set(parent, productions);
+	}
 }
 
 function kitchenFoundry(type) {
@@ -228,12 +235,7 @@ function kitchenFoundry(type) {
 	}
 
 	function updateCurrentProduction() {
-		const parent = container.querySelector('.production_slots');
-		if (!parent) return;
-		const productions = prodHelper.getNormalizedSlots().map(slot => {
-			return prodHelper.getSlotHtml(slot);
-		}).join('');
-		Html.set(parent, productions);
+		prodHelper.updateCurrentProduction(container);
 	}
 
 	function getProductions() {

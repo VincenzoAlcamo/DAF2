@@ -136,12 +136,8 @@ function update() {
 }
 
 function updateCurrentProduction() {
-	const parent = container.querySelector('.production_slots');
-	const productions = prodHelper.getNormalizedSlots().map(slot => {
-		return prodHelper.getSlotHtml(slot);
-	}).join('');
-	Html.set(parent, productions);
-	parent.querySelectorAll('.production_slot').forEach((div, i) => {
+	prodHelper.updateCurrentProduction(container);
+	container.querySelectorAll('.production_slot').forEach((div, i) => {
 		const id = TYPE_SLOT + (i + 1);
 		div.title = gui.getMessage('pillars_ignore');
 		div.classList.toggle('excluded', id in slotsExcluded);
@@ -487,7 +483,7 @@ function refresh() {
 function onTooltip(event) {
 	const element = event.target;
 	element.removeAttribute('title');
-	const id = element.parentNode.getAttribute('data-id');
+	const id = element.closest('[data-id]').getAttribute('data-id');
 	const pillar = pillars.find(pillar => pillar.id == id);
 	const htm = Html.br`<div class="pillars-tooltip"><img src="${pillar.img}" class="outlined"/><span>${pillar.name}</span></div>`;
 	Tooltip.show(element, htm);

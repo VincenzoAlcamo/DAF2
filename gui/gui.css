@@ -1700,6 +1700,8 @@ div.equipment_mask {
 	display: flex;
 	flex-wrap: nowrap;
 	gap: 8px;
+	justify-content: center;
+	padding-top: 8px;
 }
 .production_slot {
     border: 1px solid var(--tb-brcol);
