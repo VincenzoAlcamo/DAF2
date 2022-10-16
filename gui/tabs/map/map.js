@@ -2174,7 +2174,7 @@ async function addExtensionImages() {
 		await images[IMG_BEAMS].promise;
 		const img = images[IMG_BEAMS].img;
 		const canvas = gui.createCanvas(img.naturalWidth, img.naturalHeight);
-		const ctx = canvas.getContext('2d');
+		const ctx = canvas.getContext('2d', { willReadFrequently: true });
 		const len = canvas.width * canvas.height * 4;
 		for (let i = 1; i <= 4; i++) {
 			ctx.drawImage(img, 0, 0);
@@ -2433,7 +2433,7 @@ async function drawMine(args) {
 		if (tileDef.miscType == 'B') return getBeaconPart(tileDef.miscId, tileDef.beaconPart);
 	};
 
-	const ctx = canvas.getContext('2d');
+	const ctx = canvas.getContext('2d', { willReadFrequently: true });
 	ctx.lineWidth = 1;
 	const transform = (cx, cy, flipX, flipY, rotation) => {
 		ctx.translate(cx, cy);
