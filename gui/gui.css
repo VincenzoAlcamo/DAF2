@@ -1771,3 +1771,11 @@ div.equipment_mask {
 	font-weight: bold;
 }
 /*#endregion*/
+
+.region-error {
+	background-color: #e4c362;
+    border-radius: 15px;
+    border: 1px solid #987f68;
+    transform-origin: center center;
+    transform: scale(0.925);
+}

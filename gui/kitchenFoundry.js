@@ -270,6 +270,12 @@ function kitchenFoundry(type) {
 		for (const item of productions) {
 			const cargo = item.cargo.find(item => item.type == 'system' || item.type == 'usable' || item.type == 'material' || (item.type == 'token' && tokens[item.object_id].name_loc != ''));
 			if (!cargo) continue;
+			let c = null;
+			if (cargo.type == 'usable') c = usables[cargo.object_id];
+			else if (cargo.type == 'material') c = materials[cargo.object_id];
+			else if (cargo.type == 'token') c = tokens[cargo.object_id];
+			else if (cargo.type == 'system') c = gui.getObject(cargo.type, cargo.object_id);
+			if (!c || c.name_loc == '') continue;
 			const p = {};
 			p.id = item.def_id;
 			p.level = Math.max(+item.req_level, 1);
@@ -283,11 +289,6 @@ function kitchenFoundry(type) {
 			p.qty1 = p.qty2 = Math.floor((p.min + p.max) / 2);
 			// Tokens are not doubled (Jade/Obsidian key)
 			if (cargo.type != 'token') p.qty2 *= 2;
-			let c = null;
-			if (cargo.type == 'usable') c = usables[cargo.object_id];
-			else if (cargo.type == 'material') c = materials[cargo.object_id];
-			else if (cargo.type == 'token') c = tokens[cargo.object_id];
-			else if (cargo.type == 'system') c = gui.getObject(cargo.type, cargo.object_id);
 			p.cname = (c && c.name_loc && gui.getString(c.name_loc)) || '';
 			p.cimg = gui.getObjectImage(cargo.type, cargo.object_id, true);
 			p.energy = (cargo.type == 'usable' && c && c.action == 'add_stamina' && +c.value) || NaN;
@@ -509,6 +510,7 @@ function kitchenFoundry(type) {
 				tbody.appendChild(row);
 			}
 		}
+		gui.setErrorHandler(tbody);
 
 		Array.from(container.querySelectorAll('tfoot td.totals')).forEach(cell => {
 			cell.innerText = gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(total));

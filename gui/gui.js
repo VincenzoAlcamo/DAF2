@@ -197,8 +197,8 @@ const gui = {
 	},
 	getRegionImg(rid, forceEgypt = false, size = 32) {
 		if (rid == 0 && forceEgypt) rid = 1;
-		if (rid < 0 || rid > 7) rid = 0;
-		return Html.br`<img src="${rid == 0 ? '/img/gui/events.png' : bgp.Data.getObjectImage('region', rid)}" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
+		if (rid < 0 || rid > gui.getMaxRegion()) rid = 0;
+		return Html.br`<img src="${rid == 0 ? '/img/gui/events.png' : bgp.Data.getObjectImage('region', rid)}" data-error="region-error" width="${size}" height="${size}" title="${rid > 0 ? gui.getObjectName('region', rid) : ''}"/>`;
 	},
 	getRegionFromSkin(skin) {
 		return bgp.Data.getRegionFromSkin(skin);
@@ -466,6 +466,18 @@ const gui = {
 			element.setAttribute('data-lazy', '');
 			gui.lazyObserver.observe(element);
 		}
+	},
+	setErrorHandler(parent) {
+		parent.querySelectorAll('[data-error]').forEach(img => {
+			const errorClass = img.getAttribute('data-error');
+			img.removeAttribute('data-error');
+			const onError = function() {
+				this.removeEventListener('error', onError);
+				this.src = '/img/none.png';
+				this.classList.add(errorClass);
+			}
+			img.addEventListener('error', onError)
+		});
 	},
 	updateTabState(tab) {
 		const searchInput = tab && tab.container && tab.container.querySelector('.toolbar input[name="search"]');

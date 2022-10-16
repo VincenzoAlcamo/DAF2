@@ -51,6 +51,7 @@ function init() {
 			id: 'region' + rid,
 			rid: rid,
 			icon: gui.getObjectImage('region', rid),
+			iconError: 'region-error',
 			label: gui.getObjectName('region', rid),
 			calc: calcRegion
 		});
@@ -171,7 +172,7 @@ function refresh() {
 		}
 		item.name = item.label;
 		htm += Html.br`<tr data-level="0" data-id="${item.id}" class="${!item.isCompleted || !state.hidecompleted ? 'inspect' : ''}" title="${Html(getTitle(item))}">`;
-		let img = Html.br`<img height="32" src="${item.icon}"/>`;
+		let img = Html.br`<img height="32" src="${item.icon}"${item.iconError ? Html`data-error="${item.iconError}"`: ''} class="on-error"/>`;
 		if (item.isLocked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
 		htm += Html.br`<td>${img}</td>`;
 		htm += Html.br`<td>${item.label.toUpperCase()}</td>`;
@@ -179,7 +180,9 @@ function refresh() {
 		htm += getTimes(item.isCompleted, item.bt, item.et);
 		htm += Html.br`</tr>`;
 	}
-	Html.set(smartTable.table.querySelector('tbody'), htm);
+	const parent = smartTable.table.querySelector('tbody');
+	Html.set(parent, htm);
+	gui.setErrorHandler(parent);
 	container.classList.toggle('no-dates', !state.dates);
 	container.classList.toggle('no-energy', !state.energy);
 
