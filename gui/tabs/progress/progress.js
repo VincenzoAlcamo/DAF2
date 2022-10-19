@@ -514,7 +514,7 @@ function calcAchievements(item) {
 			let max = 0;
 			let val = 0;
 			let next = 0;
-			const userLevel = achiev ? +achiev.level : 0;
+			const userLevel = achiev ? +achiev.level : 1;
 			achievement.levels.forEach(level => {
 				const amount = +level.amount;
 				if (amount > 0) {
@@ -524,13 +524,14 @@ function calcAchievements(item) {
 					if (levelId < userLevel) {
 						val += amount;
 					} else if (levelId == userLevel) {
-						val += +achiev.progress;
-						next = amount - +achiev.progress;
+						const progress = achiev ? +achiev.progress : 0
+						val += progress;
+						next = amount - progress;
 					}
 				}
 			});
 			item.max += max;
-			const value = achiev ? +achiev.confirmed_level : 0;
+			const value = userLevel - (next > 0 ? 1 : 0);
 			item.value += value;
 			let imgUrl = '/img/gui/blank.gif';
 			let title = '';
