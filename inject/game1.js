@@ -1,6 +1,6 @@
 /*global chrome Html*/
 // TOP PAGE
-let prefs, handlers, msgHandlers, isFacebook, originalHeight, header;
+let prefs, handlers, msgHandlers, isFacebook, facebookType, originalHeight, header;
 let menu, loadCompleted, styleLoaded;
 let lastFullWindow = undefined;
 let isOk = false;
@@ -22,6 +22,7 @@ function getMessage(id, ...args) {
 
 let resizeCount = 2, resizeHandler = 0;
 function onResize() {
+	if (facebookType == 2) return;
 	const fullWindow = getFullWindow();
 	const headerHeight = header ? header.getBoundingClientRect().height : 0;
 	if (resizeHandler) clearTimeout(resizeHandler);
@@ -47,6 +48,8 @@ function onResize() {
 
 function onFullWindow() {
 	const fullWindow = getFullWindow();
+	document.documentElement.classList.toggle('DAF-fullwindow', fullWindow);
+	if (facebookType == 2) return;
 	let flagHide = fullWindow;
 	const fn = el => el && (el.style.display = flagHide ? 'none' : '');
 	Array.from(document.querySelectorAll('#pagelet_dock,#footer')).forEach(fn);
@@ -465,11 +468,17 @@ function initDOM() {
 	msgQueue = null;
 	if (document.getElementById('pagelet_bluebar')) {
 		isFacebook = true;
+		facebookType = 1;
 		header = document.getElementById('pagelet_bluebar');
+	} else if (document.querySelector('div[role=banner]')) {
+		isFacebook = true;
+		facebookType = 2;
 	} else if (document.getElementById('skrollr-body')) {
 		isFacebook = false;
+		facebookType = 0;
 		header = document.getElementById('header');
 	} else return;
+	document.documentElement.classList.add('DAF-facebook' + facebookType);
 
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');

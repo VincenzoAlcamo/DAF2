@@ -491,3 +491,27 @@
 	background-image: url(/img/gui/level.png);
 }
 /*#endregion*/
+
+/*#region FULLWINDOW*/
+html.DAF-facebook2 [data-pref="fullWindowHeader"],
+html.DAF-facebook2 [data-pref="fullWindowSide"] {
+	display: none;
+}
+html.DAF-facebook2.DAF-fullwindow,
+html.DAF-facebook2.DAF-fullwindow.body {
+	overflow: hidden !important;
+}
+html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div {
+	display: none !important;
+}
+html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div:has(iframe) {
+	display: block !important;
+}
+html.DAF-facebook2.DAF-fullwindow iframe {
+	position: fixed !important;
+	left: 0 !important;
+	top: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+}
+/*#endregion*/
