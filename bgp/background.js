@@ -318,7 +318,7 @@ if (el) el.click();
 var loginButton = document.querySelector('#login-click:not(.DAF-clicked)'), handler = 0, count = 10;
 function tryLogin() {
     var element = Array.from(document.getElementsByClassName('btn--facebook'))
-        .filter(item => item.href = 'https://login.pixelfederation.com/oauth/connect/facebook')[0];
+        .filter(item => item.href === 'https://login.pixelfederation.com/oauth/connect/facebook')[0];
     if (!element && --count > 0) return;
     clearInterval(handler);
     handler = 0;
