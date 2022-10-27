@@ -273,14 +273,6 @@ var Tab = {
 		chrome.tabs.onUpdated.addListener(Tab.onUpdated);
 		chrome.tabs.onRemoved.addListener(Tab.onRemoved);
 
-		// Portal auto login
-		const autoLoginFilters = {
-			url: [{
-				hostEquals: 'portal.pixelfederation.com'
-			}]
-		};
-		chrome.webNavigation.onCompleted.addListener(Tab.onAutoLoginCompleted, autoLoginFilters);
-
 		// Add Link Grabber script to Facebook pages
 		const fbFilters = {
 			url: [
@@ -306,34 +298,6 @@ var Tab = {
 		chrome.webNavigation.onDOMContentLoaded.addListener(Tab.onRewardNavigation, rewardLinkFilters);
 
 		return Tab.detectAll();
-	},
-	onAutoLoginCompleted(details) {
-		if (!Preferences.getValue('autoLogin')) return;
-		console.log('injecting auto portal login');
-		const params = {
-			code: `
-// Privacy policy
-var el = document.querySelector('.alert__action[data-announcement="privacy_policy"]');
-if (el) el.click();
-var loginButton = document.querySelector('#login-click:not(.DAF-clicked)'), handler = 0, count = 10;
-function tryLogin() {
-    var element = Array.from(document.getElementsByClassName('btn--facebook'))
-        .filter(item => item.href === 'https://login.pixelfederation.com/oauth/connect/facebook')[0];
-    if (!element && --count > 0) return;
-    clearInterval(handler);
-    handler = 0;
-    if (element) element.click();
-}
-if (loginButton) {
-    loginButton.classList.add('DAF-clicked');
-    loginButton.click();
-    handler = setInterval(tryLogin, 500);
-}
-`,
-			allFrames: false,
-			frameId: 0
-		};
-		executeScriptPromise(details.tabId, params);
 	},
 	onRewardNavigation(details) {
 		const params = { file: ['/inject/rewardlink.js'], runAt: 'document_end', allFrames: false, frameId: details.frameId };

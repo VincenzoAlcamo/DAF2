@@ -377,7 +377,7 @@ UI_claim_coin_single_slow_02
 	if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
 	option('darkTheme');
 	option('shrinkMenu', '', [0, 1, 2].map((n, i) => [i, gui.getMessage('options_shrinkmenu_' + n)]));
-	option('autoLogin');
+	// option('autoLogin');
 	option('disableAltGuard', WARNING);
 	endSection();
 	beginSection('ingame');
