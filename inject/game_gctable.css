@@ -23,6 +23,7 @@
 	background-size: 50px 50px;
 	box-sizing: content-box;
 	background-repeat: no-repeat;
+	--rg-col: #fff;
 }
 
 .DAF-gc-count {
@@ -135,6 +136,10 @@
 
 .DAF-gc-reg7 {
 	--rg-col: #f9d895;
+}
+
+.DAF-gc-reg8 {
+	--rg-col: #ff6060;
 }
 
 .DAF-gc-show-region .DAF-gc-pal div:last-child {
