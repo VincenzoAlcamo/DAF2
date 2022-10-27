@@ -289,7 +289,7 @@ function createMenu() {
         <br>
         <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
         <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
-        <i data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i>
+        <i style="display:none" data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i>
     </div>
 </li>
 <li data-action="gc"><b>&nbsp;</b>
@@ -521,21 +521,21 @@ function initDOM() {
 			showMenu();
 			chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) { updateGCStatus(result); });
 			chrome.runtime.sendMessage({ action: 'getAdsInfo' }, function (result) { updateAdsInfo(result); });
-			if (!getFullWindow() && prefs.fullWindowTimeout > 0) {
-				let eventAttached = false;
-				const check = () => {
-					// Better wait until the document is visible
-					if (document.hidden) {
-						if (!eventAttached) document.addEventListener('visibilitychange', check);
-						eventAttached = true;
-						return;
-					}
-					if (eventAttached) document.removeEventListener('visibilitychange', check);
-					eventAttached = false;
-					if (!getFullWindow()) sendPreference('fullWindow', true);
-				};
-				setTimeout(check, prefs.fullWindowTimeout * 1000);
-			}
+			// if (!getFullWindow() && prefs.fullWindowTimeout > 0) {
+			// 	let eventAttached = false;
+			// 	const check = () => {
+			// 		// Better wait until the document is visible
+			// 		if (document.hidden) {
+			// 			if (!eventAttached) document.addEventListener('visibilitychange', check);
+			// 			eventAttached = true;
+			// 			return;
+			// 		}
+			// 		if (eventAttached) document.removeEventListener('visibilitychange', check);
+			// 		eventAttached = false;
+			// 		if (!getFullWindow()) sendPreference('fullWindow', true);
+			// 	};
+			// 	setTimeout(check, prefs.fullWindowTimeout * 1000);
+			// }
 		};
 		setTimeout(msgHandlers['generator'], 10000);
 		msgHandlers['friend_child_charge'] = (request) => updateGCStatus(request.data);
