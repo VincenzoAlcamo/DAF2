@@ -251,7 +251,16 @@ const getOrientationName = (status) => orientations[status] || orientations[0];
 const reqOrientations = { right: 1, down: 2, left: 3, up: 4 };
 const getReqOrientationName = (value) => getOrientationName(reqOrientations[value]);
 
+function getLocation(lid) {
+	const maxRid = gui.getMaxRegion();
+	for (let rid = 0; rid <= maxRid; rid++) {
+		const locations = gui.getFile('locations_' + rid);
+		if (lid in locations) return locations[lid];
+	}
+}
+
 function getLocationName(lid, location) {
+	location = location || getLocation(lid);
 	const name = location && location.name_loc;
 	return name ? gui.getString(name).replace(/\s+/g, ' ') : '#' + lid;
 }
@@ -591,24 +600,47 @@ function scrollToCenter(x, y, smooth) {
 	table.rows[y].cells[x].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center', inline: 'center' });
 }
 
-function getDownloadPath() {
-	const isEvent = currentData.eid > 0;
+function getDownloadPath(lid, location) {
+	if (!lid) {
+		lid = currentData.lid;
+		location = currentData.location;
+	} else {
+		location = location || getLocation(lid);
+	}
+	const rid = location ? +location.region_id : currentData.rid;
+	const eid = location ? +location.event_id : currentData.eid;
+	const isEvent = eid > 0 || rid == 0;
 	let path = gui.getPreference(isEvent ? 'mapDownloadEvent' : 'mapDownloadRegion');
 	path = path.replace(/\$[a-z]+/g, function (v) {
 		const t = v.toLowerCase();
-		if (t == '$event' && isEvent) v = gui.getObjectName('event', currentData.eid);
-		else if (t == '$region' && !isEvent) v = gui.getObjectName('region', currentData.rid);
+		if (t == '$event' && isEvent) v = gui.getObjectName('event', eid);
+		else if (t == '$region' && !isEvent) v = gui.getObjectName('region', rid);
 		else if (t == '$god' && !isEvent) {
-			const filter = currentData.location && mapFilters[currentData.location.filter];
+			const filter = location && mapFilters[location.filter];
 			if (filter) v = filter;
-		} else if (t == '$location') v = gui.getString(currentData.location.name_loc);
+		} else if (t == '$location') v = getLocationName(lid, location);
 		return gui.getSafeFileName(v);
 	});
 	return path;
 }
 
-function prepareFloorData(data, unclear) {
+function prepareFloorData(data, unclear, removeMarks) {
 	data = data.map((mine) => Object.assign({}, mine)).sort((a, b) => a.level_id - b.level_id);
+	if (removeMarks) {
+		const list = [];
+		data.forEach(mine => {
+			if (mine._p) {
+				mine._p = Object.assign({}, mine._p);
+				if (mine._p.ue) list.push(mine._p.ue = Object.assign({}, mine._p.ue));
+				if (mine._p.e) list.push(mine._p.e = Object.assign({}, mine._p.e));
+			}
+		});
+		list.forEach(edits => {
+			(edits ? Object.keys(edits) : []).forEach(key => {
+				if (!key.startsWith('t_') && !key.startsWith('x_')) delete edits[key];
+			});
+		})
+	}
 	if (unclear) {
 		unclear.num = 0;
 		data.filter((mine) => mine._p.o).forEach((mine) => {
@@ -712,22 +744,15 @@ function onClickButton(event) {
 		});
 	} else if (action == 'export_location' || action == 'export_floor') {
 		if (!currentData || !canvas) return;
+		const flagUnclear = event ? event.ctrlKey : false;
+		const flagNoMarks = event ? event.altKey : false;
 		const isLocation = action == 'export_location';
-		const unclear = event.ctrlKey ? {} : null;
-		const data = prepareFloorData(
-			isLocation ? Object.values(bgp.Data.mineCache[currentData.lid]) : [currentData.mine],
-			unclear
-		);
+		const unclear = flagUnclear ? {} : null;
+		const data = prepareFloorData(isLocation ? Object.values(bgp.Data.mineCache[currentData.lid]) : [currentData.mine], unclear, flagNoMarks);
 		const isFull = unclear ? unclear.num == data.length : false;
-		const filename = `${getLocationName(currentData.lid, currentData.location)}${isLocation ? '' : `_floor${currentData.fid}`
-			}.${isFull ? 'full' : ''}map.json`;
+		const filename = `${getLocationName(currentData.lid, currentData.location)}${isLocation ? '' : `_floor${currentData.fid}`}.${isFull ? 'full' : ''}map.json`;
 		gui.downloadData({ data, filename, path: getDownloadPath() });
-		if (unclear)
-			gui.toast.show(
-				isFull
-					? { text: 'All floors were uncleared!' }
-					: { text: 'Not all floors were uncleared!', style: Dialog.CRITICAL }
-			);
+		if (unclear) gui.toast.show(isFull ? { text: 'All floors were uncleared!' } : { text: 'Not all floors were uncleared!', style: Dialog.CRITICAL });
 	} else if (action == 'import') {
 		gui.chooseFile(
 			async function (files) {
@@ -857,9 +882,12 @@ function showAdvancedOptions() {
 	htm += Html`&#32;<input data-method="inv.mine" type="button" class="small" value="${gui.getMessage(
 		'gui_filter_invert'
 	)}"/>`;
-	htm += Html`&#32;<button data-method="remove" class="small">${gui.getMessage(
+	htm += Html`&#32;<input data-method="remove" type="button" class="small" value="${gui.getMessage(
 		'rewardlinks_removeselected'
-	)}</button> `;
+	)}"/>`;
+	htm += Html`&#32;<input data-method="export" type="button" class="small" value="${gui.getMessage(
+		'export_export'
+	)}"/>`;
 	htm += Html`</fieldset></td></tr></table>`;
 	gui.dialog.show(
 		{
@@ -868,8 +896,8 @@ function showAdvancedOptions() {
 			style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.AUTORUN, Dialog.WIDEST]
 		},
 		function (method, params) {
-			const arr = method.split('.'),
-				methodArg = arr[1];
+			const arr = method.split('.');
+			const methodArg = arr[1];
 			method = arr[0];
 			ALL_OPTIONS_AND_PREFERENCES.forEach((id) => (params[id] == params[id]) == 'on');
 			const setNoMines = () => {
@@ -879,6 +907,35 @@ function showAdvancedOptions() {
 				document.body.classList.remove('map-rendered');
 				setMapVisibility(false);
 			};
+			if (method == 'export') {
+				const mines = asArray(params.mines);
+				if (!mines.length) return;
+				const event = params.$event;
+				const flagUnclear = event ? event.ctrlKey : false;
+				const flagNoMarks = event ? event.altKey : false;
+				const dialog = Dialog();
+				dialog.show(
+					{
+						title: gui.getMessage('export_export'),
+						text: `Export ${Locale.formatNumber(mines.length)} locations?`,
+						style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.CRITICAL]
+					},
+					function (method) {
+						dialog.remove();
+						if (method == Dialog.CONFIRM) {
+							mines.forEach(lid => {
+								const location = getLocation(lid);
+								const unclear = flagUnclear ? {} : null;
+								const data = prepareFloorData(Object.values(bgp.Data.mineCache[lid]), unclear, flagNoMarks);
+								const isFull = unclear ? unclear.num == data.length : false;
+								const filename = `${getLocationName(lid, location)}.${isFull ? 'full' : ''}map.json`;
+								gui.downloadData({ data, filename, path: getDownloadPath(lid, location) });
+							})
+						}
+					}
+				);
+				return;
+			}
 			if (method == 'remove') {
 				const mines = asArray(params.mines);
 				if (!mines.length) return;
@@ -892,6 +949,7 @@ function showAdvancedOptions() {
 					function (method) {
 						dialog.remove();
 						if (method == Dialog.CONFIRM) {
+							gui.dialog.hide();
 							bgp.Data.removeStoredMines(mines);
 							if (Object.keys(bgp.Data.mineCache).length == 0) {
 								gui.dialog.hide();
