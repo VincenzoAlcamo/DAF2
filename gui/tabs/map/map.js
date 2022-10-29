@@ -2390,11 +2390,12 @@ async function drawMine(args) {
 	const tileDefs = [].concat(currentData.tileDefs);
 	if (!showUncleared && showMixed) {
 		if (unclearTilesToMix.lid != lid || unclearTilesToMix.fid != fid) {
+			unclearTilesToMix = {};
 			showUncleared = true;
 			await calcMine(currentData.mine);
 			showUncleared = false;
 		}
-		if (unclearTilesToMix.tiles)
+		if (unclearTilesToMix && unclearTilesToMix.tiles)
 			unclearTilesToMix.tiles.forEach(
 				(tileDef) => (tileDefs[tileDef.tileIndex] = Object.assign({ mixed: true }, tileDef))
 			);
