@@ -144,6 +144,13 @@
 	background-position: -1px -12px;
 }
 
+.progress_table td.filter:before {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	content: " ";
+}
+
 .progress_table td.filter.father {
 	background-size: auto 28px;
 	background-position: 10px 1px;
