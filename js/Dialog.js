@@ -143,12 +143,13 @@ Object.assign(Dialog.prototype, {
 		if (this.autoTimer) clearTimeout(this.autoTimer);
 		delete this.autoTimer;
 	},
-	runCallback(method, input, flagNoHide) {
+	runCallback(method, input, flagNoHide, event) {
 		const dialog = this;
 		const params = dialog.getParams(method);
 		if (input) params.input = input;
+		if (event) params.$event = event;
 		if (!flagNoHide) { dialog.hide(); dialog.clearAuto(); }
-		if (dialog.callback) setTimeout(() => dialog.callback(method, dialog.getParams(method)), flagNoHide ? 0 : 100);
+		if (dialog.callback) setTimeout(() => dialog.callback(method, params), flagNoHide ? 0 : 100);
 	},
 	hide() {
 		this.visible = false;
@@ -208,7 +209,7 @@ Object.assign(Dialog.prototype, {
 						dialog.element.classList.toggle('DAF-md-hidden');
 						return;
 					}
-					dialog.runCallback(method, input, input.tagName !== 'BUTTON');
+					dialog.runCallback(method, input, input.tagName !== 'BUTTON', event);
 				});
 			}
 		}
