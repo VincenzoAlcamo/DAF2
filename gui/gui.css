@@ -371,7 +371,7 @@ progress::-webkit-progress-value {
 	user-select: none;
 	display: flex;
 	flex-direction: column;
-	--scroll-y: -1;
+	--scroll-y: -1px;
 	/*
   box-shadow: inset -10px 0px 28px 0px rgba(0, 0, 0, 0.6);
   --shadow: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) calc(100% - 14px), rgba(0, 0, 0, 0.5));
@@ -1739,9 +1739,8 @@ div.equipment_mask {
     background-image: url(/img/gui/ticket.png);
     background-size: 16px 16px;
     background-repeat: no-repeat;
-    border-radius: 8px;
-    background-color: var(--bgcol);
     pointer-events: none;
+	filter: drop-shadow(0px 1px 0px var(--bgcol)) drop-shadow(0px -1px 0px var(--bgcol)) drop-shadow(1px 0px 0px var(--bgcol)) drop-shadow(-1px 0px 0px var(--bgcol));
 }
 .production_slot .pic img {
 	max-height: 40px;

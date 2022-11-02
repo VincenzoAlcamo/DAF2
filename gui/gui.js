@@ -965,7 +965,7 @@ function onLoad() {
 	let div = document.querySelector('.vertical-menu');
 	Html.set(div, htm);
 	div.addEventListener('click', clickMenu, true);
-	div.addEventListener('scroll', e => e.target.style.setProperty('--scroll-y', (-e.target.scrollTop - 1)) + 'px', true);
+	div.addEventListener('scroll', e => e.target.style.setProperty('--scroll-y', (-e.target.scrollTop - 1) + 'px'), true);
 
 	document.querySelector('.shrink-handle').addEventListener('click', _e => {
 		const shrinkMenu = gui.getPreference('shrinkMenu');
