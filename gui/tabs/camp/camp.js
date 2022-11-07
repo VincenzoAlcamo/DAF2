@@ -4,8 +4,10 @@ import packHelper from '../../packHelper.js';
 export default {
 	init, update, getState, setState,
 	actions: { 'visit_camp': actionVisitCamp },
-	requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables', 'events', 'decorations'],
+	// For export inventory: ['materials', 'decorations', 'usables', 'windmills', 'buildings', 'tokens']
+	requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables', 'events', 'decorations', 'windmills', 'tokens'],
 	events: {
+		inventory: exportInventory,
 		regen: rebuildSetup,
 		playboard: findThePair,
 		luckycards: () => luckyCards(true),
@@ -34,6 +36,7 @@ const addonsMeta = [
 	{ name: 'speedpotion', title: 'USNA025', type: '', id: 0, desc: '' },
 ];
 
+//https://cdn.diggysadventure.com/2/mobile/graphics/news/News_InGame_WebGL_IceKingRemaster.png?ver=1845
 function init() {
 	tab = this;
 	({ container, inputs } = tab);
@@ -45,9 +48,9 @@ function init() {
 	Html.set(inputs.regen, htm);
 	Html.set(inputs.regen.parentNode.querySelector('span'), Html`${gui.getMessage('camp_numofregenslots')} \u2192 ${gui.getMessage('camp_fill_time')}`);
 
-	Html.set(inputs.playboard, Html(gui.getString('GUI3326')));
-	Html.set(inputs.luckycards, Html(gui.getProperCase(gui.getString('GUI3120'))));
-	Html.set(inputs.freeenergy, Html(gui.getProperCase(gui.getString('USNA067'))));
+	inputs.playboard.title = gui.getString('GUI3326');
+	inputs.luckycards.title = gui.getProperCase(gui.getString('GUI3120'));
+	inputs.freeenergy.title = gui.getProperCase(gui.getString('USNA067'));
 
 	['camp-player', 'camp-neighbor'].forEach(className => {
 		let div = tab.container.querySelector('.' + className);
@@ -1132,4 +1135,45 @@ function onTooltip(event) {
 	const bid = parseInt(element.getAttribute('data-bid'));
 	const htm = Html.br`<div class="camp-tooltip"><img src="${gui.getObjectImage('building', bid)}"/></div>`;
 	Tooltip.show(element, htm, 'bb');
+}
+
+function exportInventory() {
+	gui.dialog.show({ title: gui.getMessage('export_exportinventory') + ' ?', style: [Dialog.CONFIRM, Dialog.CANCEL] } ,(method, params) => {
+		if(method !== Dialog.CONFIRM) return;
+		const dp = gui.getDateParts();
+		const filename = `DAF_inventory_${dp.date}_${dp.time.replace(/:/g, '')}.csv`;
+		let data = [];
+		const generator = gui.getGenerator();
+		data.push('LEVEL\t' + generator.level);
+		data.push('REGION\t' + generator.region);
+		data.push('DATE\t' + dp.date + ' ' + dp.time);
+		data.push('XP\t' + generator.exp);
+		data.push('CARAVANS\t' + generator.caravans.length);
+		data.push('POTS\t' + generator.pots.length);
+		data.push('ANVILS\t' + (generator.anvils ? generator.anvils.length : 1));
+		data.push('');
+		data.push('MAT_ID\tMAT_NAME\tQTY');
+		const addRow = (key, name, qty) => {
+			if (+qty > 0) data.push(key + '\t' + name + '\t' + qty);
+		};
+		const addList = (list, collection, keyPrefix) => {
+			Object.keys(list).forEach(key => {
+				const obj = collection[key];
+				if (obj && (keyPrefix != 'T' || +obj.visibility)) {
+					let name = gui.getString(obj.name_loc);
+					if (keyPrefix == 'U' && obj.action == 'add_stamina') name += ' (+' + +obj.value + ')';
+					addRow(keyPrefix + key, name, list[key]);
+				}
+			});
+		};
+		addList(generator.materials, gui.getFile('materials'), '');
+		addList(generator.tokens, gui.getFile('tokens'), 'T');
+		addList(generator.stored_windmills, gui.getFile('windmills'), 'W');
+		addList(gui.getOwnedActive('decoration').owned, gui.getFile('decorations'), 'D');
+		addList(gui.getOwnedActive('building').owned, gui.getFile('buildings'), 'B');
+		addList(generator.usables, gui.getFile('usables'), 'U');
+
+		data = data.join('\n');
+		gui.downloadData({ data, filename });
+	});
 }

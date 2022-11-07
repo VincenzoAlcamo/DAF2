@@ -819,6 +819,9 @@ thead .stats {
 .toolbar button.activated {
 	background-color: var(--tt-button-hlcol);
 }
+.toolbar button:has(img) {
+	padding: 4px 6px;
+}
 
 .toolbar input[type='number'][name='level'] {
 	width: 3.5em;
@@ -891,6 +894,10 @@ label.with-margin,
 .toolbar label {
 	margin-left: 6px;
 	margin-right: 6px;
+}
+
+label.no-right-margin {
+	margin-right: 0px;
 }
 
 .toolbar .warning {

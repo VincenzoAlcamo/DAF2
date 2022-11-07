@@ -3,7 +3,6 @@
 export default {
 	init, update, getState, setState, visibilityChange,
 	events: {
-		inventory: exportInventory,
 		input() {
 			gui.updateTabState(tab);
 			refresh();
@@ -753,42 +752,4 @@ function getQuestTypes() {
 		}
 	}
 	return qtypes;
-}
-
-function exportInventory() {
-	const dp = gui.getDateParts();
-	const filename = `DAF_inventory_${dp.date}_${dp.time.replace(/:/g, '')}.csv`;
-	let data = [];
-	const generator = gui.getGenerator();
-	data.push('LEVEL\t' + generator.level);
-	data.push('REGION\t' + generator.region);
-	data.push('DATE\t' + dp.date + ' ' + dp.time);
-	data.push('XP\t' + generator.exp);
-	data.push('CARAVANS\t' + generator.caravans.length);
-	data.push('POTS\t' + generator.pots.length);
-	data.push('ANVILS\t' + (generator.anvils ? generator.anvils.length : 1));
-	data.push('');
-	data.push('MAT_ID\tMAT_NAME\tQTY');
-	const addRow = (key, name, qty) => {
-		if (+qty > 0) data.push(key + '\t' + name + '\t' + qty);
-	};
-	const addList = (list, collection, keyPrefix) => {
-		Object.keys(list).forEach(key => {
-			const obj = collection[key];
-			if (obj && (keyPrefix != 'T' || +obj.visibility)) {
-				let name = gui.getString(obj.name_loc);
-				if (keyPrefix == 'U' && obj.action == 'add_stamina') name += ' (+' + +obj.value + ')';
-				addRow(keyPrefix + key, name, list[key]);
-			}
-		});
-	};
-	addList(generator.materials, gui.getFile('materials'), '');
-	addList(generator.tokens, gui.getFile('tokens'), 'T');
-	addList(generator.stored_windmills, gui.getFile('windmills'), 'W');
-	addList(gui.getOwnedActive('decoration').owned, gui.getFile('decorations'), 'D');
-	addList(gui.getOwnedActive('building').owned, gui.getFile('buildings'), 'B');
-	addList(generator.usables, gui.getFile('usables'), 'U');
-
-	data = data.join('\n');
-	gui.downloadData({ data, filename });
 }
