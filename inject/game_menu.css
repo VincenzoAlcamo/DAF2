@@ -498,7 +498,7 @@ html.DAF-facebook2 [data-pref="fullWindowSide"] {
 	display: none;
 }
 html.DAF-facebook2.DAF-fullwindow,
-html.DAF-facebook2.DAF-fullwindow.body {
+html.DAF-facebook2.DAF-fullwindow body {
 	overflow: hidden !important;
 }
 html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div {

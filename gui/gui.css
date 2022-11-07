@@ -485,7 +485,7 @@ progress::-webkit-progress-value {
 		display: none;
 	}
 
-	html:not(.no-shrink-menu).vertical-menu li:hover span {
+	html:not(.no-shrink-menu) .vertical-menu li:hover span {
 		display: table-cell;
 		position: absolute;
 		background-color: var(--vm-item-hov-bgcol);
@@ -493,12 +493,12 @@ progress::-webkit-progress-value {
 		line-height: 34px;
 		border: 1px solid var(--vm-brcol);
 		border-left: none;
-		padding: 0 6px 0 2px;
+		padding: 0 6px 0 6px;
 		height: 36px;
 		margin-top: var(--scroll-y);
 	}
 
-	html:not(.no-shrink-menu).vertical-menu li.selected:hover span {
+	html:not(.no-shrink-menu) .vertical-menu li.selected:hover span {
 		background-color: var(--vm-item-sel-bgcol);
 	}
 }
@@ -528,7 +528,7 @@ html.shrink-menu .vertical-menu li:hover span {
 	line-height: 34px;
 	border: 1px solid var(--vm-brcol);
 	border-left: none;
-	padding: 0 6px 0 2px;
+	padding: 0 6px 0 6px;
 	height: 36px;
 	margin-top: var(--scroll-y);
 }
