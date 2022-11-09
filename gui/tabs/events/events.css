@@ -258,8 +258,17 @@
 	background-image: url(/img/gui/xp.png);
 }
 
+.events .remaster.warning,
 .events .tutorial.warning {
 	border-radius: 5px;
 	padding: 0 4px;
 	display: inline-block;
+}
+
+.events .remaster.warning {
+	background-image: url(/img/gui/remaster.png);
+    background-size: 16px;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    background-position: 2px center;
 }

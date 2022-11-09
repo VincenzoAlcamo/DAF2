@@ -123,7 +123,7 @@ function update() {
 		const isSpecialWeek = +event.cooking_event_id > 0 || +event.crafting_event_id > 0;
 		const eid = event.def_id;
 		const item = {};
-		item.remaster = (event.name || '').toLowerCase().endsWith('remastered');
+		item.remaster = (event.name || '').toLowerCase().includes('remaster');
 		// if (event.shop_icon_graphics in eventIcons) item.remaster = true;
 		item.id = eid;
 		item.name = gui.getString(event.name_loc);
@@ -356,6 +356,7 @@ function refresh() {
 }
 
 const tutorialInfo = Html`<br><div class="tutorial warning">${gui.getMessage('events_tutorial')}</div>`;
+const remasterInfo = Html`<br><div class="remaster warning">Remastered</div>`;
 
 function updateRow(row) {
 	const id = row.getAttribute('data-eid');
@@ -363,7 +364,7 @@ function updateRow(row) {
 	let htm = '';
 	let img = item.img && Html`<img src="${item.img}" title="${item.name}" style="height:32px" class="tooltip-event">`;
 	htm += Html.br`<td>${img}</td>`;
-	htm += Html.br`<td>${item.name}${item.tutorial ? tutorialInfo : ''}</td>`;
+	htm += Html.br`<td>${item.name}${item.tutorial ? tutorialInfo : ''}${item.remaster ? remasterInfo : ''}</td>`;
 	htm += Html.br`<td>${item.year ? Locale.formatYear(item.year) : ''}</td>`;
 	img = '';
 	if (item.issegmented) {
