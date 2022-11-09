@@ -353,10 +353,11 @@ function kitchenFoundry(type) {
 		// For each production, register the maximum region associated with that production's name
 		const hash = {};
 		result.sort((a, b) => a.region - b.region);
+		const compareFn = type == 'caravan' ? (item, r) => (item.region < r) : (item, r) => (item.region > r);
 		for (const item of result) {
 			if (item.eid > 0 && item.region > generator.events_region[item.eid]) continue;
-			let r = hash[item.gname];
-			if (!r || (item.region > r && item.region <= region)) r = item.region;
+			let r = hash[item.gname] || item.region;
+			if (!r || (item.region <= region && compareFn(item, r))) r = item.region;
 			hash[item.gname] = r;
 		}
 		if (type == 'caravan') {
