@@ -9,13 +9,13 @@ function ringLoot(kind) {
 	let tokenId, locations;
 	let requires = ['materials', 'usables', 'tokens', 'xp'];
 	// mineid: ringid
-	// const christmasMines = {
-	// 	1987: 5605,
-	// 	2284: 6844,
-	// 	2640: 7833,
-	// 	2965: 8996,
-	// 	3254: 10085
-	// };
+	const christmasMines = {
+		1987: 5605,
+		2284: 6844,
+		2640: 7833,
+		2965: 8996,
+		3254: 10085
+	};
 
 	if (kind == 'green') {
 		tokenId = 32;
@@ -142,8 +142,8 @@ function ringLoot(kind) {
 		let mines = [];
 		if (kind == 'christmas') {
 			for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
-				// return +mine.test == 0 && +mine.def_id in christmasMines;
-				return +mine.reset_cd === 7200 && +mine.event_id !== 20 && +mine.reset_gems === 25;
+				if (+mine.test !== 0) return false;
+				return +mine.def_id in christmasMines || (+mine.reset_cd === 7200 && +mine.event_id !== 20 && +mine.reset_gems === 25);
 			}));
 		} else {
 			for (const loc of locations) mines = mines.concat(Object.values(gui.getFile(loc)).filter(mine => {
@@ -167,7 +167,7 @@ function ringLoot(kind) {
 			const allLoots = [];
 			let chest = 0;
 			let hasCandy = false;
-			let christmastTokenId = 0;
+			let christmastTokenId = christmasMines[lid] || 0;
 			for (const floor of floors.floor) {
 				if (!floor.def_id) continue;
 				if (kind == 'christmas') {
@@ -244,7 +244,7 @@ function ringLoot(kind) {
 			let htm = '';
 			htm += Html.br`<input type="checkbox" id="loot_${lid}">`;
 			if (kind == 'christmas') {
-				// const tokenId = christmasMines[lid];
+				if (!christmastTokenId) continue;
 				const qty = gui.getGenerator().tokens[christmastTokenId] || 0;
 				htm += Html.br`<label for="loot_${lid}" data-i18n-title="gui_card_clicker">${gui.getObjectImg('token', christmastTokenId, 32, true)}<span>${gui.getString(mine.name_loc)}<br>${gui.getMessageAndValue('rings_rings', Locale.formatNumber(qty))}</span></label>`;
 			} else {
