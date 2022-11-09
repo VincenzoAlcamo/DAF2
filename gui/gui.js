@@ -22,7 +22,7 @@ const tabs = (function () {
 	addTab('neighbors');
 	addTab('friendship');
 	addTab('godchild', 'gc');
-	addTab('equipment');
+	addTab('equipment', 'shop');
 	addTab('events');
 	addTab('caravan');
 	addTab('kitchen');
