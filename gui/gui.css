@@ -1269,8 +1269,8 @@ td.dot.dot2 {
 
 /*#region PRODUCTIONS*/
 img.product-icon {
-	max-width: 32px;
-	max-height: 32px;
+	max-width: 40px;
+	max-height: 40px;
 }
 .production td.material,
 .production td.material2 {
