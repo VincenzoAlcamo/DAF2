@@ -379,7 +379,7 @@ function kitchenFoundry(type) {
 			const rspan = p.ingredients.length;
 			const title = hasQty ? p.cname : gui.getObjectName(p.cargo.type, p.cargo.object_id, 'info+xp+desc');
 			let htm = '';
-			let img = Html.br`<img src="${p.cimg}" loading="lazy" width="32" height="32" title="${Html(title)}"/>`;
+			let img = Html.br`<img class="product-icon" src="${p.cimg}" loading="lazy" title="${Html(title)}"/>`;
 			if (p.ticket) img = Html.br`<div class="with-ticket">${img}</div>`
 			if (p.locked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
 			htm += Html.br`<td rowspan="${rspan}">${img}</td>`;
@@ -508,6 +508,13 @@ function kitchenFoundry(type) {
 			const toggleOdd = isOdd != p.rows[0].classList.contains('odd');
 			for (const row of p.rows) {
 				if (toggleOdd) row.classList.toggle('odd', isOdd);
+				const img = row.querySelector('img.product-icon:not([data-daf-onerror])');
+				if (img) {
+					img.setAttribute('data-daf-onerror', '1');
+					img.addEventListener('error', event => {
+						if (img.src.endsWith('_small.png')) img.src = img.src.replace(/_small(\.png)$/, '$1');
+					});
+				}
 				tbody.appendChild(row);
 			}
 		}

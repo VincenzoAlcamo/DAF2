@@ -1268,6 +1268,10 @@ td.dot.dot2 {
 /*#endregion*/
 
 /*#region PRODUCTIONS*/
+img.product-icon {
+	max-width: 32px;
+	max-height: 32px;
+}
 .production td.material,
 .production td.material2 {
 	background-size: 22px 22px;
