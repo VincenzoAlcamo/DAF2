@@ -76,7 +76,11 @@ Object.assign(SmartTable.prototype, {
 				const height = thead1.offsetHeight;
 				if (thead1.tagName == 'THEAD') {
 					thead1.parentNode.style.marginTop = Math.max(0, thead2.offsetHeight - thead1.offsetHeight) + 'px';
-					table.style.marginBottom = (-table.offsetHeight) + 'px';
+					let tot = -table.offsetHeight;
+					const nextSibling = thead2.nextElementSibling;
+					if (nextSibling && nextSibling.tagName == 'TBODY' && nextSibling.offsetHeight)
+						tot = -(thead1.offsetHeight + thead1.nextElementSibling.offsetHeight);
+					table.style.marginBottom = tot + 'px';
 				} else table.style.marginTop = (height ? -height - 1 : 0) + 'px';
 			}, 0);
 		}
