@@ -647,7 +647,7 @@ function getCurrentItems(state) {
 		const sales = Object.values(gui.getFile('sales')).filter(sale => {
 			if (!(sale.type in validSale)) return false;
 			const shopId = +sale.shop_id || 0;
-			return shopId == 0 || shopId == 2;
+			return shopId == 0 || shopId == 2 || shopId == 3;
 		});
 		const buildings = gui.getFile('buildings');
 		const decorations = gui.getFile('decorations');
@@ -720,7 +720,9 @@ function getCurrentItems(state) {
 				}
 				computeItem(item, level, skins);
 			}
-			if (item) currentItems[item.id] = item;
+			if (item) {
+				if (!(item.id in currentItems) || item.reqs.length) currentItems[item.id] = item;
+			}
 		};
 		if (state.shop_from == 'theme' || (state.shop_from == 'region' && state.region > 1)) {
 			const skin = state.shop_from == 'theme' ? state.theme : gui.getSkinFromRegion(state.region);
