@@ -424,6 +424,7 @@ html.dark .camp .item.regen.selected {
 	background-color: #fffc;
 	border: 1px solid var(--tb-brcol);
 	border-radius: 8px;
+	z-index: 10;
 }
 
 .camp_addon .camp_addon_img.speedpotion img {
