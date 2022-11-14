@@ -328,7 +328,7 @@ function kitchenFoundry(type) {
 			if (type == 'caravan') {
 				if (p.ticket) {
 					p.name = `${gui.getObjectName('material', TICKET_ID)}\n+ ${p.ingredients[0].name}`
-					p.cimg = gui.getObjectImage('material', p.ingredients[0].id, true);
+					p.cimg2 = gui.getObjectImage('material', p.ingredients[0].id, true);
 				}
 				else p.name = p.cname + ' \xd7 ' + Locale.formatNumber(p.qty1);
 				p.gname = `${cargo.object_id}${cargo.type}${+cargo.max}t${+item.duration}_` + item.requirements.map(r => `${r.material_id}x${+r.amount}`).join(',');
@@ -379,7 +379,7 @@ function kitchenFoundry(type) {
 			const rspan = p.ingredients.length;
 			const title = hasQty ? p.cname : gui.getObjectName(p.cargo.type, p.cargo.object_id, 'info+xp+desc');
 			let htm = '';
-			let img = Html.br`<img class="product-icon" src="${p.cimg}" loading="lazy" title="${Html(title)}"/>`;
+			let img = Html.br`<img class="product-icon" src="${p.cimg2 || p.cimg}" loading="lazy" title="${Html(title)}"/>`;
 			if (p.ticket) img = Html.br`<div class="with-ticket">${img}</div>`
 			if (p.locked) { img = Html.br`<span class="locked32" title="${gui.getMessage('gui_locked')}">${img}</span>`; }
 			htm += Html.br`<td rowspan="${rspan}">${img}</td>`;
