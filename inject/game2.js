@@ -148,71 +148,104 @@ function setgcTableOptions() {
 function interceptData() {
 	const code = `
 (function() {
-    const XHR = XMLHttpRequest.prototype;
-    const send = XHR.send;
-    const open = XHR.open;
-    function dispatch(type, kind, request, response) {
-        let lang;
-        try { lang = gamevars.lang; } catch(e) { }
-        let text = '';
-        if (response === null) text = null;
-        else if (typeof response == 'string') text = response;
-        else if (response && response.bytes instanceof Uint8Array) text = getString(response.bytes);
-        else console.log('daf_xhr: invalid response');
-        const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, request, response: text } });
-        document.dispatchEvent(event);
-    }
-    function getString(b) {
-        let s = '';
-        let i = 0;
-        const max = b.length;
-        while (i < max) {
-            const c = b[i++];
-            if (c < 128) {
-                if (c == 0) { break; }
-                s += String.fromCodePoint(c);
-            } else if (c < 224) {
-                const code = (c & 63) << 6 | b[i++] & 127;
-                s += String.fromCodePoint(code);
-            } else if (c < 240) {
-                const c2 = b[i++];
-                const code1 = (c & 31) << 12 | (c2 & 127) << 6 | b[i++] & 127;
-                s += String.fromCodePoint(code1);
-            } else {
-                const c21 = b[i++];
-                const c3 = b[i++];
-                const u = (c & 15) << 18 | (c21 & 127) << 12 | (c3 & 127) << 6 | b[i++] & 127;
-                s += String.fromCodePoint(u);
-            }
-        }
-        return s;
-    }
-    XHR.open = function(method, url) {
-        this.url = url;
-        return open.apply(this, arguments);
-    }
-    XHR.send = function() {
-        let kind;
-        if (this.url.indexOf('/graph.facebook.com') > 0) this.addEventListener('load', () => dispatch('ok', 'graph', null, this.response));
-        else if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
-        else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
-        else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
-        if (kind) {
-            const request = arguments[0];
-            const error = () => dispatch('error', kind, null, null);
-            dispatch('send', kind, request, null);
-            this.addEventListener('load', () => dispatch('ok', kind, request, this.response));
-            this.addEventListener('error', error);
-            this.addEventListener('abort', error);
-            this.addEventListener('timeout', error);
-        }
-        return send.apply(this, arguments);
-    };
+	let parser = null;
+	function parseXml(text) {
+		if (!text) return null;
+		if (!parser) parser = new DOMParser();
+		const root = parser.parseFromString(text, 'text/xml')?.documentElement;
+		return root ? parse(root) : null;
+		function parse(parent) {
+			const item = {};
+			function add(name, value) {
+				if (name in item) {
+					const old = item[name];
+					if (Array.isArray(old)) old.push(value);
+					else item[name] = [old, value];
+				} else item[name] = value;
+			}
+			for (let child = parent.firstElementChild; child; child = child.nextElementSibling)
+				add(child.nodeName, child.firstElementChild ? parse(child) : child.textContent);
+			return item;
+		}
+	}
+	const XHR = XMLHttpRequest.prototype;
+	const send = XHR.send;
+	const open = XHR.open;
+	function getString(b) {
+		let s = '';
+		let i = 0;
+		const max = b.length;
+		while (i < max) {
+			const c = b[i++];
+			if (c < 128) {
+				if (c == 0) { break; }
+				s += String.fromCodePoint(c);
+			} else if (c < 224) {
+				const code = (c & 63) << 6 | b[i++] & 127;
+				s += String.fromCodePoint(code);
+			} else if (c < 240) {
+				const c2 = b[i++];
+				const code1 = (c & 31) << 12 | (c2 & 127) << 6 | b[i++] & 127;
+				s += String.fromCodePoint(code1);
+			} else {
+				const c21 = b[i++];
+				const c3 = b[i++];
+				const u = (c & 15) << 18 | (c21 & 127) << 12 | (c3 & 127) << 6 | b[i++] & 127;
+				s += String.fromCodePoint(u);
+			}
+		}
+		return s;
+	}
+	XHR.open = function(method, url) {
+		this.url = url;
+		return open.apply(this, arguments);
+	}
+	XHR.send = function() {
+		let kind, lang, player_id, xml;
+		const dispatch = (type) => {
+			let response = null;
+			if (type == 'ok') {
+				const result = this.response;
+				if (result === null) response = null;
+				else if (typeof result == 'string') response = result;
+				else if (result.bytes instanceof Uint8Array) response = getString(result.bytes);
+				else console.log('daf_xhr: invalid response');
+			}
+			const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, player_id, xml, response } });
+			document.dispatchEvent(event);
+		}
+		if (this.url.indexOf('/graph.facebook.com') > 0) {
+			kind = 'graph';
+			this.addEventListener('load', () => dispatch('ok'));
+			return send.apply(this, arguments);
+		} else if (this.url.indexOf('/generator.php') > 0) {
+			kind = 'generator';
+			try { lang = gamevars.lang; } catch(e) { }
+		} else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
+		else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
+		if (kind) {
+			if (kind == 'generator' || kind == 'synchronize') {
+				for (const item of (arguments[0] || '').split('&')) {
+					const p = item.split('=');
+					const key = decodeURIComponent(p[0]);
+					if (key == 'player_id') player_id = decodeURIComponent(p[1]);
+					else if (key == 'xml') xml = parseXml(decodeURIComponent(p[1]));
+				}
+			}
+			const error = () => dispatch('error');
+			dispatch('send');
+			this.addEventListener('load', () => dispatch('ok'));
+			this.addEventListener('error', error);
+			this.addEventListener('abort', error);
+			this.addEventListener('timeout', error);
+		}
+		return send.apply(this, arguments);
+	};
 })();
 `;
 	document.head.prepend(createScript(code));
 	document.addEventListener('daf_xhr', function (event) {
-		chrome.runtime.sendMessage({ action: 'daf_xhr', detail: event.detail });
+		chrome.runtime.sendMessage(Object.assign({}, event.detail, { action: 'daf_xhr' }));
 	});
 }
 

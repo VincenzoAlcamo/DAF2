@@ -1706,9 +1706,7 @@ var Synchronize = {
 			Synchronize.signal('repeatables', Synchronize.expandDataWithSound({ list }, 'badgeRepeatables'));
 		}
 	},
-	process(postedXml, responseText) {
-		const posted = Parser.parse('any', postedXml);
-		// eslint-disable-next-line no-unused-vars
+	process(posted, responseText) {
 		if (!posted) return;
 
 		const response = responseText && Parser.parse('any', responseText);
@@ -2081,8 +2079,8 @@ var Synchronize = {
 			}
 		} catch (e) { }
 	},
-	processXhr(detail) {
-		const { type, kind, lang, request, response } = detail;
+	processXhr(details) {
+		const { type, kind, lang, player_id, xml, response } = details;
 		if (kind == 'graph') return this.processGraph(response);
 		const isError = type == 'error';
 		if (isError) return Badge.setIcon('red').setBackgroundColor('red');
@@ -2103,19 +2101,14 @@ var Synchronize = {
 		}
 		const isGenerator = kind == 'generator', isSynchronize = kind == 'synchronize';
 		if (!isGenerator && !isSynchronize) return;
-		const parameters = {};
-		for (const item of (request || '').split('&')) {
-			const p = item.split('=');
-			parameters[decodeURIComponent(p[0])] = p.length > 1 ? decodeURIComponent(p[1]) : true;
-		}
-		if (Data.generator.player_id && Data.generator.player_id != parameters.player_id) {
+		if (Data.generator.player_id && Data.generator.player_id != player_id) {
 			if (isSynchronize) return;
 			if (!Preferences.getValue('disableAltGuard')) {
 				if (isSend) {
-					Data.alternateAccountDetected = parameters.player_id;
+					Data.alternateAccountDetected = player_id;
 					Badge.setIcon('grey').setText('ALT').setBackgroundColor('red');
-					console.log('Request is for a different player', parameters.player_id, 'instead of', Data.generator.player_id);
-					Synchronize.signal('account_mismatch', parameters.player_id);
+					console.log('Request is for a different player', player_id, 'instead of', Data.generator.player_id);
+					Synchronize.signal('account_mismatch', player_id);
 				}
 				return;
 			}
@@ -2130,7 +2123,7 @@ var Synchronize = {
 			if (file.data && file.data.neighbours) {
 				Synchronize.time = +file.data.time;
 				Synchronize.offset = Synchronize.time - file.time;
-				file.data.player_id = parameters.player_id;
+				file.data.player_id = player_id;
 				file.data.game_site = Data.lastSite || 'Portal';
 				file.data.game_platform = 'WebGL';
 				file.data.game_language = lang;
@@ -2142,7 +2135,7 @@ var Synchronize = {
 		} else {
 			if (isSend) return Badge.setText('SYNC').setBackgroundColor('green');
 			Badge.setText('').setIcon('green');
-			Synchronize.process(parameters.xml, response);
+			Synchronize.process(xml, response);
 		}
 	}
 };
@@ -2166,7 +2159,7 @@ async function init() {
 
 	Object.entries({
 		daf_xhr(request, _sender) {
-			Synchronize.processXhr(request.detail);
+			Synchronize.processXhr(request);
 		},
 		sendValue(request, sender) {
 			chrome.tabs.sendMessage(sender.tab.id, request, () => hasRuntimeError('SENDVALUE'));
