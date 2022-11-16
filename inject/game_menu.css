@@ -493,14 +493,17 @@
 /*#endregion*/
 
 /*#region FULLWINDOW*/
-html.DAF-facebook2 [data-pref="fullWindowHeader"],
-html.DAF-facebook2 [data-pref="fullWindowSide"] {
+html.DAF-facebook2 [data-pref="fullWindowHeader"] {
 	display: none;
 }
 html.DAF-facebook2.DAF-fullwindow,
 html.DAF-facebook2.DAF-fullwindow body {
 	overflow: hidden !important;
 }
+/* html.DAF-facebook2.DAF-fullwindowside {
+	overflow-y: hidden !important;
+} */
+html.DAF-facebook2.DAF-fullwindowside [role="complementary"],
 html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div {
 	display: none !important;
 }

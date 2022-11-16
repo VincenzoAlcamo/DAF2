@@ -49,6 +49,7 @@ function onResize() {
 function onFullWindow() {
 	const fullWindow = getFullWindow();
 	document.documentElement.classList.toggle('DAF-fullwindow', fullWindow);
+	document.documentElement.classList.toggle('DAF-fullwindowside', prefs.fullWindowSide);
 	if (facebookType == 2) return;
 	let flagHide = fullWindow;
 	const fn = el => el && (el.style.display = flagHide ? 'none' : '');
