@@ -1425,9 +1425,11 @@ var Data = {
 	lastViewedMine: null,
 	mineCache: {},
 	addMine(mine, progress) {
+		const now = getUnixTime();
 		const mines = asArray(mine).reverse();
 		for (const mine of mines) {
 			const { id: lid, level_id: fid } = mine;
+			mine.time = now;
 			let mines = Data.mineCache[lid];
 			if (!mines) mines = Data.mineCache[lid] = {};
 			const old = mines[fid];
