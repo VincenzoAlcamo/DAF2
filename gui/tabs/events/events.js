@@ -120,7 +120,7 @@ function update() {
 	const eventIcons = {};
 	for (const event of eventsSorted) {
 		if (!event.name_loc) continue;
-		const isSpecialWeek = +event.cooking_event_id > 0 || +event.crafting_event_id > 0;
+		const isSpecialWeek = +event.cooking_event_id > 0 || +event.crafting_event_id > 0 || +event.tower_id > 0;
 		const eid = event.def_id;
 		const item = {};
 		item.remaster = (event.name || '').toLowerCase().includes('remaster');
@@ -191,24 +191,31 @@ function update() {
 		}
 		item.pcollect = item.ccollect / (item.tcollect || 1);
 
-		const mapLocations = {};
-		gui.getArrayOfInt(event.locations).forEach(id => mapLocations[id] = false);
-		gui.getArrayOfInt(event.extended_locations).forEach(id => mapLocations[id] = true);
-		const rep = [], xlo = [], qst = [];
-		Object.keys(mapLocations).forEach(id => {
-			const location = locations0[id];
-			// Additional check
-			if (!location || +location.req_quest_a == 1) return;
-			if (+location.reset_cd > 0) rep.push(id);
-			else if (mapLocations[id]) xlo.push(id);
-			else qst.push(id);
-		});
-		item.loc_qst = qst;
-		item.loc_xlo = xlo;
-		item.loc_rep = rep;
-		item.maps = qst.length;
-		item.challenges = xlo.length;
-		item.repeatables = rep.length;
+		const towerId = +event.tower_id;
+		if (towerId) {
+			const locations = gui.getFile('locations_0');
+			item.loc_qst = Object.values(locations).filter(loc => +loc.tower_id == towerId && +loc.test == 0).map(loc => loc.def_id);
+			item.loc_xlo = item.loc_rep = [];
+		} else {
+			const mapLocations = {};
+			gui.getArrayOfInt(event.locations).forEach(id => mapLocations[id] = false);
+			gui.getArrayOfInt(event.extended_locations).forEach(id => mapLocations[id] = true);
+			const rep = [], xlo = [], qst = [];
+			Object.keys(mapLocations).forEach(id => {
+				const location = locations0[id];
+				// Additional check
+				if (!location || +location.req_quest_a == 1) return;
+				if (+location.reset_cd > 0) rep.push(id);
+				else if (mapLocations[id]) xlo.push(id);
+				else qst.push(id);
+			});
+			item.loc_qst = qst;
+			item.loc_xlo = xlo;
+			item.loc_rep = rep;
+		}
+		item.maps = item.loc_qst.length;
+		item.challenges = item.loc_xlo.length;
+		item.repeatables = item.loc_rep.length;
 		item.locations = item.maps + item.challenges + item.repeatables;
 
 		if (item.cquest == 0 && item.cachiev == 0 && item.ccollect == 0) item.status = 'notdone';
@@ -901,7 +908,15 @@ function showInfo() {
 
 				isOdd = !isOdd;
 				htm += Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''} ${isRepeatables && lid != locs[0] ? 'separator' : ''}" data-loc="${lid}" data-floor="${isRepeatables ? floors[0].level : 0}">`;
-				htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${gui.getLocationImg(loc)}<div class="location_name">${Html(gui.getString(loc.name_loc))}</div></td>`;
+				let name, img;
+				if (+loc.tower_id) {
+					name = `${gui.getMessage('map_floor')} ${Locale.formatNumber(+loc.tower_floor)}`;
+					img = '';
+				} else {
+					name = gui.getString(loc.name_loc)
+					img = gui.getLocationImg(loc);
+				}
+				htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${img}<div class="location_name">${Html(name)}</div></td>`;
 				if (isRepeatables) {
 					// Fix chance
 					htm += floors.shift().htm;
