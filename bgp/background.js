@@ -159,14 +159,13 @@ var Preferences = {
 				else resolve();
 			});
 		}).then(function () {
-			chrome.storage.onChanged.addListener(Preferences.onChanged);
+			chrome.storage.local.onChanged.addListener(Preferences.onChanged);
 		});
 	},
 	setHandler(action, callback) {
 		Preferences.handlers[action] = callback;
 	},
-	onChanged(changes, area) {
-		if (area != 'local') return;
+	onChanged(changes) {
 		for (const name in changes)
 			if (name in Preferences.values) {
 				Preferences.values[name] = changes[name].newValue;

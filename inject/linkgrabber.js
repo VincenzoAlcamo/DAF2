@@ -74,8 +74,7 @@ function initialize() {
 	setShowId();
 	addListeners(window, mousedown, keydown, keyup, blur, contextmenu);
 	// track preference changes
-	chrome.storage.onChanged.addListener(function (changes, area) {
-		if (area != 'local') return;
+	chrome.storage.local.onChanged.addListener(function (changes) {
 		for (const name in changes) options[name] = changes[name].newValue;
 		setLanguage();
 	});

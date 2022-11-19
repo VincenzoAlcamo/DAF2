@@ -1011,8 +1011,7 @@ function onLoad() {
 
 	Tooltip.init();
 
-	chrome.storage.onChanged.addListener(function onStorageChanged(changes, area) {
-		if (area != 'local') return;
+	chrome.storage.local.onChanged.addListener(function onStorageChanged(changes) {
 		for (const tab of Object.values(tabs)) {
 			if (tab.isLoaded && typeof tab.onPrefChange == 'function') {
 				try {
