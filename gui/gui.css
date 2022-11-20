@@ -819,7 +819,7 @@ thead .stats {
 .toolbar button.activated {
 	background-color: var(--tt-button-hlcol);
 }
-.toolbar button:has(img) {
+.toolbar button.with-img {
 	padding: 4px 6px;
 }
 
