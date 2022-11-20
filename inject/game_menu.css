@@ -194,10 +194,6 @@
 	background-image: url('/img/gui/friendship.png');
 }
 
-.DAF-menu:not(.DAF-facebook) i[data-pref='fullWindowSide'] {
-	display: none;
-}
-
 .DAF-badges {
 	display: flex;
 	position: fixed;
@@ -493,6 +489,8 @@
 /*#endregion*/
 
 /*#region FULLWINDOW*/
+html.DAF-unknown [data-action="fullWindow"],
+html.DAF-portal [data-pref="fullWindowSide"],
 html.DAF-facebook2 [data-pref="fullWindowHeader"] {
 	display: none;
 }
@@ -504,11 +502,9 @@ html.DAF-facebook2.DAF-fullwindow body {
 	overflow-y: hidden !important;
 } */
 html.DAF-facebook2.DAF-fullwindowside [role="complementary"],
-html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div {
+html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-keep-visible),
+html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div:not(.DAF-keep-visible) {
 	display: none !important;
-}
-html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div:has(iframe) {
-	display: block !important;
 }
 html.DAF-facebook2.DAF-fullwindow iframe {
 	position: fixed !important;

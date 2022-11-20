@@ -1,6 +1,6 @@
 /*global chrome Html*/
 // TOP PAGE
-let prefs, handlers, msgHandlers, isFacebook, facebookType, originalHeight, header;
+let prefs, handlers, msgHandlers, originalHeight, header, pageType;
 let menu, loadCompleted, styleLoaded;
 let lastFullWindow = undefined;
 let isOk = false;
@@ -22,20 +22,19 @@ function getMessage(id, ...args) {
 
 let resizeCount = 2, resizeHandler = 0;
 function onResize() {
-	if (facebookType == 2) return;
 	const fullWindow = getFullWindow();
 	const headerHeight = header ? header.getBoundingClientRect().height : 0;
 	if (resizeHandler) clearTimeout(resizeHandler);
 	resizeHandler = 0;
 	let iframe, height;
-	if (isFacebook) {
+	if (pageType === 'facebook1') {
 		iframe = document.getElementById('iframe_canvas');
 		originalHeight = originalHeight || iframe.offsetHeight;
 		height = (fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) : Math.max(1100, prefs['@bodyHeight'] || originalHeight)) + 'px';
-	} else {
+	} else if (pageType === 'portal') {
 		iframe = document.getElementsByClassName('game-iframe game-iframe--da')[0];
 		height = fullWindow ? (window.innerHeight - (prefs.fullWindowHeader ? headerHeight : 0)) + 'px' : '';
-	}
+	} else return;
 	if (height != iframe.style.height) {
 		iframe.style.height = height;
 		resizeCount = 2;
@@ -50,7 +49,7 @@ function onFullWindow() {
 	const fullWindow = getFullWindow();
 	document.documentElement.classList.toggle('DAF-fullwindow', fullWindow);
 	document.documentElement.classList.toggle('DAF-fullwindowside', prefs.fullWindowSide);
-	if (facebookType == 2) return;
+	if (pageType !== 'facebook1' && pageType !== 'portal') return;
 	let flagHide = fullWindow;
 	const fn = el => el && (el.style.display = flagHide ? 'none' : '');
 	Array.from(document.querySelectorAll('#pagelet_dock,#footer')).forEach(fn);
@@ -194,7 +193,7 @@ function setBadgeRepeatables({ list, sound, volume }) {
 
 function updateAdsInfo(data) {
 	const li = menu.querySelector('[data-action="ads"]');
-	const flag = data && data.items.length;
+	const flag = data && data.items && data.items.length;
 	li.style.display = flag ? '' : 'none';
 	if (flag) {
 		Html.set(li.querySelector('tbody'), data.items.map(item => Html`<tr><td>${item.text}</td><td>${item.limit}</td><td>${item.date}</td></tr>`).join(''));
@@ -274,7 +273,7 @@ function createMenu() {
 	};
 	const gmSound = Html(getMessage1('options_badgesound'));
 	let html = `
-<ul class="DAF-menu${isFacebook ? ' DAF-facebook' : ''}">
+<ul class="DAF-menu">
 <li data-action="about"><b>&nbsp;</b>
     <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
 </li>
@@ -344,7 +343,7 @@ function createMenu() {
     <div>
         <span>${gm('menu_reloadgame')}</span>
         <br>
-        <i data-value="switch">${gm(isFacebook ? 'menu_switchportal' : 'menu_switchfacebook')}</i>
+        <i data-value="switch">${gm(pageType == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')}</i>
     </div>
 </li>
 </ul>
@@ -362,7 +361,7 @@ function createMenu() {
 `;
 	// remove spaces
 	html = html.replace(/>\s+/g, '>');
-	menu = Html.get(`<div class="DAF-menu-container" style="display:none">${html}</div>`)[0];
+	menu = Html.get(`<div class="DAF-menu-container DAF-keep-visible" style="display:none">${html}</div>`)[0];
 	document.body.appendChild(menu);
 	for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
 		const prefName = el.getAttribute('data-pref');
@@ -422,8 +421,8 @@ function onMenuClick(e) {
 		}
 		case 'reloadGame': {
 			let value = target.getAttribute('data-value');
-			const facebook = (isFacebook ^ (value === 'switch'));
-			value += ' ' + (facebook ? 'facebook' : 'portal');
+			const portal = (pageType == 'portal') ^ (value === 'switch');
+			value += ' ' + (portal ? 'portal' : 'facebook');
 			chrome.runtime.sendMessage({ action: 'reloadGame', value: value });
 			break;
 		}
@@ -457,9 +456,12 @@ function init() {
 	handlers = {};
 	msgHandlers = {};
 	prefs = {};
+	let site;
+	if (location.host.startsWith('portal.')) site = 'Portal';
+	else if (location.host.startsWith('apps.facebook.')) site = 'Facebook';
+	else return;
 	chrome.runtime.onMessage.addListener(onMessageQueue);
-	const site = location.host.startsWith('portal.') ? 'Portal' : 'Facebook';
-	chrome.runtime.sendMessage({ action: 'gameStarted', site }, function (response) { });
+	chrome.runtime.sendMessage({ action: 'gameStarted', site });
 	docReady(initDOM);
 }
 
@@ -467,19 +469,22 @@ function initDOM() {
 	chrome.runtime.onMessage.removeListener(onMessageQueue);
 	const _msgQueue = msgQueue;
 	msgQueue = null;
+	pageType = 'unknown';
 	if (document.getElementById('pagelet_bluebar')) {
-		isFacebook = true;
-		facebookType = 1;
+		pageType = 'facebook1';
 		header = document.getElementById('pagelet_bluebar');
 	} else if (document.querySelector('div[role=banner]')) {
-		isFacebook = true;
-		facebookType = 2;
+		const iframe = document.querySelector('#iframe_canvas iframe');
+		if (iframe) {
+			iframe.style.display = 'block';
+			pageType = 'facebook2';
+			for (let div = iframe.parentElement; div !== document.body; div = div.parentElement) div.classList.add('DAF-keep-visible');
+		}
 	} else if (document.getElementById('skrollr-body')) {
-		isFacebook = false;
-		facebookType = 0;
+		pageType = 'portal';
 		header = document.getElementById('header');
-	} else return;
-	document.documentElement.classList.add('DAF-facebook' + facebookType);
+	}
+	document.documentElement.classList.add('DAF-' + pageType);
 
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
@@ -512,7 +517,7 @@ function initDOM() {
 
 		handlers['fullWindow'] = onFullWindow;
 		handlers['fullWindowHeader'] = onFullWindow;
-		if (isFacebook) handlers['fullWindowSide'] = onFullWindow;
+		handlers['fullWindowSide'] = onFullWindow;
 		msgHandlers['generator'] = () => {
 			if (loadCompleted) return;
 			delete msgHandlers['generator'];
@@ -521,21 +526,6 @@ function initDOM() {
 			showMenu();
 			chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) { updateGCStatus(result); });
 			chrome.runtime.sendMessage({ action: 'getAdsInfo' }, function (result) { updateAdsInfo(result); });
-			// if (!getFullWindow() && prefs.fullWindowTimeout > 0) {
-			// 	let eventAttached = false;
-			// 	const check = () => {
-			// 		// Better wait until the document is visible
-			// 		if (document.hidden) {
-			// 			if (!eventAttached) document.addEventListener('visibilitychange', check);
-			// 			eventAttached = true;
-			// 			return;
-			// 		}
-			// 		if (eventAttached) document.removeEventListener('visibilitychange', check);
-			// 		eventAttached = false;
-			// 		if (!getFullWindow()) sendPreference('fullWindow', true);
-			// 	};
-			// 	setTimeout(check, prefs.fullWindowTimeout * 1000);
-			// }
 		};
 		setTimeout(msgHandlers['generator'], 10000);
 		msgHandlers['friend_child_charge'] = (request) => updateGCStatus(request.data);
@@ -549,6 +539,7 @@ function initDOM() {
 		msgHandlers['windmills'] = (request) => setBadgeWindmills(request.data);
 		msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
 		msgHandlers['serverEnergy'] = (request) => setBadge({ selector: '.DAF-badge-energy', text: request.data.energy, active: true });
+		msgHandlers['game2'] = () => chrome.runtime.sendMessage({ action: 'game1', ok: pageType != 'unknown' });
 		window.addEventListener('resize', onResize);
 		onFullWindow();
 		createMenu();

@@ -2,10 +2,10 @@
 // GAME PAGE
 let prefs, handlers, msgHandlers, miner;
 let gcTable, gcTableStyle;
-let loadCompleted;
+let loadCompleted, game1Received;
 let lastFullWindow = false;
 
-function getFullWindow() { return prefs.fullWindow && loadCompleted; }
+function getFullWindow() { return prefs.fullWindow && game1Received && loadCompleted; }
 function sendValue(name, value) { chrome.runtime.sendMessage({ action: 'sendValue', name: name, value: prefs[name] = value }); }
 function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
 function forceResize(delay = 0) { setTimeout(() => window.dispatchEvent(new Event('resize')), delay); }
@@ -295,6 +295,7 @@ function init() {
 		handlers['gcTable'] = ongcTable;
 		handlers['gcTableRegion'] = setgcTableOptions;
 		ongcTable();
+		msgHandlers['game1'] = (request) => { game1Received = !!request.ok; };
 		msgHandlers['generator'] = () => {
 			if (loadCompleted) return;
 			delete msgHandlers['generator'];
@@ -346,6 +347,7 @@ window.userRequest = function(recipients, req_type) {
 };
 `;
 		document.head.appendChild(createScript(code));
+		chrome.runtime.sendMessage({ action: 'game2', ok: true });
 	});
 }
 
