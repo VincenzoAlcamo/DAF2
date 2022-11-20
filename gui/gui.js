@@ -255,6 +255,9 @@ const gui = {
 	getCurrentTab() {
 		return currentTab;
 	},
+	async setCurrentTab(tabId) {
+		await setCurrentTab(tabId);
+	},
 	isValidEventForTab(tabId) {
 		if (gui.dialog.visible || gui.wait.visible) return false;
 		const el = document.activeElement, tagName = el ? el.tagName : '';

@@ -61,6 +61,7 @@
 	margin: auto;
 }
 
+.events tr.hilight-materials td.materials,
 .events tr.hilight-qst td.qst,
 .events tr.hilight-ach td.ach,
 .events tr.hilight-tre td.tre,

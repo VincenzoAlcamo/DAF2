@@ -1301,6 +1301,10 @@ td.no_right_border + td {
 	border-left: none;
 }
 
+td.align_right {
+	text-align: right !important;
+}
+
 td.add_slash {
 	border-right: none;
 	text-align: right !important;

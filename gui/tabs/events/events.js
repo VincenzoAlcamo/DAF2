@@ -15,7 +15,7 @@ export default {
 
 const MAX_REWARDS_PER_ROW = 6;
 
-const INFOS = ['qst', 'ach', 'tre', 'loc', 'loc1', 'loc2', 'loc3'];
+const INFOS = ['qst', 'ach', 'tre', 'loc', 'loc1', 'loc2', 'loc3', 'materials'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
 // OPAL, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST, GEM
@@ -462,15 +462,23 @@ function refreshRegion() {
 	showInfo();
 }
 
-function onClick(e) {
+async function onClick(e) {
 	let row;
 	for (let el = e.target; !row && el.tagName != 'TABLE'; el = el.parentNode)
 		if (el.tagName == 'TR') row = el;
 	if (!row) return;
 	const info = INFOS.find(info => row.classList.contains(PREFIX_HILIGHT + info));
 	if (!info) return;
+	const eid = parseInt(row.getAttribute('data-eid'));
+	if (info == 'materials') {
+		await gui.setCurrentTab('equipment');
+		const tab = gui.getCurrentTab();
+		tab.setState(Object.assign(tab.getState(), { show: 'shop', shop_from: 'event', event: eid }));
+		tab.refresh();
+		return;
+	}
 	selectedInfo = info;
-	selectedEventId = parseInt(row.getAttribute('data-eid'));
+	selectedEventId = eid;
 	showInfo();
 }
 

@@ -2,7 +2,7 @@
 import packHelper from '../../packHelper.js';
 
 export default {
-	init, update, getState, setState,
+	init, update, refresh, getState, setState,
 	requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens', 'diggy_skins', 'xp'],
 	events: {
 		show() {
@@ -898,12 +898,7 @@ function updateItem(div) {
 		htm += Html.br`<td${(item.locked & 2) ? lockedClass : ''}>${gui.getObjectImg('skin', item.rskin, 32, false, 'desc')}</td>`;
 		htm += Html.br`<td>${item.event ? gui.getObjectImg('event', item.event, 32, false, 'desc') : ''}</td>`;
 		htm += Html.br`<td>${item.sell ? Locale.formatNumber(item.sell) : ''}</td>`;
-		if (type == 'building' || type == 'decoration') {
-			htm += Html.br`<td class="add_slash">${Locale.formatNumber(item.placed)}</td>`;
-		} else {
-			htm += Html.br`<td class="no_right_border"></td>`;
-		}
-		htm += Html.br`<td>${Locale.formatNumber(item.owned)}</td>`;
+		htm += Html.br`<td class="${(isFinite(item.limit) ? 'add_slash' : 'align_right no_right_border') + (item.locked & 4 ? ' locked' : '')}">${Locale.formatNumber(item.owned)}</td>`;
 		htm += Html.br`<td${(item.locked & 4) ? lockedClass : ''}>${Locale.formatNumber(item.limit)}</td>`;
 		if (type == 'building') {
 			if (item.gainTitle === undefined) item.gainTitle = computeItemGain(item);
