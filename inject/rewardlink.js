@@ -46,13 +46,22 @@ if (data) {
 	div = document.getElementsByClassName('wp_avatar')[0];
 	// Facebook id
 	el = div && div.getElementsByTagName('img')[0];
-	match = el && reFriend.exec(el.src);
+
+	(new Promise((resolve) => {
+		if (!el || el.complete) return resolve();
+		el.addEventListener('load', resolve);
+		el.addEventListener('error', resolve);
+		setTimeout(resolve, 5000);
+	})).then(proceed);
+}
+
+function proceed() {
+	match = el && el.complete && el.naturalHeight !== 0 && reFriend.exec(el.src);
 	if (match) data.cid = match[2];
 	if (el) data.cpi = el.src;
 	// Facebook name
 	el = div && div.getElementsByTagName('p')[0];
 	if (el) data.cnm = el.textContent;
-
 
 	div = document.getElementsByClassName('da-receiving-text')[0];
 	if (div) {

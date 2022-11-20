@@ -1276,7 +1276,8 @@ var Data = {
 				}
 				// Find name (if possible)
 				if (!reward.cnm && reward.cid && (!existingReward || !existingReward.cnm)) {
-					const pal = neighbours.find(pal => pal.fb_id == reward.cid);
+					const id = reward.cid;
+					const pal = id && neighbours.find(pal => pal.fb_id === id || pal.fb_id2 === id);
 					if (pal) {
 						if (pal.name) reward.cnm = pal.name + ' ' + pal.surname;
 						else if (pal.extra.fn) reward.cnm = pal.extra.fn;
@@ -2060,7 +2061,8 @@ var Synchronize = {
 		try {
 			const json = JSON.parse(result);
 			if (json.id) {
-				const pals = Object.values(Data.neighbours).filter(pal => pal.fb_id === json.id).filter(pal => {
+				const pals = Object.values(Data.neighbours).filter(pal => {
+					if (pal.fb_id !== json.id && pal.fb_id2 !== json.id) return false;
 					let modified = false;
 					if (json.name && !pal.extra.fn) {
 						pal.extra.fn = json.name.replace(/\s+/g, ' ');

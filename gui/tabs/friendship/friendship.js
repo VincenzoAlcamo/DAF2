@@ -795,6 +795,7 @@ function matchStoreAndUpdate() {
 	function matchFriend(friend, pal, score) {
 		if (matchFriendBase(friend, pal, score)) {
 			delete hashById[pal.fb_id];
+			delete hashById[pal.fb_id2];
 			delete hashByName[gui.getPlayerNameFull(pal)];
 			delete notmatched[pal.id];
 		}
@@ -808,10 +809,13 @@ function matchStoreAndUpdate() {
 		for (const pal of Object.values(notmatched)) {
 			// if the same key is already used, we set it to null to force an image comparison
 			// store by fb_id
-			let key = pal.fb_id;
-			hashById[key] = key in hashById ? null : pal;
+			const keys = [];
+			if (pal.fb_id) keys.push(pal.fb_id);
+			if (pal.fb_id2) keys.push(pal.fb_id2);
+			const found = keys.find(id => id in hashById);
+			keys.forEach(id => hashById[id] = found ? null : pal);
 			// store by full name
-			key = !pal.name && pal.extra.fn ? pal.extra.fn : gui.getPlayerNameFull(pal);
+			const key = !pal.name && pal.extra.fn ? pal.extra.fn : gui.getPlayerNameFull(pal);
 			hashByName[key] = key in hashByName ? null : pal;
 		}
 

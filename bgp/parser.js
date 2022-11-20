@@ -76,7 +76,7 @@ var Parser = {
 		const neighbours = {};
 		const time = +data.time;
 		const oldNeighbours = Data.neighbours || {};
-		const reFBId = /\/(\d+)\/picture/;
+		// const reFBId = /\/(\d+)\/picture/;
 		let spawned = false;
 		const spawnList = [];
 		let countMismatch = 0;
@@ -92,16 +92,11 @@ var Parser = {
 			pal.name = String(o.name);
 			pal.surname = String(o.surname || '').trim();
 			pal.c_list = +o.c_list || 0;
-			// Detect the correct Facebook ID to use
-			const match = o.pic_square.match(reFBId);
-			if (match) {
-				const fb_id = match[1];
-				if (o.escaped_fb_id && o.escaped_fb_id != '#' + fb_id) {
-					countMismatch++;
-					if (countMismatch <= 10) console.log('mismatch', o.escaped_fb_id, fb_id);
-				}
-				pal.fb_id = fb_id;
-			}
+			const id1 = o.escaped_fb_id && o.escaped_fb_id.substring(1);
+			const id2 = o.escaped_portal_fb_id && o.escaped_portal_fb_id.substring(1);
+			if (id1 == '0') id1 = id2;
+			if (id1 != '0') pal.fb_id = id1;
+			if (id2 != '0' && id2 != id1) pal.fb_id2 = id2;
 			pal.pic_square = o.pic_square;
 			// Retrieve extra info for neighbor
 			const old = oldNeighbours[id];
