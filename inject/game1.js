@@ -361,7 +361,7 @@ function createMenu() {
 `;
 	// remove spaces
 	html = html.replace(/>\s+/g, '>');
-	menu = Html.get(`<div class="DAF-menu-container DAF-keep-visible" style="display:none">${html}</div>`)[0];
+	menu = Html.get(`<div class="DAF-menu-container" style="display:none">${html}</div>`)[0];
 	document.body.appendChild(menu);
 	for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
 		const prefName = el.getAttribute('data-pref');
@@ -478,7 +478,9 @@ function initDOM() {
 		if (iframe) {
 			iframe.style.display = 'block';
 			pageType = 'facebook2';
-			for (let div = iframe.parentElement; div !== document.body; div = div.parentElement) div.classList.add('DAF-keep-visible');
+			document.querySelectorAll('div[role=banner] ~ div').forEach(div => {
+				if (div.querySelector('iframe')) div.setAttribute('DAF-keep', '1');
+			})
 		}
 	} else if (document.getElementById('skrollr-body')) {
 		pageType = 'portal';

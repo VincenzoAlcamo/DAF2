@@ -498,12 +498,13 @@ html.DAF-facebook2.DAF-fullwindow,
 html.DAF-facebook2.DAF-fullwindow body {
 	overflow: hidden !important;
 }
-/* html.DAF-facebook2.DAF-fullwindowside {
+html.DAF-facebook2.DAF-fullwindow {
 	overflow-y: hidden !important;
-} */
+}
 html.DAF-facebook2.DAF-fullwindowside [role="complementary"],
-html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-keep-visible),
-html.DAF-facebook2.DAF-fullwindow body > div:not(.DAF-menu-container) div:not(.DAF-keep-visible) {
+html.DAF-facebook2.DAF-fullwindow [role="complementary"],
+html.DAF-facebook2.DAF-fullwindow [role="banner"],
+html.DAF-facebook2.DAF-fullwindow [role="banner"] ~ div:not([DAF-keep]) {
 	display: none !important;
 }
 html.DAF-facebook2.DAF-fullwindow iframe {
