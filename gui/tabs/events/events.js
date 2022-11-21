@@ -420,7 +420,7 @@ function updateRow(row) {
 	} else {
 		htm += Html.br`<td colspan="4"></td>`;
 	}
-	htm += Html.br`<td class="materials">`;
+	htm += Html.br`<td class="materials" title="${gui.getMessage('gui_shop')}">`;
 	const numMaterials = item.materials.length || 1;
 	const breakIndex = numMaterials >= 5 ? Math.ceil(numMaterials / 2) : -1;
 	const size = Math.max(21, Math.min(32, Math.floor(96 / numMaterials)));
