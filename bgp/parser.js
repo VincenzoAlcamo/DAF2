@@ -76,10 +76,16 @@ var Parser = {
 		const neighbours = {};
 		const time = +data.time;
 		const oldNeighbours = Data.neighbours || {};
-		// const reFBId = /\/(\d+)\/picture/;
+		const reFBId = /\/(\d+)\/picture/;
 		let spawned = false;
 		const spawnList = [];
 		let countMismatch = 0;
+		function add(pal, id) {
+			id = id && id.substring(1);
+			if (!id || id === '0' || id === pal.fb_id || id === pal.fb_id2) return;
+			if (!pal.fb_id) pal.fb_id = id;
+			else if (!pal.fb_id2) pal.fb_id2 = id;
+		}
 		arr = arr.map((o, index) => {
 			const id = o.uid;
 			// Keep only the needed data
@@ -92,11 +98,10 @@ var Parser = {
 			pal.name = String(o.name);
 			pal.surname = String(o.surname || '').trim();
 			pal.c_list = +o.c_list || 0;
-			const id1 = o.escaped_fb_id && o.escaped_fb_id.substring(1);
-			const id2 = o.escaped_portal_fb_id && o.escaped_portal_fb_id.substring(1);
-			if (id1 == '0') id1 = id2;
-			if (id1 != '0') pal.fb_id = id1;
-			if (id2 != '0' && id2 != id1) pal.fb_id2 = id2;
+			const match = o.pic_square.match(reFBId);
+			pal.fb_id = (match && match[1]) || '';
+			add(pal, o.escaped_fb_id);
+			add(pal, o.escaped_portal_fb_id);
 			pal.pic_square = o.pic_square;
 			// Retrieve extra info for neighbor
 			const old = oldNeighbours[id];
