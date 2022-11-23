@@ -542,7 +542,7 @@ function initDOM() {
 		msgHandlers['windmills'] = (request) => setBadgeWindmills(request.data);
 		msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
 		msgHandlers['serverEnergy'] = (request) => setBadge({ selector: '.DAF-badge-energy', text: request.data.energy, active: true });
-		msgHandlers['game2'] = () => chrome.runtime.sendMessage({ action: 'game1', ok: pageType != 'unknown' });
+		msgHandlers['game2'] = () => chrome.runtime.sendMessage({ action: 'game1', pageType, ok: pageType != 'unknown' });
 		window.addEventListener('resize', onResize);
 		onFullWindow();
 		createMenu();

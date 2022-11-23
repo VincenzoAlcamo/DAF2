@@ -2,7 +2,7 @@
 // GAME PAGE
 let prefs, handlers, msgHandlers, miner;
 let gcTable, gcTableStyle;
-let loadCompleted, game1Received;
+let loadCompleted, game1Received, pageType;
 let lastFullWindow = false;
 
 function getFullWindow() { return prefs.fullWindow && game1Received && loadCompleted; }
@@ -296,7 +296,10 @@ function init() {
 		handlers['gcTable'] = ongcTable;
 		handlers['gcTableRegion'] = setgcTableOptions;
 		ongcTable();
-		msgHandlers['game1'] = (request) => { game1Received = !!request.ok; };
+		msgHandlers['game1'] = (request) => {
+			pageType = request.pageType;
+			game1Received = !!request.ok;
+		};
 		msgHandlers['generator'] = () => {
 			if (loadCompleted) return;
 			delete msgHandlers['generator'];
@@ -322,6 +325,7 @@ function init() {
 		window.addEventListener('message', function (event) {
 			if (event.source != window || !event.data || event.data.key != key) return;
 			if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
+			if (event.data.action == 'exitFullWindowWallpost' && pageType == 'facebook2' && getFullWindow()) sendPreference('fullWindow', false);
 		});
 		const code = `
 window.original_isFullScreen = window.isFullScreen;
@@ -346,6 +350,11 @@ window.userRequest = function(recipients, req_type) {
     window.bypassFB = false;
     return result;
 };
+window.original_wallpost = window.wallpost;
+window.wallpost = function() {
+	window.postMessage({ key: "${key}", action: "exitFullWindowWallpost" }, window.location.href);
+	window.original_wallpost();
+}
 `;
 		document.head.appendChild(createScript(code));
 		chrome.runtime.sendMessage({ action: 'game2', ok: true });
