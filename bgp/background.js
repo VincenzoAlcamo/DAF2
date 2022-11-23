@@ -159,6 +159,7 @@ var Preferences = {
 				else resolve();
 			});
 		}).then(function () {
+			// NOTE: old Firefox does not support chrome.storage.local.onChanged.addListener
 			chrome.storage.onChanged.addListener(Preferences.onChanged);
 		});
 	},
