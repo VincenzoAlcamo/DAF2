@@ -278,7 +278,8 @@ function init() {
 		Object.keys(response).forEach(name => setPref(name, response[name]));
 
 		// track preference changes
-		chrome.storage.local.onChanged.addListener(function (changes) {
+		chrome.storage.onChanged.addListener(function (changes, area) {
+			if (area != 'local') return;
 			for (const name in changes) setPref(name, changes[name].newValue);
 		});
 
