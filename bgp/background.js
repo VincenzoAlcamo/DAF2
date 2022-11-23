@@ -2179,10 +2179,8 @@ async function init() {
 			Data.lastSite = request.site;
 		},
 		// Received from GAME1/GAME2, forward to both of them (on the same tab)
-		game1(request, sender) {
-			chrome.tabs.sendMessage(sender.tab.id, request);
-		},
-		game2(request, sender) {
+		forward(request, sender) {
+			request = Object.assign({}, request, { action: request.real_action});
 			chrome.tabs.sendMessage(sender.tab.id, request);
 		},
 		getGCInfo() {

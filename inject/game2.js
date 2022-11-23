@@ -325,7 +325,7 @@ function init() {
 		window.addEventListener('message', function (event) {
 			if (event.source != window || !event.data || event.data.key != key) return;
 			if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
-			if (event.data.action == 'exitFullWindowWallpost' && pageType == 'facebook2' && getFullWindow()) sendPreference('fullWindow', false);
+			if (event.data.action == 'wallpost' && pageType == 'facebook2') chrome.runtime.sendMessage({ action: 'forward', real_action: 'wallpost' });
 		});
 		const code = `
 window.original_isFullScreen = window.isFullScreen;
@@ -352,12 +352,12 @@ window.userRequest = function(recipients, req_type) {
 };
 window.original_wallpost = window.wallpost;
 window.wallpost = function() {
-	window.postMessage({ key: "${key}", action: "exitFullWindowWallpost" }, window.location.href);
+	window.postMessage({ key: "${key}", action: "wallpost" }, window.location.href);
 	window.original_wallpost();
 }
 `;
 		document.head.appendChild(createScript(code));
-		chrome.runtime.sendMessage({ action: 'game2', ok: true });
+		chrome.runtime.sendMessage({ action: 'forward', real_action: 'game2', ok: true });
 	});
 }
 

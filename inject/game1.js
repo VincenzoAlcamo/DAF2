@@ -465,6 +465,12 @@ function init() {
 	docReady(initDOM);
 }
 
+function setKeepElements() {
+	document.querySelectorAll('div[role=banner] ~ div').forEach(div => {
+		if (div.querySelector('iframe')) div.setAttribute('DAF-keep', '1');
+	});
+}
+
 function initDOM() {
 	chrome.runtime.onMessage.removeListener(onMessageQueue);
 	const _msgQueue = msgQueue;
@@ -478,9 +484,7 @@ function initDOM() {
 		if (iframe) {
 			iframe.style.display = 'block';
 			pageType = 'facebook2';
-			document.querySelectorAll('div[role=banner] ~ div').forEach(div => {
-				if (div.querySelector('iframe')) div.setAttribute('DAF-keep', '1');
-			})
+			setKeepElements();
 		}
 	} else if (document.getElementById('skrollr-body')) {
 		pageType = 'portal';
@@ -542,7 +546,12 @@ function initDOM() {
 		msgHandlers['windmills'] = (request) => setBadgeWindmills(request.data);
 		msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
 		msgHandlers['serverEnergy'] = (request) => setBadge({ selector: '.DAF-badge-energy', text: request.data.energy, active: true });
-		msgHandlers['game2'] = () => chrome.runtime.sendMessage({ action: 'game1', pageType, ok: pageType != 'unknown' });
+		msgHandlers['game2'] = () => chrome.runtime.sendMessage({ action: 'forward', real_action: 'game1', pageType, ok: pageType != 'unknown' });
+		msgHandlers['wallpost'] = () => {
+			if (pageType !== 'facebook2') return;
+			let count = 10;
+			const handler = setInterval(() => count-- < 0 ? clearInterval(handler) : setKeepElements(), 500);
+		};
 		window.addEventListener('resize', onResize);
 		onFullWindow();
 		createMenu();
