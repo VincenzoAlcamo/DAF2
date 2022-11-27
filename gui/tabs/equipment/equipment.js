@@ -232,7 +232,7 @@ function update() {
 	let lastYearText = '';
 	let htm = Html`<option value="">${gui.getMessage('gui_all')}</option>`;
 	for (const event of arrEvents) {
-		const yearText = Locale.formatYear(event.year);
+		const yearText = event.year < 1325372400 ? gui.getMessage('map_unknown') : Locale.formatYear(event.year);
 		if (lastYearText != yearText) {
 			if (lastYearText) htm += '</optgroup>';
 			lastYearText = yearText;
