@@ -299,6 +299,7 @@ function init() {
 		msgHandlers['game1'] = (request) => {
 			pageType = request.pageType;
 			game1Received = !!request.ok;
+			onFullWindow();
 		};
 		msgHandlers['generator'] = () => {
 			if (loadCompleted) return;
