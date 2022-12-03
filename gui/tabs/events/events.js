@@ -18,15 +18,18 @@ const MAX_REWARDS_PER_ROW = 6;
 const INFOS = ['qst', 'ach', 'tre', 'loc', 'loc1', 'loc2', 'loc3', 'materials'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
-// OPAL, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST, GEM
-const GEMS = [329, 235, 197, 143, 149, 92, 47, 2];
+// TOURMALINE, OPAL, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST, GEM
+const GEMS = [398, 329, 235, 197, 143, 149, 92, 47, 2];
 //
 const RINGS_BY_EVENT = {
 	0: 32,      // Green ring
 	20: 1642,   // Red ring
 	86: 5605,   // Christmas 2017
 	103: 6844,  // Christmas 2018
-	121: 7833   // Christmas 2019
+	121: 7833,  // Christmas 2019
+	138: 8996,  // Christmas 2020
+	159: 10085, // Christmas 2021
+	182: 10941  // Christmas 2022
 };
 // Red Ring
 
