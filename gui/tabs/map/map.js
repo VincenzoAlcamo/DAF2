@@ -1895,7 +1895,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	const executeBeaconActions = (beacon) => {
 		if (beacon.beacon_id in beaconsExecuted) {
 			console.log('beacon actions already executed', beacon);
-			return false;
+			return true;
 		}
 		beaconsExecuted[beacon.beacon_id] = true;
 		for (const action of asArray(beacon.actions.action)) {
