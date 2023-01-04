@@ -265,7 +265,7 @@ function tableClick(event) {
 			friend = null;
 			updateStats(false);
 		};
-		if (event.ctrlKey) removeFriend();
+		if (event.ctrlKey || event.altKey) removeFriend();
 		else gui.dialog.show({
 			title: friend.name,
 			text: gui.getMessage('friendship_confirmdelete'),
