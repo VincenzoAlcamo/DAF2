@@ -515,13 +515,14 @@ function calcAchievements(item) {
 			let val = 0;
 			let next = 0;
 			const userLevel = achiev ? +achiev.level : 1;
+			const confirmedLevel = achiev ? +achiev.confirmed_level : 0;
 			achievement.levels.forEach(level => {
 				const amount = +level.amount;
 				if (amount > 0) {
 					total += amount;
 					max++;
 					const levelId = +level.level_id;
-					if (levelId < userLevel) {
+					if (levelId < userLevel || levelId <= confirmedLevel) {
 						val += amount;
 					} else if (levelId == userLevel) {
 						const progress = achiev ? +achiev.progress : 0

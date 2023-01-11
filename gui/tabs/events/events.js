@@ -752,6 +752,7 @@ function showInfo() {
 			}).sort((a, b) => a.level_id - b.level_id);
 			const achiev = generator.achievs[achievement.def_id];
 			const a_level = achiev ? +achiev.level : 0;
+			const c_level = achiev ? +achiev.confirmed_level : 0;
 			const a_progress = achiev ? +achiev.progress : 0;
 			// eslint-disable-next-line no-unused-vars
 			const { max: maxNumRewards, rewards: totalRewards } = getTotalRewards(...levels.map(l => l.rewards));
@@ -770,7 +771,7 @@ function showInfo() {
 					htm += Html.br`<th class="icon" rowspan="${levels.length}">${gui.getObjectImg(achievement.type, achievement.object_id, null, false, 'info+desc')}</th>`;
 				}
 				htm += Html.br`<td class="level">${Locale.formatNumber(level.level_id)}</td>`;
-				const progress = a_level > level.level_id ? level.amount : (a_level == level.level_id ? a_progress : 0);
+				const progress = (a_level > level.level_id || c_level >= level.level_id) ? level.amount : (a_level == level.level_id ? a_progress : 0);
 				const completed = progress >= level.amount;
 				totalAchieved += progress;
 				totalRequired += level.amount;
