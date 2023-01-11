@@ -1121,7 +1121,7 @@
 		"message": "Teilweise"
 	},
 	"friendship_confirmcollect": {
-		"message": "JA = Freunde bestätigen und die bestehenden ersetzen\nPARTIAL = Freunde hinzufügen und die bestehenden behalten\nNEIN = versuchen, weitere Freunde zu sammeln\n\nDieses Fenster kann jederzeit geschlossen werden, um den Vorgang abzubrechen."
+		"message": "JA = Freunde bestätigen und die bestehenden ersetzen\nTeilweise = Freunde hinzufügen und die bestehenden behalten\nNEIN = versuchen, weitere Freunde zu sammeln\n\nDieses Fenster kann jederzeit geschlossen werden, um den Vorgang abzubrechen."
 	},
 	"friendship_speedupcollect": {
 		"message": "Beschleunigung der Sammlung?"
