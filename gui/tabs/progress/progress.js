@@ -9,7 +9,7 @@ export default {
 		}
 	},
 	requires: (function () {
-		const requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests', 'artifacts'];
+		const requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests', 'artifacts', 'location_replaces'];
 		for (let rid = gui.getMaxRegion(); rid > 0; rid--) requires.push('locations_' + rid);
 		return requires;
 	})()
@@ -602,7 +602,15 @@ function calcRegion(item) {
 	item.max = item.value = item.crtd = item.cmpl = item.energy = item.bonus = 0;
 	const locations = gui.getFile('locations_' + item.rid);
 	const loc_prog = Object.assign({}, gui.getGenerator().loc_prog, bgp.Data.loc_prog);
+	const getProg = (lid) => lid in loc_prog ? +loc_prog[lid].prog : 0;
 	const excluded = {};
+	const checkPair = (oldId, newId) => {
+		if (oldId in locations && newId in locations) {
+			if (getProg(oldId) == 0) excluded[oldId] = 5;
+			else if (getProg(newId) == 0) excluded[newId] = 5;
+		}
+	}
+	Object.values(gui.getFile('location_replaces')).forEach((r) => checkPair(r.location_id, r.replace_id));
 	// There should be only one map for each tuple <filter, group_id, order_id>
 	// otherwise this means that Pixel replaced an old map and we have to get the correct one
 	const byFilterOrderId = {};
@@ -610,6 +618,7 @@ function calcRegion(item) {
 	if (item.rid == 1 && 43 in locations && 2808 in locations) locations[2808].group_id = locations[43].group_id;
 	for (const mine of Object.values(locations)) {
 		const lid = mine.def_id;
+		if (lid in excluded) continue;
 		const filter = mapFilters[mine.filter];
 		if (!filter) {
 			excluded[lid] = 1;
@@ -624,7 +633,7 @@ function calcRegion(item) {
 	// We have to check each pair with more than one map
 	for (const arr of item.rid >= 5 ? [] : Object.values(byFilterOrderId).filter(arr => arr.length > 1)) {
 		// Get list of all map without a progress
-		const list = arr.filter(lid => !(lid in loc_prog && +loc_prog[lid].prog > 0));
+		const list = arr.filter(lid => getProg(lid) == 0);
 		// If all of them are withouth a progress, then pick only the most recent one
 		// (the map with the highest id) and exclude the rest
 		if (list.length == arr.length) {
@@ -648,7 +657,7 @@ function calcRegion(item) {
 	// c) Deserted Tomb (#29)
 	// d) Linda's Trap (#25), Stone Pit (#37)
 	for (const lid of [25, 29, 37, 1345, 1642, 1643]) {
-		if (!(lid in loc_prog) || +loc_prog[lid].prog == 0) excluded[lid] = 4;
+		if (getProg(lid) == 0) excluded[lid] = 4;
 	}
 	// Exclude maps
 	// Small Oasis (406)
