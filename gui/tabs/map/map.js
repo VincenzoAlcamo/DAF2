@@ -106,6 +106,7 @@ const IMG_DEFAULT_NPC = '/img/gui/default_npc.png';
 const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 const IMG_LOGO = '/img/logo/logo.png';
+const IMG_PUSH = '/img/gui/push.png';
 
 const OPTION_COORDINATES = 'c';
 const OPTION_GROUPLOCATIONS = 'g';
@@ -2227,6 +2228,7 @@ async function addExtensionImages() {
 	addImage(IMG_SHADOWS);
 	addImage(IMG_BEAMS);
 	addImage(IMG_LOGO);
+	addImage(IMG_PUSH);
 
 	if (!beamsLoaded) {
 		await images[IMG_BEAMS].promise;
@@ -2774,6 +2776,7 @@ async function drawMine(args) {
 
 	// Misc
 	const solutionTiles = [];
+	const pushTiles = {};
 	for (const tileDef of tileDefs.filter((t) => t.miscType)) {
 		const { x, y } = tileDef;
 		const item = getMiscItem(tileDef);
@@ -2847,9 +2850,15 @@ async function drawMine(args) {
 				if (item.req_light) {
 					texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
 				}
+				if (!asset && item.activation === 'push') {
+					const beacon = currentData.beacons[tileDef.miscId];
+					if (asArray(beacon && beacon.actions && beacon.actions.action).find(action => action.layer === 'loot')) {
+						asset = IMG_PUSH;
+						rotation = 1;
+					}
+				}
 				if (asset) {
-					const url =
-						cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
+					const url = asset.startsWith('/') ? asset : cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
 					cell.classList.add('tooltip-event');
 					let style = `background-image:url(${url})`;
 					if (rotation > 1) style += `;transform:rotate(${(rotation - 1) * 90}deg)`;
