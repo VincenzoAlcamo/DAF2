@@ -260,8 +260,22 @@ function getLocation(lid) {
 	}
 }
 
+function isLocationTower(lid, location) {
+	location = location || getLocation(lid);
+	return location ? +location.tower_id > 0 : false;
+}
+
+function getTowerEventName() {
+	return gui.getString('GUI3719');
+}
+
 function getLocationName(lid, location) {
 	location = location || getLocation(lid);
+	if (isLocationTower(lid, location)) {
+		const num = Locale.formatNumber(+location.tower_floor);
+		const name = gui.getString('GUI3734');
+		return name.indexOf('XXX') >= 0 ? name.replace('XXX', num) : gui.getMessageAndValue('map_floor', num);
+	}
 	const name = location && location.name_loc;
 	return name ? gui.getString(name).replace(/\s+/g, ' ') : '#' + lid;
 }
@@ -610,11 +624,12 @@ function getDownloadPath(lid, location) {
 	}
 	const rid = location ? +location.region_id : currentData.rid;
 	const eid = location ? +location.event_id : currentData.eid;
-	const isEvent = eid > 0 || rid == 0;
+	const isTower = isLocationTower(lid, location);
+	const isEvent = eid > 0 || rid == 0 || isTower;
 	let path = gui.getPreference(isEvent ? 'mapDownloadEvent' : 'mapDownloadRegion');
 	path = path.replace(/\$[a-z]+/g, function (v) {
 		const t = v.toLowerCase();
-		if (t == '$event' && isEvent) v = gui.getObjectName('event', eid);
+		if (t == '$event' && isEvent) v = isTower ? getTowerEventName() : gui.getObjectName('event', eid);
 		else if (t == '$region' && !isEvent) v = gui.getObjectName('region', rid);
 		else if (t == '$god' && !isEvent) {
 			const filter = location && mapFilters[location.filter];
@@ -1368,6 +1383,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	const locations = gui.getFile('locations_' + rid);
 	const location = locations[lid];
 	const isRepeatable = +location.reset_cd > 0;
+	const isTower = isLocationTower(lid, location);
 	const eid = rid == 0 && +location.event_id;
 	const event = eid && gui.getObject('event', eid);
 	const maxSegment = (event ? event.reward : []).reduce((max, obj) => Math.max(max, +obj.region_id), 0);
@@ -1439,7 +1455,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		delete tileDef.bonusEnergy;
 		delete tileDef.bonusXp;
 		if (tileDef.stamina > 0) {
-			for (const effect of canShowBonus ? effects : []) {
+			for (const effect of (canShowBonus && !isTower) ? effects : []) {
 				let rnd = CustomRandomRND(
 					playerUidRnd + 10000 * lid + 1000 * fid + 100 * y + 10 * x + effect.id + resetCount
 				);
@@ -2136,7 +2152,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				let sd = specialDrops[key];
 				if (sd === 'A' && noAchievements) sd = undefined;
 				const isQuest = key in questDrops || sd === 'Q' || drop.type == 'tablet';
-				const isSpecial = !isQuest && (sd !== undefined || drop.type == 'artifact');
+				const isSpecial = !isQuest && !isTower && (sd !== undefined || drop.type == 'artifact');
 				const isMaterial = key in materialDrops || drop.type in materialDrops;
 				if (isSpecial) tileDef.isSpecial = true;
 				if (isQuest) tileDef.isQuest = true;
@@ -2303,9 +2319,9 @@ function getMineList(groupLocations, showRepeatables, currentMine, selection) {
 		const name = getLocationName(id, locations[id]);
 		let groupName = '';
 		if (groupLocations) {
-			if (eid) {
-				groupName = gui.getObjectName('event', eid);
-			} else {
+			if (isLocationTower(id, location)) groupName = getTowerEventName();
+			else if (eid) groupName = gui.getObjectName('event', eid);
+			else {
 				groupName = gui.getObjectName('region', rid);
 				const filter = location && mapFilters[location.filter];
 				if (filter) groupName += ' \u2013 ' + filter;
@@ -2461,6 +2477,8 @@ async function drawMine(args) {
 			);
 	}
 
+	const isTower = isLocationTower(lid, currentData.location);
+
 	canvas.width = cols * TILE_SIZE;
 	canvas.height = rows * TILE_SIZE;
 	setCanvasZoom();
@@ -2556,13 +2574,23 @@ async function drawMine(args) {
 		const cell = table.rows[y].cells[x];
 		if (tileDef) {
 			const staminaDrops = [];
-			if (tileDef.stamina) staminaDrops.push({ type: 'system', id: 1, amount: tileDef.stamina });
+			if (tileDef.stamina && !isTower) staminaDrops.push({ type: 'system', id: 1, amount: tileDef.stamina });
 			if (tileDef.bonusXp) staminaDrops.push({ type: 'system', id: 1, amount: tileDef.bonusXp });
 			if (tileDef.bonusEnergy) staminaDrops.push({ type: 'system', id: 2, amount: tileDef.bonusEnergy });
 			drops = staminaDrops.concat(drops);
 		}
+		drops = drops.filter((d) => !d.hidden && (isAdmin || !d.forAdmin));
+		if (isTower) {
+			drops.forEach(drop => {
+				const other = drops.find(d => d.type === drop.type && d.id === drop.id);
+				if (other !== drop) {
+					other.amount += drop.amount;
+					drop.amount = 0;
+				}
+			});
+			drops = drops.filter(drop => drop.amount > 0);
+		}
 		let s = drops
-			.filter((d) => !d.hidden && (isAdmin || !d.forAdmin))
 			.map((d) => {
 				let name = gui.getObjectName(d.type, d.id);
 				if (name.startsWith('#') && d.type == 'token') name = gui.getMessage('gui_token') + name;
@@ -2776,7 +2804,6 @@ async function drawMine(args) {
 
 	// Misc
 	const solutionTiles = [];
-	const pushTiles = {};
 	for (const tileDef of tileDefs.filter((t) => t.miscType)) {
 		const { x, y } = tileDef;
 		const item = getMiscItem(tileDef);
@@ -2786,6 +2813,8 @@ async function drawMine(args) {
 			let text;
 			if (tileDef.miscType == 'N' && (fid == 1 || isRepeatable)) {
 				text = gui.getMessage('map_mine_exit');
+			} else if (isTower) {
+				text = gui.getMessage('map_goto_floor', Locale.formatNumber(+currentData.location.tower_floor + 1));
 			} else if (!item.to) {
 				text = gui.getMessage('map_goto_unknown');
 			} else {
