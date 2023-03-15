@@ -90,14 +90,14 @@ class ProductionHelper {
 
 	getSlotCargo(slot) {
 		if (!this.dpWeeks) {
-			const specialWeeks = gui.getSpecialWeeks();
-			this.dpWeeks = specialWeeks.production || [];
+			this.dpWeeks = gui.getSpecialWeeks().types.production || [];
 		}
 		slot = slot.id ? slot : this.normalizeSlot(slot);
 		const production = slot.cargo ? gui.getFile('productions')[slot.prodId] : null;
 		const cargo = production ? production.cargo[0] : null;
 		if (!cargo) return null;
-		const factor = this.dpWeeks.find(sw => sw.start <= start && sw.end > start) ? 2 : 1;
+		const start = slot.finish - +production.duration;
+		const factor = this.dpWeeks.find(sw => sw.start <= start && sw.finish > start) ? 2 : 1;
 		return {
 			min: factor * +cargo.min,
 			max: factor * +cargo.max,
