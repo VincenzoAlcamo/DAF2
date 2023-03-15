@@ -758,7 +758,7 @@
 		"message": "Går til en anden etage, men denne vej er ikke taget endnu"
 	},
 	"map_teleport": {
-		"message": "Teleort"
+		"message": "Teleport"
 	},
 	"map_hint": {
 		"message": "Hint"
