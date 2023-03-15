@@ -537,9 +537,19 @@ function onKeydown(event) {
 				return;
 			} else {
 				const edit = getEdit();
+				// If '0', set the edit with '0' to remove any pre-defined markings
 				if (edit.c == col || (col == 0 && edit.c > 0)) delete edit.c;
 				else edit.c = col;
 				td.setAttribute('data-col', edit.c);
+				storeEdit(edit);
+				return;
+			}
+		}
+		if (key == 'O') {
+			const edit = getEdit();
+			if (edit.c) {
+				const o = ((edit.o || 0) + 1) % 3;
+				if (o) edit.o = o; else delete edit.o;
 				storeEdit(edit);
 				return;
 			}
@@ -1303,7 +1313,7 @@ function setState(state) {
 }
 
 function addImage(asset, url) {
-	if (asset && !(asset in images)) {
+	if (typeof asset == 'string' && !(asset in images)) {
 		const item = { loaded: false };
 		images[asset] = item;
 		item.promise = new Promise((resolve, _reject) => {
@@ -2560,7 +2570,7 @@ async function drawMine(args) {
 	const getImg = async (asset) => {
 		const p = addImage(asset);
 		if (p) await p;
-		return asset && images[asset].img;
+		return typeof asset == 'string' && asset in images && images[asset].img;
 	};
 	const drawAll = async (items, key, fn) => {
 		for (const tileDef of tileDefs) {
@@ -3154,35 +3164,114 @@ async function drawMine(args) {
 	// Special tiles (with overlapped colors)
 	{
 		const tilesByPosition = {};
-		const tileAt = (x, y) => tilesByPosition[getTileKey(x, y)];
+		const getTileAt = (x, y) => {
+			const key = getTileKey(x, y);
+			let tile = tilesByPosition[key];
+			if (!tile) tile = tilesByPosition[key] = { x1: x * TILE_SIZE, y1: y * TILE_SIZE, corners: [] };
+			return tile;
+		}
 		const hex2 = (n) => {
 			const c = Math.round(n * 255).toString(16);
 			return c.length == 1 ? '0' + c : c;
 		};
-		const unclearEdits = currentData.mine._p.ue || {},
-			edits = currentData.mine._p.e || {};
+		const setCorner = (x, y, index, color) => {
+			const tile = getTileAt(x, y);
+			let arr = tile.corners[index];
+			if (!arr) arr = tile.corners[index] = [];
+			arr.push(color);
+		};
+		const SW = 4;
+		const unclearEdits = currentData.mine._p.ue || {}, edits = currentData.mine._p.e || {};
 		const specialColor = ThemeEditor.toTripletColor(themeSettings.marker.special);
 		const questColor = ThemeEditor.toTripletColor(themeSettings.marker.quest);
 		const materialColor = ThemeEditor.toTripletColor(themeSettings.marker.material);
+		const SIZE_ALT = Math.floor((TILE_SIZE + SW * 2) / 3) - SW;
+		const styles = {
+			0: {
+				outer: (x1, y1) => {
+					ctx.fillRect(x1, y1 - SW, TILE_SIZE, SW);
+					ctx.fillRect(x1, y1 + TILE_SIZE, TILE_SIZE, SW);
+					ctx.fillRect(x1 - SW, y1, SW, TILE_SIZE);
+					ctx.fillRect(x1 + TILE_SIZE, y1, SW, TILE_SIZE);
+				},
+				inner: (x1, y1) => {
+					ctx.fillRect(x1, y1, TILE_SIZE, SW);
+					ctx.fillRect(x1, y1 + TILE_SIZE - SW, TILE_SIZE, SW);
+					ctx.fillRect(x1, y1 + SW, SW, TILE_SIZE - SW * 2);
+					ctx.fillRect(x1 + TILE_SIZE - SW, y1 + SW, SW, TILE_SIZE - SW * 2);
+				},
+				corners: [
+					[[1, 0], [0, 1], [1, 1]],
+					[[-1, 0,], [0, 1], [-1, 1]],
+					[[0, -1], [1, 0], [1, -1]],
+					[[0, -1], [-1, 0], [-1, -1]]
+				]
+			},
+			1: {
+				outer: (x1, y1) => {
+					ctx.fillRect(x1, y1 - SW, SIZE_ALT, SW);
+					ctx.fillRect(x1 + TILE_SIZE - SIZE_ALT, y1 - SW, SIZE_ALT, SW);
+					ctx.fillRect(x1, y1 + TILE_SIZE, SIZE_ALT, SW);
+					ctx.fillRect(x1 + TILE_SIZE - SIZE_ALT, y1 + TILE_SIZE, SIZE_ALT, SW);
+					ctx.fillRect(x1 - SW, y1, SW, SIZE_ALT);
+					ctx.fillRect(x1 - SW, y1 + TILE_SIZE - SIZE_ALT, SW, SIZE_ALT);
+					ctx.fillRect(x1 + TILE_SIZE, y1, SW, SIZE_ALT);
+					ctx.fillRect(x1 + TILE_SIZE, y1 + TILE_SIZE - SIZE_ALT, SW, SIZE_ALT);
+				},
+				inner: (x1, y1) => {
+					ctx.fillRect(x1, y1, SIZE_ALT, SW);
+					ctx.fillRect(x1 + TILE_SIZE - SIZE_ALT, y1, SIZE_ALT, SW);
+					ctx.fillRect(x1, y1 + TILE_SIZE - SW, SIZE_ALT, SW);
+					ctx.fillRect(x1 + TILE_SIZE - SIZE_ALT, y1 + TILE_SIZE - SW, SIZE_ALT, SW);
+					ctx.fillRect(x1, y1, SW, SIZE_ALT);
+					ctx.fillRect(x1, y1 + TILE_SIZE - SIZE_ALT, SW, SIZE_ALT);
+					ctx.fillRect(x1 + TILE_SIZE - SW, y1, SW, SIZE_ALT);
+					ctx.fillRect(x1 + TILE_SIZE - SW, y1 + TILE_SIZE - SIZE_ALT, SW, SIZE_ALT);
+				},
+				corners: [
+					[[1, 0], [0, 1], [1, 1]],
+					[[-1, 0,], [0, 1], [-1, 1]],
+					[[0, -1], [1, 0], [1, -1]],
+					[[0, -1], [-1, 0], [-1, -1]]
+				]
+			},
+			2: {
+				outer: (x1, y1) => {
+					const x2 = x1 + TILE_SIZE, y2 = y1 + TILE_SIZE
+					for (let x = x1, y = y1 - SW, n = 0; x < x2; x += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+					for (let x = x1, y = y1 + TILE_SIZE, n = 0; x < x2; x += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+					for (let x = x1 - SW, y = y1, n = 0; y < y2; y += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+					for (let x = x1 + TILE_SIZE, y = y1, n = 0; y < y2; y += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+				},
+				inner: (x1, y1) => {
+					const x2 = x1 + TILE_SIZE, y2 = y1 + TILE_SIZE
+					for (let x = x1, y = y1, n = 0; x < x2; x += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+					for (let x = x1, y = y1 + TILE_SIZE - SW, n = 0; x < x2; x += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+					for (let x = x1, y = y1, n = 0; y < y2; y += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+					for (let x = x1 + TILE_SIZE - SW, y = y1, n = 0; y < y2; y += SW, n = (n + 1) % 4)  if (n == 0 || n == 3) ctx.fillRect(x, y, SW, SW);
+				},
+				corners: [
+					[[1, 0], [0, 1], [1, 1]],
+					[[-1, 0,], [0, 1], [-1, 1]],
+					[[0, -1], [1, 0], [1, -1]],
+					[[0, -1], [-1, 0], [-1, -1]]
+				]
+			}
+		}
 		tileDefs.forEach((tileDef) => {
-			const { x, y } = tileDef,
-				tileKey = getTileKey(x, y);
+			const { x, y } = tileDef, tileKey = getTileKey(x, y);
 			let cell = null;
 			const getCell = () => cell || (cell = table.rows[y].cells[x]);
-			const getColor = (tileDef) => {
-				if (!tileDef.isVisible) return null;
-				const edit = tileDef.mixed || isUncleared ? unclearEdits[tileKey] : edits[tileKey];
+			let style = 0;
+			const getColor = (tDef) => {
+				if (!tDef.isVisible) return null;
+				const edit = tDef.mixed || isUncleared ? unclearEdits[tileKey] : edits[tileKey];
+				if (edit && 'o' in edit) style = edit.o;
 				if (edit && 'c' in edit) {
 					getCell().setAttribute('data-col', edit.c);
 					return edit.c ? specialColors[edit.c] : null;
 				}
-				return tileDef.isQuest
-					? questColor
-					: tileDef.isSpecial
-						? specialColor
-						: tileDef.isMaterial
-							? materialColor
-							: null;
+				return tDef.isQuest ? questColor : tDef.isSpecial ? specialColor : tDef.isMaterial ? materialColor : null;
 			};
 			if (isUncleared) {
 				const edit = unclearEdits[tileKey];
@@ -3191,76 +3280,37 @@ async function drawMine(args) {
 			}
 			const color = getColor(tileDef);
 			if (color && showNotableLoot) {
-				tilesByPosition[tileKey] = { x, y, color };
+				const x1 = x * TILE_SIZE, y1 = y * TILE_SIZE;
+				const tile = getTileAt(x, y);
+				tile.col = '#' + color.map(hex2).join('');
+				tile.style = style;
+				// Draw external immediately
+				ctx.fillStyle = tile.col;
+				styles[style].outer(x1, y1);
+				styles[style].corners.forEach((offsets, index) => {
+					offsets.forEach(([ox, oy]) => setCorner(x + ox, y + oy, index, color));
+				});
 			}
 		});
 		const outlinedTiles = Object.values(tilesByPosition);
-		const SW = 4;
-		const fillRectBlended = (color, x, y, w, h, t1, t2, t3) => {
-			let [r, g, b] = color;
-			const addCol = (t) => {
-				if (t && t.color) {
-					const [r1, g1, b1] = t.color;
-					(r += r1), (g += g1), (b += b1);
-					return 1;
-				}
-				return 0;
-			};
-			const num = 1 + addCol(t1) + addCol(t2) + addCol(t3);
-			ctx.fillStyle = '#' + hex2(r / num) + hex2(g / num) + hex2(b / num);
-			ctx.fillRect(x, y, w, h);
-		};
-		outlinedTiles.forEach(({ x, y, color }) => {
-			const sx = x * TILE_SIZE,
-				sy = y * TILE_SIZE;
-			const tileLeft = tileAt(x - 1, y),
-				tileUp = tileAt(x, y - 1),
-				tileRight = tileAt(x + 1, y),
-				tileDown = tileAt(x, y + 1);
-			fillRectBlended(color, sx - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileLeft);
-			fillRectBlended(color, sx + SW, sy - SW, TILE_SIZE - SW * 2, SW * 2, tileUp);
-			fillRectBlended(color, sx + TILE_SIZE - SW, sy + SW, SW * 2, TILE_SIZE - SW * 2, tileRight);
-			fillRectBlended(color, sx + SW, sy + TILE_SIZE - SW, TILE_SIZE - SW * 2, SW * 2, tileDown);
-			fillRectBlended(color, sx - SW, sy - SW, SW * 2, SW * 2, tileLeft, tileUp, tileAt(x - 1, y - 1));
-			fillRectBlended(
-				color,
-				sx + TILE_SIZE - SW,
-				sy - SW,
-				SW * 2,
-				SW * 2,
-				tileRight,
-				tileUp,
-				tileAt(x + 1, y - 1)
-			);
-			fillRectBlended(
-				color,
-				sx - SW,
-				sy + TILE_SIZE - SW,
-				SW * 2,
-				SW * 2,
-				tileLeft,
-				tileDown,
-				tileAt(x - 1, y + 1)
-			);
-			fillRectBlended(
-				color,
-				sx + TILE_SIZE - SW,
-				sy + TILE_SIZE - SW,
-				SW * 2,
-				SW * 2,
-				tileRight,
-				tileDown,
-				tileAt(x + 1, y + 1)
-			);
-		});
-		outlinedTiles.forEach(({ x, y, color }) => {
-			const sx = x * TILE_SIZE,
-				sy = y * TILE_SIZE;
-			ctx.fillStyle = '#' + color.map(hex2).join('');
-			ctx.fillRect(sx, sy, TILE_SIZE, SW);
-			ctx.fillRect(sx, sy + TILE_SIZE - SW, TILE_SIZE, SW);
-			ctx.fillRect(sx, sy + SW, SW, TILE_SIZE - SW * 2);
-			ctx.fillRect(sx + TILE_SIZE - SW, sy + SW, SW, TILE_SIZE - SW * 2);
+		// Draw corners
+		const offsetX = [0, TILE_SIZE - SW, 0, TILE_SIZE - SW];
+		const offsetY = [0, 0, TILE_SIZE - SW, TILE_SIZE - SW];
+		const drawCorner = (x1, y1, index, arr) => {
+			x1 += offsetX[index];
+			y1 += offsetY[index];
+			let r = 0, g = 0, b = 0;
+			arr.forEach(([r1, g1, b1]) => {
+				(r += r1), (g += g1), (b += b1);
+			});
+			ctx.fillStyle = '#' + hex2(r / arr.length) + hex2(g / arr.length) + hex2(b / arr.length);
+			ctx.fillRect(x1, y1, SW, SW);
+		}
+		outlinedTiles.forEach(({ x1, y1, corners }) => corners.forEach((arr, index) => drawCorner(x1, y1, index, arr)));
+		// Draw internal
+		outlinedTiles.filter(tile => tile.col).forEach(({ x1, y1, col, style }) => {
+			ctx.fillStyle = col;
+			styles[style].inner(x1, y1);
 		});
 	}
 
