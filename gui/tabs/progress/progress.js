@@ -525,7 +525,7 @@ function calcAchievements(item) {
 					if (levelId < userLevel || levelId <= confirmedLevel) {
 						val += amount;
 					} else if (levelId == userLevel) {
-						const progress = achiev ? +achiev.progress : 0
+						const progress = achiev ? Math.min(amount, +achiev.progress) : 0;
 						val += progress;
 						next = amount - progress;
 					}
