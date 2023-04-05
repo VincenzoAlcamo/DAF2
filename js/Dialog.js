@@ -42,7 +42,9 @@ Object.assign(Dialog, {
 // class methods
 Object.defineProperty(Dialog.prototype, 'visible', {
 	set(visible) {
-		this.getElement().classList.toggle('DAF-md-show', !!visible);
+		const element = this.getElement();
+		element.classList.toggle('DAF-md-show', !!visible);
+		element.style.setProperty('display', visible ? 'flex' : '',  'important');
 		if (visible && !this.onkeydown && this.cancelable) {
 			this.onkeydown = Dialog.onkeydown.bind(this);
 			window.addEventListener('keydown', this.onkeydown, true);
