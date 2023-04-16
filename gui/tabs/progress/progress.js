@@ -150,12 +150,29 @@ function getTimes(isCompleted, bt, et) {
 	return htm;
 }
 
-function getTitle({ name, max, bonus }) {
+function getTitle({ name, max, bonus, value, energy }, isLeaf) {
 	const tileCost = max > 0 && bonus > 0 ? Math.round(bonus / max) : 0;
 	const titles = [];
 	if (name) titles.push(name);
-	if (bonus) titles.push(gui.getMessageAndValue('gui_estimatedenergy', Locale.formatNumber(bonus)));
-	if (tileCost) titles.push(gui.getMessageAndValue('progress_averagetilecost', Locale.formatNumber(tileCost)));
+	if (bonus) {
+		titles.push(gui.getMessageAndValue('events_clearbonus', Locale.formatNumber(bonus / 10)));
+		titles.push(gui.getMessageAndValue('gui_estimatedenergy', Locale.formatNumber(bonus)));
+		titles.push(`[ ${gui.getMessage('gui_estimatedenergy')} = ${gui.getMessage('events_clearbonus')} \xd7 ${Locale.formatNumber(10)} ]`);
+		titles.push(gui.getMessageAndValue('repeat_progress_total', Locale.formatNumber(max)));
+	}
+	if (tileCost) {
+		titles.push(gui.getMessageAndValue('progress_averagetilecost', Locale.formatNumber(tileCost)));
+		titles.push(`[ ${gui.getMessage('progress_averagetilecost')} = ${gui.getMessage('gui_estimatedenergy')} / ${gui.getMessage('repeat_progress_total')} ]`);
+		const remaining = max - value;
+		if (remaining > 0) {
+			titles.push(gui.getMessageAndValue('map_remaining_tiles', Locale.formatNumber(remaining)));
+			const remainingEnergy = `${gui.getMessage('progress_remaining')} (${gui.getMessage('gui_energy')})`;
+			titles.push(`${remainingEnergy}: ${Locale.formatNumber(energy)}`);
+			if (isLeaf) {
+				titles.push(`[ ${remainingEnergy} = ${gui.getMessage('map_remaining_tiles')} \xd7 ${gui.getMessage('progress_averagetilecost')} ]`);
+			}
+		}
+	}
 	return titles.join('\n');
 }
 
@@ -363,7 +380,7 @@ function showDetail(show) {
 			htm += getTimes(isCompleted, sub.bt, sub.et);
 			sub.row = Html.get('<tr>' + htm + '</tr>')[0];
 			if (sub.id) sub.row.setAttribute('data-id', sub.id);
-			sub.row.title = getTitle(sub);
+			sub.row.title = getTitle(sub, true);
 			sub.row.setAttribute('data-level', level + (state.groups ? 1 : 2));
 		}
 		isOdd = !isOdd;
@@ -690,7 +707,8 @@ function calcRegion(item) {
 			}
 			uPrg = Math.min(mPrg, uPrg);
 			const bonus = +mine.reward_exp * 10;
-			const energy = mPrg > 0 ? Math.round(bonus * (mPrg - uPrg) / mPrg) : 0;
+			const tileCost = mPrg > 0 ? Math.round(bonus / mPrg) : 0;
+			const energy = mPrg > 0 ? (mPrg - uPrg) * tileCost : 0;
 			item.max += mPrg;
 			item.value += uPrg;
 			item.energy += energy;
