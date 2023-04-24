@@ -503,8 +503,7 @@ function updateButton() {
 }
 
 function onClickAdvanced() {
-	const getValueSelected = (value, flag) => Html`value="${value}"${flag ? ' selected' : ''}`;
-	const getValueCurrent = (value, current) => getValueSelected(value, value == current);
+	const getValueCurrent = (value, current) => Html`value="${value}"${value === current ? ' selected' : ''}`;
 	let htm = '';
 	htm += Html`<label for="d_grid"><b data-lbl="grid">${gui.getMessage('pillars_grid')}</b> <input id="d_grid" name="grid" type="checkbox" style="vertical-align:middle" ${showAsGrid ? 'checked' : ''} data-method="grid"></label>`;
 	htm += Html`<br><br>`;
@@ -533,12 +532,12 @@ function onClickAdvanced() {
 	const list = gui.getArrayOfInt(filterSkin);
 	for (const rid of listRegion) {
 		const id = gui.getSkinFromRegion(rid);
-		htm += `<option ${getValueSelected(id, list.includes(id))}>${gui.getObjectName('region', rid)}</option>`;
+		htm += Html`<option value="${id}">${gui.getObjectName('region', rid)}</option>`;
 	}
 	htm += Html`</optgroup>`;
 	htm += Html`<optgroup label="${gui.getMessage('gui_theme').toUpperCase()}">`;
 	for (const item of listSkin.map(id => [id, gui.getObjectName('skin', id)]).sort((a, b) => a[1].localeCompare(b[1]))) {
-		htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+		htm += Html`<option value="${item[0]}">${item[1]}</option>`;
 	}
 	htm += Html`</optgroup>`;
 	htm += Html`</select></td>`;
@@ -549,17 +548,16 @@ function onClickAdvanced() {
 		return [id, name, +materials[id].event_id];
 	}).sort((a, b) => a[1].localeCompare(b[1]));
 	const addMaterialList = (isInclude) => {
-		const list = gui.getArrayOfInt(filterMaterial).map(isInclude ? n => n : n => -n).filter(n => n > 0);
 		const name = 'material' + (isInclude ? 1 : 0);
 		htm += Html`<td><select name="${name}" multiple data-method="${name}">`;
 		htm += Html`<optgroup label="${gui.getMessage('gui_from_regions').toUpperCase()}">`;
 		for (const item of items.filter(item => item[2] == 0)) {
-			htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+			htm += Html`<option value="${isInclude ? item[0] : -item[0]}">${item[1]}</option>`;
 		}
 		htm += Html`</optgroup>`;
 		htm += Html`<optgroup label="${gui.getMessage('gui_from_events').toUpperCase()}">`;
 		for (const item of items.filter(item => item[2] > 0)) {
-			htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+			htm += `<option value="${isInclude ? item[0] : -item[0]}">${item[1]}</option>`;
 		}
 		htm += Html`</optgroup>`;
 		htm += Html`</select></td>`;
@@ -575,6 +573,7 @@ function onClickAdvanced() {
 	addClrInvButtons('material1');
 	addClrInvButtons('material0');
 	htm += Html`</tr></table>`;
+	const getElement = (selector) => gui.dialog.element.querySelector(selector);
 	gui.dialog.show({
 		title: gui.getMessage('gui_advancedfilter'),
 		html: htm,
@@ -582,8 +581,18 @@ function onClickAdvanced() {
 	}, function (method, params) {
 		if (method == Dialog.CANCEL) return;
 		if (method == 'level' || method == Dialog.AUTORUN) {
-			gui.dialog.element.querySelector('[name=leveltype]').style.display = params.levelcomparison ? '' : 'none';
-			gui.dialog.element.querySelector('[name=level]').style.display = params.levelcomparison && params.leveltype == 'C' ? '' : 'none';
+			getElement('[name=leveltype]').style.display = params.levelcomparison ? '' : 'none';
+			getElement('[name=level]').style.display = params.levelcomparison && params.leveltype == 'C' ? '' : 'none';
+		}
+		if (method == Dialog.AUTORUN) {
+			const setSelection = (select, list) => {
+				Array.from(select.options).forEach(option => option.selected = list.includes(+option.value));
+				params[select.name] = select.selectedOptions.length > 0;
+			};
+			setSelection(getElement('[name=skin]'), gui.getArrayOfInt(filterSkin));
+			const list = gui.getArrayOfInt(filterMaterial);
+			setSelection(getElement('[name=material1]'), list);
+			setSelection(getElement('[name=material0]'), list);
 		}
 		let shouldRefresh = method == 'grid' || method == 'hidemax' || method == 'skin' || method == 'material0' || method == 'material1' || method == 'level' || method == Dialog.AUTORUN;
 		if (method.startsWith('clr-') || method.startsWith('inv-')) {
@@ -601,7 +610,7 @@ function onClickAdvanced() {
 			const hash = {};
 			for (const option of select0.selectedOptions) hash[option.value] = true;
 			for (const option of select1.options) {
-				if (option.value in hash) option.selected = false;
+				if (-option.value in hash) option.selected = false;
 			}
 			params[select0.name] = select0.selectedOptions.length > 0;
 			params[select1.name] = select1.selectedOptions.length > 0;
@@ -622,8 +631,8 @@ function onClickAdvanced() {
 		filterHideMax = params.hidemax;
 		showAsGrid = params.grid;
 		const hash = {};
-		for (const option of gui.dialog.element.querySelector('[name=material1').selectedOptions) hash[option.value] = option.value;
-		for (const option of gui.dialog.element.querySelector('[name=material0').selectedOptions) hash[option.value] = -option.value;
+		for (const option of getElement('[name="material1"').selectedOptions) hash[option.value] = option.value;
+		for (const option of getElement('[name="material0"').selectedOptions) hash[option.value] = option.value;
 		const keys = Object.keys(hash).map(n => parseInt(n)).sort(gui.sortNumberAscending);
 		filterSkin = gui.getArrayOfInt(params.skin).sort(gui.sortNumberAscending).join(',');
 		filterMaterial = keys.map(n => hash[n]).join(',');
