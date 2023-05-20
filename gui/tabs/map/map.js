@@ -135,7 +135,7 @@ let tab, container, map, table, canvas, zoom;
 let cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles;
-let specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters, allEventMaterials;
+let specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters, allEventMaterials, allEventTokens;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
 let showBackground, showBeacon, showTeleportArrow, showDiggy, showExitMarker, showTeleportMarker;
@@ -1231,6 +1231,12 @@ function update() {
 			});
 		});
 	}
+	// Add tokens
+	allEventTokens = {};
+	Object.values(gui.getFile('tokens')).forEach(token => {
+		const eid = +token.event_id;
+		if (eid) (allEventTokens[eid] || (allEventTokens[eid] = {}))[token.def_id] = true;
+	});
 	deleteWormsFrom(specialDrops);
 
 	mapFilters = {};
@@ -2104,6 +2110,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 
 	// Check loot
 	const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
+	const eventTokens = allEventTokens[eid] || {};
 	deleteWormsFrom(questDrops);
 	const materialDrops = {};
 	gui.getArrayOfInt(listMaterial).forEach((id) => {
@@ -2161,7 +2168,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				if (key == 'material_1') numCoins++;
 				let sd = specialDrops[key];
 				if (sd === 'A' && noAchievements) sd = undefined;
-				const isQuest = key in questDrops || sd === 'Q' || drop.type == 'tablet';
+				const isQuest = key in questDrops || sd === 'Q' || drop.type == 'tablet' || (sd === undefined && drop.type == 'token' && drop.id in eventTokens);
 				const isSpecial = !isQuest && !isTower && (sd !== undefined || drop.type == 'artifact');
 				const isMaterial = key in materialDrops || drop.type in materialDrops;
 				if (isSpecial) tileDef.isSpecial = true;
