@@ -482,7 +482,7 @@ function contextmenu(event) {
 //#region LINK HELPER FUNCTIONS
 const LinkData = (function () {
 	const reLink1 = /https?:\/\/l\.facebook\.com\/l.php\?u=([^&\s]+)(&|\s|$)/g;
-	const reLink2 = /https?:\/\/diggysadventure\.com\/miner\/wallpost_link.php\S*[?&]url=([^&\s]+)(&\S*|\s|$)/g;
+	const reLink2 = /https?:\/\/(game\.)?diggysadventure\.com\/miner\/wallpost_link\.php\S*[?&]url=([^&\s]+)(&\S*|\s|$)/g;
 	const reFacebook = /https?:\/\/apps\.facebook\.com\/diggysadventure\/wallpost\.php\?wp_id=(\d+)&fb_type=(standard|portal)&wp_sig=([0-9a-z]+)/g;
 	const rePortal = /https?:\/\/portal\.pixelfederation\.com\/(([^/]+\/)?gift|wallpost)\/diggysadventure\?params=(([0-9a-zA-Z\-_]|%2B|%2F)+(%3D){0,2})/g;
 
@@ -505,9 +505,9 @@ const LinkData = (function () {
 		href.replace(reLink1, (a, b) => {
 			const url = decodeURIComponent(b);
 			urls.push(url);
-			url.replace(reLink2, (a, b, c) => push(decodeURIComponent(b) + c));
+			url.replace(reLink2, (p, a, b, c) => push(decodeURIComponent(b) + c));
 		});
-		href.replace(reLink2, (a, b, c) => push(decodeURIComponent(b) + c));
+		href.replace(reLink2, (p, a, b, c) => push(decodeURIComponent(b) + c));
 		href = urls.join(' ');
 		if (href.indexOf('://apps.facebook.com/') > 0) {
 			reFacebook.lastIndex = 0;
@@ -544,7 +544,7 @@ const LinkData = (function () {
 			return 'https://portal.pixelfederation.com/wallpost/diggysadventure?params=' + encodeURIComponent(btoa(json));
 		}
 		const url = 'https://apps.facebook.com/diggysadventure/wallpost.php?wp_id=' + encodeURIComponent(data.id) + '&fb_type=' + encodeURIComponent(data.typ) + '&wp_sig=' + encodeURIComponent(data.sig);
-		return convert == 1 ? url : 'https://diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url);
+		return convert == 1 ? url : 'https://game.diggysadventure.com/miner/wallpost_link.php?url=' + encodeURIComponent(url);
 	}
 
 	const separators = ['.', ')', '-'];

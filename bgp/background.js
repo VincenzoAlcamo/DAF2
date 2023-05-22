@@ -292,6 +292,9 @@ var Tab = {
 				hostEquals: 'diggysadventure.com',
 				pathEquals: '/miner/wallpost.php'
 			}, {
+				hostEquals: 'game.diggysadventure.com',
+				pathEquals: '/miner/wallpost.php'
+			}, {
 				hostEquals: 'portal.pixelfederation.com',
 				pathEquals: '/_da/miner/wallpost.php'
 			}]

@@ -22,6 +22,7 @@
 		"*://cdn.diggysadventure.com/*",
 		"*://static.diggysadventure.com/*",
 		"*://diggysadventure.com/*",
+		"*://game.diggysadventure.com/*",
 		"*://portal.pixelfederation.com/*",
 		"*://web.facebook.com/*",
 		"*://m.facebook.com/*",
@@ -57,6 +58,8 @@
 			"matches": [
 				"https://portal.pixelfederation.com/_da/miner",
 				"https://portal.pixelfederation.com/_da/miner/*",
+				"https://game.diggysadventure.com/miner",
+				"https://game.diggysadventure.com/miner/*",
 				"https://diggysadventure.com/miner",
 				"https://diggysadventure.com/miner/*"
 			],
