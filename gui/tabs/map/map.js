@@ -886,11 +886,10 @@ function showAdvancedOptions() {
 	items.push([-3, `[ ${gui.getString('GUI0008')} ]`]);
 	items.push([-4, `[ ${gui.getMessage('gui_from_events').toUpperCase()} ]`]);
 	items = items.sort((a, b) => a[1].localeCompare(b[1]));
-	const getValueSelected = (value, flag) => Html`value="${value}"${flag ? ' selected' : ''}`;
 	const list = gui.getArrayOfInt(listMaterial);
 	htm += Html`<select name="materials" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;">`;
 	for (const item of items) {
-		htm += `<option ${getValueSelected(item[0], list.includes(item[0]))}>${item[1]}</option>`;
+		htm += `<option value="${item[0]}">${item[1]}</option>`;
 	}
 	htm += Html`</select>`;
 	htm += Html`<br><input data-method="clr.mat" type="button" class="small" value="${gui.getMessage(
@@ -915,6 +914,7 @@ function showAdvancedOptions() {
 		'export_export'
 	)}"/>`;
 	htm += Html`</fieldset></td></tr></table>`;
+	const getElement = (selector) => gui.dialog.element.querySelector(selector);
 	gui.dialog.show(
 		{
 			title: gui.getMessage('tab_options'),
@@ -990,16 +990,21 @@ function showAdvancedOptions() {
 				return;
 			}
 			if (method == Dialog.AUTORUN || method == 'flags') {
-				const select = gui.dialog.element.querySelector('[name=mines]');
+				const select = getElement('[name=mines]');
 				Html.set(
 					select,
 					getMineList(params[OPTION_GROUPLOCATIONS], params[OPTION_REPEATABLES], null, params.mines)
 				);
-				select.style.height = gui.dialog.element.querySelector('[name=materials]').offsetHeight + 'px';
+				select.style.height = getElement('[name=materials]').offsetHeight + 'px';
+				const setSelection = (select, list) => {
+					Array.from(select.options).forEach(option => option.selected = list.includes(+option.value));
+					params[select.name] = select.selectedOptions.length > 0;
+				};
+				setSelection(getElement('[name=materials]'), gui.getArrayOfInt(listMaterial));
 			}
 			if (method == 'clr' || method == 'inv') {
 				const fn = method == 'clr' ? (o) => (o.selected = false) : (o) => (o.selected = !o.selected);
-				const select = gui.dialog.element.querySelector(
+				const select = getElement(
 					`[name=${methodArg == 'mine' ? 'mines' : 'materials'}]`
 				);
 				for (const option of select.options) fn(option);
