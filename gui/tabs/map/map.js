@@ -2391,7 +2391,10 @@ async function processMine(selectedMine, args) {
 
 	const regionName = gui.getObjectName('region', currentData.rid);
 	let caption, info;
-	if (currentData.eid) {
+	if (isLocationTower(currentData.lid, currentData.location)) {
+		caption = getTowerEventName();
+		info = getLocationName(currentData.lid, currentData.location);
+	} else if (currentData.eid) {
 		caption = gui.getMessage('gui_event') + (currentData.segmented ? ' \u2013 ' + regionName : '');
 		info =
 			gui.getObjectName('event', currentData.eid).replace(/\s+/g, ' ') +
