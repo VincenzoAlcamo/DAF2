@@ -467,7 +467,7 @@ function init() {
 
 function setKeepElements() {
 	document.querySelectorAll('div[role=banner] ~ div').forEach(div => {
-		if (div.querySelector('iframe')) div.setAttribute('DAF-keep', '1');
+		if (div.querySelector('iframe,[role="dialog"]')) div.setAttribute('DAF-keep', '1');
 	});
 }
 
