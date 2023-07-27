@@ -564,7 +564,7 @@ function showInfo() {
 	const showProgress = region == 0;
 	const sw = gui.getSpecialWeeks().active.free_premium_event;
 	const giftedEventId = (sw && +sw.info) || 0;
-	const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted || selectedEventId == giftedEventId || item.remaster;
+	const flagClearBonus10X = item.start > 0 || item.gems > 0 || item.gifted || selectedEventId == giftedEventId || item.remaster || selectedEventId === 113;
 
 	const isLoc = selectedInfo && selectedInfo.substr(0, 3) == 'loc';
 	container.querySelector('[name=loot_flag]').parentNode.parentNode.style.visibility = isLoc ? '' : 'hidden';
@@ -966,7 +966,7 @@ function showInfo() {
 							const rid = +lootArea.region_id || region;
 							if (isSegmented && rid != region) continue;
 							const type = lootArea.type;
-							const object_id = +lootArea.object_id;
+							let object_id = +lootArea.object_id;
 							if (type == 'artifact' || type == 'decoration') continue;
 							if (type == 'token' && ![32, 1642, 5605, 6844, 7833].includes(object_id)) continue;
 							const count = typeof lootArea.tiles == 'string' ? lootArea.tiles.split(';').length : 0;
@@ -977,6 +977,7 @@ function showInfo() {
 							// PARRY HOTTER: hack for SORTING BOOTS' CEREMONY count for SILVER SNITCH
 							if (lid == 2211 && object_id == 254 && type == 'material') amount = Math.floor(amount / 2);
 							if (amount > 0) {
+								if (type === 'photo') object_id = 1;
 								const key = type + '\t' + object_id;
 								const reward = rewards[key];
 								if (reward) reward.amount += amount; else rewards[key] = { type, object_id, amount };

@@ -1381,6 +1381,7 @@ var Data = {
 	},
 	getObject(type, id) {
 		if (type == 'eventpass_xp') return Data.colEventpassXp[1];
+		if (type == 'photo') return { name_loc: 'QINA590', mobile_asset: '/img/gui/photo.png' };
 		const col = Data.getObjectCollection(type);
 		return col && col[id];
 	},
@@ -1395,8 +1396,8 @@ var Data = {
 		const item = Data.getObject(type, id);
 		const asset = item && (type == 'windmill' ? 'greece_windmill' : (type == 'event' ? item.shop_icon_graphics : item.mobile_asset));
 		if (!asset) return '';
-		const base = Data.generator.cdn_root + 'mobile/graphics/' + (Data.imageFolders[type] || 'all') + '/';
 		if (asset[0] == '/') return asset;
+		const base = Data.generator.cdn_root + 'mobile/graphics/' + (Data.imageFolders[type] || 'all') + '/';
 		const suffix = (small && (type == 'material' || type == 'usable' || type == 'token')) ? '_small' : '';
 		return base + encodeURIComponent(asset) + suffix + '.png' + Data.generator.versionParameter;
 	},

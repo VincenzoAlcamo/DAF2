@@ -192,6 +192,7 @@ var Parser = {
 			'MANA': 'Material',
 			'MAP': 'Map',
 			'NPCN': 'NPC',
+			'PHONA': 'Photo Album',
 			'QINA': 'Quest Item',
 			'QUHE': 'Quest heading text',
 			//'TRNA': 'Pieces',
@@ -211,7 +212,7 @@ var Parser = {
 
 		function getFirstAlpha(s) {
 			let i = 0;
-			for (; i < 4; i++) {
+			for (; i < 5; i++) {
 				const c = s.charAt(i);
 				if (c < 'A' || c > 'Z') break;
 			}

@@ -42,6 +42,7 @@ const kinds = {
 	news_popups: { folder: 'news/' },
 	npcs: { event: 'event_id' },
 	// panteons: { folder: 'panteon/' },
+	photo_albums: {},
 	quests: { event: 'event_id', name: 'heading_text' },
 	regions: { asset: 'icon_mobile_asset', folder: 'gui/' },
 	tablets: {},
@@ -120,7 +121,9 @@ async function refresh() {
 		const $name = kind.name || 'name_loc';
 		const $asset = kind.asset || 'mobile_asset';
 		const $event = kind.event;
+		const getAssetUrl = (asset, base) => cdn_root + (base || 'mobile/graphics/') + folder + encodeURIComponent(asset) + '.png' + versionParameter;
 		const addItem = (id, asset, item) => {
+			if (!item.url) item.url = getAssetUrl(asset);
 			const oldId = hashes[asset], old = oldId && allItems[oldId];
 			if (old && (old.name || !item.name)) return;
 			delete hashes[oldId];
@@ -131,8 +134,7 @@ async function refresh() {
 			for (const [id, item] of Object.entries(data)) {
 				const asset = item[$asset];
 				if (!asset || asset == 'default' || asset == 'map_x_default') continue;
-				const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
-				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0, url });
+				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0 });
 			}
 		};
 		if (type == 'locations_mobile') {
@@ -148,24 +150,30 @@ async function refresh() {
 				for (const [id, item] of Object.entries(data)) {
 					if (!item.gr_library || !item.gr_clip) continue;
 					const asset = item.gr_library + '_' + item.gr_clip;
-					const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
-					addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0, url });
+					addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0 });
 				}
 			}
 		} else if (type == 'infos') {
 			for (const item of Object.values(data)) {
 				const id = item.pic, asset = id && ('news_item_' + id);
 				if (!id) continue;
-				const url = cdn_root + 'mobile/img/news/' + encodeURIComponent(asset) + '.png' + versionParameter;
-				addItem(id, asset, { id, name: item.name, title: item.desc, eid: 0, url });
+				addItem(id, asset, { id, name: item.name, title: item.desc, eid: 0, url: getAssetUrl(asset, 'mobile/img/news/') });
 			}
 		} else if (type == 'tiles') {
 			for (const item of Object.values(data)) {
 				item.subtypes && item.subtypes.forEach(sub => {
 					const id = sub.sub_id, asset = sub[$asset];
 					if (!asset || asset == 'default' || asset == 'map_x_default') return;
-					const url = cdn_root + 'mobile/graphics/' + folder + encodeURIComponent(asset) + '.png' + versionParameter;
-					addItem(id, asset, { id, url });
+					addItem(id, asset, { id });
+				});
+			}
+		} else if (type == 'photo_albums') {
+			for (const album of Object.values(data)) {
+				(album.photos || []).forEach(item => {
+					const id = item.def_id, asset = item[$asset];
+					if (!asset || asset == 'default' || asset == 'map_x_default') return;
+					const url = cdn_root + 'mobile/' + item.asset_path + encodeURIComponent(asset) + '.png' + versionParameter;
+					addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), url })
 				});
 			}
 		} else {

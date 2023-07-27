@@ -881,10 +881,11 @@ function showAdvancedOptions() {
 			return [+obj.def_id, name];
 		})
 		.filter((v) => v);
-	items.push([-1, `[ ${gui.getObjectName('system', 1)} ]`]);
-	items.push([-2, `[ ${gui.getObjectName('system', 2)} ]`]);
-	items.push([-3, `[ ${gui.getString('GUI0008')} ]`]);
+	items.push([-1, `[ ${gui.getObjectName('system', 1).toUpperCase()} ]`]);
+	items.push([-2, `[ ${gui.getObjectName('system', 2).toUpperCase()} ]`]);
+	items.push([-3, `[ ${gui.getString('GUI0008').toUpperCase()} ]`]);
 	items.push([-4, `[ ${gui.getMessage('gui_from_events').toUpperCase()} ]`]);
+	items.push([-5, `[ ${gui.getString('QINA590').toUpperCase()} ]`]);
 	items = items.sort((a, b) => a[1].localeCompare(b[1]));
 	const list = gui.getArrayOfInt(listMaterial);
 	htm += Html`<select name="materials" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;">`;
@@ -2126,6 +2127,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			allEventMaterials.forEach((id) => (materialDrops['material_' + id] = true));
 			return;
 		}
+		if (id == -5) key = 'photo';
 		if (key == 'material_1') key = 'coins';
 		materialDrops[key] = true;
 	});
