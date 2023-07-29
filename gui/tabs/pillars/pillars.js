@@ -754,8 +754,7 @@ async function calcUltimateLevel() {
 				addToCol(colTokens, 32, -17);
 				let xp = 0;
 				for (const floor of grFloors.floor) {
-					let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
-					lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
+					const lootAreas = gui.getLootAreas(floor);
 					for (const lootArea of lootAreas) {
 						const count = typeof lootArea.tiles == 'string' ? lootArea.tiles.split(';').length : 0;
 						const random = +lootArea.random;

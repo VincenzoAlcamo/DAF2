@@ -181,8 +181,7 @@ function ringLoot(kind) {
 					})
 				}
 				const { columns: cols, rows } = floor;
-				let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
-				lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
+				const lootAreas = gui.getLootAreas(floor);
 				const loots = [];
 				let gemTle = '';
 				let candyTle = '';

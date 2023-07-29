@@ -249,6 +249,10 @@ const gui = {
 		const generator = gui.getGenerator();
 		return generator && generator.loc_prog && generator.loc_prog[lid];
 	},
+	getLootAreas(floor) {
+		const lootAreas = floor.loot_areas?.loot_area;
+		return lootAreas ? [].concat(lootAreas) : [];
+	},
 	getSyncOffset() {
 		return bgp.Synchronize.offset;
 	},

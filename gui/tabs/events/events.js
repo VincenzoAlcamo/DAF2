@@ -31,8 +31,6 @@ const RINGS_BY_EVENT = {
 	159: 10085, // Christmas 2021
 	182: 10941  // Christmas 2022
 };
-// Red Ring
-
 
 let tab, container, inputs, smartTable;
 let allEvents, trInfo, fixedBody, tbodyInfo, trRegion, swDoubleDrop, swPostcards;
@@ -959,8 +957,7 @@ function showInfo() {
 					const levels = isRepeatables ? floorLevels : [0];
 					const locLoot = {};
 					for (const floor of data.floor) {
-						let lootAreas = floor.loot_areas && floor.loot_areas.loot_area;
-						lootAreas = Array.isArray(lootAreas) ? lootAreas : [];
+						const lootAreas = gui.getLootAreas(floor);
 						const rewards = {};
 						for (const lootArea of lootAreas) {
 							const rid = +lootArea.region_id || region;
