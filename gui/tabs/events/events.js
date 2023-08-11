@@ -614,7 +614,7 @@ function showInfo() {
 	};
 
 	const classesByType = {};
-	['ACHIEV', 'RING', 'GEMSTONE', 'artifact', 'material', 'token', 'usable', 'decoration', 'COIN', 'system', 'XP', 'eventpass_xp'].forEach((v, i) => classesByType[v] = i);
+	['ACHIEV', 'RING', 'GEMSTONE', 'artifact', 'material', 'token', 'usable', 'decoration', 'COIN', 'system', 'XP', 'eventpass_xp', 'photo'].forEach((v, i) => classesByType[v] = i);
 	const RINGS = Object.values(RINGS_BY_EVENT);
 	const showRewards = (rewards, maxNumRewards, options) => {
 		const { rows = 1, className = '', raw = false, filter = false } = options || {};
@@ -626,7 +626,7 @@ function showInfo() {
 			reward._i = xp > 0 ? -xp : id;
 			reward._c = classesByType[type];
 			if (type == 'material') {
-				if (item.machiev.includes(id)) reward._c = 0;
+				if (item.machiev.includes(id)) reward._c = classesByType.ACHIEV;
 				if (id == 1) { reward._c = classesByType.COIN; }
 				const gemIndex = GEMS.indexOf(id);
 				if (gemIndex >= 0) { reward._c = classesByType.GEMSTONE; reward._i = gemIndex; }
@@ -640,7 +640,7 @@ function showInfo() {
 		if (filter && showLoot != 'yes') {
 			const types = [];
 			if (showLoot.includes('gems')) types.push(classesByType.GEMSTONE);
-			if (showLoot.includes('achiev')) types.push(classesByType.ACHIEV);
+			if (showLoot.includes('achiev')) types.push(classesByType.ACHIEV, classesByType.photo);
 			if (showLoot.includes('xp')) types.push(classesByType.XP);
 			rewards = rewards.filter(r => types.includes(r._c));
 		}
