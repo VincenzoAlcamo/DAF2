@@ -2555,13 +2555,31 @@ async function drawMine(args) {
 			const isAnimated = +item.animated;
 			const sw = isAnimated ? width * TILE_SIZE : img.naturalWidth;
 			const sh = isAnimated ? height * TILE_SIZE : img.naturalHeight;
+			let flipX = +item.horizontal_flip;
+			let flipY = +item.vertical_flip;
+			// Rotation is not currently supported except for 180°
+			let angle = +item.rotation % 360;
+			if (angle < 0) angle += 360;
+			const rotation = Math.round(angle / 90) % 4;
+			if (rotation === 2) { flipX = !flipX, flipY = !flipY; }
 			if (dx === undefined) {
+				if (flipX || flipY) {
+					ctx.save();
+					transform((x + width / 2) * TILE_SIZE, (y + height / 2) * TILE_SIZE, flipX, flipY, 0);
+				}
 				ctx.drawImage(img, 0, 0, sw, sh, x * TILE_SIZE, y * TILE_SIZE, width * TILE_SIZE, height * TILE_SIZE);
 			} else {
 				const px = sw / width;
 				const py = sh / height;
+				if (flipX || flipY) {
+					ctx.save();
+					transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, flipX, flipY, 0);
+					if (flipX) dx = width - 1 - dx;
+					if (flipY) dy = height - 1 - dy;
+				}
 				ctx.drawImage(img, dx * px, dy * py, px, py, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 			}
+			if (flipX || flipY) ctx.restore();
 		}
 	};
 	const drawFrame = (x, y, img, frame, flipX, flipY, rotation) => {
@@ -2799,19 +2817,17 @@ async function drawMine(args) {
 			let delta = dy * cols;
 			for (let dx = 0; dx < width && x + dx < cols; dx++, delta++) {
 				const t = tileDefs[pos + delta];
-				if (flag) t.addonDelta = delta;
-				else delete t.addonDelta;
+				if (flag) {
+					// Check if a tile is here
+					const tileIsHere = t.tileStatus == 0 && ((!showBackground && t.stamina >= 0) || t.stamina < 0);
+					if (!tileIsHere) t.addonDelta = delta;
+				} else delete t.addonDelta;
 			}
 		}
 	};
 	await drawAll(addons, 'backgroundAddonId', (x, y, tileDef, item, img) => {
 		// A previously background addon overlaps this tile
 		if (tileDef.addonDelta >= 0) return;
-		// If a tile is here
-		if (+item.columns == 1 && +item.rows == 1) {
-			if (tileDef.tileStatus == 0 && !showBackground && tileDef.stamina >= 0) return;
-			if (tileDef.tileStatus == 0 && tileDef.stamina < 0) return;
-		}
 		if (img) setAddonInfo(tileDef, item, true);
 	});
 	// A foreground addon will remove the background addon on the same tile
