@@ -1375,13 +1375,13 @@ var Data = {
 		'artifact': () => Data.files.artifacts,
 		'diggy_skin': () => Data.files.diggy_skins,
 		'g_team': () => Data.files.g_teams,
+		'photo': () => Data.files.photo_albums_photos,
 	},
 	getObjectCollection(type) {
 		return type in Data.objectCollections ? Data.objectCollections[type]() : null;
 	},
 	getObject(type, id) {
 		if (type == 'eventpass_xp') return Data.colEventpassXp[1];
-		if (type == 'photo') return { name_loc: 'QINA590', mobile_asset: '/img/gui/photo.png' };
 		const col = Data.getObjectCollection(type);
 		return col && col[id];
 	},
@@ -1397,13 +1397,18 @@ var Data = {
 		const asset = item && (type == 'windmill' ? 'greece_windmill' : (type == 'event' ? item.shop_icon_graphics : item.mobile_asset));
 		if (!asset) return '';
 		if (asset[0] == '/') return asset;
-		const base = Data.generator.cdn_root + 'mobile/graphics/' + (Data.imageFolders[type] || 'all') + '/';
+		const assetPath = item.asset_path || ('graphics/' + (Data.imageFolders[type] || 'all') + '/');
+		const base = Data.generator.cdn_root + 'mobile/' + assetPath;
 		const suffix = (small && (type == 'material' || type == 'usable' || type == 'token')) ? '_small' : '';
 		return base + encodeURIComponent(asset) + suffix + '.png' + Data.generator.versionParameter;
 	},
 	getObjectName(type, id) {
 		const item = Data.getObject(type, id);
 		const name_loc = item && item.name_loc;
+		if (type === 'photo') {
+			const photoId = Data.getString('QINA590').toUpperCase() + ' #' + id;
+			return photoId + (name_loc ? ' (' + Data.getString(name_loc) + ')' : '');
+		}
 		return name_loc ? Data.getString(name_loc) : '#' + type + id;
 	},
 	getObjectDesc(type, id) {

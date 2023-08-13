@@ -21,6 +21,7 @@ export default {
 			'usables',
 			'materials',
 			'tokens',
+			'photo_albums_photos',
 			'achievements',
 			'quests',
 			'map_filters',

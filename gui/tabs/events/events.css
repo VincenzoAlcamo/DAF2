@@ -129,10 +129,13 @@
 .events .rewards i,
 .events .loot i,
 .events .reset i {
-	display: inline-block;
-	width: 24px;
-	height: 24px;
-	text-align: center;
+	display: inline-flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+	vertical-align: middle;
+	margin-left: 2px;
 }
 
 .events .rewards img,
@@ -140,8 +143,15 @@
 .events .reset img {
 	max-height: 24px;
 	max-width: 24px;
-	vertical-align: middle;
-	margin-left: 2px;
+}
+.events .loot i.photo {
+	border: 1px solid var(--tb-fgcol);
+	box-shadow: 1px 1px 2px 0px var(--tb-fgcol);
+	background-color: var(--tr-bgcol);
+}
+.events .loot i.photo img {
+	max-width: 20px;
+	max-height: 20px;
 }
 
 .events .event-quests tr td.level,
@@ -253,6 +263,10 @@
 
 .events .lootflag[name='loot_achiev'] {
 	background-image: url(/img/gui/achiev_ok.png);
+}
+
+.events .lootflag[name='loot_photo'] {
+	background-image: url(/img/gui/photo.png);
 }
 
 .events .lootflag[name='loot_xp'] {

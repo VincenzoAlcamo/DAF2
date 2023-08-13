@@ -1,7 +1,10 @@
 /*global bgp gui SmartTable Html Locale Tooltip*/
 export default {
 	init, update, getState, setState,
-	requires: ['materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings', 'tokens', 'usables', 'artifacts', 'xp', 'special_weeks'],
+	requires: [
+		'materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings',
+		'tokens', 'usables', 'artifacts', 'xp', 'special_weeks', 'photo_albums_photos'
+	],
 	events: {
 		close() {
 			selectedEventId = selectedInfo = null;
@@ -47,6 +50,8 @@ function init() {
 	lootChecks.forEach(el => el.addEventListener('click', refreshRegion));
 
 	trRegion = container.querySelector('.trRegion');
+
+	trRegion.querySelector('input[name=loot_photo').title = gui.getMessage('gui_loot') + '\n' + gui.getProperCase(gui.getString('QINA590'));
 
 	smartTable = new SmartTable(container.querySelector('.data'));
 	smartTable.onSort = refresh;
@@ -640,7 +645,8 @@ function showInfo() {
 		if (filter && showLoot != 'yes') {
 			const types = [];
 			if (showLoot.includes('gems')) types.push(classesByType.GEMSTONE);
-			if (showLoot.includes('achiev')) types.push(classesByType.ACHIEV, classesByType.photo);
+			if (showLoot.includes('achiev')) types.push(classesByType.ACHIEV);
+			if (showLoot.includes('photo')) types.push(classesByType.photo);
 			if (showLoot.includes('xp')) types.push(classesByType.XP);
 			rewards = rewards.filter(r => types.includes(r._c));
 		}
@@ -652,7 +658,7 @@ function showInfo() {
 			for (let j = i, prefix = ''; j <= rewards.length; j += maxNumRewards) {
 				const reward = rewards[j - 1];
 				const title = gui.getObjectName(reward.type, reward.object_id, 'info+desc');
-				cell += prefix + `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i>${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
+				cell += prefix + `<span title="${title}">${Locale.formatNumber(+reward.amount)}<i class="${reward.type}">${gui.getObjectImg(reward.type, reward.object_id, null, true, 'none')}</i></span>`;
 				prefix = '<br>';
 			}
 			htm += cell;
@@ -974,7 +980,6 @@ function showInfo() {
 							// PARRY HOTTER: hack for SORTING BOOTS' CEREMONY count for SILVER SNITCH
 							if (lid == 2211 && object_id == 254 && type == 'material') amount = Math.floor(amount / 2);
 							if (amount > 0) {
-								if (type === 'photo') object_id = 1;
 								const key = type + '\t' + object_id;
 								const reward = rewards[key];
 								if (reward) reward.amount += amount; else rewards[key] = { type, object_id, amount };
