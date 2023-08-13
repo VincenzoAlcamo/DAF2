@@ -2548,6 +2548,8 @@ async function drawMine(args) {
 		ctx.translate(-cx, -cy);
 	};
 
+	const addonCache = {};
+
 	const drawAddon = (x, y, item, img, dx, dy) => {
 		if (img) {
 			const width = +item.columns;
@@ -2555,31 +2557,33 @@ async function drawMine(args) {
 			const isAnimated = +item.animated;
 			const sw = isAnimated ? width * TILE_SIZE : img.naturalWidth;
 			const sh = isAnimated ? height * TILE_SIZE : img.naturalHeight;
-			let flipX = +item.horizontal_flip;
-			let flipY = +item.vertical_flip;
+			let flipX = !!+item.horizontal_flip;
+			let flipY = !!+item.vertical_flip;
 			// Rotation is not currently supported except for 180°
 			let angle = +item.rotation % 360;
 			if (angle < 0) angle += 360;
-			const rotation = Math.round(angle / 90) % 4;
-			if (rotation === 2) { flipX = !flipX, flipY = !flipY; }
-			if (dx === undefined) {
-				if (flipX || flipY) {
-					ctx.save();
-					transform((x + width / 2) * TILE_SIZE, (y + height / 2) * TILE_SIZE, flipX, flipY, 0);
-				}
-				ctx.drawImage(img, 0, 0, sw, sh, x * TILE_SIZE, y * TILE_SIZE, width * TILE_SIZE, height * TILE_SIZE);
-			} else {
-				const px = sw / width;
-				const py = sh / height;
-				if (flipX || flipY) {
-					ctx.save();
-					transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, flipX, flipY, 0);
-					if (flipX) dx = width - 1 - dx;
-					if (flipY) dy = height - 1 - dy;
-				}
-				ctx.drawImage(img, dx * px, dy * py, px, py, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			let rotation = Math.round(angle / 90) % 4;
+			if (rotation >= 2) { flipX = !flipX, flipY = !flipY, rotation -= 2; }
+			// Not supported for non-square images
+			if (width !== height) rotation = 0;
+			const W = width * TILE_SIZE, H = height * TILE_SIZE;
+			const X = x * TILE_SIZE, Y = y * TILE_SIZE;
+			const key = `${item.def_id}_${flipX}_${flipY}_${rotation}`;
+			let canvas = addonCache[key];
+			if (!canvas) {
+				const cx = W / 2, cy = H / 2;
+				canvas = addonCache[key] = new OffscreenCanvas(W, H);
+				const ctx = canvas.getContext('2d');
+				ctx.save();
+				ctx.translate(cx, cy);
+				if (flipX || flipY) ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1);
+				if (rotation) ctx.rotate(rotation * Math.PI / 2);
+				ctx.translate(-cx, -cy);
+				ctx.drawImage(img, 0, 0, sw, sh, 0, 0, W, H);
+				ctx.restore();
 			}
-			if (flipX || flipY) ctx.restore();
+			if (dx === undefined) ctx.drawImage(canvas, 0, 0, W, H, X, Y, W, H);
+			else ctx.drawImage(canvas, dx * TILE_SIZE, dy * TILE_SIZE, TILE_SIZE, TILE_SIZE, X, Y, TILE_SIZE, TILE_SIZE);
 		}
 	};
 	const drawFrame = (x, y, img, frame, flipX, flipY, rotation) => {
