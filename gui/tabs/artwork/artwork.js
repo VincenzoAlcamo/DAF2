@@ -46,10 +46,17 @@ const kinds = {
 	quests: { event: 'event_id', name: 'heading_text' },
 	regions: { asset: 'icon_mobile_asset', folder: 'gui/' },
 	tablets: {},
+	team_member_avatars: {},
 	tiles: {},
 	tokens: { event: 'event_id' },
 	usables: {},
 };
+
+if (!bgp.Data.isAdmin) {
+	// Remove all, except these
+	const keep = ['diggy_skins', 'g_teams', 'photo_albums_photos', 'regions', 'team_member_avatars'];
+	Object.keys(kinds).filter(key => !keep.includes(key)).forEach(key => delete kinds[key]);
+}
 
 let tab, container, smartTable, grid, cdn_root, versionParameter;
 let allEvents, type, allItems;
