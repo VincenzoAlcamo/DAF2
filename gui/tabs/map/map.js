@@ -2559,12 +2559,11 @@ async function drawMine(args) {
 			const sh = isAnimated ? height * TILE_SIZE : img.naturalHeight;
 			let flipX = !!+item.horizontal_flip;
 			let flipY = !!+item.vertical_flip;
-			// Rotation is not currently supported except for 180°
+			// Rotation is not currently supported for non-square images (except for 180°)
 			let angle = +item.rotation % 360;
 			if (angle < 0) angle += 360;
 			let rotation = Math.round(angle / 90) % 4;
 			if (rotation >= 2) { flipX = !flipX, flipY = !flipY, rotation -= 2; }
-			// Not supported for non-square images
 			if (width !== height) rotation = 0;
 			const W = width * TILE_SIZE, H = height * TILE_SIZE;
 			const X = x * TILE_SIZE, Y = y * TILE_SIZE;

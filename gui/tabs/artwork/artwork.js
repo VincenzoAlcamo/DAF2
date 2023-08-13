@@ -42,7 +42,7 @@ const kinds = {
 	news_popups: { folder: 'news/' },
 	npcs: { event: 'event_id' },
 	// panteons: { folder: 'panteon/' },
-	photo_albums: {},
+	photo_albums_photos: {},
 	quests: { event: 'event_id', name: 'heading_text' },
 	regions: { asset: 'icon_mobile_asset', folder: 'gui/' },
 	tablets: {},
@@ -167,14 +167,12 @@ async function refresh() {
 					addItem(id, asset, { id });
 				});
 			}
-		} else if (type == 'photo_albums') {
-			for (const album of Object.values(data)) {
-				(album.photos || []).forEach(item => {
-					const id = item.def_id, asset = item[$asset];
-					if (!asset || asset == 'default' || asset == 'map_x_default') return;
-					const url = cdn_root + 'mobile/' + item.asset_path + encodeURIComponent(asset) + '.png' + versionParameter;
-					addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), url })
-				});
+		} else if (type == 'photo_albums_photos') {
+			for (const item of Object.values(data)) {
+				const id = item.def_id, asset = item[$asset];
+				if (!asset || asset == 'default' || asset == 'map_x_default') break;
+				const url = cdn_root + 'mobile/' + item.asset_path + encodeURIComponent(asset) + '.png' + versionParameter;
+				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), url })
 			}
 		} else {
 			addNormalItems(data);
