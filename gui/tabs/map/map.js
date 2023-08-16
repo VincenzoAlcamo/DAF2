@@ -208,6 +208,7 @@ function getThemeDefaults() {
 			'marker.arrow': COL('#FF0', CSS),
 			'marker.special': COL('#FF0', CSS, CONTRAST),
 			'marker.quest': COL('#F0F', CSS, CONTRAST),
+			'marker.photo': COL('#0DF', CSS, CONTRAST),
 			'marker.material': COL('#0F0', CSS, CONTRAST),
 			'marker.tile': COL('#CCC', CSS)
 		},
@@ -303,7 +304,7 @@ function init() {
 
 	const parseJSON = (value) => {
 		try {
-			return JSON.parse(value);
+			return value ? JSON.parse(value) : null;
 		} catch (e) {
 			return null;
 		}
@@ -681,7 +682,7 @@ function prepareFloorData(data, unclear, removeMarks) {
 		});
 	}
 	data.forEach((mine) =>
-		['processed', 'numTiles', 'cost', 'numSpecial', 'numQuest', 'numMaterial', '_t'].forEach(
+		['processed', 'numTiles', 'cost', 'numSpecial', 'numQuest', 'numPhoto', 'numMaterial', '_t'].forEach(
 			(key) => delete mine[key]
 		)
 	);
@@ -886,7 +887,6 @@ function showAdvancedOptions() {
 	items.push([-2, `[ ${gui.getObjectName('system', 2).toUpperCase()} ]`]);
 	items.push([-3, `[ ${gui.getString('GUI0008').toUpperCase()} ]`]);
 	items.push([-4, `[ ${gui.getMessage('gui_from_events').toUpperCase()} ]`]);
-	items.push([-5, `[ ${gui.getString('QINA590').toUpperCase()} ]`]);
 	items = items.sort((a, b) => a[1].localeCompare(b[1]));
 	const list = gui.getArrayOfInt(listMaterial);
 	htm += Html`<select name="materials" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;">`;
@@ -2128,7 +2128,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			allEventMaterials.forEach((id) => (materialDrops['material_' + id] = true));
 			return;
 		}
-		if (id == -5) key = 'photo';
 		if (key == 'material_1') key = 'coins';
 		materialDrops[key] = true;
 	});
@@ -2136,6 +2135,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	for (const tileDef of tileDefs) {
 		delete tileDef.isSpecial;
 		delete tileDef.isQuest;
+		delete tileDef.isPhoto;
 		delete tileDef.isMaterial;
 		tileDef.isTile =
 			tileDef.tileSubtype &&
@@ -2178,9 +2178,11 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				if (sd === 'A' && noAchievements) sd = undefined;
 				const isQuest = key in questDrops || sd === 'Q' || drop.type == 'tablet' || (sd === undefined && drop.type == 'token' && drop.id in eventTokens);
 				const isSpecial = !isQuest && !isTower && (sd !== undefined || drop.type == 'artifact');
+				const isPhoto = drop.type == 'photo';
 				const isMaterial = key in materialDrops || drop.type in materialDrops;
 				if (isSpecial) tileDef.isSpecial = true;
 				if (isQuest) tileDef.isQuest = true;
+				if (isPhoto) tileDef.isPhoto = true;
 				if (isMaterial) tileDef.isMaterial = true;
 			}
 			if (numCoins > 0 && 'coins' in materialDrops && (numCoins > 1 || tileDef.stamina == 0))
@@ -2192,6 +2194,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			cost = 0,
 			numSpecial = 0,
 			numQuest = 0,
+			numPhoto = 0,
 			numMaterial = 0;
 		tileDefs
 			.filter((tileDef) => tileDef.show)
@@ -2202,9 +2205,10 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				}
 				if (tileDef.isSpecial) numSpecial++;
 				if (tileDef.isQuest) numQuest++;
+				if (tileDef.isPhoto) numPhoto++;
 				if (tileDef.isMaterial) numMaterial++;
 			});
-		mine._t = { numTiles, cost, numSpecial, numQuest, numMaterial };
+		mine._t = { numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial };
 	}
 
 	// Transparency
@@ -3221,6 +3225,7 @@ async function drawMine(args) {
 		const unclearEdits = currentData.mine._p.ue || {}, edits = currentData.mine._p.e || {};
 		const specialColor = ThemeEditor.toTripletColor(themeSettings.marker.special);
 		const questColor = ThemeEditor.toTripletColor(themeSettings.marker.quest);
+		const photoColor = ThemeEditor.toTripletColor(themeSettings.marker.photo);
 		const materialColor = ThemeEditor.toTripletColor(themeSettings.marker.material);
 		const SIZE_ALT = Math.floor((TILE_SIZE + SW * 2) / 3) - SW;
 		const styles = {
@@ -3308,7 +3313,7 @@ async function drawMine(args) {
 					getCell().setAttribute('data-col', edit.c);
 					return edit.c ? specialColors[edit.c] : null;
 				}
-				return tDef.isQuest ? questColor : tDef.isSpecial ? specialColor : tDef.isMaterial ? materialColor : null;
+				return tDef.isQuest ? questColor : tDef.isSpecial ? specialColor : tDef.isPhoto ? photoColor : tDef.isMaterial ? materialColor : null;
 			};
 			if (isUncleared) {
 				const edit = unclearEdits[tileKey];
@@ -3573,31 +3578,32 @@ async function drawMine(args) {
 
 	// Floors, Tiles & Loot
 	let htm = '';
-	const total = { numTiles: 0, cost: 0, numSpecial: 0, numQuest: 0, numMaterial: 0 };
+	const total = { numTiles: 0, cost: 0, numSpecial: 0, numQuest: 0, numPhoto: 0, numMaterial: 0 };
 	let numFound = 0;
 	for (const floorId of currentData.floorNumbers) {
 		const found = findMine(lid, floorId),
 			_t = found && found._t;
-		let classes = '';
+		let classes = 'map_flags';
 		if (found && _t) {
 			numFound++;
 			for (const key of Object.keys(total)) total[key] += _t[key] || 0;
-			if (_t.numMaterial > 0) classes += 'm';
-			if (_t.numQuest > 0) classes += 'q';
-			if (_t.numSpecial > 0) classes += 's';
-			if (_t.numTiles > 0) classes += 't';
+			if (_t.numMaterial > 0) classes += ' map_flags_m';
+			if (_t.numQuest > 0) classes += ' map_flags_q';
+			if (_t.numPhoto > 0) classes += ' map_flags_p';
+			if (_t.numSpecial > 0) classes += ' map_flags_s';
+			if (_t.numTiles > 0) classes += ' map_flags_t';
 		}
 		const isCurrent = floorId == fid;
 		let title = gui.getMessage(isCurrent ? 'map_floor_current' : found ? 'map_floor_found' : 'map_floor_not_found');
 		if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
-		htm += Html`<span class="map_flags map_flags_${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''
+		htm += Html`<span class="${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''
 			}${found ? '' : ' disabled'} title="${title}"></span>`;
 	}
 	const div = container.querySelector('[data-id="fid"]');
 	Html.set(div, htm);
 	Array.from(div.querySelectorAll('input')).forEach((e) => e.addEventListener('click', changeLevel));
-	const setTable = (row, { numTiles, cost, numSpecial, numQuest, numMaterial }, allFound) => {
-		[numTiles, cost, numSpecial, numQuest, numMaterial].forEach((n, i) => {
+	const setTable = (row, { numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial }, allFound) => {
+		[numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial].forEach((n, i) => {
 			const cell = row.cells[i + 1];
 			Html.set(cell, Html(isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n)));
 			cell.style.fontWeight = n > 0 && i > 2 ? 'bold' : '';
@@ -3605,6 +3611,7 @@ async function drawMine(args) {
 	};
 	tableTileInfo.classList.toggle('has-special', total.numSpecial > 0);
 	tableTileInfo.classList.toggle('has-quest', total.numQuest > 0);
+	tableTileInfo.classList.toggle('has-photo', total.numPhoto > 0);
 	tableTileInfo.classList.toggle('has-material', total.numMaterial > 0);
 	setTable(tableTileInfo.rows[1], currentData.mine._t, true);
 	setTable(tableTileInfo.rows[2], total, numFound == currentData.floorNumbers.length);

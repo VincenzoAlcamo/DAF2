@@ -3,6 +3,8 @@ html {
 	--map-marker-specialfg: #000;
 	--map-marker-quest: #f0f;
 	--map-marker-questfg: #000;
+	--map-marker-photo: #c80;
+	--map-marker-photofg: #000;
 	--map-marker-material: #0f0;
 	--map-marker-materialfg: #000;
 	--map-marker-tile: #ccc;
@@ -122,6 +124,11 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	color: var(--map-marker-questfg);
 }
 
+.tab_map .toolbar .photo {
+	background-color: var(--map-marker-photo);
+	color: var(--map-marker-photofg);
+}
+
 .tab_map .toolbar .material {
 	background-color: var(--map-marker-material);
 	color: var(--map-marker-materialfg);
@@ -129,12 +136,14 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 
 .tab_map .toolbar th.special,
 .tab_map .toolbar th.quest,
+.tab_map .toolbar th.photo,
 .tab_map .toolbar th.material {
 	padding: 0;
 }
 
 .tab_map .toolbar .special img,
 .tab_map .toolbar .quest img,
+.tab_map .toolbar .photo img,
 .tab_map .toolbar .material img {
 	max-width: 18px;
 	max-height: 18px;
@@ -149,6 +158,7 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 
 .tab_map .tile-info table:not(.has-special) .special,
 .tab_map .tile-info table:not(.has-quest) .quest,
+.tab_map .tile-info table:not(.has-photo) .photo,
 .tab_map .tile-info table:not(.has-material) .material {
 	display: none;
 }
@@ -441,74 +451,33 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 }
 
 /* FLOOR SELECTOR FLAGS */
-.tab_map .toolbar span.map_flags {
+.tab_map .map_flags {
 	display: inline-block;
 	height: 20px;
 	margin-top: 2px;
+	--c1: transparent;
+	--c2: transparent;
+	--c3: transparent;
+	--c4: transparent;
+	box-shadow: 0px -3px var(--c1),
+		inset 0px 10px var(--c2),
+		inset 0px -10px var(--c3),
+		0px 3px var(--c4);
 }
-
-.tab_map .toolbar span.map_flags_m {
-	box-shadow: inset 0px -10px var(--map-marker-material);
+.tab_map .map_flags_s {
+	--c1: var(--map-marker-special);
 }
-
-.tab_map .toolbar span.map_flags_mq {
-	box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest);
+.tab_map .map_flags_t {
+	--c2: var(--map-marker-tile);
 }
-
-.tab_map .toolbar span.map_flags_mqs {
-	box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special),
-		0px 3px var(--map-marker-quest);
+.tab_map .map_flags_m {
+	--c3: var(--map-marker-material);
 }
-
-.tab_map .toolbar span.map_flags_mqst {
-	box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest),
-		0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
+.tab_map .map_flags_q {
+	--c4: var(--map-marker-quest);
 }
-
-.tab_map .toolbar span.map_flags_mqt {
-	box-shadow: inset 0px -10px var(--map-marker-material), 0px 3px var(--map-marker-quest),
-		inset 0px 10px var(--map-marker-tile);
-}
-
-.tab_map .toolbar span.map_flags_ms {
-	box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special);
-}
-
-.tab_map .toolbar span.map_flags_mst {
-	box-shadow: inset 0px -10px var(--map-marker-material), 0px -3px var(--map-marker-special),
-		inset 0px 10px var(--map-marker-tile);
-}
-
-.tab_map .toolbar span.map_flags_mt {
-	box-shadow: inset 0px -10px var(--map-marker-material), inset 0px 10px var(--map-marker-tile);
-}
-
-.tab_map .toolbar span.map_flags_q {
-	box-shadow: 0px 3px var(--map-marker-quest);
-}
-
-.tab_map .toolbar span.map_flags_qs {
-	box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special);
-}
-
-.tab_map .toolbar span.map_flags_qst {
-	box-shadow: 0px 3px var(--map-marker-quest), 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
-}
-
-.tab_map .toolbar span.map_flags_qt {
-	box-shadow: 0px 3px var(--map-marker-quest), inset 0px 10px var(--map-marker-tile);
-}
-
-.tab_map .toolbar span.map_flags_s {
-	box-shadow: 0px -3px var(--map-marker-special);
-}
-
-.tab_map .toolbar span.map_flags_st {
-	box-shadow: 0px -3px var(--map-marker-special), inset 0px 10px var(--map-marker-tile);
-}
-
-.tab_map .toolbar span.map_flags_t {
-	box-shadow: inset 0px 10px var(--map-marker-tile);
+.tab_map .map_flags_p {
+	--c4: var(--map-marker-photo);
 }
 
 /* EDITS */
