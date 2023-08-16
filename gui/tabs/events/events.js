@@ -51,8 +51,6 @@ function init() {
 
 	trRegion = container.querySelector('.trRegion');
 
-	trRegion.querySelector('input[name=loot_photo').title = gui.getMessage('gui_loot') + '\n' + gui.getProperCase(gui.getString('QINA590'));
-
 	smartTable = new SmartTable(container.querySelector('.data'));
 	smartTable.onSort = refresh;
 	smartTable.fixedHeader.parentNode.classList.add('events');

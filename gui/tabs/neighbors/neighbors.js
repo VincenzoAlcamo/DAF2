@@ -407,9 +407,7 @@ function updateTeamMembers() {
 			row.setAttribute('data-lazy', '');
 		}
 	}
-	const option = inputs.show.querySelector('option[value=team]');
-	Html.set(option, Html`${gui.getProperCase(gui.getString('GUI3223'))}`);
-	option.disabled = Object.keys(teamMembers).length == 0;
+	inputs.show.querySelector('option[value=team]').disabled = Object.keys(teamMembers).length == 0;
 
 	let htm = '';
 	if (team) {

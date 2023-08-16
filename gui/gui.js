@@ -1179,8 +1179,18 @@ function updateCurrentTab() {
 
 //#region TEXT INFO
 function translate(parent) {
-	for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = el.getAttribute('data-i18n-title').split('+').map(id => gui.getMessage(id)).join('\n');
-	for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Html.set(el, Html.br(el.getAttribute('data-i18n-text').split('+').map(id => gui.getMessage(id)).join('\n')));
+	const getText = (value) => value.split('+').map(id => {
+		const [key, transform] = id.split(':');
+		const text = key[0] >= 'a' ? gui.getMessage(key) : gui.getString(key);
+		switch(transform) {
+			case 'proper': return gui.getProperCase(text);
+			case 'lower': return text.toLowerCase();
+			case 'upper': return text.toUpperCase();
+		}
+		return text;
+	}).join('\n');
+	for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = getText(el.getAttribute('data-i18n-title'));
+	for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Html.set(el, Html.br(getText(el.getAttribute('data-i18n-text'))));
 }
 //#endregion
 
