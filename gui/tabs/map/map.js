@@ -1618,7 +1618,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			tileDef.npcId = npcId;
 			if (+item.pick_child > 0) {
 				tileDef.isGC = true;
-				const child = childs[item.pick_child];
+				const child = childs[item.pick_child] || { min_stamina: 0, max_stamina: 0}
 				let energy = getRndValue(+child.min_stamina, +child.max_stamina);
 				tileDef.npcLoot = [];
 				for (const obj of asArray(child.drops).filter((t) => +t.region_id == rid)) {
@@ -2572,7 +2572,7 @@ async function drawMine(args) {
 			let canvas = addonCache[key];
 			if (!canvas) {
 				const cx = W / 2, cy = H / 2;
-				canvas = addonCache[key] = new OffscreenCanvas(W, H);
+				canvas = addonCache[key] = gui.createCanvas(W, H, true);
 				const ctx = canvas.getContext('2d');
 				ctx.save();
 				ctx.translate(cx, cy);

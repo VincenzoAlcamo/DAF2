@@ -754,7 +754,8 @@ const gui = {
 			avg: avgValue * doubleDropCoeff
 		};
 	},
-	createCanvas(width, height) {
+	createCanvas(width, height, offscreen) {
+		if (offscreen && typeof OffscreenCanvas === 'function') return new OffscreenCanvas(width, height);
 		return Html.get(`<canvas width="${width}" height="${height}"></canvas>`)[0];
 	},
 	setupScreenshot(element, filename = 'screenshot.png', screenshot) {
