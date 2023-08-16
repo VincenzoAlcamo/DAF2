@@ -1756,7 +1756,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	for (const teleport of Object.values(teleports)) {
 		const { row: y, column: x } = teleport;
 		const tileDef = tileDefs[y * cols + x];
-		tileDef.teleportId = teleport.teleport_id;
+		if (tileDef) tileDef.teleportId = teleport.teleport_id;
 	}
 	let teleportIndex = 0;
 	const sortedTeleports = Object.values(teleports).sort((a, b) => a.row - b.row || a.column - b.column);
