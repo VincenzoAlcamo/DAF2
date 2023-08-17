@@ -168,6 +168,10 @@ const queue = {
 			this.isProcessing = true;
 			const promise = this.list.shift();
 			if (promise) await promise();
+		} catch(e) {
+			clearWaitHandler();
+			this.list = [];
+			gui.dialog.show({ text: gui.getMessage('friendship_collecterror'), style: [Dialog.CRITICAL, Dialog.OK] });
 		} finally {
 			this.isProcessing = false;
 		}
