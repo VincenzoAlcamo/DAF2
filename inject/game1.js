@@ -471,10 +471,8 @@ function setKeepElements() {
 	});
 }
 
-function initDOM() {
-	chrome.runtime.onMessage.removeListener(onMessageQueue);
-	const _msgQueue = msgQueue;
-	msgQueue = null;
+let pageTypeSent = false;
+function detectPageType() {
 	pageType = 'unknown';
 	if (document.getElementById('pagelet_bluebar')) {
 		pageType = 'facebook1';
@@ -490,7 +488,18 @@ function initDOM() {
 		pageType = 'portal';
 		header = document.getElementById('header');
 	}
-	document.documentElement.classList.add('DAF-' + pageType);
+	['unknown', 'facebook1', 'facebook2', 'portal'].forEach(t => document.documentElement.classList.toggle('DAF-' + t, t === pageType));
+}
+function sendPageType() {
+	pageTypeSent = true;
+	chrome.runtime.sendMessage({ action: 'forward', real_action: 'game1', pageType, ok: pageType != 'unknown' });
+}
+
+function initDOM() {
+	chrome.runtime.onMessage.removeListener(onMessageQueue);
+	const _msgQueue = msgQueue;
+	msgQueue = null;
+	detectPageType();
 
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
@@ -546,7 +555,10 @@ function initDOM() {
 		msgHandlers['windmills'] = (request) => setBadgeWindmills(request.data);
 		msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
 		msgHandlers['serverEnergy'] = (request) => setBadge({ selector: '.DAF-badge-energy', text: request.data.energy, active: true });
-		msgHandlers['game2'] = () => chrome.runtime.sendMessage({ action: 'forward', real_action: 'game1', pageType, ok: pageType != 'unknown' });
+		msgHandlers['game2'] = () => {
+			if (pageType === 'unknown') detectPageType();
+			sendPageType();
+		};
 		msgHandlers['wallpost'] = () => {
 			if (pageType !== 'facebook2') return;
 			let count = 10;
@@ -557,6 +569,12 @@ function initDOM() {
 		createMenu();
 		updateMenu();
 		_msgQueue.forEach(request => onMessage(request, null, null));
+		const updatePageType = () => {
+			if (pageType !== 'unknown') return;
+			detectPageType();
+			if (pageTypeSent && pageType !== 'unknown') sendPageType();
+		};
+		[10, 25, 40].forEach(t => setTimeout(updatePageType, t * 1000));
 	});
 }
 

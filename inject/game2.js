@@ -355,7 +355,7 @@ window.original_wallpost = window.wallpost;
 window.wallpost = function() {
 	window.postMessage({ key: "${key}", action: "wallpost" }, window.location.href);
 	window.original_wallpost();
-}
+};
 `;
 		document.head.appendChild(createScript(code));
 		chrome.runtime.sendMessage({ action: 'forward', real_action: 'game2', ok: true });
