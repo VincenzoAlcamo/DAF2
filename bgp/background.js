@@ -1450,11 +1450,12 @@ var Data = {
 				const packed = PackTiles.pack(mine.tiles);
 				delete mine.tiles;
 				mine.packedTiles = packed;
-				// Always store "original" data if progress is 0
-				const floor = asArray(mine.floor_progress || progress).find(t => +t.floor == fid);
-				if ((floor && +floor.progress == 0)) {
-					const o = mine._p.o = { packed };
-					['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => o[key] = mine[key]);
+				if (!mine._p.o) {
+					const floor = asArray(mine.floor_progress || progress).find(t => +t.floor == fid);
+					if ((floor && +floor.progress == 0)) {
+						const o = mine._p.o = { packed };
+						['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(key => o[key] = mine[key]);
+					}
 				}
 			}
 		}
