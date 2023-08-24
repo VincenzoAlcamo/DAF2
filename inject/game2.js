@@ -58,10 +58,6 @@ function onFullWindow() {
 	}
 }
 
-function onNoGCPopup() {
-	document.body.setAttribute('daf_nogc', prefs.noGCPopup ? '1' : '0');
-}
-
 function gcTable_isEmpty() {
 	return gcTable.childNodes.length <= 1;
 }
@@ -264,9 +260,13 @@ function init() {
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 
+	const prefAttribute = {
+		'noGCPopup': 'daf_nogc',
+	};
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
+		if (name in prefAttribute) document.body.setAttribute(prefAttribute[name], value ? '1' : '0');
 		if (name in handlers) handlers[name]();
 	}
 
@@ -320,43 +320,49 @@ function init() {
 		window.addEventListener('resize', onResize);
 		sendMinerPosition();
 		onFullWindow();
-		handlers['noGCPopup'] = onNoGCPopup;
-		onNoGCPopup();
 		const key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
 		window.addEventListener('message', function (event) {
-			if (event.source != window || !event.data || event.data.key != key) return;
-			if (event.data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
-			if (event.data.action == 'wallpost' && pageType == 'facebook2') chrome.runtime.sendMessage({ action: 'forward', real_action: 'wallpost' });
+			const data = event.data;
+			if (event.source != window || !data || data.key != key) return;
+			if (data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
+			if (data.action == 'wallpost' && pageType == 'facebook2') chrome.runtime.sendMessage({ action: 'forward', real_action: 'wallpost' });
+			if (data.action == 'sendValue') sendValue(data.name, data.value);
 		});
-		const code = `
-window.original_isFullScreen = window.isFullScreen;
-window.isDAFFullWindow = function() { return document.body.getAttribute('daf_fw') == '1'; };
-window.isFullScreen = function() { return window.isDAFFullWindow() || window.original_isFullScreen(); };
-window.original_exitFullscreen = window.exitFullscreen;
-window.exitFullscreen = function() {
-    if (!window.isDAFFullWindow()) return window.original_exitFullscreen();
-    window.postMessage({ key: "${key}", action: "exitFullWindow" }, window.location.href);
+		let code = `
+const hasFlag = (name) => document.body.getAttribute(name) == '1';
+const postMessage = (data) => window.postMessage(Object.assign(data, { key: "${key}" }), window.location.href);
+
+const isDAFFullWindow = () => hasFlag('daf_fw');
+const _isFullScreen = window.isFullScreen;
+window.isFullScreen = () => isDAFFullWindow() || _isFullScreen();
+const _exitFullscreen = window.exitFullscreen;
+window.exitFullscreen = () => {
+	if (!isDAFFullWindow()) return _exitFullscreen();
+	postMessage({ action: "exitFullWindow" });
 };
-window.bypassFB = false;
-window.original_getFBApi = window.getFBApi;
+
+let bypassFB = false;
+const _getFBApi = window.getFBApi;
 window.getFBApi = function() {
-    const result = window.bypassFB ? { ui: function() {} } : window.original_getFBApi();
-    window.bypassFB = false;
-    return result;
+	const result = bypassFB ? { ui: function() {} } : _getFBApi();
+	bypassFB = false;
+	return result;
 };
-window.original_userRequest = window.userRequest;
+const _userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
-    window.bypassFB = document.body.getAttribute('daf_nogc') == '1';
-    const result = window.original_userRequest(recipients, req_type);
-    window.bypassFB = false;
-    return result;
+	bypassFB = document.body.getAttribute('daf_nogc') == '1';
+	const result = _userRequest(recipients, req_type);
+	bypassFB = false;
+	return result;
 };
-window.original_wallpost = window.wallpost;
+
+const _wallpost = window.wallpost;
 window.wallpost = function() {
-	window.postMessage({ key: "${key}", action: "wallpost" }, window.location.href);
-	window.original_wallpost();
+	postMessage({ action: "wallpost" });
+	_wallpost();
 };
 `;
+		code = `(function(){${code}})();`
 		document.head.appendChild(createScript(code));
 		chrome.runtime.sendMessage({ action: 'forward', real_action: 'game2', ok: true });
 	});

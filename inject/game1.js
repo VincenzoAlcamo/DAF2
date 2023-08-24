@@ -275,88 +275,88 @@ function createMenu() {
 	let html = `
 <ul class="DAF-menu">
 <li data-action="about"><b>&nbsp;</b>
-    <div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
+	<div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
 </li>
 <li data-action="search"><b>&nbsp;</b>
-    <div><span>${gm('gui_search')}</span><input type="text">
-    <div class="DAF-search-results"></div>
-    </div>
+	<div><span>${gm('gui_search')}</span><input type="text">
+	<div class="DAF-search-results"></div>
+	</div>
 </li>
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
-    <div>
-        <i data-pref="fullWindow">${gm('menu_fullwindow')}</i>
-        <i data-pref="fullWindowLock">${gm('menu_fullwindowlock')}</i>
-        <br>
-        <i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
-        <i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
-        <i style="display:none" data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i>
-    </div>
+	<div>
+		<i data-pref="fullWindow">${gm('menu_fullwindow')}</i>
+		<i data-pref="fullWindowLock">${gm('menu_fullwindowlock')}</i>
+		<br>
+		<i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
+		<i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
+		<i style="display:none" data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i>
+	</div>
 </li>
 <li data-action="gc"><b>&nbsp;</b>
-    <div>
-        <span data-value="status" style="display:none"></span>
-        <br>
-        <i data-pref="gcTable">${gm('menu_gctable')}</i>
-        <i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
-        <i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
-        <br>
-        <i data-pref="autoGC">${gm0('options_autogc')}</i>
-        <br>
-        <i data-pref="noGCPopup">${gm0('options_nogcpopup')}</i>
-    </div>
+	<div>
+		<span data-value="status" style="display:none"></span>
+		<br>
+		<i data-pref="gcTable">${gm('menu_gctable')}</i>
+		<i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
+		<i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
+		<br>
+		<i data-pref="autoGC">${gm0('options_autogc')}</i>
+		<br>
+		<i data-pref="noGCPopup">${gm0('options_nogcpopup')}</i>
+	</div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
-    <div>
-        <span>${gm('options_section_badges')}</span><br>
-        <i data-pref="badgeServerEnergy" style="display:none">${gm0('options_badgeserverenergy')}</i>
-        <i data-pref="badgeGcCounter">${gm0('options_badgegccounter')}</i>
-        <i data-pref="badgeGcEnergy">${gm0('options_badgegcenergy')}</i>
-        <br>
-        <i data-pref="badgeProductions" class="squared-right">${gm0('options_badgeproductions')}</i>
-        <i data-pref="badgeCaravan" title="" class="squared-right squared-left hue2">${gm0('tab_caravan')}</i>
-        <i data-pref="badgeKitchen" title="" class="squared-right squared-left hue2">${gm0('tab_kitchen')}</i>
-        <i data-pref="badgeFoundry" title="" class="squared-right squared-left hue2">${gm0('tab_foundry')}</i>
-        <i data-pref="badgeProductionsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
-        <br>
-        <i data-pref="badgeRepeatables" class="squared-right">${gm0('options_badgerepeatables')}</i>
-        <i data-pref="badgeRepeatablesSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
-        <br>
-        <i data-pref="badgeLuckyCards" class="squared-right">${gm0('options_badgeluckycards')}</i>
-        <i data-pref="badgeLuckyCardsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
-        <br>
-        <i data-pref="badgeWindmills" class="squared-right">${gm0('options_badgewindmills')}</i>
-        <i data-pref="badgeWindmillsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
-    </div>
+	<div>
+		<span>${gm('options_section_badges')}</span><br>
+		<i data-pref="badgeServerEnergy" style="display:none">${gm0('options_badgeserverenergy')}</i>
+		<i data-pref="badgeGcCounter">${gm0('options_badgegccounter')}</i>
+		<i data-pref="badgeGcEnergy">${gm0('options_badgegcenergy')}</i>
+		<br>
+		<i data-pref="badgeProductions" class="squared-right">${gm0('options_badgeproductions')}</i>
+		<i data-pref="badgeCaravan" title="" class="squared-right squared-left hue2">${gm0('tab_caravan')}</i>
+		<i data-pref="badgeKitchen" title="" class="squared-right squared-left hue2">${gm0('tab_kitchen')}</i>
+		<i data-pref="badgeFoundry" title="" class="squared-right squared-left hue2">${gm0('tab_foundry')}</i>
+		<i data-pref="badgeProductionsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<br>
+		<i data-pref="badgeRepeatables" class="squared-right">${gm0('options_badgerepeatables')}</i>
+		<i data-pref="badgeRepeatablesSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<br>
+		<i data-pref="badgeLuckyCards" class="squared-right">${gm0('options_badgeluckycards')}</i>
+		<i data-pref="badgeLuckyCardsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<br>
+		<i data-pref="badgeWindmills" class="squared-right">${gm0('options_badgewindmills')}</i>
+		<i data-pref="badgeWindmillsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+	</div>
 </li>
 <li data-action="ads"><b>&nbsp;</b>
-    <div>
-        <span>${gm('camp_ads_limit')}</span><br>
-        <p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
-        <table class="DAF-table">
+	<div>
+		<span>${gm('camp_ads_limit')}</span><br>
+		<p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
+		<table class="DAF-table">
 			<thead><tr><td>${gm('gui_type')}</td><td>${gm('gui_limit')}</td><td>${gm('gui_date')}</td></tr></thead>
 			<tbody></tbody>
 			<tfoot><tr><td>${gm('camp_total')}</td><td class="total"></td><td></td></tr></tfoot>
 		</table>
-    </div>
+	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
-    <div>
-        <span>${gm('menu_reloadgame')}</span>
-        <br>
-        <i data-value="switch">${gm(pageType == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')}</i>
-    </div>
+	<div>
+		<span>${gm('menu_reloadgame')}</span>
+		<br>
+		<i data-value="switch">${gm(pageType == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')}</i>
+	</div>
 </li>
 </ul>
 <div class="DAF-badges">
-    <b data-close class="DAF-badge-energy DAF-badge-img"></b>
-    <b class="DAF-badge-gc-counter DAF-badge-img"></b>
-    <b class="DAF-badge-gc-energy DAF-badge-img"></b>
-    <b data-animate class="DAF-badge-windmills DAF-badge-img" title="${gm('camp_needs_windmills')}"></b>
-    <b data-animate class="DAF-badge-p-c DAF-badge-img" title="${gm('tab_caravan')}">0</b>
-    <b data-animate class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
-    <b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
-    <b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
-    <div data-animate class="DAF-badge-rep"></div>
+	<b data-close class="DAF-badge-energy DAF-badge-img"></b>
+	<b class="DAF-badge-gc-counter DAF-badge-img"></b>
+	<b class="DAF-badge-gc-energy DAF-badge-img"></b>
+	<b data-animate class="DAF-badge-windmills DAF-badge-img" title="${gm('camp_needs_windmills')}"></b>
+	<b data-animate class="DAF-badge-p-c DAF-badge-img" title="${gm('tab_caravan')}">0</b>
+	<b data-animate class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
+	<b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
+	<b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
+	<div data-animate class="DAF-badge-rep"></div>
 </div>
 `;
 	// remove spaces
@@ -510,7 +510,7 @@ function initDOM() {
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
-		if (name in handlers) handlers[name]();
+		if (name in handlers) handlers[name](value);
 		updateMenu(name);
 	}
 
