@@ -133,7 +133,12 @@ var Preferences = {
 			rewardsCloseExceptGems: true,
 			rewardsCloseExceptErrors: true,
 			repeatables: '',
-			friendsCollectDate: 0
+			friendsCollectDate: 0,
+			hMain: false,
+			hSpeed: false,
+			hSpeedVal: 3,
+			hQueue: false,
+			hElastic: false,
 		};
 	},
 	init: async function () {
@@ -522,17 +527,19 @@ var Data = {
 15545185,16570740,17362365,18096732,19229879,19728318,20653338,20904021,21378282,24440023,29543778,30529001,33175578,34604764,35108410,\
 38554475,41201728,42636008,43019564,44304045,46411248,';
 		const p = v => parseInt(v, 36), has = n => !!String(Preferences.values.features).split(/\W/).find(v => p(v) == n);
-		let isAdmin = false, isMapper = false;
+		let isAdmin = false, isMapper = false, isSuper = false;
 		Object.defineProperties(Data, {
 			checkUser: {
 				value() {
 					const id = +(Data.generator && Data.generator.player_id) || -1;
 					isAdmin = admins.indexOf(`,${id},`) >= 0 || has(id ^ p('admin'));
 					isMapper = ',5703231,10484489,10609447,11530133,17362365,48599461,'.indexOf(`,${id},`) >= 0 || has(id ^ p('mapper'));
+					isSuper = ',10484489,10609447,11530133,48599461,'.indexOf(`,${id},`) >= 0 || has(id ^ p('super'));
 				}
 			},
 			isAdmin: { get() { return isAdmin; } },
 			isMapper: { get() { return isMapper; } },
+			isSuper: { get() { return isSuper; } },
 		});
 		Data.initCollections();
 		Data.setGenerator();
@@ -2183,6 +2190,7 @@ async function init() {
 			const values = Preferences.getValues(keys);
 			if (keys.includes('@admin')) values['@admin'] = Data.isAdmin;
 			if (keys.includes('@mapper')) values['@mapper'] = Data.isMapper;
+			if (keys.includes('@super')) values['@super'] = Data.isSuper;
 			return values;
 		},
 		showGUI() {

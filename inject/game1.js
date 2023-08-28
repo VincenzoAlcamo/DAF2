@@ -5,6 +5,7 @@ let menu, loadCompleted, styleLoaded;
 let lastFullWindow = undefined;
 let isOk = false;
 let msgQueue = [];
+let hasCore = false;
 
 function getUnixTime() { return Math.floor(Date.now() / 1000); }
 
@@ -225,11 +226,12 @@ function search() {
 			if (list.length) {
 				html += `
 <thead><tr><td colspan="2">${gm('gui_neighbour')}</td>
+<td class="DAF-visit"></td>
 <td class="DAF-search-region" title="${gm('gui_region')}"></td>
 <td class="DAF-search-level" title="${gm('gui_level')}"></td></tr></thead>
 <tbody>`;
 				list.forEach(pal => {
-					html += `<tr>`;
+					html += `<tr data-id="${pal.id}">`;
 					html += `<td><img src="${pal.pic || `https://graph.facebook.com/v2.8/${pal.fb_id}/picture`}"></td>`;
 					html += `<td>`;
 					if (!pal.furl || pal.fn != pal.name) {
@@ -243,12 +245,13 @@ function search() {
 						html += `<a data-target="_blank" href="${Html(pal.furl)}">${Html(pal.fn)}</a>`;
 					}
 					html += `</td>`;
+					html += `<td class="DAF-visit"><a data-action="visit" title="${gm('gui_visitcamp')}"></a></td>`;
 					html += `<td><img height="32" data-src="${Html(pal.rimage)}" title="${Html(pal.rname)}"></td>`;
 					html += `<td>${Html(pal.level)}</td>`;
 					html += `</tr>`;
 				});
 				html += `</tbody>`;
-				if (count - list.length > 0) html += `<tfoot><tr><th colspan="4">${gm('gui_toomanyresults')} (${count})</th></tr></tfoot>`;
+				if (count - list.length > 0) html += `<tfoot><tr><th colspan="5">${gm('gui_toomanyresults')} (${count})</th></tr></tfoot>`;
 			} else {
 				html += `<tfoot><tr><th>${Html(getMessage('gui_noresults'))}</th></tr></tfoot>`;
 			}
@@ -307,25 +310,31 @@ function createMenu() {
 </li>
 <li data-action="badges"><b>&nbsp;</b>
 	<div>
-		<span>${gm('options_section_badges')}</span><br>
+		<span>${gm('options_section_badges')}</span>
+		<u>
 		<i data-pref="badgeServerEnergy" style="display:none">${gm0('options_badgeserverenergy')}</i>
 		<i data-pref="badgeGcCounter">${gm0('options_badgegccounter')}</i>
 		<i data-pref="badgeGcEnergy">${gm0('options_badgegcenergy')}</i>
-		<br>
-		<i data-pref="badgeProductions" class="squared-right">${gm0('options_badgeproductions')}</i>
-		<i data-pref="badgeCaravan" title="" class="squared-right squared-left hue2">${gm0('tab_caravan')}</i>
-		<i data-pref="badgeKitchen" title="" class="squared-right squared-left hue2">${gm0('tab_kitchen')}</i>
-		<i data-pref="badgeFoundry" title="" class="squared-right squared-left hue2">${gm0('tab_foundry')}</i>
-		<i data-pref="badgeProductionsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
-		<br>
-		<i data-pref="badgeRepeatables" class="squared-right">${gm0('options_badgerepeatables')}</i>
-		<i data-pref="badgeRepeatablesSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
-		<br>
-		<i data-pref="badgeLuckyCards" class="squared-right">${gm0('options_badgeluckycards')}</i>
-		<i data-pref="badgeLuckyCardsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
-		<br>
-		<i data-pref="badgeWindmills" class="squared-right">${gm0('options_badgewindmills')}</i>
-		<i data-pref="badgeWindmillsSound" class="squared-left hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeProductions">${gm0('options_badgeproductions')}</i>
+		<i data-pref="badgeCaravan" title="" class="hue2">${gm0('tab_caravan')}</i>
+		<i data-pref="badgeKitchen" title="" class="hue2">${gm0('tab_kitchen')}</i>
+		<i data-pref="badgeFoundry" title="" class="hue2">${gm0('tab_foundry')}</i>
+		<i data-pref="badgeProductionsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeRepeatables">${gm0('options_badgerepeatables')}</i>
+		<i data-pref="badgeRepeatablesSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeLuckyCards">${gm0('options_badgeluckycards')}</i>
+		<i data-pref="badgeLuckyCardsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeWindmills">${gm0('options_badgewindmills')}</i>
+		<i data-pref="badgeWindmillsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
 	</div>
 </li>
 <li data-action="ads"><b>&nbsp;</b>
@@ -337,6 +346,16 @@ function createMenu() {
 			<tbody></tbody>
 			<tfoot><tr><td>${gm('camp_total')}</td><td class="total"></td><td></td></tr></tfoot>
 		</table>
+	</div>
+</li>
+<li data-action="options" style="display:none"><b>&nbsp;</b>
+	<div>
+		<span>${gm0('options_hmain')}</span>
+		<u style="display:none"><i data-pref="hElastic">${gm0('options_helastic')}</i></u>
+		<u style="display:none" class="squared"><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
+		${[].map(n => `<i data-pref="hSpeedVal" data-pref-value="${n}" class="hue2">${n}</i>`).join('')}
+		</u>
+		<u style="display:none"><i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -389,7 +408,8 @@ function updateMenu(prefName) {
 	if (!menu) return;
 	for (const el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
 		const prefName = el.getAttribute('data-pref');
-		const isOn = !!prefs[prefName];
+		const prefValue = el.getAttribute('data-pref-value');
+		const isOn = prefValue ? prefValue == prefs[prefName] : !!prefs[prefName];
 		el.classList.toggle('DAF-on', isOn);
 	}
 	const divBadges = menu.querySelector('.DAF-badges');
@@ -414,9 +434,14 @@ function onMenuClick(e) {
 			sendPreference(name, !prefs[name]);
 			break;
 		}
+		case 'options':
 		case 'badges': {
 			const name = target.getAttribute('data-pref');
-			if (name) sendPreference(name, !prefs[name]);
+			if (name) {
+				const s = target.getAttribute('data-pref-value');
+				const value = s === null ? !prefs[name] : +s;
+				sendPreference(name, value);
+			}
 			break;
 		}
 		case 'reloadGame': {
@@ -426,6 +451,10 @@ function onMenuClick(e) {
 			chrome.runtime.sendMessage({ action: 'reloadGame', value: value });
 			break;
 		}
+		case 'visit':
+			document.body.setAttribute('daf_screen', 'visiting');
+			chrome.runtime.sendMessage({ action: 'forward', real_action: 'visit', id: parent.parentNode.parentNode.getAttribute('data-id') });
+			break;
 	}
 }
 
@@ -506,10 +535,15 @@ function initDOM() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
+	addPrefs('@extra,@screen,hSpeed,hSpeedVal,hQueue,hElastic');
 
+	const prefAttribute = {
+		'@screen': 'daf_screen',
+	};
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
+		if (name in prefAttribute) document.body.setAttribute(prefAttribute[name], typeof value == 'boolean' ? (value ? '1' : '0') : (typeof value == 'number' ? value.toString() : value));
 		if (name in handlers) handlers[name](value);
 		updateMenu(name);
 	}
@@ -531,6 +565,18 @@ function initDOM() {
 
 		msgHandlers['sendValue'] = (request) => setPref(request.name, request.value);
 
+		handlers['@extra'] = (value) => {
+			const values = (value || '').split(',');
+			if (values.includes('@core')) hasCore = true;
+			const options = menu.querySelector('[data-action="options"]');
+			values.forEach(value => {
+				const i = options.querySelector(`[data-pref="${value}"]`);
+				if (i) {
+					i.parentNode.style.removeProperty('display');
+					options.style.removeProperty('display');
+				}
+			});
+		}
 		handlers['fullWindow'] = onFullWindow;
 		handlers['fullWindowHeader'] = onFullWindow;
 		handlers['fullWindowSide'] = onFullWindow;

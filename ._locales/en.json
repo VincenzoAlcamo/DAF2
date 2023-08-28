@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Ok"
 	},
+	"gui_visitcamp": {
+		"message": "Visit camp"
+	},
 	"dialog_yes": {
 		"message": "Yes"
 	},
@@ -2190,6 +2193,18 @@
 	},
 	"options_badgewindmills": {
 		"message": "Windmills\nShow a badge when a neighbour's camp needs windmills"
+	},
+	"options_hmain": {
+		"message": "Extra features\nEnable extra features in the game"
+	},
+	"options_hspeed": {
+		"message": "Speed up\nMore speed when using a speed potion"
+	},
+	"options_hqueue": {
+		"message": "Easy tile queue\nQueue is longer and you can just SHIFT-hover a tile to add it"
+	},
+	"options_helastic": {
+		"message": "Disable elastic scroll\nDisables the elastic effect when dragging the screen"
 	},
 	"calc_operators": {
 		"message": "Operators"

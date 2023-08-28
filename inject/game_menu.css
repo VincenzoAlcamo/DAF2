@@ -102,17 +102,20 @@
 	cursor: pointer;
 }
 
-.DAF-menu i.squared-right {
+.DAF-menu u {
+	display: block;
+}
+
+.DAF-menu .squared i:not(:first-of-type) {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	padding-left: 4px;
+}
+.DAF-menu .squared i:not(:last-of-type) {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	margin-right: -2px;
 	padding-right: 4px;
-}
-
-.DAF-menu i.squared-left {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-	padding-left: 4px;
 }
 
 .DAF-menu .hue {
@@ -188,6 +191,10 @@
 
 .DAF-menu li[data-action='ads'] b {
 	background-image: url('/img/gui/ads.png');
+}
+
+.DAF-menu li[data-action='options'] b {
+	background-image: url('/img/gui/options.png');
 }
 
 .DAF-menu li[data-action='search'] b {
@@ -489,6 +496,25 @@
 .DAF-menu .DAF-search-results {
 	padding-top: 2px;
 	margin-top: 0;
+}
+.DAF-menu a[data-action='visit'] {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	background-image: url(/img/gui/camp.png);
+}
+td.DAF-visit {
+	display: none;
+}
+body[daf_screen="friendsScreen.null"] td.DAF-visit,
+body[daf_screen="campLowerScreenVisit.null"] td.DAF-visit,
+body[daf_screen="campUpperScreenVisit.null"] td.DAF-visit {
+	display: table-cell;
+}
+body[daf_screen="visiting"] td.DAF-visit {
+	display: table-cell;
+	opacity: 0.3;
+	pointer-events: none;
 }
 /*#endregion*/
 

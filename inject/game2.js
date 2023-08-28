@@ -1,6 +1,6 @@
 /*global chrome Html*/
 // GAME PAGE
-let prefs, handlers, msgHandlers, miner;
+let prefs, handlers, msgHandlers, miner, postMessage;
 let gcTable, gcTableStyle;
 let loadCompleted, game1Received, pageType;
 let lastFullWindow = false;
@@ -106,8 +106,13 @@ function ongcTable(forceRefresh = false, simulate = 0) {
 				gcTable = Html.get(`<div class="DAF-gc-bar DAF-gc-flipped" style="display:none"></div>`)[0];
 				miner.parentNode.insertBefore(gcTable, miner.nextSibling);
 				gcTable.addEventListener('click', function (e) {
-					for (let div = e.ctrlKey && e.target; div && div !== gcTable; div = div.parentNode)
-						if (div.id && div.id.startsWith('DAF-gc_')) return gcTable_remove(div);
+					for (let div = e.target; div && div !== gcTable; div = div.parentNode)
+						if (div.id && div.id.startsWith('DAF-gc_')) {
+							const id = +div.id.substring(7);
+							if (e.ctrlKey) gcTable_remove(div);
+							else postMessage({ action: 'visit', id });
+							return;
+						}
 				});
 			}
 			let htm = '';
@@ -259,14 +264,19 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
+	addPrefs('@super,@extra,hMain,hSpeed,hSpeedVal,hQueue,hElastic');
 
 	const prefAttribute = {
 		'noGCPopup': 'daf_nogc',
+		'hSpeed': 'daf_speed',
+		'hSpeedVal': 'daf_speedval',
+		'hQueue': 'daf_queue',
+		'hElastic': 'daf_elastic',
 	};
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
-		if (name in prefAttribute) document.body.setAttribute(prefAttribute[name], value ? '1' : '0');
+		if (name in prefAttribute) document.body.setAttribute(prefAttribute[name], typeof value == 'boolean' ? (value ? '1' : '0') : (typeof value == 'number' ? value.toString() : value));
 		if (name in handlers) handlers[name]();
 	}
 
@@ -321,6 +331,8 @@ function init() {
 		sendMinerPosition();
 		onFullWindow();
 		const key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
+		postMessage = (data) => window.postMessage(Object.assign(data, { key: key }), window.location.href);
+		msgHandlers['visit'] = request => postMessage({ action: 'visit', id: request.id });
 		window.addEventListener('message', function (event) {
 			const data = event.data;
 			if (event.source != window || !data || data.key != key) return;
@@ -329,8 +341,16 @@ function init() {
 			if (data.action == 'sendValue') sendValue(data.name, data.value);
 		});
 		let code = `
+const key = "${key}";
+let visit = () => {};
+window.addEventListener('message', function (event) {
+	const data = event.data;
+	if (event.source != window || !data || data.key != key) return;
+	if (data.action == 'visit') visit(+data.id);
+});
+
 const hasFlag = (name) => document.body.getAttribute(name) == '1';
-const postMessage = (data) => window.postMessage(Object.assign(data, { key: "${key}" }), window.location.href);
+const postMessage = (data) => window.postMessage(Object.assign(data, { key: key }), window.location.href);
 
 const isDAFFullWindow = () => hasFlag('daf_fw');
 const _isFullScreen = window.isFullScreen;
@@ -361,6 +381,124 @@ window.wallpost = function() {
 	postMessage({ action: "wallpost" });
 	_wallpost();
 };
+`;
+
+	if (prefs.hMain) code += `
+const isSuper = ${prefs['@super'] ? 'true' : 'false'};
+let extras = [];
+const $hxClasses = window.$hxClasses;
+
+const core = $hxClasses?.["com.pixelfederation.diggy.Core"];
+let currentScreen = null;
+const getActiveScreen = () => {
+	let screen = core?.instance?._screenManager?.getActiveScreen();
+	let visited = null;
+	if (screen == 'campLowerScreen' || screen == 'campUpperScreen') {
+		visited = core.instance._gameManagers?._friendsManager?.getVisitedFriend()?.getId();
+		if (visited) screen += 'Visit';
+	}
+	const popups = core.instance?._popupManager?._visiblePopups;
+	const popup = popups?.length > 0 ? popups[popups.length - 1] : null;
+	const dialog = popup ? popup._popupId?.Id || popup._name : null;
+	return { screen, visited, dialog };
+}
+visit = (id) => {
+	currentScreen = null;
+	const fm = core?.instance?._gameManagers._friendsManager;
+	const info = getActiveScreen();
+	if (fm && id > 0 && !info.dialog && ['friendsScreen', 'campLowerScreenVisit', 'campUpperScreenVisit'].includes(info.screen) && id !== info.visited) fm.visitFriend(id);
+};
+if (core) {
+	extras.push('@core');
+
+	setInterval(() => {
+		const info = getActiveScreen();
+		const value = info.screen + '.' + info.dialog;
+		const screen = value + '.' + info.visited;
+		if (screen !== currentScreen) {
+			currentScreen = screen;
+			postMessage({ action: "sendValue", name: '@screen', value });
+		}
+	}, 1000);
+}
+
+const rp = $hxClasses?.["com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup"];
+if (rp) {
+	const _keyDownHandler = rp.prototype.keyDownHandler;
+	rp.prototype.keyDownHandler = function(p_event) {
+		if (p_event.keyCode >= 65 && p_event.keyCode <= 90) p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
+		return _keyDownHandler.call(this, p_event);
+	};
+}
+
+const gcr = $hxClasses?.["com.pixelfederation.diggy.game.character.Character"];
+if (gcr) {
+	extras.push('hSpeed');
+	const getSpeed = (p_core, val, def) => {
+		if (document.body.getAttribute('daf_speed') == '1' && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) {
+			// const num = Math.max(1, Math.min(5, +document.body.getAttribute('daf_speedval')));
+			const num = isSuper ? 5 : 2;
+			return Math.min(val * (0.85 - 0.13 * num), def);
+		}
+		return def;
+	}
+
+	const _getSpeed = gcr.getSpeed;
+	gcr.getSpeed = function(p_core) {
+		return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments));
+	};
+
+	const _breakTile = gcr.prototype.breakTile;
+	gcr.prototype.breakTile = function(p_tileDef, p_digTime) {
+		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
+	};
+}
+
+const mr = $hxClasses?.["com.pixelfederation.diggy.game.mine.MineRenderer"];
+if (mr) {
+	extras.push('hQueue');
+
+	let maxQueue, wasActive;
+	const _mouseMove_handler = mr.prototype.mouseMove_handler;
+	mr.prototype.mouseMove_handler = function(e) {
+		const { _lastMineTileOver: o, _character: c } = this;
+		const n = _mouseMove_handler.apply(this, arguments);
+		const t = this._lastMineTileOver;
+		const isActive = document.body.getAttribute('daf_queue') == '1';
+		if (isActive !== wasActive) {
+			wasActive = isActive;
+			maxQueue = maxQueue || c.diggingQueue._maxQueue;
+			c.diggingQueue._maxQueue = isActive ? 20 : maxQueue;
+		}
+		if (isActive && t && o !== t && e.shiftKey && (t.isBreakable() || t.isUsable())) c.go(t);
+	};
+}
+
+const cus = $hxClasses?.["com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb"];
+if (cus) {
+	extras.push('hElastic');
+	let firstTime = true;
+	const _resizeUI = cus.prototype.resizeUI;
+	cus.prototype.resizeUI = function() {
+		_resizeUI.apply(this, arguments);
+		if (firstTime) {
+			firstTime = false;
+			Object.defineProperty(this._dragManager.__proto__, '_autoPan', {
+				get() {
+					return hasFlag('daf_elastic') ? false : this.__autoPan;
+				},
+				set(newValue) {
+                    this.__autoPan = newValue;
+				},
+				enumerable: true,
+				configurable: true,
+			});
+			if (hasFlag('daf_elastic')) this._dragManager.setAutoPan(false);
+		}
+	};
+}
+
+if (extras.length) postMessage({ action: "sendValue", name: '@extra', value: extras.join() });
 `;
 		code = `(function(){${code}})();`
 		document.head.appendChild(createScript(code));

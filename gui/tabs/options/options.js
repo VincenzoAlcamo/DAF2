@@ -395,6 +395,7 @@ UI_claim_coin_single_slow_02
 	// option('autoClick');
 	option('noGCPopup');
 	option('autoGC');
+	option('hMain', WITHSUBOPTIONS);
 	continueSection('rewardlinks');
 	option('rewardsClose', WITHSUBOPTIONS);
 	option('rewardsCloseExceptGems', SUBOPTION);
