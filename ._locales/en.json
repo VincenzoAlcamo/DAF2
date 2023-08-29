@@ -2203,8 +2203,11 @@
 	"options_hqueue": {
 		"message": "Easy tile queue\nQueue is longer and you can just SHIFT-hover a tile to add it"
 	},
-	"options_helastic": {
-		"message": "Disable elastic scroll\nDisables the elastic effect when dragging the screen"
+	"options_hscroll": {
+		"message": "Disable inertial scrolling\nInertial scrolling is when the screen continues to move even after the user has stopped dragging it"
+	},
+	"options_hreward": {
+		"message": "Auto-capitalize\nAny input into the reward code is automatically capitalized"
 	},
 	"calc_operators": {
 		"message": "Operators"

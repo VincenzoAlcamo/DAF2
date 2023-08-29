@@ -138,7 +138,7 @@ var Preferences = {
 			hSpeed: false,
 			hSpeedVal: 3,
 			hQueue: false,
-			hElastic: false,
+			hScroll: false,
 		};
 	},
 	init: async function () {
@@ -148,6 +148,7 @@ var Preferences = {
 			const valuesToSet = Object.assign({}, Preferences.values);
 			chrome.storage.local.get(null, function (values) {
 				hasRuntimeError('PREF1');
+				if ('hElastic' in values && !('hScroll' in values)) values['hScroll'] = values['hElastic'];
 				for (const key of Object.keys(values)) {
 					if (key in valuesToSet) {
 						delete valuesToSet[key];

@@ -264,14 +264,15 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hSpeedVal,hQueue,hElastic');
+	addPrefs('@super,@extra,hMain,hSpeed,hSpeedVal,hQueue,hScroll,hReward');
 
 	const prefAttribute = {
 		'noGCPopup': 'daf_nogc',
 		'hSpeed': 'daf_speed',
 		'hSpeedVal': 'daf_speedval',
 		'hQueue': 'daf_queue',
-		'hElastic': 'daf_elastic',
+		'hScroll': 'daf_scroll',
+		'hReward': 'daf_reward',
 	};
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
@@ -424,9 +425,10 @@ if (core) {
 
 const rp = $hxClasses?.["com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup"];
 if (rp) {
+	extras.push('hReward');
 	const _keyDownHandler = rp.prototype.keyDownHandler;
 	rp.prototype.keyDownHandler = function(p_event) {
-		if (p_event.keyCode >= 65 && p_event.keyCode <= 90) p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
+		if (p_event.keyCode >= 65 && p_event.keyCode <= 90 && hasFlag('daf_reward')) p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
 		return _keyDownHandler.call(this, p_event);
 	};
 }
@@ -435,9 +437,9 @@ const gcr = $hxClasses?.["com.pixelfederation.diggy.game.character.Character"];
 if (gcr) {
 	extras.push('hSpeed');
 	const getSpeed = (p_core, val, def) => {
-		if (document.body.getAttribute('daf_speed') == '1' && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) {
+		if (hasFlag('daf_speed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) {
 			// const num = Math.max(1, Math.min(5, +document.body.getAttribute('daf_speedval')));
-			const num = isSuper ? 5 : 2;
+			const num = isSuper ? 4 : 2;
 			return Math.min(val * (0.85 - 0.13 * num), def);
 		}
 		return def;
@@ -476,7 +478,7 @@ if (mr) {
 
 const cus = $hxClasses?.["com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb"];
 if (cus) {
-	extras.push('hElastic');
+	extras.push('hScroll');
 	let firstTime = true;
 	const _resizeUI = cus.prototype.resizeUI;
 	cus.prototype.resizeUI = function() {
@@ -485,7 +487,7 @@ if (cus) {
 			firstTime = false;
 			Object.defineProperty(this._dragManager.__proto__, '_autoPan', {
 				get() {
-					return hasFlag('daf_elastic') ? false : this.__autoPan;
+					return hasFlag('daf_scroll') ? false : this.__autoPan;
 				},
 				set(newValue) {
                     this.__autoPan = newValue;
@@ -493,7 +495,7 @@ if (cus) {
 				enumerable: true,
 				configurable: true,
 			});
-			if (hasFlag('daf_elastic')) this._dragManager.setAutoPan(false);
+			if (hasFlag('daf_scroll')) this._dragManager.setAutoPan(false);
 		}
 	};
 }

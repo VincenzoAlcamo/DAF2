@@ -351,7 +351,8 @@ function createMenu() {
 <li data-action="options" style="display:none"><b>&nbsp;</b>
 	<div>
 		<span>${gm0('options_hmain')}</span>
-		<u style="display:none"><i data-pref="hElastic">${gm0('options_helastic')}</i></u>
+		<u style="display:none"><i data-pref="hReward">${gm0('options_hreward')}</i></u>
+		<u style="display:none"><i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
 		<u style="display:none" class="squared"><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
 		${[].map(n => `<i data-pref="hSpeedVal" data-pref-value="${n}" class="hue2">${n}</i>`).join('')}
 		</u>
@@ -535,7 +536,7 @@ function initDOM() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
-	addPrefs('@extra,@screen,hSpeed,hSpeedVal,hQueue,hElastic');
+	addPrefs('@extra,@screen,hSpeed,hSpeedVal,hQueue,hScroll,hReward');
 
 	const prefAttribute = {
 		'@screen': 'daf_screen',
