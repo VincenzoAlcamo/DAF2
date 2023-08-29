@@ -9,6 +9,7 @@ function getFullWindow() { return prefs.fullWindow && game1Received && loadCompl
 function sendValue(name, value) { chrome.runtime.sendMessage({ action: 'sendValue', name: name, value: prefs[name] = value }); }
 function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
 function forceResize(delay = 0) { setTimeout(() => window.dispatchEvent(new Event('resize')), delay); }
+function setFlag(name, value) { document.documentElement.setAttribute('DAF--' + name.toLowerCase().replace(/@/g, '_'), String(typeof value == 'boolean' ? +value : value ?? '')); }
 
 function sendMinerPosition() {
 	// Send some values to the top window
@@ -50,7 +51,7 @@ function onFullWindow() {
 	const fn = el => el && (el.style.display = fullWindow ? 'none' : '');
 	if (fullWindow != lastFullWindow) {
 		lastFullWindow = fullWindow;
-		document.body.setAttribute('daf_fw', fullWindow ? '1' : '0');
+		setFlag('fullWindow', fullWindow);
 		document.body.style.backgroundColor = fullWindow ? '#000' : '';
 		document.body.style.overflow = fullWindow ? 'hidden' : '';
 		Array.from(document.querySelectorAll('.header-menu,#gems_banner,.cp_banner .bottom_banner,#bottom_news,#footer,.client-type-switch,.news')).forEach(fn);
@@ -266,18 +267,11 @@ function init() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('@super,@extra,hMain,hSpeed,hSpeedVal,hQueue,hScroll,hReward');
 
-	const prefAttribute = {
-		'noGCPopup': 'daf_nogc',
-		'hSpeed': 'daf_speed',
-		'hSpeedVal': 'daf_speedval',
-		'hQueue': 'daf_queue',
-		'hScroll': 'daf_scroll',
-		'hReward': 'daf_reward',
-	};
+	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hSpeedVal', 'hQueue', 'hScroll', 'hReward']);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
-		if (name in prefAttribute) document.body.setAttribute(prefAttribute[name], typeof value == 'boolean' ? (value ? '1' : '0') : (typeof value == 'number' ? value.toString() : value));
+		if (prefFlags.has(name)) setFlag(name, value);
 		if (name in handlers) handlers[name]();
 	}
 
@@ -350,10 +344,10 @@ window.addEventListener('message', function (event) {
 	if (data.action == 'visit') visit(+data.id);
 });
 
-const hasFlag = (name) => document.body.getAttribute(name) == '1';
+const hasFlag = (name) => document.documentElement.getAttribute('DAF--' + name.toLowerCase()) == '1';
 const postMessage = (data) => window.postMessage(Object.assign(data, { key: key }), window.location.href);
 
-const isDAFFullWindow = () => hasFlag('daf_fw');
+const isDAFFullWindow = () => hasFlag('fullWindow');
 const _isFullScreen = window.isFullScreen;
 window.isFullScreen = () => isDAFFullWindow() || _isFullScreen();
 const _exitFullscreen = window.exitFullscreen;
@@ -371,7 +365,7 @@ window.getFBApi = function() {
 };
 const _userRequest = window.userRequest;
 window.userRequest = function(recipients, req_type) {
-	bypassFB = document.body.getAttribute('daf_nogc') == '1';
+	bypassFB = hasFlag('noGCPopup');
 	const result = _userRequest(recipients, req_type);
 	bypassFB = false;
 	return result;
@@ -428,7 +422,7 @@ if (rp) {
 	extras.push('hReward');
 	const _keyDownHandler = rp.prototype.keyDownHandler;
 	rp.prototype.keyDownHandler = function(p_event) {
-		if (p_event.keyCode >= 65 && p_event.keyCode <= 90 && hasFlag('daf_reward')) p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
+		if (p_event.keyCode >= 65 && p_event.keyCode <= 90 && hasFlag('hReward')) p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
 		return _keyDownHandler.call(this, p_event);
 	};
 }
@@ -437,8 +431,8 @@ const gcr = $hxClasses?.["com.pixelfederation.diggy.game.character.Character"];
 if (gcr) {
 	extras.push('hSpeed');
 	const getSpeed = (p_core, val, def) => {
-		if (hasFlag('daf_speed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) {
-			// const num = Math.max(1, Math.min(5, +document.body.getAttribute('daf_speedval')));
+		if (hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) {
+			// const num = Math.max(1, Math.min(5, +document.documentElement.getAttribute('DAF--hspeedval')));
 			const num = isSuper ? 4 : 2;
 			return Math.min(val * (0.85 - 0.13 * num), def);
 		}
@@ -466,7 +460,7 @@ if (mr) {
 		const { _lastMineTileOver: o, _character: c } = this;
 		const n = _mouseMove_handler.apply(this, arguments);
 		const t = this._lastMineTileOver;
-		const isActive = document.body.getAttribute('daf_queue') == '1';
+		const isActive = hasFlag('hQueue');
 		if (isActive !== wasActive) {
 			wasActive = isActive;
 			maxQueue = maxQueue || c.diggingQueue._maxQueue;
@@ -487,7 +481,7 @@ if (cus) {
 			firstTime = false;
 			Object.defineProperty(this._dragManager.__proto__, '_autoPan', {
 				get() {
-					return hasFlag('daf_scroll') ? false : this.__autoPan;
+					return hasFlag('hScroll') ? false : this.__autoPan;
 				},
 				set(newValue) {
                     this.__autoPan = newValue;
@@ -495,7 +489,7 @@ if (cus) {
 				enumerable: true,
 				configurable: true,
 			});
-			if (hasFlag('daf_scroll')) this._dragManager.setAutoPan(false);
+			if (hasFlag('hScroll')) this._dragManager.setAutoPan(false);
 		}
 	};
 }

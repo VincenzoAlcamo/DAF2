@@ -8,9 +8,9 @@ let msgQueue = [];
 let hasCore = false;
 
 function getUnixTime() { return Math.floor(Date.now() / 1000); }
-
 function getFullWindow() { return prefs.fullWindow && loadCompleted; }
 function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
+function setFlag(name, value) { document.documentElement.setAttribute('DAF--' + name.toLowerCase().replace(/@/g, '_'), String(typeof value == 'boolean' ? +value : value ?? '')); }
 
 function getMessage(id, ...args) {
 	const $L = prefs.language;
@@ -453,7 +453,7 @@ function onMenuClick(e) {
 			break;
 		}
 		case 'visit':
-			document.body.setAttribute('daf_screen', 'visiting');
+			setFlag('@screen', 'visiting');
 			chrome.runtime.sendMessage({ action: 'forward', real_action: 'visit', id: parent.parentNode.parentNode.getAttribute('data-id') });
 			break;
 	}
@@ -538,13 +538,11 @@ function initDOM() {
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 	addPrefs('@extra,@screen,hSpeed,hSpeedVal,hQueue,hScroll,hReward');
 
-	const prefAttribute = {
-		'@screen': 'daf_screen',
-	};
+	const prefFlags = new Set(['@screen']);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
-		if (name in prefAttribute) document.body.setAttribute(prefAttribute[name], typeof value == 'boolean' ? (value ? '1' : '0') : (typeof value == 'number' ? value.toString() : value));
+		if (prefFlags.has(name)) setFlag(name, value);
 		if (name in handlers) handlers[name](value);
 		updateMenu(name);
 	}

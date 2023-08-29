@@ -506,12 +506,12 @@
 td.DAF-visit {
 	display: none;
 }
-body[daf_screen="friendsScreen.null"] td.DAF-visit,
-body[daf_screen="campLowerScreenVisit.null"] td.DAF-visit,
-body[daf_screen="campUpperScreenVisit.null"] td.DAF-visit {
+html[DAF--_screen="friendsScreen.null"] td.DAF-visit,
+html[DAF--_screen="campLowerScreenVisit.null"] td.DAF-visit,
+html[DAF--_screen="campUpperScreenVisit.null"] td.DAF-visit {
 	display: table-cell;
 }
-body[daf_screen="visiting"] td.DAF-visit {
+html[DAF--_screen="visiting"] td.DAF-visit {
 	display: table-cell;
 	opacity: 0.3;
 	pointer-events: none;
