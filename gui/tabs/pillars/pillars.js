@@ -412,6 +412,7 @@ function refresh() {
 	}
 
 	const sort = gui.getSortFunction(null, smartTable, 'name');
+	pillars.forEach(pillar => pillar.excluded = pillar.id in pillarsExcluded);
 	pillars = sort(pillars);
 
 	Array.from(container.querySelectorAll('.pillars thead th')).forEach(th => {
