@@ -136,9 +136,9 @@ var Preferences = {
 			friendsCollectDate: 0,
 			hMain: false,
 			hSpeed: false,
-			hSpeedVal: 3,
 			hQueue: false,
 			hScroll: false,
+			hReward: false,
 		};
 	},
 	init: async function () {

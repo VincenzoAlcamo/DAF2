@@ -265,9 +265,9 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hSpeedVal,hQueue,hScroll,hReward');
+	addPrefs('@super,@extra,hMain,hSpeed,hQueue,hScroll,hReward');
 
-	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hSpeedVal', 'hQueue', 'hScroll', 'hReward']);
+	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hQueue', 'hScroll', 'hReward']);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
@@ -431,12 +431,8 @@ const gcr = $hxClasses?.["com.pixelfederation.diggy.game.character.Character"];
 if (gcr) {
 	extras.push('hSpeed');
 	const getSpeed = (p_core, val, def) => {
-		if (hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) {
-			// const num = Math.max(1, Math.min(5, +document.documentElement.getAttribute('DAF--hspeedval')));
-			const num = isSuper ? 4 : 2;
-			return Math.min(val * (0.85 - 0.13 * num), def);
-		}
-		return def;
+		const hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
+		return hasSpeedUp ? Math.min(val * (isSuper ? 0.3 : 0.6), def) : def;
 	}
 
 	const _getSpeed = gcr.getSpeed;

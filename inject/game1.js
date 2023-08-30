@@ -354,7 +354,6 @@ function createMenu() {
 		<u style="display:none"><i data-pref="hReward">${gm0('options_hreward')}</i></u>
 		<u style="display:none"><i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
 		<u style="display:none" class="squared"><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
-		${[].map(n => `<i data-pref="hSpeedVal" data-pref-value="${n}" class="hue2">${n}</i>`).join('')}
 		</u>
 		<u style="display:none"><i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
 	</div>
@@ -536,7 +535,7 @@ function initDOM() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
-	addPrefs('@extra,@screen,hSpeed,hSpeedVal,hQueue,hScroll,hReward');
+	addPrefs('@extra,@screen,hSpeed,hQueue,hScroll,hReward');
 
 	const prefFlags = new Set(['@screen']);
 	function setPref(name, value) {
