@@ -138,7 +138,12 @@ var Preferences = {
 			hSpeed: false,
 			hQueue: false,
 			hScroll: false,
-			hReward: false,
+			hReward: true,
+			hLootCount: true,
+			hLootZoom: true,
+			hLootFast: false,
+			hFood: false,
+			hFoodNum: 0,
 		};
 	},
 	init: async function () {

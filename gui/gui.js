@@ -104,26 +104,9 @@ const gui = {
 		return Math.floor(Date.now() / 1000);
 	},
 	getWrappedText(text, max = 60) {
-		text = text === null || text === undefined ? '' : String(text);
-		return text.split('\n').map(text => {
-			let s = '';
+		return String(text ?? '').split('\n').map(line => {
 			let c = 0;
-			for (let p of text.split(/\s+/)) {
-				const l = p.length;
-				if (!l) continue;
-				if (c > 0) {
-					if (c + l > max) {
-						c = 0;
-						p = '\n' + p;
-					} else {
-						c++;
-						p = ' ' + p;
-					}
-				}
-				s += p;
-				c += l;
-			}
-			return s;
+			return line.split(/\s+/).map(t => (c && c + t.length + 1 > max) ? (c = t.length, '\n' + t) : (t = (c ? ' ' : '') + t, c = c + t.length, t)).join('');
 		}).join('\n');
 	},
 	getPlayerNameFull(pal) {

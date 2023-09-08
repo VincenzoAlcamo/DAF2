@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Ok"
 	},
+	"gui_visitcamp": {
+		"message": "Visita il campo"
+	},
 	"dialog_yes": {
 		"message": "Sì"
 	},
@@ -2190,6 +2193,33 @@
 	},
 	"options_badgewindmills": {
 		"message": "Mulini\nMostra un segnalino quando il campo del vicino ha bisogno di mulini"
+	},
+	"options_hmain": {
+		"message": "Funzionalità aggiuntive\nAbilite alcune funzionalità aggiuntive nel gioco"
+	},
+	"options_hspeed": {
+		"message": "Velocizza\nLe pozioni acceleranti forniscono più velocità"
+	},
+	"options_hlootcount": {
+		"message": "Bottino: conteggio\nMostra sempre il conteggio del bottino"
+	},
+	"options_hlootzoom": {
+		"message": "Bottino: zoom\nIl bottino viene visualizzato in modo coerente con lo zoom dello schermo"
+	},
+	"options_hlootfast": {
+		"message": "Bottino: velocizza\nIl bottino sparisce più velocemente"
+	},
+	"options_hfood": {
+		"message": "Cibo\nScegli quale consumabile ti viene proposto quando finisci l'energia"
+	},
+	"options_hqueue": {
+		"message": "Coda di scavo semplificata\nLa coda è pù lunga.\nTieni premuto il tasto SHIFT e muovi il mouse sopra alcune mattonelle per aggiungerle alla coda"
+	},
+	"options_hscroll": {
+		"message": "Disabilita scorrimento inerziale\nLo scorrimento inerziale è quell'effetto che fa continuare a muovere lo schermo anche quando hai smesso di trascinarlo"
+	},
+	"options_hreward": {
+		"message": "Capitalizzazione automatica\nQualsiasi carattere nel codice regalo viene automaticamente inserito in maiuscolo"
 	},
 	"calc_operators": {
 		"message": "Operatori"

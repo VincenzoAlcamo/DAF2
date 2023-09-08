@@ -183,10 +183,19 @@ function init() {
 
 		const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
 
+		let hasCheckBox = type == CHECKBOX || prefName == 'hFood';
+		let hasSelect = type == SELECT;
+		let selectPrefName = prefName;
+		if (prefName == 'hFood') {
+			hasCheckBox = true;
+			hasSelect = true;
+			selectPrefName = 'hFoodNum';
+		}
+
 		htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
-		htm += Html.br`<td${type == SELECT || type == TEXT ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
-		if (type == SELECT) {
-			htm += Html.br`<select data-pref="${prefName}">`;
+		htm += Html.br`<td${!hasCheckBox ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
+		if (hasSelect) {
+			htm += Html.br`<select data-pref="${selectPrefName}">`;
 			for (const option of options) {
 				htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
 			}
@@ -215,7 +224,7 @@ function init() {
 		}
 		if (warning) htm += Html.br`<div class="warning">${warning}</div>`;
 		htm += Html.br`${extraHtml}</td>`;
-		if (type == CHECKBOX) htm += Html.br`<td><input data-pref="${prefName}" type="checkbox"></td>`;
+		if (hasCheckBox) htm += Html.br`<td><input data-pref="${prefName}" type="checkbox"></td>`;
 		htm += Html.br`</tr>`;
 	}
 
@@ -379,6 +388,14 @@ UI_claim_coin_single_slow_02
 	option('shrinkMenu', '', [0, 1, 2].map((n, i) => [i, gui.getMessage('options_shrinkmenu_' + n)]));
 	// option('autoLogin');
 	option('disableAltGuard', WARNING);
+	continueSection('rewardlinks');
+	option('rewardsClose', WITHSUBOPTIONS);
+	option('rewardsCloseExceptGems', SUBOPTION);
+	option('rewardsCloseExceptErrors', SUBOPTION);
+	option('rewardsSummary', SUBOPTION);
+	option('linkGrabEnabled', CRITICAL);
+	option('linkGrabKey', SUBOPTION);
+	option('linkGrabBadge', SUBOPTION);
 	endSection();
 	beginSection('ingame');
 	option('fullWindow', WITHSUBOPTIONS);
@@ -396,14 +413,20 @@ UI_claim_coin_single_slow_02
 	option('noGCPopup');
 	option('autoGC');
 	option('hMain', WITHSUBOPTIONS);
-	continueSection('rewardlinks');
-	option('rewardsClose', WITHSUBOPTIONS);
-	option('rewardsCloseExceptGems', SUBOPTION);
-	option('rewardsCloseExceptErrors', SUBOPTION);
-	option('rewardsSummary', SUBOPTION);
-	option('linkGrabEnabled', CRITICAL);
-	option('linkGrabKey', SUBOPTION);
-	option('linkGrabBadge', SUBOPTION);
+	option('hReward', SUBOPTION);
+	option('hScroll', SUBOPTION);
+	option('hLootCount', SUBOPTION);
+	option('hLootZoom', SUBOPTION);
+	option('hLootFast', SUBOPTION);
+	const foodOptions = [
+		['avg', gui.getMessage('gui_average')],
+		['min', gui.getMessage('gui_minimum')],
+		[0, '1 = ' + gui.getMessage('gui_maximum')],
+		...[...Array(19).keys()].map(i => [i + 1, Locale.formatNumber(i + 2)])
+	];
+	option('hFood', SUBOPTION, foodOptions);
+	option('hSpeed', SUBOPTION);
+	option('hQueue', SUBOPTION);
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');

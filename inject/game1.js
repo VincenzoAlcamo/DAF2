@@ -11,6 +11,12 @@ function getUnixTime() { return Math.floor(Date.now() / 1000); }
 function getFullWindow() { return prefs.fullWindow && loadCompleted; }
 function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
 function setFlag(name, value) { document.documentElement.setAttribute('DAF--' + name.toLowerCase().replace(/@/g, '_'), String(typeof value == 'boolean' ? +value : value ?? '')); }
+function getWrappedText(text, max = 60) {
+	return String(text ?? '').split('\n').map(line => {
+		let c = 0;
+		return line.split(/\s+/).map(t => (c && c + t.length + 1 > max) ? (c = t.length, '\n' + t) : (t = (c ? ' ' : '') + t, c = c + t.length, t)).join('');
+	}).join('\n');
+}
 
 function getMessage(id, ...args) {
 	const $L = prefs.language;
@@ -351,11 +357,24 @@ function createMenu() {
 <li data-action="options" style="display:none"><b>&nbsp;</b>
 	<div>
 		<span>${gm0('options_hmain')}</span>
-		<u style="display:none"><i data-pref="hReward">${gm0('options_hreward')}</i></u>
-		<u style="display:none"><i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
-		<u style="display:none" class="squared"><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
+		<u><i data-pref="hReward">${gm0('options_hreward')}</i></u>
+		<u><i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
+		<u class="squared">
+		<i data-pref="hLootCount">${gm0('options_hlootcount')}</i>
+		<i data-pref="hLootZoom">${gm0('options_hlootzoom')}</i>
+		<i data-pref="hLootFast">${gm0('options_hlootfast')}</i>
 		</u>
-		<u style="display:none"><i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
+		<u class="squared">
+		<i data-pref="hFood" class="squared-right">${gm0('options_hfood')}</i>
+		<select data-pref="hFoodNum">
+			<option value="avg">${gm('gui_average')}</option>
+			<option value="min">${gm('gui_minimum')}</option>
+			<option value="0">1 = ${gm('gui_maximum')}</option>
+			${[...Array(19).keys()].map(i => `<option value="${i + 1}">${i + 2}</option>`).join('')}
+		</select>
+		</u>
+		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i></u>
+		<u><i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -386,12 +405,20 @@ function createMenu() {
 		const prefName = el.getAttribute('data-pref');
 		if (!el.hasAttribute('title')) el.title = getMessage1('options_' + prefName.toLowerCase());
 	}
+	menu.querySelectorAll('[title]').forEach(el => el.title = getWrappedText(el.title));
 	searchInput = menu.querySelector('[data-action="search"] input');
 	searchInput.addEventListener('input', search);
 	searchInput.addEventListener('keydown', event => {
 		if (event.which == 27) document.activeElement.blur();
 	});
 	menu.addEventListener('click', onMenuClick);
+	menu.querySelectorAll('select[data-pref]').forEach(el => {
+		el.addEventListener('change', onMenuClick);
+		el.addEventListener('click', (event) => {
+			event.stopPropagation();
+			event.preventDefault();
+		});
+	});
 	menu.querySelectorAll('.DAF-badges [data-animate]').forEach(badge => {
 		badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
 	});
@@ -406,12 +433,13 @@ function showMenu() {
 
 function updateMenu(prefName) {
 	if (!menu) return;
-	for (const el of Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']'))) {
+	Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']')).forEach(el => {
 		const prefName = el.getAttribute('data-pref');
+		if (el.tagName === 'SELECT') { el.value = prefs[prefName]; return; }
 		const prefValue = el.getAttribute('data-pref-value');
 		const isOn = prefValue ? prefValue == prefs[prefName] : !!prefs[prefName];
 		el.classList.toggle('DAF-on', isOn);
-	}
+	});
 	const divBadges = menu.querySelector('.DAF-badges');
 	const names = prefName ? [prefName] : Object.keys(prefs);
 	names.filter(prefName => prefName.startsWith('badge')).forEach(prefName => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!prefs[prefName]));
@@ -438,8 +466,12 @@ function onMenuClick(e) {
 		case 'badges': {
 			const name = target.getAttribute('data-pref');
 			if (name) {
-				const s = target.getAttribute('data-pref-value');
-				const value = s === null ? !prefs[name] : +s;
+				let value;
+				if (target.tagName === 'SELECT') value = target.value;
+				else {
+					const s = target.getAttribute('data-pref-value');
+					value = s === null ? !prefs[name] : (isFinite(+s) ? +s : s);
+				}
 				sendPreference(name, value);
 			}
 			break;
@@ -535,7 +567,7 @@ function initDOM() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
-	addPrefs('@extra,@screen,hSpeed,hQueue,hScroll,hReward');
+	addPrefs('@extra,@screen,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward');
 
 	const prefFlags = new Set(['@screen']);
 	function setPref(name, value) {
@@ -567,13 +599,14 @@ function initDOM() {
 			const values = (value || '').split(',');
 			if (values.includes('@core')) hasCore = true;
 			const options = menu.querySelector('[data-action="options"]');
-			values.forEach(value => {
-				const i = options.querySelector(`[data-pref="${value}"]`);
-				if (i) {
-					i.parentNode.style.removeProperty('display');
-					options.style.removeProperty('display');
-				}
+			options.querySelectorAll('[data-pref]').forEach(el => {
+				if (values.includes(el.getAttribute('data-pref'))) return;
+				const parent = el.parentElement;
+				el.remove();
+				if (!parent.firstElementChild) parent.remove();
 			});
+			if(!options.querySelector('[data-pref]')) options.remove();
+			else options.style.removeProperty('display');
 		}
 		handlers['fullWindow'] = onFullWindow;
 		handlers['fullWindowHeader'] = onFullWindow;

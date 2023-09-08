@@ -106,12 +106,14 @@
 	display: block;
 }
 
-.DAF-menu .squared i:not(:first-of-type) {
+.DAF-menu .squared i:not(:first-of-type),
+.DAF-menu .squared-left {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 	padding-left: 4px;
 }
-.DAF-menu .squared i:not(:last-of-type) {
+.DAF-menu .squared i:not(:last-of-type),
+.DAF-menu .squared-right {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	margin-right: -2px;
@@ -474,6 +476,13 @@
 .DAF-menu li[data-action='search'] > div > input {
 	border: 2px solid #000;
 	width: 160px;
+}
+
+.DAF-menu select[data-pref="hFoodNum"] {
+    height: calc(1em + 5px);
+    border: 1px solid #000;
+    vertical-align: top;
+    padding-top: 0;
 }
 
 .DAF-menu li[data-action='search'] > div > input:not(:focus) {

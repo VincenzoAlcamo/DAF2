@@ -265,9 +265,9 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hQueue,hScroll,hReward');
+	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward');
 
-	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hQueue', 'hScroll', 'hReward']);
+	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast', 'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward']);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
@@ -344,7 +344,8 @@ window.addEventListener('message', function (event) {
 	if (data.action == 'visit') visit(+data.id);
 });
 
-const hasFlag = (name) => document.documentElement.getAttribute('DAF--' + name.toLowerCase()) == '1';
+const getFlag = (name) => document.documentElement.getAttribute('DAF--' + name.toLowerCase());
+const hasFlag = (name) => getFlag(name) == '1';
 const postMessage = (data) => window.postMessage(Object.assign(data, { key: key }), window.location.href);
 
 const isDAFFullWindow = () => hasFlag('fullWindow');
@@ -486,6 +487,67 @@ if (cus) {
 				configurable: true,
 			});
 			if (hasFlag('hScroll')) this._dragManager.setAutoPan(false);
+		}
+	};
+
+	// const _addGodChild = cus.prototype.addGodChild;
+	// cus.prototype.addGodChild = function() {
+	// 	var t = this.NPC_POSITIONS;
+	// 	this.NPC_POSITIONS = Array.from(t).fill(-240);
+	// 	const result = _addGodChild.apply(this, arguments);
+	// 	this.NPC_POSITIONS = t;
+	// 	return result;
+	// };
+}
+
+const dc = $hxClasses?.["com.pixelfederation.diggy.game.custom.DecalContainer"];
+if (dc) {
+	extras.push('hLootCount');
+	extras.push('hLootFast');
+	var _createDropCount = dc.prototype.createDropCount;
+	dc.prototype.createDropCount = function(p_x,p_y,p_item,p_scaleX,p_scaleY,p_texture,p_target,p_screenType,p_showText) {
+		if (p_screenType === 'mineScreen' && hasFlag('hLootCount')) p_showText = true;
+		const dp = this.dropLootDecalPool, dp_getNext = dp?.getNext;
+		if (dp && p_screenType === 'mineScreen' && hasFlag('hLootFast')) dp.getNext = function() { return null; };
+		const tp = this.textDecalPool, tp_getNext = tp?.getNext;
+		if (tp && !p_showText) tp.getNext = function() { return null; };
+		const result = _createDropCount.apply(this, arguments);
+		if (dp) dp.getNext = dp_getNext;
+		if (tp) tp.getNext = tp_getNext;
+		return result;
+	};
+
+	extras.push('hLootZoom');
+	var _getScaleFromScreenType = dc.prototype.getScaleFromScreenType;
+	dc.prototype.getScaleFromScreenType = function(p_screenType) {
+		if (p_screenType === 'mineScreen' && hasFlag('hLootZoom')) return this._core.getMineCamera().g2d_contextCamera.scaleX;
+		return _getScaleFromScreenType.apply(this, arguments);
+	};
+}
+
+const nop = $hxClasses?.["com.pixelfederation.diggy.screens.popup.NoenergyPopup"];
+if (nop) {
+	extras.push('hFood', 'hFoodNum');
+	const _initUsableFromStorage = nop.prototype.initUsableFromStorage;
+	nop.prototype.initUsableFromStorage = function() {
+		if (!hasFlag('hFood')) return _initUsableFromStorage.apply(this, arguments);
+		this._myUsableFromStorageId = this._myUsableFromStorageCount = this._myUsableFromStorageValue = 0;
+		const _usablesLoader = this._core.getLoadersManager()._usablesLoader;
+		const usables = this._core.getInventoryManager().getUsables()
+			.filter(obj => _usablesLoader.getAction(obj.id) == 'add_stamina')
+			.map(obj => [obj, _usablesLoader.getValue(obj.id)])
+			.sort((a,b) => b[1] - a[1]);
+		let index = 0;
+		const what = getFlag('hFoodNum');
+		if (what == 'min') index = usables.length - 1;
+		else if (what == 'avg') index = Math.floor((usables.length - 1) / 2);
+		else if (isFinite(+what)) index = +what;
+		index = Math.min(usables.length - 1, Math.max(0, index))
+		if (index < usables.length) {
+			const [obj, value] = usables[index];
+			this._myUsableFromStorageId = obj.id;
+			this._myUsableFromStorageValue = value;
+			this._myUsableFromStorageCount = this._core.getInventoryManager().getItemAmount(obj.item_type, obj.id);
 		}
 	};
 }

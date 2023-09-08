@@ -2198,16 +2198,28 @@
 		"message": "Extra features\nEnable extra features in the game"
 	},
 	"options_hspeed": {
-		"message": "Speed up\nMore speed when using a speed potion"
+		"message": "Speed up\nSpeed potions will give much more speed"
+	},
+	"options_hlootcount": {
+		"message": "Loot count\nAlways show loot count"
+	},
+	"options_hlootzoom": {
+		"message": "Loot zoom\nLoot is displayed consistently with the screen zoom"
+	},
+	"options_hlootfast": {
+		"message": "Loot fast\nLoot vanishes faster"
+	},
+	"options_hfood": {
+		"message": "Food\nChoose which consumable is offered to you when you run out of energy"
 	},
 	"options_hqueue": {
-		"message": "Easy tile queue\nQueue is longer and you can just SHIFT-hover a tile to add it"
+		"message": "Easy tile queue\nQueue is longer.\nHold the SHIFT key and move the mouse over some tiles to add them to the queue"
 	},
 	"options_hscroll": {
-		"message": "Disable inertial scrolling\nInertial scrolling is when the screen continues to move even after the user has stopped dragging it"
+		"message": "Disable inertial scrolling\nInertial scrolling is the effect where the screen continues to move even after you have stopped dragging it"
 	},
 	"options_hreward": {
-		"message": "Auto-capitalize\nAny input into the reward code is automatically capitalized"
+		"message": "Auto-capitalize\nAny input into the gift code is automatically capitalized"
 	},
 	"calc_operators": {
 		"message": "Operators"
