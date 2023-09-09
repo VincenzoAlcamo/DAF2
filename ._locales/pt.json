@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Está bem"
 	},
+	"gui_visitcamp": {
+		"message": "Visitar acampamento"
+	},
 	"dialog_yes": {
 		"message": "Sim"
 	},
@@ -2190,6 +2193,33 @@
 	},
 	"options_badgewindmills": {
 		"message": "Moinhos\nMostrar marcador quando o acampamento de um vizinho precisa de Moinhos"
+	},
+	"options_hmain": {
+		"message": "Recursos extra\nActivar recursos extras no jogo"
+	},
+	"options_hspeed": {
+		"message": "Acelerar\nPoções de velocidade darão muito mais velocidade"
+	},
+	"options_hlootcount": {
+		"message": "Saque: Contagem\nSempre mostre a contagem de saques"
+	},
+	"options_hlootzoom": {
+		"message": "Saque: Zoom\nO saque é exibido de forma consistente com o zoom da tela"
+	},
+	"options_hlootfast": {
+		"message": "Saque rápido\nO saque desaparece mais rápido"
+	},
+	"options_hfood": {
+		"message": "Comida\nEscolha qual consumível será oferecido a você quando ficar sem energia"
+	},
+	"options_hqueue": {
+		"message": "Fila de blocos fácil\nA fila é mais longa.\nSegure a tecla SHIFT e mova o mouse sobre alguns blocos para adicioná-los à fila"
+	},
+	"options_hscroll": {
+		"message": "Desativar rolagem inercial\nA rolagem inercial é o efeito em que a tela continua a se mover mesmo depois de você parar de arrastá-la"
+	},
+	"options_hreward": {
+		"message": "Capitalizar automaticamente\nQualquer entrada no código de presente é automaticamente capitalizada"
 	},
 	"calc_operators": {
 		"message": "Operadores"

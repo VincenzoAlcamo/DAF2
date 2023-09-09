@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Ok"
 	},
+	"gui_visitcamp": {
+		"message": "Besøg lejr"
+	},
 	"dialog_yes": {
 		"message": "Ja"
 	},
@@ -2190,6 +2193,33 @@
 	},
 	"options_badgewindmills": {
 		"message": "Vindmøller\nVis et skilt, når en nabos lejr mangler vindmøller"
+	},
+	"options_hmain": {
+		"message": "Ekstra funktioner\nAktiver ekstra funktioner i spillet"
+	},
+	"options_hspeed": {
+		"message": "Sæt farten op\nHastighedseliksir vil give meget mere fart"
+	},
+	"options_hlootcount": {
+		"message": "Byttetæller\nVis altid byttetæller"
+	},
+	"options_hlootzoom": {
+		"message": "Bytte zoom\nBytte vises konsekvent med skærmens zoom"
+	},
+	"options_hlootfast": {
+		"message": "Bytte hurtig\nBytte forsvinder hurtigere"
+	},
+	"options_hfood": {
+		"message": "Mad\nVælg hvilket forbrugsstof, der tilbydes dig, når du løber tør for energi"
+	},
+	"options_hqueue": {
+		"message": "Nem felt kø\nKøen er længere.\nHold SHIFT-tasten nede og flyt musen over nogle felter for at tilføje dem til køen"
+	},
+	"options_hscroll": {
+		"message": "Deaktiver initial rulning\nInitial rulning er den effekt, hvor skærmen fortsætter med at bevæge sig, selv efter du er holdt op med at trække den"
+	},
+	"options_hreward": {
+		"message": "Auto-versaler\nEthvert input i gavekoden skrives automatisk med stort"
 	},
 	"calc_operators": {
 		"message": "Aktører"

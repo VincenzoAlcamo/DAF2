@@ -2191,6 +2191,33 @@
 	"options_badgewindmills": {
 		"message": "Windmolens\nToon een badge wanneer het kamp van een buur windmolens nodig heeft"
 	},
+	"options_hmain": {
+		"message": "Extra functies\nSchakel extra functies in in het spel"
+	},
+	"options_hspeed": {
+		"message": "Versnellen\nSnelheidsdrankjes geven veel meer snelheid"
+	},
+	"options_hlootcount": {
+		"message": "Hoeveelheid buit\nLaat altijd de hoeveelheid buit zien"
+	},
+	"options_hlootzoom": {
+		"message": "Zoom in op de buit\nDe buit wordt consistent weergegeven als je inzoomt op het scherm"
+	},
+	"options_hlootfast": {
+		"message": "Plunder snel\nDe buit verdwijnt sneller"
+	},
+	"options_hfood": {
+		"message": "Voedsel\nKies welk verbruiksartikel wordt aangeboden als je energie op is"
+	},
+	"options_hqueue": {
+		"message": "Makkelijke tegelwachtrij\nWachtrij is langer.\nHoud de SHIFT-toets ingedrukt en verplaats enkele tegels om ze aan de wachtrij toe te voegen"
+	},
+	"options_hscroll": {
+		"message": "Schakel traagheid scrollen uit\nTraagheid scrollen is het effect waarbij het scherm blijft bewegen, zelfs nadat je gestopt bent met slepen"
+	},
+	"options_hreward": {
+		"message": "Automatisch hoofdlettergebruik\nElke invoer in de cadeaucode wordt automatisch met een hoofdletter geschreven"
+	},
 	"calc_operators": {
 		"message": "Operatoren"
 	},

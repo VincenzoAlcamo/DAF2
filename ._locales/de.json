@@ -307,13 +307,16 @@
 		"message": "Datum"
 	},
 	"gui_ctrlclick": {
-		"message": "Um alle auszuwählen/abzuwählen, \"Strg\" verwenden"
+		"message": "Um alle auszuwählen/abzuwählen, \"Strg\" verwenden."
 	},
 	"gui_summary": {
 		"message": "Zusammenfassung"
 	},
 	"dialog_ok": {
 		"message": "Ok"
+	},
+	"gui_visitcamp": {
+		"message": "Camp besuchen"
 	},
 	"dialog_yes": {
 		"message": "Ja"
@@ -639,7 +642,7 @@
 		}
 	},
 	"camp_ftp_dot_info": {
-		"message": "Mit einem roten Punkt markierte Karten können in den ersten freien Umdrehungen erscheinen."
+		"message": "Karten, die mit einem roten Punkt markiert sind, können in den ersten freien Runden auftauchen."
 	},
 	"camp_ftp_group_info": {
 		"message": "Die Karten einer Gruppe können erst aufdeckt werden, nachdem alle Karten der vorherigen Gruppe aufgedeckt wurden."
@@ -702,7 +705,7 @@
 		"message": "Debug-Infos anzeigen"
 	},
 	"map_button_l": {
-		"message": "Brüchige Kacheln hervorheben"
+		"message": "Zerbrechliche Kacheln hervorheben"
 	},
 	"map_button_n": {
 		"message": "Kacheln mit bemerkenswerter Beute hervorheben"
@@ -833,13 +836,13 @@
 		"message": "Verschiebbar"
 	},
 	"map_can_move": {
-		"message": "Kann bewegt werden"
+		"message": "Kann bewegt werden."
 	},
 	"map_can_rotate": {
-		"message": "Kann gedreht werden"
+		"message": "Kann gedreht werden."
 	},
 	"map_fixed": {
-		"message": "Ist fixiert"
+		"message": "Ist fixiert."
 	},
 	"map_remove_confirmation": {
 		"message": "Die Beseitigung dieser Minen bestätigen?"
@@ -2190,6 +2193,21 @@
 	},
 	"options_badgewindmills": {
 		"message": "Windmühlen\nAbzeichen anzeigen, wenn das Camp eines Nachbarn Windmühlen braucht."
+	},
+	"options_hmain": {
+		"message": "Zusatzfunktionen\nZusatzfunktionen im Spiel aktivieren."
+	},
+	"options_hspeed": {
+		"message": "Geschwindigkeit erhöhen\nGeschwindigkeitstränke geben viel mehr Geschwindigkeit."
+	},
+	"options_hqueue": {
+		"message": "Einfache Kachel-Warteschlange\nDie Warteschlange ist länger.\nMit gedrückter UMSCHALTTASTE die Maus über einige Kacheln bewegen, um sie der Warteschlange hinzuzufügen."
+	},
+	"options_hscroll": {
+		"message": "Trägheitsbildlauf deaktivieren\nDer Trägheitsbildlauf ist ein Effekt, bei dem sich der Bildschirm auch dann noch bewegt, wenn Sie ihn nicht mehr verschieben."
+	},
+	"options_hreward": {
+		"message": "Automatische Großschreibung\nJede Eingabe in den Geschenkcode wird automatisch großgeschrieben."
 	},
 	"calc_operators": {
 		"message": "Operatoren"

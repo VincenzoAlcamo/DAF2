@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "OK"
 	},
+	"gui_visitcamp": {
+		"message": "Visitar campamento"
+	},
 	"dialog_yes": {
 		"message": "Si"
 	},
@@ -2190,6 +2193,24 @@
 	},
 	"options_badgewindmills": {
 		"message": "Molinos\nMuestra una insignia cuando un vecino necesita molinos"
+	},
+	"options_hmain": {
+		"message": "Caracteristicas adicionales\nHabilitar caracteristicas adicionales en el juego"
+	},
+	"options_hspeed": {
+		"message": "Velocidad\nPociones de velocidad incrementarán la velocidad"
+	},
+	"options_hlootcount": {
+		"message": "Recuento del botin\nMuestra siempre recuento de botin"
+	},
+	"options_hlootzoom": {
+		"message": "Zoom del botin\nEl bottin se muestra consistentemente con el zoom de la pantalla"
+	},
+	"options_hlootfast": {
+		"message": "Botin rapido\nBotin desaparece mas rapido"
+	},
+	"options_hfood": {
+		"message": "Comida\nElige que consumible te ofrecen cuando te quedes sin enegia"
 	},
 	"calc_operators": {
 		"message": "Operadores"

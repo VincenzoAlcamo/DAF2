@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Ok"
 	},
+	"gui_visitcamp": {
+		"message": "Návšteva kempu"
+	},
 	"dialog_yes": {
 		"message": "Áno"
 	},
@@ -2190,6 +2193,33 @@
 	},
 	"options_badgewindmills": {
 		"message": "Veterné mlyny\nUkáže odznak ak susedov kemp potrebuje veterné mlyny"
+	},
+	"options_hmain": {
+		"message": "Doplnkové funkcie\r\nPovoliť doplnkové funkcie v hre"
+	},
+	"options_hspeed": {
+		"message": "Zrýchlenie\nRýchlostné elixíry dajú oveľa väčšiu rýchlosť"
+	},
+	"options_hlootcount": {
+		"message": "Počet koristi\nVždy zobrazuj počeť koristi"
+	},
+	"options_hlootzoom": {
+		"message": "Zväčšenie koristi\nKorisť sa zobrazuje konzistentne so zväčšením obrazovky"
+	},
+	"options_hlootfast": {
+		"message": "Rýchla korisť\nKorisť mizne rýchlejšie"
+	},
+	"options_hfood": {
+		"message": "Jedlo\nVyber si čo ti ponúkne keď ti dôjde energia"
+	},
+	"options_hqueue": {
+		"message": "Jednoduché poradie na dlaždice\nFronta je dlhšia.\nPodrž klávesu SHIFT a posuň myš cez nejaké dlaždice, aby si ich pridal do poradia"
+	},
+	"options_hscroll": {
+		"message": "Vyradenie inerciálneho posuvu\r\nInerciálne posunovanie je efekt, pri ktorom sa obrazovka stále hýbe, aj keď ju prestanete ťahať"
+	},
+	"options_hreward": {
+		"message": "Automatická kapitalizácia\r\nKaždý zadanie do darčekového kódu sa automaticky kapitalizuje"
 	},
 	"calc_operators": {
 		"message": "Operátory"

@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "OK"
 	},
+	"gui_visitcamp": {
+		"message": "檢視營地"
+	},
 	"dialog_yes": {
 		"message": "是"
 	},
@@ -2190,6 +2193,24 @@
 	},
 	"options_badgewindmills": {
 		"message": "風車\n當鄰居需要風車時顯示一個徽章"
+	},
+	"options_hmain": {
+		"message": "額外功能\n在遊戲中啓用額外的功能"
+	},
+	"options_hspeed": {
+		"message": "加速\n加速藥劑會提供更快的速度"
+	},
+	"options_hlootcount": {
+		"message": "獲取物計數\n永遠顯示獲取物品的數量"
+	},
+	"options_hlootzoom": {
+		"message": "獲取物顯示比例\n獲取物品的大小會根據螢幕比例顯示"
+	},
+	"options_hlootfast": {
+		"message": "獲取物加速\n獲取物品會更快隱藏"
+	},
+	"options_hfood": {
+		"message": "食物\n選擇當你能量用完時會顯示哪一種食物"
 	},
 	"calc_operators": {
 		"message": "運算子"

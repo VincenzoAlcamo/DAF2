@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Ok"
 	},
+	"gui_visitcamp": {
+		"message": "Látogass el a táborba"
+	},
 	"dialog_yes": {
 		"message": "Igen"
 	},
@@ -2190,6 +2193,33 @@
 	},
 	"options_badgewindmills": {
 		"message": "Szélmalmok\nMutass egy jelvényt, ha a szomszéd táborának szélmalomra van szüksége"
+	},
+	"options_hmain": {
+		"message": "Extra funkciók\nExtra funkciók engedélyezése a játékban"
+	},
+	"options_hspeed": {
+		"message": "Gyorsítás\nA gyorsító italok nagyobb sebességet adnak"
+	},
+	"options_hlootcount": {
+		"message": "Zsákmányszám\nMindig mutassa a zsákmányok számát"
+	},
+	"options_hlootzoom": {
+		"message": "Zsákmány nagyítás\nA zsákmány a képernyő nagyításával összhangban jelenik meg"
+	},
+	"options_hlootfast": {
+		"message": "Zsákmány gyorsítás\nA zsákmány gyorsabban eltűnik"
+	},
+	"options_hfood": {
+		"message": "Étel\nVálaszd ki melyik ételt kínálja fel neked amikor kifogysz az energiából"
+	},
+	"options_hqueue": {
+		"message": "Könnyű kő ásási sorrend\nHosszabb ásási sor.\nTartsd lenyomva a SHIFT gombot és mozgasd az egeret a kő fölé, hogy hozzá add a sorhoz"
+	},
+	"options_hscroll": {
+		"message": "Inerciális görgetés kikapcsolása\nAz inerciális görgetés az a hatás, amikor a képernyő akkor is tovább mozog, ha már nem húzod tovább"
+	},
+	"options_hreward": {
+		"message": "Automatikus nagybetűsítés\nAz ajándékkódba történő bármilyen bevitel automatikusan nagybetűs lesz"
 	},
 	"calc_operators": {
 		"message": "Műveleti jelek"
