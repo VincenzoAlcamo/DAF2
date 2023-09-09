@@ -283,7 +283,8 @@ function getLocationName(lid, location) {
 		return name.indexOf('XXX') >= 0 ? name.replace('XXX', num) : gui.getMessageAndValue('map_floor', num);
 	}
 	const name = location && location.name_loc;
-	return name ? gui.getString(name).replace(/\s+/g, ' ') : '#' + lid;
+	const text = name && gui.getString(name).replace(/\s+/g, ' ');
+	return (!text || text.startsWith('#')) ? '#' + lid : text;
 }
 
 function hasOption(id) {
@@ -822,7 +823,27 @@ function onClickButton(event) {
 			'.json',
 			true
 		);
+	} else if (action == 'test') {
+		test();
 	}
+}
+
+async function test() {
+	const value = prompt('Enter location id');
+	const lid = +value;
+	if (lid <= 0 || !isFinite(lid)) return;
+	let mines = bgp.Data.mineCache[lid];
+	if (!mines) {
+		const floors = await bgp.Data.getFile(`floors_${lid}`);
+		mines = bgp.Data.mineCache[lid] = {};
+		asArray(floors && floors.floor).filter((floor) => floor.def_id > 0).forEach(floor => {
+			const fid = +floor.def_id;
+			const mine = { id: lid, level_id: fid, region: +floor.region_id, columns: +floor.columns, rows: +floor.rows, time: 0, _p: { links: {} } };
+			mines[fid] = mine;
+		});
+	}
+	const mine = Object.values(mines)[0];
+	if (mine) queue.add(async () => await processMine(mine));
 }
 
 function showAdvancedOptions() {
@@ -1500,6 +1521,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 
 	// Build tileDefs
 	const tileDefs = (data.tileDefs = []);
+	if (!mineTiles) mineTiles = (new Array(cols * rows)).fill('5,2,0,34,1').join(';');
 	mineTiles.split(';').forEach((tileData, tileIndex) => {
 		const x = tileIndex % cols;
 		const y = Math.floor(tileIndex / cols);
@@ -3378,7 +3400,7 @@ async function drawMine(args) {
 	}
 
 	// Diggy
-	{
+	if (base.cur_column !== undefined) {
 		const { cur_column: x, cur_row: y } = base;
 		const img = images[IMG_DIGGY].img;
 		const sh = img.naturalHeight;
