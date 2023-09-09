@@ -490,14 +490,16 @@ if (cus) {
 		}
 	};
 
-	// const _addGodChild = cus.prototype.addGodChild;
-	// cus.prototype.addGodChild = function() {
-	// 	var t = this.NPC_POSITIONS;
-	// 	this.NPC_POSITIONS = Array.from(t).fill(-240);
-	// 	const result = _addGodChild.apply(this, arguments);
-	// 	this.NPC_POSITIONS = t;
-	// 	return result;
-	// };
+	if (isSuper) {
+		const _addGodChild = cus.prototype.addGodChild;
+		cus.prototype.addGodChild = function() {
+			var t = this.NPC_POSITIONS;
+			this.NPC_POSITIONS = Array.from(t).fill(-240);
+			const result = _addGodChild.apply(this, arguments);
+			this.NPC_POSITIONS = t;
+			return result;
+		};
+	}
 }
 
 const dc = $hxClasses?.["com.pixelfederation.diggy.game.custom.DecalContainer"];
