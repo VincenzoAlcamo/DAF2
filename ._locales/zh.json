@@ -2212,6 +2212,15 @@
 	"options_hfood": {
 		"message": "食物\n選擇當你能量用完時會顯示哪一種食物"
 	},
+	"options_hqueue": {
+		"message": "簡易敲磚排程\n排程數量會更長.\n按住SHIFT鍵後，移動滑鼠到磚上以加入排程"
+	},
+	"options_hscroll": {
+		"message": "禁止慣性滾動\n慣性滾動是即使已經停止滑動，螢幕仍然持續移動的效果"
+	},
+	"options_hreward": {
+		"message": "自動大寫\n任何輸入禮物碼的字母都會自動大寫"
+	},
 	"calc_operators": {
 		"message": "運算子"
 	},
