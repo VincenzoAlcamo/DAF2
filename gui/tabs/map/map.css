@@ -437,6 +437,9 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 .tab_map.is_uncleared .grid-theme-container>.toolbar {
 	--tt-bgcol: #c18128;
 }
+.tab_map.is_preview .grid-theme-container>.toolbar {
+	--tt-bgcol: #8128c1;
+}
 
 .tab_map .map .random-pos {
 	box-shadow: inset 0px 0px 0px 9px #fff8;
