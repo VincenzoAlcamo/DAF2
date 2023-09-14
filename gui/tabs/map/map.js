@@ -1490,7 +1490,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	const tileDefs = (data.tileDefs = []);
 	let splittedTiles = mineTiles && mineTiles.split(';');
 	if (!splittedTiles) {
-		splittedTiles = (new Array(cols * rows)).fill('5,2,0,34,1');
+		splittedTiles = (new Array(cols * rows)).fill('5,2,0,34,0');
 		// if (data.floor.blocked) data.floor.blocked.split(';').forEach(t => {
 		// 	const a = t.split('_');
 		// 	const x = +a[1], y = +a[0];
@@ -2697,7 +2697,7 @@ async function drawMine(args) {
 
 	// Set visibility
 	for (const tileDef of tileDefs) {
-		tileDef.isVisible = showFull || (showAll ? tileDef.show : showViewed ? tileDef.viewed : tileDef.visible);
+		tileDef.isVisible = showFull || isPreview || (showAll ? tileDef.show : showViewed ? tileDef.viewed : tileDef.visible);
 	}
 
 	// Backgrounds
