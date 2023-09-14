@@ -89,7 +89,8 @@ const gui = {
 		return id in gui.expByMaterial;
 	},
 	getString(id) {
-		return bgp.Data.getString(id);
+		const text = bgp.Data.getString(id);
+		return text && text.replace(/<[^>]+>/g, '');
 	},
 	getMessage() {
 		return bgp.getMessage.apply(null, arguments);
