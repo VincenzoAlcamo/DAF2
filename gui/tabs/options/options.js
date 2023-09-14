@@ -357,9 +357,11 @@ UI_claim_coin_single_slow_01
 UI_claim_coin_single_slow_02
 `;
 	const hash = {};
-	uiSounds.split('\n').forEach(t => hash[t] = true);
-	const sounds = Object.keys(hash).sort(gui.sortTextAscending);
-	const soundOptions = Html.raw(sounds.map(n => n.trim() ? Html.br`<option value="${n}">${n.toLowerCase()}</option>` : '').join(''));
+	uiSounds.split('\n').forEach(t => hash[t.trim()] = true);
+	delete hash[''];
+	const sounds = Object.keys(hash).map(key => ({ key, label: (key.startsWith('@') ? key.substring(1) : key).toLowerCase() }));
+	sounds.sort((a,b) => gui.sortTextAscending(a.label, b.label));
+	const soundOptions = Html.raw(sounds.map(n => Html.br`<option value="${n.key}">${n.label}</option>`).join(''));
 	function optionEffect(prefName) {
 		if (prefName != 'badgeProductions' && prefName != 'badgeWindmills') option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
 		let extra = Html.br`<select data-pref="${prefName}SoundName">${soundOptions}</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
@@ -475,18 +477,18 @@ UI_claim_coin_single_slow_02
 		return name in changes ? changes[name] : gui.getPreference(name);
 	}
 
-	let audio, audioPref;
+	let audio;
 	function stopSound() {
 		if (audio) try { audio.pause(); } catch (e) { }
 		audio = null;
 	}
-	function playSound() {
+	function playSound(audioPref, force) {
 		stopSound();
 		if (audioPref) {
 			const enabled = getPrefInChanges(audioPref + 'Sound');
 			const name = getPrefInChanges(audioPref + 'SoundName');
 			const volume = parseInt(getPrefInChanges(audioPref + 'Volume'));
-			if (enabled && volume > 0) {
+			if ((enabled || force) && volume > 0) {
 				const sound = bgp.Data.getSound(name);
 				if (sound) {
 					audio = new Audio(sound);
@@ -498,8 +500,7 @@ UI_claim_coin_single_slow_02
 	}
 
 	Array.from(container.querySelectorAll('.play_sound')).forEach(el => el.addEventListener('click', event => {
-		audioPref = event.target.getAttribute('data-name');
-		playSound();
+		playSound(event.target.getAttribute('data-name'), true);
 	}));
 
 	let delayedAudio;
@@ -520,8 +521,9 @@ UI_claim_coin_single_slow_02
 		if (name.endsWith('Sound') || name.endsWith('SoundName') || name.endsWith('Volume')) {
 			stopSound();
 			if (delayedAudio) clearTimeout(delayedAudio);
-			audioPref = name.replace(/(Sound|SoundName|Volume)$/, '');
-			delayedAudio = setTimeout(playSound, 300);
+			const force = name.endsWith('SoundName') || name.endsWith('Volume');
+			const audioPref = name.replace(/(Sound|SoundName|Volume)$/, '');
+			delayedAudio = setTimeout(() => playSound(audioPref, force), 300);
 		}
 		if (name == 'locale') {
 			const currentLanguage = gui.getPreference('language');
