@@ -200,7 +200,7 @@ function setBadgeRepeatables({ list, sound, volume }) {
 
 function updateAdsInfo(data) {
 	const li = menu.querySelector('[data-action="ads"]');
-	const flag = data && data.items && data.items.length;
+	const flag = data?.items?.length;
 	li.style.display = flag ? '' : 'none';
 	if (flag) {
 		Html.set(li.querySelector('tbody'), data.items.map(item => Html`<tr><td>${item.text}</td><td>${item.limit}</td><td>${item.date}</td></tr>`).join(''));
@@ -343,7 +343,7 @@ function createMenu() {
 		</u>
 	</div>
 </li>
-<li data-action="ads"><b>&nbsp;</b>
+<li data-action="ads" style="display:none"><b>&nbsp;</b>
 	<div>
 		<span>${gm('camp_ads_limit')}</span><br>
 		<p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
@@ -618,7 +618,12 @@ function initDOM() {
 			onFullWindow();
 			showMenu();
 			chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) { updateGCStatus(result); });
-			chrome.runtime.sendMessage({ action: 'getAdsInfo' }, function (result) { updateAdsInfo(result); });
+			let count = 3, interval = setInterval(function() {
+				chrome.runtime.sendMessage({ action: 'getAdsInfo' }, function (result) {
+					if (result?.items?.length || --count < 0) clearInterval(interval);
+					updateAdsInfo(result);
+				});
+			}, 10000);
 		};
 		setTimeout(msgHandlers['generator'], 10000);
 		msgHandlers['friend_child_charge'] = (request) => updateGCStatus(request.data);
