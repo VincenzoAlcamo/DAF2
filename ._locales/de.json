@@ -2200,6 +2200,18 @@
 	"options_hspeed": {
 		"message": "Geschwindigkeit erhöhen\nGeschwindigkeitstränke geben viel mehr Geschwindigkeit."
 	},
+	"options_hlootcount": {
+		"message": "Beute zählen\nBeutestückzahl immer anzeigen"
+	},
+	"options_hlootzoom": {
+		"message": "Beute-Zoom\nBeute wird stets mit dem Bildschirmzoom angezeigt."
+	},
+	"options_hlootfast": {
+		"message": "Beute schnell\nBeute verschwindet schneller."
+	},
+	"options_hfood": {
+		"message": "Nahrung\nWenn keine Energie mehr vorhanden ist, kann die Nahrung ausgewählt werden."
+	},
 	"options_hqueue": {
 		"message": "Einfache Kachel-Warteschlange\nDie Warteschlange ist länger.\nMit gedrückter UMSCHALTTASTE die Maus über einige Kacheln bewegen, um sie der Warteschlange hinzuzufügen."
 	},
