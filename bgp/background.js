@@ -144,7 +144,7 @@ var Preferences = {
 			hLootFast: false,
 			hFood: false,
 			hFoodNum: 0,
-			hFlashAdSound: true,
+			hFlashAdSound: false,
 			hFlashAdSoundName: 'ui_buy',
 			hFlashAdVolume: 100,
 		};
