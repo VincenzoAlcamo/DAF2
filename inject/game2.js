@@ -10,6 +10,7 @@ function sendValue(name, value) { chrome.runtime.sendMessage({ action: 'sendValu
 function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
 function forceResize(delay = 0) { setTimeout(() => window.dispatchEvent(new Event('resize')), delay); }
 function setFlag(name, value) { document.documentElement.setAttribute('DAF--' + name.toLowerCase().replace(/@/g, '_'), String(typeof value == 'boolean' ? +value : value ?? '')); }
+function forward(action, data) { chrome.runtime.sendMessage(Object.assign({}, data, { action: 'forward', real_action: action })); }
 
 function sendMinerPosition() {
 	// Send some values to the top window
@@ -332,8 +333,9 @@ function init() {
 			const data = event.data;
 			if (event.source != window || !data || data.key != key) return;
 			if (data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
-			if (data.action == 'wallpost' && pageType == 'facebook2') chrome.runtime.sendMessage({ action: 'forward', real_action: 'wallpost' });
+			if (data.action == 'wallpost' && pageType == 'facebook2') forward('wallpost');
 			if (data.action == 'sendValue') sendValue(data.name, data.value);
+			if (data.action == 'hFlashAd') forward(data.action, data);
 		});
 		let code = `
 const key = "${key}";
@@ -511,6 +513,7 @@ if (dc) {
 		if (p_screenType === 'mineScreen' && hasFlag('hLootCount')) p_showText = true;
 		const dp = this.dropLootDecalPool, dp_getNext = dp?.getNext;
 		if (dp && p_screenType === 'mineScreen' && hasFlag('hLootFast')) dp.getNext = function() { return null; };
+		// Fix bug in game code that exhausts the pool
 		const tp = this.textDecalPool, tp_getNext = tp?.getNext;
 		if (tp && !p_showText) tp.getNext = function() { return null; };
 		const result = _createDropCount.apply(this, arguments);
@@ -554,11 +557,28 @@ if (nop) {
 	};
 }
 
+const uib = $hxClasses?.["com.pixelfederation.diggy.ui.hud.UISpecialButtons"];
+if (uib) {
+	extras.push('hFlashAdSound');
+	let _show;
+	function show() {
+		postMessage({ action: 'hFlashAd' });
+		return _show.apply(this, arguments);
+	}
+	const _createFlashAdButton = uib.prototype.createFlashAdButton;
+	uib.prototype.createFlashAdButton = function() {
+		const result = _createFlashAdButton.apply(this, arguments);
+		const btn = this._flashAdButton?._flashAdButtonIcon;
+		if (btn && btn.show !== show) { _show = btn.show; btn.show = show; }
+		return result;
+	};
+}
+
 if (extras.length) postMessage({ action: "sendValue", name: '@extra', value: extras.join() });
 `;
 		code = `(function(){${code}})();`
 		document.head.appendChild(createScript(code));
-		chrome.runtime.sendMessage({ action: 'forward', real_action: 'game2', ok: true });
+		forward('game2', { ok: true });
 	});
 }
 

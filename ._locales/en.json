@@ -2221,6 +2221,9 @@
 	"options_hreward": {
 		"message": "Auto-capitalize\nAny input into the gift code is automatically capitalized"
 	},
+	"options_hflashad": {
+		"message": "Flash Ad Sound\nPlay a sound when the Flash Ad button appears"
+	},
 	"calc_operators": {
 		"message": "Operators"
 	},

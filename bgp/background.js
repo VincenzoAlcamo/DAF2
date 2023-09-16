@@ -144,6 +144,9 @@ var Preferences = {
 			hLootFast: false,
 			hFood: false,
 			hFoodNum: 0,
+			hFlashAdSound: true,
+			hFlashAdSoundName: 'ui_buy',
+			hFlashAdVolume: 100,
 		};
 	},
 	init: async function () {
@@ -776,7 +779,7 @@ var Data = {
 			tx.objectStore('Files').put(file).then(() => {
 				Data.checkLocalization('', file.data.game_language);
 				Tab.detectAll().then(() => {
-					Synchronize.signal('generator');
+					Synchronize.signal('generator', { cdn_root: file.data.cdn_root });
 					Data.checkRepeatablesStatus();
 					Data.checkLuckyCards();
 					Data.checkProductions();
@@ -1440,9 +1443,8 @@ var Data = {
 		return this.region2Skin.length;
 	},
 	getSound(name) {
-		if (!name || !Data.generator) return null;
-		if (name.startsWith('@')) return Data.generator.cdn_root + 'mobile/sounds/all/' + name.substring(1) + '.mp3';
-		return Data.generator.cdn_root + 'webgl_client/embedded_assets/sounds/' + name + '.mp3';
+		const cdn_root = Data.generator?.cdn_root;
+		return !name || !cdn_root ? null : cdn_root + (name.startsWith('@') ? 'mobile/sounds/all/' + name.substring(1) : 'webgl_client/embedded_assets/sounds/' + name) + '.mp3';
 	},
 	//#endregion
 	//#region LAST ENTERED MINE

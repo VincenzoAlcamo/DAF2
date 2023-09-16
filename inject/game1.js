@@ -1,6 +1,6 @@
 /*global chrome Html*/
 // TOP PAGE
-let prefs, handlers, msgHandlers, originalHeight, header, pageType;
+let prefs, handlers, msgHandlers, originalHeight, header, pageType, cdn_root;
 let menu, loadCompleted, styleLoaded;
 let lastFullWindow = undefined;
 let isOk = false;
@@ -11,6 +11,8 @@ function getUnixTime() { return Math.floor(Date.now() / 1000); }
 function getFullWindow() { return prefs.fullWindow && loadCompleted; }
 function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
 function setFlag(name, value) { document.documentElement.setAttribute('DAF--' + name.toLowerCase().replace(/@/g, '_'), String(typeof value == 'boolean' ? +value : value ?? '')); }
+function forward(action, data) { chrome.runtime.sendMessage(Object.assign({}, data, { action: 'forward', real_action: action })); }
+function getSound(name) { return !name || !cdn_root ? null : cdn_root + (name.startsWith('@') ? 'mobile/sounds/all/' + name.substring(1) : 'webgl_client/embedded_assets/sounds/' + name) + '.mp3'; }
 function getWrappedText(text, max = 60) {
 	return String(text ?? '').split('\n').map(line => {
 		let c = 0;
@@ -357,6 +359,7 @@ function createMenu() {
 <li data-action="options" style="display:none"><b>&nbsp;</b>
 	<div>
 		<span>${gm0('options_hmain')}</span>
+		<u><i data-pref="hFlashAdSound">Flash Ad Sound</i></u>
 		<u><i data-pref="hReward">${gm0('options_hreward')}</i></u>
 		<u><i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
 		<u class="squared">
@@ -485,7 +488,7 @@ function onMenuClick(e) {
 		}
 		case 'visit':
 			setFlag('@screen', 'visiting');
-			chrome.runtime.sendMessage({ action: 'forward', real_action: 'visit', id: parent.parentNode.parentNode.getAttribute('data-id') });
+			forward('visit', { id: parent.parentNode.parentNode.getAttribute('data-id') });
 			break;
 	}
 }
@@ -553,7 +556,7 @@ function detectPageType() {
 }
 function sendPageType() {
 	pageTypeSent = true;
-	chrome.runtime.sendMessage({ action: 'forward', real_action: 'game1', pageType, ok: pageType != 'unknown' });
+	forward('game1', { pageType, ok: pageType != 'unknown' });
 }
 
 function initDOM() {
@@ -568,6 +571,7 @@ function initDOM() {
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 	addPrefs('@extra,@screen,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward');
+	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume');
 
 	const prefFlags = new Set(['@screen']);
 	function setPref(name, value) {
@@ -611,10 +615,11 @@ function initDOM() {
 		handlers['fullWindow'] = onFullWindow;
 		handlers['fullWindowHeader'] = onFullWindow;
 		handlers['fullWindowSide'] = onFullWindow;
-		msgHandlers['generator'] = () => {
+		msgHandlers['generator'] = (request) => {
 			if (loadCompleted) return;
 			delete msgHandlers['generator'];
 			loadCompleted = true;
+			cdn_root = request.data.cdn_root;
 			onFullWindow();
 			showMenu();
 			chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) { updateGCStatus(result); });
@@ -646,6 +651,7 @@ function initDOM() {
 			let count = 10;
 			const handler = setInterval(() => count-- < 0 ? clearInterval(handler) : setKeepElements(), 500);
 		};
+		msgHandlers['hFlashAd'] = () => prefs.hFlashAdSound && playSound(getSound(prefs.hFlashAdSoundName), prefs.hFlashAdVolume);
 		window.addEventListener('resize', onResize);
 		onFullWindow();
 		createMenu();

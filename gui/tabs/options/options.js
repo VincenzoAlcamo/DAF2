@@ -155,6 +155,7 @@ function init() {
 		if (prefName == 'badgeKitchen') messageId = 'tab_kitchen';
 		if (prefName == 'badgeFoundry') messageId = 'tab_foundry';
 		if (prefName == 'linkGrabBadge') messageId = 'options_section_badges';
+		if (prefName == 'hFlashAdSound') messageId = 'options_hflashad';
 		let text = gui.getMessage(messageId);
 		const i = text.indexOf('\n');
 		let title = i >= 0 ? text.substr(0, i) : text;
@@ -362,8 +363,8 @@ UI_claim_coin_single_slow_02
 	const sounds = Object.keys(hash).map(key => ({ key, label: (key.startsWith('@') ? key.substring(1) : key).toLowerCase() }));
 	sounds.sort((a,b) => gui.sortTextAscending(a.label, b.label));
 	const soundOptions = Html.raw(sounds.map(n => Html.br`<option value="${n.key}">${n.label}</option>`).join(''));
-	function optionEffect(prefName) {
-		if (prefName != 'badgeProductions' && prefName != 'badgeWindmills') option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
+	function optionEffect(prefName, hasOffset) {
+		if (hasOffset) option(`${prefName}Offset`, TEXT + SUBOPTION, { min: 0, max: 9999, class: 'time' });
 		let extra = Html.br`<select data-pref="${prefName}SoundName">${soundOptions}</select><button class="play_sound" data-name="${prefName}">\u25B6</button>`;
 		extra += Html.br`<br><label><h3>${gui.getMessage('options_badgevolume').split('\n')[0]}</h3>`;
 		extra += Html.br`<input data-pref="${prefName}Volume" type="range" min="0" max="100" step="5" class="percent"><span></span></label>`;
@@ -415,6 +416,7 @@ UI_claim_coin_single_slow_02
 	option('noGCPopup');
 	option('autoGC');
 	option('hMain', WITHSUBOPTIONS);
+	optionEffect('hFlashAd');
 	option('hReward', SUBOPTION);
 	option('hScroll', SUBOPTION);
 	option('hLootCount', SUBOPTION);
@@ -440,9 +442,9 @@ UI_claim_coin_single_slow_02
 	option('badgeFoundry', SUBOPTION);
 	optionEffect('badgeProductions');
 	option('badgeRepeatables', WITHSUBOPTIONS);
-	optionEffect('badgeRepeatables');
+	optionEffect('badgeRepeatables', true);
 	option('badgeLuckyCards', WITHSUBOPTIONS);
-	optionEffect('badgeLuckyCards');
+	optionEffect('badgeLuckyCards', true);
 	option('badgeWindmills', WITHSUBOPTIONS);
 	optionEffect('badgeWindmills');
 	endSection();
