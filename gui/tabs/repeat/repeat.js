@@ -211,6 +211,8 @@ function updateRow(row) {
 	item.row.setAttribute('data-id', id);
 	item.row.classList.toggle('selected', item.selected);
 	row.replaceWith(item.row);
+	const img = item.row.querySelector('.location_icon img');
+	img?.addEventListener('error', () => img.parentElement.classList.add('broken'));
 	item._ready = item._readyText = null;
 	calculateItem(item, true);
 }

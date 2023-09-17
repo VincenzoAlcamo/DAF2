@@ -1350,6 +1350,15 @@ div.location_icon img {
 	transform: scale(1.7);
 }
 
+div.location_icon.broken {
+	background-image: url(/img/gui/repeat.png);
+	background-repeat: no-repeat;
+	background-position: 2px 2px;
+}
+div.location_icon.broken img {
+	visibility: hidden;
+}
+
 /*@region Pack Helper*/
 div.equipment_mask {
 	margin-left: 6px;

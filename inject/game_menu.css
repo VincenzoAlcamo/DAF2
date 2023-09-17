@@ -320,12 +320,14 @@
 .DAF-badge-rep div {
 	width: 23px;
 	height: 23px;
-	border-radius: 11px;
+	border-radius: 16px;
 	display: inline-block;
 	background-size: 27px;
 	vertical-align: top;
 	margin: -1px;
 	background-position: -2px -2px;
+	background-repeat: no-repeat;
+	background-color: #a00;
 	transition: all 0.5s;
 }
 

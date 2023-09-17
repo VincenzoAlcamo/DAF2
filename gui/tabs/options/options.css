@@ -85,3 +85,7 @@
 .options input[type='number'].time {
 	width: 60px;
 }
+
+.options select {
+	max-width: 260px;
+}
