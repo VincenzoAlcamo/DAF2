@@ -195,7 +195,7 @@ function updateRow(row) {
 	const item = repeatables[id];
 	let htm = '';
 	htm += Html.br`<td><input type="checkbox"${item.selected ? Html(' checked') : ''} title="${gui.getMessage('gui_ctrlclick')}"></td>`;
-	htm += Html.br`<td>${gui.getLocationImg(item)}</td>`;
+	htm += Html.br`<td>${gui.getLocationImg(item, 'repeatable')}</td>`;
 	htm += Html`<td>${item.name}</td>`;
 	htm += Html.br`<td>${item.eid ? gui.getObjectImg('event', item.eid, 32, false, 'desc') : gui.getObjectImg('region', item.rid, 32, false, 'desc')}</td>`;
 	htm += Html.br`<td>${gui.getDuration(item.cooldown, true)}</td>`;
@@ -211,8 +211,7 @@ function updateRow(row) {
 	item.row.setAttribute('data-id', id);
 	item.row.classList.toggle('selected', item.selected);
 	row.replaceWith(item.row);
-	const img = item.row.querySelector('.location_icon img');
-	img?.addEventListener('error', () => img.parentElement.classList.add('broken'));
+	item.row.querySelectorAll('.location_icon img').forEach(img => img.addEventListener('error', () => img.parentElement.classList.add('broken')));
 	item._ready = item._readyText = null;
 	calculateItem(item, true);
 }

@@ -840,7 +840,7 @@ function showInfo() {
 	// Locations
 	if (selectedInfo.substr(0, 3) == 'loc') {
 		const locations = gui.getFile('locations_0');
-		const showLocations = (locs, key) => {
+		const showLocations = (locs, key, extraClass) => {
 			if (!locs.length) return;
 			const title = gui.getMessage('events_' + key);
 			const isRepeatables = key == 'repeatables';
@@ -928,7 +928,7 @@ function showInfo() {
 					img = '';
 				} else {
 					name = gui.getString(loc.name_loc)
-					img = gui.getLocationImg(loc);
+					img = gui.getLocationImg(loc, extraClass);
 				}
 				htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${img}<div class="location_name">${Html(name)}</div></td>`;
 				if (isRepeatables) {
@@ -1002,14 +1002,15 @@ function showInfo() {
 			if (!isRepeatables) htm += showTotalRewards({ totalRewards, maxNumRewards, colSpan: 2 + (showProgress ? 2 : 0), className: 'clear', addLoot: true, totalEnergy: showProgress ? totalEnergy : NaN });
 			htm += Html.br`</table>`;
 		};
-		if (selectedInfo == 'loc' || selectedInfo == 'loc1') showLocations(item.loc_qst, 'story_maps');
-		if (selectedInfo == 'loc' || selectedInfo == 'loc2') showLocations(item.loc_xlo, 'challenges');
-		if (selectedInfo == 'loc' || selectedInfo == 'loc3') showLocations(item.loc_rep, 'repeatables');
+		if (selectedInfo == 'loc' || selectedInfo == 'loc1') showLocations(item.loc_qst, 'story_maps', 'main');
+		if (selectedInfo == 'loc' || selectedInfo == 'loc2') showLocations(item.loc_xlo, 'challenges', 'challenge');
+		if (selectedInfo == 'loc' || selectedInfo == 'loc3') showLocations(item.loc_rep, 'repeatables', 'repeatable');
 	}
 
 	htm += Html.br`</td>`;
 	const row2 = Html.get('<tr class="infoRow">' + htm + '</tr>')[0];
 	trInfo.replaceWith(row2);
+	row2.querySelectorAll('.location_icon img').forEach(img => img.addEventListener('error', () => img.parentElement.classList.add('broken')));
 	trInfo = row2;
 }
 

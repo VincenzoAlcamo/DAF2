@@ -1342,6 +1342,8 @@ div.location_icon img {
 div.location_icon {
 	border-radius: 3px;
 	border-width: 1px;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 div.location_icon img {
@@ -1350,10 +1352,17 @@ div.location_icon img {
 	transform: scale(1.7);
 }
 
-div.location_icon.broken {
+div.location_icon.repeatable.broken {
 	background-image: url(/img/gui/repeat.png);
-	background-repeat: no-repeat;
-	background-position: 2px 2px;
+}
+div.location_icon.main.broken {
+	background-image: url(/img/gui/q-main.png);
+}
+div.location_icon.side.broken {
+	background-image: url(/img/gui/q-side.png);
+}
+div.location_icon.challenge.broken {
+	background-image: url(/img/gui/q-hard.png);
 }
 div.location_icon.broken img {
 	visibility: hidden;
