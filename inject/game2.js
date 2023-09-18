@@ -266,9 +266,9 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward');
+	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
 
-	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast', 'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward']);
+	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast', 'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster']);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
@@ -463,7 +463,7 @@ if (mr) {
 		if (isActive !== wasActive) {
 			wasActive = isActive;
 			maxQueue = maxQueue || c.diggingQueue._maxQueue;
-			c.diggingQueue._maxQueue = isActive ? 20 : maxQueue;
+			c.diggingQueue._maxQueue = isActive ? 30 : maxQueue;
 		}
 		if (isActive && t && o !== t && e.shiftKey && (t.isBreakable() || t.isUsable())) c.go(t);
 	};
@@ -492,16 +492,13 @@ if (cus) {
 		}
 	};
 
-	if (isSuper) {
-		const _addGodChild = cus.prototype.addGodChild;
-		cus.prototype.addGodChild = function() {
-			var t = this.NPC_POSITIONS;
-			this.NPC_POSITIONS = Array.from(t).fill(-240);
-			const result = _addGodChild.apply(this, arguments);
-			this.NPC_POSITIONS = t;
-			return result;
-		};
-	}
+	extras.push('hGCCluster');
+	const _addGodChild = cus.prototype.addGodChild;
+	cus.prototype.addGodChild = function() {
+		const result = _addGodChild.apply(this, arguments);
+		if (hasFlag('hGCCluster')) this._npcContainer.g2d_children.forEach((e, i) => e.g2d_anchorX = -260 + i * 10);
+		return result;
+	};
 }
 
 const dc = $hxClasses?.["com.pixelfederation.diggy.game.custom.DecalContainer"];

@@ -359,9 +359,10 @@ function createMenu() {
 <li data-action="options" style="display:none"><b>&nbsp;</b>
 	<div>
 		<span>${gm0('options_hmain')}</span>
-		<u><i data-pref="hFlashAdSound">Flash Ad Sound</i></u>
-		<u><i data-pref="hReward">${gm0('options_hreward')}</i></u>
-		<u><i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
+		<u><i data-pref="hFlashAdSound">Flash Ad Sound</i>
+		<i data-pref="hReward">${gm0('options_hreward')}</i></u>
+		<u><i data-pref="hGCCluster">${gm0('options_hgccluster')}</i>
+		<i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
 		<u class="squared">
 		<i data-pref="hLootCount">${gm0('options_hlootcount')}</i>
 		<i data-pref="hLootZoom">${gm0('options_hlootzoom')}</i>
@@ -376,8 +377,8 @@ function createMenu() {
 			${[...Array(19).keys()].map(i => `<option value="${i + 1}">${i + 2}</option>`).join('')}
 		</select>
 		</u>
-		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i></u>
-		<u><i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
+		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
+		<i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -570,7 +571,7 @@ function initDOM() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
-	addPrefs('@extra,@screen,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward');
+	addPrefs('@extra,@screen,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume');
 
 	const prefFlags = new Set(['@screen']);

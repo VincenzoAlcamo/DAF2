@@ -418,6 +418,7 @@ UI_claim_coin_single_slow_02
 	option('hMain', WITHSUBOPTIONS);
 	optionEffect('hFlashAd');
 	option('hReward', SUBOPTION);
+	option('hGCCluster', SUBOPTION);
 	option('hScroll', SUBOPTION);
 	option('hLootCount', SUBOPTION);
 	option('hLootZoom', SUBOPTION);
