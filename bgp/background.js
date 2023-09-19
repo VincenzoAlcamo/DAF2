@@ -780,7 +780,8 @@ var Data = {
 			tx.objectStore('Files').put(file).then(() => {
 				Data.checkLocalization('', file.data.game_language);
 				Tab.detectAll().then(() => {
-					Synchronize.signal('generator', { cdn_root: file.data.cdn_root });
+					Synchronize.signal('generator');
+					Synchronize.signal('cdn_root', { cdn_root: file.data.cdn_root });
 					Data.checkRepeatablesStatus();
 					Data.checkLuckyCards();
 					Data.checkProductions();

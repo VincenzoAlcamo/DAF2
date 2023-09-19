@@ -616,11 +616,14 @@ function initDOM() {
 		handlers['fullWindow'] = onFullWindow;
 		handlers['fullWindowHeader'] = onFullWindow;
 		handlers['fullWindowSide'] = onFullWindow;
-		msgHandlers['generator'] = (request) => {
+		msgHandlers['cdn_root'] = (request) => {
+			const root = request.data?.cdn_root;
+			if (root) cdn_root = root;
+		};
+		msgHandlers['generator'] = () => {
 			if (loadCompleted) return;
 			delete msgHandlers['generator'];
 			loadCompleted = true;
-			cdn_root = request.data.cdn_root;
 			onFullWindow();
 			showMenu();
 			chrome.runtime.sendMessage({ action: 'getGCInfo' }, function (result) { updateGCStatus(result); });
@@ -631,7 +634,7 @@ function initDOM() {
 				});
 			}, 10000);
 		};
-		setTimeout(msgHandlers['generator'], 10000);
+		setTimeout(msgHandlers['generator'], 15000);
 		msgHandlers['friend_child_charge'] = (request) => updateGCStatus(request.data);
 		msgHandlers['ads_info'] = (request) => updateAdsInfo(request.data);
 		msgHandlers['gc-energy'] = (request) => {
