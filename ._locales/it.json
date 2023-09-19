@@ -2221,6 +2221,12 @@
 	"options_hreward": {
 		"message": "Capitalizzazione automatica\nQualsiasi carattere nel codice regalo viene automaticamente inserito in maiuscolo"
 	},
+	"options_hflashad": {
+		"message": "Suono pubblicità flash\nRiproduci un effetto sonoro quando appare il bottone"
+	},
+	"options_hgccluster": {
+		"message": "Raggruppa Bimbi\nPosiziona i Bimbi vicini tra loro"
+	},
 	"calc_operators": {
 		"message": "Operatori"
 	},
