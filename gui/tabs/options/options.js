@@ -115,13 +115,21 @@ function init() {
 	const CHECKBOX = '1';
 	const SELECT = '2';
 
+	function getTitle(id) {
+		if (id === 'hMain') {
+			const title = gui.getMessage('options_' + id);
+			return title.substring(0, title.indexOf('\n'));
+		}
+		return gui.getMessage('options_section_' + id);
+	}
+
 	function beginSection(id) {
 		htm += Html.br`
 <div class="options">
     <table>
         <thead>
             <tr>
-                <td colspan="2">${gui.getMessage('options_section_' + id)}</td>
+                <td colspan="2">${getTitle(id)}</td>
             </tr>
         </thead>
         <tbody class="row-coloring">
@@ -135,7 +143,7 @@ function init() {
     <table style="margin-top:4px">
         <thead>
             <tr>
-                <td colspan="2">${gui.getMessage('options_section_' + id)}</td>
+                <td colspan="2">${getTitle(id)}</td>
             </tr>
         </thead>
         <tbody class="row-coloring">
@@ -415,6 +423,7 @@ UI_claim_coin_single_slow_02
 	// option('autoClick');
 	option('noGCPopup');
 	option('autoGC');
+	continueSection('hMain');
 	option('hMain', WITHSUBOPTIONS);
 	optionEffect('hFlashAd');
 	option('hReward', SUBOPTION);
@@ -432,6 +441,7 @@ UI_claim_coin_single_slow_02
 	option('hFood', SUBOPTION, foodOptions);
 	option('hSpeed', SUBOPTION);
 	option('hQueue', SUBOPTION);
+	option('hLockCaravan', SUBOPTION);
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');

@@ -2227,6 +2227,9 @@
 	"options_hgccluster": {
 		"message": "GC Cluster\nPlace GCs close together"
 	},
+	"options_hlockcaravan": {
+		"message": "Lock caravans\nPrevents the collection of caravans sent with a ticket"
+	},
 	"calc_operators": {
 		"message": "Operators"
 	},

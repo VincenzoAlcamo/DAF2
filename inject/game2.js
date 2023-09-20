@@ -266,9 +266,9 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan');
 
-	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast', 'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster']);
+	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast', 'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster', 'hLockCaravan']);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
@@ -435,7 +435,7 @@ if (gcr) {
 	extras.push('hSpeed');
 	const getSpeed = (p_core, val, def) => {
 		const hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-		return hasSpeedUp ? Math.min(val * (isSuper ? 0.3 : 0.6), def) : def;
+		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.7), def) : def;
 	}
 
 	const _getSpeed = gcr.getSpeed;
@@ -569,6 +569,43 @@ if (uib) {
 		if (btn && btn.show !== show) { _show = btn.show; btn.show = show; }
 		return result;
 	};
+}
+
+const pp = $hxClasses?.["com.pixelfederation.diggy.screens.popup.production.ProductionPopup"];
+if (pp) {
+	extras.push('hLockCaravan');
+	function slotHasTicket(slot) {
+		return slot && slot.__state == 'delivered' && slot._producedItem?._requirements?.find(req => req.object_id == 347 && req.type == 'material');
+	}
+	function updateText(parent, name, value) {
+		const _this = parent.getChildByName(name, true);
+		_this.g2d_model = value;
+		_this.g2d_onModelChanged.dispatch(_this);
+		_this.blue = _this.red = _this.green = 0.1;
+	}
+	const _refreshSlotOnChange = pp.prototype.refreshSlotOnChange;
+	pp.prototype.refreshSlotOnChange = function(p_index) {
+		const result = _refreshSlotOnChange.apply(this, arguments);
+		if (this._mode == 'caravan' && this._slots_initialized && hasFlag('hLockCaravan') && slotHasTicket(this._slots?.[p_index])) {
+			this._getButtons[p_index].setEnabled(false);
+			this._getButtons[p_index].setVisible(false);
+			this._resendButtons[p_index].setEnabled(false);
+			this._resendButtons[p_index].setVisible(false);
+			const parent = this._prototypeInstance.getChildByName('slot' + p_index, true);
+			updateText(parent, 'delivered', ${JSON.stringify(getMessage('gui_locked').toUpperCase())});
+			updateText(parent, 'amount_delivered', 'D A F 2');
+		}
+		return result;
+	};
+	const _refreshCards = pp.prototype.refreshCards;
+	pp.prototype.refreshCards = function() {
+		const result = _refreshCards.apply(this, arguments);
+		if (this._mode == 'caravan' && this._slots_initialized && hasFlag('hLockCaravan') && this._slots?.find(slotHasTicket)) {
+			this._resendAllButton.setEnabled(false);
+			this._collectAllButton.setEnabled(false);
+		}
+		return result;
+	}
 }
 
 if (extras.length) postMessage({ action: "sendValue", name: '@extra', value: extras.join() });
