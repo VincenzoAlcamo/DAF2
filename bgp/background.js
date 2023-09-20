@@ -148,7 +148,7 @@ var Preferences = {
 			hFlashAdSound: false,
 			hFlashAdSoundName: 'ui_buy',
 			hFlashAdVolume: 100,
-			hLockCaravan: true,
+			hLockCaravan: false,
 		};
 	},
 	init: async function () {
