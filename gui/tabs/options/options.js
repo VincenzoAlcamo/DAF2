@@ -592,7 +592,8 @@ function refresh() {
 		for (const row of table.tBodies[0].rows) {
 			if (row.classList.contains('hassuboptions')) parent = row;
 			let visible = true;
-			if (fnSearch) visible = fnSearch(row.textContent.toUpperCase());
+			let text = Array.from(row.querySelectorAll('h3,p')).map(el => el.textContent).join('\n');
+			if (fnSearch) visible = fnSearch(text.toUpperCase());
 			row.style.display = visible ? '' : 'none';
 			if (visible) {
 				count++;
