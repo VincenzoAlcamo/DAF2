@@ -27,7 +27,7 @@
 }
 
 .DAF-gc-count {
-	display: inline-block;
+	display: none;
 	background-color: #113;
 	width: 40px;
 	height: 46px;
@@ -44,6 +44,10 @@
 	overflow: hidden;
 	cursor: default;
 	box-sizing: content-box;
+}
+
+html[DAF--gctablecounter="1"] .DAF-gc-count {
+	display: inline-block;
 }
 
 .DAF-gc-count div:nth-child(1) {
@@ -142,7 +146,7 @@
 	--rg-col: #ff6060;
 }
 
-.DAF-gc-show-region .DAF-gc-pal div:last-child {
+html[DAF--gctableregion="1"] .DAF-gc-pal div:last-child {
 	background-color: var(--rg-col);
 }
 

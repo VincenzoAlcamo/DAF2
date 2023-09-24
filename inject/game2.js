@@ -132,19 +132,12 @@ function ongcTable(forceRefresh = false, simulate = 0) {
 				htm += `</div>`;
 			});
 			Html.set(gcTable, htm);
-			setgcTableOptions();
 			if (gcTable_isEmpty()) return gcTable_remove(null);
 			setTimeout(function () {
 				gcTable.style.display = '';
 				if (getFullWindow()) forceResize(0);
 			}, gcTableStyle ? 500 : 2000);
 		});
-	}
-}
-
-function setgcTableOptions() {
-	if (gcTable) {
-		gcTable.classList.toggle('DAF-gc-show-region', !!prefs.gcTableRegion);
 	}
 }
 
@@ -268,7 +261,10 @@ function init() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan');
 
-	const prefFlags = new Set(['noGCPopup', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast', 'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster', 'hLockCaravan']);
+	const prefFlags = new Set([
+		'noGCPopup', 'gcTableCounter', 'gcTableRegion', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast',
+		'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster', 'hLockCaravan'
+	]);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
@@ -300,7 +296,6 @@ function init() {
 
 		handlers['fullWindow'] = onFullWindow;
 		handlers['gcTable'] = ongcTable;
-		handlers['gcTableRegion'] = setgcTableOptions;
 		ongcTable();
 		msgHandlers['game1'] = (request) => {
 			pageType = request.pageType;
@@ -466,6 +461,10 @@ if (mr) {
 			c.diggingQueue._maxQueue = isActive ? 30 : maxQueue;
 		}
 		if (isActive && t && o !== t && e.shiftKey && (t.isBreakable() || t.isUsable())) c.go(t);
+		if (isActive && t && o !== t && (t.isBreakable() || t.isUsable())) {
+			if (e.ctrlKey) c.diggingQueue.removeFromQueue(t);
+			else if (e.shiftKey) c.go(t);
+		}
 	};
 }
 

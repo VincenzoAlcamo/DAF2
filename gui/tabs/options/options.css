@@ -26,10 +26,6 @@
 	padding-top: 7px;
 }
 
-.options .critical td:first-child {
-	background-image: -webkit-linear-gradient(top left, rgba(255, 255, 0, 0.2), rgba(255, 255, 255, 0));
-}
-
 .options .suboption td:first-child {
 	padding-left: 32px;
 	background-image: -webkit-linear-gradient(top left, rgba(0, 0, 255, 0.1), rgba(255, 255, 255, 0));
@@ -37,6 +33,10 @@
 
 .options .hassuboptions td:first-child {
 	background-image: -webkit-linear-gradient(top left, rgba(0, 255, 255, 0.1), rgba(255, 255, 255, 0));
+}
+
+.options .critical td:first-child {
+	background-image: -webkit-linear-gradient(top left, rgba(255, 255, 0, 0.2), rgba(255, 255, 255, 0));
 }
 
 .options div.warning {

@@ -151,11 +151,15 @@
 }
 
 .DAF-menu i {
+	background-color: #cfc;
+	color: #262;
+}
+.DAF-menu i[data-pref] {
 	background-color: #999;
 	color: #ddd;
 }
 
-.DAF-menu .DAF-on {
+.DAF-menu .DAF-on, .DAF-menu .DAF-on[data-pref] {
 	background-color: #0f0;
 	color: #060;
 }

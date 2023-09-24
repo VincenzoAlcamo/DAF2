@@ -295,25 +295,26 @@ function createMenu() {
 </li>
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
 	<div>
+		<u>
 		<i data-pref="fullWindow">${gm('menu_fullwindow')}</i>
 		<i data-pref="fullWindowLock">${gm('menu_fullwindowlock')}</i>
-		<br>
+		</u>
+		<u>
 		<i data-pref="fullWindowHeader">${gm('menu_fullwindowheader')}</i>
 		<i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
-		<i style="display:none" data-pref="resetFullWindow">${gm('menu_resetfullwindow')}</i>
+		</u>
 	</div>
 </li>
 <li data-action="gc"><b>&nbsp;</b>
 	<div>
 		<span data-value="status" style="display:none"></span>
-		<br>
+		<u class="squared">
 		<i data-pref="gcTable">${gm('menu_gctable')}</i>
 		<i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
 		<i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
-		<br>
-		<i data-pref="autoGC">${gm0('options_autogc')}</i>
-		<br>
-		<i data-pref="noGCPopup">${gm0('options_nogcpopup')}</i>
+		</u>
+		<u><i data-pref="autoGC">${gm0('options_autogc')}</i></u>
+		<u><i data-pref="noGCPopup">${gm0('options_nogcpopup')}</i></u>
 	</div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
@@ -364,6 +365,7 @@ function createMenu() {
 		<u><i data-pref="hGCCluster">${gm0('options_hgccluster')}</i>
 		<i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
 		<u class="squared">
+		<i>${gm('gui_loot')}</i>
 		<i data-pref="hLootCount">${gm0('options_hlootcount')}</i>
 		<i data-pref="hLootZoom">${gm0('options_hlootzoom')}</i>
 		<i data-pref="hLootFast">${gm0('options_hlootfast')}</i>

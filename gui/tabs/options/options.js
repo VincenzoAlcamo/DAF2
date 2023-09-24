@@ -111,6 +111,7 @@ function init() {
 	const WITHSUBOPTIONS = 'P';
 	const SUBOPTION = 'S';
 	const WARNING = 'W';
+	const ENABLE = 'E';
 	const TEXT = 'T';
 	const CHECKBOX = '1';
 	const SELECT = '2';
@@ -168,6 +169,7 @@ function init() {
 		const i = text.indexOf('\n');
 		let title = i >= 0 ? text.substr(0, i) : text;
 		let info = i >= 0 ? text.substr(i + 1) : '';
+		if (messageId.startsWith('options_hloot')) title = gui.getMessageAndValue('gui_loot', title);
 		if (prefName == 'linkGrabBadge') info = '';
 		if (prefName == 'linkGrabKey') {
 			const s = gui.getMessage('options_linkGrabButton');
@@ -188,6 +190,7 @@ function init() {
 		if (features.indexOf(CRITICAL) >= 0) className += ' critical';
 		if (features.indexOf(WITHSUBOPTIONS) >= 0) className += ' hassuboptions';
 		if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
+		if (features.indexOf(ENABLE) >= 0) info += '\n' + gui.getMessage('options_enablewarning');
 		if (features.indexOf(WARNING) >= 0) warning = gui.getMessage(messageId + '_warning');
 
 		const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
@@ -404,7 +407,7 @@ UI_claim_coin_single_slow_02
 	option('rewardsCloseExceptGems', SUBOPTION);
 	option('rewardsCloseExceptErrors', SUBOPTION);
 	option('rewardsSummary', SUBOPTION);
-	option('linkGrabEnabled', CRITICAL);
+	option('linkGrabEnabled', CRITICAL + ENABLE);
 	option('linkGrabKey', SUBOPTION);
 	option('linkGrabBadge', SUBOPTION);
 	endSection();
@@ -424,7 +427,7 @@ UI_claim_coin_single_slow_02
 	option('noGCPopup');
 	option('autoGC');
 	continueSection('hMain');
-	option('hMain', WITHSUBOPTIONS);
+	option('hMain', WITHSUBOPTIONS + CRITICAL + ENABLE);
 	optionEffect('hFlashAd');
 	option('hReward', SUBOPTION);
 	option('hGCCluster', SUBOPTION);

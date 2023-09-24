@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "In-Game options"
 	},
-	"options_injectgame": {
-		"message": "Enable DAF\nEnable DAF in-game.\nIf not enabled, the following options have no effect"
+	"options_enablewarning": {
+		"message": "If not enabled, the following options have no effect."
 	},
 	"options_fullwindow": {
 		"message": "Full window\nDisplay game in full window"
@@ -2105,7 +2105,7 @@
 		"message": "Add summary table\nIf the page is not auto-closed, add a summary table at the bottom."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grabber\nEnable the Link Grabber inside Facebook.\nIf not enabled, the following options have no effect."
+		"message": "Link Grabber\nEnable the Link Grabber inside Facebook."
 	},
 	"options_linkgrabbutton": {
 		"message": "Mouse button\nChoose the mouse button that triggers the Link Grabber"
@@ -2201,13 +2201,13 @@
 		"message": "Speed up\nSpeed potions will give much more speed"
 	},
 	"options_hlootcount": {
-		"message": "Loot count\nAlways show loot count"
+		"message": "Count\nAlways show loot count"
 	},
 	"options_hlootzoom": {
-		"message": "Loot zoom\nLoot is displayed consistently with the screen zoom"
+		"message": "Zoom\nLoot is displayed consistently with the screen zoom"
 	},
 	"options_hlootfast": {
-		"message": "Loot fast\nLoot vanishes faster"
+		"message": "Faster\nLoot vanishes faster"
 	},
 	"options_hfood": {
 		"message": "Food\nChoose which consumable is offered to you when you run out of energy"
