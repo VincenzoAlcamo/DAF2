@@ -43,7 +43,7 @@ function onResize() {
 function createScript(code) {
 	const script = document.createElement('script');
 	script.type = 'text/javascript';
-	script.appendChild(document.createTextNode(code));
+	script.appendChild(document.createTextNode(`(function(){${code}})();`));
 	return script;
 }
 
@@ -143,101 +143,99 @@ function ongcTable(forceRefresh = false, simulate = 0) {
 
 function interceptData() {
 	const code = `
-(function() {
-	let parser = null;
-	function parseXml(text) {
-		if (!text) return null;
-		if (!parser) parser = new DOMParser();
-		const root = parser.parseFromString(text, 'text/xml')?.documentElement;
-		return root ? parse(root) : null;
-		function parse(parent) {
-			const item = {};
-			function add(name, value) {
-				if (name in item) {
-					const old = item[name];
-					if (Array.isArray(old)) old.push(value);
-					else item[name] = [old, value];
-				} else item[name] = value;
-			}
-			for (let child = parent.firstElementChild; child; child = child.nextElementSibling)
-				add(child.nodeName, child.firstElementChild ? parse(child) : child.textContent);
-			return item;
+let parser = null;
+function parseXml(text) {
+	if (!text) return null;
+	if (!parser) parser = new DOMParser();
+	const root = parser.parseFromString(text, 'text/xml')?.documentElement;
+	return root ? parse(root) : null;
+	function parse(parent) {
+		const item = {};
+		function add(name, value) {
+			if (name in item) {
+				const old = item[name];
+				if (Array.isArray(old)) old.push(value);
+				else item[name] = [old, value];
+			} else item[name] = value;
+		}
+		for (let child = parent.firstElementChild; child; child = child.nextElementSibling)
+			add(child.nodeName, child.firstElementChild ? parse(child) : child.textContent);
+		return item;
+	}
+}
+const XHR = XMLHttpRequest.prototype;
+const send = XHR.send;
+const open = XHR.open;
+function getString(b) {
+	let s = '';
+	let i = 0;
+	const max = b.length;
+	while (i < max) {
+		const c = b[i++];
+		if (c < 128) {
+			if (c == 0) { break; }
+			s += String.fromCodePoint(c);
+		} else if (c < 224) {
+			const code = (c & 63) << 6 | b[i++] & 127;
+			s += String.fromCodePoint(code);
+		} else if (c < 240) {
+			const c2 = b[i++];
+			const code1 = (c & 31) << 12 | (c2 & 127) << 6 | b[i++] & 127;
+			s += String.fromCodePoint(code1);
+		} else {
+			const c21 = b[i++];
+			const c3 = b[i++];
+			const u = (c & 15) << 18 | (c21 & 127) << 12 | (c3 & 127) << 6 | b[i++] & 127;
+			s += String.fromCodePoint(u);
 		}
 	}
-	const XHR = XMLHttpRequest.prototype;
-	const send = XHR.send;
-	const open = XHR.open;
-	function getString(b) {
-		let s = '';
-		let i = 0;
-		const max = b.length;
-		while (i < max) {
-			const c = b[i++];
-			if (c < 128) {
-				if (c == 0) { break; }
-				s += String.fromCodePoint(c);
-			} else if (c < 224) {
-				const code = (c & 63) << 6 | b[i++] & 127;
-				s += String.fromCodePoint(code);
-			} else if (c < 240) {
-				const c2 = b[i++];
-				const code1 = (c & 31) << 12 | (c2 & 127) << 6 | b[i++] & 127;
-				s += String.fromCodePoint(code1);
-			} else {
-				const c21 = b[i++];
-				const c3 = b[i++];
-				const u = (c & 15) << 18 | (c21 & 127) << 12 | (c3 & 127) << 6 | b[i++] & 127;
-				s += String.fromCodePoint(u);
-			}
+	return s;
+}
+XHR.open = function(method, url) {
+	this.url = url;
+	return open.apply(this, arguments);
+}
+XHR.send = function() {
+	let kind, lang, player_id, xml;
+	const dispatch = (type) => {
+		let response = null;
+		if (type == 'ok') {
+			const result = this.response;
+			if (result === null) response = null;
+			else if (typeof result == 'string') response = result;
+			else if (result.bytes instanceof Uint8Array) response = getString(result.bytes);
+			else console.log('daf_xhr: invalid response');
 		}
-		return s;
+		const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, player_id, xml, response } });
+		document.dispatchEvent(event);
 	}
-	XHR.open = function(method, url) {
-		this.url = url;
-		return open.apply(this, arguments);
-	}
-	XHR.send = function() {
-		let kind, lang, player_id, xml;
-		const dispatch = (type) => {
-			let response = null;
-			if (type == 'ok') {
-				const result = this.response;
-				if (result === null) response = null;
-				else if (typeof result == 'string') response = result;
-				else if (result.bytes instanceof Uint8Array) response = getString(result.bytes);
-				else console.log('daf_xhr: invalid response');
-			}
-			const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, player_id, xml, response } });
-			document.dispatchEvent(event);
-		}
-		if (this.url.indexOf('/graph.facebook.com') > 0) {
-			kind = 'graph';
-			this.addEventListener('load', () => dispatch('ok'));
-			return send.apply(this, arguments);
-		} else if (this.url.indexOf('/generator.php') > 0) {
-			kind = 'generator';
-			try { lang = gamevars.lang; } catch(e) { }
-		} else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
-		else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
-		if (kind) {
-			if (kind == 'generator' || kind == 'synchronize') {
-				for (const item of (arguments[0] || '').split('&')) {
-					const p = item.split('=');
-					const key = decodeURIComponent(p[0]);
-					if (key == 'player_id') player_id = decodeURIComponent(p[1]);
-					else if (key == 'xml') xml = parseXml(decodeURIComponent(p[1]));
-				}
-			}
-			const error = () => dispatch('error');
-			dispatch('send');
-			this.addEventListener('load', () => dispatch('ok'));
-			this.addEventListener('error', error);
-			this.addEventListener('abort', error);
-			this.addEventListener('timeout', error);
-		}
+	if (this.url.indexOf('/graph.facebook.com') > 0) {
+		kind = 'graph';
+		this.addEventListener('load', () => dispatch('ok'));
 		return send.apply(this, arguments);
-	};
-})();
+	} else if (this.url.indexOf('/generator.php') > 0) {
+		kind = 'generator';
+		try { lang = gamevars.lang; } catch(e) { }
+	} else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
+	else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
+	if (kind) {
+		if (kind == 'generator' || kind == 'synchronize') {
+			for (const item of (arguments[0] || '').split('&')) {
+				const p = item.split('=');
+				const key = decodeURIComponent(p[0]);
+				if (key == 'player_id') player_id = decodeURIComponent(p[1]);
+				else if (key == 'xml') xml = parseXml(decodeURIComponent(p[1]));
+			}
+		}
+		const error = () => dispatch('error');
+		dispatch('send');
+		this.addEventListener('load', () => dispatch('ok'));
+		this.addEventListener('error', error);
+		this.addEventListener('abort', error);
+		this.addEventListener('timeout', error);
+	}
+	return send.apply(this, arguments);
+};
 `;
 	document.head.prepend(createScript(code));
 	document.addEventListener('daf_xhr', function (event) {
@@ -379,9 +377,14 @@ window.wallpost = function() {
 	if (prefs.hMain) code += `
 const isSuper = ${prefs['@super'] ? 'true' : 'false'};
 let extras = [];
-const $hxClasses = window.$hxClasses;
+const $hxClasses = window.$hxClasses || {};
 
-const core = $hxClasses?.["com.pixelfederation.diggy.Core"];
+function intercept(className, protoName, fn) {
+	const def = $hxClasses[className], proto = def?.prototype, _ = proto?.[protoName];
+	if (_ && typeof _ === 'function') proto[protoName] = fn(_, def);
+}
+
+const core = $hxClasses["com.pixelfederation.diggy.Core"];
 let currentScreen = null;
 const getActiveScreen = () => {
 	let screen = core?.instance?._screenManager?.getActiveScreen();
@@ -403,7 +406,6 @@ visit = (id) => {
 };
 if (core) {
 	extras.push('@core');
-
 	setInterval(() => {
 		const info = getActiveScreen();
 		const value = info.screen + '.' + info.dialog;
@@ -415,97 +417,78 @@ if (core) {
 	}, 1000);
 }
 
-const rp = $hxClasses?.["com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup"];
-if (rp) {
+intercept("com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup", 'keyDownHandler', function(_keyDownHandler) {
 	extras.push('hReward');
-	const _keyDownHandler = rp.prototype.keyDownHandler;
-	rp.prototype.keyDownHandler = function(p_event) {
+	return function(p_event) {
 		if (p_event.keyCode >= 65 && p_event.keyCode <= 90 && hasFlag('hReward')) p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
 		return _keyDownHandler.call(this, p_event);
 	};
-}
+});
 
-const gcr = $hxClasses?.["com.pixelfederation.diggy.game.character.Character"];
-if (gcr) {
+intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
 	extras.push('hSpeed');
 	const getSpeed = (p_core, val, def) => {
 		const hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
 		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.7), def) : def;
 	}
-
-	const _getSpeed = gcr.getSpeed;
-	gcr.getSpeed = function(p_core) {
-		return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments));
-	};
-
-	const _breakTile = gcr.prototype.breakTile;
-	gcr.prototype.breakTile = function(p_tileDef, p_digTime) {
+	const _getSpeed = Character.getSpeed;
+	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
+	return function(p_tileDef, p_digTime) {
 		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
 	};
-}
+});
 
-const mr = $hxClasses?.["com.pixelfederation.diggy.game.mine.MineRenderer"];
-if (mr) {
+intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler', function(_mouseMove_handler) {
 	extras.push('hQueue');
-
 	let maxQueue, wasActive;
-	const _mouseMove_handler = mr.prototype.mouseMove_handler;
-	mr.prototype.mouseMove_handler = function(e) {
-		const { _lastMineTileOver: o, _character: c } = this;
-		const n = _mouseMove_handler.apply(this, arguments);
-		const t = this._lastMineTileOver;
+	return function(e) {
+		const old = this._lastMineTileOver, result = _mouseMove_handler.apply(this, arguments), tile = this._lastMineTileOver;
 		const isActive = hasFlag('hQueue');
 		if (isActive !== wasActive) {
 			wasActive = isActive;
-			maxQueue = maxQueue || c.diggingQueue._maxQueue;
-			c.diggingQueue._maxQueue = isActive ? 30 : maxQueue;
+			maxQueue = maxQueue || this._character.diggingQueue._maxQueue;
+			this._character.diggingQueue._maxQueue = isActive ? 30 : maxQueue;
 		}
-		if (isActive && t && o !== t && e.shiftKey && (t.isBreakable() || t.isUsable())) c.go(t);
-		if (isActive && t && o !== t && (t.isBreakable() || t.isUsable())) {
-			if (e.ctrlKey) c.diggingQueue.removeFromQueue(t);
-			else if (e.shiftKey) c.go(t);
+		if (isActive && tile && old !== tile && (tile.isBreakable() || tile.isUsable())) {
+			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
+			else if (e.shiftKey) this._character.go(tile);
 		}
+		return result;
 	};
-}
+});
 
-const cus = $hxClasses?.["com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb"];
-if (cus) {
+intercept("com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb", 'resizeUI', function(_resizeUI) {
 	extras.push('hScroll');
 	let firstTime = true;
-	const _resizeUI = cus.prototype.resizeUI;
-	cus.prototype.resizeUI = function() {
-		_resizeUI.apply(this, arguments);
+	return function() {
+		const result = _resizeUI.apply(this, arguments);
 		if (firstTime) {
 			firstTime = false;
 			Object.defineProperty(this._dragManager.__proto__, '_autoPan', {
-				get() {
-					return hasFlag('hScroll') ? false : this.__autoPan;
-				},
-				set(newValue) {
-                    this.__autoPan = newValue;
-				},
+				get() { return hasFlag('hScroll') ? false : this.__autoPan; },
+				set(newValue) { this.__autoPan = newValue; },
 				enumerable: true,
 				configurable: true,
 			});
 			if (hasFlag('hScroll')) this._dragManager.setAutoPan(false);
 		}
+		return result;
 	};
+});
 
+intercept("com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb", 'addGodChild', function(_addGodChild) {
 	extras.push('hGCCluster');
-	const _addGodChild = cus.prototype.addGodChild;
-	cus.prototype.addGodChild = function() {
+	return function() {
 		const result = _addGodChild.apply(this, arguments);
 		if (hasFlag('hGCCluster')) this._npcContainer.g2d_children.forEach((e, i) => e.g2d_anchorX = -260 + i * 10);
 		return result;
 	};
-}
+});
 
-const dc = $hxClasses?.["com.pixelfederation.diggy.game.custom.DecalContainer"];
-if (dc) {
+intercept("com.pixelfederation.diggy.game.custom.DecalContainer", 'createDropCount', function(_createDropCount) {
 	extras.push('hLootCount');
 	extras.push('hLootFast');
-	var _createDropCount = dc.prototype.createDropCount;
-	dc.prototype.createDropCount = function(p_x,p_y,p_item,p_scaleX,p_scaleY,p_texture,p_target,p_screenType,p_showText) {
+	return function(p_x,p_y,p_item,p_scaleX,p_scaleY,p_texture,p_target,p_screenType,p_showText) {
 		if (p_screenType === 'mineScreen' && hasFlag('hLootCount')) p_showText = true;
 		const dp = this.dropLootDecalPool, dp_getNext = dp?.getNext;
 		if (dp && p_screenType === 'mineScreen' && hasFlag('hLootFast')) dp.getNext = function() { return null; };
@@ -517,20 +500,18 @@ if (dc) {
 		if (tp) tp.getNext = tp_getNext;
 		return result;
 	};
-
+});
+intercept("com.pixelfederation.diggy.game.custom.DecalContainer", 'getScaleFromScreenType', function(_getScaleFromScreenType) {
 	extras.push('hLootZoom');
-	var _getScaleFromScreenType = dc.prototype.getScaleFromScreenType;
-	dc.prototype.getScaleFromScreenType = function(p_screenType) {
+	return function(p_screenType) {
 		if (p_screenType === 'mineScreen' && hasFlag('hLootZoom')) return this._core.getMineCamera().g2d_contextCamera.scaleX;
 		return _getScaleFromScreenType.apply(this, arguments);
 	};
-}
+});
 
-const nop = $hxClasses?.["com.pixelfederation.diggy.screens.popup.NoenergyPopup"];
-if (nop) {
+intercept("com.pixelfederation.diggy.screens.popup.NoenergyPopup", 'initUsableFromStorage', function(_initUsableFromStorage) {
 	extras.push('hFood', 'hFoodNum');
-	const _initUsableFromStorage = nop.prototype.initUsableFromStorage;
-	nop.prototype.initUsableFromStorage = function() {
+	return function() {
 		if (!hasFlag('hFood')) return _initUsableFromStorage.apply(this, arguments);
 		this._myUsableFromStorageId = this._myUsableFromStorageCount = this._myUsableFromStorageValue = 0;
 		const _usablesLoader = this._core.getLoadersManager()._usablesLoader;
@@ -551,39 +532,44 @@ if (nop) {
 			this._myUsableFromStorageCount = this._core.getInventoryManager().getItemAmount(obj.item_type, obj.id);
 		}
 	};
-}
+});
 
-const uib = $hxClasses?.["com.pixelfederation.diggy.ui.hud.UISpecialButtons"];
-if (uib) {
+intercept("com.pixelfederation.diggy.ui.hud.UISpecialButtons", 'createFlashAdButton', function(_createFlashAdButton) {
 	extras.push('hFlashAdSound');
 	let _show;
 	function show() {
 		postMessage({ action: 'hFlashAd' });
 		return _show.apply(this, arguments);
 	}
-	const _createFlashAdButton = uib.prototype.createFlashAdButton;
-	uib.prototype.createFlashAdButton = function() {
+	return function() {
 		const result = _createFlashAdButton.apply(this, arguments);
 		const btn = this._flashAdButton?._flashAdButtonIcon;
 		if (btn && btn.show !== show) { _show = btn.show; btn.show = show; }
 		return result;
 	};
-}
+});
 
-const pp = $hxClasses?.["com.pixelfederation.diggy.screens.popup.production.ProductionPopup"];
-if (pp) {
+intercept("com.pixelfederation.diggy.screens.popup.production.ProductionPopup", 'refreshSlotOnChange', function(_refreshSlotOnChange, ProductionPopup) {
 	extras.push('hLockCaravan');
-	function slotHasTicket(slot) {
-		return slot && slot.__state == 'delivered' && slot._producedItem?._requirements?.find(req => req.object_id == 347 && req.type == 'material');
-	}
 	function updateText(parent, name, value) {
 		const _this = parent.getChildByName(name, true);
 		_this.g2d_model = value;
 		_this.g2d_onModelChanged.dispatch(_this);
 		_this.blue = _this.red = _this.green = 0.1;
 	}
-	const _refreshSlotOnChange = pp.prototype.refreshSlotOnChange;
-	pp.prototype.refreshSlotOnChange = function(p_index) {
+	function slotHasTicket(slot) {
+		return slot && slot.__state == 'delivered' && slot._producedItem?._requirements?.find(req => req.object_id == 347 && req.type == 'material');
+	}
+	const _refreshCards = ProductionPopup.prototype.refreshCards;
+	ProductionPopup.prototype.refreshCards = function() {
+		const result = _refreshCards.apply(this, arguments);
+		if (this._mode == 'caravan' && this._slots_initialized && hasFlag('hLockCaravan') && this._slots?.find(slotHasTicket)) {
+			this._resendAllButton.setEnabled(false);
+			this._collectAllButton.setEnabled(false);
+		}
+		return result;
+	};
+	return function(p_index) {
 		const result = _refreshSlotOnChange.apply(this, arguments);
 		if (this._mode == 'caravan' && this._slots_initialized && hasFlag('hLockCaravan') && slotHasTicket(this._slots?.[p_index])) {
 			this._getButtons[p_index].setEnabled(false);
@@ -596,20 +582,10 @@ if (pp) {
 		}
 		return result;
 	};
-	const _refreshCards = pp.prototype.refreshCards;
-	pp.prototype.refreshCards = function() {
-		const result = _refreshCards.apply(this, arguments);
-		if (this._mode == 'caravan' && this._slots_initialized && hasFlag('hLockCaravan') && this._slots?.find(slotHasTicket)) {
-			this._resendAllButton.setEnabled(false);
-			this._collectAllButton.setEnabled(false);
-		}
-		return result;
-	}
-}
+});
 
 if (extras.length) postMessage({ action: "sendValue", name: '@extra', value: extras.join() });
 `;
-		code = `(function(){${code}})();`
 		document.head.appendChild(createScript(code));
 		forward('game2', { ok: true });
 	});
