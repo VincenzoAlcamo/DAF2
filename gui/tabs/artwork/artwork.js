@@ -178,7 +178,7 @@ async function refresh() {
 			for (const item of Object.values(data)) {
 				const id = item.def_id, asset = item[$asset];
 				if (!asset || asset == 'default' || asset == 'map_x_default') break;
-				const url = cdn_root + 'mobile/' + item.asset_path + encodeURIComponent(asset) + '.png' + versionParameter;
+				const url = cdn_root + 'mobile/' + (item.asset_path || 'graphics/all/') + encodeURIComponent(asset) + '.png' + versionParameter;
 				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), url })
 			}
 		} else {
