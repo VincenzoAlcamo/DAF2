@@ -375,7 +375,7 @@ window.wallpost = function() {
 `;
 
 	if (prefs.hMain) code += `
-const isSuper = ${prefs['@super'] ? 'true' : 'false'};
+const isSuper = false && ${prefs['@super'] ? 'true' : 'false'};
 let extras = [];
 const $hxClasses = window.$hxClasses || {};
 
@@ -425,18 +425,18 @@ intercept("com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup", 'keyDo
 	};
 });
 
-intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
-	extras.push('hSpeed');
-	const getSpeed = (p_core, val, def) => {
-		const hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.7), def) : def;
-	}
-	const _getSpeed = Character.getSpeed;
-	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
-	return function(p_tileDef, p_digTime) {
-		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
-	};
-});
+// intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
+// 	extras.push('hSpeed');
+// 	const getSpeed = (p_core, val, def) => {
+// 		const hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
+// 		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.7), def) : def;
+// 	}
+// 	const _getSpeed = Character.getSpeed;
+// 	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
+// 	return function(p_tileDef, p_digTime) {
+// 		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
+// 	};
+// });
 
 intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler', function(_mouseMove_handler) {
 	extras.push('hQueue');
