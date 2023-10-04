@@ -229,7 +229,7 @@
 		"message": "Durchschnitt"
 	},
 	"gui_loot": {
-		"message": "Beute"
+		"message": "Belohnung"
 	},
 	"gui_datafrompf": {
 		"message": "Daten aus den Spieledateien von Pixel Federation"
@@ -708,7 +708,7 @@
 		"message": "Zerbrechliche Kacheln hervorheben"
 	},
 	"map_button_n": {
-		"message": "Kacheln mit bemerkenswerter Beute hervorheben"
+		"message": "Kacheln mit bemerkenswerter Belohnung hervorheben"
 	},
 	"map_button_v": {
 		"message": "Erkundete Kacheln anzeigen"
@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Einstellungen im Spiel"
 	},
-	"options_injectgame": {
-		"message": "DAF aktivieren\nDAF im Spiel aktivieren.\nWenn nicht aktiviert, haben die folgenden Einstellungen keine Wirkung."
+	"options_enablewarning": {
+		"message": "Wenn nicht aktiviert, haben die folgenden Optionen keine Wirkung."
 	},
 	"options_fullwindow": {
 		"message": "Vollbildmodus\nSpiel im Vollbildmodus anzeigen"
@@ -2105,7 +2105,7 @@
 		"message": "Summentabelle anzeigen\nWenn die Seite nicht automatisch geschlossen wird, wird eine Zusammenfassungstabelle am unteren Rand hinzugefügt."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grabber\nAktiviere den Link Grabber in Facebook.\nWenn nicht aktiviert, haben die folgenden Einstellungen keine Wirkung."
+		"message": "Link Grabber\nAktiviere den Link Grabber in Facebook."
 	},
 	"options_linkgrabbutton": {
 		"message": "Maustaste\nWähle die Maustaste, die den Link Grabber auslöst."
@@ -2201,13 +2201,13 @@
 		"message": "Geschwindigkeit erhöhen\nGeschwindigkeitstränke geben viel mehr Geschwindigkeit."
 	},
 	"options_hlootcount": {
-		"message": "Beute zählen\nBeutestückzahl immer anzeigen"
+		"message": "Zähler\nBelohnung immer anzeigen"
 	},
 	"options_hlootzoom": {
-		"message": "Beute-Zoom\nBeute wird stets mit dem Bildschirmzoom angezeigt."
+		"message": "Vergrößerung\nDie Belohnung wird entsprechend dem Bildschirmzoom angezeigt."
 	},
 	"options_hlootfast": {
-		"message": "Beute schnell\nBeute verschwindet schneller."
+		"message": "Schneller\nBelohnung verschwindet schneller."
 	},
 	"options_hfood": {
 		"message": "Nahrung\nWenn keine Energie mehr vorhanden ist, kann die Nahrung ausgewählt werden."
@@ -2220,6 +2220,15 @@
 	},
 	"options_hreward": {
 		"message": "Automatische Großschreibung\nJede Eingabe in den Geschenkcode wird automatisch großgeschrieben."
+	},
+	"options_hflashad": {
+		"message": "Flash-Werbung Ton\nSpielt einen Ton ab, wenn die Schaltfläche \"Flash-Werbung\" erscheint."
+	},
+	"options_hgccluster": {
+		"message": "GK-Bündelung\nGKs dicht beieinander platzieren."
+	},
+	"options_hlockcaravan": {
+		"message": "Karawane sperren\nVerhindert die Abholung von Wohnwagen, die mit einem Ticket verschickt wurden."
 	},
 	"calc_operators": {
 		"message": "Operatoren"

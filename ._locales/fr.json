@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Options dans le jeu"
 	},
-	"options_injectgame": {
-		"message": "Activer DAF\nActiver DAF dans le jeu.\nSi désactiver, les options suivantes n'ont aucun effet."
+	"options_enablewarning": {
+		"message": "Si elles ne sont pas activées, les options suivantes n’ont aucun effet."
 	},
 	"options_fullwindow": {
 		"message": "Plein écran\nAfficher le jeu en plein écran."
@@ -2105,10 +2105,10 @@
 		"message": "Ajouter un résumé\nSi la page n'est pas fermée automatiquement, un résumé est inséré en bas de la page."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grabber\nActiver Link Grabber (lien de saisie) sur les pages Facebook.\nSi désactiver, les options suivantes n'ont aucun effet."
+		"message": "Capture de liens\nActivez la capture de liens dans Facebook."
 	},
 	"options_linkgrabbutton": {
-		"message": "Bouton de souris\nChanger le bouton qui lance le Link Grabber."
+		"message": "Bouton de souris\nChoisissez le bouton de la souris qui déclenche la capture de lien."
 	},
 	"options_linkgrabkey": {
 		"message": "Clé optionnelle\nChoisissez un bouton facultatif à appuyer en plus du bouton de la souris."
@@ -2195,31 +2195,40 @@
 		"message": "Moulins à vent\nMontrez un badge lorsque le camp d'un voisin a besoin de moulins à vent."
 	},
 	"options_hmain": {
-		"message": "Fonctionnalités supplémentaires\nActiver des fonctionnalités supplémentaires dans le jeu,"
+		"message": "Fonctionnalités supplémentaires\nActiver des fonctionnalités supplémentaires dans le jeu."
 	},
 	"options_hspeed": {
-		"message": "Accélérer\nLes potions de vitesse donneront beaucoup plus de vitesse,"
+		"message": "Accélérer\nLes potions de vitesse donneront beaucoup plus de vitesse."
 	},
 	"options_hlootcount": {
-		"message": "Nombre de butin\nToujours afficher le décompte du butin,"
+		"message": "Butin\nAfficher toujours le décompte du butin."
 	},
 	"options_hlootzoom": {
-		"message": "Zoom sur le butin\nLe butin est affiché de manière cohérente avec le zoom de l'écran,"
+		"message": "Zoom sur le butin\nLe butin est affiché de manière cohérente avec le zoom de l'écran."
 	},
 	"options_hlootfast": {
-		"message": "Pillez vite\nLe butin disparaît plus rapidement,"
+		"message": "Disparu rapide\nLe butin disparaît rapidement."
 	},
 	"options_hfood": {
 		"message": "Nourriture\nChoisissez quel consommable vous est proposé lorsque vous êtes à court d'énergie."
 	},
 	"options_hqueue": {
-		"message": "File d'attente de dalles facile\nLa file d'attente est longuer,\nMaintenez la touche MAJ enfoncée et déplacez la souris sur certaines tuiles pour les ajouter à la file d'attente,"
+		"message": "File d'attente de dalles facile\nLa file d'attente est longuer,\nMaintenez la touche MAJ enfoncée et déplacez la souris sur certaines tuiles pour les ajouter à la file d'attente."
 	},
 	"options_hscroll": {
 		"message": "Désactiver le défilement inertiel\nLe défilement inertiel est l'effet selon lequel l'écran continue de se déplacer même après que vous avez arrêté de le faire glisser."
 	},
 	"options_hreward": {
 		"message": "Capitalisation automatique\nToute saisie du code cadeau est automatiquement mise en majuscule."
+	},
+	"options_hflashad": {
+		"message": "Son de l'annonce Flash\nJouez un son lorsque le bouton d'annonce flash apparaît."
+	},
+	"options_hgccluster": {
+		"message": "Groupe des Filleuls\nRapprochez les filleuls."
+	},
+	"options_hlockcaravan": {
+		"message": "Verrouiller les caravanes\nEmpêche la collecte des caravanes envoyées avec un ticket."
 	},
 	"calc_operators": {
 		"message": "Les opérateurs"

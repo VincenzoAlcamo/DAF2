@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Ok"
 	},
+	"gui_visitcamp": {
+		"message": "Bezoek kamp"
+	},
 	"dialog_yes": {
 		"message": "Ja"
 	},
@@ -2009,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Opties in het spel"
 	},
-	"options_injectgame": {
-		"message": "Schakel DAF in\nSchakel DAF in het spel in.\nIndien niet ingeschakeld, hebben de volgende opties geen effect"
+	"options_enablewarning": {
+		"message": "Indien niet ingeschakeld, hebben de volgende opties geen effect."
 	},
 	"options_fullwindow": {
 		"message": "Volledig venster\nSpel in volledig venster weergeven"
@@ -2102,7 +2105,7 @@
 		"message": "Voeg overzichtstabel toe\nAls de pagina niet automatisch wordt gesloten, voeg je onderaan een overzichtstabel toe."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grijper\nSchakel de Link Grijper binnen Facebook in.\nIndien niet ingeschakeld, hebben de volgende opties geen effect."
+		"message": "Link Grijper\nSchakel de Link Grijper binnen Facebook in."
 	},
 	"options_linkgrabbutton": {
 		"message": "Muisknop\nKies de muisknop die de Link Grijper activeert"
@@ -2198,13 +2201,13 @@
 		"message": "Versnellen\nSnelheidsdrankjes geven veel meer snelheid"
 	},
 	"options_hlootcount": {
-		"message": "Hoeveelheid buit\nLaat altijd de hoeveelheid buit zien"
+		"message": "Hoeveelheid\nLaat altijd de hoeveelheid buit zien"
 	},
 	"options_hlootzoom": {
-		"message": "Zoom in op de buit\nDe buit wordt consistent weergegeven als je inzoomt op het scherm"
+		"message": "Zoom\nDe buit wordt consistent weergegeven als je inzoomt op het scherm"
 	},
 	"options_hlootfast": {
-		"message": "Plunder snel\nDe buit verdwijnt sneller"
+		"message": "Snel\nDe buit verdwijnt sneller"
 	},
 	"options_hfood": {
 		"message": "Voedsel\nKies welk verbruiksartikel wordt aangeboden als je energie op is"
@@ -2217,6 +2220,15 @@
 	},
 	"options_hreward": {
 		"message": "Automatisch hoofdlettergebruik\nElke invoer in de cadeaucode wordt automatisch met een hoofdletter geschreven"
+	},
+	"options_hflashad": {
+		"message": "Flash -advertentiegeluid\nSpeel een geluid wanneer de knop Flash AD verschijnt"
+	},
+	"options_hgccluster": {
+		"message": "GC -cluster\nPlaats GC's dicht bij elkaar"
+	},
+	"options_hlockcaravan": {
+		"message": "Vergrendel caravans\nVoorkomt de verzameling caravans die met een kaartje worden verzonden"
 	},
 	"calc_operators": {
 		"message": "Operatoren"

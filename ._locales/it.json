@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Opzioni nel gioco"
 	},
-	"options_injectgame": {
-		"message": "Abilita DAF\nAblita DAF nel gioco.\nSe non è abilitato, le seguenti opzioni non hanno effetto."
+	"options_enablewarning": {
+		"message": "Se non è abilitato, le seguenti opzioni non hanno effetto."
 	},
 	"options_fullwindow": {
 		"message": "Finestra intera\nMostra il gioco a finestra intera"
@@ -2105,7 +2105,7 @@
 		"message": "Aggiungi riepilogo\nSe la pagina non è chiusa automaticamente, viene inserito un riepilogo in fondo alla pagina."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grabber\nAbilita il Link Grabber nelle pagine di Facebook.\nSe non è abilitato, le seguenti opzioni non hanno effetto."
+		"message": "Link Grabber\nAbilita il Link Grabber nelle pagine di Facebook."
 	},
 	"options_linkgrabbutton": {
 		"message": "Pulsante del mouse\nCambia il pulsante che avvia il Link Grabber"
@@ -2201,13 +2201,13 @@
 		"message": "Velocizza\nLe pozioni acceleranti forniscono più velocità"
 	},
 	"options_hlootcount": {
-		"message": "Bottino: conteggio\nMostra sempre il conteggio del bottino"
+		"message": "Conteggio\nMostra sempre il conteggio del bottino"
 	},
 	"options_hlootzoom": {
-		"message": "Bottino: zoom\nIl bottino viene visualizzato in modo coerente con lo zoom dello schermo"
+		"message": "Zoom\nIl bottino viene visualizzato in modo coerente con lo zoom dello schermo"
 	},
 	"options_hlootfast": {
-		"message": "Bottino: velocizza\nIl bottino sparisce più velocemente"
+		"message": "Velocizza\nIl bottino sparisce più velocemente"
 	},
 	"options_hfood": {
 		"message": "Cibo\nScegli quale consumabile ti viene proposto quando finisci l'energia"
@@ -2226,6 +2226,9 @@
 	},
 	"options_hgccluster": {
 		"message": "Raggruppa Bimbi\nPosiziona i Bimbi vicini tra loro"
+	},
+	"options_hlockcaravan": {
+		"message": "Bloccare i caravan\nImpedisce la raccolta dei caravan inviati con un biglietto"
 	},
 	"calc_operators": {
 		"message": "Operatori"

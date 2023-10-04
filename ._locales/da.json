@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Spil muligheder"
 	},
-	"options_injectgame": {
-		"message": "Aktiver DAF\nAktiver DAF i spillet.\nHvis det ikke er aktiveret, har de følgende indstillinger ingen effekt."
+	"options_enablewarning": {
+		"message": "Hvis den ikke er aktiveret, har efterfølgende muligheder ingen effekt."
 	},
 	"options_fullwindow": {
 		"message": "Fuld skærm\nVis spillet i fuld skærm"
@@ -2105,7 +2105,7 @@
 		"message": "Tilføj sum tabel\nHvis siden ikke lukker automatisk, så tilføj en sum tabel i bunden"
 	},
 	"options_linkgrabenabled": {
-		"message": "Link fanger\nAktiver Link fangeren i Facebook.\nHvis den ikke aktiveres har den følgende mulighed ingen effekt."
+		"message": "Link fanger\nAktiver Link fangeren i Facebook."
 	},
 	"options_linkgrabbutton": {
 		"message": "Muse knap\nVælg den museknap der aktiverer Link fangeren"
@@ -2201,13 +2201,13 @@
 		"message": "Sæt farten op\nHastighedseliksir vil give meget mere fart"
 	},
 	"options_hlootcount": {
-		"message": "Byttetæller\nVis altid byttetæller"
+		"message": "Tæller\nVis altid byttetæller"
 	},
 	"options_hlootzoom": {
-		"message": "Bytte zoom\nBytte vises konsekvent med skærmens zoom"
+		"message": "Zoom\nBytte vises konsekvent med skærmens zoom"
 	},
 	"options_hlootfast": {
-		"message": "Bytte hurtig\nBytte forsvinder hurtigere"
+		"message": "Hurtig\nBytte forsvinder hurtigere"
 	},
 	"options_hfood": {
 		"message": "Mad\nVælg hvilket forbrugsstof, der tilbydes dig, når du løber tør for energi"
@@ -2220,6 +2220,15 @@
 	},
 	"options_hreward": {
 		"message": "Auto-versaler\nEthvert input i gavekoden skrives automatisk med stort"
+	},
+	"options_hflashad": {
+		"message": "Flash annonce lyd\nAfspil en lyd, når knappen Flash annonce vises"
+	},
+	"options_hgccluster": {
+		"message": "GC Cluster\nPlacer GC'er tæt på hinanden"
+	},
+	"options_hlockcaravan": {
+		"message": "Lås karavaner\nForhindrer afhentning af karavaner sendt med billet"
 	},
 	"calc_operators": {
 		"message": "Aktører"

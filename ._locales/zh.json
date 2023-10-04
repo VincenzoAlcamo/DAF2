@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "遊戲內選項"
 	},
-	"options_injectgame": {
-		"message": "啓用DAF\n在遊戲中啓用DAF\n如果不啓用, 以下的選項不會生效"
+	"options_enablewarning": {
+		"message": "如果沒啓用, 下面的選項沒有效果"
 	},
 	"options_fullwindow": {
 		"message": "全視窗\n在全視窗下顯示遊戲"
@@ -2105,7 +2105,7 @@
 		"message": "增加結果表\n當頁面沒有自動關閉時, 在下面增加一個結果表"
 	},
 	"options_linkgrabenabled": {
-		"message": "連結收集器\n在Facebook上啓用連結收集器\n如果沒啓用, 下面的選項沒有效果"
+		"message": "連結收集器\n在Facebook上啓用連結收集器"
 	},
 	"options_linkgrabbutton": {
 		"message": "滑鼠按鈕\n選擇觸發連結收集器的滑鼠按鈕"
@@ -2220,6 +2220,15 @@
 	},
 	"options_hreward": {
 		"message": "自動大寫\n任何輸入禮物碼的字母都會自動大寫"
+	},
+	"options_hflashad": {
+		"message": "快閃廣告聲音\n當快閃廣告按鈕出現時，發聲提醒"
+	},
+	"options_hgccluster": {
+		"message": "神之子的聚集\n縮短短神之子間的距離"
+	},
+	"options_hlockcaravan": {
+		"message": "锁大篷车\n防止票带有票的大篷车收集"
 	},
 	"calc_operators": {
 		"message": "運算子"

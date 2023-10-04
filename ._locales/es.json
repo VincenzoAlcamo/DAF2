@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Opciones en el juego"
 	},
-	"options_injectgame": {
-		"message": "Habilitar DAF\nHabilitar DAF en el juego.\nSi no está habilitado, las siguientes opciones no tienen efecto"
+	"options_enablewarning": {
+		"message": "Si no estan habilitadas las suiguientes opciones no tienen efecto"
 	},
 	"options_fullwindow": {
 		"message": "Ventana completa\nMostrar juego en pantalla completa"
@@ -2105,7 +2105,7 @@
 		"message": "Añadir tabla de resumen\nSi la página no se cierra automáticamente, agregue una tabla de resumen en la parte inferior."
 	},
 	"options_linkgrabenabled": {
-		"message": "Recolectar enlace.\nHabilita el recolector de enlaces dentro de Facebook.\nSi no está habilitado, las siguientes opciones no tienen efecto."
+		"message": "Recolectar enlace.\nHabilita el recolector de enlaces dentro de Facebook."
 	},
 	"options_linkgrabbutton": {
 		"message": "Botón del ratón\n\nElige el botón del ratón que activa el recolector de enlaces."
@@ -2201,16 +2201,34 @@
 		"message": "Velocidad\nPociones de velocidad incrementarán la velocidad"
 	},
 	"options_hlootcount": {
-		"message": "Recuento del botin\nMuestra siempre recuento de botin"
+		"message": "Contar\nMuestra siempre recuento de botin"
 	},
 	"options_hlootzoom": {
-		"message": "Zoom del botin\nEl bottin se muestra consistentemente con el zoom de la pantalla"
+		"message": "Zoom\nEl bottin se muestra consistentemente con el zoom de la pantalla"
 	},
 	"options_hlootfast": {
-		"message": "Botin rapido\nBotin desaparece mas rapido"
+		"message": "Mas rapido\nBotin desaparece mas rapido"
 	},
 	"options_hfood": {
 		"message": "Comida\nElige que consumible te ofrecen cuando te quedes sin enegia"
+	},
+	"options_hqueue": {
+		"message": "Fila de baldosas facil\nLa fila es mas larga\nMantenga presionada la tecla SHIFT y marque las baldosas con el raton para agregarlas a la cola"
+	},
+	"options_hscroll": {
+		"message": "Deshabilitar el desplazamiento inercial\nEl desplazamiento inercial es el efecto en el que la pantalla continúa moviéndose incluso después de haber dejado de arrastrarla"
+	},
+	"options_hreward": {
+		"message": "Autoapitalizar\nCualquier entrada en el código de regalo se capitaliza automáticamente"
+	},
+	"options_hflashad": {
+		"message": "Sonido de anuncio flash\nReproduce un sonido cuando aparezca el botón AD Flash"
+	},
+	"options_hgccluster": {
+		"message": "Clúster GC\nColoque GCS cerca"
+	},
+	"options_hlockcaravan": {
+		"message": "Bloquear las caravanas\nEvita la colección de caravanas enviadas con un boleto"
 	},
 	"calc_operators": {
 		"message": "Operadores"

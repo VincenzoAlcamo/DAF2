@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "OK"
 	},
+	"gui_visitcamp": {
+		"message": "Navštivte tábor"
+	},
 	"dialog_yes": {
 		"message": "Ano"
 	},
@@ -2009,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Možnosti ve hře"
 	},
-	"options_injectgame": {
-		"message": "Povolit DAF\nPovolit DAF ve hře.\nPokud DAF nepovolíte, následující možnosti se neprojeví"
+	"options_enablewarning": {
+		"message": "Pokud nejsou povoleny, následující možnosti nemají žádný účinek."
 	},
 	"options_fullwindow": {
 		"message": "Celá obrazovka\nZobrazit hru na celou obrazovku"
@@ -2102,7 +2105,7 @@
 		"message": "Přidat tabulku souhrnu\nPokud se stránka nezavře automaticky, přidá dospodu tabulku souhrnu."
 	},
 	"options_linkgrabenabled": {
-		"message": "Sběrač odkazů\nPovolí Sběrač odkazů na Facebooku.\nPokud není povoleno, následující možnosti se neprojeví."
+		"message": "Sběrač odkazů\nPovolí Sběrač odkazů na Facebooku."
 	},
 	"options_linkgrabbutton": {
 		"message": "Tlačítko myši\nZvolte tlačítko myši, které aktivuje Sběrač odkazů"
@@ -2190,6 +2193,42 @@
 	},
 	"options_badgewindmills": {
 		"message": "Vrtulky\nUkázat symbol, pokud některý sousedův kemp potřebuje vrtulky"
+	},
+	"options_hmain": {
+		"message": "Extra funkce\nPovolit další funkce ve hře"
+	},
+	"options_hspeed": {
+		"message": "Zrychlit\nRychlé lektvary poskytnou mnohem větší rychlost"
+	},
+	"options_hlootcount": {
+		"message": "Počet\nVždy ukažte počet kořistí"
+	},
+	"options_hlootzoom": {
+		"message": "Zvětšení\nKořist se zobrazuje soustavně se zoomem obrazovky"
+	},
+	"options_hlootfast": {
+		"message": "Rychlejší\nKořist zmizí rychleji"
+	},
+	"options_hfood": {
+		"message": "Jídlo\nVyberte si, který spotřební je nabízen, když vám dojde energie"
+	},
+	"options_hqueue": {
+		"message": "Snadná fronta dlaždic\nFronta je delší.\nDržte klávesu Shift a přesuňte myš přes některé dlaždice, abyste je přidali do fronty"
+	},
+	"options_hscroll": {
+		"message": "Zakázat inerciální posouvání\nInertní posouvání je účinek, kdy se obrazovka stále pohybuje, i když jste ji přestali tahat"
+	},
+	"options_hreward": {
+		"message": "Auto-kapitalizace\nJakýkoli vstup do dárkového kódu je automaticky kapitalizován"
+	},
+	"options_hflashad": {
+		"message": "Flash AD zvuk\nKdyž se objeví tlačítko Flash Ad, přehrajte zvuk"
+	},
+	"options_hgccluster": {
+		"message": "GC Cluster\nUmístěte GC těsně u sebe"
+	},
+	"options_hlockcaravan": {
+		"message": "Zamkněte karavany\nZabraňuje sbírce karavanů zaslaných s lístkem"
 	},
 	"calc_operators": {
 		"message": "Operátory"

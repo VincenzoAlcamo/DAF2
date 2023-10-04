@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Tamam"
 	},
+	"gui_visitcamp": {
+		"message": "Kampı Ziyaret Edin"
+	},
 	"dialog_yes": {
 		"message": "Evet"
 	},
@@ -2009,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Oyun içi seçenekler"
 	},
-	"options_injectgame": {
-		"message": "DAF'ı etkinleştir\r\nDAF'ı oyun içinde etkinleştirin.\r\nEtkinleştirilmezse, aşağıdaki seçeneklerin hiçbir etkisi olmaz."
+	"options_enablewarning": {
+		"message": "Etkinleştirilmezse, aşağıdaki seçeneklerin hiçbir etkisi olmaz."
 	},
 	"options_fullwindow": {
 		"message": "Tam pencere\nOyunu tam pencerede görüntüleyin"
@@ -2102,7 +2105,7 @@
 		"message": "Özet tablosu ekle\nSayfa otomatik olarak kapatılmazsa, en alta bir özet tablo ekle"
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Tutucu (Link Grabber)\r\nFacebook içindeki Link Tutucuyu (Link Grabber) etkinleştirin.\r\nEtkinleştirilmezse, aşağıdaki seçeneklerin hiçbir etkisi olmaz."
+		"message": "Link Tutucu (Link Grabber)\nFacebook içindeki Link Tutucuyu (Link Grabber) etkinleştirin."
 	},
 	"options_linkgrabbutton": {
 		"message": "Fare (mouse) düğmesi\r\nBağlantı Yakalayıcı'yı tetikleyen fare düğmesini seçin"
@@ -2190,6 +2193,42 @@
 	},
 	"options_badgewindmills": {
 		"message": "Yel Değirmenleri\nKomşunun kampının yel değirmenlerine ihtiyacı olduğunda rozet göster"
+	},
+	"options_hmain": {
+		"message": "Ekstra Özellikler\nOyunda ekstra özellikler etkinleştirin"
+	},
+	"options_hspeed": {
+		"message": "Hızlandırmak\nHız İksirleri çok daha fazla hız verecek"
+	},
+	"options_hlootcount": {
+		"message": "Saymak\nDaima ganimet sayımı göster"
+	},
+	"options_hlootzoom": {
+		"message": "Zum\nYağma ekran zum ile tutarlı bir şekilde görüntülenir"
+	},
+	"options_hlootfast": {
+		"message": "Daha hızlı\nGanimet daha hızlı yok olur"
+	},
+	"options_hfood": {
+		"message": "Yiyecek\nEnerji bittiğinizde size hangi sarf malzemesine sunulduğunu seçin"
+	},
+	"options_hqueue": {
+		"message": "Kolay karo kuyruğu\nKuyruk daha uzun.\nVites anahtarını basılı tutun ve fareyi kuyruğa eklemek için bazı fayansların üzerinden hareket ettirin"
+	},
+	"options_hscroll": {
+		"message": "Atalet kaydırmayı devre dışı bırakın\nAtalet kaydırma, sürüklemeyi bıraktıktan sonra bile ekranın hareket etmeye devam ettiği etkisidir."
+	},
+	"options_hreward": {
+		"message": "Otomatik sermaye\nHediye koduna herhangi bir girdi otomatik olarak aktifleştirilir"
+	},
+	"options_hflashad": {
+		"message": "Flash AD Sesi\nFlash AD düğmesi göründüğünde bir ses çalın"
+	},
+	"options_hgccluster": {
+		"message": "GC kümesi\nGC'leri birbirine yakın yerleştirin"
+	},
+	"options_hlockcaravan": {
+		"message": "Karavanları Kilitle\nBiletle gönderilen karavanların koleksiyonunu önler"
 	},
 	"calc_operators": {
 		"message": "Operatörler"

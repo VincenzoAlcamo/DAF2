@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Nastavenia v hre"
 	},
-	"options_injectgame": {
-		"message": "Zapnutie DAF\nZapnutie DAF v hre\nAk nie je povolené, nasledujúce možnosti nebudú mať vplyv."
+	"options_enablewarning": {
+		"message": "Ak nie je povolené, nasledujúce možnosti nemajú žiadny účinok."
 	},
 	"options_fullwindow": {
 		"message": "Plné okno\nZobrazí hru v celom okne"
@@ -2105,7 +2105,7 @@
 		"message": "Pridať súhrnnú tabuľku\nAk nie je stránka automaticky zatvorená pridajte súhrnnú tabuľku nadol."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grabber\nPovoliť Link Grabber na Facebooku\nAk nie je povolené, nasledujúce možnosti nebudú mať vplyv."
+		"message": "Link Grabber\nPovoliť Link Grabber na Facebooku"
 	},
 	"options_linkgrabbutton": {
 		"message": "Tlačidlo myši\nZvoľte tlačidlo myši, ktoré spustí Link Grabber"
@@ -2201,13 +2201,13 @@
 		"message": "Zrýchlenie\nRýchlostné elixíry dajú oveľa väčšiu rýchlosť"
 	},
 	"options_hlootcount": {
-		"message": "Počet koristi\nVždy zobrazuj počeť koristi"
+		"message": "Počet\nVždy zobrazuj počeť koristi"
 	},
 	"options_hlootzoom": {
-		"message": "Zväčšenie koristi\nKorisť sa zobrazuje konzistentne so zväčšením obrazovky"
+		"message": "Zoom\nKorisť sa zobrazuje konzistentne so zväčšením obrazovky"
 	},
 	"options_hlootfast": {
-		"message": "Rýchla korisť\nKorisť mizne rýchlejšie"
+		"message": "Rýchla\nKorisť mizne rýchlejšie"
 	},
 	"options_hfood": {
 		"message": "Jedlo\nVyber si čo ti ponúkne keď ti dôjde energia"
@@ -2220,6 +2220,15 @@
 	},
 	"options_hreward": {
 		"message": "Automatická kapitalizácia\r\nKaždý zadanie do darčekového kódu sa automaticky kapitalizuje"
+	},
+	"options_hflashad": {
+		"message": "Flash reklama so zvukom\nPrehrať zvuk, keď sa zobrazí Flash tlačidlo s reklamou"
+	},
+	"options_hgccluster": {
+		"message": "GC klaster\nUmiestnite GCS blízko seba"
+	},
+	"options_hlockcaravan": {
+		"message": "Zámok karavánu\nZabraňuje zberu karavánov poslaných s lístkom"
 	},
 	"calc_operators": {
 		"message": "Operátory"

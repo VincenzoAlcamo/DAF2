@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Opções do jogo"
 	},
-	"options_injectgame": {
-		"message": "Ativar DAF\nHabilite DAF no jogo.\nSe não estiver ativado, as seguintes opções não terão efeito"
+	"options_enablewarning": {
+		"message": "Se não estiver ativado, as seguintes opções não terão efeito."
 	},
 	"options_fullwindow": {
 		"message": "Janela inteira\nExibir jogo em janela inteira"
@@ -2105,7 +2105,7 @@
 		"message": "Adicionar tabela de resumo\nSe a página não for fechada automaticamente, adicione uma tabela de resumo na parte inferior."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grabber\nAtive o Link Grabber dentro do Facebook.\nSe não estiver ativado, as seguintes opções não terão efeito."
+		"message": "Link Grabber\nAtive o Link Grabber dentro do Facebook."
 	},
 	"options_linkgrabbutton": {
 		"message": "Botão do mouse\nEscolha o botão do mouse que ativa o Link Grabber"
@@ -2201,13 +2201,13 @@
 		"message": "Acelerar\nPoções de velocidade darão muito mais velocidade"
 	},
 	"options_hlootcount": {
-		"message": "Saque: Contagem\nSempre mostre a contagem de saques"
+		"message": "Contagem\nSempre mostre a contagem de saques"
 	},
 	"options_hlootzoom": {
-		"message": "Saque: Zoom\nO saque é exibido de forma consistente com o zoom da tela"
+		"message": "Zoom\nO saque é exibido de forma consistente com o zoom da tela"
 	},
 	"options_hlootfast": {
-		"message": "Saque rápido\nO saque desaparece mais rápido"
+		"message": "Rápido\nO saque desaparece mais rápido"
 	},
 	"options_hfood": {
 		"message": "Comida\nEscolha qual consumível será oferecido a você quando ficar sem energia"
@@ -2220,6 +2220,15 @@
 	},
 	"options_hreward": {
 		"message": "Capitalizar automaticamente\nQualquer entrada no código de presente é automaticamente capitalizada"
+	},
+	"options_hflashad": {
+		"message": "Som flash ad\nJogue um som quando o botão do anúncio flash aparecer"
+	},
+	"options_hgccluster": {
+		"message": "Cluster gc\nColoque os GCs juntos"
+	},
+	"options_hlockcaravan": {
+		"message": "Bloquear caravanas\nImpede a coleção de caravanas enviadas com um bilhete"
 	},
 	"calc_operators": {
 		"message": "Operadores"

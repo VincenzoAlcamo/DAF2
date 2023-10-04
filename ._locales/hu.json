@@ -2012,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Játékon belüli beállítások"
 	},
-	"options_injectgame": {
-		"message": "DAF Engedélyezése\nDAF Engedélyezése a játékban\nHa nincs engedélyezve, a követő opcióknak nincs hatása"
+	"options_enablewarning": {
+		"message": "Ha nem engedélyezve, akkor a következő lehetőségeknek nincs hatása."
 	},
 	"options_fullwindow": {
 		"message": "Teljes képernyő\nJáték megjelenítése teljes képernyőn"
@@ -2105,7 +2105,7 @@
 		"message": "Összefoglaló táblázat hozzáadása\nHa az oldal nem automatikusan záródik hozzáad egy összefoglaló táblázatot az aljára."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Gyűjtő\nEngedélyezd a Link Gyűjtést a Facebookon belül.\nHa nincs engedélyezve, a következő opcióknak nincs hatása."
+		"message": "Link Gyűjtő\nEngedélyezd a Link Gyűjtést a Facebookon belül."
 	},
 	"options_linkgrabbutton": {
 		"message": "Egér gomb\nVálaszd ki az egér gombot amely elindítja a Link Gyűjtőt"
@@ -2201,25 +2201,34 @@
 		"message": "Gyorsítás\nA gyorsító italok nagyobb sebességet adnak"
 	},
 	"options_hlootcount": {
-		"message": "Zsákmányszám\nMindig mutassa a zsákmányok számát"
+		"message": "Nyszám\nMindig mutassa a zsákmányok számát"
 	},
 	"options_hlootzoom": {
-		"message": "Zsákmány nagyítás\nA zsákmány a képernyő nagyításával összhangban jelenik meg"
+		"message": "Nagyítás\nA zsákmány a képernyő nagyításával összhangban jelenik meg"
 	},
 	"options_hlootfast": {
-		"message": "Zsákmány gyorsítás\nA zsákmány gyorsabban eltűnik"
+		"message": "Gyorsítás\nA zsákmány gyorsabban eltűnik"
 	},
 	"options_hfood": {
 		"message": "Étel\nVálaszd ki melyik ételt kínálja fel neked amikor kifogysz az energiából"
 	},
 	"options_hqueue": {
-		"message": "Könnyű kő ásási sorrend\nHosszabb ásási sor.\nTartsd lenyomva a SHIFT gombot és mozgasd az egeret a kő fölé, hogy hozzá add a sorhoz"
+		"message": "Könnyű kőásási sorrend\nHosszabb ásási sor.\nTartsd lenyomva a SHIFT gombot és mozgasd az egeret a kő fölé, hogy hozzá add a sorhoz"
 	},
 	"options_hscroll": {
 		"message": "Inerciális görgetés kikapcsolása\nAz inerciális görgetés az a hatás, amikor a képernyő akkor is tovább mozog, ha már nem húzod tovább"
 	},
 	"options_hreward": {
 		"message": "Automatikus nagybetűsítés\nAz ajándékkódba történő bármilyen bevitel automatikusan nagybetűs lesz"
+	},
+	"options_hflashad": {
+		"message": "Flash hirdetés hangja\nHang lejátszása a Flash hirdetés gomb megjelenésekor"
+	},
+	"options_hgccluster": {
+		"message": "GC csoport\nRakd a GC-ket egymáshoz közel"
+	},
+	"options_hlockcaravan": {
+		"message": "Lock lakókocsik\nMegakadályozza a jegygel küldött lakókocsik gyűjteményét"
 	},
 	"calc_operators": {
 		"message": "Műveleti jelek"

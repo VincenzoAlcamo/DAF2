@@ -315,6 +315,9 @@
 	"dialog_ok": {
 		"message": "Ok"
 	},
+	"gui_visitcamp": {
+		"message": "Odwiedź obóz"
+	},
 	"dialog_yes": {
 		"message": "Tak"
 	},
@@ -2009,8 +2012,8 @@
 	"options_section_ingame": {
 		"message": "Opcje w grze"
 	},
-	"options_injectgame": {
-		"message": "Włącz DAF\nWłącz DAF w grze\nJeżeli nie jest włączona, opcja nie ma żadnego efektu"
+	"options_enablewarning": {
+		"message": "Jeśli nie jest włączony, opcja nie da efektu."
 	},
 	"options_fullwindow": {
 		"message": "Pełny ekran\nWyświetl grę w pełnym ekranie"
@@ -2102,7 +2105,7 @@
 		"message": "Dodaj tabelę podsumowań\nJeżeli strona nie jest automatycznie zamykana, dodaj tabelę podsumować na dole."
 	},
 	"options_linkgrabenabled": {
-		"message": "Link Grabber\nWłącz Link Grabber wewnątrz Facebooka.\nJeśli nie jest włączony, opcja nie da efektu."
+		"message": "Link Grabber\nWłącz Link Grabber wewnątrz Facebooka."
 	},
 	"options_linkgrabbutton": {
 		"message": "Przycisk myszy.\nWybierz przycisk myszy, który uruchamia Link Grabber."
@@ -2190,6 +2193,42 @@
 	},
 	"options_badgewindmills": {
 		"message": "Wiatraki\nPokaż odznakę, gdy sąsiad potrzebuje wiatraków w obozie"
+	},
+	"options_hmain": {
+		"message": "Dodatkowe cechy\nWłącz dodatkowe funkcje w grze"
+	},
+	"options_hspeed": {
+		"message": "Przyśpieszyć\nMikstwy prędkości zapewnią znacznie większą prędkość"
+	},
+	"options_hlootcount": {
+		"message": "Liczyć\nZawsze pokazuj liczbę łupów"
+	},
+	"options_hlootzoom": {
+		"message": "Powiększenie\nŁup jest wyświetlany konsekwentnie z zoomem ekranu"
+	},
+	"options_hlootfast": {
+		"message": "Szybciej\nŁup znika szybciej"
+	},
+	"options_hfood": {
+		"message": "Żywność\nWybierz, który zużywa jest oferowany, gdy zabraknie Ci energii"
+	},
+	"options_hqueue": {
+		"message": "Łatwa kolejka płytek\nKolejka jest dłuższa.\nPrzytrzymaj klawisz zmiany biegów i przesuń myszą na niektóre płytki, aby dodać je do kolejki"
+	},
+	"options_hscroll": {
+		"message": "Wyłącz przewijanie bezwładności\nPrzeglądanie bezwładności jest efektem, w którym ekran wciąż się porusza"
+	},
+	"options_hreward": {
+		"message": "Autokapitalizowanie\nWszelkie dane wejściowe do kodu prezentu są automatycznie kapitalizowane"
+	},
+	"options_hflashad": {
+		"message": "Dźwięk reklamy flash\nOdtwórz dźwięk, gdy pojawi się przycisk AD Flash"
+	},
+	"options_hgccluster": {
+		"message": "Klaster GC\nUmieść GC blisko siebie"
+	},
+	"options_hlockcaravan": {
+		"message": "Zamknij karawany\nZapobiega kolekcji karawan wysłanych z biletem"
 	},
 	"calc_operators": {
 		"message": "Użytkownicy"
