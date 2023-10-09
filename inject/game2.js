@@ -375,7 +375,7 @@ window.wallpost = function() {
 `;
 
 	if (prefs.hMain) code += `
-const isSuper = false && ${prefs['@super'] ? 'true' : 'false'};
+const isSuper = ${prefs['@super'] ? 'true' : 'false'};
 let extras = [];
 const $hxClasses = window.$hxClasses || {};
 
@@ -425,18 +425,28 @@ intercept("com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup", 'keyDo
 	};
 });
 
-// intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
-// 	extras.push('hSpeed');
-// 	const getSpeed = (p_core, val, def) => {
-// 		const hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-// 		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.7), def) : def;
-// 	}
-// 	const _getSpeed = Character.getSpeed;
-// 	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
-// 	return function(p_tileDef, p_digTime) {
-// 		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
-// 	};
-// });
+intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
+	extras.push('hSpeed');
+	let lastMineId, isRepeat;
+	const getSpeed = (p_core, val, def) => {
+		let hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
+		if (hasSpeedUp) {
+			const screen = core.instance._screenManager?._activeScreen?._screen;
+			const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
+			if (mineId !== lastMineId) {
+				lastMineId = mineId;
+				isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
+			}
+			hasSpeedUp = isRepeat;
+		}
+		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.6), def) : def;
+	}
+	const _getSpeed = Character.getSpeed;
+	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
+	return function(p_tileDef, p_digTime) {
+		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
+	};
+});
 
 intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler', function(_mouseMove_handler) {
 	extras.push('hQueue');
@@ -447,7 +457,7 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler
 		if (isActive !== wasActive) {
 			wasActive = isActive;
 			maxQueue = maxQueue || this._character.diggingQueue._maxQueue;
-			this._character.diggingQueue._maxQueue = isActive ? 30 : maxQueue;
+			this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
 		}
 		if (isActive && tile && old !== tile && (tile.isBreakable() || tile.isUsable())) {
 			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
