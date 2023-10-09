@@ -811,30 +811,49 @@ var Data = {
 		return match && match[1];
 	},
 	requiresFullLanguage: false,
-	checkLocalization(url, lang) {
+	async checkLocalization(url, lang) {
 		const changes = Data.generator && Data.generator.file_changes;
 		if (!changes) return;
-		let gameLanguage, key;
-		const find = lang => key = (gameLanguage = lang) && Object.keys(changes).find(key => key.endsWith('localization.csv') && Data.getLanguageIdFromUrl(key) == lang);
-		find(Preferences.getValue('gameLanguage')) || find(Data.getLanguageIdFromUrl(url)) || find(lang) || find('EN');
-		if (!key) return;
-		const file = {
-			id: 'localization',
-			url: Data.generator.cdn_root + key + '?ver=' + Data.generator.file_changes[key],
-			version: Data.generator.file_changes[key],
-			revision: Parser.parse_localization_revision,
-			time: getUnixTime()
-		};
+		let gameLanguage, version, find;
+		if (+Data.generator.crowdin) {
+			const hashUrl = Data.generator.cdn_root + 'localization_crowdin/hash_file.csv'  + '?ver=' + Data.generator.time;
+			const response = await fetch(hashUrl);
+			const text = await response.text();
+			const lines = text.split('\n');
+			find = (lang) => {
+				const line = lines.find(s => s.substring(0, 2) == lang);
+				if (line) {
+					gameLanguage = lang;
+					version = line.split(',')[1];
+					url = Data.generator.cdn_root + 'localization_crowdin/' + gameLanguage.toUpperCase() + '/localization.csv?ver=' + version;
+					return gameLanguage;
+				}
+			}
+			find(Preferences.getValue('gameLanguage')) || find(Data.getLanguageIdFromUrl(url)) || find(lang) || find('EN');
+		}
+		if (!version) {
+			const keys = Object.keys(changes).filter(key => key.endsWith('localization.csv'));
+			find = (lang) => {
+				const key = keys.find(key => Data.getLanguageIdFromUrl(key) == lang);
+				if (key) {
+					gameLanguage = lang;
+					version = changes[key];
+					url = Data.generator.cdn_root + key + '?ver=' + version;
+					return gameLanguage;
+				}
+			};
+			find(Preferences.getValue('gameLanguage')) || find(Data.getLanguageIdFromUrl(url)) || find(lang) || find('EN');
+		}
+		if (!version) return;
+		const file = { id: 'localization', url, version, revision: Parser.parse_localization_revision, time: getUnixTime() };
 		const id1 = [Data.localization.languageId, Data.localization.version, Data.localization.revision].join(',');
 		const id2 = [gameLanguage, file.version, file.revision].join(',');
 		if (id1 != id2 || (Data.requiresFullLanguage && Data.localization.data && !Data.localization.data.isFull)) {
-			return fetch(file.url).then(function (response) {
-				return response.text();
-			}).then(function (text) {
-				Parser.requiresFullLanguage = Data.requiresFullLanguage;
-				file.data = Parser.parse(file.id, text);
-				Data.store(file);
-			});
+			const response = await fetch(file.url);
+			const text = await response.text();
+			Parser.requiresFullLanguage = Data.requiresFullLanguage;
+			file.data = Parser.parse(file.id, text);
+			Data.store(file);
 		}
 	},
 	storeLocalization(file) {
