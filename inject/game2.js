@@ -427,17 +427,18 @@ intercept("com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup", 'keyDo
 
 intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
 	extras.push('hSpeed');
-	let lastMineId, isRepeat;
+	let lastMineId, isRepeat, isTower;
 	const getSpeed = (p_core, val, def) => {
 		let hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-		if (hasSpeedUp) {
+		if (hasSpeedUp && !isSuper) {
 			const screen = core.instance._screenManager?._activeScreen?._screen;
 			const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
 			if (mineId !== lastMineId) {
 				lastMineId = mineId;
 				isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
+				isTower = mineId && screen._mineLoader.isTowerFloor();
 			}
-			hasSpeedUp = isRepeat;
+			hasSpeedUp = isRepeat || isTower;
 		}
 		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.6), def) : def;
 	}
