@@ -854,7 +854,7 @@
 		"message": "Zobraziť výber regiónu"
 	},
 	"map_option_i": {
-		"message": "Zobraziť  informácie o lokácii"
+		"message": "Zobraziť informácie o lokácii"
 	},
 	"map_option_r": {
 		"message": "Zobraziť resetovateľné"
@@ -1725,7 +1725,7 @@
 		"message": "Prstene"
 	},
 	"equipment_sellout": {
-		"message": "Predaj všetkých nepoužitých predmetov Vám prinesie $TOTAL$ mincí (výbava  = $EQUIP$ mince, dekorácie = $DECO$ mince)",
+		"message": "Predaj všetkých nepoužitých predmetov Vám prinesie $TOTAL$ mincí (výbava = $EQUIP$ mince, dekorácie = $DECO$ mince)",
 		"placeholders": {
 			"total": {
 				"content": "$1"
@@ -2195,7 +2195,7 @@
 		"message": "Veterné mlyny\nUkáže odznak ak susedov kemp potrebuje veterné mlyny"
 	},
 	"options_hmain": {
-		"message": "Doplnkové funkcie\r\nPovoliť doplnkové funkcie v hre"
+		"message": "Doplnkové funkcie\nPovoliť doplnkové funkcie v hre"
 	},
 	"options_hspeed": {
 		"message": "Zrýchlenie\nRýchlostné elixíry dajú oveľa väčšiu rýchlosť"
@@ -2216,10 +2216,10 @@
 		"message": "Jednoduché poradie na dlaždice\nFronta je dlhšia.\nPodrž klávesu SHIFT a posuň myš cez nejaké dlaždice, aby si ich pridal do poradia"
 	},
 	"options_hscroll": {
-		"message": "Vyradenie inerciálneho posuvu\r\nInerciálne posunovanie je efekt, pri ktorom sa obrazovka stále hýbe, aj keď ju prestanete ťahať"
+		"message": "Vyradenie inerciálneho posuvu\nInerciálne posunovanie je efekt, pri ktorom sa obrazovka stále hýbe, aj keď ju prestanete ťahať"
 	},
 	"options_hreward": {
-		"message": "Automatická kapitalizácia\r\nKaždý zadanie do darčekového kódu sa automaticky kapitalizuje"
+		"message": "Automatická kapitalizácia\nKaždý zadanie do darčekového kódu sa automaticky kapitalizuje"
 	},
 	"options_hflashad": {
 		"message": "Flash reklama so zvukom\nPrehrať zvuk, keď sa zobrazí Flash tlačidlo s reklamou"

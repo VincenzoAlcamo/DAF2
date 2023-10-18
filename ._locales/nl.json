@@ -1082,7 +1082,7 @@
 		"message": "Score"
 	},
 	"friendship_scoretooltip": {
-		"message": "Match vertrouwen, als volgt:\n100 = Zelfde Facebook id\n 99 = Handmatige match\n 95 = Zelfde profielfoto\n 90 = Zelfde volledige naan\n 80 = Zelfde voornaam en achternaam\n 70 = Zelfde voornaam en achternaam (omgekeerd)\n 60 = Chinese letters match"
+		"message": "Match vertrouwen, als volgt:\n100 = Zelfde Facebook id\n99 = Handmatige match\n95 = Zelfde profielfoto\n90 = Zelfde volledige naan\n80 = Zelfde voornaam en achternaam\n70 = Zelfde voornaam en achternaam (omgekeerd)\n60 = Chinese letters match"
 	},
 	"friendship_action": {
 		"message": "Actie"

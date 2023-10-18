@@ -183,7 +183,7 @@
 		"message": "İlk\nKaydedilen"
 	},
 	"gui_lastrecorded": {
-		"message": "Son\r\nKaydedilen"
+		"message": "Son\nKaydedilen"
 	},
 	"gui_loadingresources": {
 		"message": "Kaynaklar yükleniyor ($NUM$/$TOTAL$)",
@@ -316,7 +316,7 @@
 		"message": "Tamam"
 	},
 	"gui_visitcamp": {
-		"message": "Kampı Ziyaret Edin"
+		"message": "Kampı ziyaret edin"
 	},
 	"dialog_yes": {
 		"message": "Evet"
@@ -1228,7 +1228,7 @@
 		"message": "Eşsiz"
 	},
 	"friendship_collectunmatchedinfo": {
-		"message": "Bu yöntem 'Standart' yöntemle aynıdır, ancak arkadaş toplamaz.\r\nBunun yerine, size şu anda eşsiz olan tüm arkadaşları gösterecek, böylece onları manuel olarak kaldırabilirsiniz."
+		"message": "Bu yöntem 'Standart' yöntemle aynıdır, ancak arkadaş toplamaz.\nBunun yerine, size şu anda eşsiz olan tüm arkadaşları gösterecek, böylece onları manuel olarak kaldırabilirsiniz."
 	},
 	"friendship_disabledinfo": {
 		"message": "Devre dışı bırakılan hesapları tespit edebilir."
@@ -1237,7 +1237,7 @@
 		"message": "Eşleşme"
 	},
 	"friendship_collectmatchinfo": {
-		"message": "Bu, arkadaşlarınız ve komşularınız arasındaki otomatik maçı gerçekleştirecek.\r\nArkadaş listeniz yenilenmeyecek.\r\nGöz ardı edilen ve 90'dan büyük puana sahip arkadaşlar otomatik olarak eşleştirilmez.\r\nArkadaş koleksiyonunuzun sonunda eşleştirme yine de yapılacaktır."
+		"message": "Bu, arkadaşlarınız ve komşularınız arasındaki otomatik maçı gerçekleştirecek.\nArkadaş listeniz yenilenmeyecek.\nGöz ardı edilen ve 90'dan büyük puana sahip arkadaşlar otomatik olarak eşleştirilmez.\nArkadaş koleksiyonunuzun sonunda eşleştirme yine de yapılacaktır."
 	},
 	"friendship_matchbyimage": {
 		"message": "Profil resmine göre eşleştirilsin mi?"
@@ -1407,7 +1407,7 @@
 		"message": "Yer tarihleri"
 	},
 	"progress_energyinfo": {
-		"message": "Burada gösterilen enerji, kalan fayans sayısının ortalama döşeme maliyeti ile çarpılmasıyla tahmin edilir.\r\nOrtalama fayans maliyeti, tamamlama bonusuna ve toplam fayans sayısına bağlıdır."
+		"message": "Burada gösterilen enerji, kalan fayans sayısının ortalama döşeme maliyeti ile çarpılmasıyla tahmin edilir.\nOrtalama fayans maliyeti, tamamlama bonusuna ve toplam fayans sayısına bağlıdır."
 	},
 	"progress_averagetilecost": {
 		"message": "Ortalama fayans maliyeti"
@@ -1572,7 +1572,7 @@
 		"message": "Bu link zaten toplandı"
 	},
 	"rewardlinks_infoexpired": {
-		"message": "Bu linkin süresi doldu.\r\nBağlantılar yalnızca $NUM$ gün için geçerlidir.",
+		"message": "Bu linkin süresi doldu.\nBağlantılar yalnızca $NUM$ gün için geçerlidir.",
 		"placeholders": {
 			"num": {
 				"content": "$1"
@@ -1586,13 +1586,13 @@
 		"message": "Bu link bozuk veya çalışmıyor."
 	},
 	"rewardlinks_infomaxreached": {
-		"message": "Maksimum günlük sınıra ulaşılırken bu bağlantı toplandı.\r\nBu şekilde toplanan bağlantılar sonsuza dek kaybolur."
+		"message": "Maksimum günlük sınıra ulaşılırken bu bağlantı toplandı.\nBu şekilde toplanan bağlantılar sonsuza dek kaybolur."
 	},
 	"rewardlinks_infomayexceedlimit": {
-		"message": "Koleksiyonu bekleyen başka ödüller var.\r\nBu, günlük limitinizi aşabilir."
+		"message": "Koleksiyonu bekleyen başka ödüller var.\nBu, günlük limitinizi aşabilir."
 	},
 	"rewardlinks_infoprobablyexpired": {
-		"message": "Bu linkin süresi muhtemelen dolmuştur.\r\nBağlantı kimliği sırayla oluşturulur ve bu ödül kimliği süresi dolmuş bir ödülün kimliğinden daha düşüktür."
+		"message": "Bu linkin süresi muhtemelen dolmuştur.\nBağlantı kimliği sırayla oluşturulur ve bu ödül kimliği süresi dolmuş bir ödülün kimliğinden daha düşüktür."
 	},
 	"rewardlinks_removelinks": {
 		"message": "Eski linkleri kaldırın"
@@ -1601,7 +1601,7 @@
 		"message": "Seçileni kaldır"
 	},
 	"rewardlinks_removelinksdays": {
-		"message": "@DAYS@ günden eski toplanamayan ödül linklerini kaldırın.\r\nBu, süresi dolmuş bağlantıları ve önceden toplanmış bağlantıları içerir.\r\n$NUM$ günden eski bağlantılar düzenli aralıklarla kaldırılır.",
+		"message": "@DAYS@ günden eski toplanamayan ödül linklerini kaldırın.\nBu, süresi dolmuş bağlantıları ve önceden toplanmış bağlantıları içerir.\n$NUM$ günden eski bağlantılar düzenli aralıklarla kaldırılır.",
 		"placeholders": {
 			"num": {
 				"content": "$1"
@@ -1612,7 +1612,7 @@
 		"message": "Kaldırılacak link yok!"
 	},
 	"rewardlinks_removeconfirm": {
-		"message": "Kaldırılacak bağlantılar : $NUM$ Kaldırılan bağlantılar artık eklenemez.\r\n\r\nKaldırma işlemine devam edilsin mi?",
+		"message": "Kaldırılacak bağlantılar : $NUM$ Kaldırılan bağlantılar artık eklenemez.\n\nKaldırma işlemine devam edilsin mi?",
 		"placeholders": {
 			"num": {
 				"content": "$1"
@@ -1802,7 +1802,7 @@
 		"message": "Şu anki, geçerli"
 	},
 	"equipment_pfdisclaimer": {
-		"message": "Geçmişte oyununuzda bu fiyata özel bir paket satın aldıysanız, bu fiyata bir sonraki paketi satın almanın mümkün olmadığını lütfen unutmayın.\r\nBu durumda mevcut en düşük fiyat seviyesi yaklaşık 5,5 Amerikan Doları'dır."
+		"message": "Geçmişte oyununuzda bu fiyata özel bir paket satın aldıysanız, bu fiyata bir sonraki paketi satın almanın mümkün olmadığını lütfen unutmayın.\nBu durumda mevcut en düşük fiyat seviyesi yaklaşık 5,5 Amerikan Doları'dır."
 	},
 	"equipment_slotslower": {
 		"message": "Bundan daha az güce sahip slotlar"
@@ -2013,7 +2013,7 @@
 		"message": "Oyun içi seçenekler"
 	},
 	"options_enablewarning": {
-		"message": "Etkinleştirilmezse, aşağıdaki seçeneklerin hiçbir etkisi olmaz."
+		"message": "Etkinleştirilmezse aşağıdaki seçeneklerin hiçbir etkisi olmaz."
 	},
 	"options_fullwindow": {
 		"message": "Tam pencere\nOyunu tam pencerede görüntüleyin"
@@ -2025,7 +2025,7 @@
 		"message": "Yan\nTam pencerede değilken kenar çubuğunu (Facebook) gizle"
 	},
 	"options_fullwindowlock": {
-		"message": "Tam pencereyi kilitle\r\nOyunun tam pencereden çıkmasını engeller."
+		"message": "Tam pencereyi kilitle\nOyunun tam pencereden çıkmasını engeller."
 	},
 	"options_resetfullwindow": {
 		"message": "Yükendiğinde sıfırla\nOyunu her yüklediğinizde, \"Tam pencere\" ve \"Tam pencere - Yan\" sıfırlanır."
@@ -2034,7 +2034,7 @@
 		"message": "Oyunu yüklerken sorun yaşıyorsanız bu seçenek etkinleştirilmelidir."
 	},
 	"options_fullwindowtimeout": {
-		"message": "Otomatik tam pencere\r\nVeriler yüklendiğinde otomatik olarak tam pencere ayarlar (DAF2 yeşile döner)"
+		"message": "Otomatik tam pencere\nVeriler yüklendiğinde otomatik olarak tam pencere ayarlar (DAF2 yeşile döner)"
 	},
 	"options_fullwindowtimeout_seconds": {
 		"message": "Evet, $NUM$ saniye sonra",
@@ -2084,7 +2084,7 @@
 		"message": "Her zaman genişletilmiş menü kullan"
 	},
 	"options_disablealtguard": {
-		"message": "Diğer hesapta sıfırla\r\nBu seçeneği ayarlarsanız, alternatif bir hesap yüklediğinizde mevcut DAF2 verilerinizin üzerine yazılır."
+		"message": "Diğer hesapta sıfırla\nBu seçeneği ayarlarsanız, alternatif bir hesap yüklediğinizde mevcut DAF2 verilerinizin üzerine yazılır."
 	},
 	"options_disablealtguard_warning": {
 		"message": "DİKKAT: Bu seçeneği etkinleştirirseniz risk size aittir!"
@@ -2093,7 +2093,7 @@
 		"message": "Ödül linkleri"
 	},
 	"options_rewardsclose": {
-		"message": "Otomatik kapat\r\nÖdül toplandıktan sonra sayfayı otomatik olarak kapatın."
+		"message": "Otomatik kapat\nÖdül toplandıktan sonra sayfayı otomatik olarak kapatın."
 	},
 	"options_rewardscloseexceptgems": {
 		"message": "Mücevher hariç\nMücevher bulunduğunda açılır pencere açık kalır."
@@ -2108,10 +2108,10 @@
 		"message": "Link Tutucu (Link Grabber)\nFacebook içindeki Link Tutucuyu (Link Grabber) etkinleştirin."
 	},
 	"options_linkgrabbutton": {
-		"message": "Fare (mouse) düğmesi\r\nBağlantı Yakalayıcı'yı tetikleyen fare düğmesini seçin"
+		"message": "Fare (mouse) düğmesi\nBağlantı Yakalayıcı'yı tetikleyen fare düğmesini seçin"
 	},
 	"options_linkgrabkey": {
-		"message": "İsteğe bağlı anahtar\r\nFare düğmesine ek olarak basmak için isteğe bağlı bir tuş seçin"
+		"message": "İsteğe bağlı anahtar\nFare düğmesine ek olarak basmak için isteğe bağlı bir tuş seçin"
 	},
 	"options_linkgrabsort": {
 		"message": "Linkleri sırala"
@@ -2159,7 +2159,7 @@
 		"message": "Tarayıcının ayarını kullan"
 	},
 	"options_gamelanguage": {
-		"message": "Oyun Dili\r\nOyunun mesajları için dil"
+		"message": "Oyun Dili\nOyunun mesajları için dil"
 	},
 	"options_section_badges": {
 		"message": "Rozetler"
@@ -2168,7 +2168,7 @@
 		"message": "Sunucu enerjisi\nSunucu tarafından bildirilen enerjiye sahip bir rozet gösterin.\nBu bilgiler, oyun durumu sunucuyla senkronize edildiğinde periyodik olarak yenilenir."
 	},
 	"options_badgegccounter": {
-		"message": "Enerji Çocuğu Sayacı\r\nToplanacak, kalan Enerji Çocuğu sayısına sahip bir rozet gösterir"
+		"message": "Enerji Çocuğu Sayacı\nToplanacak, kalan Enerji Çocuğu sayısına sahip bir rozet gösterir"
 	},
 	"options_badgegcenergy": {
 		"message": "GC Enerji\nKomşunun GC'sinden gelen enerjiyle bir rozet göster"
@@ -2183,13 +2183,13 @@
 		"message": "Üretimler\nBir üretim alanı hazır veya boş olduğunda bir rozet göster"
 	},
 	"options_badgetimeoffset": {
-		"message": "Zaman farkı\r\nRozet bu kadar saniye önceden gösterilecektir."
+		"message": "Zaman farkı\nRozet bu kadar saniye önceden gösterilecektir."
 	},
 	"options_badgesound": {
-		"message": "Ses Efekti\r\nRozet görüntülendiğinde çalınacak ses efekti:"
+		"message": "Ses Efekti\nRozet görüntülendiğinde çalınacak ses efekti:"
 	},
 	"options_badgevolume": {
-		"message": "Ses Seviyesi\r\nSes efektinin ses seviyesi:"
+		"message": "Ses Seviyesi\nSes efektinin ses seviyesi:"
 	},
 	"options_badgewindmills": {
 		"message": "Yel Değirmenleri\nKomşunun kampının yel değirmenlerine ihtiyacı olduğunda rozet göster"
@@ -2201,16 +2201,16 @@
 		"message": "Hızlandırmak\nHız İksirleri çok daha fazla hız verecek"
 	},
 	"options_hlootcount": {
-		"message": "Saymak\nDaima ganimet sayımı göster"
+		"message": "Saymak\nHer zaman ganimet sayısını göster"
 	},
 	"options_hlootzoom": {
-		"message": "Zum\nYağma ekran zum ile tutarlı bir şekilde görüntülenir"
+		"message": "Yakınlaştır\nGanimet, ekran yakınlaştırmayla tutarlı bir şekilde görüntülenir"
 	},
 	"options_hlootfast": {
 		"message": "Daha hızlı\nGanimet daha hızlı yok olur"
 	},
 	"options_hfood": {
-		"message": "Yiyecek\nEnerji bittiğinizde size hangi sarf malzemesine sunulduğunu seçin"
+		"message": "Yiyecek\nEnerjiniz bittiğinde size hangi sarf malzemesinin sunulacağını seçin"
 	},
 	"options_hqueue": {
 		"message": "Kolay karo kuyruğu\nKuyruk daha uzun.\nVites anahtarını basılı tutun ve fareyi kuyruğa eklemek için bazı fayansların üzerinden hareket ettirin"
@@ -2219,16 +2219,16 @@
 		"message": "Atalet kaydırmayı devre dışı bırakın\nAtalet kaydırma, sürüklemeyi bıraktıktan sonra bile ekranın hareket etmeye devam ettiği etkisidir."
 	},
 	"options_hreward": {
-		"message": "Otomatik sermaye\nHediye koduna herhangi bir girdi otomatik olarak aktifleştirilir"
+		"message": "Otomatik büyük harf yap\nHediye koduna yapılan tüm girişler otomatik olarak büyük harfle yazılır"
 	},
 	"options_hflashad": {
-		"message": "Flash AD Sesi\nFlash AD düğmesi göründüğünde bir ses çalın"
+		"message": "Flash Reklam Sesi\nFlash Reklam düğmesi göründüğünde ses çal"
 	},
 	"options_hgccluster": {
-		"message": "GC kümesi\nGC'leri birbirine yakın yerleştirin"
+		"message": "GC Kümesi\nGC'leri birbirine yakın yerleştirin"
 	},
 	"options_hlockcaravan": {
-		"message": "Karavanları Kilitle\nBiletle gönderilen karavanların koleksiyonunu önler"
+		"message": "Karavanları kilitle\nBiletle gönderilen karavanların toplanmasını engeller"
 	},
 	"calc_operators": {
 		"message": "Operatörler"

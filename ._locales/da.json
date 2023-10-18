@@ -495,7 +495,7 @@
 		"message": "Forøgelse (XP/t)"
 	},
 	"production_uplift_info": {
-		"message": "Xp opnået ved en enkelt enhed på  en time,\nBaseret på værdien, der opnåes ved søjler."
+		"message": "Xp opnået ved en enkelt enhed på en time,\nBaseret på værdien, der opnåes ved søjler."
 	},
 	"production_req_ticket": {
 		"message": "Kræver en billet?"
@@ -979,7 +979,7 @@
 		"message": "Med udløbne vindmøller"
 	},
 	"neighbors_found": {
-		"message": "Fundne naboer:  $NUM$ / $TOTAL$",
+		"message": "Fundne naboer: $NUM$ / $TOTAL$",
 		"placeholders": {
 			"num": {
 				"content": "$1"

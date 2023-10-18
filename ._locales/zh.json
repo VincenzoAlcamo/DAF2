@@ -1045,7 +1045,7 @@
 		"message": "排序"
 	},
 	"neighbors_totxpstats": {
-		"message": " $DAYS$ 天的 $COUNT$ 項禮物 = $TOTAL$ 經驗 (每天$AVERAGE$ 經驗)",
+		"message": "$DAYS$ 天的 $COUNT$ 項禮物 = $TOTAL$ 經驗 (每天$AVERAGE$ 經驗)",
 		"placeholders": {
 			"count": {
 				"content": "$1"
@@ -2222,13 +2222,13 @@
 		"message": "自動大寫\n任何輸入禮物碼的字母都會自動大寫"
 	},
 	"options_hflashad": {
-		"message": "快閃廣告聲音\n當快閃廣告按鈕出現時，發聲提醒"
+		"message": "快閃廣告聲響\n當快閃廣告按鈕出現時，發聲提醒"
 	},
 	"options_hgccluster": {
 		"message": "神之子的聚集\n縮短短神之子間的距離"
 	},
 	"options_hlockcaravan": {
-		"message": "锁大篷车\n防止票带有票的大篷车收集"
+		"message": "鎖定商隊票券\n防止收取利用票券送出的商隊"
 	},
 	"calc_operators": {
 		"message": "運算子"

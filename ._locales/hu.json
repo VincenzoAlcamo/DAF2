@@ -608,7 +608,7 @@
 		}
 	},
 	"camp_start_date": {
-		"message": "Elkezdtél játszani:\n $STARTED$",
+		"message": "Elkezdtél játszani:\n$STARTED$",
 		"placeholders": {
 			"started": {
 				"content": "$1"
@@ -1243,7 +1243,7 @@
 		"message": "Összehasonlítás profilkép alapján?"
 	},
 	"friendship_confirmwarning": {
-		"message": "Ez a művelet több percet is igénybe vehet.\n\n Kérlek erősítsd meg, hogy folytatod."
+		"message": "Ez a művelet több percet is igénybe vehet.\n\nKérlek erősítsd meg, hogy folytatod."
 	},
 	"friendship_confirmcollection": {
 		"message": "Megerősíti a gyűjtési eredményt?"
@@ -1327,7 +1327,7 @@
 		}
 	},
 	"friendship_timewarning": {
-		"message": "Úgy tűnik, hogy régóta nem végeztél barátgyűjtést.\n Kattints a \"$COLLECT$\" gombra és válaszd a \"$METHOD$\" módszert.",
+		"message": "Úgy tűnik, hogy régóta nem végeztél barátgyűjtést.\nKattints a \"$COLLECT$\" gombra és válaszd a \"$METHOD$\" módszert.",
 		"placeholders": {
 			"collect": {
 				"content": "$1"
@@ -1826,7 +1826,7 @@
 		"message": "Helyszínek"
 	},
 	"events_materials": {
-		"message": "Speciális\n anyagok"
+		"message": "Speciális\nanyagok"
 	},
 	"events_completed": {
 		"message": "Kész"

@@ -1189,7 +1189,7 @@
 		}
 	},
 	"friendship_filter_u": {
-		"message": "Amis ignorés  et / ou incomparables: $NUM$",
+		"message": "Amis ignorés et / ou incomparables: $NUM$",
 		"placeholders": {
 			"num": {
 				"content": "$1"
@@ -1601,7 +1601,7 @@
 		"message": "Supprimer"
 	},
 	"rewardlinks_removelinksdays": {
-		"message": "Supprimer les liens de récompense non collectables depuis plus de  @DAYS@ jours.\nCela inclut les liens expirés et les liens déjà collectés..\nLes liens de plus de $NUM$ jours sont supprimés périodiquement.",
+		"message": "Supprimer les liens de récompense non collectables depuis plus de @DAYS@ jours.\nCela inclut les liens expirés et les liens déjà collectés..\nLes liens de plus de $NUM$ jours sont supprimés périodiquement.",
 		"placeholders": {
 			"num": {
 				"content": "$1"
@@ -1874,7 +1874,7 @@
 		"message": "Récompense finale"
 	},
 	"events_notsegmented": {
-		"message": "Aucun  segmenté"
+		"message": "Aucun segmenté"
 	},
 	"events_tiles": {
 		"message": "Dalles"
