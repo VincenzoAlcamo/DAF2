@@ -618,7 +618,7 @@ function calcRegion(item) {
 	item.max = item.value = item.crtd = item.cmpl = item.energy = item.bonus = 0;
 	const locations = gui.getFile('locations_' + item.rid);
 	const loc_prog = Object.assign({}, gui.getGenerator().loc_prog, bgp.Data.loc_prog);
-	const getProg = (lid) => lid in loc_prog ? +loc_prog[lid].prog : 0;
+	const getProg = (lid) => +loc_prog[lid]?.crtd || 0;
 	const excluded = {};
 	const checkPair = (oldId, newId) => {
 		if (oldId in locations && newId in locations) {
@@ -626,10 +626,7 @@ function calcRegion(item) {
 			else if (getProg(newId) == 0) excluded[newId] = 5;
 		}
 	}
-	Object.values(gui.getFile('location_replaces')).forEach((r) => checkPair(r.location_id, r.replace_id));
-	// There should be only one map for each tuple <filter, group_id, order_id>
-	// otherwise this means that Pixel replaced an old map and we have to get the correct one
-	const byFilterOrderId = {};
+	Object.values(gui.getFile('location_replaces')).forEach((r) => +r.active && checkPair(r.location_id, r.replace_id));
 	// Patch Egypt: Oasis (#43) and Dry Oasis (#2808) to have the same group_id
 	if (item.rid == 1 && 43 in locations && 2808 in locations) locations[2808].group_id = locations[43].group_id;
 	for (const mine of Object.values(locations)) {
@@ -640,27 +637,7 @@ function calcRegion(item) {
 			excluded[lid] = 1;
 		} else if (!isMineValid(mine)) {
 			excluded[lid] = 2;
-		} else {
-			const key = mine.filter + '\t' + mine.group_id + '\t' + mine.order_id;
-			if (key in byFilterOrderId) byFilterOrderId[key].push(lid);
-			else byFilterOrderId[key] = [lid];
 		}
-	}
-	// We have to check each pair with more than one map
-	for (const arr of item.rid >= 5 ? [] : Object.values(byFilterOrderId).filter(arr => arr.length > 1)) {
-		// Get list of all map without a progress
-		const list = arr.filter(lid => getProg(lid) == 0);
-		// If all of them are withouth a progress, then pick only the most recent one
-		// (the map with the highest id) and exclude the rest
-		if (list.length == arr.length) {
-			// Sort by lid descending and remove the first one (the maximum)
-			list.sort((a, b) => b - a);
-			let lid = list.shift();
-			// If the next mine id differs less than 10, it is considered good as well
-			while (list.length > 0 && lid - list[0] < 10) lid = list.shift();
-		}
-		// All the others are excluded
-		for (const lid of list) excluded[lid] = 3;
 	}
 	// Exclude some maps, if the progress is 0
 	// Special cases
@@ -736,14 +713,28 @@ function calcRegion(item) {
 				seq: filter.order_id,
 				ma: filter.ma,
 				group_id: mine.group_id,
-				order_id: mine.order_id,
+				order_id: +mine.order_id,
 				energy: energy,
+				side: +isSide,
 				bt,
 				et
 			});
 		}
 	}
-	item.rows.sort((a, b) => (a.seq - b.seq) || (a.group_id - b.group_id) || (a.order_id - b.order_id));
+	item.rows.sort((a, b) => {
+		let result = (a.seq - b.seq) || (a.group_id - b.group_id) || (a.side - b.side);
+		if (!result)  {
+			if (a.order_id && b.order_id) result = a.order_id - b.order_id;
+			if (!result) {
+				const aProg = getProg(a.id), bProg = getProg(b.id);
+				if (aProg && bProg) result = aProg - bProg;
+				else if(aProg) result = -1;
+				else if(bProg) result = 1;
+			}
+			if (!result) result = a.id - b.id;
+		}
+		return result;
+	});
 }
 
 function visibilityChange(visible) {
@@ -753,8 +744,6 @@ function visibilityChange(visible) {
 function isMineValid(mine) {
 	// Test mine are excluded
 	if (+mine.test || mine.filter == 'test' || mine.name_loc == 'TEST') return false;
-	// Mine must have an oder_id
-	if (!+mine.order_id && +mine.region_id != 99) return false;
 	// Exclude repeatables
 	if (+mine.reset_cd) return false;
 	// Tutorial id must match player's tutorial
