@@ -43,6 +43,7 @@ const kinds = {
 	npcs: { event: 'event_id' },
 	// panteons: { folder: 'panteon/' },
 	photo_albums_photos: {},
+	pet_features: {},
 	quests: { event: 'event_id', name: 'heading_text' },
 	regions: { asset: 'icon_mobile_asset', folder: 'gui/' },
 	tablets: {},
@@ -137,10 +138,11 @@ async function refresh() {
 			hashes[asset] = id;
 			allItems[id] = item;
 		};
+		const hasAsset = (asset) => asset && asset !== 'default' && asset !== 'map_x_default';
 		const addNormalItems = (data) => {
 			for (const [id, item] of Object.entries(data)) {
 				const asset = item[$asset];
-				if (!asset || asset == 'default' || asset == 'map_x_default') continue;
+				if (!hasAsset(asset)) continue;
 				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), title: item.desc, eid: $event ? +item[$event] : 0 });
 			}
 		};
@@ -170,16 +172,27 @@ async function refresh() {
 			for (const item of Object.values(data)) {
 				item.subtypes && item.subtypes.forEach(sub => {
 					const id = sub.sub_id, asset = sub[$asset];
-					if (!asset || asset == 'default' || asset == 'map_x_default') return;
+					if (!hasAsset(asset)) return;
 					addItem(id, asset, { id });
 				});
 			}
 		} else if (type == 'photo_albums_photos') {
 			for (const item of Object.values(data)) {
 				const id = item.def_id, asset = item[$asset];
-				if (!asset || asset == 'default' || asset == 'map_x_default') break;
+				if (!hasAsset(asset)) return;
 				const url = cdn_root + 'mobile/' + (item.asset_path || 'graphics/all/') + encodeURIComponent(asset) + '.png' + versionParameter;
 				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), url })
+			}
+		} else if (type == 'pet_features') {
+			let id = 0;
+			const base = cdn_root + 'mobile/graphics/gui/pets/previews/';
+			for(const obj of Object.values(data)) {
+				for(const item of gui.getArray(obj.pets)) {
+					let asset = item.basic_preview_asset;
+					if (hasAsset(asset)) addItem(++id, asset, { id, name: item[$name] && gui.getString(item[$name]), url: base +  encodeURIComponent(asset) + '.png' + versionParameter })
+					asset = item.epic_preview_asset;
+					if (hasAsset(asset)) addItem(++id, asset, { id, name: item[$name] && gui.getString(item[$name]), url: base +  encodeURIComponent(asset) + '.png' + versionParameter })
+				}
 			}
 		} else {
 			addNormalItems(data);
