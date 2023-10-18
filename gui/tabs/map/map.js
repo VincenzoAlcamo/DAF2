@@ -7,15 +7,12 @@ export default {
 	getState,
 	setState,
 	actions: { daf_mine_action: markToBeRendered },
-	requires: (function () {
-		const requires = [
-			'addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events',
-			'usables', 'materials', 'tokens', 'photo_albums_photos', 'achievements', 'quests', 'map_filters',
-			'tablets', 'location_replaces'
-		];
-		for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
-		return requires;
-	})()
+	requires: [
+		...[0, ...gui.getRegionsArray(), 99].map(rid => 'locations_' + rid),
+		'addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events',
+		'usables', 'materials', 'tokens', 'photo_albums_photos', 'achievements', 'quests', 'map_filters',
+		'tablets', 'location_replaces'
+	]
 };
 
 function asArray(t) {
@@ -244,8 +241,7 @@ const reqOrientations = { right: 1, down: 2, left: 3, up: 4 };
 const getReqOrientationName = (value) => getOrientationName(reqOrientations[value]);
 
 function getLocation(lid) {
-	const maxRid = gui.getMaxRegion();
-	for (let rid = 0; rid <= maxRid; rid++) {
+	for (const rid of [0, ...gui.getRegionsArray(), 99]) {
 		const locations = gui.getFile('locations_' + rid);
 		if (lid in locations) return locations[lid];
 	}
@@ -1224,7 +1220,7 @@ function update() {
 		material_143: 0, // topaz
 		material_149: 0 // black pearl
 	};
-	for (let rid = gui.getMaxRegion(); rid >= 0; rid--) {
+	for(const rid of [0, ...gui.getRegionsArray(), 99]) {
 		Object.values(gui.getFile('locations_' + rid)).forEach((location) => {
 			if (!location.loot_drop || +location.reset_cd > 0) return;
 			const lid = location.def_id;

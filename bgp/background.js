@@ -654,6 +654,7 @@ var Data = {
 		col = {};
 		for (let region = Data.getMaxRegion(); region >= 1; region--) col[region] = Data.colSkins[Data.getSkinFromRegion(region)];
 		col[0] = { def_id: 0, name_loc: 'GUI3619' };
+		col[99] = { def_id: 99, name_loc: 'GUI4081', mobile_asset: 'region_99' };
 		Data.colRegions = col;
 
 		// Addon Buildings

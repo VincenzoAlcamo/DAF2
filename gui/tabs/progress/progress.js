@@ -8,11 +8,10 @@ export default {
 			refresh();
 		}
 	},
-	requires: (function () {
-		const requires = ['materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests', 'artifacts', 'location_replaces'];
-		for (let rid = gui.getMaxRegion(); rid > 0; rid--) requires.push('locations_' + rid);
-		return requires;
-	})()
+	requires: [
+		...[...gui.getRegionsArray(), 99].map(rid => 'locations_' + rid),
+		'materials', 'tutorials', 'achievements', 'collections', 'levelups', 'map_filters', 'quests', 'artifacts', 'location_replaces'
+	]
 };
 
 const REGION_SEPARATOR = '_';
@@ -45,7 +44,7 @@ function init() {
 		label: gui.getMessage('progress_treasures'),
 		calc: calcCollection
 	}];
-	for (let rid = 1; rid <= gui.getMaxRegion(); rid++) {
+	for(const rid of [99, ...gui.getRegionsArray()]) if (+rid > 0) {
 		const locations = gui.getFile('locations_' + rid);
 		if (locations && Object.keys(locations).length >= 0) progress.push({
 			id: 'region' + rid,
@@ -113,7 +112,7 @@ function update() {
 		item.calc(item);
 		item.percent = item.max > 0 ? item.value / item.max * 100 : 0;
 		item.isCompleted = item.value == item.max;
-		item.isLocked = +item.rid > 0 && +item.rid > rid;
+		item.isLocked = +item.rid > 0 && +item.rid < 99 && +item.rid > rid;
 		item.excluded = item.id == 'level' || item.rows.length == 0;
 	}
 	for (const element of container.querySelectorAll('.warning')) {
@@ -588,7 +587,7 @@ function calcCollection(item) {
 	const images = {};
 	item.rows = [];
 	const locationRegions = {};
-	for (let rid = 1; rid <= gui.getMaxRegion(); rid++) {
+	for (const rid of [...gui.getRegionsArray(), 99]) {
 		const locations = gui.getFile('locations_' + rid);
 		Object.keys(locations || {}).forEach(lid => locationRegions[lid] = rid);
 	}
@@ -755,7 +754,7 @@ function isMineValid(mine) {
 	// Test mine are excluded
 	if (+mine.test || mine.filter == 'test' || mine.name_loc == 'TEST') return false;
 	// Mine must have an oder_id
-	if (!+mine.order_id) return false;
+	if (!+mine.order_id && +mine.region_id != 99) return false;
 	// Exclude repeatables
 	if (+mine.reset_cd) return false;
 	// Tutorial id must match player's tutorial

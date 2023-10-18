@@ -312,6 +312,9 @@ const gui = {
 	getMaxRegion() {
 		return bgp.Data.getMaxRegion();
 	},
+	getRegionsArray() {
+		return Array.from({length: gui.getMaxRegion()}, (_, i) => i + 1);
+	},
 	getOwnedActive(stored, placed, placed2) {
 		const generator = gui.getGenerator();
 		if (stored == 'building') [stored, placed, placed2] = [generator.stored_buildings, generator.camp.buildings, generator.camp.inactive_b];
