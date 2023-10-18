@@ -381,7 +381,7 @@ function createMenu() {
 		</u>
 		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
 		<i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
-		<u><i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i></u>
+		<u><i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i><i data-pref="hLockPet">${gm0('options_hlockpet')}</i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -575,7 +575,7 @@ function initDOM() {
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 	addPrefs('@extra,@screen,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
-	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan');
+	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hLockPet');
 
 	const prefFlags = new Set(['@screen']);
 	function setPref(name, value) {

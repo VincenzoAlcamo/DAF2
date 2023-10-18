@@ -257,11 +257,11 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan');
+	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan,hLockPet');
 
 	const prefFlags = new Set([
 		'noGCPopup', 'gcTableCounter', 'gcTableRegion', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast',
-		'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster', 'hLockCaravan'
+		'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster', 'hLockCaravan', 'hLockPet'
 	]);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
@@ -591,6 +591,22 @@ intercept("com.pixelfederation.diggy.screens.popup.production.ProductionPopup", 
 			updateText(parent, 'delivered', ${JSON.stringify(getMessage('gui_locked').toUpperCase())});
 			updateText(parent, 'amount_delivered', 'D A F 2');
 		}
+		return result;
+	};
+});
+
+intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'setup', function(_setup) {
+	extras.push('hLockPet');
+	return function() {
+		const result = _setup.apply(this, arguments);
+		const listeners = this._character.get_onGoFromTile().g2d_listeners;
+		listeners.forEach((fn, i) => {
+			if (fn.name === 'bound onDiggyMoving') {
+				listeners[i] = function() {
+					if (!hasFlag('hLockPet')) fn.apply(this, arguments);
+				};
+			}
+		});
 		return result;
 	};
 });

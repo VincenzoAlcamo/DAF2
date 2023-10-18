@@ -2230,6 +2230,9 @@
 	"options_hlockcaravan": {
 		"message": "Lock caravans\nPrevents the collection of caravans sent with a ticket"
 	},
+	"options_hlockpet": {
+		"message": "Lock Pet\nPet does not follow you"
+	},
 	"calc_operators": {
 		"message": "Operators"
 	},

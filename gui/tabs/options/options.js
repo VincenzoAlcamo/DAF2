@@ -445,6 +445,7 @@ UI_claim_coin_single_slow_02
 	option('hSpeed', SUBOPTION);
 	option('hQueue', SUBOPTION);
 	option('hLockCaravan', SUBOPTION);
+	option('hLockPet', SUBOPTION);
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');
