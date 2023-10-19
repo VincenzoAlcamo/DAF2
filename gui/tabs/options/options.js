@@ -247,23 +247,27 @@ function init() {
 		let currentLocale = gui.getPreference('locale');
 		let locales = [];
 		locales.push(['', gui.getMessage('options_locale_browser')]);
-		for (const item of bgp.Data.languages) {
-			if (item.id == currentLanguage) {
-				let newLocale = currentLocale;
-				const pLocales = gui.getPreference('locales') || '';
-				const arr = pLocales.split(',').filter(l => !!l);
-				const index = arr.findIndex(l => l.startsWith(currentLanguage + '-'));
-				if (index >= 0) newLocale = arr[index].substring(currentLanguage.length + 1);
-				if (newLocale && !item.locales.includes(newLocale)) newLocale = item.preferredLocale;
-				if (newLocale != currentLocale) {
-					currentLocale = newLocale;
-					gui.setPreference('locale', currentLocale);
-				}
-				const fullLocale = currentLanguage + '-' + currentLocale;
-				if (index >= 0) arr[index] = fullLocale; else arr.push(currentLanguage + '-' + currentLocale);
-				if (arr.join(',') != pLocales) gui.setPreference('locales', arr.join(','));
-				locales = locales.concat(item.locales.map(v => [v, v]));
+		const item = bgp.Data.languages.find(item => item.id == currentLanguage);
+		if (item) {
+			let newLocale = currentLocale;
+			const pLocales = gui.getPreference('locales') || '';
+			const arr = pLocales.split(',').filter(l => !!l);
+			const index = arr.findIndex(l => l.startsWith(currentLanguage + '-'));
+			if (index >= 0) newLocale = arr[index].substring(currentLanguage.length + 1);
+			if (newLocale && !item.locales.includes(newLocale)) newLocale = item.preferredLocale;
+			if (newLocale != currentLocale) {
+				currentLocale = newLocale;
+				gui.setPreference('locale', currentLocale);
 			}
+			const fullLocale = currentLanguage + '-' + currentLocale;
+			if (index >= 0) arr[index] = fullLocale; else arr.push(currentLanguage + '-' + currentLocale);
+			if (arr.join(',') != pLocales) gui.setPreference('locales', arr.join(','));
+			const regionNames = new Intl.DisplayNames([item.id], { type: 'region' });
+			item.locales.map(v => {
+				let name;
+				try { name = regionNames.of(v) } catch(e) {}
+				return [v, name || v];
+			}).sort((a,b) => gui.sortTextAscending(a[1], b[1])).forEach(v => locales.push(v));
 		}
 		return locales;
 	}
