@@ -2197,6 +2197,9 @@
 	"options_hmain": {
 		"message": "Extra features\nEnable extra features in the game"
 	},
+	"options_hmain_disabled": {
+		"message": "Extra features cannot be enabled"
+	},
 	"options_hspeed": {
 		"message": "Speed up\nSpeed potions will give much more speed"
 	},

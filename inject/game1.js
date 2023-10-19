@@ -393,6 +393,7 @@ function createMenu() {
 </li>
 </ul>
 <div class="DAF-badges">
+	<b data-close class="DAF-badge-extra DAF-badge-img ${prefs.hMain ? 'DAF-badge-on' : ''}" title="${gm('options_hmain_disabled')}">EXTRA</b>
 	<b data-close class="DAF-badge-energy DAF-badge-img"></b>
 	<b class="DAF-badge-gc-counter DAF-badge-img"></b>
 	<b class="DAF-badge-gc-energy DAF-badge-img"></b>
@@ -574,7 +575,7 @@ function initDOM() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
-	addPrefs('@extra,@screen,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@extra,@screen,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hLockPet');
 
 	const prefFlags = new Set(['@screen']);
@@ -614,7 +615,10 @@ function initDOM() {
 				if (!parent.firstElementChild) parent.remove();
 			});
 			if(!options.querySelector('[data-pref]')) options.remove();
-			else options.style.removeProperty('display');
+			else {
+				menu.querySelector('.DAF-badge-extra')?.remove();
+				options.style.removeProperty('display');
+			}
 		}
 		handlers['fullWindow'] = onFullWindow;
 		handlers['fullWindowHeader'] = onFullWindow;

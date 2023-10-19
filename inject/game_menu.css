@@ -277,6 +277,12 @@
 	background-size: 22px;
 }
 
+.DAF-badges .DAF-badge-extra {
+    background-image: url(/img/gui/check_no.png);
+    background-color: #fcc;
+    color: #f00;
+}
+
 .DAF-badges .DAF-badge-p-c {
 	background-image: url(/img/gui/caravan.png);
 	background-color: #fd0;
@@ -309,6 +315,7 @@
 	animation: DAF_flash infinite 2s alternate;
 }
 
+.DAF-badges .DAF-badge-extra.DAF-badge-on,
 .DAF-badges.DAF-badgeserverenergy .DAF-badge-energy.DAF-badge-on,
 .DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
