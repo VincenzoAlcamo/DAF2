@@ -535,8 +535,8 @@ intercept("com.pixelfederation.diggy.screens.popup.NoenergyPopup", 'initUsableFr
 		if (what == 'min') index = usables.length - 1;
 		else if (what == 'avg') index = Math.floor((usables.length - 1) / 2);
 		else if (isFinite(+what)) index = +what;
-		index = Math.min(usables.length - 1, Math.max(0, index))
-		if (index < usables.length) {
+		index = Math.max(0, Math.min(usables.length - 1, index));
+		if (index >= 0 && index < usables.length) {
 			const [obj, value] = usables[index];
 			this._myUsableFromStorageId = obj.id;
 			this._myUsableFromStorageValue = value;
