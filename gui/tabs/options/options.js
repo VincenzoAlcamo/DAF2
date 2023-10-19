@@ -184,14 +184,15 @@ function init() {
 			];
 			for (let i = 65; i < 90; i++) options.push([i, String.fromCharCode(i)]);
 		}
-		let warning = '';
+		let warnings = [];
 		let className = '';
 		features = features || '';
 		if (features.indexOf(CRITICAL) >= 0) className += ' critical';
 		if (features.indexOf(WITHSUBOPTIONS) >= 0) className += ' hassuboptions';
 		if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
-		if (features.indexOf(ENABLE) >= 0) info += '\n' + gui.getMessage('options_enablewarning');
-		if (features.indexOf(WARNING) >= 0) warning = gui.getMessage(messageId + '_warning');
+		let isEnabler = features.indexOf(ENABLE) >= 0;
+		if (isEnabler) warnings.push(gui.getMessage('options_enablewarning'));
+		if (features.indexOf(WARNING) >= 0) warnings.push(gui.getMessage(messageId + '_warning'));
 
 		const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
 
@@ -234,9 +235,9 @@ function init() {
 				htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%">`;
 			}
 		}
-		if (warning) htm += Html.br`<div class="warning">${warning}</div>`;
+		if (warnings.length) htm += Html.br`<div class="warning">${warnings.join('\n')}</div>`;
 		htm += Html.br`${extraHtml}</td>`;
-		if (hasCheckBox) htm += Html.br`<td><input data-pref="${prefName}" type="checkbox"></td>`;
+		if (hasCheckBox) htm += Html.br`<td><input data-pref="${prefName}" class="${isEnabler ? 'enabler' : ''}" type="checkbox"></td>`;
 		htm += Html.br`</tr>`;
 	}
 
@@ -523,6 +524,7 @@ UI_claim_coin_single_slow_02
 	let delayedAudio;
 	function onInput() {
 		const input = this;
+		setEnablerState(input);
 		const name = input.getAttribute('data-pref');
 		let value = input.type == 'checkbox' ? input.checked : input.value;
 		if (input.type == 'number' || input.type == 'range') {
@@ -575,6 +577,16 @@ UI_claim_coin_single_slow_02
 	}
 }
 
+function setEnablerState(input) {
+	if (input.classList.contains('enabler')) {
+		let tr = input.closest('tr').nextElementSibling;
+		while(tr && tr.classList.contains('suboption')) {
+			tr.classList.toggle('disabled', !input.checked);
+			tr = tr.nextElementSibling;
+		}
+	}
+}
+
 function getState() {
 	return {
 		search: inputs.search.value
@@ -616,7 +628,10 @@ function refresh() {
 		}
 		if (value !== undefined) {
 			if (input.tagName == 'SELECT' || input.type == 'text' || input.type == 'number') input.value = value;
-			if (input.type == 'checkbox') input.checked = value === true || value == 1;
+			if (input.type == 'checkbox') {
+				input.checked = value === true || value == 1;
+				setEnablerState(input);
+			}
 			if (input.type == 'range') {
 				input.value = value;
 				Html.set(input.nextElementSibling, Html(Locale.formatNumber(value)));
