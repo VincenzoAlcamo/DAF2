@@ -187,11 +187,12 @@ function init() {
 		let warnings = [];
 		let className = '';
 		features = features || '';
-		if (features.indexOf(CRITICAL) >= 0) className += ' critical';
+		let isCritical = features.indexOf(CRITICAL) >= 0;
+		let isEnabler = features.indexOf(ENABLE) >= 0;
+		if (isCritical) className += ' critical';
 		if (features.indexOf(WITHSUBOPTIONS) >= 0) className += ' hassuboptions';
 		if (features.indexOf(SUBOPTION) >= 0) className += ' suboption';
-		let isEnabler = features.indexOf(ENABLE) >= 0;
-		if (isEnabler) warnings.push(gui.getMessage('options_enablewarning'));
+		if (isEnabler && isCritical) warnings.push(gui.getMessage('options_enablewarning'));
 		if (features.indexOf(WARNING) >= 0) warnings.push(gui.getMessage(messageId + '_warning'));
 
 		const type = Array.isArray(options) ? SELECT : (features.indexOf(TEXT) >= 0 ? TEXT : CHECKBOX);
@@ -452,16 +453,16 @@ UI_claim_coin_single_slow_02
 	// option('badgeServerEnergy');
 	option('badgeGcCounter');
 	option('badgeGcEnergy');
-	option('badgeProductions', WITHSUBOPTIONS);
+	option('badgeProductions', WITHSUBOPTIONS + ENABLE);
 	option('badgeCaravan', SUBOPTION);
 	option('badgeKitchen', SUBOPTION);
 	option('badgeFoundry', SUBOPTION);
 	optionEffect('badgeProductions');
-	option('badgeRepeatables', WITHSUBOPTIONS);
+	option('badgeRepeatables', WITHSUBOPTIONS + ENABLE);
 	optionEffect('badgeRepeatables', true);
-	option('badgeLuckyCards', WITHSUBOPTIONS);
+	option('badgeLuckyCards', WITHSUBOPTIONS + ENABLE);
 	optionEffect('badgeLuckyCards', true);
-	option('badgeWindmills', WITHSUBOPTIONS);
+	option('badgeWindmills', WITHSUBOPTIONS + ENABLE);
 	optionEffect('badgeWindmills');
 	endSection();
 
