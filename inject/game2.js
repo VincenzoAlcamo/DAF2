@@ -595,21 +595,29 @@ intercept("com.pixelfederation.diggy.screens.popup.production.ProductionPopup", 
 	};
 });
 
+let lockPetCounter = 0;
 intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'setup', function(_setup) {
-	extras.push('hLockPet');
+	lockPetCounter++;
 	return function() {
 		const result = _setup.apply(this, arguments);
 		const listeners = this._character.get_onGoFromTile().g2d_listeners;
 		listeners.forEach((fn, i) => {
 			if (fn.name === 'bound onDiggyMoving') {
-				listeners[i] = function() {
-					if (!hasFlag('hLockPet')) fn.apply(this, arguments);
-				};
+				listeners[i] = function() { if (!hasFlag('hLockPet')) fn.apply(this, arguments); };
 			}
 		});
 		return result;
 	};
 });
+intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'afterDrag', function(_afterDrag) {
+	lockPetCounter++;
+	return function() { if (!hasFlag('hLockPet')) _afterDrag.apply(this, arguments); };
+});
+intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'onDrag', function(_onDrag) {
+	lockPetCounter++;
+	return function() { if (!hasFlag('hLockPet')) _onDrag.apply(this, arguments); };
+});
+if (lockPetCounter === 3) extras.push('hLockPet');
 
 if (extras.length) postMessage({ action: "sendValue", name: '@extra', value: extras.join() });
 `;
