@@ -150,6 +150,7 @@ var Preferences = {
 			hFlashAdVolume: 100,
 			hLockCaravan: false,
 			hLockPet: false,
+			hInstantCamera: false,
 		};
 	},
 	init: async function () {

@@ -2221,6 +2221,9 @@
 	"options_hscroll": {
 		"message": "Disable inertial scrolling\nInertial scrolling is the effect where the screen continues to move even after you have stopped dragging it"
 	},
+	"options_hinstantcamera": {
+		"message": "Instant camera\nWhen the camera view moves to a different location, the transition is instantaneous"
+	},
 	"options_hreward": {
 		"message": "Auto-capitalize\nAny input into the gift code is automatically capitalized"
 	},

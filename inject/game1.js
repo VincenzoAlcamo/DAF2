@@ -361,9 +361,10 @@ function createMenu() {
 	<div>
 		<span>${gm0('options_hmain')}</span>
 		<u><i data-pref="hFlashAdSound">Flash Ad Sound</i>
-		<i data-pref="hReward">${gm0('options_hreward')}</i></u>
-		<u><i data-pref="hGCCluster">${gm0('options_hgccluster')}</i>
-		<i data-pref="hScroll">${gm0('options_hscroll')}</i></u>
+		<i data-pref="hReward">${gm0('options_hreward')}</i>
+		<i data-pref="hGCCluster">${gm0('options_hgccluster')}</i></u>
+		<u><i data-pref="hScroll">${gm0('options_hscroll')}</i>
+		<i data-pref="hInstantCamera">${gm0('options_hinstantcamera')}</i></u>
 		<u class="squared">
 		<i>${gm('gui_loot')}</i>
 		<i data-pref="hLootCount">${gm0('options_hlootcount')}</i>
@@ -576,7 +577,7 @@ function initDOM() {
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 	addPrefs('@extra,@screen,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
-	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hLockPet');
+	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hLockPet,hInstantCamera');
 
 	const prefFlags = new Set(['@screen']);
 	function setPref(name, value) {

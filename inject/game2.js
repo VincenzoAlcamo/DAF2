@@ -257,16 +257,12 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan,hLockPet');
+	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan,hLockPet,hInstantCamera');
 
-	const prefFlags = new Set([
-		'noGCPopup', 'gcTableCounter', 'gcTableRegion', 'hSpeed', 'hLootCount', 'hLootZoom', 'hLootFast',
-		'hFood', 'hFoodNum', 'hQueue', 'hScroll', 'hReward', 'hGCCluster', 'hLockCaravan', 'hLockPet'
-	]);
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
 		prefs[name] = value;
-		if (prefFlags.has(name)) setFlag(name, value);
+		setFlag(name, value);
 		if (name in handlers) handlers[name]();
 	}
 
@@ -618,6 +614,14 @@ intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'onDrag', function(
 	return function() { if (!hasFlag('hLockPet')) _onDrag.apply(this, arguments); };
 });
 if (lockPetCounter === 3) extras.push('hLockPet');
+
+intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'focus', function(_focus) {
+	extras.push('hInstantCamera');
+	return function(p_mineX,p_mineY,p_force,p_return,p_immediate,p_onCompleteCallback,p_returnPosition) {
+		if (hasFlag('hInstantCamera')) p_immediate = true;
+		return _focus.apply(this, arguments);
+	};
+})
 
 if (extras.length) postMessage({ action: "sendValue", name: '@extra', value: extras.join() });
 `;
