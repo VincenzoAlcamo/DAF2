@@ -114,6 +114,13 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	background-color: #0008;
 }
 
+.tab_map .toolbar .petTiles {
+	background-color: #08fa;
+}
+.tab_map .toolbar .petCost {
+	background-color: #08f6;
+}
+
 .tab_map .toolbar .special {
 	background-color: var(--map-marker-special);
 	color: var(--map-marker-specialfg);
@@ -141,10 +148,7 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	padding: 0;
 }
 
-.tab_map .toolbar .special img,
-.tab_map .toolbar .quest img,
-.tab_map .toolbar .photo img,
-.tab_map .toolbar .material img {
+.tab_map .toolbar .header img {
 	max-width: 18px;
 	max-height: 18px;
 	margin: -2px;
@@ -156,6 +160,8 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	cursor: default;
 }
 
+.tab_map .tile-info table:not(.has-pet) .petTiles,
+.tab_map .tile-info table:not(.has-pet) .petCost,
 .tab_map .tile-info table:not(.has-special) .special,
 .tab_map .tile-info table:not(.has-quest) .quest,
 .tab_map .tile-info table:not(.has-photo) .photo,

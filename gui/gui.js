@@ -1166,16 +1166,17 @@ function updateCurrentTab() {
 
 //#region TEXT INFO
 function translate(parent) {
-	const getText = (value) => value.split('+').map(id => {
-		const [key, transform] = id.split(':');
-		const text = key[0] >= 'a' ? gui.getMessage(key) : gui.getString(key);
-		switch(transform) {
-			case 'proper': return gui.getProperCase(text);
-			case 'lower': return text.toLowerCase();
-			case 'upper': return text.toUpperCase();
-		}
-		return text;
-	}).join('\n');
+	const getText = (value) => {
+		return value.replace(/\+/g, '\n').replace(/([A-Za-z][A-Za-z0-9_]+)(:(proper|lower|upper))?/g, function (_, key, _, transform) {
+			const text = key[0] >= 'a' ? gui.getMessage(key) : gui.getString(key);
+			switch(transform) {
+				case 'proper': return gui.getProperCase(text);
+				case 'lower': return text.toLowerCase();
+				case 'upper': return text.toUpperCase();
+			}
+			return text;
+		});
+	};
 	for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = getText(el.getAttribute('data-i18n-title'));
 	for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Html.set(el, Html.br(getText(el.getAttribute('data-i18n-text'))));
 }

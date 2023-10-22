@@ -11,7 +11,7 @@ export default {
 		...[0, ...gui.getRegionsArray(), 99].map(rid => 'locations_' + rid),
 		'addons', 'artifacts', 'backgrounds', 'draggables', 'npcs', 'childs', 'tiles', 'extensions', 'events',
 		'usables', 'materials', 'tokens', 'photo_albums_photos', 'achievements', 'quests', 'map_filters',
-		'tablets', 'location_replaces'
+		'tablets', 'location_replaces', 'pet_features'
 	]
 };
 
@@ -94,6 +94,7 @@ const IMG_PUSH = '/img/gui/push.png';
 const OPTION_COORDINATES = 'c';
 const OPTION_GROUPLOCATIONS = 'g';
 const OPTION_REGIONSELECTOR = 's';
+const OPTION_FRIENDSHIPSELECTOR = 'f';
 const OPTION_LOCATIONINFO = 'i';
 const OPTION_REPEATABLES = 'r';
 const OPTION_TITLE = 't';
@@ -104,6 +105,7 @@ const OPTION_ACHIEVEMENT = 'a';
 const ALL_OPTIONS = [
 	OPTION_GROUPLOCATIONS,
 	OPTION_REGIONSELECTOR,
+	OPTION_FRIENDSHIPSELECTOR,
 	OPTION_LOCATIONINFO,
 	OPTION_COORDINATES,
 	OPTION_TITLE,
@@ -115,7 +117,7 @@ const ALL_OPTIONS = [
 const ALL_OPTIONS_AND_PREFERENCES = [...ALL_OPTIONS, OPTION_REPEATABLES];
 
 let tab, container, map, table, canvas, zoom;
-let cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion;
+let cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion, selectFriendship;
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles;
 let specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters, allEventMaterials, allEventTokens;
@@ -382,6 +384,9 @@ function init() {
 
 	selectRegion = container.querySelector('[name=region]');
 	selectRegion.addEventListener('change', () => queue.add(processMine));
+
+	selectFriendship = container.querySelector('[name=friendship]');
+	selectFriendship.addEventListener('change', () => queue.add(processMine));
 
 	checks = Array.from(container.querySelectorAll('.toolbar input[type=checkbox][data-flags]'));
 	checks.forEach((el) => {
@@ -664,7 +669,7 @@ function prepareFloorData(data, unclear, removeMarks) {
 		});
 	}
 	data.forEach((mine) =>
-		['processed', 'numTiles', 'cost', 'numSpecial', 'numQuest', 'numPhoto', 'numMaterial', '_t'].forEach(
+		['processed', 'numTiles', 'cost', 'numSpecial', 'numQuest', 'numPhoto', 'numMaterial', 'numTilesPet', 'costPet', '_t'].forEach(
 			(key) => delete mine[key]
 		)
 	);
@@ -833,6 +838,7 @@ function showAdvancedOptions() {
 	htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
 	[
 		OPTION_REGIONSELECTOR,
+		OPTION_FRIENDSHIPSELECTOR,
 		OPTION_LOCATIONINFO,
 		OPTION_REPEATABLES,
 		OPTION_COORDINATES,
@@ -1272,9 +1278,15 @@ function update() {
 	const state = getState();
 	let htm = '';
 	for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++)
-		htm += Html`<option value="${rid ? '' + rid : ''}">${rid ? gui.getObjectName('region', rid) : gui.getMessage('events_yourprogress')
-			}</option>`;
+		htm += Html`<option value="${rid ? '' + rid : ''}">${rid ? gui.getObjectName('region', rid) : gui.getMessage('equipment_current')}</option>`;
 	Html.set(selectRegion, htm);
+	htm = '';
+	let maxFriendship = 24;
+	const arr = gui.getArray(gui.getFile('pet_features')?.[1]?.friendships);
+	arr.forEach(item => { if(+item.level_id > maxFriendship) maxFriendship = +item.level_id; });
+	for (let n = 0; n <= maxFriendship; n++)
+		htm += Html`<option value="${n ? '' + n : ''}">${n ? Locale.formatNumber(n) : gui.getMessage('equipment_current')}</option>`;
+	Html.set(selectFriendship, htm);
 	setState(state);
 	updateTableFlags();
 	queue.enable();
@@ -1287,6 +1299,7 @@ function markToBeRendered() {
 function getState() {
 	return {
 		region: selectRegion.options.length ? selectRegion.value : selectRegion.getAttribute('data-value'),
+		friendship: selectFriendship.options.length ? selectFriendship.value : selectFriendship.getAttribute('data-value'),
 		show: checks.map(getStateButtonFlag).sort().join('').toLowerCase(),
 		options: ALL_OPTIONS.filter((id) => !hasOption(id)).join(''),
 		resize: resize == 100 ? null : resize,
@@ -1298,6 +1311,8 @@ function getState() {
 function setState(state) {
 	if (selectRegion.options.length) state.region = gui.setSelectState(selectRegion, state.region || '');
 	selectRegion.setAttribute('data-value', state.region);
+	if (selectFriendship.options.length) state.friendship = gui.setSelectState(selectFriendship, state.friendship || '');
+	selectFriendship.setAttribute('data-value', state.friendship);
 	const flags = String(state.show || '').toUpperCase();
 	checks.forEach((check) => {
 		const arr = (check.getAttribute('data-flags') || '').split(',');
@@ -1427,10 +1442,21 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		rid = data.rid = generator.events_region[eid] || generator.region;
 	}
 
+	let petFriendshipLevel = +generator.pet_feature?.friendship?.level || 0;
+	if (mine.pet_feature) {
+		if (+mine.pet_feature.friendship_level) petFriendshipLevel = +mine.pet_feature.friendship_level;
+		// Apply current region when the player entered the mine
+		if (+mine.pet_feature.region_id) rid = +mine.pet_feature.region_id;
+	}
+
 	// Apply specific region
 	if (segmented && hasOption(OPTION_REGIONSELECTOR)) {
 		const state = getState();
 		if (+state.region > 0) rid = data.rid = Math.min(+state.region, maxRegion);
+	}
+	if (hasOption(OPTION_FRIENDSHIPSELECTOR)) {
+		const state = getState();
+		if (+state.friendship > 0) petFriendshipLevel = +state.friendship;
 	}
 
 	const defaultBgId = floor.bg_id;
@@ -1440,20 +1466,29 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		const { x, y } = tileDef;
 		let { tileId, tileSubtype } = tileDef;
 		let tile = null;
+		delete tileDef.pet;
 		if (tileId > 0) {
 			const pTileId = tileId;
 			tile = tiles[tileId];
-			if (rid != 0 && tile && tile.overrides) {
-				const item = tile.overrides.find((o) => +o.region_id == rid);
-				if (item) {
-					tileId = +item.override_tile_id;
-					tile = tiles[tileId];
+			if (tile) {
+				if (+tile.pet) tileDef.pet = true;
+				if (tile.overrides) {
+					let override = null;
+					if (tileDef.pet) {
+						override = tile.overrides.find((o) => +o.pet_friendship_level == petFriendshipLevel);
+					} else if (rid != 0) {
+						override = tile.overrides.find((o) => +o.region_id == rid);
+					}
+					if (override) {
+						tileId = +override.override_tile_id;
+						tile = tiles[tileId];
+					}
 				}
-			}
-			if (tileId != pTileId && tile.subtypes && tile.subtypes.length) {
-				const subtypes = tile.subtypes.filter((st) => +st.frames == 0 || +st.breakup == 0);
-				if (subtypes.length) {
-					tileSubtype = +subtypes[CustomRandomRND(x * 1000 + y * 100) % subtypes.length | 0].def_id;
+				if (tileId != pTileId && tile.subtypes && tile.subtypes.length) {
+					const subtypes = tile.subtypes.filter((st) => +st.frames == 0 || +st.breakup == 0);
+					if (subtypes.length) {
+						tileSubtype = +subtypes[CustomRandomRND(x * 1000 + y * 100) % subtypes.length | 0].def_id;
+					}
 				}
 			}
 		}
@@ -2127,20 +2162,25 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		}
 	}
 	{
-		let numTiles = 0, cost = 0, numSpecial = 0, numQuest = 0, numPhoto = 0, numMaterial = 0;
+		let numTiles = 0, cost = 0, numSpecial = 0, numQuest = 0, numPhoto = 0, numMaterial = 0, numTilesPet = 0, costPet = 0;
 		tileDefs
 			.filter((tileDef) => tileDef.show)
 			.forEach((tileDef) => {
 				if (tileDef.isTile) {
-					numTiles++;
-					cost += tileDef.stamina;
+					if (tileDef.pet) {
+						numTilesPet++;
+						costPet += (tileDef.stamina || 0);
+					} else {
+						numTiles++;
+						cost += tileDef.stamina;
+					}
 				}
 				if (tileDef.isSpecial) numSpecial++;
 				if (tileDef.isQuest) numQuest++;
 				if (tileDef.isPhoto) numPhoto++;
 				if (tileDef.isMaterial) numMaterial++;
 			});
-		mine._t = { numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial };
+		mine._t = { numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial, numTilesPet, costPet };
 	}
 
 	// Transparency
@@ -2339,6 +2379,7 @@ async function processMine(selectedMine, args) {
 
 	divInfo.parentNode.classList.toggle('hidden', !hasOption(OPTION_LOCATIONINFO));
 	selectRegion.parentNode.classList.toggle('hidden', !currentData || !currentData.segmented || !hasOption(OPTION_REGIONSELECTOR));
+	selectFriendship.parentNode.classList.toggle('hidden', !currentData || !+currentData.location.pet || !hasOption(OPTION_FRIENDSHIPSELECTOR));
 
 	await addExtensionImages();
 	// for debugging purposes
@@ -3370,7 +3411,7 @@ async function drawMine(args) {
 
 	// Floors, Tiles & Loot
 	let htm = '';
-	const total = { numTiles: 0, cost: 0, numSpecial: 0, numQuest: 0, numPhoto: 0, numMaterial: 0 };
+	const total = { numTiles: 0, cost: 0, numSpecial: 0, numQuest: 0, numPhoto: 0, numMaterial: 0, numTilesPet: 0, costPet: 0 };
 	let numFound = 0;
 	for (const floorId of currentData.floorNumbers) {
 		const found = findMine(lid, floorId);
@@ -3396,13 +3437,14 @@ async function drawMine(args) {
 	const div = container.querySelector('[data-id="fid"]');
 	Html.set(div, htm);
 	Array.from(div.querySelectorAll('input')).forEach((e) => e.addEventListener('click', changeLevel));
-	const setTable = (row, { numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial }, allFound) => {
-		[numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial].forEach((n, i) => {
+	const setTable = (row, { numTiles, cost, numSpecial, numQuest, numPhoto, numMaterial, numTilesPet, costPet }, allFound) => {
+		[numTiles, cost, numTilesPet, costPet, numSpecial, numQuest, numPhoto, numMaterial].forEach((n, i) => {
 			const cell = row.cells[i + 1];
 			Html.set(cell, Html(isNaN(n) ? '?' : (allFound ? '' : '\u2267 ') + Locale.formatNumber(n)));
 			cell.style.fontWeight = n > 0 && i > 2 ? 'bold' : '';
 		});
 	};
+	tableTileInfo.classList.toggle('has-pet', total.numTilesPet > 0 || +currentData.location.pet);
 	tableTileInfo.classList.toggle('has-special', total.numSpecial > 0);
 	tableTileInfo.classList.toggle('has-quest', total.numQuest > 0);
 	tableTileInfo.classList.toggle('has-photo', total.numPhoto > 0);
