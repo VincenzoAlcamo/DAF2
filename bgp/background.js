@@ -108,6 +108,10 @@ var Preferences = {
 			badgeLuckyCardsSoundName: 'museum_done',
 			badgeLuckyCardsVolume: 100,
 			badgeServerEnergy: false,
+			badgePetShop: true,
+			badgePetShopSound: true,
+			badgePetShopSoundName: 'ui_buy',
+			badgePetShopVolume: 100,
 			badgeWindmills: true,
 			badgeWindmillsSound: true,
 			badgeWindmillsSoundName: 'enter_location',
@@ -789,6 +793,7 @@ var Data = {
 					Data.checkRepeatablesStatus();
 					Data.checkLuckyCards();
 					Data.checkProductions();
+					Data.checkPetShop();
 				});
 			});
 			// Reset some values and pre-load childs
@@ -987,6 +992,20 @@ var Data = {
 		const active = diff <= 0;
 		Data.setTimer(Data.checkLuckyCards, diff > 0 ? diff * 1000 : 0);
 		Synchronize.signal('luckycards', Synchronize.expandDataWithSound({ active, next }, 'badgeLuckyCards'));
+	},
+	checkPetShop() {
+		const now = getUnixTime();
+		const cooldown = 147600; // Hack
+		let next = 0;
+		const market = asArray(Data.generator?.market).find(market => {
+			const last = +market.last_refreshed_at || now;
+			const starts = last + cooldown;
+			if (!next || starts < next) next = starts;
+			return starts <= now;
+		});
+		const diff = next - now;
+		Data.setTimer(Data.checkPetShop, diff > 0 ? diff * 1000 : 0);
+		Synchronize.signal('petshop', Synchronize.expandDataWithSound({ active: !!market }, 'badgePetShop'));
 	},
 	checkProductions() {
 		const now = getUnixTime() + Synchronize.offset;
@@ -1859,6 +1878,12 @@ var Synchronize = {
 		}
 	},
 	handlers: {
+		'Market:Refresh': function(_action, task, _taskResponse, _response) {
+			const marketId = task.DefId;
+			const market = asArray(Data.generator.market).find(market => market.market_id == marketId);
+			if (market) market.last_refreshed_at = Synchronize.time;
+			Data.checkPetShop();
+		},
 		visit_camp(action, _task, taskResponse, _response) {
 			if (!taskResponse || !taskResponse.camp) return;
 			const neighbourId = taskResponse.neigh_id;

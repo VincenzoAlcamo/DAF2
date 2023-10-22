@@ -135,6 +135,18 @@ const setBadgeLuckyCards = (function () {
 	};
 })();
 
+function setBadgePetShop({ active, sound, volume }) {
+	active = !!active;
+	badge = menu.querySelector('.DAF-badge-petshop');
+	const wasActive = badge.classList.contains('DAF-badge-on');
+	badge.classList.toggle('DAF-badge-on', active);
+	if (active && !wasActive) {
+		badge.classList.add('animate');
+		playSound(sound, volume);
+	}
+	Html.set(badge, Html(getMessage('repeat_ready')));
+}
+
 function setBadgeWindmills({ active, sound, volume }) {
 	active = !!active;
 	const badge = menu.querySelector('.DAF-badge-windmills');
@@ -344,6 +356,10 @@ function createMenu() {
 		<i data-pref="badgeWindmills">${gm0('options_badgewindmills')}</i>
 		<i data-pref="badgeWindmillsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
 		</u>
+		<u class="squared">
+		<i data-pref="badgePetShop">${gm0('options_badgepetshop')}</i>
+		<i data-pref="badgePetShopSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
 	</div>
 </li>
 <li data-action="ads" style="display:none"><b>&nbsp;</b>
@@ -403,6 +419,7 @@ function createMenu() {
 	<b data-animate class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
 	<b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
 	<b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
+	<b data-animate class="DAF-badge-petshop DAF-badge-img" title="${gm0('options_badgepetshop')}"></b>
 	<div data-animate class="DAF-badge-rep"></div>
 </div>
 `;
@@ -576,6 +593,7 @@ function initDOM() {
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
+	addPrefs('badgePetShop,badgePetShopSound');
 	addPrefs('@extra,@screen,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hLockPet,hInstantCamera');
 
@@ -651,6 +669,7 @@ function initDOM() {
 		};
 		msgHandlers['repeatables'] = (request) => setBadgeRepeatables(request.data);
 		msgHandlers['luckycards'] = (request) => setBadgeLuckyCards(request.data);
+		msgHandlers['petshop'] = (request) => setBadgePetShop(request.data);
 		msgHandlers['windmills'] = (request) => setBadgeWindmills(request.data);
 		msgHandlers['productions'] = (request) => setBadgeProductions(request.data);
 		msgHandlers['serverEnergy'] = (request) => setBadge({ selector: '.DAF-badge-energy', text: request.data.energy, active: true });

@@ -2182,6 +2182,9 @@
 	"options_badgeluckycards": {
 		"message": "Lucky Cards\nShow a badge when the Lucky Cards tent is ready"
 	},
+	"options_badgepetshop": {
+		"message": "Pet Shop\nShow a badge when the Pet Shop refreshes"
+	},
 	"options_badgeproductions": {
 		"message": "Productions\nShow a badge when a production slot is ready or empty"
 	},

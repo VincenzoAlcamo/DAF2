@@ -469,6 +469,8 @@ UI_claim_coin_single_slow_02
 	optionEffect('badgeLuckyCards', true);
 	option('badgeWindmills', WITHSUBOPTIONS + ENABLE);
 	optionEffect('badgeWindmills');
+	option('badgePetShop', WITHSUBOPTIONS + ENABLE);
+	optionEffect('badgePetShop');
 	endSection();
 
 	Html.set(container.querySelector('.scrollable-content'), htm);
