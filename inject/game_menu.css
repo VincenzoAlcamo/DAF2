@@ -1,10 +1,18 @@
 /*#region MENU */
+html {
+	--menu-y: 32px;
+}
+html.DAF-fullwindow[daf--_screen^="petsScreen."],
+html.DAF-fullwindow[daf--_screen^="petsDenScreen."] ,
+html.DAF-fullwindow[daf--_screen^="petsShopScreen."] {
+	--menu-y: 62px;
+}
 
 .DAF-menu-container {
 	z-index: 2000;
 	position: fixed;
 	left: -8px;
-	top: 32px;
+	top: var(--menu-y);
 	--logo: url(/img/logo/iconRed.png);
 }
 
@@ -211,7 +219,7 @@
 	display: flex;
 	position: fixed;
 	left: 22px;
-	top: 34px;
+	top: calc(var(--menu-y) + 2px);
 }
 
 .DAF-menu:focus-within + .DAF-badges,
@@ -536,12 +544,12 @@
 td.DAF-visit {
 	display: none;
 }
-html[DAF--_screen="friendsScreen.null"] td.DAF-visit,
-html[DAF--_screen="campLowerScreenVisit.null"] td.DAF-visit,
-html[DAF--_screen="campUpperScreenVisit.null"] td.DAF-visit {
+html[daf--_screen="friendsScreen.null"] td.DAF-visit,
+html[daf--_screen="campLowerScreenVisit.null"] td.DAF-visit,
+html[daf--_screen="campUpperScreenVisit.null"] td.DAF-visit {
 	display: table-cell;
 }
-html[DAF--_screen="visiting"] td.DAF-visit {
+html[daf--_screen="visiting"] td.DAF-visit {
 	display: table-cell;
 	opacity: 0.3;
 	pointer-events: none;
