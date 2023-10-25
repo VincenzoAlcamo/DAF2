@@ -257,7 +257,7 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan,hLockPet,hInstantCamera');
+	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan,hPetFollow,hInstantCamera');
 
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
@@ -438,6 +438,13 @@ intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', fun
 		}
 		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.6), def) : def;
 	}
+	intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'breakTile', function(_breakTile, Pet) {
+		const _getSpeed = Pet.getSpeed;
+		Pet.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
+		return function(p_tileDef, p_digTime) {
+			return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
+		};
+	});
 	const _getSpeed = Character.getSpeed;
 	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
 	return function(p_tileDef, p_digTime) {
@@ -601,7 +608,7 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'setup', function(
 		if (listener) callback.remove(listener);
 		const petInMineManager = this._petInMineManager;
 		this._character.get_onGoFromTile().add(function() {
-			if (hasFlag('hLockPet')) petInMineManager.stopWalk();
+			if (hasFlag('hPetFollow')) petInMineManager.stopWalk();
 			else petInMineManager.onDiggyMoving.apply(petInMineManager, arguments);
 		});
 		return result;
@@ -609,13 +616,13 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'setup', function(
 });
 intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'afterDrag', function(_afterDrag) {
 	lockPetCounter++;
-	return function() { if (!hasFlag('hLockPet')) _afterDrag.apply(this, arguments); };
+	return function() { if (!hasFlag('hPetFollow')) _afterDrag.apply(this, arguments); };
 });
 intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'onDrag', function(_onDrag) {
 	lockPetCounter++;
-	return function() { if (!hasFlag('hLockPet')) _onDrag.apply(this, arguments); };
+	return function() { if (!hasFlag('hPetFollow')) _onDrag.apply(this, arguments); };
 });
-if (lockPetCounter === 3) extras.push('hLockPet');
+if (lockPetCounter === 3) extras.push('hPetFollow');
 
 intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'focus', function(_focus) {
 	extras.push('hInstantCamera');

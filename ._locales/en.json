@@ -2245,7 +2245,7 @@
 	"options_hlockcaravan": {
 		"message": "Lock caravans\nPrevents the collection of caravans sent with a ticket"
 	},
-	"options_hlockpet": {
+	"options_hpetfollow": {
 		"message": "Do not follow\nPet does not follow Diggy"
 	},
 	"calc_operators": {

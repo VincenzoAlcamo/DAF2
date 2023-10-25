@@ -170,7 +170,7 @@ function init() {
 		let title = i >= 0 ? text.substr(0, i) : text;
 		let info = i >= 0 ? text.substr(i + 1) : '';
 		if (messageId.startsWith('options_hloot')) title = gui.getMessageAndValue('gui_loot', title);
-		if (messageId.startsWith('options_hlockpet')) title = gui.getMessageAndValue('gui_pet', title);
+		if (messageId.startsWith('options_hpet')) title = gui.getMessageAndValue('gui_pet', title);
 		if (prefName == 'linkGrabBadge') info = '';
 		if (prefName == 'linkGrabKey') {
 			const s = gui.getMessage('options_linkGrabButton');
@@ -453,7 +453,7 @@ UI_claim_coin_single_slow_02
 	option('hSpeed', SUBOPTION);
 	option('hQueue', SUBOPTION);
 	option('hLockCaravan', SUBOPTION);
-	option('hLockPet', SUBOPTION);
+	option('hPetFollow', SUBOPTION);
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');

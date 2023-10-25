@@ -153,7 +153,7 @@ var Preferences = {
 			hFlashAdSoundName: 'ui_buy',
 			hFlashAdVolume: 100,
 			hLockCaravan: false,
-			hLockPet: false,
+			hPetFollow: false,
 			hInstantCamera: false,
 		};
 	},
