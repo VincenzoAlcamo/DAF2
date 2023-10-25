@@ -154,6 +154,7 @@ var Preferences = {
 			hFlashAdVolume: 100,
 			hLockCaravan: false,
 			hPetFollow: false,
+			hPetSpeed: false,
 			hInstantCamera: false,
 		};
 	},

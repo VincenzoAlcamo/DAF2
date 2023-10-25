@@ -257,7 +257,8 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster,hLockCaravan,hPetFollow,hInstantCamera');
+	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
+	addPrefs('hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
 
 	function setPref(name, value) {
 		if (!(name in prefs)) return;
@@ -424,31 +425,32 @@ intercept("com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup", 'keyDo
 intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
 	extras.push('hSpeed');
 	let lastMineId, isRepeat, isTower;
-	const getSpeed = (p_core, val, def) => {
-		let hasSpeedUp = hasFlag('hSpeed') && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-		if (hasSpeedUp && !isSuper) {
-			const screen = core.instance._screenManager?._activeScreen?._screen;
-			const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
-			if (mineId !== lastMineId) {
-				lastMineId = mineId;
-				isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
-				isTower = mineId && screen._mineLoader.isTowerFloor();
-			}
-			hasSpeedUp = isRepeat || isTower;
+	function isSpeedAllowed() {
+		const screen = core.instance._screenManager?._activeScreen?._screen;
+		const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
+		if (mineId !== lastMineId) {
+			lastMineId = mineId;
+			isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
+			isTower = mineId && screen._mineLoader.isTowerFloor();
 		}
-		return hasSpeedUp ? Math.min(val * (isSuper ? 0.4 : 0.6), def) : def;
+		return isRepeat || isTower || isSuper;
+	}
+	function getSpeed(p_core, val, def, isPet) {
+		const hasSpeedUp = (isPet && hasFlag('hPetSpeed')) || (hasFlag('hSpeed') && isSpeedAllowed());
+		return (hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) ? Math.min(val * (isSuper ? 0.4 : 0.6), def) : def;
 	}
 	intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'breakTile', function(_breakTile, Pet) {
+		extras.push('hPetSpeed');
 		const _getSpeed = Pet.getSpeed;
-		Pet.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
+		Pet.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments), true); };
 		return function(p_tileDef, p_digTime) {
-			return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
+			return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, true));
 		};
 	});
 	const _getSpeed = Character.getSpeed;
-	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments)); };
+	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments), false); };
 	return function(p_tileDef, p_digTime) {
-		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime));
+		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, false));
 	};
 });
 
