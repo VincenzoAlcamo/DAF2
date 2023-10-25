@@ -596,11 +596,13 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'setup', function(
 	lockPetCounter++;
 	return function() {
 		const result = _setup.apply(this, arguments);
-		const listeners = this._character.get_onGoFromTile().g2d_listeners;
-		listeners.forEach((fn, i) => {
-			if (fn.name === 'bound onDiggyMoving') {
-				listeners[i] = function() { if (!hasFlag('hLockPet')) fn.apply(this, arguments); };
-			}
+		const callback = this._character.get_onGoFromTile();
+		const listener = callback.g2d_listeners.find(fn => fn.name === 'bound onDiggyMoving');
+		if (listener) callback.remove(listener);
+		const petInMineManager = this._petInMineManager;
+		this._character.get_onGoFromTile().add(function() {
+			if (hasFlag('hLockPet')) petInMineManager.stopWalk();
+			else petInMineManager.onDiggyMoving.apply(petInMineManager, arguments);
 		});
 		return result;
 	};

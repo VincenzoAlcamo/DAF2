@@ -43,10 +43,12 @@ const Html = (function () {
 		else container = parse(html);
 		return Array.from(container.childNodes);
 	};
+	Html.append = (parent, html) => {
+		Html.get(html).forEach(c => parent.appendChild(c));
+	};
 	Html.set = (parent, html) => {
 		Array.from(parent.childNodes).forEach(c => c.remove());
-		const list = Html.get(html);
-		list.forEach(c => parent.appendChild(c));
+		Html.get(html).forEach(c => parent.appendChild(c));
 	};
 
 	Html.addStylesheet = function (href, onLoad) {

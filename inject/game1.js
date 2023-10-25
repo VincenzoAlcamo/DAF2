@@ -398,7 +398,8 @@ function createMenu() {
 		</u>
 		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
 		<i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
-		<u><i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i><i data-pref="hLockPet">${gm0('options_hlockpet')}</i></u>
+		<u class="squared"><i>${gm('gui_pet')}</i><i data-pref="hLockPet">${gm0('options_hlockpet')}</i></u>
+		<u><i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>

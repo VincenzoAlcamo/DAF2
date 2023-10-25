@@ -151,7 +151,14 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 .tab_map .toolbar .header img {
 	max-width: 18px;
 	max-height: 18px;
+	vertical-align: middle;
 	margin: -2px;
+}
+.tab_map .toolbar label img {
+	max-height: 18px;
+	max-width: 18px;
+    vertical-align: middle;
+    margin-right: 4px;
 }
 
 /*#endregion*/

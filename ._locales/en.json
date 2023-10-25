@@ -312,6 +312,9 @@
 	"gui_summary": {
 		"message": "Summary"
 	},
+	"gui_pet": {
+		"message": "Pet"
+	},
 	"dialog_ok": {
 		"message": "Ok"
 	},
@@ -2243,7 +2246,7 @@
 		"message": "Lock caravans\nPrevents the collection of caravans sent with a ticket"
 	},
 	"options_hlockpet": {
-		"message": "Lock Pet\nPet does not follow you"
+		"message": "Do not follow\nPet does not follow Diggy"
 	},
 	"calc_operators": {
 		"message": "Operators"
