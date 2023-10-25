@@ -1178,7 +1178,7 @@ function translate(parent) {
 		});
 	};
 	for (const el of Array.from(parent.querySelectorAll('[data-i18n-title]'))) el.title = getText(el.getAttribute('data-i18n-title'));
-	for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Html.append(el, Html.br(getText(el.getAttribute('data-i18n-text'))));
+	for (const el of Array.from(parent.querySelectorAll('[data-i18n-text]'))) Html.set(el, Html.br(getText(el.getAttribute('data-i18n-text'))));
 }
 //#endregion
 
