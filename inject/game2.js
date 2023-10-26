@@ -629,8 +629,9 @@ if (lockPetCounter === 3) extras.push('hPetFollow');
 intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'focus', function(_focus) {
 	extras.push('hInstantCamera');
 	return function(p_mineX,p_mineY,p_force,p_return,p_immediate,p_onCompleteCallback,p_returnPosition) {
-		if (hasFlag('hInstantCamera')) p_immediate = true;
-		return _focus.apply(this, arguments);
+		const result = _focus.apply(this, arguments);
+		if (hasFlag('hInstantCamera') && this._focusTween) this._focusTween.duration = 0.01;
+		return result;
 	};
 })
 
