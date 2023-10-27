@@ -102,8 +102,10 @@ const OPTION_BLANKS = 'b';
 const OPTION_MARGIN = 'm';
 const OPTION_LOGO = 'l';
 const OPTION_ACHIEVEMENT = 'a';
+const OPTION_FLOORINDICATORS = 'k';
 const ALL_OPTIONS = [
 	OPTION_GROUPLOCATIONS,
+	OPTION_FLOORINDICATORS,
 	OPTION_REGIONSELECTOR,
 	OPTION_FRIENDSHIPSELECTOR,
 	OPTION_LOCATIONINFO,
@@ -838,6 +840,7 @@ function showAdvancedOptions() {
 	htm += addOption(OPTION_GROUPLOCATIONS, gui.getMessage('progress_grouplocations'));
 	[
 		OPTION_REGIONSELECTOR,
+		OPTION_FLOORINDICATORS,
 		OPTION_FRIENDSHIPSELECTOR,
 		OPTION_LOCATIONINFO,
 		OPTION_REPEATABLES,
@@ -933,7 +936,7 @@ function showAdvancedOptions() {
 			const arr = method.split('.');
 			const methodArg = arr[1];
 			method = arr[0];
-			ALL_OPTIONS_AND_PREFERENCES.forEach((id) => (params[id] == params[id]) == 'on');
+			ALL_OPTIONS_AND_PREFERENCES.forEach((id) => params[id] = params[id] == 'on');
 			const setNoMines = () => {
 				setLastViewedMine(null);
 				lastMapId = '';
@@ -2116,11 +2119,10 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		delete tileDef.isMaterial;
 		tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0 && !showBackground;
 		let hasLoot = false;
-		if (tileDef.isTile) {
-			hasLoot = true;
-		} else if (tileDef.miscType == 'B') {
+		if (tileDef.isTile && tileDef.loot) hasLoot = true;
+		if (tileDef.miscType == 'B') {
 			const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-			if (!beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door')) {
+			if (!beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door' || beaconPart.activation == 'dig')) {
 				let loot = [];
 				const beacon = beacons[tileDef.miscId];
 				for (const action of asArray(beacon.actions.action).filter((a) => a.layer == 'loot')) {
@@ -2134,7 +2136,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				}
 				if (loot.length) {
 					hasLoot = true;
-					tileDef.loot = loot;
+					tileDef.loot = (tileDef.loot || []).concat(loot);
 				}
 			}
 		}
@@ -3417,19 +3419,32 @@ async function drawMine(args) {
 		const found = findMine(lid, floorId);
 		const _t = found && found._t;
 		const visited = found && found.time > 0;
-		let classes = 'map_flags';
-		if (visited && _t) {
-			numFound++;
-			for (const key of Object.keys(total)) total[key] += _t[key] || 0;
-			if (_t.numMaterial > 0) classes += ' map_flags_m';
-			if (_t.numQuest > 0) classes += ' map_flags_q';
-			if (_t.numPhoto > 0) classes += ' map_flags_p';
-			if (_t.numSpecial > 0) classes += ' map_flags_s';
-			if (_t.numTiles > 0) classes += ' map_flags_t';
-		}
 		const isCurrent = floorId == fid;
 		let title = gui.getMessage(isCurrent ? 'map_floor_current' : visited ? 'map_floor_found' : 'map_floor_not_found');
 		if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
+		let classes = hasOption(OPTION_FLOORINDICATORS) ? 'map_flags' : '';
+		let titles = [];
+		function checkFlag(num, className, key) {
+			if (num > 0) {
+				classes += ' ' + className;
+				const text = key >= 'a' ? gui.getMessage(key) : gui.getProperCase(gui.getString(key));
+				titles.push(`# ${text} = ${Locale.formatNumber(num)}`);
+			}
+		}
+		if (visited && _t) {
+			numFound++;
+			for (const key of Object.keys(total)) total[key] += _t[key] || 0;
+			checkFlag(_t.numSpecial, 'map_flags_s', 'map_special');
+			checkFlag(_t.numQuest, 'map_flags_q', 'map_quest');
+			checkFlag(_t.numPhoto, 'map_flags_p', 'QINA590');
+			checkFlag(_t.numTiles, 'map_flags_t', 'events_tiles');
+			checkFlag(_t.numTilesPet, 'map_flags_pet', 'gui_pet');
+			checkFlag(_t.numMaterial, 'map_flags_m', 'gui_material');
+		}
+		if (titles.length) {
+			title += '\n\n' + titles.join('\n');
+			classes += ' map_has_flags';
+		}
 		htm += Html`<span class="${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''
 			}${!visited && isAdmin && !isCurrent ? Html.raw(' style="background-color:#e8e"') : ''
 			}${found || isAdmin ? '' : ' disabled'} title="${title}"></span>`;

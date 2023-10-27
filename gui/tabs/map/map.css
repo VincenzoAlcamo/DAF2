@@ -188,10 +188,14 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	background-color: var(--tt-input-bgcol);
 	border: 1px solid var(--tt-input-brcol);
 	border-radius: 10px;
+	position: relative;
 }
 
 .tab_map .toolbar input[type='radio']:checked {
 	background-color: var(--tt-button-hlcol);
+}
+.tab_map .toolbar input[type='radio']:checked:before {
+	color: var(--tt-button-fgcol);
 }
 
 .tab_map .toolbar input[type='radio']:disabled {
@@ -200,9 +204,9 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 }
 
 .tab_map .toolbar input[type='radio']:before {
-	color: var(--tt-input-brcol);
+	color: var(--tt-input-fgcol);
 	content: ' ';
-	font-weight: bold;
+	/* font-weight: bold; */
 	font-size: 15px;
 	display: block;
 	margin-top: -1px;
@@ -471,6 +475,7 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 	display: inline-block;
 	height: 20px;
 	margin-top: 2px;
+	position: relative;
 	--c1: transparent;
 	--c2: transparent;
 	--c3: transparent;
@@ -486,6 +491,9 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 .tab_map .map_flags_t {
 	--c2: var(--map-marker-tile);
 }
+.tab_map .map_flags_pet {
+	--c2: #00f;
+}
 .tab_map .map_flags_m {
 	--c3: var(--map-marker-material);
 }
@@ -494,6 +502,29 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 }
 .tab_map .map_flags_p {
 	--c4: var(--map-marker-photo);
+}
+.tab_map .map_flags.map_flags_t.map_flags_pet:before {
+    content: " ";
+    display: block;
+    background-color: var(--map-marker-tile);
+    position: absolute;
+    width: 50%;
+    height: 50%;
+}
+.tab_map .map_flags.map_flags_q.map_flags_p:after {
+	content: " ";
+	display: block;
+	background-color: var(--map-marker-quest);
+	height: 3px;
+	position: absolute;
+	width: 50%;
+}
+.tab_map .map_has_flags:not(.map_flags) {
+	display: inline-block;
+	height: 20px;
+	margin-top: 2px;
+	position: relative;
+	box-shadow: 0px -3px #fff;
 }
 
 /* EDITS */

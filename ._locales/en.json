@@ -877,6 +877,9 @@
 	"map_option_l": {
 		"message": "Add logo watermark"
 	},
+	"map_option_k": {
+		"message": "Show floor indicators"
+	},
 	"map_option_resize": {
 		"message": "Size of saved image"
 	},
