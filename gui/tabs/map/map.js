@@ -3424,25 +3424,24 @@ async function drawMine(args) {
 		if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
 		let classes = hasOption(OPTION_FLOORINDICATORS) ? 'map_flags' : '';
 		let titles = [];
-		function checkFlag(num, className, key) {
+		function checkFlag(num, className, text) {
 			if (num > 0) {
 				classes += ' ' + className;
-				const text = key >= 'a' ? gui.getMessage(key) : gui.getProperCase(gui.getString(key));
-				titles.push(`# ${text} = ${Locale.formatNumber(num)}`);
+				titles.push(`${text} = ${Locale.formatNumber(num)}`);
 			}
 		}
 		if (visited && _t) {
 			numFound++;
 			for (const key of Object.keys(total)) total[key] += _t[key] || 0;
-			checkFlag(_t.numSpecial, 'map_flags_s', 'map_special');
-			checkFlag(_t.numQuest, 'map_flags_q', 'map_quest');
-			checkFlag(_t.numPhoto, 'map_flags_p', 'QINA590');
-			checkFlag(_t.numTiles, 'map_flags_t', 'events_tiles');
-			checkFlag(_t.numTilesPet, 'map_flags_pet', 'gui_pet');
-			checkFlag(_t.numMaterial, 'map_flags_m', 'gui_material');
+			checkFlag(_t.numTiles, 'map_flags_t', `${gui.getMessage('events_tiles')} (${'Diggy'})`);
+			checkFlag(_t.numTilesPet, 'map_flags_pet', `${gui.getMessage('events_tiles')} (${gui.getMessage('gui_pet')})`);
+			checkFlag(_t.numSpecial, 'map_flags_s', gui.getMessage('map_special'));
+			checkFlag(_t.numQuest, 'map_flags_q', gui.getMessage('map_quest'));
+			checkFlag(_t.numPhoto, 'map_flags_p', gui.getString('QINA590'));
+			checkFlag(_t.numMaterial, 'map_flags_m', gui.getMessage('gui_material'));
 		}
 		if (titles.length) {
-			title += '\n\n' + titles.join('\n');
+			title += `\n\n${titles.join('\n')}`;
 			classes += ' map_has_flags';
 		}
 		htm += Html`<span class="${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''
