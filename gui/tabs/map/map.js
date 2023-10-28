@@ -155,6 +155,7 @@ const queue = {
 			const promise = this.list.shift();
 			if (promise) await promise();
 		} catch (e) {
+			console.error(e);
 			clearWaitHandler();
 			this.list = [];
 			gui.dialog.show({ text: gui.getMessage('friendship_collecterror'), style: [Dialog.CRITICAL, Dialog.OK] });
@@ -1281,14 +1282,13 @@ function update() {
 	const state = getState();
 	let htm = '';
 	for (let rid = 0, maxRid = gui.getMaxRegion(); rid <= maxRid; rid++)
-		htm += Html`<option value="${rid ? '' + rid : ''}">${rid ? gui.getObjectName('region', rid) : gui.getMessage('equipment_current')}</option>`;
+		htm += Html`<option value="${rid ? '' + rid : ''}">${rid ? Locale.formatNumber(rid) + ' = ' + gui.getObjectName('region', rid) : gui.getMessage('equipment_current')}</option>`;
 	Html.set(selectRegion, htm);
 	htm = '';
 	let maxFriendship = 24;
 	const arr = gui.getArray(gui.getFile('pet_features')?.[1]?.friendships);
 	arr.forEach(item => { if(+item.level_id > maxFriendship) maxFriendship = +item.level_id; });
-	for (let n = 0; n <= maxFriendship; n++)
-		htm += Html`<option value="${n ? '' + n : ''}">${n ? Locale.formatNumber(n) : gui.getMessage('equipment_current')}</option>`;
+	for (let n = 0; n <= maxFriendship; n++) htm += Html`<option value="${n ? '' + n : ''}">${n ? Locale.formatNumber(n) : gui.getMessage('equipment_current')}</option>`;
 	Html.set(selectFriendship, htm);
 	setState(state);
 	updateTableFlags();
@@ -1419,20 +1419,24 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	const eid = rid == 0 && +location.event_id;
 	const event = eid && gui.getObject('event', eid);
 	const maxSegment = (event ? event.reward : []).reduce((max, obj) => Math.max(max, +obj.region_id), 0);
-	let segmented = maxSegment > 1;
-	if (eid) rid = segmented ? generator.events_region[eid] || generator.region : 1;
 
 	const isInvalidCoords = (x, y) => y < 0 || y >= rows || x < 0 || x >= cols;
 	const addAsset = (item) => addImages && item && addImage(item.mobile_asset);
 
-	const data = { mine, lid, fid, eid, segmented, rid, cols, rows, resetCount, location, isRepeatable };
+	// Default values
+	let d_rid = 0, d_friendship = 0;
+	if (rid == 99) d_rid = +mine.pet_feature?.region_id || 0;
+	else if (eid && eid in generator.events_region) d_rid = +generator.events_region[eid] || 0;
+	if (mine.pet_feature) d_friendship = +mine.pet_feature.friendship_level || 0;
+	d_rid = d_rid || generator.region;
+	d_friendship = d_friendship || +generator.pet_feature?.friendship?.level || 1;
 
 	let floors = await bgp.Data.getFile(`floors_${lid}`);
-	data.floors = floors = asArray(floors && floors.floor).filter((floor) => floor.def_id > 0);
-	const floor = (data.floor = floors.find((floor) => floor.def_id == fid));
+	floors = asArray(floors && floors.floor).filter((floor) => floor.def_id > 0);
+	const floor = floors.find((floor) => floor.def_id == fid);
 	if (!floor) return;
-	data.floorNumbers = floors.map((f) => f.def_id).filter((n) => n > 0).sort((a, b) => a - b);
 
+	let segmented = maxSegment > 1;
 	// Fix for segmentation flag in special weeks
 	let maxRegion = 0;
 	floors.forEach((floor) =>
@@ -1440,27 +1444,27 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			if (a.region_id > maxRegion) maxRegion = a.region_id;
 		})
 	);
-	if (!segmented && maxRegion > 1) {
-		segmented = data.segmented = true;
-		rid = data.rid = generator.events_region[eid] || generator.region;
-	}
+	if (!segmented && maxRegion > 1) segmented = true;
 
-	let petFriendshipLevel = +generator.pet_feature?.friendship?.level || 0;
-	if (mine.pet_feature) {
-		if (+mine.pet_feature.friendship_level) petFriendshipLevel = +mine.pet_feature.friendship_level;
-		// Apply current region when the player entered the mine
-		if (+mine.pet_feature.region_id) rid = +mine.pet_feature.region_id;
-	}
+	const data = { mine, lid, fid, eid, segmented, d_rid, d_friendship, cols, rows, resetCount, location, isRepeatable, floors, floor };
+	data.floorNumbers = floors.map((f) => f.def_id).filter((n) => n > 0).sort((a, b) => a - b);
 
-	// Apply specific region
+	if (rid == 99) rid = d_rid;
+	else if (eid) rid = segmented ? data.d_rid : 1;
+	let petFriendshipLevel = data.d_friendship;
+
+	// Apply specific selection
 	if (segmented && hasOption(OPTION_REGIONSELECTOR)) {
 		const state = getState();
-		if (+state.region > 0) rid = data.rid = Math.min(+state.region, maxRegion);
+		if (+state.region > 0) rid = Math.min(+state.region, maxRegion);
 	}
 	if (hasOption(OPTION_FRIENDSHIPSELECTOR)) {
 		const state = getState();
 		if (+state.friendship > 0) petFriendshipLevel = +state.friendship;
 	}
+
+	data.rid = rid;
+	data.friendship = petFriendshipLevel;
 
 	const defaultBgId = floor.bg_id;
 	addAsset(backgrounds[defaultBgId]);
@@ -2370,7 +2374,8 @@ async function processMine(selectedMine, args) {
 		caption = gui.getMessage('gui_event') + (currentData.segmented ? ' \u2013 ' + regionName : '');
 		info = gui.getObjectName('event', currentData.eid).replace(/\s+/g, ' ') + (currentData.isRepeatable ? '\n' + gui.getString('MAP002') : '');
 	} else {
-		caption = regionName;
+		const regionId = +currentData.location.region_id;
+		caption = (regionId == 99 ? gui.getObjectName('region', regionId ) + ' \u2013 ' : '') + regionName;
 		info = mapFilters[currentData.location.filter] || '';
 	}
 	Html.set(container.querySelector('[data-id="info-caption"]'), Html(caption));
@@ -2382,6 +2387,12 @@ async function processMine(selectedMine, args) {
 	divInfo.parentNode.classList.toggle('hidden', !hasOption(OPTION_LOCATIONINFO));
 	selectRegion.parentNode.classList.toggle('hidden', !currentData || !currentData.segmented || !hasOption(OPTION_REGIONSELECTOR));
 	selectFriendship.parentNode.classList.toggle('hidden', !currentData || !+currentData.location.pet || !hasOption(OPTION_FRIENDSHIPSELECTOR));
+	function setDefaultOption(select, value) {
+		const option = select.querySelector('option[value=""]');
+		option.textContent = gui.getMessage('equipment_current') + (value ? ` (${Locale.formatNumber(value)})` : '');
+	}
+	setDefaultOption(selectRegion, currentData.d_rid);
+	setDefaultOption(selectFriendship, currentData.d_friendship);
 
 	await addExtensionImages();
 	// for debugging purposes
