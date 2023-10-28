@@ -1508,6 +1508,7 @@ var Data = {
 			const old = mines[fid];
 			mines[fid] = mine;
 			mine._p = mine._p || (old && old._p) || { links: {} };
+			if (!mine.pet_feature && old && old.pet_feature) mine.pet_feature = old.pet_feature;
 			if (mine.tiles) {
 				const packed = PackTiles.pack(mine.tiles);
 				delete mine.tiles;
