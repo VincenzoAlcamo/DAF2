@@ -2038,7 +2038,7 @@ var Synchronize = {
 			Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, cx: +task.cur_column, cy: +task.cur_row });
 		},
 		use_teleport(action, task, _taskResponse, _response) {
-			Synchronize.signalMineAction({ action, x: +task.column, y: +task.row });
+			Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, pet: +task.pet });
 		},
 		leave_mine(action, task, _taskResponse, _response) {
 			Synchronize.signalMineAction({ action, loc_id: +task.loc_id, level: +task.level, cx: +task.cur_column, cy: +task.cur_row });

@@ -1995,8 +1995,10 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			if (!teleport || !target) return false;
 			const beacon = beacons[target.beacon_id];
 			if (beacon && !executeBeaconActions(beacon)) return false;
-			cx = target.column;
-			cy = target.row;
+			if (!action.pet) {
+				cx = target.column;
+				cy = target.row;
+			}
 		} else if (action.action == 'leave_mine') {
 			if (action.loc_id != lid || action.level != fid) return false;
 		} else if (action.action == 'pick_child' || action.action == 'pick_npc') {
