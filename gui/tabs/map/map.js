@@ -201,7 +201,8 @@ function getThemeDefaults() {
 			'marker.quest': COL('#F0F', CSS, CONTRAST),
 			'marker.photo': COL('#0DF', CSS, CONTRAST),
 			'marker.material': COL('#0F0', CSS, CONTRAST),
-			'marker.tile': COL('#CCC', CSS)
+			'marker.tile': COL('#CCC', CSS),
+			'marker.pet': COL('#FA0', CSS, CONTRAST)
 		},
 		DOOR('door', 26, '#FFF', 20, 4, '#F00', '#000'),
 		DOOR('entrance', 26, '#090', 20, 4, '#0F0', '#FFF'),
@@ -897,6 +898,7 @@ function showAdvancedOptions() {
 	items.push([-2, `[ ${gui.getObjectName('system', 2).toUpperCase()} ]`]);
 	items.push([-3, `[ ${gui.getString('GUI0008').toUpperCase()} ]`]);
 	items.push([-4, `[ ${gui.getMessage('gui_from_events').toUpperCase()} ]`]);
+	items.push([-5, `[ ${gui.getString('GUI4080').toUpperCase()} ]`]);
 	items = items.sort((a, b) => a[1].localeCompare(b[1]));
 	const list = gui.getArrayOfInt(listMaterial);
 	htm += Html`<select name="materials" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;">`;
@@ -2112,6 +2114,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			allEventMaterials.forEach((id) => (materialDrops['material_' + id] = true));
 			return;
 		}
+		if (id == -5) key = 'pet';
 		if (key == 'material_1') key = 'coins';
 		materialDrops[key] = true;
 	});
@@ -2121,6 +2124,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		delete tileDef.isQuest;
 		delete tileDef.isPhoto;
 		delete tileDef.isMaterial;
+		delete tileDef.isPet;
 		tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0 && !showBackground;
 		let hasLoot = false;
 		if (tileDef.isTile && tileDef.loot) hasLoot = true;
@@ -2146,6 +2150,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		}
 		if (isPreview) hasLoot = tileDef.loot && tileDef.loot.length > 0;
 		if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart)) || (isPreview && hasLoot)) {
+			if (tileDef.isTile && tileDef.pet && 'pet' in materialDrops) tileDef.isPet = true;
 			if (hasLoot && tileDef.loot) tileDef.hasLoot = true;
 			const loot = [].concat((hasLoot && tileDef.loot) || [], (tileDef.npcId && tileDef.npcLoot) || []);
 			let numCoins = 0;
@@ -3099,6 +3104,7 @@ async function drawMine(args) {
 		const questColor = ThemeEditor.toTripletColor(themeSettings.marker.quest);
 		const photoColor = ThemeEditor.toTripletColor(themeSettings.marker.photo);
 		const materialColor = ThemeEditor.toTripletColor(themeSettings.marker.material);
+		const petColor = ThemeEditor.toTripletColor(themeSettings.marker.pet);
 		const SIZE_ALT = Math.floor((TILE_SIZE + SW * 2) / 3) - SW;
 		const styles = {
 			0: {
@@ -3185,7 +3191,7 @@ async function drawMine(args) {
 					getCell().setAttribute('data-col', edit.c);
 					return edit.c ? specialColors[edit.c] : null;
 				}
-				return tDef.isQuest ? questColor : tDef.isSpecial ? specialColor : tDef.isPhoto ? photoColor : tDef.isMaterial ? materialColor : null;
+				return tDef.isQuest ? questColor : tDef.isSpecial ? specialColor : tDef.isPhoto ? photoColor : tDef.isMaterial ? materialColor : tDef.isPet ? petColor : null;
 			};
 			if (isUncleared) {
 				const edit = unclearEdits[tileKey];

@@ -7,6 +7,8 @@ html {
 	--map-marker-photofg: #000;
 	--map-marker-material: #0f0;
 	--map-marker-materialfg: #000;
+	--map-marker-pet: #fa0;
+	--map-marker-petfg: #000;
 	--map-marker-tile: #ccc;
 	--map-marker-arrow: #ff0;
 	--map-marker-color-0: #000;
@@ -114,11 +116,10 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	background-color: #0008;
 }
 
-.tab_map .toolbar .petTiles {
-	background-color: #08fa;
-}
+.tab_map .toolbar .petTiles,
 .tab_map .toolbar .petCost {
-	background-color: #08f6;
+	background-color: var(--map-marker-pet);
+	color: var(--map-marker-petfg);
 }
 
 .tab_map .toolbar .special {
