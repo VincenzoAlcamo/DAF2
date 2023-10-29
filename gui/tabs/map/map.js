@@ -448,7 +448,8 @@ function getStateButtonFlag(input) {
 	return input.checked && isFlagAllowed(flag) ? flag : '';
 }
 function activateStateButton(input, state = 1) {
-	const flag = setStateButton(input, state);
+	const prevFlag = input.getAttribute('data-flag') || '';
+	const flag = setStateButton(input, state) || prevFlag;
 	updateTableFlags();
 	if ('UK'.includes(flag)) queue.add(processMine);
 	else if ('LBEO'.includes(flag)) return;
