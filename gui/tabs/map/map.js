@@ -132,8 +132,7 @@ const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
 let resize, listMaterial;
 let unclearTilesToMix = {};
-let isEditMode = false,
-	hasPendingEdits = false;
+let isEditMode = false, hasPendingEdits = false;
 const theme = new ThemeEditor();
 
 //#region QUEUE
@@ -210,9 +209,10 @@ function getThemeDefaults() {
 		ARROW('arrow', 3, '#F8C', 1, '#400'),
 		ARROW('arrow2', 3, '#F00', 1, '#440')
 	);
-	['#000', '#F00', '#0F0', '#FF0', '#00F', '#F0F', '#0FF', '#FFF', '#FA0', '#AAF'].forEach(
-		(col, i) => (defaults['marker.color.' + i] = COL(col, CSS))
-	);
+	[
+		'#000', '#F00', '#0F0', '#FF0', '#00F', '#F0F', '#0FF', '#FFF', '#FA0', '#AAF',
+		'#000', '#800', '#080', '#880', '#008', '#808', '#088', '#888', '#850', '#558'
+	].forEach((col, i) => (defaults['marker.color.' + i] = COL(col, CSS)));
 	return defaults;
 }
 
@@ -427,6 +427,23 @@ function init() {
 	container.addEventListener('tooltip', onTooltip);
 
 	document.body.addEventListener('keydown', onKeydown);
+
+	container.querySelector('.toolbar button[data-action="edit"]').title = `I = toggle edit mode
+U = toggle Uncleared mode
+
+Highlight a tile and press:
+0-9 = set tile outline color 0-9
+O = toggle the outline style (solid, corners, dots)
+M = toggle mix for tile
+
+Highlight a teleport tile and press:
+ALT 0-9 = set teleport arrow color 0-9
+
+When selecting a color use SHIFT for colors 10-19
+0 will remove the color
+
+CTRL click a door/teleport tile to rename it
+`
 }
 
 function setStateButton(input, state = 0) {
@@ -503,8 +520,16 @@ function onKeydown(event) {
 			unclearTilesToMix = {};
 			bgp.Data.saveMine(mine);
 		};
-		if (key >= '0' && key <= '9') {
-			const col = +key;
+		let isDigit = key >= '0' && key <= '9';
+		let col = isDigit ? +key : 0;
+		if (event.code.startsWith('Digit')) {
+			const c = event.code.charAt(5);
+			if (c >= '0' && c <= '9' && event.shiftKey && !event.ctrlKey) {
+				isDigit = true;
+				col = c == '0' ? 0 : +c + 10;
+			}
+		}
+		if (isDigit) {
 			if (event.altKey) {
 				const teleport = currentData.teleports[tileDef.teleportId];
 				if (!teleport) return;
@@ -570,12 +595,7 @@ function onKeydown(event) {
 		if (key != 'U') return;
 	}
 	if (!hasModifiers) {
-		const input = checks.find((el) =>
-			el
-				.getAttribute('data-flags')
-				.split(',')
-				.find((v) => v.startsWith(key) && isFlagAllowed(v))
-		);
+		const input = checks.find((el) => el.getAttribute('data-flags').split(',').find((v) => v.startsWith(key) && isFlagAllowed(v)));
 		if (input) {
 			const arr = (',' + input.getAttribute('data-flags')).split(',');
 			const flag = getStateButtonFlag(input);
@@ -2514,7 +2534,7 @@ async function drawMine(args) {
 	await Promise.all(Object.values(images).map((i) => i.promise));
 
 	// const specialColors = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1], [1, .7, 0], [.7, .7, 1]];
-	const specialColors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => ThemeEditor.toTripletColor(themeSettings.marker.color[n]));
+	const specialColors = Array.from({ length: 20}, (_, n) => ThemeEditor.toTripletColor(themeSettings.marker.color[n]));
 
 	const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
 	const getMiscItem = (tileDef) => {
