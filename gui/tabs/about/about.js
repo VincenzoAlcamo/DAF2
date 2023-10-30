@@ -74,6 +74,8 @@ async function updateBg() {
 				return end > now;
 			});
 			if (!items.length) items = events;
+			// Skip XMAS17
+			if (items.length > 1) items = items.filter(id => id != 217);
 		}
 	}
 	if (!items.length) ['map_bg_egypt', 'map_bg_scand', 'map_bg_china', 'map_bg_atlantis', 'map_bg_greece', 'map_bg_america'].forEach(src => {
