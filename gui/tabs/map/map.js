@@ -3462,31 +3462,29 @@ async function drawMine(args) {
 		const isCurrent = floorId == fid;
 		let title = gui.getMessage(isCurrent ? 'map_floor_current' : visited ? 'map_floor_found' : 'map_floor_not_found');
 		if (found && floorId <= 10) title = `${floorId || 10} = ${title}`;
-		let classes = hasOption(OPTION_FLOORINDICATORS) ? 'map_flags' : '';
-		let titles = [];
-		function checkFlag(num, className, text) {
-			if (num > 0) {
-				classes += ' ' + className;
-				titles.push(`${text} = ${Locale.formatNumber(num)}`);
-			}
-		}
+		const hasIndicator = hasOption(OPTION_FLOORINDICATORS);
+		let after = '';
 		if (visited && _t) {
 			numFound++;
 			for (const key of Object.keys(total)) total[key] += _t[key] || 0;
-			checkFlag(_t.numTiles, 'map_flags_t', `${gui.getMessage('events_tiles')} (${'Diggy'})`);
-			checkFlag(_t.numTilesPet, 'map_flags_pet', `${gui.getMessage('events_tiles')} (${gui.getMessage('gui_pet')})`);
-			checkFlag(_t.numSpecial, 'map_flags_s', gui.getMessage('map_special'));
-			checkFlag(_t.numQuest, 'map_flags_q', gui.getMessage('map_quest'));
-			checkFlag(_t.numPhoto, 'map_flags_p', gui.getString('QINA590'));
-			checkFlag(_t.numMaterial, 'map_flags_m', gui.getMessage('gui_material'));
+			let arr = [], titles = [];
+			const addIndicator = (num, className, text) => {
+				if (num <= 0) return;
+				arr.push(Html`<span class="map_ind_${className}"></span>`);
+				titles.push(`${text} = ${Locale.formatNumber(num)}`);
+			}
+			addIndicator(_t.numTiles, 't', `${gui.getMessage('events_tiles')} (${'Diggy'})`);
+			addIndicator(_t.numTilesPet, 'pet', `${gui.getMessage('events_tiles')} (${gui.getMessage('gui_pet')})`);
+			addIndicator(_t.numSpecial, 's', gui.getMessage('map_special'));
+			addIndicator(_t.numQuest, 'q', gui.getMessage('map_quest'));
+			addIndicator(_t.numPhoto, 'p', gui.getString('QINA590'));
+			addIndicator(_t.numMaterial, 'm', gui.getMessage('gui_material'));
+			if (titles.length) title += `\n\n${titles.join('\n')}`;
+			if (arr.length && hasIndicator) after = Html`<span class="map_ind_container">${Html.raw(arr.join(''))}</span>`;
 		}
-		if (titles.length) {
-			title += `\n\n${titles.join('\n')}`;
-			classes += ' map_has_flags';
-		}
-		htm += Html`<span class="${classes}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''
+		htm += Html`<span class="${hasIndicator ? 'map_ind_main' : ''}" title="${title}"><input type="radio" data-flag="${floorId}"${isCurrent ? ' checked' : ''
 			}${!visited && isAdmin && !isCurrent ? Html.raw(' style="background-color:#e8e"') : ''
-			}${found || isAdmin ? '' : ' disabled'} title="${title}"></span>`;
+			}${found || isAdmin ? '' : ' disabled'}>${after}</span>`;
 	}
 	const div = container.querySelector('[data-id="fid"]');
 	Html.set(div, htm);

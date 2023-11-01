@@ -481,61 +481,52 @@ body.map-rendered .tab_map .scrollable-content.dragging td {
 	visibility: visible;
 }
 
-/* FLOOR SELECTOR FLAGS */
-.tab_map .map_flags {
+/* FLOOR INDICATORS */
+.tab_map .map_ind_main {
 	display: inline-block;
-	height: 20px;
-	margin-top: 2px;
 	position: relative;
-	--c1: transparent;
-	--c2: transparent;
-	--c3: transparent;
-	--c4: transparent;
-	box-shadow: 0px -3px var(--c1),
-		inset 0px 10px var(--c2),
-		inset 0px -10px var(--c3),
-		0px 3px var(--c4);
+	margin-top: -2px;
 }
-.tab_map .map_flags_s {
-	--c1: var(--map-marker-special);
-}
-.tab_map .map_flags_t {
-	--c2: var(--map-marker-tile);
-}
-.tab_map .map_flags_pet {
-	--c2: #00f;
-}
-.tab_map .map_flags_m {
-	--c3: var(--map-marker-material);
-}
-.tab_map .map_flags_q {
-	--c4: var(--map-marker-quest);
-}
-.tab_map .map_flags_p {
-	--c4: var(--map-marker-photo);
-}
-.tab_map .map_flags.map_flags_t.map_flags_pet:before {
-    content: " ";
-    display: block;
-    background-color: var(--map-marker-tile);
-    position: absolute;
-    width: 50%;
-    height: 50%;
-}
-.tab_map .map_flags.map_flags_q.map_flags_p:after {
-	content: " ";
-	display: block;
-	background-color: var(--map-marker-quest);
-	height: 3px;
+.tab_map .map_ind_container {
 	position: absolute;
-	width: 50%;
+	top: 100%;
+	left: 1px;
+	z-index: -1;
+	display: grid;
+	grid-gap: 0;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	grid-template-areas: "a b c" "d e f";
+	grid-gap: 1px;
+	width: calc(100% - 2px);
+	height: 9px;
+	background-color: #000b;
+    padding: 1px;
+	margin-top: -1px;
 }
-.tab_map .map_has_flags:not(.map_flags) {
-	display: inline-block;
-	height: 20px;
-	margin-top: 2px;
-	position: relative;
-	box-shadow: 0px -3px #fff;
+.tab_map .map_ind_s {
+	grid-area: a;
+	background-color: var(--map-marker-special);
+}
+.tab_map .map_ind_q {
+	grid-area: b;
+	background-color: var(--map-marker-quest);
+}
+.tab_map .map_ind_p {
+	grid-area: c;
+	background-color: var(--map-marker-photo);
+}
+.tab_map .map_ind_t {
+	grid-area: d;
+	background-color: var(--map-marker-tile);
+}
+.tab_map .map_ind_pet {
+	grid-area: e;
+	background-color: var(--map-marker-pet);
+}
+.tab_map .map_ind_m {
+	grid-area: f;
+	background-color: var(--map-marker-material);
 }
 
 /* EDITS */
