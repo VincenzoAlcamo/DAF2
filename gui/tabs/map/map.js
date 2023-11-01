@@ -483,7 +483,7 @@ function onStateButtonClick(e) {
 	activateStateButton(input, state);
 }
 
-const isValidEvent = () => gui.isValidEventForTab('map');
+const isValidEvent = () => gui.isValidEventForTab('map', true);
 function onKeydown(event) {
 	if (!isValidEvent()) return;
 	const key = event.key.toUpperCase();

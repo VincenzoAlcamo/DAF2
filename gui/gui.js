@@ -246,10 +246,10 @@ const gui = {
 	async setCurrentTab(tabId) {
 		await setCurrentTab(tabId);
 	},
-	isValidEventForTab(tabId) {
+	isValidEventForTab(tabId, excludeSelect) {
 		if (gui.dialog.visible || gui.wait.visible) return false;
 		const el = document.activeElement, tagName = el ? el.tagName : '';
-		if (tagName == 'SELECT') return false;
+		if (tagName == 'SELECT' && !excludeSelect) return false;
 		if (tagName == 'INPUT' && el.name != 'paste' && (el.type == 'text' || el.type == 'number')) return false;
 		const current = gui.getCurrentTab();
 		return current && current.id == tabId ? true : false;
