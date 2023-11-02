@@ -165,12 +165,13 @@ function init() {
 		if (prefName == 'badgeFoundry') messageId = 'tab_foundry';
 		if (prefName == 'linkGrabBadge') messageId = 'options_section_badges';
 		if (prefName == 'hFlashAdSound') messageId = 'options_hflashad';
+		if (prefName == 'hPetSpeed') messageId = 'options_hspeed';
 		let text = gui.getMessage(messageId);
 		const i = text.indexOf('\n');
 		let title = i >= 0 ? text.substr(0, i) : text;
 		let info = i >= 0 ? text.substr(i + 1) : '';
-		if (messageId.startsWith('options_hloot')) title = gui.getMessageAndValue('gui_loot', title);
-		if (messageId.startsWith('options_hpet')) title = gui.getMessageAndValue('gui_pet', title);
+		if (prefName.startsWith('hLoot')) title = gui.getMessageAndValue('gui_loot', title);
+		if (prefName.startsWith('hPet')) title = gui.getMessageAndValue('gui_pet', title);
 		if (prefName == 'linkGrabBadge') info = '';
 		if (prefName == 'linkGrabKey') {
 			const s = gui.getMessage('options_linkGrabButton');
@@ -454,6 +455,7 @@ UI_claim_coin_single_slow_02
 	option('hQueue', SUBOPTION);
 	option('hLockCaravan', SUBOPTION);
 	option('hPetFollow', SUBOPTION);
+	option('hPetSpeed', SUBOPTION);
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');
