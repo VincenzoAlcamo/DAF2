@@ -2228,7 +2228,7 @@
 		"message": "GC csoport\nRakd a GC-ket egymáshoz közel"
 	},
 	"options_hlockcaravan": {
-		"message": "Lock lakókocsik\nMegakadályozza a jegygel küldött lakókocsik gyűjteményét"
+		"message": "Karaván lezárása\nMegakadályozza a jegygel küldött karavánok begyűjtését"
 	},
 	"calc_operators": {
 		"message": "Műveleti jelek"

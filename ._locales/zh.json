@@ -917,7 +917,7 @@
 		"message": "預計等級"
 	},
 	"pillars_predicted_gain": {
-		"message": "預計因爲等級提升獲得的"
+		"message": "預計因等級提升可獲得"
 	},
 	"pillars_ignore": {
 		"message": "點擊以忽略/考慮"
@@ -993,7 +993,7 @@
 		"message": "禮物計數"
 	},
 	"neighbors_giftvalue": {
-		"message": "禮物價值(以經驗計算)"
+		"message": "禮物價值(以經驗值計算)"
 	},
 	"neighbors_efficiency": {
 		"message": "效率(禮物/天)"
@@ -1033,7 +1033,7 @@
 		}
 	},
 	"neighbors_advancedfilterinfo": {
-		"message": "你可以進一步以最近@DAYS@天你鄰居送你的禮物來篩選他們, 在下面列表中點擊一個或更多的禮物"
+		"message": "你可以以最近@DAYS@天鄰居送你的禮物來進一步篩選他們, 在下面列表中點擊一個或更多的禮物"
 	},
 	"neighbors_clearfilter": {
 		"message": "清除篩選"
@@ -2096,7 +2096,7 @@
 		"message": "自動關閉\n在獎勵領取後自動關閉這個頁面"
 	},
 	"options_rewardscloseexceptgems": {
-		"message": "綠鑽除外\n當發現綠鑽時不要自動關閉頁面"
+		"message": "綠鑽除外\n當收到綠鑽時不要自動關閉頁面"
 	},
 	"options_rewardscloseexcepterrors": {
 		"message": "錯誤除外\n當發生錯誤時不要自動關閉頁面"
@@ -2222,10 +2222,10 @@
 		"message": "自動大寫\n任何輸入禮物碼的字母都會自動大寫"
 	},
 	"options_hflashad": {
-		"message": "快閃廣告聲響\n當快閃廣告按鈕出現時，發聲提醒"
+		"message": "快閃廣告提醒\n當快閃廣告按鈕出現時，發聲提醒"
 	},
 	"options_hgccluster": {
-		"message": "神之子的聚集\n縮短短神之子間的距離"
+		"message": "神之子的聚集\n縮短神之子間的距離"
 	},
 	"options_hlockcaravan": {
 		"message": "鎖定商隊票券\n防止收取利用票券送出的商隊"

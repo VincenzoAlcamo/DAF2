@@ -440,7 +440,7 @@
 		"message": "Henüz Oyun Verisi Yüklenmedi, lütfen oyun penceresini yükleyin veya yenileyin."
 	},
 	"about_disclaimer": {
-		"message": "Da Friends 'Fan Kodu'dur ve \"Diggy's Adventure\" oyunun sahibi olan Pixel Federation firması tarafından ne onaylanmakta nede desteklenmektedir. DA Friends eklentisini riski size ait olmak üzere kullanırsınız. İşlevsellik veya kullanılabilirlik açısından açık veya örtülü hiçbir garanti verilmez veya garantiyle birlikte gelmez. Bu uzantı yazarı, kullanımdan kaynaklanan herhangi bir hasar veya kayıptan sorumlu tutulamaz. Bu uzantıyı kullanarak bu şartları kabul etmiş olursunuz."
+		"message": "DA Friends, 'Hayran Kodu'dur ve \"Diggy's Adventure\" oyununun yazarları olan Pixel Federasyonu tarafından onaylanmamakta veya desteklenmemektedir.\nDA Friends'i kullanmanın riski size aittir. İşlevsellik veya kullanılabilirlik konusunda açık veya örtülü hiçbir garanti veya teminat verilmemektedir.\nYazar, kullanımından kaynaklanan herhangi bir hasar veya kayıptan sorumlu tutulamaz.\nBu uzantıyı kullanarak bu şartları kabul etmiş olursunuz."
 	},
 	"about_translators": {
 		"message": "Çevirmenler"
@@ -2216,7 +2216,7 @@
 		"message": "Kolay karo kuyruğu\nKuyruk daha uzun.\nVites anahtarını basılı tutun ve fareyi kuyruğa eklemek için bazı fayansların üzerinden hareket ettirin"
 	},
 	"options_hscroll": {
-		"message": "Atalet kaydırmayı devre dışı bırakın\nAtalet kaydırma, sürüklemeyi bıraktıktan sonra bile ekranın hareket etmeye devam ettiği etkisidir."
+		"message": "Eylemsiz kaydırmayı devre dışı bırak\nEylemsiz kaydırma, sürüklemeyi bıraktıktan sonra bile ekranın hareket etmeye devam ettiği efekttir"
 	},
 	"options_hreward": {
 		"message": "Otomatik büyük harf yap\nHediye koduna yapılan tüm girişler otomatik olarak büyük harfle yazılır"
@@ -2287,7 +2287,7 @@
 		"message": "Linkleri yenile"
 	},
 	"linkgrabber_fn_showid": {
-		"message": "Ödül Kimliğini (ID) Göster"
+		"message": "Ödül Kimliğini Göster"
 	},
 	"linkgrabber_fn_autosend": {
 		"message": "Otomatik-gönder"
