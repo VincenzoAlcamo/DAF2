@@ -1095,22 +1095,24 @@ function onTableMouseMove(event) {
 	lastTeleportId = teleportId;
 	const line = map.querySelector('.line');
 	const circle = map.querySelector('.circle');
+	line.style.display = circle.style.display = 'none';
 	if (tileDef) {
 		const table = cell.parentNode.parentNode.parentNode;
 		const offsetX = +table.getAttribute('data-x'), offsetY = +table.getAttribute('data-y');
 		(sx -= offsetX), (tx -= offsetX), (sy -= offsetY), (ty -= offsetY);
 		const dx = sx - tx, dy = sy - ty;
-		const angle = Math.atan2(dy, dx) + Math.PI;
-		const width = (Math.sqrt(dx * dx + dy * dy) - 1) * TILE_SIZE;
-		line.style.left = Math.floor((sx + 0.5 + Math.cos(angle) / 2) * TILE_SIZE) + 'px';
-		line.style.top = Math.floor((sy + 0.5 + Math.sin(angle) / 2) * TILE_SIZE - 5) + 'px';
-		line.style.width = Math.floor(width) + 'px';
-		line.style.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+		if (dx || dy) {
+			const angle = Math.atan2(dy, dx) + Math.PI;
+			const width = (Math.sqrt(dx * dx + dy * dy) - 1) * TILE_SIZE;
+			line.style.left = Math.floor((sx + 0.5 + Math.cos(angle) / 2) * TILE_SIZE) + 'px';
+			line.style.top = Math.floor((sy + 0.5 + Math.sin(angle) / 2) * TILE_SIZE - 5) + 'px';
+			line.style.width = Math.floor(width) + 'px';
+			line.style.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+			line.style.display = 'block';
+		}
 		circle.style.left = Math.floor(tx * TILE_SIZE) + 'px';
 		circle.style.top = Math.floor(ty * TILE_SIZE) + 'px';
-		line.style.display = circle.style.display = 'block';
-	} else {
-		line.style.display = circle.style.display = 'none';
+		circle.style.display = 'block';
 	}
 }
 
