@@ -618,7 +618,8 @@ function calcRegion(item) {
 	item.max = item.value = item.crtd = item.cmpl = item.energy = item.bonus = 0;
 	const locations = gui.getFile('locations_' + item.rid);
 	const loc_prog = Object.assign({}, gui.getGenerator().loc_prog, bgp.Data.loc_prog);
-	const getProg = (lid) => +loc_prog[lid]?.crtd || 0;
+	const getProgTime = (lid) => +loc_prog[lid]?.crtd || 0;
+	const getProg = (lid) => +loc_prog[lid]?.prog || 0;
 	const excluded = {};
 	const checkPair = (oldId, newId) => {
 		if (oldId in locations && newId in locations) {
@@ -726,7 +727,7 @@ function calcRegion(item) {
 		if (!result)  {
 			if (a.order_id && b.order_id) result = a.order_id - b.order_id;
 			if (!result) {
-				const aProg = getProg(a.id), bProg = getProg(b.id);
+				const aProg = getProgTime(a.id), bProg = getProgTime(b.id);
 				if (aProg && bProg) result = aProg - bProg;
 				else if(aProg) result = -1;
 				else if(bProg) result = 1;
