@@ -1073,15 +1073,66 @@ function findTableCell(event) {
 	}
 	return cell;
 }
+let cellsShown = [], lastShownTileDef;
 function onTableMouseMove(event) {
 	if (!currentData) return;
 	const cell = findTableCell(event);
-	let teleportId = 0;
-	let sx, sy, tx, ty, tileDef;
-	if (cell && cell.classList.contains('teleport')) {
+	let sx, sy, tileDef;
+	if (cell) {
 		sx = cell.cellIndex;
 		sy = cell.parentNode.rowIndex;
 		tileDef = currentData.tileDefs[sy * currentData.cols + sx];
+	}
+	// Show cells
+	const tileShown = event.shiftKey ? tileDef : null;
+	if (tileShown !== lastShownTileDef) {
+		lastShownTileDef = tileShown;
+		cellsShown.forEach(cell => cell.classList.remove('halo', 'halo-e', 'halo-w', 'halo-n', 'halo-s'));
+		cellsShown = [];
+		if (tileShown) {
+			let lastCell;
+			const addTile = (cell, className) => {
+				if (!cell.classList.contains('tile')) return;
+				cell.classList.add('halo');
+				if (className) cell.classList.add(className);
+				cellsShown.push(cell);
+				lastCell = cell;
+			};
+			const show = (x, y, num, className) => {
+				if (x >= 0 && y >= 0) {
+					let cell = table.rows[y]?.cells[x];
+					if (!cell) return;
+					lastCell = null;
+					for(let n = 0; cell && n <= num; n++, cell = cell.previousElementSibling) addTile(cell, className);
+					if (lastCell) lastCell.classList.add('halo-w');
+					cell = table.rows[y].cells[x + 1];
+					lastCell = null;
+					for(let n = 0; cell && n < num; n++, cell = cell.nextElementSibling) addTile(cell, className);
+					if (lastCell) lastCell.classList.add('halo-e');
+				}
+			};
+			show(sx, sy, 2);
+			show(sx, sy - 1, 2);
+			show(sx, sy + 1, 2);
+			show(sx, sy - 2, 1, 'halo-n');
+			show(sx, sy + 2, 1, 'halo-s');
+			const markIf = (x, y, y2, className) => {
+				const cell = table.rows[y]?.cells[x];
+				if (cell && cell.classList.contains('halo')) {
+					const cell2 = table.rows[y2]?.cells[x];
+					if (!cell2 || !cell2.classList.contains('halo')) cell.classList.add(className);
+				}
+			};
+			markIf(sx - 2, sy - 1, sy - 2, 'halo-n');
+			markIf(sx + 2, sy - 1, sy - 2, 'halo-n');
+			markIf(sx - 2, sy + 1, sy + 2, 'halo-s');
+			markIf(sx + 2, sy + 1, sy + 2, 'halo-s');
+		}
+		map.classList.toggle('halo', cellsShown.length > 0);
+	}
+	// Teleport
+	let teleportId = 0, tx, ty;
+	if (cell && cell.classList.contains('teleport')) {
 		teleportId = (tileDef && tileDef.teleportId) || 0;
 		const teleport = currentData.teleports[teleportId];
 		const target = teleport && currentData.teleports[teleport.target_teleport_id];

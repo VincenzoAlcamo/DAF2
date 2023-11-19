@@ -256,11 +256,13 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	border: 0;
 	position: absolute;
 	border-collapse: separate;
+	transition: background-color ease-in-out 0.4s;
 }
 
 .tab_map .map.show_opaque table,
+.tab_map .map.halo table,
 .tab_map .map.show_tiles table {
-	background-color: #0006;
+	background-color: #000a;
 }
 
 .tab_map .map canvas {
@@ -290,6 +292,8 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	position: relative;
 }
 
+/* .tab_map .scrollable-content.dragging td.tile, */
+.tab_map td.halo,
 .tab_map .map.show_tiles td.tile {
 	border: 2px solid #fff;
 	background-color: #aaf6;
@@ -307,18 +311,22 @@ body.is-admin .tab_map .toolbar button[data-action='admin'] {
 	background-color: #0ff6;
 }
 
+.tab_map td.halo.tile-e:not(.halo-e),
 .tab_map .map.show_tiles td.tile.tile-e {
 	border-right-style: none;
 }
 
+.tab_map td.halo.tile-n:not(.halo-n),
 .tab_map .map.show_tiles td.tile.tile-n {
 	border-top-style: none;
 }
 
+.tab_map td.halo.tile-s:not(.halo-s),
 .tab_map .map.show_tiles td.tile.tile-s {
 	border-bottom-style: none;
 }
 
+.tab_map td.halo.tile-w:not(.halo-w),
 .tab_map .map.show_tiles td.tile.tile-w {
 	border-left-style: none;
 }
