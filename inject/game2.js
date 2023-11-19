@@ -508,12 +508,8 @@ intercept("com.pixelfederation.diggy.game.custom.DecalContainer", 'createDropCou
 		if (p_screenType === 'mineScreen' && hasFlag('hLootCount')) p_showText = true;
 		const dp = this.dropLootDecalPool, dp_getNext = dp?.getNext;
 		if (dp && p_screenType === 'mineScreen' && hasFlag('hLootFast')) dp.getNext = function() { return null; };
-		// Fix bug in game code that exhausts the pool
-		const tp = this.textDecalPool, tp_getNext = tp?.getNext;
-		if (tp && !p_showText) tp.getNext = function() { return null; };
 		const result = _createDropCount.apply(this, arguments);
 		if (dp) dp.getNext = dp_getNext;
-		if (tp) tp.getNext = tp_getNext;
 		return result;
 	};
 });
