@@ -1096,7 +1096,7 @@ function onTableMouseMove(event) {
 	const line = map.querySelector('.line');
 	const circle = map.querySelector('.circle');
 	line.style.display = circle.style.display = 'none';
-	if (tileDef) {
+	if (teleportId) {
 		const table = cell.parentNode.parentNode.parentNode;
 		const offsetX = +table.getAttribute('data-x'), offsetY = +table.getAttribute('data-y');
 		(sx -= offsetX), (tx -= offsetX), (sy -= offsetY), (ty -= offsetY);
