@@ -1111,22 +1111,21 @@ function onTableMouseMove(event) {
 					if (lastCell) lastCell.classList.add('halo-e');
 				}
 			};
-			show(sx, sy, 2);
-			show(sx, sy - 1, 2);
-			show(sx, sy + 1, 2);
-			show(sx, sy - 2, 1, 'halo-n');
-			show(sx, sy + 2, 1, 'halo-s');
-			const markIf = (x, y, y2, className) => {
+			const mark = (x, y, className) => {
 				const cell = table.rows[y]?.cells[x];
-				if (cell && cell.classList.contains('halo')) {
-					const cell2 = table.rows[y2]?.cells[x];
-					if (!cell2 || !cell2.classList.contains('halo')) cell.classList.add(className);
-				}
+				if (cell?.classList.contains('halo')) cell.classList.add(className);
 			};
-			markIf(sx - 2, sy - 1, sy - 2, 'halo-n');
-			markIf(sx + 2, sy - 1, sy - 2, 'halo-n');
-			markIf(sx - 2, sy + 1, sy + 2, 'halo-s');
-			markIf(sx + 2, sy + 1, sy + 2, 'halo-s');
+			show(sx, sy, 3);
+			show(sx, sy - 1, 3);
+			show(sx, sy - 2, 3);
+			show(sx, sy - 3, 2, 'halo-n');
+			show(sx, sy + 1, 3);
+			show(sx, sy + 2, 3);
+			show(sx, sy + 3, 2, 'halo-s');
+			mark(sx - 3, sy - 2, 'halo-n');
+			mark(sx + 3, sy - 2, 'halo-n');
+			mark(sx - 3, sy + 2, 'halo-s');
+			mark(sx + 3, sy + 2, 'halo-s');
 		}
 		map.classList.toggle('halo', cellsShown.length > 0);
 	}
