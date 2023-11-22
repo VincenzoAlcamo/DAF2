@@ -7,7 +7,7 @@ const MAX_LEVEL = 1999;
 function ringLoot(kind) {
 
 	let tokenId, locations;
-	let requires = ['materials', 'usables', 'tokens', 'xp'];
+	let requires = ['materials', 'usables', 'tokens', 'special_weeks', 'xp'];
 	// mineid: ringid
 	const christmasMines = {
 		1987: 5605,
@@ -23,14 +23,12 @@ function ringLoot(kind) {
 		const maxRId = gui.getMaxRegion();
 		locations = [];
 		for (let rid = 1; rid <= maxRId; rid++) locations.push('locations_' + rid);
-		requires.push('special_weeks');
 	} else if (kind == 'red') {
 		tokenId = 1642;
 		locations = ['locations_0'];
 	} else if (kind == 'christmas') {
 		tokenId = 0;
 		locations = ['locations_0'];
-		requires.push('special_weeks');
 	} else throw 'Invalid kind "' + kind + '"';
 	requires = requires.concat(locations);
 
