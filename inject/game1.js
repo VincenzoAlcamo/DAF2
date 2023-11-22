@@ -9,6 +9,7 @@ let hasCore = false;
 
 function getUnixTime() { return Math.floor(Date.now() / 1000); }
 function getFullWindow() { return prefs.fullWindow && loadCompleted; }
+function sendValue(name, value) { chrome.runtime.sendMessage({ action: 'sendValue', name: name, value: prefs[name] = value }); }
 function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
 function setFlag(name, value) { document.documentElement.setAttribute('daf--' + name.toLowerCase().replace(/@/g, '_'), String(typeof value == 'boolean' ? +value : value ?? '')); }
 function forward(action, data) { chrome.runtime.sendMessage(Object.assign({}, data, { action: 'forward', real_action: action })); }
@@ -423,6 +424,7 @@ function createMenu() {
 	<b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
 	<b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
 	<b data-animate class="DAF-badge-petshop DAF-badge-img" title="${gm0('options_badgepetshop')}"></b>
+	<b class="DAF-badge-queue"></b>
 	<div data-animate class="DAF-badge-rep"></div>
 </div>
 `;
@@ -471,7 +473,7 @@ function updateMenu(prefName) {
 	});
 	const divBadges = menu.querySelector('.DAF-badges');
 	const names = prefName ? [prefName] : Object.keys(prefs);
-	names.filter(prefName => prefName.startsWith('badge')).forEach(prefName => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!prefs[prefName]));
+	names.filter(prefName => prefName.startsWith('badge') || prefName === 'hQueue').forEach(prefName => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!prefs[prefName]));
 }
 
 function onMenuClick(e) {
@@ -597,7 +599,7 @@ function initDOM() {
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 	addPrefs('badgePetShop,badgePetShopSound');
-	addPrefs('@extra,@screen,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@extra,@screen,@queue,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
 
 	const prefFlags = new Set(['@screen']);
@@ -606,7 +608,22 @@ function initDOM() {
 		prefs[name] = value;
 		if (prefFlags.has(name)) setFlag(name, value);
 		if (name in handlers) handlers[name](value);
+		if (name == '@queue') setBadge({ selector: '.DAF-badge-queue', text: 'AUTO QUEUE', active: value});
 		updateMenu(name);
+	}
+
+	let lastKeyCode;
+	function onKeyUp() { lastKeyCode = 0; }
+	function onKeyDown(event) {
+		if (lastKeyCode == event.keyCode) return;
+		lastKeyCode = event.keyCode;
+		if (event.code == 'Key' + prefs.queueHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
+			event.stopPropagation();
+			event.preventDefault();
+			const prefName = '@queue', newValue = !prefs[prefName];
+			setPref(prefName, newValue);
+			sendValue(prefName, newValue);
+		}
 	}
 
 	chrome.runtime.sendMessage({ action: 'getPrefs', keys: Object.keys(prefs) }, function (response) {
@@ -687,6 +704,8 @@ function initDOM() {
 		};
 		msgHandlers['hFlashAd'] = () => prefs.hFlashAdSound && playSound(getSound(prefs.hFlashAdSoundName), prefs.hFlashAdVolume);
 		window.addEventListener('resize', onResize);
+		window.addEventListener('keydown', onKeyDown);
+		window.addEventListener('keyup', onKeyUp);
 		onFullWindow();
 		createMenu();
 		updateMenu();

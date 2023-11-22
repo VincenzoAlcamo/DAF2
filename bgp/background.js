@@ -141,6 +141,7 @@ var Preferences = {
 			hMain: false,
 			hSpeed: false,
 			hQueue: false,
+			queueHotKey: 'Q',
 			hScroll: false,
 			hReward: true,
 			hLootCount: true,

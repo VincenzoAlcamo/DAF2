@@ -216,19 +216,6 @@ function init() {
 				htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
 			}
 			htm += Html.br`</select>`;
-			if (prefName == 'linkGrabKey') {
-				options = ['left', 'middle', 'right'].map((n, i) => [i, gui.getMessage('options_button_' + n)]);
-				htm += Html.br` + <select data-pref="linkGrabButton">`;
-				for (const option of options) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
-				htm += Html.br`</select>`;
-				htm += Html.br`<br>`;
-				htm += Html.br`<h3 style="margin-top:4px">Hot Key</h3>`;
-				htm += Html.br`${gui.getMessage('options_modifier_alt')} + <select data-pref="linkGrabHotKey">`;
-				const hotkeys = [];
-				for (let i = 65; i < 90; i++) hotkeys.push([String.fromCharCode(i), String.fromCharCode(i)]);
-				for (const option of hotkeys) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
-				htm += Html.br`</select>`;
-			}
 		} else if (type == TEXT) {
 			if (options && typeof options == 'object' && (options.min || options.max)) {
 				if (options.type == 'range') htm += Html.br`<label>`;
@@ -237,6 +224,29 @@ function init() {
 			} else {
 				htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%">`;
 			}
+		}
+		let hotKeyPref, hotKeyPre, hotKeyPost;
+		if (prefName == 'linkGrabKey') {
+			options = ['left', 'middle', 'right'].map((n, i) => [i, gui.getMessage('options_button_' + n)]);
+			htm += Html.br` + <select data-pref="linkGrabButton">`;
+			for (const option of options) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
+			htm += Html.br`</select>`;
+			hotKeyPref = 'linkGrabHotKey';
+			hotKeyPre = Html.br`<br>`;
+		} else if (prefName == 'hQueue') {
+			hotKeyPref = 'queueHotKey';
+			hotKeyPre = Html.br`<div style="padding-left:32px">`;
+			hotKeyPost = Html.br`</div>`;
+		}
+		if (hotKeyPref) {
+			htm += (hotKeyPre || '');
+			htm += Html.br`<h3 style="margin-top:4px">Hot Key</h3>`;
+			htm += Html.br`${gui.getMessage('options_modifier_alt')} + <select data-pref="${hotKeyPref}">`;
+			const hotkeys = [];
+			for (let i = 65; i < 90; i++) hotkeys.push([String.fromCharCode(i), String.fromCharCode(i)]);
+			for (const option of hotkeys) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
+			htm += Html.br`</select>`;
+			htm += (hotKeyPost || '');
 		}
 		if (warnings.length) htm += Html.br`<div class="warning">${warnings.join('\n')}</div>`;
 		htm += Html.br`${extraHtml}</td>`;

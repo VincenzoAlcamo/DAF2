@@ -257,7 +257,7 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@super,@extra,@queue,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
 
 	function setPref(name, value) {
@@ -265,6 +265,20 @@ function init() {
 		prefs[name] = value;
 		setFlag(name, value);
 		if (name in handlers) handlers[name]();
+	}
+
+	let lastKeyCode;
+	function onKeyUp() { lastKeyCode = 0; }
+	function onKeyDown(event) {
+		if (lastKeyCode == event.keyCode) return;
+		lastKeyCode = event.keyCode;
+		if (event.code == 'Key' + prefs.queueHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
+			event.stopPropagation();
+			event.preventDefault();
+			const prefName = '@queue', newValue = !prefs[prefName];
+			setPref(prefName, newValue);
+			sendValue(prefName, newValue);
+		}
 	}
 
 	chrome.runtime.sendMessage({ action: 'getPrefs', keys: Object.keys(prefs) }, function (response) {
@@ -305,6 +319,7 @@ function init() {
 			ongcTable(true);
 		};
 		setTimeout(msgHandlers['generator'], 10000);
+		msgHandlers['sendValue'] = (request) => setPref(request.name, request.value);
 		msgHandlers['friend_child_charge'] = (request) => {
 			gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
 			if (prefs.autoGC && request.data.skip) {
@@ -314,6 +329,8 @@ function init() {
 			}
 		};
 		window.addEventListener('resize', onResize);
+		window.addEventListener('keydown', onKeyDown);
+		window.addEventListener('keyup', onKeyUp);
 		sendMinerPosition();
 		onFullWindow();
 		const key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
@@ -467,7 +484,7 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler
 		}
 		if (isActive && tile && old !== tile && (tile.isBreakable() || tile.isUsable())) {
 			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-			else if (e.shiftKey) this._character.go(tile);
+			else if (e.shiftKey || hasFlag('_queue')) this._character.go(tile);
 		}
 		return result;
 	};
