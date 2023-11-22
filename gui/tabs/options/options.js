@@ -209,7 +209,7 @@ function init() {
 		}
 
 		htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
-		htm += Html.br`<td${!hasCheckBox ? Html.raw(' colspan="2"') : ''}><h3>${title}</h3><p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
+		htm += Html.br`<td${!hasCheckBox ? Html.raw(' colspan="2"') : ''} style="${prefName === 'hAutoQueue' ? 'padding-left:64px' : ''}"><h3>${title}</h3><p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
 		if (hasSelect) {
 			htm += Html.br`<select data-pref="${selectPrefName}">`;
 			for (const option of options) {
@@ -225,7 +225,7 @@ function init() {
 				htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%">`;
 			}
 		}
-		let hotKeyPref, hotKeyPre, hotKeyPost;
+		let hotKeyPref, hotKeyPre;
 		if (prefName == 'linkGrabKey') {
 			options = ['left', 'middle', 'right'].map((n, i) => [i, gui.getMessage('options_button_' + n)]);
 			htm += Html.br` + <select data-pref="linkGrabButton">`;
@@ -233,20 +233,17 @@ function init() {
 			htm += Html.br`</select>`;
 			hotKeyPref = 'linkGrabHotKey';
 			hotKeyPre = Html.br`<br>`;
-		} else if (prefName == 'hQueue') {
+		} else if (prefName == 'hAutoQueue') {
 			hotKeyPref = 'queueHotKey';
-			hotKeyPre = Html.br`<div style="padding-left:32px">`;
-			hotKeyPost = Html.br`</div>`;
 		}
 		if (hotKeyPref) {
-			htm += (hotKeyPre || '');
-			htm += Html.br`<h3 style="margin-top:4px">Hot Key</h3>`;
+			htm += hotKeyPre || '';
+			htm += Html.br`<h3 style="margin-top:4px">${gui.getMessage('gui_hotkey')}</h3>`;
 			htm += Html.br`${gui.getMessage('options_modifier_alt')} + <select data-pref="${hotKeyPref}">`;
 			const hotkeys = [];
 			for (let i = 65; i < 90; i++) hotkeys.push([String.fromCharCode(i), String.fromCharCode(i)]);
 			for (const option of hotkeys) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
 			htm += Html.br`</select>`;
-			htm += (hotKeyPost || '');
 		}
 		if (warnings.length) htm += Html.br`<div class="warning">${warnings.join('\n')}</div>`;
 		htm += Html.br`${extraHtml}</td>`;
@@ -463,6 +460,7 @@ UI_claim_coin_single_slow_02
 	option('hFood', SUBOPTION, foodOptions);
 	option('hSpeed', SUBOPTION);
 	option('hQueue', SUBOPTION);
+	option('hAutoQueue', SUBOPTION);
 	option('hLockCaravan', SUBOPTION);
 	option('hPetFollow', SUBOPTION);
 	option('hPetSpeed', SUBOPTION);

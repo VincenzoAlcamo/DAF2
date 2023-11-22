@@ -283,9 +283,9 @@ html.DAF-fullwindow[daf--_screen^="petsShopScreen."] {
     color: #fff;
 }
 
-.DAF-badges .DAF-badge-queue {
-	padding-left: 4px;
-	padding-right: 4px;
+.DAF-badges .DAF-badge-autoqueue {
+	padding-left: 6px;
+	padding-right: 6px;
 }
 
 .DAF-badges .DAF-badge-windmills {
@@ -336,7 +336,7 @@ html.DAF-fullwindow[daf--_screen^="petsShopScreen."] {
 }
 
 .DAF-badges .DAF-badge-extra.DAF-badge-on,
-.DAF-badges.DAF-hqueue .DAF-badge-queue.DAF-badge-on,
+html[daf--hasqueue] .DAF-badges.DAF-hqueue.DAF-hautoqueue .DAF-badge-autoqueue,
 .DAF-badges.DAF-badgeserverenergy .DAF-badge-energy.DAF-badge-on,
 .DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,

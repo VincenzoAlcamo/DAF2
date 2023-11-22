@@ -397,12 +397,15 @@ function createMenu() {
 			${[...Array(19).keys()].map(i => `<option value="${i + 1}">${i + 2}</option>`).join('')}
 		</select>
 		</u>
-		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
-		<i data-pref="hQueue">${gm0('options_hqueue')}</i></u>
+		<u class="squared">
+			<i data-pref="hQueue">${gm0('options_hqueue')}</i>
+			<i data-pref="hAutoQueue">${gm0('options_hautoqueue')}</i>
+		</u>
 		<u class="squared"><i>${gm('gui_pet')}</i>
 		<i data-pref="hPetFollow">${gm0('options_hpetfollow')}</i>
 		<i data-pref="hPetSpeed" title="${Html(getMessage1('options_hspeed'))}">${gm0('options_hspeed')}</i></u>
-		<u><i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i></u>
+		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
+		<i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -424,7 +427,7 @@ function createMenu() {
 	<b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
 	<b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
 	<b data-animate class="DAF-badge-petshop DAF-badge-img" title="${gm0('options_badgepetshop')}"></b>
-	<b class="DAF-badge-queue"></b>
+	<b class="DAF-badge-autoqueue" title="${Html(getMessage1('options_hautoqueue'))}">${Html(getMessage('options_hautoqueue').split('\n')[0].toUpperCase())}</b>
 	<div data-animate class="DAF-badge-rep"></div>
 </div>
 `;
@@ -473,7 +476,8 @@ function updateMenu(prefName) {
 	});
 	const divBadges = menu.querySelector('.DAF-badges');
 	const names = prefName ? [prefName] : Object.keys(prefs);
-	names.filter(prefName => prefName.startsWith('badge') || prefName === 'hQueue').forEach(prefName => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!prefs[prefName]));
+	names.filter(prefName => prefName.startsWith('badge') || prefName === 'hQueue' || prefName === 'hAutoQueue')
+		.forEach(prefName => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!prefs[prefName]));
 }
 
 function onMenuClick(e) {
@@ -599,7 +603,7 @@ function initDOM() {
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 	addPrefs('badgePetShop,badgePetShopSound');
-	addPrefs('@extra,@screen,@queue,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@extra,@screen,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hAutoQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
 
 	const prefFlags = new Set(['@screen']);
@@ -608,7 +612,6 @@ function initDOM() {
 		prefs[name] = value;
 		if (prefFlags.has(name)) setFlag(name, value);
 		if (name in handlers) handlers[name](value);
-		if (name == '@queue') setBadge({ selector: '.DAF-badge-queue', text: 'AUTO QUEUE', active: value});
 		updateMenu(name);
 	}
 
@@ -620,9 +623,8 @@ function initDOM() {
 		if (event.code == 'Key' + prefs.queueHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
 			event.stopPropagation();
 			event.preventDefault();
-			const prefName = '@queue', newValue = !prefs[prefName];
-			setPref(prefName, newValue);
-			sendValue(prefName, newValue);
+			const prefName = 'hAutoQueue', newValue = !prefs[prefName];
+			sendPreference(prefName, newValue);
 		}
 	}
 
@@ -632,6 +634,8 @@ function initDOM() {
 			return;
 		}
 		Object.keys(response).forEach(name => setPref(name, response[name]));
+
+		autoQueueText = getMessage('options_hautoqueue').split('\n')[0];
 
 		chrome.runtime.onMessage.addListener(onMessage);
 
@@ -658,6 +662,7 @@ function initDOM() {
 				menu.querySelector('.DAF-badge-extra')?.remove();
 				options.style.removeProperty('display');
 			}
+			if (values.includes('hQueue')) setFlag('hasQueue', true);
 		}
 		handlers['fullWindow'] = onFullWindow;
 		handlers['fullWindowHeader'] = onFullWindow;

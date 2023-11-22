@@ -315,6 +315,9 @@
 	"gui_pet": {
 		"message": "Pet"
 	},
+	"gui_hotkey": {
+		"message": "Hot Key"
+	},
 	"dialog_ok": {
 		"message": "Ok"
 	},
@@ -2229,6 +2232,9 @@
 	},
 	"options_hqueue": {
 		"message": "Easy tile queue\nQueue is longer.\nHold the SHIFT key and move the mouse over some tiles to add them to the queue"
+	},
+	"options_hautoqueue": {
+		"message": "Auto queue\nJust move the mouse over some tiles to add them to the queue (SHIFT is not required)"
 	},
 	"options_hscroll": {
 		"message": "Disable inertial scrolling\nInertial scrolling is the effect where the screen continues to move even after you have stopped dragging it"

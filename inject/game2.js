@@ -257,7 +257,7 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,@queue,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@super,@extra,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hAutoQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
 
 	function setPref(name, value) {
@@ -275,9 +275,8 @@ function init() {
 		if (event.code == 'Key' + prefs.queueHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
 			event.stopPropagation();
 			event.preventDefault();
-			const prefName = '@queue', newValue = !prefs[prefName];
-			setPref(prefName, newValue);
-			sendValue(prefName, newValue);
+			const prefName = 'hAutoQueue', newValue = !prefs[prefName];
+			sendPreference(prefName, newValue);
 		}
 	}
 
@@ -472,7 +471,7 @@ intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', fun
 });
 
 intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler', function(_mouseMove_handler) {
-	extras.push('hQueue');
+	extras.push('hQueue', 'hAutoQueue');
 	let maxQueue, wasActive;
 	return function(e) {
 		const old = this._lastMineTileOver, result = _mouseMove_handler.apply(this, arguments), tile = this._lastMineTileOver;
@@ -484,7 +483,7 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler
 		}
 		if (isActive && tile && old !== tile && (tile.isBreakable() || tile.isUsable())) {
 			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-			else if (e.shiftKey || hasFlag('_queue')) this._character.go(tile);
+			else if (e.shiftKey || hasFlag('hAutoQueue')) this._character.go(tile);
 		}
 		return result;
 	};
