@@ -118,7 +118,7 @@ const ALL_OPTIONS = [
 ];
 const ALL_OPTIONS_AND_PREFERENCES = [...ALL_OPTIONS, OPTION_REPEATABLES];
 
-let tab, container, map, table, canvas, zoom;
+let tab, container, map, table, canvas, zoom, titles;
 let cdn_root, versionParameter, checks, tableTileInfo, imgLocation, selectRegion, selectFriendship;
 const images = {};
 let addons, backgrounds, draggables, npcs, childs, tiles, subtiles;
@@ -456,10 +456,7 @@ function setStateButton(input, state = 0) {
 	input.checked = state > 0;
 	const caption = flags[state ? state - 1 : 0];
 	const replacement = { 1: '¹', 2: '²', 3: '³' };
-	input.setAttribute(
-		'data-flag-caption',
-		caption.replace(/[123]/, (c) => replacement[c])
-	);
+	input.setAttribute('data-flag-caption', caption.replace(/[123]/, (c) => replacement[c]));
 	return flag;
 }
 function getStateButtonFlag(input) {
@@ -472,6 +469,7 @@ function activateStateButton(input, state = 1) {
 	updateTableFlags();
 	if ('UK'.includes(flag)) queue.add(processMine);
 	else if ('LBEO'.includes(flag)) return;
+	else if (flag == 'G') resetCellTitles();
 	else queue.add(drawMine);
 }
 
@@ -1065,6 +1063,19 @@ function showAdvancedOptions() {
 	);
 }
 
+function resetCellTitles() {
+	table.querySelectorAll('td').forEach(cell => cell.removeAttribute('title'));
+}
+function setCellTitle(x, y) {
+	const cell = table.rows[y]?.cells[x];
+	if (!cell) return;
+	const title = titles[`${x}_${y}`];
+	if (!title) return;
+	let s = (hasOption(OPTION_COORDINATES) ? `(${x}, ${y})\n` : '') + (title.info || '');
+	if (showDebug && title.debug) s += (s ? '\n' : '') + title.debug;
+	cell.title = s;
+}
+
 function findTableCell(event) {
 	let cell = currentData ? event.target : null;
 	for (; cell; cell = cell.parentNode) {
@@ -1084,6 +1095,7 @@ function onTableMouseMove(event) {
 		sx = cell.cellIndex;
 		sy = cell.parentNode.rowIndex;
 		tileDef = currentData.tileDefs[sy * currentData.cols + sx];
+		if (!cell.hasAttribute('title')) setCellTitle(sx, sy);
 	}
 	// Show cells
 	const tileShown = event.shiftKey ? tileDef : null;
@@ -1447,10 +1459,15 @@ function setCanvasZoom() {
 }
 
 function addTitle(x, y, text, isBlockTitle) {
-	try {
-		const cell = table.rows[y].cells[x];
-		cell.title = (cell.title ? cell.title + '\n' + (isBlockTitle ? '\n' : '') : hasOption(OPTION_COORDINATES) ? `(${x}, ${y})\n` : '') + text;
-	} catch (e) { }
+	const key = `${x}_${y}`;
+	let title = titles[key];
+	if (!title) title = titles[key] = { info: '' };
+	title.info = (title.info ? title.info + '\n' + (isBlockTitle ? '\n' : '') : '') + text;
+}
+function addTitleDebug(x, y, text) {
+	const key = `${x}_${y}`;
+	if (!titles[key]) titles[key] = {};
+	titles[key].debug = '\n' + text;
 }
 
 function changeLevel(e) {
@@ -2576,12 +2593,11 @@ async function drawMine(args) {
 	Html.set(tbody, '');
 	for (let y = 0; y < rows; y++) {
 		const row = tbody.insertRow();
-		for (let x = 0; x < cols; x++) {
-			row.insertCell();
-		}
+		for (let x = 0; x < cols; x++) row.insertCell();
 	}
 	table.style.width = cols * TILE_SIZE + 'px';
 	table.style.height = rows * TILE_SIZE + 'px';
+	titles = {};
 
 	bgp.Data.requiresFullLanguage = true;
 	await (bgp.Data.checkLocalization() || Promise.resolve(0));
@@ -3483,7 +3499,7 @@ async function drawMine(args) {
 	}
 
 	// Debug info
-	for (const tileDef of (showDebug ? tileDefs : []).filter((t) => t.isVisible)) {
+	for (const tileDef of tileDefs.filter((t) => t.isVisible)) {
 		const copy = Object.assign({}, tileDef);
 		delete copy.x;
 		delete copy.y;
@@ -3493,7 +3509,7 @@ async function drawMine(args) {
 		title = title.replace(/"/g, '');
 		title = title.replace(/\n{2,}/g, '\n');
 		title = title.replace(/\{\n\s+/g, '{   ');
-		addTitle(tileDef.x, tileDef.y, title, true);
+		addTitleDebug(tileDef.x, tileDef.y, title);
 	}
 
 	// Add mixed attribute
