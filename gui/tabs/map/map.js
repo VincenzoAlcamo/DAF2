@@ -204,6 +204,7 @@ function getThemeDefaults() {
 			'marker.pet': COL('#FA0', CSS, CONTRAST)
 		},
 		DOOR('door', 26, '#FFF', 20, 4, '#F00', '#000'),
+		DOOR('doornt', 26, '#F00', 20, 4, '#F00', '#FFF'),
 		DOOR('entrance', 26, '#090', 20, 4, '#0F0', '#FFF'),
 		DOOR('teleport', 26, '#FFF', 20, 4, '#F00', '#000'),
 		ARROW('arrow', 3, '#F8C', 1, '#400'),
@@ -304,6 +305,7 @@ function init() {
 	theme.init({
 		defaults: getThemeDefaults(),
 		settings: parseJSON(gui.getPreference('mapSettings')),
+		replacements: { doornt : 'door not taken'},
 		cssPrefix: 'map-',
 		isAdmin: isAdmin,
 		table: container.querySelector('.properties .table'),
@@ -3319,7 +3321,7 @@ async function drawMine(args) {
 			if (door) {
 				const isEntrance = door.miscType == 'N' && (door.fid == 1 || isRepeatable);
 				const name = door.name || (isEntrance ? '\u2196' : '?');
-				drawTextMarker(x, y, name, isEntrance ? themeSettings.entrance : themeSettings.door);
+				drawTextMarker(x, y, name, isEntrance ? themeSettings.entrance : door.to ? themeSettings.door : themeSettings.doornt);
 			}
 		}
 	}
