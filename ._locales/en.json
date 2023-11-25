@@ -318,6 +318,9 @@
 	"gui_hotkey": {
 		"message": "Hot Key"
 	},
+	"gui_mousegesture": {
+		"message": "Mouse gesture"
+	},
 	"dialog_ok": {
 		"message": "Ok"
 	},
@@ -2151,6 +2154,12 @@
 	},
 	"options_button_right": {
 		"message": "Right"
+	},
+	"options_gesture_middle": {
+		"message": "Click Middle button"
+	},
+	"options_gesture_rightleft": {
+		"message": "Hold Right button then click Left button"
 	},
 	"options_sort_none": {
 		"message": "None"

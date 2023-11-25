@@ -603,7 +603,7 @@ function initDOM() {
 	addPrefs('badgeServerEnergy,badgeGcCounter,badgeGcEnergy,badgeProductions,badgeProductionsSound,badgeCaravan,badgeKitchen,badgeFoundry');
 	addPrefs('badgeRepeatables,badgeRepeatablesSound,badgeLuckyCards,badgeLuckyCardsSound,badgeWindmills,badgeWindmillsSound');
 	addPrefs('badgePetShop,badgePetShopSound');
-	addPrefs('@extra,@screen,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hAutoQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@extra,@screen,queueHotKey,queueMouseGesture,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hAutoQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hFlashAdSound,hFlashAdSoundName,hFlashAdVolume,hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
 
 	const prefFlags = new Set(['@screen']);
@@ -616,6 +616,7 @@ function initDOM() {
 	}
 
 	let lastKeyCode;
+	const toggleQueue = () => sendPreference('hAutoQueue', !prefs['hAutoQueue']);
 	function onKeyUp() { lastKeyCode = 0; }
 	function onKeyDown(event) {
 		if (lastKeyCode == event.keyCode) return;
@@ -623,9 +624,12 @@ function initDOM() {
 		if (event.code == 'Key' + prefs.queueHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
 			event.stopPropagation();
 			event.preventDefault();
-			const prefName = 'hAutoQueue', newValue = !prefs[prefName];
-			sendPreference(prefName, newValue);
+			toggleQueue();
 		}
+	}
+	function onMouseUp(event) {
+		if (prefs.queueMouseGesture == 1 && event.button == 1) toggleQueue();
+		if (prefs.queueMouseGesture ==  2 && event.button == 0 & event.buttons == 2) toggleQueue();
 	}
 
 	chrome.runtime.sendMessage({ action: 'getPrefs', keys: Object.keys(prefs) }, function (response) {
@@ -711,6 +715,7 @@ function initDOM() {
 		window.addEventListener('resize', onResize);
 		window.addEventListener('keydown', onKeyDown);
 		window.addEventListener('keyup', onKeyUp);
+		window.addEventListener('mouseup', onMouseUp, { capture: true });
 		onFullWindow();
 		createMenu();
 		updateMenu();

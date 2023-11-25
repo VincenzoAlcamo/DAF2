@@ -143,6 +143,7 @@ var Preferences = {
 			hQueue: false,
 			hAutoQueue: false,
 			queueHotKey: 'Q',
+			queueMouseGesture: 0,
 			hScroll: false,
 			hReward: true,
 			hLootCount: true,

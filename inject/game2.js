@@ -257,7 +257,7 @@ function init() {
 	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
 	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
 	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,queueHotKey,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hAutoQueue,hScroll,hReward,hGCCluster');
+	addPrefs('@super,@extra,queueHotKey,queueMouseGesture,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hAutoQueue,hScroll,hReward,hGCCluster');
 	addPrefs('hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
 
 	function setPref(name, value) {
@@ -268,6 +268,7 @@ function init() {
 	}
 
 	let lastKeyCode;
+	const toggleQueue = () => sendPreference('hAutoQueue', !prefs['hAutoQueue']);
 	function onKeyUp() { lastKeyCode = 0; }
 	function onKeyDown(event) {
 		if (lastKeyCode == event.keyCode) return;
@@ -275,9 +276,12 @@ function init() {
 		if (event.code == 'Key' + prefs.queueHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
 			event.stopPropagation();
 			event.preventDefault();
-			const prefName = 'hAutoQueue', newValue = !prefs[prefName];
-			sendPreference(prefName, newValue);
+			toggleQueue();
 		}
+	}
+	function onMouseUp(event) {
+		if (prefs.queueMouseGesture == 1 && event.button == 1) toggleQueue();
+		if (prefs.queueMouseGesture ==  2 && event.button == 0 & event.buttons == 2) toggleQueue();
 	}
 
 	chrome.runtime.sendMessage({ action: 'getPrefs', keys: Object.keys(prefs) }, function (response) {
@@ -330,6 +334,7 @@ function init() {
 		window.addEventListener('resize', onResize);
 		window.addEventListener('keydown', onKeyDown);
 		window.addEventListener('keyup', onKeyUp);
+		window.addEventListener('mouseup', onMouseUp, { capture: true });
 		sendMinerPosition();
 		onFullWindow();
 		const key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');

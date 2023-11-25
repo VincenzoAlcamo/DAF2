@@ -225,24 +225,28 @@ function init() {
 				htm += Html.br`<input data-pref="${prefName}" type="text" maxlength="200" style="width:100%">`;
 			}
 		}
-		let hotKeyPref, hotKeyPre;
-		if (prefName == 'linkGrabKey') {
-			options = ['left', 'middle', 'right'].map((n, i) => [i, gui.getMessage('options_button_' + n)]);
-			htm += Html.br` + <select data-pref="linkGrabButton">`;
-			for (const option of options) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
-			htm += Html.br`</select>`;
-			hotKeyPref = 'linkGrabHotKey';
-			hotKeyPre = Html.br`<br>`;
-		} else if (prefName == 'hAutoQueue') {
-			hotKeyPref = 'queueHotKey';
-		}
-		if (hotKeyPref) {
+		const addHotKey = (hotKeyPref, hotKeyPre) => {
 			htm += hotKeyPre || '';
 			htm += Html.br`<h3 style="margin-top:4px">${gui.getMessage('gui_hotkey')}</h3>`;
 			htm += Html.br`${gui.getMessage('options_modifier_alt')} + <select data-pref="${hotKeyPref}">`;
 			const hotkeys = [];
 			for (let i = 65; i < 90; i++) hotkeys.push([String.fromCharCode(i), String.fromCharCode(i)]);
 			for (const option of hotkeys) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
+			htm += Html.br`</select>`;
+		}
+		if (prefName == 'linkGrabKey') {
+			options = ['left', 'middle', 'right'].map((n, i) => [i, gui.getMessage('options_button_' + n)]);
+			htm += Html.br` + <select data-pref="linkGrabButton">`;
+			for (const option of options) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
+			htm += Html.br`</select>`;
+			addHotKey('linkGrabHotKey', Html.br`<br>`);
+		} else if (prefName == 'hAutoQueue') {
+			addHotKey('queueHotKey');
+			htm += Html.br`<br><h3 style="margin-top:4px">${gui.getMessage('gui_mousegesture')}</h3>`;
+			htm += Html.br`<select data-pref="queueMouseGesture">`;
+			htm += Html.br`<option value="0">${gui.getMessage('options_modifier_none')}</option>`;
+			htm += Html.br`<option value="1">${gui.getMessage('options_gesture_middle')}</option>`;
+			htm += Html.br`<option value="2">${gui.getMessage('options_gesture_rightleft')}</option>`;
 			htm += Html.br`</select>`;
 		}
 		if (warnings.length) htm += Html.br`<div class="warning">${warnings.join('\n')}</div>`;
