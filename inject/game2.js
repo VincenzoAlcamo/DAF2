@@ -614,7 +614,7 @@ intercept("com.pixelfederation.diggy.screens.popup.production.ProductionPopup", 
 			button.green = 0.3;
 			if (this.__buttonX === undefined) this.__buttonX = button.g2d_anchorX;
 			button.g2d_anchorX = this.__buttonX - 310;
-			updateText(button, 'btn_collectAllLabel', 'UNLOCK');
+			updateText(button, 'btn_collectAllLabel', ${JSON.stringify(getMessage('gui_unlock').toUpperCase())});
 		}
 		return result;
 	};
