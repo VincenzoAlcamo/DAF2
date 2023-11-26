@@ -584,35 +584,55 @@ intercept("com.pixelfederation.diggy.ui.hud.UISpecialButtons", 'createFlashAdBut
 
 intercept("com.pixelfederation.diggy.screens.popup.production.ProductionPopup", 'refreshSlotOnChange', function(_refreshSlotOnChange, ProductionPopup) {
 	extras.push('hLockCaravan');
-	function updateText(parent, name, value) {
-		const _this = parent.getChildByName(name, true);
-		_this.g2d_model = value;
-		_this.g2d_onModelChanged.dispatch(_this);
-		_this.blue = _this.red = _this.green = 0.1;
+	function updateText(parent, name, value, color) {
+		const el = parent.getChildByName(name, true);
+		if (!el) return;
+		if (value === undefined) { value = el.__old || el.g2d_model; delete el.__old; color = 1; }
+		else if (!el.__old) el.__old = el.g2d_model;
+		if (color) el.blue = el.red = el.green = color;
+		el.g2d_model = value;
+		el.g2d_onModelChanged.dispatch(el);
 	}
-	function slotHasTicket(slot) {
-		return slot && slot.__state == 'delivered' && slot._producedItem?._requirements?.find(req => req.object_id == 347 && req.type == 'material');
+	function lockSlot(p_index, locked) {
+		this['__lockedSlot' + p_index] = locked;
+		this._getButtons[p_index].setVisible(!locked);
+		this._resendButtons[p_index].setVisible(!locked);
+		const parent = this._prototypeInstance.getChildByName('slot' + p_index, true);
+		updateText(parent, 'delivered', locked ? ${JSON.stringify(getMessage('gui_locked').toUpperCase())} : undefined, 0.1);
+		updateText(parent, 'amount_delivered', locked ? 'D A F 2' : undefined, 0.1);
 	}
+	const slotHasTicket = (slot) => slot?.__state == 'delivered' && slot._producedItem?._requirements?.find(req => req.object_id == 347 && req.type == 'material');
+	const shouldBeLocked = (popup) => popup._mode == 'caravan' && popup._slots_initialized && hasFlag('hLockCaravan');
 	const _refreshCards = ProductionPopup.prototype.refreshCards;
 	ProductionPopup.prototype.refreshCards = function() {
+		this.__locked = false;
 		const result = _refreshCards.apply(this, arguments);
-		if (this._mode == 'caravan' && this._slots_initialized && hasFlag('hLockCaravan') && this._slots?.find(slotHasTicket)) {
-			this._resendAllButton.setEnabled(false);
-			this._collectAllButton.setEnabled(false);
+		if (shouldBeLocked(this) && this._slots?.find(slotHasTicket)) {
+			this.__locked = true;
+			this._resendAllButton.setVisible(false);
+			const button = this._collectAllButton._buttonElement;
+			button.green = 0.3;
+			if (this.__buttonX === undefined) this.__buttonX = button.g2d_anchorX;
+			button.g2d_anchorX = this.__buttonX - 310;
+			updateText(button, 'btn_collectAllLabel', 'UNLOCK');
 		}
 		return result;
 	};
+	const _collectAll = ProductionPopup.prototype.collectAll;
+	ProductionPopup.prototype.collectAll = function() {
+		if (!this.__locked) return _collectAll.apply(this, arguments);
+		this.restorePushedButton();
+		this.__locked = false;
+		for (let p_index = 0; p_index < 6; p_index++) if (this['__lockedSlot' + p_index]) lockSlot.call(this, p_index, false);
+		this._resendAllButton.setVisible(true);
+		const button = this._collectAllButton._buttonElement;
+		this._collectAllButton._initGreen = 1;
+		button.g2d_anchorX = this.__buttonX;
+		updateText(button, 'btn_collectAllLabel', undefined);
+	};
 	return function(p_index) {
 		const result = _refreshSlotOnChange.apply(this, arguments);
-		if (this._mode == 'caravan' && this._slots_initialized && hasFlag('hLockCaravan') && slotHasTicket(this._slots?.[p_index])) {
-			this._getButtons[p_index].setEnabled(false);
-			this._getButtons[p_index].setVisible(false);
-			this._resendButtons[p_index].setEnabled(false);
-			this._resendButtons[p_index].setVisible(false);
-			const parent = this._prototypeInstance.getChildByName('slot' + p_index, true);
-			updateText(parent, 'delivered', ${JSON.stringify(getMessage('gui_locked').toUpperCase())});
-			updateText(parent, 'amount_delivered', 'D A F 2');
-		}
+		if (shouldBeLocked(this) && slotHasTicket(this._slots?.[p_index])) lockSlot.call(this, p_index, true);
 		return result;
 	};
 });

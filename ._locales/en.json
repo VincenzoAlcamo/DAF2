@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Locked"
 	},
+	"gui_unlock": {
+		"message": "Unlock"
+	},
 	"gui_noresults": {
 		"message": "No results"
 	},
