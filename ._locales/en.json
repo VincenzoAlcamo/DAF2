@@ -2240,7 +2240,7 @@
 		"message": "Food\nChoose which consumable is offered to you when you run out of energy"
 	},
 	"options_hqueue": {
-		"message": "Easy tile queue\nQueue is longer.\nHold the SHIFT key and move the mouse over some tiles to add them to the queue"
+		"message": "Easy tile queue\nQueue is longer.\nHold the SHIFT key and move the mouse over some tiles to add them to the queue\nIf you hold the CTRL key, the tile is removed from the queue instead"
 	},
 	"options_hautoqueue": {
 		"message": "Auto queue\nJust move the mouse over some tiles to add them to the queue (SHIFT is not required)"
