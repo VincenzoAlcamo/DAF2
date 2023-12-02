@@ -7,6 +7,10 @@ export default {
 	}
 };
 
+function tryGet(fn) {
+	try { return fn(); } catch(e) {}
+}
+
 let tab, container, inputs;
 const theme = new ThemeEditor();
 
@@ -275,12 +279,8 @@ function init() {
 			const fullLocale = currentLanguage + '-' + currentLocale;
 			if (index >= 0) arr[index] = fullLocale; else arr.push(currentLanguage + '-' + currentLocale);
 			if (arr.join(',') != pLocales) gui.setPreference('locales', arr.join(','));
-			const regionNames = new Intl.DisplayNames([item.id], { type: 'region' });
-			item.locales.map(v => {
-				let name;
-				try { name = regionNames.of(v) } catch(e) {}
-				return [v, name || v];
-			}).sort((a,b) => gui.sortTextAscending(a[1], b[1])).forEach(v => locales.push(v));
+			const regionNames = tryGet(() => new Intl.DisplayNames([item.id], { type: 'region' }));
+			item.locales.map(v => [v, tryGet(() => regionNames?.of(v)) || v]).sort((a,b) => gui.sortTextAscending(a[1], b[1])).forEach(v => locales.push(v));
 		}
 		return locales;
 	}
@@ -520,7 +520,7 @@ UI_claim_coin_single_slow_02
 
 	let audio;
 	function stopSound() {
-		if (audio) try { audio.pause(); } catch (e) { }
+		tryGet(() => audio?.pause());
 		audio = null;
 	}
 	function playSound(audioPref, force) {
