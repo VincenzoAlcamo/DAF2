@@ -486,9 +486,9 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler
 			maxQueue = maxQueue || this._character.diggingQueue._maxQueue;
 			this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
 		}
-		if (isActive && tile && old !== tile && (tile.isBreakable() || tile.isUsable())) {
+		if (isActive && tile && old !== tile) {
 			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-			else if (e.shiftKey || hasFlag('hAutoQueue')) this._character.go(tile);
+			else if (e.shiftKey || hasFlag('hAutoQueue') && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
 		}
 		return result;
 	};
