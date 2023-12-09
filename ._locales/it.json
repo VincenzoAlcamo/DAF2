@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Bloccato"
 	},
+	"gui_unlock": {
+		"message": "Sblocca"
+	},
 	"gui_noresults": {
 		"message": "Nessun risultato"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Sommario"
+	},
+	"gui_pet": {
+		"message": "Animaletto"
+	},
+	"gui_hotkey": {
+		"message": "Tasto di scelta rapida"
+	},
+	"gui_mousegesture": {
+		"message": "Gesto del mouse"
 	},
 	"dialog_ok": {
 		"message": "Ok"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Mostra selettore di regione"
 	},
+	"map_option_f": {
+		"message": "Mostra selettore amicizia"
+	},
 	"map_option_i": {
 		"message": "Mostra informazioni sulla locazione"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Aggiungi il logo"
+	},
+	"map_option_k": {
+		"message": "Mostra indicatori del piano"
 	},
 	"map_option_resize": {
 		"message": "Dimensione dell'immagine salvata"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Destro"
 	},
+	"options_gesture_middle": {
+		"message": "Clicca il pulsante centrale"
+	},
+	"options_gesture_rightleft": {
+		"message": "Tieni premuto pulsante Destro quindi clicca il Sinistro"
+	},
 	"options_sort_none": {
 		"message": "Nessuno"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Carte Fortunate\nMostra un segnalino quando la tenda è pronta"
 	},
+	"options_badgepetshop": {
+		"message": "Negozio Animaletto\nMostra un segnalino quando il negozio si può aggiornare"
+	},
 	"options_badgeproductions": {
 		"message": "Produzioni\nMostra un segnalino quando uno slot di produzione è pronto o vuoto"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Funzionalità aggiuntive\nAbilite alcune funzionalità aggiuntive nel gioco"
 	},
+	"options_hmain_disabled": {
+		"message": "Le funzionalità aggiuntive non si possono abilitare"
+	},
 	"options_hspeed": {
 		"message": "Velocizza\nLe pozioni acceleranti forniscono più velocità"
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Cibo\nScegli quale consumabile ti viene proposto quando finisci l'energia"
 	},
 	"options_hqueue": {
-		"message": "Coda di scavo semplificata\nLa coda è pù lunga.\nTieni premuto il tasto SHIFT e muovi il mouse sopra alcune mattonelle per aggiungerle alla coda"
+		"message": "Coda di scavo semplificata\nLa coda è pù lunga.\nTieni premuto il tasto SHIFT e muovi il mouse sopra alcune mattonelle per aggiungerle alla coda\nSe invece tieni premuto il tasto CTRL, la mattonella viene rimossa dalla coda"
+	},
+	"options_hautoqueue": {
+		"message": "Coda automatica\nMuovi il mouse sopra le mattonelle per aggiungerle alla coda senza dover tener premuto il tasto SHIFT"
 	},
 	"options_hscroll": {
 		"message": "Disabilita scorrimento inerziale\nLo scorrimento inerziale è quell'effetto che fa continuare a muovere lo schermo anche quando hai smesso di trascinarlo"
+	},
+	"options_hinstantcamera": {
+		"message": "Telecamera istantanea\nRende istantanei la maggior parte degli scorrimenti della mappa"
 	},
 	"options_hreward": {
 		"message": "Capitalizzazione automatica\nQualsiasi carattere nel codice regalo viene automaticamente inserito in maiuscolo"
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Bloccare i caravan\nImpedisce la raccolta dei caravan inviati con un biglietto"
+	},
+	"options_hpetfollow": {
+		"message": "Non seguire\nL'animaletto non segue Diggy"
 	},
 	"calc_operators": {
 		"message": "Operatori"
