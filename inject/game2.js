@@ -510,7 +510,7 @@ intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler
 		}
 		if (isActive && tile && old !== tile) {
 			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-			else if (e.shiftKey || hasFlag('hAutoQueue') && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
+			else if ((e.shiftKey || hasFlag('hAutoQueue')) && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
 		}
 		return result;
 	};
