@@ -4,7 +4,8 @@ html {
 }
 html.DAF-fullwindow[daf--_screen^="petsScreen."],
 html.DAF-fullwindow[daf--_screen^="petsDenScreen."] ,
-html.DAF-fullwindow[daf--_screen^="petsShopScreen."] {
+html.DAF-fullwindow[daf--_screen^="petsShopScreen."],
+html.DAF-fullwindow[daf--_screen^="tower"] {
 	--menu-y: 62px;
 }
 

@@ -11,6 +11,7 @@
 }
 
 .DAF-gc-pal {
+	position: relative;
 	display: inline-block;
 	padding: 0;
 	margin: 0;
@@ -65,11 +66,12 @@ html[DAF--gctablecounter="1"] .DAF-gc-count {
 }
 
 .DAF-gc-pal div:first-child {
-	position: relative;
+	position: absolute;
+	display: inline-block;
+	left: 0;
 	font-family: sans-serif;
 	font-weight: bold;
-	width: 24px;
-	padding: 1px 0px 0px 1px;
+	padding: 1px 2px 0px 2px;
 	text-align: left;
 	background-color: #258;
 	color: #fff;
