@@ -499,15 +499,12 @@ intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', fun
 
 intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler', function(_mouseMove_handler) {
 	extras.push('hQueue', 'hAutoQueue');
-	let maxQueue, wasActive;
+	let maxQueue;
 	return function(e) {
 		const old = this._lastMineTileOver, result = _mouseMove_handler.apply(this, arguments), tile = this._lastMineTileOver;
 		const isActive = hasFlag('hQueue');
-		if (isActive !== wasActive) {
-			wasActive = isActive;
-			maxQueue = maxQueue || this._character.diggingQueue._maxQueue;
-			this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
-		}
+		if (!maxQueue) maxQueue = this._character.diggingQueue._maxQueue || 5;
+		this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
 		if (isActive && tile && old !== tile) {
 			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
 			else if ((e.shiftKey || hasFlag('hAutoQueue')) && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
