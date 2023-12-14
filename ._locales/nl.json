@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Gesloten"
 	},
+	"gui_unlock": {
+		"message": "Ontgrendel"
+	},
 	"gui_noresults": {
 		"message": "Geen resultaten"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Samenvatting"
+	},
+	"gui_pet": {
+		"message": "Huisdier"
+	},
+	"gui_hotkey": {
+		"message": "Sneltoets"
+	},
+	"gui_mousegesture": {
+		"message": "Muisbeweging"
 	},
 	"dialog_ok": {
 		"message": "Ok"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Toon regio in keuzeknop"
 	},
+	"map_option_f": {
+		"message": "Vriendschapskiezer tonen"
+	},
 	"map_option_i": {
 		"message": "Toon locatie info"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Voeg logo watermerk toe"
+	},
+	"map_option_k": {
+		"message": "Toon vloerindicatoren"
 	},
 	"map_option_resize": {
 		"message": "Grootte van bewaarde afbeelding"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Rechts"
 	},
+	"options_gesture_middle": {
+		"message": "Klik op de middelste knop"
+	},
+	"options_gesture_rightleft": {
+		"message": "Houd de Rechterknop ingedrukt en klik vervolgens op de Linkerknop"
+	},
 	"options_sort_none": {
 		"message": "Geen"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Lucky Cards\nLaat een badge zien wanneer de Lucky Cards tent klaar is"
 	},
+	"options_badgepetshop": {
+		"message": "Dierenwinkel\nToon een badge wanneer de dierenwinkel wordt vernieuwd"
+	},
 	"options_badgeproductions": {
 		"message": "Producties\nLaat een badge zien wanneer een productieruimte klaar of leeg is"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Extra functies\nSchakel extra functies in in het spel"
 	},
+	"options_hmain_disabled": {
+		"message": "Extra functies kunnen niet worden ingeschakeld"
+	},
 	"options_hspeed": {
 		"message": "Versnellen\nSnelheidsdrankjes geven veel meer snelheid"
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Voedsel\nKies welk verbruiksartikel wordt aangeboden als je energie op is"
 	},
 	"options_hqueue": {
-		"message": "Makkelijke tegelwachtrij\nWachtrij is langer.\nHoud de SHIFT-toets ingedrukt en verplaats enkele tegels om ze aan de wachtrij toe te voegen"
+		"message": "Gemakkelijke tegelwachtrij\nDe wachtrij is langer.\nHoud de SHIFT-toets ingedrukt en beweeg de muis over enkele tegels om ze aan de wachtrij toe te voegen\nAls u de CTRL-toets ingedrukt houdt, wordt de tegel uit de wachtrij verwijderd"
+	},
+	"options_hautoqueue": {
+		"message": "Automatische wachtrij\nBeweeg de muis over enkele tegels om ze aan de wachtrij toe te voegen (SHIFT is niet vereist)\n"
 	},
 	"options_hscroll": {
 		"message": "Schakel traagheid scrollen uit\nTraagheid scrollen is het effect waarbij het scherm blijft bewegen, zelfs nadat je gestopt bent met slepen"
+	},
+	"options_hinstantcamera": {
+		"message": "Directe camera\nWanneer het camerabeeld naar een andere locatie beweegt, vindt de overgang onmiddellijk plaats"
 	},
 	"options_hreward": {
 		"message": "Automatisch hoofdlettergebruik\nElke invoer in de cadeaucode wordt automatisch met een hoofdletter geschreven"
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Vergrendel caravans\nVoorkomt de verzameling caravans die met een kaartje worden verzonden"
+	},
+	"options_hpetfollow": {
+		"message": "Volg niet\nHuisdier volgt Diggy niet"
 	},
 	"calc_operators": {
 		"message": "Operatoren"

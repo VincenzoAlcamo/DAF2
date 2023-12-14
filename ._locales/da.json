@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Låst"
 	},
+	"gui_unlock": {
+		"message": "Lås op"
+	},
 	"gui_noresults": {
 		"message": "Intet resultat"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Resume"
+	},
+	"gui_pet": {
+		"message": "Kæledyr"
+	},
+	"gui_hotkey": {
+		"message": "Genvejs tast"
+	},
+	"gui_mousegesture": {
+		"message": "Musebevægelse"
 	},
 	"dialog_ok": {
 		"message": "Ok"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Vis regions vælger"
 	},
+	"map_option_f": {
+		"message": "Vis venskabsvælger"
+	},
 	"map_option_i": {
 		"message": "Vis lokations info"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Tilføj vandmærke logo"
+	},
+	"map_option_k": {
+		"message": "Vis etage indikatorer"
 	},
 	"map_option_resize": {
 		"message": "Størrelse på gemt billede"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Højre"
 	},
+	"options_gesture_middle": {
+		"message": "Klik på den midterste knap"
+	},
+	"options_gesture_rightleft": {
+		"message": "Hold højre knap og klik derefter på venstre knap"
+	},
 	"options_sort_none": {
 		"message": "Ingen"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Heldige Kort\nVis et skilt når Heldige Kort teltet er klar"
 	},
+	"options_badgepetshop": {
+		"message": "Dyrehandel\nVis et skilt når dyrehandlen opdateres."
+	},
 	"options_badgeproductions": {
 		"message": "Produktioner\nVis et skilt når en produktions enhed er klar eller tom"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Ekstra funktioner\nAktiver ekstra funktioner i spillet"
 	},
+	"options_hmain_disabled": {
+		"message": "Ekstra funktioner kan ikke aktiveres"
+	},
 	"options_hspeed": {
 		"message": "Sæt farten op\nHastighedseliksir vil give meget mere fart"
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Mad\nVælg hvilket forbrugsstof, der tilbydes dig, når du løber tør for energi"
 	},
 	"options_hqueue": {
-		"message": "Nem felt kø\nKøen er længere.\nHold SHIFT-tasten nede og flyt musen over nogle felter for at tilføje dem til køen"
+		"message": "Nem felt kø\nKøen er længere.\nHold SHIFT-tasten nede og flyt musen over nogle felter for at tilføje dem til køen\nHvis du holder CTRL tasten nede, fjernes feltet fra køen i stedet."
+	},
+	"options_hautoqueue": {
+		"message": "Auto kø\nFlyt blot musen over nogle felter for at tilføje dem til køen (SHIFT behøves ikke)"
 	},
 	"options_hscroll": {
 		"message": "Deaktiver initial rulning\nInitial rulning er den effekt, hvor skærmen fortsætter med at bevæge sig, selv efter du er holdt op med at trække den"
+	},
+	"options_hinstantcamera": {
+		"message": "Øjeblikkeligt kamera\nNår kamera visningen flyttes til en anden placering, sker overgangen øjeblikkeligt\n"
 	},
 	"options_hreward": {
 		"message": "Auto-versaler\nEthvert input i gavekoden skrives automatisk med stort"
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Lås karavaner\nForhindrer afhentning af karavaner sendt med billet"
+	},
+	"options_hpetfollow": {
+		"message": "Følg ikke\nKæledyr følger ikke Diggy"
 	},
 	"calc_operators": {
 		"message": "Aktører"

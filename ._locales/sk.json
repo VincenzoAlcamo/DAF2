@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Zamknutý"
 	},
+	"gui_unlock": {
+		"message": "Odomknutý"
+	},
 	"gui_noresults": {
 		"message": "Žiadne výsledky"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Zhrnutie"
+	},
+	"gui_pet": {
+		"message": "Zvieratko"
+	},
+	"gui_hotkey": {
+		"message": "Klávesová skratka"
+	},
+	"gui_mousegesture": {
+		"message": "Gesto myši"
 	},
 	"dialog_ok": {
 		"message": "Ok"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Zobraziť výber regiónu"
 	},
+	"map_option_f": {
+		"message": "Zobraziť výber priateľstva"
+	},
 	"map_option_i": {
 		"message": "Zobraziť informácie o lokácii"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Pridať vodoznak loga"
+	},
+	"map_option_k": {
+		"message": "Zobraziť podlahové indikátory"
 	},
 	"map_option_resize": {
 		"message": "Veľkosť uloženého obrázku"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Vpravo"
 	},
+	"options_gesture_middle": {
+		"message": "Kliknite na stredné tlačidlo"
+	},
+	"options_gesture_rightleft": {
+		"message": "Podržte pravé tlačidlo a potom kliknite na ľavé tlačidlo"
+	},
 	"options_sort_none": {
 		"message": "Žiadne"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Štastné karty\nKeď je stan Štastných kariet pripravený, zobrazí odznak."
 	},
+	"options_badgepetshop": {
+		"message": "Zvierací obchod\nZobrazenie odznaku pri obnovení obchodu so zvieratami"
+	},
 	"options_badgeproductions": {
 		"message": "Produkcia\nZobrazí odznak keď v produkčný slot je pripravený alebo prázdny"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Doplnkové funkcie\nPovoliť doplnkové funkcie v hre"
 	},
+	"options_hmain_disabled": {
+		"message": "Extra funkcie nie je možné povoliť"
+	},
 	"options_hspeed": {
 		"message": "Zrýchlenie\nRýchlostné elixíry dajú oveľa väčšiu rýchlosť"
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Jedlo\nVyber si čo ti ponúkne keď ti dôjde energia"
 	},
 	"options_hqueue": {
-		"message": "Jednoduché poradie na dlaždice\nFronta je dlhšia.\nPodrž klávesu SHIFT a posuň myš cez nejaké dlaždice, aby si ich pridal do poradia"
+		"message": "Jednoduché poradie na dlaždice\nFronta je dlhšia.\nPodrž klávesu SHIFT a posuň myš cez nejaké dlaždice, aby si ich pridal do poradia\nAk podržíte kláves CTRL, dlaždica sa namiesto toho z frontu odstráni"
+	},
+	"options_hautoqueue": {
+		"message": "Automatický rad\nStačí prejsť myšou nad niektoré dlaždice a pridať ich do frontu (SHIFT nie je potrebný)"
 	},
 	"options_hscroll": {
 		"message": "Vyradenie inerciálneho posuvu\nInerciálne posunovanie je efekt, pri ktorom sa obrazovka stále hýbe, aj keď ju prestanete ťahať"
+	},
+	"options_hinstantcamera": {
+		"message": "Okamžitý fotoaparát\nKeď sa pohľad kamery presunie na iné miesto, prechod je okamžitý"
 	},
 	"options_hreward": {
 		"message": "Automatická kapitalizácia\nKaždý zadanie do darčekového kódu sa automaticky kapitalizuje"
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Zámok karavánu\nZabraňuje zberu karavánov poslaných s lístkom"
+	},
+	"options_hpetfollow": {
+		"message": "Nenasledujte\nDomáce zvieratko nesleduje Diggyho"
 	},
 	"calc_operators": {
 		"message": "Operátory"

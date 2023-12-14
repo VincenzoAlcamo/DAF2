@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Gesperrt"
 	},
+	"gui_unlock": {
+		"message": "Entsperrt"
+	},
 	"gui_noresults": {
 		"message": "Keine Ergebnisse"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Zusammenfassung"
+	},
+	"gui_pet": {
+		"message": "Haustiere"
+	},
+	"gui_hotkey": {
+		"message": "Tastenkürzel"
+	},
+	"gui_mousegesture": {
+		"message": "Maustaste"
 	},
 	"dialog_ok": {
 		"message": "Ok"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Regionsauswahl anzeigen"
 	},
+	"map_option_f": {
+		"message": "Freundschaftsauswahl anzeigen"
+	},
 	"map_option_i": {
 		"message": "Standortinfo anzeigen"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Hinzufügen eines Logo-Wasserzeichens"
+	},
+	"map_option_k": {
+		"message": "Bodenindikatoren anzeigen"
 	},
 	"map_option_resize": {
 		"message": "Größe des gespeicherten Bildes"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Rechte"
 	},
+	"options_gesture_middle": {
+		"message": "Mittlere Taste anklicken"
+	},
+	"options_gesture_rightleft": {
+		"message": "Rechte Taste gedrückt halten und dann auf die linke Taste klicken."
+	},
 	"options_sort_none": {
 		"message": "Keine"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Glückskarten\nAnzeigen eines Abzeichens, wenn das Glückskartenzelt bereit ist"
 	},
+	"options_badgepetshop": {
+		"message": "Tierladen\nAnzeigen eines Abzeichens, wenn der Tierladen aktualisiert wird."
+	},
 	"options_badgeproductions": {
 		"message": "Produktionen\nAnzeigen eines Abzeichens, wenn ein Produktionsplatz fertig oder inaktiv ist"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Zusatzfunktionen\nZusatzfunktionen im Spiel aktivieren."
 	},
+	"options_hmain_disabled": {
+		"message": "Zusatzfunktionen können nicht aktiviert werden."
+	},
 	"options_hspeed": {
 		"message": "Geschwindigkeit erhöhen\nGeschwindigkeitstränke geben viel mehr Geschwindigkeit."
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Nahrung\nWenn keine Energie mehr vorhanden ist, kann die Nahrung ausgewählt werden."
 	},
 	"options_hqueue": {
-		"message": "Einfache Kachel-Warteschlange\nDie Warteschlange ist länger.\nMit gedrückter UMSCHALTTASTE die Maus über einige Kacheln bewegen, um sie der Warteschlange hinzuzufügen."
+		"message": "Einfache Kachel-Warteschlange\nDie Warteschlange ist länger.\nMit gedrückter UMSCHALTTASTE die Maus über einige Kacheln bewegen, um sie der Warteschlange hinzuzufügen.\nWenn die STRG-Taste gedrückt gehalten wird, wird die Kachel aus der Warteschlange entfernt."
+	},
+	"options_hautoqueue": {
+		"message": "Automatische Warteschlange\nBewegen Sie einfach die Maus über einige Kacheln, um sie der Warteschlange hinzuzufügen (Umschalt-Taste ist nicht erforderlich)."
 	},
 	"options_hscroll": {
 		"message": "Trägheitsbildlauf deaktivieren\nDer Trägheitsbildlauf ist ein Effekt, bei dem sich der Bildschirm auch dann noch bewegt, wenn Sie ihn nicht mehr verschieben."
+	},
+	"options_hinstantcamera": {
+		"message": "Sofortige Kamera\nWenn sich die Kameraansicht an einen anderen Ort bewegt, erfolgt der Übergang sofort."
 	},
 	"options_hreward": {
 		"message": "Automatische Großschreibung\nJede Eingabe in den Geschenkcode wird automatisch großgeschrieben."
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Karawane sperren\nVerhindert die Abholung von Wohnwagen, die mit einem Ticket verschickt wurden."
+	},
+	"options_hpetfollow": {
+		"message": "Nicht folgen\nHaustier folgt Diggy nicht."
 	},
 	"calc_operators": {
 		"message": "Operatoren"

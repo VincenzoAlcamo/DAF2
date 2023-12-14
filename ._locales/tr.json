@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Kilitli"
 	},
+	"gui_unlock": {
+		"message": "Kilit açık"
+	},
 	"gui_noresults": {
 		"message": "Sonuç yok"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Özet"
+	},
+	"gui_pet": {
+		"message": "Evcil Hayvan"
+	},
+	"gui_hotkey": {
+		"message": "Kısayol Tuşu"
+	},
+	"gui_mousegesture": {
+		"message": "Fare hareketi"
 	},
 	"dialog_ok": {
 		"message": "Tamam"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Bölge seçiciyi göster"
 	},
+	"map_option_f": {
+		"message": "Arkadaşlık seçiciyi göster"
+	},
 	"map_option_i": {
 		"message": "Konum bilgisini göster"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Logo filigranı ekleyin"
+	},
+	"map_option_k": {
+		"message": "Kat göstergelerini göster"
 	},
 	"map_option_resize": {
 		"message": "Kaydedilen görüntünün boyutu"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Sağ"
 	},
+	"options_gesture_middle": {
+		"message": "Orta düğmeye tıklayın"
+	},
+	"options_gesture_rightleft": {
+		"message": "Sağ düğmeyi basılı tutun ve ardından Sol düğmeyi tıklayın"
+	},
 	"options_sort_none": {
 		"message": "Hiçbiri"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Şanslı Kartlar\nŞanslı kart çadırı hazır olduğunda bir rozet gösterilir"
 	},
+	"options_badgepetshop": {
+		"message": "Evcil Hayvan Mağazası\nPet Shop yenilendiğinde bir rozet göster"
+	},
 	"options_badgeproductions": {
 		"message": "Üretimler\nBir üretim alanı hazır veya boş olduğunda bir rozet göster"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Ekstra Özellikler\nOyunda ekstra özellikler etkinleştirin"
 	},
+	"options_hmain_disabled": {
+		"message": "Ekstra özellikler etkinleştirilemez"
+	},
 	"options_hspeed": {
 		"message": "Hızlandırmak\nHız İksirleri çok daha fazla hız verecek"
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Yiyecek\nEnerjiniz bittiğinde size hangi sarf malzemesinin sunulacağını seçin"
 	},
 	"options_hqueue": {
-		"message": "Kolay karo kuyruğu\nKuyruk daha uzun.\nVites anahtarını basılı tutun ve fareyi kuyruğa eklemek için bazı fayansların üzerinden hareket ettirin"
+		"message": "Kolay döşeme sırası\nSıra daha uzun.\nSHIFT tuşunu basılı tutun ve kuyruğa eklemek için fareyi bazı döşemelerin üzerine getirin\nCTRL tuşunu basılı tutarsanız kutucuk bunun yerine kuyruktan kaldırılır."
+	},
+	"options_hautoqueue": {
+		"message": "Otomatik kuyruk\nKuyruğa eklemek için fareyi bazı döşemelerin üzerine getirin (SHIFT gerekli değildir)"
 	},
 	"options_hscroll": {
 		"message": "Eylemsiz kaydırmayı devre dışı bırak\nEylemsiz kaydırma, sürüklemeyi bıraktıktan sonra bile ekranın hareket etmeye devam ettiği efekttir"
+	},
+	"options_hinstantcamera": {
+		"message": "Anlık kamera\nKamera görüntüsü farklı bir konuma taşındığında geçiş anında gerçekleşir"
 	},
 	"options_hreward": {
 		"message": "Otomatik büyük harf yap\nHediye koduna yapılan tüm girişler otomatik olarak büyük harfle yazılır"
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Karavanları kilitle\nBiletle gönderilen karavanların toplanmasını engeller"
+	},
+	"options_hpetfollow": {
+		"message": "Takip etme\nEvcil hayvan Diggy'yi takip etmiyor"
 	},
 	"calc_operators": {
 		"message": "Operatörler"

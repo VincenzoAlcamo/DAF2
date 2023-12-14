@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Bloqueado"
 	},
+	"gui_unlock": {
+		"message": "Desbloquear"
+	},
 	"gui_noresults": {
 		"message": "Sin resultados"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Resumen"
+	},
+	"gui_pet": {
+		"message": "Mascota"
+	},
+	"gui_hotkey": {
+		"message": "Tecla de acceso rapido"
+	},
+	"gui_mousegesture": {
+		"message": "Mouse gesture"
 	},
 	"dialog_ok": {
 		"message": "OK"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Mostrar selector de regiones"
 	},
+	"map_option_f": {
+		"message": "Mostrar seleccion de amigos"
+	},
 	"map_option_i": {
 		"message": "Mostrar informacion sobre la ubicación"
 	},
@@ -869,7 +884,10 @@
 		"message": "Asegurar los márgenes alrededor de la imágen"
 	},
 	"map_option_l": {
-		"message": "Agragar marca de agua al logotipo"
+		"message": "Agregar marca de agua al logotipo"
+	},
+	"map_option_k": {
+		"message": "Mostrar indicadores de piso"
 	},
 	"map_option_resize": {
 		"message": "Tamaño de la imágen guardada"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Derecho"
 	},
+	"options_gesture_middle": {
+		"message": "Presionar boton del medio"
+	},
+	"options_gesture_rightleft": {
+		"message": "Mantenga presionado botón derecho y luego presione boton izquierdo"
+	},
 	"options_sort_none": {
 		"message": "Ninguno"
 	},
@@ -2168,25 +2192,28 @@
 		"message": "Energia del servidor\nMuestra un insignia con la energia reportada desde el servidor.\nEsta informacion se actualiza periodicamente cuando el juego es sincronizado con el servidor"
 	},
 	"options_badgegccounter": {
-		"message": "Contador niños dioses.\nMuestra una insignia con el numero restante de niños dioses para recolectar"
+		"message": "Contador niños dioses\nMuestra una insignia con el numero restante de niños dioses para recolectar"
 	},
 	"options_badgegcenergy": {
-		"message": "Energia niños dioses.\nMuestra una insignia con la energia de los niños dioses de los vecinos."
+		"message": "Energia niños dioses\nMuestra una insignia con la energia de los niños dioses de los vecinos."
 	},
 	"options_badgerepeatables": {
-		"message": "Repetibles\nMostrar una insignia cuando cualquier repetible seleccionado esté listo"
+		"message": "Repetibles\nMuestra una insignia cuando la ubicacion repetible esta disponible"
 	},
 	"options_badgeluckycards": {
 		"message": "Cartas de la suerte\nMuestra una insignia cuando la carpa de cartas de la suerte este lista."
 	},
+	"options_badgepetshop": {
+		"message": "Tienda de mascotas\nShow a badge when the Pet Shop refreshes"
+	},
 	"options_badgeproductions": {
-		"message": "Producción\nLa insignia se mostrará cuando la produccion esté terminada o no haya produccion"
+		"message": "Produccion\nMuestra una insignia cuando la produccion esta lista o hay un espacio disponible"
 	},
 	"options_badgetimeoffset": {
-		"message": "Desplazamiento de tiempo.\nLa insignia se mostrará con antelacion por esa cantidad de segundos"
+		"message": "Desplazamiento de tiempo\nLa insignia se mostrará con antelacion por esa cantidad de segundos"
 	},
 	"options_badgesound": {
-		"message": "Efecto de sonido\nUn sonido se reproducirá cuando se muestre la insignis."
+		"message": "Efecto de sonido\nUn sonido se reproducirá cuando se muestre la insignia."
 	},
 	"options_badgevolume": {
 		"message": "Volumen\nVolumen del efecto de sonido"
@@ -2197,8 +2224,11 @@
 	"options_hmain": {
 		"message": "Caracteristicas adicionales\nHabilitar caracteristicas adicionales en el juego"
 	},
+	"options_hmain_disabled": {
+		"message": "No se pueden habilitar funciones adicionales"
+	},
 	"options_hspeed": {
-		"message": "Velocidad\nPociones de velocidad incrementarán la velocidad"
+		"message": "Velocidad\nPociones de velocidad incrementarán la velocidadNo"
 	},
 	"options_hlootcount": {
 		"message": "Contar\nMuestra siempre recuento de botin"
@@ -2213,13 +2243,19 @@
 		"message": "Comida\nElige que consumible te ofrecen cuando te quedes sin enegia"
 	},
 	"options_hqueue": {
-		"message": "Fila de baldosas facil\nLa fila es mas larga\nMantenga presionada la tecla SHIFT y marque las baldosas con el raton para agregarlas a la cola"
+		"message": "Fila de baldosas facil\nLa fila es mas larga\nMantenga presionada la tecla SHIFT y marque las baldosas con el raton para agregarlas a la cola.\nSi presiona lla tecla CTRL, la baldoza es removida de la cola."
+	},
+	"options_hautoqueue": {
+		"message": "Cola automatica\nSimplemente mueva el cursor del mouse sobre las baldozas para agregarlas a la cola (no es necesario presionar la techa shift)"
 	},
 	"options_hscroll": {
 		"message": "Deshabilitar el desplazamiento inercial\nEl desplazamiento inercial es el efecto en el que la pantalla continúa moviéndose incluso después de haber dejado de arrastrarla"
 	},
+	"options_hinstantcamera": {
+		"message": "Camara instantanea\nCuando la vista de camara se mueve a una ubicacion diferente la transicion es instantánea"
+	},
 	"options_hreward": {
-		"message": "Autoapitalizar\nCualquier entrada en el código de regalo se capitaliza automáticamente"
+		"message": "Mayusculas\nCualquier codigo de regalo se muesta automaticamente en mayusculas"
 	},
 	"options_hflashad": {
 		"message": "Sonido de anuncio flash\nReproduce un sonido cuando aparezca el botón AD Flash"
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Bloquear las caravanas\nEvita la colección de caravanas enviadas con un boleto"
+	},
+	"options_hpetfollow": {
+		"message": "No seguir\nLa mascota no sigue a Diggy"
 	},
 	"calc_operators": {
 		"message": "Operadores"
