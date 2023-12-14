@@ -188,7 +188,7 @@ function init() {
 				[17, gui.getMessage('options_modifier_ctrl')],
 				[18, gui.getMessage('options_modifier_alt')]
 			];
-			for (let i = 65; i < 90; i++) options.push([i, String.fromCharCode(i)]);
+			for (let i = 65; i < 91; i++) options.push([i, String.fromCharCode(i)]);
 		}
 		let warnings = [];
 		let className = '';
@@ -234,7 +234,7 @@ function init() {
 			htm += Html.br`<h3 style="margin-top:4px">${gui.getMessage('gui_hotkey')}</h3>`;
 			htm += Html.br`${gui.getMessage('options_modifier_alt')} + <select data-pref="${hotKeyPref}">`;
 			const hotkeys = [];
-			for (let i = 65; i < 90; i++) hotkeys.push([String.fromCharCode(i), String.fromCharCode(i)]);
+			for (let i = 65; i < 91; i++) hotkeys.push([String.fromCharCode(i), String.fromCharCode(i)]);
 			for (const option of hotkeys) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
 			htm += Html.br`</select>`;
 		}
