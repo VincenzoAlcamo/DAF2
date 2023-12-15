@@ -1467,7 +1467,7 @@ function addTitle(x, y, text, isBlockTitle) {
 function addTitleDebug(x, y, text) {
 	const key = `${x}_${y}`;
 	if (!titles[key]) titles[key] = {};
-	titles[key].debug = '\n' + text;
+	titles[key].debug = (titles[key].debug ? titles[key].debug + '\n' : '') + '\n' + text;
 }
 
 function changeLevel(e) {
@@ -2719,7 +2719,7 @@ async function drawMine(args) {
 		if (hasRandom) {
 			s += `\n${RANDOM_CHAR} = ${gui.getMessage('map_positionrandom')}`;
 		}
-		if (s) addTitle(x, y, gui.getMessageAndValue('gui_loot', s));
+		if (s) addTitle(x, y, gui.getMessageAndValue('gui_loot', s), true);
 	};
 
 	const drawTeleport = (teleport) => {
@@ -2896,6 +2896,7 @@ async function drawMine(args) {
 		const item = getMiscItem(tileDef);
 		if (!item) continue;
 		const texts = [];
+		const debugs = [];
 		if ((tileDef.miscType == 'N' || tileDef.miscType == 'X') && (tileDef.tileStatus == 2 || showBackground)) {
 			let text;
 			if (tileDef.miscType == 'N' && (fid == 1 || isRepeatable)) {
@@ -2918,7 +2919,7 @@ async function drawMine(args) {
 		}
 		if (tileDef.miscType == 'B' && canShowBeacon) {
 			const cell = table.rows[y].cells[x];
-			texts.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
+			debugs.push(`${gui.getMessage('map_beacon')} (${gui.getMessage(item.active ? 'map_active' : 'map_not_active')})`);
 			// Solution should be shown anyway?
 			// if (tileDef.stamina >= 0) {
 			{
@@ -2926,7 +2927,7 @@ async function drawMine(args) {
 				let rotation = 1;
 				let isHidden = false;
 				if (item.req_drag) {
-					texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
+					debugs.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
 					const draggable = draggables[item.req_drag];
 					asset = draggable.mobile_asset;
 					const override = draggables[asArray(draggable.overrides).filter((o) => +o.region_id == rid).map((o) => o.override_drag_id)[0]];
@@ -2938,12 +2939,12 @@ async function drawMine(args) {
 					const name = token.name_loc
 						? gui.getString(token.name_loc)
 						: gui.getMessage('gui_token') + '#' + item.req_material;
-					texts.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
+					debugs.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
 					asset = token.mobile_asset;
 					isHidden = +token.visibility == 0;
 				}
 				if (item.req_light) {
-					texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
+					debugs.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
 				}
 				if (!asset && item.activation === 'push') {
 					const beacon = currentData.beacons[tileDef.miscId];
@@ -2974,6 +2975,7 @@ async function drawMine(args) {
 			cell.classList.toggle('beacon-active', tileDef.beaconActive);
 		}
 		if (texts.length) addTitle(x, y, texts.join('\n'), true);
+		if (debugs.length) addTitleDebug(x, y, debugs.join('\n'));
 		const img = await getImg(item && item.mobile_asset);
 		if (img) {
 			if (tileDef.miscType == 'B') {
