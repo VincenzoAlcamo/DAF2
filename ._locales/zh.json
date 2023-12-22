@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "已鎖定"
 	},
+	"gui_unlock": {
+		"message": "解鎖"
+	},
 	"gui_noresults": {
 		"message": "無結果"
 	},
@@ -307,10 +310,19 @@
 		"message": "日期"
 	},
 	"gui_ctrlclick": {
-		"message": "按下Ctrl以選擇/取消選擇全部"
+		"message": "按下CTRL以選擇/取消選擇全部"
 	},
 	"gui_summary": {
 		"message": "總覽"
+	},
+	"gui_pet": {
+		"message": "寵物"
+	},
+	"gui_hotkey": {
+		"message": "快速鍵"
+	},
+	"gui_mousegesture": {
+		"message": "滑鼠手勢"
 	},
 	"dialog_ok": {
 		"message": "OK"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "顯示國度選擇器"
 	},
+	"map_option_f": {
+		"message": "顯示友誼度選擇器"
+	},
 	"map_option_i": {
 		"message": "顯示礦坑資訊"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "增加浮水印"
+	},
+	"map_option_k": {
+		"message": "顯示樓層指示"
 	},
 	"map_option_resize": {
 		"message": "存儲圖像的比例"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "右鍵"
 	},
+	"options_gesture_middle": {
+		"message": "點中鍵"
+	},
+	"options_gesture_rightleft": {
+		"message": "按住右鍵後點左鍵"
+	},
 	"options_sort_none": {
 		"message": "無"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "幸運卡片\n顯示一個當幸運卡片帳篷準備好時的徽章"
 	},
+	"options_badgepetshop": {
+		"message": "寵物商店\n顯示一個當寵物商店刷新時的徽章"
+	},
 	"options_badgeproductions": {
 		"message": "生產\n顯示一個當生產槽已準備好或空著時的徽章"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "額外功能\n在遊戲中啓用額外的功能"
 	},
+	"options_hmain_disabled": {
+		"message": "額外功能無法被啓用"
+	},
 	"options_hspeed": {
 		"message": "加速\n加速藥劑會提供更快的速度"
 	},
@@ -2213,10 +2243,16 @@
 		"message": "食物\n選擇當你能量用完時會顯示哪一種食物"
 	},
 	"options_hqueue": {
-		"message": "簡易敲磚排程\n排程數量會更長.\n按住SHIFT鍵後，移動滑鼠到磚上以加入排程"
+		"message": "簡易敲磚排程\n排程數量會更長.\n按住SHIFT鍵後，移動滑鼠到磚上以加入排程\n若你按著CTRL鍵，點下的磚會從排程中移除"
+	},
+	"options_hautoqueue": {
+		"message": "自動排程\n移動滑鼠到磚上就可以加入挖掘排程(不需要按著SHIFT鍵)"
 	},
 	"options_hscroll": {
 		"message": "禁止慣性滾動\n慣性滾動是即使已經停止滑動，螢幕仍然持續移動的效果"
+	},
+	"options_hinstantcamera": {
+		"message": "即使視角\n當畫面移到另外一處時，轉換是無縫即時的"
 	},
 	"options_hreward": {
 		"message": "自動大寫\n任何輸入禮物碼的字母都會自動大寫"
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "鎖定商隊票券\n防止收取利用票券送出的商隊"
+	},
+	"options_hpetfollow": {
+		"message": "不跟從\n寵物不會跟著Diggy"
 	},
 	"calc_operators": {
 		"message": "運算子"

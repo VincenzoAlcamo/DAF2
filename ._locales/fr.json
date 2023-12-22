@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Fermé"
 	},
+	"gui_unlock": {
+		"message": "Déverrouiller"
+	},
 	"gui_noresults": {
 		"message": "Aucun résultat"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Sommaire"
+	},
+	"gui_pet": {
+		"message": "Animal de compagnie"
+	},
+	"gui_hotkey": {
+		"message": "Touche de raccourci"
+	},
+	"gui_mousegesture": {
+		"message": "Geste de la souris"
 	},
 	"dialog_ok": {
 		"message": "D'accord"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Afficher le sélecteur de région"
 	},
+	"map_option_f": {
+		"message": "Afficher le sélecteur d'amitié"
+	},
 	"map_option_i": {
 		"message": "Afficher les informations de localisation"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Ajouter un filigrane de logo"
+	},
+	"map_option_k": {
+		"message": "Afficher les indicateurs d'étage"
 	},
 	"map_option_resize": {
 		"message": "Taille de l'image enregistrée"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "Droite"
 	},
+	"options_gesture_middle": {
+		"message": "Cliquez sur le bouton du milieu"
+	},
+	"options_gesture_rightleft": {
+		"message": "Maintenez le bouton droit puis cliquez sur le bouton gauche"
+	},
 	"options_sort_none": {
 		"message": "Aucun"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Cartes de la chance\nMontrez un badge lorsque la tente des cartes de la chance est prête"
 	},
+	"options_badgepetshop": {
+		"message": "Animalerie\nAfficher un badge lorsque l'animalerie se rafraîchit"
+	},
 	"options_badgeproductions": {
 		"message": "Productions\nAfficher un badge lorsqu'un emplacement de production est prêt ou vide"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Fonctionnalités supplémentaires\nActiver des fonctionnalités supplémentaires dans le jeu."
 	},
+	"options_hmain_disabled": {
+		"message": "Les fonctionnalités supplémentaires ne peuvent pas être activées"
+	},
 	"options_hspeed": {
 		"message": "Accélérer\nLes potions de vitesse donneront beaucoup plus de vitesse."
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Nourriture\nChoisissez quel consommable vous est proposé lorsque vous êtes à court d'énergie."
 	},
 	"options_hqueue": {
-		"message": "File d'attente de dalles facile\nLa file d'attente est longuer,\nMaintenez la touche MAJ enfoncée et déplacez la souris sur certaines tuiles pour les ajouter à la file d'attente."
+		"message": "File d'attente de dalles facile\nLa file d'attente est plus longue.\nMaintenez la touche Majuscule enfoncée et déplacez la souris sur certaines dalles pour les ajouter à la file d'attente\nSi vous maintenez la touche CTRL enfoncée, la vignette est supprimée de la file d'attente."
+	},
+	"options_hautoqueue": {
+		"message": "File d'attente automatique\nDéplacez simplement la souris sur certaines dalles pour les ajouter à la file d'attente (SHIFT n'est pas requis)"
 	},
 	"options_hscroll": {
 		"message": "Désactiver le défilement inertiel\nLe défilement inertiel est l'effet selon lequel l'écran continue de se déplacer même après que vous avez arrêté de le faire glisser."
+	},
+	"options_hinstantcamera": {
+		"message": "Appareil photo instantané\nLorsque la vue de la caméra se déplace vers un emplacement différent, la transition est instantanée"
 	},
 	"options_hreward": {
 		"message": "Capitalisation automatique\nToute saisie du code cadeau est automatiquement mise en majuscule."
@@ -2229,6 +2265,9 @@
 	},
 	"options_hlockcaravan": {
 		"message": "Verrouiller les caravanes\nEmpêche la collecte des caravanes envoyées avec un ticket."
+	},
+	"options_hpetfollow": {
+		"message": "Ne pas suivre\nL'animal ne suit pas, Diggy"
 	},
 	"calc_operators": {
 		"message": "Les opérateurs"
