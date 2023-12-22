@@ -339,7 +339,7 @@ html.DAF-fullwindow[daf--_screen^="tower"] {
 	display: inline-block;
 }
 
-.DAF-badges .DAF-badge-p-c.animate,
+/* .DAF-badges .DAF-badge-p-c.animate,
 .DAF-badges .DAF-badge-p-k.animate,
 .DAF-badges .DAF-badge-p-f.animate,
 .DAF-badges .DAF-badge-luckycards.animate,
@@ -347,7 +347,7 @@ html.DAF-fullwindow[daf--_screen^="tower"] {
 .DAF-badges .DAF-badge-windmills.animate,
 .DAF-badges .DAF-badge-rep.animate b {
 	animation: DAF_flash infinite 2s alternate;
-}
+} */
 
 .DAF-badges .DAF-badge-extra.DAF-badge-on,
 html[daf--hasqueue] .DAF-badges.DAF-hqueue.DAF-hautoqueue .DAF-badge-autoqueue,
