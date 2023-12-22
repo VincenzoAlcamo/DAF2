@@ -298,8 +298,13 @@ html.DAF-fullwindow[daf--_screen^="tower"] {
 }
 
 .DAF-badges .DAF-badge-autoqueue {
-	padding-left: 6px;
-	padding-right: 6px;
+	padding: 0 6px 0 27px;
+    background-size: 22px;
+    background-image: url(/img/gui/dig.png);
+    background-position: 2px center;
+    line-height: 26px;
+    height: 26px;
+    margin-top: -1px;
 }
 
 .DAF-badges .DAF-badge-windmills {

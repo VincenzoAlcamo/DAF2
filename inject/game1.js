@@ -427,7 +427,7 @@ function createMenu() {
 	<b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
 	<b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
 	<b data-animate class="DAF-badge-petshop DAF-badge-img" title="${gm0('options_badgepetshop')}"></b>
-	<b class="DAF-badge-autoqueue" title="${Html(getMessage1('options_hautoqueue'))}">${Html(getMessage('options_hautoqueue').split('\n')[0].toUpperCase())}</b>
+	<b class="DAF-badge-autoqueue DAF-badge-img" title="${getMessage('options_hautoqueue')}">AUTO</b>
 	<div data-animate class="DAF-badge-rep"></div>
 </div>
 `;
