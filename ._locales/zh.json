@@ -292,10 +292,10 @@
 		"message": "地點"
 	},
 	"gui_locked": {
-		"message": "已鎖定"
+		"message": "已鎖定Locked"
 	},
 	"gui_unlock": {
-		"message": "解鎖"
+		"message": "解鎖Unlock"
 	},
 	"gui_noresults": {
 		"message": "無結果"
