@@ -1621,9 +1621,19 @@ var Data = {
 	},
 	//#endregion
 	//#region FILES
-	unusedFiles: {
-		'buildings_actions': true
-	},
+    unusedFiles: [
+        'buildings_actions',
+        'quests_ab_tests',
+        'quests_reward_ab_tests',
+        'quests_steps_camp_ch',
+        'quests_steps_camp_ch_init',
+        'quests_steps_city_ch',
+        'quests_steps_city_ch_init',
+        'quests_steps_floor_ch',
+        'quests_steps_floor_ch_init',
+        'quests_steps_ui_ch',
+        'quests_steps_ui_ch_init',
+    ],
 	checkFile(name, version) {
 		const result = {};
 		result.name = name;
@@ -1637,7 +1647,7 @@ var Data = {
 			result.fileName += name + '.erik';
 			result.kind = 'erik';
 		}
-		if (name in Data.unusedFiles) {
+		if (Data.unusedFiles.includes(name)) {
 			result.data = {};
 			return result;
 		}
