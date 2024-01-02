@@ -179,7 +179,7 @@ async function refresh() {
 		} else if (type == 'photo_albums_photos') {
 			for (const item of Object.values(data)) {
 				const id = item.def_id, asset = item[$asset];
-				if (!hasAsset(asset)) return;
+				if (!hasAsset(asset)) continue;
 				const url = cdn_root + 'mobile/' + (item.asset_path || 'graphics/all/') + encodeURIComponent(asset) + '.png' + versionParameter;
 				addItem(id, asset, { id, name: item[$name] && gui.getString(item[$name]), url })
 			}
