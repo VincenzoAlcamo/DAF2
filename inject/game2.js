@@ -196,7 +196,7 @@ XHR.open = function(method, url) {
 	return open.apply(this, arguments);
 }
 XHR.send = function() {
-	let kind, lang, player_id, xml;
+	let kind, player_id, xml;
 	const dispatch = (type) => {
 		let response = null;
 		if (type == 'ok') {
@@ -206,17 +206,13 @@ XHR.send = function() {
 			else if (result.bytes instanceof Uint8Array) response = getString(result.bytes);
 			else console.log('daf_xhr: invalid response');
 		}
-		const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, player_id, xml, response } });
+		const lang = kind === 'generator' ? window.gamevars?.lang : undefined;
+		const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, player_id, xml, url: this.url, response } });
 		document.dispatchEvent(event);
 	}
-	if (this.url.indexOf('/graph.facebook.com') > 0) {
-		kind = 'graph';
-		this.addEventListener('load', () => dispatch('ok'));
-		return send.apply(this, arguments);
-	} else if (this.url.indexOf('/generator.php') > 0) {
-		kind = 'generator';
-		try { lang = gamevars.lang; } catch(e) { }
-	} else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
+	if (this.url.indexOf('/graph.facebook.com') > 0) kind = 'graph';
+	else if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
+	else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
 	else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
 	if (kind) {
 		if (kind == 'generator' || kind == 'synchronize') {
@@ -226,13 +222,13 @@ XHR.send = function() {
 				if (key == 'player_id') player_id = decodeURIComponent(p[1]);
 				else if (key == 'xml') xml = parseXml(decodeURIComponent(p[1]));
 			}
+			const error = () => dispatch('error');
+			dispatch('send');
+			this.addEventListener('error', error);
+			this.addEventListener('abort', error);
+			this.addEventListener('timeout', error);
 		}
-		const error = () => dispatch('error');
-		dispatch('send');
 		this.addEventListener('load', () => dispatch('ok'));
-		this.addEventListener('error', error);
-		this.addEventListener('abort', error);
-		this.addEventListener('timeout', error);
 	}
 	return send.apply(this, arguments);
 };
