@@ -2,15 +2,12 @@
 	function setupMessaging(src, color, dst) {
 		const logPrefix = `%c ${src.toUpperCase()} %c`;
 		const logColor = `background-color:${color};color:white`;
-		const [log, warn, info, error, debug] = ['log', 'warn', 'info', 'error', 'debug'].map((name) => {
-			const method = console[name];
-			return function (...data) {
-				if (typeof data[0] === 'string') data[0] = logPrefix + ' ' + data[0];
-				else data.unshift(logPrefix);
-				data.splice(1, 0, logColor, 'background-color:transparent;color:inherit');
-				return method.apply(console, data);
-			};
-		});
+		const log = function (...data) {
+			if (typeof data[0] === 'string') data[0] = logPrefix + ' ' + data[0];
+			else data.unshift(logPrefix);
+			data.splice(1, 0, logColor, 'background-color:transparent;color:inherit');
+			return console.log.apply(console, data);
+		};
 		log('started');
 
 		const Prefs = {};
@@ -48,7 +45,6 @@
 			};
 		}
 		if (src !== 'game0') {
-			Object.assign(console, { log, warn, info, error, debug });
 			chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 				const response = dispatch(request, sender);
 				if (response instanceof Promise) {
@@ -75,7 +71,7 @@
 			});
 		}
 
-		return { Msg: { send, sendPage, handlers }, Prefs, setPreference, log, warn, info, error, debug };
+		return { Msg: { send, sendPage, handlers }, Prefs, setPreference, log };
 	}
 
 	const { Msg, Prefs, log } = setupMessaging('game0', 'blue', 'game2');
