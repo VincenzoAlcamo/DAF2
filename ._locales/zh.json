@@ -295,7 +295,7 @@
 		"message": "已鎖定Locked"
 	},
 	"gui_unlock": {
-		"message": "解鎖Unlock"
+		"message": "Unlock解鎖"
 	},
 	"gui_noresults": {
 		"message": "無結果"
