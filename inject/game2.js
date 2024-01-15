@@ -1,698 +1,835 @@
-/*global chrome Html*/
-// GAME PAGE
-let prefs, handlers, msgHandlers, miner, postMessage;
-let gcTable, gcTableStyle;
-let loadCompleted, game1Received, pageType;
-let lastFullWindow = false;
+function setupMessaging(src, color, dst) {
+	const logPrefix = `%c ${src.toUpperCase()} %c`;
+	const logColor = `background-color:${color};color:white`;
+	const [log, warn, info, error, debug] = ['log', 'warn', 'info', 'error', 'debug'].map((name) => {
+        const method = console[name];
+		return function (...data) {
+			if (typeof data[0] === 'string') data[0] = logPrefix + ' ' + data[0];
+			else data.unshift(logPrefix);
+			data.splice(1, 0, logColor, 'background-color:transparent;color:inherit');
+			return method.apply(console, data);
+        };
+    });
+	log('started');
 
-function getFullWindow() { return prefs.fullWindow && game1Received && loadCompleted; }
-function sendValue(name, value) { chrome.runtime.sendMessage({ action: 'sendValue', name: name, value: prefs[name] = value }); }
-function sendPreference(name, value) { if (name in prefs) chrome.storage.local.set({ [name]: value }); }
-function forceResize(delay = 0) { setTimeout(() => window.dispatchEvent(new Event('resize')), delay); }
-function setFlag(name, value) { document.documentElement.setAttribute('DAF--' + name.toLowerCase().replace(/@/g, '_'), String(typeof value == 'boolean' ? +value : value ?? '')); }
-function forward(action, data) { chrome.runtime.sendMessage(Object.assign({}, data, { action: 'forward', real_action: action })); }
+	const Prefs = {};
+	const handlers = {};
+	handlers['@prefs'] = (request) => {
+		const values = request.values || {};
+		Object.assign(Prefs, values);
+		dispatch({ action: 'pref:*', values });
+		Object.entries(values).forEach(([key, value]) => dispatch({ action: 'pref:' + key, value }));
+	};
+	const dispatch = (request, sender) => {
+		const action = request?.action;
+		try { return action in handlers ? handlers[action](request, sender) : void 0; } catch (e) {}
+	};
+	const makeRequest = (action, data) => (typeof action === 'string' ? { action, ...data } : action);
+	const notSupported = () => { throw 'Not supported'; };
+	let [sendPage, send, setPreference] = [notSupported, notSupported, notSupported];
+	if (dst) {
+		const resolvers = {};
+		let lastId = 0;
+		const newCustomEvent = (detail) => new CustomEvent('daf_' + dst, { detail });
+		document.addEventListener('daf_' + src, (event) => {
+			const responseId = event.detail.responseId;
+			if ('value' in event.detail) return void resolvers[responseId]?.(event.detail.value);
+			const response = dispatch(event.detail.request);
+			const promise = response instanceof Promise ? response : Promise.resolve(response);
+			promise.then((value) => document.dispatchEvent(newCustomEvent({ responseId, value })));
+		});
+		sendPage = (...args) => {
+			const responseId = ++lastId;
+			return new Promise((resolve) => {
+				resolvers[responseId] = resolve;
+				document.dispatchEvent(newCustomEvent({ responseId, request: makeRequest(...args) }));
+			}).finally(() => delete resolvers[responseId]);
+		};
+	}
+	if (src !== 'game0') {
+		Object.assign(console, { log, warn, info, error, debug });
+		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+			const response = dispatch(request, sender);
+			if (response instanceof Promise) {
+				response.then(sendResponse);
+				return true;
+			}
+			if (response !== undefined) sendResponse(response);
+		});
+		send = async (...args) => {
+			return new Promise((resolve, reject) => {
+				chrome.runtime.sendMessage(makeRequest(...args), (response) => {
+					if (!chrome.runtime.lastError) resolve(response);
+				});
+			});
+		};
+		setPreference = (name, value) => chrome.storage.local.set({ [name]: value });
+		chrome.storage.local.get(null, function (values) {
+			dispatch({ action: '@prefs', values });
+			chrome.storage.local.onChanged.addListener((changes) => {
+				const values = {};
+				Object.entries(changes).forEach(([key, change]) => (values[key] = change.newValue));
+				dispatch({ action: '@prefs', values });
+			});
+		});
+	}
 
-function sendMinerPosition() {
-	// Send some values to the top window
-	const name = '@bodyHeight';
-	const value = Math.floor(document.getElementById('footer').getBoundingClientRect().bottom);
-	if (prefs[name] !== value && value > 0) sendValue(name, value);
+	return { Msg: { send, sendPage, handlers }, Prefs, setPreference, log, warn, info, error, debug };
 }
+
+const { Msg, Prefs, setPreference, log } = setupMessaging('game2', 'purple', 'game0');
+
+// These will be initialized later
+let menu, site, miner, cdn_root, gcTable, container, hasGenerator;
+
+const getExtensionUrl = (resource) => chrome.runtime.getURL(resource);
+const getUnixTime = () => Math.floor(Date.now() / 1000);
+function getSound(name) {
+	return !name || !cdn_root
+		? null
+		: cdn_root +
+				(name.startsWith('@')
+					? 'mobile/sounds/all/' + name.substring(1)
+					: 'webgl_client/embedded_assets/sounds/' + name) +
+				'.mp3';
+}
+
+init();
 
 function getMessage(id, ...args) {
-	const $L = prefs.language;
+	const $L = Prefs.language;
 	if (getMessage.$L !== $L) {
-		const $M = getMessage.$M = {}, split = (key) => chrome.i18n.getMessage(key).split('|'), m0 = split('en'), m1 = split(getMessage.$L = $L);
-		split('keys').forEach((key, index) => $M[key] = m1[index] || m0[index]);
+		const $M = (getMessage.$M = {}),
+			split = (key) => chrome.i18n.getMessage(key).split('|'),
+			m0 = split('en'),
+			m1 = split((getMessage.$L = $L));
+		split('keys').forEach((key, index) => ($M[key] = m1[index] || m0[index]));
 	}
-	return (getMessage.$M[id.toLowerCase()] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
+	return (getMessage.$M[id.toLowerCase()] || '').replace(/\^\d/g, (t) => {
+		const n = +t[1] - 1;
+		return n >= 0 && n < args.length ? args[n] : '';
+	});
 }
 
-let resizeHandler = 0;
-function onResize() {
-	const fullWindow = getFullWindow();
-	if (resizeHandler) clearTimeout(resizeHandler);
-	resizeHandler = 0;
-	if (gcTable) {
-		gcTable.style.overflowX = 'auto';
-		gcTable.style.width = fullWindow ? window.innerWidth : '100%';
-	}
-	sendMinerPosition();
+function setScreen(value) {
+	container.setAttribute('daf-screen', value);
 }
 
-function createScript(code) {
+function init() {
+	// Add intercept code
 	const script = document.createElement('script');
 	script.type = 'text/javascript';
-	script.appendChild(document.createTextNode(`(function(){${code}})();`));
-	return script;
+	script.src = getExtensionUrl('inject/game0.js');
+	document.documentElement.appendChild(script);
+
+	Msg.handlers['sendPrefs'] = () => Msg.sendPage('@prefs', { values: Prefs });
+
+	Msg.send('forward', { real_action: 'gameStarted' });
+
+	window.addEventListener('DOMContentLoaded', () => {
+		miner = document.getElementById('canvas');
+
+		container = document.createElement('div');
+		container.setAttribute('class', 'DAF-container');
+		miner.parentNode.insertBefore(container, miner);
+		container.appendChild(miner);
+		container.style.setProperty('--canvas-h', miner.offsetHeight + 'px');
+		menu = document.createElement('div');
+		menu.setAttribute('class', 'DAF-menu-container');
+		menu.style.display = 'none';
+		container.appendChild(menu);
+
+		Html.addStylesheet(getExtensionUrl('inject/game_menu.css'), () => (menu.style.display = ''));
+
+		Msg.sendPage('enableGame');
+
+		Msg.handlers['daf_xhr'] = (request) => {
+			Msg.send(request);
+		};
+		Msg.handlers['generator'] = async (request) => {
+			hasGenerator = true;
+			document.documentElement.classList.toggle('DAF-fullwindow', Prefs.fullWindow);
+			cdn_root ||= request.data?.cdn_root;
+			site = (request.data?.site || 'portal').toLowerCase();
+			const el = menu.querySelector('[data-value="switch"');
+			if (el) Html.set(el, Html.br(getMessage(site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')));
+			menu.classList.add(site);
+			menu.classList.add('ok');
+			let count = 3;
+			const interval = setInterval(async () => {
+				const result = await Msg.send('getAdsInfo');
+				if (result?.items?.length || --count < 0) clearInterval(interval);
+				updateAdsInfo(result);
+			}, 10000);
+			gcTable_updateStatus(await Msg.send('getGCInfo'));
+			gcTable_show(true);
+			enableAutoQueue();
+		};
+
+		Msg.sendPage('enableXhr');
+
+		createMenu();
+
+		Msg.handlers['screen'] = (request) => void setScreen(request.value);
+		Msg.handlers['hFlashAd'] = () => {
+			if (Prefs.hFlashAdSound) playSound(getSound(Prefs.hFlashAdSoundName), Prefs.hFlashAdVolume);
+		};
+		Msg.handlers['enableAutoQueue'] = () => void setupAutoQueueHotKey();
+
+		if (Prefs.hMain) Msg.sendPage('enableExtra').then(setExtra);
+
+		Msg.handlers['pref:*'] = (request) => {
+			Msg.sendPage('@prefs', { values: request.values });
+			updateMenu();
+			gcTable_setOptions();
+			document.documentElement.classList.toggle('DAF-fullwindow', hasGenerator && Prefs.fullWindow);
+		};
+
+		Msg.handlers['pref:gcTable'] = () => void gcTable_show();
+		Html.addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'));
+		gcTable_show();
+
+		Msg.handlers['repeatables'] = (request) => void setBadgeRepeatables(request.data);
+		Msg.handlers['luckycards'] = (request) => void setBadgeLuckyCards(request.data);
+		Msg.handlers['petshop'] = (request) => void setBadgePetShop(request.data);
+		Msg.handlers['windmills'] = (request) => void setBadgeWindmills(request.data);
+		Msg.handlers['productions'] = (request) => void setBadgeProductions(request.data);
+		Msg.handlers['serverEnergy'] = (request) =>
+			void setBadge({ selector: '.DAF-badge-energy', text: request.data.energy, active: true });
+		Msg.handlers['gc-energy'] = (request) => {
+			const energy = (request.data && +request.data.energy) || 0;
+			setBadge({
+				selector: '.DAF-badge-gc-energy',
+				text: energy,
+				title: (request.data && request.data.title) || getMessage('gui_energy'),
+				active: energy > 0
+			});
+		};
+		Msg.handlers['friend_child_charge'] = (request) => {
+			gcTable_updateStatus(request.data);
+			gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
+			if (Prefs.autoGC && request.data.skip) {
+				const rect = miner.getBoundingClientRect();
+				const eventConfig = { clientX: 35, clientY: Math.floor(rect.top + rect.height / 2), buttons: 1 };
+				miner.dispatchEvent(new MouseEvent('mousedown', eventConfig));
+				setTimeout(() => miner.dispatchEvent(new MouseEvent('mouseup', eventConfig)), 250);
+			}
+		};
+
+		Msg.handlers['ads_info'] = (request) => void updateAdsInfo(request.data);
+
+		Msg.handlers['exitFullWindow'] = () => {
+			if (!Prefs.fullWindowLock) setPreference('fullWindow', false);
+		};
+		Msg.handlers['wallpost'] = () => void 0;
+	});
 }
 
-function onFullWindow() {
-	const fullWindow = getFullWindow();
-	const fn = el => el && (el.style.display = fullWindow ? 'none' : '');
-	if (fullWindow != lastFullWindow) {
-		lastFullWindow = fullWindow;
-		setFlag('fullWindow', fullWindow);
-		document.body.style.backgroundColor = fullWindow ? '#000' : '';
-		document.body.style.overflow = fullWindow ? 'hidden' : '';
-		Array.from(document.querySelectorAll('.header-menu,#gems_banner,.cp_banner .bottom_banner,#bottom_news,#footer,.client-type-switch,.news')).forEach(fn);
-		forceResize(1000);
+async function setExtra(extra) {
+	log('extra received = "%s"', extra);
+	const values = String(extra ?? '').split(',');
+	const options = menu.querySelector('[data-action="options"]');
+	options.querySelectorAll('[data-pref]').forEach((el) => {
+		if (values.includes(el.getAttribute('data-pref'))) return;
+		const parent = el.parentElement;
+		el.remove();
+		if (!parent.firstElementChild) parent.remove();
+	});
+	if (!options.querySelector('[data-pref]')) options.remove();
+	else {
+		menu.querySelector('.DAF-badge-extra')?.remove();
+		options.style.removeProperty('display');
+	}
+	menu.querySelector('.DAF-badges').classList.toggle('DAF-hasQueue', values.includes('hQueue'));
+	enableAutoQueue();
+}
+
+function enableAutoQueue() {
+	if (hasGenerator && menu.querySelector('[data-pref="hAutoQueue"]')) Msg.send('forward', { real_action: 'enableAutoQueue' });
+}
+
+function getWrappedText(text, max = 60) {
+	return String(text ?? '')
+		.split('\n')
+		.map((line) => {
+			let c = 0;
+			return line
+				.split(/\s+/)
+				.map((t) => {
+					if (c && c + t.length + 1 > max) {
+						c = t.length;
+						return '\n' + t;
+					} else {
+						t = c ? ' ' + t : t;
+						c += t.length;
+						return t;
+					}
+				})
+				.join('');
+		})
+		.join('\n');
+}
+
+function createMenu() {
+	const gm = (id) => Html.br(getMessage(id));
+	const gm0 = (id) => Html(getMessage(id).split('\n')[0]);
+	const getMessage1 = (id) => {
+		const t = getMessage(id),
+			i = t.indexOf('\n');
+		return t.substr(i + 1);
+	};
+	const gmSound = Html(getMessage1('options_badgesound'));
+	let html = `
+<ul class="DAF-menu">
+<li data-action="about"><b>&nbsp;</b>
+	<div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
+</li>
+<li data-action="search"><b>&nbsp;</b>
+	<div><span>${gm('gui_search')}</span><input type="text">
+	<div class="DAF-search-results"></div>
+	</div>
+</li>
+<li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
+	<div>
+		<u>
+		<i data-pref="fullWindow">${gm('menu_fullwindow')}</i>
+		<i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
+		</u>
+	</div>
+</li>
+<li data-action="gc"><b>&nbsp;</b>
+	<div>
+		<span data-value="status" style="display:none"></span>
+		<u class="squared">
+		<i data-pref="gcTable">${gm('menu_gctable')}</i>
+		<i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
+		<i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
+		</u>
+		<u><i data-pref="autoGC">${gm0('options_autogc')}</i></u>
+		<u><i data-pref="noGCPopup">${gm0('options_nogcpopup')}</i></u>
+	</div>
+</li>
+<li data-action="badges"><b>&nbsp;</b>
+	<div>
+		<span>${gm('options_section_badges')}</span>
+		<u>
+		<i data-pref="badgeServerEnergy" style="display:none">${gm0('options_badgeserverenergy')}</i>
+		<i data-pref="badgeGcCounter">${gm0('options_badgegccounter')}</i>
+		<i data-pref="badgeGcEnergy">${gm0('options_badgegcenergy')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeProductions">${gm0('options_badgeproductions')}</i>
+		<i data-pref="badgeCaravan" title="" class="hue2">${gm0('tab_caravan')}</i>
+		<i data-pref="badgeKitchen" title="" class="hue2">${gm0('tab_kitchen')}</i>
+		<i data-pref="badgeFoundry" title="" class="hue2">${gm0('tab_foundry')}</i>
+		<i data-pref="badgeProductionsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeRepeatables">${gm0('options_badgerepeatables')}</i>
+		<i data-pref="badgeRepeatablesSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeLuckyCards">${gm0('options_badgeluckycards')}</i>
+		<i data-pref="badgeLuckyCardsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgeWindmills">${gm0('options_badgewindmills')}</i>
+		<i data-pref="badgeWindmillsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="badgePetShop">${gm0('options_badgepetshop')}</i>
+		<i data-pref="badgePetShopSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		</u>
+	</div>
+</li>
+<li data-action="ads" style="display:none"><b>&nbsp;</b>
+	<div>
+		<span>${gm('camp_ads_limit')}</span><br>
+		<p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
+		<table class="DAF-table">
+			<thead><tr><td>${gm('gui_type')}</td><td>${gm('gui_limit')}</td><td>${gm('gui_date')}</td></tr></thead>
+			<tbody></tbody>
+			<tfoot><tr><td>${gm('camp_total')}</td><td class="total"></td><td></td></tr></tfoot>
+		</table>
+	</div>
+</li>
+<li data-action="options" style="display:none"><b>&nbsp;</b>
+	<div>
+		<span>${gm0('options_hmain')}</span>
+		<u><i data-pref="hFlashAdSound">Flash Ad Sound</i>
+		<i data-pref="hReward">${gm0('options_hreward')}</i>
+		<i data-pref="hGCCluster">${gm0('options_hgccluster')}</i></u>
+		<u><i data-pref="hScroll">${gm0('options_hscroll')}</i>
+		<i data-pref="hInstantCamera">${gm0('options_hinstantcamera')}</i></u>
+		<u class="squared">
+		<i>${gm('gui_loot')}</i>
+		<i data-pref="hLootCount">${gm0('options_hlootcount')}</i>
+		<i data-pref="hLootZoom">${gm0('options_hlootzoom')}</i>
+		<i data-pref="hLootFast">${gm0('options_hlootfast')}</i>
+		</u>
+		<u class="squared">
+		<i data-pref="hFood" class="squared-right">${gm0('options_hfood')}</i>
+		<select data-pref="hFoodNum">
+			<option value="avg">${gm('gui_average')}</option>
+			<option value="min">${gm('gui_minimum')}</option>
+			<option value="0">1 = ${gm('gui_maximum')}</option>
+			${[...Array(19).keys()].map((i) => `<option value="${i + 1}">${i + 2}</option>`).join('')}
+		</select>
+		</u>
+		<u class="squared">
+			<i data-pref="hQueue">${gm0('options_hqueue')}</i>
+			<i data-pref="hAutoQueue">${gm0('options_hautoqueue')}</i>
+		</u>
+		<u class="squared"><i>${gm('gui_pet')}</i>
+		<i data-pref="hPetFollow">${gm0('options_hpetfollow')}</i>
+		<i data-pref="hPetSpeed" title="${Html(getMessage1('options_hspeed'))}">${gm0('options_hspeed')}</i></u>
+		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
+		<i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i></u>
+	</div>
+</li>
+<li data-action="reloadGame"><b>&nbsp;</b>
+	<div>
+		<span>${gm('menu_reloadgame')}</span>
+		<br>
+		<i data-value="switch">${gm(site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')}</i>
+	</div>
+</li>
+</ul>
+<div class="DAF-badges">
+	<b data-close class="DAF-badge-extra DAF-badge-img ${Prefs.hMain ? 'DAF-badge-on' : ''}" title="${gm(
+		'options_hmain_disabled'
+	)}">EXTRA</b>
+	<b data-close class="DAF-badge-energy DAF-badge-img"></b>
+	<b class="DAF-badge-gc-counter DAF-badge-img"></b>
+	<b class="DAF-badge-gc-energy DAF-badge-img"></b>
+	<b data-animate class="DAF-badge-windmills DAF-badge-img" title="${gm('camp_needs_windmills')}"></b>
+	<b data-animate class="DAF-badge-p-c DAF-badge-img" title="${gm('tab_caravan')}">0</b>
+	<b data-animate class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
+	<b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
+	<b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
+	<b data-animate class="DAF-badge-petshop DAF-badge-img" title="${gm0('options_badgepetshop')}"></b>
+	<b class="DAF-badge-autoqueue DAF-badge-img" title="${getMessage('options_hautoqueue')}">AUTO</b>
+	<div data-animate class="DAF-badge-rep"></div>
+</div>
+`;
+	// remove spaces
+	html = html.replace(/>\s+/g, '>');
+	Html.set(menu, html);
+	for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
+		const prefName = el.getAttribute('data-pref');
+		if (!el.hasAttribute('title')) el.title = getMessage1('options_' + prefName.toLowerCase());
+	}
+	menu.querySelectorAll('[title]').forEach((el) => (el.title = getWrappedText(el.title)));
+	setupSearch();
+	menu.addEventListener('click', onMenuClick);
+	menu.querySelectorAll('select[data-pref]').forEach((el) => {
+		el.addEventListener('change', onMenuClick);
+		el.addEventListener('click', (event) => {
+			event.stopPropagation();
+			event.preventDefault();
+		});
+	});
+	menu.querySelectorAll('.DAF-badges [data-animate]').forEach((badge) => {
+		badge.addEventListener('mouseenter', () => badge.classList.remove('animate'));
+	});
+	menu.querySelectorAll('.DAF-badges [data-close]').forEach((badge) => {
+		badge.addEventListener('click', () => badge.classList.remove('DAF-badge-on'));
+	});
+
+	updateMenu();
+}
+
+function setupSearch() {
+	const searchInput = menu.querySelector('[data-action="search"] input');
+	let searchHandler;
+	searchInput.addEventListener('input', () => {
+		if (searchHandler) clearTimeout(searchHandler);
+		searchHandler = setTimeout(executeSearch, 500);
+	});
+	searchInput.addEventListener('keydown', (event) => {
+		if (event.code === 'Escape') document.activeElement.blur();
+		if (event.code === 'Backspace') event.stopPropagation();
+	});
+	async function executeSearch() {
+		searchHandler = null;
+		const container = menu.querySelector('.DAF-search-results');
+		container.style.display = 'none';
+		Html.set(container, '');
+		const text = searchInput.value.trim();
+		if (!text) return;
+		const { count, list } = await Msg.send('searchNeighbor', { text });
+		const gm = (id) => Html(getMessage(id));
+		let html = `<table class="DAF-table">`;
+		if (list.length) {
+			html += `
+<thead><tr><td colspan="2">${gm('gui_neighbour')}</td>
+<td class="DAF-visit"></td>
+<td class="DAF-search-region" title="${gm('gui_region')}"></td>
+<td class="DAF-search-level" title="${gm('gui_level')}"></td></tr></thead>
+<tbody>`;
+			list.forEach((pal) => {
+				html += `<tr data-id="${pal.id}">`;
+				html += `<td><img src="${pal.pic || `https://graph.facebook.com/v2.8/${pal.fb_id}/picture`}"></td>`;
+				html += `<td>`;
+				if (!pal.furl || pal.fn != pal.name) {
+					html += `${Html(pal.name)}`;
+					if (pal.fn) {
+						html += `<br>`;
+						if (!pal.furl) html += `<i>${Html(pal.fn)}</i>`;
+					}
+				}
+				if (pal.furl && pal.fn) {
+					html += `<a data-target="_blank" href="${Html(pal.furl)}">${Html(pal.fn)}</a>`;
+				}
+				html += `</td>`;
+				html += `<td class="DAF-visit"><a data-action="visit" title="${gm('gui_visitcamp')}"></a></td>`;
+				html += `<td><img height="32" data-src="${Html(pal.rimage)}" title="${Html(pal.rname)}"></td>`;
+				html += `<td>${Html(pal.level)}</td>`;
+				html += `</tr>`;
+			});
+			html += `</tbody>`;
+			if (count - list.length > 0)
+				html += `<tfoot><tr><th colspan="5">${gm('gui_toomanyresults')} (${count})</th></tr></tfoot>`;
+		} else {
+			html += `<tfoot><tr><th>${Html(getMessage('gui_noresults'))}</th></tr></tfoot>`;
+		}
+		html += `</table>`;
+		Html.set(container, html);
+		container.querySelectorAll('img[data-src]').forEach((img) => {
+			const src = img.getAttribute('data-src');
+			img.src = src[0] == '/' ? getExtensionUrl(src) : src;
+		});
+		container.style.display = 'block';
 	}
 }
 
+function updateMenu(prefName) {
+	if (!menu) return;
+	Array.from(menu.querySelectorAll('[data-pref' + (prefName ? '="' + prefName + '"' : '') + ']')).forEach((el) => {
+		const prefName = el.getAttribute('data-pref');
+		if (el.tagName === 'SELECT') {
+			el.value = Prefs[prefName];
+			return;
+		}
+		const prefValue = el.getAttribute('data-pref-value');
+		const isOn = prefValue ? prefValue == Prefs[prefName] : !!Prefs[prefName];
+		el.classList.toggle('DAF-on', isOn);
+	});
+	const divBadges = menu.querySelector('.DAF-badges');
+	const names = prefName ? [prefName] : Object.keys(Prefs);
+	names
+		.filter((prefName) => prefName.startsWith('badge') || prefName === 'hQueue' || prefName === 'hAutoQueue')
+		.forEach((prefName) => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!Prefs[prefName]));
+}
+
+function onMenuClick(e) {
+	const target = e.target;
+	if (!target || target.tagName == 'DIV') return;
+	let action = null;
+	let parent = target;
+	while (parent && parent !== menu && !(action = parent.getAttribute('data-action'))) parent = parent.parentNode;
+	switch (action) {
+		case 'about':
+			Msg.send('showGUI');
+			break;
+		case 'fullWindow':
+		case 'gc': {
+			const name = target.getAttribute('data-pref') || action;
+			setPreference(name, !Prefs[name]);
+			break;
+		}
+		case 'options':
+		case 'badges': {
+			const name = target.getAttribute('data-pref');
+			if (name) {
+				let value;
+				if (target.tagName === 'SELECT') value = target.value;
+				else {
+					const s = target.getAttribute('data-pref-value');
+					value = s === null ? !Prefs[name] : isFinite(+s) ? +s : s;
+				}
+				setPreference(name, value);
+			}
+			break;
+		}
+		case 'reloadGame': {
+			let value = target.getAttribute('data-value');
+			const portal = (site == 'portal') ^ (value === 'switch');
+			value += ' ' + (portal ? 'portal' : 'facebook');
+			Msg.send('reloadGame', { value });
+			break;
+		}
+		case 'visit':
+			setScreen('visiting');
+			Msg.sendPage('visit', { id: parent.parentNode.parentNode.getAttribute('data-id') });
+			break;
+	}
+}
+
+function setBadge({ selector, text, title, active }) {
+	const badge = menu && menu.querySelector(selector);
+	if (!badge) return;
+	Html.set(badge, Html(text || ''));
+	badge.title = title || '';
+	badge.classList.toggle('DAF-badge-on', !!active);
+}
+
+async function playSound(sound, volume = 100) {
+	if (!sound || !volume) return;
+	volume = +volume / 100;
+	const last = (playSound.last = playSound.last || {});
+	if (last.sound == sound && (!last.ended || last.ended + 5 > getUnixTime())) return;
+	if (last.audio)
+		try {
+			last.audio.pause();
+		} catch (e) {}
+	const audio = (last.audio = new Audio((last.sound = sound)));
+	audio.volume = volume;
+	last.ended = 0;
+	try {
+		await audio.play();
+	} catch (error) {
+	} finally {
+		if (audio == last.audio) {
+			last.audio = null;
+			last.ended = getUnixTime();
+		}
+	}
+}
+
+const setBadgeLuckyCards = (function () {
+	let badge, nextTime, handler;
+	function setText() {
+		if (handler) clearTimeout(handler);
+		handler = 0;
+		if (!nextTime) return;
+		const now = getUnixTime();
+		let diff = nextTime - now;
+		let text = getMessage('repeat_ready');
+		if (diff > 0) {
+			handler = setTimeout(setText, 1000 - (Date.now() % 1000));
+			text = String(diff % 60).padStart(2, '0');
+			diff = (diff - (diff % 60)) / 60;
+			if (diff) {
+				text = String(diff % 60).padStart(2, '0') + ':' + text;
+				diff = (diff - (diff % 60)) / 60;
+				if (diff) text = String(diff).padStart(2, '0') + ':' + text;
+			}
+		}
+		Html.set(badge, Html(text));
+	}
+	return function setBadgeLuckyCards({ active, sound, volume, next }) {
+		active = !!active;
+		badge = menu.querySelector('.DAF-badge-luckycards');
+		const wasActive = badge.classList.contains('DAF-badge-on');
+		badge.classList.toggle('DAF-badge-on', active);
+		nextTime = active ? next : 0;
+		if (active && !wasActive) {
+			badge.classList.add('animate');
+			playSound(sound, volume);
+		}
+		setText();
+	};
+})();
+
+function setBadgePetShop({ active, sound, volume }) {
+	active = !!active;
+	badge = menu.querySelector('.DAF-badge-petshop');
+	const wasActive = badge.classList.contains('DAF-badge-on');
+	badge.classList.toggle('DAF-badge-on', active);
+	if (active && !wasActive) {
+		badge.classList.add('animate');
+		playSound(sound, volume);
+	}
+	Html.set(badge, Html(getMessage('repeat_ready')));
+}
+
+function setBadgeWindmills({ active, sound, volume }) {
+	active = !!active;
+	const badge = menu.querySelector('.DAF-badge-windmills');
+	const wasActive = badge.classList.contains('DAF-badge-on');
+	badge.classList.toggle('DAF-badge-on', active);
+	if (active && !wasActive) {
+		badge.classList.add('animate');
+		playSound(sound, volume);
+	}
+}
+
+function setBadgeProductions({ caravan, kitchen, foundry, sound, volume }) {
+	function setProduction(selector, data, flagActive) {
+		const badge = menu.querySelector(selector);
+		const wasActive = badge.classList.contains('DAF-badge-on');
+		const prevNum = +badge.textContent || 0;
+		const currNum = +data.num;
+		const isActive = currNum > 0;
+		Html.set(badge, Html(currNum));
+		badge.classList.toggle('DAF-badge-on', isActive);
+		const flag = Prefs.badgeProductions && flagActive && isActive && (!wasActive || prevNum < currNum);
+		if (flag) badge.classList.add('animate');
+		return flag;
+	}
+	let flag = false;
+	flag |= setProduction('.DAF-badge-p-c', caravan, Prefs.badgeCaravan);
+	flag |= setProduction('.DAF-badge-p-k', kitchen, Prefs.badgeKitchen);
+	flag |= setProduction('.DAF-badge-p-f', foundry, Prefs.badgeFoundry);
+	if (flag && Prefs.badgeProductionsSound) playSound(sound, volume);
+}
+
+function setBadgeRepeatables({ list, sound, volume }) {
+	const ADD = 1000;
+	const badge = menu.querySelector('.DAF-badge-rep');
+	list = Array.isArray(list) ? list : [];
+	list.forEach((item, index) => (item.index = index));
+	badge.querySelectorAll('[data-lid]').forEach((div, index) => {
+		const lid = +div.getAttribute('data-lid');
+		const item = list.find((item) => +item.lid == lid);
+		if (item) item.index = ADD + index;
+	});
+	badge.classList.toggle('DAF-badge-on', list.length > 0);
+	const MAXVISIBLE = 8;
+	const numVisible = list.length > 3 ? 1 : list.length;
+	list.sort((a, b) => a.index - b.index);
+	const counter = (className, num, addTitle) => {
+		const rest = list.slice(num);
+		const flag = rest.length > 0;
+		const title = flag && addTitle ? rest.map((data) => `${data.name} (${data.rname})`).join('\n') : '';
+		return `<span class="${className}" style="${flag ? '' : 'display:none'}" title="${Html(title)}">${
+			flag ? '+' + rest.length : ''
+		}</span>`;
+	};
+	const html =
+		`<b>` +
+		list
+			.map((item, index) => {
+				const title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
+				const style = `background-image:url(${item.image})${index >= MAXVISIBLE ? ';display:none' : ''}`;
+				const className = `${item.isNew ? 'new' : ''} ${index >= numVisible ? 'on-hover' : ''}`;
+				return `<div data-lid="${item.lid}" class="${className}" title="${Html(
+					title
+				)}" style="${style}"></div>`;
+			})
+			.join('') +
+		counter('no-hover', numVisible) +
+		counter('on-hover', MAXVISIBLE, true) +
+		`</b>`;
+	Html.set(badge, html);
+	const isNew = list.find((item) => item.index < ADD);
+	if (isNew) {
+		if (Prefs.badgeRepeatables) playSound(sound, volume);
+		badge.classList.add('animate');
+	}
+}
+
+function updateAdsInfo(data) {
+	const li = menu.querySelector('[data-action="ads"]');
+	const flag = data?.items?.length;
+	li.style.display = flag ? '' : 'none';
+	if (flag) {
+		Html.set(
+			li.querySelector('tbody'),
+			data.items
+				.map((item) => Html`<tr><td>${item.text}</td><td>${item.limit}</td><td>${item.date}</td></tr>`)
+				.join('')
+		);
+		Html.set(li.querySelector('.total'), data.total);
+	}
+}
+
+function gcTable_updateStatus(data) {
+	const el = menu.querySelector('[data-value=status]');
+	Html.set(el, Html(data.count ? getMessage('godchild_stat', data.count, data.max) : getMessage('menu_gccollected')));
+	el.title = data.nexttxt || '';
+	el.style.display = '';
+	setBadge({ selector: '.DAF-badge-gc-counter', text: data.count, title: data.nexttxt, active: data.count > 0 });
+}
 function gcTable_isEmpty() {
 	return gcTable.childNodes.length <= 1;
 }
-
 function gcTable_remove(div) {
-	if (!gcTable) return;
-	const fullWindow = getFullWindow();
-	const heightBefore = gcTable.offsetHeight;
-	if (div) {
-		div.parentNode.removeChild(div);
+	if (gcTable) {
+		const heightBefore = gcTable.offsetHeight;
+		div?.remove();
 		Html.set(gcTable.firstChild.firstChild, Html(gcTable.childNodes.length - 1));
 		const heightAfter = gcTable.offsetHeight;
-		// scrollbar was hidden and we are in full window?
-		if (heightBefore > heightAfter && fullWindow) {
-			// Force Resize is currently disabled because it causes the game's neighbour list to reset position
-			// instead, we keep the space for the scrollbar
-			gcTable.style.overflowX = 'scroll';
-		}
-	}
-	// handle case where the table is empty
-	if (gcTable_isEmpty()) {
-		if (gcTable.style.display != 'none') {
-			gcTable.style.display = 'none';
-			if (fullWindow) forceResize();
-		}
+		// in fullscreen, instead of hiding the scrollbar, we make if always visible so the layout does not change
+		if (!document.fullscreenElement) gcTable.style.overflowX = '';
+		else if (heightBefore > heightAfter) gcTable.style.overflowX = 'scroll';
+		// handle case where the table is empty
+		if (gcTable_isEmpty() && gcTable.style.display != 'none') gcTable.style.display = 'none';
 	}
 }
-
-function ongcTable(forceRefresh = false, simulate = 0) {
-	const show = prefs.gcTable;
+async function gcTable_show(forceRefresh = false, simulate = 0) {
+	const show = Prefs.gcTable;
 	// If table is present, we just show/hide it
 	if (gcTable && gcTable_isEmpty() && !forceRefresh) {
 		// handle case where the table is empty
 		gcTable_remove(null);
 	} else if (gcTable && !forceRefresh) {
 		gcTable.style.display = show ? 'block' : 'none';
-		if (getFullWindow()) forceResize();
 		// If table is not present and we need to show it, we must retrieve the neighbours first
 	} else if (show) {
-		chrome.runtime.sendMessage({ action: 'getGCList', simulate: simulate }, function updateGCTable(result) {
-			if (gcTable) while (gcTable.firstChild) gcTable.firstChild.remove();
-			const list = (result && result.list) || [];
-			const max = (result && result.max) || 0;
-			const regions = (result && result.regions) || {};
-			if (!gcTable) {
-				gcTable = Html.get(`<div class="DAF-gc-bar DAF-gc-flipped" style="display:none"></div>`)[0];
-				miner.parentNode.insertBefore(gcTable, miner.nextSibling);
-				gcTable.addEventListener('click', function (e) {
-					for (let div = e.target; div && div !== gcTable; div = div.parentNode)
-						if (div.id && div.id.startsWith('DAF-gc_')) {
-							const id = +div.id.substring(7);
-							if (e.ctrlKey) gcTable_remove(div);
-							else postMessage({ action: 'visit', id });
-							return;
-						}
-				});
-			}
-			let htm = '';
-			htm += `<div class="DAF-gc-count"><div>${list.length}</div><div>/</div><div>${max}</div></div>`;
-			list.forEach(item => {
-				const id = 'DAF-gc_' + item.id;
-				const className = 'DAF-gc-pal DAF-gc-reg' + item.region;
-				const style = `background-image:url(${item.pic || 'https://graph.facebook.com/v2.8/' + item.fb_id + '/picture'})`;
-				let fullName = item.name;
-				if (item.surname) fullName += ' ' + item.surname;
-				const title = fullName + '\n' + getMessage('gui_region') + ': ' + (regions[item.region] || item.region);
-				htm += `<div id="${id}" class="${className}" style="${style}" title="${Html(title)}">`;
-				htm += `<div style="${item.id == 1 ? 'visibility:hidden' : ''}">${item.level}</div>`;
-				htm += `<div>${Html(item.name)}</div>`;
-				htm += `</div>`;
+		const result = await Msg.send('getGCList', { simulate: simulate });
+		if (gcTable) Html.set(gcTable, '');
+		const list = result?.list || [];
+		const max = result?.max || 0;
+		const regions = result?.regions || {};
+		if (!gcTable) {
+			gcTable = Html.get(`<div class="DAF-gc-bar DAF-gc-flipped"></div>`)[0];
+			container.appendChild(gcTable);
+			gcTable.addEventListener('click', function (e) {
+				for (let div = e.target; div && div !== gcTable; div = div.parentNode)
+					if (div.id && div.id.startsWith('DAF-gc_')) {
+						const id = +div.id.substring(7);
+						if (e.ctrlKey) gcTable_remove(div);
+						else Msg.sendPage('visit', { id });
+						return;
+					}
 			});
-			Html.set(gcTable, htm);
-			if (gcTable_isEmpty()) return gcTable_remove(null);
-			setTimeout(function () {
-				gcTable.style.display = '';
-				if (getFullWindow()) forceResize(0);
-			}, gcTableStyle ? 500 : 2000);
+		}
+		let htm = '';
+		htm += `<div class="DAF-gc-count"><div>${list.length}</div><div>/</div><div>${max}</div></div>`;
+		list.forEach((item) => {
+			const id = 'DAF-gc_' + item.id;
+			const className = 'DAF-gc-pal DAF-gc-reg' + item.region;
+			const style = `background-image:url(${
+				item.pic || 'https://graph.facebook.com/v2.8/' + item.fb_id + '/picture'
+			})`;
+			let fullName = item.name;
+			if (item.surname) fullName += ' ' + item.surname;
+			const title = fullName + '\n' + getMessage('gui_region') + ': ' + (regions[item.region] || item.region);
+			htm += `<div id="${id}" class="${className}" style="${style}" title="${Html(title)}">`;
+			htm += `<div style="${item.id == 1 ? 'visibility:hidden' : ''}">${item.level}</div>`;
+			htm += `<div>${Html(item.name)}</div>`;
+			htm += `</div>`;
 		});
+		Html.set(gcTable, htm);
+		gcTable_setOptions();
+		gcTable_remove(null);
 	}
 }
-
-function interceptData() {
-	const code = `
-let parser = null;
-function parseXml(text) {
-	if (!text) return null;
-	if (!parser) parser = new DOMParser();
-	const root = parser.parseFromString(text, 'text/xml')?.documentElement;
-	return root ? parse(root) : null;
-	function parse(parent) {
-		const item = {};
-		function add(name, value) {
-			if (name in item) {
-				const old = item[name];
-				if (Array.isArray(old)) old.push(value);
-				else item[name] = [old, value];
-			} else item[name] = value;
-		}
-		for (let child = parent.firstElementChild; child; child = child.nextElementSibling)
-			add(child.nodeName, child.firstElementChild ? parse(child) : child.textContent);
-		return item;
-	}
-}
-const XHR = XMLHttpRequest.prototype;
-const send = XHR.send;
-const open = XHR.open;
-function getString(b) {
-	let s = '';
-	let i = 0;
-	const max = b.length;
-	while (i < max) {
-		const c = b[i++];
-		if (c < 128) {
-			if (c == 0) { break; }
-			s += String.fromCodePoint(c);
-		} else if (c < 224) {
-			const code = (c & 63) << 6 | b[i++] & 127;
-			s += String.fromCodePoint(code);
-		} else if (c < 240) {
-			const c2 = b[i++];
-			const code1 = (c & 31) << 12 | (c2 & 127) << 6 | b[i++] & 127;
-			s += String.fromCodePoint(code1);
-		} else {
-			const c21 = b[i++];
-			const c3 = b[i++];
-			const u = (c & 15) << 18 | (c21 & 127) << 12 | (c3 & 127) << 6 | b[i++] & 127;
-			s += String.fromCodePoint(u);
-		}
-	}
-	return s;
-}
-XHR.open = function(method, url) {
-	this.url = url;
-	return open.apply(this, arguments);
-}
-XHR.send = function() {
-	let kind, player_id, xml;
-	const dispatch = (type) => {
-		let response = null;
-		if (type == 'ok') {
-			const result = this.response;
-			if (result === null) response = null;
-			else if (typeof result == 'string') response = result;
-			else if (result.bytes instanceof Uint8Array) response = getString(result.bytes);
-			else console.log('daf_xhr: invalid response');
-		}
-		const lang = kind === 'generator' ? window.gamevars?.lang : undefined;
-		const event = new CustomEvent('daf_xhr', { detail: { type, kind, lang, player_id, xml, url: this.url, response } });
-		document.dispatchEvent(event);
-	}
-	if (this.url.indexOf('/graph.facebook.com') > 0) kind = 'graph';
-	else if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
-	else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
-	else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
-	if (kind) {
-		if (kind == 'generator' || kind == 'synchronize') {
-			for (const item of (arguments[0] || '').split('&')) {
-				const p = item.split('=');
-				const key = decodeURIComponent(p[0]);
-				if (key == 'player_id') player_id = decodeURIComponent(p[1]);
-				else if (key == 'xml') xml = parseXml(decodeURIComponent(p[1]));
-			}
-			const error = () => dispatch('error');
-			dispatch('send');
-			this.addEventListener('error', error);
-			this.addEventListener('abort', error);
-			this.addEventListener('timeout', error);
-		}
-		this.addEventListener('load', () => dispatch('ok'));
-	}
-	return send.apply(this, arguments);
-};
-`;
-	document.head.prepend(createScript(code));
-	document.addEventListener('daf_xhr', function (event) {
-		chrome.runtime.sendMessage(Object.assign({}, event.detail, { action: 'daf_xhr' }));
-	});
+function gcTable_setOptions() {
+	gcTable?.classList.toggle('withCounter', Prefs.gcTableCounter);
+	gcTable?.classList.toggle('withRegion', Prefs.gcTableRegion);
 }
 
-function interceptGame() {
-	const code = `
-window.$hxClasses = window.$hxClasses || {};
-const _ObjectCreate = Object.create;
-Object.create = function (proto) {
-	const obj = _ObjectCreate.apply(Object, arguments);
-	let __class__;
-	if (proto) Object.defineProperty(obj, '__class__', {
-		get() { return __class__; },
-		set(newValue) {
-			if (newValue && typeof newValue.__name__ == 'string') window.$hxClasses[newValue.__name__] = newValue;
-			__class__ = newValue;
-		},
-		enumerable: true,
-		configurable: true,
-	});
-	return obj;
-};
-`;
-	document.documentElement.appendChild(createScript(code));
-}
-
-function init() {
-	miner = document.getElementById('miner') || document.getElementById('canvas');
-	// Set body height to 100% so we can use height:100% in miner
-	document.body.style.height = '100%';
-	// insert link for condensed font
-	Html.addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'), () => { gcTableStyle = true; });
-	interceptData();
-
-	handlers = {};
-	msgHandlers = {};
-	prefs = {};
-	const addPrefs = names => names.split(',').forEach(name => prefs[name] = undefined);
-	addPrefs('language,resetFullWindow,fullWindow,fullWindowHeader,fullWindowSide,fullWindowLock,fullWindowTimeout');
-	addPrefs('autoClick,autoGC,noGCPopup,gcTable,gcTableCounter,gcTableRegion,@bodyHeight');
-	addPrefs('@super,@extra,queueHotKey,queueMouseGesture,hMain,hSpeed,hLootCount,hLootZoom,hLootFast,hFood,hFoodNum,hQueue,hAutoQueue,hScroll,hReward,hGCCluster');
-	addPrefs('hLockCaravan,hPetFollow,hPetSpeed,hInstantCamera');
-
-	function setPref(name, value) {
-		if (!(name in prefs)) return;
-		prefs[name] = value;
-		setFlag(name, value);
-		if (name in handlers) handlers[name]();
-	}
-
+function setupAutoQueueHotKey() {
 	let lastKeyCode;
-	const toggleQueue = () => sendPreference('hAutoQueue', !prefs['hAutoQueue']);
-	function onKeyUp() { lastKeyCode = 0; }
-	function onKeyDown(event) {
-		if (lastKeyCode == event.keyCode) return;
-		lastKeyCode = event.keyCode;
-		if (event.code == 'Key' + prefs.queueHotKey && !event.shiftKey && event.altKey && !event.ctrlKey) {
-			event.stopPropagation();
-			event.preventDefault();
-			toggleQueue();
-		}
-	}
-	function onMouseUp(event) {
-		if (prefs.queueMouseGesture == 1 && event.button == 1) toggleQueue();
-		if (prefs.queueMouseGesture ==  2 && event.button == 0 & event.buttons == 2) toggleQueue();
-	}
-
-	chrome.runtime.sendMessage({ action: 'getPrefs', keys: Object.keys(prefs) }, function (response) {
-		if (chrome.runtime.lastError) {
-			console.error('Error retrieving preferences');
-			return;
-		}
-		Object.keys(response).forEach(name => setPref(name, response[name]));
-
-		// track preference changes
-		chrome.storage.onChanged.addListener(function (changes, area) {
-			if (area != 'local') return;
-			for (const name in changes) setPref(name, changes[name].newValue);
-		});
-
-		chrome.runtime.onMessage.addListener(function (request, sender) {
-			try {
-				const action = request && request.action;
-				if (action in msgHandlers) msgHandlers[action](request);
-			} catch (e) {
-				console.error('onMessage', e, request, sender);
-			}
-		});
-
-		handlers['fullWindow'] = onFullWindow;
-		handlers['gcTable'] = ongcTable;
-		ongcTable();
-		msgHandlers['game1'] = (request) => {
-			pageType = request.pageType;
-			game1Received = !!request.ok;
-			onFullWindow();
-		};
-		msgHandlers['generator'] = () => {
-			if (loadCompleted) return;
-			delete msgHandlers['generator'];
-			loadCompleted = true;
-			onFullWindow();
-			ongcTable(true);
-		};
-		setTimeout(msgHandlers['generator'], 10000);
-		msgHandlers['sendValue'] = (request) => setPref(request.name, request.value);
-		msgHandlers['friend_child_charge'] = (request) => {
-			gcTable_remove(document.getElementById('DAF-gc_' + request.data.id));
-			if (prefs.autoGC && request.data.skip) {
-				const eventConfig = { clientX: 35, clientY: Math.floor(miner.offsetHeight / 2 + miner.offsetTop), buttons: 1 };
-				miner.dispatchEvent(new MouseEvent('mousedown', eventConfig));
-				setTimeout(() => miner.dispatchEvent(new MouseEvent('mouseup', eventConfig)), 250);
-			}
-		};
-		window.addEventListener('resize', onResize);
-		window.addEventListener('keydown', onKeyDown);
-		window.addEventListener('keyup', onKeyUp);
-		window.addEventListener('mouseup', onMouseUp, { capture: true });
-		sendMinerPosition();
-		onFullWindow();
-		const key = Math.floor(Math.random() * 36 ** 8).toString(36).padStart(8, '0');
-		postMessage = (data) => window.postMessage(Object.assign(data, { key: key }), window.location.href);
-		msgHandlers['visit'] = request => postMessage({ action: 'visit', id: request.id });
-		window.addEventListener('message', function (event) {
-			const data = event.data;
-			if (event.source != window || !data || data.key != key) return;
-			if (data.action == 'exitFullWindow' && !prefs.fullWindowLock) sendPreference('fullWindow', false);
-			if (data.action == 'wallpost' && pageType == 'facebook2') forward('wallpost');
-			if (data.action == 'sendValue') sendValue(data.name, data.value);
-			if (data.action == 'hFlashAd') forward(data.action, data);
-		});
-		let code = `
-const key = "${key}";
-let visit = () => {};
-window.addEventListener('message', function (event) {
-	const data = event.data;
-	if (event.source != window || !data || data.key != key) return;
-	if (data.action == 'visit') visit(+data.id);
-});
-
-const getFlag = (name) => document.documentElement.getAttribute('DAF--' + name.toLowerCase());
-const hasFlag = (name) => getFlag(name) == '1';
-const postMessage = (data) => window.postMessage(Object.assign(data, { key: key }), window.location.href);
-
-const isDAFFullWindow = () => hasFlag('fullWindow');
-const _isFullScreen = window.isFullScreen;
-window.isFullScreen = () => isDAFFullWindow() || _isFullScreen();
-const _exitFullscreen = window.exitFullscreen;
-window.exitFullscreen = () => {
-	if (!isDAFFullWindow()) return _exitFullscreen();
-	postMessage({ action: "exitFullWindow" });
-};
-
-let bypassFB = false;
-const _getFBApi = window.getFBApi;
-window.getFBApi = function() {
-	const result = bypassFB ? { ui: function() {} } : _getFBApi();
-	bypassFB = false;
-	return result;
-};
-const _userRequest = window.userRequest;
-window.userRequest = function(recipients, req_type) {
-	bypassFB = hasFlag('noGCPopup');
-	const result = _userRequest(recipients, req_type);
-	bypassFB = false;
-	return result;
-};
-
-const _wallpost = window.wallpost;
-window.wallpost = function() {
-	postMessage({ action: "wallpost" });
-	_wallpost();
-};
-`;
-
-	if (prefs.hMain) code += `
-const isSuper = ${prefs['@super'] ? 'true' : 'false'};
-let extras = [];
-const $hxClasses = window.$hxClasses || {};
-
-function intercept(className, protoName, fn) {
-	const def = $hxClasses[className], proto = def?.prototype, _ = proto?.[protoName];
-	if (_ && typeof _ === 'function') proto[protoName] = fn(_, def);
+	const toggleQueue = (event) => {
+		event?.stopPropagation();
+		event?.preventDefault();
+		setPreference('hAutoQueue', !Prefs['hAutoQueue']);
+	};
+	const onKeyDown = (event) => {
+		if (lastKeyCode == event.code) return;
+		lastKeyCode = event.code;
+		if (event.code == 'Key' + Prefs.queueHotKey && event.altKey && !event.shiftKey && !event.ctrlKey)
+			toggleQueue(event);
+	};
+	const onMouseUp = (event) => {
+		if (Prefs.queueMouseGesture == 1 && event.button == 1) toggleQueue(event);
+		if (Prefs.queueMouseGesture == 2 && event.button == 0 && event.buttons == 2) toggleQueue(event);
+	};
+	window.addEventListener('keydown', onKeyDown);
+	window.addEventListener('keyup', () => void (lastKeyCode = 0));
+	window.addEventListener('mouseup', onMouseUp, { capture: true });
 }
-
-const core = $hxClasses["com.pixelfederation.diggy.Core"];
-let currentScreen = null;
-const getActiveScreen = () => {
-	let screen = core?.instance?._screenManager?.getActiveScreen();
-	let visited = null;
-	if (screen == 'campLowerScreen' || screen == 'campUpperScreen') {
-		visited = core.instance._gameManagers?._friendsManager?.getVisitedFriend()?.getId();
-		if (visited) screen += 'Visit';
-	}
-	const popups = core.instance?._popupManager?._visiblePopups;
-	const popup = popups?.length > 0 ? popups[popups.length - 1] : null;
-	const dialog = popup ? popup._popupId?.Id || popup._name : null;
-	return { screen, visited, dialog };
-}
-visit = (id) => {
-	currentScreen = null;
-	const fm = core?.instance?._gameManagers._friendsManager;
-	const info = getActiveScreen();
-	if (fm && id > 0 && !info.dialog && ['friendsScreen', 'campLowerScreenVisit', 'campUpperScreenVisit'].includes(info.screen) && id !== info.visited) fm.visitFriend(id);
-};
-if (core) {
-	extras.push('@core');
-	setInterval(() => {
-		const info = getActiveScreen();
-		const value = info.screen + '.' + info.dialog;
-		const screen = value + '.' + info.visited;
-		if (screen !== currentScreen) {
-			currentScreen = screen;
-			postMessage({ action: "sendValue", name: '@screen', value });
-		}
-	}, 1000);
-}
-
-intercept("com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup", 'keyDownHandler', function(_keyDownHandler) {
-	extras.push('hReward');
-	return function(p_event) {
-		if (p_event.keyCode >= 65 && p_event.keyCode <= 90 && hasFlag('hReward')) p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
-		return _keyDownHandler.call(this, p_event);
-	};
-});
-
-intercept("com.pixelfederation.diggy.game.character.Character", 'breakTile', function(_breakTile, Character) {
-	extras.push('hSpeed');
-	let lastMineId, isRepeat, isTower;
-	function isSpeedAllowed() {
-		const screen = core.instance._screenManager?._activeScreen?._screen;
-		const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
-		if (mineId !== lastMineId) {
-			lastMineId = mineId;
-			isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
-			isTower = mineId && screen._mineLoader.isTowerFloor();
-		}
-		return isRepeat || isTower || isSuper;
-	}
-	function getSpeed(p_core, val, def, isPet) {
-		const hasSpeedUp = (isPet && hasFlag('hPetSpeed')) || (hasFlag('hSpeed') && isSpeedAllowed());
-		return (hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0) ? Math.min(val * (isSuper ? 0.4 : 0.6), def) : def;
-	}
-	intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'breakTile', function(_breakTile, Pet) {
-		extras.push('hPetSpeed');
-		const _getSpeed = Pet.getSpeed;
-		Pet.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments), true); };
-		return function(p_tileDef, p_digTime) {
-			return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, true));
-		};
-	});
-	const _getSpeed = Character.getSpeed;
-	Character.getSpeed = function(p_core) { return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments), false); };
-	return function(p_tileDef, p_digTime) {
-		return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, false));
-	};
-});
-
-intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'mouseMove_handler', function(_mouseMove_handler) {
-	extras.push('hQueue', 'hAutoQueue');
-	let maxQueue;
-	return function(e) {
-		const old = this._lastMineTileOver, result = _mouseMove_handler.apply(this, arguments), tile = this._lastMineTileOver;
-		const isActive = hasFlag('hQueue');
-		if (!maxQueue) maxQueue = this._character.diggingQueue._maxQueue || 5;
-		this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
-		if (isActive && tile && old !== tile) {
-			if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-			else if ((e.shiftKey || hasFlag('hAutoQueue')) && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
-		}
-		return result;
-	};
-});
-
-intercept("com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb", 'resizeUI', function(_resizeUI) {
-	extras.push('hScroll');
-	let firstTime = true;
-	return function() {
-		const result = _resizeUI.apply(this, arguments);
-		if (firstTime) {
-			firstTime = false;
-			Object.defineProperty(this._dragManager.__proto__, '_autoPan', {
-				get() { return hasFlag('hScroll') ? false : this.__autoPan; },
-				set(newValue) { this.__autoPan = newValue; },
-				enumerable: true,
-				configurable: true,
-			});
-			if (hasFlag('hScroll')) this._dragManager.setAutoPan(false);
-		}
-		return result;
-	};
-});
-
-intercept("com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb", 'addGodChild', function(_addGodChild) {
-	extras.push('hGCCluster');
-	return function() {
-		const result = _addGodChild.apply(this, arguments);
-		if (hasFlag('hGCCluster')) this._npcContainer.g2d_children.forEach((e, i) => e.g2d_anchorX = -260 + i * 10);
-		return result;
-	};
-});
-
-intercept("com.pixelfederation.diggy.game.custom.DecalContainer", 'createDropCount', function(_createDropCount) {
-	extras.push('hLootCount');
-	extras.push('hLootFast');
-	return function(p_x,p_y,p_item,p_scaleX,p_scaleY,p_texture,p_target,p_screenType,p_showText) {
-		if (p_screenType === 'mineScreen' && hasFlag('hLootCount')) p_showText = true;
-		const dp = this.dropLootDecalPool, dp_getNext = dp?.getNext;
-		if (dp && p_screenType === 'mineScreen' && hasFlag('hLootFast')) dp.getNext = function() { return null; };
-		const result = _createDropCount.apply(this, arguments);
-		if (dp) dp.getNext = dp_getNext;
-		return result;
-	};
-});
-intercept("com.pixelfederation.diggy.game.custom.DecalContainer", 'getScaleFromScreenType', function(_getScaleFromScreenType) {
-	extras.push('hLootZoom');
-	return function(p_screenType) {
-		if (p_screenType === 'mineScreen' && hasFlag('hLootZoom')) return this._core.getMineCamera().g2d_contextCamera.scaleX;
-		return _getScaleFromScreenType.apply(this, arguments);
-	};
-});
-
-intercept("com.pixelfederation.diggy.screens.popup.NoenergyPopup", 'initUsableFromStorage', function(_initUsableFromStorage) {
-	extras.push('hFood', 'hFoodNum');
-	return function() {
-		if (!hasFlag('hFood')) return _initUsableFromStorage.apply(this, arguments);
-		this._myUsableFromStorageId = this._myUsableFromStorageCount = this._myUsableFromStorageValue = 0;
-		const _usablesLoader = this._core.getLoadersManager()._usablesLoader;
-		const usables = this._core.getInventoryManager().getUsables()
-			.filter(obj => _usablesLoader.getAction(obj.id) == 'add_stamina')
-			.map(obj => [obj, _usablesLoader.getValue(obj.id)])
-			.sort((a,b) => b[1] - a[1]);
-		let index = 0;
-		const what = getFlag('hFoodNum');
-		if (what == 'min') index = usables.length - 1;
-		else if (what == 'avg') index = Math.floor((usables.length - 1) / 2);
-		else if (isFinite(+what)) index = +what;
-		index = Math.max(0, Math.min(usables.length - 1, index));
-		if (index >= 0 && index < usables.length) {
-			const [obj, value] = usables[index];
-			this._myUsableFromStorageId = obj.id;
-			this._myUsableFromStorageValue = value;
-			this._myUsableFromStorageCount = this._core.getInventoryManager().getItemAmount(obj.item_type, obj.id);
-		}
-	};
-});
-
-intercept("com.pixelfederation.diggy.ui.hud.UISpecialButtons", 'createFlashAdButton', function(_createFlashAdButton) {
-	extras.push('hFlashAdSound');
-	let _show;
-	function show() {
-		postMessage({ action: 'hFlashAd' });
-		return _show.apply(this, arguments);
-	}
-	return function() {
-		const result = _createFlashAdButton.apply(this, arguments);
-		const btn = this._flashAdButton?._flashAdButtonIcon;
-		if (btn && btn.show !== show) { _show = btn.show; btn.show = show; }
-		return result;
-	};
-});
-
-intercept("com.pixelfederation.diggy.screens.popup.production.ProductionPopup", 'refreshSlotOnChange', function(_refreshSlotOnChange, ProductionPopup) {
-	extras.push('hLockCaravan');
-	function updateText(parent, name, value, color) {
-		const el = parent.getChildByName(name, true);
-		if (!el) return;
-		if (value === undefined) { value = el.__old || el.g2d_model; delete el.__old; color = 1; }
-		else if (!el.__old) el.__old = el.g2d_model;
-		if (color) el.blue = el.red = el.green = color;
-		el.g2d_model = value;
-		el.g2d_onModelChanged.dispatch(el);
-	}
-	function lockSlot(p_index, locked) {
-		this['__lockedSlot' + p_index] = locked;
-		this._getButtons[p_index].setVisible(!locked);
-		this._resendButtons[p_index].setVisible(!locked);
-		const parent = this._prototypeInstance.getChildByName('slot' + p_index, true);
-		updateText(parent, 'delivered', locked ? ${JSON.stringify(getMessage('gui_locked').toUpperCase())} : undefined, 0.1);
-		updateText(parent, 'amount_delivered', locked ? 'D A F 2' : undefined, 0.1);
-	}
-	const slotHasTicket = (slot) => slot?.__state == 'delivered' && slot._producedItem?._requirements?.find(req => req.object_id == 347 && req.type == 'material');
-	const shouldBeLocked = (popup) => popup._mode == 'caravan' && popup._slots_initialized && hasFlag('hLockCaravan');
-	const _refreshCards = ProductionPopup.prototype.refreshCards;
-	ProductionPopup.prototype.refreshCards = function() {
-		this.__locked = false;
-		const result = _refreshCards.apply(this, arguments);
-		if (shouldBeLocked(this) && this._slots?.find(slotHasTicket)) {
-			this.__locked = true;
-			this._resendAllButton.setVisible(false);
-			const button = this._collectAllButton._buttonElement;
-			button.green = 0.3;
-			if (this.__buttonX === undefined) this.__buttonX = button.g2d_anchorX;
-			button.g2d_anchorX = this.__buttonX - 310;
-			updateText(button, 'btn_collectAllLabel', ${JSON.stringify(getMessage('gui_unlock').toUpperCase())});
-		}
-		return result;
-	};
-	const _collectAll = ProductionPopup.prototype.collectAll;
-	ProductionPopup.prototype.collectAll = function() {
-		if (!this.__locked) return _collectAll.apply(this, arguments);
-		this.restorePushedButton();
-		this.__locked = false;
-		for (let p_index = 0; p_index < 6; p_index++) if (this['__lockedSlot' + p_index]) lockSlot.call(this, p_index, false);
-		this._resendAllButton.setVisible(true);
-		const button = this._collectAllButton._buttonElement;
-		this._collectAllButton._initGreen = 1;
-		button.g2d_anchorX = this.__buttonX;
-		updateText(button, 'btn_collectAllLabel', undefined);
-	};
-	return function(p_index) {
-		const result = _refreshSlotOnChange.apply(this, arguments);
-		if (shouldBeLocked(this) && slotHasTicket(this._slots?.[p_index])) lockSlot.call(this, p_index, true);
-		return result;
-	};
-});
-
-let lockPetCounter = 0;
-intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'setup', function(_setup) {
-	lockPetCounter++;
-	return function() {
-		const result = _setup.apply(this, arguments);
-		const callback = this._character.get_onGoFromTile();
-		const listener = callback.g2d_listeners.find(fn => fn.name === 'bound onDiggyMoving');
-		if (listener) callback.remove(listener);
-		const petInMineManager = this._petInMineManager;
-		this._character.get_onGoFromTile().add(function() {
-			if (hasFlag('hPetFollow')) petInMineManager.stopWalk();
-			else petInMineManager.onDiggyMoving.apply(petInMineManager, arguments);
-		});
-		return result;
-	};
-});
-intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'afterDrag', function(_afterDrag) {
-	lockPetCounter++;
-	return function() { if (!hasFlag('hPetFollow')) _afterDrag.apply(this, arguments); };
-});
-intercept("com.pixelfederation.diggy.game.managers.pet.Pet", 'onDrag', function(_onDrag) {
-	lockPetCounter++;
-	return function() { if (!hasFlag('hPetFollow')) _onDrag.apply(this, arguments); };
-});
-if (lockPetCounter === 3) extras.push('hPetFollow');
-
-intercept("com.pixelfederation.diggy.game.mine.MineRenderer", 'focus', function(_focus) {
-	extras.push('hInstantCamera');
-	return function(p_mineX,p_mineY,p_force,p_return,p_immediate,p_onCompleteCallback,p_returnPosition) {
-		const result = _focus.apply(this, arguments);
-		if (hasFlag('hInstantCamera') && this._focusTween) this._focusTween.duration = 0.01;
-		return result;
-	};
-})
-
-if (extras.length) postMessage({ action: "sendValue", name: '@extra', value: extras.join() });
-`;
-		document.head.appendChild(createScript(code));
-		forward('game2', { ok: true });
-	});
-}
-
-interceptGame();
-window.addEventListener('DOMContentLoaded', init);

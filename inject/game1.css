@@ -1,0 +1,44 @@
+html.DAF-fullwindow,
+html.DAF-fullwindow body {
+	overflow: hidden !important;
+	height: 100%;
+}
+
+html[daf-pagetype="facebook2"].DAF-fullwindowside [role="complementary"],
+html[daf-pagetype="facebook2"].DAF-fullwindow [role="complementary"],
+html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"],
+html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"] ~ div:not(:has(iframe,[role="dialog"])) {
+	display: none !important;
+}
+html[daf-pagetype="facebook2"].DAF-fullwindow iframe {
+	position: fixed !important;
+	left: 0 !important;
+	top: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+}
+
+html[daf-pagetype="facebook1"].DAF-fullwindow #pagelet_bluebar,
+html[daf-pagetype="facebook1"].DAF-fullwindow #pagelet_dock,
+html[daf-pagetype="facebook1"].DAF-fullwindow :has(._fbCanvas__playerTopBarCloseBtn),
+html[daf-pagetype="facebook1"].DAF-fullwindowside #rightCol {
+	display: none !important;
+}
+html[daf-pagetype="facebook1"].DAF-fullwindow body {
+	overflow-y: hidden !important;
+}
+
+html[daf-pagetype="portal"].DAF-fullwindow header,
+html[daf-pagetype="portal"].DAF-fullwindow footer {
+    display: none !important;
+}
+html[daf-pagetype="portal"].DAF-fullwindow main {
+    padding-top: 0px !important;
+}
+html[daf-pagetype="portal"].DAF-fullwindow .game-iframe-da {
+	position: fixed !important;
+	left: 0 !important;
+	top: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+}

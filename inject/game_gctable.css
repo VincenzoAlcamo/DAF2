@@ -47,7 +47,7 @@
 	box-sizing: content-box;
 }
 
-html[DAF--gctablecounter="1"] .DAF-gc-count {
+.DAF-gc-bar.withCounter .DAF-gc-count {
 	display: inline-block;
 }
 
@@ -148,7 +148,7 @@ html[DAF--gctablecounter="1"] .DAF-gc-count {
 	--rg-col: #ff6060;
 }
 
-html[DAF--gctableregion="1"] .DAF-gc-pal div:last-child {
+.DAF-gc-bar.withRegion .DAF-gc-pal div:last-child {
 	background-color: var(--rg-col);
 }
 

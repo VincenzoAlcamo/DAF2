@@ -432,9 +432,9 @@ UI_claim_coin_single_slow_02
 	endSection();
 	beginSection('ingame');
 	option('fullWindow', WITHSUBOPTIONS);
-	option('fullWindowHeader', SUBOPTION);
+	// option('fullWindowHeader', SUBOPTION);
 	option('fullWindowSide', SUBOPTION);
-	option('fullWindowLock', SUBOPTION);
+	// option('fullWindowLock', SUBOPTION);
 	// option('resetFullWindow', SUBOPTION + WARNING);
 	// const options = [[0, gui.getMessage('dialog_no')], [1, gui.getMessage('dialog_yes')],];
 	// for (let num = 5; num <= 20; num += 5) options.push([num, gui.getMessage('options_fullwindowtimeout_seconds', num)]);

@@ -425,7 +425,7 @@ var Tab = {
 		let values = (options || '') + ' ' + (Data.generator ? Data.generator.game_site + ' ' + Data.generator.game_platform : '');
 		values = values.toLowerCase().split(' ');
 		const site = values.find(item => item == 'facebook' || item == 'portal');
-		const url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/') + '?webgl';
+		const url = (site == 'portal' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/');
 		Tab.showTab('isGame', url, values.includes('keep') ? null : url);
 	},
 	focus(tabId, flag) {
@@ -792,8 +792,7 @@ var Data = {
 			tx.objectStore('Files').put(file).then(() => {
 				Data.checkLocalization('', file.data.game_language);
 				Tab.detectAll().then(() => {
-					Synchronize.signal('generator');
-					Synchronize.signal('cdn_root', { cdn_root: file.data.cdn_root });
+					Synchronize.signal('generator', { cdn_root: file.data.cdn_root, site: file.data.game_site });
 					Data.checkRepeatablesStatus();
 					Data.checkLuckyCards();
 					Data.checkProductions();

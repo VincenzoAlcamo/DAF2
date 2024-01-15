@@ -4,7 +4,7 @@
 	"version": "2.0.186",
 	"default_locale": "en",
 	"description": "__MSG_ext_title__",
-	"minimum_chrome_version": "71",
+	"minimum_chrome_version": "105",
 	"icons": {
 		"16": "img/logo/iconYellow.png",
 		"128": "img/logo/logo.png"
