@@ -230,14 +230,10 @@
 		window.resize = () => {};
 		const canvas = document.getElementById('canvas');
 		const resizeObserver = new ResizeObserver(function (entries) {
-			for (const entry of entries) {
-				const element = entry.target;
-				const event = new Event('resized', { bubbles: true });
-				element.dispatchEvent(event);
-			}
+			for (const entry of entries) entry.target.dispatchEvent(new CustomEvent('daf_resized', { bubbles: true }));
 		});
 		resizeObserver.observe(canvas);
-		canvas.addEventListener('resized', () => {
+		canvas.addEventListener('daf_resized', () => {
 			canvas.width = canvas.offsetWidth;
 			canvas.height = canvas.offsetHeight;
 			getJSInterface().onResize(canvas.width, canvas.height);
