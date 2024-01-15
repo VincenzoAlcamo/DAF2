@@ -87,72 +87,92 @@ function addStylesheet(href, onLoad) {
 	return document.head.appendChild(link);
 }
 
-(function () {
-	let site, pageType;
+let site, pageType, styleAdded;
 
-	if (location.host.startsWith('portal.')) site = 'Portal';
-	else if (location.host.startsWith('apps.facebook.')) site = 'Facebook';
-	else return;
+if (location.host.startsWith('portal.')) site = 'Portal';
+else if (location.host.startsWith('apps.facebook.')) site = 'Facebook';
+else throw console.error('Not a valid page');
 
-	const { Msg, Prefs, setPreference, log } = setupMessaging('game1', 'green');
+const { Msg, Prefs, setPreference, log } = setupMessaging('game1', 'green');
 
-	Msg.handlers['gameStarted'] = () => {
-		log('Detected site "%s"', site);
-		Msg.send('gameStarted', { site });
-		Msg.handlers['pref:*'] = () => void setFlags();
-		Msg.handlers['generator'] = () => {
-			addStylesheet(getExtensionUrl('inject/game1.css'));
-			detectPageType();
-			setFlags();
-		};
-		Msg.handlers['enableAutoQueue'] = () => void setupAutoQueueHotKey();
+Msg.handlers['gameStarted'] = () => {
+	checkPage_cleanup();
+	log('Detected site "%s"', site);
+	Msg.send('gameStarted', { site });
+	Msg.handlers['pref:*'] = () => void setFlags();
+	Msg.handlers['generator'] = () => {
+		if (!styleAdded) addStylesheet(getExtensionUrl('inject/game1.css'));
+		styleAdded = true;
+		detectPageType();
+		setFlags();
 	};
+	Msg.handlers['enableAutoQueue'] = () => void aq_setup();
+	if (site === 'Portal') checkPage_setup();
+};
 
-	function setFlags() {
-		const root = document.documentElement;
-		root.classList.toggle('DAF-fullwindow', Prefs.fullWindow);
-		root.classList.toggle('DAF-fullwindowside', Prefs.fullWindowSide);
-		root.setAttribute('daf-pagetype', pageType);
-	}
+let checkPage_cleanup = () => {};
+function checkPage_setup() {
+	checkPage_cleanup();
+	log('page check started');
+	const url = location.href;
+	const handler = setInterval(() => location.href !== url && checkPage_cleanup(), 2000);
+	checkPage_cleanup = () => {
+		checkPage_cleanup = () => {};
+		log('page check has detected a change');
+		clearInterval(handler);
+		pageType = '';
+		setFlags();
+		aq_cleanup();
+	};
+}
 
-	function detectPageType() {
-		pageType = 'unknown';
-		if (document.getElementById('pagelet_bluebar')) {
-			pageType = 'facebook1';
-		} else if (document.querySelector('div[role=banner]')) {
-			const iframe = document.querySelector('#iframe_canvas iframe');
-			if (iframe) {
-				iframe.style.display = 'block';
-				pageType = 'facebook2';
-			}
-		} else if (site === 'Portal') {
-			pageType = 'portal';
-		}
-		log('Detected page "%s"', pageType);
-	}
+function setFlags() {
+	const root = document.documentElement;
+	root.classList.toggle('DAF-fullwindow', pageType && Prefs.fullWindow);
+	root.classList.toggle('DAF-fullwindowside', pageType && Prefs.fullWindowSide);
+	if (pageType) root.setAttribute('daf-pagetype', pageType);
+	else root.removeAttribute('daf-pagetype');
+}
 
-	function setupAutoQueueHotKey() {
-		log('enable autoQueue hotkey');
-		let lastKeyCode;
-		const toggleQueue = (event) => {
-			event?.stopPropagation();
-			event?.preventDefault();
-			setPreference('hAutoQueue', !Prefs['hAutoQueue']);
-		};
-		const onKeyDown = (event) => {
-			if (lastKeyCode == event.code) return;
-			lastKeyCode = event.code;
-			if (event.code == 'Key' + Prefs.queueHotKey && event.altKey && !event.shiftKey && !event.ctrlKey)
-				toggleQueue(event);
-		};
-		const onMouseUp = (event) => {
-			if (Prefs.queueMouseGesture == 1 && event.button == 1) toggleQueue(event);
-			if (Prefs.queueMouseGesture == 2 && event.button == 0 && event.buttons == 2) toggleQueue(event);
-		};
-		window.addEventListener('keydown', onKeyDown);
-		window.addEventListener('keyup', () => void (lastKeyCode = 0));
-		window.addEventListener('mouseup', onMouseUp, { capture: true });
-	}
+function detectPageType() {
+	pageType = '';
+	if (document.getElementById('pagelet_bluebar')) pageType = 'facebook1';
+	else if (document.querySelector('div[role=banner]')) {
+		const iframe = document.querySelector('#iframe_canvas iframe');
+		if (iframe) pageType = 'facebook2';
+	} else if (site === 'Portal') pageType = 'portal';
+	log('Detected page "%s"', pageType);
+}
 
-})();
+let aq_lastKeyCode;
+function aq_toggle(event) {
+	event?.stopPropagation();
+	event?.preventDefault();
+	setPreference('hAutoQueue', !Prefs['hAutoQueue']);
+}
+function aq_onKeyDown(event) {
+	if (aq_lastKeyCode == event.code) return;
+	aq_lastKeyCode = event.code;
+	if (event.code == 'Key' + Prefs.queueHotKey && event.altKey && !event.shiftKey && !event.ctrlKey)
+		aq_toggle(event);
+}
+function aq_onKeyUp(event) {
+	aq_lastKeyCode = 0;
+}
+function aq_onMouseUp(event) {
+	if (Prefs.queueMouseGesture == 1 && event.button == 1) aq_toggle(event);
+	if (Prefs.queueMouseGesture == 2 && event.button == 0 && event.buttons == 2) aq_toggle(event);
+}
+function aq_setup() {
+	log('enable autoQueue hotkey');
+	window.addEventListener('keydown', aq_onKeyDown);
+	window.addEventListener('keyup', aq_onKeyUp);
+	window.addEventListener('mouseup', aq_onMouseUp, { capture: true });
+}
+function aq_cleanup() {
+	log('disable autoQueue hotkey');
+	window.removeEventListener('keydown', aq_onKeyDown);
+	window.removeEventListener('keyup', aq_onKeyUp);
+	window.removeEventListener('mouseup', aq_onMouseUp, { capture: true });
+}
 
