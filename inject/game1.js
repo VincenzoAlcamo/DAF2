@@ -25,23 +25,8 @@ function setupMessaging(src, color, dst) {
 	const notSupported = () => { throw 'Not supported'; };
 	let [sendPage, send, setPreference] = [notSupported, notSupported, notSupported];
 	if (dst) {
-		const resolvers = {};
-		let lastId = 0;
-		const newCustomEvent = (detail) => new CustomEvent('daf_' + dst, { detail });
-		document.addEventListener('daf_' + src, (event) => {
-			const responseId = event.detail.responseId;
-			if ('value' in event.detail) return void resolvers[responseId]?.(event.detail.value);
-			const response = dispatch(event.detail.request);
-			const promise = response instanceof Promise ? response : Promise.resolve(response);
-			promise.then((value) => document.dispatchEvent(newCustomEvent({ responseId, value })));
-		});
-		sendPage = (...args) => {
-			const responseId = ++lastId;
-			return new Promise((resolve) => {
-				resolvers[responseId] = resolve;
-				document.dispatchEvent(newCustomEvent({ responseId, request: makeRequest(...args) }));
-			}).finally(() => delete resolvers[responseId]);
-		};
+		window.addEventListener('message', (event) => event.source === window && event.data?.src === dst && dispatch(event.data.request));
+		sendPage = (...args) => window.postMessage({ src, request: makeRequest(...args) }, window.location.href);
 	}
 	if (src !== 'game0') {
 		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -111,10 +96,7 @@ function checkPage_setup() {
 	checkPage_cleanup();
 	log('page check started');
 	const url = location.href;
-	const check = () => {
-		if (location.href !== url) checkPage_cleanup();
-	};
-	const handler = setInterval(check, 2000);
+	const handler = setInterval(() => location.href !== url && checkPage_cleanup(), 2000);
 	checkPage_cleanup = () => {
 		checkPage_cleanup = () => {};
 		log('page check has detected a change');

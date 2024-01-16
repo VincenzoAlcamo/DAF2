@@ -26,24 +26,8 @@
 		const notSupported = () => { throw 'Not supported'; };
 		let [sendPage, send, setPreference] = [notSupported, notSupported, notSupported];
 		if (dst) {
-			const resolvers = {};
-			let lastId = 0;
-			const post = (data) => window.postMessage(data, window.location.href);
-			window.addEventListener('message', function (event) {
-				const data = event.data;
-				if (event.source !== window || data?.src !== dst) return;
-				if ('value' in data) return void resolvers[data.responseId]?.(data.value);
-				const response = dispatch(data.request);
-				const promise = response instanceof Promise ? response : Promise.resolve(response);
-				promise.then((value) => post({ src, responseId: data.responseId, value}));
-			});
-			sendPage = (...args) => {
-				const responseId = ++lastId;
-				return new Promise((resolve) => {
-					resolvers[responseId] = resolve;
-					post({ src, responseId, request: makeRequest(...args) });
-				}).finally(() => delete resolvers[responseId]);
-			}
+			window.addEventListener('message', (event) => event.source === window && event.data?.src === dst && dispatch(event.data.request));
+			sendPage = (...args) => window.postMessage({ src, request: makeRequest(...args) }, window.location.href);
 		}
 		if (src !== 'game0') {
 			chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -210,13 +194,6 @@
 			const result = _userRequest(recipients, req_type);
 			bypassFB = false;
 			return result;
-		};
-
-		// Send wallpost event
-		const _wallpost = window.wallpost;
-		window.wallpost = function () {
-			Msg.sendPage('wallpost');
-			_wallpost();
 		};
 
 		// Resize
@@ -599,6 +576,6 @@
 
 		const value = extras.join();
 		log('extra detected = "%s"', value);
-		return value;
+		Msg.sendPage('extra', { value })
 	};
 })();

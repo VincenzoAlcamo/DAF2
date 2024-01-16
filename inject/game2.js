@@ -25,24 +25,8 @@ function setupMessaging(src, color, dst) {
 	const notSupported = () => { throw 'Not supported'; };
 	let [sendPage, send, setPreference] = [notSupported, notSupported, notSupported];
 	if (dst) {
-		const resolvers = {};
-		let lastId = 0;
-		const post = (data) => window.postMessage(data, window.location.href);
-		window.addEventListener('message', function (event) {
-			const data = event.data;
-			if (event.source !== window || data?.src !== dst) return;
-			if ('value' in data) return void resolvers[data.responseId]?.(data.value);
-			const response = dispatch(data.request);
-			const promise = response instanceof Promise ? response : Promise.resolve(response);
-			promise.then((value) => post({ src, responseId: data.responseId, value}));
-		});
-		sendPage = (...args) => {
-			const responseId = ++lastId;
-			return new Promise((resolve) => {
-				resolvers[responseId] = resolve;
-				post({ src, responseId, request: makeRequest(...args) });
-			}).finally(() => delete resolvers[responseId]);
-		}
+		window.addEventListener('message', (event) => event.source === window && event.data?.src === dst && dispatch(event.data.request));
+		sendPage = (...args) => window.postMessage({ src, request: makeRequest(...args) }, window.location.href);
 	}
 	if (src !== 'game0') {
 		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -172,7 +156,10 @@ function init() {
 		};
 		Msg.handlers['enableAutoQueue'] = () => void setupAutoQueueHotKey();
 
-		if (Prefs.hMain) Msg.sendPage('enableExtra').then(setExtra);
+		if (Prefs.hMain) {
+			Msg.handlers['extra'] = (request) => void setExtra(request.value);
+			Msg.sendPage('enableExtra');
+		}
 
 		Msg.handlers['pref:*'] = (request) => {
 			Msg.sendPage('@prefs', { values: request.values });
