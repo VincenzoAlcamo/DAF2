@@ -27,21 +27,22 @@ function setupMessaging(src, color, dst) {
 	if (dst) {
 		const resolvers = {};
 		let lastId = 0;
-		const newCustomEvent = (detail) => new CustomEvent('daf_' + dst, { detail });
-		document.addEventListener('daf_' + src, (event) => {
-			const responseId = event.detail.responseId;
-			if ('value' in event.detail) return void resolvers[responseId]?.(event.detail.value);
-			const response = dispatch(event.detail.request);
+		const post = (data) => window.postMessage(data, window.location.href);
+		window.addEventListener('message', function (event) {
+			const data = event.data;
+			if (event.source !== window || data?.src !== dst) return;
+			if ('value' in data) return void resolvers[data.responseId]?.(data.value);
+			const response = dispatch(data.request);
 			const promise = response instanceof Promise ? response : Promise.resolve(response);
-			promise.then((value) => document.dispatchEvent(newCustomEvent({ responseId, value })));
+			promise.then((value) => post({ src, responseId: data.responseId, value}));
 		});
 		sendPage = (...args) => {
 			const responseId = ++lastId;
 			return new Promise((resolve) => {
 				resolvers[responseId] = resolve;
-				document.dispatchEvent(newCustomEvent({ responseId, request: makeRequest(...args) }));
+				post({ src, responseId, request: makeRequest(...args) });
 			}).finally(() => delete resolvers[responseId]);
-		};
+		}
 	}
 	if (src !== 'game0') {
 		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -118,8 +119,6 @@ function init() {
 	script.src = getExtensionUrl('inject/game0.js');
 	document.documentElement.appendChild(script);
 
-	Msg.handlers['sendPrefs'] = () => Msg.sendPage('@prefs', { values: Prefs });
-
 	Msg.send('forward', { real_action: 'gameStarted' });
 
 	window.addEventListener('DOMContentLoaded', () => {
@@ -137,6 +136,7 @@ function init() {
 
 		Html.addStylesheet(getExtensionUrl('inject/game_menu.css'), () => (menu.style.display = ''));
 
+		Msg.sendPage('@prefs', { values: Prefs });
 		Msg.sendPage('enableGame');
 
 		Msg.handlers['daf_xhr'] = (request) => {
