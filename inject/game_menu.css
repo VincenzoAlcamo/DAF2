@@ -17,13 +17,7 @@
 
 .DAF-container canvas {
 	height: var(--canvas-h);
-}
-
-@media all and (display-mode: fullscreen) {
-	.DAF-container canvas {
-		height: calc(100% - 81px);
-		flex-grow: 1;
-	}
+	flex-grow: 1;
 }
 
 .DAF-menu-container {
@@ -633,9 +627,5 @@ html.DAF-fullwindow .DAF-container {
 	top: 0 !important;
 	width: 100% !important;
 	height: 100% !important;
-}
-html.DAF-fullwindow .DAF-container canvas {
-	height: calc(100% - 81px);
-	flex-grow: 1;
 }
 /*#endregion*/
