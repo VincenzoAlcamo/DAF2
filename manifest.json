@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "__MSG_ext_name__",
-	"version": "2.0.186",
+	"version": "2.0.187",
 	"default_locale": "en",
 	"description": "__MSG_ext_title__",
 	"minimum_chrome_version": "71",
@@ -31,6 +31,7 @@
 	],
 	"web_accessible_resources": [
 		"inject/*.css",
+		"inject/game0.js",
 		"css/*.css",
 		"js/*.js",
 		"js/*.map",
@@ -39,6 +40,7 @@
 	"content_scripts": [
 		{
 			"matches": [
+				"https://portal.pixelfederation.com/*",
 				"https://portal.pixelfederation.com/*/diggysadventure",
 				"https://portal.pixelfederation.com/*/diggysadventure/",
 				"https://portal.pixelfederation.com/*/diggysadventure/?*",
@@ -49,8 +51,6 @@
 			"all_frames": true,
 			"run_at": "document_start",
 			"js": [
-				"js/purify.min.js",
-				"js/Html.js",
 				"inject/game1.js"
 			]
 		},
