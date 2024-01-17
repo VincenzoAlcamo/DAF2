@@ -47,7 +47,8 @@ function setupMessaging(src, color, dst) {
 		setPreference = (name, value) => chrome.storage.local.set({ [name]: value });
 		chrome.storage.local.get(null, function (values) {
 			dispatch({ action: '@prefs', values });
-			chrome.storage.local.onChanged.addListener((changes) => {
+			chrome.storage.onChanged.addListener((changes, area) => {
+				if (area != 'local') return;
 				const values = {};
 				Object.entries(changes).forEach(([key, change]) => (values[key] = change.newValue));
 				dispatch({ action: '@prefs', values });
@@ -82,13 +83,18 @@ Msg.handlers['gameStarted'] = () => {
 	Msg.send('gameStarted', { site });
 	Msg.handlers['pref:*'] = () => void setFlags();
 	Msg.handlers['generator'] = () => {
-		if (!styleAdded) addStylesheet(getExtensionUrl('inject/game1.css'));
-		styleAdded = true;
+		styleAdded ||= addStylesheet(getExtensionUrl('inject/game1.css'));
 		detectPageType();
 		setFlags();
 	};
 	Msg.handlers['enableAutoQueue'] = () => void aq_setup();
 	if (site === 'Portal') checkPage_setup();
+};
+
+Msg.handlers['wallpost'] = () => {
+	if (pageType !== 'facebook2') return;
+	let count = 10;
+	const handler = setInterval(() => count-- < 0 ? clearInterval(handler) : setKeepElements(), 500);
 };
 
 let checkPage_cleanup = () => {};
@@ -120,9 +126,19 @@ function detectPageType() {
 	if (document.getElementById('pagelet_bluebar')) pageType = 'facebook1';
 	else if (document.querySelector('div[role=banner]')) {
 		const iframe = document.querySelector('#iframe_canvas iframe');
-		if (iframe) pageType = 'facebook2';
+		if (iframe) {
+			pageType = 'facebook2';
+			setKeepElements();
+		}
 	} else if (site === 'Portal') pageType = 'portal';
 	log('Detected page "%s"', pageType);
+}
+
+function setKeepElements() {
+	document.querySelectorAll('div[role=banner] ~ div').forEach(div => {
+		if (div.querySelector('iframe,[role="dialog"]')) div.setAttribute('daf-keep', '1');
+		else div.removeAttribute('daf-keep');
+	});
 }
 
 let aq_lastKeyCode;

@@ -7,7 +7,8 @@ html.DAF-fullwindow body {
 html[daf-pagetype="facebook2"].DAF-fullwindowside [role="complementary"],
 html[daf-pagetype="facebook2"].DAF-fullwindow [role="complementary"],
 html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"],
-html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"] ~ div:not(:has(iframe,[role="dialog"])) {
+html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"] ~ div:not(:has(iframe,[role="dialog"])),
+html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"] ~ div:not([daf-keep]) {
 	display: none !important;
 }
 html[daf-pagetype="facebook2"].DAF-fullwindow iframe {

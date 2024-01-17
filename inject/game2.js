@@ -47,7 +47,8 @@ function setupMessaging(src, color, dst) {
 		setPreference = (name, value) => chrome.storage.local.set({ [name]: value });
 		chrome.storage.local.get(null, function (values) {
 			dispatch({ action: '@prefs', values });
-			chrome.storage.local.onChanged.addListener((changes) => {
+			chrome.storage.onChanged.addListener((changes, area) => {
+				if (area != 'local') return;
 				const values = {};
 				Object.entries(changes).forEach(([key, change]) => (values[key] = change.newValue));
 				dispatch({ action: '@prefs', values });
@@ -123,9 +124,7 @@ function init() {
 		Msg.sendPage('@prefs', { values: Prefs });
 		Msg.sendPage('enableGame');
 
-		Msg.handlers['daf_xhr'] = (request) => {
-			Msg.send(request);
-		};
+		Msg.handlers['daf_xhr'] = (request) => void Msg.send(request);
 		Msg.handlers['generator'] = async (request) => {
 			hasGenerator = true;
 			document.documentElement.classList.toggle('DAF-fullwindow', Prefs.fullWindow);
@@ -204,7 +203,7 @@ function init() {
 		Msg.handlers['exitFullWindow'] = () => {
 			if (!Prefs.fullWindowLock) setPreference('fullWindow', false);
 		};
-		Msg.handlers['wallpost'] = () => void 0;
+		Msg.handlers['*wallpost'] = ()  => void Msg.send('forward', { real_action: 'wallpost' });
 	});
 }
 

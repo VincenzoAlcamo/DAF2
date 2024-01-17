@@ -48,7 +48,8 @@
 			setPreference = (name, value) => chrome.storage.local.set({ [name]: value });
 			chrome.storage.local.get(null, function (values) {
 				dispatch({ action: '@prefs', values });
-				chrome.storage.local.onChanged.addListener((changes) => {
+				chrome.storage.onChanged.addListener((changes, area) => {
+					if (area != 'local') return;
 					const values = {};
 					Object.entries(changes).forEach(([key, change]) => (values[key] = change.newValue));
 					dispatch({ action: '@prefs', values });
@@ -194,6 +195,13 @@
 			const result = _userRequest(recipients, req_type);
 			bypassFB = false;
 			return result;
+		};
+
+		// Send wallpost event
+		const _wallpost = window.wallpost;
+		window.wallpost = function () {
+			Msg.sendPage('*wallpost');
+			return _wallpost();
 		};
 
 		// Resize
