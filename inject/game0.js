@@ -62,6 +62,9 @@
 
 	const { Msg, Prefs, log } = setupMessaging('game0', 'blue', 'game2');
 
+	const Messages = { locked: 'LOCKED', unlock: 'UNLOCK' };
+	Msg.handlers['messages'] = (request) => void Object.assign(Messages, request);
+
 	// $hxClasses
 	const $hxClasses = {};
 	const _ObjectCreate = Object.create;
@@ -498,7 +501,7 @@
 					this._getButtons[p_index].setVisible(!locked);
 					this._resendButtons[p_index].setVisible(!locked);
 					const parent = this._prototypeInstance.getChildByName('slot' + p_index, true);
-					updateText(parent, 'delivered', locked ? 'LOCKED' : undefined, 0.1);
+					updateText(parent, 'delivered', locked ? Messages.locked : undefined, 0.1);
 					updateText(parent, 'amount_delivered', locked ? 'D A F 2' : undefined, 0.1);
 				}
 				const slotHasTicket = (slot) =>
@@ -517,7 +520,7 @@
 						button.green = 0.3;
 						if (this.__buttonX === undefined) this.__buttonX = button.g2d_anchorX;
 						button.g2d_anchorX = this.__buttonX - 310;
-						updateText(button, 'btn_collectAllLabel', 'UNLOCK');
+						updateText(button, 'btn_collectAllLabel', Messages.unlock);
 					}
 					return result;
 				};

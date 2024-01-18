@@ -160,6 +160,12 @@ function init() {
 			gcTable_setOptions();
 			document.documentElement.classList.toggle('DAF-fullwindow', hasGenerator && Prefs.fullWindow);
 		};
+		Msg.handlers['pref:language'] = () => {
+			Msg.sendPage('messages', {
+				locked: getMessage('gui_locked').toUpperCase(),
+				unlock: getMessage('gui_unlock').toUpperCase()
+			});
+		};
 
 		Msg.handlers['pref:gcTable'] = () => void gcTable_show();
 		Html.addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'));
