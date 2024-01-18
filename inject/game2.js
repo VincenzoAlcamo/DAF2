@@ -150,6 +150,7 @@ function init() {
 		Msg.handlers['enableAutoQueue'] = () => void setupAutoQueueHotKey();
 
 		if (Prefs.hMain) {
+			menu.querySelector('.DAF-badge-extra').classList.add('DAF-badge-on');
 			Msg.handlers['extra'] = (request) => void setExtra(request.value);
 			Msg.sendPage('enableExtra');
 		}
@@ -161,6 +162,7 @@ function init() {
 			document.documentElement.classList.toggle('DAF-fullwindow', hasGenerator && Prefs.fullWindow);
 		};
 		Msg.handlers['pref:language'] = () => {
+			translateMenu();
 			Msg.sendPage('messages', {
 				locked: getMessage('gui_locked').toUpperCase(),
 				unlock: getMessage('gui_unlock').toUpperCase()
@@ -253,29 +255,21 @@ function getWrappedText(text, max = 60) {
 }
 
 function createMenu() {
-	const gm = (id) => Html.br(getMessage(id));
-	const gm0 = (id) => Html(getMessage(id).split('\n')[0]);
-	const getMessage1 = (id) => {
-		const t = getMessage(id),
-			i = t.indexOf('\n');
-		return t.substr(i + 1);
-	};
-	const gmSound = Html(getMessage1('options_badgesound'));
 	let html = `
 <ul class="DAF-menu">
 <li data-action="about"><b>&nbsp;</b>
-	<div><span>${gm('ext_name')}</span><br><span>${gm('ext_title')}</span></div>
+	<div><span data-text="ext_name"></span><br><span data-text="ext_title"></span></div>
 </li>
 <li data-action="search"><b>&nbsp;</b>
-	<div><span>${gm('gui_search')}</span><input type="text">
+	<div><span data-text="gui_search"></span><input type="text">
 	<div class="DAF-search-results"></div>
 	</div>
 </li>
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
 	<div>
 		<u>
-		<i data-pref="fullWindow">${gm('menu_fullwindow')}</i>
-		<i data-pref="fullWindowSide">${gm('menu_fullwindowside')}</i>
+		<i data-pref="fullWindow" data-text="menu_fullwindow"></i>
+		<i data-pref="fullWindowSide" data-text="menu_fullwindowside"></i>
 		</u>
 	</div>
 </li>
@@ -283,125 +277,121 @@ function createMenu() {
 	<div>
 		<span data-value="status" style="display:none"></span>
 		<u class="squared">
-		<i data-pref="gcTable">${gm('menu_gctable')}</i>
-		<i data-pref="gcTableCounter">${gm('menu_gctablecounter')}</i>
-		<i data-pref="gcTableRegion">${gm('menu_gctableregion')}</i>
+		<i data-pref="gcTable" data-text="menu_gctable"></i>
+		<i data-pref="gcTableCounter" data-text="menu_gctablecounter"></i>
+		<i data-pref="gcTableRegion" data-text="menu_gctableregion"></i>
 		</u>
-		<u><i data-pref="autoGC">${gm0('options_autogc')}</i></u>
-		<u><i data-pref="noGCPopup">${gm0('options_nogcpopup')}</i></u>
+		<u><i data-pref="autoGC" data-text="options_autogc:0"></i></u>
+		<u><i data-pref="noGCPopup" data-text="options_nogcpopup:0"></i></u>
 	</div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
 	<div>
-		<span>${gm('options_section_badges')}</span>
+		<span data-text="options_section_badges"></span>
 		<u>
-		<i data-pref="badgeServerEnergy" style="display:none">${gm0('options_badgeserverenergy')}</i>
-		<i data-pref="badgeGcCounter">${gm0('options_badgegccounter')}</i>
-		<i data-pref="badgeGcEnergy">${gm0('options_badgegcenergy')}</i>
+		<i data-pref="badgeServerEnergy" style="display:none" data-text="options_badgeserverenergy:0"></i>
+		<i data-pref="badgeGcCounter" data-text="options_badgegccounter:0"></i>
+		<i data-pref="badgeGcEnergy" data-text="options_badgegcenergy:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeProductions">${gm0('options_badgeproductions')}</i>
-		<i data-pref="badgeCaravan" title="" class="hue2">${gm0('tab_caravan')}</i>
-		<i data-pref="badgeKitchen" title="" class="hue2">${gm0('tab_kitchen')}</i>
-		<i data-pref="badgeFoundry" title="" class="hue2">${gm0('tab_foundry')}</i>
-		<i data-pref="badgeProductionsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<i data-pref="badgeProductions" data-text="options_badgeproductions:0"></i>
+		<i data-pref="badgeCaravan" title="" class="hue2" data-text="tab_caravan"></i>
+		<i data-pref="badgeKitchen" title="" class="hue2" data-text="tab_kitchen"></i>
+		<i data-pref="badgeFoundry" title="" class="hue2" data-text="tab_foundry"></i>
+		<i data-pref="badgeProductionsSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeRepeatables">${gm0('options_badgerepeatables')}</i>
-		<i data-pref="badgeRepeatablesSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<i data-pref="badgeRepeatables" data-text="options_badgerepeatables:0"></i>
+		<i data-pref="badgeRepeatablesSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeLuckyCards">${gm0('options_badgeluckycards')}</i>
-		<i data-pref="badgeLuckyCardsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<i data-pref="badgeLuckyCards" data-text="options_badgeluckycards:0"></i>
+		<i data-pref="badgeLuckyCardsSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeWindmills">${gm0('options_badgewindmills')}</i>
-		<i data-pref="badgeWindmillsSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<i data-pref="badgeWindmills" data-text="options_badgewindmills:0"></i>
+		<i data-pref="badgeWindmillsSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgePetShop">${gm0('options_badgepetshop')}</i>
-		<i data-pref="badgePetShopSound" class="hue" title="${gmSound}">${gm0('options_badgesound')}</i>
+		<i data-pref="badgePetShop" data-text="options_badgepetshop:0"></i>
+		<i data-pref="badgePetShopSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 	</div>
 </li>
 <li data-action="ads" style="display:none"><b>&nbsp;</b>
 	<div>
-		<span>${gm('camp_ads_limit')}</span><br>
-		<p class="DAF-ads_limit_warning">${gm('camp_ads_limit_info')}<br>${gm('camp_ads_limit_info2')}</p>
+		<span data-text="camp_ads_limit"></span><br>
+		<p class="DAF-ads_limit_warning" data-text="camp_ads_limit_info+camp_ads_limit_info2"></p>
 		<table class="DAF-table">
-			<thead><tr><td>${gm('gui_type')}</td><td>${gm('gui_limit')}</td><td>${gm('gui_date')}</td></tr></thead>
+			<thead><tr><td data-text="gui_type"></td><td data-text="gui_limit"></td><td data-text="gui_date"></td></tr></thead>
 			<tbody></tbody>
-			<tfoot><tr><td>${gm('camp_total')}</td><td class="total"></td><td></td></tr></tfoot>
+			<tfoot><tr><td data-text="camp_total"></td><td class="total"></td><td></td></tr></tfoot>
 		</table>
 	</div>
 </li>
 <li data-action="options" style="display:none"><b>&nbsp;</b>
 	<div>
-		<span>${gm0('options_hmain')}</span>
-		<u><i data-pref="hFlashAdSound">Flash Ad Sound</i>
-		<i data-pref="hReward">${gm0('options_hreward')}</i>
-		<i data-pref="hGCCluster">${gm0('options_hgccluster')}</i></u>
-		<u><i data-pref="hScroll">${gm0('options_hscroll')}</i>
-		<i data-pref="hInstantCamera">${gm0('options_hinstantcamera')}</i></u>
+		<span data-text="options_hmain:0"></span>
+		<u><i data-pref="hFlashAdSound" data-title="options_hflashad:1" data-text="options_hflashad:0"></i>
+		<i data-pref="hReward" data-text="options_hreward:0"></i>
+		<i data-pref="hGCCluster" data-text="options_hgccluster:0"></i></u>
+		<u><i data-pref="hScroll" data-text="options_hscroll:0"></i>
+		<i data-pref="hInstantCamera" data-text="options_hinstantcamera:0"></i></u>
 		<u class="squared">
-		<i>${gm('gui_loot')}</i>
-		<i data-pref="hLootCount">${gm0('options_hlootcount')}</i>
-		<i data-pref="hLootZoom">${gm0('options_hlootzoom')}</i>
-		<i data-pref="hLootFast">${gm0('options_hlootfast')}</i>
+		<i data-text="gui_loot"></i>
+		<i data-pref="hLootCount" data-text="options_hlootcount:0"></i>
+		<i data-pref="hLootZoom" data-text="options_hlootzoom:0"></i>
+		<i data-pref="hLootFast" data-text="options_hlootfast:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="hFood" class="squared-right">${gm0('options_hfood')}</i>
+		<i data-pref="hFood" class="squared-right" data-text="options_hfood:0"></i>
 		<select data-pref="hFoodNum">
-			<option value="avg">${gm('gui_average')}</option>
-			<option value="min">${gm('gui_minimum')}</option>
-			<option value="0">1 = ${gm('gui_maximum')}</option>
-			${[...Array(19).keys()].map((i) => `<option value="${i + 1}">${i + 2}</option>`).join('')}
+			<option value="avg" data-text="gui_average"></option>
+			<option value="min" data-text="gui_minimum"></option>
+			<option value="0" data-text="1 = gui_maximum"></option>
 		</select>
 		</u>
 		<u class="squared">
-			<i data-pref="hQueue">${gm0('options_hqueue')}</i>
-			<i data-pref="hAutoQueue">${gm0('options_hautoqueue')}</i>
+			<i data-pref="hQueue" data-text="options_hqueue:0"></i>
+			<i data-pref="hAutoQueue" data-text="options_hautoqueue:0"></i>
 		</u>
-		<u class="squared"><i>${gm('gui_pet')}</i>
-		<i data-pref="hPetFollow">${gm0('options_hpetfollow')}</i>
-		<i data-pref="hPetSpeed" title="${Html(getMessage1('options_hspeed'))}">${gm0('options_hspeed')}</i></u>
-		<u><i data-pref="hSpeed">${gm0('options_hspeed')}</i>
-		<i data-pref="hLockCaravan">${gm0('options_hlockcaravan')}</i></u>
+		<u class="squared"><i data-text="gui_pet"></i>
+		<i data-pref="hPetFollow" data-text="options_hpetfollow:0"></i>
+		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i></u>
+		<u><i data-pref="hSpeed" data-text="options_hspeed:0"></i>
+		<i data-pref="hLockCaravan" data-text="options_hlockcaravan:0"></i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
 	<div>
-		<span>${gm('menu_reloadgame')}</span>
+		<span data-text="menu_reloadgame"></span>
 		<br>
-		<i data-value="switch">${gm(site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')}</i>
+		<i data-value="switch"></i>
 	</div>
 </li>
 </ul>
 <div class="DAF-badges">
-	<b data-close class="DAF-badge-extra DAF-badge-img ${Prefs.hMain ? 'DAF-badge-on' : ''}" title="${gm(
-		'options_hmain_disabled'
-	)}">EXTRA</b>
+	<b data-close class="DAF-badge-extra DAF-badge-img" data-title="options_hmain_disabled">EXTRA</b>
 	<b data-close class="DAF-badge-energy DAF-badge-img"></b>
 	<b class="DAF-badge-gc-counter DAF-badge-img"></b>
 	<b class="DAF-badge-gc-energy DAF-badge-img"></b>
-	<b data-animate class="DAF-badge-windmills DAF-badge-img" title="${gm('camp_needs_windmills')}"></b>
-	<b data-animate class="DAF-badge-p-c DAF-badge-img" title="${gm('tab_caravan')}">0</b>
-	<b data-animate class="DAF-badge-p-k DAF-badge-img" title="${gm('tab_kitchen')}">0</b>
-	<b data-animate class="DAF-badge-p-f DAF-badge-img" title="${gm('tab_foundry')}">0</b>
-	<b data-animate class="DAF-badge-luckycards DAF-badge-img" title="${gm0('options_badgeluckycards')}"></b>
-	<b data-animate class="DAF-badge-petshop DAF-badge-img" title="${gm0('options_badgepetshop')}"></b>
-	<b class="DAF-badge-autoqueue DAF-badge-img" title="${getMessage('options_hautoqueue')}">AUTO</b>
+	<b data-animate class="DAF-badge-windmills DAF-badge-img" data-title="camp_needs_windmills"></b>
+	<b data-animate class="DAF-badge-p-c DAF-badge-img" data-title="tab_caravan">0</b>
+	<b data-animate class="DAF-badge-p-k DAF-badge-img" data-title="tab_kitchen">0</b>
+	<b data-animate class="DAF-badge-p-f DAF-badge-img" data-title="tab_foundry">0</b>
+	<b data-animate class="DAF-badge-luckycards DAF-badge-img" data-title="options_badgeluckycards:0"></b>
+	<b data-animate class="DAF-badge-petshop DAF-badge-img" data-title="options_badgepetshop:0"></b>
+	<b class="DAF-badge-autoqueue DAF-badge-img" data-title="options_hautoqueue">AUTO</b>
 	<div data-animate class="DAF-badge-rep"></div>
 </div>
 `;
 	// remove spaces
 	html = html.replace(/>\s+/g, '>');
 	Html.set(menu, html);
-	for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
-		const prefName = el.getAttribute('data-pref');
-		if (!el.hasAttribute('title')) el.title = getMessage1('options_' + prefName.toLowerCase());
-	}
-	menu.querySelectorAll('[title]').forEach((el) => (el.title = getWrappedText(el.title)));
+	const select = menu.querySelector('[data-pref="hFoodNum"]');
+	[...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
+	menu.querySelector('[data-value="switch"]').setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');
+	translateMenu();
 	setupSearch();
 	menu.addEventListener('click', onMenuClick);
 	menu.querySelectorAll('select[data-pref]').forEach((el) => {
@@ -419,6 +409,26 @@ function createMenu() {
 	});
 
 	updateMenu();
+}
+
+function translateMenu() {
+	const getText = (value, wrapped) => {
+		const text = value.replace(/\+/g, '\n').replace(/([a-z][a-z0-9_]+)(:(0|1))?/g, function (_, key, _, transform) {
+			let text = getMessage(key);
+			if (transform) {
+				const i = text.indexOf('\n');
+				text = transform == '0' ? text.substring(0, i) : text.substring(i + 1);
+			}
+			return text;
+		});
+		return wrapped ? getWrappedText(text) : text;
+	};
+	for (const el of Array.from(menu.querySelectorAll('[data-title]'))) el.title = getText(el.getAttribute('data-title'), true);
+	for (const el of Array.from(menu.querySelectorAll('[data-text]'))) Html.set(el, Html.br(getText(el.getAttribute('data-text'))));
+	for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
+		const prefName = el.getAttribute('data-pref');
+		if (!el.hasAttribute('data-title')) el.title = getText('options_' + prefName.toLowerCase() + ':1', true);
+	}
 }
 
 function setupSearch() {

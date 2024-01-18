@@ -559,8 +559,9 @@
 .DAF-menu select[data-pref="hFoodNum"] {
     height: calc(1em + 5px);
     border: 1px solid #000;
-    vertical-align: top;
     padding-top: 0;
+	border-top-right-radius: 1em;
+  	border-bottom-right-radius: 1em;
 }
 
 .DAF-menu li[data-action='search'] > div > input:not(:focus) {
