@@ -79,7 +79,7 @@ function getSound(name) {
 init();
 
 function getMessage(id, ...args) {
-	const $L = Prefs.language;
+	const $L = Prefs.language || 'en';
 	if (getMessage.$L !== $L) {
 		const $M = (getMessage.$M = {}),
 			split = (key) => chrome.i18n.getMessage(key).split('|'),
@@ -108,18 +108,11 @@ function init() {
 
 	window.addEventListener('DOMContentLoaded', () => {
 		miner = document.getElementById('canvas');
-
-		container = document.createElement('div');
-		container.setAttribute('class', 'DAF-container');
+		container = Html.get(`<div class="DAF-container"><div class="DAF-menu-container" style="display:none"></div></div>`)[0];
 		miner.parentNode.insertBefore(container, miner);
 		container.appendChild(miner);
 		container.style.setProperty('--canvas-h', miner.offsetHeight + 'px');
-		menu = document.createElement('div');
-		menu.setAttribute('class', 'DAF-menu-container');
-		menu.style.display = 'none';
-		container.appendChild(menu);
-
-		Html.addStylesheet(getExtensionUrl('inject/game_menu.css'), () => (menu.style.display = ''));
+		menu = container.querySelector('.DAF-menu-container');
 
 		Msg.sendPage('@prefs', { values: Prefs });
 		Msg.sendPage('enableGame');
@@ -147,6 +140,7 @@ function init() {
 
 		Msg.sendPage('enableXhr');
 
+		Html.addStylesheet(getExtensionUrl('inject/game_menu.css'), () => (menu.style.display = ''));
 		createMenu();
 
 		Msg.handlers['screen'] = (request) => void setScreen(request.value);
