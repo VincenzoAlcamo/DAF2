@@ -3339,7 +3339,7 @@ async function drawMine(args) {
 			if (door) {
 				const isEntrance = door.miscType == 'N' && (door.fid == 1 || isRepeatable);
 				const name = door.name || (isEntrance ? '\u2196' : '?');
-				drawTextMarker(x, y, name, isEntrance ? themeSettings.entrance : door.to ? themeSettings.door : themeSettings.doornt);
+				drawTextMarker(x, y, name, isEntrance ? themeSettings.entrance : door.to || isTower ? themeSettings.door : themeSettings.doornt);
 			}
 		}
 	}
