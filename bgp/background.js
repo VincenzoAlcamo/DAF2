@@ -153,7 +153,7 @@ var Preferences = {
 			hFoodNum: 0,
 			hGCCluster: false,
 			hFlashAdSound: false,
-			hFlashAdSoundName: 'ui_buy',
+			hFlashAdSoundName: 'ui_buy_gems',
 			hFlashAdVolume: 100,
 			hLockCaravan: false,
 			hPetFollow: false,

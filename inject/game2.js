@@ -123,8 +123,7 @@ function init() {
 			hasGenerator = true;
 			document.documentElement.classList.toggle('DAF-fullwindow', Prefs.fullWindow);
 			cdn_root ||= data.cdn_root;
-			const { isAdmin, isSuper, isMapper } = data;
-			Msg.dispatch({ action: '@prefs', values: { isAdmin, isSuper, isMapper }});
+			Msg.dispatch({ action: '@prefs', values: { isSuper: data.isSuper }});
 			site = (data.site || 'portal').toLowerCase();
 			const el = menu.querySelector('[data-value="switch"');
 			if (el) Html.set(el, Html.br(getMessage(site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')));
