@@ -162,6 +162,7 @@ function init() {
 			updateMenu();
 			gcTable_setOptions();
 			document.documentElement.classList.toggle('DAF-fullwindow', hasGenerator && Prefs.fullWindow);
+			container.classList.toggle('DAF-hidemenu', Prefs.hideMenu);
 		};
 		Msg.handlers['pref:language'] = () => {
 			translateMenu();
@@ -204,9 +205,6 @@ function init() {
 
 		Msg.handlers['ads_info'] = (request) => void updateAdsInfo(request.data);
 
-		Msg.handlers['exitFullWindow'] = () => {
-			if (!Prefs.fullWindowLock) setPreference('fullWindow', false);
-		};
 		Msg.handlers['*wallpost'] = ()  => void Msg.send('forward', { real_action: 'wallpost' });
 	});
 }
@@ -270,52 +268,52 @@ function createMenu() {
 <li data-action="fullWindow"><b data-pref="fullWindow">&nbsp;</b>
 	<div>
 		<u>
-		<i data-pref="fullWindow" data-text="menu_fullwindow"></i>
-		<i data-pref="fullWindowSide" data-text="menu_fullwindowside"></i>
+		<i data-pref="fullWindow"></i>
+		<i data-pref="fullWindowSide"></i>
 		</u>
+		<u><i data-pref="hideMenu"></i></u>
 	</div>
 </li>
 <li data-action="gc"><b>&nbsp;</b>
 	<div>
 		<span data-value="status" style="display:none"></span>
 		<u class="squared">
-		<i data-pref="gcTable" data-text="menu_gctable"></i>
-		<i data-pref="gcTableCounter" data-text="menu_gctablecounter"></i>
-		<i data-pref="gcTableRegion" data-text="menu_gctableregion"></i>
+		<i data-pref="gcTable"></i>
+		<i data-pref="gcTableCounter"></i>
+		<i data-pref="gcTableRegion"></i>
 		</u>
-		<u><i data-pref="autoGC" data-text="options_autogc:0"></i></u>
-		<u><i data-pref="noGCPopup" data-text="options_nogcpopup:0"></i></u>
+		<u><i data-pref="autoGC"></i></u>
+		<u><i data-pref="noGCPopup"></i></u>
 	</div>
 </li>
 <li data-action="badges"><b>&nbsp;</b>
 	<div>
 		<span data-text="options_section_badges"></span>
 		<u>
-		<i data-pref="badgeServerEnergy" style="display:none" data-text="options_badgeserverenergy:0"></i>
-		<i data-pref="badgeGcCounter" data-text="options_badgegccounter:0"></i>
-		<i data-pref="badgeGcEnergy" data-text="options_badgegcenergy:0"></i>
+		<i data-pref="badgeGcCounter"></i>
+		<i data-pref="badgeGcEnergy"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeProductions" data-text="options_badgeproductions:0"></i>
+		<i data-pref="badgeProductions"></i>
 		<i data-pref="badgeCaravan" title="" class="hue2" data-text="tab_caravan"></i>
 		<i data-pref="badgeKitchen" title="" class="hue2" data-text="tab_kitchen"></i>
 		<i data-pref="badgeFoundry" title="" class="hue2" data-text="tab_foundry"></i>
 		<i data-pref="badgeProductionsSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeRepeatables" data-text="options_badgerepeatables:0"></i>
+		<i data-pref="badgeRepeatables"></i>
 		<i data-pref="badgeRepeatablesSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeLuckyCards" data-text="options_badgeluckycards:0"></i>
+		<i data-pref="badgeLuckyCards"></i>
 		<i data-pref="badgeLuckyCardsSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgeWindmills" data-text="options_badgewindmills:0"></i>
+		<i data-pref="badgeWindmills"></i>
 		<i data-pref="badgeWindmillsSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="badgePetShop" data-text="options_badgepetshop:0"></i>
+		<i data-pref="badgePetShop"></i>
 		<i data-pref="badgePetShopSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 	</div>
@@ -335,18 +333,18 @@ function createMenu() {
 	<div>
 		<span data-text="options_hmain:0"></span>
 		<u><i data-pref="hFlashAdSound" data-title="options_hflashad:1" data-text="options_hflashad:0"></i>
-		<i data-pref="hReward" data-text="options_hreward:0"></i>
-		<i data-pref="hGCCluster" data-text="options_hgccluster:0"></i></u>
-		<u><i data-pref="hScroll" data-text="options_hscroll:0"></i>
-		<i data-pref="hInstantCamera" data-text="options_hinstantcamera:0"></i></u>
+		<i data-pref="hReward"></i>
+		<i data-pref="hGCCluster"></i></u>
+		<u><i data-pref="hScroll"></i>
+		<i data-pref="hInstantCamera"></i></u>
 		<u class="squared">
 		<i data-text="gui_loot"></i>
-		<i data-pref="hLootCount" data-text="options_hlootcount:0"></i>
-		<i data-pref="hLootZoom" data-text="options_hlootzoom:0"></i>
-		<i data-pref="hLootFast" data-text="options_hlootfast:0"></i>
+		<i data-pref="hLootCount"></i>
+		<i data-pref="hLootZoom"></i>
+		<i data-pref="hLootFast"></i>
 		</u>
 		<u class="squared">
-		<i data-pref="hFood" class="squared-right" data-text="options_hfood:0"></i>
+		<i data-pref="hFood" class="squared-right"></i>
 		<select data-pref="hFoodNum">
 			<option value="avg" data-text="gui_average"></option>
 			<option value="min" data-text="gui_minimum"></option>
@@ -354,14 +352,14 @@ function createMenu() {
 		</select>
 		</u>
 		<u class="squared">
-			<i data-pref="hQueue" data-text="options_hqueue:0"></i>
-			<i data-pref="hAutoQueue" data-text="options_hautoqueue:0"></i>
+			<i data-pref="hQueue"></i>
+			<i data-pref="hAutoQueue"></i>
 		</u>
 		<u class="squared"><i data-text="gui_pet"></i>
-		<i data-pref="hPetFollow" data-text="options_hpetfollow:0"></i>
+		<i data-pref="hPetFollow"></i>
 		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i></u>
-		<u><i data-pref="hSpeed" data-text="options_hspeed:0"></i>
-		<i data-pref="hLockCaravan" data-text="options_hlockcaravan:0"></i></u>
+		<u><i data-pref="hSpeed"></i>
+		<i data-pref="hLockCaravan"></i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -428,8 +426,9 @@ function translateMenu() {
 	for (const el of Array.from(menu.querySelectorAll('[data-title]'))) el.title = getText(el.getAttribute('data-title'), true);
 	for (const el of Array.from(menu.querySelectorAll('[data-text]'))) Html.set(el, Html.br(getText(el.getAttribute('data-text'))));
 	for (const el of Array.from(menu.querySelectorAll('[data-pref]'))) {
-		const prefName = el.getAttribute('data-pref');
-		if (!el.hasAttribute('data-title')) el.title = getText('options_' + prefName.toLowerCase() + ':1', true);
+		const msg = 'options_' + el.getAttribute('data-pref').toLowerCase();
+		if (!el.hasAttribute('data-title')) el.title = getText(msg + ':1', true);
+		if (el.tagName === 'I' && !el.hasAttribute('data-text')) Html.set(el, Html.br(getText(msg + ':0')));
 	}
 }
 

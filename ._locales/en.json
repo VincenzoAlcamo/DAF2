@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Helper Tool for Diggy's Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Reset on load"
-	},
-	"menu_fullwindow": {
-		"message": "Game in full window"
-	},
-	"menu_fullwindowheader": {
-		"message": "Header"
-	},
-	"menu_fullwindowside": {
-		"message": "Side bar"
-	},
-	"menu_fullwindowlock": {
-		"message": "Lock"
-	},
-	"menu_gctable": {
-		"message": "Display GC table"
-	},
-	"menu_gctablecounter": {
-		"message": "Counter"
-	},
-	"menu_gctableregion": {
-		"message": "Region"
-	},
 	"menu_gccollected": {
 		"message": "All GC have been collected"
-	},
-	"menu_autoclick": {
-		"message": "Auto click Facebook's popup"
-	},
-	"menu_nogcpopup": {
-		"message": "No popups when collecting GC"
 	},
 	"menu_reloadgame": {
 		"message": "Reloads the game and forces a fresh data collection"
@@ -2036,31 +2006,11 @@
 	"options_fullwindow": {
 		"message": "Full window\nDisplay game in full window"
 	},
-	"options_fullwindowheader": {
-		"message": "Header\nDisplay the page header when in full window"
-	},
 	"options_fullwindowside": {
 		"message": "Side\nHide the sidebar (Facebook) when not in full window"
 	},
-	"options_fullwindowlock": {
-		"message": "Lock full window\nPrevents the game from exiting full window."
-	},
-	"options_resetfullwindow": {
-		"message": "Reset on load\nEvery time you load the game, \"Full window\" and \"Full window - Side\" are reset"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "This option should be enabled if you experience problems loading the game."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Auto full window\nAutomatically set full window when data has been loaded (DAF2 turns green)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Yes, after $NUM$ seconds",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_hidemenu": {
+		"message": "Hide menu\nHide the DAF2 menu in full screen"
 	},
 	"options_gctable": {
 		"message": "GC table\nShow all neighbours with GC beneath the game"
@@ -2070,9 +2020,6 @@
 	},
 	"options_gctableregion": {
 		"message": "Region\nUse colors to mark a neighbour's region"
-	},
-	"options_autoclick": {
-		"message": "Autoclick\nAutomatically confirm Facebook's popups"
 	},
 	"options_nogcpopup": {
 		"message": "No GC popups\nNo popups when collecting GC"

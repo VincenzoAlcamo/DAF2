@@ -605,6 +605,10 @@ td.DAF-visit {
 	opacity: 0.3;
 	pointer-events: none;
 }
+
+.DAF-container.DAF-fullscreen.DAF-hidemenu .DAF-menu-container {
+	display: none;
+}
 /*#endregion*/
 
 /*#region FULLWINDOW*/
@@ -630,3 +634,8 @@ html.DAF-fullwindow .DAF-container {
 	height: 100% !important;
 }
 /*#endregion*/
+
+/* Show language bar */
+#hm-langbar {
+	z-index: 1;
+}

@@ -220,6 +220,8 @@
 			canvas.width = canvas.offsetWidth;
 			canvas.height = canvas.offsetHeight;
 			getJSInterface().onResize(canvas.width, canvas.height);
+			const div = document.querySelector('.DAF-container');
+			if (div) div.classList.toggle('DAF-fullscreen', document.fullscreenElement === div);
 		});
 		window.isFullScreen = () => !!document.fullscreenElement;
 		window.exitFullscreen = () => document.exitFullscreen();
