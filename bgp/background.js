@@ -792,7 +792,9 @@ var Data = {
 			tx.objectStore('Files').put(file).then(() => {
 				Data.checkLocalization('', file.data.game_language);
 				Tab.detectAll().then(() => {
-					Synchronize.signal('generator', { cdn_root: file.data.cdn_root, site: file.data.game_site });
+					const { isAdmin, isSuper, isMapper } = Data;
+					const { cdn_root, game_site: site } = file.data;
+					Synchronize.signal('generator', { cdn_root, site, isAdmin, isSuper, isMapper });
 					Data.checkRepeatablesStatus();
 					Data.checkLuckyCards();
 					Data.checkProductions();
@@ -2256,14 +2258,6 @@ async function init() {
 		},
 		sendValue(request, sender) {
 			chrome.tabs.sendMessage(sender.tab.id, request, () => hasRuntimeError('SENDVALUE'));
-		},
-		getPrefs(request) {
-			const keys = [].concat(request.keys);
-			const values = Preferences.getValues(keys);
-			if (keys.includes('@admin')) values['@admin'] = Data.isAdmin;
-			if (keys.includes('@mapper')) values['@mapper'] = Data.isMapper;
-			if (keys.includes('@super')) values['@super'] = Data.isSuper;
-			return values;
 		},
 		showGUI() {
 			Tab.showGUI();

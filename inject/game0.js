@@ -304,12 +304,12 @@
 					isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
 					isTower = mineId && screen._mineLoader.isTowerFloor();
 				}
-				return isRepeat || isTower;
+				return isRepeat || isTower || Prefs.isSuper;
 			}
 			function getSpeed(p_core, val, def, isPet) {
 				const hasSpeedUp = (isPet && Prefs.hPetSpeed) || (Prefs.hSpeed && isSpeedAllowed());
 				return hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0
-					? Math.min(val * 0.6, def)
+					? Math.min(val * (Prefs.isSuper ? 0.4 : 0.6), def)
 					: def;
 			}
 			intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'breakTile', function (_breakTile, Pet) {

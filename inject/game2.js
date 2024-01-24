@@ -56,7 +56,7 @@ function setupMessaging(src, color, dst) {
 		});
 	}
 
-	return { Msg: { send, sendPage, handlers }, Prefs, setPreference, log };
+	return { Msg: { dispatch, send, sendPage, handlers }, Prefs, setPreference, log };
 }
 
 const { Msg, Prefs, setPreference, log } = setupMessaging('game2', 'purple', 'game0');
@@ -119,10 +119,13 @@ function init() {
 
 		Msg.handlers['daf_xhr'] = (request) => void Msg.send(request);
 		Msg.handlers['generator'] = async (request) => {
+			const data = request.data || {};
 			hasGenerator = true;
 			document.documentElement.classList.toggle('DAF-fullwindow', Prefs.fullWindow);
-			cdn_root ||= request.data?.cdn_root;
-			site = (request.data?.site || 'portal').toLowerCase();
+			cdn_root ||= data.cdn_root;
+			const { isAdmin, isSuper, isMapper } = data;
+			Msg.dispatch({ action: '@prefs', values: { isAdmin, isSuper, isMapper }});
+			site = (data.site || 'portal').toLowerCase();
 			const el = menu.querySelector('[data-value="switch"');
 			if (el) Html.set(el, Html.br(getMessage(site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')));
 			menu.classList.add(site);
