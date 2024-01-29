@@ -226,8 +226,7 @@ var Parser = {
 			arr.forEach(s => {
 				const i = s.indexOf('*#*');
 				if (i < 0) return;
-				const key = getFirstAlpha(s);
-				if (isFull || (key in wanted)) {
+				if (isFull || (getFirstAlpha(s) in wanted)) {
 					const name = s.substr(0, i);
 					let value = s.substr(i + 3);
 					value = value.replace(reNewline, '\n');
