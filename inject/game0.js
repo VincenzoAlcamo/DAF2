@@ -348,8 +348,10 @@
 					this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
 					if (isActive && tile && old !== tile) {
 						if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-						else if ((e.shiftKey || Prefs.hAutoQueue) && (tile.isBreakable() || tile.isUsable()))
-							this._character.go(tile);
+						else if ((e.shiftKey || Prefs.hAutoQueue) && (tile.isBreakable() || tile.isUsable())) {
+							const canGo = !this._interactivityDisabled && !this._isBeaconActionFocus && !this._isFocus && !(this._dragManager?._dragging);
+							if (canGo) this._character.go(tile);
+						}
 					}
 					return result;
 				};
