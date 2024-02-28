@@ -2927,12 +2927,14 @@ async function drawMine(args) {
 				let rotation = 1;
 				let isHidden = false;
 				if (item.req_drag) {
-					debugs.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
 					const draggable = draggables[item.req_drag];
-					asset = draggable.mobile_asset;
-					const override = draggables[asArray(draggable.overrides).filter((o) => +o.region_id == rid).map((o) => o.override_drag_id)[0]];
-					if (override && override.mobile_asset in images) asset = override.mobile_asset;
-					rotation = reqOrientations[item.req_drag_rotation] || 1;
+					if (draggable) {
+						debugs.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
+						asset = draggable.mobile_asset;
+						const override = draggables[asArray(draggable.overrides).filter((o) => +o.region_id == rid).map((o) => o.override_drag_id)[0]];
+						if (override && override.mobile_asset in images) asset = override.mobile_asset;
+						rotation = reqOrientations[item.req_drag_rotation] || 1;
+					}
 				}
 				if (item.req_material) {
 					const token = gui.getObject('token', item.req_material);
