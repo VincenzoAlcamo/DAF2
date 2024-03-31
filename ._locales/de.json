@@ -2213,10 +2213,10 @@
 		"message": "Zeitversatz\nDas Abzeichen wird um diese Anzahl von Sekunden im Voraus angezeigt."
 	},
 	"options_badgesound": {
-		"message": "Klangeffekt\nDer Klangeffekt, der abgespielt wird, wenn das Abzeichen angezeigt wird."
+		"message": "Toneffekt\nDer Ton, der abgespielt wird, wenn das Abzeichen angezeigt wird."
 	},
 	"options_badgevolume": {
-		"message": "Lautstärke\nDie Lautstärke des Klangeffekts."
+		"message": "Lautstärke\nDie Lautstärke des Tones."
 	},
 	"options_badgewindmills": {
 		"message": "Windmühlen\nAbzeichen anzeigen, wenn das Camp eines Nachbarn Windmühlen braucht."

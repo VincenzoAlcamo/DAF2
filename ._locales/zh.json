@@ -292,10 +292,10 @@
 		"message": "地點"
 	},
 	"gui_locked": {
-		"message": "已鎖定Locked"
+		"message": "Locked"
 	},
 	"gui_unlock": {
-		"message": "Unlock解鎖"
+		"message": "Unlock"
 	},
 	"gui_noresults": {
 		"message": "無結果"
@@ -2031,7 +2031,7 @@
 		"message": "遊戲內選項"
 	},
 	"options_enablewarning": {
-		"message": "如果沒啓用, 下面的選項沒有效果"
+		"message": "如果沒啓用, 下面的選項不會生效"
 	},
 	"options_fullwindow": {
 		"message": "全視窗\n在全視窗下顯示遊戲"
@@ -2049,7 +2049,7 @@
 		"message": "載入時重設\n每次你載入遊戲時, \"全視窗\"和\"全視窗-側邊欄\"會重設"
 	},
 	"options_resetfullwindow_warning": {
-		"message": "如果你載入遊戲時會發生問題, 打開選項"
+		"message": "如果你載入遊戲時會發生問題, 打開這個選項"
 	},
 	"options_fullwindowtimeout": {
 		"message": "自動全視窗\n當資料載入時自動全視窗(DAF2變綠色)"
@@ -2231,13 +2231,13 @@
 		"message": "加速\n加速藥劑會提供更快的速度"
 	},
 	"options_hlootcount": {
-		"message": "獲取物計數\n永遠顯示獲取物品的數量"
+		"message": "計數\n永遠顯示獲取物品的數量"
 	},
 	"options_hlootzoom": {
-		"message": "獲取物顯示比例\n獲取物品的大小會根據螢幕比例顯示"
+		"message": "比例\n獲取物品的大小會根據螢幕比例顯示"
 	},
 	"options_hlootfast": {
-		"message": "獲取物加速\n獲取物品會更快隱藏"
+		"message": "加速\n獲取物品會更快隱藏"
 	},
 	"options_hfood": {
 		"message": "食物\n選擇當你能量用完時會顯示哪一種食物"
@@ -2252,7 +2252,7 @@
 		"message": "禁止慣性滾動\n慣性滾動是即使已經停止滑動，螢幕仍然持續移動的效果"
 	},
 	"options_hinstantcamera": {
-		"message": "即使視角\n當畫面移到另外一處時，轉換是無縫即時的"
+		"message": "即時視角\n當畫面移到另外一處時，轉換是無縫即時的"
 	},
 	"options_hreward": {
 		"message": "自動大寫\n任何輸入禮物碼的字母都會自動大寫"

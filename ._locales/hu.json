@@ -294,6 +294,9 @@
 	"gui_locked": {
 		"message": "Zárva"
 	},
+	"gui_unlock": {
+		"message": "Felold"
+	},
 	"gui_noresults": {
 		"message": "Nincs eredmény"
 	},
@@ -311,6 +314,15 @@
 	},
 	"gui_summary": {
 		"message": "Összegzés"
+	},
+	"gui_pet": {
+		"message": "Kisállat"
+	},
+	"gui_hotkey": {
+		"message": "Gyorsgomb"
+	},
+	"gui_mousegesture": {
+		"message": "Egér mozdulat"
 	},
 	"dialog_ok": {
 		"message": "Ok"
@@ -853,6 +865,9 @@
 	"map_option_s": {
 		"message": "Mutasd a régió választót"
 	},
+	"map_option_f": {
+		"message": "Barátság választó megjelenítése"
+	},
 	"map_option_i": {
 		"message": "Mutasd a helyszín infót"
 	},
@@ -870,6 +885,9 @@
 	},
 	"map_option_l": {
 		"message": "Adj hozzá vízjel logót"
+	},
+	"map_option_k": {
+		"message": "Emelet jelzők megjelenítése"
 	},
 	"map_option_resize": {
 		"message": "Mentett kép mérete"
@@ -2140,6 +2158,12 @@
 	"options_button_right": {
 		"message": "JOBB"
 	},
+	"options_gesture_middle": {
+		"message": "Kattints a Középső gombra"
+	},
+	"options_gesture_rightleft": {
+		"message": "Tartsd lenyomva a jobb gombot, majd kattints a bal gombbal"
+	},
 	"options_sort_none": {
 		"message": "Semmi"
 	},
@@ -2179,6 +2203,9 @@
 	"options_badgeluckycards": {
 		"message": "Szerencsekártyák\nMutass egy jelvényt amikor a Szerencsekártya sátor készen áll"
 	},
+	"options_badgepetshop": {
+		"message": "Kisállat bolt\nJelvény megjelenítése a kisállatbolt frissítésekor"
+	},
 	"options_badgeproductions": {
 		"message": "Gyártások\nMutass egy jelvényt, ha egy gyártási hely üres vagy elkészült"
 	},
@@ -2197,6 +2224,9 @@
 	"options_hmain": {
 		"message": "Extra funkciók\nExtra funkciók engedélyezése a játékban"
 	},
+	"options_hmain_disabled": {
+		"message": "Az extra funkciókat nem lehet engedélyezni"
+	},
 	"options_hspeed": {
 		"message": "Gyorsítás\nA gyorsító italok nagyobb sebességet adnak"
 	},
@@ -2213,10 +2243,16 @@
 		"message": "Étel\nVálaszd ki melyik ételt kínálja fel neked amikor kifogysz az energiából"
 	},
 	"options_hqueue": {
-		"message": "Könnyű kőásási sorrend\nHosszabb ásási sor.\nTartsd lenyomva a SHIFT gombot és mozgasd az egeret a kő fölé, hogy hozzá add a sorhoz"
+		"message": "Könnyű kőásási sorrend\nHosszabb ásási sor.\nTartsd lenyomva a SHIFT gombot és mozgasd az egeret a kő fölé, hogy hozzá add a sorhoz\nHa CTRL gombot tartod lenyomva, akkor a kő eltávoításra keül a várólistából."
+	},
+	"options_hautoqueue": {
+		"message": "Automatikus várólista\nCsak mozgasd az egeret néhány kő fölé, hogy hozzáadd őket a várólistához (SHIFT nem szükséges)"
 	},
 	"options_hscroll": {
 		"message": "Inerciális görgetés kikapcsolása\nAz inerciális görgetés az a hatás, amikor a képernyő akkor is tovább mozog, ha már nem húzod tovább"
+	},
+	"options_hinstantcamera": {
+		"message": "Azonnali kamera\nAmikor a kameranézet egy másik helyre mozog, az átmenet azonnali"
 	},
 	"options_hreward": {
 		"message": "Automatikus nagybetűsítés\nAz ajándékkódba történő bármilyen bevitel automatikusan nagybetűs lesz"
@@ -2228,7 +2264,10 @@
 		"message": "GC csoport\nRakd a GC-ket egymáshoz közel"
 	},
 	"options_hlockcaravan": {
-		"message": "Karaván lezárása\nMegakadályozza a jegygel küldött karavánok begyűjtését"
+		"message": "Karaván lezárása\nMegakadályozza a jeggyel küldött karavánok begyűjtését"
+	},
+	"options_hpetfollow": {
+		"message": "Nincs követés\nA kisállat nem követi Diggyt"
 	},
 	"calc_operators": {
 		"message": "Műveleti jelek"
