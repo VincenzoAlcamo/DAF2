@@ -296,7 +296,7 @@
 		);
 
 		intercept('com.pixelfederation.diggy.game.character.Character', 'breakTile', function (_breakTile, Character) {
-			extras.push('hSpeed');
+			extras.push('hSpeed', 'hSpeedSuper');
 			let lastMineId, isRepeat, isTower;
 			function isSpeedAllowed() {
 				const screen = core.instance._screenManager?._activeScreen?._screen;
@@ -306,12 +306,12 @@
 					isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
 					isTower = mineId && screen._mineLoader.isTowerFloor();
 				}
-				return isRepeat || isTower || Prefs.isSuper;
+				return isRepeat || isTower || Prefs.hSpeedSuper;
 			}
 			function getSpeed(p_core, val, def, isPet) {
 				const hasSpeedUp = (isPet && Prefs.hPetSpeed) || (Prefs.hSpeed && isSpeedAllowed());
 				return hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0
-					? Math.min(val * (Prefs.isSuper ? 0.4 : 0.6), def)
+					? Math.min(val * (Prefs.hSpeedSuper ? 0.4 : 0.6), def)
 					: def;
 			}
 			intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'breakTile', function (_breakTile, Pet) {

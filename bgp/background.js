@@ -136,6 +136,7 @@ var Preferences = {
 			friendsCollectDate: 0,
 			hMain: false,
 			hSpeed: false,
+			hSpeedSuper: false,
 			hQueue: false,
 			hAutoQueue: false,
 			queueHotKey: 'Q',
