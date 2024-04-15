@@ -296,22 +296,11 @@
 		);
 
 		intercept('com.pixelfederation.diggy.game.character.Character', 'breakTile', function (_breakTile, Character) {
-			extras.push('hSpeed', 'hSpeedSuper');
-			let lastMineId, isRepeat, isTower;
-			function isSpeedAllowed() {
-				const screen = core.instance._screenManager?._activeScreen?._screen;
-				const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
-				if (mineId !== lastMineId) {
-					lastMineId = mineId;
-					isRepeat = mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
-					isTower = mineId && screen._mineLoader.isTowerFloor();
-				}
-				return isRepeat || isTower || Prefs.hSpeedSuper;
-			}
+			extras.push('hSpeed');
 			function getSpeed(p_core, val, def, isPet) {
-				const hasSpeedUp = (isPet && Prefs.hPetSpeed) || (Prefs.hSpeed && isSpeedAllowed());
+				const hasSpeedUp = (isPet && Prefs.hPetSpeed) || Prefs.hSpeed;
 				return hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0
-					? Math.min(val * (Prefs.hSpeedSuper ? 0.4 : 0.6), def)
+					? Math.min(val * 0.4, def)
 					: def;
 			}
 			intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'breakTile', function (_breakTile, Pet) {
@@ -585,6 +574,15 @@
 			return function (p_mineX, p_mineY, p_force, p_return, p_immediate, p_onCompleteCallback, p_returnPosition) {
 				const result = _focus.apply(this, arguments);
 				if (Prefs.hInstantCamera && this._focusTween) this._focusTween.duration = 0.01;
+				return result;
+			};
+		});
+
+		intercept('com.pixelfederation.diggy.game.managers.news.NewsPopupsManager', 'parseMails', function (_parseMails) {
+			extras.push('hNoMails');
+			return function () {
+				const result = _parseMails.apply(this, arguments);
+				if (Prefs.hNoMails) this._mails = this._mails.filter(msg => msg.read_at == 0);
 				return result;
 			};
 		});

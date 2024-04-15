@@ -358,8 +358,7 @@ function createMenu() {
 		<u class="squared"><i data-text="gui_pet"></i>
 		<i data-pref="hPetFollow"></i>
 		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i></u>
-		<u><i data-pref="hSpeed" class="squared-right"></i><i  class="squared-left" data-pref="hSpeedSuper" data-title="" data-text="@Super"></i>
-		<i data-pref="hLockCaravan"></i></u>
+		<u><i data-pref="hSpeed"></i><i data-pref="hLockCaravan"></i><i data-pref="hNoMails" data-text="@Skip initial popups"></i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
