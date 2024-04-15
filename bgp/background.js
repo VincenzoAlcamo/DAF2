@@ -152,7 +152,7 @@ var Preferences = {
 			hFlashAdSoundName: 'ui_buy_gems',
 			hFlashAdVolume: 100,
 			hLockCaravan: false,
-			hNoMails: true,
+			hNoMails: false,
 			hPetFollow: false,
 			hPetSpeed: false,
 			hInstantCamera: false,

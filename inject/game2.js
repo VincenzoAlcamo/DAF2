@@ -151,6 +151,8 @@ function init() {
 		};
 		Msg.handlers['enableAutoQueue'] = () => void setupAutoQueueHotKey();
 
+		Msg.handlers['showMailsButton'] = () => void setShowMailsButton(true);
+
 		if (Prefs.hMain) {
 			menu.querySelector('.DAF-badge-extra').classList.add('DAF-badge-on');
 			Msg.handlers['extra'] = (request) => void setExtra(request.value);
@@ -338,7 +340,7 @@ function createMenu() {
 		<u><i data-pref="hScroll"></i>
 		<i data-pref="hInstantCamera"></i></u>
 		<u class="squared">
-		<i data-text="gui_loot"></i>
+		<i data-text="gui_loot" class="no-click"></i>
 		<i data-pref="hLootCount"></i>
 		<i data-pref="hLootZoom"></i>
 		<i data-pref="hLootFast"></i>
@@ -355,10 +357,14 @@ function createMenu() {
 			<i data-pref="hQueue"></i>
 			<i data-pref="hAutoQueue"></i>
 		</u>
-		<u class="squared"><i data-text="gui_pet"></i>
+		<u class="squared"><i class="no-click" data-text="gui_pet"></i>
 		<i data-pref="hPetFollow"></i>
 		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i></u>
-		<u><i data-pref="hSpeed"></i><i data-pref="hLockCaravan"></i><i data-pref="hNoMails" data-text="@Skip initial popups"></i></u>
+		<u><i data-pref="hSpeed"></i><i data-pref="hLockCaravan"></i></u>
+		<u class="squared"><i class="no-click" data-text="@Initial popups"></i>
+		<i data-pref="hNoMails" data-text="@Skip"></i>
+		<span data-action="showMails" style="display:none" data-title="@Show initial popups">Show</span>
+		</u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -514,6 +520,11 @@ function updateMenu(prefName) {
 		.forEach((prefName) => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!Prefs[prefName]));
 }
 
+function setShowMailsButton(flag) {
+	const button = menu.querySelector('[data-action="showMails"]');
+	if (button) button.style.display = flag ? '' : 'none';
+}
+
 function onMenuClick(e) {
 	const target = e.target;
 	if (!target || target.tagName == 'DIV') return;
@@ -554,6 +565,10 @@ function onMenuClick(e) {
 		case 'visit':
 			setScreen('visiting');
 			Msg.sendPage('visit', { id: parent.parentNode.parentNode.getAttribute('data-id') });
+			break;
+		case 'showMails':
+			setShowMailsButton(false);
+			Msg.sendPage('showMails');
 			break;
 	}
 }

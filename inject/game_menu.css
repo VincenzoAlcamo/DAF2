@@ -122,6 +122,9 @@
 	line-height: 1em;
 	cursor: pointer;
 }
+.DAF-menu .no-click {
+	cursor: default;
+}
 
 .DAF-menu u {
 	display: block;
@@ -604,6 +607,12 @@ td.DAF-visit {
 	display: table-cell;
 	opacity: 0.3;
 	pointer-events: none;
+}
+.DAF-menu [data-action="showMails"] {
+	display: none;
+}
+.DAF-container[daf-screen="campUpperScreen.null"] [data-action="showMails"] {
+	display: inline-block;
 }
 
 .DAF-container.DAF-fullscreen.DAF-hidemenu .DAF-menu-container {

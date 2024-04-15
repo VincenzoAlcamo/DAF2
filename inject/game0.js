@@ -232,6 +232,8 @@
 		log('checking extra');
 
 		let extras = [];
+		let mails = [];
+		let mailsState = 0;
 
 		function intercept(className, protoName, fn) {
 			const def = $hxClasses[className],
@@ -280,6 +282,17 @@
 					Msg.sendPage('screen', { value });
 				}
 			}, 500);
+
+			Msg.handlers['showMails'] = () => {
+				if (mails.length && currentScreen.startsWith('campUpperScreen.null')) {
+					const popupManager = core.instance?._gameManagers?._newsPopupsManager;
+					if (popupManager) {
+						mailsState = 1;
+						popupManager._mails = [...mails];
+						popupManager.showNextMessage();
+					}
+				}
+			}
 		}
 
 		intercept(
@@ -578,17 +591,28 @@
 			};
 		});
 
-		intercept('com.pixelfederation.diggy.game.managers.news.NewsPopupsManager', 'parseMails', function (_parseMails) {
+		intercept('com.pixelfederation.diggy.game.managers.news.NewsPopupsManager', 'parseMails', function (_parseMails, NewsPopupsManager) {
 			extras.push('hNoMails');
+			const _hasMessage = NewsPopupsManager.prototype.hasMessage;
+			NewsPopupsManager.prototype.hasMessage = function () {
+				const result = _hasMessage.apply(this, arguments);
+				if (!result && mailsState == 1) {
+					mailsState = 2;
+					Msg.sendPage('showMailsButton');
+				}
+				return result;
+			};
 			return function () {
 				const result = _parseMails.apply(this, arguments);
+				mails = this._mails.filter(msg => !msg.containsRewards);
 				if (Prefs.hNoMails) this._mails = this._mails.filter(msg => msg.read_at == 0);
+				mailsState = mails.length > 0 ? 1 : 0;
 				return result;
 			};
 		});
 
 		const value = extras.join();
 		log('extra detected = "%s"', value);
-		Msg.sendPage('extra', { value })
+		Msg.sendPage('extra', { value });
 	};
 })();
