@@ -2682,6 +2682,7 @@ async function drawMine(args) {
 	};
 	const RANDOM_CHAR = '#1';
 	const addDrop = (x, y, drops, tileDef) => {
+		if (!isAdmin) return;
 		let hasRandom = false;
 		const cell = table.rows[y].cells[x];
 		if (tileDef) {
