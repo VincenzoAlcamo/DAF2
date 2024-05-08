@@ -243,6 +243,10 @@
 		}
 
 		const core = $hxClasses['com.pixelfederation.diggy.Core'];
+		const getFriendsManager = () => {
+			const gm = core.instance?._gameManagers;
+			return gm && (gm._friendsManager || gm.friendsManager);
+		}
 		if (core) {
 			extras.push('@core');
 			let currentScreen = null;
@@ -250,7 +254,7 @@
 				let screen = core.instance?._screenManager?.getActiveScreen();
 				let visited = null;
 				if (screen == 'campLowerScreen' || screen == 'campUpperScreen') {
-					visited = core.instance._gameManagers?._friendsManager?.getVisitedFriend()?.getId();
+					visited = getFriendsManager()?.getVisitedFriend()?.getId();
 					if (visited) screen += 'Visit';
 				}
 				const popups = core.instance?._popupManager?._visiblePopups;
@@ -262,16 +266,14 @@
 			Msg.handlers['visit'] = (request) => {
 				const id = +request.id;
 				currentScreen = null;
-				const fm = core.instance?._gameManagers._friendsManager;
 				const info = getActiveScreen();
 				if (
-					fm &&
 					id > 0 &&
 					!info.dialog &&
 					['friendsScreen', 'campLowerScreenVisit', 'campUpperScreenVisit'].includes(info.screen) &&
 					id !== info.visited
 				)
-					fm.visitFriend(id);
+					getFriendsManager()?.visitFriend(id);
 			};
 			setInterval(() => {
 				const info = getActiveScreen();
