@@ -1426,6 +1426,7 @@ div.equipment_mask {
 	background-color: #6bc;
 }
 
+.pack-item.pet .title,
 .pack-item.diggy_skin .title,
 .pack-item.token .title,
 .pack-item.decoration .title {

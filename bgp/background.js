@@ -1441,8 +1441,18 @@ var Data = {
 	getObjectCollection(type) {
 		return type in Data.objectCollections ? Data.objectCollections[type]() : null;
 	},
+	pets: undefined,
+	getPet(id) {
+		if (Data.pets === undefined) {
+			const pets = Data.pets = {};
+			const col = Data.files.pet_features;
+			Object.values(col).forEach(t => t.pets.forEach(item => (pets[item.def_id] = item)));
+		}
+		return Data.pets[id];
+	},
 	getObject(type, id) {
 		if (type == 'eventpass_xp') return Data.colEventpassXp[1];
+		if (type == 'pet') return Data.getPet(id);
 		const col = Data.getObjectCollection(type);
 		return col && col[id];
 	},
@@ -1452,10 +1462,16 @@ var Data = {
 		skin: 'gui',
 		decoration: 'decorations',
 		diggy_skin: 'gui/diggy_skin',
+		pet: 'gui/pets/previews',
 	},
 	getObjectImage(type, id, small) {
 		const item = Data.getObject(type, id);
-		const asset = item && (type == 'windmill' ? 'greece_windmill' : (type == 'event' ? item.shop_icon_graphics : item.mobile_asset));
+		if (!item) return '';
+		let asset;
+		if (type == 'windmill') asset = 'greece_windmill';
+		else if (type == 'event') asset = item.shop_icon_graphics;
+		else if (type == 'pet') asset = item.basic_preview_asset;
+		else asset = item.mobile_asset;
 		if (!asset) return '';
 		if (asset[0] == '/') return asset;
 		const assetPath = item.asset_path || ('graphics/' + (Data.imageFolders[type] || 'all') + '/');

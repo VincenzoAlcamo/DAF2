@@ -66,8 +66,11 @@ function getItem({ type, object_id, amount, portal, limit, owned, requirements }
 	} else if (type == 'diggy_skin') {
 		sort = 8;
 		title = gui.getString('GUI3192');
-	} else if (type == 'system') {
+	} else if (type == 'pet') {
 		sort = 9;
+		title = gui.getString('GUI4069');
+	} else if (type == 'system') {
+		sort = 10;
 		kind = oid == 2 ? 'energy' : 'xp';
 		caption = Html`<span class="with-${kind}">${Locale.formatNumber(amount)}</span>`;
 	} else {

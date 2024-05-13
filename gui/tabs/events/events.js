@@ -3,7 +3,7 @@ export default {
 	init, update, getState, setState,
 	requires: [
 		'materials', 'events', 'achievements', 'collections', 'locations_0', 'quests', 'decorations', 'buildings',
-		'tokens', 'usables', 'artifacts', 'xp', 'special_weeks', 'photo_albums_photos'
+		'tokens', 'usables', 'artifacts', 'xp', 'special_weeks', 'photo_albums_photos', 'pet_features'
 	],
 	events: {
 		close() {

@@ -3,7 +3,7 @@ import packHelper from '../../packHelper.js';
 
 export default {
 	init, update, refresh, getState, setState,
-	requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens', 'diggy_skins', 'xp'],
+	requires: ['materials', 'buildings', 'sales', 'events', 'offers', 'packs', 'tiered_offers', 'decorations', 'usables', 'tokens', 'diggy_skins', 'pet_features', 'xp'],
 	events: {
 		show() {
 			setState(getState());
