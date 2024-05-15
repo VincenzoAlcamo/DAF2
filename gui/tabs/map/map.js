@@ -135,6 +135,16 @@ let unclearTilesToMix = {};
 let isEditMode = false, hasPendingEdits = false;
 const theme = new ThemeEditor();
 
+const forbiddenLoot = {
+	// KOI FISH
+	'token_12273': 1,
+	'token_12274': 1,
+	'token_12275': 1,
+	'token_12276': 1,
+	// DEBRIS
+	'token_12288': 1,
+};
+
 //#region QUEUE
 const queue = {
 	enabled: false,
@@ -1071,7 +1081,8 @@ function setCellTitle(x, y) {
 	if (!cell) return;
 	const title = titles[`${x}_${y}`];
 	if (!title) return;
-	let s = (hasOption(OPTION_COORDINATES) ? `(${x}, ${y})\n` : '') + (title.info || '');
+	let s = hasOption(OPTION_COORDINATES) ? `(${x}, ${y})` : '';
+	if (title.info) s += (s ? '\n' : '') + title.info;
 	if (showDebug && title.debug) s += (s ? '\n' : '') + title.debug;
 	cell.title = s;
 }
@@ -1674,14 +1685,14 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				if (amount > 0 && lootId > 0) {
 					if (coef > 0) amount = amount + Math.floor(amount * coef * playerLevel);
 					const tileDef = tileDefs[y * cols + x];
-					if (!tileDef.loot) tileDef.loot = [];
+					if (!tileDef.tloot) tileDef.tloot = [];
 					const loot = { type: lootType, id: lootId, amount };
 					if (indexes) loot.random = area_id;
 					if (lootType == 'token') {
 						const t = tokens[lootId];
 						if (!t || +t.visibility != 1) loot.hidden = true;
 					}
-					tileDef.loot.push(loot);
+					tileDef.tloot.push(loot);
 				}
 			}
 		});
@@ -2221,7 +2232,11 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		delete tileDef.isPet;
 		tileDef.isTile = tileDef.tileSubtype && tileDef.tileSubtype in subtiles && tileDef.stamina >= 0 && tileDef.tileStatus == 0 && !showBackground;
 		let hasLoot = false;
-		if (tileDef.isTile && tileDef.loot) hasLoot = true;
+		if (tileDef.isTile && tileDef.tloot) {
+			tileDef.loot = tileDef.tloot;
+			delete tileDef.tloot;
+			hasLoot = true;
+		}
 		if (tileDef.miscType == 'B') {
 			const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
 			if (!beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door' || beaconPart.activation == 'dig')) {
@@ -2232,7 +2247,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 						const [y, x] = tile.split(',').map((v) => +v);
 						if (!isInvalidCoords(x, y)) {
 							const tileDef2 = tileDefs[y * cols + x];
-							if (tileDef2.loot) loot = loot.concat(tileDef2.loot);
+							if (tileDef2.tloot) loot = loot.concat(tileDef2.tloot);
 						}
 					}
 				}
@@ -2582,7 +2597,12 @@ async function drawMine(args) {
 			);
 	}
 
-	const isTower = isLocationTower(lid, currentData.location);
+	const location = currentData.location|| getLocation(lid);
+	const isTower = isLocationTower(lid, location);
+	const eid = currentData.eid;
+	const event = eid && gui.getObject('event', eid);
+	const isSpecialWeekEvent = event && !gui.getArrayOfInt(event.collections).find(v => v > 0)
+	const showLoot = isAdmin || isTower || !isSpecialWeekEvent || !isRepeatable;
 
 	canvas.width = cols * TILE_SIZE;
 	canvas.height = rows * TILE_SIZE;
@@ -2682,7 +2702,7 @@ async function drawMine(args) {
 	};
 	const RANDOM_CHAR = '#1';
 	const addDrop = (x, y, drops, tileDef) => {
-		if (!isAdmin) return;
+		if (!showLoot) return;
 		let hasRandom = false;
 		const cell = table.rows[y].cells[x];
 		if (tileDef) {
@@ -2706,6 +2726,7 @@ async function drawMine(args) {
 		let s = drops
 			.map((d) => {
 				let name = gui.getObjectName(d.type, d.id);
+				// if ((d.type + '_' + d.id) in forbiddenLoot) name = '???';
 				if (name.startsWith('#') && d.type == 'token') name = gui.getMessage('gui_token') + name;
 				const random = d.random ? ` (${RANDOM_CHAR})` : '';
 				if (d.random) {
