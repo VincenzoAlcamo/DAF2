@@ -33,6 +33,14 @@ function getMessage(id, ...args) {
 	return (getMessage.$M[id.toLowerCase()] || '').replace(/\^\d/g, t => { const n = +t[1] - 1; return n >= 0 && n < args.length ? args[n] : ''; });
 }
 
+function parseJSON(value) {
+	try {
+		return JSON.parse(value);
+	} catch(error) {
+		return null;
+	}
+}
+
 // eslint-disable-next-line no-var
 var Badge = {
 	currentIcon: '',
@@ -2163,33 +2171,44 @@ var Synchronize = {
 		return Object.values(changed);
 	},
 	processGraph(result) {
-		try {
-			const json = JSON.parse(result);
-			if (json.id) {
-				const pals = Object.values(Data.neighbours).filter(pal => {
-					if (pal.fb_id !== json.id && pal.fb_id2 !== json.id) return false;
-					let modified = false;
-					if (json.name && !pal.extra.fn) {
-						pal.extra.fn = json.name.replace(/\s+/g, ' ');
-						modified = true;
-					}
-					if (json.first_name && pal.name !== json.first_name) {
-						pal.name = json.first_name;
-						modified = true;
-					}
-					if (json.last_name && pal.surname !== json.last_name) {
-						pal.surname = json.last_name;
-						modified = true;
-					}
-					return modified;
-				});
-				if (pals.length) Data.saveNeighbour(pals);
+		const json = JSON.parse(result);
+		if (!json?.id) return;
+		const pals = Object.values(Data.neighbours).filter(pal => {
+			if (pal.fb_id !== json.id && pal.fb_id2 !== json.id) return false;
+			let modified = false;
+			if (json.name && !pal.extra.fn) {
+				pal.extra.fn = json.name.replace(/\s+/g, ' ');
+				modified = true;
 			}
-		} catch (e) { }
+			if (json.first_name && pal.name !== json.first_name) {
+				pal.name = json.first_name;
+				modified = true;
+			}
+			if (json.last_name && pal.surname !== json.last_name) {
+				pal.surname = json.last_name;
+				modified = true;
+			}
+			return modified;
+		});
+		if (pals.length) Data.saveNeighbour(pals);
+	},
+	processAjax(action, result) {
+		if (action != 'wp_create') return;
+		const json = parseJSON(result);
+		if (!json?.wp_id || !json?.sig) return;
+		const reward = {
+			id: +json.wp_id,
+			typ: Data.lastSite == 'Portal' ? 'portal'  : 'standard',
+			sig: json.sig,
+			cid: Data.generator.fb_id,
+			cmt: -4
+		};
+		Data.addRewardLinks(reward);
 	},
 	processXhr(details) {
 		const { type, kind, lang, player_id, xml, response } = details;
 		if (kind == 'graph') return this.processGraph(response);
+		if (kind == 'ajax') return this.processAjax(xml, response);
 		const isError = type == 'error';
 		if (isError) return Badge.setIcon('red').setBackgroundColor('red');
 		const isSend = type == 'send', isOk = type == 'ok';
