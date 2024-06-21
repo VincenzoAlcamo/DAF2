@@ -140,6 +140,7 @@ var Preferences = {
 			rewardsSummary: true,
 			rewardsCloseExceptGems: true,
 			rewardsCloseExceptErrors: true,
+			rewardsCollectSelf: true,
 			repeatables: '',
 			friendsCollectDate: 0,
 			hMain: false,
@@ -2194,6 +2195,7 @@ var Synchronize = {
 	},
 	processAjax(action, result) {
 		if (action != 'wp_create') return;
+		if (!Preferences.getValue('rewardsCollectSelf')) return;
 		const json = parseJSON(result);
 		if (!json?.wp_id || !json?.sig) return;
 		const reward = {

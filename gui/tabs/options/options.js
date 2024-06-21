@@ -426,6 +426,7 @@ UI_claim_coin_single_slow_02
 	option('rewardsCloseExceptGems', SUBOPTION);
 	option('rewardsCloseExceptErrors', SUBOPTION);
 	option('rewardsSummary', SUBOPTION);
+	option('rewardsCollectSelf');
 	option('linkGrabEnabled', CRITICAL + ENABLE);
 	option('linkGrabKey', SUBOPTION);
 	option('linkGrabBadge', SUBOPTION);

@@ -2069,6 +2069,9 @@
 	"options_rewardssummary": {
 		"message": "Add summary table\nIf the page is not auto-closed, add a summary table at the bottom."
 	},
+	"options_rewardscollectself": {
+		"message": "Send your own reward links to DAF2"
+	},
 	"options_linkgrabenabled": {
 		"message": "Link Grabber\nEnable the Link Grabber inside Facebook."
 	},
