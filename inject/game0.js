@@ -336,9 +336,18 @@
 					return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, true));
 				};
 			});
-			const _getSpeed = Character.getSpeed;
-			Character.getSpeed = function (p_core) {
-				return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments), false);
+			// const _getSpeed = Character.getSpeed;
+			// Character.getSpeed = function (p_core) {
+			// 	return getSpeed(p_core, 0.24, _getSpeed.apply(this, arguments), false);
+			// };
+			const _goPathNext = Character.prototype.goPathNext;
+			Character.prototype.goPathNext = function() {
+				const result = _goPathNext.apply(this, arguments);
+				if (this._moveActuator) {
+					const val = this._moveActuator.duration;
+					this._moveActuator.duration = getSpeed(core.instance, val, val, false);
+				}
+				return result;
 			};
 			return function (p_tileDef, p_digTime) {
 				return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, false));
