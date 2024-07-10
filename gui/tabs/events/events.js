@@ -943,8 +943,9 @@ function showInfo() {
 					htm += Html.br`<td class="${showProgress ? 'target no_right_border' : 'goal'}">${Locale.formatNumber(tiles)}</td>`;
 					if (showProgress) htm += Html.br`<td>${completed ? ticked : unticked}</td>`;
 					if (showProgress && showEnergy) {
-						const tileCost = tiles > 0 ? loc.clearXp * (flagClearBonus10X ? 1 : 10) / tiles : 0;
-						const energy = Math.floor(tileCost * Math.max(0, tiles - mined));
+						const totalCost = tiles > 0 ? loc.clearXp * (flagClearBonus10X ? 1 : 10) : 0;
+						const tileCost = tiles > 0 ? totalCost / tiles : 0;
+						const energy = mined ? Math.floor(tileCost * Math.max(0, tiles - mined)) : totalCost;
 						const title = tileCost ? gui.getMessageAndValue('progress_averagetilecost', Locale.formatNumber(Math.round(tileCost))) : '';
 						htm += Html.br`<td class="energy"${title ? Html.br` title="${title}"` : ''}>${Locale.formatNumber(energy)}</td>`;
 						totalEnergy += energy;

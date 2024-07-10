@@ -685,7 +685,7 @@ function calcRegion(item) {
 			uPrg = Math.min(mPrg, uPrg);
 			const bonus = +mine.reward_exp * 10;
 			const tileCost = mPrg > 0 ? Math.round(bonus / mPrg) : 0;
-			const energy = mPrg > 0 ? (mPrg - uPrg) * tileCost : 0;
+			const energy = mPrg > 0 ? (uPrg ? (mPrg - uPrg) * tileCost : bonus) : 0;
 			item.max += mPrg;
 			item.value += uPrg;
 			item.energy += energy;
