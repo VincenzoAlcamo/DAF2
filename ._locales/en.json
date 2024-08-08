@@ -2180,6 +2180,9 @@
 	"options_hspeed": {
 		"message": "Speed up\nSpeed potions will give much more speed"
 	},
+	"options_hlootfew": {
+		"message": "Few\nHide coins, xp and event/region points"
+	},
 	"options_hlootcount": {
 		"message": "Count\nAlways show loot count"
 	},

@@ -416,6 +416,16 @@
 			}
 		);
 
+		intercept('com.pixelfederation.diggy.game.custom.DecalContainer', 'createDrops', function(_createDrops) {
+			extras.push('hLootFew');
+			return  function (p_texture,p_x,p_y,p_offsetX,p_offsetY,p_scaleX,p_scaleY,p_item,p_target,p_screenType,p_keepSameScaleForDropsEnd) {
+				if (Prefs.hLootFew) {
+					const key = p_item.type + '_' + p_item.object_id;
+					if (key == 'system_1' || key == 'material_1' || key == 'material_413' || p_item.type == 'eventpass_xp') return;
+				}
+				return _createDrops.apply(this, arguments);
+			};
+		});
 		intercept(
 			'com.pixelfederation.diggy.game.custom.DecalContainer',
 			'createDropCount',

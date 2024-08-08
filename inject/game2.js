@@ -341,6 +341,7 @@ function createMenu() {
 		<i data-pref="hInstantCamera"></i></u>
 		<u class="squared">
 		<i data-text="gui_loot" class="no-click"></i>
+		<i data-pref="hLootFew"></i>
 		<i data-pref="hLootCount"></i>
 		<i data-pref="hLootZoom"></i>
 		<i data-pref="hLootFast"></i>

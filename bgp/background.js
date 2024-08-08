@@ -151,6 +151,7 @@ var Preferences = {
 			queueMouseGesture: 0,
 			hScroll: false,
 			hReward: true,
+			hLootFew: false,
 			hLootCount: true,
 			hLootZoom: true,
 			hLootFast: false,

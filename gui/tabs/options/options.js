@@ -454,6 +454,7 @@ UI_claim_coin_single_slow_02
 	option('hGCCluster', SUBOPTION);
 	option('hScroll', SUBOPTION);
 	option('hInstantCamera', SUBOPTION);
+	option('hLootFew', SUBOPTION);
 	option('hLootCount', SUBOPTION);
 	option('hLootZoom', SUBOPTION);
 	option('hLootFast', SUBOPTION);
