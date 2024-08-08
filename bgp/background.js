@@ -149,6 +149,8 @@ var Preferences = {
 			hAutoQueue: false,
 			queueHotKey: 'Q',
 			queueMouseGesture: 0,
+			hAutoDig: false,
+			autoDigHotKey: '',
 			hScroll: false,
 			hReward: true,
 			hLootFew: false,

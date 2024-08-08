@@ -242,6 +242,7 @@
 		let extras = [];
 		let mails = [];
 		let mailsState = 0;
+		let toggleAutoDig;
 
 		function intercept(className, protoName, fn) {
 			const def = $hxClasses[className],
@@ -269,6 +270,11 @@
 				const popup = popups?.length > 0 ? popups[popups.length - 1] : null;
 				const dialog = popup ? popup._popupId?.Id || popup._name : null;
 				return { screen, visited, dialog };
+			};
+
+			Msg.handlers['toggleAutoDig'] = () => {
+				const info = getActiveScreen();
+				if (!info.dialog && info.screen == 'mineScreen' && toggleAutoDig) toggleAutoDig();
 			};
 
 			Msg.handlers['visit'] = (request) => {
@@ -354,6 +360,82 @@
 			};
 		});
 
+		let autoFindEnabled = null;
+		const canGo = (r) => !r._interactivityDisabled && !r._isBeaconActionFocus && !r._isFocus && !(r._dragManager?._dragging);
+		const setAutoDig = (flag) => {
+			autoFindEnabled = flag;
+			Msg.sendPage('autoDig', { flag });
+		};
+		function findNextTile(r) {
+			if (!canGo(r)) return null;
+			var c = r._character;
+			var x = +c.mineX, y = +c.mineY;
+			var stack = [{ x, y, l: 0 }];
+			var examined = { [`${x}_${y}`]: 0 };
+			var best = null, length = 0;
+			function examine(x, y, l) {
+				var key = `${x}_${y}`;
+				if (key in examined && examined[key] <= l) return;
+				examined[key] = l;
+				var tile = r._mineLoader.getTileAt(x, y);
+				if (!tile) return;
+				var p = { x, y, l };
+				if (tile.isBreakable() || (tile.isUsable() && tile.beaconType == 'one-way')) [best, length] = [tile, l];
+				else if (tile.isWalkable()) stack.push(p);
+			}
+			while ((p = stack.shift())) {
+				var { x, y, l } = p;
+				l++;
+				if (best && length <= l) continue;
+				examine(x - 1, y, l);
+				examine(x, y - 1, l);
+				examine(x + 1, y, l);
+				examine(x, y + 1, l);
+			}
+			return best;
+		}
+		function setupFindNextTile(r) {
+			const _clear = r._character.diggingQueue.clear;
+			r._character.diggingQueue.clear = function () {
+				setAutoDig(false);
+				return _clear.apply(this, arguments);
+			};
+			const _getFirst = r._character.diggingQueue.getFirst;
+			r._character.diggingQueue.getFirst = function () {
+				let tile = _getFirst.apply(this, arguments);
+				if (!tile && autoFindEnabled) {
+					tile = findNextTile(r)
+					if (tile) this._diggingQueue.push(tile);
+					else setAutoDig(false);
+				}
+				return tile;
+			};
+		}
+
+		intercept(
+			'com.pixelfederation.diggy.game.mine.MineRenderer',
+			'setup',
+			function (_setup) {
+				extras.push('hAutoDig');
+				return function () {
+					const result = _setup.apply(this, arguments);
+					setupFindNextTile(this);
+					toggleAutoDig = () => {
+						if (autoFindEnabled) setAutoDig(false);
+						else {
+							const tile = findNextTile(this);
+							if (tile) {
+								setAutoDig(true);
+								this._character.go(tile);
+							}
+						}
+						log('toggleAutoDig', autoFindEnabled);
+					};
+					return result;
+				};
+			}
+		);
+
 		intercept(
 			'com.pixelfederation.diggy.game.mine.MineRenderer',
 			'mouseMove_handler',
@@ -361,18 +443,15 @@
 				extras.push('hQueue', 'hAutoQueue');
 				let maxQueue;
 				return function (e) {
-					const old = this._lastMineTileOver,
-						result = _mouseMove_handler.apply(this, arguments),
-						tile = this._lastMineTileOver;
+					const old = this._lastMineTileOver;
+					const result = _mouseMove_handler.apply(this, arguments);
+					const tile = this._lastMineTileOver;
 					const isActive = Prefs.hQueue;
 					if (!maxQueue) maxQueue = this._character.diggingQueue._maxQueue || 5;
 					this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
-					if (isActive && tile && old !== tile) {
+					if (isActive && tile && old !== tile && canGo(this)) {
 						if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-						else if ((e.shiftKey || Prefs.hAutoQueue) && (tile.isBreakable() || tile.isUsable())) {
-							const canGo = !this._interactivityDisabled && !this._isBeaconActionFocus && !this._isFocus && !(this._dragManager?._dragging);
-							if (canGo) this._character.go(tile);
-						}
+						else if ((e.shiftKey || Prefs.hAutoQueue) && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
 					}
 					return result;
 				};

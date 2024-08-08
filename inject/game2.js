@@ -63,6 +63,7 @@ const { Msg, Prefs, setPreference, log } = setupMessaging('game2', 'purple', 'ga
 
 // These will be initialized later
 let menu, site, miner, cdn_root, gcTable, container, hasGenerator;
+let isAutoQueueEnabled, isAutoDigEnabled;
 
 const getExtensionUrl = (resource) => chrome.runtime.getURL(resource);
 const getUnixTime = () => Math.floor(Date.now() / 1000);
@@ -75,6 +76,10 @@ function getSound(name) {
 					: 'webgl_client/embedded_assets/sounds/' + name) +
 				'.mp3';
 }
+const toggleAutoDig = (reason) => {
+	// log('toggleAutoDig', reason);
+	Msg.sendPage('toggleAutoDig');
+};
 
 init();
 
@@ -114,6 +119,8 @@ function init() {
 		container.style.setProperty('--canvas-h', miner.offsetHeight + 'px');
 		menu = container.querySelector('.DAF-menu-container');
 
+		if (Prefs.hAutoDig) setPreference('hAutoDig', false);
+
 		Msg.sendPage('@prefs', { values: Prefs });
 		Msg.sendPage('enableGame');
 
@@ -137,19 +144,21 @@ function init() {
 			}, 10000);
 			gcTable_updateStatus(await Msg.send('getGCInfo'));
 			gcTable_show(true);
-			enableAutoQueue();
+			enableEventHandler();
 		};
 
 		Msg.sendPage('enableXhr');
 
 		Html.addStylesheet(getExtensionUrl('inject/game_menu.css'), () => (menu.style.display = ''));
 		createMenu();
+		setupHotKeyHandlers();
 
 		Msg.handlers['screen'] = (request) => void setScreen(request.value);
 		Msg.handlers['hFlashAd'] = () => {
 			if (Prefs.hFlashAdSound) playSound(getSound(Prefs.hFlashAdSoundName), Prefs.hFlashAdVolume);
 		};
-		Msg.handlers['enableAutoQueue'] = () => void setupAutoQueueHotKey();
+		Msg.handlers['toggleAutoDig'] = () => toggleAutoDig('page1');
+		Msg.handlers['autoDig'] = (request) => void setPreference('hAutoDig', !!request.flag);
 
 		Msg.handlers['showMailsButton'] = () => void setShowMailsButton(true);
 
@@ -227,11 +236,14 @@ async function setExtra(extra) {
 		options.style.removeProperty('display');
 	}
 	menu.querySelector('.DAF-badges').classList.toggle('DAF-hasQueue', values.includes('hQueue'));
-	enableAutoQueue();
+	menu.querySelector('.DAF-badges').classList.toggle('DAF-hasAutoDig', values.includes('hAutoDig'));
+	enableEventHandler();
 }
 
-function enableAutoQueue() {
-	if (hasGenerator && menu.querySelector('[data-pref="hAutoQueue"]')) Msg.send('forward', { real_action: 'enableAutoQueue' });
+function enableEventHandler() {
+	isAutoQueueEnabled = hasGenerator && menu.querySelector('[data-pref="hAutoQueue"]');
+	isAutoDigEnabled = hasGenerator && menu.querySelector('[data-pref="hAutoDig"]');
+	if (isAutoQueueEnabled || isAutoDigEnabled) Msg.send('forward', { real_action: 'enableEventHandler', isAutoQueueEnabled, isAutoDigEnabled });
 }
 
 function getWrappedText(text, max = 60) {
@@ -366,6 +378,7 @@ function createMenu() {
 		<i data-pref="hNoMails" data-text="@Skip"></i>
 		<span data-action="showMails" style="display:none" data-title="@Show initial popups">Show</span>
 		</u>
+		<u><i data-pref="hAutoDig" data-text="@Auto Dig"></i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -387,7 +400,8 @@ function createMenu() {
 	<b data-animate class="DAF-badge-p-f DAF-badge-img" data-title="tab_foundry">0</b>
 	<b data-animate class="DAF-badge-luckycards DAF-badge-img" data-title="options_badgeluckycards:0"></b>
 	<b data-animate class="DAF-badge-petshop DAF-badge-img" data-title="options_badgepetshop:0"></b>
-	<b class="DAF-badge-autoqueue DAF-badge-img" data-title="options_hautoqueue">AUTO</b>
+	<b class="DAF-badge-autoqueue DAF-badge-img" data-title="options_hautoqueue">AUTO QUEUE</b>
+	<b class="DAF-badge-autodig DAF-badge-img">AUTO DIG</b>
 	<div data-animate class="DAF-badge-rep"></div>
 </div>
 `;
@@ -412,6 +426,9 @@ function createMenu() {
 	});
 	menu.querySelectorAll('.DAF-badges [data-close]').forEach((badge) => {
 		badge.addEventListener('click', () => badge.classList.remove('DAF-badge-on'));
+	});
+	menu.querySelectorAll('.DAF-badges .DAF-badge-autodig').forEach((badge) => {
+		badge.addEventListener('click', () => toggleAutoDig('badge'));
 	});
 
 	updateMenu();
@@ -517,7 +534,7 @@ function updateMenu(prefName) {
 	const divBadges = menu.querySelector('.DAF-badges');
 	const names = prefName ? [prefName] : Object.keys(Prefs);
 	names
-		.filter((prefName) => prefName.startsWith('badge') || prefName === 'hQueue' || prefName === 'hAutoQueue')
+		.filter((prefName) => prefName.startsWith('badge') || prefName === 'hQueue' || prefName === 'hAutoQueue' || prefName === 'hAutoDig')
 		.forEach((prefName) => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!Prefs[prefName]));
 }
 
@@ -545,7 +562,9 @@ function onMenuClick(e) {
 		case 'options':
 		case 'badges': {
 			const name = target.getAttribute('data-pref');
-			if (name) {
+			if (name === 'hAutoDig') {
+				toggleAutoDig('menu');
+			} else if (name) {
 				let value;
 				if (target.tagName === 'SELECT') value = target.value;
 				else {
@@ -820,22 +839,31 @@ function gcTable_setOptions() {
 	gcTable?.classList.toggle('withRegion', Prefs.gcTableRegion);
 }
 
-function setupAutoQueueHotKey() {
+function setupHotKeyHandlers() {
 	let lastKeyCode;
 	const toggleQueue = (event) => {
-		event?.stopPropagation();
-		event?.preventDefault();
+		event.stopPropagation();
+		event.preventDefault();
 		setPreference('hAutoQueue', !Prefs['hAutoQueue']);
 	};
 	const onKeyDown = (event) => {
 		if (lastKeyCode == event.code) return;
 		lastKeyCode = event.code;
-		if (event.code == 'Key' + Prefs.queueHotKey && event.altKey && !event.shiftKey && !event.ctrlKey)
-			toggleQueue(event);
+		if (event.altKey && !event.shiftKey && !event.ctrlKey) {
+			if (event.code == 'Key' + Prefs.queueHotKey) {
+				if (isAutoQueueEnabled) toggleQueue(event);
+			} else if (Prefs.autoDigHotKey && event.code == 'Key' + Prefs.autoDigHotKey) {
+				event.stopPropagation();
+				event.preventDefault();
+				toggleAutoDig('key');
+			}
+		}
 	};
 	const onMouseUp = (event) => {
-		if (Prefs.queueMouseGesture == 1 && event.button == 1) toggleQueue(event);
-		if (Prefs.queueMouseGesture == 2 && event.button == 0 && event.buttons == 2) toggleQueue(event);
+		if (isAutoQueueEnabled) {
+			if (Prefs.queueMouseGesture == 1 && event.button == 1) toggleQueue(event);
+			if (Prefs.queueMouseGesture == 2 && event.button == 0 && event.buttons == 2) toggleQueue(event);
+		}
 	};
 	window.addEventListener('keydown', onKeyDown);
 	window.addEventListener('keyup', () => void (lastKeyCode = 0));

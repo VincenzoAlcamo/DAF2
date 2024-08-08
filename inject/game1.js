@@ -70,6 +70,7 @@ function addStylesheet(href, onLoad) {
 }
 
 let site, pageType, styleAdded;
+let isAutoQueueEnabled, isAutoDigEnabled;
 
 if (location.host.startsWith('portal.')) site = 'Portal';
 else if (location.host.startsWith('apps.facebook.')) site = 'Facebook';
@@ -87,7 +88,11 @@ Msg.handlers['gameStarted'] = () => {
 		detectPageType();
 		setFlags();
 	};
-	Msg.handlers['enableAutoQueue'] = () => void aq_setup();
+	Msg.handlers['enableEventHandler'] = (request) => {
+		isAutoQueueEnabled = request.isAutoQueueEnabled;
+		isAutoDigEnabled = request.isAutoDigEnabled;
+		aq_setup();
+	}
 	if (site === 'Portal') checkPage_setup();
 };
 
@@ -147,24 +152,33 @@ function aq_toggle(event) {
 	event?.preventDefault();
 	setPreference('hAutoQueue', !Prefs['hAutoQueue']);
 }
+function aq_toggleAutoDig(event) {
+	event?.stopPropagation();
+	event?.preventDefault();
+	Msg.send('forward', { real_action: 'toggleAutoDig' });
+}
 function aq_onKeyDown(event) {
 	if (aq_lastKeyCode == event.code) return;
 	aq_lastKeyCode = event.code;
-	if (event.code == 'Key' + Prefs.queueHotKey && event.altKey && !event.shiftKey && !event.ctrlKey)
-		aq_toggle(event);
+	if (event.altKey && !event.shiftKey && !event.ctrlKey) {
+		if (isAutoQueueEnabled && event.code == 'Key' + Prefs.queueHotKey) aq_toggle(event);
+		if (isAutoDigEnabled && event.code == 'Key' + Prefs.autoDigHotKey) aq_toggleAutoDig(event);
+	}
 }
 function aq_onKeyUp(event) {
 	aq_lastKeyCode = 0;
 }
 function aq_onMouseUp(event) {
-	if (Prefs.queueMouseGesture == 1 && event.button == 1) aq_toggle(event);
-	if (Prefs.queueMouseGesture == 2 && event.button == 0 && event.buttons == 2) aq_toggle(event);
+	if (isAutoQueueEnabled) {
+		if (Prefs.queueMouseGesture == 1 && event.button == 1) aq_toggle(event);
+		if (Prefs.queueMouseGesture == 2 && event.button == 0 && event.buttons == 2) aq_toggle(event);
+	}
 }
 function aq_setup() {
 	log('enable autoQueue hotkey');
 	window.addEventListener('keydown', aq_onKeyDown);
 	window.addEventListener('keyup', aq_onKeyUp);
-	window.addEventListener('mouseup', aq_onMouseUp, { capture: true });
+	if (isAutoQueueEnabled) window.addEventListener('mouseup', aq_onMouseUp, { capture: true });
 }
 function aq_cleanup() {
 	log('disable autoQueue hotkey');
