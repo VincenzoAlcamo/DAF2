@@ -361,7 +361,7 @@
 		});
 
 		let autoFindEnabled = null;
-		const canGo = (r) => !r._interactivityDisabled && !r._isBeaconActionFocus && !r._isFocus && !(r._dragManager?._dragging);
+		const canGo = (r) => !r._interactivityDisabled && !r._isBeaconActionFocus && !r._isFocus;
 		const setAutoDig = (flag) => {
 			autoFindEnabled = flag;
 			Msg.sendPage('autoDig', { flag });
@@ -374,23 +374,19 @@
 			var examined = { [`${x}_${y}`]: 0 };
 			var best = null, length = 0;
 			function examine(x, y, l) {
+				if (best && length <= l) return true;
 				var key = `${x}_${y}`;
 				if (key in examined && examined[key] <= l) return;
 				examined[key] = l;
 				var tile = r._mineLoader.getTileAt(x, y);
 				if (!tile) return;
-				var p = { x, y, l };
 				if (tile.isBreakable() || (tile.isUsable() && tile.beaconType == 'one-way')) [best, length] = [tile, l];
-				else if (tile.isWalkable()) stack.push(p);
+				else if (tile.isWalkable()) stack.push({ x, y, l });
 			}
 			while ((p = stack.shift())) {
 				var { x, y, l } = p;
 				l++;
-				if (best && length <= l) continue;
-				examine(x - 1, y, l);
-				examine(x, y - 1, l);
-				examine(x + 1, y, l);
-				examine(x, y + 1, l);
+				examine(x - 1, y, l) || examine(x + 1, y, l) || examine(x, y - 1, l) || examine(x, y + 1, l);
 			}
 			return best;
 		}
@@ -405,7 +401,10 @@
 				let tile = _getFirst.apply(this, arguments);
 				if (!tile && autoFindEnabled) {
 					tile = findNextTile(r)
-					if (tile) this._diggingQueue.push(tile);
+					if (tile) {
+						this._diggingQueue.push(tile);
+						// tile.showDiggingQueueUISelected(this._diggingQueue.indexOf(tile), true);
+					}
 					else setAutoDig(false);
 				}
 				return tile;
@@ -449,7 +448,7 @@
 					const isActive = Prefs.hQueue;
 					if (!maxQueue) maxQueue = this._character.diggingQueue._maxQueue || 5;
 					this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
-					if (isActive && tile && old !== tile && canGo(this)) {
+					if (isActive && tile && old !== tile && canGo(this) && !(this._dragManager?._dragging)) {
 						if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
 						else if ((e.shiftKey || Prefs.hAutoQueue) && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
 					}
