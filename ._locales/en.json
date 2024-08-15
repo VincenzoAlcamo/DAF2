@@ -2201,6 +2201,9 @@
 	"options_hautoqueue": {
 		"message": "Auto queue\nJust move the mouse over some tiles to add them to the queue (SHIFT is not required)"
 	},
+	"options_hkeys": {
+		"message": "Accessibility keys\nMove Diggy using arrow keys on your keyboard"
+	},
 	"options_hscroll": {
 		"message": "Disable inertial scrolling\nInertial scrolling is the effect where the screen continues to move even after you have stopped dragging it"
 	},

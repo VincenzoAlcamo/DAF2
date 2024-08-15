@@ -76,10 +76,8 @@ function getSound(name) {
 					: 'webgl_client/embedded_assets/sounds/' + name) +
 				'.mp3';
 }
-const toggleAutoDig = (reason) => {
-	// log('toggleAutoDig', reason);
-	Msg.sendPage('toggleAutoDig');
-};
+const toggleAutoDig = (reason) => Msg.sendPage('toggleAutoDig');
+const sendKeyCode = (code) => Msg.sendPage('keyCode', { code });
 
 init();
 
@@ -119,8 +117,6 @@ function init() {
 		container.style.setProperty('--canvas-h', miner.offsetHeight + 'px');
 		menu = container.querySelector('.DAF-menu-container');
 
-		if (Prefs.hAutoDig) setPreference('hAutoDig', false);
-
 		Msg.sendPage('@prefs', { values: Prefs });
 		Msg.sendPage('enableGame');
 
@@ -158,7 +154,10 @@ function init() {
 			if (Prefs.hFlashAdSound) playSound(getSound(Prefs.hFlashAdSoundName), Prefs.hFlashAdVolume);
 		};
 		Msg.handlers['toggleAutoDig'] = () => toggleAutoDig('page1');
-		Msg.handlers['autoDig'] = (request) => void setPreference('hAutoDig', !!request.flag);
+		Msg.handlers['autoDig'] = (request) => {
+			Prefs.hAutoDig = !!request.flag;
+			updateMenu('hAutoDig');
+		}
 
 		Msg.handlers['showMailsButton'] = () => void setShowMailsButton(true);
 
@@ -378,7 +377,7 @@ function createMenu() {
 		<i data-pref="hNoMails" data-text="@Skip"></i>
 		<span data-action="showMails" style="display:none" data-title="@Show initial popups">Show</span>
 		</u>
-		<u><i data-pref="hAutoDig" data-text="@Auto Dig"></i></u>
+		<u><i data-pref="hKeys"></i><i data-pref="hAutoDig" data-text="@Auto Dig"></i></u>
 	</div>
 </li>
 <li data-action="reloadGame"><b>&nbsp;</b>
@@ -408,6 +407,7 @@ function createMenu() {
 	// remove spaces
 	html = html.replace(/>\s+/g, '>');
 	Html.set(menu, html);
+	menu.querySelector('[data-pref="hAutoDig"]')?.remove();
 	const select = menu.querySelector('[data-pref="hFoodNum"]');
 	[...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
 	menu.querySelector('[data-value="switch"]').setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');
@@ -839,22 +839,35 @@ function gcTable_setOptions() {
 	gcTable?.classList.toggle('withRegion', Prefs.gcTableRegion);
 }
 
+const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
+const ARROWKEYS = {
+	ArrowLeft: true,
+	ArrowUp: true,
+	ArrowDown: true,
+	ArrowRight: true,
+	Numpad8: true,
+	Numpad4: true,
+	Numpad6: true,
+	Numpad2: true,
+};
 function setupHotKeyHandlers() {
 	let lastKeyCode;
 	const toggleQueue = (event) => {
-		event.stopPropagation();
-		event.preventDefault();
+		stopEvent(event);
 		setPreference('hAutoQueue', !Prefs['hAutoQueue']);
 	};
 	const onKeyDown = (event) => {
-		if (lastKeyCode == event.code) return;
-		lastKeyCode = event.code;
-		if (event.altKey && !event.shiftKey && !event.ctrlKey) {
-			if (event.code == 'Key' + Prefs.queueHotKey) {
+		const code = event.code;
+		if (lastKeyCode == code) return;
+		lastKeyCode = code;
+		if (Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
+			stopEvent(event);
+			sendKeyCode(code);
+		} else if (event.altKey && !event.shiftKey && !event.ctrlKey) {
+			if (code == 'Key' + Prefs.queueHotKey) {
 				if (isAutoQueueEnabled) toggleQueue(event);
-			} else if (Prefs.autoDigHotKey && event.code == 'Key' + Prefs.autoDigHotKey) {
-				event.stopPropagation();
-				event.preventDefault();
+			} else if (Prefs.autoDigHotKey && code == 'Key' + Prefs.autoDigHotKey) {
+				stopEvent(event);
 				toggleAutoDig('key');
 			}
 		}

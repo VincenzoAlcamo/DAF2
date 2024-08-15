@@ -147,14 +147,13 @@ function setKeepElements() {
 }
 
 let aq_lastKeyCode;
+const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
 function aq_toggle(event) {
-	event?.stopPropagation();
-	event?.preventDefault();
+	stopEvent(event);
 	setPreference('hAutoQueue', !Prefs['hAutoQueue']);
 }
 function aq_toggleAutoDig(event) {
-	event?.stopPropagation();
-	event?.preventDefault();
+	stopEvent(event);
 	Msg.send('forward', { real_action: 'toggleAutoDig' });
 }
 function aq_onKeyDown(event) {

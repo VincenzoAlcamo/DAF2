@@ -242,7 +242,24 @@
 		let extras = [];
 		let mails = [];
 		let mailsState = 0;
-		let toggleAutoDig;
+
+		let isAutoDigEnabled = null;
+		let toggleAutoDig = () => void 0;
+		const setAutoDig = (flag) => {
+			isAutoDigEnabled = flag;
+			Msg.sendPage('autoDig', { flag });
+		};
+		let processKeyCode = () => void 0;
+		const ARROWKEYS_DELTA = {
+			ArrowLeft: [-1, 0],
+			ArrowUp: [0, -1],
+			ArrowDown: [0, 1],
+			ArrowRight: [1, 0],
+			Numpad8: [0, -1],
+			Numpad4: [-1, 0],
+			Numpad6: [1, 0],
+			Numpad2: [0, 1],
+		};
 
 		function intercept(className, protoName, fn) {
 			const def = $hxClasses[className],
@@ -269,12 +286,13 @@
 				const popups = core.instance?._popupManager?._visiblePopups;
 				const popup = popups?.length > 0 ? popups[popups.length - 1] : null;
 				const dialog = popup ? popup._popupId?.Id || popup._name : null;
-				return { screen, visited, dialog };
+				return { screen, visited, dialog, mine: screen == 'mineScreen' && !dialog };
 			};
 
-			Msg.handlers['toggleAutoDig'] = () => {
-				const info = getActiveScreen();
-				if (!info.dialog && info.screen == 'mineScreen' && toggleAutoDig) toggleAutoDig();
+			Msg.handlers['toggleAutoDig'] = () => void toggleAutoDig(getActiveScreen().mine ? undefined : false);
+			Msg.handlers['keyCode'] = (request) => {
+				log('Received key code', request.code);
+				processKeyCode(getActiveScreen().mine ? request.code : '');
 			};
 
 			Msg.handlers['visit'] = (request) => {
@@ -297,6 +315,7 @@
 					currentScreen = screen;
 					Msg.sendPage('screen', { value });
 				}
+				if (isAutoDigEnabled && !info.mine) toggleAutoDig(false);
 			}, 500);
 
 			Msg.handlers['showMails'] = () => {
@@ -360,12 +379,8 @@
 			};
 		});
 
-		let autoFindEnabled = null;
+		let lastFoundTile = null;
 		const canGo = (r) => !r._interactivityDisabled && !r._isBeaconActionFocus && !r._isFocus;
-		const setAutoDig = (flag) => {
-			autoFindEnabled = flag;
-			Msg.sendPage('autoDig', { flag });
-		};
 		function findNextTile(r) {
 			if (!canGo(r)) return null;
 			var c = r._character;
@@ -392,43 +407,65 @@
 		}
 		function setupFindNextTile(r) {
 			const _clear = r._character.diggingQueue.clear;
-			r._character.diggingQueue.clear = function () {
-				setAutoDig(false);
-				return _clear.apply(this, arguments);
-			};
+			if (!_clear.__set) {
+				r._character.diggingQueue.clear = function () {
+					setAutoDig(false);
+					return _clear.apply(this, arguments);
+				};
+				r._character.diggingQueue.clear.__set = true;
+			}
 			const _getFirst = r._character.diggingQueue.getFirst;
-			r._character.diggingQueue.getFirst = function () {
-				let tile = _getFirst.apply(this, arguments);
-				if (!tile && autoFindEnabled) {
-					tile = findNextTile(r)
-					if (tile) {
-						this._diggingQueue.push(tile);
-						// tile.showDiggingQueueUISelected(this._diggingQueue.indexOf(tile), true);
+			if (!_getFirst.__set) {
+				r._character.diggingQueue.getFirst = function () {
+					let tile = _getFirst.apply(this, arguments);
+					if (!tile && isAutoDigEnabled) {
+						tile = findNextTile(r)
+						if (tile && tile !== lastFoundTile) {
+							lastFoundTile = tile;
+							this._diggingQueue.push(tile);
+							tile.showDiggingQueueUISelected(this._diggingQueue.indexOf(tile), true);
+						}
+						else setAutoDig(false);
 					}
-					else setAutoDig(false);
-				}
-				return tile;
-			};
+					return tile;
+				};
+				r._character.diggingQueue.getFirst.__set = true;
+			}
 		}
 
 		intercept(
 			'com.pixelfederation.diggy.game.mine.MineRenderer',
 			'setup',
 			function (_setup) {
-				extras.push('hAutoDig');
+				extras.push('hAutoDig', 'hKeys');
 				return function () {
 					const result = _setup.apply(this, arguments);
 					setupFindNextTile(this);
-					toggleAutoDig = () => {
-						if (autoFindEnabled) setAutoDig(false);
+					toggleAutoDig = (flag) => {
+						if (flag === undefined) flag = !isAutoDigEnabled;
+						flag = flag && Prefs.isSuper;
+						if (isAutoDigEnabled == flag) return;
+						if (!flag) setAutoDig(false);
 						else {
 							const tile = findNextTile(this);
 							if (tile) {
 								setAutoDig(true);
+								setupFindNextTile(this);
 								this._character.go(tile);
 							}
 						}
-						log('toggleAutoDig', autoFindEnabled);
+						log('toggleAutoDig', isAutoDigEnabled);
+					};
+					processKeyCode = (code) => {
+						if (!canGo(this)) return null;
+						var d = ARROWKEYS_DELTA[code];
+						if (d) {
+							var c = this._character;
+							var x = +c.mineX + d[0], y = +c.mineY + d[1];
+							toggleAutoDig(false);
+							var tile = this._mineLoader.getTileAt(x, y);
+							if (tile) this._character.go(tile);
+						}
 					};
 					return result;
 				};
