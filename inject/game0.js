@@ -259,6 +259,11 @@
 			Numpad4: [-1, 0],
 			Numpad6: [1, 0],
 			Numpad2: [0, 1],
+			Numpad7: [-1, -1],
+			Numpad3: [1, 1],
+			Numpad9: [1, -1],
+			Numpad1: [-1, 1],
+			Numpad5: [0, 0],
 		};
 
 		function intercept(className, protoName, fn) {
@@ -460,10 +465,22 @@
 						if (!canGo(this)) return null;
 						var d = ARROWKEYS_DELTA[code];
 						if (d) {
-							var c = this._character;
-							var x = +c.mineX + d[0], y = +c.mineY + d[1];
 							toggleAutoDig(false);
-							var tile = this._mineLoader.getTileAt(x, y);
+							var tile;
+							var _drag = this._draggingUI;
+							if (_drag.length) {
+								var x = _drag[0].x, y = _drag[0].y;
+								if (x + 2 == _drag[1].x && y + 2 == _drag[1].y) x++, y++;
+								if (d[0] == 0 && d[1] == 0) tile = this._mineLoader.getTileAt(x, y);
+								else {
+									x += d[0], y += d[1];
+									if (_drag.find(o => o.x == x && o.y == y)) tile = this._mineLoader.getTileAt(x, y);
+								}
+							} else {
+								var c = this._character;
+								var x = +c.mineX + d[0], y = +c.mineY + d[1];
+								tile = this._mineLoader.getTileAt(x, y);
+							}
 							if (tile) this._character.go(tile);
 						}
 					};

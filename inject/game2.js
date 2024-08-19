@@ -840,16 +840,8 @@ function gcTable_setOptions() {
 }
 
 const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
-const ARROWKEYS = {
-	ArrowLeft: true,
-	ArrowUp: true,
-	ArrowDown: true,
-	ArrowRight: true,
-	Numpad8: true,
-	Numpad4: true,
-	Numpad6: true,
-	Numpad2: true,
-};
+const ARROWKEYS = {};
+'ArrowLeft,ArrowUp,ArrowDown,ArrowRight,Numpad8,Numpad4,Numpad6,Numpad2,Numpad7,Numpad3,Numpad9,Numpad1,Numpad5'.split(',').forEach(s => ARROWKEYS[s] = true);
 function setupHotKeyHandlers() {
 	let lastKeyCode;
 	const toggleQueue = (event) => {
@@ -858,12 +850,14 @@ function setupHotKeyHandlers() {
 	};
 	const onKeyDown = (event) => {
 		const code = event.code;
-		if (lastKeyCode == code) return;
-		lastKeyCode = code;
 		if (Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
 			stopEvent(event);
 			sendKeyCode(code);
-		} else if (event.altKey && !event.shiftKey && !event.ctrlKey) {
+			return;
+		}
+		if (lastKeyCode == code) return;
+		lastKeyCode = code;
+		if (event.altKey && !event.shiftKey && !event.ctrlKey) {
 			if (code == 'Key' + Prefs.queueHotKey) {
 				if (isAutoQueueEnabled) toggleQueue(event);
 			} else if (Prefs.autoDigHotKey && code == 'Key' + Prefs.autoDigHotKey) {
