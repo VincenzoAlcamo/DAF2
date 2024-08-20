@@ -841,7 +841,8 @@ function gcTable_setOptions() {
 
 const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
 const ARROWKEYS = {};
-'ArrowLeft,ArrowUp,ArrowDown,ArrowRight,Numpad8,Numpad4,Numpad6,Numpad2,Numpad7,Numpad3,Numpad9,Numpad1,Numpad5'.split(',').forEach(s => ARROWKEYS[s] = true);
+'Left,Up,Down,Right'.split(',').forEach(s => ARROWKEYS['Arrow' + s] = true);
+'0,1,2,3,4,5,6,7,8,9,Subtract,Add'.split(',').forEach(s => ARROWKEYS['Numpad' + s] = true);
 function setupHotKeyHandlers() {
 	let lastKeyCode;
 	const toggleQueue = (event) => {

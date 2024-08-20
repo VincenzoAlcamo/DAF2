@@ -464,7 +464,11 @@
 					processKeyCode = (code) => {
 						if (!canGo(this)) return null;
 						var d = ARROWKEYS_DELTA[code];
-						if (d) {
+						if (code == 'NumpadAdd' || code == 'NumpadSubtract') {
+							this.mouseWheel_handler({ delta: 3 * (code == 'NumpadAdd' ? 1 : -1) });
+						} else if (code == 'Numpad0') {
+							this.updateCamera(this._character.mineX, this._character.mineY);
+						} else if (d) {
 							toggleAutoDig(false);
 							var tile;
 							var _drag = this._draggingUI;
