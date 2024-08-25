@@ -401,6 +401,7 @@
 				var tile = r._mineLoader.getTileAt(x, y);
 				if (!tile) return;
 				if (tile.isBreakable() || (tile.isUsable() && tile.beaconType == 'one-way')) [best, length] = [tile, l];
+				else if (tile.isNpc() && tile.get_npc()?.getPickChild() != 0) [best, length] = [tile, l];
 				else if (tile.isWalkable()) stack.push({ x, y, l });
 			}
 			while ((p = stack.shift())) {
