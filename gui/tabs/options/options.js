@@ -169,6 +169,7 @@ function init() {
 		if (prefName == 'badgeFoundry') messageId = 'tab_foundry';
 		if (prefName == 'linkGrabBadge') messageId = 'options_section_badges';
 		if (prefName == 'hFlashAdSound') messageId = 'options_hflashad';
+		if (prefName == 'hEnergyMaxSound') messageId = 'options_henergymax';
 		if (prefName == 'hPetSpeed') messageId = 'options_hspeed';
 		let text = gui.getMessage(messageId);
 		const i = text.indexOf('\n');
