@@ -563,6 +563,18 @@
 				return _createDrops.apply(this, arguments);
 			};
 		});
+
+		intercept('com.pixelfederation.diggy.inventory.InventoryManager', 'staminaTimer_handler', function(_staminaTimer_handler) {
+			extras.push('hEnergyMaxSound');
+			return function() {
+				var prev = this._staminaCurrent;
+				var result = _staminaTimer_handler.apply(this, arguments);
+				var current = this._staminaCurrent, max = this._staminaMax;
+				if (prev < max && current >= max) Msg.sendPage('hEnergyMax');
+				return result;
+			};
+		});
+
 		intercept(
 			'com.pixelfederation.diggy.game.custom.DecalContainer',
 			'createDropCount',

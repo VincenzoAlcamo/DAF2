@@ -2216,6 +2216,9 @@
 	"options_hflashad": {
 		"message": "Flash Ad Sound\nPlay a sound when the Flash Ad button appears"
 	},
+	"options_henergymax": {
+		"message": "Energy Max Sound\nPlay a sound when the energy is maxed out"
+	},
 	"options_hgccluster": {
 		"message": "GC Cluster\nPlace GCs close together"
 	},

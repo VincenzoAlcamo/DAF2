@@ -153,6 +153,9 @@ function init() {
 		Msg.handlers['hFlashAd'] = () => {
 			if (Prefs.hFlashAdSound) playSound(getSound(Prefs.hFlashAdSoundName), Prefs.hFlashAdVolume);
 		};
+		Msg.handlers['hEnergyMax'] = () => {
+			if (Prefs.hEnergyMaxSound) playSound(getSound(Prefs.hEnergyMaxSoundName), Prefs.hEnergyMaxVolume);
+		};
 		Msg.handlers['toggleAutoDig'] = () => toggleAutoDig('page1');
 		Msg.handlers['autoDig'] = (request) => {
 			Prefs.hAutoDig = !!request.flag;
@@ -346,6 +349,7 @@ function createMenu() {
 	<div>
 		<span data-text="options_hmain:0"></span>
 		<u><i data-pref="hFlashAdSound" data-title="options_hflashad:1" data-text="options_hflashad:0"></i>
+		<i data-pref="hEnergyMaxSound" data-title="options_henergymax:1" data-text="options_henergymax:0"></i>
 		<i data-pref="hReward"></i>
 		<i data-pref="hGCCluster"></i></u>
 		<u><i data-pref="hScroll"></i>
