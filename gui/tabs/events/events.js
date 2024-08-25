@@ -550,7 +550,9 @@ function showInfo() {
 	setRowsState('none', 'hidden');
 	row.style.display = '';
 	row.style.visibility = '';
-	row.parentNode.insertBefore(trRegion.cloneNode(true), row.nextSibling);
+	const clone2 = trRegion.cloneNode(true);
+	clone2.style.visibility = 'hidden';
+	row.parentNode.insertBefore(clone2, row.nextSibling);
 
 	const ticked = Html.br`<img width="24" src="/img/gui/ticked.png">`;
 	const unticked = Html.br`<img width="24" src="/img/gui/unticked.png">`;
