@@ -3519,9 +3519,9 @@ async function drawMine(args) {
 	}
 
 	// Add drop info
-	for (const tileDef of tileDefs.filter((t) => t.isVisible && t.hasLoot && t.stamina >= 0)) {
+	for (const tileDef of tileDefs.filter((t) => t.isVisible && (t.hasLoot || t.stamina >= 0))) {
 		const { x, y } = tileDef;
-		addDrop(x, y, tileDef.loot, tileDef);
+		addDrop(x, y, tileDef.loot || [], tileDef);
 	}
 
 	// Debug info
