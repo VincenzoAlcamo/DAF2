@@ -400,9 +400,11 @@
 				examined[key] = l;
 				var tile = r._mineLoader.getTileAt(x, y);
 				if (!tile) return;
-				if (tile.isBreakable() || (tile.isUsable() && tile.beaconType == 'one-way')) [best, length] = [tile, l];
-				else if (tile.isNpc() && tile.get_npc()?.getPickChild() != 0) [best, length] = [tile, l];
-				else if (tile.isWalkable()) stack.push({ x, y, l });
+				if (tile.isBreakable() || (tile.isUsable() && tile.beaconType == 'one-way')) return [best, length] = [tile, l];
+				const npc = tile.isNpc() ? tile.get_npc() : null;
+				if (npc && npc._pickChild != 0) return [best, length] = [tile, l];
+				if (npc && npc._pickToken && npc._pickToken.length > 0) return [best, length] = [tile, l];
+				if (tile.isWalkable()) stack.push({ x, y, l });
 			}
 			while ((p = stack.shift())) {
 				var { x, y, l } = p;
