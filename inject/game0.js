@@ -555,12 +555,33 @@
 			}
 		);
 
+		let excludeDrop = {};
+		intercept('com.pixelfederation.diggy.game.mine.MineRenderer', 'loot_handler', function (_loot_handler) {
+			return function (p_tileDef,p_beaconActivated) {
+				excludeDrop = {};
+				try {
+					let minCoins = -1;
+					p_tileDef.loot.forEach(loot => {
+						if (loot.isStaminaExp) excludeDrop[loot.type + '_' + loot.id] = loot._amount;
+						else if (loot.type == 'material' && loot.id == 1 && (minCoins == -1 || minCoins > loot._amount)) minCoins = loot._amount;
+					});
+					if (minCoins > 0 && minCoins <= 32) excludeDrop['material_1'] = minCoins;
+				} catch(e) {}
+				const result = _loot_handler.apply(this, arguments);
+				excludeDrop = {};
+				return result;
+			};
+		});
 		intercept('com.pixelfederation.diggy.game.custom.DecalContainer', 'createDrops', function(_createDrops) {
 			extras.push('hLootFew');
 			return  function (p_texture,p_x,p_y,p_offsetX,p_offsetY,p_scaleX,p_scaleY,p_item,p_target,p_screenType,p_keepSameScaleForDropsEnd) {
-				if (Prefs.hLootFew) {
+				if (Prefs.hLootFew && p_screenType == 'mineScreen') {
 					const key = p_item.type + '_' + p_item.object_id;
-					if (key == 'system_1' || key == 'material_1' || key == 'material_413' || p_item.type == 'eventpass_xp') return;
+					if (key == 'material_413' || p_item.type == 'eventpass_xp') return;
+					if (excludeDrop[key] === p_item.amount) {
+						delete excludeDrop[key];
+						return;
+					}
 				}
 				return _createDrops.apply(this, arguments);
 			};
