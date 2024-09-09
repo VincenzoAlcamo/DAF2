@@ -354,7 +354,7 @@
 				? Math.min(val * 0.4, def)
 				: def;
 		}
-		intercept('com.pixelfederation.diggy.game.character.Character', 'breakTile', function (_goPathNext) {
+		intercept('com.pixelfederation.diggy.game.character.Character', 'goPathNext', function (_goPathNext) {
 			extras.push('hSpeed');
 			return function() {
 				const result = _goPathNext.apply(this, arguments);
