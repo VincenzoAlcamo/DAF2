@@ -406,10 +406,10 @@
 				examined[key] = l;
 				var tile = r._mineLoader.getTileAt(x, y);
 				if (!tile) return;
-				if (tile.isBreakable() || (tile.isUsable() && tile.beaconType == 'one-way')) return [best, length] = [tile, l];
+				if (tile.isBreakable()) return [best, length] = [tile, l];
+				if (tile.isUsable() && tile.beaconType == 'one-way' && (tile.beaconReqMat == 0 || this._core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return [best, length] = [tile, l];
 				const npc = tile.isNpc() ? tile.get_npc() : null;
-				if (npc && npc._pickChild != 0) return [best, length] = [tile, l];
-				if (npc && npc._pickToken && npc._pickToken.length > 0) return [best, length] = [tile, l];
+				if (npc && (npc._pickChild != 0 || (npc._pickToken && npc._pickToken.length > 0))) return [best, length] = [tile, l];
 				if (tile.isWalkable()) stack.push({ x, y, l });
 			}
 			while ((p = stack.shift())) {
