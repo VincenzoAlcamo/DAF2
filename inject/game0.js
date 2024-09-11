@@ -65,6 +65,8 @@
 	const Messages = { locked: 'LOCKED', unlock: 'UNLOCK' };
 	Msg.handlers['messages'] = (request) => void Object.assign(Messages, request);
 
+	const getUnixTime = () => Math.floor(Date.now() / 1000);
+
 	// $hxClasses
 	const $hxClasses = {};
 	const _ObjectCreate = Object.create;
@@ -470,11 +472,23 @@
 						}
 						log('toggleAutoDig', isAutoDigEnabled);
 					};
+					lastFindTime = 0;
 					processKeyCode = (code) => {
 						if (!canGo(this)) return null;
 						var d = ARROWKEYS_DELTA[code];
 						if (code == 'NumpadAdd' || code == 'NumpadSubtract') {
 							this.mouseWheel_handler({ delta: 3 * (code == 'NumpadAdd' ? 1 : -1) });
+						} else if (code == 'NumpadDivide') {
+							setAutoDig(false);
+							const now = getUnixTime();
+							if(now - lastFindTime >= 1 && !this._character.diggingQueue.getFirst()) {
+								const tile = findNextTile(this);
+								if (tile) {
+									lastFindTime = now;
+									setupFindNextTile(this);
+									this._character.go(tile);
+								}
+							}
 						} else if (code == 'Numpad0') {
 							this.updateCamera(this._character.mineX, this._character.mineY);
 						} else if (d) {

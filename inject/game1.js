@@ -147,6 +147,9 @@ function setKeepElements() {
 }
 
 let aq_lastKeyCode;
+const ARROWKEYS = {};
+'Left,Up,Down,Right'.split(',').forEach(s => ARROWKEYS['Arrow' + s] = true);
+'0,1,2,3,4,5,6,7,8,9,Subtract,Add,Divide'.split(',').forEach(s => ARROWKEYS['Numpad' + s] = true);
 const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
 function aq_toggle(event) {
 	stopEvent(event);
@@ -157,11 +160,16 @@ function aq_toggleAutoDig(event) {
 	Msg.send('forward', { real_action: 'toggleAutoDig' });
 }
 function aq_onKeyDown(event) {
-	if (aq_lastKeyCode == event.code) return;
-	aq_lastKeyCode = event.code;
-	if (event.altKey && !event.shiftKey && !event.ctrlKey) {
-		if (isAutoQueueEnabled && event.code == 'Key' + Prefs.queueHotKey) aq_toggle(event);
-		if (isAutoDigEnabled && event.code == 'Key' + Prefs.autoDigHotKey) aq_toggleAutoDig(event);
+	const code = event.code;
+	if (Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
+		stopEvent(event);
+		Msg.send('forward', { real_action: 'keyCode', code });
+	} else if (aq_lastKeyCode != code) {
+		aq_lastKeyCode = code;
+		if (event.altKey && !event.shiftKey && !event.ctrlKey) {
+			if (isAutoQueueEnabled && code == 'Key' + Prefs.queueHotKey) aq_toggle(event);
+			if (isAutoDigEnabled && code == 'Key' + Prefs.autoDigHotKey) aq_toggleAutoDig(event);
+		}
 	}
 }
 function aq_onKeyUp(event) {

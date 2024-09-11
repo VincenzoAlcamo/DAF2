@@ -156,7 +156,8 @@ function init() {
 		Msg.handlers['hEnergyMax'] = () => {
 			if (Prefs.hEnergyMaxSound) playSound(getSound(Prefs.hEnergyMaxSoundName), Prefs.hEnergyMaxVolume);
 		};
-		Msg.handlers['toggleAutoDig'] = () => toggleAutoDig('page1');
+		Msg.handlers['toggleAutoDig'] = () => void toggleAutoDig('page1');
+		Msg.handlers['keyCode'] = (request) => void sendKeyCode(request.code);
 		Msg.handlers['autoDig'] = (request) => {
 			Prefs.hAutoDig = !!request.flag;
 			updateMenu('hAutoDig');
@@ -846,7 +847,7 @@ function gcTable_setOptions() {
 const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
 const ARROWKEYS = {};
 'Left,Up,Down,Right'.split(',').forEach(s => ARROWKEYS['Arrow' + s] = true);
-'0,1,2,3,4,5,6,7,8,9,Subtract,Add'.split(',').forEach(s => ARROWKEYS['Numpad' + s] = true);
+'0,1,2,3,4,5,6,7,8,9,Subtract,Add,Divide'.split(',').forEach(s => ARROWKEYS['Numpad' + s] = true);
 function setupHotKeyHandlers() {
 	let lastKeyCode;
 	const toggleQueue = (event) => {
