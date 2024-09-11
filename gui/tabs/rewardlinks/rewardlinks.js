@@ -13,7 +13,7 @@ export default {
 	events: {
 		convert: update,
 		autoclose: () => gui.setPreference('rewardsClose', inputs.autoclose.checked),
-		autoclick: clickNextButton,
+		autoclick: autoClick,
 		background: saveState,
 		add, short, removeselected, removeold, summary, pixel
 	}
@@ -553,6 +553,19 @@ function materialHTML(materialId) {
 function setInputChecked(input, checked) {
 	input.checked = checked;
 	input.parentNode.parentNode.classList.toggle('selected', checked);
+}
+
+function autoClick() {
+	if (inputs.autoclick.disabled || !inputs.autoclick.checked) return;
+	smartTable.table.querySelectorAll('tr[data-status="1"]').forEach(row => row.removeAttribute('data-status'));
+	if (!smartTable.table.querySelector('input[type=checkbox]:checked')) {
+		smartTable.table.querySelectorAll('input[type=checkbox]').forEach(input => {
+			const rewardId = input.parentNode.parentNode.getAttribute('data-id');
+			const reward = items[rewardId];
+			if (reward && !reward.cdt) setInputChecked(input, true);
+		});
+	};
+	clickNextButton();
 }
 
 function clickNextButton() {
