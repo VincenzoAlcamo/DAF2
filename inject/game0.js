@@ -383,6 +383,12 @@
 				return result;
 			};
 		});
+		intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'breakTile', function (_breakTile) {
+			extras.push('hPetSpeed');
+			return function (p_tileDef, p_digTime) {
+				return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, true));
+			};
+		});
 
 		let lastFoundTile = null;
 		const canGo = (r) => !r._interactivityDisabled && !r._isBeaconActionFocus && !r._isFocus;
