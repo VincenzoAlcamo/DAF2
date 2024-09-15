@@ -448,6 +448,7 @@ UI_claim_coin_single_slow_02
 	// for (let num = 5; num <= 20; num += 5) options.push([num, gui.getMessage('options_fullwindowtimeout_seconds', num)]);
 	// option('fullWindowTimeout', SUBOPTION, options);
 	option('hideMenu', SUBOPTION);
+	option('adsOpacity', SUBOPTION);
 	option('gcTable', WITHSUBOPTIONS);
 	option('gcTableCounter', SUBOPTION);
 	option('gcTableRegion', SUBOPTION);

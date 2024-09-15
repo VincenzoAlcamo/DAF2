@@ -176,6 +176,7 @@ function init() {
 			updateMenu();
 			gcTable_setOptions();
 			document.documentElement.classList.toggle('DAF-fullwindow', hasGenerator && Prefs.fullWindow);
+			document.documentElement.classList.toggle('DAF-adsopacity', Prefs.adsOpacity);
 			container.classList.toggle('DAF-hidemenu', Prefs.hideMenu);
 		};
 		Msg.handlers['pref:language'] = () => {
@@ -289,6 +290,7 @@ function createMenu() {
 		<i data-pref="fullWindowSide"></i>
 		</u>
 		<u><i data-pref="hideMenu"></i></u>
+		<u><i data-pref="adsOpacity"></i></u>
 	</div>
 </li>
 <li data-action="gc"><b>&nbsp;</b>

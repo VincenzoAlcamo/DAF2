@@ -2012,6 +2012,9 @@
 	"options_hidemenu": {
 		"message": "Hide menu\nHide the DAF2 menu in full screen"
 	},
+	"options_adsopacity": {
+		"message": "Ads opacity\nMake the ads a bit transparent"
+	},
 	"options_gctable": {
 		"message": "GC table\nShow all neighbours with GC beneath the game"
 	},

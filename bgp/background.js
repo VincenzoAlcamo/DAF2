@@ -81,6 +81,7 @@ var Preferences = {
 			fullWindow: false,
 			fullWindowSide: false,
 			hideMenu: false,
+			adsOpacity: false,
 			darkTheme: false,
 			shrinkMenu: 0,
 			autoClick: false,

@@ -69,6 +69,7 @@
 	background-repeat: no-repeat;
 	background-image: var(--logo);
 	background-size: 16px 16px;
+	margin: 1em 0 4em 0;
 }
 
 .DAF-menu:focus-within,
@@ -654,4 +655,20 @@ html.DAF-fullwindow .DAF-container {
 /* Show language bar */
 #hm-langbar {
 	z-index: 1;
+}
+
+/* Opacity for ads */
+.DAF-adsopacity .adsbygoogle {
+	filter: opacity(.8);
+}
+.adsbygoogle {
+	transform: translateX(20px);
+	transition: transform 0.5s;
+}
+:has(.DAF-menu-container:hover) .adsbygoogle {
+	transform: scale(40%) translate(75%, -75%);
+}
+:has(.adsbygoogle) .DAF-menu-container:not(.DAF-menu:hover) {
+	top: 0;
+	border-top: var(--menu-y) solid transparent;
 }
