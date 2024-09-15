@@ -70,7 +70,7 @@ function addStylesheet(href, onLoad) {
 }
 
 let site, pageType, styleAdded;
-let isAutoQueueEnabled, isAutoDigEnabled;
+let isAutoQueueEnabled, isAccessibilityKeysEnabled;
 
 if (location.host.startsWith('portal.')) site = 'Portal';
 else if (location.host.startsWith('apps.facebook.')) site = 'Facebook';
@@ -90,7 +90,7 @@ Msg.handlers['gameStarted'] = () => {
 	};
 	Msg.handlers['enableEventHandler'] = (request) => {
 		isAutoQueueEnabled = request.isAutoQueueEnabled;
-		isAutoDigEnabled = request.isAutoDigEnabled;
+		isAccessibilityKeysEnabled = request.isAccessibilityKeysEnabled;
 		aq_setup();
 	}
 	if (site === 'Portal') checkPage_setup();
@@ -161,14 +161,14 @@ function aq_toggleAutoDig(event) {
 }
 function aq_onKeyDown(event) {
 	const code = event.code;
-	if (Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
+	if (isAccessibilityKeysEnabled && Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
 		stopEvent(event);
 		Msg.send('forward', { real_action: 'keyCode', code });
 	} else if (aq_lastKeyCode != code) {
 		aq_lastKeyCode = code;
 		if (event.altKey && !event.shiftKey && !event.ctrlKey) {
 			if (isAutoQueueEnabled && code == 'Key' + Prefs.queueHotKey) aq_toggle(event);
-			if (isAutoDigEnabled && code == 'Key' + Prefs.autoDigHotKey) aq_toggleAutoDig(event);
+			if (code == 'Key' + Prefs.autoDigHotKey) aq_toggleAutoDig(event);
 		}
 	}
 }

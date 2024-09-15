@@ -63,7 +63,7 @@ const { Msg, Prefs, setPreference, log } = setupMessaging('game2', 'purple', 'ga
 
 // These will be initialized later
 let menu, site, miner, cdn_root, gcTable, container, hasGenerator;
-let isAutoQueueEnabled, isAutoDigEnabled;
+let isAutoQueueEnabled;
 
 const getExtensionUrl = (resource) => chrome.runtime.getURL(resource);
 const getUnixTime = () => Math.floor(Date.now() / 1000);
@@ -245,8 +245,8 @@ async function setExtra(extra) {
 
 function enableEventHandler() {
 	isAutoQueueEnabled = hasGenerator && menu.querySelector('[data-pref="hAutoQueue"]');
-	isAutoDigEnabled = hasGenerator && menu.querySelector('[data-pref="hAutoDig"]');
-	if (isAutoQueueEnabled || isAutoDigEnabled) Msg.send('forward', { real_action: 'enableEventHandler', isAutoQueueEnabled, isAutoDigEnabled });
+	isAccessibilityKeysEnabled = hasGenerator && menu.querySelector('[data-pref="hKeys"]');
+	if (hasGenerator) Msg.send('forward', { real_action: 'enableEventHandler', isAutoQueueEnabled, isAccessibilityKeysEnabled });
 }
 
 function getWrappedText(text, max = 60) {
@@ -856,7 +856,7 @@ function setupHotKeyHandlers() {
 	};
 	const onKeyDown = (event) => {
 		const code = event.code;
-		if (Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
+		if (isAccessibilityKeysEnabled && Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
 			stopEvent(event);
 			sendKeyCode(code);
 			return;
