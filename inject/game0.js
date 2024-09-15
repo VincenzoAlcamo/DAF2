@@ -352,9 +352,7 @@
 
 		function getSpeed(p_core, val, def, isPet) {
 			const hasSpeedUp = (isPet && Prefs.hPetSpeed) || Prefs.hSpeed;
-			return hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0
-				? Math.min(val * 0.3, def)
-				: def;
+			return hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0 ? Math.min(val * 0.4, def) : def;
 		}
 		intercept('com.pixelfederation.diggy.game.character.Character', 'goPathNext', function (_goPathNext) {
 			extras.push('hSpeed');
