@@ -65,8 +65,6 @@
 	const Messages = { locked: 'LOCKED', unlock: 'UNLOCK' };
 	Msg.handlers['messages'] = (request) => void Object.assign(Messages, request);
 
-	const getUnixTime = () => Math.floor(Date.now() / 1000);
-
 	// $hxClasses
 	const $hxClasses = {};
 	const _ObjectCreate = Object.create;
@@ -407,7 +405,7 @@
 				var tile = r._mineLoader.getTileAt(x, y);
 				if (!tile) return;
 				if (tile.isBreakable()) return [best, length] = [tile, l];
-				if (tile.isUsable() && tile.beaconType == 'one-way' && (tile.beaconReqMat == 0 || this._core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return [best, length] = [tile, l];
+				if (tile.isUsable() && tile.beaconType == 'one-way' && (tile.beaconReqMat == 0 || r._core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return [best, length] = [tile, l];
 				const npc = tile.isNpc() ? tile.get_npc() : null;
 				if (npc && (npc._pickChild != 0 || (npc._pickToken && npc._pickToken.length > 0))) return [best, length] = [tile, l];
 				if (tile.isWalkable()) stack.push({ x, y, l });
@@ -478,8 +476,8 @@
 							this.mouseWheel_handler({ delta: 3 * (code == 'NumpadAdd' ? 1 : -1) });
 						} else if (code == 'NumpadDivide') {
 							setAutoDig(false);
-							const now = getUnixTime();
-							if(now - lastFindTime >= 1 && !this._character.diggingQueue.getFirst()) {
+							const now = Date.now();
+							if(now - lastFindTime >= 1000 && !this._character.diggingQueue.getFirst()) {
 								const tile = findNextTile(this);
 								if (tile) {
 									lastFindTime = now;
