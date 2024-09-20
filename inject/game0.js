@@ -390,6 +390,14 @@
 			};
 		});
 
+		function isTileDiggable(tile, p_core) {
+			if (tile.isBreakable()) return true;
+			if (tile.isUsable() && tile.beaconType == 'one-way' && (tile.beaconReqMat == 0 || p_core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return true;
+			const npc = tile.isNpc() ? tile.get_npc() : null;
+			if (npc && (npc._pickChild != 0 || (npc._pickToken && npc._pickToken.length > 0))) return true;
+			return false;
+		}
+
 		let lastFoundTile = null;
 		const canGo = (r) => !r._interactivityDisabled && !r._isBeaconActionFocus && !r._isFocus;
 		function findNextTile(r) {
@@ -406,10 +414,7 @@
 				examined[key] = l;
 				var tile = r._mineLoader.getTileAt(x, y);
 				if (!tile) return;
-				if (tile.isBreakable()) return [best, length] = [tile, l];
-				if (tile.isUsable() && tile.beaconType == 'one-way' && (tile.beaconReqMat == 0 || r._core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return [best, length] = [tile, l];
-				const npc = tile.isNpc() ? tile.get_npc() : null;
-				if (npc && (npc._pickChild != 0 || (npc._pickToken && npc._pickToken.length > 0))) return [best, length] = [tile, l];
+				if (isTileDiggable(tile, r._core)) return [best, length] = [tile, l];
 				if (tile.isWalkable()) stack.push({ x, y, l });
 			}
 			while ((p = stack.shift())) {
@@ -529,7 +534,7 @@
 					this._character.diggingQueue._maxQueue = isActive ? 100 : maxQueue;
 					if (isActive && tile && old !== tile && canGo(this) && !(this._dragManager?._dragging)) {
 						if (e.ctrlKey) this._character.diggingQueue.removeFromQueue(tile);
-						else if ((e.shiftKey || Prefs.hAutoQueue) && (tile.isBreakable() || tile.isUsable())) this._character.go(tile);
+						else if ((e.shiftKey || Prefs.hAutoQueue) && isTileDiggable(tile, this._core)) this._character.go(tile);
 					}
 					return result;
 				};
