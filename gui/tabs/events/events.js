@@ -124,7 +124,6 @@ function update() {
 	const eventIcons = {};
 	for (const event of eventsSorted) {
 		if (!event.name_loc) continue;
-		const isSpecialWeek = +event.cooking_event_id > 0 || +event.crafting_event_id > 0 || +event.tower_id > 0;
 		const eid = event.def_id;
 		const item = {};
 		item.remaster = (event.name || '').toLowerCase().includes('remaster');
@@ -144,7 +143,9 @@ function update() {
 		item.maxsegment = 0;
 
 		const quests = getQuests(event);
-		if (!quests.length && !isSpecialWeek) continue;
+
+		const isSpecialWeek = +event.cooking_event_id > 0 || +event.crafting_event_id > 0 || +event.tower_id > 0 || quests.length == 0;
+
 		item.tquest = quests.length;
 		item.cquest = 0;
 		for (const quest of quests) {
@@ -179,11 +180,6 @@ function update() {
 		}
 		item.pachiev = item.cachiev / (item.tachiev || 1);
 
-		// Add the event if it has at least one achievement
-		if (!item.tachiev && !isSpecialWeek) continue;
-		allEvents[item.id] = item;
-		// eventIcons[event.shop_icon_graphics] = eid;
-
 		const collects = collectionsByEvent[eid] || [];
 		item.tcollect = item.ccollect = 0;
 		for (const cid of collects) {
@@ -195,6 +191,13 @@ function update() {
 		}
 		item.pcollect = item.ccollect / (item.tcollect || 1);
 
+		// Add the event if it has at least one achievement
+		if (item.tquest + item.tachiev + item.tcollect == 0) continue;
+		if (!item.tachiev && !isSpecialWeek) continue;
+
+		allEvents[item.id] = item;
+		// eventIcons[event.shop_icon_graphics] = eid;
+
 		const towerId = +event.tower_id;
 		if (towerId) {
 			const locations = gui.getFile('locations_0');
@@ -204,6 +207,10 @@ function update() {
 			const mapLocations = {};
 			gui.getArrayOfInt(event.locations).forEach(id => mapLocations[id] = false);
 			gui.getArrayOfInt(event.extended_locations).forEach(id => mapLocations[id] = true);
+			if (Object.values(mapLocations) == 0) {
+				const locations = gui.getFile('locations_0');
+				item.loc_qst = Object.values(locations).filter(loc => +loc.event_id == eid && +loc.test == 0).forEach(loc => mapLocations[loc.def_id] = true);
+			}
 			const rep = [], xlo = [], qst = [];
 			Object.keys(mapLocations).forEach(id => {
 				const location = locations0[id];
@@ -394,7 +401,7 @@ function updateRow(row) {
 	if (item.tquest) {
 		htm += Html.br`<td class="qst add_slash">${Locale.formatNumber(item.cquest)}</td>`;
 		htm += Html.br`<td class="qst no_right_border">${Locale.formatNumber(item.tquest)}</td>`;
-		htm += Html.br`<td class="qst">${item.locations ? Html.br`<img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}">` : ''}</td>`;
+		htm += Html.br`<td class="qst"><img src="/img/gui/quest_ok.png" class="${item.pquest < 1 ? 'incomplete' : ''}"></td>`;
 	} else {
 		htm += Html.br`<td colspan="3"></td>`;
 	}
