@@ -73,6 +73,7 @@
 	margin-top: 4px;
 }
 
+.about_update button,
 .about_reset button {
 	padding: 2px 4px;
 	background-color: var(--th-bgcol);
@@ -81,7 +82,11 @@
 	border-radius: 8px;
 	font-weight: bold;
 }
+.about_update button {
+	padding: 4px 8px;
+}
 
+.about_update button:hover,
 .about_reset button:hover {
 	background-color: var(--tb-hlcol);
 	color: var(--tb-hlfgcol);

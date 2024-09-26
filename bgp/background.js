@@ -172,6 +172,7 @@ var Preferences = {
 			hPetFollow: false,
 			hPetSpeed: false,
 			hInstantCamera: false,
+			fileVersion: '',
 		};
 	},
 	init: async function () {
@@ -1681,7 +1682,11 @@ var Data = {
 		}
 		if (version === undefined) {
 			version = '1';
-			if (Data.generator && Data.generator.file_changes && result.fileName in Data.generator.file_changes) version = String(Data.generator.file_changes[result.fileName]);
+			if (Data.generator && Data.generator.file_changes && result.fileName in Data.generator.file_changes) {
+				version = String(Data.generator.file_changes[result.fileName]);
+				const fileVersion = Preferences.getValue('fileVersion');
+				if (fileVersion && version < fileVersion) version = fileVersion;
+			}
 			result.version = version;
 		}
 		const file = Data.files[result.fileName];

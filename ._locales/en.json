@@ -450,6 +450,9 @@
 	"about_reset_ok_text": {
 		"message": "Please reload Diggy's Adventure with the account you wish to use."
 	},
+	"about_update_files": {
+		"message": "Update game files"
+	},
 	"production_total_time": {
 		"message": "Total Time\n(Slots: $NUM$)",
 		"placeholders": {

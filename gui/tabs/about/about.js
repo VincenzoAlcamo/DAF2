@@ -40,11 +40,11 @@ function update() {
 	setHtml(this.container.querySelector('.about_warning'), html_warning);
 	setHtml(this.container.querySelector('.about_reset'), html_reset);
 
-	for (const button of this.container.querySelectorAll('.about_launcher button'))
-		button.addEventListener('click', onClick);
+	this.container.querySelectorAll('.about_launcher button').forEach(button => button.addEventListener('click', onClick));
 
-	const button = this.container.querySelector('.about_reset button');
-	if (button) button.addEventListener('click', resetAccount);
+	this.container.querySelector('.about_reset button')?.addEventListener('click', resetAccount);
+
+	this.container.querySelector('.about_update button')?.addEventListener('click', updateFiles);
 
 	updateBg();
 }
@@ -151,5 +151,19 @@ function resetAccount() {
 		}, function () {
 			document.location.reload();
 		});
+	});
+}
+
+function updateFiles() {
+	gui.dialog.show({
+		title: gui.getMessage('about_update_files'),
+		style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
+	}, function (confirmation, _params) {
+		if (confirmation != Dialog.CONFIRM) return;
+		const dt = new Date();
+		const p2 = n => n.toString().padStart(2, '0');
+		const fileVersion = `${dt.getFullYear()}${p2(dt.getMonth() + 1)}${p2(dt.getDate())}${p2(dt.getHours())}${p2(dt.getMinutes())}${p2(dt.getSeconds())}`;
+		gui.setPreference('fileVersion', fileVersion);
+		document.location.reload();
 	});
 }
