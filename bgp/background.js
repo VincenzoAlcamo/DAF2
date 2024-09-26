@@ -172,7 +172,7 @@ var Preferences = {
 			hPetFollow: false,
 			hPetSpeed: false,
 			hInstantCamera: false,
-			fileVersion: '',
+			fileVersion: '20240926120000',
 		};
 	},
 	init: async function () {

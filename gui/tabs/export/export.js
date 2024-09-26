@@ -6,7 +6,8 @@ export default {
 	requires: ['materials', 'decorations', 'usables', 'windmills', 'buildings', 'tokens'],
 	events: {
 		export: exportData,
-		import: importData
+		import: importData,
+		update: updateFiles
 	}
 };
 
@@ -82,5 +83,18 @@ function importData() {
 				style: [Dialog.CRITICAL, Dialog.OK]
 			});
 		});
+	});
+}
+
+function updateFiles() {
+	gui.dialog.show({
+		title: gui.getMessage('export_updatefiles'),
+		style: [Dialog.CRITICAL, Dialog.CONFIRM, Dialog.CANCEL]
+	}, function (confirmation, _params) {
+		if (confirmation != Dialog.CONFIRM) return;
+		const dt = new Date();
+		const fileVersion = [dt.getFullYear(), dt.getMonth() + 1, dt.getDate(), dt.getHours()].map(v => v.toString().padStart(2, '0')).join('') + '0000';
+		gui.setPreference('fileVersion', fileVersion);
+		document.location.reload();
 	});
 }
