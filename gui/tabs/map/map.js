@@ -2272,7 +2272,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				for (const drop of loot) {
 					const key = drop.type + '_' + drop.id;
 					if (key == 'material_1') numCoins++;
-					if (key == 'system_2') hasEnergy = true;
+					if (key == 'system_2' && key in materialDrops) hasEnergy = true;
 					let sd = specialDrops[key];
 					if (sd === 'A' && noAchievements) sd = undefined;
 					const isQuest = key in questDrops || sd === 'Q' || drop.type == 'tablet' || (sd === undefined && drop.type == 'token' && drop.id in eventTokens);
