@@ -147,7 +147,7 @@ function setKeepElements() {
 }
 
 let aq_lastKeyCode;
-const ARROWKEYS = {};
+const ARROWKEYS = { KeyD: true };
 'Left,Up,Down,Right'.split(',').forEach(s => ARROWKEYS['Arrow' + s] = true);
 '0,1,2,3,4,5,6,7,8,9,Subtract,Add,Divide'.split(',').forEach(s => ARROWKEYS['Numpad' + s] = true);
 const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
@@ -162,6 +162,8 @@ function aq_toggleAutoDig(event) {
 function aq_onKeyDown(event) {
 	const code = event.code;
 	if (isAccessibilityKeysEnabled && Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
+		const tag = document.activeElement?.tagName;
+		if (tag == 'INPUT' || tag == 'SELECT') return;
 		stopEvent(event);
 		Msg.send('forward', { real_action: 'keyCode', code });
 	} else if (aq_lastKeyCode != code) {

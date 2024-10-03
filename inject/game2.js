@@ -847,7 +847,7 @@ function gcTable_setOptions() {
 }
 
 const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
-const ARROWKEYS = {};
+const ARROWKEYS = { 'KeyD': true };
 'Left,Up,Down,Right'.split(',').forEach(s => ARROWKEYS['Arrow' + s] = true);
 '0,1,2,3,4,5,6,7,8,9,Subtract,Add,Divide'.split(',').forEach(s => ARROWKEYS['Numpad' + s] = true);
 function setupHotKeyHandlers() {
@@ -859,6 +859,8 @@ function setupHotKeyHandlers() {
 	const onKeyDown = (event) => {
 		const code = event.code;
 		if (isAccessibilityKeysEnabled && Prefs.hKeys && !event.altKey && !event.shiftKey && !event.ctrlKey && code in ARROWKEYS) {
+			const tag = document.activeElement?.tagName;
+			if (tag == 'INPUT' || tag == 'SELECT') return;
 			stopEvent(event);
 			sendKeyCode(code);
 			return;

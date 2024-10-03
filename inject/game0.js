@@ -481,7 +481,7 @@
 						var d = ARROWKEYS_DELTA[code];
 						if (code == 'NumpadAdd' || code == 'NumpadSubtract') {
 							this.mouseWheel_handler({ delta: 3 * (code == 'NumpadAdd' ? 1 : -1) });
-						} else if (code == 'NumpadDivide') {
+						} else if (code == 'NumpadDivide' || code == 'KeyD') {
 							setAutoDig(false);
 							const now = Date.now();
 							if(now - lastFindTime >= 1000 && !this._character.diggingQueue.getFirst()) {
