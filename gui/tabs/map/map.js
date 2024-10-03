@@ -205,13 +205,13 @@ function getThemeDefaults() {
 		{
 			'solution.color': COL('#0F0', { admin: true }),
 			'title.color': COL('#FFF'),
-			'marker.arrow': COL('#FF0', CSS),
 			'marker.special': COL('#FF0', CSS, CONTRAST),
 			'marker.quest': COL('#F0F', CSS, CONTRAST),
 			'marker.photo': COL('#0DF', CSS, CONTRAST),
 			'marker.material': COL('#0F0', CSS, CONTRAST),
 			'marker.tile': COL('#CCC', CSS),
-			'marker.pet': COL('#FA0', CSS, CONTRAST)
+			'marker.pet': COL('#FA0', CSS, CONTRAST),
+			'marker.energy': COL('#FFF', CSS, CONTRAST)
 		},
 		DOOR('door', 26, '#FFF', 20, 4, '#F00', '#000'),
 		DOOR('doornt', 26, '#F00', 20, 4, '#F00', '#FFF'),
@@ -930,6 +930,8 @@ function showAdvancedOptions() {
 	items.push([-3, `[ ${gui.getString('GUI0008').toUpperCase()} ]`]);
 	items.push([-4, `[ ${gui.getMessage('gui_from_events').toUpperCase()} ]`]);
 	items.push([-5, `[ ${gui.getString('GUI4080').toUpperCase()} ]`]);
+	items.push([-6, `[ BONUS ${gui.getObjectName('system', 1).toUpperCase()} ]`]);
+	items.push([-7, `[ BONUS ${gui.getObjectName('system', 2).toUpperCase()} ]`]);
 	items = items.sort((a, b) => a[1].localeCompare(b[1]));
 	const list = gui.getArrayOfInt(listMaterial);
 	htm += Html`<select name="materials" multiple size="20" style="padding:2px;margin-bottom:2px;min-width: 260px;">`;
@@ -1256,7 +1258,7 @@ function onTableClick(event) {
 
 function update() {
 	isAdmin = theme.isAdmin = bgp.Data.isMapper;
-	canShowBonus = isFlagAllowed('B');
+	canShowBonus = true; //isFlagAllowed('B');
 	canShowBeacon = isFlagAllowed('E');
 	({ cdn_root, versionParameter } = gui.getGenerator());
 	if (determineCurrentMine()) gui.setLazyRender(map);
@@ -2220,6 +2222,8 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			return;
 		}
 		if (id == -5) key = 'pet';
+		if (id == -6) key = 'bonus_xp';
+		if (id == -7) key = 'bonus_energy';
 		if (key == 'material_1') key = 'coins';
 		materialDrops[key] = true;
 	});
@@ -2261,24 +2265,29 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart)) || (isPreview && hasLoot)) {
 			if (tileDef.isTile && tileDef.pet && 'pet' in materialDrops) tileDef.isPet = true;
 			if (hasLoot && tileDef.loot) tileDef.hasLoot = true;
-			const loot = [].concat((hasLoot && tileDef.loot) || [], (tileDef.npcId && tileDef.npcLoot) || []);
-			let numCoins = 0;
-			for (const drop of tileDef.show && loot ? loot : []) {
-				if (drop.skip || (drop.forAdmin && !isAdmin)) continue;
-				const key = drop.type + '_' + drop.id;
-				if (key == 'material_1') numCoins++;
-				let sd = specialDrops[key];
-				if (sd === 'A' && noAchievements) sd = undefined;
-				const isQuest = key in questDrops || sd === 'Q' || drop.type == 'tablet' || (sd === undefined && drop.type == 'token' && drop.id in eventTokens);
-				const isSpecial = !isQuest && !isTower && (sd !== undefined || drop.type == 'artifact');
-				const isPhoto = drop.type == 'photo';
-				const isMaterial = key in materialDrops || drop.type in materialDrops;
-				if (isSpecial) tileDef.isSpecial = true;
-				if (isQuest) tileDef.isQuest = true;
-				if (isPhoto) tileDef.isPhoto = true;
-				if (isMaterial) tileDef.isMaterial = true;
+			if (tileDef.show) {
+				const loot = [].concat((hasLoot && tileDef.loot) || [], (tileDef.npcId && tileDef.npcLoot) || []);
+				let numCoins = 0;
+				let hasEnergy = tileDef.bonusEnergy && 'bonus_energy' in materialDrops;
+				for (const drop of loot) {
+					const key = drop.type + '_' + drop.id;
+					if (key == 'material_1') numCoins++;
+					if (key == 'system_2') hasEnergy = true;
+					let sd = specialDrops[key];
+					if (sd === 'A' && noAchievements) sd = undefined;
+					const isQuest = key in questDrops || sd === 'Q' || drop.type == 'tablet' || (sd === undefined && drop.type == 'token' && drop.id in eventTokens);
+					const isSpecial = !isQuest && !isTower && (sd !== undefined || drop.type == 'artifact');
+					const isPhoto = drop.type == 'photo';
+					const isMaterial = key in materialDrops || drop.type in materialDrops;
+					if (isSpecial) tileDef.isSpecial = true;
+					if (isQuest) tileDef.isQuest = true;
+					if (isPhoto) tileDef.isPhoto = true;
+					if (isMaterial) tileDef.isMaterial = true;
+				}
+				if (numCoins > 0 && 'coins' in materialDrops && (numCoins > 1 || tileDef.stamina == 0)) tileDef.isMaterial = true;
+				if (tileDef.bonusXp && 'bonus_xp' in materialDrops) tileDef.isMaterial = true;
+				if (hasEnergy) tileDef.isMaterial = 2;
 			}
-			if (numCoins > 0 && 'coins' in materialDrops && (numCoins > 1 || tileDef.stamina == 0)) tileDef.isMaterial = true;
 		}
 	}
 	{
@@ -2293,6 +2302,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 					} else {
 						numTiles++;
 						cost += tileDef.stamina;
+						if (tileDef.bonusEnergy) cost -= tileDef.bonusEnergy;
 					}
 				}
 				if (tileDef.isSpecial) numSpecial++;
@@ -2712,7 +2722,7 @@ async function drawMine(args) {
 			if (tileDef.bonusEnergy) staminaDrops.push({ type: 'system', id: 2, amount: tileDef.bonusEnergy });
 			drops = staminaDrops.concat(drops);
 		}
-		drops = drops.filter((d) => !d.hidden && (isAdmin || !d.forAdmin));
+		drops = drops.filter((d) => !d.hidden);
 		if (isTower) {
 			drops.forEach(drop => {
 				const other = drops.find(d => d.type === drop.type && d.id === drop.id);
@@ -3223,6 +3233,7 @@ async function drawMine(args) {
 		const questColor = ThemeEditor.toTripletColor(themeSettings.marker.quest);
 		const photoColor = ThemeEditor.toTripletColor(themeSettings.marker.photo);
 		const materialColor = ThemeEditor.toTripletColor(themeSettings.marker.material);
+		const energyColor = ThemeEditor.toTripletColor(themeSettings.marker.energy);
 		const petColor = ThemeEditor.toTripletColor(themeSettings.marker.pet);
 		const SIZE_ALT = Math.floor((TILE_SIZE + SW * 2) / 3) - SW;
 		const styles = {
@@ -3310,7 +3321,7 @@ async function drawMine(args) {
 					getCell().setAttribute('data-col', edit.c);
 					return edit.c ? specialColors[edit.c] : null;
 				}
-				return tDef.isQuest ? questColor : tDef.isSpecial ? specialColor : tDef.isPhoto ? photoColor : tDef.isMaterial ? materialColor : tDef.isPet ? petColor : null;
+				return tDef.isQuest ? questColor : tDef.isSpecial ? specialColor : tDef.isPhoto ? photoColor : tDef.isMaterial===2 ? energyColor : tDef.isMaterial ? materialColor : tDef.isPet ? petColor : null;
 			};
 			if (isUncleared) {
 				const edit = unclearEdits[tileKey];
