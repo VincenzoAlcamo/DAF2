@@ -479,12 +479,12 @@
 					processKeyCode = (code) => {
 						if (!canGo(this)) return null;
 						var d = ARROWKEYS_DELTA[code];
-						if (code == 'NumpadAdd' || code == 'NumpadSubtract') {
-							this.mouseWheel_handler({ delta: 3 * (code == 'NumpadAdd' ? 1 : -1) });
+						if (code == 'NumpadAdd' || code == 'NumpadSubtract' || code == 'BracketLeft' || code == 'BracketRight') {
+							this.mouseWheel_handler({ delta: 3 * ((code == 'NumpadAdd' || code == 'BracketRight') ? 1 : -1) });
 						} else if (code == 'NumpadDivide' || code == 'KeyD') {
 							setAutoDig(false);
 							const now = Date.now();
-							if(now - lastFindTime >= 1000 && !this._character.diggingQueue.getFirst()) {
+							if(now - lastFindTime >= 750 && !this._character.diggingQueue.getFirst()) {
 								const tile = findNextTile(this);
 								if (tile) {
 									lastFindTime = now;
@@ -492,7 +492,7 @@
 									this._character.go(tile);
 								}
 							}
-						} else if (code == 'Numpad0') {
+						} else if (code == 'Numpad0' || code == 'KeyC') {
 							this.updateCamera(this._character.mineX, this._character.mineY);
 						} else if (d) {
 							toggleAutoDig(false);
