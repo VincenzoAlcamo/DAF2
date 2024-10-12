@@ -847,7 +847,8 @@ function gcTable_setOptions() {
 }
 
 const stopEvent = (event) => void (event.stopPropagation(), event.preventDefault());
-const ARROWKEYS = { KeyC: 1, KeyD: 1, BracketLeft: 1, BracketRight: 1 };
+const ARROWKEYS = { BracketLeft: 1, BracketRight: 1 };
+'D,C'.split(',').forEach(s => ARROWKEYS['Key' + s] = 1);
 'Left,Up,Down,Right'.split(',').forEach(s => ARROWKEYS['Arrow' + s] = 1);
 '0,1,2,3,4,5,6,7,8,9,Subtract,Add,Divide'.split(',').forEach(s => ARROWKEYS['Numpad' + s] = 1);
 function setupHotKeyHandlers() {

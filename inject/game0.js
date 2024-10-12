@@ -484,7 +484,7 @@
 						} else if (code == 'NumpadDivide' || code == 'KeyD') {
 							setAutoDig(false);
 							const now = Date.now();
-							if(now - lastFindTime >= 750 && !this._character.diggingQueue.getFirst()) {
+							if(now - lastFindTime >= 0 && !this._character._inAction && !this._character.diggingQueue.getFirst()) {
 								const tile = findNextTile(this);
 								if (tile) {
 									lastFindTime = now;
