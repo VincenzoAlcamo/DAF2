@@ -215,6 +215,7 @@
 			return _wallpost();
 		};
 
+/*
 		// Resize
 		window.removeEventListener('resize', window.resizeCanvas, false);
 		window.removeEventListener('resize', window.resizeCanvas, true);
@@ -234,6 +235,7 @@
 		window.isFullScreen = () => !!document.fullscreenElement;
 		window.exitFullscreen = () => document.exitFullscreen();
 		window.enterFullscreen = () => canvas.parentElement.requestFullscreen();
+*/
 	};
 
 	Msg.handlers['enableExtra'] = () => {

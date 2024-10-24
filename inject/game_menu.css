@@ -629,6 +629,7 @@ td.DAF-visit {
 /*#endregion*/
 
 /*#region FULLWINDOW*/
+/*
 .DAF-menu-container.portal [data-pref="fullWindowSide"] {
 	display: none;
 }
@@ -650,6 +651,7 @@ html.DAF-fullwindow .DAF-container {
 	width: 100% !important;
 	height: 100% !important;
 }
+*/
 /*#endregion*/
 
 /* Show language bar */
