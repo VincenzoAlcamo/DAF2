@@ -113,7 +113,7 @@ function init() {
 		miner = document.getElementById('canvas');
 		container = Html.get(`<div class="DAF-container"><div class="DAF-menu-container" style="display:none"></div></div>`)[0];
 		miner.parentNode.insertBefore(container, miner);
-		//container.appendChild(miner);
+		container.appendChild(miner);
 		container.style.setProperty('--canvas-h', miner.offsetHeight + 'px');
 		menu = container.querySelector('.DAF-menu-container');
 

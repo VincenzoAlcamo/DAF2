@@ -1,11 +1,13 @@
-/*
+html[daf-pagetype="facebook2"].DAF-fullwindowside [role="complementary"] {
+	display: none !important;
+}
+
 html.DAF-fullwindow,
 html.DAF-fullwindow body {
 	overflow: hidden !important;
 	height: 100%;
 }
 
-html[daf-pagetype="facebook2"].DAF-fullwindowside [role="complementary"],
 html[daf-pagetype="facebook2"].DAF-fullwindow [role="complementary"],
 html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"],
 html[daf-pagetype="facebook2"].DAF-fullwindow [role="banner"] ~ div:not(:has(iframe,[role="dialog"])),
@@ -44,4 +46,3 @@ html[daf-pagetype="portal"].DAF-fullwindow .game-iframe-da {
 	width: 100% !important;
 	height: 100% !important;
 }
-*/

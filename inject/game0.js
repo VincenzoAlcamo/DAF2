@@ -215,27 +215,28 @@
 			return _wallpost();
 		};
 
-/*
 		// Resize
-		window.removeEventListener('resize', window.resizeCanvas, false);
-		window.removeEventListener('resize', window.resizeCanvas, true);
-		window.resize = () => {};
-		const canvas = document.getElementById('canvas');
-		const resizeObserver = new ResizeObserver(function (entries) {
-			for (const entry of entries) entry.target.dispatchEvent(new CustomEvent('daf_resized', { bubbles: true }));
+		[window.resizeCanvas, window.onContainerResize].forEach(fn => {
+			window.removeEventListener('resize', fn, false);
+			window.removeEventListener('resize', fn, true);
 		});
-		resizeObserver.observe(canvas);
-		canvas.addEventListener('daf_resized', () => {
-			canvas.width = canvas.offsetWidth;
-			canvas.height = canvas.offsetHeight;
-			getJSInterface().onResize(canvas.width, canvas.height);
+		window.resize = window.onContainerResize = () => {};
+		const canvas = document.getElementById('canvas');
+		function resizeCanvas() {
+			const width = canvas.offsetWidth;
+			const height = canvas.offsetHeight;
+			canvas.width = width;
+			canvas.height = height;
+			gameInterface().onResize(width, height);
 			const div = document.querySelector('.DAF-container');
 			if (div) div.classList.toggle('DAF-fullscreen', document.fullscreenElement === div);
-		});
+		}
+		const resizeObserver = new ResizeObserver(() => setTimeout(resizeCanvas, 0) );
+		resizeObserver.observe(canvas);
 		window.isFullScreen = () => !!document.fullscreenElement;
 		window.exitFullscreen = () => document.exitFullscreen();
-		window.enterFullscreen = () => canvas.parentElement.requestFullscreen();
-*/
+		window.enterFullscreen = () => canvas.parentElement.parentElement.requestFullscreen();
+		window.toggleFullscreen = () => window.isFullScreen() ? window.exitFullscreen() : window.enterFullscreen();
 	};
 
 	Msg.handlers['enableExtra'] = () => {

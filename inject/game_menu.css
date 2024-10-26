@@ -3,6 +3,8 @@
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	width: 100%;
+	height: 100%;
 	--menu-y: 20px;
 	--canvas-h: 650px;
 	--gctable-h: 0px;
@@ -374,16 +376,6 @@
 	display: inline-block;
 }
 
-/* .DAF-badges .DAF-badge-p-c.animate,
-.DAF-badges .DAF-badge-p-k.animate,
-.DAF-badges .DAF-badge-p-f.animate,
-.DAF-badges .DAF-badge-luckycards.animate,
-.DAF-badges .DAF-badge-petshop.animate,
-.DAF-badges .DAF-badge-windmills.animate,
-.DAF-badges .DAF-badge-rep.animate b {
-	animation: DAF_flash infinite 2s alternate;
-} */
-
 .DAF-badges .DAF-badge-extra.DAF-badge-on,
 .DAF-badges.DAF-hasQueue.DAF-hqueue.DAF-hautoqueue .DAF-badge-autoqueue,
 .DAF-badges.DAF-hasAutoDig.DAF-hqueue.DAF-hautodig .DAF-badge-autodig,
@@ -629,7 +621,6 @@ td.DAF-visit {
 /*#endregion*/
 
 /*#region FULLWINDOW*/
-/*
 .DAF-menu-container.portal [data-pref="fullWindowSide"] {
 	display: none;
 }
@@ -651,7 +642,6 @@ html.DAF-fullwindow .DAF-container {
 	width: 100% !important;
 	height: 100% !important;
 }
-*/
 /*#endregion*/
 
 /* Show language bar */
