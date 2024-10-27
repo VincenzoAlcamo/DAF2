@@ -414,7 +414,7 @@ function createMenu() {
 	// remove spaces
 	html = html.replace(/>\s+/g, '>');
 	Html.set(menu, html);
-	menu.querySelector('[data-pref="hAutoDig"]')?.remove();
+	// menu.querySelector('[data-pref="hAutoDig"]')?.remove();
 	const select = menu.querySelector('[data-pref="hFoodNum"]');
 	[...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
 	menu.querySelector('[data-value="switch"]').setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');

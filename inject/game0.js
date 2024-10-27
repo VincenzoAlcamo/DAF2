@@ -351,6 +351,17 @@
 			}
 		);
 
+		const mineInfo = { mineId: 0, isRepeat: false, isTower: false };
+		function getMineInfo() {
+			const screen = core.instance._screenManager?._activeScreen?._screen;
+			const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
+			if (mineId !== mineInfo) {
+				mineInfo.mineId = mineId;
+				mineInfo.isRepeat = !!mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
+				mineInfo.isTower = !!mineId && screen._mineLoader.isTowerFloor();
+			}
+			return mineInfo;
+		}
 		function getSpeed(p_core, val, def, isPet) {
 			const hasSpeedUp = (isPet && Prefs.hPetSpeed) || Prefs.hSpeed;
 			return hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0
@@ -465,7 +476,7 @@
 					setupFindNextTile(this);
 					toggleAutoDig = (flag) => {
 						if (flag === undefined) flag = !isAutoDigEnabled;
-						flag = flag && Prefs.isSuper;
+						flag = flag && (Prefs.isSuper || getMineInfo().isRepeat);
 						if (isAutoDigEnabled == flag) return;
 						if (!flag) setAutoDig(false);
 						else {

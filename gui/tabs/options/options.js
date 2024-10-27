@@ -477,11 +477,11 @@ UI_claim_coin_single_slow_02
 	option('hSpeed', SUBOPTION);
 	option('hQueue', SUBOPTION);
 	option('hAutoQueue', SUBOPTION);
+	option('autoDigHotKey', SUBOPTION);
 	option('hKeys', SUBOPTION);
 	option('hLockCaravan', SUBOPTION);
 	option('hPetFollow', SUBOPTION);
 	option('hPetSpeed', SUBOPTION);
-	if (bgp.Data.isMapper) option('autoDigHotKey', SUBOPTION);
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');

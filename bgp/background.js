@@ -150,7 +150,7 @@ var Preferences = {
 			hAutoQueue: false,
 			queueHotKey: 'Q',
 			queueMouseGesture: 0,
-			autoDigHotKey: '',
+			autoDigHotKey: 'D',
 			hKeys: false,
 			hScroll: false,
 			hReward: true,
