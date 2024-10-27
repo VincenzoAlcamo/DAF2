@@ -17,9 +17,14 @@
 	--menu-y: 50px;
 }
 
+.DAF-container #canvas,
 .DAF-container canvas {
 	height: var(--canvas-h);
 	flex-grow: 1;
+	position: relative;
+}
+#container:has(.DAF-container) {
+	height: unset;
 }
 
 .DAF-menu-container {
