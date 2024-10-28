@@ -562,20 +562,12 @@ var Data = {
 15545185,16570740,17362365,18096732,19229879,19728318,20653338,20904021,21378282,24440023,29543778,30529001,33175578,34604764,35108410,\
 38554475,41201728,42636008,43019564,44304045,46411248,';
 		const p = v => parseInt(v, 36), has = n => !!String(Preferences.values.features).split(/\W/).find(v => p(v) == n);
-		let isAdmin = false, isMapper = false, isSuper = false;
-		Object.defineProperties(Data, {
-			checkUser: {
-				value() {
-					const id = +(Data.generator && Data.generator.player_id) || -1;
-					isAdmin = admins.indexOf(`,${id},`) >= 0 || has(id ^ p('admin'));
-					isMapper = ',5703231,10484489,10609447,11530133,17362365,48599461,'.indexOf(`,${id},`) >= 0 || has(id ^ p('mapper'));
-					isSuper = ',10484489,10609447,11530133,48599461,'.indexOf(`,${id},`) >= 0 || has(id ^ p('super'));
-				}
-			},
-			isAdmin: { get() { return isAdmin; } },
-			isMapper: { get() { return isMapper; } },
-			isSuper: { get() { return isSuper; } },
-		});
+		Data.checkUser = () => {
+			const id = +(Data.generator && Data.generator.player_id) || -1;
+			Data.isAdmin = admins.indexOf(`,${id},`) >= 0 || has(id ^ p('admin'));
+			Data.isMapper = ',5703231,10484489,10609447,11530133,17362365,48599461,4705505,19229879,'.indexOf(`,${id},`) >= 0 || has(id ^ p('mapper'));
+			Data.isSuper = ',10484489,10609447,11530133,48599461,4705505,19229879,'.indexOf(`,${id},`) >= 0 || has(id ^ p('super'));
+		};
 		Data.initCollections();
 		Data.setGenerator();
 		Data.files = {};

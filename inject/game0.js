@@ -476,7 +476,7 @@
 					setupFindNextTile(this);
 					toggleAutoDig = (flag) => {
 						if (flag === undefined) flag = !isAutoDigEnabled;
-						flag = flag && (Prefs.isSuper || getMineInfo().isRepeat);
+						flag = flag && (Prefs.isSuper || !getMineInfo().isRepeat);
 						if (isAutoDigEnabled == flag) return;
 						if (!flag) setAutoDig(false);
 						else {
