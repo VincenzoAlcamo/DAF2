@@ -298,10 +298,14 @@ function setOption(id, flag) {
 	options[id] = flag;
 }
 
+function isMapper() {
+	return bgp.Data.isMapper;
+}
+
 function init() {
 	tab = this;
 	container = tab.container;
-	isAdmin = bgp.Data.isMapper;
+	isAdmin = isMapper();
 
 	tableTileInfo = container.querySelector('.tile-info table');
 
@@ -1257,7 +1261,7 @@ function onTableClick(event) {
 }
 
 function update() {
-	isAdmin = theme.isAdmin = bgp.Data.isMapper;
+	isAdmin = theme.isAdmin = isMapper();
 	canShowBonus = true; //isFlagAllowed('B');
 	canShowBeacon = isFlagAllowed('E');
 	({ cdn_root, versionParameter } = gui.getGenerator());
