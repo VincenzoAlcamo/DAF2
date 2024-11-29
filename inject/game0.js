@@ -406,7 +406,7 @@
 
 		function isTileDiggable(tile, p_core) {
 			if (tile.isBreakable()) return true;
-			if (tile.isUsable() && tile.beaconType == 'one-way' && (tile.beaconReqMat == 0 || p_core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return true;
+			if (tile.beaconType == 'one-way' && (tile.isUsable() || tile.isPetUsable()) && (tile.beaconReqMat == 0 || p_core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return true;
 			const npc = tile.isNpc() ? tile.get_npc() : null;
 			if (npc && (npc._pickChild != 0 || (npc._pickToken && npc._pickToken.length > 0))) return true;
 			return false;
