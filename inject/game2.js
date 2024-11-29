@@ -1,3 +1,9 @@
+// Add intercept code
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = chrome.runtime.getURL('inject/game0.js');
+document.documentElement.appendChild(script);
+
 function setupMessaging(src, color, dst) {
 	const logPrefix = `%c ${src.toUpperCase()} %c`;
 	const logColor = `background-color:${color};color:white`;
@@ -101,12 +107,6 @@ function setScreen(value) {
 }
 
 function init() {
-	// Add intercept code
-	const script = document.createElement('script');
-	script.type = 'text/javascript';
-	script.src = getExtensionUrl('inject/game0.js');
-	document.documentElement.appendChild(script);
-
 	Msg.send('forward', { real_action: 'gameStarted' });
 
 	window.addEventListener('DOMContentLoaded', () => {

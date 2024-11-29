@@ -269,14 +269,13 @@
 			Numpad5: [0, 0],
 		};
 
+		const getClass = (className) => $hxClasses[className] || window.$hxClasses?.[className];
 		function intercept(className, protoName, fn) {
-			const def = $hxClasses[className],
-				proto = def?.prototype,
-				_ = proto?.[protoName];
+			const def = getClass(className), proto = def?.prototype, _ = proto?.[protoName];
 			if (_ && typeof _ === 'function') proto[protoName] = fn(_, def);
 		}
 
-		const core = $hxClasses['com.pixelfederation.diggy.Core'];
+		const core = getClass('com.pixelfederation.diggy.Core');
 		const getFriendsManager = () => {
 			const gm = core.instance?._gameManagers;
 			return gm && (gm._friendsManager || gm.friendsManager);
