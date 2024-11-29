@@ -3026,15 +3026,16 @@ async function drawMine(args) {
 	}
 
 	// Tiles
+	const isTileVisible = (tile) => tile.isTile && tile.isVisible;
 	await drawAll(subtiles, 'tileSubtype', (x, y, tileDef, item, img) => {
 		if (!tileDef.isVisible) return;
 		const cell = table.rows[y].cells[x];
 		cell.classList.toggle('tile', tileDef.isTile);
 		if (tileDef.isTile) {
-			cell.classList.toggle('tile-w', x > 0 && tileDefs[y * cols + x - 1].isTile);
-			cell.classList.toggle('tile-e', x < cols - 1 && tileDefs[y * cols + x + 1].isTile);
-			cell.classList.toggle('tile-n', y > 0 && tileDefs[(y - 1) * cols + x].isTile);
-			cell.classList.toggle('tile-s', y < rows - 1 && tileDefs[(y + 1) * cols + x].isTile);
+			cell.classList.toggle('tile-w', x > 0 && isTileVisible(tileDefs[y * cols + x - 1]));
+			cell.classList.toggle('tile-e', x < cols - 1 && isTileVisible(tileDefs[y * cols + x + 1]));
+			cell.classList.toggle('tile-n', y > 0 && isTileVisible(tileDefs[(y - 1) * cols + x]));
+			cell.classList.toggle('tile-s', y < rows - 1 && isTileVisible(tileDefs[(y + 1) * cols + x]));
 		}
 		if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
 			if (tileDef.bonusXp) cell.classList.add('xp');
