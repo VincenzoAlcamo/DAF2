@@ -646,7 +646,7 @@ function deleteWormsFrom(map) {
 }
 
 function isFlagAllowed(flag) {
-	return 'CDNTUVX'.indexOf(flag) >= 0 || isAdmin;
+	return 'CDNTUVXBLA'.indexOf(flag) >= 0 || isAdmin;
 }
 
 function scrollToCenter(x, y, smooth) {
@@ -1263,7 +1263,7 @@ function onTableClick(event) {
 function update() {
 	isAdmin = theme.isAdmin = isMapper();
 	canShowBonus = true; //isFlagAllowed('B');
-	canShowBeacon = isFlagAllowed('E');
+	canShowBeacon = true; //isFlagAllowed('E');
 	({ cdn_root, versionParameter } = gui.getGenerator());
 	if (determineCurrentMine()) gui.setLazyRender(map);
 	addons = gui.getFile('addons');
@@ -2965,7 +2965,7 @@ async function drawMine(args) {
 				if (item.req_drag) {
 					const draggable = draggables[item.req_drag];
 					if (draggable) {
-						debugs.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
+						texts.push(`${gui.getMessage('map_require_draggable')} #${item.req_drag}${item.req_drag_rotation != 'none' ? ` (${getReqOrientationName(item.req_drag_rotation)})` : ''}`);
 						asset = draggable.mobile_asset;
 						const override = draggables[asArray(draggable.overrides).filter((o) => +o.region_id == rid).map((o) => o.override_drag_id)[0]];
 						if (override && override.mobile_asset in images) asset = override.mobile_asset;
@@ -2977,12 +2977,12 @@ async function drawMine(args) {
 					const name = token.name_loc
 						? gui.getString(token.name_loc)
 						: gui.getMessage('gui_token') + '#' + item.req_material;
-					debugs.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
+					texts.push(gui.getMessageAndValue('map_require_item', (item.req_amount > 1 ? Locale.formatNumber(item.req_amount) + ' \xd7 ' : '') + name));
 					asset = token.mobile_asset;
 					isHidden = +token.visibility == 0;
 				}
 				if (item.req_light) {
-					debugs.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
+					texts.push(gui.getMessageAndValue('map_require_light', getLightColorName(item.req_light)));
 				}
 				if (!asset && item.activation === 'push') {
 					const beacon = currentData.beacons[tileDef.miscId];
