@@ -621,15 +621,24 @@ function calcRegion(item) {
 	const getProgTime = (lid) => +loc_prog[lid]?.crtd || 0;
 	const getProg = (lid) => +loc_prog[lid]?.prog || 0;
 	const excluded = {};
-	const checkPair = (oldId, newId) => {
-		if (oldId in locations && newId in locations) {
-			if (getProg(oldId) == 0) excluded[oldId] = 5;
-			else if (getProg(newId) == 0) excluded[newId] = 5;
-		}
+	const checkMines = (...ids) => {
+		const allIds = ids.filter(id => id in locations && !(+locations[id].test > 0)).map(id => +id).sort();
+		if (!allIds.length) return;
+		const idWithProg = allIds.filter(id => getProg(id) > 0);
+		// If none have progress, pick the last one (the highest id)
+		if (!idWithProg.length) idWithProg.push(allIds[allIds.length - 1]);
+		// All the others are excluded
+		allIds.filter(id => !idWithProg.includes(id)).forEach(id => excluded[id] = 5);
 	}
-	Object.values(gui.getFile('location_replaces')).forEach((r) => +r.active && checkPair(r.location_id, r.replace_id));
-	// Egypt - Anubis - Deserted Tomb
-	checkPair(1504, 5143);
+	Object.values(gui.getFile('location_replaces')).forEach((r) => +r.active && checkMines(r.location_id, r.replace_id));
+	// Egypt - Anubis - Deserted Tomb and other possible replacements
+	const groupByGodAndName = {};
+	Object.values(locations).forEach(mine => {
+		const key = mine.filter + '_' + mine.name_loc;
+		if (key in groupByGodAndName) groupByGodAndName[key].push(mine.def_id);
+		else groupByGodAndName[key] = [mine.def_id];
+	});
+	Object.values(groupByGodAndName).filter(arr => arr.length > 1).forEach(arr => checkMines(...arr));
 	// Patch Egypt: Oasis (#43) and Dry Oasis (#2808) to have the same group_id
 	if (item.rid == 1 && 43 in locations && 2808 in locations) locations[2808].group_id = locations[43].group_id;
 	for (const mine of Object.values(locations)) {
