@@ -2901,7 +2901,11 @@ async function drawMine(args) {
 				const t = tileDefs[pos + delta];
 				if (flag) {
 					// Check if a tile is here
-					const tileIsHere = t.tileStatus == 0 && ((!showBackground && t.stamina >= 0) || t.stamina < 0);
+					let tileIsHere = t.tileStatus == 0 && ((!showBackground && t.stamina >= 0) || t.stamina < 0);
+					if (tileIsHere) {
+						const sub = subtiles[t.tileSubtype];
+						if (sub && +sub.alpha) tileIsHere = false;
+					}
 					if (!tileIsHere) t.addonDelta = delta;
 				} else delete t.addonDelta;
 			}
