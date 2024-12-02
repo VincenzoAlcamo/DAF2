@@ -98,12 +98,10 @@ function update() {
 		};
 	}
 
-	// A tutorial map must match the user tutorial
-	const userTutorial = +gui.getGenerator().tutorial_def_id;
+	// Keep track of tutorial mines
 	mapTutorials = {};
 	for (const lesson of Object.values(gui.getFile('tutorials'))) {
-		const flag = userTutorial == +lesson.def_id;
-		for (const lid of gui.getArrayOfInt(lesson.locations)) mapTutorials[lid] = flag;
+		for (const lid of gui.getArrayOfInt(lesson.locations)) mapTutorials[lid] = true;
 	}
 
 	const rid = +gui.getGenerator().region;
@@ -634,9 +632,12 @@ function calcRegion(item) {
 	// Egypt - Anubis - Deserted Tomb and other possible replacements
 	const groupByGodAndName = {};
 	Object.values(locations).forEach(mine => {
+		const id = mine.def_id;
+		// Exclude tutorial mines, until the player actually does them
+		if (id in mapTutorials && getProg(id) == 0) excluded[id] = 6;
 		const key = mine.filter + '_' + mine.name_loc;
-		if (key in groupByGodAndName) groupByGodAndName[key].push(mine.def_id);
-		else groupByGodAndName[key] = [mine.def_id];
+		if (key in groupByGodAndName) groupByGodAndName[key].push(id);
+		else groupByGodAndName[key] = [id];
 	});
 	Object.values(groupByGodAndName).filter(arr => arr.length > 1).forEach(arr => checkMines(...arr));
 	// Patch Egypt: Oasis (#43) and Dry Oasis (#2808) to have the same group_id
@@ -758,8 +759,6 @@ function isMineValid(mine) {
 	if (+mine.test || mine.filter == 'test' || mine.name_loc == 'TEST') return false;
 	// Exclude repeatables
 	if (+mine.reset_cd) return false;
-	// Tutorial id must match player's tutorial
-	if (mine.def_id in mapTutorials && !mapTutorials[mine.def_id]) return false;
 	return true;
 }
 
