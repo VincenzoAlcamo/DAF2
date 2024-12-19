@@ -362,10 +362,9 @@
 			return mineInfo;
 		}
 		function getSpeed(p_core, val, def, isPet) {
-			const hasSpeedUp = (isPet && Prefs.hPetSpeed) || Prefs.hSpeed;
-			return hasSpeedUp && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0
-				? Math.min(val * (isAutoDigEnabled ? 0.2 : 0.4), def)
-				: def;
+			const hasSpeedUp = ((isPet && Prefs.hPetSpeed) || Prefs.hSpeed) && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
+			if (isAutoDigEnabled) return Math.min(val * (hasSpeedUp ? 0.15 : 0.4), def)
+			return hasSpeedUp ? Math.min(val * 0.4, def) : def;
 		}
 		intercept('com.pixelfederation.diggy.game.character.Character', 'goPathNext', function (_goPathNext) {
 			extras.push('hSpeed');
