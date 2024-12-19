@@ -162,13 +162,16 @@ function ringLoot(kind) {
 		for (const mine of mines) {
 			const lid = mine.def_id;
 			if (+mine.region_id > +gui.getGenerator().region) continue;
+			const excluded = { "0": true };
+			const zero = mine.rotation.filter(rot => !+rot.chance);
+			if (zero.length > 0 && zero.length < mine.rotation.length) zero.forEach(rot => excluded[rot.level] = true);
 			const floors = await bgp.Data.getFile('floors_' + lid);
 			const allLoots = [];
 			let chest = 0;
 			let hasCandy = false;
 			let christmastTokenId = christmasMines[lid] || 0;
 			for (const floor of floors.floor) {
-				if (!floor.def_id) continue;
+				if (floor.def_id in excluded ) continue;
 				if (kind == 'christmas') {
 					const beacons = floor.beacons.beacon;
 					(beacons ? [].concat(beacons) : []).forEach(beacon => {

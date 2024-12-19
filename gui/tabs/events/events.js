@@ -207,10 +207,8 @@ function update() {
 			const mapLocations = {};
 			gui.getArrayOfInt(event.locations).forEach(id => mapLocations[id] = false);
 			gui.getArrayOfInt(event.extended_locations).forEach(id => mapLocations[id] = true);
-			if (Object.values(mapLocations) == 0) {
-				const locations = gui.getFile('locations_0');
-				item.loc_qst = Object.values(locations).filter(loc => +loc.event_id == eid && +loc.test == 0).forEach(loc => mapLocations[loc.def_id] = true);
-			}
+			const locations = gui.getFile('locations_0');
+			Object.values(locations).filter(loc => +loc.event_id == eid && +loc.test == 0 && !(loc.def_id in mapLocations)).forEach(loc => mapLocations[loc.def_id] = true);
 			const rep = [], xlo = [], qst = [];
 			Object.keys(mapLocations).forEach(id => {
 				const location = locations0[id];

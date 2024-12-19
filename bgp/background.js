@@ -917,7 +917,7 @@ var Data = {
 				if (eid) {
 					const event = events[eid];
 					if (!event) continue;
-					if ((',' + event.locations + ',' + event.extended_locations + ',').indexOf(',' + loc.def_id + ',') < 0) continue;
+					// if ((',' + event.locations + ',' + event.extended_locations + ',').indexOf(',' + loc.def_id + ',') < 0) continue;
 					item.eid = eid;
 					item.ename = event.name_loc;
 				}
