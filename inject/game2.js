@@ -234,7 +234,9 @@ async function setExtra(extra) {
 		el.remove();
 		if (!parent.firstElementChild) parent.remove();
 	});
-	if (!options.querySelector('[data-pref]')) options.remove();
+	const hasExtra = !!options.querySelector('[data-pref]');
+	menu.classList.toggle('hasExtra', hasExtra);
+	if (!hasExtra) options.remove();
 	else {
 		menu.querySelector('.DAF-badge-extra')?.remove();
 		options.style.removeProperty('display');

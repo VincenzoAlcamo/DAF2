@@ -71,7 +71,7 @@
 	height: calc(1em + 11px);
 	width: calc(1em + 12px);
 	border-width: 2px;
-	transition: 0.6s;
+	transition: 0.6s, background-color 0s, border 0s;
 	background-position: 8px 4px;
 	background-repeat: no-repeat;
 	background-image: var(--logo);
@@ -88,6 +88,12 @@
 	padding: 8px 0px 24px 10px;
 	width: 54px;
 	background-position: -14px 24px;
+}
+
+.DAF-menu-container.hasExtra .DAF-menu:not(:hover),
+.DAF-menu-container.hasExtra .DAF-menu li[data-action="about"] b,
+.DAF-menu-container.hasExtra .DAF-menu li[data-action="options"] b {
+	background-color: #0f0 !important;
 }
 
 .DAF-menu li {
