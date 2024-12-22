@@ -1,0 +1,101 @@
+{
+	"manifest_version": 2,
+	"name": "__MSG_ext_name__",
+	"version": "2.0.216.1",
+	"default_locale": "en",
+	"description": "__MSG_ext_title__ (firefox)",
+	"minimum_chrome_version": "95",
+	"icons": {
+		"16": "img/logo/iconYellow.png",
+		"128": "img/logo/logo.png"
+	},
+	"browser_action": {
+		"default_icon": "img/logo/iconGrey.png"
+	},
+	"permissions": [
+		"activeTab",
+		"downloads",
+		"storage",
+		"tabs",
+		"webNavigation",
+		"*://apps.facebook.com/diggysadventure/*",
+		"*://cdn.diggysadventure.com/*",
+		"*://static.diggysadventure.com/*",
+		"*://diggysadventure.com/*",
+		"*://game.diggysadventure.com/*",
+		"*://portal.pixelfederation.com/*",
+		"*://web.facebook.com/*",
+		"*://m.facebook.com/*",
+		"*://mbasic.facebook.com/*",
+		"*://www.facebook.com/*"
+	],
+	"web_accessible_resources": [
+		"inject/*.css",
+		"inject/game0.js",
+		"css/*.css",
+		"js/*.js",
+		"js/*.map",
+		"img/*"
+	],
+	"content_scripts": [
+		{
+			"matches": [
+				"https://portal.pixelfederation.com/*",
+				"https://portal.pixelfederation.com/*/diggysadventure",
+				"https://portal.pixelfederation.com/*/diggysadventure/",
+				"https://portal.pixelfederation.com/*/diggysadventure/?*",
+				"https://apps.facebook.com/diggysadventure",
+				"https://apps.facebook.com/diggysadventure/",
+				"https://apps.facebook.com/diggysadventure/?*"
+			],
+			"all_frames": true,
+			"run_at": "document_start",
+			"js": [
+				"inject/game1.js"
+			]
+		},
+		{
+			"matches": [
+				"https://portal.pixelfederation.com/_da/miner",
+				"https://portal.pixelfederation.com/_da/miner/*",
+				"https://game.diggysadventure.com/miner",
+				"https://game.diggysadventure.com/miner/*",
+				"https://diggysadventure.com/miner",
+				"https://diggysadventure.com/miner/*"
+			],
+			"exclude_globs": [
+				"*/wallpost.php*"
+			],
+			"all_frames": true,
+			"run_at": "document_start",
+			"world": "MAIN",
+			"js": [
+				"inject/game0.js"
+			]
+		},
+		{
+			"matches": [
+				"https://portal.pixelfederation.com/_da/miner",
+				"https://portal.pixelfederation.com/_da/miner/*",
+				"https://game.diggysadventure.com/miner",
+				"https://game.diggysadventure.com/miner/*",
+				"https://diggysadventure.com/miner",
+				"https://diggysadventure.com/miner/*"
+			],
+			"exclude_globs": [
+				"*/wallpost.php*"
+			],
+			"all_frames": true,
+			"run_at": "document_start",
+			"js": [
+				"js/purify.min.js",
+				"js/Html.js",
+				"inject/game2.js"
+			]
+		}
+	],
+	"background": {
+		"page": "bgp/background.html",
+		"persistent": true
+	}
+}
