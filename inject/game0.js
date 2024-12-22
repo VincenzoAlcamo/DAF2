@@ -1,4 +1,6 @@
 (function () {
+	if ((typeof chrome !== 'undefined' && chrome.storage) || document.documentElement.dataset.daf2Setup) return;
+	document.documentElement.dataset.daf2Setup = true;
 	function setupMessaging(src, color, dst) {
 		const logPrefix = `%c ${src.toUpperCase()} %c`;
 		const logColor = `background-color:${color};color:white`;

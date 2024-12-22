@@ -2,7 +2,7 @@
 var script = document.createElement('script');
 script.type = 'text/javascript';
 script.src = chrome.runtime.getURL('inject/game0.js');
-document.documentElement.appendChild(script);
+if (!document.documentElement.dataset.daf2Setup) document.documentElement.appendChild(script);
 
 function setupMessaging(src, color, dst) {
 	const logPrefix = `%c ${src.toUpperCase()} %c`;
