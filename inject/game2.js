@@ -355,8 +355,7 @@ function createMenu() {
 		<span data-text="options_hmain:0"></span>
 		<u><i data-pref="hFlashAdSound" data-title="options_hflashad:1" data-text="options_hflashad:0"></i>
 		<i data-pref="hEnergyMaxSound" data-title="options_henergymax:1" data-text="options_henergymax:0"></i></u>
-		<u><i data-pref="hReward"></i>
-		<i data-pref="hGCCluster"></i></u>
+		<u><i data-pref="hGCCluster"></i></u>
 		<u><i data-pref="hScroll"></i>
 		<i data-pref="hInstantCamera"></i></u>
 		<u class="squared">

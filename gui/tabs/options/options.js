@@ -459,7 +459,6 @@ UI_claim_coin_single_slow_02
 	option('hMain', WITHSUBOPTIONS + CRITICAL + ENABLE);
 	optionEffect('hFlashAd');
 	optionEffect('hEnergyMax');
-	option('hReward', SUBOPTION);
 	option('hGCCluster', SUBOPTION);
 	option('hScroll', SUBOPTION);
 	option('hInstantCamera', SUBOPTION);

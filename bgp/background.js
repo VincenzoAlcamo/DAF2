@@ -153,7 +153,6 @@ var Preferences = {
 			autoDigHotKey: 'D',
 			hKeys: false,
 			hScroll: false,
-			hReward: true,
 			hLootFew: false,
 			hLootCount: true,
 			hLootZoom: true,

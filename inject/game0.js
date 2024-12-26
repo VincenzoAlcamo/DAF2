@@ -340,19 +340,6 @@
 			}
 		}
 
-		intercept(
-			'com.pixelfederation.diggy.screens.popup.RedeemEnterCodePopup',
-			'keyDownHandler',
-			function (_keyDownHandler) {
-				extras.push('hReward');
-				return function (p_event) {
-					if (p_event.keyCode >= 65 && p_event.keyCode <= 90 && Prefs.hReward)
-						p_event = { keyCode: p_event.keyCode, key: p_event.key.toUpperCase() };
-					return _keyDownHandler.call(this, p_event);
-				};
-			}
-		);
-
 		const mineInfo = { mineId: 0, isRepeat: false, isTower: false };
 		function getMineInfo() {
 			const screen = core.instance._screenManager?._activeScreen?._screen;
