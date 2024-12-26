@@ -329,7 +329,8 @@
 
 			Msg.handlers['showMails'] = () => {
 				if (mails.length && currentScreen.startsWith('campUpperScreen.null')) {
-					const popupManager = core.instance?._gameManagers?._newsPopupsManager;
+					const gm = core.instance?._gameManagers;
+					const popupManager = gm?._newsPopupsManager || gm?.newsPopupsManager;
 					if (popupManager) {
 						mailsState = 1;
 						popupManager._mails = [...mails];
