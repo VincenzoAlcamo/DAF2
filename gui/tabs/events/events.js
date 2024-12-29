@@ -1024,7 +1024,7 @@ function showInfo() {
 
 function getQuests(event) {
 	const quests = gui.getFile('quests');
-	return gui.getArrayOfInt(event.quests).sort().map(qid => {
+	return gui.getArrayOfInt(event.quests).sort((a,b) => a - b).map(qid => {
 		const quest = quests[qid];
 		// Quest must have the heading
 		return quest && quest.heading_text ? quest : null;

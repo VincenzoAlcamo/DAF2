@@ -893,7 +893,7 @@ var Data = {
 		const wmduration = 7 * SECONDS_IN_A_DAY;
 		if (camp && Array.isArray(camp.windmills) && camp.windmills.length >= +camp.windmill_limit) {
 			// Take for each windmill the expiry date, then sort ascending
-			const windmills = camp.windmills.map(wm => (wmduration + (+wm.activated)) || 0).sort();
+			const windmills = camp.windmills.map(wm => (wmduration + (+wm.activated)) || 0).sort((a, b) => a - b);
 			// If there are windmills in excess, considers only the first of the last "mindmill_limit" windmills
 			wmtime = windmills[windmills.length - camp.windmill_limit];
 		}

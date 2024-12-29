@@ -620,7 +620,7 @@ function calcRegion(item) {
 	const getProg = (lid) => +loc_prog[lid]?.prog || 0;
 	const excluded = {};
 	const checkMines = (...ids) => {
-		const allIds = ids.filter(id => id in locations && !(+locations[id].test > 0)).map(id => +id).sort();
+		const allIds = ids.filter(id => id in locations && !(+locations[id].test > 0)).map(id => +id).sort((a, b) => a - b);
 		if (!allIds.length) return;
 		const idWithProg = allIds.filter(id => getProg(id) > 0);
 		// If none have progress, pick the last one (the highest id)
