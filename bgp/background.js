@@ -84,10 +84,8 @@ var Preferences = {
 			adsOpacity: false,
 			darkTheme: false,
 			shrinkMenu: 0,
-			autoClick: false,
 			noGCPopup: false,
 			autoGC: false,
-			autoLogin: false,
 			gcTable: false,
 			gcTableCounter: true,
 			gcTableRegion: true,
@@ -129,19 +127,8 @@ var Preferences = {
 			mapSettings: '',
 			fbFriendsPage: 0,
 			linkGrabEnabled: false,
-			linkGrabButton: 2,
-			linkGrabKey: 0,
-			linkGrabSort: 0,
-			linkGrabConvert: 0,
 			linkGrabBadge: true,
 			linkGrabHotKey: 'G',
-			shorten: '',
-			rewardsRemoveDays: 7,
-			rewardsClose: false,
-			rewardsSummary: true,
-			rewardsCloseExceptGems: true,
-			rewardsCloseExceptErrors: true,
-			rewardsCollectSelf: true,
 			repeatables: '',
 			friendsCollectDate: 0,
 			hMain: false,
@@ -324,34 +311,13 @@ var Tab = {
 		};
 		chrome.webNavigation.onDOMContentLoaded.addListener(Tab.onFBNavigation, fbFilters);
 
-		// Add Reward Link script to Reward pages
-		// Note: the same listener can be added only once, so we have to combine the two rules.
-		const rewardLinkFilters = {
-			url: [{
-				hostEquals: 'diggysadventure.com',
-				pathEquals: '/miner/wallpost.php'
-			}, {
-				hostEquals: 'game.diggysadventure.com',
-				pathEquals: '/miner/wallpost.php'
-			}, {
-				hostEquals: 'portal.pixelfederation.com',
-				pathEquals: '/_da/miner/wallpost.php'
-			}]
-		};
-		chrome.webNavigation.onDOMContentLoaded.addListener(Tab.onRewardNavigation, rewardLinkFilters);
-
 		return Tab.detectAll();
-	},
-	onRewardNavigation(details) {
-		const params = { file: ['/inject/rewardlink.js'], runAt: 'document_end', allFrames: false, frameId: details.frameId };
-		if (Preferences.getValue('rewardsSummary')) params.file.unshift('/js/purify.min.js');
-		executeScriptPromise(details.tabId, params);
 	},
 	onFBNavigation(details) {
 		const tabId = details.tabId;
 		if (details.frameId == 0 && (Preferences.getValue('linkGrabEnabled') || tabId === Tab.collectTabId) && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
 			console.log('Injecting LinkGrabber');
-			const code = ['language', 'linkGrabButton', 'linkGrabKey', 'linkGrabSort', 'linkGrabConvert', 'linkGrabEnabled', 'linkGrabBadge', 'linkGrabHotKey', 'shorten'].map(key => {
+			const code = ['language', 'linkGrabEnabled', 'linkGrabBadge', 'linkGrabHotKey'].map(key => {
 				return 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
 			}).join('') + 'initialize();';
 			const params = {
@@ -471,11 +437,6 @@ function Language(id, gameId, name, nameLocal, locales) {
 // eslint-disable-next-line no-var
 var Data = {
 	db: null,
-	REWARDLINKS_DAILY_LIMIT: 99,
-	REWARDLINKS_VALIDITY_DAYS: 7,
-	REWARDLINKS_REFRESH_HOURS: 22,
-	REWARDLINKS_REMOVE_DAYS: 8,
-	REWARDLINKS_HISTORY_MAXITEMS: 10000,
 	GC_REFRESH_HOURS: 22,
 	languages: [
 		new Language('cs', 'CZ', 'Czech', '\u010ce\u0161tina', 'CZ'),
@@ -546,7 +507,7 @@ var Data = {
 					});
 			}
 		});
-		const tx = Data.db.transaction(['Files', 'Neighbours', 'Friends', 'RewardLinks'], 'readonly');
+		const tx = Data.db.transaction(['Files', 'Neighbours', 'Friends'], 'readonly');
 		/*
 		tx.objectStore('Files').iterateCursor(cursor => {
 			if (!cursor) return;
@@ -572,16 +533,6 @@ var Data = {
 		Data.files = {};
 		Data.neighbours = {};
 		Data.friends = {};
-		Data.rewardLinks = {};
-		Data.rewardLinksData = {
-			id: 'data',
-			first: 0,
-			next: 0,
-			count: 0,
-			expired: 0
-		};
-		Data.rewardLinksHistory = [];
-		Data.rewardLinksRecent = {}; // stored in-memory only
 		Data.localization = {};
 		Data.localization.cache = {};
 		Data.friendsCollectDate = parseInt(Preferences.getValue('friendsCollectDate')) || 0;
@@ -627,15 +578,7 @@ var Data = {
 				Data.friends[friend.id] = friend;
 			}
 		});
-		tx.objectStore('RewardLinks').getAll().then(values => {
-			for (const rewardLink of values) {
-				if (rewardLink.id == 'data') Data.rewardLinksData = rewardLink;
-				else if (rewardLink.id == 'history') Data.rewardLinksHistory = rewardLink.history;
-				else Data.rewardLinks[rewardLink.id] = rewardLink;
-			}
-		});
 		await tx.complete;
-		Data.removeExpiredRewardLinks();
 		await new Promise(function (resolve, _reject) {
 			chrome.management.getSelf(function (self) {
 				Data.isDevelopment = self.installType == 'development';
@@ -1154,7 +1097,7 @@ var Data = {
 			const time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
 			if (time > getUnixTime()) {
 				data.next = time;
-				data.nexttxt = getMessage('rewardlinks_nexttime', Locale.formatDateTime(time));
+				data.nexttxt = getMessage('gui_nexttime', Locale.formatDateTime(time));
 			}
 		}
 		return data;
@@ -1248,179 +1191,6 @@ var Data = {
 		Data.friendsCollectDate = now;
 		Preferences.setValue('friendsCollectDate', now);
 		if (!partial || forceAnalyze) chrome.runtime.sendMessage({ action: 'friends_analyze' }, () => hasRuntimeError('FRIENDSCAPTURED'));
-	},
-	//#endregion
-	//#region RewardLinks
-	getRewardLink(id) {
-		return Data.rewardLinks[id];
-	},
-	getRewardLinks() {
-		return Data.rewardLinks;
-	},
-	saveRewardLinkList: {},
-	removeRewardLinkList: {},
-	saveRewardLinksHistory: false,
-	saveRewardLinkDelayed() {
-		const tx = Data.db.transaction('RewardLinks', 'readwrite');
-		const store = tx.objectStore('RewardLinks');
-		if (Data.saveRewardLinksHistory) {
-			Data.saveRewardLinksHistory = false;
-			if (Data.rewardLinksHistory.length > Data.REWARDLINKS_HISTORY_MAXITEMS) Data.rewardLinksHistory = Data.rewardLinksHistory.slice(-Data.REWARDLINKS_HISTORY_MAXITEMS);
-			const item = {
-				id: 'history',
-				history: Data.rewardLinksHistory
-			};
-			Data.saveRewardLinkList[item.id] = item;
-		}
-		const items = Object.values(Data.saveRewardLinkList);
-		if (items.length) store.bulkPut(items);
-		Data.saveRewardLinkList = {};
-		for (const item of Object.values(Data.removeRewardLinkList)) store.delete(item.id);
-		Data.removeRewardLinkList = {};
-	},
-	saveRewardLink(rewardLink, remove = false) {
-		if (!rewardLink) return;
-		const rewardLinks = [].concat(rewardLink);
-		if (!rewardLink.length) return;
-		Data.setTimer(Data.saveRewardLinkDelayed, 500);
-		for (const rl of rewardLinks) {
-			if (remove) {
-				const id = +rl.id;
-				Data.removeRewardLinkList[rl.id] = rl;
-				delete Data.saveRewardLinkList[id];
-				delete Data.rewardLinks[id];
-				if (!Data.rewardLinksHistory.includes(id)) {
-					Data.rewardLinksHistory.push(id);
-					Data.saveRewardLinksHistory = true;
-				}
-			} else {
-				Data.saveRewardLinkList[rl.id] = rl;
-				delete Data.removeRewardLinkList[rl.id];
-				if (isFinite(+rl.id)) Data.rewardLinks[rl.id] = rl;
-			}
-		}
-	},
-	removeRewardLink(rewardLink) {
-		Data.saveRewardLink(rewardLink, true);
-	},
-	removeExpiredRewardLinks() {
-		const rewards = Object.values(Data.rewardLinks);
-		// check expired
-		let maxExpired = 0;
-		let threshold = getUnixTime() - Data.REWARDLINKS_VALIDITY_DAYS * SECONDS_IN_A_DAY;
-		for (const reward of rewards) {
-			if (reward.adt <= threshold || reward.cmt == -1) maxExpired = Math.max(maxExpired, +reward.id);
-		}
-		if (maxExpired > Data.rewardLinksData.expired) {
-			// this reward is expired and its id is greater than the last recorded one -> store it
-			Data.rewardLinksData.expired = maxExpired;
-			Data.saveRewardLink(Data.rewardLinksData);
-		}
-		// remove old links
-		threshold = getUnixTime() - Data.REWARDLINKS_REMOVE_DAYS * SECONDS_IN_A_DAY;
-		const rewardsToRemove = rewards.filter(reward => reward.adt <= threshold);
-		Data.removeRewardLink(rewardsToRemove);
-	},
-	addRewardLinks(rewardsOrArray) {
-		const arr = [].concat(rewardsOrArray);
-		const now = getUnixTime();
-		const rewardLinksData = Data.rewardLinksData;
-		const rewardLinksHistory = Data.rewardLinksHistory;
-		const rewardLinksRecent = Data.rewardLinksRecent;
-		const removeThreshold = now - 3600;
-		const data = {};
-		let flagStoreData = false;
-		let flagRefresh = false;
-		// remove old "Recent" rewards older than one hour
-		for (const id in Object.keys(rewardLinksRecent)) {
-			if (rewardLinksRecent[id] < removeThreshold) delete rewardLinksRecent[id];
-		}
-		const expiredId = Data.rewardLinksData.expired || 0;
-		const neighbours = Object.values(Data.neighbours || {});
-		for (const reward of arr) {
-			if (!reward || !reward.id) return;
-			// do not process old links, except when collection was successful
-			if (!rewardLinksHistory.includes(+reward.id) || reward.cmt > 0) {
-				rewardLinksRecent[reward.id] = now;
-				flagRefresh = true;
-				let existingReward = Data.getRewardLink(reward.id);
-				// store initial time of collection
-				if (reward.cdt && reward.cmt > 0 && !rewardLinksData.first) {
-					rewardLinksData.first = reward.cdt;
-					flagStoreData = true;
-				}
-				// Find name (if possible)
-				if (!reward.cnm && reward.cid && (!existingReward || !existingReward.cnm)) {
-					const id = reward.cid;
-					const pal = id && neighbours.find(pal => pal.fb_id === id || pal.fb_id2 === id);
-					if (pal) {
-						if (pal.name) reward.cnm = pal.name + ' ' + pal.surname;
-						else if (pal.extra.fn) reward.cnm = pal.extra.fn;
-					}
-				}
-				// We will add the reward if any one of these conditions is true:
-				// - reward has a material, meaning it has been correctly collected
-				// - existing reward does not exist
-				// - reward has some info that is missing in then existing reward (collect date, user id, user name)
-				if (!existingReward || reward.cmt > 0 ||
-					(reward.cmt && !existingReward.cmt) ||
-					(reward.cdt && !existingReward.cdt) ||
-					(reward.cid && !existingReward.cid) ||
-					(reward.cnm && !existingReward.cnm)) {
-					existingReward = existingReward || {
-						id: +reward.id,
-						typ: reward.typ,
-						sig: reward.sig,
-						adt: reward.cdt || now
-					};
-					if (reward.cdt) existingReward.cdt = reward.cdt;
-					if (reward.cmt) existingReward.cmt = reward.cmt;
-					if (reward.cpi) existingReward.cpi = reward.cpi;
-					if (existingReward.id <= expiredId && !existingReward.cmt) existingReward.cmt = -6;
-					if (reward.cid) {
-						// overwrite existing if owner id is different or existing has no owner name
-						if (reward.cnm && (existingReward.cid != reward.cid || !existingReward.cnm)) existingReward.cnm = reward.cnm;
-						existingReward.cid = reward.cid;
-					} else if (reward.cnm && !existingReward.cnm) existingReward.cnm = reward.cnm;
-					data[existingReward.id] = Data.rewardLinks[existingReward.id] = existingReward;
-				}
-			}
-			// Daily max reached?
-			let next = 0;
-			if (reward.cmt == -3) {
-				next = reward.next;
-			} else if (reward.cmt > 0) {
-				rewardLinksData.count = rewardLinksData.count + 1;
-				flagStoreData = true;
-				if (rewardLinksData.count == Data.REWARDLINKS_DAILY_LIMIT)
-					next = rewardLinksData.first + Data.REWARDLINKS_REFRESH_HOURS * 3600;
-			} else if (reward.cmt == -1 && +reward.id > +rewardLinksData.expired) {
-				// this reward is expired and its id is greater than the last recorded one -> store it
-				rewardLinksData.expired = +reward.id;
-				flagStoreData = true;
-			}
-			if (next) {
-				// round to the next minute
-				next = next + (next % 60 ? 60 - next % 60 : 0);
-				rewardLinksData.count = 0;
-				rewardLinksData.next = next;
-				rewardLinksData.first = 0;
-				flagStoreData = true;
-			}
-		}
-
-		const save = Object.values(data);
-		const count = save.length;
-		if (flagStoreData || count > 0) {
-			if (flagStoreData) {
-				save.push(rewardLinksData);
-			}
-			Data.saveRewardLink(save);
-		}
-		if (flagRefresh) {
-			chrome.runtime.sendMessage({ action: 'rewards_update' }, () => hasRuntimeError('ADDREWARDLINKS'));
-		}
-		return count;
 	},
 	//#endregion
 	//#region Game Messages
@@ -2201,24 +1971,9 @@ var Synchronize = {
 		});
 		if (pals.length) Data.saveNeighbour(pals);
 	},
-	processAjax(action, result) {
-		if (action != 'wp_create') return;
-		if (!Preferences.getValue('rewardsCollectSelf')) return;
-		const json = parseJSON(result);
-		if (!json?.wp_id || !json?.sig) return;
-		const reward = {
-			id: +json.wp_id,
-			typ: Data.lastSite == 'Portal' ? 'portal'  : 'standard',
-			sig: json.sig,
-			cid: Data.generator.fb_id,
-			cmt: -4
-		};
-		Data.addRewardLinks(reward);
-	},
 	processXhr(details) {
 		const { type, kind, lang, player_id, xml, response } = details;
 		if (kind == 'graph') return this.processGraph(response);
-		if (kind == 'ajax') return this.processAjax(xml, response);
 		const isError = type == 'error';
 		if (isError) return Badge.setIcon('red').setBackgroundColor('red');
 		const isSend = type == 'send', isOk = type == 'ok';
@@ -2344,38 +2099,6 @@ async function init() {
 		},
 		reloadGame(request, _sender) {
 			Tab.showGame(request.value);
-		},
-		collectRewardLink(request, sender) {
-			let flagClose = Preferences.getValue('rewardsClose');
-			let reward = request.reward;
-			if (reward.cmt == 2 && Preferences.getValue('rewardsCloseExceptGems')) flagClose = false;
-			if (reward.cmt < 0 && Preferences.getValue('rewardsCloseExceptErrors')) flagClose = false;
-			Data.addRewardLinks(reward);
-			if (flagClose) {
-				chrome.tabs.remove(sender.tab.id);
-			} else if (Preferences.getValue('rewardsSummary')) {
-				reward = Data.getRewardLink(reward.id);
-				let htm = '';
-				htm += Html.br`<center style="font-family:sans-serif;font-size:12pt;margin:4px 0px;">`;
-				htm += Html.br`<table border="0" cellpadding="4" style="border:2px solid #36648b;"><tbody>`;
-				htm += Html.br`<tr bgcolor="#3e8cc6" style="color:white">`;
-				htm += Html.br`<th>${getMessage('rewardlinks_id')}</th>`;
-				htm += Html.br`<th>${getMessage('rewardlinks_insertdate')}</th>`;
-				htm += Html.br`<th>${getMessage('rewardlinks_collectdate')}</th>`;
-				if (reward.cid) htm += Html.br`<th>${getMessage('rewardlinks_owner')}</th>`;
-				htm += Html.br`</tr><tr style="background-color:#e7e7e7;color:black;">`;
-				htm += Html.br`<td>${reward.id}</td>`;
-				htm += Html.br`<td>${Locale.formatDateTime(reward.adt)}</td>`;
-				htm += Html.br`<td>${Locale.formatDateTime(reward.cdt)}</td>`;
-				const url = reward.cpi || (reward.cid && `https://graph.facebook.com/v2.8/${reward.cid}/picture`);
-				if (url) htm += Html.br`<td><img src="${url}" valign="middle" style="margin-right:8px"/>${reward.cnm}</td>`;
-				htm += Html.br`</tr></tbody><table>`;
-				htm = String(htm);
-				return htm;
-			}
-		},
-		addRewardLinks(request, _sender) {
-			return Data.addRewardLinks(request.values);
 		},
 		closeWindow(_request, sender) {
 			chrome.tabs.remove(sender.tab.id);

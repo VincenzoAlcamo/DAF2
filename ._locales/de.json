@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "Maustaste"
 	},
-	"dialog_ok": {
-		"message": "Ok"
+	"gui_nexttime": {
+		"message": "Die nächste Sammlung beginnt am $DATE$.",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Ausgewählte Links entfernen"
 	},
 	"gui_visitcamp": {
 		"message": "Camp besuchen"
+	},
+	"dialog_ok": {
+		"message": "Ok"
 	},
 	"dialog_yes": {
 		"message": "Ja"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Weihnachtsringe"
-	},
-	"tab_rewardlinks": {
-		"message": "Belohnungs-Links"
 	},
 	"tab_options": {
 		"message": "Einstellungen"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "Belohnungs-ID"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Einfügedatum"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Erfassungsdatum"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Gefundene Belohnung"
-	},
-	"rewardlinks_owner": {
-		"message": "Eigentümer/in"
-	},
-	"rewardlinks_expired": {
-		"message": "ABGELAUFENER LINK"
-	},
-	"rewardlinks_collected": {
-		"message": "BEREITS ABGEHOLT"
-	},
-	"rewardlinks_maxreached": {
-		"message": "TÄGLICHES MAXIMUM ERREICHT"
-	},
-	"rewardlinks_noself": {
-		"message": "KEINE SELBSTBELOHUNG"
-	},
-	"rewardlinks_broken": {
-		"message": "DEFEKTER LINK"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "VERMUTLICH ABGELAUFENER LINK"
-	},
-	"rewardlinks_background": {
-		"message": "Hintergrund\nBelohnungslinks im Hintergrund öffnen"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Auto-Klick\nAutomatisches Klicken auf die nächste ausgewählte Belohnung, nachdem eine Belohnung gesammelt wurde."
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "Es können keine ausgewählten Links angeklickt werden.\nAbgelaufene oder beanspruchte Links werden immer ignoriert."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Link hinzufügen"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Füge hier die hinzuzufügenden Links ein und klicke dann auf den Button \"$CONFIRM$\".",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Jeder hier eingefügte Link wird direkt hinzugefügt."
-	},
-	"rewardlinks_linksadded": {
-		"message": "Belohnungslinks hinzugefügt: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Es wurden keine Belohnungslinks hinzugefügt."
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Belohnungslinks aktualisiert: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Belohnungslinks: $TOTAL$, Zu Sammeln: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Alle Belohnungslinks wurden gesammelt."
-	},
-	"rewardlinks_nexttime": {
-		"message": "Die nächste Sammlung beginnt am $DATE$.",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Verbleibende Links zum Sammeln: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Möchten Sie diesen Link trotzdem öffnen?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Dieser Link wurde bereits erfasst."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Dieser Link ist abgelaufen.\nLinks sind nur für $NUM$ Tage gültig.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Dieser Link gehört dir: Selbstbelohnungen sind nicht gültig."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Dieser Link ist defekt oder funktioniert nicht."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Dieser Link wurde gesammelt, während das maximale Tageslimit erreicht wurde.\nAuf diese Weise gesammelte Links gehen für immer verloren."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Es gibt noch andere Belohnungen, deren Sammlung noch aussteht.\nDies kann das Tageslimit überschreiten."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Dieser Link ist wahrscheinlich abgelaufen.\nLinks-IDs werden sequentiell generiert und diese Belohnungs-ID ist niedriger als die ID einer abgelaufenen Belohnung."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Alte Links entfernen"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Ausgewählte Links entfernen"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Entfernen von nicht sammelbaren Belohnungslinks, die älter als @DAYS@ Tage sind.\nDies gilt auch für abgelaufene und bereits gesammelte Links.\nLinks, die älter als $NUM$ Tage sind, werden regelmäßig entfernt.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Keine Links zu entfernen!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Links, die gelöscht werden: $NUM$\nEntfernte Links können nicht mehr hinzugefügt werden.\n\nMit der Löschung fortfahren?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Diese Belohnung wurde am $DATE$ hinzugefügt.",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Zurücksetzen"
-	},
-	"rewardlinks_resetcount": {
-		"message": "Sie können die Informationen zur \"Nächsten Sammlung\" zurücksetzen und trotzdem mit diesem Link fortfahren."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "Sie können die Information \"Wahrscheinlich abgelaufen\" zurücksetzen und mit diesem Link trotzdem fortfahren."
-	},
-	"rewardlinks_convert": {
-		"message": "Link umwandeln"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Keine Umwandlung"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Links verkürzen/umwandeln"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Hier die Links zum Kürzen/Konvertieren einfügen."
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Verkürzte Links sind unten dargestellt (Duplikate werden entfernt)."
-	},
-	"rewardlinks_prefix": {
-		"message": "Präfix"
-	},
-	"rewardlinks_newline": {
-		"message": "Neue Zeile hinzufügen?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Leerzeichen hinzufügen"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Alle Belohnungen, die innerhalb von $NUM$ Stunden nach der letzten Belohnung gesammelt wurden.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Exportieren"
 	},
@@ -2107,35 +1907,8 @@
 	"options_disablealtguard_warning": {
 		"message": "ACHTUNG: Aktivierung dieser Option auf eigene Gefahr!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Belohnungslinks"
-	},
-	"options_rewardsclose": {
-		"message": "Automatisches Schließen\nSchließt die Seite automatisch, nachdem die Belohnung gesammelt wurde."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Außer Gems\nNicht automatisch schließen, wenn ein Gem gefunden wurde."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Außer Fehler\nNicht automatisch schließen, wenn ein Fehler gefunden wurde."
-	},
-	"options_rewardssummary": {
-		"message": "Summentabelle anzeigen\nWenn die Seite nicht automatisch geschlossen wird, wird eine Zusammenfassungstabelle am unteren Rand hinzugefügt."
-	},
 	"options_linkgrabenabled": {
 		"message": "Link Grabber\nAktiviere den Link Grabber in Facebook."
-	},
-	"options_linkgrabbutton": {
-		"message": "Maustaste\nWähle die Maustaste, die den Link Grabber auslöst."
-	},
-	"options_linkgrabkey": {
-		"message": "Optionaler Schalter\nWähle zusätzlich zur Maustaste eine optionale Taste, die gedrückt werden soll."
-	},
-	"options_linkgrabsort": {
-		"message": "Links sortieren"
-	},
-	"options_linkgrabconvert": {
-		"message": "Links umwandeln"
 	},
 	"options_modifier_none": {
 		"message": "Keine"
@@ -2301,53 +2074,5 @@
 	},
 	"calc_error_4": {
 		"message": "Zu viele schließende Klammern"
-	},
-	"linkgrabber_selected": {
-		"message": "Links: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "In Zwischenablage kopieren"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Senden an DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Abbrechen"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Links aktualisieren"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Belohnungs-ID anzeigen"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Automatisch senden"
-	},
-	"linkgrabber_added": {
-		"message": "Belohnungslinks hinzugefügt: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Links in die Zwischenablage kopieren: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

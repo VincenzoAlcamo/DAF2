@@ -312,11 +312,22 @@
 	"gui_summary": {
 		"message": "Souhrn"
 	},
-	"dialog_ok": {
-		"message": "OK"
+	"gui_nexttime": {
+		"message": "Příští sběr začíná $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Odstranit vybrané"
 	},
 	"gui_visitcamp": {
 		"message": "Navštivte tábor"
+	},
+	"dialog_ok": {
+		"message": "OK"
 	},
 	"dialog_yes": {
 		"message": "Ano"
@@ -383,9 +394,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Vánoční prsteny"
-	},
-	"tab_rewardlinks": {
-		"message": "Odkazy na odměny"
 	},
 	"tab_options": {
 		"message": "Možnosti"
@@ -1460,214 +1468,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "ID odměny"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Datum vložení"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Datum převzetí"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Odměna nalezena"
-	},
-	"rewardlinks_owner": {
-		"message": "Vlastník"
-	},
-	"rewardlinks_expired": {
-		"message": "ODKAZ VYPRŠEL"
-	},
-	"rewardlinks_collected": {
-		"message": "JIŽ PŘEVZATO"
-	},
-	"rewardlinks_maxreached": {
-		"message": "DOSAŽENO DENNÍ MAXIMUM"
-	},
-	"rewardlinks_noself": {
-		"message": "SEBE NEODMĚŇUJETE"
-	},
-	"rewardlinks_broken": {
-		"message": "NEFUNKČNÍ ODKAZ"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "ODKAZ NEJSPÍŠ VYPRŠEL"
-	},
-	"rewardlinks_background": {
-		"message": "Pozadí\nOtevřít odkazy na odměnu v pozadí"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Auto-klik\nAutomaticky kliknout na další vybranou odměnu, když byla jiná převzata"
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "Nelze kliknout na žádný z vybraných odkazů.\nProšlé a sebrané odměny se ignorují."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Přidat odkazy"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Vložte sem odkazy pro přidání, pak stiskněte tlačítko \"$CONFIRM$\"",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Každý odkaz vložený sem se rovnou přidá"
-	},
-	"rewardlinks_linksadded": {
-		"message": "Přidané odkazy na odměnu: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Nebyly přidané žádné odkazy na odměnu."
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Aktualizované odkazy na odměnu: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Odkazy na odměnu: $TOTAL$, k převzetí: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Všechny odkazy na odměnu sebrány."
-	},
-	"rewardlinks_nexttime": {
-		"message": "Příští sběr začíná $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Zbývající odkazy k převzetí: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Chcete odkaz přesto otevřít?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Tento odkaz už jste převzali."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Tento odkaz vypršel.\nOdkazy platí jen $NUM$ dní.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Tento odkaz je váš: sebe nemůžete odměnit."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Tento odkaz je neplatný nebo nefunkční."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Tento odkaz byl převzatý po dosažení max. denního limitu.\nOdkazy sebrané tímto způsobem jsou navždy ztracené."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Na převzetí čekají ještě další odkazy.\nTy mohou překročit váš denní limit."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Tento odkaz nejspíš vypršel.\nID odkazů se generují postupně a ID této odměny je nižší než ID vypršené odměny."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Odstranit staré odkazy"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Odstranit vybrané"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Odstranit odkazy, které už nejde převzít, starší než @DAYS@ dní.\nTo zahrnuje vypršené odkazy a odkazy, které už jsou sebrané.\nOdkazy starší než $NUM$ dní jsou odstraňované pravidelně.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Není co odstranit!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Odkazy byly odstraněny: $NUM$\nOdstraněné odkazy už nelze přidat.\n\nPokračovat v odstranění?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Tato odměna byla přidána $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Reset"
-	},
-	"rewardlinks_resetcount": {
-		"message": "Můžete resetovat informaci o „Příštím sběru“ a pokračovat tímto odkazem."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "Můžete resetovat informaci o „Pravděpodobně vypršené platnosti“ a pokračovat tímto odkazem."
-	},
-	"rewardlinks_convert": {
-		"message": "Konverze odkazu"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Žádná konverze"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Zkrátit/konvertovat odkazy"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Sem vložte odkazy ke zkrácení/konverzi."
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Zkrácené odkazy se zobrazí dole (duplikáty budou odstraněny)."
-	},
-	"rewardlinks_prefix": {
-		"message": "Prefix"
-	},
-	"rewardlinks_newline": {
-		"message": "Přidat nový řádek?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Přidat mezeru"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Všechny odměny byly přebrány v rámci $NUM$ hodin od nejnovější odměny.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Export"
 	},
@@ -2089,35 +1889,8 @@
 	"options_disablealtguard_warning": {
 		"message": "POZOR: tuto možnost zaškrtněte na vlastní riziko!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Odkazy na odměny"
-	},
-	"options_rewardsclose": {
-		"message": "Auto-zavření\nAutomaticky zavře stránku po převzetí odměny"
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Výjimka pro gemy\nNezavírat automaticky, když se najde gem."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Výjimka pro chyby\nNezavírat automaticky, když se objeví chyba."
-	},
-	"options_rewardssummary": {
-		"message": "Přidat tabulku souhrnu\nPokud se stránka nezavře automaticky, přidá dospodu tabulku souhrnu."
-	},
 	"options_linkgrabenabled": {
 		"message": "Sběrač odkazů\nPovolí Sběrač odkazů na Facebooku."
-	},
-	"options_linkgrabbutton": {
-		"message": "Tlačítko myši\nZvolte tlačítko myši, které aktivuje Sběrač odkazů"
-	},
-	"options_linkgrabkey": {
-		"message": "Volitelná klávesa\nZvolte klávesu, kterou případně stisknete spolu s tlačítkem myši"
-	},
-	"options_linkgrabsort": {
-		"message": "Třídit odkazy"
-	},
-	"options_linkgrabconvert": {
-		"message": "Konverze odkazů"
 	},
 	"options_modifier_none": {
 		"message": "Žádná"
@@ -2262,53 +2035,5 @@
 	},
 	"calc_error_4": {
 		"message": "Příliš koncových závorek"
-	},
-	"linkgrabber_selected": {
-		"message": "Odkazy: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Kopírovat do schránky"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Odeslat do DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Zrušit"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Obnovit odkazy"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Zobrazit ID odměny"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Automatické odeslání"
-	},
-	"linkgrabber_added": {
-		"message": "Přidané odkazy na odměnu: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Odkazy zkopírované do schránky: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "Egér mozdulat"
 	},
-	"dialog_ok": {
-		"message": "Ok"
+	"gui_nexttime": {
+		"message": "Következő gyűjtés $DATE$ napon kezdődik",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Kijelöltek eltávolítása"
 	},
 	"gui_visitcamp": {
 		"message": "Látogass el a táborba"
+	},
+	"dialog_ok": {
+		"message": "Ok"
 	},
 	"dialog_yes": {
 		"message": "Igen"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Karácsonyi gyűrűk"
-	},
-	"tab_rewardlinks": {
-		"message": "Jutalom linkek"
 	},
 	"tab_options": {
 		"message": "Beállítások"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "Jutalom ID"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Dátum beszúrása"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Dátum gyűjtése"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Talált jutalom"
-	},
-	"rewardlinks_owner": {
-		"message": "Tulajdonos"
-	},
-	"rewardlinks_expired": {
-		"message": "LEJÁRT LNIK"
-	},
-	"rewardlinks_collected": {
-		"message": "MÁR BEGYŰJTÖTTED"
-	},
-	"rewardlinks_maxreached": {
-		"message": "ELÉRTED A NAPI MAXIMUMOT"
-	},
-	"rewardlinks_noself": {
-		"message": "NINCS ÖN JUTALMAZÁS"
-	},
-	"rewardlinks_broken": {
-		"message": "HIBÁS LINK"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "VALÓSZÍNŰLEG LEJÁRT LINK"
-	},
-	"rewardlinks_background": {
-		"message": "Háttérben\nJutalom linkek megnyitása a háttérben"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Auto-klikkelés\nAutomatikusan kattintson a következő kiválasztott jutalomra miután egy jutalmat begyűjtöttél."
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "A kiválasztott linkekre nem lehet kattintani.\nA lejárt vagy igényelt linkeket mindig figyelmen kívül hagyja a rendszer."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Linkek hozzáadása"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Ide illeszd be a linkeket, majd nyomd meg a $CONFIRM$ gombot",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Az itt beillesztett linket közvetlenül hozzáadjuk"
-	},
-	"rewardlinks_linksadded": {
-		"message": "Jutalom linkek hozzáadva: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Jutalom linkek nem lettek hozzáadva."
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Jutalom linkek frissítve: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Jutalom linkek: $TOTAL$. Begyűjtve: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Minden jutalom link begyűjtve."
-	},
-	"rewardlinks_nexttime": {
-		"message": "Következő gyűjtés $DATE$ napon kezdődik",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Gyűjthető megmaradt linkek: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Szeretnéd mégis megnyitni ezt a linket?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Ezt a linket már begyűjtötted."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Ez a link lejárt.\nA linkek csak $NUM$ napig érvényesek.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Ez a link a tiéd: az önjutalmazás nem lehetséges."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Ez a link rossz vagy nem működik."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Ezt a linket összegyűjtöttük, amíg elértük a maximális napi korlátot.\nAz ilyen úton gyűjtött linkek örökre elvesznek."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Vannak még más jutalmak is amelyeknek a gyűjtése fel van függsztve.\nEz meghaladhatja a napi limitet."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Ez a link valószínűleg lejárt.\nA linkek azonosítója egymás után jön létre, és ennek a jutalomnak az azonosítója alacsonyabb, mint a lejárt jutalom azonosítója."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Régi linkek eltávolítása"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Kijelöltek eltávolítása"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Távolítsa el a @DAYS@ napnál régebbi, nem gyűjthető jutalom linkeket.\nIde tartoznak a lejárt és a már összegyűjtött linkek.\nA(z) $NUM$ napnál régebbi linkeket rendszeresen eltávolítjuk.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Nincsenek eltávolítható linkek!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Eltávolítható linkek: $NUM$\nAz eltávolított linkeket már nem lehet hozzáadni.\n\nFolytatod az eltávolítást?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Ezt a jutalmat hozzáadták $DATE$ napon",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Nullázás"
-	},
-	"rewardlinks_resetcount": {
-		"message": "Alaphelyzetbe állíthatod a \"Következő gyűjtés\" információkat és így folytatod ezzel a linkkel."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "Visszaállíthatod a \"Valószínűleg lejárt\" információt és folytathatod ezzel a linkkel."
-	},
-	"rewardlinks_convert": {
-		"message": "Link konvertálása"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Nincs konvertálás"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Linkek rövidítése/konvertálása"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Ide illeszd be a linkeket a rövidítéshez/konvertáláshoz."
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "A rövidített linkek az alábbikban láthatóak (az ismétlődéseket eltávolítottuk)."
-	},
-	"rewardlinks_prefix": {
-		"message": "Előtag"
-	},
-	"rewardlinks_newline": {
-		"message": "Új sor hozzáadása?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Szóköz hozzáadása"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Az összes jutalmat a legutóbbi jutalomtól számított $NUM$ órán belül gyűjtöttük be.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Mentés"
 	},
@@ -2107,35 +1907,8 @@
 	"options_disablealtguard_warning": {
 		"message": "VIGYÁZAT: ezt a lehetőséget csak a saját felelősségedre engedélyezd!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Jualom linkek"
-	},
-	"options_rewardsclose": {
-		"message": "Automata bezárás\nAutomatikusan bezárja az oldalt miután begyűjtötte a jutalmat."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Kivéve gemnél\nNe zárja be automatikusan amikor gemet talál."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Kivéve hibánál\nNe zárja be automatikusan amikor hibát talál."
-	},
-	"options_rewardssummary": {
-		"message": "Összefoglaló táblázat hozzáadása\nHa az oldal nem automatikusan záródik hozzáad egy összefoglaló táblázatot az aljára."
-	},
 	"options_linkgrabenabled": {
 		"message": "Link Gyűjtő\nEngedélyezd a Link Gyűjtést a Facebookon belül."
-	},
-	"options_linkgrabbutton": {
-		"message": "Egér gomb\nVálaszd ki az egér gombot amely elindítja a Link Gyűjtőt"
-	},
-	"options_linkgrabkey": {
-		"message": "Másodlagos billentyű\nVálassz ki az egérgomb mellé egy másodlagos billentyűt amit megnyomhatsz"
-	},
-	"options_linkgrabsort": {
-		"message": "Linkek sorbarendezése"
-	},
-	"options_linkgrabconvert": {
-		"message": "Linkek konvertálása"
 	},
 	"options_modifier_none": {
 		"message": "Semmi"
@@ -2301,53 +2074,5 @@
 	},
 	"calc_error_4": {
 		"message": "Túl sok zárójel"
-	},
-	"linkgrabber_selected": {
-		"message": "Linkek: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Másolás vágólapra"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Elküldés a DAF-nak"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Mégse"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Linkek frissítése"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Mutasd a jutalom azonosítót"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Automatikus küldés"
-	},
-	"linkgrabber_added": {
-		"message": "Jualom linkek hozzáadva: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Vágólapra másolt linkek: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

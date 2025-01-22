@@ -959,7 +959,7 @@ function showAdvancedOptions() {
 		'gui_filter_invert'
 	)}"/>`;
 	htm += Html`&#32;<input data-method="remove" type="button" class="small" value="${gui.getMessage(
-		'rewardlinks_removeselected'
+		'gui_removeselected'
 	)}"/>`;
 	htm += Html`&#32;<input data-method="export" type="button" class="small" value="${gui.getMessage(
 		'export_export'
@@ -1019,7 +1019,7 @@ function showAdvancedOptions() {
 				const dialog = Dialog();
 				dialog.show(
 					{
-						title: gui.getMessage('rewardlinks_removeselected'),
+						title: gui.getMessage('gui_removeselected'),
 						text: gui.getMessage('map_remove_confirmation'),
 						style: [Dialog.CONFIRM, Dialog.CANCEL, Dialog.CRITICAL]
 					},

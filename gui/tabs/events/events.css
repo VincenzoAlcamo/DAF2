@@ -258,7 +258,7 @@
 }
 
 .events .lootflag[name='loot_gems'] {
-	background-image: url(/img/gui/rewardlinks.png);
+	background-image: url(/img/gui/gem.png);
 }
 
 .events .lootflag[name='loot_achiev'] {

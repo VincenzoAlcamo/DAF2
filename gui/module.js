@@ -20,12 +20,11 @@ import pillars from './tabs/pillars/pillars.js';
 import progress from './tabs/progress/progress.js';
 import redrings from './tabs/redrings/redrings.js';
 import repeat from './tabs/repeat/repeat.js';
-import rewardlinks from './tabs/rewardlinks/rewardlinks.js';
 
 const tabs = {
 	about, artwork, camp, caravan, christmasrings, dailyreward, equipment, events, export: export_,
 	foundry, friendship, godchild, greenrings, help, kitchen, map, neighbors,
-	options, pillars, progress, redrings, repeat, rewardlinks
+	options, pillars, progress, redrings, repeat
 };
 
 window.imported_tabs = tabs;

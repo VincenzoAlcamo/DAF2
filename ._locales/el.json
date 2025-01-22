@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "Κίνηση Ποντικιού"
 	},
-	"dialog_ok": {
-		"message": "Εντάξει"
+	"gui_nexttime": {
+		"message": "Μπορείτε να συλλέξετε ξανά στις: $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Αφαίρεση επιλεγομένων"
 	},
 	"gui_visitcamp": {
 		"message": "Επίσκεψη βάσης"
+	},
+	"dialog_ok": {
+		"message": "Εντάξει"
 	},
 	"dialog_yes": {
 		"message": "Ναι"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Χριστουγεννιάτικα Δαχτυλίδια"
-	},
-	"tab_rewardlinks": {
-		"message": "Σύνδεσμοι Δώρων"
 	},
 	"tab_options": {
 		"message": "Επιλογές"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "Id Δώρου"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Εισάγετε Ημερομηνία"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Συλλογή ημερομηνίας"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Βρέθηκε Δώρο"
-	},
-	"rewardlinks_owner": {
-		"message": "Ιδιοκτήτης"
-	},
-	"rewardlinks_expired": {
-		"message": "ΕΧΕΙ ΛΗΞΕΙ"
-	},
-	"rewardlinks_collected": {
-		"message": "ΕΧΕΙ ΗΔΗ ΣΥΛΛΕΧΤΕΙ"
-	},
-	"rewardlinks_maxreached": {
-		"message": "ΦΤΑΣΑΤΕ ΤΟ ΚΑΘΗΜΕΡΙΝΟ ΟΡΙΟ"
-	},
-	"rewardlinks_noself": {
-		"message": "ΔΙΚΟΣ ΣΑΣ ΣΥΝΔΕΣΜΟΣ"
-	},
-	"rewardlinks_broken": {
-		"message": "ΛΑΘΟΣ ΣΥΝΔΕΣΜΟΣ"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "ΠΙΘΑΝΟΝ ΛΗΓΜΕΝΟΣ ΣΥΝΔΕΣΜΟΣ"
-	},
-	"rewardlinks_background": {
-		"message": "Προσκύνιο\nΆνοιγμα συνδέσμων δώρων στο προσκύνιο"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Αυτόματα κλικ\nΑυτόματο πάτημα του επόμενου δώρου αφού το τωρινό συλλέχθηκε"
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "Κανένας επιλεγμένος σύνδεσμος δεν μπορεί να πατηθεί.\nΟι ληγμένοι ή ήδη πατημένοι σύνδεσμοι πάντα αγνοούνται."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Προσθήκη συνδέσμων"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Επικολήστε εδώ τους συνδέσμους και πατήστε \"$CONFIRM$\"",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Όποιος σύνδεσμος επικολληθεί εδώ θα προστεθεί κατευθείαν"
-	},
-	"rewardlinks_linksadded": {
-		"message": "Σύνδεσμοι δώρων που προστέθηκαν: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Δεν προστέθηκαν σύνδεσμοι."
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Σύνδεσμοι δώρων που ανανεώθηκαν: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Σύνδεσμοι δώρων: $TOTAL$, Προς συλλογή: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Συλλέχθηκαν όλοι οι σύνδεσμοι δώρων"
-	},
-	"rewardlinks_nexttime": {
-		"message": "Μπορείτε να συλλέξετε ξανά στις: $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Υπόλοιποι σύνδεσμοι προς συλλογή: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Θέλετε να ανοίξετε τον σύνδεσμο ούτως ή άλλως;"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Ο σύνδεσμος έχει συλλεχτεί ήδη."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Ο σύνδεσμος έληξε.\nΟι σύνδεσμοι ισχύουν μόνο για $NUM$ μέρες.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Αυτός ο σύνδεσμος είναι δικό σας, άρα δε συλλέγεται."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Ο σύνδεσμος δεν είναι σωστός ή δε δουλεύει."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Αυτός ο σύνδεσμος συλλέχτηκε μετά το ανώτατο καθημερινό όριο.\nΣύνδεσμοι που συλλέγονται έτσι χάνονται για πάντα."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Υπάρχουν κι άλλα δώρα προς συλλογή.\nΑυτό μπορεί να ξεπεράσει το καθημερινό όριο."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Ο σύνδεσμος είναι πιθανόν ληγμένος.\nΤα id των συνδέσμων δημιουργούνται σειριακά και αυτό είναι μικρότερο ενός ληγμένου."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Αφαίρεση παλιών συνδέσμων"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Αφαίρεση επιλεγομένων"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Αφαίρεση μη συλλεγόμενων συνδέσμων πιο παλιών των @DAYS@ ημερών.\nΑυτό περιλαμβάνει σύνδεσμους που έχουν συλλεχτεί η λήξει.\nΣύνδεσμοι πιο παλιοί των $NUM$ ημερών διαγράφονται περιοδικά.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Δεν υπάρχουν σύνδεσμοι να διαγραφούν!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Σύνδεσμοι προς αφαίρεση: $NUM$\nΟι αφαιρούμενοι σύνδεσμοι δεν μπορούν να προστεθούν ξανά.\n\nΝα συνεχίσει η διαγραφή;",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Αυτό το δώρο προστέθηκε στις $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Επαναφορά"
-	},
-	"rewardlinks_resetcount": {
-		"message": "Μπορείτε να επαναφέρετε την πληροφορία της \"Επόμενης Συλλογής\" και να συνεχίσετε με τον σύνδεσμο όυτως ή άλλως."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "Μπορείτε να επαναφέρετε την \"Πιθανόν Ληγμένη\" πληροφορία και να συνεχίσετε με τον σύνδεσμο ούτως ή άλλως."
-	},
-	"rewardlinks_convert": {
-		"message": "Μετατροπή συνδέσμου"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Καμία μετατροπή"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Σμίκρυνση/Μετατροπή συνδέσμων"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Επικολλήστε εδώ για σμίκρυνση/μετατροπή."
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Οι μικροί σύνδεσμοι φαίνονται κάτω (τα διπλότυπα διαγράφηκαν)."
-	},
-	"rewardlinks_prefix": {
-		"message": "Πρόθημα"
-	},
-	"rewardlinks_newline": {
-		"message": "Προσθήκη νέας γραμμής?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Προσθήκη κενού"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Όλα τα δώρα που συλλέχθηκαν μέσα σε $NUM$ ώρες από το τελευταίο συλλεγμένο δώρο",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Εξαγωγή"
 	},
@@ -2107,35 +1907,8 @@
 	"options_disablealtguard_warning": {
 		"message": "ΠΡΟΣΟΧΗ: Ενεργοποιήστε αυτή τη ρύθμιση με δικό σας ρίσκο"
 	},
-	"options_section_rewardlinks": {
-		"message": "Σύνδεσμοι Δώρων"
-	},
-	"options_rewardsclose": {
-		"message": "Αυτόματο κλείσιμο\nΚλείνει αυτόματα τη σελίδα μετά τη συλλογή του βραβείου."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Εκτός τα πετράδια\nΝα μην κλείνει αυτόματα όταν βρίσκονται πετράδια."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Εκτός σφαλμάτων\nΝα μην κλείνει αυτόματα όταν βρίσκονται σφάλματα,"
-	},
-	"options_rewardssummary": {
-		"message": "Προσθήκη πίνακα περίληψης\nΑν η σελίδα δεν κλείνει αυτόματα, προστίθεται κάτω ένας πίνακας περίληψης"
-	},
 	"options_linkgrabenabled": {
 		"message": "Συλλέκτης Συνδέσμων\nΕνεργοποιήστε τον Συλλέκτη Συνδέσμων στο Facebook.."
-	},
-	"options_linkgrabbutton": {
-		"message": "Κουμπί ποντικιού\nΔιαλέξτε το κουμπί του ποντικιού που ενεργοποιεί το Συλλέκτη Συνδέσμων"
-	},
-	"options_linkgrabkey": {
-		"message": "Προαιρετικό κουμπί\nΔιαλέξτε ένα προαιρετικό κουμπί για να πατάτε, επιπρόσθετα του ποντικιού"
-	},
-	"options_linkgrabsort": {
-		"message": "Ταξινόμηση Συνδέσμων"
-	},
-	"options_linkgrabconvert": {
-		"message": "Μετατροπή Συνδέσμων"
 	},
 	"options_modifier_none": {
 		"message": "Κανένα"
@@ -2301,53 +2074,5 @@
 	},
 	"calc_error_4": {
 		"message": "Πολλές δεξιές παρενθέσεις"
-	},
-	"linkgrabber_selected": {
-		"message": "Σύνδεσμοι: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Αντιγραφή"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Αποστολή στο DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Ακύρωση"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Επαναφόρτωση Συνδέσμων"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Εμφάνιση Id Δώρου"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Αυτόματη Αποστολή"
-	},
-	"linkgrabber_added": {
-		"message": "Σύνδεσμοι που προστέθηκαν: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Σύνδεσμοι που αντιγράφονται στο πρόχειρο: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

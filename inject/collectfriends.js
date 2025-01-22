@@ -11,6 +11,7 @@ const CF = {
 	wait: Dialog(Dialog.WAIT),
 	dialog: Dialog(),
 	MBASIC: 'daf_mbasic',
+	auto: Dialog.NO,
 
 	process(param) {
 		const { language, method: collectMethod, unmatched, autoClose, wait, dialog, forcePartial, autoConfirm, keepCollected, MBASIC } = this;
@@ -322,7 +323,7 @@ const CF = {
 						html += Html.br`<span>${getMessage('friendship_confirmcollect')}</span>`;
 						html += Html`<button class="DAF-on-footer" data-method="partial">${getMessage('friendship_partial')}</button>`;
 						dialog.show({
-							title: getStatInfo(friends.length), html, auto: Dialog.NO, timeout: 30, style: [Dialog.YES, Dialog.NO, !autoClose && Dialog.CANCEL]
+							title: getStatInfo(friends.length), html, auto: CF.auto, timeout: 30, style: [Dialog.YES, Dialog.NO, !autoClose && Dialog.CANCEL]
 						}, function (method) {
 							isConfirming = false;
 							const partial = method == 'partial';

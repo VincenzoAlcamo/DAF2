@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "Muisbeweging"
 	},
-	"dialog_ok": {
-		"message": "Ok"
+	"gui_nexttime": {
+		"message": "Volgende verzameling begint op $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Verwijder geselecteerde"
 	},
 	"gui_visitcamp": {
 		"message": "Bezoek kamp"
+	},
+	"dialog_ok": {
+		"message": "Ok"
 	},
 	"dialog_yes": {
 		"message": "Ja"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Kerst Ringen"
-	},
-	"tab_rewardlinks": {
-		"message": "Beloninglinks"
 	},
 	"tab_options": {
 		"message": "Opties"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "Beloning Id"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Datum invoegen"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Verzamel datum"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Beloning gevonden"
-	},
-	"rewardlinks_owner": {
-		"message": "Eigenaar"
-	},
-	"rewardlinks_expired": {
-		"message": "VERLOPEN LINK"
-	},
-	"rewardlinks_collected": {
-		"message": "AL VERZAMELD"
-	},
-	"rewardlinks_maxreached": {
-		"message": "DAGELIJKSE MAX BEREIKT"
-	},
-	"rewardlinks_noself": {
-		"message": "GEEN ZELFBELONING"
-	},
-	"rewardlinks_broken": {
-		"message": "DEFECTE LINK"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "MOGELIJK VERLOPEN LINK"
-	},
-	"rewardlinks_background": {
-		"message": "Achtergrond\nOpen beloningslinks op de achtergrond"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Auto-klik\nKlik automatisch op de volgende geselecteerde beloning nadat een beloning is verzameld"
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "Er kunnen geen geselecteerde links worden aangeklikt.\nVerlopen of geclaimde links worden altijd genegeerd."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Links toevoegen"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Plak hier de links om toe te voegen, druk dan op de $CONFIRM$ knop",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Elke link die hier wordt geplakt, wordt direct toegevoegd"
-	},
-	"rewardlinks_linksadded": {
-		"message": "Beloningslinks toegevoegd: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Er zijn geen beloningslinks toegevoegd"
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Beloningslinks bijgewerkt: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Beloningslinks: $TOTAL$, Te verzamelen: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Alle beloningslinks verzameld."
-	},
-	"rewardlinks_nexttime": {
-		"message": "Volgende verzameling begint op $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Resterende links om te verzamelen: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Wil je deze link toch openen?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Deze link is al verzameld."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Deze link is verlopen.\nLinks zijn alleen geldig voor $NUM$ dagen.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Deze link is van jou, zelfbeloningen zijn niet geldig."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Deze link is defect of werkt niet."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Deze link is verzameld terwijl de dagelijkse limiet werd bereikt.\nLinks verzameld op deze manier zijn voor altijd verloren."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Er zijn andere beloningen waarvan de verzameling in afwachting is.\nDit kan je dagelijkse limiet overschrijden."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Deze link is waarschijnlijk verlopen.\nLinks-id wordt opeenvolgend gegenereerd en deze belonings-id is lager dan de id van een verlopen beloning."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Verwijder oude links"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Verwijder geselecteerde"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Verwijder niet verzamelbare beloningslinks ouder dan @DAYS@ dagen.\nDit omvat zowel verlopen links als reeds verzamelde links.\nLinks ouder dan $NUM$ dagen worden periodiek verwijderd.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Geen links om te verwijderen!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Links die zullen worden verwijderd: $NUM$\nVerwijderde links kunnen niet langer toegevoegd worden.\n\nDoorgaan met verwijderen?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Deze beloning was toegevoegd op $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Reset"
-	},
-	"rewardlinks_resetcount": {
-		"message": "Je kunt de \"volgende collectie\" informatie resetten en toch doorgaan met deze link."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "Je kunt de \"mogelijk verlopen\" informatie resetten en toch doorgaan met deze link."
-	},
-	"rewardlinks_convert": {
-		"message": "Converteer link"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Geen conversie"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Inkorten/omzetten links"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Plak hier de links om deze in te korten/om te zetten."
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Verkorte links worden hieronder weergegeven (duplicaten worden verwijderd)"
-	},
-	"rewardlinks_prefix": {
-		"message": "Voorvoegsel"
-	},
-	"rewardlinks_newline": {
-		"message": "Nieuwe regel toevoegen"
-	},
-	"rewardlinks_addspace": {
-		"message": "Ruimte toevoegen"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Alle beloningen verzameld binnen $NUM$ uur na de meest recente beloning.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Export"
 	},
@@ -2107,35 +1907,8 @@
 	"options_disablealtguard_warning": {
 		"message": "PAS OP: Schakel deze optie in op eigen risico!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Beloningslinks"
-	},
-	"options_rewardsclose": {
-		"message": "Automatisch sluiten\nSluit de pagina automatisch nadat de beloning is verzameld."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Behalve edelstenen\nSluit niet automatisch wanneer edelstenen zijn gevonden."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Behalve fouten\nSluit niet automatisch als er een fout gevonden is."
-	},
-	"options_rewardssummary": {
-		"message": "Voeg overzichtstabel toe\nAls de pagina niet automatisch wordt gesloten, voeg je onderaan een overzichtstabel toe."
-	},
 	"options_linkgrabenabled": {
 		"message": "Link Grijper\nSchakel de Link Grijper binnen Facebook in."
-	},
-	"options_linkgrabbutton": {
-		"message": "Muisknop\nKies de muisknop die de Link Grijper activeert"
-	},
-	"options_linkgrabkey": {
-		"message": "Optionele toets\nKies een optionele toets om naast de muisknop in te drukken"
-	},
-	"options_linkgrabsort": {
-		"message": "Sorteer links"
-	},
-	"options_linkgrabconvert": {
-		"message": "Converteer links"
 	},
 	"options_modifier_none": {
 		"message": "Geen"
@@ -2301,53 +2074,5 @@
 	},
 	"calc_error_4": {
 		"message": "Te veel haakjes sluiten"
-	},
-	"linkgrabber_selected": {
-		"message": "Links: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Kopieer naar klembord"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Verstuur naar DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Annuleer"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Ververs links"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Toon belonings-ID"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Automatisch verzenden"
-	},
-	"linkgrabber_added": {
-		"message": "Beloningslinks toegevoegd: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Links gekopieerd naar het klembord: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

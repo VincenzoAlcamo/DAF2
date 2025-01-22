@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "Fare hareketi"
 	},
-	"dialog_ok": {
-		"message": "Tamam"
+	"gui_nexttime": {
+		"message": "Sonraki koleksiyon $DATE$ tarihinde başlıyor",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Seçileni kaldır"
 	},
 	"gui_visitcamp": {
 		"message": "Kampı ziyaret edin"
+	},
+	"dialog_ok": {
+		"message": "Tamam"
 	},
 	"dialog_yes": {
 		"message": "Evet"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Noel Yüzükleri"
-	},
-	"tab_rewardlinks": {
-		"message": "Ödül Bağlantıları"
 	},
 	"tab_options": {
 		"message": "Seçenekler"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "Ödül Kimliği"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Ekleme tarihi"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Toplama tarihi"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Ödül Bulundu"
-	},
-	"rewardlinks_owner": {
-		"message": "Sahip"
-	},
-	"rewardlinks_expired": {
-		"message": "SÜRESİ DOLAN LİNK"
-	},
-	"rewardlinks_collected": {
-		"message": "ÖNCEDEN TOPLANDI"
-	},
-	"rewardlinks_maxreached": {
-		"message": "GÜNLÜK MAKSİMUM SAYIYA ULAŞILDI"
-	},
-	"rewardlinks_noself": {
-		"message": "KENDİ ÖDÜLÜNÜ ALAMAZSIN"
-	},
-	"rewardlinks_broken": {
-		"message": "KIRIK LİNK"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "MUHTEMELEN SÜRESİ DOLMUŞ LİNK"
-	},
-	"rewardlinks_background": {
-		"message": "Arka Plan\nÖdül bağlantılarını arka planda aç"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Otomatik-tıklama\nBir ödül toplandıktan sonra seçilen sonraki ödülü otomatik olarak tıklayın"
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "Seçilen bağlantıların hiçbiri tıklanamaz.\nSüresi dolan veya talep edilen bağlantılar her zaman yoksayılır."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Linkleri ekleyin"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Eklenecek linkleri buraya yapıştırın, ardından \"$CONFIRM$\" düğmesine basın.",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Buraya yapıştırılan herhangi bir link doğrudan eklenecektir."
-	},
-	"rewardlinks_linksadded": {
-		"message": "Eklenen ödül linkleri: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Hiçbir ödül linki eklenmedi."
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Ödül linkleri güncellendi: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Ödül linkleri: $TOTAL$, Toplanacak: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Tüm ödül linkleri toplandı"
-	},
-	"rewardlinks_nexttime": {
-		"message": "Sonraki koleksiyon $DATE$ tarihinde başlıyor",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Toplanacak kalan link sayısı: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Yine de bu linki açmak istiyor musunuz?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Bu link zaten toplandı"
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Bu linkin süresi doldu.\nBağlantılar yalnızca $NUM$ gün için geçerlidir.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Bu link sizin: kişisel ödüller geçerli değildir."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Bu link bozuk veya çalışmıyor."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Maksimum günlük sınıra ulaşılırken bu bağlantı toplandı.\nBu şekilde toplanan bağlantılar sonsuza dek kaybolur."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Koleksiyonu bekleyen başka ödüller var.\nBu, günlük limitinizi aşabilir."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Bu linkin süresi muhtemelen dolmuştur.\nBağlantı kimliği sırayla oluşturulur ve bu ödül kimliği süresi dolmuş bir ödülün kimliğinden daha düşüktür."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Eski linkleri kaldırın"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Seçileni kaldır"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "@DAYS@ günden eski toplanamayan ödül linklerini kaldırın.\nBu, süresi dolmuş bağlantıları ve önceden toplanmış bağlantıları içerir.\n$NUM$ günden eski bağlantılar düzenli aralıklarla kaldırılır.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Kaldırılacak link yok!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Kaldırılacak bağlantılar : $NUM$ Kaldırılan bağlantılar artık eklenemez.\n\nKaldırma işlemine devam edilsin mi?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Bu ödül $DATE$ tarihinde eklendi.",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Sıfırla"
-	},
-	"rewardlinks_resetcount": {
-		"message": "\"Sonraki koleksiyon\" bilgilerini sıfırlayabilir ve yine de bu bağlantıyla devam edebilirsiniz."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "\"Muhtemelen süresi dolmuş\" bilgilerini sıfırlayabilir ve yine de bu bağlantıya devam edebilirsiniz."
-	},
-	"rewardlinks_convert": {
-		"message": "Linki dönüştür"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Dönüştürme yok"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Linkleri kısaltın/dönüştürün"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Kısaltmak/dönüştürmek için linkleri buraya yapıştırın"
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Kısaltılmış linkler aşağıda gösterilmiştir (kopyalar kaldırılmıştır)"
-	},
-	"rewardlinks_prefix": {
-		"message": "Önek"
-	},
-	"rewardlinks_newline": {
-		"message": "Yeni satır eklensin mi?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Alan ekle"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Tüm ödüller en son ödülden itibaren $NUM$ saat içinde toplanır.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Dışa aktarma"
 	},
@@ -2107,35 +1907,8 @@
 	"options_disablealtguard_warning": {
 		"message": "DİKKAT: Bu seçeneği etkinleştirirseniz risk size aittir!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Ödül linkleri"
-	},
-	"options_rewardsclose": {
-		"message": "Otomatik kapat\nÖdül toplandıktan sonra sayfayı otomatik olarak kapatın."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Mücevher hariç\nMücevher bulunduğunda açılır pencere açık kalır."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Hatalar hariç\nHata bulunduğunda açılır pencere açık kalır."
-	},
-	"options_rewardssummary": {
-		"message": "Özet tablosu ekle\nSayfa otomatik olarak kapatılmazsa, en alta bir özet tablo ekle"
-	},
 	"options_linkgrabenabled": {
 		"message": "Link Tutucu (Link Grabber)\nFacebook içindeki Link Tutucuyu (Link Grabber) etkinleştirin."
-	},
-	"options_linkgrabbutton": {
-		"message": "Fare (mouse) düğmesi\nBağlantı Yakalayıcı'yı tetikleyen fare düğmesini seçin"
-	},
-	"options_linkgrabkey": {
-		"message": "İsteğe bağlı anahtar\nFare düğmesine ek olarak basmak için isteğe bağlı bir tuş seçin"
-	},
-	"options_linkgrabsort": {
-		"message": "Linkleri sırala"
-	},
-	"options_linkgrabconvert": {
-		"message": "Linkleri dönüştür"
 	},
 	"options_modifier_none": {
 		"message": "Hiçbiri"
@@ -2301,53 +2074,5 @@
 	},
 	"calc_error_4": {
 		"message": "Çok fazla kapatma parantezi var"
-	},
-	"linkgrabber_selected": {
-		"message": "Linkler: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Panoya kopyala"
-	},
-	"linkgrabber_fn_send": {
-		"message": "DAF'a gönder"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "İptal"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Linkleri yenile"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Ödül Kimliğini Göster"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Otomatik-gönder"
-	},
-	"linkgrabber_added": {
-		"message": "Eklenen ödül linkleri: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Panoya kopyalanan linkler: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

@@ -159,7 +159,6 @@
 			Msg.sendPage('daf_xhr', { type, kind, lang, player_id, xml, url: this.url, response });
 		};
 		if (this.url.indexOf('/graph.facebook.com') > 0) kind = 'graph';
-		else if (this.url.indexOf('AJAXhandler.php') >= 0) kind = 'ajax';
 		else if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
 		else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
 		else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
@@ -176,13 +175,6 @@
 				this.addEventListener('error', error);
 				this.addEventListener('abort', error);
 				this.addEventListener('timeout', error);
-			} else if (kind == 'ajax') {
-				for (const item of (arguments[0] || '').split('&')) {
-					const p = item.split('=');
-					const key = decodeURIComponent(p[0]);
-					if (key == 'action') xml = decodeURIComponent(p[1]);
-				}
-				log('AJAX', xml);
 			}
 			this.addEventListener('load', () => dispatch('ok'));
 		}

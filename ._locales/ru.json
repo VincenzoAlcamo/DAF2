@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "Жесты мыши"
 	},
-	"dialog_ok": {
-		"message": "Ок"
+	"gui_nexttime": {
+		"message": "Следующий сбор возможен $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Удалить выбранные"
 	},
 	"gui_visitcamp": {
 		"message": "Посетить лагерь"
+	},
+	"dialog_ok": {
+		"message": "Ок"
 	},
 	"dialog_yes": {
 		"message": "Да"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Рождественские кольца"
-	},
-	"tab_rewardlinks": {
-		"message": "Наградные ссылки"
 	},
 	"tab_options": {
 		"message": "Опции"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "ID награды"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Дата добавления"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Дата сбора"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Награда"
-	},
-	"rewardlinks_owner": {
-		"message": "Владелец"
-	},
-	"rewardlinks_expired": {
-		"message": "ССЫЛКА ПРОСРОЧЕНА"
-	},
-	"rewardlinks_collected": {
-		"message": "УЖЕ СОБРАНО"
-	},
-	"rewardlinks_maxreached": {
-		"message": "ДОСТИГНУТ ЕЖЕДНЕВНЫЙ ЛИМИТ"
-	},
-	"rewardlinks_noself": {
-		"message": "САМОНАГРАЖДЕНИЕ НЕВОЗМОЖНО"
-	},
-	"rewardlinks_broken": {
-		"message": "ССЫЛКА НЕКОРРЕКТНА"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "ВЕРОЯТНО ССЫЛКА ПРОСРОЧЕНА"
-	},
-	"rewardlinks_background": {
-		"message": "Фоном\nОткрывать наградные ссылки в фоновом режиме"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Автоклик\nАвтоматически нажимать следующую выбранную награду после получения награды"
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "Выбранные ссылки не могут быть нажаты.\nПросроченные или собранные ссылки всегда пропускаются."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Добавить ссылки"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Вставьте сюда ссылки для добавления, затем нажмите кнопку «$CONFIRM$»",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Любая вставленная ссылка будет добавлена"
-	},
-	"rewardlinks_linksadded": {
-		"message": "Добавлено наградных ссылок: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Наградные ссылки не добавлены."
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Обновлено наградных ссылок: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Наградных ссылок: $TOTAL$, Подлежащие сбору: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Все ссылки собраны."
-	},
-	"rewardlinks_nexttime": {
-		"message": "Следующий сбор возможен $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Оставшееся количество ссылок для сбора: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Вы все равно хотите перейти по этой ссылке?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Эта ссылка уже собрана."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Срок действия ссылки истек.\nСсылки действительны в течение $NUM$ дня(-ей).",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Эта ваша ссылка: самостоятельные вознаграждения недействительны."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Ссылка не корректна или не работает."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Ссылка была получена, когда был достигнут ежедневный лимит.\nСобранные таким образом ссылки теряются навсегда."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Есть и другие награды, получение которых ожидается.\nЭто может превышать ваш ежедневный лимит."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Вероятно, срок действия этой ссылки истек.\nТак как ID ссылок генерируется последовательно, а этот ID награды меньше, чем ID просроченной награды."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Удалить старые ссылки"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Удалить выбранные"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Удалить ссылки на несобираемые награды старше @DAYS@ дня(-ей).\nСюда входят ссылки с истекшим сроком действия и уже собранные ссылки.\nСсылки старше $NUM$ дней(-я) периодически удаляются.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Нет ссылок для удаления!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Количество удаляемых ссылок: $NUM$\nУдаленные ссылки больше не могут быть добавлены.\n\nПродолжить удаление?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Эта награда была добавлена $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Отключить"
-	},
-	"rewardlinks_resetcount": {
-		"message": "Вы можете отключить предупреждение «Следующая коллекция» и в любом случае перейти по этой ссылке."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "Вы можете отключить предупреждение «Вероятно ссылка просрочена» и в любом случае перейти по этой ссылке."
-	},
-	"rewardlinks_convert": {
-		"message": "Конвертированные ссылки"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Не конвертированные"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Сократить/Преобразовать ссылки"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Вставьте сюда ссылки для сокращения/преобразования."
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Сокращенные ссылки ниже (дубликаты удалены)."
-	},
-	"rewardlinks_prefix": {
-		"message": "Префикс"
-	},
-	"rewardlinks_newline": {
-		"message": "Добавить новую строку?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Добавить пробел"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Все собраные награды в течение $NUM$ часов с момента получения самой последней награды.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Экспорт"
 	},
@@ -2107,9 +1907,6 @@
 	"options_disablealtguard_warning": {
 		"message": "ВНИМАНИЕ: включайте это на свой страх и риск!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Наградные ссылки"
-	},
 	"options_rewardsclose": {
 		"message": "Автозакрытие\nАвтоматически закрывать страницу после получения награды."
 	},
@@ -2124,18 +1921,6 @@
 	},
 	"options_linkgrabenabled": {
 		"message": "Сборщик Ссылок\nВключите сборщик ссылок в Facebook."
-	},
-	"options_linkgrabbutton": {
-		"message": "Кнопка мыши\nВыберите кнопку мыши, которая запускает Сборщик Ссылок"
-	},
-	"options_linkgrabkey": {
-		"message": "Дополнительная клавиша\nВыберите дополнительную клавишу для нажатия в сочетании с кнопкой мыши"
-	},
-	"options_linkgrabsort": {
-		"message": "Сортировать ссылки"
-	},
-	"options_linkgrabconvert": {
-		"message": "Конвертировать ссылки"
 	},
 	"options_modifier_none": {
 		"message": "Нет"
@@ -2301,53 +2086,5 @@
 	},
 	"calc_error_4": {
 		"message": "Слишком много закрывающих скобок"
-	},
-	"linkgrabber_selected": {
-		"message": "Ссылки: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Копировать в буферобмена"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Отправить в DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Отмена"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Обновить ссылки"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Показать ID награды"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Автоматическая отправка"
-	},
-	"linkgrabber_added": {
-		"message": "Наградных ссылок добавлено: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Скопировано ссылок в буфер обмена: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

@@ -294,11 +294,22 @@
 	"gui_mousegesture": {
 		"message": "Mouse gesture"
 	},
-	"dialog_ok": {
-		"message": "Ok"
+	"gui_nexttime": {
+		"message": "Next collection starts on $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Remove selected"
 	},
 	"gui_visitcamp": {
 		"message": "Visit camp"
+	},
+	"dialog_ok": {
+		"message": "Ok"
 	},
 	"dialog_yes": {
 		"message": "Yes"
@@ -365,9 +376,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Christmas Rings"
-	},
-	"tab_rewardlinks": {
-		"message": "Reward Links"
 	},
 	"tab_options": {
 		"message": "Options"
@@ -1448,214 +1456,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "Reward Id"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Insert date"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Collect date"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Reward found"
-	},
-	"rewardlinks_owner": {
-		"message": "Owner"
-	},
-	"rewardlinks_expired": {
-		"message": "EXPIRED LINK"
-	},
-	"rewardlinks_collected": {
-		"message": "ALREADY COLLECTED"
-	},
-	"rewardlinks_maxreached": {
-		"message": "DAILY MAX REACHED"
-	},
-	"rewardlinks_noself": {
-		"message": "NO SELF REWARD"
-	},
-	"rewardlinks_broken": {
-		"message": "BROKEN LINK"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "PROBABLY EXPIRED LINK"
-	},
-	"rewardlinks_background": {
-		"message": "Background\nOpen reward links in background"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Auto-click\nAutomatically click the next selected reward after a reward has been collected"
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "No selected links can be clicked.\nExpired or claimed links are always ignored."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Add links"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Paste here the links to add, then press the \"$CONFIRM$\" button",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Any link pasted here will be directly added"
-	},
-	"rewardlinks_linksadded": {
-		"message": "Rewards links added: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "No reward links were added."
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Rewards links updated: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Reward links: $TOTAL$, To be collected: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "All reward links collected."
-	},
-	"rewardlinks_nexttime": {
-		"message": "Next collection starts on $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Remaining links to collect: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Would you like to open this link anyway?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "This link has already been collected."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "This link has expired.\nLinks are only valid for $NUM$ days.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "This link is yours: self rewards are not valid."
-	},
-	"rewardlinks_infobroken": {
-		"message": "This link is broken or not working."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "This link has been collected while the max daily limit was reached.\nLinks collected in this way are lost forever."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "There are other rewards whose collection is pending.\nThis may exceed your daily limit."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "This link is probably expired.\nLinks id are generated sequentially and this reward id is lower than the id of an expired reward."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Remove old links"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Remove selected"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Remove non-collectable reward links older than @DAYS@ days.\nThis includes expired links and links already collected.\nLinks older than $NUM$ days are removed periodically.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "No links to remove!"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Links that will be removed: $NUM$\nRemoved links can no longer be added.\n\nProceed with the removal?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "This reward was added on $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Reset"
-	},
-	"rewardlinks_resetcount": {
-		"message": "You can reset the \"Next collection\" information and proceed with this link anyway."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "You can reset the \"Probably expired\" information and proceed with this link anyway."
-	},
-	"rewardlinks_convert": {
-		"message": "Convert link"
-	},
-	"rewardlinks_noconversion": {
-		"message": "No conversion"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Shorten/Convert links"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Paste here the links to shorten/convert."
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Shortened links are shown below (duplicates are removed)."
-	},
-	"rewardlinks_prefix": {
-		"message": "Prefix"
-	},
-	"rewardlinks_newline": {
-		"message": "Add newline?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Add space"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "All rewards collected within $NUM$ hours of the most recent reward.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Export"
 	},
@@ -2036,9 +1836,6 @@
 	"options_section_general": {
 		"message": "General options"
 	},
-	"options_autologin": {
-		"message": "Portal auto-login\nAutomatically logins in Portal"
-	},
 	"options_darktheme": {
 		"message": "Dark theme"
 	},
@@ -2060,38 +1857,8 @@
 	"options_disablealtguard_warning": {
 		"message": "BEWARE: enable this option at your own risk!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Reward Links"
-	},
-	"options_rewardsclose": {
-		"message": "Auto-close\nAuto-close the page after the reward has been collected."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Except gems\nDo not auto-close when gem found."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Except errors\nDo not auto-close when error found."
-	},
-	"options_rewardssummary": {
-		"message": "Add summary table\nIf the page is not auto-closed, add a summary table at the bottom."
-	},
-	"options_rewardscollectself": {
-		"message": "Send your own reward links to DAF2"
-	},
 	"options_linkgrabenabled": {
 		"message": "Link Grabber\nEnable the Link Grabber inside Facebook."
-	},
-	"options_linkgrabbutton": {
-		"message": "Mouse button\nChoose the mouse button that triggers the Link Grabber"
-	},
-	"options_linkgrabkey": {
-		"message": "Optional key\nChoose an optional key to press in addition to the mouse button"
-	},
-	"options_linkgrabsort": {
-		"message": "Sort links"
-	},
-	"options_linkgrabconvert": {
-		"message": "Convert links"
 	},
 	"options_modifier_none": {
 		"message": "None"
@@ -2266,53 +2033,5 @@
 	},
 	"calc_error_4": {
 		"message": "Too many closing parentheses"
-	},
-	"linkgrabber_selected": {
-		"message": "Links: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Copy to clipboard"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Send to DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Cancel"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Refresh links"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Show Reward Id"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Auto-send"
-	},
-	"linkgrabber_added": {
-		"message": "Rewards links added: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Links copied to clipboard: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

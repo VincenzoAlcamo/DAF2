@@ -32,7 +32,6 @@ const tabs = (function () {
 	addTab('greenrings');
 	addTab('redrings');
 	addTab('christmasrings');
-	addTab('rewardlinks');
 	addTab('dailyreward');
 	addTab('artwork', 'deco');
 	addTab('options');

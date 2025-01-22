@@ -179,17 +179,7 @@ function init() {
 		if (prefName.startsWith('hPet')) title = gui.getMessageAndValue('gui_pet', title);
 		if (prefName == 'linkGrabBadge') info = '';
 		if (prefName == 'linkGrabKey') {
-			const s = gui.getMessage('options_linkGrabButton');
-			const i = s.indexOf('\n');
-			title += ' + ' + s.substr(0, i);
-			info += s.substr(i);
-			options = [
-				[0, gui.getMessage('options_modifier_none')],
-				[16, gui.getMessage('options_modifier_shift')],
-				[17, gui.getMessage('options_modifier_ctrl')],
-				[18, gui.getMessage('options_modifier_alt')]
-			];
-			for (let i = 65; i < 91; i++) options.push([i, String.fromCharCode(i)]);
+			title = info = '';
 		}
 		let warnings = [];
 		let className = '';
@@ -211,12 +201,14 @@ function init() {
 			hasCheckBox = true;
 			hasSelect = true;
 			selectPrefName = 'hFoodNum';
-		} else if (prefName == 'autoDigHotKey') {
+		} else if (prefName == 'autoDigHotKey' || prefName == 'linkGrabKey') {
 			hasCheckBox = false;
 		}
 
 		htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
-		htm += Html.br`<td${!hasCheckBox ? Html.raw(' colspan="2"') : ''} style="${prefName === 'hAutoQueue' ? 'padding-left:64px' : ''}"><h3>${title}</h3><p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
+		htm += Html.br`<td${!hasCheckBox ? Html.raw(' colspan="2"') : ''} style="${prefName === 'hAutoQueue' ? 'padding-left:64px' : ''}">`;
+		if (title) htm += Html.br`<h3>${title}</h3>`;
+		if (info) htm += Html.br`<p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
 		if (hasSelect) {
 			htm += Html.br`<select data-pref="${selectPrefName}">`;
 			for (const option of options) {
@@ -244,11 +236,7 @@ function init() {
 			htm += Html.br`</select>`;
 		}
 		if (prefName == 'linkGrabKey') {
-			options = ['left', 'middle', 'right'].map((n, i) => [i, gui.getMessage('options_button_' + n)]);
-			htm += Html.br` + <select data-pref="linkGrabButton">`;
-			for (const option of options) htm += Html.br`<option value="${option[0]}">${option[1]}</option>`;
-			htm += Html.br`</select>`;
-			addHotKey('linkGrabHotKey', { pre: Html.br`<br>` });
+			addHotKey('linkGrabHotKey');
 		} else if (prefName == 'hAutoQueue') {
 			addHotKey('queueHotKey');
 			htm += Html.br`<br><h3 style="margin-top:4px">${gui.getMessage('gui_mousegesture')}</h3>`;
@@ -426,19 +414,11 @@ UI_claim_coin_single_slow_02
 	if (bgp.Data.generator) option('gameLanguage', SUBOPTION, gameLanguages);
 	option('darkTheme');
 	option('shrinkMenu', '', [0, 1, 2].map((n, i) => [i, gui.getMessage('options_shrinkmenu_' + n)]));
-	// option('autoLogin');
 	option('disableAltGuard', WARNING);
-	continueSection('rewardlinks');
-	option('rewardsClose', WITHSUBOPTIONS);
-	option('rewardsCloseExceptGems', SUBOPTION);
-	option('rewardsCloseExceptErrors', SUBOPTION);
-	option('rewardsSummary', SUBOPTION);
-	option('rewardsCollectSelf');
 	option('linkGrabEnabled', CRITICAL + ENABLE);
 	option('linkGrabKey', SUBOPTION);
 	option('linkGrabBadge', SUBOPTION);
-	endSection();
-	beginSection('ingame');
+	continueSection('ingame');
 	option('fullWindow', WITHSUBOPTIONS);
 	// option('fullWindowHeader', SUBOPTION);
 	option('fullWindowSide', SUBOPTION);
@@ -452,10 +432,10 @@ UI_claim_coin_single_slow_02
 	option('gcTable', WITHSUBOPTIONS);
 	option('gcTableCounter', SUBOPTION);
 	option('gcTableRegion', SUBOPTION);
-	// option('autoClick');
 	option('noGCPopup');
 	option('autoGC');
-	continueSection('hMain');
+	endSection();
+	beginSection('hMain');
 	option('hMain', WITHSUBOPTIONS + CRITICAL + ENABLE);
 	optionEffect('hFlashAd');
 	optionEffect('hEnergyMax');

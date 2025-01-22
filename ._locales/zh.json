@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "滑鼠手勢"
 	},
-	"dialog_ok": {
-		"message": "OK"
+	"gui_nexttime": {
+		"message": "下次領取從 $DATE$ 開始",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "移除所選"
 	},
 	"gui_visitcamp": {
 		"message": "檢視營地"
+	},
+	"dialog_ok": {
+		"message": "OK"
 	},
 	"dialog_yes": {
 		"message": "是"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "聖誕戒"
-	},
-	"tab_rewardlinks": {
-		"message": "獎勵連結"
 	},
 	"tab_options": {
 		"message": "選項"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "獎勵ID"
-	},
-	"rewardlinks_insertdate": {
-		"message": "加入日期"
-	},
-	"rewardlinks_collectdate": {
-		"message": "收集日期"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "獎勵收穫"
-	},
-	"rewardlinks_owner": {
-		"message": "擁有者"
-	},
-	"rewardlinks_expired": {
-		"message": "過期連結"
-	},
-	"rewardlinks_collected": {
-		"message": "已收集過了"
-	},
-	"rewardlinks_maxreached": {
-		"message": "達到每日上限"
-	},
-	"rewardlinks_noself": {
-		"message": "不能自己收集"
-	},
-	"rewardlinks_broken": {
-		"message": "毀壞的連結"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "或許是過期連結"
-	},
-	"rewardlinks_background": {
-		"message": "背景\n在背景開啓獎勵連結"
-	},
-	"rewardlinks_autoclick": {
-		"message": "自動點擊\n在收集完獎勵後自動點擊下一個連結"
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "所選的連結都不能打開\n過期或已獲取的連結會被忽略"
-	},
-	"rewardlinks_addlinks": {
-		"message": "加入連結"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "把連結貼在這裡,然後按“$CONFIRM$\"按鈕",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "任何貼在這裡的連結會被自動加入"
-	},
-	"rewardlinks_linksadded": {
-		"message": "加入的獎勵連接數: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "沒有加入任何獎勵連結"
-	},
-	"rewardlinks_linksupdated": {
-		"message": "更新的獎勵連結數: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "獎勵連結: $TOTAL$, 尚待領取:$NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "所有獎勵連結都已被領取"
-	},
-	"rewardlinks_nexttime": {
-		"message": "下次領取從 $DATE$ 開始",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "還沒有領取的連結: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "你一定要開啓連結嗎?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "這個連結已經被領取過了"
-	},
-	"rewardlinks_infoexpired": {
-		"message": "這個連結已經過期\n連結只有 $NUM$ 天的有效期",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "這個連結是你的: 不能獎勵你自己"
-	},
-	"rewardlinks_infobroken": {
-		"message": "這個連結已損毀或不能用"
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "最大每日限額已達到下領取連結\n這樣子領取的連結會永久喪失"
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "已經有其他獎勵領取排程中\n這可能會超過你的每日上限"
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "這個連結大概過期了\n連結ID是流水號產生的, 而這個獎勵ID比一個已經過期的獎勵還小"
-	},
-	"rewardlinks_removelinks": {
-		"message": "移除舊連結"
-	},
-	"rewardlinks_removeselected": {
-		"message": "移除所選"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "移除超過@DAYS@天無法領取的獎勵連結\n這包含過期的連結和已經領取的連結\n超過$NUM$天的連結會週期性被移除",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "沒有要移除的連結"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "會被移除的連結: $NUM$\n被移除的連結無法再被加入\n\n要進行移除嗎?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "這個獎勵在$DATE$被加入",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "重設"
-	},
-	"rewardlinks_resetcount": {
-		"message": "你可以重設\"下次領取\"的資訊並使用這個連結"
-	},
-	"rewardlinks_resetexpired": {
-		"message": "你可以重設\"應該過期\"的資訊並使用這個連結"
-	},
-	"rewardlinks_convert": {
-		"message": "轉換連結"
-	},
-	"rewardlinks_noconversion": {
-		"message": "不轉換"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "短網址/轉換連結"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "在這裡貼上要短網址/轉換的連結"
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "短網址連結如下所示(重複的已被移除)"
-	},
-	"rewardlinks_prefix": {
-		"message": "前綴"
-	},
-	"rewardlinks_newline": {
-		"message": "加入新的一行?"
-	},
-	"rewardlinks_addspace": {
-		"message": "加入空格"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "所有獎勵都在最近獎勵的$NUM$小時內領取",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "匯出"
 	},
@@ -2107,35 +1907,8 @@
 	"options_disablealtguard_warning": {
 		"message": "注意: 啓用這個選項時自負風險!"
 	},
-	"options_section_rewardlinks": {
-		"message": "獎勵連結"
-	},
-	"options_rewardsclose": {
-		"message": "自動關閉\n在獎勵領取後自動關閉這個頁面"
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "綠鑽除外\n當收到綠鑽時不要自動關閉頁面"
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "錯誤除外\n當發生錯誤時不要自動關閉頁面"
-	},
-	"options_rewardssummary": {
-		"message": "增加結果表\n當頁面沒有自動關閉時, 在下面增加一個結果表"
-	},
 	"options_linkgrabenabled": {
 		"message": "連結收集器\n在Facebook上啓用連結收集器"
-	},
-	"options_linkgrabbutton": {
-		"message": "滑鼠按鈕\n選擇觸發連結收集器的滑鼠按鈕"
-	},
-	"options_linkgrabkey": {
-		"message": "可選鍵\n增加按滑鼠時的一個可選擇的配合按鍵"
-	},
-	"options_linkgrabsort": {
-		"message": "整理連結"
-	},
-	"options_linkgrabconvert": {
-		"message": "轉換連結"
 	},
 	"options_modifier_none": {
 		"message": "無"
@@ -2301,53 +2074,5 @@
 	},
 	"calc_error_4": {
 		"message": "太多下括號"
-	},
-	"linkgrabber_selected": {
-		"message": "連結: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "複製到剪貼簿"
-	},
-	"linkgrabber_fn_send": {
-		"message": "送到DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "取消"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "更新連結"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "顯示獎勵ID"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "自動傳送"
-	},
-	"linkgrabber_added": {
-		"message": "加入獎勵連結: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "被複製到剪貼簿的連結: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }

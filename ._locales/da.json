@@ -324,11 +324,22 @@
 	"gui_mousegesture": {
 		"message": "Musebevægelse"
 	},
-	"dialog_ok": {
-		"message": "Ok"
+	"gui_nexttime": {
+		"message": "Næste kollektion starter den $DATE$",
+		"placeholders": {
+			"date": {
+				"content": "$1"
+			}
+		}
+	},
+	"gui_removeselected": {
+		"message": "Fjern det udvalgte"
 	},
 	"gui_visitcamp": {
 		"message": "Besøg lejr"
+	},
+	"dialog_ok": {
+		"message": "Ok"
 	},
 	"dialog_yes": {
 		"message": "Ja"
@@ -395,9 +406,6 @@
 	},
 	"tab_christmasrings": {
 		"message": "Jule Ringe"
-	},
-	"tab_rewardlinks": {
-		"message": "Belønnings links"
 	},
 	"tab_options": {
 		"message": "Muligheder"
@@ -1478,214 +1486,6 @@
 			}
 		}
 	},
-	"rewardlinks_id": {
-		"message": "Belønnings Id"
-	},
-	"rewardlinks_insertdate": {
-		"message": "Indsættelse dato"
-	},
-	"rewardlinks_collectdate": {
-		"message": "Hentet dato"
-	},
-	"rewardlinks_collectmaterial": {
-		"message": "Belønning fundet"
-	},
-	"rewardlinks_owner": {
-		"message": "Ejer"
-	},
-	"rewardlinks_expired": {
-		"message": "ULØBET LINK"
-	},
-	"rewardlinks_collected": {
-		"message": "ALLEREDE HENTET"
-	},
-	"rewardlinks_maxreached": {
-		"message": "DAGLIG MAX NÅET"
-	},
-	"rewardlinks_noself": {
-		"message": "INGEN SELVBELØNNING"
-	},
-	"rewardlinks_broken": {
-		"message": "KNÆKKET LINK"
-	},
-	"rewardlinks_probablyexpired": {
-		"message": "MULIGT UDLØBET LINK"
-	},
-	"rewardlinks_background": {
-		"message": "Baggrund\nÅben belønnings links i baggrunden"
-	},
-	"rewardlinks_autoclick": {
-		"message": "Auto-klik\nKlikker automatisk den næste udvalgte belønning efter en belønning er samlet."
-	},
-	"rewardlinks_autoclick_end": {
-		"message": "Ingen valgte links kan klikkes på.\nUdløbne links eller links, der er taget, bliver altid ignoreret."
-	},
-	"rewardlinks_addlinks": {
-		"message": "Tilføj links"
-	},
-	"rewardlinks_pasteadd": {
-		"message": "Indsæt links her og tryk på \"$CONFIRM$\" knappen",
-		"placeholders": {
-			"confirm": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_pastehere": {
-		"message": "Ethvert link, der sættes ind her, vil blive direkte tilføjet"
-	},
-	"rewardlinks_linksadded": {
-		"message": "Præmie links tilføjet: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_nolinksadded": {
-		"message": "Ingen præmie links blev tilføjet"
-	},
-	"rewardlinks_linksupdated": {
-		"message": "Præmie links opdateret: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_stats": {
-		"message": "Præmie links: $TOTAL$, Der kan hentes: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"rewardlinks_allcollected": {
-		"message": "Alle præmier links er hentet"
-	},
-	"rewardlinks_nexttime": {
-		"message": "Næste kollektion starter den $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_countremaining": {
-		"message": "Resterende links: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_collectanyway": {
-		"message": "Vil du åbne dette link alligevel?"
-	},
-	"rewardlinks_infocollected": {
-		"message": "Dette link er allerede hentet."
-	},
-	"rewardlinks_infoexpired": {
-		"message": "Dette link er udløbet.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_infonoself": {
-		"message": "Dette link er dit: selv præmiering er ikke valid."
-	},
-	"rewardlinks_infobroken": {
-		"message": "Dette link er knækket eller virker ikke."
-	},
-	"rewardlinks_infomaxreached": {
-		"message": "Dette link er blevet hentet mens daglig max er nået.\nLinks der er hentet på denne måde er tabt for evigt."
-	},
-	"rewardlinks_infomayexceedlimit": {
-		"message": "Der er andre præmier, der venter på at blive hentet.\nDette kan overstige din daglige begrænsning."
-	},
-	"rewardlinks_infoprobablyexpired": {
-		"message": "Dette link er muligvis udløbet.\nLink id bliver genereret fortløbende og dette præmie id er lavere end et udløbet id."
-	},
-	"rewardlinks_removelinks": {
-		"message": "Fjern gamle links"
-	},
-	"rewardlinks_removeselected": {
-		"message": "Fjern det udvalgte"
-	},
-	"rewardlinks_removelinksdays": {
-		"message": "Fjern ikke aktive præmie links ældre end @DAYS@ dage.\nDette inkluderer udløbne links og links der allerede er hentet.\nLinks ældre end $NUM$ dage bliver fjernet periodisk.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_removenone": {
-		"message": "Der er ingen links at fjerne"
-	},
-	"rewardlinks_removeconfirm": {
-		"message": "Links der vil blive fjernet: $Num$\nFjernede links kan ikke længere tilføjes.\n\nFortsæt med fjernelsen?",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_rewardinfo": {
-		"message": "Denne præmie blev tilføjet den $DATE$",
-		"placeholders": {
-			"date": {
-				"content": "$1"
-			}
-		}
-	},
-	"rewardlinks_reset": {
-		"message": "Nulstil"
-	},
-	"rewardlinks_resetcount": {
-		"message": "Du kan resette \"Næste kollektion\" informationen og fortsætte med dette link alligevel."
-	},
-	"rewardlinks_resetexpired": {
-		"message": "Du kan resette \"Muligvis udløbet\" informationen og fortsætte med dette link alligevel."
-	},
-	"rewardlinks_convert": {
-		"message": "Konverter link"
-	},
-	"rewardlinks_noconversion": {
-		"message": "Ingen konvertering"
-	},
-	"rewardlinks_shortenlinks": {
-		"message": "Forkortede/konverterede links"
-	},
-	"rewardlinks_shortenlinks_info1": {
-		"message": "Indsæt links her, der skal forkortes /konverteres"
-	},
-	"rewardlinks_shortenlinks_info2": {
-		"message": "Forkortede links er vist herunder (duplikater er fjernet)"
-	},
-	"rewardlinks_prefix": {
-		"message": "Præfiks"
-	},
-	"rewardlinks_newline": {
-		"message": "Tilføj ny linje?"
-	},
-	"rewardlinks_addspace": {
-		"message": "Tilføj mellemrum"
-	},
-	"rewardlinks_summaryinfo": {
-		"message": "Alle belønninger indsamlet inden for $NUM$ timer efter den seneste belønning.",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
-	},
 	"export_export": {
 		"message": "Eksport"
 	},
@@ -2107,35 +1907,8 @@
 	"options_disablealtguard_warning": {
 		"message": "Pas på: Aktivering af denne mulighed er på egen risiko!"
 	},
-	"options_section_rewardlinks": {
-		"message": "Præmie links"
-	},
-	"options_rewardsclose": {
-		"message": "Auto luk\nAuto luk siden efter præmien er hentet."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Undtagen juveler\nLuk ikke automatisk når der er fundet juveler."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Undtagen fejl\nLuk ikke automatisk når der er fundet fejl"
-	},
-	"options_rewardssummary": {
-		"message": "Tilføj sum tabel\nHvis siden ikke lukker automatisk, så tilføj en sum tabel i bunden"
-	},
 	"options_linkgrabenabled": {
 		"message": "Link fanger\nAktiver Link fangeren i Facebook."
-	},
-	"options_linkgrabbutton": {
-		"message": "Muse knap\nVælg den museknap der aktiverer Link fangeren"
-	},
-	"options_linkgrabkey": {
-		"message": "Vilkårlig tast\nVælg en vilkårlig tast til at trykke på som tilføjelse til museknappen"
-	},
-	"options_linkgrabsort": {
-		"message": "Sorter links"
-	},
-	"options_linkgrabconvert": {
-		"message": "Konverter links"
 	},
 	"options_modifier_none": {
 		"message": "Ingen"
@@ -2301,53 +2074,5 @@
 	},
 	"calc_error_4": {
 		"message": "For mange slut parenteser"
-	},
-	"linkgrabber_selected": {
-		"message": "Links: $UNIQUE$ / $TOTAL$",
-		"placeholders": {
-			"unique": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_fn_copy": {
-		"message": "Kopier til clipboard"
-	},
-	"linkgrabber_fn_send": {
-		"message": "Send til DAF"
-	},
-	"linkgrabber_fn_cancel": {
-		"message": "Fortryd"
-	},
-	"linkgrabber_fn_refresh": {
-		"message": "Opdater links"
-	},
-	"linkgrabber_fn_showid": {
-		"message": "Vis Præmie Id"
-	},
-	"linkgrabber_fn_autosend": {
-		"message": "Send automatisk"
-	},
-	"linkgrabber_added": {
-		"message": "Præmie links tilføjet: $NUM$ / $TOTAL$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			},
-			"total": {
-				"content": "$2"
-			}
-		}
-	},
-	"linkgrabber_copied": {
-		"message": "Links kopieret til clipboard: $NUM$",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
 	}
 }
