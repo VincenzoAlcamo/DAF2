@@ -90,7 +90,7 @@
 	background-position: -14px 24px;
 }
 
-.DAF-menu-container.hasExtra .DAF-menu:not(:hover),
+.DAF-menu-container.hasExtra .DAF-menu:not(:hover):not(:focus-within),
 .DAF-menu-container.hasExtra .DAF-menu li[data-action="about"] b,
 .DAF-menu-container.hasExtra .DAF-menu li[data-action="options"] b {
 	background-color: #0f0 !important;

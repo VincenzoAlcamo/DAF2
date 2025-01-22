@@ -693,10 +693,11 @@ var Data = {
 	},
 	initRegions(data) {
 		Object.values(data).forEach(item => {
-			const { name_loc, icon_mobile_asset: mobile_asset } = item;
+			let { name_loc, icon_mobile_asset: mobile_asset } = item;
 			const rid = +item.region_id;
 			const skinId = +item.skin_id;
 			if (!rid) return;
+			if (rid == 9 && name_loc == 'MAP062') name_loc = 'INDIA';
 			Data.colRegions[rid] = { def_id: rid, name_loc, mobile_asset };
 			Data.colSkins[skinId] = { def_id: skinId, name_loc, mobile_asset };
 			Data.region2Skin[rid - 1] = skinId;
@@ -1693,8 +1694,12 @@ var Data = {
 		if (!Data.generator || !Data.generator.cdn_root) return Promise.reject('Data has not been loaded yet');
 		file.url = Data.generator.cdn_root + file.fileName + '?ver=' + file.version;
 		const response = await fetch(file.url);
-		if (+response.status >= 400) throw `File cannot be load: "${file.url}"`;
-		const text = await response.text();
+		let isHack = false;
+		if (+response.status >= 400 && !isHack) {
+			isHack = name == 'locations_9';
+			if (!isHack) throw `File cannot be load: "${file.url}"`;
+		}
+		const text = isHack ? '' : await response.text();
 		let data = Parser.parse(file.kind, text);
 		if (!data) throw `File cannot be parsed: "${file.url}"`;
 		if (file.kind == 'erik') {
