@@ -440,6 +440,7 @@ UI_claim_coin_single_slow_02
 	optionEffect('hFlashAd');
 	optionEffect('hEnergyMax');
 	option('hGCCluster', SUBOPTION);
+	option('hFastLuckyCards', SUBOPTION);
 	option('hScroll', SUBOPTION);
 	option('hInstantCamera', SUBOPTION);
 	option('hLootFew', SUBOPTION);

@@ -158,6 +158,7 @@ var Preferences = {
 			hPetFollow: false,
 			hPetSpeed: false,
 			hInstantCamera: false,
+			hFastLuckyCards: false,
 			fileVersion: '20240926120000',
 		};
 	},

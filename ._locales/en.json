@@ -2001,6 +2001,9 @@
 	"options_hpetfollow": {
 		"message": "Do not follow\nPet does not follow Diggy"
 	},
+	"options_hfastluckycards": {
+		"message": "Fast Lucky Cards\nLucky Cards shuffle is faster"
+	},
 	"calc_operators": {
 		"message": "Operators"
 	},

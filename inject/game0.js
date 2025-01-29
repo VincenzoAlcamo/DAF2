@@ -829,6 +829,41 @@
 			};
 		});
 
+		intercept('com.pixelfederation.diggy.screens.popup.luckyCards.LuckyCardsPopup', 'refresh', function(_refresh, LuckyCardsPopup) {
+			extras.push('hFastLuckyCards');
+			let hacked = false;
+			return function() {
+				const result = _refresh.apply(this, arguments);
+				if (!hacked) {
+					hacked = true;
+					const proto = this._cardSection._cardItems[0].__proto__.__proto__;
+					['flipToFrontSideWithOutline', 'flipToFrontSideNormal', 'flipToFrontSideWithGlow', 'flipToFrontSideWithDelay', 'hideCardWithDelayedTextHide'].forEach(name => {
+						const original = proto[name];
+						proto[name] = function (p_delay) {
+							if (Prefs.hFastLuckyCards) p_delay = Math.min(p_delay || 0, 0.05)
+							return original.apply(this, arguments);
+						};
+					});
+					const _hideDelayed = proto.hideCardWithDelayedTextHide;
+					proto.hideCardWithDelayedTextHide = function() {
+						if (Prefs.hFastLuckyCards) return;
+						return _hideDelayed.apply(this, arguments);
+					};
+					const _animate = proto.animateToPosition;
+					proto.animateToPosition = function (p_index, p_duration, p_callback) {
+						if (Prefs.hFastLuckyCards) p_duration = 0.05;
+						return _animate.apply(this, arguments);
+					};
+				}
+				const _playShuffle = this._cardSection._mainCard.playShuffle;
+				this._cardSection._mainCard.playShuffle = function(p_callback) {
+					if (Prefs.hFastLuckyCards) return void p_callback();
+					_playShuffle.apply(this, arguments);
+				};
+				return result;
+			}
+		});
+
 		const value = extras.join();
 		log('extra detected = "%s"', value);
 		Msg.sendPage('extra', { value });
