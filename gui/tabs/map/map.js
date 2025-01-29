@@ -2306,7 +2306,6 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 					} else {
 						numTiles++;
 						cost += tileDef.stamina;
-						if (tileDef.bonusEnergy) cost -= tileDef.bonusEnergy;
 					}
 				}
 				if (tileDef.isSpecial) numSpecial++;
