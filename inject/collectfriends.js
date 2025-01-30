@@ -61,7 +61,9 @@ const CF = {
 			if (container) return;
 			const img = document.querySelector('a > img[width="80"]');
 			if (img) {
-				container = img.parentElement.parentElement.parentElement.parentElement;
+				let p = img.parentElement.parentElement;
+				if (!p.nextElementSibling) p = p.parentElement;
+				container = p.parentElement.parentElement;
 				captureOneBlock = captureOneBlockNew;
 				return;
 			}
@@ -222,13 +224,15 @@ const CF = {
 				item.classList.add('collected');
 				let keep = false;
 				const uri = getFriendUri(item.parentElement.href);
-				const name = item.parentElement.parentElement.nextElementSibling.firstElementChild.textContent;
+				let p = item.parentElement.parentElement;
+				if (!p.nextElementSibling) p = p.parentElement;
+				const name = p.nextElementSibling.firstElementChild.textContent;
 				const id = getFriendIdFromUri(uri);
 				const img = item.src;
 				count++;
 				addFriend({ id, name, uri, img });
 				keep = unmatchedList.includes(id);
-				const node = item.parentElement.parentElement.parentElement;
+				const node = p.parentElement;
 				if (keep) ulInactive = container;
 				else if (!keepCollected) node.classList.add('to-be-removed');
 			}
