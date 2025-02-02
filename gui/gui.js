@@ -601,8 +601,11 @@ const gui = {
 		tabs.friendship.mustBeUpdated = true;
 		tabs.neighbors.mustBeUpdated = true;
 	},
-	updateNeighborFriendName(pal, friend) {
-		pal.extra.fn = friend.name.replace(/\s+/g, ' ');
+	updateNeighborFriendName(pal, friend, save = false) {
+		const old = pal.extra.fn;
+		if (friend) pal.extra.fn = friend.name.replace(/\s+/g, ' ');
+		else delete pal.extra.fn;
+		if (save && old !== pal.extra.fn) bgp.Data.saveNeighbour(pal);
 	},
 	updateNeighborFriendNames(save = false) {
 		const friendsByUid = {};

@@ -224,8 +224,7 @@ function tableClick(event) {
 		if (friend && saveFriend) {
 			bgp.Data.saveFriend(friend);
 			if (friend.score == 99 && pal) {
-				gui.updateNeighborFriendName(pal, friend);
-				bgp.Data.saveNeighbour(pal);
+				gui.updateNeighborFriendName(pal, friend, true);
 			}
 		}
 		showStats();
@@ -253,6 +252,7 @@ function tableClick(event) {
 			row.parentNode.appendChild(row2);
 			updateRow(row2);
 		} else numNeighboursShown--;
+		gui.updateNeighborFriendName(pal, null, true);
 		pal = null;
 		updateStats(true);
 	} else if (action == 'delete' && friend) {
@@ -281,7 +281,12 @@ function tableClick(event) {
 	} else if (action == 'manual' && pal) {
 		if (matchingId == pal.id) {
 			cancelMatch();
+			if (pal.extra.fn) {
+				gui.updateNeighborFriendName(pal, null, true);
+				updateRow(row);
+			}
 		} else {
+			cancelMatch();
 			divMatch.style.backgroundImage = 'url(' + gui.getNeighborAvatarUrl(pal) + ')';
 			divMatch.firstElementChild.innerText = pal.level;
 			divMatch.lastElementChild.innerText = gui.getPlayerNameFull(pal);
@@ -618,8 +623,7 @@ function cancelMatch() {
 	matchingId = null;
 	divMatch.style.display = 'none';
 	smartTable.table.classList.remove('f-matching');
-	const row = smartTable.table.querySelector('tr.f-ismatching');
-	if (row) row.classList.remove('f-ismatching');
+	smartTable.table.querySelectorAll('tr.f-ismatching').forEach(row => row.classList.remove('f-ismatching'));
 }
 
 function matchFriendBase(friend, pal, score) {
