@@ -123,7 +123,7 @@ async function refresh() {
 		type = state.show;
 		allItems = {};
 		const kind = kinds[type];
-		const data = type.startsWith('locations') ? null : await bgp.Data.getFile(kind.type || type);
+		const data = type.startsWith('locations') ? null : await gui.getFileAsync(kind.type || type);
 		const hashes = {};
 		const folder = kind.folder || 'all/';
 		const $name = kind.name || 'name_loc';
@@ -149,13 +149,13 @@ async function refresh() {
 		if (type == 'locations_mobile') {
 			const numRegions = bgp.Data.getMaxRegion();
 			for (let rid = 0; rid <= numRegions; rid++) {
-				const data = await bgp.Data.getFile('locations_' + rid);
+				const data = await gui.getFileAsync('locations_' + rid);
 				addNormalItems(data);
 			}
 		} else if (type == 'locations_webgl') {
 			const numRegions = bgp.Data.getMaxRegion();
 			for (let rid = 0; rid <= numRegions; rid++) {
-				const data = await bgp.Data.getFile('locations_' + rid);
+				const data = await gui.getFileAsync('locations_' + rid);
 				for (const [id, item] of Object.entries(data)) {
 					if (!item.gr_library || !item.gr_clip) continue;
 					const asset = item.gr_library + '_' + item.gr_clip;

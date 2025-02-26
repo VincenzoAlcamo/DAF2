@@ -929,7 +929,7 @@ function fillCamp(campLines, numRegSlotsOriginal) {
 }
 
 async function adsLimit() {
-	await bgp.Data.getFile('video_ads');
+	await gui.getFileAsync('video_ads');
 	const adsInfo = bgp.Data.getAdsInfo();
 	const items = Html.raw(adsInfo.items.map(item => Html`<tr><td>${item.text}</td><td style="text-align:center">${item.limit}</td><td style="text-align:center">${item.date}</td></tr>`).join(''));
 	let htm = '';
@@ -943,9 +943,9 @@ async function adsLimit() {
 }
 
 async function findThePair() {
-	await bgp.Data.getFile('tokens');
-	await bgp.Data.getFile('events');
-	const playboards = await bgp.Data.getFile('playboards');
+	await gui.getFileAsync('tokens');
+	await gui.getFileAsync('events');
+	const playboards = await gui.getFileAsync('playboards');
 	const generator = gui.getGenerator();
 
 	let htm = '';
@@ -1038,9 +1038,9 @@ async function findThePair() {
 }
 
 async function luckyCards(flag) {
-	await bgp.Data.getFile('tokens');
-	await bgp.Data.getFile('random_rewards');
-	await bgp.Data.getFile('video_ads');
+	await gui.getFileAsync('tokens');
+	await gui.getFileAsync('random_rewards');
+	await gui.getFileAsync('video_ads');
 
 	const generator = gui.getGenerator();
 	const level = +generator.level;

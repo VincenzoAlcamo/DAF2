@@ -60,6 +60,9 @@ const gui = {
 	getFile(name) {
 		return bgp.Data.files[name];
 	},
+	async getFileAsync(name) {
+		return bgp.Data.getFile(name);
+	},
 	getPillarsInfo() {
 		const result = bgp.Data.getPillarsInfo();
 		gui.expByMaterial = Object.assign({}, result.expByMaterial);
@@ -1068,7 +1071,7 @@ async function loadTab(tab) {
 		const promises = [];
 		promises.push(fetch(tabBasePath + '.html').then(response => response.text().then(text => Html.set(container, text))));
 		for (const name of requires) {
-			promises.push(bgp.Data.getFile(name).then(_ => advanceProgress()));
+			promises.push(gui.getFileAsync(name).then(_ => advanceProgress()));
 		}
 		await Promise.all(promises);
 		tab.toolbar = tab.container.querySelector('.toolbar');

@@ -165,7 +165,7 @@ function ringLoot(kind) {
 			const excluded = { "0": true };
 			const zero = mine.rotation.filter(rot => !+rot.chance);
 			if (zero.length > 0 && zero.length < mine.rotation.length) zero.forEach(rot => excluded[rot.level] = true);
-			const floors = await bgp.Data.getFile('floors_' + lid);
+			const floors = await gui.getFileAsync('floors_' + lid);
 			const allLoots = [];
 			let chest = 0;
 			let hasCandy = false;

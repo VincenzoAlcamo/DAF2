@@ -59,7 +59,7 @@ async function updateBg() {
 		const generator = gui.getGenerator();
 		rnd.seed = +generator.player_id;
 		({ cdn_root, versionParameter } = generator);
-		await bgp.Data.getFile('events');
+		await gui.getFileAsync('events');
 		let events = gui.getFile('events');
 		if (events) {
 			events = Object.values(events).filter(event => !excludeIds.includes(+event.def_id) && !!event.shelf_graphics && event.shelf_graphics != 'map_x_default');

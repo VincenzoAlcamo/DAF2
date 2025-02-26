@@ -962,7 +962,7 @@ function showInfo() {
 				htm += lootPlaceholder;
 				htm += Html.br`</tr>`;
 				htm += floors.map(floor => Html.br`<tr class="${isRepeatables ? (isOdd ? 'odd' : 'even') : ''}" data-loc="${lid}" data-floor="${floor.level}">${Html.raw(floor.htm + lootPlaceholder)}</tr>`).join('');
-				if (showLoot) bgp.Data.getFile('floors_' + lid).then(data => {
+				if (showLoot) gui.getFileAsync('floors_' + lid).then(data => {
 					const level = +generator.level;
 					data = Object.assign({}, data);
 					data.floor = data.floor.map(floor => Object.assign({}, floor));

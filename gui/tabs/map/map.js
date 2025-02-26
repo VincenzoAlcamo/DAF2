@@ -857,7 +857,7 @@ async function test() {
 	if (lid <= 0 || !isFinite(lid)) return;
 	let mines = bgp.Data.mineCache[lid];
 	if (!mines) {
-		const floors = await bgp.Data.getFile(`floors_${lid}`);
+		const floors = await gui.getFileAsync(`floors_${lid}`);
 		mines = bgp.Data.mineCache[lid] = {};
 		asArray(floors && floors.floor).filter((floor) => floor.def_id > 0).forEach(floor => getEmptyMine(lid, floor, mines));
 	}
@@ -1542,7 +1542,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	d_rid = d_rid || generator.region;
 	d_friendship = d_friendship || +generator.pet_feature?.friendship?.level || 1;
 
-	let floors = await bgp.Data.getFile(`floors_${lid}`);
+	let floors = await gui.getFileAsync(`floors_${lid}`);
 	floors = asArray(floors && floors.floor).filter((floor) => floor.def_id > 0);
 	const floor = floors.find((floor) => floor.def_id == fid);
 	if (!floor) return;

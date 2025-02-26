@@ -498,17 +498,17 @@ async function calcUltimateLevel() {
 	const generator = gui.getGenerator();
 
 	// Find the green ring mine for the player
-	await bgp.Data.getFile('tokens');
+	await gui.getFileAsync('tokens');
 	let grMine, grFloors;
 	for (let rid = +generator.region; rid > 0 && !grMine; rid--) {
 		const name = 'locations_' + rid;
-		const locations = await bgp.Data.getFile(name);
+		const locations = await gui.getFileAsync(name);
 		grMine = Object.values(locations).find(mine => +mine.test == 0 && +mine.event_id == 0 && +mine.reset_cd == 168 * 3600);
 	}
-	if (grMine) grFloors = await bgp.Data.getFile('floors_' + grMine.def_id);
+	if (grMine) grFloors = await gui.getFileAsync('floors_' + grMine.def_id);
 
 	// Buildings are required
-	const buildings = await bgp.Data.getFile('buildings');
+	const buildings = await gui.getFileAsync('buildings');
 	const decorations = gui.getFile('decorations');
 	const usables = gui.getFile('usables');
 	const levelups = gui.getFile('levelups');
@@ -557,7 +557,7 @@ async function calcUltimateLevel() {
 	for (const items of Object.values(pillarsByMaterial)) items.sort((a, b) => (b.ratio - a.ratio) || (a.required - b.required));
 
 	// PASSIVE EFFECTS
-	const extensions = await bgp.Data.getFile('extensions');
+	const extensions = await gui.getFileAsync('extensions');
 	const getFactor = (id, level) => {
 		let chance = 0;
 		let bonus = 0;
@@ -577,7 +577,7 @@ async function calcUltimateLevel() {
 	});
 
 	// Windmills
-	const windmills = await bgp.Data.getFile('windmills');
+	const windmills = await gui.getFileAsync('windmills');
 
 	let level, exp, energy, isCaravan;
 
