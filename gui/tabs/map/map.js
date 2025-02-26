@@ -90,6 +90,7 @@ const IMG_SHADOWS = '/img/gui/shadows.png';
 const IMG_BEAMS = '/img/gui/beams.png';
 const IMG_LOGO = '/img/logo/logo.png';
 const IMG_PUSH = '/img/gui/push.png';
+const IMG_NONE = '/img/gui/blank.gif';
 
 const OPTION_COORDINATES = 'c';
 const OPTION_GROUPLOCATIONS = 'g';
@@ -1295,6 +1296,8 @@ function update() {
 			specialDrops[key] = 'A';
 		});
 
+	remapAssets();
+
 	allQuestDrops = {};
 	allQuestDropsFlags = {};
 	const replaces = {};
@@ -1440,11 +1443,29 @@ function setState(state) {
 	setCanvasZoom();
 }
 
+let remappedAssets = {};
+function remapAssets() {
+	const remap = String(gui.getPreference('remapAssets') || '');
+	const kinds = {
+		npc: gui.getFile('npcs')
+	};
+	let items = {};
+	remappedAssets = {};
+	remap.split(/\s+/).forEach(entry => {
+		if (entry in kinds) return void (items = kinds[entry]);
+		const [ids, destId] = entry.split('=');
+		const destAsset = items[destId]?.mobile_asset || IMG_NONE;
+		ids.split(',').forEach(id => remappedAssets[items[id]?.mobile_asset || ''] = destAsset);
+	});
+	console.log(remappedAssets);
+}
+
 function addImage(asset, url) {
 	if (typeof asset == 'string' && !(asset in images)) {
 		const item = { loaded: false };
 		images[asset] = item;
 		item.promise = new Promise((resolve, _reject) => {
+			if (asset in remappedAssets) asset = remappedAssets[asset];
 			if (!url)
 				url = asset.startsWith('/')
 					? asset

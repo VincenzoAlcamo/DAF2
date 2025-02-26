@@ -159,6 +159,7 @@ var Preferences = {
 			hPetSpeed: false,
 			hInstantCamera: false,
 			hFastLuckyCards: false,
+			remapAssets: 'npc 42534,42535,42536=42577',
 			fileVersion: '20240926120000',
 		};
 	},
