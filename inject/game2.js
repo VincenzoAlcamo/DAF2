@@ -69,7 +69,7 @@ const { Msg, Prefs, setPreference, log } = setupMessaging('game2', 'purple', 'ga
 
 // These will be initialized later
 let menu, site, miner, cdn_root, gcTable, container, hasGenerator;
-let isAutoQueueEnabled;
+let isAutoQueueEnabled, isAccessibilityKeysEnabled;
 
 const getExtensionUrl = (resource) => chrome.runtime.getURL(resource);
 const getUnixTime = () => Math.floor(Date.now() / 1000);
