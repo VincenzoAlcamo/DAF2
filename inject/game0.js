@@ -831,11 +831,11 @@
 
 		intercept('com.pixelfederation.diggy.screens.popup.luckyCards.LuckyCardsPopup', 'refresh', function(_refresh, LuckyCardsPopup) {
 			extras.push('hFastLuckyCards');
-			let hacked = false;
+			let modified = false;
 			return function() {
 				const result = _refresh.apply(this, arguments);
-				if (!hacked) {
-					hacked = true;
+				if (!modified) {
+					modified = true;
 					const proto = this._cardSection._cardItems[0].__proto__.__proto__;
 					['flipToFrontSideWithOutline', 'flipToFrontSideNormal', 'flipToFrontSideWithGlow', 'flipToFrontSideWithDelay', 'hideCardWithDelayedTextHide'].forEach(name => {
 						const original = proto[name];
@@ -854,12 +854,50 @@
 						if (Prefs.hFastLuckyCards) p_duration = 0.05;
 						return _animate.apply(this, arguments);
 					};
+					const _front = proto.flipToFrontSide;
+					proto.flipToFrontSide = function() {
+						if (Prefs.hFastLuckyCards) return void this.showFrontSide();
+						return _front.apply(this, arguments);
+					};
+					const _back = proto.flipToBackSide;
+					proto.flipToBackSide = function(p_callback) {
+						if (Prefs.hFastLuckyCards) {
+							this._flipBackSideCallback = p_callback;
+							return void this.flipToBackSideFinish();
+						}
+						return _back.apply(this, arguments);
+					};
+					const _flip = proto.changeItemAndFlipToFrontAfterDelay;
+					proto.changeItemAndFlipToFrontAfterDelay = function() {
+						if (Prefs.hFastLuckyCards) return void this.changeItemAndFlipToFront();
+						return _flip.apply(this, arguments);
+					};
 				}
 				const _playShuffle = this._cardSection._mainCard.playShuffle;
-				this._cardSection._mainCard.playShuffle = function(p_callback) {
-					if (Prefs.hFastLuckyCards) return void p_callback();
-					_playShuffle.apply(this, arguments);
-				};
+				if (!_playShuffle._modified) {
+					function playShuffle(p_callback) {
+						if (Prefs.hFastLuckyCards) return void p_callback();
+						_playShuffle.apply(this, arguments);
+					}
+					this._cardSection._mainCard.playShuffle = Object.assign(playShuffle, { _modified: true });
+				}
+				if (Prefs.isSuper) {
+					try {
+						this.findReward();
+						const reward = this._videoReward;
+						const names = {
+							material_1: 'COINS',
+							material_2: 'GEMS',
+							material_20: 'APPLE',
+							material_31: 'FLOUR',
+							material_347: 'CARAVAN TICKET',
+							system_1: 'EXPERIENCE',
+							system_2: 'ENERGY',
+						};
+						console.log('Reward object', reward);
+						console.log('Reward is %s \xd7 %s', names[reward.type + '_' + reward.object_id] || 'UNKNOWN', reward.amount);
+					} catch(err) {}
+				}
 				return result;
 			}
 		});
