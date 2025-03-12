@@ -354,11 +354,11 @@
 		const mineInfo = { mineId: 0, isRepeat: false, isTower: false };
 		function getMineInfo() {
 			const screen = core.instance._screenManager?._activeScreen?._screen;
-			const mineId = screen?.screenId === 'mineScreen' && screen._mineLoader.getMineId();
+			const mineId = screen?.screenId === 'mineScreen' && screen._locationData.getMineId();
 			if (mineId !== mineInfo) {
 				mineInfo.mineId = mineId;
 				mineInfo.isRepeat = !!mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
-				mineInfo.isTower = !!mineId && screen._mineLoader.isTowerFloor();
+				mineInfo.isTower = !!mineId && screen._locationData.isTowerFloor();
 			}
 			return mineInfo;
 		}
@@ -410,7 +410,7 @@
 		}
 
 		let lastFoundTile = null;
-		const canGo = (r) => !r._interactivityDisabled && !r._isBeaconActionFocus && !r._isFocus;
+		const canGo = (r) => !r._interactivityDisabled && !r._isFocus;
 		function findNextTile(r) {
 			if (!canGo(r)) return null;
 			var c = r._character;
@@ -423,7 +423,7 @@
 				var key = `${x}_${y}`;
 				if (key in examined && examined[key] <= l) return;
 				examined[key] = l;
-				var tile = r._mineLoader.getTileAt(x, y);
+				var tile = r.locationData.getTileAt(x, y);
 				if (!tile) return;
 				if (isTileDiggable(tile, r._core)) return [best, length] = [tile, l];
 				if (tile.isWalkable()) stack.push({ x, y, l });
@@ -512,15 +512,15 @@
 							if (_drag.length) {
 								var x = _drag[0].x, y = _drag[0].y;
 								if (x + 2 == _drag[1].x && y + 2 == _drag[1].y) x++, y++;
-								if (d[0] == 0 && d[1] == 0) tile = this._mineLoader.getTileAt(x, y);
+								if (d[0] == 0 && d[1] == 0) tile = this.locationData.getTileAt(x, y);
 								else {
 									x += d[0], y += d[1];
-									if (_drag.find(o => o.x == x && o.y == y)) tile = this._mineLoader.getTileAt(x, y);
+									if (_drag.find(o => o.x == x && o.y == y)) tile = this.locationData.getTileAt(x, y);
 								}
 							} else {
 								var c = this._character;
 								var x = +c.mineX + d[0], y = +c.mineY + d[1];
-								tile = this._mineLoader.getTileAt(x, y);
+								tile = this.locationData.getTileAt(x, y);
 							}
 							if (tile) this._character.go(tile);
 						}
@@ -821,7 +821,7 @@
 			extras.push('hInstantCamera');
 			return function (p_mineX, p_mineY, p_force, p_return, p_immediate, p_onCompleteCallback, p_returnPosition) {
 				const result = _focus.apply(this, arguments);
-				if (Prefs.hInstantCamera && this._focusTween) this._focusTween.duration = 0.01;
+				if (Prefs.hInstantCamera && this._focusTween) this._focusTween.g2d_duration = 0.01;
 				return result;
 			};
 		});
