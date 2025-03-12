@@ -87,6 +87,25 @@
 			});
 		return obj;
 	};
+	window.$hxClasses = {};
+	Object.defineProperty(Object.prototype, 'DateTools', {
+		get() {
+			return undefined;
+		},
+		set(newValue) {
+			window.$hxClasses = this;
+			Object.defineProperty(Object.prototype, 'DateTools', {
+				value: undefined,
+				writable: true,
+				enumerable: false,
+				configurable: true
+			});
+			delete Object.prototype.DateTools;
+			this.DateTools = newValue;
+		},
+		enumerable: false,
+		configurable: true
+	});
 
 	// XMLHttpRequest
 	let xhrEnabled = false;
@@ -263,10 +282,10 @@
 			Numpad5: [0, 0],
 		};
 
-		const getClass = (className) => $hxClasses[className] || window.$hxClasses?.[className];
+		const getClass = (className) => window.$hxClasses?.[className] || $hxClasses[className];
 		function intercept(className, protoName, fn) {
 			const def = getClass(className), proto = def?.prototype, _ = proto?.[protoName];
-			if (_ && typeof _ === 'function') proto[protoName] = fn(_, def);
+			if (def && ((_ && typeof _ === 'function') || !protoName)) proto[protoName] = fn(_, def, proto);
 		}
 
 		const core = getClass('com.pixelfederation.diggy.Core');
@@ -343,21 +362,21 @@
 			}
 			return mineInfo;
 		}
+
 		function getSpeed(p_core, val, def, isPet) {
 			const hasSpeedUp = ((isPet && Prefs.hPetSpeed) || Prefs.hSpeed) && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
 			if (isAutoDigEnabled) return Math.min(val * (hasSpeedUp ? 0.15 : 0.4), def)
 			return hasSpeedUp ? Math.min(val * 0.4, def) : def;
 		}
-		intercept('com.pixelfederation.diggy.game.character.Character', 'goPathNext', function (_goPathNext) {
-			extras.push('hSpeed');
-			return function() {
-				const result = _goPathNext.apply(this, arguments);
-				if (this._moveActuator) {
-					const val = this._moveActuator.duration;
-					this._moveActuator.duration = getSpeed(core.instance, val, val, false);
-				}
-				return result;
-			};
+		intercept('com.pixelfederation.diggy.game.character.CharacterPath', null, function(_, def) {
+			const _getActualSpeed = def.getActualSpeed;
+			if (typeof _getActualSpeed === 'function') {
+				extras.push('hSpeed');
+				def.getActualSpeed = function() {
+					const val = _getActualSpeed.apply(this, arguments);
+					return getSpeed(core.instance, val, val, false);
+				};
+			}
 		});
 		intercept('com.pixelfederation.diggy.game.character.Character', 'breakTile', function (_breakTile) {
 			extras.push('hSpeed');
@@ -365,19 +384,17 @@
 				return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, false));
 			};
 		});
-		intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'goPathNext', function (_goPathNext) {
-			extras.push('hPetSpeed');
-			return function () {
-				const result = _goPathNext.apply(this, arguments);
-				if (this._moveActuator) {
-					const val = this._moveActuator.g2d_duration;
-					this._moveActuator.g2d_duration = getSpeed(core.instance, val, val, true);
-					this._moveActuator.g2d_interps?.forEach(interp => interp.duration = getSpeed(core.instance, interp.duration, interp.duration, true));
-				}
-				return result;
-			};
+		intercept('com.pixelfederation.diggy.game.managers.pet.PetPath', null, function (_, def) {
+			const _getActualSpeed = def.getActualSpeed;
+			if (typeof _getActualSpeed === 'function') {
+				extras.push('hSpeed');
+				def.getActualSpeed = function() {
+					const val = _getActualSpeed.apply(this, arguments);
+					return getSpeed(core.instance, val, val, true);
+				};
+			}
 		});
-		intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'breakTile', function (_breakTile) {
+		intercept('com.pixelfederation.diggy.game.pet.Pet', 'breakTile', function (_breakTile) {
 			extras.push('hPetSpeed');
 			return function (p_tileDef, p_digTime) {
 				return _breakTile.call(this, p_tileDef, getSpeed(this._core, 0.15, p_digTime, true));
@@ -447,7 +464,7 @@
 		}
 
 		intercept(
-			'com.pixelfederation.diggy.game.mine.MineRenderer',
+			'com.pixelfederation.diggy.game.location.MineRenderer',
 			'setup',
 			function (_setup) {
 				extras.push('hAutoDig', 'hKeys');
@@ -514,7 +531,7 @@
 		);
 
 		intercept(
-			'com.pixelfederation.diggy.game.mine.MineRenderer',
+			'com.pixelfederation.diggy.game.location.MineRenderer',
 			'mouseMove_handler',
 			function (_mouseMove_handler) {
 				extras.push('hQueue', 'hAutoQueue');
@@ -573,7 +590,7 @@
 		);
 
 		let excludeDrop = {};
-		intercept('com.pixelfederation.diggy.game.mine.MineRenderer', 'loot_handler', function (_loot_handler) {
+		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'loot_handler', function (_loot_handler) {
 			return function (p_tileDef,p_beaconActivated) {
 				excludeDrop = {};
 				try {
@@ -771,7 +788,7 @@
 		);
 
 		let lockPetCounter = 0;
-		intercept('com.pixelfederation.diggy.game.mine.MineRenderer', 'setup', function (_setup) {
+		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'setup', function (_setup) {
 			lockPetCounter++;
 			return function () {
 				const result = _setup.apply(this, arguments);
@@ -786,13 +803,13 @@
 				return result;
 			};
 		});
-		intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'afterDrag', function (_afterDrag) {
+		intercept('com.pixelfederation.diggy.game.pet.Pet', 'afterDrag', function (_afterDrag) {
 			lockPetCounter++;
 			return function () {
 				if (!Prefs.hPetFollow) _afterDrag.apply(this, arguments);
 			};
 		});
-		intercept('com.pixelfederation.diggy.game.managers.pet.Pet', 'onDrag', function (_onDrag) {
+		intercept('com.pixelfederation.diggy.game.pet.Pet', 'onDrag', function (_onDrag) {
 			lockPetCounter++;
 			return function () {
 				if (!Prefs.hPetFollow) _onDrag.apply(this, arguments);
@@ -800,7 +817,7 @@
 		});
 		if (lockPetCounter === 3) extras.push('hPetFollow');
 
-		intercept('com.pixelfederation.diggy.game.mine.MineRenderer', 'focus', function (_focus) {
+		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'focus', function (_focus) {
 			extras.push('hInstantCamera');
 			return function (p_mineX, p_mineY, p_force, p_return, p_immediate, p_onCompleteCallback, p_returnPosition) {
 				const result = _focus.apply(this, arguments);
