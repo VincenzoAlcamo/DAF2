@@ -881,7 +881,7 @@
 					}
 					this._cardSection._mainCard.playShuffle = Object.assign(playShuffle, { _modified: true });
 				}
-				if (Prefs.isSuper) {
+				if (Prefs.hShowLuckyCards) {
 					try {
 						this.findReward();
 						const reward = this._videoReward;
@@ -894,8 +894,8 @@
 							system_1: 'EXPERIENCE',
 							system_2: 'ENERGY',
 						};
-						console.log('Reward object', reward);
-						console.log('Reward is %s \xd7 %s', names[reward.type + '_' + reward.object_id] || 'UNKNOWN', reward.amount);
+						const name = `${names[reward.type + '_' + reward.object_id] || 'UNKNOWN'} \xd7 ${reward.amount}`;
+						Msg.sendPage('luckycards', { data: { name } });
 					} catch(err) {}
 				}
 				return result;

@@ -326,6 +326,7 @@
 .DAF-badges .DAF-badge-luckycards {
 	background-image: url(/img/gui/luckycards.png);
 	background-color: #ff0;
+	white-space: nowrap;
 }
 
 .DAF-badges .DAF-badge-petshop {

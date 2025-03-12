@@ -653,9 +653,16 @@ const setBadgeLuckyCards = (function () {
 		}
 		Html.set(badge, Html(text));
 	}
-	return function setBadgeLuckyCards({ active, sound, volume, next }) {
+	return function setBadgeLuckyCards({ active, sound, volume, next, name }) {
 		active = !!active;
 		badge = menu.querySelector('.DAF-badge-luckycards');
+		if (name) {
+			badge.classList.toggle('DAF-badge-on', true);
+			Html.set(badge, Html(name));
+			if (handler) clearTimeout(handler);
+			handler = setTimeout(() => badge.classList.toggle('DAF-badge-on', false), 5000);
+			return;
+		}
 		const wasActive = badge.classList.contains('DAF-badge-on');
 		badge.classList.toggle('DAF-badge-on', active);
 		nextTime = active ? next : 0;
