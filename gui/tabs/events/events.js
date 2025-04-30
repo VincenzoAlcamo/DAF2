@@ -21,8 +21,8 @@ const MAX_REWARDS_PER_ROW = 6;
 const INFOS = ['qst', 'ach', 'tre', 'loc', 'loc1', 'loc2', 'loc3', 'materials'];
 const PREFIX_HILIGHT = 'hilight-';
 const PREFIX_SET = 'set-';
-// TOURMALINE, OPAL, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST, GEM
-const GEMS = [398, 329, 235, 197, 143, 149, 92, 47, 2];
+// GARNET, TOURMALINE, OPAL, DIAMOND, SAPPHIRE, TOPAZ, RUBY, AMETHYST, GEM
+const GEMS = [520, 398, 329, 235, 197, 143, 149, 92, 47, 2];
 //
 const RINGS_BY_EVENT = {
 	0: 32,      // Green ring
