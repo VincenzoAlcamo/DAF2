@@ -611,7 +611,7 @@
 			return  function (p_texture,p_x,p_y,p_offsetX,p_offsetY,p_scaleX,p_scaleY,p_item,p_target,p_screenType,p_keepSameScaleForDropsEnd) {
 				if (Prefs.hLootFew && p_screenType == 'mineScreen') {
 					const key = p_item.type + '_' + p_item.object_id;
-					if (key == 'material_413' || p_item.type == 'eventpass_xp') return;
+					if (key == 'material_413' || p_item.type == 'eventpass_xp' || p_item.type == 'pet_xp') return;
 					if (excludeDrop[key] === p_item.amount) {
 						delete excludeDrop[key];
 						return;
