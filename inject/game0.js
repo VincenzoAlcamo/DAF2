@@ -449,7 +449,7 @@
 				r._character.diggingQueue.getFirst = function () {
 					let tile = _getFirst.apply(this, arguments);
 					if (!tile && isAutoDigEnabled) {
-						tile = findNextTile(r)
+						tile = isAutoDigEnabled === true ? findNextTile(r) : null;
 						if (tile && tile !== lastFoundTile) {
 							lastFoundTile = tile;
 							this._diggingQueue.push(tile);
@@ -486,7 +486,6 @@
 						}
 						log('toggleAutoDig', isAutoDigEnabled);
 					};
-					lastFindTime = 0;
 					processKeyCode = (code) => {
 						if (!canGo(this)) return null;
 						var d = ARROWKEYS_DELTA[code];
@@ -495,10 +494,10 @@
 						} else if (code == 'NumpadDivide' || code == 'KeyD') {
 							setAutoDig(false);
 							const now = Date.now();
-							if(now - lastFindTime >= 0 && !this._character._inAction && !this._character.diggingQueue.getFirst()) {
+							if(!this._character._inAction && !this._character.diggingQueue.getFirst()) {
 								const tile = findNextTile(this);
 								if (tile) {
-									lastFindTime = now;
+									isAutoDigEnabled = 1;
 									setupFindNextTile(this);
 									this._character.go(tile);
 								}
