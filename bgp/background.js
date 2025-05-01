@@ -859,7 +859,7 @@ var Data = {
 				// Additional checks
 				if (+loc.req_quest_a == 1) continue;
 				const eid = +loc.event_id || 0;
-				const item = { id: +loc.def_id, cooldown: +loc.reset_cd, name: loc.name_loc, rid, image: loc.mobile_asset, rotation: {} };
+				const item = { id: +loc.def_id, cooldown: +loc.reset_cd, name: loc.name_loc, rid, image: loc.mobile_asset, gr_library: loc.gr_library, gr_clip: loc.gr_clip, rotation: {} };
 				if (eid) {
 					const event = events[eid];
 					if (!event) continue;
@@ -906,9 +906,10 @@ var Data = {
 			const end = (+prog.cmpl || 0) + rep.cooldown - offset;
 			if (end <= now) {
 				const rep = Data.repeatables[lid];
+				const image = rep.gr_library ? `mobile_locations/${rep.gr_library}_${rep.gr_clip}` : rep.image;
 				list.push({
 					lid, rid: rep.rid, rname: rep.rid ? Data.getObjectName('region', rep.rid) : Data.getString(rep.ename),
-					name: Data.getString(rep.name).replace(/\n/g, ' '), image: `${generator.cdn_root}mobile/graphics/map/${rep.image}.png`
+					name: Data.getString(rep.name).replace(/\n/g, ' '), image: `${generator.cdn_root}mobile/graphics/map/${image}.png`
 				});
 				return;
 			}

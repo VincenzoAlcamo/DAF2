@@ -197,7 +197,8 @@ const gui = {
 		return rid > 0 ? this.getRegionImg(rid, false, size) : Html.br`<img src="/img/map.png" width="${size}" height="${size}" title="${gui.getObjectName('skin', skin)}"/>`;
 	},
 	getLocationImg(location, extraClass) {
-		const img = `${gui.getGenerator().cdn_root}mobile/graphics/map/${location.mobile_asset}.png`;
+		// const img = `${gui.getGenerator().cdn_root}mobile/graphics/map/${location.mobile_asset}.png`;
+		const img = `${gui.getGenerator().cdn_root}mobile/graphics/map/mobile_locations/${location.gr_library}_${location.gr_clip}.png`;
 		return Html.br`<div class="location_icon ${extraClass}"><img src="${img}" title="${Html(gui.getString(location.name_loc))}"></div>`;
 	},
 	getEventInfo(event) {
