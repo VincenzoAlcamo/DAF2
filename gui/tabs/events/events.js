@@ -935,7 +935,7 @@ function showInfo() {
 					img = '';
 				} else {
 					name = gui.getString(loc.name_loc)
-					img = gui.getLocationImg(loc, extraClass);
+					img = gui.getLocationIcon(loc, extraClass);
 				}
 				htm += Html.br`<td rowspan="${rows}" class="${showProgress ? (completed ? 'completed' : 'not-completed') : ''}">${img}<div class="location_name">${Html(name)}</div></td>`;
 				if (isRepeatables) {

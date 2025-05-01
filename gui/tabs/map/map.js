@@ -3641,7 +3641,7 @@ async function drawMine(args) {
 	setTable(tableTileInfo.rows[2], total, numFound == currentData.floorNumbers.length);
 
 	// Icon
-	const src = `${gui.getGenerator().cdn_root}mobile/graphics/map/${currentData.location.mobile_asset}.png`;
+	const src = gui.getLocationImg(currentData.location);
 	if (imgLocation.src != src) imgLocation.src = src;
 
 	// Trim blank regions + add margin + add title + add logo
