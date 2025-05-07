@@ -206,7 +206,7 @@ const gui = {
 	getEventInfo(event) {
 		if (typeof event == 'number') event = bgp.Data.files.events[event];
 		const eid = event ? +event.def_id : 0;
-		const tutorial = +event.tutorial_event_id > 0;
+		const tutorial = event ? +event.tutorial_event_id > 0 : false;
 		const end = (function () {
 			const end = (event && +event.end) || 0;
 			if (!end && eid == 14) return 1393326000;
