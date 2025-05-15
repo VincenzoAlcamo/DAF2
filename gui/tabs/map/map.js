@@ -1457,7 +1457,6 @@ function remapAssets() {
 		const destAsset = items[destId]?.mobile_asset || IMG_NONE;
 		ids.split(',').forEach(id => remappedAssets[items[id]?.mobile_asset || ''] = destAsset);
 	});
-	console.log(remappedAssets);
 }
 
 function addImage(asset, url) {
@@ -2678,11 +2677,11 @@ async function drawMine(args) {
 
 	const addonCache = {};
 
-	const drawAddon = (x, y, item, img, dx, dy) => {
+	const drawAddon = (x, y, item, img, dx, dy, isDraggable) => {
 		if (img) {
 			const width = +item.columns;
 			const height = +item.rows;
-			const isAnimated = +item.animated;
+			const isAnimated = isDraggable ? item.animation_type === 'loop' : +item.animated;
 			const sw = isAnimated ? width * TILE_SIZE : img.naturalWidth;
 			const sh = isAnimated ? height * TILE_SIZE : img.naturalHeight;
 			let flipX = !!+item.horizontal_flip;
@@ -2695,7 +2694,7 @@ async function drawMine(args) {
 			if (width !== height) rotation = 0;
 			const W = width * TILE_SIZE, H = height * TILE_SIZE;
 			const X = x * TILE_SIZE, Y = y * TILE_SIZE;
-			const key = `${item.def_id}_${flipX}_${flipY}_${rotation}`;
+			const key = `${isDraggable ? 'D' : 'A'}${item.def_id}_${flipX}_${flipY}_${rotation}`;
 			let canvas = addonCache[key];
 			if (!canvas) {
 				const cx = W / 2, cy = H / 2;
@@ -2986,6 +2985,7 @@ async function drawMine(args) {
 				let asset = '';
 				let rotation = 1;
 				let isHidden = false;
+				let backgroundSize = '';
 				if (item.req_drag) {
 					const draggable = draggables[item.req_drag];
 					if (draggable) {
@@ -2994,6 +2994,7 @@ async function drawMine(args) {
 						const override = draggables[asArray(draggable.overrides).filter((o) => +o.region_id == rid).map((o) => o.override_drag_id)[0]];
 						if (override && override.mobile_asset in images) asset = override.mobile_asset;
 						rotation = reqOrientations[item.req_drag_rotation] || 1;
+						if (draggable.animation_type === 'loop') backgroundSize = ';background-size:auto';
 					}
 				}
 				if (item.req_material) {
@@ -3018,7 +3019,7 @@ async function drawMine(args) {
 				if (asset) {
 					const url = asset.startsWith('/') ? asset : cdn_root + 'mobile/graphics/all/' + encodeURIComponent(asset) + '.png' + versionParameter;
 					cell.classList.add('tooltip-event');
-					let style = `background-image:url(${url})`;
+					let style = `background-image:url(${url})${backgroundSize}`;
 					if (rotation > 1) style += `;transform:rotate(${(rotation - 1) * 90}deg)`;
 					const div = Html.get(
 						Html`<div class="beacon-req" data-beacon="${tileDef.miscId}" style="${style}"></div>`
@@ -3184,12 +3185,7 @@ async function drawMine(args) {
 		const img3 = await getImg(segmentedItem && segmentedItem.mobile_asset);
 		if (img3) img = img3;
 		// if (segmentedItem && segmentedItem.mobile_asset) img = images[segmentedItem.mobile_asset].img;
-		if (img) {
-			ctx.save();
-			transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, ((tileDef.draggableStatus - 1) * Math.PI) / 2);
-			ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE);
-			ctx.restore();
-		}
+		drawAddon(x, y, item, img, undefined, undefined, true);
 	});
 
 	// Npcs
