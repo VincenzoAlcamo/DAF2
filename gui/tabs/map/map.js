@@ -2677,7 +2677,7 @@ async function drawMine(args) {
 
 	const addonCache = {};
 
-	const drawAddon = (x, y, item, img, dx, dy, isDraggable) => {
+	const drawAddon = (x, y, item, img, dx, dy, isDraggable, angle) => {
 		if (img) {
 			const width = +item.columns;
 			const height = +item.rows;
@@ -2687,7 +2687,7 @@ async function drawMine(args) {
 			let flipX = !!+item.horizontal_flip;
 			let flipY = !!+item.vertical_flip;
 			// Rotation is not currently supported for non-square images (except for 180°)
-			let angle = +item.rotation % 360;
+			angle = isDraggable ? angle : +item.rotation % 360;
 			if (angle < 0) angle += 360;
 			let rotation = Math.round(angle / 90) % 4;
 			if (rotation >= 2) { flipX = !flipX, flipY = !flipY, rotation -= 2; }
@@ -3185,7 +3185,7 @@ async function drawMine(args) {
 		const img3 = await getImg(segmentedItem && segmentedItem.mobile_asset);
 		if (img3) img = img3;
 		// if (segmentedItem && segmentedItem.mobile_asset) img = images[segmentedItem.mobile_asset].img;
-		drawAddon(x, y, item, img, undefined, undefined, true);
+		drawAddon(x, y, item, img, undefined, undefined, true, (tileDef.draggableStatus - 1) * 90);
 	});
 
 	// Npcs
