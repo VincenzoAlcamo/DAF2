@@ -818,9 +818,11 @@
 
 		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'focus', function (_focus) {
 			extras.push('hInstantCamera');
-			return function (p_mineX, p_mineY, p_force, p_return, p_immediate, p_onCompleteCallback, p_returnPosition) {
-				const result = _focus.apply(this, arguments);
-				if (Prefs.hInstantCamera && this._focusTween) this._focusTween.g2d_duration = 0.01;
+			return function (p_mineX, p_mineY, p_delay, p_force, p_return, p_immediate, p_onCompleteCallback, p_returnPosition) {
+				const result =  _focus.apply(this, arguments);
+				if (Prefs.hInstantCamera && !p_immediate && this._focusTween) {
+					this._focusTween.g2d_duration = 0.01;
+				}
 				return result;
 			};
 		});
