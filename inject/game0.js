@@ -846,6 +846,16 @@
 				return result;
 			};
 		});
+		intercept('com.pixelfederation.diggy.game.managers.interstitials.InterstitialsGroup', 'filterInterstices', function (_filterInterstices) {
+			extras.push('hNoMails');
+			return function () {
+				if (Prefs.hNoMails) {
+					log('Skipped interstitials: disable "Initial popups: Skip" to show them');
+					return;
+				}
+				return _filterInterstices.apply(this, arguments);
+			};
+		});
 
 		intercept('com.pixelfederation.diggy.screens.popup.luckyCards.LuckyCardsPopup', 'refresh', function(_refresh, LuckyCardsPopup) {
 			extras.push('hFastLuckyCards');
