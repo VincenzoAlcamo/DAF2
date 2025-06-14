@@ -2168,8 +2168,22 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 				else if (direction == 'down') dy++;
 				else dx = -1;
 			};
-			applyDirection();
-			if (isInvalidCoords(dx, dy)) return false;
+			const isDragBlocker = (dest) => {
+				if (dest.isTile) return true;
+				if (dest.draggableId) return true;
+				const beaconPart = dest.miscType == 'B' && getBeaconPart(dest.miscId, dest.beaconPart);
+				return beaconPart && !beaconPart.active && beaconPart.activation === 'drag_blocker';
+			};
+			while (true) {
+				const [kx, ky] = [dx, dy];
+				applyDirection();
+				if (isInvalidCoords(dx, dy)) return false;
+				if (draggable.type !== 'sliding') break;
+				if (isDragBlocker(tileDefs[dy * cols + dx])) {
+					[dx, dy]=[kx, ky];
+					break;
+				}
+			};
 			const dest = tileDefs[dy * cols + dx];
 			dest.draggableId = draggableId;
 			dest.draggableStatus =
