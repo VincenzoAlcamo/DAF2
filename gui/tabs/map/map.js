@@ -2691,24 +2691,24 @@ async function drawMine(args) {
 
 	const addonCache = {};
 
-	const drawAddon = (x, y, item, img, dx, dy, isDraggable, angle) => {
+	const drawAddon = (x, y, item, img, dx, dy) => {
 		if (img) {
 			const width = +item.columns;
 			const height = +item.rows;
-			const isAnimated = isDraggable ? item.animation_type === 'loop' : +item.animated;
+			const isAnimated = +item.animated;
 			const sw = isAnimated ? width * TILE_SIZE : img.naturalWidth;
 			const sh = isAnimated ? height * TILE_SIZE : img.naturalHeight;
 			let flipX = !!+item.horizontal_flip;
 			let flipY = !!+item.vertical_flip;
 			// Rotation is not currently supported for non-square images (except for 180°)
-			angle = isDraggable ? angle : +item.rotation % 360;
+			let angle = +item.rotation % 360;
 			if (angle < 0) angle += 360;
 			let rotation = Math.round(angle / 90) % 4;
 			if (rotation >= 2) { flipX = !flipX, flipY = !flipY, rotation -= 2; }
 			if (width !== height) rotation = 0;
 			const W = width * TILE_SIZE, H = height * TILE_SIZE;
 			const X = x * TILE_SIZE, Y = y * TILE_SIZE;
-			const key = `${isDraggable ? 'D' : 'A'}${item.def_id}_${flipX}_${flipY}_${rotation}`;
+			const key = `${item.def_id}_${flipX}_${flipY}_${rotation}`;
 			let canvas = addonCache[key];
 			if (!canvas) {
 				const cx = W / 2, cy = H / 2;
@@ -3199,7 +3199,12 @@ async function drawMine(args) {
 		const img3 = await getImg(segmentedItem && segmentedItem.mobile_asset);
 		if (img3) img = img3;
 		// if (segmentedItem && segmentedItem.mobile_asset) img = images[segmentedItem.mobile_asset].img;
-		drawAddon(x, y, item, img, undefined, undefined, true, (tileDef.draggableStatus - 1) * 90);
+		if (img) {
+			ctx.save();
+			transform((x + 0.5) * TILE_SIZE, (y + 0.5) * TILE_SIZE, false, false, ((tileDef.draggableStatus - 1) * Math.PI) / 2);
+			ctx.drawImage(img, 0, 0, item.columns * TILE_SIZE, item.rows * TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, item.columns * TILE_SIZE, item.rows * TILE_SIZE);
+			ctx.restore();
+		}
 	});
 
 	// Npcs
