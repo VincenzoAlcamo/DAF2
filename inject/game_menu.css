@@ -667,7 +667,7 @@ html.DAF-fullwindow .DAF-container {
 	filter: opacity(.8);
 }
 .adsbygoogle {
-	transform: translateX(20px);
+	transform: scale(95%);
 	transition: transform 0.5s;
 }
 :has(.DAF-menu-container:hover) .adsbygoogle {
