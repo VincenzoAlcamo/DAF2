@@ -1927,6 +1927,19 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	const beacons = (data.beacons = {});
 	const beaconParts = (data.beaconParts = {});
 	const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
+	const getBeaconPartFromTile = (tileDef) => tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart);
+	const getBeaconFromMultiDrag = (beaconPart, tileDef) => {
+		if (!beaconPart || !tileDef || !tileDef.draggableId) return null;
+		const s = beaconPart.req_multi_drag;
+		if (typeof s != 'string' || s.length == 0 || s == 'null') return null;
+		for (const value of s.split(',')) {
+			const arr = value.split(':');
+			if (arr[0] == tileDef.draggableId && (arr[1] == '0' || arr[1] == tileDef.draggableStatus || tileDef.draggableStatus == 0)) {
+				return beacons[arr[2]];
+			}
+		}
+		return null;
+	};
 	for (const beacon of asArray(floor.beacons && floor.beacons.beacon)) {
 		const id = beacon.beacon_id;
 		const copy = Object.assign({}, beacon);
@@ -2135,8 +2148,11 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		} else if (action.action == 'manipulate_object') {
 			tileDef.draggableStatus = ((tileDef.draggableStatus - 1 + (action.direction == 'right' ? 1 : 3)) % 4) + 1;
 			// check beacon
-			const beaconPart = tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-			if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
+			const beaconPart = getBeaconPartFromTile(tileDef);
+			const beacon = getBeaconFromMultiDrag(beaconPart, tileDef);
+			if (beacon) {
+				executeBeaconActions(beacon);
+			} else if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
 				if (beaconPart.req_drag == 0 || (beaconPart.req_drag == tileDef.draggableId && isRequiredOrientation(beaconPart, tileDef.draggableStatus))) {
 					setBeaconPartActive(tileDef, beacons[tileDef.miscId], beaconPart, true);
 				} else if (beaconPart.activation == 'pit') {
@@ -2153,7 +2169,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			const draggableId = tileDef.draggableId;
 			const draggable = draggables[draggableId];
 			if (!draggable) return false;
-			let beaconPart = tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart);
+			let beaconPart = getBeaconPartFromTile(tileDef);
 			if (beaconPart && beaconPart.active && beaconPart.activation == 'push' && beaconPart.type == 'two-way') {
 				if (beaconPart.req_drag == 0 || (beaconPart.req_drag == draggableId && isRequiredOrientation(beaconPart, tileDef.draggableStatus))) {
 					setBeaconPartActive(tileDef, beacons[tileDef.miscId], beaconPart, false);
@@ -2171,7 +2187,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			const isDragBlocker = (dest) => {
 				if (dest.isTile) return true;
 				if (dest.draggableId) return true;
-				const beaconPart = dest.miscType == 'B' && getBeaconPart(dest.miscId, dest.beaconPart);
+				const beaconPart = getBeaconPartFromTile(dest);
 				return beaconPart && !beaconPart.active && beaconPart.activation === 'drag_blocker';
 			};
 			while (true) {
@@ -2193,8 +2209,11 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			delete tileDef.draggableId;
 			delete tileDef.draggableStatus;
 			// check pit
-			beaconPart = dest.miscType == 'B' && getBeaconPart(dest.miscId, dest.beaconPart);
-			if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
+			beaconPart = getBeaconPartFromTile(dest);
+			const beacon = getBeaconFromMultiDrag(beaconPart, dest);
+			if (beacon) {
+				executeBeaconActions(beacon);
+			} else if (beaconPart && !beaconPart.active && (beaconPart.activation == 'pit' || beaconPart.activation == 'push')) {
 				if (beaconPart.req_drag == 0 || (beaconPart.req_drag == draggableId && isRequiredOrientation(beaconPart, dest.draggableStatus))) {
 					setBeaconPartActive(dest, beacons[dest.miscId], beaconPart, true);
 				} else if (beaconPart.activation == 'pit') {
@@ -2239,12 +2258,10 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	allQuestDropsFlags[`${lid}_${fid}`] = Object.keys(allQuestDrops[lid] || {}).length;
 
 	// Store beacon active
-	tileDefs
-		.filter((t) => t.miscType == 'B')
-		.forEach((tileDef) => {
-			const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-			if (beaconPart) tileDef.beaconActive = beaconPart.active;
-		});
+	tileDefs.forEach((tileDef) => {
+		const beaconPart = getBeaconPartFromTile(tileDef);
+		if (beaconPart) tileDef.beaconActive = beaconPart.active;
+	});
 
 	// Check loot
 	const questDrops = (!isRepeatable && allQuestDrops[mine.id]) || {};
@@ -2279,28 +2296,26 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 			delete tileDef.tloot;
 			hasLoot = true;
 		}
-		if (tileDef.miscType == 'B') {
-			const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-			if (!beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door' || beaconPart.activation == 'dig')) {
-				let loot = [];
-				const beacon = beacons[tileDef.miscId];
-				for (const action of asArray(beacon.actions.action).filter((a) => a.layer == 'loot')) {
-					for (const tile of splitString(action.tiles, ';')) {
-						const [y, x] = tile.split(',').map((v) => +v);
-						if (!isInvalidCoords(x, y)) {
-							const tileDef2 = tileDefs[y * cols + x];
-							if (tileDef2.tloot) loot = loot.concat(tileDef2.tloot);
-						}
+		const beaconPart = getBeaconPartFromTile(tileDef);
+		if (beaconPart && !beaconPart.active && (beaconPart.activation == 'use' || beaconPart.activation == 'door' || beaconPart.activation == 'dig')) {
+			let loot = [];
+			const beacon = beacons[tileDef.miscId];
+			for (const action of asArray(beacon.actions.action).filter((a) => a.layer == 'loot')) {
+				for (const tile of splitString(action.tiles, ';')) {
+					const [y, x] = tile.split(',').map((v) => +v);
+					if (!isInvalidCoords(x, y)) {
+						const tileDef2 = tileDefs[y * cols + x];
+						if (tileDef2.tloot) loot = loot.concat(tileDef2.tloot);
 					}
 				}
-				if (loot.length) {
-					hasLoot = true;
-					tileDef.loot = (tileDef.loot || []).concat(loot);
-				}
+			}
+			if (loot.length) {
+				hasLoot = true;
+				tileDef.loot = (tileDef.loot || []).concat(loot);
 			}
 		}
 		if (isPreview) hasLoot = tileDef.loot && tileDef.loot.length > 0;
-		if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart)) || (isPreview && hasLoot)) {
+		if (isValidTile(tileDef, getBeaconPartFromTile(tileDef)) || (isPreview && hasLoot)) {
 			if (tileDef.isTile && tileDef.pet && 'pet' in materialDrops) tileDef.isPet = true;
 			if (hasLoot && tileDef.loot) tileDef.hasLoot = true;
 			if (tileDef.show) {
@@ -2355,16 +2370,17 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	for (const tileDef of tileDefs) {
 		const { x, y } = tileDef;
 		if (tileDef.draggableId) tileDef.solid |= 1;
-		if (tileDef.miscType == 'B') {
-			const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
-			const activation = beaconPart && beaconPart.activation;
-			if (activation == 'pit' && !beaconPart.active) tileDef.solid |= 1;
-			if (
-				activation == 'use' ||
-				activation == 'sensor' ||
-				((activation == 'door_r' || activation == 'door') && !beaconPart.active)
-			)
-				tileDef.solid |= 16;
+		const beaconPart = getBeaconPartFromTile(tileDef);
+		const activation = beaconPart && beaconPart.activation;
+		if (activation == 'pit' && !beaconPart.active) {
+			tileDef.solid |= 1;
+		}
+		if (
+			activation == 'use' ||
+			activation == 'sensor' ||
+			((activation == 'door_r' || activation == 'door') && !beaconPart.active)
+		) {
+			tileDef.solid |= 16;
 		}
 		if (tileDef.backgroundAddonId) {
 			const addon = addons[tileDef.backgroundAddonId];
@@ -2674,6 +2690,7 @@ async function drawMine(args) {
 	const specialColors = Array.from({ length: 20}, (_, n) => ThemeEditor.toTripletColor(themeSettings.marker.color[n]));
 
 	const getBeaconPart = (beaconId, partId) => beaconParts[`${beaconId}_${partId}`];
+	const getBeaconPartFromTile = (tileDef) => tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart);
 	const getMiscItem = (tileDef) => {
 		if (tileDef.miscType == 'N' || tileDef.miscType == 'X') return doors[fid + '_' + tileDef.miscType.toLowerCase() + '_' + tileDef.miscId];
 		if (tileDef.miscType == 'H') return hints[tileDef.miscId];
@@ -3076,7 +3093,7 @@ async function drawMine(args) {
 			cell.classList.toggle('tile-n', y > 0 && isTileVisible(tileDefs[(y - 1) * cols + x]));
 			cell.classList.toggle('tile-s', y < rows - 1 && isTileVisible(tileDefs[(y + 1) * cols + x]));
 		}
-		if (isValidTile(tileDef, tileDef.miscType == 'B' && getBeaconPart(tileDef.miscId, tileDef.beaconPart))) {
+		if (isValidTile(tileDef, getBeaconPartFromTile(tileDef))) {
 			if (tileDef.bonusXp) cell.classList.add('xp');
 			if (tileDef.bonusEnergy) cell.classList.add('energy');
 			if (tileDef.stamina >= 0 && tileDef.tileStatus == 0)
