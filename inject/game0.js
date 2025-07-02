@@ -365,8 +365,13 @@
 
 		function getSpeed(p_core, val, def, isPet) {
 			const hasSpeedUp = ((isPet && Prefs.hPetSpeed) || Prefs.hSpeed) && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-			if (isAutoDigEnabled) return Math.min(val * (hasSpeedUp ? 0.15 : 0.4), def)
-			return hasSpeedUp ? Math.min(val * 0.4, def) : def;
+			if (Prefs.isSuper) {
+				if (isAutoDigEnabled) return Math.min(val * (hasSpeedUp ? 0.15 : 0.4), def)
+				return hasSpeedUp ? Math.min(val * 0.4, def) : def;
+			} else {
+				if (isAutoDigEnabled) return Math.min(val * (hasSpeedUp ? 0.4 : 0.75), def)
+				return hasSpeedUp ? Math.min(val * 0.75, def) : def;
+			}
 		}
 		intercept('com.pixelfederation.diggy.game.character.CharacterPath', null, function(_, def) {
 			const _getActualSpeed = def.getActualSpeed;
