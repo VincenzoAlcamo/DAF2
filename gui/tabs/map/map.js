@@ -2964,6 +2964,7 @@ async function drawMine(args) {
 	await drawAll(addons, 'backgroundAddonId', (x, y, tileDef, item, img) => {
 		// A previously background addon overlaps this tile
 		if (tileDef.addonDelta >= 0) return;
+		if (tileDef.tileStatus == 0) return;
 		if (img) setAddonInfo(tileDef, item, true);
 	});
 	// A foreground addon will remove the background addon on the same tile
