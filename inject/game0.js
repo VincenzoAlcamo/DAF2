@@ -365,7 +365,8 @@
 
 		function getSpeed(p_core, val, def, isPet) {
 			const hasSpeedUp = ((isPet && Prefs.hPetSpeed) || Prefs.hSpeed) && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-			if (Prefs.isSuper) {
+			const info = getMineInfo();
+			if (Prefs.isSuper || info.isRepeat || info.isTower) {
 				if (isAutoDigEnabled) return Math.min(val * (hasSpeedUp ? 0.15 : 0.4), def)
 				return hasSpeedUp ? Math.min(val * 0.4, def) : def;
 			} else {
