@@ -925,6 +925,7 @@
 							material_20: 'APPLE',
 							material_31: 'FLOUR',
 							material_347: 'CARAVAN TICKET',
+							material_536: 'PIXEL COIN',
 							system_1: 'EXPERIENCE',
 							system_2: 'ENERGY',
 						};
