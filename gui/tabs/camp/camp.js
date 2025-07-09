@@ -251,13 +251,20 @@ function getCampSummary(campResult, campName, isSetup) {
 		htm += Html.br`<td data-numreg="144" title="${getTitleSetup(gui.getMessage('gui_maximum'))}">${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
 		htm += Html.br`<td data-numreg="0" title="${getTitleSetup(gui.getMessage('gui_minimum'))}">${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
 	} else {
-		const title = (campResult.canBeImproved ? gui.getMessage('camp_canbeimproved') + '\n' : '') + getTitleSetup(Locale.formatNumber(campResult.stat.numRegSlots));
-		const extra = campResult.canBeImproved ? Html` class="warn"` : '';
-		htm += Html.br`<td data-numreg="${campResult.stat.numRegSlots}" title="${Html(title)}"${extra}>${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
-		htm += Html.br`<td>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+		let title, extra, data;
+		const setTitleExtra = (flag, flagData) => {
+			title = (flag? gui.getMessage('camp_canbeimproved') + '\n' : '') + getTitleSetup(Locale.formatNumber(campResult.stat.numRegSlots));
+			extra = flag ? Html` class="warn"` : '';
+			data = flag || flagData ? Html`data-numreg="${campResult.stat.numRegSlots}"` : '';
+		};
+		setTitleExtra(campResult.canBeImproved1, true);
+		htm += Html.br`<td ${data}" title="${Html(title)}"${extra}>${Locale.formatNumber(campResult.stat.numRegSlots)}</td>`;
+		setTitleExtra(campResult.canBeImproved2, false);
+		htm += Html.br`<td ${data}" title="${Html(title)}"${extra}>${Locale.formatNumber(campResult.stat.numCapSlots)}</td></tr>`;
+		setTitleExtra(campResult.canBeImproved1 || campResult.canBeImproved2, false);
 		const imgWarn = container.querySelector(`.toolbar input[name=${campResult.isDay ? 'day' : 'night'}] + .camp_warning`);
-		imgWarn.style.display = campResult.canBeImproved ? 'inline' : 'none';
-		imgWarn.title = campResult.canBeImproved ? title : '';
+		imgWarn.style.display = extra ? 'inline' : 'none';
+		imgWarn.title = title;
 		imgWarn.setAttribute('data-numreg', campResult.stat.numRegSlots);
 	}
 	htm += Html.br`<tr><td>${gui.getMessage('camp_avg_value')}</td><td>${Locale.formatNumber(campResult.reg_avg)}</td><td>${Locale.formatNumber(campResult.cap_avg)}</td></tr>`;
@@ -318,7 +325,8 @@ function updateCamp(div, flagHeaderOnly = false) {
 			const setupResult = calculateCamp(camp, fillCamp(campResult.lines, campResult.stat.numRegSlots));
 			const regDiff = setupResult.reg_tot - campResult.reg_tot, capDiff = setupResult.cap_tot - campResult.cap_tot;
 			// Regeneration is preferred over capacity
-			campResult.canBeImproved = regDiff > 0 || (regDiff == 0 && capDiff > 0);
+			campResult.canBeImproved1 = regDiff > 0;
+			campResult.canBeImproved2 = regDiff == 0 && capDiff > 0;
 		});
 		if (camps.length < 2) camps.push(null);
 		camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState()))));
