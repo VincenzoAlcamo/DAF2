@@ -821,6 +821,7 @@
 		});
 		if (lockPetCounter === 3) extras.push('hPetFollow');
 
+		/*
 		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'focus', function (_focus) {
 			extras.push('hInstantCamera');
 			return function (p_mineX, p_mineY, p_delay, p_force, p_return, p_immediate, p_onCompleteCallback, p_returnPosition) {
@@ -831,6 +832,7 @@
 				return result;
 			};
 		});
+		*/
 
 		intercept('com.pixelfederation.diggy.game.managers.news.NewsPopupsManager', 'parseMails', function (_parseMails, NewsPopupsManager) {
 			extras.push('hNoMails');
