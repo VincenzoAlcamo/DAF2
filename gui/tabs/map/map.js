@@ -2911,21 +2911,32 @@ async function drawMine(args) {
 		if (stroke) ctx.stroke();
 	};
 
-	const drawTextMarker = (x, y, name, base) => {
+	const drawTextMarker = (x, y, name, base, dim) => {
 		const TEXTMARKER_WIDTH = base.width;
 		const TEXTMARKER_BORDER = base.border.width;
 		const TEXTMARKER_RADIUS = Math.floor(((TEXTMARKER_WIDTH + TEXTMARKER_BORDER) * base.roundness) / 100);
-		const cx = (x + 0.5) * TILE_SIZE;
-		const cy = (y + 0.5) * TILE_SIZE;
 		ctx.save();
-		ctx.fillStyle = base.color;
-		ctx.strokeStyle = base.border.color;
-		ctx.lineWidth = TEXTMARKER_BORDER;
-		drawRoundRect(cx - TEXTMARKER_WIDTH, cy - TEXTMARKER_WIDTH, TEXTMARKER_WIDTH * 2, TEXTMARKER_WIDTH * 2, TEXTMARKER_RADIUS, true, TEXTMARKER_BORDER > 0);
-		ctx.lineWidth = 1;
-		ctx.fillStyle = base.text.color;
-		ctx.textAlign = 'center';
-		ctx.fillText(name, cx, cy + 3, TILE_SIZE - 16);
+		if (dim) {
+			const SW = 4;
+			x = x * TILE_SIZE;
+			y = y * TILE_SIZE;
+			ctx.fillStyle = base.color;
+			ctx.fillRect(x - SW, y - SW, TILE_SIZE + SW * 2, SW * 2);
+			ctx.fillRect(x - SW, y + SW, SW * 2, TILE_SIZE - SW * 2);
+			ctx.fillRect(x + TILE_SIZE - SW, y + SW, SW * 2, TILE_SIZE - SW * 2);
+			ctx.fillRect(x - SW, y + TILE_SIZE - SW, TILE_SIZE + SW * 2, SW * 2);
+		} else {
+			const cx = (x + 0.5) * TILE_SIZE;
+			const cy = (y + 0.5) * TILE_SIZE;
+			ctx.fillStyle = base.color;
+			ctx.strokeStyle = base.border.color;
+			ctx.lineWidth = TEXTMARKER_BORDER;
+			drawRoundRect(cx - TEXTMARKER_WIDTH, cy - TEXTMARKER_WIDTH, TEXTMARKER_WIDTH * 2, TEXTMARKER_WIDTH * 2, TEXTMARKER_RADIUS, true, TEXTMARKER_BORDER > 0);
+			ctx.lineWidth = 1;
+			ctx.fillStyle = base.text.color;
+			ctx.textAlign = 'center';
+			ctx.fillText(name, cx, cy + 3, TILE_SIZE - 16);
+		}
 		ctx.restore();
 	};
 
@@ -3430,13 +3441,13 @@ async function drawMine(args) {
 	if (showExitMarker) {
 		ctx.font = 'bold 40px sans-serif';
 		ctx.textBaseline = 'middle';
-		for (const tileDef of tileDefs.filter((t) => (t.miscType == 'N' || t.miscType == 'X') && (t.tileStatus == 2 || showBackground))) {
+		for (const tileDef of tileDefs.filter((t) => (t.miscType == 'N' || t.miscType == 'X'))) {
 			const { x, y } = tileDef;
 			const door = getMiscItem(tileDef);
 			if (door) {
 				const isEntrance = door.miscType == 'N' && (door.fid == 1 || isRepeatable);
 				const name = door.name || (isEntrance ? '\u2196' : '?');
-				drawTextMarker(x, y, name, isEntrance ? themeSettings.entrance : door.to || isTower ? themeSettings.door : themeSettings.doornt);
+				drawTextMarker(x, y, name, isEntrance ? themeSettings.entrance : door.to || isTower ? themeSettings.door : themeSettings.doornt, tileDef.tileStatus != 2 && !showBackground);
 			}
 		}
 	}
@@ -3587,7 +3598,7 @@ async function drawMine(args) {
 			const teleport = teleports[tileDef.teleportId];
 			const target = teleport && teleports[teleport.target_teleport_id];
 			if (!teleport || !target) continue;
-			drawTextMarker(tileDef.x, tileDef.y, teleport.name, themeSettings.teleport);
+			drawTextMarker(tileDef.x, tileDef.y, teleport.name, themeSettings.teleport, tileDef.tileStatus != 2 && !showBackground);
 		}
 	}
 
