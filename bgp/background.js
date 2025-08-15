@@ -1283,7 +1283,7 @@ var Data = {
 		return this.region2Skin[id - 1] || 0;
 	},
 	getMaxRegion() {
-		return this.region2Skin.length;
+		return this.region2Skin.length || 9;
 	},
 	getSound(name) {
 		const cdn_root = Data.generator?.cdn_root;
