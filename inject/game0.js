@@ -360,6 +360,7 @@
 				mineInfo.isRepeat = !!mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
 				mineInfo.isTower = !!mineId && screen._locationData.isTowerFloor();
 				mineInfo.isRepeatOrTower = mineInfo.isRepeat || mineInfo.isTower;
+				mineInfo.forcePetHideDiggy = !!screen._locationData.forcePetHideDiggy;
 			}
 			return mineInfo;
 		}
@@ -792,6 +793,9 @@
 		);
 
 		let lockPetCounter = 0;
+		function petDoNotFollow() {
+			return Prefs.hPetFollow && !getMineInfo().forcePetHideDiggy;
+		}
 		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'setup', function (_setup) {
 			lockPetCounter++;
 			return function () {
@@ -801,7 +805,7 @@
 				if (listener) callback.remove(listener);
 				const petInMineManager = this._petInMineManager;
 				this._character.get_onGoFromTile().add(function () {
-					if (Prefs.hPetFollow) petInMineManager.stopWalk();
+					if (petDoNotFollow()) petInMineManager.stopWalk();
 					else petInMineManager.onDiggyMoving.apply(petInMineManager, arguments);
 				});
 				return result;
@@ -810,13 +814,13 @@
 		intercept('com.pixelfederation.diggy.game.pet.Pet', 'afterDrag', function (_afterDrag) {
 			lockPetCounter++;
 			return function () {
-				if (!Prefs.hPetFollow) _afterDrag.apply(this, arguments);
+				if (!petDoNotFollow()) _afterDrag.apply(this, arguments);
 			};
 		});
 		intercept('com.pixelfederation.diggy.game.pet.Pet', 'onDrag', function (_onDrag) {
 			lockPetCounter++;
 			return function () {
-				if (!Prefs.hPetFollow) _onDrag.apply(this, arguments);
+				if (!petDoNotFollow()) _onDrag.apply(this, arguments);
 			};
 		});
 		if (lockPetCounter === 3) extras.push('hPetFollow');
