@@ -282,6 +282,9 @@ body:not(.is-mapper) .for-mapper {
 	border-top: 2px solid var(--tb-brcol);
 }
 
+.sticky-container {
+	scrollbar-width: thin;
+}
 .sticky-container::-webkit-scrollbar {
 	width: 12px;
 	height: 12px;

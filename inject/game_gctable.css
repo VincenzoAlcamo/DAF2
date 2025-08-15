@@ -8,6 +8,7 @@
 	text-align: center;
 	white-space: nowrap;
 	user-select: none;
+	scrollbar-width: thin;
 }
 
 .DAF-gc-pal {
