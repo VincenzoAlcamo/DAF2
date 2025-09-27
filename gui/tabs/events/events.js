@@ -126,7 +126,7 @@ function update() {
 		if (!event.name_loc) continue;
 		const eid = event.def_id;
 		const item = {};
-		item.remaster = (event.name || '').toLowerCase().includes('remaster');
+		item.remaster = (event.name || '').toLowerCase().includes('remaster') || +event.remaster > 0;
 		// if (event.shop_icon_graphics in eventIcons) item.remaster = true;
 		item.id = eid;
 		item.name = gui.getString(event.name_loc);
