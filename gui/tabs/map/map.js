@@ -126,7 +126,7 @@ let addons, backgrounds, draggables, npcs, childs, tiles, subtiles;
 let specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters, allEventMaterials, allEventTokens;
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
-let showBackground, showBeacon, showTeleportArrow, showDiggy, showExitMarker, showTeleportMarker;
+let showBackground, showBeacon, showTeleportArrow, showDiggy, showExitMarker, showTeleportMarker, showHiddenExit;
 let showDebug, showAll, showFull, showTiles;
 let showViewed, showBonus, showNotableLoot, showMixed, showOpaque, showUncleared, showSolution, showColors;
 const options = {};
@@ -2587,8 +2587,9 @@ function updateTableFlags() {
 	showBeacon = state.show.includes('e');
 	showTeleportArrow = state.show.includes('t');
 	showDiggy = state.show.includes('d');
-	showExitMarker = state.show.includes('x') && !state.show.includes('x2');
-	showTeleportMarker = state.show.includes('x') && !state.show.includes('x1');
+	showExitMarker = state.show.includes('x') || state.show.includes('x1');
+	showTeleportMarker = state.show.includes('x') || state.show.includes('x1');
+	showHiddenExit = state.show.includes('x1');
 	showDebug = state.show.includes('g');
 	showAll = state.show.includes('a');
 	showSolution = state.show.includes('s');
@@ -2912,6 +2913,7 @@ async function drawMine(args) {
 	};
 
 	const drawTextMarker = (x, y, name, base, dim) => {
+		if (dim && !showHiddenExit) return;
 		const TEXTMARKER_WIDTH = base.width;
 		const TEXTMARKER_BORDER = base.border.width;
 		const TEXTMARKER_RADIUS = Math.floor(((TEXTMARKER_WIDTH + TEXTMARKER_BORDER) * base.roundness) / 100);
