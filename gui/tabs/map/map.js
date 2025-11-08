@@ -1638,7 +1638,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		delete tileDef.toDo;
 		delete tileDef.bonusEnergy;
 		delete tileDef.bonusXp;
-		if (tileDef.stamina > 0) {
+		if (tileDef.stamina > 0 && !tileDef.pet) {
 			for (const effect of (canShowBonus && !isTower) ? effects : []) {
 				let rnd = CustomRandomRND(
 					playerUidRnd + 10000 * lid + 1000 * fid + 100 * y + 10 * x + effect.id + resetCount
