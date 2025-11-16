@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Strumenti utili per Diggy's Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Azzera al caricamento"
-	},
-	"menu_fullwindow": {
-		"message": "Gioco a finestra intera"
-	},
-	"menu_fullwindowheader": {
-		"message": "Testata"
-	},
-	"menu_fullwindowside": {
-		"message": "Barra laterale"
-	},
-	"menu_fullwindowlock": {
-		"message": "Blocca"
-	},
-	"menu_gctable": {
-		"message": "Mostra l'elenco dei Bimbi da raccogliere"
-	},
-	"menu_gctablecounter": {
-		"message": "Contatore"
-	},
-	"menu_gctableregion": {
-		"message": "Regione"
-	},
 	"menu_gccollected": {
 		"message": "Tutti i Bimbi sono stati raccolti"
-	},
-	"menu_autoclick": {
-		"message": "Auto click popup di Facebook"
-	},
-	"menu_nogcpopup": {
-		"message": "Nessun popup quando si raccolgono i Bimbi"
 	},
 	"menu_reloadgame": {
 		"message": "Ricarica il gioco e forza una rilettura dei dati"
@@ -891,6 +861,9 @@
 	"map_option_m": {
 		"message": "Garantisci margini attorno all'immagine"
 	},
+	"map_option_h": {
+		"message": "Mostra uscite nascoste"
+	},
 	"map_option_l": {
 		"message": "Aggiungi il logo"
 	},
@@ -1513,6 +1486,9 @@
 	"export_debugdata": {
 		"message": "Esporta dati diagnostici"
 	},
+	"export_updatefiles": {
+		"message": "Aggiorna i dati di gioco"
+	},
 	"rings_showminmax": {
 		"message": "Mostra valori minimi e massimi"
 	},
@@ -1836,31 +1812,14 @@
 	"options_fullwindow": {
 		"message": "Finestra intera\nMostra il gioco a finestra intera"
 	},
-	"options_fullwindowheader": {
-		"message": "Testata\nMostra la testata di pagina quando a finestra intera"
-	},
 	"options_fullwindowside": {
 		"message": "Laterale\nNasconde la barra laterale di Facebook quando non si è a finestra intera"
 	},
-	"options_fullwindowlock": {
-		"message": "Blocca finestra intera\nImpedisce al gioco di uscire da finestra intera."
+	"options_hidemenu": {
+		"message": "Nascondi il menu\nNascondi il menu di DAF2 in schermo intero"
 	},
-	"options_resetfullwindow": {
-		"message": "Azzera al caricamento\nOgni volta che il gioco viene caricato, le opzioni \"Finestra intera\" e \"Finestra intera - Laterale\" vengono azzerate"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Provate ad abilitare questa opzione se riscontrate problemi nel caricamento del gioco."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Finestra intera in automatico\nMette a finestra intera quando il gioco è stato caricato (DAF2 diventa verde)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Sì, dopo $NUM$ secondi",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Opacità pubblicità\nRendi le pubblicità trasparenti"
 	},
 	"options_gctable": {
 		"message": "Tabella bimbi\nMostra tutti i vicini che hanno bimbi in una barra sotto al gioco"
@@ -1871,9 +1830,6 @@
 	"options_gctableregion": {
 		"message": "Regione\nUsa i colori per identificare la regione del vicino"
 	},
-	"options_autoclick": {
-		"message": "Click automatico\nConferma automaticamente i popup di Facebook"
-	},
 	"options_nogcpopup": {
 		"message": "Nessun popup dei Bimbi\nNessun popup quando si raccolgono i Bimbi"
 	},
@@ -1882,9 +1838,6 @@
 	},
 	"options_section_general": {
 		"message": "Opzioni generali"
-	},
-	"options_autologin": {
-		"message": "Login automatico su Portale\nEsegue automaticamente il login nel Portale"
 	},
 	"options_darktheme": {
 		"message": "Tema scuro"
@@ -2003,6 +1956,9 @@
 	"options_hspeed": {
 		"message": "Velocizza\nLe pozioni acceleranti forniscono più velocità"
 	},
+	"options_hlootfew": {
+		"message": "Pochi\nNascondi monete, xp e punti evento/regionali"
+	},
 	"options_hlootcount": {
 		"message": "Conteggio\nMostra sempre il conteggio del bottino"
 	},
@@ -2021,6 +1977,9 @@
 	"options_hautoqueue": {
 		"message": "Coda automatica\nMuovi il mouse sopra le mattonelle per aggiungerle alla coda senza dover tener premuto il tasto SHIFT"
 	},
+	"options_hkeys": {
+		"message": "Tasti accessibilità\nMuovi Diggy usando i tasti cursore sulla tastiera"
+	},
 	"options_hscroll": {
 		"message": "Disabilita scorrimento inerziale\nLo scorrimento inerziale è quell'effetto che fa continuare a muovere lo schermo anche quando hai smesso di trascinarlo"
 	},
@@ -2033,6 +1992,9 @@
 	"options_hflashad": {
 		"message": "Suono pubblicità flash\nRiproduci un effetto sonoro quando appare il bottone"
 	},
+	"options_henergymax": {
+		"message": "Suono per energia al massimo\nRiproduci un effetto sonoro quando l'energia è al massimo"
+	},
 	"options_hgccluster": {
 		"message": "Raggruppa Bimbi\nPosiziona i Bimbi vicini tra loro"
 	},
@@ -2041,6 +2003,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Non seguire\nL'animaletto non segue Diggy"
+	},
+	"options_hfastluckycards": {
+		"message": "Carte fortunate veloci\nLe carte fortunate sono più veloci"
 	},
 	"calc_operators": {
 		"message": "Operatori"

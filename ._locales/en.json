@@ -861,6 +861,9 @@
 	"map_option_m": {
 		"message": "Ensure margins around image"
 	},
+	"map_option_h": {
+		"message": "Show hidden exits"
+	},
 	"map_option_l": {
 		"message": "Add logo watermark"
 	},

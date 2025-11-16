@@ -104,6 +104,7 @@ const OPTION_MARGIN = 'm';
 const OPTION_LOGO = 'l';
 const OPTION_ACHIEVEMENT = 'a';
 const OPTION_FLOORINDICATORS = 'k';
+const OPTION_HIDDENEXITS = 'h';
 const ALL_OPTIONS = [
 	OPTION_GROUPLOCATIONS,
 	OPTION_FLOORINDICATORS,
@@ -114,6 +115,7 @@ const ALL_OPTIONS = [
 	OPTION_TITLE,
 	OPTION_BLANKS,
 	OPTION_MARGIN,
+	OPTION_HIDDENEXITS,
 	OPTION_LOGO,
 	OPTION_ACHIEVEMENT
 ];
@@ -887,6 +889,7 @@ function showAdvancedOptions() {
 		OPTION_TITLE,
 		OPTION_BLANKS,
 		OPTION_MARGIN,
+		OPTION_HIDDENEXITS,
 		OPTION_LOGO
 	].forEach((option) => {
 		if (option) {
@@ -2587,9 +2590,9 @@ function updateTableFlags() {
 	showBeacon = state.show.includes('e');
 	showTeleportArrow = state.show.includes('t');
 	showDiggy = state.show.includes('d');
-	showExitMarker = state.show.includes('x') || state.show.includes('x1');
-	showTeleportMarker = state.show.includes('x') || state.show.includes('x1');
-	showHiddenExit = state.show.includes('x1');
+	showExitMarker = state.show.includes('x');
+	showTeleportMarker = state.show.includes('x');
+	showHiddenExit = hasOption(OPTION_HIDDENEXITS);
 	showDebug = state.show.includes('g');
 	showAll = state.show.includes('a');
 	showSolution = state.show.includes('s');
@@ -2912,13 +2915,13 @@ async function drawMine(args) {
 		if (stroke) ctx.stroke();
 	};
 
-	const drawTextMarker = (x, y, name, base, dim) => {
-		if (dim && !showHiddenExit) return;
+	const drawTextMarker = (x, y, name, base, hidden) => {
+		if (hidden && !showHiddenExit) return;
 		const TEXTMARKER_WIDTH = base.width;
 		const TEXTMARKER_BORDER = base.border.width;
 		const TEXTMARKER_RADIUS = Math.floor(((TEXTMARKER_WIDTH + TEXTMARKER_BORDER) * base.roundness) / 100);
 		ctx.save();
-		if (dim) {
+		if (hidden) {
 			const SW = 4;
 			x = x * TILE_SIZE;
 			y = y * TILE_SIZE;
