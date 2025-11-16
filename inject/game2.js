@@ -111,9 +111,12 @@ function init() {
 
 	window.addEventListener('DOMContentLoaded', () => {
 		miner = document.getElementById('canvas');
-		container = Html.get(`<div class="DAF-container"><div class="DAF-menu-container" style="display:none"></div></div>`)[0];
+		container = Html.get(`<div class="DAF-container"><div class="DAF-menu-container" style="display:none"></div><div class="DAF-canvas"></div></div>`)[0];
 		miner.parentNode.insertBefore(container, miner);
-		container.appendChild(miner);
+		const canvasContainer = container.querySelector('.DAF-canvas');
+		canvasContainer.appendChild(miner);
+		const canvas2 = document.getElementById('unity-canvas');
+		if (canvas2) canvasContainer.appendChild(canvas2);
 		container.style.setProperty('--canvas-h', miner.offsetHeight + 'px');
 		menu = container.querySelector('.DAF-menu-container');
 

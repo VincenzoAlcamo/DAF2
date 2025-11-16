@@ -17,11 +17,17 @@
 	--menu-y: 50px;
 }
 
-.DAF-container #canvas,
-.DAF-container canvas {
+.DAF-canvas {
 	height: var(--canvas-h);
 	flex-grow: 1;
 	position: relative;
+}
+.DAF-canvas canvas {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
 }
 #container:has(.DAF-container) {
 	height: unset;
