@@ -3,8 +3,8 @@
 	"name": "__MSG_ext_name__",
 	"version": "2.0.228",
 	"default_locale": "en",
-	"description": "__MSG_ext_title__ (firefox)",
-	"minimum_chrome_version": "95",
+	"description": "__MSG_ext_title__",
+	"minimum_chrome_version": "71",
 	"icons": {
 		"16": "img/logo/iconYellow.png",
 		"128": "img/logo/logo.png"
@@ -52,25 +52,6 @@
 			"run_at": "document_start",
 			"js": [
 				"inject/game1.js"
-			]
-		},
-		{
-			"matches": [
-				"https://portal.pixelfederation.com/_da/miner",
-				"https://portal.pixelfederation.com/_da/miner/*",
-				"https://game.diggysadventure.com/miner",
-				"https://game.diggysadventure.com/miner/*",
-				"https://diggysadventure.com/miner",
-				"https://diggysadventure.com/miner/*"
-			],
-			"exclude_globs": [
-				"*/wallpost.php*"
-			],
-			"all_frames": true,
-			"run_at": "document_start",
-			"world": "MAIN",
-			"js": [
-				"inject/game0.js"
 			]
 		},
 		{
