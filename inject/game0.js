@@ -594,6 +594,7 @@
 			}
 		);
 
+		/*
 		let excludeDrop = {};
 		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'loot_handler', function (_loot_handler) {
 			return function (p_tileDef,p_beaconActivated) {
@@ -625,6 +626,7 @@
 				return _createDrops.apply(this, arguments);
 			};
 		});
+		*/
 
 		intercept('com.pixelfederation.diggy.inventory.InventoryManager', 'staminaTimer_handler', function(_staminaTimer_handler) {
 			extras.push('hEnergyMaxSound');
@@ -637,6 +639,7 @@
 			};
 		});
 
+		/*
 		intercept(
 			'com.pixelfederation.diggy.game.custom.DecalContainer',
 			'createDropCount',
@@ -669,6 +672,7 @@
 				};
 			}
 		);
+		*/
 
 		intercept(
 			'com.pixelfederation.diggy.screens.popup.NoenergyPopup',

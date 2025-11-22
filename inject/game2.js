@@ -361,6 +361,7 @@ function createMenu() {
 		<u><i data-pref="hGCCluster"></i><i data-pref="hFastLuckyCards"></i></u>
 		<u><i data-pref="hScroll"></i>
 		<i data-pref="hInstantCamera"></i></u>
+		<!--
 		<u class="squared">
 		<i data-text="gui_loot" class="no-click"></i>
 		<i data-pref="hLootFew"></i>
@@ -368,6 +369,7 @@ function createMenu() {
 		<i data-pref="hLootZoom"></i>
 		<i data-pref="hLootFast"></i>
 		</u>
+		-->
 		<u class="squared">
 		<i data-pref="hFood" class="squared-right"></i>
 		<select data-pref="hFoodNum">

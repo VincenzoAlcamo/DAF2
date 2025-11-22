@@ -443,10 +443,10 @@ UI_claim_coin_single_slow_02
 	option('hFastLuckyCards', SUBOPTION);
 	option('hScroll', SUBOPTION);
 	option('hInstantCamera', SUBOPTION);
-	option('hLootFew', SUBOPTION);
-	option('hLootCount', SUBOPTION);
-	option('hLootZoom', SUBOPTION);
-	option('hLootFast', SUBOPTION);
+	// option('hLootFew', SUBOPTION);
+	// option('hLootCount', SUBOPTION);
+	// option('hLootZoom', SUBOPTION);
+	// option('hLootFast', SUBOPTION);
 	const foodOptions = [
 		['avg', gui.getMessage('gui_average')],
 		['min', gui.getMessage('gui_minimum')],
