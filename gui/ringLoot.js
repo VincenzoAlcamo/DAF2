@@ -136,7 +136,7 @@ function ringLoot(kind) {
 			inputs.dmw.value = oldValue;
 		}
 
-		const seconds = (kind == 'green' ? 168 : 2) * 3600;
+		const seconds = (kind == 'green' ? 96 : 2) * 3600;
 		const eid = kind == 'green' ? 0 : 20;
 		let mines = [];
 		if (kind == 'christmas') {
