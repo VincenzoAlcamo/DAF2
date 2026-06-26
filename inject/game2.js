@@ -370,6 +370,7 @@ function createMenu() {
 		<i data-pref="hLootFast"></i>
 		</u>
 		-->
+		<!--
 		<u class="squared">
 		<i data-pref="hFood" class="squared-right"></i>
 		<select data-pref="hFoodNum">
@@ -378,6 +379,7 @@ function createMenu() {
 			<option value="0" data-text="1 = gui_maximum"></option>
 		</select>
 		</u>
+		-->
 		<u class="squared">
 			<i data-pref="hQueue"></i>
 			<i data-pref="hAutoQueue"></i>
@@ -421,8 +423,8 @@ function createMenu() {
 	html = html.replace(/>\s+/g, '>');
 	Html.set(menu, html);
 	// menu.querySelector('[data-pref="hAutoDig"]')?.remove();
-	const select = menu.querySelector('[data-pref="hFoodNum"]');
-	[...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
+	// const select = menu.querySelector('[data-pref="hFoodNum"]');
+	// [...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
 	menu.querySelector('[data-value="switch"]').setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');
 	translateMenu();
 	setupSearch();

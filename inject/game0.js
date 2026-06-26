@@ -674,6 +674,7 @@
 		);
 		*/
 
+		/*
 		intercept(
 			'com.pixelfederation.diggy.screens.popup.NoenergyPopup',
 			'initUsableFromStorage',
@@ -706,6 +707,7 @@
 				};
 			}
 		);
+		*/
 
 		intercept(
 			'com.pixelfederation.diggy.ui.hud.UISpecialButtons',

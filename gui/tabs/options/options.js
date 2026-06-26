@@ -453,7 +453,7 @@ UI_claim_coin_single_slow_02
 		[0, '1 = ' + gui.getMessage('gui_maximum')],
 		...[...Array(19).keys()].map(i => [i + 1, Locale.formatNumber(i + 2)])
 	];
-	option('hFood', SUBOPTION, foodOptions);
+	// option('hFood', SUBOPTION, foodOptions);
 	option('hSpeed', SUBOPTION);
 	option('hQueue', SUBOPTION);
 	option('hAutoQueue', SUBOPTION);
