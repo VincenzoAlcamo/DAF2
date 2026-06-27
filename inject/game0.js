@@ -411,7 +411,7 @@
 			const num = Number(n);
 			return Number.isFinite(num) && num !== 0;
 		}
-		function isListOfInt(v) {
+		function isListOfNonZero(v) {
 			if (typeof v === 'number') return isNonZero(v);
 			if (typeof v === 'string') return v.split(',').some(isNonZero);
 			if (Array.isArray(v)) return v.some(isNonZero);
@@ -421,7 +421,7 @@
 			if (tile.isBreakable()) return true;
 			if (tile.beaconType == 'one-way' && (tile.isUsable() || tile.isPetUsable()) && (tile.beaconReqMat == 0 || p_core.getInventoryManager().hasItem("token", tile.beaconReqMat, tile.beaconReqAmount))) return true;
 			const npc = tile.isNpc() ? tile.get_npc() : null;
-			if (npc && (isListOfInt(npc._pickChild) || isListOfInt(npc._pickToken))) return true;
+			if (npc && (isListOfNonZero(npc._pickChild) || isListOfNonZero(npc._pickToken))) return true;
 			return false;
 		}
 
