@@ -1684,7 +1684,18 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		computeTile(tileDef);
 	});
 	applyViewed(tileDefs, mine._p.vis);
-	for (const tileDef of tileDefs) if (tileDef.viewed) tileDef.show = true;
+	for (const tileDef of tileDefs) {
+		if (tileDef.viewed) tileDef.show = true;
+		// Fix for "expedition_vision"
+		const tile = tiles[tileDef.tileId];
+		if (tile && +tile.expedition_vision) {
+			const { x, y, tileIndex } = tileDef;
+			if (x > 0) tileDefs[tileIndex - 1].show = true;
+			if (x < cols - 1) tileDefs[tileIndex + 1].show = true;
+			if (y > 0) tileDefs[tileIndex - cols].show = true;
+			if (y < rows - 1) tileDefs[tileIndex + cols].show = true;
+		}
+	}
 
 	// Loot
 	const filterByRegion = (a) => {
@@ -2125,6 +2136,15 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		const tileDef = tileDefs[y * cols + x];
 		if (action.action == 'mine') {
 			tileDef.tileStatus = 2;
+			// Fix for "expedition_vision"
+			const tile = tiles[tileDef.tileId];
+			if (tile && +tile.expedition_vision) {
+				const { x, y, tileIndex } = tileDef;
+				if (x > 0) tileDefs[tileIndex - 1].visible = true;
+				if (x < cols - 1) tileDefs[tileIndex + 1].visible = true;
+				if (y > 0) tileDefs[tileIndex - cols].visible = true;
+				if (y < rows - 1) tileDefs[tileIndex + cols].visible = true;
+			}
 			const beaconPart = getBeaconPart(tileDef.miscId, tileDef.beaconPart);
 			if (beaconPart && beaconPart.activation == 'dig' && !beaconPart.active) {
 				if (!setBeaconPartActive(tileDef, beacons[tileDef.miscId], beaconPart, true)) return false;
