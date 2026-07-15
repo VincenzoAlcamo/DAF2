@@ -479,6 +479,24 @@
 			}
 		}
 
+		intercept('com.pixelfederation.diggy.game.managers.friends.FriendsManager', 'removeFriendFromGodchildrenList', function(_prevFn) {
+			return function(p_id) {
+				const _gc = this._godchildren || [];
+				const index = _gc.findIndex(friend => friend.getId() == p_id);
+				const result = _prevFn.apply(this, arguments);
+				try {
+					if (Prefs.autoGC && _gc.length > 0) {
+						var friendsWindmills = this._core.getGameManagers().getFriendsManager().getInventoryManager().getWindmills();
+						if (friendsWindmills.isFull()) {
+							const friend = index > 0 ? _gc[index - 1] : _gc[_gc.length - 1];
+							setTimeout(() => this.visitFriend(friend.getId()), 0);
+						}
+					}
+				} catch(e) {}
+				return result;
+			}
+		});
+
 		intercept(
 			'com.pixelfederation.diggy.game.location.MineRenderer',
 			'setup',
