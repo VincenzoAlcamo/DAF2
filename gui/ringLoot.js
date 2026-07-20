@@ -473,7 +473,7 @@ function ringLoot(kind) {
 		const recomputeTotals = () => {
 			const doubleDrop = isDMW ? swDoubleDrop || { coeficient: 2 } : null;
 			totals = {};
-			for (const lootArea of lootAreas) {
+			const addLoot = (lootArea) => {
 				const loot = gui.calculateLoot(lootArea, level, doubleDrop);
 				const type = lootArea.type;
 				const oid = lootArea.object_id;
@@ -481,6 +481,10 @@ function ringLoot(kind) {
 				let total = totals[key];
 				if (!total) totals[key] = total = { type, oid, avg: 0, xp: gui.getXp(type, oid) };
 				total.avg += loot.avg;
+			}
+			for (const lootArea of lootAreas) {
+				addLoot(lootArea);
+				for (const lootArea2 of lootArea.additional || []) addLoot(lootArea2);
 			}
 			totals = Object.values(totals);
 			for (const total of totals) {
