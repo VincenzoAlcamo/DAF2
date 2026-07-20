@@ -622,7 +622,6 @@
 			}
 		);
 
-		/*
 		let excludeDrop = {};
 		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'loot_handler', function (_loot_handler) {
 			return function (p_tileDef,p_beaconActivated) {
@@ -654,7 +653,6 @@
 				return _createDrops.apply(this, arguments);
 			};
 		});
-		*/
 
 		intercept('com.pixelfederation.diggy.inventory.InventoryManager', 'staminaTimer_handler', function(_staminaTimer_handler) {
 			extras.push('hEnergyMaxSound');
@@ -667,7 +665,6 @@
 			};
 		});
 
-		/*
 		intercept(
 			'com.pixelfederation.diggy.game.custom.DecalContainer',
 			'createDropCount',
@@ -688,6 +685,7 @@
 				};
 			}
 		);
+
 		intercept(
 			'com.pixelfederation.diggy.game.custom.DecalContainer',
 			'getScaleFromScreenType',
@@ -695,12 +693,11 @@
 				extras.push('hLootZoom');
 				return function (p_screenType) {
 					if (p_screenType === 'mineScreen' && Prefs.hLootZoom)
-						return this._core.getMineCamera().g2d_contextCamera.scaleX;
+						return this._mineCamera.getAsGCameraController().g2d_contextCamera.scaleX;
 					return _getScaleFromScreenType.apply(this, arguments);
 				};
 			}
 		);
-		*/
 
 		/*
 		intercept(
@@ -709,15 +706,17 @@
 			function (_initUsableFromStorage) {
 				extras.push('hFood', 'hFoodNum');
 				return function () {
-					if (!Prefs.hFood) return _initUsableFromStorage.apply(this, arguments);
-					this._myUsableFromStorageId = this._myUsableFromStorageCount = this._myUsableFromStorageValue = 0;
-					const _usablesLoader = this._core.getLoadersManager()._usablesLoader;
+					const result = _initUsableFromStorage.apply(this, arguments);
+					if (!Prefs.hFood) return result;
+					const defProvider = $hxClasses['com.pixelfederation.diggy.backend.definition.DefinitionsProvider']?.get_instance();
+					const usableDef = $hxClasses['com.pixelfederation.diggy.backend.definition.UsableDefinition'];
+					if (!defProvider || !usableDef) return result;
 					const usables = this._core
 						.getInventoryManager()
 						.getUsables()
-						.filter((obj) => _usablesLoader.getAction(obj.id) == 'add_stamina')
-						.map((obj) => [obj, _usablesLoader.getValue(obj.id)])
-						.sort((a, b) => b[1] - a[1]);
+						.map((obj) => { return { obj, def: defProvider.get(usableDef, obj.id)}; })
+						.filter((p) => p.def && p.def.get_action() == 'add_stamina')
+						.sort((a, b) => b.def.value - a.def.value);
 					let index = 0;
 					const what = Prefs.hFoodNum;
 					if (what == 'min') index = usables.length - 1;
@@ -725,13 +724,14 @@
 					else if (isFinite(+what)) index = +what;
 					index = Math.max(0, Math.min(usables.length - 1, index));
 					if (index >= 0 && index < usables.length) {
-						const [obj, value] = usables[index];
+						const [obj, def] = usables[index];
 						this._myUsableFromStorageId = obj.id;
-						this._myUsableFromStorageValue = value;
+						this._myUsableFromStorageValue = def.value;
 						this._myUsableFromStorageCount = this._core
 							.getInventoryManager()
 							.getItemAmount(obj.item_type, obj.id);
 					}
+					return result;
 				};
 			}
 		);
