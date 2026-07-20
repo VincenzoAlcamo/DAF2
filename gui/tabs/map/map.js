@@ -3155,6 +3155,13 @@ async function drawMine(args) {
 	});
 
 	// Shadows
+	const getShadow = (flag, tileIndex, value) => {
+		if (!flag) return value;
+		const tileDef = tileDefs[tileIndex];
+		if (tileDef.shadow) return value;
+		if (!tileDef.isVisible && tileDef.show) return value;
+		return 0;
+	};
 	const getShadows = (tileDef) => {
 		const { x, y } = tileDef;
 		const index = x + y * cols;
@@ -3164,14 +3171,14 @@ async function drawMine(args) {
 		const checkLeft = x > 0;
 		return (
 			0 +
-			(checkTop && tileDefs[index - cols].shadow ? 1 : 0) +
-			(checkRight && tileDefs[index + 1].shadow ? 2 : 0) +
-			(checkBottom && tileDefs[index + cols].shadow ? 4 : 0) +
-			(checkLeft && tileDefs[index - 1].shadow ? 8 : 0) +
-			(checkTop && checkLeft && tileDefs[index - cols - 1].shadow ? 16 : 0) +
-			(checkTop && checkRight && tileDefs[index - cols + 1].shadow ? 32 : 0) +
-			(checkBottom && checkRight && tileDefs[index + cols + 1].shadow ? 64 : 0) +
-			(checkBottom && checkLeft && tileDefs[index + cols - 1].shadow ? 128 : 0)
+			getShadow(checkTop, index - cols, 1) +
+			getShadow(checkRight, index + 1, 2) +
+			getShadow(checkBottom, index + cols, 4) +
+			getShadow(checkLeft, index - 1, 8) +
+			getShadow(checkTop && checkLeft, index - cols - 1, 16) +
+			getShadow(checkTop && checkRight, index - cols + 1, 32) +
+			getShadow(checkBottom && checkRight, index + cols + 1, 64) +
+			getShadow(checkBottom && checkLeft, index + cols - 1, 128)
 		);
 	};
 	const shadows = [
