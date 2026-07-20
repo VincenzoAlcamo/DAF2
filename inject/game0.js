@@ -699,43 +699,36 @@
 			}
 		);
 
-		/*
 		intercept(
 			'com.pixelfederation.diggy.screens.popup.NoenergyPopup',
 			'initUsableFromStorage',
 			function (_initUsableFromStorage) {
 				extras.push('hFood', 'hFoodNum');
 				return function () {
-					const result = _initUsableFromStorage.apply(this, arguments);
-					if (!Prefs.hFood) return result;
-					const defProvider = $hxClasses['com.pixelfederation.diggy.backend.definition.DefinitionsProvider']?.get_instance();
-					const usableDef = $hxClasses['com.pixelfederation.diggy.backend.definition.UsableDefinition'];
-					if (!defProvider || !usableDef) return result;
-					const usables = this._core
-						.getInventoryManager()
-						.getUsables()
-						.map((obj) => { return { obj, def: defProvider.get(usableDef, obj.id)}; })
-						.filter((p) => p.def && p.def.get_action() == 'add_stamina')
-						.sort((a, b) => b.def.value - a.def.value);
-					let index = 0;
+					if (!Prefs.hFood) return _initUsableFromStorage.apply(this, arguments);
+					const manager = this._core.getInventoryManager();
+					let usables = manager.getUsables();
+					const _getUsables = manager.getUsables;
+					usables = usables.map(obj => {
+						manager.getUsables = () => [obj];
+						_initUsableFromStorage.call(this);
+						return { id: this._myUsableFromStorageId, value: this._myUsableFromStorageValue, count: this._myUsableFromStorageCount };
+					})
+					.filter(a => a.value > 0)
+					.sort((a, b) => b.value - a.value);
+					manager.getUsables = _getUsables;
 					const what = Prefs.hFoodNum;
 					if (what == 'min') index = usables.length - 1;
 					else if (what == 'avg') index = Math.floor((usables.length - 1) / 2);
 					else if (isFinite(+what)) index = +what;
 					index = Math.max(0, Math.min(usables.length - 1, index));
-					if (index >= 0 && index < usables.length) {
-						const [obj, def] = usables[index];
-						this._myUsableFromStorageId = obj.id;
-						this._myUsableFromStorageValue = def.value;
-						this._myUsableFromStorageCount = this._core
-							.getInventoryManager()
-							.getItemAmount(obj.item_type, obj.id);
-					}
-					return result;
+					const obj = index >= 0 && index < usables.length ? usables[index]: { id: 0, value: 0, count: 0 };
+					this._myUsableFromStorageId = obj.id;
+					this._myUsableFromStorageValue = obj.value;
+					this._myUsableFromStorageCount = obj.count;
 				};
 			}
 		);
-		*/
 
 		intercept(
 			'com.pixelfederation.diggy.ui.hud.UISpecialButtons',
