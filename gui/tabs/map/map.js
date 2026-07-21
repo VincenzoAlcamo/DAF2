@@ -3154,26 +3154,16 @@ async function drawMine(args) {
 		if (tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) drawAddon(x, y, item, img);
 	});
 
-	// Static Addons
-	await drawAll(addons, 'staticAddonId', (x, y, tileDef, item, img) => {
-		// Clear any static addon that overlaps this one
-		const width = +item.columns;
-		const height = +item.rows;
-		for (let sy = 0; sy < height; sy++) {
-			for (let sx = 0; sx < width; sx++) {
-				if (sx > 0 || sy > 0) delete tileDefs[(y + sy) * cols + x + sx].staticAddonId;
-			}
-		}
-		drawAddon(x, y, item, img);
-	});
-
 	// Shadows
+	// Shadows are shown when a nearby tile is hidden or when a nearby tile has the shadow flag (and the current tile has no shadow flag)
+	// First, remove shadow from tiles that have been dug (or when the option to show background is active and the tile was not dug)
+	for (const tileDef of tileDefs.filter((t) => t.tileStatus == 2 || (showBackground && t.tileStatus == 0 && t.stamina >= 0))) tileDef.shadow = 0;
+	// We store the original tile shadow flag here
+	let tileHasShadow = false;
 	const getShadow = (flag, tileIndex, value) => {
 		if (!flag) return value;
 		const tileDef = tileDefs[tileIndex];
-		if (tileDef.shadow) return value;
-		if (!tileDef.isVisible && tileDef.show) return value;
-		return 0;
+		return !tileDef.isVisible || (tileDef.shadow && !tileHasShadow) ? value : 0;
 	};
 	const getShadows = (tileDef) => {
 		const { x, y } = tileDef;
@@ -3213,14 +3203,7 @@ async function drawMine(args) {
 		[4, 0, 0]
 	];
 	const imgShadow = images[IMG_SHADOWS].img;
-	for (const tileDef of tileDefs.filter(
-		(t) => t.tileStatus == 2 || (showBackground && t.tileStatus == 0 && t.stamina >= 0)
-	))
-		tileDef.shadow = 0;
-	for (const tileDef of tileDefs.filter(
-		(t) => t.isVisible && (t.solid & !32) == 0 && !(t.shadow > 0 && t.tileStatus == 0)
-	)) {
-		// if (tileDef.shadow && tileDef.tileStatus != 2) continue;
+	const drawShadows = (tileDef) => {
 		const { x, y } = tileDef;
 		const shadow = getShadows(tileDef);
 		const shadow1 = shadow & 15;
@@ -3232,6 +3215,37 @@ async function drawMine(args) {
 		if (shadow2 > 0) {
 			drawFrame(x, y, imgShadow, shadows[shadow2][0] + 5, false, false, shadows[shadow2][1]);
 		}
+	};
+	// We draw shadows for every visible tile and we take into account the tile shadow flag
+	for (const tileDef of tileDefs.filter((t) => t.isVisible)) {
+		tileHasShadow = tileDef.shadow;
+		drawShadows(tileDef);
+	}
+
+	// Static Addons
+	// We draw static addons here because they are drawn over shadows casts by nearby tiles with the shadow flag
+	await drawAll(addons, 'staticAddonId', (x, y, tileDef, item, img) => {
+		// Clear any static addon that overlaps this one
+		// but keep the staticAddonId on the initial tile
+		const staticAddonId = tileDef.staticAddonId;
+		const width = +item.columns;
+		const height = +item.rows;
+		for (let sy = 0; sy < height; sy++) {
+			for (let sx = 0; sx < width; sx++) {
+				const tileDef2 = tileDefs[(y + sy) * cols + x + sx];
+				delete tileDef2.staticAddonId;
+				// Mark the tile so we can redraw shadows casts by hidden nearby tiles
+				tileDef2._redrawShadows = true;
+			}
+		}
+		tileDef.staticAddonId = staticAddonId;
+		drawAddon(x, y, item, img);
+	});
+	// We draw shadows for every visible tile where a static addon has been drawn, but this time we ignore nearby tiles with the shadow flag
+	tileHasShadow = true;
+	for (const tileDef of tileDefs.filter((t) => t._redrawShadows)) {
+		delete tileDef._redrawShadows;
+		if (tileDef.visible) drawShadows(tileDef);
 	}
 
 	// Draggables
