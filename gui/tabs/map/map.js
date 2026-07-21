@@ -3154,6 +3154,19 @@ async function drawMine(args) {
 		if (tileDef.tileStatus == 0 && (!showBackground || tileDef.stamina < 0)) drawAddon(x, y, item, img);
 	});
 
+	// Static Addons
+	await drawAll(addons, 'staticAddonId', (x, y, tileDef, item, img) => {
+		// Clear any static addon that overlaps this one
+		const width = +item.columns;
+		const height = +item.rows;
+		for (let sy = 0; sy < height; sy++) {
+			for (let sx = 0; sx < width; sx++) {
+				if (sx > 0 || sy > 0) delete tileDefs[(y + sy) * cols + x + sx].staticAddonId;
+			}
+		}
+		drawAddon(x, y, item, img);
+	});
+
 	// Shadows
 	const getShadow = (flag, tileIndex, value) => {
 		if (!flag) return value;
@@ -3220,19 +3233,6 @@ async function drawMine(args) {
 			drawFrame(x, y, imgShadow, shadows[shadow2][0] + 5, false, false, shadows[shadow2][1]);
 		}
 	}
-
-	// Static Addons
-	await drawAll(addons, 'staticAddonId', (x, y, tileDef, item, img) => {
-		// Clear any static addon that overlaps this one
-		const width = +item.columns;
-		const height = +item.rows;
-		for (let sy = 0; sy < height; sy++) {
-			for (let sx = 0; sx < width; sx++) {
-				if (sx > 0 || sy > 0) delete tileDefs[(y + sy) * cols + x + sx].staticAddonId;
-			}
-		}
-		drawAddon(x, y, item, img);
-	});
 
 	// Draggables
 	await drawAll(draggables, 'draggableId', async (x, y, tileDef, item, img) => {
