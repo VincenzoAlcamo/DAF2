@@ -2091,7 +2091,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		}
 	};
 	layerFns['drag_swap'] = layerFns['drag'];
-	['delay', 'focus', 'force_focus', 'instant_focus', 'force_idle_text', 'loot', 'focus_cinema', 'pause'].forEach(name => layerFns[name] = 'skip');
+	['delay', 'focus', 'force_focus', 'instant_focus', 'force_idle_text', 'loot', 'focus_cinema', 'pause', 'comic'].forEach(name => layerFns[name] = 'skip');
 	let beaconsExecuted = {};
 	const executeBeaconActions = (beacon) => {
 		if (beacon.beacon_id in beaconsExecuted) {
