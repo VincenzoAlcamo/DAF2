@@ -70,6 +70,27 @@
 	// $hxClasses
 	const $hxClasses = {};
 	const _ObjectCreate = Object.create;
+	window.$hxClasses = {};
+	const triggerKey = 'com.genome2d.project.GProject';
+	Object.defineProperty(Object.prototype, triggerKey, {
+		get() {
+			return undefined;
+		},
+		set(newValue) {
+			log('Intercepted $hxClasses');
+			Object.defineProperty(Object.prototype, triggerKey, {
+				value: undefined,
+				writable: true,
+				enumerable: false,
+				configurable: true
+			});
+			delete Object.prototype.DateTools;
+			this[triggerKey] = newValue;
+			window.$hxClasses = this;
+		},
+		enumerable: false,
+		configurable: true
+	});
 	Object.create = function (proto) {
 		const obj = _ObjectCreate.apply(Object, arguments);
 		let __class__;
@@ -87,25 +108,6 @@
 			});
 		return obj;
 	};
-	window.$hxClasses = {};
-	Object.defineProperty(Object.prototype, 'DateTools', {
-		get() {
-			return undefined;
-		},
-		set(newValue) {
-			window.$hxClasses = this;
-			Object.defineProperty(Object.prototype, 'DateTools', {
-				value: undefined,
-				writable: true,
-				enumerable: false,
-				configurable: true
-			});
-			delete Object.prototype.DateTools;
-			this.DateTools = newValue;
-		},
-		enumerable: false,
-		configurable: true
-	});
 
 	// XMLHttpRequest
 	let xhrEnabled = false;
