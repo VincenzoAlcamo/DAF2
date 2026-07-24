@@ -489,9 +489,21 @@
 				try {
 					if (Prefs.autoGC && _gc.length > 0) {
 						var friendsWindmills = this._core.getGameManagers().getFriendsManager().getInventoryManager().getWindmills();
-						if (friendsWindmills.isFull()) {
+						if (this._friendVisited?._id == 1 || friendsWindmills.isFull()) {
 							const friend = index > 0 ? _gc[index - 1] : _gc[_gc.length - 1];
-							setTimeout(() => this.visitFriend(friend.getId()), 0);
+							setTimeout(() => {
+								this.visitFriend(friend.getId())
+								try {
+									const manager = this._core.get_backendService();
+									if (false) {
+										manager.queueCurrentCollectionsForSend();
+										log('Forced push requests');
+									} else {
+										manager._secondsFromLastSend = Math.max(manager._secondsFromLastSend, 6);
+										log('Speedup requests');
+									}
+								} catch(e) {}
+							}, 0);
 						}
 					}
 				} catch(e) {}
