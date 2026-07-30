@@ -41,30 +41,17 @@ function parseJSON(value) {
 	}
 }
 
-// eslint-disable-next-line no-var
-var Badge = {
-	currentIcon: '',
-	setIcon(color) {
-		color = color[0].toUpperCase() + color.substr(1).toLowerCase();
-		Badge.currentIcon = '/img/logo/icon' + color + '.png';
-		chrome.browserAction.setIcon({
-			path: Badge.currentIcon
-		});
-		return this;
-	},
-	setText(text) {
-		chrome.browserAction.setBadgeText({
-			text: text
-		});
-		return this;
-	},
-	setBackgroundColor(color) {
-		chrome.browserAction.setBadgeBackgroundColor({
-			color: color
-		});
-		return this;
+const defaultBadge = { text: '' };
+function setBadge(details) {
+	const { icon, text, bg } = details;
+	if ('icon' in details) {
+		const color = icon[0].toUpperCase() + icon.substr(1).toLowerCase();
+		const currentIcon = '/img/logo/icon' + color + '.png';
+		chrome.browserAction.setIcon({ path: currentIcon });
 	}
-};
+	if ('text' in details) chrome.browserAction.setBadgeText({ text });
+	if ('bg' in details) chrome.browserAction.setBadgeBackgroundColor({ color: bg });
+}
 //#endregion
 
 //#region PREFERENCES
@@ -585,6 +572,7 @@ var Data = {
 		await new Promise(function (resolve, _reject) {
 			chrome.management.getSelf(function (self) {
 				Data.isDevelopment = self.installType == 'development';
+				if (Data.isDevelopment) Object.assign(defaultBadge, { text: 'DEV', bg: 'black'});
 				Data.version = self.version;
 				resolve();
 			});
@@ -1979,7 +1967,7 @@ var Synchronize = {
 		const { type, kind, lang, player_id, xml, response } = details;
 		if (kind == 'graph') return this.processGraph(response);
 		const isError = type == 'error';
-		if (isError) return Badge.setIcon('red').setBackgroundColor('red');
+		if (isError) return setBadge({ icon: 'red', bg: 'red' });
 		const isSend = type == 'send', isOk = type == 'ok';
 		if (!isSend && !isOk) return;
 		if (kind == 'team' && isOk) {
@@ -2002,7 +1990,7 @@ var Synchronize = {
 			if (!Preferences.getValue('disableAltGuard')) {
 				if (isSend) {
 					Data.alternateAccountDetected = player_id;
-					Badge.setIcon('grey').setText('ALT').setBackgroundColor('red');
+					setBadge({ icon: 'grey', text: 'ALT', bg: 'red' });
 					console.log('Request is for a different player', player_id, 'instead of', Data.generator.player_id);
 					Synchronize.signal('account_mismatch', player_id);
 				}
@@ -2012,9 +2000,9 @@ var Synchronize = {
 		if (isGenerator) {
 			if (isSend) {
 				delete Data.alternateAccountDetected;
-				return Badge.setIcon('grey').setText('READ').setBackgroundColor('green');
+				return setBadge( { icon: 'grey', text: 'READ', bg: 'green' });
 			}
-			Badge.setText('');
+			setBadge(defaultBadge);
 			const file = { id: kind, time: getUnixTime(), data: Parser.parse(kind, response) };
 			if (file.data && file.data.neighbours) {
 				Synchronize.time = +file.data.time;
@@ -2024,13 +2012,13 @@ var Synchronize = {
 				file.data.game_platform = 'WebGL';
 				file.data.game_language = lang;
 				Data.store(file);
-				Badge.setIcon('green');
+				setBadge( { icon: 'green' });
 			} else {
-				Badge.setIcon('red');
+				setBadge( { icon: 'red' });
 			}
 		} else {
-			if (isSend) return Badge.setText('SYNC').setBackgroundColor('green');
-			Badge.setText('').setIcon('green');
+			if (isSend) return setBadge({ text:'SYNC', bg: 'green'});
+			setBadge({ icon: 'green', ...defaultBadge });
 			Synchronize.process(xml, response);
 		}
 	}
@@ -2039,9 +2027,7 @@ var Synchronize = {
 
 //#region INIT
 async function init() {
-	Badge.setIcon('grey');
-	Badge.setBackgroundColor('purple');
-	Badge.setText('INIT');
+	setBadge({ icon: 'grey', text: 'INIT', bg: 'purple'});
 	await Preferences.init();
 	await Data.init();
 	await Message.init();
@@ -2149,9 +2135,9 @@ async function init() {
 
 	if (Data.generator && Data.generator.player_id) {
 		Data.checkLocalization('');
-		Badge.setIcon('yellow');
+		setBadge({ icon: 'yellow' });
 	}
-	Badge.setText('');
+	setBadge(defaultBadge);
 
 	chrome.browserAction.onClicked.addListener(function (_activeTab) {
 		Tab.showGUI();

@@ -16,7 +16,8 @@ function init() {
 }
 
 function update() {
-	this.container.querySelector('.about_version').innerText = gui.getMessage('about_version', bgp.Data.version);
+	const dev = bgp.Data.isDevelopment ? ' (development)' : '';
+	this.container.querySelector('.about_version').innerText = gui.getMessage('about_version', bgp.Data.version) + dev;
 
 	const generator = gui.getGenerator();
 	let html_data = '';
