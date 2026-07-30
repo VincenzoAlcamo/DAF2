@@ -2972,9 +2972,13 @@ async function drawMine(args) {
 	}
 
 	// Backgrounds
+	const getTileSize = (size) => Math.max(1, Math.floor(size / TILE_SIZE));
 	await drawAll(backgrounds, 'bgId', (x, y, tileDef, item, img) => {
 		if (img) {
-			ctx.drawImage(img, (x % 4) * TILE_SIZE, (y % 4) * TILE_SIZE, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			// Background is repeated
+			const width = getTileSize(img.naturalWidth);
+			const height = getTileSize(img.naturalHeight);
+			ctx.drawImage(img, (x % width) * TILE_SIZE, (y % height) * TILE_SIZE, TILE_SIZE, TILE_SIZE, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		}
 	});
 
