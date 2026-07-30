@@ -129,7 +129,7 @@ let specialDrops, allQuestDrops, allQuestDropsFlags, mapFilters, allEventMateria
 let playerLevel, playerUidRnd, effects, beamsLoaded;
 let currentData, lastTeleportId;
 let showBackground, showBeacon, showTeleportArrow, showDiggy, showExitMarker, showTeleportMarker, showHiddenExit;
-let showDebug, showAll, showFull, showTiles;
+let showDebug, showAll, showFull, showTiles, hideShadows;
 let showViewed, showBonus, showNotableLoot, showMixed, showOpaque, showUncleared, showSolution, showColors;
 const options = {};
 let isAdmin, canShowBonus, canShowBeacon, lastMapId, waitHandler;
@@ -2625,6 +2625,7 @@ function updateTableFlags() {
 	showOpaque = state.show.includes('o');
 	showUncleared = state.show.includes('u');
 	showColors = state.show.includes('c');
+	hideShadows = state.show.includes('h');
 	map.classList.toggle('show_beacon', showBeacon);
 	map.classList.toggle('show_tiles', !showBackground && showTiles);
 	map.classList.toggle('show_bonus', !showBackground && showBonus);
@@ -3204,6 +3205,7 @@ async function drawMine(args) {
 	];
 	const imgShadow = images[IMG_SHADOWS].img;
 	const drawShadows = (tileDef) => {
+		if (hideShadows) return;
 		const { x, y } = tileDef;
 		const shadow = getShadows(tileDef);
 		const shadow1 = shadow & 15;

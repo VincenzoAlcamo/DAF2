@@ -730,6 +730,9 @@
 	"map_button_m": {
 		"message": "Mix notable tiles"
 	},
+	"map_button_h": {
+		"message": "Hide shadows"
+	},
 	"map_save": {
 		"message": "Save"
 	},
