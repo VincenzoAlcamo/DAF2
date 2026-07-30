@@ -3166,7 +3166,7 @@ async function drawMine(args) {
 	// We store the original tile shadow flag here
 	let tileHasShadow = false;
 	const getShadow = (flag, tileIndex, value) => {
-		if (!flag) return value;
+		if (!flag) return 0;
 		const tileDef = tileDefs[tileIndex];
 		return !tileDef.isVisible || (tileDef.shadow && !tileHasShadow) ? value : 0;
 	};
