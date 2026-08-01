@@ -262,8 +262,11 @@
 		let mailsState = 0;
 
 		let isAutoDigEnabled = null;
+		let keepAutoDigUntil = 0;
 		let toggleAutoDig = () => void 0;
 		const setAutoDig = (flag) => {
+			if (flag) keepAutoDigUntil = 0;
+			else if (isAutoDigEnabled) keepAutoDigUntil = Date.now() + 2000;
 			isAutoDigEnabled = flag;
 			Msg.sendPage('autoDig', { flag });
 		};
@@ -369,12 +372,11 @@
 
 		function getSpeed(p_core, val, def, isPet) {
 			const hasSpeedUp = ((isPet && Prefs.hPetSpeed) || Prefs.hSpeed) && p_core.getInventoryManager().getSpeedupCtrlRemainingTime() > 0;
-			if (!isAutoDigEnabled && !hasSpeedUp) return def;
-			if (Prefs.isSuper || getMineInfo().isRepeatOrTower) {
-				return isAutoDigEnabled ? Math.min(val * (hasSpeedUp ? 0.15 : 0.4), def) : Math.min(val * 0.4, def);
-			} else {
-				return isAutoDigEnabled ? Math.min(val * (hasSpeedUp ? 0.4 : 0.75), def) : Math.min(val * 0.75, def);
-			}
+			let isAutoDig = isAutoDigEnabled || (keepAutoDigUntil > 0 && keepAutoDigUntil >= Date.now());
+			if (!isAutoDig && !hasSpeedUp) return def;
+			let s1 = 0.3, s2 = 0.6;
+			if (Prefs.isSuper || getMineInfo().isRepeatOrTower) { s1 = 0.16; s2 = 0.4; }
+			return isAutoDig ? Math.min(val * (hasSpeedUp ? s1 : s2), def) : Math.min(val * s2, def);
 		}
 		intercept('com.pixelfederation.diggy.game.character.CharacterPath', null, function(_, def) {
 			const _getActualSpeed = def.getActualSpeed;
