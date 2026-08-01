@@ -1636,6 +1636,22 @@ var Synchronize = {
 		this.last_lid = lid;
 		return Data.getLocProg(lid);
 	},
+	mineLocation(isDynamite) {
+		Synchronize.lastTimeMined = Synchronize.time;
+		const loc_id = Synchronize.last_lid;
+		const prog = Synchronize.setLastLocation(loc_id);
+		if (prog) {
+			prog.prog = (+prog.prog || 0) + 1;
+			const rep = Data.repeatables && Data.repeatables[loc_id];
+			const rotation = rep && rep.rotation[prog.lvl];
+			if (rotation && isDynamite) prog.prog = rotation.progress;
+			if (rotation && prog.prog >= rotation.progress) {
+				prog.cmpl = Synchronize.time;
+				Data.checkRepeatablesStatus();
+			}
+			Data.storeLocProg();
+		}
+	},
 	setCustomList(action, task, taskResponse) {
 		const neighbourId = task.neighbour_id;
 		if (taskResponse.result == 'OK') {
@@ -1810,20 +1826,11 @@ var Synchronize = {
 				Data.checkRepeatablesStatus();
 			}
 		},
+		use_clear_mine_token(action, task, _taskResponse, _response) {
+			Synchronize.mineLocation(true);
+		},
 		mine(action, task, _taskResponse, _response) {
-			Synchronize.lastTimeMined = Synchronize.time;
-			const loc_id = Synchronize.last_lid;
-			const prog = Synchronize.setLastLocation(loc_id);
-			if (prog) {
-				prog.prog = (+prog.prog || 0) + 1;
-				const rep = Data.repeatables && Data.repeatables[loc_id];
-				const rotation = rep && rep.rotation[prog.lvl];
-				if (rotation && prog.prog >= rotation.progress) {
-					prog.cmpl = Synchronize.time;
-					Data.checkRepeatablesStatus();
-				}
-				Data.storeLocProg();
-			}
+			Synchronize.mineLocation(false);
 			Synchronize.signalMineAction({ action, x: +task.column, y: +task.row, cx: +task.cur_column, cy: +task.cur_row });
 		},
 		drag_object(action, task, _taskResponse, _response) {
