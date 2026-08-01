@@ -556,7 +556,7 @@ function setShowMailsButton(flag) {
 
 function onMenuClick(e) {
 	const target = e.target;
-	if (!target || target.tagName == 'DIV') return;
+	if (!target || (target.tagName == 'DIV' && target.getAttribute('data-action') != 'mine')) return;
 	let action = null;
 	let parent = target;
 	while (parent && parent !== menu && !(action = parent.getAttribute('data-action'))) parent = parent.parentNode;
@@ -596,6 +596,12 @@ function onMenuClick(e) {
 		case 'visit':
 			setScreen('visiting');
 			Msg.sendPage('visit', { id: parent.parentNode.parentNode.getAttribute('data-id') });
+			break;
+		case 'mine':
+			parent = target.parentElement.parentElement;
+			parent.classList.add('visiting');
+			setTimeout(() => parent.classList.remove('visiting'), 5000);
+			Msg.sendPage('mine', { id: target.getAttribute('data-lid') });
 			break;
 		case 'showMails':
 			setShowMailsButton(false);
@@ -749,7 +755,7 @@ function setBadgeRepeatables({ list, sound, volume }) {
 				const title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
 				const style = `background-image:url(${item.image})${index >= MAXVISIBLE ? ';display:none' : ''}`;
 				const className = `${item.isNew ? 'new' : ''} ${index >= numVisible ? 'on-hover' : ''}`;
-				return `<div data-lid="${item.lid}" class="${className}" title="${Html(
+				return `<div data-lid="${item.lid}" data-action="mine" class="${className}" title="${Html(
 					title
 				)}" style="${style}"></div>`;
 			})

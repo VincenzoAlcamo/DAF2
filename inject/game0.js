@@ -332,6 +332,11 @@
 				)
 					getFriendsManager()?.visitFriend(id);
 			};
+			Msg.handlers['mine'] = (request) => {
+				const id = +request.id;
+				log('Visiting mine', id);
+				core.instance?.showScreen("mineScreen",{ mineId: id });
+			};
 			setInterval(() => {
 				const info = getActiveScreen();
 				const value = info.screen + '.' + info.dialog;

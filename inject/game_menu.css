@@ -627,6 +627,11 @@ td.DAF-visit {
 	opacity: 0.3;
 	pointer-events: none;
 }
+.DAF-container[daf-screen^="mineScreen."]:not([daf-screen="mineScreen.null"]) .DAF-badge-rep b,
+.DAF-badge-rep.visiting b {
+	filter: grayscale(1);
+	pointer-events: none;
+}
 .DAF-menu [data-action="showMails"] {
 	display: none;
 }
