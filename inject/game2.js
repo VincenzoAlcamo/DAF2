@@ -727,48 +727,32 @@ function setBadgeProductions({ caravan, kitchen, foundry, sound, volume }) {
 }
 
 function setBadgeRepeatables({ list, sound, volume }) {
-	const ADD = 1000;
 	const badge = menu.querySelector('.DAF-badge-rep');
 	list = Array.isArray(list) ? list : [];
-	list.forEach((item, index) => (item.index = index));
-	badge.querySelectorAll('[data-lid]').forEach((div, index) => {
-		const lid = +div.getAttribute('data-lid');
-		const item = list.find((item) => +item.lid == lid);
-		if (item) item.index = ADD + index;
-	});
 	badge.classList.toggle('DAF-badge-on', list.length > 0);
-	const MAXVISIBLE = 8;
-	const numVisible = list.length > 3 ? 1 : list.length;
-	list.sort((a, b) => a.index - b.index);
-	const counter = (className, num, addTitle) => {
-		const rest = list.slice(num);
-		const flag = rest.length > 0;
-		const title = flag && addTitle ? rest.map((data) => `${data.name} (${data.rname})`).join('\n') : '';
-		return `<span class="${className}" style="${flag ? '' : 'display:none'}" title="${Html(title)}">${
-			flag ? '+' + rest.length : ''
-		}</span>`;
-	};
-	const html =
-		`<b>` +
-		list
-			.map((item, index) => {
-				const title = `${item.name}\n${getMessage(item.rid ? 'gui_region' : 'gui_event')}: ${item.rname}`;
-				const style = `background-image:url(${item.image})${index >= MAXVISIBLE ? ';display:none' : ''}`;
-				const className = `${item.isNew ? 'new' : ''} ${index >= numVisible ? 'on-hover' : ''}`;
-				return `<div data-lid="${item.lid}" data-action="mine" class="${className}" title="${Html(
-					title
-				)}" style="${style}"></div>`;
-			})
-			.join('') +
-		counter('no-hover', numVisible) +
-		counter('on-hover', MAXVISIBLE, true) +
-		`</b>`;
+	// Determine priority
+	list.forEach((item) => {
+		const old = badge.querySelector(`[data-lid="${item.lid}"]`);
+		item.isNew = !old;
+		item.priority = item.isNew ? 0 : (+old?.getAttribute('data-priority') || 4);
+	});
+	// Sort by region id asc, then by location id asc
+	list = list.sort((a, b) => a.rid - b.rid || a.lid - b.lid);
+	let lastRid = -1;
+	const html = `<b>` + list.map((item) => {
+		let prefix = '';
+		if (lastRid != item.rid) {
+			lastRid = item.rid;
+			prefix = Html`<div class="rep-region">${item.rid ? item.rname : getMessage('gui_event')}</div>`;
+		}
+		const title = item.name + (item.rid ? '' : '\n(' + item.rname + ')');
+		const style = `background-image:url(${item.image})`;
+		return prefix + Html`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="${title}" style="${style}"></div>`;
+	}).join('') + (list.length > 3 ? Html`<span class="rep-count">${'+' + (list.length - 3)}</span>` : '') + `</b>`;
 	Html.set(badge, html);
-	const isNew = list.find((item) => item.index < ADD);
-	if (isNew) {
-		if (Prefs.badgeRepeatables) playSound(sound, volume);
-		badge.classList.add('animate');
-	}
+	// Show items
+	list.sort((a, b) => a.priority - b.priority).slice(0, 3).forEach((item, index) => badge.querySelector(`[data-lid="${item.lid}"]`).setAttribute('data-priority', index + 1));
+	if (Prefs.badgeRepeatables && list.some((item) => item.isNew)) playSound(sound, volume);
 }
 
 function updateAdsInfo(data) {

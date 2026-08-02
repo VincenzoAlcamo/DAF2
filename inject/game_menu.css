@@ -386,14 +386,6 @@
 	background-color: #6dd;
 }
 
-.DAF-badges .DAF-badge-rep b {
-	background-color: #a00;
-	border-color: #a00;
-	height: 25px;
-	margin-top: -1px;
-	display: inline-block;
-}
-
 .DAF-badges .DAF-badge-extra.DAF-badge-on,
 .DAF-badges.DAF-hasQueue.DAF-hqueue.DAF-hautoqueue .DAF-badge-autoqueue,
 .DAF-badges.DAF-hasAutoDig.DAF-hautodig .DAF-badge-autodig,
@@ -410,56 +402,73 @@
 	display: inline-block;
 }
 
-.DAF-badge-rep {
-	white-space: nowrap;
+.DAF-badge-rep b {
+	background-color: #a00;
+	border-color: #a00;
+	height: 25px;
+	margin-top: -1px;
+	color: #fff;
+	display: flex;
+	gap: 5px;
 }
-
-.DAF-badge-rep div {
+.DAF-badge-rep:hover b {
+	height: unset;
+	min-width: 196px;
+	border-width:4px;
+	border-radius: 8px;
+	background-color: #a44;
+	display: grid;
+	grid-template-columns: repeat(16, 1fr);
+}
+.DAF-badge-rep .rep-region {
+	line-height: 12px;
+	font-size: 12px;
+	padding-left: 2px;
+	grid-column: 1 / -1;
+	background-color: #a00;
+}
+.DAF-badge-rep .rep-loc {
 	width: 23px;
 	height: 23px;
 	border-radius: 16px;
 	display: inline-block;
 	background-size: 27px;
-	vertical-align: top;
-	margin: -1px;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-color: #a00;
-	transition: all 0.5s;
+	transition: transform 0.5s;
+	margin-top: -1px;
+	border: 0px solid #300;
 }
-
-.DAF-badge-rep div + div {
-	margin-left: 4px;
-}
-
-.DAF-badge-rep:not(:hover) .on-hover,
-.DAF-badge-rep:hover .no-hover {
-	display: none;
-}
-
-.DAF-badge-rep:hover {
-	border: 20px solid transparent;
-	margin: -20px;
-	border-left-width: 6px;
-	margin-left: -6px;
-}
-
-.DAF-badge-rep div:hover {
-	transform: scale(1.8);
+.DAF-badge-rep:hover .rep-loc {
+	margin-top: 0px;
 	width: 27px;
 	height: 27px;
 	background-size: 31px;
 	background-color: #600;
-	margin-right: -5px;
 }
-
-.DAF-badge-rep span {
-	padding: 0 4px 0 2px;
-	display: inline-block;
-	border-radius: 11px;
-	height: 19px;
-	color: #fff;
-	margin-left: 2px;
+.DAF-badge-rep .rep-loc:hover {
+	transform: scale(2);
+	border-width: 1px;
+	cursor: pointer;
+}
+.DAF-badge-rep .rep-count {
+	padding-left: 2px;
+	padding-right: 8px;
+}
+.DAF-badge-rep:hover .rep-count,
+.DAF-badge-rep:not(:hover) .rep-loc:not([data-priority]),
+.DAF-badge-rep:not(:hover) .rep-region {
+	display: none;
+}
+.DAF-badge-rep:not(:hover) .rep-loc[data-priority="1"] {
+	order: -3;
+}
+.DAF-badge-rep:not(:hover) .rep-loc[data-priority="2"] {
+	order: -2;
+}
+.DAF-badge-rep:not(:hover) .rep-loc[data-priority="3"] {
+	order: -1;
 }
 
 @keyframes DAF_flash {
