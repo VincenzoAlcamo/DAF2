@@ -649,7 +649,7 @@ function deleteWormsFrom(map) {
 }
 
 function isFlagAllowed(flag) {
-	return 'CDNTUVXBLA'.indexOf(flag) >= 0 || isAdmin;
+	return 'CDNTUVXBLAH'.indexOf(flag) >= 0 || isAdmin;
 }
 
 function scrollToCenter(x, y, smooth) {
