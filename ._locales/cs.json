@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Pomocný nástroj pro Diggy‘s Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Resetovat při spuštění"
-	},
-	"menu_fullwindow": {
-		"message": "Hra v celém okně"
-	},
-	"menu_fullwindowheader": {
-		"message": "Záhlaví"
-	},
-	"menu_fullwindowside": {
-		"message": "Postranní lišta"
-	},
-	"menu_fullwindowlock": {
-		"message": "Zámek"
-	},
-	"menu_gctable": {
-		"message": "Zobrazit tabulku božích dětí"
-	},
-	"menu_gctablecounter": {
-		"message": "Počítadlo"
-	},
-	"menu_gctableregion": {
-		"message": "Region"
-	},
 	"menu_gccollected": {
 		"message": "Všechny boží děti jsou posbírané"
-	},
-	"menu_autoclick": {
-		"message": "Automatický odklik vyskakovacího okna Facebooku"
-	},
-	"menu_nogcpopup": {
-		"message": "Bez vyskakovacích oken při sbírání božích dětí"
 	},
 	"menu_reloadgame": {
 		"message": "Znovu spustí hru a vynutí nový sběr dat"
@@ -294,6 +264,9 @@
 	"gui_locked": {
 		"message": "Zamčeno"
 	},
+	"gui_unlock": {
+		"message": "Odemknout"
+	},
 	"gui_noresults": {
 		"message": "Žádné výsledky"
 	},
@@ -311,6 +284,15 @@
 	},
 	"gui_summary": {
 		"message": "Souhrn"
+	},
+	"gui_pet": {
+		"message": "Domácí mazlíček"
+	},
+	"gui_hotkey": {
+		"message": "Klávesová zkratka"
+	},
+	"gui_mousegesture": {
+		"message": "Gesto myši"
 	},
 	"gui_nexttime": {
 		"message": "Příští sběr začíná $DATE$",
@@ -748,6 +730,9 @@
 	"map_button_m": {
 		"message": "Zamíchat významná políčka"
 	},
+	"map_button_h": {
+		"message": "Skrýt stíny"
+	},
 	"map_save": {
 		"message": "Uložit"
 	},
@@ -861,6 +846,9 @@
 	"map_option_s": {
 		"message": "Zobrazit výběr regionu"
 	},
+	"map_option_f": {
+		"message": "Zobrazit výběr přátelství"
+	},
 	"map_option_i": {
 		"message": "Zobrazit informace o lokaci"
 	},
@@ -876,8 +864,14 @@
 	"map_option_m": {
 		"message": "Zajistit okraje obrázku"
 	},
+	"map_option_h": {
+		"message": "Zobrazit skryté východy"
+	},
 	"map_option_l": {
 		"message": "Přidat vodoznak loga"
+	},
+	"map_option_k": {
+		"message": "Zobrazit indikátory podlahy"
 	},
 	"map_option_resize": {
 		"message": "Velikost uloženého obrázku"
@@ -1495,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Exportovat data diagnostiky"
 	},
+	"export_updatefiles": {
+		"message": "Aktualizace herních souborů"
+	},
 	"rings_showminmax": {
 		"message": "Zobrazit minimální a maximální hodnoty"
 	},
@@ -1818,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Celá obrazovka\nZobrazit hru na celou obrazovku"
 	},
-	"options_fullwindowheader": {
-		"message": "Záhlaví\nZobrazit při celé obrazovce záhlaví"
-	},
 	"options_fullwindowside": {
 		"message": "Postranní lišta\nSkrýt postranní lištu (Facebook) mimo režim celé obrazovky"
 	},
-	"options_fullwindowlock": {
-		"message": "Zamknout celou obrazovku\nZabrání hře zavírat celou obrazovku"
+	"options_hidemenu": {
+		"message": "Skrýt nabídku\nSkrýt nabídku DAF2 na celé obrazovce"
 	},
-	"options_resetfullwindow": {
-		"message": "Resetovat při spuštění\nVždy, když hru spustíte, resetuje se „Celá obrazovka“ a „Postranní lišta“"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Tuto možnost byste měli zaškrtnout, pokud máte potíže se spouštěním hry."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Automatická celá obrazovka\nAutomaticky nastaví režim celé obrazovky po načtení dat (DAF2 zezelená)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Ano, po $NUM$ vteřinách",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Neprůhlednost reklam\nUdělejte reklamy trochu průhlednými"
 	},
 	"options_gctable": {
 		"message": "Tabulka BD\nZobrazit pod hrou všechny sousedy s božími dětmi"
@@ -1853,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Region\nPoužít barvy k rozlišení sousedova regionu"
 	},
-	"options_autoclick": {
-		"message": "Autoklik\nAutomaticky potvrdí vyskakovací okno Facebooku"
-	},
 	"options_nogcpopup": {
 		"message": "Bez vyskakovacích oken GC\nŽádná vyskakovací okna při sbírání božích dětí"
 	},
@@ -1864,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Obecné možnosti"
-	},
-	"options_autologin": {
-		"message": "Auto přihlášení na portál\nAutomaticky se přihlásí na portálu"
 	},
 	"options_darktheme": {
 		"message": "Tmavé téma"
@@ -1913,6 +1887,12 @@
 	"options_button_right": {
 		"message": "Pravé"
 	},
+	"options_gesture_middle": {
+		"message": "Klikněte na prostřední tlačítko"
+	},
+	"options_gesture_rightleft": {
+		"message": "Podržte pravé tlačítko a poté klikněte levým tlačítkem"
+	},
 	"options_sort_none": {
 		"message": "Žádné"
 	},
@@ -1952,6 +1932,9 @@
 	"options_badgeluckycards": {
 		"message": "Šťastné karty\nZobrazit symbol, když je stan Šťastných karet připraven"
 	},
+	"options_badgepetshop": {
+		"message": "Zverimex\nZobrazit odznak při obnovení stránky Zverimexu"
+	},
 	"options_badgeproductions": {
 		"message": "Produkce\nZobrazit symbol, když je slot produkce dokončený nebo prázdný."
 	},
@@ -1970,8 +1953,14 @@
 	"options_hmain": {
 		"message": "Extra funkce\nPovolit další funkce ve hře"
 	},
+	"options_hmain_disabled": {
+		"message": "Další funkce nelze aktivovat"
+	},
 	"options_hspeed": {
 		"message": "Zrychlit\nRychlé lektvary poskytnou mnohem větší rychlost"
+	},
+	"options_hlootfew": {
+		"message": "Málo\nSkrýt mince, zkušenosti a body událostí/regionu"
 	},
 	"options_hlootcount": {
 		"message": "Počet\nVždy ukažte počet kořistí"
@@ -1988,8 +1977,17 @@
 	"options_hqueue": {
 		"message": "Snadná fronta dlaždic\nFronta je delší.\nDržte klávesu Shift a přesuňte myš přes některé dlaždice, abyste je přidali do fronty"
 	},
+	"options_hautoqueue": {
+		"message": "Automatické zařazení do fronty\nStačí přesunout myš nad dlaždice a přidat je do fronty (není nutná klávesa SHIFT)"
+	},
+	"options_hkeys": {
+		"message": "Klávesy pro přístupnost\nPřesouvejte Diggyho pomocí šipek na klávesnici"
+	},
 	"options_hscroll": {
 		"message": "Zakázat inerciální posouvání\nInertní posouvání je účinek, kdy se obrazovka stále pohybuje, i když jste ji přestali tahat"
+	},
+	"options_hinstantcamera": {
+		"message": "Okamžitá kamera\nKdyž se záběr kamery přesune na jiné místo, přechod je okamžitý"
 	},
 	"options_hreward": {
 		"message": "Auto-kapitalizace\nJakýkoli vstup do dárkového kódu je automaticky kapitalizován"
@@ -1997,11 +1995,20 @@
 	"options_hflashad": {
 		"message": "Flash AD zvuk\nKdyž se objeví tlačítko Flash Ad, přehrajte zvuk"
 	},
+	"options_henergymax": {
+		"message": "Zvuk maximální energie\nPřehraje zvuk, když je energie vyčerpána"
+	},
 	"options_hgccluster": {
 		"message": "GC Cluster\nUmístěte GC těsně u sebe"
 	},
 	"options_hlockcaravan": {
 		"message": "Zamkněte karavany\nZabraňuje sbírce karavanů zaslaných s lístkem"
+	},
+	"options_hpetfollow": {
+		"message": "Nesledovat\nMazlíček nesleduje Diggyho"
+	},
+	"options_hfastluckycards": {
+		"message": "Rychlé šťastné karty\nMíchání šťastných karet je rychlejší"
 	},
 	"calc_operators": {
 		"message": "Operátory"

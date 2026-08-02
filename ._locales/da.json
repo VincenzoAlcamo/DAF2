@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Hjælpe værktøjer til Diggy's Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Reset ved opstart"
-	},
-	"menu_fullwindow": {
-		"message": "Spil i fuld skærm"
-	},
-	"menu_fullwindowheader": {
-		"message": "Header"
-	},
-	"menu_fullwindowside": {
-		"message": "Side bar"
-	},
-	"menu_fullwindowlock": {
-		"message": "Lås"
-	},
-	"menu_gctable": {
-		"message": "Vis Gudebørn tabel"
-	},
-	"menu_gctablecounter": {
-		"message": "Tæller"
-	},
-	"menu_gctableregion": {
-		"message": "Region"
-	},
 	"menu_gccollected": {
 		"message": "Alle felter er blevet samlet"
-	},
-	"menu_autoclick": {
-		"message": "Auto klik Facebook's popup"
-	},
-	"menu_nogcpopup": {
-		"message": "Ingen pop-up når du samler Gudebørn"
 	},
 	"menu_reloadgame": {
 		"message": "Genstarter spillet og gennemtvinger en opdatering"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Bland se-værdige felter"
 	},
+	"map_button_h": {
+		"message": "Skjul skygger"
+	},
 	"map_save": {
 		"message": "Gem"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Sikre margins rundt om billede"
+	},
+	"map_option_h": {
+		"message": "Vis skjulte udgange"
 	},
 	"map_option_l": {
 		"message": "Tilføj vandmærke logo"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Eksporter diagnostik data"
 	},
+	"export_updatefiles": {
+		"message": "Opdater spilfiler"
+	},
 	"rings_showminmax": {
 		"message": "Vis minimum og maksimum værdier"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Fuld skærm\nVis spillet i fuld skærm"
 	},
-	"options_fullwindowheader": {
-		"message": "Header\nVis side Header når spillet er i fuld skærm"
-	},
 	"options_fullwindowside": {
 		"message": "Side\nSkjul side baren (Facebook) når spillet ikke er i fuld skærm"
 	},
-	"options_fullwindowlock": {
-		"message": "Lås fuld skærm\nDette forhindrer spillet i at lukke fuld skærm vinduet."
+	"options_hidemenu": {
+		"message": "Skjul menu\nSkjul DAF2-menuen i fuld skærm"
 	},
-	"options_resetfullwindow": {
-		"message": "Nulstil ved opstart\nHvergang du starter spillet, bliver \"Fuld skærm\" og \"Fuld skærm - side\" sat tilbage til grundindstillingen."
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Denne mulighed skal være aktiveret, hvis du oplever problemer med at loade spillet."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Automatisk Fuld Skærm\nSætter automatisk til Fuld Skærm når data er blevet indlæst (DAF2 bliver grøn)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Ja, efter $NUM$ sekunder",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Annoncernes gennemsigtighed\nGør annoncerne lidt gennemsigtige"
 	},
 	"options_gctable": {
 		"message": "Gudebørn tabel\nViser alle naboer med Gudebørn under spillet"
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Region\nBrug farver for at markere en nabos region"
 	},
-	"options_autoclick": {
-		"message": "Autoklik\nAccepterer automatisk Facebook's popups"
-	},
 	"options_nogcpopup": {
 		"message": "Ingen Gudebørn pop-ups\nIngen pop-ups når du samler Gudebørn"
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Generelle instillinger"
-	},
-	"options_autologin": {
-		"message": "Auto login til portal\nLogger automatisk på Portalen"
 	},
 	"options_darktheme": {
 		"message": "Mørkt tema"
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Sæt farten op\nHastighedseliksir vil give meget mere fart"
 	},
+	"options_hlootfew": {
+		"message": "Få\nSkjul mønter, xp og event-/regionspoint"
+	},
 	"options_hlootcount": {
 		"message": "Tæller\nVis altid byttetæller"
 	},
@@ -2021,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "Auto kø\nFlyt blot musen over nogle felter for at tilføje dem til køen (SHIFT behøves ikke)"
 	},
+	"options_hkeys": {
+		"message": "Tilgængelighedstaster\nFlyt Diggy ved hjælp af piletasterne på dit tastatur"
+	},
 	"options_hscroll": {
 		"message": "Deaktiver initial rulning\nInitial rulning er den effekt, hvor skærmen fortsætter med at bevæge sig, selv efter du er holdt op med at trække den"
 	},
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Flash annonce lyd\nAfspil en lyd, når knappen Flash annonce vises"
 	},
+	"options_henergymax": {
+		"message": "Energi Maks Lyd\nAfspil en lyd, når energien er maksimeret"
+	},
 	"options_hgccluster": {
 		"message": "GC Cluster\nPlacer GC'er tæt på hinanden"
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Følg ikke\nKæledyr følger ikke Diggy"
+	},
+	"options_hfastluckycards": {
+		"message": "Hurtige heldige kort\nBlanding af heldige kort er hurtigere"
 	},
 	"calc_operators": {
 		"message": "Aktører"

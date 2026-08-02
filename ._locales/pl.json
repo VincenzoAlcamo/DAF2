@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Narzędzie pomocnicze Diggy`s Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Zresetuj po załadowaniu"
-	},
-	"menu_fullwindow": {
-		"message": "Gra w pełnym ekranie"
-	},
-	"menu_fullwindowheader": {
-		"message": "Nagłówek"
-	},
-	"menu_fullwindowside": {
-		"message": "Pasek boczny"
-	},
-	"menu_fullwindowlock": {
-		"message": "Zablokowane"
-	},
-	"menu_gctable": {
-		"message": "Wyświetl pasek z BD"
-	},
-	"menu_gctablecounter": {
-		"message": "Licznik"
-	},
-	"menu_gctableregion": {
-		"message": "Region"
-	},
 	"menu_gccollected": {
 		"message": "Wszystkie BD zostały zebrane"
-	},
-	"menu_autoclick": {
-		"message": "Auto-klik powiadomień Facebooka"
-	},
-	"menu_nogcpopup": {
-		"message": "Brak wyskakujących okienek podczas zbierania BD"
 	},
 	"menu_reloadgame": {
 		"message": "Przeładuj grę i odśwież dane gry"
@@ -294,6 +264,9 @@
 	"gui_locked": {
 		"message": "Zablokowany"
 	},
+	"gui_unlock": {
+		"message": "Odblokować"
+	},
 	"gui_noresults": {
 		"message": "Brak wyników"
 	},
@@ -311,6 +284,15 @@
 	},
 	"gui_summary": {
 		"message": "Podsumowanie"
+	},
+	"gui_pet": {
+		"message": "Zwierzak domowy"
+	},
+	"gui_hotkey": {
+		"message": "Klawisz skrótu"
+	},
+	"gui_mousegesture": {
+		"message": "Gest myszy"
 	},
 	"gui_nexttime": {
 		"message": "Następne zbieranie startuje $DATE$",
@@ -748,6 +730,9 @@
 	"map_button_m": {
 		"message": "Wymieszaj ważne kostki"
 	},
+	"map_button_h": {
+		"message": "Ukryj cienie"
+	},
 	"map_save": {
 		"message": "Zapisz"
 	},
@@ -861,6 +846,9 @@
 	"map_option_s": {
 		"message": "Pokaż wybór regionu"
 	},
+	"map_option_f": {
+		"message": "Pokaż selektor przyjaźni"
+	},
 	"map_option_i": {
 		"message": "Pokaż informacje o lokalizacji"
 	},
@@ -876,8 +864,14 @@
 	"map_option_m": {
 		"message": "Utwórz marginesy wokół obrazu"
 	},
+	"map_option_h": {
+		"message": "Pokaż ukryte wyjścia"
+	},
 	"map_option_l": {
 		"message": "Dodaj znak wodny"
+	},
+	"map_option_k": {
+		"message": "Pokaż wskaźniki podłogowe"
 	},
 	"map_option_resize": {
 		"message": "Rozmiar zapisanego obrazu"
@@ -1495,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Eksport danych diagnostycznych."
 	},
+	"export_updatefiles": {
+		"message": "Zaktualizuj pliki gry"
+	},
 	"rings_showminmax": {
 		"message": "Pokaż minimalne i maksymalne wartości."
 	},
@@ -1818,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Pełny ekran\nWyświetl grę w pełnym ekranie"
 	},
-	"options_fullwindowheader": {
-		"message": "Nagłówek\nWyświetl nagłówek gdy jest pełny ekran"
-	},
 	"options_fullwindowside": {
 		"message": "Pasek boczny\nUkryj pasek boczny (Facebook) gdy nie jest włączony pełny ekran"
 	},
-	"options_fullwindowlock": {
-		"message": "Zablokuj pełny ekran\nZapobiega wychodzeniu gry z pełnego ekranu."
+	"options_hidemenu": {
+		"message": "Ukryj menu\nUkryj menu DAF2 w trybie pełnoekranowym"
 	},
-	"options_resetfullwindow": {
-		"message": "Zresetuj i załaduj\nZa każdym razem kiedy załadujesz grę \"Pełny ekran\" i \"Pełny ekran - pasek boczny\" zostaną zresetowane"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Ta opcja powinna być włączona, jeśli występują problemy z ładowaniem gry."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Automatyczny pełny ekran\nAutomatycznie ustaw pełny ekran kiedy dane są ładowane (DAF2 zmienia kolor na zielony)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Tak, po upływie $NUM$ sekund",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Nieprzezroczystość reklam\nUczyń reklamy nieco przezroczystymi"
 	},
 	"options_gctable": {
 		"message": "Tabela BD\nPokaż wszystkich sąsiadów z BD pod grą"
@@ -1853,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Region\nUżyj kolorów aby zaznaczyć region sąsiada"
 	},
-	"options_autoclick": {
-		"message": "Auto-klik\nAutomatycznie potwierdza okienka Facebooka"
-	},
 	"options_nogcpopup": {
 		"message": "Brak wyskakujących okienek BD\nBrak wyskakującyhc okienek podczas zbierania BD"
 	},
@@ -1864,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Opcje ogólne"
-	},
-	"options_autologin": {
-		"message": "Autologowanie do portalu\nAutomatycznie loguje w portalu"
 	},
 	"options_darktheme": {
 		"message": "Ciemny motyw"
@@ -1913,6 +1887,12 @@
 	"options_button_right": {
 		"message": "Prawy"
 	},
+	"options_gesture_middle": {
+		"message": "Kliknij środkowy przycisk"
+	},
+	"options_gesture_rightleft": {
+		"message": "Przytrzymaj prawy przycisk, a następnie kliknij lewy przycisk"
+	},
 	"options_sort_none": {
 		"message": "Żaden"
 	},
@@ -1952,6 +1932,9 @@
 	"options_badgeluckycards": {
 		"message": "Szczęśliwe karty\nPokaż odznakę, kiedy Szczęśliwe karty będą gotowe"
 	},
+	"options_badgepetshop": {
+		"message": "Sklep zoologiczny\nPokaż odznakę, gdy Sklep zoologiczny się odświeży"
+	},
 	"options_badgeproductions": {
 		"message": "Produkcja\nPokaż odznakę kiedy slot produkcyjny jest gotowy lub pusty."
 	},
@@ -1970,8 +1953,14 @@
 	"options_hmain": {
 		"message": "Dodatkowe cechy\nWłącz dodatkowe funkcje w grze"
 	},
+	"options_hmain_disabled": {
+		"message": "Nie można włączyć funkcji dodatkowych"
+	},
 	"options_hspeed": {
 		"message": "Przyśpieszyć\nMikstwy prędkości zapewnią znacznie większą prędkość"
+	},
+	"options_hlootfew": {
+		"message": "Kilka\nUkryj monety, PD i punkty wydarzeń/regionu"
 	},
 	"options_hlootcount": {
 		"message": "Liczyć\nZawsze pokazuj liczbę łupów"
@@ -1988,8 +1977,17 @@
 	"options_hqueue": {
 		"message": "Łatwa kolejka płytek\nKolejka jest dłuższa.\nPrzytrzymaj klawisz zmiany biegów i przesuń myszą na niektóre płytki, aby dodać je do kolejki"
 	},
+	"options_hautoqueue": {
+		"message": "Automatyczne kolejkowanie\nWystarczy przesunąć mysz nad kafelki, aby dodać je do kolejki (klawisz SHIFT nie jest wymagany)"
+	},
+	"options_hkeys": {
+		"message": "Klawisze ułatwień dostępu\nPrzesuwaj Diggy'ego za pomocą klawiszy strzałek na klawiaturze"
+	},
 	"options_hscroll": {
 		"message": "Wyłącz przewijanie bezwładności\nPrzeglądanie bezwładności jest efektem, w którym ekran wciąż się porusza"
+	},
+	"options_hinstantcamera": {
+		"message": "Aparat natychmiastowy\nGdy widok kamery zmienia położenie, przejście jest natychmiastowe"
 	},
 	"options_hreward": {
 		"message": "Autokapitalizowanie\nWszelkie dane wejściowe do kodu prezentu są automatycznie kapitalizowane"
@@ -1997,11 +1995,20 @@
 	"options_hflashad": {
 		"message": "Dźwięk reklamy flash\nOdtwórz dźwięk, gdy pojawi się przycisk AD Flash"
 	},
+	"options_henergymax": {
+		"message": "Dźwięk maksymalnej energii\nOdtwórz dźwięk, gdy energia osiągnie maksimum"
+	},
 	"options_hgccluster": {
 		"message": "Klaster GC\nUmieść GC blisko siebie"
 	},
 	"options_hlockcaravan": {
 		"message": "Zamknij karawany\nZapobiega kolekcji karawan wysłanych z biletem"
+	},
+	"options_hpetfollow": {
+		"message": "Nie podążaj\nPet nie podąża za Diggym"
+	},
+	"options_hfastluckycards": {
+		"message": "Szybkie Szczęśliwe Karty\nTasowanie Szczęśliwych Kart jest szybsze"
 	},
 	"calc_operators": {
 		"message": "Użytkownicy"

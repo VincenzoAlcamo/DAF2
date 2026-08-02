@@ -5,47 +5,17 @@
 	"ext_title": {
 		"message": "Segítő eszköz a Diggy Adventure-hoz"
 	},
-	"menu_resetfullwindow": {
-		"message": "Újratöltés"
-	},
-	"menu_fullwindow": {
-		"message": "Teljes képernyős játék"
-	},
-	"menu_fullwindowheader": {
-		"message": "Fejléc"
-	},
-	"menu_fullwindowside": {
-		"message": "Oldalsáv"
-	},
-	"menu_fullwindowlock": {
-		"message": "Lezár"
-	},
-	"menu_gctable": {
-		"message": "GC táblázat megjelenítése"
-	},
-	"menu_gctablecounter": {
-		"message": "Számláló"
-	},
-	"menu_gctableregion": {
-		"message": "Régió"
-	},
 	"menu_gccollected": {
 		"message": "Minden GC-t begyűjtöttél"
-	},
-	"menu_autoclick": {
-		"message": "Automatikusan kattintson a Facebook felugró ablakára"
-	},
-	"menu_nogcpopup": {
-		"message": "Nincs felugró ablak a GC gyűjtésekor"
 	},
 	"menu_reloadgame": {
 		"message": "Játék újratöltése és kényszerített adat frissítés"
 	},
 	"menu_switchportal": {
-		"message": "Átkapcsolás a Portal-ra"
+		"message": "Átlépés a Portal-ra"
 	},
 	"menu_switchfacebook": {
-		"message": "Átkapcsolás a Facebook-ra"
+		"message": "Átlépés a Facebook-ra"
 	},
 	"menu_on": {
 		"message": "BE"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Keverd össze a különleges köveket"
 	},
+	"map_button_h": {
+		"message": "Árnyékok elrejtése"
+	},
 	"map_save": {
 		"message": "Mentés"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Készíts keretet a kép körül"
+	},
+	"map_option_h": {
+		"message": "Rejtett kijáratok megjelenítése"
 	},
 	"map_option_l": {
 		"message": "Adj hozzá vízjel logót"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Diagnoszikai adatok mentése"
 	},
+	"export_updatefiles": {
+		"message": "A játékfájlok frissítése"
+	},
 	"rings_showminmax": {
 		"message": "Mutasd a minimum és maximum értékeket"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Teljes képernyő\nJáték megjelenítése teljes képernyőn"
 	},
-	"options_fullwindowheader": {
-		"message": "Fejléc\nOldal fejléc megjelenítése teljes képernyős módban"
-	},
 	"options_fullwindowside": {
 		"message": "Oldalsáv\nOldalsáv elrejtése (Facebook) nem teljes képernyős módban"
 	},
-	"options_fullwindowlock": {
-		"message": "Teljes képernyő lezárása\nMegakadéjozza a játék teljes képernyős módból való kilépését"
+	"options_hidemenu": {
+		"message": "Menü elrejtése\nA DAF2 menü elrejtése teljes képernyős módban"
 	},
-	"options_resetfullwindow": {
-		"message": "Újratöltés\nMindig amikor betöltöd a játékot, a \"Teljes képernyő\" és \"Teljes képernyő - Oldalsáv\" visszaállnak"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Ezt a beállítást engedélyezned kell, ha problémákat tapasztalsz a játék betöltésekor."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Automatikus teljes képernyő\nAutomatikusan teljesképernyőre vált amikor az adatok betöltődtek (DAF2 zöldre vált)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Igen, $NUM$ másodperc múlva",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Hirdetések átlátszósága\nTedd a hirdetéseket kissé átlátszóbbá"
 	},
 	"options_gctable": {
 		"message": "GC táblázat\nMutasd az összes szomszédot akinél GC van a játékban"
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Régió\nSzínek használata a barátok régiójának megjelölésére"
 	},
-	"options_autoclick": {
-		"message": "Automatikus kattintás\nAutomatikusan kattintson a Facebook felugró ablakira"
-	},
 	"options_nogcpopup": {
 		"message": "Nincsenek GC felugró ablakok\nNincs felugró ablak a GC begyűjtésekor"
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Általános opciók"
-	},
-	"options_autologin": {
-		"message": "Portal automatikus belépés\nAutomatikusan belép a Portal oldalon"
 	},
 	"options_darktheme": {
 		"message": "Sötét téma"
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Gyorsítás\nA gyorsító italok nagyobb sebességet adnak"
 	},
+	"options_hlootfew": {
+		"message": "Kevesebb\nÉrmék, XP és esemény-/régiópontok elrejtése"
+	},
 	"options_hlootcount": {
 		"message": "Nyszám\nMindig mutassa a zsákmányok számát"
 	},
@@ -2021,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "Automatikus várólista\nCsak mozgasd az egeret néhány kő fölé, hogy hozzáadd őket a várólistához (SHIFT nem szükséges)"
 	},
+	"options_hkeys": {
+		"message": "Gyorsbillentyűk\nDiggy-t a billentyűzet nyílgombjaival mozgathatod"
+	},
 	"options_hscroll": {
 		"message": "Inerciális görgetés kikapcsolása\nAz inerciális görgetés az a hatás, amikor a képernyő akkor is tovább mozog, ha már nem húzod tovább"
 	},
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Flash hirdetés hangja\nHang lejátszása a Flash hirdetés gomb megjelenésekor"
 	},
+	"options_henergymax": {
+		"message": "EnergIa maximumon hangjelzés\nHangjelzés az energia maximális feltöltésekor"
+	},
 	"options_hgccluster": {
 		"message": "GC csoport\nRakd a GC-ket egymáshoz közel"
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Nincs követés\nA kisállat nem követi Diggyt"
+	},
+	"options_hfastluckycards": {
+		"message": "Gyors szerencsekártyák\nA szerencsekártyák keverése gyorsabb"
 	},
 	"calc_operators": {
 		"message": "Műveleti jelek"

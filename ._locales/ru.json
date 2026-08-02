@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Вспомогательный инструмент для Diggy's Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Сброс при загрузке"
-	},
-	"menu_fullwindow": {
-		"message": "Игра в полноэкранном режиме"
-	},
-	"menu_fullwindowheader": {
-		"message": "Шапка"
-	},
-	"menu_fullwindowside": {
-		"message": "Боковая панель"
-	},
-	"menu_fullwindowlock": {
-		"message": "Зафиксировать"
-	},
-	"menu_gctable": {
-		"message": "Показать таблицу ДБ"
-	},
-	"menu_gctablecounter": {
-		"message": "Счетчик"
-	},
-	"menu_gctableregion": {
-		"message": "Регион"
-	},
 	"menu_gccollected": {
 		"message": "Все Дети Богов собраны"
-	},
-	"menu_autoclick": {
-		"message": "Автоклик в выскакивающих окнах Facebook"
-	},
-	"menu_nogcpopup": {
-		"message": "Отключить всплывающие окна при сборе детей богов"
 	},
 	"menu_reloadgame": {
 		"message": "Перезагрузить игру и обновить данные"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Перемешать значимые плитки"
 	},
+	"map_button_h": {
+		"message": "Скрыть тени"
+	},
 	"map_save": {
 		"message": "Сохранить"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Поля вокруг изображения"
+	},
+	"map_option_h": {
+		"message": "Показать скрытые выходы"
 	},
 	"map_option_l": {
 		"message": "Добавить водянной знак"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Экспорт диагностической информации"
 	},
+	"export_updatefiles": {
+		"message": "Обновите игровые файлы"
+	},
 	"rings_showminmax": {
 		"message": "Показывать минимальные и максимальные значения"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Полноэкранный режим\nПоказать игру в полноэкранном режиме"
 	},
-	"options_fullwindowheader": {
-		"message": "Шапка\nОтображать шапку страницы в полноэкранном режиме"
-	},
 	"options_fullwindowside": {
 		"message": "Боковая сторона\nСкрыть боковую панель (Facebook), когда не в полноэкранном режиме"
 	},
-	"options_fullwindowlock": {
-		"message": "Фиксация полноэкранного режима\nПредотвращает выход игры из полноэкранного режима."
+	"options_hidemenu": {
+		"message": "Скрыть меню\nСкрыть меню DAF2 в полноэкранном режиме"
 	},
-	"options_resetfullwindow": {
-		"message": "Сброс при загрузке\nКаждый раз, когда вы загружаете игру, параметры «Полноэкранный режим» и «Полноэкранный режим - Боковая сторона» сбрасываются"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Эта опция должна быть включена, если у вас возникли проблемы с загрузкой игры."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Автоматический полноэкранный режим\nАвтоматически активировать полноэкранный режим после загрузки данных (значёк DAF2 становится зеленым)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Да, через $NUM$ секунд",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Прозрачность рекламы\nСделать рекламу немного прозрачной"
 	},
 	"options_gctable": {
 		"message": "Таблица Детей Богов (ДБ)\nПоказывает внизу таблицу соседей с детьми богов"
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Регион\nВыделять цветом регион соседа"
 	},
-	"options_autoclick": {
-		"message": "Автоклик\nАвтоматически подтверждать всплывающие окна Facebook"
-	},
 	"options_nogcpopup": {
 		"message": "Без всплывающих окон\nОтключение всплывающих окон при сборе детей богов"
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Общие настройки"
-	},
-	"options_autologin": {
-		"message": "Автовход на портал\nАвтоматический вход в портал"
 	},
 	"options_darktheme": {
 		"message": "Тёмная тема"
@@ -1906,18 +1862,6 @@
 	},
 	"options_disablealtguard_warning": {
 		"message": "ВНИМАНИЕ: включайте это на свой страх и риск!"
-	},
-	"options_rewardsclose": {
-		"message": "Автозакрытие\nАвтоматически закрывать страницу после получения награды."
-	},
-	"options_rewardscloseexceptgems": {
-		"message": "Кроме самоцветом\nНе закрывать автоматически при обнаружении самоцвета."
-	},
-	"options_rewardscloseexcepterrors": {
-		"message": "Кроме ошибок\nНе закрывать автоматически при обнаружении ошибки."
-	},
-	"options_rewardssummary": {
-		"message": "Добавить сводную таблицу\nЕсли страница не закрывается автоматически, добавить сводную таблицу внизу."
 	},
 	"options_linkgrabenabled": {
 		"message": "Сборщик Ссылок\nВключите сборщик ссылок в Facebook."
@@ -2015,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Ускорение\nЗелья скорости дают гораздо больше скорости"
 	},
+	"options_hlootfew": {
+		"message": "Скрыть монеты, опыт и очки событий/регионов\n"
+	},
 	"options_hlootcount": {
 		"message": "Считать\nВсегда показывать количество добычи"
 	},
@@ -2033,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "Автоочередь\nПеремещайте курсор над плитками для их добавления в очередь (зажимать SHIFT не нужно)"
 	},
+	"options_hkeys": {
+		"message": "Клавиши специальных возможностей\nПеремещайте Дигги с помощью клавиш со стрелками на клавиатуре."
+	},
 	"options_hscroll": {
 		"message": "Отключить инерционную прокрутку\nИнерционная прокрутка — это эффект, при котором экран продолжает двигаться после того, как вы прекратили его перетаскивать."
 	},
@@ -2045,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Flash Ad Sound\nВоспроизвести звук, когда появляется кнопка флэш-рекламы"
 	},
+	"options_henergymax": {
+		"message": "Звук при максимальном уровне энергии\nВоспроизводится звук, когда уровень энергии достигает максимума."
+	},
 	"options_hgccluster": {
 		"message": "GC Cluster\nПоместите GCS близко друг к другу"
 	},
@@ -2053,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Не следовать\nПитомец не будет следовать за вами"
+	},
+	"options_hfastluckycards": {
+		"message": "Быстрая тасовка счастливых карт\nТасовка счастливых карт происходит быстрее"
 	},
 	"calc_operators": {
 		"message": "Операторы"

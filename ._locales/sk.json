@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Pomocný nástroj pre Diggy's Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Reštart pri načítaní"
-	},
-	"menu_fullwindow": {
-		"message": "Hra na celú obrazovku"
-	},
-	"menu_fullwindowheader": {
-		"message": "Hlavička"
-	},
-	"menu_fullwindowside": {
-		"message": "Bočný panel"
-	},
-	"menu_fullwindowlock": {
-		"message": "Zámok"
-	},
-	"menu_gctable": {
-		"message": "Zobraziť GC tabuľlku"
-	},
-	"menu_gctablecounter": {
-		"message": "Počítadlo"
-	},
-	"menu_gctableregion": {
-		"message": "Región"
-	},
 	"menu_gccollected": {
 		"message": "Všetky božie deti sú pozbierané"
-	},
-	"menu_autoclick": {
-		"message": "Automatické kliknutie na vyskakovacie okno Facebooku"
-	},
-	"menu_nogcpopup": {
-		"message": "Pri zbere GC sa nezobrazujú vyskakovacie okná"
 	},
 	"menu_reloadgame": {
 		"message": "Znova načíta hru a vynúti nový zber údajov"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Zamiešať významné políčka"
 	},
+	"map_button_h": {
+		"message": "Skryť tiene"
+	},
 	"map_save": {
 		"message": "Uložit"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Zaistiť okraje obrázku"
+	},
+	"map_option_h": {
+		"message": "Zobraziť skryté východy"
 	},
 	"map_option_l": {
 		"message": "Pridať vodoznak loga"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Export diagnostických dát"
 	},
+	"export_updatefiles": {
+		"message": "Aktualizácia herných súborov"
+	},
 	"rings_showminmax": {
 		"message": "Zobraziť minimálnu a maximálnu hodnotu"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Plné okno\nZobrazí hru v celom okne"
 	},
-	"options_fullwindowheader": {
-		"message": "Hlavička\nZobrazí hlavičku na stránke v celom okne"
-	},
 	"options_fullwindowside": {
 		"message": "Bočný panel\nSkryje bočný panel (Facebook) keď nie je v celom okne"
 	},
-	"options_fullwindowlock": {
-		"message": "Zamknúť celé okno\nChráni hru pred opustením celého okna"
+	"options_hidemenu": {
+		"message": "Skryť menu\nSkryť menu DAF2 na celej obrazovke"
 	},
-	"options_resetfullwindow": {
-		"message": "Obnoviť pri načítaní\nZakaždým ked načítaš hru, zresetuje sa \"Celé okno\" a \"Celé okno - bočný panel\""
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Táto možnosť by mala byť zapnutá ak narazíš na problémy s načítaním hry"
-	},
-	"options_fullwindowtimeout": {
-		"message": "Automaticky plné okno\nAutomaticky nastaví celé okno po načítaní údajov (ikona DAF2 sa zmení na zelenú)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Áno, po $NUM$ sekundách",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Nepriehľadnosť reklám\nUrobte reklamy trochu priehľadnými"
 	},
 	"options_gctable": {
 		"message": "Božie deti tabuľka\nZobraziť všetkých susedov z Božími deťmi pod hrou"
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Región\nPomocou farieb označte región suseda"
 	},
-	"options_autoclick": {
-		"message": "Autoclick\nAutomaticky potvrdí vyskakovacie okná z Facebooku"
-	},
 	"options_nogcpopup": {
 		"message": "Žiadne vyskakovacie okná Božích detí\nŽiadne vyskakovanie okná pri zhromaždovaní Božích detí"
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Všeobecné nastavenia"
-	},
-	"options_autologin": {
-		"message": "Portál Auto-Login\nAutomatické prihlásenie na portál"
 	},
 	"options_darktheme": {
 		"message": "Tmavý režim"
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Zrýchlenie\nRýchlostné elixíry dajú oveľa väčšiu rýchlosť"
 	},
+	"options_hlootfew": {
+		"message": "Málo\nSkryť mince, skúsenosti a body udalostí/regiónov"
+	},
 	"options_hlootcount": {
 		"message": "Počet\nVždy zobrazuj počeť koristi"
 	},
@@ -2021,8 +1980,11 @@
 	"options_hautoqueue": {
 		"message": "Automatický rad\nStačí prejsť myšou nad niektoré dlaždice a pridať ich do frontu (SHIFT nie je potrebný)"
 	},
+	"options_hkeys": {
+		"message": "Klávesy prístupnosti\nPresuňte Diggyho pomocou šípok na klávesnici"
+	},
 	"options_hscroll": {
-		"message": "Vyradenie inerciálneho posuvu\nInerciálne posunovanie je efekt, pri ktorom sa obrazovka stále hýbe, aj keď ju prestanete ťahať"
+		"message": "Zakázať zotrvačné rolovanie\nZotrvačné rolovanie je efekt, pri ktorom sa obrazovka naďalej pohybuje aj po tom, čo ste ju prestali ťahať."
 	},
 	"options_hinstantcamera": {
 		"message": "Okamžitý fotoaparát\nKeď sa pohľad kamery presunie na iné miesto, prechod je okamžitý"
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Flash reklama so zvukom\nPrehrať zvuk, keď sa zobrazí Flash tlačidlo s reklamou"
 	},
+	"options_henergymax": {
+		"message": "Zvuk maximálnej energie\nPrehrá zvuk, keď je energia vyčerpaná na maximum"
+	},
 	"options_hgccluster": {
 		"message": "GC klaster\nUmiestnite GCS blízko seba"
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Nenasledujte\nDomáce zvieratko nesleduje Diggyho"
+	},
+	"options_hfastluckycards": {
+		"message": "Rýchle šťastné karty\nMiešanie šťastných kariet je rýchlejšie"
 	},
 	"calc_operators": {
 		"message": "Operátory"

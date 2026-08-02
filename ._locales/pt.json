@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Ferramenta auxiliar para as aventuras do Diggy"
 	},
-	"menu_resetfullwindow": {
-		"message": "Reiniciar ao carregar"
-	},
-	"menu_fullwindow": {
-		"message": "Jogo em janela inteira"
-	},
-	"menu_fullwindowheader": {
-		"message": "Cabeçalho"
-	},
-	"menu_fullwindowside": {
-		"message": "Barra Lateral"
-	},
-	"menu_fullwindowlock": {
-		"message": "Fechadura"
-	},
-	"menu_gctable": {
-		"message": "Exibir tabela de afilhados"
-	},
-	"menu_gctablecounter": {
-		"message": "Contador"
-	},
-	"menu_gctableregion": {
-		"message": "Região"
-	},
 	"menu_gccollected": {
 		"message": "Todos os afilhados foram coletados"
-	},
-	"menu_autoclick": {
-		"message": "Clique automaticamente no pop-up do Facebook"
-	},
-	"menu_nogcpopup": {
-		"message": "Sem pop-ups ao coletar afilhados"
 	},
 	"menu_reloadgame": {
 		"message": "Recarrega o jogo e força uma nova coleta de dados"
@@ -294,6 +264,9 @@
 	"gui_locked": {
 		"message": "Bloqueado"
 	},
+	"gui_unlock": {
+		"message": "Desbloquear"
+	},
 	"gui_noresults": {
 		"message": "Sem resultados"
 	},
@@ -311,6 +284,15 @@
 	},
 	"gui_summary": {
 		"message": "Resumo"
+	},
+	"gui_pet": {
+		"message": "Bicho de estimação"
+	},
+	"gui_hotkey": {
+		"message": "Tecla de atalho"
+	},
+	"gui_mousegesture": {
+		"message": "Gestos do mouse"
 	},
 	"gui_nexttime": {
 		"message": "A próxima coleção começa em $DATE$",
@@ -748,6 +730,9 @@
 	"map_button_m": {
 		"message": "Misture peças notáveis"
 	},
+	"map_button_h": {
+		"message": "Ocultar sombras"
+	},
 	"map_save": {
 		"message": "Salve"
 	},
@@ -861,6 +846,9 @@
 	"map_option_s": {
 		"message": "Mostrar seletor de região"
 	},
+	"map_option_f": {
+		"message": "Mostrar seletor de amizade"
+	},
 	"map_option_i": {
 		"message": "Mostrar informações de localização"
 	},
@@ -876,8 +864,14 @@
 	"map_option_m": {
 		"message": "Garanta margens ao redor da imagem"
 	},
+	"map_option_h": {
+		"message": "Mostrar saídas ocultas"
+	},
 	"map_option_l": {
 		"message": "Adicionar marca d'água do logotipo"
+	},
+	"map_option_k": {
+		"message": "Indicadores de exposição"
 	},
 	"map_option_resize": {
 		"message": "Tamanho da imagem salva"
@@ -1495,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Exportar dados de diagnóstico"
 	},
+	"export_updatefiles": {
+		"message": "Atualizar arquivos do jogo"
+	},
 	"rings_showminmax": {
 		"message": "Mostra os valores mínimo e máximo"
 	},
@@ -1818,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Janela inteira\nExibir jogo em janela inteira"
 	},
-	"options_fullwindowheader": {
-		"message": "Cabeçalho\nExibir o cabeçalho da página em janela inteira"
-	},
 	"options_fullwindowside": {
 		"message": "Lado\nOcultar a barra lateral (Facebook) quando não estiver em janela inteira"
 	},
-	"options_fullwindowlock": {
-		"message": "Bloquear janela inteira\nEvita que o jogo saia da janela inteira."
+	"options_hidemenu": {
+		"message": "Ocultar menu\nOcultar o menu DAF2 em tela cheia"
 	},
-	"options_resetfullwindow": {
-		"message": "Reiniciar no carregamento\nCada vez que você carrega o jogo, \"Janela inteira\" e \"Janela inteira - lateral\" são reiniciadas"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Esta opção deve ser ativada se você tiver problemas ao carregar o jogo."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Janela cheia automática\nDefinir janela inteira automaticamente quando os dados forem carregados (DAF2 fica verde)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Sim, depois de $NUM$ segundos",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Opacidade dos anúncios\nDeixe os anúncios um pouco transparentes"
 	},
 	"options_gctable": {
 		"message": "Tabela dos Afilhados\nMostrar todos os vizinhos com Afilhados abaixo do jogo"
@@ -1853,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Região\nUse cores para marcar a região de um vizinho"
 	},
-	"options_autoclick": {
-		"message": "Autoclick\nConfirma automaticamente os pop-ups do Facebook"
-	},
 	"options_nogcpopup": {
 		"message": "Sem pop-ups de Afilhados\nSem pop-ups ao coletar os Afilhados"
 	},
@@ -1864,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Opções gerais"
-	},
-	"options_autologin": {
-		"message": "Login automático do portal\nEfetua login automaticamente no Portal"
 	},
 	"options_darktheme": {
 		"message": "Tema escuro"
@@ -1913,6 +1887,12 @@
 	"options_button_right": {
 		"message": "Direita"
 	},
+	"options_gesture_middle": {
+		"message": "Clique no botão do meio"
+	},
+	"options_gesture_rightleft": {
+		"message": "Mantenha pressionado o botão direito e clique no botão esquerdo."
+	},
 	"options_sort_none": {
 		"message": "Nenhum"
 	},
@@ -1952,6 +1932,9 @@
 	"options_badgeluckycards": {
 		"message": "Cartas da Sorte\nMostre um marcador quando a tenda das casas da sorte estiver pronta"
 	},
+	"options_badgepetshop": {
+		"message": "Loja de Animais\nExibir um selo quando a Loja de Animais for atualizada"
+	},
 	"options_badgeproductions": {
 		"message": "Produções\nMostrar um marcador quando um slot de produção estiver pronto ou vazio"
 	},
@@ -1970,8 +1953,14 @@
 	"options_hmain": {
 		"message": "Recursos extra\nActivar recursos extras no jogo"
 	},
+	"options_hmain_disabled": {
+		"message": "Não é possível ativar funcionalidades adicionais."
+	},
 	"options_hspeed": {
 		"message": "Acelerar\nPoções de velocidade darão muito mais velocidade"
+	},
+	"options_hlootfew": {
+		"message": "Poucos\nOcultar moedas, XP e pontos de evento/região"
 	},
 	"options_hlootcount": {
 		"message": "Contagem\nSempre mostre a contagem de saques"
@@ -1988,8 +1977,17 @@
 	"options_hqueue": {
 		"message": "Fila de blocos fácil\nA fila é mais longa.\nSegure a tecla SHIFT e mova o mouse sobre alguns blocos para adicioná-los à fila"
 	},
+	"options_hautoqueue": {
+		"message": "Fila automática\nBasta mover o cursor sobre alguns blocos para adicioná-los à fila (não é necessário pressionar SHIFT)"
+	},
+	"options_hkeys": {
+		"message": "Teclas de acessibilidade\nMova o Diggy usando as teclas de seta do seu teclado"
+	},
 	"options_hscroll": {
 		"message": "Desativar rolagem inercial\nA rolagem inercial é o efeito em que a tela continua a se mover mesmo depois de você parar de arrastá-la"
+	},
+	"options_hinstantcamera": {
+		"message": "Câmera instantânea\nQuando a visão da câmera se move para um local diferente, a transição é instantânea."
 	},
 	"options_hreward": {
 		"message": "Capitalizar automaticamente\nQualquer entrada no código de presente é automaticamente capitalizada"
@@ -1997,11 +1995,20 @@
 	"options_hflashad": {
 		"message": "Som flash ad\nJogue um som quando o botão do anúncio flash aparecer"
 	},
+	"options_henergymax": {
+		"message": "Som de Energia Máxima\nReproduz um som quando a energia estiver no máximo"
+	},
 	"options_hgccluster": {
 		"message": "Cluster gc\nColoque os GCs juntos"
 	},
 	"options_hlockcaravan": {
 		"message": "Bloquear caravanas\nImpede a coleção de caravanas enviadas com um bilhete"
+	},
+	"options_hpetfollow": {
+		"message": "Não siga\nPet não segue Diggy"
+	},
+	"options_hfastluckycards": {
+		"message": "Cartas da Sorte Rápidas\nO embaralhamento das Cartas da Sorte é mais rápido"
 	},
 	"calc_operators": {
 		"message": "Operadores"

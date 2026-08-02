@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Diggy's Adventure için Yardımcı Araç"
 	},
-	"menu_resetfullwindow": {
-		"message": "Yüklendiğinde sıfırla"
-	},
-	"menu_fullwindow": {
-		"message": "Tam pencerede oyun"
-	},
-	"menu_fullwindowheader": {
-		"message": "Üstbilgi"
-	},
-	"menu_fullwindowside": {
-		"message": "Yan çubuk"
-	},
-	"menu_fullwindowlock": {
-		"message": "Kilit"
-	},
-	"menu_gctable": {
-		"message": "Enerji Çocuğu (GC) tablosunu görüntüle"
-	},
-	"menu_gctablecounter": {
-		"message": "Sayaç"
-	},
-	"menu_gctableregion": {
-		"message": "Bölge"
-	},
 	"menu_gccollected": {
 		"message": "Tüm Enerji Çocukları (GC) toplandı"
-	},
-	"menu_autoclick": {
-		"message": "Facebook'un açılır penceresini otomatik tıklayın"
-	},
-	"menu_nogcpopup": {
-		"message": "Enerji Çocukları (GC) toplarken açılır pencere yok"
 	},
 	"menu_reloadgame": {
 		"message": "Oyunu yeniden yükler ve yeni bir veri toplamaya zorlar"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Önemli fayansları karıştırın"
 	},
+	"map_button_h": {
+		"message": "Gölgeleri gizle"
+	},
 	"map_save": {
 		"message": "Kayıt"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Resmin etrafında kenar boşlukları sağlayın"
+	},
+	"map_option_h": {
+		"message": "Gizli çıkışları göster"
 	},
 	"map_option_l": {
 		"message": "Logo filigranı ekleyin"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Teşhis verilerini dışa aktar"
 	},
+	"export_updatefiles": {
+		"message": "Oyun dosyalarını güncelle"
+	},
 	"rings_showminmax": {
 		"message": "Minimum ve maksimum değerleri göster"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Tam pencere\nOyunu tam pencerede görüntüleyin"
 	},
-	"options_fullwindowheader": {
-		"message": "Üstbilgi\nTam penceredeyken sayfa üstbilgisini görüntüleyin"
-	},
 	"options_fullwindowside": {
 		"message": "Yan\nTam pencerede değilken kenar çubuğunu (Facebook) gizle"
 	},
-	"options_fullwindowlock": {
-		"message": "Tam pencereyi kilitle\nOyunun tam pencereden çıkmasını engeller."
+	"options_hidemenu": {
+		"message": "Menüyü gizle\nDAF2 menüsünü tam ekranda gizle"
 	},
-	"options_resetfullwindow": {
-		"message": "Yükendiğinde sıfırla\nOyunu her yüklediğinizde, \"Tam pencere\" ve \"Tam pencere - Yan\" sıfırlanır."
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Oyunu yüklerken sorun yaşıyorsanız bu seçenek etkinleştirilmelidir."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Otomatik tam pencere\nVeriler yüklendiğinde otomatik olarak tam pencere ayarlar (DAF2 yeşile döner)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Evet, $NUM$ saniye sonra",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Reklam şeffaflığı\nReklamları biraz daha şeffaf hale getirin."
 	},
 	"options_gctable": {
 		"message": "GC tablosu\nOyunun altında GC olan tüm komşuları göster"
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Bölge\nBir komşunun bölgesini işaretlemek için renkleri kullanın"
 	},
-	"options_autoclick": {
-		"message": "Otomatik tıklama\nFacebook'un açılır pencerelerini otomatik olarak onaylayın"
-	},
 	"options_nogcpopup": {
 		"message": "Enerji Çocukları açılır penceresi size gözükmez.\nEnerji Çocukları toplarken açılır pencere gösterilmez."
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Genel seçenekler"
-	},
-	"options_autologin": {
-		"message": "Portala otomatik oturum açma\nPortal oturumunu otomatik açar."
 	},
 	"options_darktheme": {
 		"message": "Koyu tema"
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Hızlandırmak\nHız İksirleri çok daha fazla hız verecek"
 	},
+	"options_hlootfew": {
+		"message": "Az sayıda\nPara, deneyim puanı ve etkinlik/bölge puanlarını gizle"
+	},
 	"options_hlootcount": {
 		"message": "Saymak\nHer zaman ganimet sayısını göster"
 	},
@@ -2021,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "Otomatik kuyruk\nKuyruğa eklemek için fareyi bazı döşemelerin üzerine getirin (SHIFT gerekli değildir)"
 	},
+	"options_hkeys": {
+		"message": "Erişilebilirlik tuşları\nDiggy'yi klavyenizdeki ok tuşlarını kullanarak hareket ettirin."
+	},
 	"options_hscroll": {
 		"message": "Eylemsiz kaydırmayı devre dışı bırak\nEylemsiz kaydırma, sürüklemeyi bıraktıktan sonra bile ekranın hareket etmeye devam ettiği efekttir"
 	},
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Flash Reklam Sesi\nFlash Reklam düğmesi göründüğünde ses çal"
 	},
+	"options_henergymax": {
+		"message": "Enerji Maksimum Seviyeye Ulaştığında Ses Çal\nEnerji maksimum seviyeye ulaştığında ses çal"
+	},
 	"options_hgccluster": {
 		"message": "GC Kümesi\nGC'leri birbirine yakın yerleştirin"
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Takip etme\nEvcil hayvan Diggy'yi takip etmiyor"
+	},
+	"options_hfastluckycards": {
+		"message": "Hızlı Şans Kartları\nŞans Kartlarının karıştırma işlemi daha hızlıdır."
 	},
 	"calc_operators": {
 		"message": "Operatörler"

@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Diggy's Adventure的幫助工具"
 	},
-	"menu_resetfullwindow": {
-		"message": "載入時重新讀取"
-	},
-	"menu_fullwindow": {
-		"message": "遊戲以全視窗運行"
-	},
-	"menu_fullwindowheader": {
-		"message": "標頭"
-	},
-	"menu_fullwindowside": {
-		"message": "側邊欄"
-	},
-	"menu_fullwindowlock": {
-		"message": "鎖定"
-	},
-	"menu_gctable": {
-		"message": "顯示神之子表"
-	},
-	"menu_gctablecounter": {
-		"message": "計數"
-	},
-	"menu_gctableregion": {
-		"message": "國度"
-	},
 	"menu_gccollected": {
 		"message": "全部的神之子都已被收集"
-	},
-	"menu_autoclick": {
-		"message": "自動點擊Facebook的彈出視窗"
-	},
-	"menu_nogcpopup": {
-		"message": "收集神之子時不顯示彈出視窗"
 	},
 	"menu_reloadgame": {
 		"message": "重新載入遊戲並強制資料更新"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "混合重要磚"
 	},
+	"map_button_h": {
+		"message": "隐藏阴影"
+	},
 	"map_save": {
 		"message": "儲存"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "確認圖像外有邊界"
+	},
+	"map_option_h": {
+		"message": "顯示隱藏的出口"
 	},
 	"map_option_l": {
 		"message": "增加浮水印"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "匯出診斷資料"
 	},
+	"export_updatefiles": {
+		"message": "更新遊戲檔案"
+	},
 	"rings_showminmax": {
 		"message": "顯示最大最小值"
 	},
@@ -1836,55 +1815,32 @@
 	"options_fullwindow": {
 		"message": "全視窗\n在全視窗下顯示遊戲"
 	},
-	"options_fullwindowheader": {
-		"message": "擡頭\n在全視窗時顯示頁面擡頭"
-	},
 	"options_fullwindowside": {
 		"message": "側邊欄\n當不是全視窗時隱藏側邊欄(Facebook)"
 	},
-	"options_fullwindowlock": {
-		"message": "鎖定全視窗\n防止遊戲離開全視窗"
+	"options_hidemenu": {
+		"message": "隱藏目錄\n在全螢幕時隱藏DAF2的目錄"
 	},
-	"options_resetfullwindow": {
-		"message": "載入時重設\n每次你載入遊戲時, \"全視窗\"和\"全視窗-側邊欄\"會重設"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "如果你載入遊戲時會發生問題, 打開這個選項"
-	},
-	"options_fullwindowtimeout": {
-		"message": "自動全視窗\n當資料載入時自動全視窗(DAF2變綠色)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "是, 在 $NUM$ 秒後",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "廣告透明度\n讓廣告透明一點"
 	},
 	"options_gctable": {
 		"message": "神之子表\n在遊戲下方顯示所有有神之子的鄰居"
 	},
 	"options_gctablecounter": {
-		"message": "計數\n顯示計數"
+		"message": "數量\n顯示數量"
 	},
 	"options_gctableregion": {
 		"message": "國度\n用顏色標記鄰居的國度"
 	},
-	"options_autoclick": {
-		"message": "自動點擊\n自動確認Facebook的彈出視窗"
-	},
 	"options_nogcpopup": {
-		"message": "不要神之子的自動彈窗\n當收集神之子時不顯示彈出窗戶"
+		"message": "沒有神之子的自動彈窗\n當收集神之子時不顯示彈出窗戶"
 	},
 	"options_autogc": {
 		"message": "自動神之子切換營地\n當收集完神之子時自動切換營地"
 	},
 	"options_section_general": {
 		"message": "一般選項"
-	},
-	"options_autologin": {
-		"message": "官網自動登入\n自動登入到官網"
 	},
 	"options_darktheme": {
 		"message": "黑暗介面"
@@ -1959,40 +1915,40 @@
 		"message": "遊戲語言\n遊戲訊息的語言"
 	},
 	"options_section_badges": {
-		"message": "徽章"
+		"message": "圖標"
 	},
 	"options_badgeserverenergy": {
-		"message": "伺服器能量\n顯示一個由伺服器回報能量的徽章\n當遊戲跟伺服器同步時, 這個資訊會週期性更新"
+		"message": "伺服器能量\n顯示一個由伺服器回報能量的圖標\n當遊戲跟伺服器同步時, 這個資訊會週期性更新"
 	},
 	"options_badgegccounter": {
-		"message": "神之子計數\n顯示一個還可以收集神之子數量的徽章"
+		"message": "神之子計數\n顯示一個還可以收集神之子數量的圖標"
 	},
 	"options_badgegcenergy": {
-		"message": "神之子能量\n顯示一個從鄰居收集神之子可獲能量的徽章"
+		"message": "神之子能量\n顯示一個從鄰居收集神之子可獲能量的圖標"
 	},
 	"options_badgerepeatables": {
-		"message": "再生坑\n顯示一個秀出已選再生坑可挖取時的徽章"
+		"message": "再生坑\n顯示一個秀出已選再生坑可挖取時的圖標"
 	},
 	"options_badgeluckycards": {
-		"message": "幸運卡片\n顯示一個當幸運卡片帳篷準備好時的徽章"
+		"message": "幸運卡片\n顯示一個當幸運卡片帳篷準備好時的圖標"
 	},
 	"options_badgepetshop": {
-		"message": "寵物商店\n顯示一個當寵物商店刷新時的徽章"
+		"message": "寵物商店\n顯示一個當寵物商店刷新時的圖標"
 	},
 	"options_badgeproductions": {
-		"message": "生產\n顯示一個當生產槽已準備好或空著時的徽章"
+		"message": "生產\n顯示一個當生產槽已準備好或空著時的圖標"
 	},
 	"options_badgetimeoffset": {
-		"message": "時間差\n徽章會在幾秒前顯示"
+		"message": "時間差\n圖標會在幾秒前顯示"
 	},
 	"options_badgesound": {
-		"message": "音效\n當徽章顯示時要播放的音效"
+		"message": "音效\n當圖標顯示時要播放的音效"
 	},
 	"options_badgevolume": {
 		"message": "音量\n音效的大小聲"
 	},
 	"options_badgewindmills": {
-		"message": "風車\n當鄰居需要風車時顯示一個徽章"
+		"message": "風車\n當鄰居需要風車時顯示一個圖標"
 	},
 	"options_hmain": {
 		"message": "額外功能\n在遊戲中啓用額外的功能"
@@ -2002,6 +1958,9 @@
 	},
 	"options_hspeed": {
 		"message": "加速\n加速藥劑會提供更快的速度"
+	},
+	"options_hlootfew": {
+		"message": "少一點\n隱藏金幣、經驗值和特故/國度點數"
 	},
 	"options_hlootcount": {
 		"message": "計數\n永遠顯示獲取物品的數量"
@@ -2021,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "自動排程\n移動滑鼠到磚上就可以加入挖掘排程(不需要按著SHIFT鍵)"
 	},
+	"options_hkeys": {
+		"message": "鍵盤操控\n用鍵盤上的箭頭按鍵移動Diggy"
+	},
 	"options_hscroll": {
 		"message": "禁止慣性滾動\n慣性滾動是即使已經停止滑動，螢幕仍然持續移動的效果"
 	},
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "快閃廣告提醒\n當快閃廣告按鈕出現時，發聲提醒"
 	},
+	"options_henergymax": {
+		"message": "能量滿警告\n當能量充滿時播放聲音"
+	},
 	"options_hgccluster": {
 		"message": "神之子的聚集\n縮短神之子間的距離"
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "不跟從\n寵物不會跟著Diggy"
+	},
+	"options_hfastluckycards": {
+		"message": "快速的幸運卡片\n幸運卡片洗牌時快一點"
 	},
 	"calc_operators": {
 		"message": "運算子"

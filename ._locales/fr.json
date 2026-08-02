@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Outil d'aide pour l'aventure de Diggy"
 	},
-	"menu_resetfullwindow": {
-		"message": "Réinitialiser en charge"
-	},
-	"menu_fullwindow": {
-		"message": "Jeu en plein écran"
-	},
-	"menu_fullwindowheader": {
-		"message": "En-tête"
-	},
-	"menu_fullwindowside": {
-		"message": "Barre latérale"
-	},
-	"menu_fullwindowlock": {
-		"message": "Serrure"
-	},
-	"menu_gctable": {
-		"message": "Tableau de filleuls"
-	},
-	"menu_gctablecounter": {
-		"message": "Compteur"
-	},
-	"menu_gctableregion": {
-		"message": "Région"
-	},
 	"menu_gccollected": {
 		"message": "Tous les filleuls ont été collectés"
-	},
-	"menu_autoclick": {
-		"message": "Anti-popups"
-	},
-	"menu_nogcpopup": {
-		"message": "Anti-popups"
 	},
 	"menu_reloadgame": {
 		"message": "Recharger le jeu"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Mélange les carreaux notables"
 	},
+	"map_button_h": {
+		"message": "Masquer les ombres"
+	},
 	"map_save": {
 		"message": "Enregistrer"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Assurer des marges autour de l'image"
+	},
+	"map_option_h": {
+		"message": "Afficher les sorties cachées"
 	},
 	"map_option_l": {
 		"message": "Ajouter un filigrane de logo"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Exporter des données de diagnostic"
 	},
+	"export_updatefiles": {
+		"message": "Mise à jour des fichiers du jeu"
+	},
 	"rings_showminmax": {
 		"message": "Afficher les valeurs minimales et maximales"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Plein écran\nAfficher le jeu en plein écran."
 	},
-	"options_fullwindowheader": {
-		"message": "En-tête\nAfficher l'en-tête de la page en plein écran."
-	},
 	"options_fullwindowside": {
 		"message": "Barre latérale\nMasquer la barre latérale (Facebook) lorsque vous n'êtes pas en plein écran."
 	},
-	"options_fullwindowlock": {
-		"message": "Verrouiller le plein écran\nEmpêche le jeu de sortir de plein écran."
+	"options_hidemenu": {
+		"message": "Masquer le menu\nMasquer le menu DAF2 en plein écran,"
 	},
-	"options_resetfullwindow": {
-		"message": "Réinitialiser lors du chargement\nChaque fois que le jeu est chargé, les options \"Plein écran\" et \"Plein écran avec une barre latérale\" sont réinitialisées."
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Essayez d'activer cette option si vous rencontrez des problèmes pour charger le jeu."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Plein écran automatique\nLe plein écran lorsque le jeu a été chargé (DAF2 devient vert)."
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Oui, après $NUM$ secondes",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Opacité des publicités\nRendre les publicités légèrement transparentes,"
 	},
 	"options_gctable": {
 		"message": "Tableau de filleuls\nAfficher tous les voisins avec des filleuls sous le jeu."
@@ -1869,22 +1831,16 @@
 		"message": "Compteur\nAfficher le compteur de filleuls."
 	},
 	"options_gctableregion": {
-		"message": "Région\nUtilisez des couleurs pour marquer la région d'un voisin"
-	},
-	"options_autoclick": {
-		"message": "Clic automatique\nConfirmer automatiquement les popups de Facebook."
+		"message": "Région\nUtilisez des couleurs pour marquer la région d'un voisin,"
 	},
 	"options_nogcpopup": {
-		"message": "Pas de popups de filleuls\nPas de popups lors de la collecte des filleuls"
+		"message": "Pas de popups de filleuls\nPas de popups lors de la collecte des filleuls,"
 	},
 	"options_autogc": {
 		"message": "Camp de changement de filleuls auto\nChanger automatiquement de camp après avoir récupéré les filleuls."
 	},
 	"options_section_general": {
 		"message": "Options générales"
-	},
-	"options_autologin": {
-		"message": "Connexion automatique sur le portail\nSe connecter automatiquement au portail."
 	},
 	"options_darktheme": {
 		"message": "Thème sombre"
@@ -1965,7 +1921,7 @@
 		"message": "Énergie du serveur\nMontrez un badge avec l'énergie rapportée par le serveur.\nCes informations sont actualisées périodiquement lorsque l'état du jeu est synchronisé avec le serveur."
 	},
 	"options_badgegccounter": {
-		"message": "Comptoir des filleuls\nMontrez un badge avec le nombre restant de filleuls à collecter"
+		"message": "Comptoir des filleuls\nMontrez un badge avec le nombre restant de filleuls à collecter,"
 	},
 	"options_badgegcenergy": {
 		"message": "L'énergie des filleuls\nMontrez un badge avec l'énergie des filleuls d'un voisin."
@@ -1974,13 +1930,13 @@
 		"message": "Répétables\nAfficher un badge lorsque tout répétable sélectionné est prêt."
 	},
 	"options_badgeluckycards": {
-		"message": "Cartes de la chance\nMontrez un badge lorsque la tente des cartes de la chance est prête"
+		"message": "Cartes de la chance\nMontrez un badge lorsque la tente des cartes de la chance est prête,"
 	},
 	"options_badgepetshop": {
-		"message": "Animalerie\nAfficher un badge lorsque l'animalerie se rafraîchit"
+		"message": "Animalerie\nAfficher un badge lorsque l'animalerie se rafraîchit,"
 	},
 	"options_badgeproductions": {
-		"message": "Productions\nAfficher un badge lorsqu'un emplacement de production est prêt ou vide"
+		"message": "Productions\nAfficher un badge lorsqu'un emplacement de production est prêt ou vide,"
 	},
 	"options_badgetimeoffset": {
 		"message": "Décalage horaire\nLe badge sera affiché à l'avance par ce nombre de secondes."
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Accélérer\nLes potions de vitesse donneront beaucoup plus de vitesse."
 	},
+	"options_hlootfew": {
+		"message": "Peu\nCacher les pièces, les éxpèriences et les points d'événement / région"
+	},
 	"options_hlootcount": {
 		"message": "Butin\nAfficher toujours le décompte du butin."
 	},
@@ -2019,19 +1978,25 @@
 		"message": "File d'attente de dalles facile\nLa file d'attente est plus longue.\nMaintenez la touche Majuscule enfoncée et déplacez la souris sur certaines dalles pour les ajouter à la file d'attente\nSi vous maintenez la touche CTRL enfoncée, la vignette est supprimée de la file d'attente."
 	},
 	"options_hautoqueue": {
-		"message": "File d'attente automatique\nDéplacez simplement la souris sur certaines dalles pour les ajouter à la file d'attente (SHIFT n'est pas requis)"
+		"message": "File d'attente automatique\nDéplacez simplement la souris sur certaines dalles pour les ajouter à la file d'attente (SHIFT n'est pas requis),"
+	},
+	"options_hkeys": {
+		"message": "Touches d'accessibilité\nDéplacez Diggy à l'aide des flèches directionnelles de votre clavier,"
 	},
 	"options_hscroll": {
 		"message": "Désactiver le défilement inertiel\nLe défilement inertiel est l'effet selon lequel l'écran continue de se déplacer même après que vous avez arrêté de le faire glisser."
 	},
 	"options_hinstantcamera": {
-		"message": "Appareil photo instantané\nLorsque la vue de la caméra se déplace vers un emplacement différent, la transition est instantanée"
+		"message": "Appareil photo instantané\nLorsque la vue de la caméra se déplace vers un emplacement différent, la transition est instantanée,"
 	},
 	"options_hreward": {
 		"message": "Capitalisation automatique\nToute saisie du code cadeau est automatiquement mise en majuscule."
 	},
 	"options_hflashad": {
 		"message": "Son de l'annonce Flash\nJouez un son lorsque le bouton d'annonce flash apparaît."
+	},
+	"options_henergymax": {
+		"message": "Son de jauge d'énergie maximale\nÉmettre un son lorsque l'énergie est au maximum,"
 	},
 	"options_hgccluster": {
 		"message": "Groupe des Filleuls\nRapprochez les filleuls."
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Ne pas suivre\nL'animal ne suit pas, Diggy"
+	},
+	"options_hfastluckycards": {
+		"message": "Cartes porte-bonheur rapides\nLe mélange des cartes porte-bonheur est plus rapide,"
 	},
 	"calc_operators": {
 		"message": "Les opérateurs"

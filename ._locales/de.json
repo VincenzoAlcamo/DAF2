@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Hilfswerkzeug für Diggy's Abenteuer"
 	},
-	"menu_resetfullwindow": {
-		"message": "Zurücksetzen beim Neuladen"
-	},
-	"menu_fullwindow": {
-		"message": "Spiel im Vollbildmodus"
-	},
-	"menu_fullwindowheader": {
-		"message": "Kopfzeile"
-	},
-	"menu_fullwindowside": {
-		"message": "Seitenleiste"
-	},
-	"menu_fullwindowlock": {
-		"message": "Sperre"
-	},
-	"menu_gctable": {
-		"message": "Gotteskinder-Tabelle anzeigen"
-	},
-	"menu_gctablecounter": {
-		"message": "Anzahl"
-	},
-	"menu_gctableregion": {
-		"message": "Region"
-	},
 	"menu_gccollected": {
 		"message": "Alle Gotteskinder wurden gesammelt."
-	},
-	"menu_autoclick": {
-		"message": "Automatisches Klicken auf das Popup von Facebook"
-	},
-	"menu_nogcpopup": {
-		"message": "Keine Popups beim Sammeln von GK"
 	},
 	"menu_reloadgame": {
 		"message": "Lädt das Spiel neu und erzwingt eine neue Datenerfassung."
@@ -559,7 +529,7 @@
 		"message": "Dieses Camp kann verbessert werden."
 	},
 	"camp_showsetup": {
-		"message": "Hier klicken, um das Camp im Konfigurationsmodus anzuzeigen."
+		"message": "Klicken zum Anzeigen des Camps im Konfigurationsmodus"
 	},
 	"camp_windmill_regen": {
 		"message": "Regeneration einer einzelnen Windmühle"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Bemerkenswerte Kacheln mischen"
 	},
+	"map_button_h": {
+		"message": "Schatten verbergen"
+	},
 	"map_save": {
 		"message": "Speichern"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Ränder um das Bild sicherstellen"
+	},
+	"map_option_h": {
+		"message": "Versteckte Ausgänge anzeigen"
 	},
 	"map_option_l": {
 		"message": "Hinzufügen eines Logo-Wasserzeichens"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Exportieren von Diagnosedaten"
 	},
+	"export_updatefiles": {
+		"message": "Spieldateien aktualisieren"
+	},
 	"rings_showminmax": {
 		"message": "Minimal- und Maximalwerte anzeigen"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Vollbildmodus\nSpiel im Vollbildmodus anzeigen"
 	},
-	"options_fullwindowheader": {
-		"message": "Kopfzeile\nKopfzeile der Seite im Vollbildmodus anzeigen."
-	},
 	"options_fullwindowside": {
 		"message": "Seite\nDie Seitenleiste (Facebook) ausblenden, wenn sie nicht im Vollbildmodus ist."
 	},
-	"options_fullwindowlock": {
-		"message": "Vollbildmodus sperren\nVerhindert, dass das Spiel den Vollbildmodus verlässt."
+	"options_hidemenu": {
+		"message": "Menü ausblenden\nDas DAF2-Menü im Vollbildmodus ausblenden."
 	},
-	"options_resetfullwindow": {
-		"message": "Zurücksetzen beim Starten\nJedes Mal, wenn das Spiel geladen wird, werden \"Vollbildmodus\" und \"Vollbild - Seite\" zurückgesetzt."
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Diese Einstellung sollte aktiviert werden, wenn es Probleme beim Laden des Spiels gibt."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Automatisches Vollfenster\nAutomatisches Einstellen des Vollfensters, wenn Daten geladen wurden (DAF2 wird grün)."
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Ja, nach $NUM$ Sekunden",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Opazität der Anzeigen\nDie Anzeigen etwas transparenter machen."
 	},
 	"options_gctable": {
 		"message": "GK-Tabelle\nAlle Nachbarn mit GK unter dem Spiel anzeigen."
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Region\nFarben verwenden, um die Region eines Nachbarn zu markieren."
 	},
-	"options_autoclick": {
-		"message": "Autoklick\nPopups von Facebook automatisch bestätigen."
-	},
 	"options_nogcpopup": {
 		"message": "Keine GK-Popups\nKeine Popups beim Sammeln von GK"
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Allgemeine Einstellungen"
-	},
-	"options_autologin": {
-		"message": "Automatische Anmeldung im Portal\nLoggt sich automatisch in das Portal ein."
 	},
 	"options_darktheme": {
 		"message": "Dunkles Thema"
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Geschwindigkeit erhöhen\nGeschwindigkeitstränke geben viel mehr Geschwindigkeit."
 	},
+	"options_hlootfew": {
+		"message": "Weniger\nMünzen, XP und Event-/Region-Punkte ausblenden"
+	},
 	"options_hlootcount": {
 		"message": "Zähler\nBelohnung immer anzeigen"
 	},
@@ -2021,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "Automatische Warteschlange\nBewegen Sie einfach die Maus über einige Kacheln, um sie der Warteschlange hinzuzufügen (Umschalt-Taste ist nicht erforderlich)."
 	},
+	"options_hkeys": {
+		"message": "Zugriffstasten\nDiggy mit den Pfeiltasten der Tastatur bewegen."
+	},
 	"options_hscroll": {
 		"message": "Trägheitsbildlauf deaktivieren\nDer Trägheitsbildlauf ist ein Effekt, bei dem sich der Bildschirm auch dann noch bewegt, wenn Sie ihn nicht mehr verschieben."
 	},
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Flash-Werbung Ton\nSpielt einen Ton ab, wenn die Schaltfläche \"Flash-Werbung\" erscheint."
 	},
+	"options_henergymax": {
+		"message": "Energie Max Sound\nEinen Ton abspielen, wenn die maximale Energie erreicht ist."
+	},
 	"options_hgccluster": {
 		"message": "GK-Bündelung\nGKs dicht beieinander platzieren."
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Nicht folgen\nHaustier folgt Diggy nicht."
+	},
+	"options_hfastluckycards": {
+		"message": "Schnelle Glückskarten\nDas Mischen der Glückskarten ist schneller."
 	},
 	"calc_operators": {
 		"message": "Operatoren"

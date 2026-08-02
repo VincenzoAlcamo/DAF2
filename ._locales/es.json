@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Herramientas de ayuda para Diggy´s adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Reiniciar durante la carga del juego"
-	},
-	"menu_fullwindow": {
-		"message": "Juego en pantalla completa"
-	},
-	"menu_fullwindowheader": {
-		"message": "Encabezado"
-	},
-	"menu_fullwindowside": {
-		"message": "Barra lateral"
-	},
-	"menu_fullwindowlock": {
-		"message": "Bloquear"
-	},
-	"menu_gctable": {
-		"message": "Muestra ahijados para recolectar"
-	},
-	"menu_gctablecounter": {
-		"message": "Contador"
-	},
-	"menu_gctableregion": {
-		"message": "Region"
-	},
 	"menu_gccollected": {
 		"message": "Todos los ahijados han sido recolectados"
-	},
-	"menu_autoclick": {
-		"message": "Click automatico para ventana emergente de Facebook"
-	},
-	"menu_nogcpopup": {
-		"message": "No a la ventana emergente al recolectar Niños dioses"
 	},
 	"menu_reloadgame": {
 		"message": "Recarga el juego y obliga a nueva recopilacion de datos"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Fusionar baldozas importantes"
 	},
+	"map_button_h": {
+		"message": "Ocultar sombras"
+	},
 	"map_save": {
 		"message": "Guardar"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Asegurar los márgenes alrededor de la imágen"
+	},
+	"map_option_h": {
+		"message": "Mostrar salidas ocultas"
 	},
 	"map_option_l": {
 		"message": "Agregar marca de agua al logotipo"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Exportar datos de diagnóstico."
 	},
+	"export_updatefiles": {
+		"message": "Actualizar los archivos del juego"
+	},
 	"rings_showminmax": {
 		"message": "Mostrar valores mínimos y máximos"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Ventana completa\nMostrar juego en pantalla completa"
 	},
-	"options_fullwindowheader": {
-		"message": "Encabezado\nMostrar el encabezado de la página en la ventana completa"
-	},
 	"options_fullwindowside": {
 		"message": "Lado\nOcultar la barra lateral (Facebook) cuando no esté en la ventana completa"
 	},
-	"options_fullwindowlock": {
-		"message": "Seguro de la ventana completa\nEvita que el juego salga ventana completa."
+	"options_hidemenu": {
+		"message": "Ocultar menú\nOcultar el menú DAF2 en pantalla completa"
 	},
-	"options_resetfullwindow": {
-		"message": "Reiniciar en carga\nCada vez que cargue el juego, se restablecerán \"Ventana completa\" y \"Ventana completa - Lateral\""
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Esta opción debería estar habilitada si experimenta problemas al cargar el juego."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Auto ventana completa\nConfigurar automáticamente la ventana completa cuando se han cargado los datos (DAF2 se vuelve verde)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Si,despues de $NUM$ segundos",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Opacidad de los anuncios\nHacer que los anuncios sean un poco transparentes"
 	},
 	"options_gctable": {
 		"message": "Tabla con ahijados\nMostrar a todos los vecinos con ahijados debajo del juego."
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Región\nUsar colores para marcar la región de un vecino"
 	},
-	"options_autoclick": {
-		"message": "Clic automático\nConfirmar automáticamente las ventanas emergentes de Facebook"
-	},
 	"options_nogcpopup": {
 		"message": "No niños dioses ventana emergente\nNo a la ventan emergente al recolectar niños dioses"
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Opciones generales."
-	},
-	"options_autologin": {
-		"message": "Portal de inicio de sesión automático\nInicia sesión automáticamente en el portal"
 	},
 	"options_darktheme": {
 		"message": "Tema oscuro"
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Velocidad\nPociones de velocidad incrementarán la velocidadNo"
 	},
+	"options_hlootfew": {
+		"message": "Pocos\nMonedas ocultas, puntos de experiencia y puntos de evento/región"
+	},
 	"options_hlootcount": {
 		"message": "Contar\nMuestra siempre recuento de botin"
 	},
@@ -2021,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "Cola automatica\nSimplemente mueva el cursor del mouse sobre las baldozas para agregarlas a la cola (no es necesario presionar la techa shift)"
 	},
+	"options_hkeys": {
+		"message": "Teclas de accesibilidad\nMueve a Diggy con las teclas de flecha del teclado"
+	},
 	"options_hscroll": {
 		"message": "Deshabilitar el desplazamiento inercial\nEl desplazamiento inercial es el efecto en el que la pantalla continúa moviéndose incluso después de haber dejado de arrastrarla"
 	},
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Sonido de anuncio flash\nReproduce un sonido cuando aparezca el botón AD Flash"
 	},
+	"options_henergymax": {
+		"message": "Sonido de energía máxima\nReproduce un sonido cuando la energía esté al máximo"
+	},
 	"options_hgccluster": {
 		"message": "Clúster GC\nColoque GCS cerca"
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "No seguir\nLa mascota no sigue a Diggy"
+	},
+	"options_hfastluckycards": {
+		"message": "Cartas de la Suerte Rápidas\nBarajar las Cartas de la Suerte es más rápido"
 	},
 	"calc_operators": {
 		"message": "Operadores"

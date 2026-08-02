@@ -5,38 +5,8 @@
 	"ext_title": {
 		"message": "Hulptool voor Diggy's Adventure"
 	},
-	"menu_resetfullwindow": {
-		"message": "Reset bij laden"
-	},
-	"menu_fullwindow": {
-		"message": "Spel in volledig venster"
-	},
-	"menu_fullwindowheader": {
-		"message": "Koptekst"
-	},
-	"menu_fullwindowside": {
-		"message": "Zijbalk"
-	},
-	"menu_fullwindowlock": {
-		"message": "Slot"
-	},
-	"menu_gctable": {
-		"message": "Toon GC tabel"
-	},
-	"menu_gctablecounter": {
-		"message": "Teller"
-	},
-	"menu_gctableregion": {
-		"message": "Regio"
-	},
 	"menu_gccollected": {
 		"message": "Alle GC zijn verzameld"
-	},
-	"menu_autoclick": {
-		"message": "Klik automatisch op de pop-up van Facebook"
-	},
-	"menu_nogcpopup": {
-		"message": "Geen pop-ups bij het verzamelen van GC"
 	},
 	"menu_reloadgame": {
 		"message": "Laadt het spel opnieuw en dwingt een nieuwe gegevensverzameling af"
@@ -760,6 +730,9 @@
 	"map_button_m": {
 		"message": "Meng opmerkelijke tegels"
 	},
+	"map_button_h": {
+		"message": "Schaduwen verbergen"
+	},
 	"map_save": {
 		"message": "Bewaar"
 	},
@@ -890,6 +863,9 @@
 	},
 	"map_option_m": {
 		"message": "Zorg voor marges rond de afbeelding"
+	},
+	"map_option_h": {
+		"message": "Toon verborgen uitgangen"
 	},
 	"map_option_l": {
 		"message": "Voeg logo watermerk toe"
@@ -1513,6 +1489,9 @@
 	"export_debugdata": {
 		"message": "Diagnostische gegevens exporteren"
 	},
+	"export_updatefiles": {
+		"message": "Update de spelbestanden"
+	},
 	"rings_showminmax": {
 		"message": "Toon minimum en maximum waarden"
 	},
@@ -1836,31 +1815,14 @@
 	"options_fullwindow": {
 		"message": "Volledig venster\nSpel in volledig venster weergeven"
 	},
-	"options_fullwindowheader": {
-		"message": "Koptekst\nToon de paginakoptekst in volledig venster"
-	},
 	"options_fullwindowside": {
 		"message": "Zijkant\nVerberg de zijbalk (Facebook) als deze niet in volledig venster staat"
 	},
-	"options_fullwindowlock": {
-		"message": "Vergrendel het volledig venster\nVoorkomt dat het spel het volledige venster verlaat."
+	"options_hidemenu": {
+		"message": "Menu verbergen\nVerberg het DAF2-menu in volledig scherm"
 	},
-	"options_resetfullwindow": {
-		"message": "Resetten bij laden\nElke keer dat je het spel laadt, \"Volledig venster\" en \"Volledig venster - zijkant\" worden gerest"
-	},
-	"options_resetfullwindow_warning": {
-		"message": "Deze optie moet worden ingeschakeld als je problemen ondervindt bij het laden van het spel."
-	},
-	"options_fullwindowtimeout": {
-		"message": "Automatisch volledig venster\nAutomatisch volledig venster instellen wanneer gegevens zijn geladen (DAF2 wordt groen)"
-	},
-	"options_fullwindowtimeout_seconds": {
-		"message": "Ja, na $NUM$ seconden",
-		"placeholders": {
-			"num": {
-				"content": "$1"
-			}
-		}
+	"options_adsopacity": {
+		"message": "Advertentiedoorzichtigheid\nMaak de advertenties iets transparanter"
 	},
 	"options_gctable": {
 		"message": "GC tabe\nToon alle buren met GC onder het spel"
@@ -1871,9 +1833,6 @@
 	"options_gctableregion": {
 		"message": "Regio\nGebruik kleuren om de regio van buren te markeren"
 	},
-	"options_autoclick": {
-		"message": "Automatiche klik\nBevestig automatisch de pop-ups van Facebook"
-	},
 	"options_nogcpopup": {
 		"message": "Geen GC pop-ups\nGeen pop-ups wanneer GC worden verzameld"
 	},
@@ -1882,9 +1841,6 @@
 	},
 	"options_section_general": {
 		"message": "Algemene opties"
-	},
-	"options_autologin": {
-		"message": "Portal automatische login\nAutomatisch inloggen in Portal"
 	},
 	"options_darktheme": {
 		"message": "Donker thema"
@@ -2003,6 +1959,9 @@
 	"options_hspeed": {
 		"message": "Versnellen\nSnelheidsdrankjes geven veel meer snelheid"
 	},
+	"options_hlootfew": {
+		"message": "Weinig\nVerberg munten, ervaringspunten en evenement-/regiopunten"
+	},
 	"options_hlootcount": {
 		"message": "Hoeveelheid\nLaat altijd de hoeveelheid buit zien"
 	},
@@ -2021,6 +1980,9 @@
 	"options_hautoqueue": {
 		"message": "Automatische wachtrij\nBeweeg de muis over enkele tegels om ze aan de wachtrij toe te voegen (SHIFT is niet vereist)\n"
 	},
+	"options_hkeys": {
+		"message": "Toegankelijkheidstoetsen\nBeweeg Diggy met de pijltjestoetsen op je toetsenbord"
+	},
 	"options_hscroll": {
 		"message": "Schakel traagheid scrollen uit\nTraagheid scrollen is het effect waarbij het scherm blijft bewegen, zelfs nadat je gestopt bent met slepen"
 	},
@@ -2033,6 +1995,9 @@
 	"options_hflashad": {
 		"message": "Flash -advertentiegeluid\nSpeel een geluid wanneer de knop Flash AD verschijnt"
 	},
+	"options_henergymax": {
+		"message": "Geluid voor maximale energie\nSpeel een geluid af wanneer de energie maximaal is"
+	},
 	"options_hgccluster": {
 		"message": "GC -cluster\nPlaats GC's dicht bij elkaar"
 	},
@@ -2041,6 +2006,9 @@
 	},
 	"options_hpetfollow": {
 		"message": "Volg niet\nHuisdier volgt Diggy niet"
+	},
+	"options_hfastluckycards": {
+		"message": "Snelle gelukskaarten\nHet schudden van gelukskaarten gaat sneller"
 	},
 	"calc_operators": {
 		"message": "Operatoren"

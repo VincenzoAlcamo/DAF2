@@ -730,6 +730,9 @@
 	"map_button_m": {
 		"message": "Unisci caselle importanti"
 	},
+	"map_button_h": {
+		"message": "Nascondi le ombre"
+	},
 	"map_save": {
 		"message": "Salva"
 	},
