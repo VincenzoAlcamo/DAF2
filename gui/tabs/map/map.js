@@ -3166,10 +3166,11 @@ async function drawMine(args) {
 	for (const tileDef of tileDefs.filter((t) => t.tileStatus == 2 || (showBackground && t.tileStatus == 0 && t.stamina >= 0))) tileDef.shadow = 0;
 	// We store the original tile shadow flag here
 	let tileHasShadow = false;
+	const isSoftBorder = (+currentData.floor.params_mask & 8) > 0;
 	const getShadow = (flag, tileIndex, value) => {
-		if (!flag) return 0;
+		if (!flag) return isSoftBorder ? value : 0;
 		const tileDef = tileDefs[tileIndex];
-		return !tileDef.isVisible || (tileDef.shadow && !tileHasShadow) ? value : 0;
+		return (!tileDef.isVisible && isSoftBorder) || (tileDef.shadow && !tileHasShadow) ? value : 0;
 	};
 	const getShadows = (tileDef) => {
 		const { x, y } = tileDef;
