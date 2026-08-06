@@ -2997,6 +2997,7 @@ async function drawMine(args) {
 						const sub = subtiles[t.tileSubtype];
 						if (sub && +sub.alpha) tileIsHere = false;
 					}
+					if ((t.solid & 32 ) > 0 && !(showBackground || t.stamina < 0)) tileIsHere = true;
 					if (!tileIsHere) t.addonDelta = delta;
 				} else delete t.addonDelta;
 			}
