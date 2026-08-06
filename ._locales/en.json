@@ -2010,6 +2010,21 @@
 	"options_hfastluckycards": {
 		"message": "Fast Lucky Cards\nLucky Cards shuffle is faster"
 	},
+	"options_honrefresh": {
+		"message": "On Refresh Dialog\nWhen a repeatable mine is cleared, an option is automatically selected from the dialog that appears"
+	},
+	"options_honrefresh_none": {
+		"message": "None"
+	},
+	"options_honrefresh_close": {
+		"message": "Stay in mine"
+	},
+	"options_honrefresh_map": {
+		"message": "Go to map"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Refresh with gems"
+	},
 	"calc_operators": {
 		"message": "Operators"
 	},

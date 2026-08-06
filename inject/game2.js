@@ -384,6 +384,15 @@ function createMenu() {
 		<i data-pref="hPetFollow"></i>
 		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i></u>
 		<u><i data-pref="hSpeed"></i><i data-pref="hLockCaravan"></i></u>
+		<u class="squared">
+		<i class="squared-right" data-title="options_honrefresh:1" data-text="options_honrefresh:0"></i>
+		<select data-pref="hOnRefresh">
+			<option value="" data-text="options_honrefresh_none"></option>
+			<option value="close" data-text="options_honrefresh_close"></option>
+			<option value="map" data-text="options_honrefresh_map"></option>
+			<option value="refresh" data-text="options_honrefresh_refresh"></option>
+		</select>
+		</u>
 		<u class="squared"><i class="no-click" data-text="@Initial popups"></i>
 		<i data-pref="hNoMails" data-text="@Skip"></i>
 		<span data-action="showMails" style="display:none" data-title="@Show initial popups">Show</span>

@@ -990,6 +990,18 @@
 			}
 		});
 
+		intercept('com.pixelfederation.diggy.presentation.screens.popup.PlayAgainRefreshPopupBehaviour', 'StartInternal', function(_si) {
+			extras.push('hOnRefresh');
+			return function() {
+				const result = _si.apply(this, arguments);
+				const action = Prefs.hOnRefresh;
+				if (action == 'close') this.onCloseButton();
+				else if (action == 'map') this.onMapButton();
+				else if (action == 'refresh' && this._refreshButton.gameObject.IsActiveSelf()) this.onRefreshButton();
+				return result;
+			}
+		});
+
 		const value = extras.join();
 		log('extra detected = "%s"', value);
 		Msg.sendPage('extra', { value });

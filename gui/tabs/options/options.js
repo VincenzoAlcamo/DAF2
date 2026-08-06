@@ -462,6 +462,8 @@ UI_claim_coin_single_slow_02
 	option('hLockCaravan', SUBOPTION);
 	option('hPetFollow', SUBOPTION);
 	option('hPetSpeed', SUBOPTION);
+	const refreshOptions = ['', 'close', 'map', 'refresh'].map(v => [v, gui.getMessage('options_honrefresh_' + (v || 'none'))]);
+	option('hOnRefresh', SUBOPTION, refreshOptions);
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');

@@ -147,6 +147,7 @@ var Preferences = {
 			hInstantCamera: false,
 			hFastLuckyCards: true,
 			hShowLuckyCards: false,
+			hOnRefresh: '',
 			remapAssets: 'npc 42534,42535,42536=42577',
 			fileVersion: '20240926120000',
 		};
