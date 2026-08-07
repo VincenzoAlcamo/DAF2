@@ -1082,12 +1082,26 @@ async function loadTab(tab) {
 		const getEventName = (input) => {
 			const name = input.getAttribute('data-on');
 			if (name) return name;
-			if (input.tagName == 'BUTTON' || input.getAttribute('type') == 'button') return 'click';
+			if (input.tagName == 'BUTTON' || input.getAttribute('type') == 'button' || input.getAttribute('type') == 'radio') return 'click';
 			return input.tagName == 'SELECT' ? 'change' : 'input';
 		};
 		tab.container.querySelectorAll('button,input,select').forEach(input => {
 			const name = input.getAttribute('data-name') || input.getAttribute('name');
-			if (name) tab.inputs[name] = input;
+			if (name) {
+				if (input.type == 'radio') {
+					tab.inputs[name] = tab.inputs[name] || {
+						inputs: [],
+						get value() {
+							const input = this.inputs.find((o) => o.checked);
+							return input?.value || '';
+						},
+						set value(t) {
+							this.inputs.forEach((o) => (o.checked = o.value == t));
+						}
+					};
+					tab.inputs[name].inputs.push(input);
+				} else tab.inputs[name] = input;
+			}
 			const eventName = getEventName(input);
 			let handler = tab.events && (tab.events[input.getAttribute('data-event')] || tab.events[name] || tab.events[input.tagName.toLowerCase()]);
 			if (eventName && handler) {
