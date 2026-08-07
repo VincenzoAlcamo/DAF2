@@ -7,19 +7,48 @@ export default {
 		return requires;
 	})(),
 	events: {
+		set: () => { setSelected(inputs.set.value); refresh(); },
 		search: refresh,
 		select: refresh
 	}
 };
 
 let tab, container, inputs, smartTable;
-let selected = [];
+let selected = {};
 let repeatables;
 let swPostcards;
 let refreshTimer = 0;
 
 const ticked = Html.br`<img width="24" src="/img/gui/ticked.png">`;
 const unticked = Html.br`<img width="24" src="/img/gui/unticked.png">`;
+
+function getRepSelected(v) {
+	const selected = {};
+	String(v || '').split(',').forEach((t) => {
+		let mask = t.charCodeAt(t.length - 1) - 64;
+		if (mask >= 0 && mask <= 31) t = t.substring(0, t.length - 1);
+		else mask = 1;
+		selected[t] = mask;
+	});
+	return selected;
+}
+
+function getSetId(setId) {
+	return setId < 'A' || setId > 'E' ? 'A' : setId;
+}
+function getSelectedBit(setId) {
+	return 1 << (getSetId(setId).charCodeAt(0) - 65);
+}
+function setSelected(setId) {
+	if (!repeatables) return;
+	const bit = getSelectedBit(setId);
+	for (const item of Object.values(repeatables)) {
+		item.selected = ((selected[item.id] || 0) & bit) > 0;
+		if (item.row) item.row.classList.toggle('selected', item.selected);
+		const checkbox = item.row?.querySelector('input');
+		if (checkbox) checkbox.checked = item.selected;
+	}
+}
 
 function init() {
 	tab = this;
@@ -32,7 +61,7 @@ function init() {
 	smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateRow));
 	smartTable.table.addEventListener('click', onClickTable, true);
 
-	selected = gui.getArrayOfInt(gui.getPreference('repeatables'));
+	selected = getRepSelected(gui.getPreference('repeatables'));
 	// container.addEventListener('tooltip', onTooltip);
 }
 
@@ -114,6 +143,7 @@ function update() {
 
 function getState() {
 	return {
+		set: inputs.set.value,
 		show: inputs.show.value,
 		ready: inputs.ready.value,
 		search: inputs.search.value,
@@ -122,11 +152,12 @@ function getState() {
 }
 
 function setState(state) {
+	inputs.set.value = state.set = getSetId(inputs.set);
 	state.show = gui.setSelectState(inputs.show, state.show);
 	state.ready = gui.setSelectState(inputs.ready, state.ready);
 	inputs.search.value = state.search || '';
 	if (state.selected) {
-		selected = gui.getArrayOfInt(state.selected);
+		selected = getRepSelected(state.selected);
 		storeSelected();
 	}
 	gui.setSortState(state.sort, smartTable, 'name');
@@ -279,13 +310,8 @@ function toggleSelected(id, flag) {
 		const input = item.row.querySelector('input');
 		if (input) input.checked = flag;
 	}
-	const index = selected.indexOf(id);
-	if (!flag && index >= 0) {
-		selected.splice(index, 1);
-	} else if (flag && index < 0) {
-		selected.push(id);
-		selected.sort(gui.sortNumberAscending);
-	}
+	const bit = getSelectedBit(inputs.set.value);
+	selected[id] = ((selected[id] || 0) & ~bit) + (flag ? bit : 0);
 }
 
 let lastClickedRow = null;
@@ -321,11 +347,14 @@ function onClickTable(event) {
 
 function storeSelected() {
 	if (repeatables) {
-		for (const item of Object.values(repeatables)) item.selected = selected.includes(item.id);
-		selected = selected.filter(id => id in repeatables);
+		const bit = getSelectedBit(inputs.set.value);
+		for (const item of Object.values(repeatables)) item.selected = ((selected[item.id] || 0) & bit) > 0;
+		Object.keys(selected).filter(id => !(id in repeatables)).forEach(id => delete selected[id]);
 	}
-	selected.sort(gui.sortNumberAscending);
-	const value = selected.join(',');
+	const value = Object.keys(selected).sort(gui.sortNumberAscending).map(id => {
+		const mask = selected[id];
+		return mask ? id + (mask == 1 ? '' : String.fromCharCode(64 + mask)) : '';
+	}).filter(v => v).join(',');
 	if (value != gui.getPreference('repeatables')) gui.setPreference('repeatables', value);
 }
 

@@ -92,6 +92,7 @@ var Preferences = {
 			badgeRepeatablesSound: true,
 			badgeRepeatablesSoundName: 'ui_celebrate',
 			badgeRepeatablesVolume: 100,
+			badgeRepeatablesSet: 'A',
 			badgeLuckyCards: true,
 			badgeLuckyCardsOffset: 0,
 			badgeLuckyCardsSound: true,
@@ -882,10 +883,18 @@ var Data = {
 	checkRepeatablesStatus() {
 		const now = getUnixTime() + Synchronize.offset;
 		const generator = Data.generator;
+		let setId = Preferences.getValue('badgeRepeatablesSet');
+		if (setId < 'A' || setId > 'E') setId = 'A';
+		const bit = 1 << (setId.charCodeAt(0) - 65);
 		const offset = parseInt(Preferences.getValue('badgeRepeatablesOffset'), 10) || 0;
 		let time = +Infinity;
-		const list = [];
+		const prefix = `${generator.cdn_root}mobile/graphics/map/`;
+		const result = { regions: {}, events: {}, list: [], prefix  };
 		if (generator) String(Preferences.getValue('repeatables') || '').split(',').forEach(lid => {
+			let mask = lid.charCodeAt(lid.length - 1);
+			if (mask >= 64 && mask <= 95) lid = lid.substring(0, lid.length - 1);
+			else mask = 1;
+			if (!(mask & bit)) return;
 			const rep = Data.repeatables[lid];
 			if (!rep) return;
 			const eid = rep.eid;
@@ -895,17 +904,20 @@ var Data = {
 			const end = (+prog.cmpl || 0) + rep.cooldown - offset;
 			if (end <= now) {
 				const rep = Data.repeatables[lid];
+				const { rid, eid } = rep;
+				const name = Data.getString(rep.name).replace(/\n/g, ' ');
 				const image = rep.gr_library ? `mobile_locations/${rep.gr_library}_${rep.gr_clip}` : rep.image;
-				list.push({
-					lid, rid: rep.rid, rname: rep.rid ? Data.getObjectName('region', rep.rid) : Data.getString(rep.ename),
-					name: Data.getString(rep.name).replace(/\n/g, ' '), image: `${generator.cdn_root}mobile/graphics/map/${image}.png`
-				});
+				// list.push({ lid, rid, rname: rid ? Data.getObjectName('region', rid) : Data.getString(rep.ename), name, image: `${prefix}${image}.png` });
+				if (rid) result.regions[rid] = Data.getObjectName('region', rid); else result.events[eid] = rep.ename;
+				const obj = { lid, rid, name, image };
+				if (eid) obj.eid = eid;
+				result.list.push(obj);
 				return;
 			}
 			if (end < time) time = end;
 		});
 		Data.setTimer(Data.checkRepeatablesStatus, isFinite(time) ? (time - now) * 1000 : 0);
-		Synchronize.signalRepeatables(list);
+		Synchronize.signalRepeatables(result);
 	},
 	getLuckyCardsAd(setValue) {
 		let ad = null;
@@ -1580,11 +1592,11 @@ var Synchronize = {
 		return data;
 	},
 	repeatables: '',
-	signalRepeatables(list) {
-		const repeatables = list.map(o => o.lid).join(',');
+	signalRepeatables(result) {
+		const repeatables = result.list.map(o => o.lid).join(',');
 		if (repeatables != Synchronize.repeatables) {
 			Synchronize.repeatables = repeatables;
-			Synchronize.signal('repeatables', Synchronize.expandDataWithSound({ list }, 'badgeRepeatables'));
+			Synchronize.signal('repeatables', Synchronize.expandDataWithSound(result, 'badgeRepeatables'));
 		}
 	},
 	process(posted, responseText) {
@@ -2138,6 +2150,7 @@ async function init() {
 		locale: changeLocale,
 		repeatables: Data.checkRepeatablesStatus,
 		badgeLuckyCardsOffset: Data.checkLuckyCards,
+		badgeRepeatablesSet: Data.checkRepeatablesStatus,
 		badgeRepeatablesOffset: Data.checkRepeatablesStatus
 	}).forEach(entry => Preferences.setHandler(entry[0], entry[1]));
 

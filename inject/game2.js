@@ -278,6 +278,7 @@ function getWrappedText(text, max = 60) {
 }
 
 function createMenu() {
+	const getRepSet = (id) => `<i data-pref="badgeRepeatablesSet" data-pref-value="${id}" data-text="@${id}"></i>`;
 	let html = `
 <ul class="DAF-menu">
 <li data-action="about"><b>&nbsp;</b>
@@ -326,6 +327,7 @@ function createMenu() {
 		</u>
 		<u class="squared">
 		<i data-pref="badgeRepeatables"></i>
+		${getRepSet('A')}${getRepSet('B')}${getRepSet('C')}${getRepSet('D')}${getRepSet('E')}
 		<i data-pref="badgeRepeatablesSound" class="hue" data-title="options_badgesound:1" data-text="options_badgesound:0"></i>
 		</u>
 		<u class="squared">
@@ -735,7 +737,7 @@ function setBadgeProductions({ caravan, kitchen, foundry, sound, volume }) {
 	if (flag && Prefs.badgeProductionsSound) playSound(sound, volume);
 }
 
-function setBadgeRepeatables({ list, sound, volume }) {
+function setBadgeRepeatables({ regions, events, list, prefix, sound, volume }) {
 	const badge = menu.querySelector('.DAF-badge-rep');
 	list = Array.isArray(list) ? list : [];
 	badge.classList.toggle('DAF-badge-on', list.length > 0);
@@ -749,14 +751,14 @@ function setBadgeRepeatables({ list, sound, volume }) {
 	list = list.sort((a, b) => a.rid - b.rid || a.lid - b.lid);
 	let lastRid = -1;
 	const html = `<b>` + list.map((item) => {
-		let prefix = '';
+		let region = '';
 		if (lastRid != item.rid) {
 			lastRid = item.rid;
-			prefix = Html`<div class="rep-region">${item.rid ? item.rname : getMessage('gui_event')}</div>`;
+			region = Html`<div class="rep-region">${item.rid ? regions[item.rid] : getMessage('gui_event')}</div>`;
 		}
-		const title = item.name + (item.rid ? '' : '\n(' + item.rname + ')');
-		const style = `background-image:url(${item.image})`;
-		return prefix + Html`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="${title}" style="${style}"></div>`;
+		const title = item.name + (item.rid ? '' : '\n(' + events[item.eid] + ')');
+		const style = `background-image:url(${prefix}${item.image}.png)`;
+		return region + Html`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="${title}" style="${style}"></div>`;
 	}).join('') + (list.length > 3 ? Html`<span class="rep-count">${'+' + (list.length - 3)}</span>` : '') + `</b>`;
 	Html.set(badge, html);
 	// Show items
