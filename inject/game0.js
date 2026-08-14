@@ -488,6 +488,7 @@
 			}
 		}
 
+		/*
 		intercept('com.pixelfederation.diggy.game.managers.friends.FriendsManager', 'removeFriendFromGodchildrenList', function(_prevFn) {
 			return function(p_id) {
 				const _gc = this._godchildren || [];
@@ -517,6 +518,7 @@
 				return result;
 			}
 		});
+		*/
 
 		intercept(
 			'com.pixelfederation.diggy.game.location.MineRenderer',
