@@ -339,11 +339,10 @@
 			};
 			setInterval(() => {
 				const info = getActiveScreen();
-				const value = info.screen + '.' + info.dialog;
-				const screen = value + '.' + info.visited;
+				const screen = info.screen + '.' + info.dialog + '.' + info.visited;
 				if (screen !== currentScreen) {
 					currentScreen = screen;
-					Msg.sendPage('screen', { value });
+					Msg.sendPage('screen', { screen: info.screen, dialog: info.dialog });
 				}
 				if (isAutoDigEnabled && !info.mine) toggleAutoDig(false);
 			}, 500);

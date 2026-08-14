@@ -10,9 +10,9 @@
 	--gctable-h: 0px;
 }
 
-.DAF-container[daf-screen^="petsScreen."],
-.DAF-container[daf-screen^="petsDenScreen."] ,
-.DAF-container[daf-screen^="petsShopScreen."],
+.DAF-container[daf-screen="petsScreen"],
+.DAF-container[daf-screen="petsDenScreen"] ,
+.DAF-container[daf-screen="petsShopScreen"],
 .DAF-container[daf-screen^="tower"] {
 	--menu-y: 50px;
 }
@@ -633,9 +633,9 @@
 td.DAF-visit {
 	display: none;
 }
-.DAF-container[daf-screen="friendsScreen.null"] td.DAF-visit,
-.DAF-container[daf-screen="campLowerScreenVisit.null"] td.DAF-visit,
-.DAF-container[daf-screen="campUpperScreenVisit.null"] td.DAF-visit {
+.DAF-container[daf-screen="friendsScreen"][daf-dialog=""] td.DAF-visit,
+.DAF-container[daf-screen="campLowerScreenVisit"][daf-dialog=""] td.DAF-visit,
+.DAF-container[daf-screen="campUpperScreenVisit"][daf-dialog=""] td.DAF-visit {
 	display: table-cell;
 }
 .DAF-container[daf-screen="visiting"] td.DAF-visit {
@@ -643,7 +643,7 @@ td.DAF-visit {
 	opacity: 0.3;
 	pointer-events: none;
 }
-.DAF-container[daf-screen^="mineScreen."]:not([daf-screen="mineScreen.null"]) .DAF-badge-rep b,
+.DAF-container:not([daf-dialog=""]) .DAF-badge-rep b,
 .DAF-badge-rep.visiting b {
 	filter: grayscale(1);
 	pointer-events: none;
@@ -651,7 +651,7 @@ td.DAF-visit {
 .DAF-menu [data-action="showMails"] {
 	display: none;
 }
-.DAF-container[daf-screen="campUpperScreen.null"] [data-action="showMails"] {
+.DAF-container[daf-screen="campUpperScreen"][daf-dialog=""] [data-action="showMails"] {
 	display: inline-block;
 }
 

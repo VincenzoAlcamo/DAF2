@@ -102,8 +102,9 @@ function getMessage(id, ...args) {
 	});
 }
 
-function setScreen(value) {
-	container.setAttribute('daf-screen', value);
+function setScreen(screen, dialog) {
+	container.setAttribute('daf-screen', screen || '');
+	container.setAttribute('daf-dialog', dialog || '');
 }
 
 function init() {
@@ -152,7 +153,7 @@ function init() {
 		createMenu();
 		setupHotKeyHandlers();
 
-		Msg.handlers['screen'] = (request) => void setScreen(request.value);
+		Msg.handlers['screen'] = (request) => void setScreen(request.screen, request.dialog);
 		Msg.handlers['hFlashAd'] = () => {
 			if (Prefs.hFlashAdSound) playSound(getSound(Prefs.hFlashAdSoundName), Prefs.hFlashAdVolume);
 		};
