@@ -305,6 +305,7 @@
 		if (core) {
 			extras.push('@core');
 			let currentScreen = null;
+			const allowedDialogs = ['', 'ExpInfoPopup', 'StaminaInfoPopup'];
 			const getActiveScreen = () => {
 				let screen = core.instance?._screenManager?.getActiveScreen();
 				let visited = null;
@@ -315,7 +316,7 @@
 				const popups = core.instance?._popupManager?._visiblePopups;
 				const popup = popups?.length > 0 ? popups[popups.length - 1] : null;
 				const dialog = popup ? popup._popupId?.Id || popup._name : null;
-				return { screen, visited, dialog, mine: screen == 'mineScreen' && !dialog };
+				return { screen, visited, dialog, mine: screen == 'mineScreen' && allowedDialogs.includes(dialog || '') };
 			};
 
 			Msg.handlers['toggleAutoDig'] = () => void toggleAutoDig(getActiveScreen().mine ? undefined : false);
