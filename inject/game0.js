@@ -112,6 +112,14 @@
 			});
 		return obj;
 	};
+	//
+	// let myGetSpeed = undefined;
+	// interceptSet('getActualSpeed', function(_getActualSpeed) {
+	// 	return function() {
+	// 		const val = _getActualSpeed.apply(this, arguments);
+	// 		return myGetSpeed ? myGetSpeed(val) : val;
+	// 	};
+	// });
 
 	// XMLHttpRequest
 	let xhrEnabled = false;
@@ -391,6 +399,7 @@
 			const _getActualSpeed = def.getActualSpeed;
 			if (typeof _getActualSpeed === 'function') {
 				extras.push('hSpeed');
+				// myGetSpeed = (val) => getSpeed(core.instance, val, val, false);
 				def.getActualSpeed = function() {
 					const val = _getActualSpeed.apply(this, arguments);
 					return getSpeed(core.instance, val, val, false);
