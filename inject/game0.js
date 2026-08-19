@@ -340,7 +340,7 @@
 			Msg.handlers['mine'] = (request) => {
 				const id = +request.id;
 				log('Visiting mine', id);
-				core.instance?.showScreen("mineScreen",{ mineId: id });
+				core.instance?.showScreen("mineScreen", { mineId: id });
 			};
 			setInterval(() => {
 				const info = getActiveScreen();
@@ -406,7 +406,7 @@
 		intercept('com.pixelfederation.diggy.game.managers.pet.PetPath', null, function (_, def) {
 			const _getActualSpeed = def.getActualSpeed;
 			if (typeof _getActualSpeed === 'function') {
-				extras.push('hSpeed');
+				extras.push('hPetSpeed');
 				def.getActualSpeed = function() {
 					const val = _getActualSpeed.apply(this, arguments);
 					return getSpeed(core.instance, val, val, true);
