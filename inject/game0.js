@@ -72,25 +72,29 @@
 	const _ObjectCreate = Object.create;
 	window.$hxClasses = {};
 	const triggerKey = 'com.genome2d.project.GProject';
-	Object.defineProperty(Object.prototype, triggerKey, {
-		get() {
-			return undefined;
-		},
-		set(newValue) {
-			log('Intercepted $hxClasses');
-			Object.defineProperty(Object.prototype, triggerKey, {
-				value: undefined,
-				writable: true,
-				enumerable: false,
-				configurable: true
-			});
-			delete Object.prototype.DateTools;
-			this[triggerKey] = newValue;
-			window.$hxClasses = this;
-		},
-		enumerable: false,
-		configurable: true
-	});
+	function interceptSet(triggerKey, onSetFn ) {
+		Object.defineProperty(Object.prototype, triggerKey, {
+			get() {
+				return undefined;
+			},
+			set(newValue) {
+				log('Intercepted set for %s', triggerKey);
+				Object.defineProperty(Object.prototype, triggerKey, {
+					value: undefined,
+					writable: true,
+					enumerable: false,
+					configurable: true
+				});
+				delete Object.prototype[triggerKey];
+				this[triggerKey] = onSetFn.call(this, newValue, triggerKey) || newValue;
+			},
+			enumerable: false,
+			configurable: true
+		});
+	}
+	interceptSet('com.genome2d.project.GProject', function(newValue) {
+		window.$hxClasses = this;
+	})
 	Object.create = function (proto) {
 		const obj = _ObjectCreate.apply(Object, arguments);
 		let __class__;
