@@ -93,6 +93,7 @@ var Preferences = {
 			badgeRepeatablesSoundName: 'ui_celebrate',
 			badgeRepeatablesVolume: 100,
 			badgeRepeatablesSet: 'A',
+			badgeRepeatablesSetNames: '',
 			badgeLuckyCards: true,
 			badgeLuckyCardsOffset: 0,
 			badgeLuckyCardsSound: true,

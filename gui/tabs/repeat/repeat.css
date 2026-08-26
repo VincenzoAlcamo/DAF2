@@ -1,4 +1,4 @@
-.tab_repeat .toolbar input[type='radio'] {
+.tab_repeat input[type='radio'] {
 	width: 24px !important;
 	height: 24px !important;
 	-webkit-appearance: none;
@@ -7,10 +7,10 @@
 	border: 1px solid var(--tt-input-brcol);
 	position: relative;
 }
-.tab_repeat .toolbar input[type='radio']:checked {
+.tab_repeat input[type='radio']:checked {
 	background-color: var(--tt-button-hlcol);
 }
-.tab_repeat .toolbar input[type='radio']:before {
+.tab_repeat input[type='radio']:before {
 	color: var(--tt-input-fgcol);
 	content: attr(value);
 	font-size: 15px;
@@ -19,15 +19,51 @@
 	text-align: center;
 	line-height: 24px;
 }
-.tab_repeat .toolbar input[type='radio']:first-child {
+.tab_repeat input[type='radio']:first-child {
 	border-top-left-radius: 8px;
 	border-bottom-left-radius: 8px;
 }
-.tab_repeat .toolbar input[type='radio']:last-child {
+.tab_repeat input[type='radio']:last-child {
 	border-top-right-radius: 8px;
 	border-bottom-right-radius: 8px;
 }
+.tab_repeat .toolbar input[name='rename'] {
+	width: 120px;
+}
 
+.tab_repeat .tabs {
+	background-color: var(--tb-brcol);
+	position: sticky;
+	margin-top: -25px;
+	top: -25px;
+	display: flex;
+	column-gap: 4px;
+	padding: 0 6px;
+	border-bottom: 1px solid var(--tt-input-brcol);
+	z-index: 1;
+}
+.tab_repeat .tabs input[type='radio'] {
+	border-radius: 8px 8px 0 0;
+	border-bottom: 0;
+	width: 120px !important;
+	cursor: pointer;
+}
+.tab_repeat .tabs input[type='radio']:checked {
+	box-shadow: 0px 1px 0px var(--tt-button-hlcol);
+}
+.tab_repeat .tabs input[type='radio']:before {
+	content: attr(data-caption);
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0 2px;
+}
+.tab_repeat .sticky-container {
+	padding-top: 24px;
+}
+
+table.repeat {
+	min-width: 630px;
+}
 .repeat.data td {
 	text-align: center;
 }

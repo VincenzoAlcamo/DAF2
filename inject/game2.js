@@ -151,6 +151,7 @@ function init() {
 
 		Html.addStylesheet(getExtensionUrl('inject/game_menu.css'), () => (menu.style.display = ''));
 		createMenu();
+		setRepSetNames();
 		setupHotKeyHandlers();
 
 		Msg.handlers['screen'] = (request) => void setScreen(request.screen, request.dialog);
@@ -190,6 +191,7 @@ function init() {
 				unlock: getMessage('gui_unlock').toUpperCase()
 			});
 		};
+		Msg.handlers['pref:badgeRepeatablesSetNames'] = setRepSetNames;
 
 		Msg.handlers['pref:gcTable'] = () => void gcTable_show();
 		Html.addStylesheet(chrome.runtime.getURL('inject/game_gctable.css'));
@@ -476,6 +478,18 @@ function translateMenu() {
 		if (!el.hasAttribute('data-title')) el.title = getText(msg + ':1', true);
 		if (el.tagName === 'I' && !el.hasAttribute('data-text')) Html.set(el, Html.br(getText(msg + ':0')));
 	}
+}
+
+function setRepSetNames() {
+	if (!menu) return;
+	const names = ((Prefs.badgeRepeatablesSetNames || '') + '\t\t\t\t').split('\t').slice(0, 5);
+	menu.querySelectorAll('[data-pref="badgeRepeatablesSet"]').forEach(o => {
+		let setId = o.getAttribute('data-pref-value');
+		setId = setId >= 'A' && setId <= 'E' ? setId : 'A';
+		const index = setId.charCodeAt(0) - 65;
+		const name = names[index];
+		o.title = name || '';
+	});
 }
 
 function setupSearch() {

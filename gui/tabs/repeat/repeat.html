@@ -1,8 +1,8 @@
 <div class="toolbar vertical">
 	<label>
-		<span>Set</span>
+		<span>Active set</span>
 		<div>
-			<input name="set" type="radio" value="A"><input name="set" type="radio" value="B"><input name="set" type="radio" value="C"><input name="set" type="radio" value="D"><input name="set" type="radio" value="E">
+			<input name="a_set" type="radio" value="A"><input name="a_set" type="radio" value="B"><input name="a_set" type="radio" value="C"><input name="a_set" type="radio" value="D"><input name="a_set" type="radio" value="E">
 		</div>
 	</label>
 	<label>
@@ -24,9 +24,16 @@
 		<span data-i18n-text="gui_search"></span>
 		<input name="search" type="text" maxlength="40" data-debounce />
 	</label>
+	<label>
+		<span class="set-name">Rename set</span>
+		<input name="rename" type="text" maxlength="20" data-debounce />
+	</label>
 	<div class="weeks"></div>
 </div>
 <div class="scrollable-content no-overflow">
+	<div class="tabs">
+		<input name="set" type="radio" value="A"><input name="set" type="radio" value="B"><input name="set" type="radio" value="C"><input name="set" type="radio" value="D"><input name="set" type="radio" value="E">
+	</div>
 	<table class="repeat data">
 		<thead>
 			<tr>

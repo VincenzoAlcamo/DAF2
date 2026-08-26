@@ -1,13 +1,15 @@
 /*global gui SmartTable Html Locale*/
 export default {
-	init, update, getState, setState, visibilityChange,
+	init, update, getState, setState, visibilityChange, onPrefChange,
 	requires: (function () {
 		const requires = ['materials', 'map_filters', 'events', 'special_weeks'];
 		for (let rid = gui.getMaxRegion(); rid >= 0; rid--) requires.push('locations_' + rid);
 		return requires;
 	})(),
 	events: {
-		set: () => { setSelected(inputs.set.value); refresh(); },
+		set: () => { setSet(inputs.set.value); refresh(); },
+		a_set: () => { gui.setPreference('badgeRepeatablesSet', inputs.a_set.value); },
+		rename,
 		search: refresh,
 		select: refresh
 	}
@@ -22,6 +24,20 @@ let refreshTimer = 0;
 const ticked = Html.br`<img width="24" src="/img/gui/ticked.png">`;
 const unticked = Html.br`<img width="24" src="/img/gui/unticked.png">`;
 
+function onPrefChange(changes) {
+	if ('badgeRepeatablesSet' in changes) inputs.a_set.value = changes.badgeRepeatablesSet.newValue;
+}
+
+function rename() {
+	const name = (inputs.rename.value || '').replace(/\s+/g, ' ');
+	const names = getSetNames();
+	const index = getSetIndex(inputs.rename.getAttribute('data-set'));
+	names[index] = name;
+	const value = names.join('') === '' ? '' : names.join('\t');
+	gui.setPreference('badgeRepeatablesSetNames', value);
+	setTabNames();
+}
+
 function getRepSelected(v) {
 	const selected = {};
 	String(v || '').split(',').forEach((t) => {
@@ -34,14 +50,24 @@ function getRepSelected(v) {
 }
 
 function getSetId(setId) {
-	return setId < 'A' || setId > 'E' ? 'A' : setId;
+	return setId >= 'A' && setId <= 'E' ? setId : 'A';
 }
-function getSelectedBit(setId) {
-	return 1 << (getSetId(setId).charCodeAt(0) - 65);
+function getSetIndex(setId) {
+	return getSetId(setId).charCodeAt(0) - 65;
 }
-function setSelected(setId) {
+function getSetdBit(setId) {
+	return 1 << getSetIndex(setId);
+}
+function getSetNames() {
+	return ((gui.getPreference('badgeRepeatablesSetNames') || '') + '\t\t\t\t').split('\t').slice(0, 5);
+}
+function setSet(setId) {
+	const index = getSetIndex(setId);
+	container.querySelector('.set-name').innerText = 'Rename set ' + setId;
+	inputs.rename.value = getSetNames()[getSetIndex(setId)];
+	inputs.rename.setAttribute('data-set', setId);
+	const bit = getSetdBit(setId);
 	if (!repeatables) return;
-	const bit = getSelectedBit(setId);
 	for (const item of Object.values(repeatables)) {
 		item.selected = ((selected[item.id] || 0) & bit) > 0;
 		if (item.row) item.row.classList.toggle('selected', item.selected);
@@ -60,9 +86,26 @@ function init() {
 	smartTable.fixedFooter.parentNode.classList.add('repeat');
 	smartTable.tbody[0].addEventListener('render', gui.getLazyRenderer(updateRow));
 	smartTable.table.addEventListener('click', onClickTable, true);
+	smartTable.container.insertBefore(container.querySelector('.tabs'), smartTable.container.firstChild);
 
 	selected = getRepSelected(gui.getPreference('repeatables'));
 	// container.addEventListener('tooltip', onTooltip);
+	setTabNames();
+	inputs.a_set.value = gui.getPreference('badgeRepeatablesSet');
+}
+
+function setTabNames() {
+	const names = getSetNames();
+	inputs.set.inputs.forEach(o => {
+		const setId = o.getAttribute('value');
+		const name = names[getSetIndex(setId)];
+		o.setAttribute('data-caption', name ? setId + ': ' + name : setId);
+	});
+	inputs.a_set.inputs.forEach(o => {
+		const setId = o.getAttribute('value');
+		const name = names[getSetIndex(setId)];
+		o.setAttribute('title', name);
+	});
 }
 
 function update() {
@@ -152,7 +195,8 @@ function getState() {
 }
 
 function setState(state) {
-	inputs.set.value = state.set = getSetId(inputs.set);
+	inputs.set.value = state.set = getSetId(state.set);
+	setSet(state.set);
 	state.show = gui.setSelectState(inputs.show, state.show);
 	state.ready = gui.setSelectState(inputs.ready, state.ready);
 	inputs.search.value = state.search || '';
@@ -310,7 +354,7 @@ function toggleSelected(id, flag) {
 		const input = item.row.querySelector('input');
 		if (input) input.checked = flag;
 	}
-	const bit = getSelectedBit(inputs.set.value);
+	const bit = getSetdBit(inputs.set.value);
 	selected[id] = ((selected[id] || 0) & ~bit) + (flag ? bit : 0);
 }
 
@@ -347,7 +391,7 @@ function onClickTable(event) {
 
 function storeSelected() {
 	if (repeatables) {
-		const bit = getSelectedBit(inputs.set.value);
+		const bit = getSetdBit(inputs.set.value);
 		for (const item of Object.values(repeatables)) item.selected = ((selected[item.id] || 0) & bit) > 0;
 		Object.keys(selected).filter(id => !(id in repeatables)).forEach(id => delete selected[id]);
 	}
