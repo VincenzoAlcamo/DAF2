@@ -348,7 +348,7 @@
 			Msg.handlers['mine'] = (request) => {
 				const id = +request.id;
 				log('Visiting mine', id);
-				core.instance?.showScreen("mineScreen", { mineId: id });
+				core.instance?.checkAndEnterMine(id, false);
 			};
 			setInterval(() => {
 				const info = getActiveScreen();
