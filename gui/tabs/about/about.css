@@ -141,8 +141,10 @@
 	width: 114px;
 	margin: 1px;
 	opacity: 0.5;
+	min-width: 200px;
 }
 
+/*
 .about_launcher > div > div > div > div > button {
 	width: 56px;
 }
@@ -173,6 +175,7 @@
 .about_launcher div:hover > button {
 	opacity: 1;
 }
+*/
 
 .tab_about {
 	cursor: default;

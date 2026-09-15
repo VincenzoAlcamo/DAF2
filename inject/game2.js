@@ -227,6 +227,8 @@ function init() {
 		Msg.handlers['ads_info'] = (request) => void updateAdsInfo(request.data);
 
 		Msg.handlers['*wallpost'] = ()  => void Msg.send('forward', { real_action: 'wallpost' });
+
+		Msg.handlers['enter_mine'] = (request) => log('enter_mine', request);
 	});
 }
 
@@ -408,8 +410,10 @@ function createMenu() {
 <li data-action="reloadGame"><b>&nbsp;</b>
 	<div>
 		<span data-text="menu_reloadgame"></span>
+		<!--
 		<br>
 		<i data-value="switch"></i>
+		-->
 	</div>
 </li>
 </ul>
@@ -435,7 +439,7 @@ function createMenu() {
 	// menu.querySelector('[data-pref="hAutoDig"]')?.remove();
 	const select = menu.querySelector('[data-pref="hFoodNum"]');
 	[...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
-	menu.querySelector('[data-value="switch"]').setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');
+	menu.querySelector('[data-value="switch"]')?.setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');
 	translateMenu();
 	setupSearch();
 	menu.addEventListener('click', onMenuClick);
