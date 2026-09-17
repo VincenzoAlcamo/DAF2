@@ -909,7 +909,7 @@ var Data = {
 				const name = Data.getString(rep.name).replace(/\n/g, ' ');
 				const image = rep.gr_library ? `mobile_locations/${rep.gr_library}_${rep.gr_clip}` : rep.image;
 				// list.push({ lid, rid, rname: rid ? Data.getObjectName('region', rid) : Data.getString(rep.ename), name, image: `${prefix}${image}.png` });
-				if (rid) result.regions[rid] = Data.getObjectName('region', rid); else result.events[eid] = rep.ename;
+				if (rid) result.regions[rid] = Data.getObjectName('region', rid); else result.events[eid] = Data.getString(rep.ename);
 				const obj = { lid, rid, name, image };
 				if (eid) obj.eid = eid;
 				result.list.push(obj);
