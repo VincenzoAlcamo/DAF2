@@ -58,6 +58,8 @@
 			"matches": [
 				"https://portal.pixelfederation.com/_da/miner",
 				"https://portal.pixelfederation.com/_da/miner/*",
+				"https://game-diggysadventure.pixelfederation.com/miner",
+				"https://game-diggysadventure.pixelfederation.com/miner/*",
 				"https://game.diggysadventure.com/miner",
 				"https://game.diggysadventure.com/miner/*",
 				"https://diggysadventure.com/miner",
