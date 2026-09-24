@@ -112,14 +112,14 @@
 			});
 		return obj;
 	};
-	//
-	// let myGetSpeed = undefined;
-	// interceptSet('getActualSpeed', function(_getActualSpeed) {
-	// 	return function() {
-	// 		const val = _getActualSpeed.apply(this, arguments);
-	// 		return myGetSpeed ? myGetSpeed(val) : val;
-	// 	};
-	// });
+
+	let myGetSpeed = undefined;
+	const wasSpeedIntercepted = Math.random() < 1 ? false : interceptSet('getActualSpeed', function(_getActualSpeed) {
+		return function() {
+			const val = _getActualSpeed.apply(this, arguments);
+			return myGetSpeed ? myGetSpeed(val) : val;
+		};
+	}) || true;
 
 	// XMLHttpRequest
 	let xhrEnabled = false;
@@ -399,11 +399,8 @@
 			const _getActualSpeed = def.getActualSpeed;
 			if (typeof _getActualSpeed === 'function') {
 				extras.push('hSpeed');
-				// myGetSpeed = (val) => getSpeed(core.instance, val, val, false);
-				def.getActualSpeed = function() {
-					const val = _getActualSpeed.apply(this, arguments);
-					return getSpeed(core.instance, val, val, false);
-				};
+				myGetSpeed = (val) => getSpeed(core.instance, val, val, false);
+				if (!wasSpeedIntercepted) def.getActualSpeed = function() { return myGetSpeed(_getActualSpeed.apply(this, arguments)); };
 			}
 		});
 		intercept('com.pixelfederation.diggy.game.character.Character', 'breakTile', function (_breakTile) {
