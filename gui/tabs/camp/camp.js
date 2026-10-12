@@ -1116,7 +1116,7 @@ async function luckyCards(flag) {
 		if (method == Dialog.AUTORUN || method == 'rid') {
 			let htm = '';
 			htm += Html`<table><tr>`;
-			const rewards = getRewards(videoad.reward_ids);
+			const rewards = getRewards(true ? videoad.pixel_id_reward_ids : videoad.reward_ids);
 			rewards.forEach((reward, index) => {
 				htm += Html`<td class="innertable">`;
 				htm += getRewardsTable(reward, params.rid, rewards.length > 1 ? Locale.formatNumber(index + 1) : null, flag ? 3 : 5);
