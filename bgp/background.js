@@ -575,7 +575,7 @@ var Data = {
 		await new Promise(function (resolve, _reject) {
 			chrome.management.getSelf(function (self) {
 				Data.isDevelopment = self.installType == 'development';
-				if (Data.isDevelopment) Object.assign(defaultBadge, { text: 'DEV', bg: 'black'});
+				// if (Data.isDevelopment) Object.assign(defaultBadge, { text: 'DEV', bg: 'black'});
 				Data.version = self.version;
 				resolve();
 			});
