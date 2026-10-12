@@ -400,6 +400,12 @@ function createMenu() {
 			<option value="refresh" data-text="options_honrefresh_refresh"></option>
 		</select>
 		</u>
+		<u class="squared">
+		<i data-pref="hAutoProduce"></i>
+		<i data-pref="hAutoProduceCaravan" title="" class="hue2" data-text="tab_caravan"></i>
+		<i data-pref="hAutoProduceKitchen" title="" class="hue2" data-text="tab_kitchen"></i>
+		<i data-pref="hAutoProduceFoundry" title="" class="hue2" data-text="tab_foundry"></i>
+		</u>
 		<u class="squared"><i class="no-click" data-text="@Initial popups"></i>
 		<i data-pref="hNoMails" data-text="@Skip"></i>
 		<span data-action="showMails" style="display:none" data-title="@Show initial popups">Show</span>

@@ -164,9 +164,9 @@ function init() {
 		if (prefName.endsWith('Sound')) messageId = 'options_badgesound';
 		if (prefName.endsWith('Volume')) messageId = 'options_badgevolume';
 		if (prefName.endsWith('Offset')) messageId = 'options_badgetimeoffset';
-		if (prefName == 'badgeCaravan') messageId = 'tab_caravan';
-		if (prefName == 'badgeKitchen') messageId = 'tab_kitchen';
-		if (prefName == 'badgeFoundry') messageId = 'tab_foundry';
+		if (prefName == 'badgeCaravan' || prefName == 'hAutoProduceCaravan') messageId = 'tab_caravan';
+		if (prefName == 'badgeKitchen' || prefName == 'hAutoProduceKitchen') messageId = 'tab_kitchen';
+		if (prefName == 'badgeFoundry' || prefName == 'hAutoProduceFoundry') messageId = 'tab_foundry';
 		if (prefName == 'linkGrabBadge') messageId = 'options_section_badges';
 		if (prefName == 'hFlashAdSound') messageId = 'options_hflashad';
 		if (prefName == 'hEnergyMaxSound') messageId = 'options_henergymax';
@@ -206,7 +206,8 @@ function init() {
 		}
 
 		htm += Html.br`<tr${className ? Html` class="${className}"` : ''}>`;
-		htm += Html.br`<td${!hasCheckBox ? Html.raw(' colspan="2"') : ''} style="${prefName === 'hAutoQueue' ? 'padding-left:64px' : ''}">`;
+		const extraPadding = prefName === 'hAutoQueue' || (prefName.length > 12 && prefName.startsWith('hAutoProduce'));
+		htm += Html.br`<td${!hasCheckBox ? Html.raw(' colspan="2"') : ''} style="${extraPadding ? 'padding-left:64px' : ''}">`;
 		if (title) htm += Html.br`<h3>${title}</h3>`;
 		if (info) htm += Html.br`<p class="${prefName.endsWith('Offset') ? 'time' : ''}">${info}</p>`;
 		if (hasSelect) {
@@ -464,6 +465,11 @@ UI_claim_coin_single_slow_02
 	option('hPetSpeed', SUBOPTION);
 	const refreshOptions = ['', 'close', 'map', 'refresh'].map(v => [v, gui.getMessage('options_honrefresh_' + (v || 'none'))]);
 	option('hOnRefresh', SUBOPTION, refreshOptions);
+	option('hAutoProduce', SUBOPTION);
+	option('hAutoProduceCaravan', SUBOPTION);
+	option('hAutoProduceKitchen', SUBOPTION);
+	option('hAutoProduceFoundry', SUBOPTION);
+
 	endSection();
 	beginSection('badges');
 	// option('badgeServerEnergy');

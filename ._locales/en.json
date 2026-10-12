@@ -2025,6 +2025,9 @@
 	"options_honrefresh_refresh": {
 		"message": "Refresh with gems"
 	},
+	"options_hautoproduce": {
+		"message": "Auto Restart Productions\nWhen a production is ready, it will be automatically restarted"
+	},
 	"calc_operators": {
 		"message": "Operators"
 	},

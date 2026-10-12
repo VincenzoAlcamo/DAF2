@@ -327,6 +327,24 @@
 				return { screen, visited, dialog, mine: screen == 'mineScreen' && allowedDialogs.includes(dialog || '') };
 			};
 
+			extras.push('hAutoProduce', 'hAutoProduceCaravan', 'hAutoProduceKitchen', 'hAutoProduceFoundry');
+			const restartProductions = () => {
+				const pm = core.instance?._productionManager;
+				if (!pm) return;
+				const prodTypes = [Prefs.hAutoProduceCaravan && 'caravan', Prefs.hAutoProduceKitchen && 'cooking', Prefs.hAutoProduceFoundry && 'metalurg'];
+				prodTypes.forEach((prodType) => {
+					const slots = (prodType && pm.getSlots(prodType)) || [];
+					slots.forEach((slot, index) => {
+						if (slot.getState() != 'delivered') return;
+						// Caravan with ticket
+						if (slot._producedItem?._requirements?.find((req) => req.object_id == 347 && req.type == 'material')) return;
+						// log('restarting %s %d', prodType, index);
+						pm.unloadSlot(prodType, index);
+						slot.initProduction() && pm.sendSlot(prodType, index, slot.getObjectId(), slot.getItemId());
+					});
+				});
+			};
+
 			Msg.handlers['toggleAutoDig'] = () => void toggleAutoDig(getActiveScreen().mine ? undefined : false);
 			Msg.handlers['keyCode'] = (request) => {
 				log('Received key code', request.code);
@@ -358,6 +376,7 @@
 					Msg.sendPage('screen', { screen: info.screen, dialog: info.dialog });
 				}
 				if (isAutoDigEnabled && !info.mine) toggleAutoDig(false);
+				if (Prefs.hAutoProduce) restartProductions();
 			}, 500);
 
 			Msg.handlers['showMails'] = () => {

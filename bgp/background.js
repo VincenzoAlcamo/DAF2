@@ -150,6 +150,10 @@ var Preferences = {
 			hFastLuckyCards: true,
 			hShowLuckyCards: false,
 			hOnRefresh: '',
+			hAutoProduce: false,
+			hAutoProduceCaravan: true,
+			hAutoProduceKitchen: true,
+			hAutoProduceFoundry: true,
 			remapAssets: 'npc 42534,42535,42536=42577',
 			fileVersion: '20240926120000',
 		};
