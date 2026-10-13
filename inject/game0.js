@@ -376,7 +376,7 @@
 					Msg.sendPage('screen', { screen: info.screen, dialog: info.dialog });
 				}
 				if (isAutoDigEnabled && !info.mine) toggleAutoDig(false);
-				if (Prefs.hAutoProduce) restartProductions();
+				if (info.screen && Prefs.hAutoProduce) restartProductions();
 			}, 500);
 
 			Msg.handlers['showMails'] = () => {
