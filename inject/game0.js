@@ -392,16 +392,16 @@
 			}
 		}
 
-		const mineInfo = { mineId: 0, isRepeat: false, isTower: false };
+		const mineInfo = { mineId: 0, isRepeat: false, isTower: false, isRepeatOrTower: false, forcePetHideDiggy: false };
 		function getMineInfo() {
 			const screen = core.instance._screenManager?._activeScreen?._screen;
-			const mineId = screen?.screenId === 'mineScreen' && screen._locationData.getMineId();
-			if (mineId !== mineInfo) {
+			const mineId = (screen?.screenId === 'mineScreen' && screen._locationData?.getMineId()) || 0;
+			if (mineId !== mineInfo.mineId) {
 				mineInfo.mineId = mineId;
-				mineInfo.isRepeat = !!mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable();
-				mineInfo.isTower = !!mineId && screen._locationData.isTowerFloor();
+				mineInfo.isRepeat = !!(mineId && core.instance.getMapManager()?.getLocation(mineId)?.isRefreshable());
+				mineInfo.isTower = !!(mineId && screen._locationData?.isTowerFloor());
 				mineInfo.isRepeatOrTower = mineInfo.isRepeat || mineInfo.isTower;
-				mineInfo.forcePetHideDiggy = !!screen._locationData.forcePetHideDiggy;
+				mineInfo.forcePetHideDiggy = !!(mineId && screen._locationData?.forcePetHideDiggy);
 			}
 			return mineInfo;
 		}
