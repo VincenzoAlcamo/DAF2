@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Cartas de la Suerte Rápidas\nBarajar las Cartas de la Suerte es más rápido"
 	},
+	"options_honrefresh": {
+		"message": "Al actualizar el cuadro de diálogo\nCuando se elimina una mina repetible, se selecciona automáticamente una opción del cuadro de diálogo que aparece."
+	},
+	"options_honrefresh_none": {
+		"message": "Ninguno"
+	},
+	"options_honrefresh_close": {
+		"message": "Quédate en mi"
+	},
+	"options_honrefresh_map": {
+		"message": "Ir al mapa"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Refresca con gemas"
+	},
+	"options_hautoproduce": {
+		"message": "Reinicio automático de producciones\nCuando una producción esté lista, se reiniciará automáticamente."
+	},
 	"calc_operators": {
 		"message": "Operadores"
 	},

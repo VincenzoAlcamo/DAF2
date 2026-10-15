@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Rýchle šťastné karty\nMiešanie šťastných kariet je rýchlejšie"
 	},
+	"options_honrefresh": {
+		"message": "V dialógovom okne Obnoviť\nPo vyčistení opakujúcej sa míny sa v zobrazenom dialógovom okne automaticky vyberie požadovaná možnosť."
+	},
+	"options_honrefresh_none": {
+		"message": "Žiadne"
+	},
+	"options_honrefresh_close": {
+		"message": "Zostaň v mojom"
+	},
+	"options_honrefresh_map": {
+		"message": "Prejsť na mapu"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Osviežte sa drahokamami"
+	},
+	"options_hautoproduce": {
+		"message": "Automatické reštartovanie produkcií\nKeď je produkcia pripravená, automaticky sa reštartuje"
+	},
 	"calc_operators": {
 		"message": "Operátory"
 	},

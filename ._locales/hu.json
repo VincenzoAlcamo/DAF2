@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Gyors szerencsekártyák\nA szerencsekártyák keverése gyorsabb"
 	},
+	"options_honrefresh": {
+		"message": "Frissítési párbeszédpanelen\nAmikor egy ismételhető bányát eltávolítanak, a megjelenő párbeszédpanelen automatikusan kiválasztódik egy opció."
+	},
+	"options_honrefresh_none": {
+		"message": "Semmi"
+	},
+	"options_honrefresh_close": {
+		"message": "Maradj az enyémben"
+	},
+	"options_honrefresh_map": {
+		"message": "Ugrás a térképre"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Frissítsd fel drágakövekkel"
+	},
+	"options_hautoproduce": {
+		"message": "Automatikus újraindítás\nAmikor egy produkció elkészült, automatikusan újraindul"
+	},
 	"calc_operators": {
 		"message": "Műveleti jelek"
 	},

@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Cartas da Sorte Rápidas\nO embaralhamento das Cartas da Sorte é mais rápido"
 	},
+	"options_honrefresh": {
+		"message": "Na caixa de diálogo de atualização\nQuando uma mina repetível é removida, uma opção é selecionada automaticamente na caixa de diálogo que aparece."
+	},
+	"options_honrefresh_none": {
+		"message": "Nenhum"
+	},
+	"options_honrefresh_close": {
+		"message": "Fique na minha"
+	},
+	"options_honrefresh_map": {
+		"message": "Ir para o mapa"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Renove com joias"
+	},
+	"options_hautoproduce": {
+		"message": "Reinício automático de produções\nQuando uma produção estiver pronta, ela será reiniciada automaticamente."
+	},
 	"calc_operators": {
 		"message": "Operadores"
 	},

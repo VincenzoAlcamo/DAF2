@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "快速的幸運卡片\n幸運卡片洗牌時快一點"
 	},
+	"options_honrefresh": {
+		"message": "刷新对话框时\n当可重复使用的地雷被清除后，弹出的对话框中会自动选择一个选项。"
+	},
+	"options_honrefresh_none": {
+		"message": "無"
+	},
+	"options_honrefresh_close": {
+		"message": "待在我身边"
+	},
+	"options_honrefresh_map": {
+		"message": "前往地图"
+	},
+	"options_honrefresh_refresh": {
+		"message": "用宝石刷新"
+	},
+	"options_hautoproduce": {
+		"message": "自动重启制作流程\n当制作流程准备就绪时，它将自动重启。"
+	},
 	"calc_operators": {
 		"message": "運算子"
 	},

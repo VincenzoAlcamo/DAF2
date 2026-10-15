@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Γρήγορες Τυχερές Κάρτες\nΗ ανακάτεμα των Τυχερών Καρτών είναι πιο γρήγορη"
 	},
+	"options_honrefresh": {
+		"message": "Στο παράθυρο διαλόγου ανανέωσης\nΌταν καθαρίζεται μια επαναλαμβανόμενη νάρκη, επιλέγεται αυτόματα μια επιλογή από το παράθυρο διαλόγου που εμφανίζεται"
+	},
+	"options_honrefresh_none": {
+		"message": "Καμία"
+	},
+	"options_honrefresh_close": {
+		"message": "Μείνε στο δικό μου"
+	},
+	"options_honrefresh_map": {
+		"message": "Μετάβαση στον χάρτη"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Ανανεωθείτε με πολύτιμους λίθους"
+	},
+	"options_hautoproduce": {
+		"message": "Αυτόματη Επανεκκίνηση Παραγωγών\nΌταν μια παραγωγή είναι έτοιμη, θα επανεκκινηθεί αυτόματα"
+	},
 	"calc_operators": {
 		"message": "Τελεστές"
 	},

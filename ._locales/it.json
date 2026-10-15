@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Carte fortunate veloci\nLe carte fortunate sono più veloci"
 	},
+	"options_honrefresh": {
+		"message": "Completamento ripetibile\nQuando una ripetibile viene pulita, un'opzione viene scelta automaticamente tra quelle che appaiono"
+	},
+	"options_honrefresh_none": {
+		"message": "Nessuna"
+	},
+	"options_honrefresh_close": {
+		"message": "Resta nella miniera"
+	},
+	"options_honrefresh_map": {
+		"message": "Vai alla mappa"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Aggiorna con gemme"
+	},
+	"options_hautoproduce": {
+		"message": "Riavvio automatico delle produzioni\nQuando una produzione è pronta, verrà riavviata automaticamente"
+	},
 	"calc_operators": {
 		"message": "Operatori"
 	},

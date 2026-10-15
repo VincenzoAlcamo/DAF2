@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Schnelle Glückskarten\nDas Mischen der Glückskarten ist schneller."
 	},
+	"options_honrefresh": {
+		"message": "Dialogfeld aktualisieren\nWenn eine wiederholbare Mine geräumt wird, wird automatisch eine Option aus dem daraufhin angezeigten Dialogfeld ausgewählt."
+	},
+	"options_honrefresh_none": {
+		"message": "Keine"
+	},
+	"options_honrefresh_close": {
+		"message": "Bleib in meinem"
+	},
+	"options_honrefresh_map": {
+		"message": "Zur Karte"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Erfrische dich mit Edelsteinen"
+	},
+	"options_hautoproduce": {
+		"message": "Automatischer Neustart der Produktion\nSobald eine Produktion fertig ist, wird sie automatisch neu gestartet."
+	},
 	"calc_operators": {
 		"message": "Operatoren"
 	},

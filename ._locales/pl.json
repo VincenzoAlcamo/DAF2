@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Szybkie Szczęśliwe Karty\nTasowanie Szczęśliwych Kart jest szybsze"
 	},
+	"options_honrefresh": {
+		"message": "W oknie dialogowym „Odśwież”\nPo usunięciu miny powtarzalnej, opcja jest automatycznie wybierana z wyświetlonego okna dialogowego."
+	},
+	"options_honrefresh_none": {
+		"message": "Żaden"
+	},
+	"options_honrefresh_close": {
+		"message": "Zostań w moim"
+	},
+	"options_honrefresh_map": {
+		"message": "Przejdź do mapy"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Odśwież za pomocą klejnotów"
+	},
+	"options_hautoproduce": {
+		"message": "Automatyczne ponowne uruchamianie produkcji\nGdy produkcja będzie gotowa, zostanie automatycznie ponownie uruchomiona."
+	},
 	"calc_operators": {
 		"message": "Użytkownicy"
 	},

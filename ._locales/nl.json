@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Snelle gelukskaarten\nHet schudden van gelukskaarten gaat sneller"
 	},
+	"options_honrefresh": {
+		"message": "Bij het vernieuwen van het dialoogvenster\nWanneer een herhaalbare mijn is opgeruimd, wordt automatisch een optie geselecteerd in het dialoogvenster dat verschijnt."
+	},
+	"options_honrefresh_none": {
+		"message": "Geen"
+	},
+	"options_honrefresh_close": {
+		"message": "Blijf in de mijne"
+	},
+	"options_honrefresh_map": {
+		"message": "Ga naar de kaart"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Verfris jezelf met edelstenen"
+	},
+	"options_hautoproduce": {
+		"message": "Producties automatisch opnieuw starten\nWanneer een productie gereed is, wordt deze automatisch opnieuw gestart."
+	},
 	"calc_operators": {
 		"message": "Operatoren"
 	},

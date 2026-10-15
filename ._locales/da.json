@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Hurtige heldige kort\nBlanding af heldige kort er hurtigere"
 	},
+	"options_honrefresh": {
+		"message": "I opdateringsdialogboksen\nNår en gentagbar mine ryddes, vælges der automatisk en mulighed i den dialogboks, der vises."
+	},
+	"options_honrefresh_none": {
+		"message": "Ingen"
+	},
+	"options_honrefresh_close": {
+		"message": "Bliv i min"
+	},
+	"options_honrefresh_map": {
+		"message": "Gå til kort"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Opfrisk med ædelsten"
+	},
+	"options_hautoproduce": {
+		"message": "Automatisk genstart af produktioner\nNår en produktion er klar, genstartes den automatisk"
+	},
 	"calc_operators": {
 		"message": "Aktører"
 	},

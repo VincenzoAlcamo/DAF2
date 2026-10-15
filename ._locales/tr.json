@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Hızlı Şans Kartları\nŞans Kartlarının karıştırma işlemi daha hızlıdır."
 	},
+	"options_honrefresh": {
+		"message": "Yenileme Diyaloğu\nTekrarlanabilir bir mayın temizlendiğinde, açılan diyalogdan otomatik olarak bir seçenek seçilir."
+	},
+	"options_honrefresh_none": {
+		"message": "Hiçbiri"
+	},
+	"options_honrefresh_close": {
+		"message": "Benim yanımda kal"
+	},
+	"options_honrefresh_map": {
+		"message": "Haritaya git"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Değerli taşlarla yenilenin"
+	},
+	"options_hautoproduce": {
+		"message": "Otomatik Yeniden Başlatma İşlemleri\nBir işlem tamamlandığında, otomatik olarak yeniden başlatılacaktır."
+	},
 	"calc_operators": {
 		"message": "Operatörler"
 	},

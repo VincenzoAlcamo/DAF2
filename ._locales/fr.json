@@ -2010,6 +2010,24 @@
 	"options_hfastluckycards": {
 		"message": "Cartes porte-bonheur rapides\nLe mélange des cartes porte-bonheur est plus rapide,"
 	},
+	"options_honrefresh": {
+		"message": "Lors de l'actualisation de la boîte de dialogue\nLorsqu'une mine répétable est nettoyée, une option est automatiquement sélectionnée dans la boîte de dialogue qui s'affiche,"
+	},
+	"options_honrefresh_none": {
+		"message": "Aucune"
+	},
+	"options_honrefresh_close": {
+		"message": "Rester ici"
+	},
+	"options_honrefresh_map": {
+		"message": "Aller à la carte"
+	},
+	"options_honrefresh_refresh": {
+		"message": "Actualiser avec des gemmes"
+	},
+	"options_hautoproduce": {
+		"message": "Redémarrage automatique des productions\nLorsqu'une production est prête, elle redémarre automatiquement."
+	},
 	"calc_operators": {
 		"message": "Les opérateurs"
 	},
