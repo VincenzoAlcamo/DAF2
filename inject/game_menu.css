@@ -643,6 +643,7 @@ td.DAF-visit {
 	opacity: 0.3;
 	pointer-events: none;
 }
+.DAF-container:not([daf-dialog=""]) .DAF-menu [data-action="showPetEnergy"],
 .DAF-container:not([daf-dialog=""]) .DAF-badge-rep b,
 .DAF-badge-rep.visiting b {
 	filter: grayscale(1);
