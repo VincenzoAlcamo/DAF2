@@ -131,6 +131,7 @@ function init() {
 			document.documentElement.classList.toggle('DAF-fullwindow', Prefs.fullWindow);
 			cdn_root ||= data.cdn_root;
 			Msg.dispatch({ action: '@prefs', values: { isSuper: data.isSuper }});
+			menu.classList.toggle('isSuper', data.isSuper);
 			site = (data.site || 'portal').toLowerCase();
 			const el = menu.querySelector('[data-value="switch"');
 			if (el) Html.set(el, Html.br(getMessage(site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal')));
@@ -169,6 +170,7 @@ function init() {
 		}
 
 		Msg.handlers['showMailsButton'] = () => void setShowMailsButton(true);
+		Msg.handlers['showPetEnergyButton'] = () => void setShowPetEnergyButton(true);
 
 		if (Prefs.hMain) {
 			menu.querySelector('.DAF-badge-extra').classList.add('DAF-badge-on');
@@ -389,7 +391,9 @@ function createMenu() {
 		</u>
 		<u class="squared"><i class="no-click" data-text="gui_pet"></i>
 		<i data-pref="hPetFollow"></i>
-		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i></u>
+		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i>
+		<span data-action="showPetEnergy" style="display:none" data-title="@Show No Energy popup">No energy</span>
+		</u>
 		<u><i data-pref="hSpeed"></i><i data-pref="hLockCaravan"></i></u>
 		<u class="squared">
 		<i class="squared-right" data-title="options_honrefresh:1" data-text="options_honrefresh:0"></i>
@@ -585,10 +589,12 @@ function updateMenu(prefName) {
 		.forEach((prefName) => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!Prefs[prefName]));
 }
 
-function setShowMailsButton(flag) {
-	const button = menu.querySelector('[data-action="showMails"]');
+function setActionButton(action, flag) {
+	const button = menu.querySelector(`[data-action="${action}"]`);
 	if (button) button.style.display = flag ? '' : 'none';
 }
+const setShowMailsButton = (flag) => setActionButton('showMails', flag);
+const setShowPetEnergyButton = (flag) => setActionButton('showPetEnergy', flag);
 
 function onMenuClick(e) {
 	const target = e.target;
@@ -642,6 +648,9 @@ function onMenuClick(e) {
 		case 'showMails':
 			setShowMailsButton(false);
 			Msg.sendPage('showMails');
+			break;
+		case 'showPetEnergy':
+			Msg.sendPage('showPetEnergy');
 			break;
 	}
 }

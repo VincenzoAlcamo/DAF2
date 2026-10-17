@@ -311,6 +311,8 @@
 			return gm && (gm._friendsManager || gm.friendsManager);
 		}
 		if (core) {
+			Object.defineProperty(globalThis, '$core', { get: () => core.instance, enumerable: true, configurable: true });
+			Msg.sendPage('showPetEnergyButton');
 			extras.push('@core');
 			let currentScreen = null;
 			const allowedDialogs = ['', 'ExpInfoPopup', 'StaminaInfoPopup'];
@@ -389,7 +391,10 @@
 						popupManager.showNextMessage();
 					}
 				}
-			}
+			};
+			Msg.handlers['showPetEnergy'] = () => {
+				core.instance?.getPopupManager().showDialogByPopupId({ Id : "PetsEnergyPopupPrefab", customWrapperFactory : null, useNewCamera : true, prefabsListProvider : null}, {});
+			};
 		}
 
 		const mineInfo = { mineId: 0, isRepeat: false, isTower: false, isRepeatOrTower: false, forcePetHideDiggy: false };
