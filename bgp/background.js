@@ -1822,12 +1822,16 @@ var Synchronize = {
 			if (last && next && last.id == next.id) {
 				from = `${task.direction == 'up' ? 'n' : 'x'}_${task.exit_id}`;
 				to = `p_${taskResponse.cur_column}_${taskResponse.cur_row}`;
+				if (!last._p.links) last._p.links = {};
 				last._p.links[from] = `${taskResponse.level_id}_${to}`;
 			}
 			Synchronize.signalMineAction({ action, exit_id: +task.exit_id, direction: task.direction });
 			Data.setLastEnteredMine(taskResponse);
 			// This must be done after the map has been added, so next._p is correctly set
-			if (to) next._p.links[to] = `${last.level_id}_${from}`;
+			if (to) {
+				if (!next._p.links) next._p.links = {};
+				next._p.links[to] = `${last.level_id}_${from}`;
+			}
 			Synchronize.signalMineAction();
 			Synchronize.signal(action, taskResponse);
 		},

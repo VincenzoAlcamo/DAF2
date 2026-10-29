@@ -517,6 +517,7 @@ function onKeydown(event) {
 		const tileDef = currentData.tileDefs[y * mine.columns + x];
 		const isMixed = !isUncleared && td.hasAttribute('data-mix');
 		event.preventDefault();
+		if (!mine._p) mine._p = {};
 		const getEdit = () => {
 			const eName = isUncleared || isMixed ? 'ue' : 'e', eKey = getTileKey(x, y);
 			const edits = mine._p[eName];
@@ -700,7 +701,7 @@ function prepareFloorData(data, unclear, removeMarks) {
 	}
 	if (unclear) {
 		unclear.num = 0;
-		data.filter((mine) => mine._p.o).forEach((mine) => {
+		data.filter((mine) => mine._p?.o).forEach((mine) => {
 			unclear.num++;
 			mine.packedTiles = mine._p.o.packed;
 			['beacons', 'entrances', 'exits', 'npcs', 'hints', 'drags', 'teleports', 'cur_column', 'cur_row'].forEach(
@@ -817,7 +818,7 @@ function onClickButton(event) {
 						if (!Array.isArray(data) || data.length == 0) throw invalidExport;
 						const lid = data[0].id;
 						for (const mine of data) if (mine.id != lid || !(+mine.level_id > 0)) throw invalidExport;
-						bgp.Data.addMine(data);
+						bgp.Data.addMine(bgp.structuredClone(data));
 						lastLid = lid;
 					} catch (error) {
 						lastError = error.message || error;
@@ -1230,8 +1231,9 @@ function onTableClick(event) {
 		}
 		if (value === undefined || value === null) return;
 		value = value.trim().substr(0, 3);
-		let edits = mine._p.e;
+		let edits = mine._p?.e;
 		if (!value && !edits) return;
+		if (!mine._p) mine._p = {};
 		if (!edits) edits = mine._p.e = {};
 		if (!value && !(key in edits) && !(key2 in edits)) return;
 		Object.entries(edits).forEach(([key, v]) => {
@@ -1537,8 +1539,8 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	let { region: rid, tiles: mineTiles } = mine;
 
 	const isPreview = mine.time === 0;
-	const isUnclear = !!(showUncleared && mine._p.o);
-	const base = isUnclear ? mine._p.o : mine;
+	const isUnclear = !!(showUncleared && mine._p?.o);
+	const base = isUnclear ? mine._p?.o : mine;
 	const packedTiles = isUnclear ? base.packed : mine.packedTiles;
 	if (packedTiles) mineTiles = PackTiles.unpack(packedTiles);
 
@@ -1683,7 +1685,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		tileDef.tileSubtype = tileSubtype;
 		computeTile(tileDef);
 	});
-	applyViewed(tileDefs, mine._p.vis);
+	applyViewed(tileDefs, mine._p?.vis);
 	for (const tileDef of tileDefs) {
 		if (tileDef.viewed) tileDef.show = true;
 		// Fix for "expedition_vision"
@@ -1830,7 +1832,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	// Entrances and exits
 	const doors = (data.doors = {});
 	const usedNames = {};
-	const edits = mine._p.e || {};
+	const edits = mine._p?.e || {};
 	Object.entries(edits).forEach(([key, value]) => {
 		if (isKeyForDoor(key)) usedNames[value] = value;
 	});
@@ -1846,7 +1848,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	};
 	floors.forEach((floor) => {
 		const fid = floor.def_id;
-		const mine = locationMines[fid], edits = (mine && mine._p.e) || {};
+		const mine = locationMines[fid], edits = (mine && mine._p?.e) || {};
 		Object.entries(edits).forEach(([key, value]) => {
 			if (key.startsWith('x_')) usedNames[value] = value;
 		});
@@ -1880,7 +1882,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 	for (const obj of asArray(floor.hide_entrance == 0 ? mine.entrances : []))
 		setDoorTile(doors[fid + '_n_' + obj.def_id]);
 	for (const obj of asArray(mine.exits)) setDoorTile(doors[fid + '_x_' + obj.def_id]);
-	for (const [keyStartPartial, keyEnd] of Object.entries(mine._p.links)) {
+	for (const [keyStartPartial, keyEnd] of Object.entries(mine._p?.links || {})) {
 		const keyStart = fid + '_' + keyStartPartial;
 		const start = doors[keyStart], end = doors[keyEnd];
 		if (start && end) {
@@ -2427,6 +2429,7 @@ async function calcMine(mine, { addImages = false, setAllVisibility = false } = 
 		if (tileDef.npcId) tileDef.solid |= 128;
 	}
 
+	if (!mine._p) mine._p = {};
 	mine._p.vis = getViewed(tileDefs, setAllVisibility);
 	if (isUnclear) {
 		const edits = mine._p.ue || {};
@@ -2646,7 +2649,7 @@ async function drawMine(args) {
 	gui.updateTabState(tab);
 	updateTableFlags();
 	let base = currentData && currentData.mine;
-	if (showUncleared && base && base._p.o) base = base._p.o;
+	if (showUncleared && base && base._p?.o) base = base._p.o;
 	const isUncleared = base ? base !== currentData.mine : false;
 	const isPreview = currentData.mine.time === 0;
 	container.classList.toggle('is_uncleared', isUncleared);
@@ -2844,7 +2847,7 @@ async function drawMine(args) {
 		if (isBidi && sx + sy * cols > tx + ty * cols) return;
 
 		let base = isBidi ? themeSettings['arrow2'] : themeSettings['arrow'];
-		const edits = currentData.mine._p.e;
+		const edits = currentData.mine._p?.e;
 		const tKey = 'tc_' + teleport.teleport_id;
 		if (edits && tKey in edits) {
 			const col = specialColors[edits[tKey]];
@@ -3356,7 +3359,7 @@ async function drawMine(args) {
 			arr.push(color);
 		};
 		const SW = 4;
-		const unclearEdits = currentData.mine._p.ue || {}, edits = currentData.mine._p.e || {};
+		const unclearEdits = currentData.mine._p?.ue || {}, edits = currentData.mine._p?.e || {};
 		const specialColor = ThemeEditor.toTripletColor(themeSettings.marker.special);
 		const questColor = ThemeEditor.toTripletColor(themeSettings.marker.quest);
 		const photoColor = ThemeEditor.toTripletColor(themeSettings.marker.photo);
@@ -3592,7 +3595,7 @@ async function drawMine(args) {
 
 	// Teleports (where only one end is hidden)
 	{
-		const edits = currentData.mine._p.e || {};
+		const edits = currentData.mine._p?.e || {};
 		for (const tileDef of tileDefs.filter((t) => t.teleportId)) {
 			const teleport = teleports[tileDef.teleportId];
 			const target = teleport && teleports[teleport.target_teleport_id];
