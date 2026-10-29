@@ -1038,6 +1038,10 @@
 			}
 		});
 
+		intercept('com.pixelfederation.diggy.piggybank.PiggyBankModel', 'wasPiggyBankShownOnOOE', function() {
+			return () => true;
+		});
+
 		const value = extras.join();
 		log('extra detected = "%s"', value);
 		Msg.sendPage('extra', { value });
