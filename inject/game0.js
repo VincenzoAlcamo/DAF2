@@ -113,6 +113,29 @@
 		return obj;
 	};
 
+	const MINE_ACTIONS = [
+		'enter_mine', 'change_level', 'use_clear_mine_token', 'mine', 'drag_object', 'use_beacon',
+		'manipulate_object', 'pick_child', 'pick_npc', 'use_teleport', 'leave_mine', 'friend_child_charge',
+	];
+	let prodCounters;
+	let lastProdCounter = localStorage.getItem('daf_prodcounter');
+	try { prodCounters = JSON.parse(lastProdCounter); } catch {}
+	if (!Array.isArray(prodCounters) || prodCounters.length != 18) prodCounters = Array(18).fill(0);
+	function storeProdCounters() {
+		const text = JSON.stringify(prodCounters);
+		if (text === lastProdCounter) return;
+		lastProdCounter = text;
+		localStorage.setItem('daf_prodcounter', text);
+	}
+	function checkMineAction(xml) {
+		let tasks = xml?.task;
+		tasks = tasks ? (Array.isArray(tasks) ? tasks : [tasks]) : [];
+		if (tasks.find(task => MINE_ACTIONS.includes(task.action))) {
+			prodCounters = Array(18).fill(4);
+			storeProdCounters();
+		}
+	}
+
 	let myGetSpeed = undefined;
 	const wasSpeedIntercepted = Math.random() < 1 ? false : interceptSet('getActualSpeed', function(_getActualSpeed) {
 		return function() {
@@ -201,7 +224,10 @@
 					const p = item.split('=');
 					const key = decodeURIComponent(p[0]);
 					if (key == 'player_id') player_id = decodeURIComponent(p[1]);
-					else if (key == 'xml') xml = parseXml(decodeURIComponent(p[1]));
+					else if (key == 'xml') {
+						xml = parseXml(decodeURIComponent(p[1]));
+						checkMineAction(xml);
+					}
 				}
 				const error = () => dispatch('error');
 				dispatch('send');
@@ -334,12 +360,17 @@
 				const pm = core.instance?._productionManager;
 				if (!pm) return;
 				const prodTypes = [Prefs.hAutoProduceCaravan && 'caravan', Prefs.hAutoProduceKitchen && 'cooking', Prefs.hAutoProduceFoundry && 'metalurg'];
-				prodTypes.forEach((prodType) => {
+				prodTypes.forEach((prodType, prodTypeIndex) => {
 					const slots = (prodType && pm.getSlots(prodType)) || [];
 					slots.forEach((slot, index) => {
 						if (slot.getState() != 'delivered') return;
 						// Caravan with ticket
 						if (slot._producedItem?._requirements?.find((req) => req.object_id == 347 && req.type == 'material')) return;
+						const counterIndex = prodTypeIndex * 6 + index;
+						const counter = Array.isArray(prodCounters) ? prodCounters[counterIndex] || 0: 0;
+						if (counter <= 0 && !Prefs.isSuper) return;
+						prodCounters[counterIndex] = Math.max(counter - 1, 0);
+						storeProdCounters();
 						// log('restarting %s %d', prodType, index);
 						pm.unloadSlot(prodType, index);
 						slot.initProduction() && pm.sendSlot(prodType, index, slot.getObjectId(), slot.getItemId());
