@@ -391,6 +391,7 @@
 .DAF-badges.DAF-hasAutoDig.DAF-hautodig .DAF-badge-autodig,
 .DAF-badges.DAF-badgeserverenergy .DAF-badge-energy.DAF-badge-on,
 .DAF-badges.DAF-badgerepeatables .DAF-badge-rep.DAF-badge-on,
+.DAF-badges.DAF-hminehistory .DAF-badge-mh.DAF-badge-on,
 .DAF-badges.DAF-badgegccounter .DAF-badge-gc-counter.DAF-badge-on,
 .DAF-badges.DAF-badgewindmills .DAF-badge-windmills.DAF-badge-on,
 .DAF-badges.DAF-badgeproductions.DAF-badgecaravan .DAF-badge-p-c.DAF-badge-on,
@@ -402,9 +403,16 @@
 	display: inline-block;
 }
 
+.DAF-badge-rep {
+	--bg: #a00;
+}
+.DAF-badge-mh {
+	--bg: #080;
+}
+.DAF-badge-mh b,
 .DAF-badge-rep b {
-	background-color: #a00;
-	border-color: #a00;
+	background-color: var(--bg);
+	border-color: var(--bg);
 	height: 25px;
 	margin-top: -1px;
 	color: #fff;
@@ -426,8 +434,9 @@
 	font-size: 12px;
 	padding-left: 2px;
 	grid-column: 1 / -1;
-	background-color: #a00;
+	background-color: var(--bg);
 }
+.DAF-badge-mh .rep-loc,
 .DAF-badge-rep .rep-loc {
 	width: 23px;
 	height: 23px;
@@ -436,10 +445,11 @@
 	background-size: 27px;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-color: #a00;
+	background-color: var(--bg);
+    background-image: url(/img/gui/map.png);
 	transition: transform 0.5s;
 	margin-top: -1px;
-	border: 0px solid #300;
+	border: 0px solid #000a;
 }
 .DAF-badge-rep:hover .rep-loc {
 	margin-top: 0px;
@@ -449,6 +459,7 @@
 	background-color: #600;
 	border-radius: 2px;
 }
+.DAF-badge-mh .rep-loc:hover,
 .DAF-badge-rep .rep-loc:hover {
 	transform: scale(2);
 	border-width: 1px;
@@ -646,6 +657,7 @@ td.DAF-visit {
 .DAF-container:not([daf-dialog=""]) .DAF-menu [data-action="showPetEnergy"] {
 	display: none;
 }
+.DAF-container:not([daf-dialog=""]) .DAF-badge-mh b,
 .DAF-container:not([daf-dialog=""]) .DAF-badge-rep b,
 .DAF-badge-rep.visiting b {
 	filter: grayscale(1);

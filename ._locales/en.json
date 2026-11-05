@@ -1986,6 +1986,9 @@
 	"options_hscroll": {
 		"message": "Disable inertial scrolling\nInertial scrolling is the effect where the screen continues to move even after you have stopped dragging it"
 	},
+	"options_hminehistory": {
+		"message": "Show mine history badge\nAny non-repeatable mine you enter is shown in a special badge so you can backtrack to it"
+	},
 	"options_hinstantcamera": {
 		"message": "Instant camera\nWhen the camera view moves to a different location, the transition is instantaneous"
 	},

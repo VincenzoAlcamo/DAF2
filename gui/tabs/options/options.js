@@ -443,6 +443,7 @@ UI_claim_coin_single_slow_02
 	option('hGCCluster', SUBOPTION);
 	option('hFastLuckyCards', SUBOPTION);
 	option('hScroll', SUBOPTION);
+	option('hMineHistory', SUBOPTION);
 	option('hInstantCamera', SUBOPTION);
 	option('hLootFew', SUBOPTION);
 	option('hLootCount', SUBOPTION);

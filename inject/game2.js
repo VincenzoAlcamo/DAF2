@@ -230,7 +230,7 @@ function init() {
 
 		Msg.handlers['*wallpost'] = ()  => void Msg.send('forward', { real_action: 'wallpost' });
 
-		Msg.handlers['enter_mine'] = (request) => log('enter_mine', request);
+		Msg.handlers['daf_enter_mine'] = (request) => setBadgeMineHistory(request);
 	});
 }
 
@@ -369,6 +369,7 @@ function createMenu() {
 		<i data-pref="hEnergyMaxSound" data-title="options_henergymax:1" data-text="options_henergymax:0"></i></u>
 		<u><i data-pref="hGCCluster"></i><i data-pref="hFastLuckyCards"></i></u>
 		<u><i data-pref="hScroll"></i>
+		<i data-pref="hMineHistory"></i>
 		<i data-pref="hInstantCamera"></i></u>
 		<u class="squared">
 		<i data-text="gui_loot" class="no-click"></i>
@@ -441,6 +442,7 @@ function createMenu() {
 	<b class="DAF-badge-autoqueue DAF-badge-img" data-title="options_hautoqueue">AUTO QUEUE</b>
 	<b class="DAF-badge-autodig DAF-badge-img">AUTO DIG</b>
 	<div data-animate class="DAF-badge-rep"></div>
+	<div class="DAF-badge-mh"></div>
 </div>
 `;
 	// remove spaces
@@ -585,7 +587,7 @@ function updateMenu(prefName) {
 	const divBadges = menu.querySelector('.DAF-badges');
 	const names = prefName ? [prefName] : Object.keys(Prefs);
 	names
-		.filter((prefName) => prefName.startsWith('badge') || prefName === 'hQueue' || prefName === 'hAutoQueue' || prefName === 'hAutoDig')
+		.filter((prefName) => prefName.startsWith('badge') || ['hQueue', 'hAutoQueue', 'hAutoDig', 'hMineHistory'].includes(prefName))
 		.forEach((prefName) => divBadges.classList.toggle('DAF-' + prefName.toLowerCase(), !!Prefs[prefName]));
 }
 
@@ -798,6 +800,17 @@ function setBadgeRepeatables({ regions, events, list, prefix, sound, volume }) {
 	// Show items
 	list.sort((a, b) => a.priority - b.priority).slice(0, 3).forEach((item, index) => badge.querySelector(`[data-lid="${item.lid}"]`).setAttribute('data-priority', index + 1));
 	if (Prefs.badgeRepeatables && list.some((item) => item.isNew)) playSound(sound, volume);
+}
+function setBadgeMineHistory(item) {
+	const badge = menu.querySelector('.DAF-badge-mh');
+	if (!badge.firstChild) badge.appendChild(document.createElement('b'));
+	const parent = badge.firstChild;
+	const div = parent.querySelector(`div[data-lid="${item.lid}"]`) || Html.get(`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="#${item.lid}"></div>`)[0];
+	parent.insertBefore(div, parent.firstChild);
+	if (item.name) div.setAttribute('title', item.name);
+	if (item.asset) div.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/mobile_locations/${item.asset}.png)`;
+	badge.classList.add('DAF-badge-on');
+	while(parent.childNodes.length > 5) parent.childNodes[5].remove();
 }
 
 function updateAdsInfo(data) {
