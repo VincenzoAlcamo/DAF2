@@ -7,6 +7,7 @@ export default {
 			setState(getState());
 			refresh();
 		},
+		strategy: refresh,
 		event: refresh,
 		search: refresh
 	}
@@ -60,7 +61,7 @@ if (!bgp.Data.isAdmin) {
 }
 
 let tab, container, smartTable, grid, cdn_root, versionParameter;
-let allEvents, type, allItems;
+let allEvents, type, strategy, allItems;
 
 function init() {
 	tab = this;
@@ -78,12 +79,14 @@ function init() {
 function getState() {
 	return {
 		show: tab.inputs.show.value,
+		strategy: tab.inputs.strategy.value,
 		event: allEvents ? tab.inputs.event.value : tab.inputs.event.getAttribute('data-value'),
 		search: tab.inputs.search.value
 	};
 }
 
 function setState(state) {
+	state.strategy = gui.setSelectState(tab.inputs.strategy, state.strategy);
 	state.show = gui.setSelectState(tab.inputs.show, state.show);
 	if (allEvents) state.event = gui.setSelectState(tab.inputs.event, state.event);
 	tab.inputs.event.setAttribute('data-value', state.event);
@@ -119,8 +122,9 @@ function update() {
 async function refresh() {
 	gui.updateTabState(tab);
 	const state = getState();
-	if (state.show != type) {
+	if (state.show != type || state.strategy != strategy) {
 		type = state.show;
+		strategy = state.strategy;
 		allItems = {};
 		const kind = kinds[type];
 		const data = type.startsWith('locations') ? null : await gui.getFileAsync(kind.type || type);
@@ -132,9 +136,15 @@ async function refresh() {
 		const getAssetUrl = (asset, base) => cdn_root + (base || 'mobile/graphics/') + folder + encodeURIComponent(asset) + '.png' + versionParameter;
 		const addItem = (id, asset, item) => {
 			if (!item.url) item.url = getAssetUrl(asset);
-			const oldId = hashes[asset], old = oldId && allItems[oldId];
-			if (old && (old.name || !item.name)) return;
-			delete hashes[oldId];
+			if (strategy == 'f') {
+				const oldId = hashes[asset], old = oldId && allItems[oldId];
+				if (old && (old.name || !item.name)) return;
+				delete allItems[oldId];
+			} else if (strategy == 'l') {
+				const oldId = hashes[asset], old = oldId && allItems[oldId];
+				if (old && (item.name || !old.name)) return;
+				delete allItems[oldId];
+			}
 			hashes[asset] = id;
 			allItems[id] = item;
 		};
