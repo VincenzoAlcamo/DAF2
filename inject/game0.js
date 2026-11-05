@@ -1069,8 +1069,23 @@
 			}
 		});
 
-		intercept('com.pixelfederation.diggy.piggybank.PiggyBankModel', 'wasPiggyBankShownOnOOE', function() {
-			return () => true;
+		intercept('com.pixelfederation.diggy.piggybank.PiggyBankModel', 'wasPiggyBankShownOnOOE', function(_fn) {
+			return () => Prefs.hNoMails ? true : _fn.apply(this, arguments);
+		});
+
+		intercept('com.pixelfederation.diggy.backend.DataManager', 'enterMine', function(_em) {
+			extras.push('hMineHistory');
+			return function(lid) {
+				log('entered mine', lid);
+				try {
+					const mine = $core.getMapManager().getLocation(lid);
+					if (!mine.isRefreshable()) {
+						const data = { lid, name: mine.get_name(), asset: mine.getMobileAssetWebgl() };
+						Msg.sendPage('daf_enter_mine', data);
+					}
+				} catch {}
+				return _em.apply(this, arguments);
+			}
 		});
 
 		const value = extras.join();
