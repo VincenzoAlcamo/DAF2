@@ -1078,8 +1078,9 @@
 			return function(lid) {
 				log('entered mine', lid);
 				try {
-					const mine = $core.getMapManager().getLocation(lid);
-					if (!mine.isRefreshable()) {
+					const ll = $core.getLoadersManager()._locationsLoader;
+					if (ll.getResetCd(lid) == 0 && ll.getTowerId(lid) == 0) {
+						const mine = $core.getMapManager().getLocation(lid);
 						const data = { lid, name: mine.get_name(), asset: mine.getMobileAssetWebgl() };
 						Msg.sendPage('daf_enter_mine', data);
 					}
