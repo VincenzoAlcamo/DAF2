@@ -113,27 +113,35 @@
 		return obj;
 	};
 
+	class StorageHelper {
+		constructor(name) {
+			Object.assign(this, { name, _value: null });
+			try { this._value = JSON.parse(this._json = localStorage.getItem(name)); } catch {}
+		}
+		get value() { return this._value; }
+		set value(value) {
+			const json = JSON.stringify(this._value = value);
+			if (json !== this._json) localStorage.setItem(this.name, this._json = json);
+		}
+	}
+
 	const MINE_ACTIONS = [
 		'enter_mine', 'change_level', 'use_clear_mine_token', 'mine', 'drag_object', 'use_beacon',
 		'manipulate_object', 'pick_child', 'pick_npc', 'use_teleport', 'leave_mine', 'friend_child_charge',
 	];
-	let prodCounters;
-	let lastProdCounter = localStorage.getItem('daf_prodcounter');
-	try { prodCounters = JSON.parse(lastProdCounter); } catch {}
-	if (!Array.isArray(prodCounters) || prodCounters.length != 18) prodCounters = Array(18).fill(0);
-	function storeProdCounters() {
-		const text = JSON.stringify(prodCounters);
-		if (text === lastProdCounter) return;
-		lastProdCounter = text;
-		localStorage.setItem('daf_prodcounter', text);
-	}
-	function checkMineAction(xml) {
+	const prodCounters = new StorageHelper('daf_prodcounter');
+	function prodCheckReset(xml) {
 		let tasks = xml?.task;
 		tasks = tasks ? (Array.isArray(tasks) ? tasks : [tasks]) : [];
-		if (tasks.find(task => MINE_ACTIONS.includes(task.action))) {
-			prodCounters = Array(18).fill(4);
-			storeProdCounters();
-		}
+		if (tasks.find(task => MINE_ACTIONS.includes(task.action))) prodCounters.value = Array(18).fill(4);
+	}
+	function prodCanRestart(index) {
+		const pc = prodCounters.value;
+		if (!Array.isArray(pc) || pc.length != 18) pc = Array(18).fill(0);
+		const value = +pc[index] || 0;
+		pc[index] = Math.min(4, Math.max(0, value - 1));
+		prodCounters.value = pc;
+		return value > 0 || Prefs.isSuper;
 	}
 
 	let myGetSpeed = undefined;
@@ -226,7 +234,7 @@
 					if (key == 'player_id') player_id = decodeURIComponent(p[1]);
 					else if (key == 'xml') {
 						xml = parseXml(decodeURIComponent(p[1]));
-						checkMineAction(xml);
+						prodCheckReset(xml);
 					}
 				}
 				const error = () => dispatch('error');
@@ -366,11 +374,7 @@
 						if (slot.getState() != 'delivered') return;
 						// Caravan with ticket
 						if (slot._producedItem?._requirements?.find((req) => req.object_id == 347 && req.type == 'material')) return;
-						const counterIndex = prodTypeIndex * 6 + index;
-						const counter = Array.isArray(prodCounters) ? prodCounters[counterIndex] || 0: 0;
-						if (counter <= 0 && !Prefs.isSuper) return;
-						prodCounters[counterIndex] = Math.max(counter - 1, 0);
-						storeProdCounters();
+						if (!prodCanRestart(prodTypeIndex * 6 + index)) return;
 						// log('restarting %s %d', prodType, index);
 						pm.unloadSlot(prodType, index);
 						slot.initProduction() && pm.sendSlot(prodType, index, slot.getObjectId(), slot.getItemId());
