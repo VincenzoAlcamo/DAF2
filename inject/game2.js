@@ -801,15 +801,17 @@ function setBadgeRepeatables({ regions, events, list, prefix, sound, volume }) {
 	list.sort((a, b) => a.priority - b.priority).slice(0, 3).forEach((item, index) => badge.querySelector(`[data-lid="${item.lid}"]`).setAttribute('data-priority', index + 1));
 	if (Prefs.badgeRepeatables && list.some((item) => item.isNew)) playSound(sound, volume);
 }
-function setBadgeMineHistory(item) {
+function setBadgeMineHistory({ mines }) {
 	const badge = menu.querySelector('.DAF-badge-mh');
 	if (!badge.firstChild) badge.appendChild(document.createElement('b'));
 	const parent = badge.firstChild;
-	const div = parent.querySelector(`div[data-lid="${item.lid}"]`) || Html.get(`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="#${item.lid}"></div>`)[0];
-	parent.insertBefore(div, parent.firstChild);
-	if (item.name) div.setAttribute('title', item.name);
-	if (item.asset) div.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/mobile_locations/${item.asset}.png)`;
-	badge.classList.add('DAF-badge-on');
+	mines.reverse().forEach(item => {
+		const div = parent.querySelector(`div[data-lid="${item.lid}"]`) || Html.get(`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="#${item.lid}"></div>`)[0];
+		parent.insertBefore(div, parent.firstChild);
+		if (item.name) div.setAttribute('title', item.name);
+		if (item.asset) div.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/mobile_locations/${item.asset}.png)`;
+	});
+	badge.classList.toggle('DAF-badge-on', parent.childNodes.length > 0);
 	while(parent.childNodes.length > 5) parent.childNodes[5].remove();
 }
 

@@ -344,10 +344,29 @@
 			const gm = core.instance?._gameManagers;
 			return gm && (gm._friendsManager || gm.friendsManager);
 		}
+
+		const mineHistory = new StorageHelper('daf_minehistory');
+		if (!Array.isArray(mineHistory.value)) mineHistory.value = [];
+		function getMineData(lid) {
+			const mine = core.instance.getMapManager().getLocation(lid);
+			return { lid, name: mine.get_name(), asset: mine.getMobileAssetWebgl() };
+		}
+
 		if (core) {
 			Object.defineProperty(globalThis, '$core', { get: () => core.instance, enumerable: true, configurable: true });
 			Msg.sendPage('showPetEnergyButton');
 			extras.push('@core');
+
+			intercept('com.pixelfederation.diggy.Core', 'onShowEnd', function(_ose) {
+				return function() {
+					log('GAME INITIALIZED');
+					try {
+						if (mineHistory.value.length > 0) Msg.sendPage('daf_enter_mine', { mines: mineHistory.value.map(getMineData) });
+					} catch {}
+					return _ose.apply(this, arguments);
+				};
+			});
+
 			let currentScreen = null;
 			const allowedDialogs = ['', 'ExpInfoPopup', 'StaminaInfoPopup'];
 			const getActiveScreen = () => {
@@ -1082,11 +1101,10 @@
 			return function(lid) {
 				log('entered mine', lid);
 				try {
-					const ll = $core.getLoadersManager()._locationsLoader;
+					const ll = core.instance.getLoadersManager()._locationsLoader;
 					if (ll.getResetCd(lid) == 0 && ll.getTowerId(lid) == 0) {
-						const mine = $core.getMapManager().getLocation(lid);
-						const data = { lid, name: mine.get_name(), asset: mine.getMobileAssetWebgl() };
-						Msg.sendPage('daf_enter_mine', data);
+						mineHistory.value = [lid, ...mineHistory.value].filter((item, index) => index == 0 || item != lid).slice(0, 5);
+						Msg.sendPage('daf_enter_mine', { mines: [getMineData(lid)] });
 					}
 				} catch {}
 				return _em.apply(this, arguments);
