@@ -369,7 +369,10 @@ function createMenu() {
 		<i data-pref="hEnergyMaxSound" data-title="options_henergymax:1" data-text="options_henergymax:0"></i></u>
 		<u><i data-pref="hGCCluster"></i><i data-pref="hFastLuckyCards"></i></u>
 		<u><i data-pref="hScroll"></i>
-		<i data-pref="hMineHistory"></i>
+		<u class="squared">
+		<i class="no-click">Mine History</i><i data-pref="hMineHistory" data-text="@Show"></i>
+		<span data-action="clearMineHistory">Clear</span>
+		</u>
 		<i data-pref="hInstantCamera"></i></u>
 		<u class="squared">
 		<i data-text="gui_loot" class="no-click"></i>
@@ -654,6 +657,9 @@ function onMenuClick(e) {
 		case 'showPetEnergy':
 			Msg.sendPage('showPetEnergy');
 			break;
+		case 'clearMineHistory':
+			Msg.sendPage('clearMineHistory');
+			break;
 	}
 }
 
@@ -801,8 +807,9 @@ function setBadgeRepeatables({ regions, events, list, prefix, sound, volume }) {
 	list.sort((a, b) => a.priority - b.priority).slice(0, 3).forEach((item, index) => badge.querySelector(`[data-lid="${item.lid}"]`).setAttribute('data-priority', index + 1));
 	if (Prefs.badgeRepeatables && list.some((item) => item.isNew)) playSound(sound, volume);
 }
-function setBadgeMineHistory({ mines }) {
+function setBadgeMineHistory({ mines, replace }) {
 	const badge = menu.querySelector('.DAF-badge-mh');
+	if (replace) badge.firstChild?.remove();
 	if (!badge.firstChild) badge.appendChild(document.createElement('b'));
 	const parent = badge.firstChild;
 	mines.reverse().forEach(item => {

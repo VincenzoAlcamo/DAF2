@@ -448,6 +448,12 @@
 			};
 			Msg.handlers['showPetEnergy'] = () => {
 				core.instance?.getPopupManager().showDialogByPopupId({ Id : "PetsEnergyPopupPrefab", customWrapperFactory : null, useNewCamera : true, prefabsListProvider : null}, {});
+				// const locationId = core.instance?.getDataManager().getLastLocationId();
+				// locationId && core.instance.getPopupManager().showNoEnergyPopup(core.instance.getMapManager().getLocation(locationId));
+			};
+			Msg.handlers['clearMineHistory'] = () => {
+				mineHistory.value = [];
+				Msg.sendPage('daf_enter_mine', { mines: [], replace: true });
 			};
 		}
 
