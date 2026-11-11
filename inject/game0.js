@@ -1093,7 +1093,10 @@
 		});
 
 		intercept('com.pixelfederation.diggy.piggybank.PiggyBankModel', 'wasPiggyBankShownOnOOE', function(_fn) {
-			return () => Prefs.hNoMails ? true : _fn.apply(this, arguments);
+			return function() { return Prefs.hNoMails ? true : _fn.apply(this, arguments); };
+		});
+		intercept('com.pixelfederation.diggy.presentation.piggybank.command.PiggyBankPopupShowOnFullCommand', 'execute', function(_fn) {
+			return function() { return Prefs.hNoMails ? true : _fn.apply(this, arguments); };
 		});
 
 		intercept('com.pixelfederation.diggy.backend.DataManager', 'enterMine', function(_em) {
