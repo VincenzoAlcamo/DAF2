@@ -352,6 +352,33 @@
 			return { lid, name: mine.get_name(), asset: mine.getMobileAssetWebgl() };
 		}
 
+		// Auto-switch
+		const campState = window.$campState = { handler: 0, hasSwitch: null, day: null, night: null };
+		function campStateScheduleCheck(flag) {
+			if (campState.handler) clearTimeout(campState.handler);
+			campState.handler = !flag ? 0 : setTimeout(function() {
+				campState.handler = 0;
+				const $core = core.instance;
+				if (!Prefs.hAutoSwitch || !campState.hasSwitch || !$core || $core.getActiveScreen() !== $core.campManager?.CampScreenId()) return;
+				const energyManager = $core.getEnergyManager();
+				if (!energyManager.hasFullEnergy(0)) return campStateScheduleCheck(true);
+				if (!campState.day || !campState.night) {
+					campState.hasSwitch = false;
+					const inventoryManager = $core.getInventoryManager();
+					inventoryManager.setCampState(inventoryManager.getCampStateInactive());
+					inventoryManager.refreshStaminaStats();
+					inventoryManager.setCampState(inventoryManager.getCampStateInactive());
+					inventoryManager.refreshStaminaStats();
+					if (!campState.day || !campState.night) return;
+					campState.hasSwitch = true;
+				}
+				const energy = energyManager.getCurrentEnergy(0);
+				if (energy < campState.day.capacity || energy < campState.night.capacity) $core.getTopMenu().onCampSwitchClicked_handler();
+			}, 5 * 60 * 1000);
+		}
+		Msg.handlers['pref:hAutoSwitch'] = () => campStateScheduleCheck(Prefs.hAutoSwitch);
+		campStateScheduleCheck(Prefs.hAutoSwitch);
+
 		if (core) {
 			Object.defineProperty(globalThis, '$core', { get: () => core.instance, enumerable: true, configurable: true });
 			Msg.sendPage('showPetEnergyButton');
@@ -1123,6 +1150,31 @@
 				return _em.apply(this, arguments);
 			}
 		});
+
+		// Auto-switch
+		let autoSwitchCount = 0;
+		intercept('com.pixelfederation.diggy.inventory.InventoryManager', 'refreshStaminaStats', function(_rss) {
+			autoSwitchCount++;
+			return function() {
+				const result = _rss.apply(this, arguments);
+				try {
+					const camp = this.getCampState()._hx_index;
+					if (camp == 0 || camp == 1) {
+						campState[camp ? 'night' : 'day'] = { capacity: this._staminaMax, regen: this._staminaBaseRegen + this._staminaCampRegen };
+						if (campState.hasSwitch === null) campState.hasSwitch = this.hasItem('extension', 2, 1);
+					}
+				} catch {}
+				return result;
+			};
+		});
+		intercept('com.pixelfederation.diggy.game.managers.camp.CampManager', 'ShowCamp', function(_sc) {
+			autoSwitchCount++;
+			return function() {
+				try { campStateScheduleCheck(Prefs.hAutoSwitch); } catch {}
+				return _sc.apply(this, arguments);
+			}
+		})
+		if (autoSwitchCount == 2) extras.push('hAutoSwitch');
 
 		const value = extras.join();
 		log('extra detected = "%s"', value);

@@ -368,12 +368,15 @@ function createMenu() {
 		<u><i data-pref="hFlashAdSound" data-title="options_hflashad:1" data-text="options_hflashad:0"></i>
 		<i data-pref="hEnergyMaxSound" data-title="options_henergymax:1" data-text="options_henergymax:0"></i></u>
 		<u><i data-pref="hGCCluster"></i><i data-pref="hFastLuckyCards"></i></u>
-		<u><i data-pref="hScroll"></i>
+		<u>
+		<i data-pref="hScroll"></i>
+		<i data-pref="hAutoSwitch" data-text="@Auto-switch Camp"></i>
+		<i data-pref="hInstantCamera"></i>
+		</u>
 		<u class="squared">
 		<i class="no-click">Mine History</i><i data-pref="hMineHistory" data-text="@Show"></i>
 		<span data-action="clearMineHistory">Clear</span>
 		</u>
-		<i data-pref="hInstantCamera"></i></u>
 		<u class="squared">
 		<i data-text="gui_loot" class="no-click"></i>
 		<i data-pref="hLootFew"></i>
