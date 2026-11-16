@@ -421,6 +421,10 @@
 			};
 			Msg.handlers['mine'] = (request) => {
 				const id = +request.id;
+				if (request.remove && mineHistory.value.includes(id)) {
+					mineHistory.value = mineHistory.value.filter(lid => lid != id);
+					return;
+				}
 				log('Visiting mine', id);
 				core.instance?.checkAndEnterMine(id, false);
 			};

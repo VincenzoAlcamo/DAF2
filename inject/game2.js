@@ -646,9 +646,14 @@ function onMenuClick(e) {
 			break;
 		case 'mine':
 			parent = target.parentElement.parentElement;
-			parent.classList.add('visiting');
-			setTimeout(() => parent.classList.remove('visiting'), 5000);
-			Msg.sendPage('mine', { id: target.getAttribute('data-lid') });
+			if (e.ctrlKey && parent.classList.contains('DAF-badge-mh')) {
+				Msg.sendPage('mine', { id: target.getAttribute('data-lid'), remove: true });
+				target.remove();
+			} else {
+				parent.classList.add('visiting');
+				setTimeout(() => parent.classList.remove('visiting'), 5000);
+				Msg.sendPage('mine', { id: target.getAttribute('data-lid') });
+			}
 			break;
 		case 'showMails':
 			setShowMailsButton(false);
@@ -813,9 +818,10 @@ function setBadgeMineHistory({ mines, replace }) {
 	if (!badge.firstChild) badge.appendChild(document.createElement('b'));
 	const parent = badge.firstChild;
 	mines.reverse().forEach(item => {
-		const div = parent.querySelector(`div[data-lid="${item.lid}"]`) || Html.get(`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="#${item.lid}"></div>`)[0];
+		const extra = '\nCtrl-click to remove';
+		const div = parent.querySelector(`div[data-lid="${item.lid}"]`) || Html.get(`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="#${item.lid}${extra}"></div>`)[0];
 		parent.insertBefore(div, parent.firstChild);
-		if (item.name) div.setAttribute('title', item.name);
+		if (item.name) div.setAttribute('title', item.name + extra);
 		if (item.asset) div.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/mobile_locations/${item.asset}.png)`;
 	});
 	badge.classList.toggle('DAF-badge-on', parent.childNodes.length > 0);
