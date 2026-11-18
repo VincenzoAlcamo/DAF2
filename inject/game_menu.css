@@ -280,6 +280,10 @@
 	margin-top: 11px;
 }
 
+.DAF-container[daf-screen="campUpperScreen"] .DAF-badges {
+    left: 180px;
+}
+
 .DAF-menu:hover:has(li[data-action='about']:hover) + .DAF-badges {
     margin-top: -18px;
 }
@@ -631,19 +635,6 @@
 	display: inline-block;
 	background-image: url(/img/gui/camp.png);
 	cursor: pointer;
-}
-td.DAF-visit {
-	display: none;
-}
-.DAF-container[daf-screen="friendsScreen"][daf-dialog=""] td.DAF-visit,
-.DAF-container[daf-screen="campLowerScreenVisit"][daf-dialog=""] td.DAF-visit,
-.DAF-container[daf-screen="campUpperScreenVisit"][daf-dialog=""] td.DAF-visit {
-	display: table-cell;
-}
-.DAF-container[daf-screen="visiting"] td.DAF-visit {
-	display: table-cell;
-	opacity: 0.3;
-	pointer-events: none;
 }
 .DAF-container:not([daf-dialog=""]) .DAF-menu [data-action="showPetEnergy"] {
 	display: none;
