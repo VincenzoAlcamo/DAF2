@@ -73,12 +73,10 @@ var Parser = {
 		// Neighbours
 		let arr = (data.neighbours && data.neighbours.item) || [];
 		delete data.neighbours;
-		const neighbours = {};
+		const neighbours = Data.neighbours || {};
 		const time = +data.time;
 		const oldNeighbours = Data.neighbours || {};
 		const reFBId = /\/(\d+)\/picture/;
-		let spawned = false;
-		const spawnList = [];
 		let countMismatch = 0;
 		function add(pal, id) {
 			id = id && id.substring(1);
@@ -92,7 +90,7 @@ var Parser = {
 			const pal = {};
 			pal.id = id;
 			pal.index = index;
-			pal.spawned = +o.spawned || 0;
+			pal.spawned = 0;
 			pal.region = +o.region;
 			pal.level = +o.level;
 			pal.name = String(o.name);
@@ -114,23 +112,12 @@ var Parser = {
 				pal.extra.lastLevel = old.level;
 				pal.extra.timeLevel = time;
 			}
-			if (pal.spawned) {
-				spawnList.push(pal.id);
-				if (!old || !old.spawned) spawned = true;
-			}
 			pal.extra.timeCreated = +pal.extra.timeCreated || time;
 			pal.extra.lastGift = Math.max(+pal.extra.lastGift || 0, +o.rec_gift || 0);
 			neighbours[id] = pal;
 		});
 		if (countMismatch) console.log('Total number mismatched id is', countMismatch);
 		data.neighbours = neighbours;
-		const pal = neighbours[1];
-		if (pal) {
-			// Store spawn time on Mr.Bill
-			const old = oldNeighbours[pal.id];
-			pal.spawn_time = spawned ? time : (old && +old.spawn_time) || 0;
-			pal.spawn_list = spawned ? spawnList : (old && old.spawn_list) || [];
-		}
 
 		// File changes
 		let to_version = undefined;

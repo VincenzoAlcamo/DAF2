@@ -712,7 +712,7 @@ var Data = {
 			const pal = neighbours[file.data.player_id];
 			file.data.fb_id = pal ? pal.fb_id : Data.generator && Data.generator.fb_id;
 			delete neighbours[file.data.player_id];
-			// Data.neighbours = neighbours;
+			Data.neighbours = neighbours;
 			Data.setGenerator(file.data);
 			Data.loc_prog = {};
 			const store = tx.objectStore('Neighbours');
