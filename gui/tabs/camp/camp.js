@@ -3,9 +3,8 @@ import packHelper from '../../packHelper.js';
 
 export default {
 	init, update, getState, setState,
-	actions: { 'visit_camp': actionVisitCamp },
-	// For export inventory: ['materials', 'decorations', 'usables', 'windmills', 'buildings', 'tokens']
-	requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables', 'events', 'decorations', 'windmills', 'tokens'],
+	// For export inventory: ['materials', 'decorations', 'usables', 'buildings', 'tokens']
+	requires: ['configs', 'materials', 'buildings', 'lines', 'special_weeks', 'sales', 'diggy_skins', 'usables', 'events', 'decorations', 'tokens'],
 	events: {
 		inventory: exportInventory,
 		regen: rebuildSetup,
@@ -52,14 +51,11 @@ function init() {
 	inputs.luckycards.title = gui.getProperCase(gui.getString('GUI3120'));
 	inputs.freeenergy.title = gui.getProperCase(gui.getString('USNA067'));
 
-	['camp-player', 'camp-neighbor'].forEach(className => {
+	['camp-player'].forEach(className => {
 		let div = tab.container.querySelector('.' + className);
 		div.addEventListener('render', function (_event) {
 			updateCamp(this);
 		});
-
-		const input = div.querySelector('input');
-		input.addEventListener('click', () => gui.updateTabState(tab));
 
 		div = div.querySelector('div');
 		['mouseover', 'mouseout', 'mouseleave'].forEach(name => div.addEventListener(name, onMouseMove));
@@ -82,7 +78,6 @@ function update() {
 	gui.showSpecialWeeks(container, Object.values(specialWeeks.active));
 
 	markToBeRendered(container.querySelector('.camp-player'));
-	markToBeRendered(container.querySelector('.camp-neighbor'));
 
 	const buildings = gui.getFile('buildings');
 	regBuildings = [];
@@ -108,10 +103,6 @@ function update() {
 	rebuildSetupFillTime();
 }
 
-function actionVisitCamp() {
-	markToBeRendered(container.querySelector('.camp-neighbor'));
-}
-
 function markToBeRendered(div) {
 	updateCamp(div, true);
 	gui.setLazyRender(div.querySelector('div'));
@@ -119,8 +110,8 @@ function markToBeRendered(div) {
 
 function getState() {
 	const getCheck = (id, c) => document.getElementById(id).checked ? c : '';
-	const hide = [inputs.day, inputs.night, inputs.extra, inputs.neighbor, inputs.setup].filter(check => !check.checked).map(check => check.name).join(',');
-	return { hide, regen: inputs.regen.value, h: [getCheck('camp_neighbor', 'n'), getCheck('camp_player', 'p')].join('') };
+	const hide = [inputs.day, inputs.night, inputs.extra, inputs.setup].filter(check => !check.checked).map(check => check.name).join(',');
+	return { hide, regen: inputs.regen.value };
 }
 
 function getSetupRegen(state) {
@@ -128,22 +119,16 @@ function getSetupRegen(state) {
 }
 
 function setState(state) {
-	const h = String(state.h || '').toLowerCase();
-	const setCheck = (id, c) => document.getElementById(id).checked = h.indexOf(c) >= 0;
-	setCheck('camp_player', 'p');
-	setCheck('camp_neighbor', 'n');
 	const hide = (state.hide || '').split(',');
 	// compatibility
-	if ('no-neighbour' in state) hide.push('neighbor');
 	if ('no-addons' in state) hide.push('extra');
 	if (!('regen' in state)) {
 		hide.push('setup');
 		if (state.show == 'day') hide.push('night');
 		if (state.show == 'night') hide.push('day');
 	}
-	[inputs.day, inputs.night, inputs.extra, inputs.neighbor, inputs.setup].forEach(input => input.checked = !hide.includes(input.name));
+	[inputs.day, inputs.night, inputs.extra, inputs.setup].forEach(input => input.checked = !hide.includes(input.name));
 	inputs.regen.value = getSetupRegen(state);
-	container.querySelector('.camp-neighbor').style.display = inputs.neighbor.checked ? '' : 'none';
 	const campPlayer = container.querySelector('.camp-player');
 	campPlayer.classList.toggle('no-addons', !inputs.extra.checked);
 	campPlayer.classList.toggle('no-camp-1', !inputs.day.checked);
@@ -283,27 +268,18 @@ function updateCamp(div, flagHeaderOnly = false) {
 
 	const generator = gui.getGenerator();
 
-	const isPlayer = div.classList.contains('camp-player');
-	if (isPlayer) {
-		camp = generator.camp;
-		pal = {
-			name: generator.name,
-			surname: generator.surname,
-			id: generator.player_id,
-			fb_id: generator.fb_id
-		};
-		level = +generator.level;
-		['region', 'windmill_limit', 'windmill_reg'].forEach(key => camp[key] = +generator[key]);
-		const time = Locale.formatDateTime(+generator.time);
-		campName = pal && pal.name ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal), time) : `${gui.getMessage('camp_your_camp')} (${time})`;
-		started = new Date(+generator.registered_on * 1000);
-	} else {
-		camp = bgp.Data.lastVisitedCamp;
-		const neighbourId = camp && camp.neigh_id;
-		pal = neighbourId ? bgp.Data.getNeighbour(neighbourId) : null;
-		level = pal ? +pal.level : 1;
-		campName = (neighbourId ? gui.getMessage('camp_player_name', pal ? gui.getPlayerNameFull(pal) : '#' + neighbourId, Locale.formatDateTime(+camp.time)) : gui.getMessage('camp_no_player'));
-	}
+	camp = generator.camp;
+	pal = {
+		name: generator.name,
+		surname: generator.surname,
+		id: generator.player_id,
+		fb_id: generator.fb_id
+	};
+	level = +generator.level;
+	camp.region = +generator.region;
+	const time = Locale.formatDateTime(+generator.time);
+	campName = pal && pal.name ? gui.getMessage('camp_player_name', gui.getPlayerNameFull(pal), time) : `${gui.getMessage('camp_your_camp')} (${time})`;
+	started = new Date(+generator.registered_on * 1000);
 
 	div.querySelector('img').setAttribute('src', pal ? gui.getNeighborAvatarUrl(pal) : '/img/gui/anon.png');
 	Html.set(div.querySelector('span'), Html`${campName}<span class="screenshot"></span>`);
@@ -315,24 +291,22 @@ function updateCamp(div, flagHeaderOnly = false) {
 	const camps = [campResult];
 
 	// add secondary camp setup if Professor's Switch was bought
-	if (isPlayer && gui.getArrayOfInt(generator.extensions).includes(2)) camps.push(calculateCamp(camp, false));
+	if (gui.getArrayOfInt(generator.extensions).includes(2)) camps.push(calculateCamp(camp, false));
 	// sorts camps by total regeneration descending (day first, night last)
 	camps.sort((a, b) => b.reg_tot - a.reg_tot);
 
-	if (isPlayer) {
-		camps.forEach((campResult, index) => {
-			campResult.isDay = index == 0;
-			const setupResult = calculateCamp(camp, fillCamp(campResult.lines, campResult.stat.numRegSlots));
-			const regDiff = setupResult.reg_tot - campResult.reg_tot, capDiff = setupResult.cap_tot - campResult.cap_tot;
-			// Regeneration is preferred over capacity
-			campResult.canBeImproved1 = regDiff > 0;
-			campResult.canBeImproved2 = regDiff == 0 && capDiff > 0;
-		});
-		if (camps.length < 2) camps.push(null);
-		camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState()))));
-	}
+	camps.forEach((campResult, index) => {
+		campResult.isDay = index == 0;
+		const setupResult = calculateCamp(camp, fillCamp(campResult.lines, campResult.stat.numRegSlots));
+		const regDiff = setupResult.reg_tot - campResult.reg_tot, capDiff = setupResult.cap_tot - campResult.cap_tot;
+		// Regeneration is preferred over capacity
+		campResult.canBeImproved1 = regDiff > 0;
+		campResult.canBeImproved2 = regDiff == 0 && capDiff > 0;
+	});
+	if (camps.length < 2) camps.push(null);
+	camps.push(calculateCamp(camp, fillCamp(campResult.lines, getSetupRegen(getState()))));
 
-	const addons = calculateAddons(camp, isPlayer ? generator : null);
+	const addons = calculateAddons(camp, generator);
 	addons.empty = addons.blocked = 0;
 	camps.forEach(campResult => {
 		if (!campResult) return;
@@ -362,27 +336,8 @@ function updateCamp(div, flagHeaderOnly = false) {
 
 	camps.forEach(function (campResult, index) {
 		if (!campResult) return;
-		htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, isPlayer ? campNames[index] : '', index == 2) + Html.br`</td>`;
+		htm += Html.br`<td class="camp-summary camp-${index + 1}">` + getCampSummary(campResult, campNames[index], index == 2) + Html.br`</td>`;
 	});
-
-	const wind_count = Math.min(camp.windmill_limit, (camp && Array.isArray(camp.windmills) && camp.windmills.length) || 0);
-	const wind_expiry = bgp.Data.getCampWindmillTime(camp);
-	// table Windmills
-	htm += Html.br`<td><table class="camp-data row-coloring">`;
-	htm += Html.br`<thead><tr><th colspan="2">${gui.getMessage('camp_windmills')}</th></tr></thead>`;
-	htm += Html.br`<tbody>`;
-	htm += Html.br`<tr><td>${gui.getMessage('camp_windmill_num')}</td><td>${Locale.formatNumber(wind_count) + ' / ' + Locale.formatNumber(camp.windmill_limit)}</td></tr>`;
-	if (camp.windmill_reg) {
-		htm += Html.br`<tr><td>${gui.getMessage('camp_windmill_regen')}</td><td>${Locale.formatNumber(camp.windmill_reg)}</td></tr>`;
-		htm += Html.br`<tr><td>${gui.getMessage('camp_windmill_regen_total')}</td><td>${Locale.formatNumber(camp.windmill_reg * Math.min(wind_count, camp.windmill_limit))}</td></tr>`;
-	}
-	htm += Html.br`</tbody>`;
-	if (wind_expiry) {
-		htm += Html.br`<tbody>`;
-		htm += Html.br`<tr><td colspan="2">${gui.getMessage('camp_windmill_expiry', Locale.formatDateTime(wind_expiry))}</td></tr>`;
-		htm += Html.br`</tbody>`;
-	}
-	htm += Html.br`</table></td>`;
 
 	if (campResult.blocks[2].blocked || campResult.blocks[3].blocked || campResult.blocks[4].blocked) {
 		const mat = {};
@@ -541,7 +496,7 @@ function calculateCamp(camp, current = true) {
 		blocks[height].blocked += blocked;
 	});
 
-	const reg_base = bgp.Data.getConfigValue('stamina_reg', 60) + Math.min((camp.windmills && camp.windmills.length) || 0, camp.windmill_limit || 5) * (parseInt(camp.windmill_reg) || 5);
+	const reg_base = bgp.Data.getConfigValue('stamina_reg', 60);
 	const cap_base = bgp.Data.getConfigValue('starting_stamina', 200);
 
 	// position buildings
@@ -1176,7 +1131,6 @@ function exportInventory() {
 		};
 		addList(generator.materials, gui.getFile('materials'), '');
 		addList(generator.tokens, gui.getFile('tokens'), 'T');
-		addList(generator.stored_windmills, gui.getFile('windmills'), 'W');
 		addList(gui.getOwnedActive('decoration').owned, gui.getFile('decorations'), 'D');
 		addList(gui.getOwnedActive('building').owned, gui.getFile('buildings'), 'B');
 		addList(generator.usables, gui.getFile('usables'), 'U');

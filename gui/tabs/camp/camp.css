@@ -319,10 +319,6 @@ html.dark .camp .item.regen.selected {
 	top: -12px;
 }
 
-.camp_separator {
-	height: 4px;
-}
-
 .tab_camp .screenshot {
 	--outline-color: var(--crd-brcol);
 	margin-left: 8px;

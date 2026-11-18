@@ -163,7 +163,7 @@ var Parser = {
 			Array.isArray(array) && array.forEach(fn);
 			return accumulator;
 		};
-		for (const key of ['materials', 'tokens', 'usables', 'stored_buildings', 'stored_decorations', 'stored_windmills']) {
+		for (const key of ['materials', 'tokens', 'usables', 'stored_buildings', 'stored_decorations']) {
 			data[key] = accumulate(data[key] && data[key].item, item => accumulator[item.def_id] = +item.amount);
 		}
 		data.events_region = accumulate(data.events_region && data.events_region.item, item => accumulator[item.event_id] = +item.region_id);

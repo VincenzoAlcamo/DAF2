@@ -9,7 +9,6 @@ import events from './tabs/events/events.js';
 import export_ from './tabs/export/export.js';
 import foundry from './tabs/foundry/foundry.js';
 import friendship from './tabs/friendship/friendship.js';
-import godchild from './tabs/godchild/godchild.js';
 import greenrings from './tabs/greenrings/greenrings.js';
 import help from './tabs/help/help.js';
 import kitchen from './tabs/kitchen/kitchen.js';
@@ -23,7 +22,7 @@ import repeat from './tabs/repeat/repeat.js';
 
 const tabs = {
 	about, artwork, camp, caravan, christmasrings, dailyreward, equipment, events, export: export_,
-	foundry, friendship, godchild, greenrings, help, kitchen, map, neighbors,
+	foundry, friendship, greenrings, help, kitchen, map, neighbors,
 	options, pillars, progress, redrings, repeat
 };
 

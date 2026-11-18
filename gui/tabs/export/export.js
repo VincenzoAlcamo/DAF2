@@ -3,7 +3,6 @@ export default {
 	css: false,
 	init: init,
 	update: update,
-	requires: ['materials', 'decorations', 'usables', 'windmills', 'buildings', 'tokens'],
 	events: {
 		export: exportData,
 		import: importData,

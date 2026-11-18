@@ -576,9 +576,6 @@ async function calcUltimateLevel() {
 		if (o && o.extension_def_id == 2) pEnergyFactor = getFactor(2, +o.extension_level);
 	});
 
-	// Windmills
-	const windmills = await gui.getFileAsync('windmills');
-
 	let level, exp, energy, isCaravan;
 
 	let htm = '';
@@ -605,12 +602,6 @@ async function calcUltimateLevel() {
 		colMaterials = Object.assign({}, generator.materials);
 		colUsables = Object.assign({}, generator.usables);
 		colTokens = Object.assign({}, generator.tokens);
-
-		let windmillCoins = 0;
-		for (const [id, qty] of Object.entries(Object.assign({}, generator.stored_windmills))) {
-			const windmill = windmills[id];
-			if (windmill) windmillCoins += +qty * +windmill.sell_price;
-		}
 
 		const number = value => Locale.formatNumber(value);
 		const format = value => value ? (typeof value == 'string' ? value : (value < 0 ? '' : '+') + number(value)) : '';
@@ -640,14 +631,6 @@ async function calcUltimateLevel() {
 		})
 		for (; ;) {
 			let sellValue;
-			// SELL WINDMILLS
-			sellValue = windmillCoins;
-			if (sellValue) {
-				windmillCoins = 0;
-				addToCol(colMaterials, 1, sellValue);
-				addRow('/img/gui/shop.png', `${gui.getString('GUI0054')}:  ${gui.getMessage('camp_windmills')}`, `(${number(sellValue)})`);
-				continue;
-			}
 
 			// SELL BUILDINGS
 			sellValue = sellAmount(colBuildings, buildings);

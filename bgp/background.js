@@ -64,21 +64,12 @@ var Preferences = {
 			gameLanguage: '',
 			locale: '',
 			locales: '',
-			disableAltGuard: false,
 			fullWindow: true,
-			fullWindowSide: true,
 			hideMenu: true,
 			adsOpacity: true,
 			darkTheme: false,
 			shrinkMenu: 0,
-			noGCPopup: true,
-			autoGC: true,
-			gcTable: true,
-			gcTableCounter: true,
-			gcTableRegion: true,
 			pillarsXp: '',
-			badgeGcCounter: true,
-			badgeGcEnergy: true,
 			badgeProductions: true,
 			badgeProductionsOffset: 0,
 			badgeProductionsSound: true,
@@ -104,10 +95,6 @@ var Preferences = {
 			badgePetShopSound: true,
 			badgePetShopSoundName: 'ui_buy',
 			badgePetShopVolume: 100,
-			badgeWindmills: true,
-			badgeWindmillsSound: true,
-			badgeWindmillsSoundName: 'enter_location',
-			badgeWindmillsVolume: 100,
 			features: '',
 			mapDownloadEvent: 'DAF2_maps/$event/$location',
 			mapDownloadRegion: 'DAF2_maps/$region/$god/$location',
@@ -135,7 +122,6 @@ var Preferences = {
 			hLootFast: true,
 			hFood: false,
 			hFoodNum: 0,
-			hGCCluster: true,
 			hFlashAdSound: false,
 			hFlashAdSoundName: 'ui_buy_gems',
 			hFlashAdVolume: 100,
@@ -314,13 +300,12 @@ var Tab = {
 	},
 	onFBNavigation(details) {
 		const tabId = details.tabId;
-		if (details.frameId == 0 && (Preferences.getValue('linkGrabEnabled') || tabId === Tab.collectTabId) && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
-			console.log('Injecting LinkGrabber');
-			const code = ['language', 'linkGrabEnabled', 'linkGrabBadge', 'linkGrabHotKey'].map(key => {
+		if (details.frameId == 0 && tabId === Tab.collectTabId && details.url.indexOf('/dialog/') < 0 && Tab.canBeInjected(tabId)) {
+			const code = ['language'].map(key => {
 				return 'options.' + key + '=' + JSON.stringify(Preferences.getValue(key)) + ';';
 			}).join('') + 'initialize();';
 			const params = {
-				file: ['/js/purify.min.js', '/js/Html.js', '/js/Dialog.js', '/inject/collectfriends.js', '/inject/linkgrabber.js'],
+				file: ['/js/purify.min.js', '/js/Html.js', '/js/Dialog.js', '/inject/collectfriends.js'],
 				code,
 				runAt: 'document_end', allFrames: false, frameId: 0
 			};
@@ -402,8 +387,7 @@ var Tab = {
 	showGame(options) {
 		let values = (options || '') + ' ' + (Data.generator ? Data.generator.game_site + ' ' + Data.generator.game_platform : '');
 		values = values.toLowerCase().split(' ');
-		const site = values.find(item => item == 'facebook' || item == 'portal');
-		const url = (site != 'facebook' ? 'https://portal.pixelfederation.com/diggysadventure/' : 'https://apps.facebook.com/diggysadventure/');
+		const url = 'https://portal.pixelfederation.com/diggysadventure/';
 		Tab.showTab('isGame', url, values.includes('keep') ? null : url);
 	},
 	focus(tabId, flag) {
@@ -722,17 +706,13 @@ var Data = {
 		let tx;
 		if (file.id == 'generator') {
 			tx = Data.db.transaction(['Files', 'Neighbours'], 'readwrite');
-			const neighbours = file.data.neighbours;
+			const neighbours = file.data.neighbours || {};
 			delete file.data.neighbours;
-			// Process un_gifts
-			const un_gifts = file.data.un_gifts;
-			Synchronize.processUnGift(un_gifts && un_gifts.item, +file.data.time, neighbours, file.data.f_actions);
-			delete file.data.un_gifts;
 			// Remove the player itself from the neighbors, but store their fb_id
 			const pal = neighbours[file.data.player_id];
 			file.data.fb_id = pal ? pal.fb_id : Data.generator && Data.generator.fb_id;
 			delete neighbours[file.data.player_id];
-			Data.neighbours = neighbours;
+			// Data.neighbours = neighbours;
 			Data.setGenerator(file.data);
 			Data.loc_prog = {};
 			const store = tx.objectStore('Neighbours');
@@ -831,17 +811,6 @@ var Data = {
 				Preferences.setValue('gameLanguage', Data.localization.languageId);
 			}
 		}
-	},
-	getCampWindmillTime(camp) {
-		let wmtime = 0;
-		const wmduration = 7 * SECONDS_IN_A_DAY;
-		if (camp && Array.isArray(camp.windmills) && camp.windmills.length >= +camp.windmill_limit) {
-			// Take for each windmill the expiry date, then sort ascending
-			const windmills = camp.windmills.map(wm => (wmduration + (+wm.activated)) || 0).sort((a, b) => a - b);
-			// If there are windmills in excess, considers only the first of the last "mindmill_limit" windmills
-			wmtime = windmills[windmills.length - camp.windmill_limit];
-		}
-		return wmtime;
 	},
 	getRepeatables() {
 		// Collect all repeatables in the game
@@ -1098,22 +1067,6 @@ var Data = {
 		const tx = Data.db.transaction('Files', 'readwrite');
 		tx.objectStore('Files').delete('gcInfo');
 	},
-	getGCInfo() {
-		const data = {};
-		const neighbours = Object.values(Data.neighbours);
-		const realNeighbours = neighbours.length - 1;
-		data.count = neighbours.filter(n => n.spawned).length;
-		data.max = Math.min(realNeighbours, Math.floor(Math.sqrt(realNeighbours)) + 3) + 1;
-		const pal = Data.neighbours[1];
-		if (pal && pal.spawn_time) {
-			const time = pal.spawn_time + Data.GC_REFRESH_HOURS * 3600;
-			if (time > getUnixTime()) {
-				data.next = time;
-				data.nexttxt = getMessage('gui_nexttime', Locale.formatDateTime(time));
-			}
-		}
-		return data;
-	},
 	//#endregion
 	//#region Friends
 	getFriend(id) {
@@ -1222,7 +1175,6 @@ var Data = {
 		'event': () => Data.files.events,
 		'production': () => Data.files.productions,
 		'tablet': () => Data.files.tablets,
-		'windmill': () => Data.files.windmills,
 		'collection': () => Data.files.collections,
 		'artifact': () => Data.files.artifacts,
 		'diggy_skin': () => Data.files.diggy_skins,
@@ -1248,7 +1200,6 @@ var Data = {
 		return col && col[id];
 	},
 	imageFolders: {
-		windmill: 'windmills',
 		region: 'gui',
 		skin: 'gui',
 		decoration: 'decorations',
@@ -1259,8 +1210,7 @@ var Data = {
 		const item = Data.getObject(type, id);
 		if (!item) return '';
 		let asset;
-		if (type == 'windmill') asset = 'greece_windmill';
-		else if (type == 'event') asset = item.shop_icon_graphics;
+		if (type == 'event') asset = item.shop_icon_graphics;
 		else if (type == 'pet') asset = item.basic_preview_asset;
 		else asset = item.mobile_asset;
 		if (!asset) return '';
@@ -1618,10 +1568,6 @@ var Synchronize = {
 		// const stamina = response && response.global ? response.global.stamina : -1;
 		// if (stamina >= 0 && Preferences.getValue('badgeServerEnergy')) Synchronize.signal('serverEnergy', { energy: Locale.formatNumber(stamina) }, true);
 
-		// un_gift
-		const changed = Synchronize.processUnGift(response && response.global && response.global.un_gifts, Synchronize.time);
-		Data.saveNeighbour(changed);
-
 		// tasks
 		let tasks = posted.task;
 		tasks = tasks ? (Array.isArray(tasks) ? tasks : [tasks]) : [];
@@ -1726,65 +1672,8 @@ var Synchronize = {
 			if (market) market.last_refreshed_at = Synchronize.time;
 			Data.checkPetShop();
 		},
-		visit_camp(action, _task, taskResponse, _response) {
-			if (!taskResponse || !taskResponse.camp) return;
-			const neighbourId = taskResponse.neigh_id;
-			const camp = Data.lastVisitedCamp = taskResponse.camp;
-			const wmtime = Data.getCampWindmillTime(Data.lastVisitedCamp);
-			Synchronize.signal('windmills', wmtime || neighbourId == 1 ? { active: 0 } : Synchronize.expandDataWithSound({ active: 1 }, 'badgeWindmills'));
-			camp.neigh_id = neighbourId;
-			camp.time = Synchronize.time;
-			const pal = Data.getNeighbour(neighbourId);
-			if (pal) {
-				let energy = 0;
-				if (camp && camp.children) {
-					let total = 0;
-					const childs = Data.files.childs;
-					[].concat(camp.children).forEach(child => {
-						const id = child.def_id;
-						const qty = +child.amount;
-						total += qty;
-						if (childs && id in childs) energy += (qty * (+childs[id].friend_stamina || 0));
-					});
-					if (total == 5) pal.extra.gc = energy;
-				}
-				Synchronize.signalEnergy(energy, pal);
-				pal.extra.lastVisit = Synchronize.time;
-				let blocks = 144;
-				for (let n of String(camp.lines_blocked || '').split(',')) {
-					n = parseInt(n);
-					if (isFinite(n)) blocks += n - 24;
-				}
-				pal.extra.blocks = blocks;
-				pal.extra.wmtime = wmtime;
-				Data.saveNeighbour(pal);
-			}
-			Synchronize.signal(action, neighbourId);
-		},
-		place_windmill(action, task, _taskResponse, _response) {
-			const neighbourId = task.neigh_id;
-			const time = Synchronize.time;
-			const pal = Data.getNeighbour(neighbourId);
-			if (Data.lastVisitedCamp && Data.lastVisitedCamp.neigh_id == neighbourId && pal && time) {
-				let windmills = Data.lastVisitedCamp.windmills;
-				windmills = Array.isArray(windmills) ? windmills : [];
-				windmills.push({
-					activated: time,
-					provider: Data.generator.player_id
-				});
-				Data.lastVisitedCamp.windmills = windmills;
-				const wmtime = Data.getCampWindmillTime(Data.lastVisitedCamp);
-				if (wmtime !== pal.extra.wmtime) {
-					pal.extra.wmtime = wmtime;
-					Data.saveNeighbour(pal);
-					Synchronize.signal(action, neighbourId, true);
-				}
-				if (wmtime) Synchronize.signal('windmills', { active: 0 });
-			}
-		},
 		enter_mine(action, task, taskResponse, _response) {
 			Synchronize.signalEnergy(0);
-			Synchronize.signal('windmills', { active: 0 });
 			const loc_id = +task.loc_id || 0;
 			const prog = Synchronize.setLastLocation(loc_id);
 			if (prog && taskResponse) {
@@ -1906,97 +1795,10 @@ var Synchronize = {
 		unload_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'unload', task),
 		start_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'start', task),
 		cancel_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'cancel', task),
-		speedup_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'speedup', task),
-		cl_add(action, task, taskResponse, _response) {
-			Synchronize.setCustomList(action, task, taskResponse);
-		},
-		cl_remove(action, task, taskResponse, _response) {
-			Synchronize.setCustomList(action, task, taskResponse);
-		},
-		friend_child_charge(action, task, _taskResponse, _response) {
-			const neighbourId = task.neigh_id;
-			const neighbour = Data.getNeighbour(neighbourId);
-			if (neighbour && neighbour.spawned) {
-				if (!('gcCount' in neighbour.extra)) neighbour.extra.gcCount = Data.getConfigValue('child_count', 5);
-				if ((--neighbour.extra.gcCount) <= 0) {
-					// Collected all of them!
-					neighbour.spawned = 0;
-					delete neighbour.extra.gcCount;
-					const data = Data.getGCInfo();
-					data.id = neighbourId;
-					// We can autoskip if Mr.Bill or the neighbor does not need windmills
-					// const camp = Data.lastVisitedCamp;
-					// const needsWindmills = camp && camp.neigh_id == neighbourId && Data.getCampWindmillTime(camp) == 0;
-					const needsWindmills = neighbour.extra.wmtime === 0;
-					data.skip = neighbourId == 1 || !needsWindmills;
-					Synchronize.signal(action, data);
-				}
-				Data.saveNeighbour(neighbour);
-			}
-		}
-	},
-	processUnGift(ungift, time, neighbours, factions) {
-		ungift = ungift ? [].concat(ungift) : [];
-		factions = factions ? [].concat(factions) : [];
-		if (!neighbours) neighbours = Data.neighbours;
-		time = +time;
-		const changed = {};
-		for (const item of ungift) {
-			const giftId = +item.gift_id;
-			const pal = neighbours[item.sender_id];
-			if (!pal) continue;
-			let gifts = pal.extra.g;
-			if (gifts && gifts.find(item => item[0] == giftId)) continue;
-			const gift = [giftId, +item.def_id, time];
-			if (!gifts) gifts = pal.extra.g = [];
-			gifts.push(gift);
-			// Sort gifts by id (id is a sequence)
-			gifts.sort((a, b) => a[0] - b[0]);
-			// Store only the last 50 gifts
-			if (gifts.length > 50) gifts = pal.extra.g = gifts.slice(-50);
-			// Adjust the time (lower id must have a lower time)
-			let lastTime = gifts[gifts.length - 1][2];
-			for (let i = gifts.length - 2; i >= 0; i--) {
-				let thisTime = gifts[i][2];
-				if (thisTime >= lastTime) thisTime = gifts[i][2] = lastTime - 1;
-				lastTime = thisTime;
-			}
-			changed[pal.id] = pal;
-		}
-		for (const item of factions) {
-			if (item.type != 'friend_child') continue;
-			const pal = neighbours[item.invoker_id];
-			if (!pal) continue;
-			pal.extra.lastGC = time;
-			changed[pal.id] = pal;
-		}
-		return Object.values(changed);
-	},
-	processGraph(result) {
-		const json = JSON.parse(result);
-		if (!json?.id) return;
-		const pals = Object.values(Data.neighbours).filter(pal => {
-			if (pal.fb_id !== json.id && pal.fb_id2 !== json.id) return false;
-			let modified = false;
-			if (json.name && !pal.extra.fn) {
-				pal.extra.fn = json.name.replace(/\s+/g, ' ');
-				modified = true;
-			}
-			if (json.first_name && pal.name !== json.first_name) {
-				pal.name = json.first_name;
-				modified = true;
-			}
-			if (json.last_name && pal.surname !== json.last_name) {
-				pal.surname = json.last_name;
-				modified = true;
-			}
-			return modified;
-		});
-		if (pals.length) Data.saveNeighbour(pals);
+		speedup_anvil_alloy: (_action, task) => Synchronize.production('foundry', 'speedup', task)
 	},
 	processXhr(details) {
 		const { type, kind, lang, player_id, xml, response } = details;
-		if (kind == 'graph') return this.processGraph(response);
 		const isError = type == 'error';
 		if (isError) return setBadge({ icon: 'red', bg: 'red' });
 		const isSend = type == 'send', isOk = type == 'ok';
@@ -2018,15 +1820,6 @@ var Synchronize = {
 		if (!isGenerator && !isSynchronize) return;
 		if (Data.generator.player_id && Data.generator.player_id != player_id) {
 			if (isSynchronize) return;
-			if (!Preferences.getValue('disableAltGuard')) {
-				if (isSend) {
-					Data.alternateAccountDetected = player_id;
-					setBadge({ icon: 'grey', text: 'ALT', bg: 'red' });
-					console.log('Request is for a different player', player_id, 'instead of', Data.generator.player_id);
-					Synchronize.signal('account_mismatch', player_id);
-				}
-				return;
-			}
 		}
 		if (isGenerator) {
 			if (isSend) {
@@ -2087,9 +1880,6 @@ async function init() {
 		forward(request, sender) {
 			request = Object.assign({}, request, { action: request.real_action});
 			chrome.tabs.sendMessage(sender.tab.id, request);
-		},
-		getGCInfo() {
-			return Data.getGCInfo();
 		},
 		getAdsInfo() {
 			return Data.getAdsInfo();

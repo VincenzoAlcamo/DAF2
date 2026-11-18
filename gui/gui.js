@@ -21,7 +21,6 @@ const tabs = (function () {
 	addTab('map');
 	addTab('neighbors');
 	addTab('friendship');
-	addTab('godchild', 'gc');
 	addTab('equipment', 'shop');
 	addTab('events');
 	addTab('caravan');
@@ -343,7 +342,7 @@ const gui = {
 		} else if (type == 'usable') {
 			const usable = gui.getObject(type, oid);
 			return (usable && usable.action == 'add_stamina' && +usable.value) || 0;
-		} else if (type == 'decoration' || type == 'windmill') {
+		} else if (type == 'decoration') {
 			const obj = bgp.Data.getObject(type, oid);
 			return (obj && +obj.sell_price) || 0;
 		} else if (type == 'system') {

@@ -127,7 +127,7 @@
 
 	const MINE_ACTIONS = [
 		'enter_mine', 'change_level', 'use_clear_mine_token', 'mine', 'drag_object', 'use_beacon',
-		'manipulate_object', 'pick_child', 'pick_npc', 'use_teleport', 'leave_mine', 'friend_child_charge',
+		'manipulate_object', 'pick_child', 'pick_npc', 'use_teleport', 'leave_mine',
 	];
 	const prodCounters = new StorageHelper('daf_prodcounter');
 	function prodCheckReset(xml) {
@@ -222,8 +222,7 @@
 			const lang = kind === 'generator' ? window.gamevars?.lang : undefined;
 			Msg.sendPage('daf_xhr', { type, kind, lang, player_id, xml, url: this.url, response });
 		};
-		if (this.url.indexOf('/graph.facebook.com') > 0) kind = 'graph';
-		else if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
+		if (this.url.indexOf('/generator.php') > 0) kind = 'generator';
 		else if (this.url.indexOf('/synchronize.php') > 0) kind = 'synchronize';
 		else if (this.url.indexOf('/server-api/teams/my') > 0) kind = 'team';
 		if (kind && xhrEnabled) {
@@ -253,29 +252,6 @@
 	};
 
 	Msg.handlers['enableGame'] = () => {
-		// No GC popups
-		let bypassFB = false;
-		const _getFBApi = window.getFBApi;
-		window.getFBApi = function () {
-			const result = bypassFB ? { ui: function () {} } : _getFBApi();
-			bypassFB = false;
-			return result;
-		};
-		const _userRequest = window.userRequest;
-		window.userRequest = function (recipients, req_type) {
-			bypassFB = Prefs.noGCPopup;
-			const result = _userRequest(recipients, req_type);
-			bypassFB = false;
-			return result;
-		};
-
-		// Send wallpost event
-		const _wallpost = window.wallpost;
-		window.wallpost = function () {
-			Msg.sendPage('*wallpost');
-			return _wallpost();
-		};
-
 		// Resize
 		[window.resizeCanvas, window.onContainerResize].forEach(fn => {
 			window.removeEventListener('resize', fn, false);
@@ -340,10 +316,6 @@
 		}
 
 		const core = getClass('com.pixelfederation.diggy.Core');
-		const getFriendsManager = () => {
-			const gm = core.instance?._gameManagers;
-			return gm && (gm._friendsManager || gm.friendsManager);
-		}
 
 		const mineHistory = new StorageHelper('daf_minehistory');
 		if (!Array.isArray(mineHistory.value)) mineHistory.value = [];
@@ -398,15 +370,10 @@
 			const allowedDialogs = ['', 'ExpInfoPopup', 'StaminaInfoPopup'];
 			const getActiveScreen = () => {
 				let screen = core.instance?._screenManager?.getActiveScreen();
-				let visited = null;
-				if (screen == 'campLowerScreen' || screen == 'campUpperScreen') {
-					visited = getFriendsManager()?.getVisitedFriend()?.getId();
-					if (visited) screen += 'Visit';
-				}
 				const popups = core.instance?._popupManager?._visiblePopups;
 				const popup = popups?.length > 0 ? popups[popups.length - 1] : null;
 				const dialog = popup ? popup._popupId?.Id || popup._name : null;
-				return { screen, visited, dialog, mine: screen == 'mineScreen' && allowedDialogs.includes(dialog || '') };
+				return { screen, dialog, mine: screen == 'mineScreen' && allowedDialogs.includes(dialog || '') };
 			};
 
 			extras.push('hAutoProduce', 'hAutoProduceCaravan', 'hAutoProduceKitchen', 'hAutoProduceFoundry');
@@ -434,18 +401,6 @@
 				processKeyCode(getActiveScreen().mine ? request.code : '');
 			};
 
-			Msg.handlers['visit'] = (request) => {
-				const id = +request.id;
-				currentScreen = null;
-				const info = getActiveScreen();
-				if (
-					id > 0 &&
-					!info.dialog &&
-					['friendsScreen', 'campLowerScreenVisit', 'campUpperScreenVisit'].includes(info.screen) &&
-					id !== info.visited
-				)
-					getFriendsManager()?.visitFriend(id);
-			};
 			Msg.handlers['mine'] = (request) => {
 				const id = +request.id;
 				if (request.remove && mineHistory.value.includes(id)) {
@@ -457,7 +412,7 @@
 			};
 			setInterval(() => {
 				const info = getActiveScreen();
-				const screen = info.screen + '.' + info.dialog + '.' + info.visited;
+				const screen = info.screen + '.' + info.dialog;
 				if (screen !== currentScreen) {
 					currentScreen = screen;
 					Msg.sendPage('screen', { screen: info.screen, dialog: info.dialog });
@@ -613,38 +568,6 @@
 			}
 		}
 
-		/*
-		intercept('com.pixelfederation.diggy.game.managers.friends.FriendsManager', 'removeFriendFromGodchildrenList', function(_prevFn) {
-			return function(p_id) {
-				const _gc = this._godchildren || [];
-				const index = _gc.findIndex(friend => friend.getId() == p_id);
-				const result = _prevFn.apply(this, arguments);
-				try {
-					if (Prefs.autoGC && _gc.length > 0) {
-						var friendsWindmills = this._core.getGameManagers().getFriendsManager().getInventoryManager().getWindmills();
-						if (this._friendVisited?._id == 1 || friendsWindmills.isFull()) {
-							const friend = index > 0 ? _gc[index - 1] : _gc[_gc.length - 1];
-							setTimeout(() => {
-								this.visitFriend(friend.getId())
-								try {
-									const manager = this._core.get_backendService();
-									if (false) {
-										manager.queueCurrentCollectionsForSend();
-										log('Forced push requests');
-									} else {
-										manager._secondsFromLastSend = Math.max(manager._secondsFromLastSend, 6);
-										log('Speedup requests');
-									}
-								} catch(e) {}
-							}, 0);
-						}
-					}
-				} catch(e) {}
-				return result;
-			}
-		});
-		*/
-
 		intercept(
 			'com.pixelfederation.diggy.game.location.MineRenderer',
 			'setup',
@@ -755,20 +678,6 @@
 				return result;
 			};
 		});
-
-		intercept(
-			'com.pixelfederation.diggy.screens.campUpper.CampUpperScreenWeb',
-			'addGodChild',
-			function (_addGodChild) {
-				extras.push('hGCCluster');
-				return function () {
-					const result = _addGodChild.apply(this, arguments);
-					if (Prefs.hGCCluster)
-						this._npcContainer.g2d_children.forEach((e, i) => (e.g2d_anchorX = -260 + i * 10));
-					return result;
-				};
-			}
-		);
 
 		let excludeDrop = {};
 		intercept('com.pixelfederation.diggy.game.location.MineRenderer', 'loot_handler', function (_loot_handler) {

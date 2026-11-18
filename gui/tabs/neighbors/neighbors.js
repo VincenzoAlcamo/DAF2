@@ -3,17 +3,13 @@
 export default {
 	init, update, getState, setState,
 	actions: {
-		'cl_add': markNeighbor,
-		'cl_remove': markNeighbor,
-		'visit_camp': markNeighbor,
-		'place_windmill': markNeighbor,
 		'team_changed': () => {
 			updateTeamMembers();
 			const state = getState();
 			if (state.show == 'team') refresh();
 		}
 	},
-	requires: ['gifts', 'materials', 'decorations', 'usables', 'windmills', 'g_teams', 'xp'],
+	requires: ['gifts', 'materials', 'decorations', 'usables', 'g_teams', 'xp'],
 	events: {
 		show: refresh,
 		search: refresh,
@@ -164,14 +160,12 @@ function formula() {
 <span title="The player's region\n${Html(Array.from(Array(gui.getMaxRegion())).map((_, n) => `${n + 1}=${gui.getObjectName('region', n + 1)}`).join('\n'))}">region</span>
 <span title="The total gift value${unknown}">value</span>
 <span title="The last time you visited that player's camp${unknown}${dateInfo}">visit</span>
-<span title="The time when the first windmills will expire\n0=the camp need windmills${unknown}${dateInfo}">wmtime</span>
 </td></tr>
 <tr><th colspan="3">${gui.getMessage('calc_examples')}</th></tr>
 <tr><th>${gui.getMessage('neighbors_inlist')}</th><td colspan="2">list = 1</td></tr>
 <tr><th>${gui.getMessage('neighbors_notinlist')}</th><td colspan="2">list = 0</td></tr>
 <tr><th>${gui.getMessage('neighbors_withblocks')}</th><td colspan="2">blocks &gt; 0</td></tr>
 <tr><th>${gui.getMessage('neighbors_unknownblocks')}</th><td colspan="2">isnan(blocks)</td></tr>
-<tr><th>${gui.getMessage('neighbors_withexpiredwindmills')}</th><td colspan="2">wmtime &lt; now</td></tr>
 <tr><th>${gui.getMessage('neighbors_nogift', 'X')}</th><td colspan="2">lastgift &lt; (now - giftdays * day)</td></tr>
 <tr><td colspan="3">level &gt; 100 and level &lt; 150<br>list = 0 and (region &lt;= 2 or level &lt; 300)</td></tr>
 </table>`;
@@ -474,10 +468,6 @@ function update() {
 	refresh();
 }
 
-function markNeighbor(neighborId) {
-	gui.setLazyRender(container.querySelector('tr[data-pal-id="' + neighborId + '"]'));
-}
-
 function updateRow(row) {
 	const id = row.getAttribute('data-pal-id');
 	const teamMember = teamMembers[id];
@@ -548,12 +538,6 @@ function updateRow(row) {
 		htm += Html.br`<td><img src="/img/gui/check_na.png"></td>`;
 	} else {
 		htm += blocks === 0 ? Html.br`<td><img src="/img/gui/check_yes.png"></td>` : Html.br`<td><span class="camp_blocks">${blocks}</span></td>`;
-	}
-	const wmtime = pal.extra.wmtime;
-	if (wmtime === undefined) {
-		htm += Html.br`<td></td>`;
-	} else {
-		htm += Html.br`<td class="${wmtime < gui.getUnixTime() ? 'warning' : ''}">${wmtime == 0 ? '/' : formatDayMonthTime(wmtime)}</td>`;
 	}
 	if (pal.extra.lastVisit) {
 		htm += Html.br`<td>${Locale.formatDate(pal.extra.lastVisit)}<br>${Locale.formatDays(pal.extra.lastVisit)}</td>`;
@@ -650,7 +634,6 @@ function refreshDelayed() {
 		lastgift: pal => pal.extra.lastGift || 0,
 		list: pal => +pal.c_list ? 0 : 1,
 		blocks: pal => pal.extra.blocks === undefined ? NaN : +pal.extra.blocks,
-		wmtime: pal => pal.extra.wmtime === undefined ? NaN : +pal.extra.wmtime,
 		visit: pal => pal.extra.lastVisit === undefined ? NaN : +pal.extra.lastVisit,
 		recorded: pal => +pal.extra.timeCreated || 0,
 		gifts: pal => palGifts[pal.id].length,
@@ -750,8 +733,7 @@ function refreshDelayed() {
 		if (show == 'list' && list != (+pal.c_list ? 0 : 1)) continue;
 		if (show == 'withblocks' && !(pal.extra.blocks > 0)) continue;
 		if (show == 'unknownblocks' && pal.extra.blocks !== undefined) continue;
-		if (show == 'expiredwm' && !(pal.extra.wmtime <= now)) continue;
-		else if (show == 'nogift' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
+		if (show == 'nogift' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
 		const fullname = gui.getPlayerNameFull(pal).toUpperCase();
 		const teamMember = show == 'team' ? teamMembers[pal.id] : null;
 		if (fnSearch && !fnSearch(`${fullname}\t\n${pal.extra.note || ''}\t${teamMember ? teamMember.name : ''}\t${friendNames[pal.id] || ''}\t${pal.extra.fn || ''}`)) continue;

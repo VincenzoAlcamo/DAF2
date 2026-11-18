@@ -121,7 +121,6 @@ function checkPage_setup() {
 function setFlags() {
 	const root = document.documentElement;
 	root.classList.toggle('DAF-fullwindow', pageType && Prefs.fullWindow);
-	root.classList.toggle('DAF-fullwindowside', pageType && Prefs.fullWindowSide);
 	if (pageType) root.setAttribute('daf-pagetype', pageType);
 	else root.removeAttribute('daf-pagetype');
 }
