@@ -26,10 +26,7 @@ const addonsMeta = [
 	{ name: 'diggy_skin', title: 'GUI3178', type: '', id: 0, desc: '' },
 	{ name: 'golem', title: 'EXT06', type: 'extension', id: 1, desc: 'EXT07' },
 	{ name: 'professor_switch', title: 'EXT11', type: 'extension', id: 2, desc: 'EXT12' },
-	{ name: 'gc_one_click', title: 'EXT20', type: 'extension', id: 3, desc: 'EXT21' },
 	{ name: 'last_tile_finder', title: 'EXT56', type: 'extension', id: 4, desc: 'EXT58' },
-	{ name: 'hollander', title: 'ABNA004', type: 'addon_building', id: 6, desc: 'EXT09' },
-	{ name: 'rotor', title: 'ABNA005', type: 'addon_building', id: 7, desc: ['EXT18', 'EXT08', 'EXT23', 'EXT25', 'EXT27', 'EXT29', 'EXT31', 'EXT33', 'EXT35', 'EXT37', 'EXT39', 'EXT41', 'EXT43', 'EXT45', 'EXT47', 'EXT49'] },
 	{ name: 'potion_double_exp', title: 'EXT81', type: 'passive_effect_extension', id: 1, desc: ['EXT61', 'EXT61', 'EXT62', 'EXT63', 'EXT64', 'EXT65', 'EXT66', 'EXT67', 'EXT68', 'EXT69', 'EXT70'] },
 	{ name: 'potion_energy_back', title: 'EXT82', type: 'passive_effect_extension', id: 2, desc: ['EXT71', 'EXT71', 'EXT72', 'EXT73', 'EXT74', 'EXT75', 'EXT76', 'EXT77', 'EXT78', 'EXT79', 'EXT80'] },
 	{ name: 'speedpotion', title: 'USNA025', type: '', id: 0, desc: '' },
@@ -612,11 +609,6 @@ function calculateAddons(camp, generator) {
 		const name = gui.getObjectName('decoration', entry[0]);
 		return entry[1] == 1 ? name : name + ' \xd7 ' + Locale.formatNumber(entry[1]);
 	}).sort(gui.sortTextAscending);
-	if (camp.addon_buildings) {
-		const items = getItems(camp.addon_buildings, o => { return { id: +o.def_id, level: +o.level }; });
-		addons.hollander = items[6] ? 8 : 5;
-		addons.rotor = items[7] ? items[7].level : 0;
-	}
 	if (generator) {
 		const items = getItems([].concat(generator.passive_effect_extension && generator.passive_effect_extension.item), o => { return { id: +o.extension_def_id, level: +o.extension_level }; });
 		addons.potion_double_exp = items[1] ? items[1].level : 0;
@@ -625,7 +617,6 @@ function calculateAddons(camp, generator) {
 		const ext = getItems(gui.getArrayOfInt(generator.extensions), o => { return { id: o }; });
 		addons.golem = !!ext[1];
 		addons.professor_switch = !!ext[2];
-		addons.gc_one_click = !!ext[3];
 		addons.last_tile_finder = !!ext[4];
 
 		const costumes = Object.values(gui.getFile('diggy_skins'));
