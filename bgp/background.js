@@ -141,6 +141,7 @@ var Preferences = {
 			hAutoProduceKitchen: true,
 			hAutoProduceFoundry: true,
 			hMineHistory: true,
+			hMineHistoryCount: 5,
 			hAutoSwitch: false,
 			remapAssets: 'npc 42534,42535,42536=42577',
 			fileVersion: '20240926120000',

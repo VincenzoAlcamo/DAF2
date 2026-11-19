@@ -156,7 +156,7 @@
 	border-bottom-left-radius: 0;
 	padding-left: 4px;
 }
-.DAF-menu .squared i:not(:last-of-type),
+.DAF-menu .squared i:not(:last-child),
 .DAF-menu .squared-right {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
@@ -284,7 +284,7 @@
     left: 180px;
 }
 
-.DAF-menu:hover:has(li[data-action='about']:hover) + .DAF-badges {
+.DAF-menu:hover + .DAF-badges {
     margin-top: -18px;
 }
 
@@ -600,7 +600,7 @@
     padding-right: 6px;
 }
 
-.DAF-menu select[data-pref="hFoodNum"] {
+.DAF-menu u.squared select:last-child {
     height: calc(1em + 5px);
     border: 1px solid #000;
     padding-top: 0;

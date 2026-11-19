@@ -191,6 +191,7 @@ function init() {
 			});
 		};
 		Msg.handlers['pref:badgeRepeatablesSetNames'] = setRepSetNames;
+		Msg.handlers['pref:hMineHistoryCount'] = () => setBadgeMineHistory();
 
 		Msg.handlers['repeatables'] = (request) => void setBadgeRepeatables(request.data);
 		Msg.handlers['luckycards'] = (request) => void setBadgeLuckyCards(request.data);
@@ -297,7 +298,7 @@ function createMenu() {
 	</div>
 </li>
 <li data-action="ads" style="display:none"><b>&nbsp;</b>
-	<div>
+	<div style="padding-top:60px">
 		<span data-text="camp_ads_limit"></span><br>
 		<p class="DAF-ads_limit_warning" data-text="camp_ads_limit_info+camp_ads_limit_info2"></p>
 		<table class="DAF-table">
@@ -308,7 +309,7 @@ function createMenu() {
 	</div>
 </li>
 <li data-action="options" style="display:none"><b>&nbsp;</b>
-	<div>
+	<div style="padding-top:84px">
 		<span data-text="options_hmain:0"></span>
 		<u><i data-pref="hFlashAdSound" data-title="options_hflashad:1" data-text="options_hflashad:0"></i>
 		<i data-pref="hEnergyMaxSound" data-title="options_henergymax:1" data-text="options_henergymax:0"></i></u>
@@ -318,10 +319,11 @@ function createMenu() {
 		<i data-pref="hAutoSwitch" data-text="@Auto-switch Camp"></i>
 		<i data-pref="hInstantCamera"></i>
 		</u>
-		<u class="squared">
+		<u class="squared" style="display:inline-block">
 		<i class="no-click">Mine History</i><i data-pref="hMineHistory" data-text="@Show"></i>
-		<span data-action="clearMineHistory">Clear</span>
+		<select data-pref="hMineHistoryCount"></select>
 		</u>
+		<span data-action="clearMineHistory">Clear</span>
 		<u class="squared">
 		<i data-text="gui_loot" class="no-click"></i>
 		<i data-pref="hLootFew"></i>
@@ -341,11 +343,11 @@ function createMenu() {
 			<i data-pref="hQueue"></i>
 			<i data-pref="hAutoQueue"></i>
 		</u>
-		<u class="squared"><i class="no-click" data-text="gui_pet"></i>
+		<u class="squared" style="display:inline-block"><i class="no-click" data-text="gui_pet"></i>
 		<i data-pref="hPetFollow"></i>
 		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i>
-		<span data-action="showPetEnergy" style="display:none" data-title="@Show No Energy popup">No energy</span>
 		</u>
+		<span data-action="showPetEnergy" style="display:none" data-title="@Show No Energy popup">No energy</span>
 		<u><i data-pref="hSpeed"></i><i data-pref="hLockCaravan"></i></u>
 		<u class="squared">
 		<i class="squared-right" data-title="options_honrefresh:1" data-text="options_honrefresh:0"></i>
@@ -362,10 +364,10 @@ function createMenu() {
 		<i data-pref="hAutoProduceKitchen" title="" class="hue2" data-text="tab_kitchen"></i>
 		<i data-pref="hAutoProduceFoundry" title="" class="hue2" data-text="tab_foundry"></i>
 		</u>
-		<u class="squared"><i class="no-click" data-text="@Initial popups"></i>
+		<u class="squared" style="display:inline-block"><i class="no-click" data-text="@Initial popups"></i>
 		<i data-pref="hNoMails" data-text="@Skip"></i>
-		<span data-action="showMails" style="display:none" data-title="@Show initial popups">Show</span>
 		</u>
+		<span data-action="showMails" style="display:none" data-title="@Show initial popups">Show</span>
 		<u><i data-pref="hKeys"></i><i data-pref="hAutoDig" data-text="@Auto Dig"></i></u>
 	</div>
 </li>
@@ -399,6 +401,8 @@ function createMenu() {
 	// menu.querySelector('[data-pref="hAutoDig"]')?.remove();
 	const select = menu.querySelector('[data-pref="hFoodNum"]');
 	[...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
+	const select2 = menu.querySelector('[data-pref="hMineHistoryCount"]');
+	[...Array(9).keys()].forEach(i => select2.add(new Option(i + 2, i + 2)));
 	menu.querySelector('[data-value="switch"]')?.setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');
 	translateMenu();
 	menu.addEventListener('click', onMenuClick);
@@ -524,6 +528,7 @@ function onMenuClick(e) {
 			if (e.ctrlKey && parent.classList.contains('DAF-badge-mh')) {
 				Msg.sendPage('mine', { id: target.getAttribute('data-lid'), remove: true });
 				target.remove();
+				setBadgeMineHistory();
 			} else {
 				parent.classList.add('visiting');
 				setTimeout(() => parent.classList.remove('visiting'), 5000);
@@ -539,6 +544,7 @@ function onMenuClick(e) {
 			break;
 		case 'clearMineHistory':
 			Msg.sendPage('clearMineHistory');
+			setBadgeMineHistory({ replace: true });
 			break;
 	}
 }
@@ -676,12 +682,12 @@ function setBadgeRepeatables({ regions, events, list, prefix, sound, volume }) {
 	list.sort((a, b) => a.priority - b.priority).slice(0, 3).forEach((item, index) => badge.querySelector(`[data-lid="${item.lid}"]`).setAttribute('data-priority', index + 1));
 	if (Prefs.badgeRepeatables && list.some((item) => item.isNew)) playSound(sound, volume);
 }
-function setBadgeMineHistory({ mines, replace }) {
+function setBadgeMineHistory({ mines, replace } = {}) {
 	const badge = menu.querySelector('.DAF-badge-mh');
 	if (replace) badge.firstChild?.remove();
 	if (!badge.firstChild) badge.appendChild(document.createElement('b'));
 	const parent = badge.firstChild;
-	mines.reverse().forEach(item => {
+	(mines || []).reverse().forEach(item => {
 		const extra = '\nCtrl-click to remove';
 		const div = parent.querySelector(`div[data-lid="${item.lid}"]`) || Html.get(`<div data-lid="${item.lid}" data-action="mine" class="rep-loc" title="#${item.lid}${extra}"></div>`)[0];
 		parent.insertBefore(div, parent.firstChild);
@@ -689,7 +695,10 @@ function setBadgeMineHistory({ mines, replace }) {
 		if (item.asset) div.style.backgroundImage = `url(${cdn_root}mobile/graphics/map/mobile_locations/${item.asset}.png)`;
 	});
 	badge.classList.toggle('DAF-badge-on', parent.childNodes.length > 0);
-	while(parent.childNodes.length > 5) parent.childNodes[5].remove();
+	Array.from(parent.childNodes).forEach((node, index) => {
+		if (index > 9) node.remove();
+		else node.style.display = index >= Prefs.hMineHistoryCount ? 'none' : '';
+	});
 }
 
 function updateAdsInfo(data) {

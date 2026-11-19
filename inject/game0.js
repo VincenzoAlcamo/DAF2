@@ -360,7 +360,7 @@
 				return function() {
 					log('GAME INITIALIZED');
 					try {
-						if (mineHistory.value.length > 0) Msg.sendPage('daf_enter_mine', { mines: mineHistory.value.map(getMineData) });
+						if (mineHistory.value.length > 0) Msg.sendPage('daf_enter_mine', { mines: mineHistory.value.map(getMineData), replace: true });
 					} catch {}
 					return _ose.apply(this, arguments);
 				};
@@ -437,10 +437,7 @@
 				// const locationId = core.instance?.getDataManager().getLastLocationId();
 				// locationId && core.instance.getPopupManager().showNoEnergyPopup(core.instance.getMapManager().getLocation(locationId));
 			};
-			Msg.handlers['clearMineHistory'] = () => {
-				mineHistory.value = [];
-				Msg.sendPage('daf_enter_mine', { mines: [], replace: true });
-			};
+			Msg.handlers['clearMineHistory'] = () => mineHistory.value = [];
 		}
 
 		const mineInfo = { mineId: 0, isRepeat: false, isTower: false, isRepeatOrTower: false, forcePetHideDiggy: false };
@@ -1046,13 +1043,13 @@
 		});
 
 		intercept('com.pixelfederation.diggy.backend.DataManager', 'enterMine', function(_em) {
-			extras.push('hMineHistory');
+			extras.push('hMineHistory', 'hMineHistoryCount');
 			return function(lid) {
 				log('entered mine', lid);
 				try {
 					const ll = core.instance.getLoadersManager()._locationsLoader;
 					if (ll.getResetCd(lid) == 0 && ll.getTowerId(lid) == 0) {
-						mineHistory.value = [lid, ...mineHistory.value].filter((item, index) => index == 0 || item != lid).slice(0, 5);
+						mineHistory.value = [lid, ...mineHistory.value].filter((item, index) => index == 0 || item != lid).slice(0, 10);
 						Msg.sendPage('daf_enter_mine', { mines: [getMineData(lid)] });
 					}
 				} catch {}
