@@ -69,7 +69,7 @@ function getState() {
 		search: inputs.search.value,
 		gift: filterGifts,
 		exp: filterExp || undefined,
-		id: inputs.showid.checked && bgp.Data.isAdmin,
+		id: inputs.showid.checked,
 		sort: gui.getSortState(smartTable)
 	};
 	filterExpressions.forEach((value, index) => state['exp' + (index + 1)] = value.trim());
@@ -94,7 +94,7 @@ function setState(state) {
 		state.exp1 = state.filter;
 		delete state.filter;
 	}
-	inputs.showid.checked = state.id && bgp.Data.isAdmin;
+	inputs.showid.checked = state.id;
 	filterExp = Math.max(0, Math.min(filterExpressions.length, +state.exp || 0)) || undefined;
 	filterExpressions.forEach((value, index) => filterExpressions[index] = String(state['exp' + (index + 1)] || '').trim());
 	gui.setSortState(state.sort, smartTable, 'name');
