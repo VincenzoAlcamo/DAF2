@@ -275,6 +275,7 @@
 }
 
 .DAF-menu:focus-within + .DAF-badges,
+.DAF-menu:has(:hover) + .DAF-badges,
 .DAF-menu:hover + .DAF-badges {
 	margin-left: 23px;
 	margin-top: 11px;
@@ -403,6 +404,9 @@
 }
 .DAF-badge-mh {
 	--bg: #080;
+}
+.DAF-badge-rep.DAF-badge-on + .DAF-badge-mh.DAF-badge-on {
+    margin-left: 6px;
 }
 .DAF-badge-mh b,
 .DAF-badge-rep b {

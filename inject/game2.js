@@ -311,6 +311,23 @@ function createMenu() {
 <li data-action="options" style="display:none"><b>&nbsp;</b>
 	<div style="padding-top:84px">
 		<span data-text="options_hmain:0"></span>
+		<u class="squared">
+		<i data-pref="hAutoProduce"></i>
+		<i data-pref="hAutoProduceCaravan" title="" class="hue2" data-text="tab_caravan"></i>
+		<i data-pref="hAutoProduceKitchen" title="" class="hue2" data-text="tab_kitchen"></i>
+		<i data-pref="hAutoProduceFoundry" title="" class="hue2" data-text="tab_foundry"></i>
+		</u>
+		<u class="squared" style="display:inline-block"><i class="no-click" data-text="gui_pet"></i>
+		<i data-pref="hPetFollow"></i>
+		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i>
+		</u>
+		<span data-action="showPetEnergy" style="display:none" data-title="@Show No Energy popup">No energy</span>
+		<br>
+		<u class="squared" style="display:inline-block">
+		<i class="no-click">Mine History</i><i data-pref="hMineHistory" data-text="@Show"></i>
+		<select data-pref="hMineHistoryCount"></select>
+		</u>
+		<span data-action="clearMineHistory">Clear</span>
 		<u><i data-pref="hFlashAdSound" data-title="options_hflashad:1" data-text="options_hflashad:0"></i>
 		<i data-pref="hEnergyMaxSound" data-title="options_henergymax:1" data-text="options_henergymax:0"></i></u>
 		<u><i data-pref="hFastLuckyCards"></i></u>
@@ -319,11 +336,6 @@ function createMenu() {
 		<i data-pref="hAutoSwitch" data-text="@Auto-switch Camp"></i>
 		<i data-pref="hInstantCamera"></i>
 		</u>
-		<u class="squared" style="display:inline-block">
-		<i class="no-click">Mine History</i><i data-pref="hMineHistory" data-text="@Show"></i>
-		<select data-pref="hMineHistoryCount"></select>
-		</u>
-		<span data-action="clearMineHistory">Clear</span>
 		<u class="squared">
 		<i data-text="gui_loot" class="no-click"></i>
 		<i data-pref="hLootFew"></i>
@@ -343,11 +355,6 @@ function createMenu() {
 			<i data-pref="hQueue"></i>
 			<i data-pref="hAutoQueue"></i>
 		</u>
-		<u class="squared" style="display:inline-block"><i class="no-click" data-text="gui_pet"></i>
-		<i data-pref="hPetFollow"></i>
-		<i data-pref="hPetSpeed" data-title="options_hspeed:1" data-text="options_hspeed:0"></i>
-		</u>
-		<span data-action="showPetEnergy" style="display:none" data-title="@Show No Energy popup">No energy</span>
 		<u><i data-pref="hSpeed"></i><i data-pref="hLockCaravan"></i></u>
 		<u class="squared">
 		<i class="squared-right" data-title="options_honrefresh:1" data-text="options_honrefresh:0"></i>
@@ -357,12 +364,6 @@ function createMenu() {
 			<option value="map" data-text="options_honrefresh_map"></option>
 			<option value="refresh" data-text="options_honrefresh_refresh"></option>
 		</select>
-		</u>
-		<u class="squared">
-		<i data-pref="hAutoProduce"></i>
-		<i data-pref="hAutoProduceCaravan" title="" class="hue2" data-text="tab_caravan"></i>
-		<i data-pref="hAutoProduceKitchen" title="" class="hue2" data-text="tab_kitchen"></i>
-		<i data-pref="hAutoProduceFoundry" title="" class="hue2" data-text="tab_foundry"></i>
 		</u>
 		<u class="squared" style="display:inline-block"><i class="no-click" data-text="@Initial popups"></i>
 		<i data-pref="hNoMails" data-text="@Skip"></i>
@@ -402,7 +403,7 @@ function createMenu() {
 	const select = menu.querySelector('[data-pref="hFoodNum"]');
 	[...Array(19).keys()].forEach(i => select.add(new Option(i + 2, i + 1)));
 	const select2 = menu.querySelector('[data-pref="hMineHistoryCount"]');
-	[...Array(9).keys()].forEach(i => select2.add(new Option(i + 2, i + 2)));
+	[...Array(10).keys()].forEach(i => select2.add(new Option(i + 1, i + 1)));
 	menu.querySelector('[data-value="switch"]')?.setAttribute('data-text', site == 'portal' ? 'menu_switchfacebook' : 'menu_switchportal');
 	translateMenu();
 	menu.addEventListener('click', onMenuClick);
