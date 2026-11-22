@@ -274,19 +274,21 @@
 	transition: margin 0.5s;
 }
 
-.DAF-menu:focus-within + .DAF-badges,
-.DAF-menu:has(:hover) + .DAF-badges,
-.DAF-menu:hover + .DAF-badges {
+.DAF-menu:hover + .DAF-badges,
+.DAF-menu:has(select:focus) + .DAF-badges,
+.DAF-menu:has(input:focus) + .DAF-badges {
 	margin-left: 23px;
-	margin-top: 11px;
+    margin-top: -18px;
+}
+.DAF-container:has(.DAF-menu:hover) .DAF-canvas,
+.DAF-container:has(.DAF-menu select:focus) .DAF-canvas,
+.DAF-container:has(.DAF-menu input:focus) .DAF-canvas {
+    opacity: 0.5;
+    background-color: #000;
 }
 
 .DAF-container[daf-screen="campUpperScreen"] .DAF-badges {
     left: 180px;
-}
-
-.DAF-menu:hover + .DAF-badges {
-    margin-top: -18px;
 }
 
 .DAF-badges b {
@@ -612,34 +614,6 @@
   	border-bottom-right-radius: 1em;
 }
 
-.DAF-menu li[data-action='search'] > div > input:not(:focus) {
-	border-bottom-right-radius: 16px;
-	border-top-right-radius: 16px;
-}
-
-.DAF-menu .DAF-search-region,
-.DAF-menu .DAF-search-level {
-	background-size: 20px;
-	background-repeat: no-repeat;
-	background-position: center center;
-}
-.DAF-menu .DAF-search-region {
-	background-image: url(/img/gui/map.png);
-}
-.DAF-menu .DAF-search-level {
-	background-image: url(/img/gui/level.png);
-}
-.DAF-menu .DAF-search-results {
-	padding-top: 2px;
-	margin-top: 0;
-}
-.DAF-menu a[data-action='visit'] {
-	width: 32px;
-	height: 32px;
-	display: inline-block;
-	background-image: url(/img/gui/camp.png);
-	cursor: pointer;
-}
 .DAF-container:not([daf-dialog=""]) .DAF-menu [data-action="showPetEnergy"] {
 	display: none;
 }
