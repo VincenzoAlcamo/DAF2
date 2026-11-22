@@ -15,7 +15,7 @@ export default {
 		search: refresh,
 		region: refresh,
 		days: refresh,
-		showid: refresh,
+		showid: () => container.classList.toggle('show-id', !!getState().id),
 		formula, gifts, summary
 	}
 };
@@ -486,7 +486,7 @@ function updateRow(row) {
 	htm += Html.br`<div class="extra">`;
 	if (teamMember) htm += Html.br`<span class="team-name">${teamMember.name}</span>`;
 	if (teamMember && teamMember.badge == 'leader') htm += Html.br`<span class="team-badge">${gui.getString('GUI3254')}</span>`;
-	if (bgp.Data.isAdmin) htm += Html.br`<span class="id">#${pal.id}</span>`;
+	htm += Html.br`<span class="id">#${pal.id}</span>`;
 	htm += Html.br`</div>`;
 	let addBr = false;
 	if (friend && friend.name == fullName) {
@@ -757,7 +757,7 @@ function refreshDelayed() {
 		Html.set(cell, Html(gui.getMessageAndFraction('gui_items_found', Locale.formatNumber(items.length), Locale.formatNumber(neighbors.length))));
 	});
 
-	container.classList.toggle('show-id', bgp.Data.isAdmin && !!state.id);
+	container.classList.toggle('show-id', !!state.id);
 	container.classList.toggle('show-team', state.show == 'team');
 
 	scheduledRefresh = setTimeout(function () {
