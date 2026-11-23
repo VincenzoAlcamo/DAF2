@@ -736,7 +736,7 @@ function refreshDelayed() {
 		if (show == 'nogift' && (pal.extra.lastGift || pal.extra.timeCreated) >= days) continue;
 		const fullname = gui.getPlayerNameFull(pal).toUpperCase();
 		const teamMember = show == 'team' ? teamMembers[pal.id] : null;
-		if (fnSearch && !fnSearch(`${fullname}\t\n${pal.extra.note || ''}\t${teamMember ? teamMember.name : ''}\t${friendNames[pal.id] || ''}\t${pal.extra.fn || ''}`)) continue;
+		if (fnSearch && !fnSearch(`${fullname}\t\n${pal.extra.note || ''}\t${teamMember ? teamMember.name : ''}\t${friendNames[pal.id] || ''}\t${pal.extra.fn || ''}\t${pal.id}`)) continue;
 		if (applyGiftFilter) {
 			let flag = false;
 			for (const palGift of (palGifts[pal.id] || [])) {
