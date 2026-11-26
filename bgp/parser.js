@@ -183,6 +183,7 @@ var Parser = {
 			'QINA': 'Quest Item',
 			'QUHE': 'Quest heading text',
 			//'TRNA': 'Pieces',
+			'PENA': 'Pets',
 			'USNA': 'Usable',
 			'WINA': 'Windmill',
 			'CT': 'Theme',
