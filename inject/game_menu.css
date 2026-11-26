@@ -290,6 +290,10 @@
 .DAF-container[daf-screen="campUpperScreen"] .DAF-badges {
     left: 180px;
 }
+.DAF-container[daf-dialog="ExpInfoPopup"] .DAF-badges,
+.DAF-container[daf-dialog="StaminaInfoPopup"] .DAF-badges {
+	display: none;
+}
 
 .DAF-badges b {
 	border: 2px solid #000;
